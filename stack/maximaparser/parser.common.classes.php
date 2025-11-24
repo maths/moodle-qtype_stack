@@ -31,10 +31,10 @@ class stack_maxima_parser_exception extends Exception implements JsonSerializabl
     // What was seen, the full token.
     public ?stack_maxima_lexer_token $received = null;
     // The full original code.
-    public String $original;
+    public string $original;
     // The previous token.
     public ?stack_maxima_lexer_token $previous = null;
-    // Partial results, i.e., the parser stack with tokens and reduced 
+    // Partial results, i.e., the parser stack with tokens and reduced
     // MP objects. State numbers and other parsing details eliminated.
     public array $partial;
 
@@ -57,7 +57,7 @@ class stack_maxima_parser_exception extends Exception implements JsonSerializabl
             'received' => $this->received,
             'previous' => $this->previous,
             'partial' => $this->partial,
-            'original' => $this->original
+            'original' => $this->original,
         ];
     }
 }
@@ -68,10 +68,11 @@ class stack_maxima_parser_exception extends Exception implements JsonSerializabl
 /**
  * Holds static copies of variants of the tables and provides common
  * access logic.
- * 
+ *
  * Exists to abstract any encoding/compression of the table away from
  * the parser. And naturally to avoid loading the same static data
  * multiple times.
+ * @package qtype_stack
  */
 class stack_maxima_parser_table_holder {
     private static $cache = [];
@@ -100,14 +101,14 @@ class stack_maxima_parser_table_holder {
 
     /**
      * Action (Shift/Reduce) based on the current state and token seen.
-     * 
+     *
      * The action will be retuned as an array as follows:
      *  - if Shift a single element array with [state num]
      *  - if Reduce an array of [rule, nt name, nt id]
-     * 
+     *
      * If no match is available null will be returned.
      */
-    public function get_action(int $state, String $token): ?array {
+    public function get_action(int $state, string $token): ?array {
         if (!isset($this->terminals[$token])) {
             return null; // "let" or other special keyword not present in this grammar.
         }
@@ -118,10 +119,10 @@ class stack_maxima_parser_table_holder {
         $encoded = $this->table[$state][$t];
         if ($encoded % 2 == 0) {
             // Even ones are shifts.
-            return [$encoded/2];
+            return [$encoded / 2];
         } else {
             // Odd ones are reduces.
-            $rule = ($encoded - 1)/2;
+            $rule = ($encoded - 1) / 2;
             $nt_id = $this->rules_to_nonterminals[$rule];
             return [$rule, $this->nonterminals[$nt_id], $nt_id];
         }
@@ -142,7 +143,7 @@ class stack_maxima_parser_table_holder {
 
     /**
      * Next state based on the current state and the reduced nonterminal.
-     * 
+     *
      * Null if impossible.
      */
     public function get_goto(int $state, int $nonterminal_id): ?int {

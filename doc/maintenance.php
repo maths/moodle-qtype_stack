@@ -43,9 +43,9 @@ function contains($haystack, $needle) {
 // phpcs:ignore moodle.Commenting.MissingDocblock.Function
 function report($d) {
     global $CFG;
-    $dirroot = stack_utils::convert_slash_paths($CFG->dirroot.'/question/type/stack/doc/en');
+    $dirroot = stack_utils::convert_slash_paths($CFG->dirroot . '/question/type/stack/doc/en');
     $wwwroot = $CFG->wwwroot;
-    $webdocs = $wwwroot.'/question/type/stack/doc/en';
+    $webdocs = $wwwroot . '/question/type/stack/doc/en';
     $a = [];
     $fileslinkedto = [];
 
@@ -65,8 +65,10 @@ function report($d) {
 
                         if ($fsize >= 18000) {
                             // Ignore a couple of known large files.
-                            if (substr_count($fpath, "Authoring/Answer_Tests/Results") === 0 &&
-                                substr_count($fpath, "Developer/Development_history.md") === 0) {
+                            if (
+                                substr_count($fpath, "Authoring/Answer_Tests/Results") === 0 &&
+                                substr_count($fpath, "Developer/Development_history.md") === 0
+                            ) {
                                 $a[] = [$fpath, 'W', "Large file ($fsize bytes)"];
                             }
                         }
@@ -98,8 +100,10 @@ function report($d) {
                             // The array $found[0] will have the full a tags, found[1] contains their href properties.
                             // Step two, visit these links and check for 404s.
                             foreach ($found[1] as $i => $link) {
-                                if (!contains($link, 'mailto:') && !contains(html_entity_decode($link, ENT_COMPAT), 'mailto:')
-                                    && !contains($link, 'maintenance.php') && (mb_strpos($link, 'http') !== 0)) {
+                                if (
+                                    !contains($link, 'mailto:') && !contains(html_entity_decode($link, ENT_COMPAT), 'mailto:')
+                                    && !contains($link, 'maintenance.php') && (mb_strpos($link, 'http') !== 0)
+                                ) {
                                     // Who knew '&#109;&#x61;&#x69;&#108;&#116;&#x6f;&#58;' = 'mailto:'?
                                     // Don't check mailto:, this file (ARGH!)
                                     // Also if ?ext not true then better not be an external link.
@@ -161,15 +165,15 @@ $PAGE->set_title($title);
 <p><a href="doc.php">STACK documentation</a></p>
 <p>This script crawls the entire documentation and checks for dead links and other issues.
 <pre><?php
-$docs = stack_utils::convert_slash_paths($CFG->dirroot.'/question/type/stack/doc/en');
+$docs = stack_utils::convert_slash_paths($CFG->dirroot . '/question/type/stack/doc/en');
 $a = report($docs);
 
 echo "<table>";
 foreach ($a as $data) {
     if ('F' != $data[1]) {
         echo "<tr>";
-        echo "<td>".$data[0]."</td>";
-        echo "<td>".$data[2]."</td>";
+        echo "<td>" . $data[0] . "</td>";
+        echo "<td>" . $data[2] . "</td>";
         echo "</tr>";
     }
 }

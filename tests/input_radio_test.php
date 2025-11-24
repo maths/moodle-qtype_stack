@@ -91,7 +91,14 @@ final class input_radio_test extends qtype_stack_walkthrough_test_base {
                 '<label for="stack1__ans1_2"><span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\(2+y\)</span></span></label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                stack_input::SCORE, ['2'], '', '', '', '', ''), 'stack1__ans1', false, null));
+            stack_input::SCORE,
+            ['2'],
+            '',
+            '',
+            '',
+            '',
+            ''
+        ), 'stack1__ans1', false, null));
         $expected = 'A correct answer is: <ul><li><span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\(1+x\)</span></span></li></ul>';
         $this->assertEquals($expected, $el->get_teacher_answer_display(false, false));
@@ -117,7 +124,14 @@ final class input_radio_test extends qtype_stack_walkthrough_test_base {
             . '<code>2+y</code></label></div>'
             . '</div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                stack_input::SCORE, ['2'], '', '', '', '', ''), 'stack1__ans1', false, null));
+            stack_input::SCORE,
+            ['2'],
+            '',
+            '',
+            '',
+            '',
+            ''
+        ), 'stack1__ans1', false, null));
     }
 
     public function test_no_correct_answer(): void {
@@ -132,7 +146,14 @@ final class input_radio_test extends qtype_stack_walkthrough_test_base {
               'answering. Please contact your teacher.</p>' .
               '<p>The teacher did not indicate at least one correct answer.</p></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                stack_input::SCORE, ['2'], '', '', '', '', ''), 'stack1__ans1', false, null));
+            stack_input::SCORE,
+            ['2'],
+            '',
+            '',
+            '',
+            '',
+            ''
+        ), 'stack1__ans1', false, null));
     }
 
     public function test_bad_teacheranswer(): void {
@@ -147,7 +168,14 @@ final class input_radio_test extends qtype_stack_walkthrough_test_base {
                   '<p>The model answer field for this input is malformed: <code>[x]</code>.' .
                   ' The teacher did not indicate at least one correct answer.</p></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                stack_input::SCORE, ['2'], '', '', '', '', ''), 'stack1__ans1', false, null));
+            stack_input::SCORE,
+            ['2'],
+            '',
+            '',
+            '',
+            '',
+            ''
+        ), 'stack1__ans1', false, null));
     }
 
     public function test_duplicate_values(): void {
@@ -163,7 +191,14 @@ final class input_radio_test extends qtype_stack_walkthrough_test_base {
                   'answering. Please contact your teacher.</p>' .
                   '<p>Duplicate values have been found when generating the input options.</p></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                stack_input::SCORE, ['2'], '', '', '', '', ''), 'stack1__ans1', false, null));
+            stack_input::SCORE,
+            ['2'],
+            '',
+            '',
+            '',
+            '',
+            ''
+        ), 'stack1__ans1', false, null));
     }
 
     public function test_duplicate_values_ok(): void {
@@ -389,16 +424,29 @@ final class input_radio_test extends qtype_stack_walkthrough_test_base {
                 null, []);
         // @codingStandardsIgnoreEnd
         $render = $el->render(new stack_input_state(
-                stack_input::SCORE, ['2'], '', '', '', '', ''), 'stack1__ans1', false, null);
+            stack_input::SCORE,
+            ['2'],
+            '',
+            '',
+            '',
+            '',
+            ''
+        ), 'stack1__ans1', false, null);
         // We don't test for the < at the start of the img tag as this is now protected as &lt; in the render.
         // However, the plot system does not use the LaTeX.
         $this->assertTrue(is_int(strpos($render, "img src='https://www.example.com/moodle/question/type/stack/plot.php")));
-        $this->assertTrue(is_int(strpos($render,
-                "alt='STACK auto-generated plot of x with parameters [[x,-2,2],[y,-3,3]]'")));
-        $this->assertTrue(is_int(strpos($render,
-                "alt='STACK auto-generated plot of x^2 with parameters [[x,-2,2],[y,-3,3]]'")));
-        $this->assertTrue(is_int(strpos($render,
-                "alt='STACK auto-generated plot of x^3 with parameters [[x,-2,2],[y,-3,3]]'")));
+        $this->assertTrue(is_int(strpos(
+            $render,
+            "alt='STACK auto-generated plot of x with parameters [[x,-2,2],[y,-3,3]]'"
+        )));
+        $this->assertTrue(is_int(strpos(
+            $render,
+            "alt='STACK auto-generated plot of x^2 with parameters [[x,-2,2],[y,-3,3]]'"
+        )));
+        $this->assertTrue(is_int(strpos(
+            $render,
+            "alt='STACK auto-generated plot of x^3 with parameters [[x,-2,2],[y,-3,3]]'"
+        )));
     }
 
     public function test_teacher_answer_html_notanswered(): void {
@@ -419,7 +467,14 @@ final class input_radio_test extends qtype_stack_walkthrough_test_base {
             '<label for="stack1__ans1_2"><span class="filter_mathjaxloader_equation">' .
             '<span class="nolink">\(B\)</span></span></label></div></div>';
         $this->assert_same_select_html($expected, $el->render(new stack_input_state(
-                stack_input::BLANK, [''], '', '', '', '', ''), 'stack1__ans1', false, null));
+            stack_input::BLANK,
+            [''],
+            '',
+            '',
+            '',
+            '',
+            ''
+        ), 'stack1__ans1', false, null));
         $state = $el->validate_student_response(['ans1' => ''], $options, '1', new stack_cas_security());
         $this->assertEquals(stack_input::BLANK, $state->status);
         $this->assertEquals([], $state->contents);
@@ -450,7 +505,14 @@ final class input_radio_test extends qtype_stack_walkthrough_test_base {
             '<input type="radio" name="stack1__ans1" value="3" id="stack1__ans1_3" data-stack-input-type="radio" />' .
             '<label for="stack1__ans1_3">(</label></div></div>';
         $this->assert_same_select_html($expected, $el->render(new stack_input_state(
-                stack_input::SCORE, ['1'], '', '', '', '', ''), 'stack1__ans1', false, null));
+            stack_input::SCORE,
+            ['1'],
+            '',
+            '',
+            '',
+            '',
+            ''
+        ), 'stack1__ans1', false, null));
         $state = $el->validate_student_response(['ans1' => '1'], $options, '1', new stack_cas_security());
         $this->assertEquals(stack_input::SCORE, $state->status);
         $this->assertEquals('"{"', $state->contentsmodified);
@@ -491,7 +553,14 @@ final class input_radio_test extends qtype_stack_walkthrough_test_base {
             '<span class="filter_mathjaxloader_equation"><span class="nolink">' .
             '\(\left \{1 \right \} \cup \left \{3 \right \}\)</span></span></label></div></div>';
         $this->assert_same_select_html($expected, $el->render(new stack_input_state(
-            stack_input::BLANK, [''], '', '', '', '', ''), 'stack1__ans1', false, null));
+            stack_input::BLANK,
+            [''],
+            '',
+            '',
+            '',
+            '',
+            ''
+        ), 'stack1__ans1', false, null));
         $state = $el->validate_student_response(['ans1' => ''], $options, '1', new stack_cas_security());
         $this->assertEquals(stack_input::BLANK, $state->status);
         $this->assertEquals([], $state->contents);
@@ -503,8 +572,10 @@ final class input_radio_test extends qtype_stack_walkthrough_test_base {
         $correctresponse = 'A correct answer is: <ul><li><span class="filter_mathjaxloader_equation">' .
             '<span class="nolink">\(\left( -\infty ,\, 0\right) \cup \left( 0,\, \infty \right)\)</span>' .
             '</span></li></ul>';
-        $this->assertEquals($correctresponse,
-            $el->get_teacher_answer_display(null, null));
+        $this->assertEquals(
+            $correctresponse,
+            $el->get_teacher_answer_display(null, null)
+        );
     }
 
     public function test_decimals(): void {
@@ -524,14 +595,29 @@ final class input_radio_test extends qtype_stack_walkthrough_test_base {
             '<span class="filter_mathjaxloader_equation"><span class="nolink">' .
             '\(\left[ a ; b ; c ; 2{,}78 \right] \)</span></span></label></div></div>';
         $this->assert_same_select_html($expected, $el->render(new stack_input_state(
-            stack_input::SCORE, ['1'], '', '', '', '', ''), 'stack1__ans1', false, null));
-        $state = $el->validate_student_response(['ans1' => '1'],
-            $options, $ta, new stack_cas_security());
+            stack_input::SCORE,
+            ['1'],
+            '',
+            '',
+            '',
+            '',
+            ''
+        ), 'stack1__ans1', false, null));
+        $state = $el->validate_student_response(
+            ['ans1' => '1'],
+            $options,
+            $ta,
+            new stack_cas_security()
+        );
         $this->assertEquals(stack_input::SCORE, $state->status);
         $this->assertEquals(['1'], $state->contents);
         $this->assertEquals('3.1415', $state->contentsmodified);
-        $state = $el->validate_student_response(['ans1' => '2'],
-            $options, $ta, new stack_cas_security());
+        $state = $el->validate_student_response(
+            ['ans1' => '2'],
+            $options,
+            $ta,
+            new stack_cas_security()
+        );
         $this->assertEquals(['2'], $state->contents);
         $this->assertEquals('[a,b,c,2.78]', $state->contentsmodified);
         $this->assertEquals($ta, $el->get_teacher_answer());
@@ -552,9 +638,11 @@ final class input_radio_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals('EMPTYANSWER', $state->contentsmodified);
         $this->assertEquals('', $state->contentsdisplayed);
         $this->assertEquals('', $state->errors);
-        $this->assertEquals('A correct answer is: <ul><li><span class="filter_mathjaxloader_equation">' .
+        $this->assertEquals(
+            'A correct answer is: <ul><li><span class="filter_mathjaxloader_equation">' .
             '<span class="nolink">\(B\)</span></span></li></ul>',
-            $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
+            $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed)
+        );
     }
 
     public function test_validate_student_response_with_allowempty_nocorrect(): void {
@@ -569,8 +657,10 @@ final class input_radio_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals('EMPTYANSWER', $state->contentsmodified);
         $this->assertEquals('', $state->contentsdisplayed);
         $this->assertEquals('', $state->errors);
-        $this->assertEquals('A correct answer is: This input can be left blank.',
-            $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
+        $this->assertEquals(
+            'A correct answer is: This input can be left blank.',
+            $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed)
+        );
     }
 
     public function test_validate_allowempty_nontanswered_blank(): void {
@@ -584,8 +674,10 @@ final class input_radio_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals('EMPTYANSWER', $state->contentsmodified);
         $this->assertEquals('', $state->contentsdisplayed);
         $this->assertEquals('', $state->errors);
-        $this->assertEquals('A correct answer is: This input can be left blank.',
-            $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
+        $this->assertEquals(
+            'A correct answer is: This input can be left blank.',
+            $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed)
+        );
     }
 
     public function test_validate_allowempty_nontanswered(): void {
@@ -599,9 +691,11 @@ final class input_radio_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals('EMPTYANSWER', $state->contentsmodified);
         $this->assertEquals('', $state->contentsdisplayed);
         $this->assertEquals('', $state->errors);
-        $this->assertEquals('A correct answer is: <ul><li><span class="filter_mathjaxloader_equation">' .
+        $this->assertEquals(
+            'A correct answer is: <ul><li><span class="filter_mathjaxloader_equation">' .
             '<span class="nolink">\(C\)</span></span></li></ul>',
-            $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
+            $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed)
+        );
     }
 
     public function test_validate_nontanswered_allowempty_blank(): void {
@@ -615,8 +709,10 @@ final class input_radio_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals('EMPTYANSWER', $state->contentsmodified);
         $this->assertEquals('', $state->contentsdisplayed);
         $this->assertEquals('', $state->errors);
-        $this->assertEquals('A correct answer is: This input can be left blank.',
-            $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
+        $this->assertEquals(
+            'A correct answer is: This input can be left blank.',
+            $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed)
+        );
     }
 
     public function test_validate_nontanswered_allowempty(): void {
@@ -630,8 +726,10 @@ final class input_radio_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals('EMPTYANSWER', $state->contentsmodified);
         $this->assertEquals('', $state->contentsdisplayed);
         $this->assertEquals('', $state->errors);
-        $this->assertEquals('A correct answer is: <ul><li><span class="filter_mathjaxloader_equation">' .
+        $this->assertEquals(
+            'A correct answer is: <ul><li><span class="filter_mathjaxloader_equation">' .
             '<span class="nolink">\(C\)</span></span></li></ul>',
-            $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
+            $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed)
+        );
     }
 }

@@ -39,7 +39,6 @@ use PHPUnit\Framework\Assert;
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class behat_qtype_stack extends behat_base {
-
     /**
      * Convert page names to URLs for steps like 'When I am on the "[identifier]" "[page type]" page'.
      *
@@ -185,8 +184,12 @@ class behat_qtype_stack extends behat_base {
         $ids = $this->evaluate_script($js);
         $generalcontext = behat_context_helper::get('behat_general');
         $generalcontext->switch_to_iframe('stack-iframe-1');
-        $generalcontext->i_drag_and_i_drop_it_in("#jxgbox_{$ids[0]}",
-                'css_element', "#jxgbox_{$ids[1]}", 'css_element');
+        $generalcontext->i_drag_and_i_drop_it_in(
+            "#jxgbox_{$ids[0]}",
+            'css_element',
+            "#jxgbox_{$ids[1]}",
+            'css_element'
+        );
     }
 
     /**
@@ -198,7 +201,7 @@ class behat_qtype_stack extends behat_base {
      */
     public function i_check_images_are_loadable($number, $imgclass) {
         $classselector = ($imgclass) ? '.' . $imgclass . ' ' : '';
-        $imageelements = $this->getSession()->getPage()->findAll('css' , $classselector . 'img');
+        $imageelements = $this->getSession()->getPage()->findAll('css', $classselector . 'img');
         $urls = [];
         foreach ($imageelements as $image) {
             $imgurl = $image->getAttribute('src');
@@ -224,5 +227,4 @@ class behat_qtype_stack extends behat_base {
         }
         return $id;
     }
-
 }

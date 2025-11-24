@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL')|| die();
+defined('MOODLE_INTERNAL') || die();
 
 /**
  * Ast container and related functions, which replace "cas strings".
@@ -36,7 +36,6 @@ require_once(__DIR__ . '/../maximaparser/preparser.class.php');
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_ast_container_silent implements cas_evaluatable {
-
     /**
      * The parsetree representing this ast after all modifications.
      */
@@ -143,9 +142,15 @@ class stack_ast_container_silent implements cas_evaluatable {
      */
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public static function make_from_student_source(string $raw, string $context,
-            stack_cas_security $securitymodel, array $filterstoapply = [],
-            array $filteroptions = [], string $grammar = 'Root', string $decimals = '.') {
+    public static function make_from_student_source(
+        string $raw,
+        string $context,
+        stack_cas_security $securitymodel,
+        array $filterstoapply = [],
+        array $filteroptions = [],
+        string $grammar = 'Root',
+        string $decimals = '.'
+    ) {
 
         $errors = [];
         $answernotes = [];
@@ -191,8 +196,12 @@ class stack_ast_container_silent implements cas_evaluatable {
 
         // There are certain old behaviours that are not convenient
         // to represent as grammar rules. We apply them with regexp.
-        $preparsed = stack_maxima_student_preparser::preparse($raw, $errors,
-            $answernotes, $parseroptions);
+        $preparsed = stack_maxima_student_preparser::preparse(
+            $raw,
+            $errors,
+            $answernotes,
+            $parseroptions
+        );
 
         $ast = null;
         if ($preparsed !== null && count($errors) === 0) {
@@ -217,7 +226,7 @@ class stack_ast_container_silent implements cas_evaluatable {
         }
 
         // It is now ready to be created.
-        $astc = new static;
+        $astc = new static();
         $astc->source = 's';
         $astc->context = $context;
         $astc->securitymodel = $securitymodel;
@@ -233,8 +242,11 @@ class stack_ast_container_silent implements cas_evaluatable {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public static function make_from_teacher_source(string $raw, string $context='',
-            ?stack_cas_security $securitymodel=null) {
+    public static function make_from_teacher_source(
+        string $raw,
+        string $context = '',
+        ?stack_cas_security $securitymodel = null
+    ) {
         // If you wonder why the security model is in play for teachers it
         // is here to bring in the information on whether units are constants
         // or not and thus affect the teachers ability to write into them.
@@ -273,7 +285,7 @@ class stack_ast_container_silent implements cas_evaluatable {
         }
 
         // It is now ready to be created.
-        $astc = new static;
+        $astc = new static();
         $astc->ast = $ast;
         $astc->source = 't';
         $astc->context = $context;
@@ -286,8 +298,11 @@ class stack_ast_container_silent implements cas_evaluatable {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public static function make_from_teacher_ast(MP_Statement $ast, string $context,
-            stack_cas_security $securitymodel) {
+    public static function make_from_teacher_ast(
+        MP_Statement $ast,
+        string $context,
+        stack_cas_security $securitymodel
+    ) {
         // This function is intended to be used when dealing with keyvals,
         // as there one already has an AST representing multiple casstring
         // and can just split it to pieces.
@@ -302,7 +317,7 @@ class stack_ast_container_silent implements cas_evaluatable {
         ], $filteroptions, true);
         $ast = $pipeline->filter($ast, $errors, $answernotes, $securitymodel);
 
-        $astc = new static;
+        $astc = new static();
         $astc->ast = $ast;
         $astc->source = 't';
         $astc->context = $context;
@@ -319,14 +334,14 @@ class stack_ast_container_silent implements cas_evaluatable {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function set_keyless(bool $key=true) {
+    public function set_keyless(bool $key = true) {
         $this->keyless = $key;
     }
 
     /**
      * TO-DO: a more coherent system for dealing with all options such as keyless, nounify.
      */
-    public function set_nounify(int $key=1) {
+    public function set_nounify(int $key = 1) {
         $this->nounify = $key;
     }
 
@@ -348,7 +363,7 @@ class stack_ast_container_silent implements cas_evaluatable {
 
             // First check if the AST contains something marked as invalid.
             $hasinvalid = false;
-            $findinvalid = function($node) use(&$hasinvalid) {
+            $findinvalid = function ($node) use (&$hasinvalid) {
                 if (isset($node->position['invalid']) && $node->position['invalid'] === true) {
                     $hasinvalid = true;
                     return false;
@@ -382,8 +397,13 @@ class stack_ast_container_silent implements cas_evaluatable {
 
     // This returns the fully filtered AST as it should be inputted were it inputted perfectly.
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function get_inputform(bool $keyless = false, $nounify = null, $nontuples = false,
-            $decimals = '.', bool $basen = false): string {
+    public function get_inputform(
+        bool $keyless = false,
+        $nounify = null,
+        $nontuples = false,
+        $decimals = '.',
+        bool $basen = false
+    ): string {
         if (!($nounify === null || is_int($nounify))) {
             throw new stack_exception('stack_ast_container: nounify must be null or an integer.');
         }
@@ -465,16 +485,20 @@ class stack_ast_container_silent implements cas_evaluatable {
             if ($root instanceof MP_Statement) {
                 $root = $root->statement;
             }
-            if ($root instanceof MP_Operation && $root->op === ':' &&
-                $root->lhs instanceof MP_Identifier) {
+            if (
+                $root instanceof MP_Operation && $root->op === ':' &&
+                $root->lhs instanceof MP_Identifier
+            ) {
                     return $root->rhs->toString($params);
             }
         }
 
         $casstring = $root->toString($params);
 
-        if ($root instanceof MP_Statement &&
-            $root->flags !== null && count($root->flags) > 0) {
+        if (
+            $root instanceof MP_Statement &&
+            $root->flags !== null && count($root->flags) > 0
+        ) {
                 // This makes it possible to write, when authoring, evaluation flags
                 // like in maxima without wrapping in ev() yourself.
                 $casstring = 'ev(' . $casstring . ')';
@@ -522,8 +546,10 @@ class stack_ast_container_silent implements cas_evaluatable {
                 if ($value->get_legacy_error() !== '' && $value->get_legacy_error() !== null) {
                     $this->valid = false;
                     // Hmm what is the point of this? Maybe do this filtering in the error class?
-                    $this->errors[] = new $this->errclass($this->decode_maxima_errors($value->get_legacy_error(), false),
-                        $value->get_context());
+                    $this->errors[] = new $this->errclass(
+                        $this->decode_maxima_errors($value->get_legacy_error(), false),
+                        $value->get_context()
+                    );
                 }
             }
         }
@@ -578,8 +604,10 @@ class stack_ast_container_silent implements cas_evaluatable {
         if ($root instanceof MP_Statement) {
             $root = $root->statement;
         }
-        if ($root instanceof MP_Operation && $root->op === ':' &&
-            $root->lhs instanceof MP_Identifier) {
+        if (
+            $root instanceof MP_Operation && $root->op === ':' &&
+            $root->lhs instanceof MP_Identifier
+        ) {
             return $root->lhs->value;
         }
 
@@ -666,7 +694,7 @@ class stack_ast_container_silent implements cas_evaluatable {
     /**
      *  This function decodes the error generated by Maxima into meaningful notes.
      *  */
-    public function decode_maxima_errors(string $error, bool $feedback=false) {
+    public function decode_maxima_errors(string $error, bool $feedback = false) {
         $foundone = false;
         $fixed = stack_utils::maxima_translate_string($error);
 
@@ -710,7 +738,7 @@ class stack_ast_container_silent implements cas_evaluatable {
      * Basic type checks, for checking if the expression is just one
      * object (ignoring content) of a given type.
      */
-    public function is_int(bool $evaluated=false): bool {
+    public function is_int(bool $evaluated = false): bool {
         $root = $this->ast;
         if ($evaluated) {
             $root = $this->get_evaluated();
@@ -727,14 +755,18 @@ class stack_ast_container_silent implements cas_evaluatable {
             }
             $root = $root->statement;
         }
-        if ($root instanceof MP_Operation &&
+        if (
+            $root instanceof MP_Operation &&
             $root->op === ':' &&
-            $root->lhs instanceof MP_Identifier) {
+            $root->lhs instanceof MP_Identifier
+        ) {
             $root = $root->rhs;
         }
         // For integers and floats we need to deal with prefix ops.
-        if ($root instanceof MP_PrefixOp &&
-            ($root->op === '-' || $root->op === '+')) {
+        if (
+            $root instanceof MP_PrefixOp &&
+            ($root->op === '-' || $root->op === '+')
+        ) {
             $root = $root->rhs;
         }
         if ($root instanceof MP_Integer) {
@@ -744,7 +776,7 @@ class stack_ast_container_silent implements cas_evaluatable {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function is_float(bool $evaluated=false): bool {
+    public function is_float(bool $evaluated = false): bool {
         $root = $this->ast;
         if ($evaluated) {
             $root = $this->get_evaluated();
@@ -761,14 +793,18 @@ class stack_ast_container_silent implements cas_evaluatable {
             }
             $root = $root->statement;
         }
-        if ($root instanceof MP_Operation &&
+        if (
+            $root instanceof MP_Operation &&
             $root->op === ':' &&
-            $root->lhs instanceof MP_Identifier) {
+            $root->lhs instanceof MP_Identifier
+        ) {
             $root = $root->rhs;
         }
         // For integers and floats we need to deal with prefix ops.
-        if ($root instanceof MP_PrefixOp &&
-            ($root->op === '-' || $root->op === '+')) {
+        if (
+            $root instanceof MP_PrefixOp &&
+            ($root->op === '-' || $root->op === '+')
+        ) {
             $root = $root->rhs;
         }
         if ($root instanceof MP_Float) {
@@ -779,7 +815,7 @@ class stack_ast_container_silent implements cas_evaluatable {
 
     // Exception of the bool value style, we return the length of the list or -1 if not a list.
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function is_list(bool $evaluated=false): int {
+    public function is_list(bool $evaluated = false): int {
         $root = $this->ast;
         if ($evaluated) {
             $root = $this->get_evaluated();
@@ -796,9 +832,11 @@ class stack_ast_container_silent implements cas_evaluatable {
             }
             $root = $root->statement;
         }
-        if ($root instanceof MP_Operation &&
+        if (
+            $root instanceof MP_Operation &&
             $root->op === ':' &&
-            $root->lhs instanceof MP_Identifier) {
+            $root->lhs instanceof MP_Identifier
+        ) {
             $root = $root->rhs;
         }
         if ($root instanceof MP_List) {
@@ -808,7 +846,7 @@ class stack_ast_container_silent implements cas_evaluatable {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function is_string(bool $evaluated=false): bool {
+    public function is_string(bool $evaluated = false): bool {
         $root = $this->ast;
         if ($evaluated) {
             $root = $this->get_evaluated();
@@ -825,9 +863,11 @@ class stack_ast_container_silent implements cas_evaluatable {
             }
             $root = $root->statement;
         }
-        if ($root instanceof MP_Operation &&
+        if (
+            $root instanceof MP_Operation &&
             $root->op === ':' &&
-            $root->lhs instanceof MP_Identifier) {
+            $root->lhs instanceof MP_Identifier
+        ) {
             $root = $root->rhs;
         }
         if ($root instanceof MP_String) {
@@ -837,7 +877,7 @@ class stack_ast_container_silent implements cas_evaluatable {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function is_set(bool $evaluated=false): bool {
+    public function is_set(bool $evaluated = false): bool {
         $root = $this->ast;
         if ($evaluated) {
             $root = $this->get_evaluated();
@@ -854,9 +894,11 @@ class stack_ast_container_silent implements cas_evaluatable {
             }
             $root = $root->statement;
         }
-        if ($root instanceof MP_Operation &&
+        if (
+            $root instanceof MP_Operation &&
             $root->op === ':' &&
-            $root->lhs instanceof MP_Identifier) {
+            $root->lhs instanceof MP_Identifier
+        ) {
             $root = $root->rhs;
         }
         if ($root instanceof MP_Set) {
@@ -901,7 +943,7 @@ class stack_ast_container_silent implements cas_evaluatable {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function is_matrix(bool $evaluated=false): bool {
+    public function is_matrix(bool $evaluated = false): bool {
         $root = $this->ast;
         if ($evaluated) {
             $root = $this->get_evaluated();
@@ -918,9 +960,11 @@ class stack_ast_container_silent implements cas_evaluatable {
             }
             $root = $root->statement;
         }
-        if ($root instanceof MP_Operation &&
+        if (
+            $root instanceof MP_Operation &&
             $root->op === ':' &&
-            $root->lhs instanceof MP_Identifier) {
+            $root->lhs instanceof MP_Identifier
+        ) {
             $root = $root->rhs;
         }
         if ($root instanceof MP_Group) {
@@ -928,9 +972,11 @@ class stack_ast_container_silent implements cas_evaluatable {
                 $root = end($root->items);
             }
         }
-        if ($root instanceof MP_Functioncall &&
+        if (
+            $root instanceof MP_Functioncall &&
             $root->name instanceof MP_Identifier &&
-            $root->name->value === 'matrix') {
+            $root->name->value === 'matrix'
+        ) {
             return true;
         }
         return false;
@@ -939,7 +985,7 @@ class stack_ast_container_silent implements cas_evaluatable {
     // Do not call this unless you are dealing with a list.
     // TO-DO: ?MP_Node for return type.
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function get_list_element(int $index, bool $evaluated=false) {
+    public function get_list_element(int $index, bool $evaluated = false) {
         $root = $this->ast;
         if ($evaluated) {
             $root = $this->get_evaluated();
@@ -956,9 +1002,11 @@ class stack_ast_container_silent implements cas_evaluatable {
             }
             $root = $root->statement;
         }
-        if ($root instanceof MP_Operation &&
+        if (
+            $root instanceof MP_Operation &&
             $root->op === ':' &&
-            $root->lhs instanceof MP_Identifier) {
+            $root->lhs instanceof MP_Identifier
+        ) {
             $root = $root->rhs;
         }
         return $root->items[$index];
@@ -1102,6 +1150,5 @@ class stack_ast_container_silent implements cas_evaluatable {
         }
 
         return $ret;
-
     }
 }

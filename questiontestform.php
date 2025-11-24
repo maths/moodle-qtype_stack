@@ -64,15 +64,27 @@ class qtype_stack_question_test_form extends moodleform {
         $allinputs = array_keys($question->inputs);
         foreach ($question->prts as $prtname => $prt) {
             $inputsused = array_keys($question->get_cached('required')[$prtname]);
-            $inputsused = ': [' . implode(', ' , $inputsused) . ']';
+            $inputsused = ': [' . implode(', ', $inputsused) . ']';
 
             $elements = [
-                $mform->createElement('text', $prtname . 'score',
-                    stack_string('score'), ['size' => 2]),
-                $mform->createElement('text', $prtname . 'penalty',
-                    stack_string('penalty'), ['size' => 2]),
-                $mform->createElement('select', $prtname . 'answernote',
-                    stack_string('answernote'), $prt->get_all_answer_notes()),
+                $mform->createElement(
+                    'text',
+                    $prtname . 'score',
+                    stack_string('score'),
+                    ['size' => 2]
+                ),
+                $mform->createElement(
+                    'text',
+                    $prtname . 'penalty',
+                    stack_string('penalty'),
+                    ['size' => 2]
+                ),
+                $mform->createElement(
+                    'select',
+                    $prtname . 'answernote',
+                    stack_string('answernote'),
+                    $prt->get_all_answer_notes()
+                ),
             ];
             $mform->addGroup($elements, $prtname . 'group', $prtname . $inputsused, ' ', false);
             $mform->setType($prtname . 'score', PARAM_RAW);

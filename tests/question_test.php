@@ -79,8 +79,10 @@ final class question_test extends qtype_stack_testcase {
         $this->assertEquals('', $q->validate_against_stackversion(context_system::instance()));
         $q->start_attempt(new question_attempt_step(), 1);
 
-        $this->assertEquals(['ans1' => '(x-7)^4/4+c', 'ans1_val' => '(x-7)^4/4+c'],
-                $q->get_correct_response());
+        $this->assertEquals(
+            ['ans1' => '(x-7)^4/4+c', 'ans1_val' => '(x-7)^4/4+c'],
+            $q->get_correct_response()
+        );
     }
 
     public function test_get_correct_response_test3(): void {
@@ -88,11 +90,13 @@ final class question_test extends qtype_stack_testcase {
         $q = $this->get_test_stack_question('test3');
         $q->start_attempt(new question_attempt_step(), 1);
 
-        $this->assertEquals([
+        $this->assertEquals(
+            [
             'ans1' => 'x^3', 'ans2' => 'x^4', 'ans3' => '0', 'ans4' => 'true',
             'ans1_val' => 'x^3', 'ans2_val' => 'x^4', 'ans3_val' => '0',
-        ],
-                $q->get_correct_response());
+            ],
+            $q->get_correct_response()
+        );
     }
 
     public function test_get_is_same_response_test0(): void {
@@ -113,8 +117,11 @@ final class question_test extends qtype_stack_testcase {
         $q->start_attempt(new question_attempt_step(), 1);
 
         $this->assertTrue($q->is_same_response_for_part('oddeven', ['ans3' => 'x'], ['ans3' => 'x']));
-        $this->assertTrue($q->is_same_response_for_part('oddeven', ['ans1' => 'x', 'ans3' => 'x'],
-                ['ans1' => 'y', 'ans3' => 'x']));
+        $this->assertTrue($q->is_same_response_for_part(
+            'oddeven',
+            ['ans1' => 'x', 'ans3' => 'x'],
+            ['ans1' => 'y', 'ans3' => 'x']
+        ));
         $this->assertFalse($q->is_same_response_for_part('oddeven', ['ans3' => 'x'], ['ans3' => 'y']));
     }
 
@@ -202,8 +209,10 @@ final class question_test extends qtype_stack_testcase {
         $q->start_attempt(new question_attempt_step(), 1);
 
         // Response that has three parts wrong, and one not completed.
-        $this->assertEquals([0 / 4, question_state::$gradedwrong],
-                $q->grade_response(['ans1' => '1 + x', 'ans2' => '1 + x', 'ans3' => '1 + x', 'ans4' => '']));
+        $this->assertEquals(
+            [0 / 4, question_state::$gradedwrong],
+            $q->grade_response(['ans1' => '1 + x', 'ans2' => '1 + x', 'ans3' => '1 + x', 'ans4' => ''])
+        );
     }
 
     public function test_grade_response_divide(): void {
@@ -212,8 +221,10 @@ final class question_test extends qtype_stack_testcase {
         $this->assertEquals('', $q->validate_against_stackversion(context_system::instance()));
         $q->start_attempt(new question_attempt_step(), 1);
 
-        $this->assertEquals([1, question_state::$gradedright],
-                $q->grade_response(['ans1' => '1/2']));
+        $this->assertEquals(
+            [1, question_state::$gradedright],
+            $q->grade_response(['ans1' => '1/2'])
+        );
     }
 
     public function test_grade_response_will_not_accept_input_name(): void {
@@ -222,8 +233,10 @@ final class question_test extends qtype_stack_testcase {
         $this->assertEquals('', $q->validate_against_stackversion(context_system::instance()));
         $q->start_attempt(new question_attempt_step(), 1);
 
-        $this->assertEquals([0, question_state::$gradedwrong],
-                $q->grade_response(['ans1' => 'ans1']));
+        $this->assertEquals(
+            [0, question_state::$gradedwrong],
+            $q->grade_response(['ans1' => 'ans1'])
+        );
     }
 
     public function test_grade_parts_that_can_be_graded(): void {
@@ -255,8 +268,11 @@ final class question_test extends qtype_stack_testcase {
         $q->start_attempt(new question_attempt_step(), 4);
 
         $expected = [
-            'firsttree-0' => new question_classified_response('firsttree-1-F',
-                    'ATEqualComAss (AlgEquiv-false). | firsttree-1-F', 0),
+            'firsttree-0' => new question_classified_response(
+                'firsttree-1-F',
+                'ATEqualComAss (AlgEquiv-false). | firsttree-1-F',
+                0
+            ),
         ];
         $this->assertEquals($expected, $q->classify_response(['ans1' => '7']));
 
@@ -269,7 +285,6 @@ final class question_test extends qtype_stack_testcase {
             'firsttree-0' => question_classified_response::no_response(),
         ];
         $this->assertEquals($expected, $q->classify_response(['ans1' => '']));
-
     }
 
     public function test_classify_response_test3(): void {
@@ -307,7 +322,7 @@ final class question_test extends qtype_stack_testcase {
 
         $q = test_question_maker::make_question('stack', 'mul');
         $expected = 'This question has an input which uses the "mul" option, '
-            .'which is not suppored after STACK version 4.2.  Please edit this question.';
+            . 'which is not suppored after STACK version 4.2.  Please edit this question.';
 
             $this->assertEquals($expected, $q->validate_against_stackversion(context_system::instance()));
     }

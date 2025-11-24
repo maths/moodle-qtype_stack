@@ -48,11 +48,15 @@ $inputs = array_unique($inputs);
 // Ensure that the inputs are parseable.
 $okinputs = [];
 foreach ($inputs as $input) {
-    $test = maxima_corrective_parser::parse($input,
-            $devnull, $devnull, [
+    $test = maxima_corrective_parser::parse(
+        $input,
+        $devnull,
+        $devnull,
+        [
                 'startRule' => 'Root',
                 'letToken' => stack_string('equiv_LET'),
-            ]);
+        ]
+    );
     if ($test !== null) {
         $okinputs[] = $input;
     }
@@ -87,17 +91,25 @@ foreach ($filters as $key => $filter) {
     $asts['units'][$key] = [];
     $asts['no units'][$key] = [];
     foreach ($inputs as $input) {
-        $ast = maxima_corrective_parser::parse($input,
-            $devnull, $devnull, [
+        $ast = maxima_corrective_parser::parse(
+            $input,
+            $devnull,
+            $devnull,
+            [
                 'startRule' => 'Root',
                 'letToken' => stack_string('equiv_LET'),
-            ]);
+            ]
+        );
         $asts['units'][$key][$input] = $ast;
-        $ast = maxima_corrective_parser::parse($input,
-            $devnull, $devnull, [
+        $ast = maxima_corrective_parser::parse(
+            $input,
+            $devnull,
+            $devnull,
+            [
                 'startRule' => 'Root',
                 'letToken' => stack_string('equiv_LET'),
-            ]);
+            ]
+        );
         $asts['no units'][$key][$input] = $ast;
         $total = $total + 2;
     }
@@ -105,7 +117,7 @@ foreach ($filters as $key => $filter) {
 
 $parsetime = microtime(true) - $start;
 
-cli_writeln('Parsed the test inputs ' . (2 * count($filters)) . ' ('. $total . ') times. Average parsetime was ' .
+cli_writeln('Parsed the test inputs ' . (2 * count($filters)) . ' (' . $total . ') times. Average parsetime was ' .
         (1000 * $parsetime / $total) . 'ms');
 
 cli_writeln('');
@@ -156,7 +168,7 @@ $indent2 = $indent . $indent;
 $indent3 = $indent2 . $indent;
 
 $hasinvalid = false;
-$findinvalid = function($node) use(&$hasinvalid) {
+$findinvalid = function ($node) use (&$hasinvalid) {
     if (isset($node->position['invalid']) && $node->position['invalid'] === true) {
         $hasinvalid = true;
         return false;
@@ -258,11 +270,15 @@ ESCAPE;
 
     foreach ($inputs as $input) {
         // What does it look if nothing changes.
-        $base = maxima_corrective_parser::parse($input,
-            $devnull, $devnull, [
+        $base = maxima_corrective_parser::parse(
+            $input,
+            $devnull,
+            $devnull,
+            [
                 'startRule' => 'Root',
                 'letToken' => stack_string('equiv_LET'),
-            ]);
+            ]
+        );
         $basestring = $base->toString(['nosemicolon' => true]);
 
         // Check with units.
@@ -288,7 +304,7 @@ ESCAPE;
         }
 
         $item = $indent2 . '$this->expect(' . $nl;
-        $item .= $indent3 . escp($args[0]) .',' . $nl;
+        $item .= $indent3 . escp($args[0]) . ',' . $nl;
         $item .= $indent3 . escp($args[1]) . ',' . $nl;
         $item .= $indent3 . '[';
         $nos = array_map('trim', $args[2]);
@@ -328,7 +344,7 @@ ESCAPE;
         }
 
         $item = $indent2 . '$this->expect(' . $nl;
-        $item .= $indent3 . escp($args[0]) .',' . $nl;
+        $item .= $indent3 . escp($args[0]) . ',' . $nl;
         $item .= $indent3 . escp($args[1]) . ',' . $nl;
         $item .= $indent3 . '[';
         $nos = array_map('trim', $args[2]);

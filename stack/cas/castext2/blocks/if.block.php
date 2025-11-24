@@ -29,7 +29,6 @@ require_once(__DIR__ . '/../../ast.container.class.php');
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_cas_castext2_if extends stack_cas_castext2_block {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
         // If we are flat we just sconcat stuff to return but if not then we need to
@@ -191,18 +190,23 @@ class stack_cas_castext2_if extends stack_cas_castext2_block {
 
         if (is_array($this->params['test'])) {
             foreach ($this->params['test'] as $item) {
-                $r[] = stack_ast_container_silent::make_from_teacher_source($item, 'ct2:if', new stack_cas_security());;
+                $r[] = stack_ast_container_silent::make_from_teacher_source($item, 'ct2:if', new stack_cas_security());
+                ;
             }
         } else {
-            $r[] = stack_ast_container_silent::make_from_teacher_source($this->params['test'], 'ct2:if',
-                new stack_cas_security());;
+            $r[] = stack_ast_container_silent::make_from_teacher_source(
+                $this->params['test'],
+                'ct2:if',
+                new stack_cas_security()
+            );
+            ;
         }
 
         return $r;
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function validate(&$errors=[], $options=[]): bool {
+    public function validate(&$errors = [], $options = []): bool {
         if (!array_key_exists('test', $this->params)) {
             $errors[] = new $options['errclass']('If block requires a test parameter.', $options['context'] . '/' .
                 $this->position['start'] . '-' . $this->position['end']);

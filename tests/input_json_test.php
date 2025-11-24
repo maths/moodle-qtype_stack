@@ -41,15 +41,20 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
  * @covers \stack_string_input
  */
 final class input_json_test extends qtype_stack_testcase {
-
     public function test_render_blank(): void {
 
         $el = stack_input_factory::make('json', 'ans1', '""');
-        $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" '
-                .'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="maxima-string" value="" ' .
+        $this->assertEquals(
+            '<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" '
+                . 'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="maxima-string" value="" ' .
                 'data-stack-input-type="string" />',
-                $el->render(new stack_input_state(stack_input::VALID, [], '', '', '', '', ''),
-                        'stack1__ans1', false, null));
+            $el->render(
+                new stack_input_state(stack_input::VALID, [], '', '', '', '', ''),
+                'stack1__ans1',
+                false,
+                null
+            )
+        );
     }
 
     public function test_validate_string_input(): void {
@@ -59,14 +64,21 @@ final class input_json_test extends qtype_stack_testcase {
         $el->set_parameter('sameType', true);
         // TODO: when we drop support for PHP7.4 we should reinstate examples below with floats.
         // These cause rounding errors.
-        $state = $el->validate_student_response(['sans1' => '{"x":37, "y":30, "type":"Sphere", "err":null}'],
-            $options, '"{}"',
-                new stack_cas_security());
+        $state = $el->validate_student_response(
+            ['sans1' => '{"x":37, "y":30, "type":"Sphere", "err":null}'],
+            $options,
+            '"{}"',
+            new stack_cas_security()
+        );
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('"{\\"x\\":37, \\"y\\":30, \\"type\\":\\"Sphere\\", \\"err\\":null}"',
-            $state->contentsmodified);
-        $this->assertEquals("<pre>{\n    \"x\": 37,\n    \"y\": 30,\n    " .
+        $this->assertEquals(
+            '"{\\"x\\":37, \\"y\\":30, \\"type\\":\\"Sphere\\", \\"err\\":null}"',
+            $state->contentsmodified
+        );
+        $this->assertEquals(
+            "<pre>{\n    \"x\": 37,\n    \"y\": 30,\n    " .
             "\"type\": \"Sphere\",\n    \"err\": null\n}</pre>",
-            $state->contentsdisplayed);
+            $state->contentsdisplayed
+        );
     }
 }

@@ -48,7 +48,7 @@ class TestController {
         // TO-DO: Validate.
         $data = $request->getParsedBody();
 
-        list('question' => $question, 'testcases' => $testcases) = StackQuestionLoader::loadxml($data["questionDefinition"], true);
+        ['question' => $question, 'testcases' => $testcases] = StackQuestionLoader::loadxml($data["questionDefinition"], true);
         $question->castextprocessor = new \castext2_qa_processor(new \stack_outofcontext_process());
 
         $testresponse = new StackTestResponse();
@@ -191,7 +191,13 @@ class TestController {
                 $answernotes = $result->get_answernotes();
                 $answernote = [end($answernotes)];
                 $qtest->add_expected_result($prtname, new \stack_potentialresponse_tree_state(
-                    1, true, 1, 0, '', $answernote));
+                    1,
+                    true,
+                    1,
+                    0,
+                    '',
+                    $answernote
+                ));
             }
             $results = $qtest->process_results($question, $response);
             $summary = $results->passed_with_reasons();

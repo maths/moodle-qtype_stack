@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL')|| die();
+defined('MOODLE_INTERNAL') || die();
 
 /**
  * Way to load in whatever CAS code one wants without having to deal
@@ -31,7 +31,6 @@ require_once(__DIR__ . '/evaluatable_object.interfaces.php');
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_secure_loader implements cas_evaluatable {
-
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $code;
     // phpcs:ignore moodle.Commenting.VariableComment.Missing

@@ -35,7 +35,7 @@
 define('CLI_SCRIPT', true);
 
 require(__DIR__ . '/../../../../config.php');
-require_once($CFG->libdir.'/clilib.php');
+require_once($CFG->libdir . '/clilib.php');
 require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/../vle_specific.php');
 require_once(__DIR__ . '/../locallib.php');
@@ -43,7 +43,7 @@ require_once(__DIR__ . '/../stack/utils.class.php');
 require_once(__DIR__ . '/../stack/bulktester.class.php');
 
 // Get cli options.
-list($options, $unrecognized) = cli_get_params(['help' => false], ['h' => 'help']);
+[$options, $unrecognized] = cli_get_params(['help' => false], ['h' => 'help']);
 
 if ($unrecognized) {
     $unrecognized = implode("\n  ", $unrecognized);

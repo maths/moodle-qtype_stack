@@ -32,7 +32,6 @@ require_once(__DIR__ . '/../utils.class.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 class stack_maxima_student_preparser {
-
     private static $symbols = null;
     private static $letters = null;
 
@@ -40,10 +39,10 @@ class stack_maxima_student_preparser {
         ' or ' => 'STACKOR', ' and ' => 'STACKAND', 'not ' => 'STACKNOT', 'nounnot ' => 'STACKNOUNNOT',
         ' nor ' => 'STACKNOR', ' nand ' => 'STACKNAND', ' xor ' => 'STACKXOR', ' xnor ' => 'STACKXNOR',
         ' implies ' => 'STACKIMPLIES', ' nounor ' => 'STACKNOUNOR', ' nounand ' => 'STACKNOUNAND',
- // TO-DO: we really need to think about keywords and whether we allow
- // them for students in the first case. Of course none of these requires
- // spaces you can easily write 'if(foo)then(blaah)else(if(bar)then(zoo))'.
- // Well 'else if' is the exception...
+    // TO-DO: we really need to think about keywords and whether we allow
+    // them for students in the first case. Of course none of these requires
+    // spaces you can easily write 'if(foo)then(blaah)else(if(bar)then(zoo))'.
+    // Well 'else if' is the exception...
         ' else if ' => '%%STACKELSEIF%%', ' if ' => '%%STACKIF%%',
         ':if ' => ':%%STACKIF%%', ' then ' => '%%STACKTHEN%%',
         ' else ' => '%%STACKELSE%%',
@@ -57,7 +56,6 @@ class stack_maxima_student_preparser {
             self::$letters = json_decode(file_get_contents(__DIR__ . '/unicode/letters-stack.json'), true);
         }
 
-
         $stringles = trim(stack_utils::eliminate_strings($string));
 
         $stringles = trim($stringles);
@@ -65,7 +63,7 @@ class stack_maxima_student_preparser {
         // Replace some known unicode symbols with their equivalent in ASCII.
         $stringles = str_replace(array_keys(self::$symbols), array_values(self::$symbols), $stringles);
         $stringles = str_replace(array_keys(self::$letters), array_values(self::$letters), $stringles);
-        
+
         $stringles = preg_replace('!\s+!', ' ', $stringles);
 
         // Check for invalid chars at this point as they may prove to be difficult to
@@ -75,7 +73,7 @@ class stack_maxima_student_preparser {
             // We do really want a backtick here.
             '0123456789,./\%#&{}[]()$@!"\'?`^~*_+qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM:;=><|: -', '~'
             // @codingStandardsIgnoreEnd
-            ) . ']~u';
+        ) . ']~u';
 
         $matches = [];
         // Check for permitted characters.
@@ -162,7 +160,6 @@ class stack_maxima_student_preparser {
                 $answernote[] = 'spaces';
             }
         }
-
 
         $string = self::strings_replace($stringles, $string);
 

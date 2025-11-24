@@ -37,7 +37,7 @@ require_once(__DIR__ . '/../stack/maximaparser/corrective_parser.php');
 require_once(__DIR__ . '/../stack/utils.class.php');
 
 // Now get cli options.
-list($options, $unrecognized) = cli_get_params([
+[$options, $unrecognized] = cli_get_params([
     'help' => false,
     'string' => '1+2x', 'ast' => false, 'only' => false,
 ], ['h' => 'help']);
@@ -207,10 +207,13 @@ if ($only === false) {
         ]);
     }
 
-    $pipeline = stack_parsing_rule_factory::get_filter_pipeline([
+    $pipeline = stack_parsing_rule_factory::get_filter_pipeline(
+        [
         '995_ev_modification', '996_call_modification',
         '998_security', '999_strict',
-    ],
-        ['998_security' => ['security' => 't'], '995_ev_modification' => ['flags' => true]], true);
+        ],
+        ['998_security' => ['security' => 't'], '995_ev_modification' => ['flags' => true]],
+        true
+    );
     check_filter($freshast, $pipeline, new stack_cas_security(false), 'core + security(t) + strict');
 }

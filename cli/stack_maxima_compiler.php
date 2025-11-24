@@ -19,7 +19,7 @@ define('CLI_SCRIPT', true);
 // This script collects and compiles the sorces of STACK-Maxima functions
 // stored under `stack/maximasrc/` and produces `stack/maxima/compiled.mac`.
 // Also produces `stack/maxima/compiled_tests.mac` a script that can be
-// executed inside a STACK-Maxima to see if those functions pass their own 
+// executed inside a STACK-Maxima to see if those functions pass their own
 // tests.
 //
 // Also generates some documentation.
@@ -123,9 +123,11 @@ $title = []; // Name -> string
 function var_rename(MP_Statement $ast): MP_Statement {
     $r = $ast;
     $ast->callbackRecurse(null); // Fill the parents.
-    if ($r->statement instanceof MP_Operation
+    if (
+        $r->statement instanceof MP_Operation
         && $r->statement->op === ':='
-        && $r->statement->lhs instanceof MP_FunctionCall) {
+        && $r->statement->lhs instanceof MP_FunctionCall
+    ) {
         // We are actually working on something.
         $annotations = $r->position['annotations'];
         // Add certain names saved by default from rename.
@@ -144,35 +146,43 @@ function var_rename(MP_Statement $ast): MP_Statement {
                         'block-local' => [],
                         'call' => [],
                         'var' => [],
-                        'tick' => []
+                        'tick' => [],
                     ];
                 }
-                if ($node->parentnode instanceof MP_FunctionCall
+                if (
+                    $node->parentnode instanceof MP_FunctionCall
                     && $node->parentnode->is_definition()
                     && $node->parentnode->parentnode->parentnode === $ast
-                    && array_search($node, $node->parentnode->arguments) !== false) {
+                    && array_search($node, $node->parentnode->arguments) !== false
+                ) {
                     // f(X...):=...
                     // but only this local one no nested defs.
                     $ids[$node->value]['arg'][] = $node;
-                } else if ($node->parentnode instanceof MP_List
+                } else if (
+                    $node->parentnode instanceof MP_List
                     && $node->parentnode->parentnode instanceof MP_FunctionCall
                     && $node->parentnode->parentnode->name->toString() === 'lambda'
-                    && array_search($node->parentnode, $node->parentnode->parentnode->arguments) === 0) {
+                    && array_search($node->parentnode, $node->parentnode->parentnode->arguments) === 0
+                ) {
                     // ...lambda([X...],...)...
                     $ids[$node->value]['lambda-arg'][] = $node;
-                } else if ($node->parentnode instanceof MP_List
+                } else if (
+                    $node->parentnode instanceof MP_List
                     && $node->parentnode->parentnode instanceof MP_FunctionCall
                     && $node->parentnode->parentnode->name->toString() === 'block'
-                    && array_search($node->parentnode, $node->parentnode->parentnode->arguments) === 0) {
+                    && array_search($node->parentnode, $node->parentnode->parentnode->arguments) === 0
+                ) {
                     // block([X...],...)
                     $ids[$node->value]['block-local'][] = $node;
-                } else if ($node->parentnode instanceof MP_Operation
+                } else if (
+                    $node->parentnode instanceof MP_Operation
                     && $node->parentnode->lhs === $node
                     && $node->parentnode->op === ':'
                     && $node->parentnode->parentnode instanceof MP_List
                     && $node->parentnode->parentnode->parentnode instanceof MP_FunctionCall
                     && $node->parentnode->parentnode->parentnode->name->toString() === 'block'
-                    && array_search($node->parentnode->parentnode, $node->parentnode->parentnode->parentnode->arguments) === 0) {
+                    && array_search($node->parentnode->parentnode, $node->parentnode->parentnode->parentnode->arguments) === 0
+                ) {
                     // block([X:...,...],...)
                     $ids[$node->value]['block-local'][] = $node;
                 } else if ($node->parentnode instanceof MP_PrefixOp && $node->parentnode->op === "'") {
@@ -195,7 +205,7 @@ function var_rename(MP_Statement $ast): MP_Statement {
         // Someone might have done manual pre-emptive work with these.
         $internal_vars = [];
         // Generate an excessive number, just in case there exists a lot of lambdas.
-        for ($i = 1; $i < 10*count($ids); $i++) {
+        for ($i = 1; $i < 10 * count($ids); $i++) {
             $iv = "%_si$i";
             if (!isset($ids[$iv])) {
                 $internal_vars[] = $iv;
@@ -203,7 +213,7 @@ function var_rename(MP_Statement $ast): MP_Statement {
                 unset($ids[$iv]);
             }
         }
-        
+
         // Start with arguments of lambdas, moving up the logic tree.
         foreach ($ids as $id => $details) {
             if (isset($annotations['ignore']['rename'][$id])) {
@@ -231,7 +241,7 @@ function var_rename(MP_Statement $ast): MP_Statement {
         }
         // Then function arguments.
         foreach ($ids as $id => $details) {
-            if (isset($annotations['ignore']['rename'][$id]) || count($details['arg']) === 0 ) {
+            if (isset($annotations['ignore']['rename'][$id]) || count($details['arg']) === 0) {
                 continue;
             }
             // Skip if someone does interesting things with ticks.
@@ -259,7 +269,7 @@ function var_rename(MP_Statement $ast): MP_Statement {
         }
         // Then the block locals.
         foreach ($ids as $id => $details) {
-            if (isset($annotations['ignore']['rename'][$id]) || count($details['block-local']) === 0 ) {
+            if (isset($annotations['ignore']['rename'][$id]) || count($details['block-local']) === 0) {
                 continue;
             }
             // Skip if someone does interesting things with ticks.
@@ -315,7 +325,7 @@ function comment_annotations(string $comment): array {
         'return-block' => '',
         'param-block' => '',
         'virtual-name' => null,
-        'virtual-title' => null
+        'virtual-title' => null,
     ];
 
     // Parse the `@param` and `@return` bits.
@@ -340,7 +350,7 @@ function comment_annotations(string $comment): array {
                 $r['remainder'] = str_replace($matches[0][$i], '', $r['remainder']);
                 $r['return-block'] = "\n\n| Return type | description |";
                 $r['return-block'] .= "\n| ----------- | ------------|\n| ";
-                $r['return-block'] .= $matches[2][$i] . ' | '; 
+                $r['return-block'] .= $matches[2][$i] . ' | ';
                 $r['return-block'] .= str_replace("\n", ' ', str_replace("\n\n", '<br>', trim($matches[3][$i]))) . " |\n";
                 break;
             case 'inertfunction':
@@ -365,13 +375,16 @@ foreach ($scripts as $filename) {
     if ($content === '') {
         echo ("'$sname' seems to be empty.");
     } else {
-        $pipeline = stack_parsing_rule_factory::get_filter_pipeline([
+        $pipeline = stack_parsing_rule_factory::get_filter_pipeline(
+            [
             '601_castext',
-            '602_castext_simplifier', 
-            '680_gcl_sconcat'], 
+            '602_castext_simplifier',
+            '680_gcl_sconcat'],
             ['601_castext' => [
-                'context' => 'maximasrc/' . $sname
-            ]], false);
+                'context' => 'maximasrc/' . $sname,
+            ]],
+            false
+        );
 
 
         $ast = null;
@@ -388,13 +401,14 @@ foreach ($scripts as $filename) {
         }
         $payload = [];
         $tests = [];
-        $comments = []; // Endpos -> value 
-        $virtualitems = [];      
+        $comments = []; // Endpos -> value
+        $virtualitems = [];
 
         // Note that all the content is at the top level.
         foreach ($ast->items as $item) {
             if ($item instanceof MP_Statement) {
-                if ($item->statement instanceof MP_Operation
+                if (
+                    $item->statement instanceof MP_Operation
                     && $item->statement->op === ':='
                     && $item->statement->lhs instanceof MP_FunctionCall
                     && $item->statement->lhs->name->toString() === 's_test_case'
@@ -407,8 +421,8 @@ foreach ($scripts as $filename) {
                 $item->position['annotations'] = [
                     'ignore' => [
                         'global' => [],
-                        'rename' => []
-                    ]
+                        'rename' => [],
+                    ],
                 ];
                 foreach ($item->internalcomments as $c) {
                     $matches = [];
@@ -420,7 +434,7 @@ foreach ($scripts as $filename) {
                                     switch ($matches[2][$i]) {
                                         case 'global':
                                         case 'rename':
-                                           $item->position['annotations']['ignore'][$matches[2][$i]][$matches[3][$i]] = $matches[3][$i];
+                                            $item->position['annotations']['ignore'][$matches[2][$i]][$matches[3][$i]] = $matches[3][$i];
                                             break;
                                         default:
                                             echo('Unknown @ignore target ' . $matches[0][$i] . "\n");
@@ -436,9 +450,9 @@ foreach ($scripts as $filename) {
                 // Only picking comments that follow the format where the comment starts
                 // with '*' and lines follow that.
                 // /**
-                //  * Fooo
-                //  * bar
-                //  */
+                // * Fooo
+                // * bar
+                // */
                 //
                 if (mb_strpos($item->value, '*') === 0) {
                     $lines = array_map('trim', explode("\n", $item->value));
@@ -455,12 +469,12 @@ foreach ($scripts as $filename) {
                         // Extract documentation for virtual things.
                         $virtualitems[] = $comment;
                     } else {
-                        $comments[$item->position['end']] = $comment;    
+                        $comments[$item->position['end']] = $comment;
                     }
                 }
             }
         }
-        echo ("'$sname' " . count($payload) 
+        echo ("'$sname' " . count($payload)
             . ' items of content and ' . count($tests) . " tests.\n");
 
         foreach ($payload as $corg) {
@@ -468,8 +482,10 @@ foreach ($scripts as $filename) {
             $c = $pipeline->filter($corg, $err, $err, $sec);
             // Collect the title row of a function before renaming.
             $pre_rename_title = null;
-            if ($c->statement instanceof MP_Operation 
-                && $c->statement->lhs instanceof MP_FunctionCall) {   
+            if (
+                $c->statement instanceof MP_Operation
+                && $c->statement->lhs instanceof MP_FunctionCall
+            ) {
                 $pre_rename_title = $c->statement->lhs->toString();
             }
             $c = var_rename($c); // Variable rename must happen after CASText compilation.
@@ -478,7 +494,7 @@ foreach ($scripts as $filename) {
             // Seek for matching comment.
             $i = $c->position['start'];
             $matching = null;
-            for ($j = $i+1 ; $j > $i - 40; $j--) {
+            for ($j = $i + 1; $j > $i - 40; $j--) {
                 if (isset($comments[$j])) {
                     $matching = $comments[$j];
                     break;
@@ -518,7 +534,7 @@ foreach ($scripts as $filename) {
                 foreach ($cats as $cat) {
                     $path .= '/' . $cat;
                     if (!isset($categories[$path])) {
-                        // Maybe collect more meta here. Maybe the directory contains 
+                        // Maybe collect more meta here. Maybe the directory contains
                         // some metafile giving better names titles descriptions etc.
                         $categories[$path] = new doc_tree_node($lastcat);
                         $categories[$path]->name = $cat;
@@ -538,9 +554,9 @@ foreach ($scripts as $filename) {
             }
 
             // TODO check payload:
-            //  if function definition does it reference external variables?
-            //  if variable assignment is that a variable referenced by this function?
-            //  Are arguments and temp variables "unique" so that they do not mask input?
+            // if function definition does it reference external variables?
+            // if variable assignment is that a variable referenced by this function?
+            // Are arguments and temp variables "unique" so that they do not mask input?
         }
         // Handle virtual ones.
         foreach ($virtualitems as $virtualitem) {
@@ -558,7 +574,6 @@ foreach ($scripts as $filename) {
                 $categories[$ccat]->content[] = $name;
                 $nametopath[$name] = $ccat;
             }
-
         }
 
         $i = 1;
@@ -594,7 +609,7 @@ foreach ($categories as $path => $node) {
 
     $doc .= "\n# Section documentation for [STACK-Maxima]($rootlink) $path\n\n";
 
-    
+
     if ($node->description !== '') {
         $doc .= trim($node->description) . "\n\n";
     }
@@ -608,7 +623,7 @@ foreach ($categories as $path => $node) {
         // Add a line after each item.
         $doc .= "\n---\n\n";
     }
- 
+
     // Crosslink all `name` style references.
     foreach ($nametopath as $name => $npath) {
         if (mb_strpos($doc, "`$name`") !== false) {
@@ -617,7 +632,7 @@ foreach ($categories as $path => $node) {
             } else {
                 $to = explode('/', $npath);
                 $from = explode('/', $path);
-                
+
                 while (count($to) > 0 && count($from) > 0 && $to[0] === $from[0]) {
                     array_shift($to);
                     array_shift($from);
@@ -627,7 +642,7 @@ foreach ($categories as $path => $node) {
                     $relpath .= '../';
                 }
                 foreach ($to as $part) {
-                    $relpath .= $part . '/';   
+                    $relpath .= $part . '/';
                 }
                 $relpath .= 'index.md#' . $name;
                 $doc = str_replace("`$name`", "[`$name`]($relpath)", $doc);
@@ -657,7 +672,7 @@ foreach ($names as $name) {
 $doc .= "\n";
 file_put_contents(__DIR__ . '/../doc/en/CAS/Library/alphabetical.md', $doc);
 
-// A tree version of the index TODO: naming of sections needs to 
+// A tree version of the index TODO: naming of sections needs to
 // get something more descriptive, through some metadata etc...
 $doc = '<!-- NOTE! This file is autogenerated from files under stack/maximasrc do not edit here. -->';
 $doc .= "\n# Tree index of STACK specific Maxima functions\n\n";
@@ -668,7 +683,7 @@ function node_handler(doc_tree_node $node, $indent = 0, $path = ''): string {
     sort($node->content);
     $r = '';
     foreach ($node->content as $name) {
-        $r .= str_repeat(' ', $indent) . "- [" . $title[$name] . "](" . substr($nametopath[$name], 1) . "/index.md#$name)\n"; 
+        $r .= str_repeat(' ', $indent) . "- [" . $title[$name] . "](" . substr($nametopath[$name], 1) . "/index.md#$name)\n";
     }
     foreach ($node->children as $n) {
         $r .= str_repeat(' ', $indent) . '- [' . $n->name . "]($path" . $n->name  . "/index.md) \n";

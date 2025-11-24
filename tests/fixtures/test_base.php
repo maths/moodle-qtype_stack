@@ -38,7 +38,6 @@ require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 abstract class qtype_stack_testcase extends advanced_testcase {
-
     /**
      * Different underlying versions of LISP (behind Maxima) have different results,
      * especially with the floating point routines upon which Maxima relies.
@@ -67,7 +66,8 @@ abstract class qtype_stack_testcase extends advanced_testcase {
     public static function setup_test_maxima_connection($testcase) {
         if (!qtype_stack_test_config::is_test_config_available()) {
             $testcase->markTestSkipped(
-                    'To run the STACK unit tests, you must set up the Maxima configuration in config.php.');
+                'To run the STACK unit tests, you must set up the Maxima configuration in config.php.'
+            );
         }
 
         qtype_stack_test_config::setup_test_maxima_connection();
@@ -86,8 +86,9 @@ abstract class qtype_stack_testcase extends advanced_testcase {
         }
         if (version_compare($versionused, $version) <= 0) {
             $this->markTestSkipped(
-                    'Skipping this test because it is known to fail on Maxima older than ' .
-                    $version . ' and the tests are running with Maxima ' . $versionused . '.');
+                'Skipping this test because it is known to fail on Maxima older than ' .
+                $version . ' and the tests are running with Maxima ' . $versionused . '.'
+            );
         }
     }
 
@@ -100,8 +101,9 @@ abstract class qtype_stack_testcase extends advanced_testcase {
         $versionused = get_config('qtype_stack', 'maximaversion');
         if ($versionused == 'default' || !(version_compare($versionused, $version) <= 0)) {
             $this->markTestSkipped(
-                    'Skipping this test because it is known to fail on Maxima newer than ' .
-                    $version . ' and the tests are running with Maxima ' . $versionused . '.');
+                'Skipping this test because it is known to fail on Maxima newer than ' .
+                $version . ' and the tests are running with Maxima ' . $versionused . '.'
+            );
         }
     }
 
@@ -158,8 +160,10 @@ abstract class qtype_stack_testcase extends advanced_testcase {
         while ($lastcontent != $content) {
             $lastcontent = $content;
             $content = preg_replace(
-                    '~(?:<span class="nolink">|<span class="filter_mathjaxloader_equation">)((?:(?!<span\b).)*?)</span>~s',
-                    '$1', $content);
+                '~(?:<span class="nolink">|<span class="filter_mathjaxloader_equation">)((?:(?!<span\b).)*?)</span>~s',
+                '$1',
+                $content
+            );
         }
 
         $content = self::prepare_actual_maths_floats($content);
@@ -168,7 +172,6 @@ abstract class qtype_stack_testcase extends advanced_testcase {
         $content = preg_replace('~((?<!\.)\b-?\d+)\.?(E[-+]?\d+\b)~', '$1.0$2', $content);
 
         return $content;
-
     }
 
     /**
@@ -188,7 +191,7 @@ abstract class qtype_stack_testcase extends advanced_testcase {
     public static function prepare_actual_maths_floats($content) {
         return preg_replace_callback(
             '~(-?\b\d+(?:\.\d*)?)[eE]([-+]?\d+\b)~',
-            function(array $matches): string {
+            function (array $matches): string {
                 $decimals = strlen(explode('.', $matches[1])[1] ?? '') ?: 0;
                 $fixedbase = sprintf("%.{$decimals}E", (float)$matches[0]);
                 return strpos($matches[2], '+') !== false ? $fixedbase : str_replace('+', '', $fixedbase);
@@ -330,14 +333,20 @@ abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough
         }
 
         $matcher = $this->get_tag_matcher('input', $attributes);
-        $this->assertTag($matcher, $this->currentoutput,
-                'Looking for an input with attributes ' . html_writer::attributes($attributes) . ' in ' . $this->currentoutput);
+        $this->assertTag(
+            $matcher,
+            $this->currentoutput,
+            'Looking for an input with attributes ' . html_writer::attributes($attributes) . ' in ' . $this->currentoutput
+        );
 
         if ($enabled) {
             $matcher['attributes']['readonly'] = 'readonly';
-            $this->assertNotTag($matcher, $this->currentoutput,
-                    'input with attributes ' . html_writer::attributes($attributes) .
-                    ' should not be read-only in ' . $this->currentoutput);
+            $this->assertNotTag(
+                $matcher,
+                $this->currentoutput,
+                'input with attributes ' . html_writer::attributes($attributes) .
+                ' should not be read-only in ' . $this->currentoutput
+            );
         }
     }
 
@@ -350,9 +359,12 @@ abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough
             $attributes['readonly'] = 'readonly';
         }
         $matcher = $this->get_tag_matcher('textarea', $attributes);
-        $this->assertTag($matcher, $this->currentoutput,
-                'Looking for a textarea with attributes ' . html_writer::attributes($attributes) . ' in ' .
-                $this->currentoutput);
+        $this->assertTag(
+            $matcher,
+            $this->currentoutput,
+            'Looking for a textarea with attributes ' . html_writer::attributes($attributes) . ' in ' .
+            $this->currentoutput
+        );
 
         if ($content) {
             $this->assertMatchesRegularExpression('/' . preg_quote(s($content), '/') . '/', $this->currentoutput);
@@ -360,36 +372,49 @@ abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough
 
         if ($enabled) {
             $matcher['attributes']['readonly'] = 'readonly';
-            $this->assertNotTag($matcher, $this->currentoutput,
-                    'input with attributes ' . html_writer::attributes($attributes) .
-                    ' should not be read-only in ' . $this->currentoutput);
+            $this->assertNotTag(
+                $matcher,
+                $this->currentoutput,
+                'input with attributes ' . html_writer::attributes($attributes) .
+                ' should not be read-only in ' . $this->currentoutput
+            );
         }
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function check_output_contains_input_validation($name) {
         $id = $this->quba->get_question_attempt($this->slot)->get_qt_field_name($name . '_val');
-        $this->assertMatchesRegularExpression('~<div (?=[^>]*\bclass="stackinputfeedback standard")(?=[^>]*\bid="' .
+        $this->assertMatchesRegularExpression(
+            '~<div (?=[^>]*\bclass="stackinputfeedback standard")(?=[^>]*\bid="' .
                 $id . '")~',
-                $this->currentoutput,
-                'Input validation for ' . $name . ' not found in ' . $this->currentoutput);
+            $this->currentoutput,
+            'Input validation for ' . $name . ' not found in ' . $this->currentoutput
+        );
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function check_output_contains_input_validation_compact($name) {
         $id = $this->quba->get_question_attempt($this->slot)->get_qt_field_name($name . '_val');
-        $this->assertMatchesRegularExpression('~<span (?=[^>]*\bclass="stackinputfeedback compact")(?=[^>]*\bid="' .
+        $this->assertMatchesRegularExpression(
+            '~<span (?=[^>]*\bclass="stackinputfeedback compact")(?=[^>]*\bid="' .
                 $id . '")~',
-                $this->currentoutput,
-                'Input validation for ' . $name . ' not found in ' . $this->currentoutput);
+            $this->currentoutput,
+            'Input validation for ' . $name . ' not found in ' . $this->currentoutput
+        );
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function check_output_does_not_contain_any_input_validation() {
-        $this->assertDoesNotMatchRegularExpression('~<div [^>]*\bclass="stackinputfeedback standard(?:(?! empty)[^"])*"~',
-                $this->currentoutput, 'Input validation should not be present in ' . $this->currentoutput);
-        $this->assertDoesNotMatchRegularExpression('~<div [^>]*\bclass="stackinputfeedback compact(?:(?! empty)[^"])*"~',
-                $this->currentoutput, 'Input validation should not be present in ' . $this->currentoutput);
+        $this->assertDoesNotMatchRegularExpression(
+            '~<div [^>]*\bclass="stackinputfeedback standard(?:(?! empty)[^"])*"~',
+            $this->currentoutput,
+            'Input validation should not be present in ' . $this->currentoutput
+        );
+        $this->assertDoesNotMatchRegularExpression(
+            '~<div [^>]*\bclass="stackinputfeedback compact(?:(?! empty)[^"])*"~',
+            $this->currentoutput,
+            'Input validation should not be present in ' . $this->currentoutput
+        );
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -399,10 +424,12 @@ abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough
             return;
         }
         $id = $this->quba->get_question_attempt($this->slot)->get_qt_field_name($name . '_val');
-        $this->assertDoesNotMatchRegularExpression('~<div (?=[^>]*\bclass="stackinputfeedback standard")(?=[^>]*\bid="'
+        $this->assertDoesNotMatchRegularExpression(
+            '~<div (?=[^>]*\bclass="stackinputfeedback standard")(?=[^>]*\bid="'
                 . $id . '")~',
-                $this->currentoutput,
-                'Input validation for ' . $name . ' should not be present in ' . $this->currentoutput);
+            $this->currentoutput,
+            'Input validation for ' . $name . ' should not be present in ' . $this->currentoutput
+        );
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -411,8 +438,11 @@ abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough
         if ($name) {
             $class .= ' stackprtfeedback-' . $name;
         }
-        $this->assertTag(['tag' => 'div', 'attributes' => ['class' => $class]], $this->currentoutput,
-                'PRT feedback for ' . $name . ' not found in ' . $this->currentoutput);
+        $this->assertTag(
+            ['tag' => 'div', 'attributes' => ['class' => $class]],
+            $this->currentoutput,
+            'PRT feedback for ' . $name . ' not found in ' . $this->currentoutput
+        );
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -421,8 +451,11 @@ abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough
         if ($name) {
             $class .= ' stackprtfeedback-' . $name;
         }
-        $this->assertNotTag(['tag' => 'div', 'attributes' => ['class' => $class]], $this->currentoutput,
-                'PRT feedback for ' . $name . ' should not be present in ' . $this->currentoutput);
+        $this->assertNotTag(
+            ['tag' => 'div', 'attributes' => ['class' => $class]],
+            $this->currentoutput,
+            'PRT feedback for ' . $name . ' should not be present in ' . $this->currentoutput
+        );
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -433,21 +466,30 @@ abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function check_output_contains_lang_string($identifier, $component = '', $a = null) {
         $string = get_string($identifier, $component, $a);
-        $this->assertStringContainsString($string, $this->currentoutput,
-                'Expected string ' . $string . ' not found in ' . $this->currentoutput);
+        $this->assertStringContainsString(
+            $string,
+            $this->currentoutput,
+            'Expected string ' . $string . ' not found in ' . $this->currentoutput
+        );
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function check_output_does_not_contain_lang_string($identifier, $component = '', $a = null) {
         $string = get_string($identifier, $component, $a);
-        $this->assertStringNotContainsString($string, $this->currentoutput,
-                'The string ' . $string . ' should not be present in ' . $this->currentoutput);
+        $this->assertStringNotContainsString(
+            $string,
+            $this->currentoutput,
+            'The string ' . $string . ' should not be present in ' . $this->currentoutput
+        );
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function check_output_does_not_contain_text($str) {
-        $this->assertStringNotContainsString($str, $this->currentoutput,
-            'The string ' . $str . ' should not be present in ' . $this->currentoutput);
+        $this->assertStringNotContainsString(
+            $str,
+            $this->currentoutput,
+            'The string ' . $str . ' should not be present in ' . $this->currentoutput
+        );
     }
 
     /**

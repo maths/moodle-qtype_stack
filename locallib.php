@@ -43,8 +43,11 @@ class stack_exception extends moodle_exception {
  * @return string HTML ready to output.
  */
 function stack_ouput_castext($castext) {
-    return format_text(stack_maths::process_display_castext($castext),
-            FORMAT_HTML, ['noclean' => true, 'allowid' => true]);
+    return format_text(
+        stack_maths::process_display_castext($castext),
+        FORMAT_HTML,
+        ['noclean' => true, 'allowid' => true]
+    );
 }
 
 /**
@@ -231,12 +234,10 @@ function qtype_stack_setup_question_test_page($question) {
         require_login($cm->course, false, $cm);
         $context = context_module::instance($cmid);
         $urlparams['cmid'] = $cmid;
-
     } else if ($courseid = optional_param('courseid', 0, PARAM_INT)) {
         require_login($courseid);
         $context = context_course::instance($courseid);
         $urlparams['courseid'] = $courseid;
-
     } else {
         $context = $question->get_context();
         if ($context->contextlevel == CONTEXT_MODULE) {
@@ -256,7 +257,6 @@ function qtype_stack_setup_question_test_page($question) {
  * and possibly elsewhere, e.g. API.
  */
 class stack_outofcontext_process {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct() {
     }

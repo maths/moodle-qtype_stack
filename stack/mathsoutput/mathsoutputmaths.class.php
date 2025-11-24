@@ -29,7 +29,6 @@ require_once(__DIR__ . '/mathsoutputfilterbase.class.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_maths_output_maths extends stack_maths_output_filter_base {
-
     /**
      * Add description here.
      * @return boolean is the OU maths filter installed?

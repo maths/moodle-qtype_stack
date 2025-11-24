@@ -42,8 +42,18 @@ class stack_json_input extends stack_string_input {
      * @return string any error messages describing validation failures. An empty
      *      string if the input is valid - at least according to this test.
      */
-    protected function validation_display($answer, $lvars, $caslines, $additionalvars, $valid, $errors,
-        $castextprocessor, $inertdisplayform, $ilines, $notes) {
+    protected function validation_display(
+        $answer,
+        $lvars,
+        $caslines,
+        $additionalvars,
+        $valid,
+        $errors,
+        $castextprocessor,
+        $inertdisplayform,
+        $ilines,
+        $notes
+    ) {
 
         // Always display something sensible.
         $display = $this->contents_to_maxima($this->rawcontents);

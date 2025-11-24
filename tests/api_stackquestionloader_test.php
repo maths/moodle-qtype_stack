@@ -40,7 +40,6 @@ use Symfony\Component\Yaml\Yaml;
  * @covers \qtype_stack
  */
 final class api_stackquestionloader_test extends qtype_stack_testcase {
-
     public function test_question_loader(): void {
 
         $xml = stack_api_test_data::get_question_string('matrices');
@@ -75,8 +74,10 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         $ql = new StackQuestionLoader();
         $question = $ql->loadXML($xml)['question'];
         $this->assertEquals($question->options->get_option('decimals'), get_config('qtype_stack', 'decimals'));
-        $this->assertEquals($question->options->get_option('scientificnotation'),
-                get_config('qtype_stack', 'scientificnotation'));
+        $this->assertEquals(
+            $question->options->get_option('scientificnotation'),
+            get_config('qtype_stack', 'scientificnotation')
+        );
         $this->assertEquals($question->options->get_option('assumepos'), get_config('qtype_stack', 'assumepositive'));
         $this->assertEquals($question->options->get_option('assumereal'), get_config('qtype_stack', 'assumereal'));
         $this->assertEquals($question->options->get_option('multiplicationsign'), get_config('qtype_stack', 'multiplicationsign'));
@@ -87,15 +88,23 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         $this->assertEquals($question->options->get_option('matrixparens'), get_config('qtype_stack', 'matrixparens'));
         $this->assertEquals($question->options->get_option('simplify'), get_config('qtype_stack', 'questionsimplify'));
         $this->assertEquals($question->inputs['ans1']->get_parameter('mustVerify'), get_config('qtype_stack', 'inputmustverify'));
-        $this->assertEquals($question->inputs['ans1']->get_parameter('showValidation'),
-                get_config('qtype_stack', 'inputshowvalidation'));
+        $this->assertEquals(
+            $question->inputs['ans1']->get_parameter('showValidation'),
+            get_config('qtype_stack', 'inputshowvalidation')
+        );
         $this->assertEquals($question->inputs['ans1']->get_parameter('insertStars'), get_config('qtype_stack', 'inputinsertstars'));
-        $this->assertEquals($question->inputs['ans1']->get_parameter('forbidFloats'),
-                get_config('qtype_stack', 'inputforbidfloat'));
-        $this->assertEquals($question->inputs['ans1']->get_parameter('lowestTerms'),
-                get_config('qtype_stack', 'inputrequirelowestterms'));
-        $this->assertEquals($question->inputs['ans1']->get_parameter('sameType'),
-                get_config('qtype_stack', 'inputcheckanswertype'));
+        $this->assertEquals(
+            $question->inputs['ans1']->get_parameter('forbidFloats'),
+            get_config('qtype_stack', 'inputforbidfloat')
+        );
+        $this->assertEquals(
+            $question->inputs['ans1']->get_parameter('lowestTerms'),
+            get_config('qtype_stack', 'inputrequirelowestterms')
+        );
+        $this->assertEquals(
+            $question->inputs['ans1']->get_parameter('sameType'),
+            get_config('qtype_stack', 'inputcheckanswertype')
+        );
         $this->assertEquals($question->inputs['ans1']->get_parameter('forbidWords'), get_config('qtype_stack', 'inputforbidwords'));
         $this->assertEquals($question->inputs['ans1']->get_parameter('boxWidth'), get_config('qtype_stack', 'inputboxsize'));
     }
@@ -145,20 +154,28 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         $this->assertEquals(false, $question->prts['prt1']->get_nodes_summary()[0]->quiet);
         $this->assertEquals('ATAlgEquiv(ans1,ta1)', $question->prts['prt1']->get_nodes_summary()[0]->answertest);
         $this->assertEquals($question->inputs['ans1']->get_parameter('mustVerify'), get_config('qtype_stack', 'inputmustverify'));
-        $this->assertEquals($question->inputs['ans1']->get_parameter('showValidation'),
-                get_config('qtype_stack', 'inputshowvalidation'));
+        $this->assertEquals(
+            $question->inputs['ans1']->get_parameter('showValidation'),
+            get_config('qtype_stack', 'inputshowvalidation')
+        );
         $this->assertEquals($question->inputs['ans1']->get_parameter('insertStars'), get_config('qtype_stack', 'inputinsertstars'));
-        $this->assertEquals($question->inputs['ans1']->get_parameter('forbidFloats'),
-                get_config('qtype_stack', 'inputforbidfloat'));
-        $this->assertEquals($question->inputs['ans1']->get_parameter('lowestTerms'),
-                get_config('qtype_stack', 'inputrequirelowestterms'));
-        $this->assertEquals($question->inputs['ans1']->get_parameter('sameType'),
-                get_config('qtype_stack', 'inputcheckanswertype'));
+        $this->assertEquals(
+            $question->inputs['ans1']->get_parameter('forbidFloats'),
+            get_config('qtype_stack', 'inputforbidfloat')
+        );
+        $this->assertEquals(
+            $question->inputs['ans1']->get_parameter('lowestTerms'),
+            get_config('qtype_stack', 'inputrequirelowestterms')
+        );
+        $this->assertEquals(
+            $question->inputs['ans1']->get_parameter('sameType'),
+            get_config('qtype_stack', 'inputcheckanswertype')
+        );
         $this->assertEquals($question->inputs['ans1']->get_parameter('forbidWords'), get_config('qtype_stack', 'inputforbidwords'));
         $this->assertEquals($question->inputs['ans1']->get_parameter('boxWidth'), get_config('qtype_stack', 'inputboxsize'));
     }
 
-        public function test_loadxml_summary_default(): void {
+    public function test_loadxml_summary_default(): void {
         if (!defined('Symfony\Component\Yaml\Yaml::DUMP_COMPACT_NESTED_MAPPING')) {
             $this->markTestSkipped('Symfony YAML extension is not available.');
             return;
@@ -215,8 +232,7 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         $this->assertEquals('1', (string) $prt2->get_nodes_summary()[0]->falsescore);
     }
 
-    public function test_yaml_to_xml()
-    {
+    public function test_yaml_to_xml(): void {
         if (!defined('Symfony\Component\Yaml\Yaml::DUMP_COMPACT_NESTED_MAPPING')) {
             $this->markTestSkipped('Symfony YAML extension is not available.');
             return;
@@ -224,15 +240,19 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         $yaml = file_get_contents(__DIR__ . '/fixtures/questionyml.yml');
         $xml = StackQuestionLoader::yaml_to_xml($yaml);
         $this->assertEquals('Test question', (string)$xml->question->name->text);
-        $this->assertEquals(1,
-            preg_match('/<p>Question<\/p><p>\[\[input:ans1\]\] \[\[validation:ans1\]\]<\/p>\n    <p>' .
-                '\[\[input:ans2\]\] \[\[validation:ans2\]\]<\/p>/s', (string) $xml->question->questiontext->text));
-       $this->assertEquals('html', (string)$xml->question->questiontext['format']);
-       $this->assertEquals(false, isset($xml->question->questiontext->format));
+        $this->assertEquals(
+            1,
+            preg_match(
+                '/<p>Question<\/p><p>\[\[input:ans1\]\] \[\[validation:ans1\]\]<\/p>\n    <p>' .
+                '\[\[input:ans2\]\] \[\[validation:ans2\]\]<\/p>/s',
+                (string) $xml->question->questiontext->text
+            )
+        );
+        $this->assertEquals('html', (string)$xml->question->questiontext['format']);
+        $this->assertEquals(false, isset($xml->question->questiontext->format));
     }
 
-    public function test_array_to_xml_inverse()
-    {
+    public function test_array_to_xml_inverse(): void {
         $data = [
             'name' => 'Test',
             'questiontext' => 'What is 2+2?',
@@ -240,12 +260,12 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
             'input' => [
                 [
                     'name' => 'ans1',
-                    'tans' => '1'
+                    'tans' => '1',
                 ],
                 [
                     'name' => 'ans1',
-                    'tans' => '2'
-                ]
+                    'tans' => '2',
+                ],
             ],
             'prt' => [
                 [
@@ -255,16 +275,16 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
                         [
                             'name' => '0',
                             'sans' => '011',
-                            'tans' => '022'
+                            'tans' => '022',
                         ],
                         [
                             'name' => '1',
                             'sans' => '033',
-                            'tans' => '044'
-                        ]
-                    ]
-                ]
-            ]
+                            'tans' => '044',
+                        ],
+                    ],
+                ],
+            ],
         ];
         $xml = new \SimpleXMLElement('<question></question>');
         StackQuestionLoader::array_to_xml($data, $xml);
@@ -282,8 +302,7 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         $this->assertEqualsCanonicalizing($data, $array);
     }
 
-    public function test_obj_diff()
-    {
+    public function test_obj_diff(): void {
         $a = (object) ['a' => 1, 'b' => 2];
         $b = (object) ['a' => 1, 'b' => 3];
         $diff = StackQuestionLoader::obj_diff($a, $b);
@@ -291,9 +310,8 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         $this->assertEquals(3, $diff['b']);
     }
 
-    public function test_arr_diff()
-    {
-        $a = ['x' => 5, 'y' => 6, 'z' => (0.1+0.7)*10, 'a' => [1 => 'x', 2 => 'y']];
+    public function test_arr_diff(): void {
+        $a = ['x' => 5, 'y' => 6, 'z' => (0.1 + 0.7) * 10, 'a' => [1 => 'x', 2 => 'y']];
         $b = ['x' => 5, 'y' => 7, 'z' => 8, 'a' => [1 => 'x', 2 => 'z']];
         $diff = StackQuestionLoader::arr_diff($a, $b);
         $this->assertEquals(2, count($diff));
@@ -303,8 +321,7 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         $this->assertEquals('z', $diff['a'][2]);
     }
 
-    public function test_get_default()
-    {
+    public function test_get_default(): void {
         set_config('stackapi', true, 'qtype_stack');
         $default = StackQuestionLoader::get_default('question', 'name', 'Fallback');
         $this->assertEquals('Default', $default);
@@ -313,8 +330,7 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         $this->assertEquals('Fallback', $default);
     }
 
-    public function test_detect_difference()
-    {
+    public function test_detect_difference(): void {
         if (!defined('Symfony\Component\Yaml\Yaml::DUMP_COMPACT_NESTED_MAPPING')) {
             $this->markTestSkipped('Symfony YAML extension is not available.');
             return;
@@ -324,8 +340,7 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         $this->assertStringContainsString('name: Test', $yaml);
     }
 
-    public function test_detect_difference_yml()
-    {
+    public function test_detect_difference_yml(): void {
         if (!defined('Symfony\Component\Yaml\Yaml::DUMP_COMPACT_NESTED_MAPPING')) {
             $this->markTestSkipped('Symfony YAML extension is not available.');
             return;
@@ -352,7 +367,7 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
                     'requirelowestterms' => '0',
                     'checkanswertype' => '0',
                     'mustverify' => '1',
-                    'showvalidation' => '1'
+                    'showvalidation' => '1',
                 ],
                 [
                     'name' => 'ans2',
@@ -362,8 +377,8 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
                     'requirelowestterms' => '0',
                     'checkanswertype' => '0',
                     'mustverify' => '1',
-                    'showvalidation' => '1'
-                ]
+                    'showvalidation' => '1',
+                ],
             ],
             'prt' => [
                 [
@@ -377,9 +392,9 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
                             'answertest' => 'AlgEquiv',
                             'sans' => 'ans1',
                             'tans' => 'ta1',
-                            'quiet' => '1'
-                        ]
-                    ]
+                            'quiet' => '1',
+                        ],
+                    ],
                 ],
                 [
                     'name' => 'prt2',
@@ -393,15 +408,15 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
                             'sans' => 'ans2',
                             'tans' => 'ta2',
                             'quiet' => '0',
-                            'falsescore' => '1'
-                        ]
-                    ]
-                ]
+                            'falsescore' => '1',
+                        ],
+                    ],
+                ],
             ],
             'deployedseed' => [
                 1,
                 2,
-                3
+                3,
             ],
             'qtest' => [
                 [
@@ -409,28 +424,28 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
                     'description' => 'A test',
                     'testinput' => [
                         [
-                            'name' => 'ans1'
+                            'name' => 'ans1',
                         ],
                         [
                             'name' => 'ans2',
-                            'value' => 'ta2'
-                        ]
+                            'value' => 'ta2',
+                        ],
                     ],
                     'expected' => [
                         [
                             'name' => 'prt1',
                             'expectedscore' => '1.0000000',
-                            'expectedpenalty' => '0.0000000'
+                            'expectedpenalty' => '0.0000000',
                         ],
                         [
                             'name' => 'prt2',
                             'expectedscore' => '1.0000000',
                             'expectedpenalty' => '0.0000000',
-                            'expectedanswernote' => '2-0-T'
-                        ]
-                    ]
-                ]
-            ]
+                            'expectedanswernote' => '2-0-T',
+                        ],
+                    ],
+                ],
+            ],
         ];
         $expectedstring = "name: 'Test question'\nquestiontext: |\n  <p>Question</p><p>[[input:ans1]] [[validation:ans1]]</p>" .
             "\n      <p>[[input:ans2]] [[validation:ans2]]</p>\nquestionvariables: 'ta1:1;ta2:2;'\nquestionsimplify: '1'\nprtcorrect: '<p>" .
@@ -484,8 +499,8 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
                     'requirelowestterms' => '0',
                     'checkanswertype' => '0',
                     'mustverify' => '1',
-                    'showvalidation' => '1'
-                ]
+                    'showvalidation' => '1',
+                ],
             ],
             'prt' => [
                         [
@@ -498,10 +513,10 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
                                     'answertest' => 'AlgEquiv',
                                     'sans' => 'ans1',
                                     'tans' => 'ta1',
-                                    'quiet' => '0'
-                                ]
-                            ]
-                        ]
+                                    'quiet' => '0',
+                                ],
+                            ],
+                        ],
                 ],
         ];
         $diff = StackQuestionLoader::detect_differences($blankxml, null);
@@ -530,7 +545,7 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
             'questionsimplify' => '1',
             'defaultgrade' => '0',
             'input' => [],
-            'prt' => []
+            'prt' => [],
         ];
         $diff = StackQuestionLoader::detect_differences($infoxml, null);
         $diffarray = Yaml::parse($diff);
@@ -545,7 +560,7 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
             'defaultgrade' => '0',
             'questionsimplify' => '1',
             'input' => [],
-            'prt' => []
+            'prt' => [],
         ];
         $diff = StackQuestionLoader::detect_differences($infoxml);
         $diffarray = Yaml::parse($diff);
@@ -562,13 +577,13 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         set_config('stackapi', false, 'qtype_stack');
     }
 
-        public function test_split_answertest_basic(): void {
+    public function test_split_answertest_basic(): void {
         $input = 'ATAlgEquiv(x^2+2x+1, (x+1)^2, 1, ignoreorder)';
         $expected = [
-            'ATAlgEquiv',
-            'x^2+2x+1',
-            '(x+1)^2',
-            '1, ignoreorder',
+        'ATAlgEquiv',
+        'x^2+2x+1',
+        '(x+1)^2',
+        '1, ignoreorder',
         ];
         $this->assertEquals($expected, StackQuestionLoader::split_answertest($input));
     }

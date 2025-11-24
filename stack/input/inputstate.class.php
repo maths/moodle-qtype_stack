@@ -40,7 +40,6 @@ require_once(__DIR__ . '/../options.class.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_input_state {
-
     /**
      * @var string one of the constants stack_input::BLANK, stack_input::INVALID, ...
      */
@@ -93,8 +92,16 @@ class stack_input_state {
      * @param string $feedback the feedback for the current contents.
      * @param bool   $simp Should the student's expression be simplified?
      */
-    public function __construct($status, $contents, $contentsmodified, $contentsdisplayed, $errors, $note, $lvars,
-            $simp = false) {
+    public function __construct(
+        $status,
+        $contents,
+        $contentsmodified,
+        $contentsdisplayed,
+        $errors,
+        $note,
+        $lvars,
+        $simp = false
+    ) {
         if (!is_array($contents)) {
             throw new stack_exception('stack_input_state: contents field of constructor must be an array.');
         }

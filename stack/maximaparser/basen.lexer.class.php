@@ -19,13 +19,12 @@ require_once('lexer.base.class.php');
 /**
  * Variant of the base lexer interpreting some base-N notations as
  * integers. Does not support decimal-numbers.
- * 
+ *
  * @package    qtype_stack
  * @copyright  2025 Aalto University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 class stack_maxima_lexer_basen extends stack_maxima_lexer_base {
-
     public function get_next_token(): ?stack_maxima_lexer_token {
         // If some action has added something to the buffer.
         if (count($this->outputbuffer) > 0) {
@@ -74,7 +73,7 @@ class stack_maxima_lexer_basen extends stack_maxima_lexer_base {
                     if ($c4 !== null) {
                         $token->value = '@@IS@@';
                         $token->set_end_position($c4);
-                    }    
+                    }
                 }
                 return $token;
             case '>':
@@ -158,7 +157,6 @@ class stack_maxima_lexer_basen extends stack_maxima_lexer_base {
                     $token->value .= $c2->c;
                     $c3 = $this->popc();
                     if ($c3 === null) {
-
                     } else if ($c3->c === ' ') {
                         $token->value .= $c3->c;
                         $token->set_end_position($c3);
@@ -174,7 +172,7 @@ class stack_maxima_lexer_basen extends stack_maxima_lexer_base {
                     $token2 = new stack_maxima_lexer_token($c2);
                     $token2->type = StackMaximaTokenType::LispIdentifier;
                     if ($c2->c === '\\') {
-                        $c3 = $this->popc();    
+                        $c3 = $this->popc();
                         if ($c3 !== null) {
                             $token2->value .= $c3->c;
                             $token2->set_end_position($c3);
@@ -250,15 +248,15 @@ class stack_maxima_lexer_basen extends stack_maxima_lexer_base {
         return $token;
     }
 
-  
+
 
     public function eat_basen_number(stack_maxima_lexer_token $token): stack_maxima_lexer_token {
         // So we start from a digit or from alpha and need to figure out:
-        //  1. Is it just a base-10 integer?
-        //  2. Is it one of the C-cases? Starting with 0.
-        //  3. Maybe it is our base_suffix form?
-        //  4. Or even just an identifier or keyword?
-        // We won't limit the digits 0-9,A-Z,a-z used based on 
+        // 1. Is it just a base-10 integer?
+        // 2. Is it one of the C-cases? Starting with 0.
+        // 3. Maybe it is our base_suffix form?
+        // 4. Or even just an identifier or keyword?
+        // We won't limit the digits 0-9,A-Z,a-z used based on
         // the specified base, that will be left to CAS side logic.
         // 0 padding is supportted, like 0000_2 or 0b0000
         $startswithalpha = !isset(self::$DIGITS[$token->value]);
@@ -268,7 +266,7 @@ class stack_maxima_lexer_basen extends stack_maxima_lexer_base {
 
         // Basically, if it starts with `0x` or `0b` and has
         // only alpha or digits after those it is base-N
-        // Also if otherwise pure alpha or digits and ends 
+        // Also if otherwise pure alpha or digits and ends
         // with `_N` then it is base-N.
         $c = $this->popc();
         while ($c !== null && $mode === 'feed') {
@@ -285,7 +283,7 @@ class stack_maxima_lexer_basen extends stack_maxima_lexer_base {
                             $token->set_end_position($ci);
                         }
                         // Feeding that _ back.
-                        return $this->kwidentify($this->eat_identifier($token));    
+                        return $this->kwidentify($this->eat_identifier($token));
                     } else {
                         // The maybe octal case. But with that dangling _.
                         $mode = 'revert?';
@@ -297,8 +295,10 @@ class stack_maxima_lexer_basen extends stack_maxima_lexer_base {
                 while ($cn !== null) {
                     if (isset(self::$DIGITS[$cn->c])) {
                         $chars[] = $cn;
-                    } else if ($cn->c === '%' || $cn->c === '_' ||  preg_match(self::$LETTER, $cn->c) === 1||
-                    (($this->options->extraletters !== false && preg_match($this->options->extraletters, $cn->c) === 1))) {
+                    } else if (
+                        $cn->c === '%' || $cn->c === '_' ||  preg_match(self::$LETTER, $cn->c) === 1 ||
+                        (($this->options->extraletters !== false && preg_match($this->options->extraletters, $cn->c) === 1))
+                    ) {
                         $chars[] = $cn;
                         if ($startswithalpha) {
                             $mode = 'continue-as-id';
@@ -316,10 +316,12 @@ class stack_maxima_lexer_basen extends stack_maxima_lexer_base {
                 break;
             } else if (isset(self::$DIGITS[$c->c]) || (strpos(self::$ALPHA, $c->c) !== false)) {
                 $chars[] = $c;
-            } else if ($startswithalpha){
+            } else if ($startswithalpha) {
                 // So is it a valid char to continue as id?
-                if ($c->c === '%' || preg_match(self::$LETTER, $c->c) === 1||
-                    (($this->options->extraletters !== false && preg_match($this->options->extraletters, $c->c) === 1))) {
+                if (
+                    $c->c === '%' || preg_match(self::$LETTER, $c->c) === 1 ||
+                    (($this->options->extraletters !== false && preg_match($this->options->extraletters, $c->c) === 1))
+                ) {
                     $chars[] = $c;
                     $mode = 'continue-as-id';
                     break;

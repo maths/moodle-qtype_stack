@@ -37,7 +37,7 @@ require_once(__DIR__ . '/../stack/maximaparser/autogen/parser-root.php');
 require_once(__DIR__ . '/../stack/maximaparser/parser.options.class.php');
 require_once(__DIR__ . '/../stack/maximaparser/error.interpreter.class.php');
 
-list($options, $unrecognized) = cli_get_params([
+[$options, $unrecognized] = cli_get_params([
     'help' => false,
     'time' => false,
     'string' => '1+2*x', 'ast' => false, 'only' => false,
@@ -92,7 +92,7 @@ for ($i = 0; $i < $count; $i++) {
         $astold = $parser->parse($teststring, $parseoptions);
     } catch (SyntaxError $e) {
         $parseable = false;
-        
+
         try {
             $astold = maxima_corrective_parser::parse($teststring, $olderrors, $oldanswernotes, [
                 'startRule' => 'Root',
@@ -155,5 +155,5 @@ if ($count > 1) {
     cli_writeln("Time use comparison with $count repetitions:");
     cli_writeln(' The old took: ' . (($endold - $startold)));
     cli_writeln(' The new took: ' . (($endnew - $startnew)));
-    cli_writeln('  Old was ' . (($endold - $startold)/($endnew - $startnew)) . ' times slower.');
+    cli_writeln('  Old was ' . (($endold - $startold) / ($endnew - $startnew)) . ' times slower.');
 }

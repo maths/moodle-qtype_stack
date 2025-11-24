@@ -22,7 +22,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 interface stack_cas_connection {
-
     /**
      * Send some Maxima code to Maxima, and return the unpacked results.
      * @param string $command Maxima code to execute.

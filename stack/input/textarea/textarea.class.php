@@ -162,7 +162,7 @@ class stack_textarea_input extends stack_input {
                 $vals[] = 'EMPTYCHAR';
             }
         }
-        $s = '['.implode(',', $vals).']';
+        $s = '[' . implode(',', $vals) . ']';
         return stack_ast_container::make_from_student_source($s, '', $secrules);
     }
 
@@ -173,7 +173,7 @@ class stack_textarea_input extends stack_input {
      * @return string
      */
     public function contents_to_maxima($contents) {
-        return '['.implode(',', $contents).']';
+        return '[' . implode(',', $contents) . ']';
     }
 
     /**
@@ -225,8 +225,18 @@ class stack_textarea_input extends stack_input {
      * @return string any error messages describing validation failures. An empty
      *      string if the input is valid - at least according to this test.
      */
-    protected function validation_display($answer, $lvars, $caslines, $additionalvars,
-                                          $valid, $errors, $castextprocessor, $inertdisplayform, $ilines, $notes) {
+    protected function validation_display(
+        $answer,
+        $lvars,
+        $caslines,
+        $additionalvars,
+        $valid,
+        $errors,
+        $castextprocessor,
+        $inertdisplayform,
+        $ilines,
+        $notes
+    ) {
 
         $rows = [];
         foreach ($caslines as $index => $cs) {
@@ -309,7 +319,7 @@ class stack_textarea_input extends stack_input {
      */
     public function internal_validate_parameter($parameter, $value) {
         $valid = true;
-        switch($parameter) {
+        switch ($parameter) {
             case 'boxWidth':
                 $valid = is_int($value) && $value > 0;
                 break;
@@ -331,14 +341,14 @@ class stack_textarea_input extends stack_input {
         }
         $values = stack_utils::list_to_array($value, false);
         foreach ($values as $key => $val) {
-            if (trim($val) !== '' ) {
+            if (trim($val) !== '') {
                 $cs = stack_ast_container::make_from_teacher_source($val);
                 $cs->get_valid();
-                $val = '<code>'.$cs->get_inputform(true, 0, true, $this->options->get_option('decimals')).'</code>';
+                $val = '<code>' . $cs->get_inputform(true, 0, true, $this->options->get_option('decimals')) . '</code>';
             }
             $values[$key] = $val;
         }
-        $value = "<br/>".implode("<br/>", $values);
+        $value = "<br/>" . implode("<br/>", $values);
 
         return stack_string('teacheranswershow', ['value' => $value, 'display' => $display]);
     }

@@ -29,7 +29,6 @@ require_once($CFG->dirroot . '/question/type/stack/stack/cas/connectorhelper.cla
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 class casconnection_check extends check {
-
     /**
      * Cet check link.
      * @return \action_link
@@ -45,7 +44,7 @@ class casconnection_check extends check {
      */
     public function get_result(): result {
         try {
-            list($message, $genuinedebug, $result) = \stack_connection_helper::stackmaxima_genuine_connect();
+            [$message, $genuinedebug, $result] = \stack_connection_helper::stackmaxima_genuine_connect();
         } catch (\Exception $e) {
             $message = stack_string('healthcheckconnect') . ': ' . $e->getMessage();
             $genuinedebug = '';

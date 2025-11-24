@@ -19,15 +19,13 @@ require_once('lexer.base.class.php');
 /**
  * Variant of the base lexer using decimal commas and semicolons as
  * list separators. Dollars for end tokens.
- * 
+ *
  * @package    qtype_stack
  * @copyright  2025 Aalto University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 
 class stack_maxima_lexer_decimal_comma extends stack_maxima_lexer_base {
-
-
     public function get_next_token(): ?stack_maxima_lexer_token {
         // If some action has added something to the buffer.
         if (count($this->outputbuffer) > 0) {
@@ -77,7 +75,7 @@ class stack_maxima_lexer_decimal_comma extends stack_maxima_lexer_base {
                     if ($c4 !== null) {
                         $token->value = '@@IS@@';
                         $token->set_end_position($c4);
-                    }    
+                    }
                 }
                 return $token;
             case '>':
@@ -149,7 +147,7 @@ class stack_maxima_lexer_decimal_comma extends stack_maxima_lexer_base {
                 }
                 return $token;
             case '?':
-                 if ($this->options->lispids === false) {
+                if ($this->options->lispids === false) {
                     $token->value = 'QMCHAR';
                     $token->type = StackMaximaTokenType::IdAtom;
                     return $token;
@@ -161,7 +159,6 @@ class stack_maxima_lexer_decimal_comma extends stack_maxima_lexer_base {
                     $token->value .= $c2->c;
                     $c3 = $this->popc();
                     if ($c3 === null) {
-
                     } else if ($c3->c === ' ') {
                         $token->value .= $c3->c;
                         $token->set_end_position($c3);
@@ -177,7 +174,7 @@ class stack_maxima_lexer_decimal_comma extends stack_maxima_lexer_base {
                     $token2 = new stack_maxima_lexer_token($c2);
                     $token2->type = StackMaximaTokenType::LispIdentifier;
                     if ($c2->c === '\\') {
-                        $c3 = $this->popc();    
+                        $c3 = $this->popc();
                         if ($c3 !== null) {
                             $token2->value .= $c3->c;
                             $token2->set_end_position($c3);
@@ -258,14 +255,14 @@ class stack_maxima_lexer_decimal_comma extends stack_maxima_lexer_base {
         $last = null;
         if ($token->value === ',') {
             $numbermode = 'post-dot';
-        } 
+        }
 
         // At this point the $value is ending with a digit.
         while (true) {
             $c1 = $this->popc();
             if ($c1 === null) {
                 if ($last !== null) {
-                    // If immediate end of stream no need to update 
+                    // If immediate end of stream no need to update
                     // end position but otherwise.
                     $token->set_end_position($last);
                 }
@@ -343,4 +340,4 @@ class stack_maxima_lexer_decimal_comma extends stack_maxima_lexer_base {
         }
         return $token;
     }
-} 
+}

@@ -44,7 +44,6 @@ require_once(__DIR__ . '/fixtures/test_base.php');
  * @covers \qtype_stack
  */
 final class walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_base {
-
     public function test_test3_save_answers_to_all_parts_and_stubmit(): void {
 
         // Account for the changes in Moodle 2.6.
@@ -74,10 +73,10 @@ final class walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_b
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), '', true),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), '', true),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Save a partially correct response. No certainty, so low will be assumed.
@@ -96,10 +95,10 @@ final class walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_b
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', true),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', true),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Submit all and finish.
@@ -121,9 +120,9 @@ final class walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_b
         $this->check_output_contains_prt_feedback('unique');
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', false),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', false),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
     }
 
@@ -144,10 +143,10 @@ final class walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_b
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), '', true),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), '', true),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Save a correct response, high certainty.
@@ -166,10 +165,10 @@ final class walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_b
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'true', true),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'true', true),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Save a confirmation this is valid.
@@ -191,10 +190,10 @@ final class walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_b
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'true', true),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'true', true),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Submit all and finish.
@@ -216,9 +215,9 @@ final class walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_b
         $this->check_output_contains_prt_feedback('unique');
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'true', false),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'true', false),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
     }
 
@@ -239,10 +238,10 @@ final class walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_b
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), '', true),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), '', true),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Save a partially correct response.
@@ -261,10 +260,10 @@ final class walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_b
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', true),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', true),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Submit all and finish.
@@ -286,9 +285,9 @@ final class walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_b
         $this->check_output_contains_prt_feedback('unique');
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', false),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', false),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
     }
 
@@ -309,10 +308,10 @@ final class walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_b
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), '', true),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), '', true),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Try to save a blank response. This should not even create a new step..
@@ -333,9 +332,9 @@ final class walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_b
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), '', false),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), '', false),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
     }
 
@@ -358,7 +357,7 @@ final class walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_b
                 'dropdown', 'ans1', '[[1+x,false],[2+x,true]]');
         // @codingStandardsIgnoreEnd
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = '0';
         $prt->value             = 1;
@@ -368,7 +367,7 @@ final class walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_b
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->sans                = 'ans1';
@@ -407,11 +406,15 @@ final class walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_b
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans1',
-                        ['' => stack_string('notanswered'), '1' => '1+x', '2' => '2+x'], null, true),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation(
+                'ans1',
+                ['' => stack_string('notanswered'), '1' => '1+x', '2' => '2+x'],
+                null,
+                true
+            ),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Save a correct response, medium certainty.
@@ -424,11 +427,15 @@ final class walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_b
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans1',
-                        ['' => stack_string('notanswered'), '1' => '1+x', '2' => '2+x'], '2', true),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation(
+                'ans1',
+                ['' => stack_string('notanswered'), '1' => '1+x', '2' => '2+x'],
+                '2',
+                true
+            ),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Submit all and finish.
@@ -440,10 +447,14 @@ final class walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_b
         $this->check_output_contains_prt_feedback('firsttree');
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans1',
-                        ['' => stack_string('notanswered'), '1' => '1+x', '2' => '2+x'], '2', false),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation(
+                'ans1',
+                ['' => stack_string('notanswered'), '1' => '1+x', '2' => '2+x'],
+                '2',
+                false
+            ),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
     }
 }

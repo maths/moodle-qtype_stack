@@ -65,7 +65,7 @@ class StackQuestionLoader {
     ];
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public static function loadxml($xml, $includetests=false) {
+    public static function loadxml($xml, $includetests = false) {
         try {
             if (strpos($xml, '<question type=') !== false) {
                 $xmldata = new SimpleXMLElement($xml);
@@ -105,7 +105,9 @@ class StackQuestionLoader {
         $question->questiontext = isset($xmldata->question->questiontext->text) ?
             (string) $xmldata->question->questiontext->text :
             self::get_default(
-                'question', 'questiontext', '<p>Default question</p><p>[[input:ans1]] [[validation:ans1]]</p>'
+                'question',
+                'questiontext',
+                '<p>Default question</p><p>[[input:ans1]] [[validation:ans1]]</p>'
             );
         $question->questiontextformat =
             isset($xmldata->question->questiontext['format']) ? (string) $xmldata->question->questiontext['format'] :
@@ -160,7 +162,9 @@ class StackQuestionLoader {
         } else {
             $question->prtcorrect =
                 self::get_default(
-                    'question', 'prtcorrect', get_string('defaultprtcorrectfeedback', 'qtype_stack', null)
+                    'question',
+                    'prtcorrect',
+                    get_string('defaultprtcorrectfeedback', 'qtype_stack', null)
                 );
             $question->prtcorrectformat = self::get_default('question', 'prtcorrectformat', 'html');
         }
@@ -173,7 +177,9 @@ class StackQuestionLoader {
         } else {
             $question->prtpartiallycorrect =
                 self::get_default(
-                    'question', 'prtpartiallycorrect', get_string('defaultprtpartiallycorrectfeedback', 'qtype_stack', null)
+                    'question',
+                    'prtpartiallycorrect',
+                    get_string('defaultprtpartiallycorrectfeedback', 'qtype_stack', null)
                 );
             $question->prtpartiallycorrectformat =
                 self::get_default('question', 'prtpartiallycorrectformat', 'html');
@@ -187,7 +193,9 @@ class StackQuestionLoader {
         } else {
             $question->prtincorrect =
                 self::get_default(
-                    'question', 'prtincorrect', get_string('defaultprtincorrectfeedback', 'qtype_stack', null)
+                    'question',
+                    'prtincorrect',
+                    get_string('defaultprtincorrectfeedback', 'qtype_stack', null)
                 );
             $question->prtincorrectformat =
                 self::get_default('question', 'prtincorrectformat', 'html');
@@ -240,14 +248,19 @@ class StackQuestionLoader {
             (array) $xmldata->question->questionsimplify ?
                 self::parseboolean($xmldata->question->questionsimplify) :
                 (bool) self::get_default(
-                    'question', 'questionsimplify', get_config('qtype_stack', 'questionsimplify'))
+                    'question',
+                    'questionsimplify',
+                    get_config('qtype_stack', 'questionsimplify')
+                )
         );
         $question->options->set_option(
             'assumepos',
             (array) $xmldata->question->assumepositive ?
                 self::parseboolean($xmldata->question->assumepositive) :
                 (bool) self::get_default(
-                    'question', 'assumepositive', get_config('qtype_stack', 'assumepositive')
+                    'question',
+                    'assumepositive',
+                    get_config('qtype_stack', 'assumepositive')
                 )
         );
         $question->options->set_option(
@@ -255,7 +268,9 @@ class StackQuestionLoader {
             (array) $xmldata->question->assumereal ?
                 self::parseboolean($xmldata->question->assumereal) :
                 (bool) self::get_default(
-                    'question', 'assumereal', get_config('qtype_stack', 'assumereal')
+                    'question',
+                    'assumereal',
+                    get_config('qtype_stack', 'assumereal')
                 )
         );
         $question->options->set_option(
@@ -269,7 +284,9 @@ class StackQuestionLoader {
             (array) $xmldata->question->scientificnotation ?
                 (string) $xmldata->question->scientificnotation :
                 self::get_default(
-                    'question', 'scientificnotation', get_config('qtype_stack', 'scientificnotation')
+                    'question',
+                    'scientificnotation',
+                    get_config('qtype_stack', 'scientificnotation')
                 )
         );
 
@@ -310,12 +327,16 @@ class StackQuestionLoader {
                 'lowestTerms'     => (array) $inputdata->requirelowestterms ?
                     self::parseboolean($inputdata->requirelowestterms) :
                     (bool) self::get_default(
-                        'input', 'requirelowestterms', get_config('qtype_stack', 'inputrequirelowestterms')
+                        'input',
+                        'requirelowestterms',
+                        get_config('qtype_stack', 'inputrequirelowestterms')
                     ),
                 'sameType'        => (array) $inputdata->checkanswertype ?
                     self::parseboolean($inputdata->checkanswertype) :
                     (bool) self::get_default(
-                        'input', 'checkanswertype', get_config('qtype_stack', 'inputcheckanswertype')
+                        'input',
+                        'checkanswertype',
+                        get_config('qtype_stack', 'inputcheckanswertype')
                     ),
                 'mustVerify'      => (array) $inputdata->mustverify ?
                     self::parseboolean($inputdata->mustverify) :
@@ -336,7 +357,12 @@ class StackQuestionLoader {
                 $parameters[$paramname] = $allparameters[$paramname];
             }
             $question->inputs[$name] = \stack_input_factory::make(
-                $inputtype, (string) $name, (string) $inputdata->tans, $question->options, $parameters);
+                $inputtype,
+                (string) $name,
+                (string) $inputdata->tans,
+                $question->options,
+                $parameters
+            );
         }
 
         $totalvalue = 0;
@@ -447,8 +473,11 @@ class StackQuestionLoader {
                 $data->nodes[(int) $node->name] = $newnode;
             }
 
-            $question->prts[(string) $prtdata->name] = new \stack_potentialresponse_tree_lite($data,
-                $prtvalue, $question);
+            $question->prts[(string) $prtdata->name] = new \stack_potentialresponse_tree_lite(
+                $data,
+                $prtvalue,
+                $question
+            );
         }
 
         $deployedseeds = [];
@@ -477,15 +506,19 @@ class StackQuestionLoader {
                 foreach ($test->expected as $expected) {
                     $testename = isset($expected->name) ? (string) $expected->name :
                         self::get_default('expected', 'name', 'prt1');
-                    $testcase->add_expected_result($testename,
-                        new \stack_potentialresponse_tree_state(1, true,
+                    $testcase->add_expected_result(
+                        $testename,
+                        new \stack_potentialresponse_tree_state(
+                            1,
+                            true,
                             (array) $expected->expectedscore ?
                                 (string) $expected->expectedscore :
                                 self::get_default('expected', 'expectedscore', null),
                             (array) $expected->expectedpenalty ?
                                 (string) $expected->expectedpenalty :
                                 self::get_default('expected', 'expectedpenalty', null),
-                            '', [
+                            '',
+                            [
                                 (array) $expected->expectedanswernote ?
                                 (string) $expected->expectedanswernote :
                                 self::get_default('expected', 'expectedanswernote', '1-0-T'),
@@ -560,8 +593,10 @@ class StackQuestionLoader {
         if (isset(self::$defaults[$defaultcategory][$defaultname])) {
             return self::$defaults[$defaultcategory][$defaultname];
         }
-        if ($defaultcategory === 'node'
-                && in_array($defaultname, ['sans', 'tans', 'testoptions'])) {
+        if (
+            $defaultcategory === 'node'
+                && in_array($defaultname, ['sans', 'tans', 'testoptions'])
+        ) {
             $answertest = self::get_default('node', 'answertest', '');
             if (substr($answertest, 0, 2) === 'AT') {
                 [$answertest, $sans, $tans, $testoptions] = self::split_answertest($answertest);
@@ -744,8 +779,10 @@ class StackQuestionLoader {
                         unset($diffnode['tans']);
                         unset($diffnode['testoptions']);
                     }
-                    if (substr(self::get_default('node', 'answertest', 'AlgEquiv'), 0, 2) === 'AT' &&
-                            substr($diffnode['answertest'], 0, 2) !== 'AT') {
+                    if (
+                        substr(self::get_default('node', 'answertest', 'AlgEquiv'), 0, 2) === 'AT' &&
+                            substr($diffnode['answertest'], 0, 2) !== 'AT'
+                    ) {
                         // This occurs if answertest set in XML but summary in defaults.
                         // We need to build a summary from supplied XML fields and default summary.
                         $diffanswertest = isset($node['answertest']) ?
@@ -769,7 +806,7 @@ class StackQuestionLoader {
             $diff['prt'] = $diffprts;
         } else if (!isset($plaindata['question']['defaultgrade']) || $plaindata['question']['defaultgrade']) {
             $prtnode = ['name' => self::get_default('node', 'name', '0'),
-                    'answertest' => self::get_default('node', 'answertest', 'AlgEquiv'),];
+                    'answertest' => self::get_default('node', 'answertest', 'AlgEquiv'), ];
             if (substr($prtnode['answertest'], 0, 2) !== 'AT') {
                 $prtnode['sans'] = self::get_default('node', 'sans', 'sans');
                 $prtnode['tans'] = self::get_default('node', 'tans', 'tans');
@@ -887,16 +924,16 @@ class StackQuestionLoader {
     }
 
         /**
-     * Split a string into a 4-item array such that:
-     * 'AAAA(X(X,X)XX, YYY, ZZZ, WWW)'
-     * becomes:
-     * [0] => 'AAAA'
-     * [1] => 'X(X,X)XX'
-     * [2] => 'YYY'
-     * [3] => 'ZZZ, WWW'
-     * @param string $answertest
-     * @return array
-     */
+         * Split a string into a 4-item array such that:
+         * 'AAAA(X(X,X)XX, YYY, ZZZ, WWW)'
+         * becomes:
+         * [0] => 'AAAA'
+         * [1] => 'X(X,X)XX'
+         * [2] => 'YYY'
+         * [3] => 'ZZZ, WWW'
+         * @param string $answertest
+         * @return array
+         */
     public static function split_answertest($answertest) {
         $result = [];
         $firstbracketpos = strpos($answertest, '(');

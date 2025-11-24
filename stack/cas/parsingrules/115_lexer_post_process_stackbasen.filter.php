@@ -18,7 +18,7 @@
  * Post processing for the base-N lexer, turns special integer literals
  * to function calls. Basically, `0xBEEF` -> `stackbasen("0xBEEF","C",16)`,
  * `Zzz_36` -> `stackbasen("Zzz_36","S",36)`...
- * 
+ *
  * @package    qtype_stack
  * @copyright  2025 Aalto University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
@@ -33,7 +33,7 @@ require_once(__DIR__ . '/filter.interface.php');
 class stack_ast_filter_115_lexer_post_process_stackbasen implements stack_cas_astfilter {
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
-        $checkfloats = function($node) use (&$answernotes, &$errors) {
+        $checkfloats = function ($node) use (&$answernotes, &$errors) {
             if ($node instanceof MP_Integer && is_string($node->value)) {
                 $raw = new MP_String($node->value);
                 $base = null;

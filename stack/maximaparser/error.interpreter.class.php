@@ -20,21 +20,22 @@ require_once('parser.options.class.php');
 /**
  * A configurable handler for parser exceptions. Intended to adjust
  * the error messages for student/author use and to keep track of
- * localised syntax. 
+ * localised syntax.
+ * @package qtype_stack
  */
 class stack_parser_error_interpreter {
     /**
      * Whether to list logic-flow items in expected input listings.
-     * 
-     * Students don't need to see those they are a bit too much extra. 
+     *
+     * Students don't need to see those they are a bit too much extra.
      */
     public bool $logicflow = false;
 
     /**
      * Whether to add position related details.
-     * 
+     *
      * Students don't need to see those and for students the positioning
-     * would be off due to preparsing. 
+     * would be off due to preparsing.
      */
     public bool $positiondata = false;
 
@@ -49,7 +50,7 @@ class stack_parser_error_interpreter {
 
     /**
      * Takes a parser exception and tries to make it sensible for the end user.
-     * 
+     *
      * If an exception is seen then the parsing has failed, but why?
      */
     public function interprete(stack_maxima_parser_exception $exception, array &$errors = [], array &$answernote = []): string {
@@ -109,25 +110,33 @@ class stack_parser_error_interpreter {
             // Note that any previously matched parens in the stack have
             // already been closed to MP-class objects.
             foreach (array_reverse($exception->partial) as $item) {
-                if ($item instanceof stack_maxima_lexer_token &&
-                    $item->type === StackMaximaTokenType::Symbol) {
+                if (
+                    $item instanceof stack_maxima_lexer_token &&
+                    $item->type === StackMaximaTokenType::Symbol
+                ) {
                     switch ($item->value) {
                         case '(':
                             $answernote[] = 'missingRightBracket';
-                            $errors[] = stack_string('stackCas_missingRightBracket',
-                            ['bracket' => ')', 'cmd' => stack_maxima_format_casstring($exception->original)]);
+                            $errors[] = stack_string(
+                                'stackCas_missingRightBracket',
+                                ['bracket' => ')', 'cmd' => stack_maxima_format_casstring($exception->original)]
+                            );
                             $explained = true;
                             break;
                         case '[':
                             $answernote[] = 'missingRightBracket';
-                            $errors[] = stack_string('stackCas_missingRightBracket',
-                            ['bracket' => ']', 'cmd' => stack_maxima_format_casstring($exception->original)]);
+                            $errors[] = stack_string(
+                                'stackCas_missingRightBracket',
+                                ['bracket' => ']', 'cmd' => stack_maxima_format_casstring($exception->original)]
+                            );
                             $explained = true;
                             break;
                         case '{':
                             $answernote[] = 'missingRightBracket';
-                            $errors[] = stack_string('stackCas_missingRightBracket',
-                            ['bracket' => '}', 'cmd' => stack_maxima_format_casstring($exception->original)]);
+                            $errors[] = stack_string(
+                                'stackCas_missingRightBracket',
+                                ['bracket' => '}', 'cmd' => stack_maxima_format_casstring($exception->original)]
+                            );
                             $explained = true;
                             break;
                     }
@@ -150,23 +159,31 @@ class stack_parser_error_interpreter {
         }
 
         // Odd pairs?
-        if ($exception->previous !== null && $exception->received !== null
+        if (
+            $exception->previous !== null && $exception->received !== null
             && $exception->previous->type === StackMaximaTokenType::Symbol
-            && $exception->received->type === StackMaximaTokenType::Symbol) {
-            if ($exception->previous->value === '='
+            && $exception->received->type === StackMaximaTokenType::Symbol
+        ) {
+            if (
+                $exception->previous->value === '='
                 && ($exception->received->value === '<'
-                    || $exception->received->value === '>')) {
+                    || $exception->received->value === '>')
+            ) {
                 $a = [];
                 $a['cmd'] = stack_maxima_format_casstring('=' . $exception->received->value);
                 $errors[] = stack_string('stackCas_backward_inequalities', $a);
                 $answernote[] = 'backward_inequalities';
-            } else if ($exception->previous->value === '='
-                && $exception->received->value === '=') {
+            } else if (
+                $exception->previous->value === '='
+                && $exception->received->value === '='
+            ) {
                 $a = ['cmd' => stack_maxima_format_casstring('==')];
                 $errors[] = stack_string('stackCas_spuriousop', $a);
                 $answernote[] = 'spuriousop';
-            } else if ($exception->previous->value === '<'
-                && $exception->received->value === '>') {
+            } else if (
+                $exception->previous->value === '<'
+                && $exception->received->value === '>'
+            ) {
                 $a = ['cmd' => stack_maxima_format_casstring('<>')];
                 $errors[] = stack_string('stackCas_spuriousop', $a);
                 $answernote[] = 'spuriousop';
@@ -181,13 +198,15 @@ class stack_parser_error_interpreter {
                     case ']':
                     case '}':
                         // Three options:
-                        //  A) there is no matching opening
-                        //  B) the previous unmatched opening is of different type
-                        //  C) unsuitable place e.g. `(1+)`
+                        // A) there is no matching opening
+                        // B) the previous unmatched opening is of different type
+                        // C) unsuitable place e.g. `(1+)`
                         $opens = [];
                         foreach (array_reverse($exception->partial) as $item) {
-                            if ($item instanceof stack_maxima_lexer_token &&
-                                $item->type === StackMaximaTokenType::Symbol) {
+                            if (
+                                $item instanceof stack_maxima_lexer_token &&
+                                $item->type === StackMaximaTokenType::Symbol
+                            ) {
                                 switch ($item->value) {
                                     case '(':
                                     case '[':
@@ -210,31 +229,41 @@ class stack_parser_error_interpreter {
                         if (count($opens) === 0) {
                             // Pure A.
                             $answernote[] = 'missingLeftBracket';
-                            $errors[] = stack_string('stackCas_missingLeftBracket',
-                                ['bracket' => $matching, 'cmd' => stack_maxima_format_casstring($exception->original)]);
+                            $errors[] = stack_string(
+                                'stackCas_missingLeftBracket',
+                                ['bracket' => $matching, 'cmd' => stack_maxima_format_casstring($exception->original)]
+                            );
                         } else if (end($opens) === $matching) {
                             // This is C.
                             $answernote[] = 'prematureRightBracket';
-                            $errors[] = stack_string('stackCas_prematureRightBracket',
-                                ['bracket' => $matching, 'cmd' => stack_maxima_format_casstring($exception->original)]);
+                            $errors[] = stack_string(
+                                'stackCas_prematureRightBracket',
+                                ['bracket' => $matching, 'cmd' => stack_maxima_format_casstring($exception->original)]
+                            );
                         } else {
                             // This is B or A.
                             // If we don't have matching in the opens then A.
                             if (array_search($matching, $opens) === false) {
                                 $answernote[] = 'missingLeftBracket';
-                                $errors[] = stack_string('stackCas_missingLeftBracket',
-                                    ['bracket' => $matching, 'cmd' => stack_maxima_format_casstring($exception->original)]);
+                                $errors[] = stack_string(
+                                    'stackCas_missingLeftBracket',
+                                    ['bracket' => $matching, 'cmd' => stack_maxima_format_casstring($exception->original)]
+                                );
                             } else {
                                 $answernote[] = 'missmatchedRightBracket';
-                                $errors[] = stack_string('stackCas_missmatchedRightBracket',
-                                ['bracket' => $matching, 'expected' => end($opens), 'cmd' => stack_maxima_format_casstring($exception->original)]);
+                                $errors[] = stack_string(
+                                    'stackCas_missmatchedRightBracket',
+                                    ['bracket' => $matching, 'expected' => end($opens), 'cmd' => stack_maxima_format_casstring($exception->original)]
+                                );
                             }
                         }
                         break;
                     case ':':
                         if (strpos($exception->original, ':lisp') !== false) {
-                            $errors[] = stack_string('stackCas_forbiddenWord',
-                    ['forbid' => stack_maxima_format_casstring('lisp')]);
+                            $errors[] = stack_string(
+                                'stackCas_forbiddenWord',
+                                ['forbid' => stack_maxima_format_casstring('lisp')]
+                            );
                             $answernote[] = 'forbiddenWord';
                         }
                         break;
@@ -257,12 +286,13 @@ class stack_parser_error_interpreter {
                 }
                 $answernote[] = 'unencapsulated_comma';
             }
-
         }
 
         // The final token is a problem?
-        if ($exception->received !== null && count($errors) === 0
-            && strlen(rtrim($exception->original)) === $exception->received->endchar) {
+        if (
+            $exception->received !== null && count($errors) === 0
+            && strlen(rtrim($exception->original)) === $exception->received->endchar
+        ) {
             if ($exception->received->type === StackMaximaTokenType::Symbol) {
                 if (strlen($exception->received->value) === 1) {
                     $a['char'] = $exception->received->value;
@@ -277,7 +307,6 @@ class stack_parser_error_interpreter {
                 }
             }
         }
-
 
         if ($exception->getMessage() === 'No action available' && count($errors) === 0) {
             // General unexpected input token.
@@ -297,8 +326,10 @@ class stack_parser_error_interpreter {
                 $line = $exception->previous->endline;
                 $col = $exception->previous->endcolumn;
             }
-            $err .= ' (' . stack_string('stackCas_errorpos',
-                            ['line' => $line, 'col' => $col]) . ')';
+            $err .= ' (' . stack_string(
+                'stackCas_errorpos',
+                ['line' => $line, 'col' => $col]
+            ) . ')';
         }
 
         return $err;
@@ -494,7 +525,7 @@ class stack_parser_error_interpreter {
             $workb = $worka;
         }
 
-        usort($worka, function($a, $b) {
+        usort($worka, function ($a, $b) {
             if ($a === $b) {
                 return 0;
             }

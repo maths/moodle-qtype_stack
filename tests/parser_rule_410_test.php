@@ -41,7 +41,6 @@ require_once(__DIR__ . '/../stack/cas/parsingrules/410_single_char_vars.filter.p
  * @covers \ast_filter_410_single_char_vars_auto_generated_test
  */
 final class parser_rule_410_test extends qtype_stack_testcase {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     public function test_nothing_to_do(): void {
 

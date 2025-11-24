@@ -56,8 +56,13 @@ abstract class qtype_stack_test_config {
         }
 
         if (!defined('QTYPE_STACK_EXPECTED_VERSION')) {
-            if (!preg_match('~stackmaximaversion:(\d{10})~',
-                    file_get_contents($CFG->dirroot . '/question/type/stack/stack/maxima/stackmaxima.mac'), $matches)) {
+            if (
+                !preg_match(
+                    '~stackmaximaversion:(\d{10})~',
+                    file_get_contents($CFG->dirroot . '/question/type/stack/stack/maxima/stackmaxima.mac'),
+                    $matches
+                )
+            ) {
                 throw new coding_exception('Maxima libraries version number not found in stackmaxima.mac.');
             }
             define('QTYPE_STACK_EXPECTED_VERSION', $matches[1]);
@@ -68,40 +73,40 @@ abstract class qtype_stack_test_config {
             return;
         }
 
-        set_config('platform',            QTYPE_STACK_TEST_CONFIG_PLATFORM,            'qtype_stack');
-        set_config('maximaversion',       QTYPE_STACK_TEST_CONFIG_MAXIMAVERSION,       'qtype_stack');
-        set_config('castimeout',          QTYPE_STACK_TEST_CONFIG_CASTIMEOUT,          'qtype_stack');
-        set_config('casresultscache',     QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE,     'qtype_stack');
-        set_config('caspreparse',         QTYPE_STACK_TEST_CONFIG_CASPREPARSE,         'qtype_stack');
-        set_config('maximacommand',       QTYPE_STACK_TEST_CONFIG_MAXIMACOMMAND,       'qtype_stack');
-        set_config('maximacommandopt',    QTYPE_STACK_TEST_CONFIG_MAXIMACOMMANDOPT,    'qtype_stack');
+        set_config('platform', QTYPE_STACK_TEST_CONFIG_PLATFORM, 'qtype_stack');
+        set_config('maximaversion', QTYPE_STACK_TEST_CONFIG_MAXIMAVERSION, 'qtype_stack');
+        set_config('castimeout', QTYPE_STACK_TEST_CONFIG_CASTIMEOUT, 'qtype_stack');
+        set_config('casresultscache', QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE, 'qtype_stack');
+        set_config('caspreparse', QTYPE_STACK_TEST_CONFIG_CASPREPARSE, 'qtype_stack');
+        set_config('maximacommand', QTYPE_STACK_TEST_CONFIG_MAXIMACOMMAND, 'qtype_stack');
+        set_config('maximacommandopt', QTYPE_STACK_TEST_CONFIG_MAXIMACOMMANDOPT, 'qtype_stack');
         set_config('maximacommandserver', QTYPE_STACK_TEST_CONFIG_MAXIMACOMMANDSERVER, 'qtype_stack');
-        set_config('plotcommand',         QTYPE_STACK_TEST_CONFIG_PLOTCOMMAND,         'qtype_stack');
-        set_config('maximalibraries',     QTYPE_STACK_TEST_CONFIG_MAXIMALIBRARIES,     'qtype_stack');
-        set_config('casdebugging',        QTYPE_STACK_TEST_CONFIG_CASDEBUGGING,        'qtype_stack');
-        set_config('mathsdisplay',    'mathjax',                                       'qtype_stack');
-        set_config('replacedollars',  0,                                               'qtype_stack');
-        set_config('stackmaximaversion',  QTYPE_STACK_EXPECTED_VERSION,                'qtype_stack');
+        set_config('plotcommand', QTYPE_STACK_TEST_CONFIG_PLOTCOMMAND, 'qtype_stack');
+        set_config('maximalibraries', QTYPE_STACK_TEST_CONFIG_MAXIMALIBRARIES, 'qtype_stack');
+        set_config('casdebugging', QTYPE_STACK_TEST_CONFIG_CASDEBUGGING, 'qtype_stack');
+        set_config('mathsdisplay', 'mathjax', 'qtype_stack');
+        set_config('replacedollars', 0, 'qtype_stack');
+        set_config('stackmaximaversion', QTYPE_STACK_EXPECTED_VERSION, 'qtype_stack');
 
         if (QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE == 'otherdb') {
-            set_config('cascachedbtype',    QTYPE_STACK_TEST_CONFIG_CASCACHEDBTYPE,    'qtype_stack');
+            set_config('cascachedbtype', QTYPE_STACK_TEST_CONFIG_CASCACHEDBTYPE, 'qtype_stack');
             set_config('cascachedblibrary', QTYPE_STACK_TEST_CONFIG_CASCACHEDBLIBRARY, 'qtype_stack');
-            set_config('cascachedbhost',    QTYPE_STACK_TEST_CONFIG_CASCACHEDBHOST,    'qtype_stack');
-            set_config('cascachedbname',    QTYPE_STACK_TEST_CONFIG_CASCACHEDBNAME,    'qtype_stack');
-            set_config('cascachedbuser',    QTYPE_STACK_TEST_CONFIG_CASCACHEDBUSER,    'qtype_stack');
-            set_config('cascachedbpass',    QTYPE_STACK_TEST_CONFIG_CASCACHEDBPASS,    'qtype_stack');
-            set_config('cascachedbprefix',  QTYPE_STACK_TEST_CONFIG_CASCACHEDBPREFIX,  'qtype_stack');
+            set_config('cascachedbhost', QTYPE_STACK_TEST_CONFIG_CASCACHEDBHOST, 'qtype_stack');
+            set_config('cascachedbname', QTYPE_STACK_TEST_CONFIG_CASCACHEDBNAME, 'qtype_stack');
+            set_config('cascachedbuser', QTYPE_STACK_TEST_CONFIG_CASCACHEDBUSER, 'qtype_stack');
+            set_config('cascachedbpass', QTYPE_STACK_TEST_CONFIG_CASCACHEDBPASS, 'qtype_stack');
+            set_config('cascachedbprefix', QTYPE_STACK_TEST_CONFIG_CASCACHEDBPREFIX, 'qtype_stack');
             if (defined('QTYPE_STACK_TEST_CONFIG_CASCACHEDBSOCKET')) {
-                set_config('cascachedbsocket',  QTYPE_STACK_TEST_CONFIG_CASCACHEDBSOCKET,  'qtype_stack');
+                set_config('cascachedbsocket', QTYPE_STACK_TEST_CONFIG_CASCACHEDBSOCKET, 'qtype_stack');
             }
         }
 
         if (defined('QTYPE_STACK_TEST_CONFIG_SERVERUSERPASS')) {
-            set_config('serveruserpass',    QTYPE_STACK_TEST_CONFIG_SERVERUSERPASS,    'qtype_stack');
+            set_config('serveruserpass', QTYPE_STACK_TEST_CONFIG_SERVERUSERPASS, 'qtype_stack');
         }
 
         if (defined('QTYPE_STACK_TEST_CONFIG_CI_LIGHT')) {
-            set_config('serveruserpass',    QTYPE_STACK_TEST_CONFIG_CI_LIGHT,          'qtype_stack');
+            set_config('serveruserpass', QTYPE_STACK_TEST_CONFIG_CI_LIGHT, 'qtype_stack');
         }
 
         if (!file_exists(stack_cas_configuration::maximalocal_location())) {

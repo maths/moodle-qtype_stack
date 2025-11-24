@@ -19,9 +19,9 @@ require_once('parser.options.class.php');
 /**
  * A base class for Maxima parser lexers, this base class can be used as
  * a basis for specialised versions that handle base-N etc. this version
- * provides basic unicode character mapping and keyword mapping to 
+ * provides basic unicode character mapping and keyword mapping to
  * localised versions. Basically, should do everything we supported before.
- * 
+ *
  * @package    qtype_stack
  * @copyright  2025 Aalto University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
@@ -29,10 +29,10 @@ require_once('parser.options.class.php');
 
 enum StackMaximaTokenType {
     case Keyword;
-    /* Note the naming of these differs from some other language versions 
+    /* Note the naming of these differs from some other language versions
      * of this family of parsers. This is mainly due to keyword restrictions.
      */
-    case IdAtom; 
+    case IdAtom;
     case IntAtom;
     case FloatAtom;
     case BoolAtom;
@@ -49,7 +49,7 @@ enum StackMaximaTokenType {
 
 class stack_maxima_lexer_char {
     // A single unicode character
-    public String $c;
+    public string $c;
 
     // Should this char be the result of multi char unicode replacement,
     // e.g. "\u0391" -> "Alpha" then these map to the original chars position.
@@ -76,10 +76,10 @@ class stack_maxima_lexer_token implements JsonSerializable {
 
     // The value, i.e., content of this token after possible localised syntax
     // has been removed.
-    public String|int $value;
+    public string|int $value;
 
     // Error message, value before any translations.
-    public ?String $note;
+    public ?string $note;
 
     // The line this token starts on.
     public int $startline;
@@ -200,7 +200,6 @@ class stack_maxima_lexer_token implements JsonSerializable {
 
         return [$t1, $t2];
     }
-
 }
 
 
@@ -215,7 +214,7 @@ class stack_maxima_lexer_base {
                              '4' => true, '5' => true, '6' => true,
                              '7' => true, '8' => true, '9' => true];
     public static $LETTER = '/\pL/iu';
-    public static $ALPHA = 
+    public static $ALPHA =
         'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
     /* The options easilly accessible to all inheriting lexers. */
@@ -224,7 +223,7 @@ class stack_maxima_lexer_base {
     /* The content we are working on. */
     private $buffer = null;
 
-    /* Stuff we have in output buffer. E.g., returned or injected tokens 
+    /* Stuff we have in output buffer. E.g., returned or injected tokens
        or lexer producing multiple tokens at once. */
     public $outputbuffer = [];
 
@@ -294,19 +293,19 @@ class stack_maxima_lexer_base {
 
 
     /**
-     * For testing reset everything to the first token. 
+     * For testing reset everything to the first token.
      */
     public function reset() {
         // Input buffer. Reverse so that we can pop instead of shift.
         $this->buffer = [];
-        
+
         // Output buffer. To deal with virtual tokens like inserted stars.
         $this->outputbuffer = [];
 
         $line = 1;
         $column = 1;
         $char = 0;
-        foreach(preg_split('//u', $this->original, -1, PREG_SPLIT_NO_EMPTY) as $c) {
+        foreach (preg_split('//u', $this->original, -1, PREG_SPLIT_NO_EMPTY) as $c) {
             $this->buffer[] = new stack_maxima_lexer_char($c, $line, $column, $char);
             $char++;
             if ($c === "\n") {
@@ -371,7 +370,7 @@ class stack_maxima_lexer_base {
                     if ($c4 !== null) {
                         $token->value = '@@IS@@';
                         $token->set_end_position($c4);
-                    }    
+                    }
                 }
                 return $token;
             case '>':
@@ -430,7 +429,6 @@ class stack_maxima_lexer_base {
                     $token->set_end_position($c2);
                     $c3 = $this->popc();
                     if ($c3 === null) {
-
                     } else if ($c3->c === '=') {
                         $token->value .= $c3->c;
                         $token->set_end_position($c3);
@@ -472,7 +470,7 @@ class stack_maxima_lexer_base {
                     $token2 = new stack_maxima_lexer_token($c2);
                     $token2->type = StackMaximaTokenType::LispIdentifier;
                     if ($c2->c === '\\') {
-                        $c3 = $this->popc();    
+                        $c3 = $this->popc();
                         if ($c3 !== null) {
                             $token2->value .= $c3->c;
                             $token2->set_end_position($c3);
@@ -549,8 +547,8 @@ class stack_maxima_lexer_base {
     }
 
     /**
-     * The parser side might return a token when generating a missing 
-     * star or semicolon. It will take the token back very soon, but 
+     * The parser side might return a token when generating a missing
+     * star or semicolon. It will take the token back very soon, but
      * for now lets help it and hold onto the token.
      */
     public function return_token(stack_maxima_lexer_token $tok) {
@@ -561,7 +559,7 @@ class stack_maxima_lexer_base {
 
 
     /**
-     * Continues eating starting from '/*' 
+     * Continues eating starting from '/*'
      */
     public function eat_comment(stack_maxima_lexer_token $token): stack_maxima_lexer_token {
         $token->type = StackMaximaTokenType::Comment;
@@ -593,7 +591,7 @@ class stack_maxima_lexer_base {
                     $token->value .= $c1->c . $c2->c;
                 }
             } else {
-                $token->value .= $c1->c;       
+                $token->value .= $c1->c;
             }
         }
         return $token;
@@ -606,7 +604,7 @@ class stack_maxima_lexer_base {
     public function eat_string(stack_maxima_lexer_token $token): stack_maxima_lexer_token {
         $token->type = StackMaximaTokenType::StringAtom;
         $token->value = ''; // Drop the quotes.
-        
+
         while (true) {
             $c1 = $this->popc(false); // Ignore unicode conversion here.
             if ($c1 === null) {
@@ -649,7 +647,7 @@ class stack_maxima_lexer_base {
             $c1 = $this->popc(false);
             if ($c1 === null) {
                 if ($last !== null) {
-                    // If immediate end of stream no need to update 
+                    // If immediate end of stream no need to update
                     // end position but otherwise.
                     $token->set_end_position($last);
                 }
@@ -658,7 +656,7 @@ class stack_maxima_lexer_base {
                 $token->value .= $c1->c;
             } else {
                 if ($last !== null) {
-                   $token->set_end_position($last);
+                    $token->set_end_position($last);
                 }
                 $this->pushc($c1);
                 break;
@@ -670,7 +668,7 @@ class stack_maxima_lexer_base {
     }
 
     /**
-     * Base-10 integers and floats, assumes that the start token is 
+     * Base-10 integers and floats, assumes that the start token is
      * a digit or a decimal dot.
      */
     public function eat_number(stack_maxima_lexer_token $token): stack_maxima_lexer_token {
@@ -678,7 +676,7 @@ class stack_maxima_lexer_base {
         $last = null;
         if ($token->value === '.') {
             $numbermode = 'post-dot';
-        
+
             // Check for matrix multiplication before a dot-starting float.
             $c1 = $this->popc();
             if ($c1 === null || !isset(self::$DIGITS[$c1->c])) {
@@ -692,8 +690,8 @@ class stack_maxima_lexer_base {
                 $last = $c1;
                 $token->value .= $c1->c;
             }
-        }  else if (strpos($token->value, '.')) {
-            // We might use this function with more than single char 
+        } else if (strpos($token->value, '.')) {
+            // We might use this function with more than single char
             // start token.
             $numbermode = 'post-dot';
         }
@@ -703,7 +701,7 @@ class stack_maxima_lexer_base {
             $c1 = $this->popc();
             if ($c1 === null) {
                 if ($last !== null) {
-                    // If immediate end of stream no need to update 
+                    // If immediate end of stream no need to update
                     // end position but otherwise.
                     $token->set_end_position($last);
                 }
@@ -785,13 +783,13 @@ class stack_maxima_lexer_base {
     /**
      * General identifier eater, will append all chars it finds acceptable
      * to the starter present in the initial token.
-     * 
-     * Do send the result to be identified as a keyword or for base-n if 
+     *
+     * Do send the result to be identified as a keyword or for base-n if
      * need be. This will not do that automatically.
      */
     public function eat_identifier(stack_maxima_lexer_token $token): stack_maxima_lexer_token {
         $token->type = StackMaximaTokenType::IdAtom;
-        
+
         $last = null;
         while (true) {
             // Note that the first char may have had unicode converted but the
@@ -799,7 +797,7 @@ class stack_maxima_lexer_base {
             $c1 = $this->popc(false);
             if ($c1 === null) {
                 if ($last !== null) {
-                    // If immediate end of stream no need to update 
+                    // If immediate end of stream no need to update
                     // end position but otherwise.
                     $token->set_end_position($last);
                 }
@@ -807,9 +805,9 @@ class stack_maxima_lexer_base {
             } else if ($c1->c === '%' || $c1->c === '_' || preg_match(self::$LETTER, $c1->c) === 1 || isset(self::$DIGITS[$c1->c])) {
                 $token->value .= $c1->c;
             } else if ($this->options->extraletters !== false && preg_match($this->options->extraletters, $c1->c) === 1) {
-                // Basically some specific chars like superscript numbers 
+                // Basically some specific chars like superscript numbers
                 // might be considered as part of the identifier, even if not
-                // true letters or digits. Those are likely filtered and 
+                // true letters or digits. Those are likely filtered and
                 // converted later.
                 $token->value .= $c1->c;
             } else {
@@ -852,7 +850,7 @@ class stack_maxima_lexer_base {
                     if ($t === mb_strtolower($local)) {
                         $token->note = $token->value;
                         $token->value = $orig;
-                        break;   
+                        break;
                     }
                 }
             }
@@ -860,7 +858,7 @@ class stack_maxima_lexer_base {
 
         // Convert all key things to lower case.
         if (!$this->options->casesensitivekeywords) {
-            switch($t) {
+            switch ($t) {
                 case 'not':
                 case 'nounnot':
                 case '%not':

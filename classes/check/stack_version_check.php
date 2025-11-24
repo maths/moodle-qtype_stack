@@ -29,7 +29,6 @@ require_once($CFG->dirroot . '/question/type/stack/stack/cas/connectorhelper.cla
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 class stack_version_check extends check {
-
     /**
      * Get check link.
      * @return \action_link
@@ -45,7 +44,7 @@ class stack_version_check extends check {
      */
     public function get_result(): result {
         try {
-            list($message, $details, $result) = \stack_connection_helper::stackmaxima_version_healthcheck();
+            [$message, $details, $result] = \stack_connection_helper::stackmaxima_version_healthcheck();
             $message = stack_string($message, $details);
         } catch (\Exception $e) {
             $message = stack_string('healthchecksstackmaximaversion') . ': ' . $e->getMessage();

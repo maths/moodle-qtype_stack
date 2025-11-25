@@ -1336,7 +1336,7 @@ class stack_answertest_test_data {
         ['EqualComAssRules', '[noncomEq]', 'x=1', '1=x', 0, '', ''],
         [
             'EqualComAssRules', '[zeroAdd]', '20*a+15*b+8*c+4*d-17',
-            'a*20+b*15+c*8+d*4=-17', 0, 'ATEqualComAssRules ATAlgEquiv_SA_not_equation.', ''
+            'a*20+b*15+c*8+d*4=-17', 0, 'ATEqualComAssRules ATAlgEquiv_SA_not_equation.', '',
         ],
         ['EqualComAssRules', '[zeroAdd]', '20*a+15*b+8*c+4*d=-17', 'a*20+b*15+c*8+d*4=-17', 1, '', ''],
 

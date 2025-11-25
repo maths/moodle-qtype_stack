@@ -122,7 +122,7 @@ class qtype_stack extends question_type {
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function save_question_options($fromform) {
-        global $DB, $PAGE;
+        global $DB, $PAGE, $OUTPUT;
         $throwexceptions = true;
         switch ($PAGE->pagetype) {
             case 'question-bank-importquestions-import':
@@ -135,6 +135,10 @@ class qtype_stack extends question_type {
                         $dashboardlink,
                         $fromform->name
                     ) . '<br>' . $result->notice;
+                    // If we send the notice back to Moodle the question import process will stop
+                    // without importing any later questions in the file.
+                    echo $OUTPUT->notification($result->notice);
+                    unset($result->notice);
                 }
                 break;
             case 'question-bank-importasversion-import':

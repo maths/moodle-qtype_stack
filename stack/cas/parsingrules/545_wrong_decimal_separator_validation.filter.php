@@ -35,6 +35,7 @@ class stack_ast_filter_545_wrong_decimal_separator_validation implements stack_c
     /*
      * This function decides if we have something which looks like a number.
      */
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     private function looks_like_number($ast) {
         if ($ast instanceof MP_Integer) {
             return true;
@@ -45,6 +46,7 @@ class stack_ast_filter_545_wrong_decimal_separator_validation implements stack_c
         return false;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
         $process = function ($node) use (&$answernotes, &$errors) {
             if ($node instanceof MP_Operation && $node->op === ".") {

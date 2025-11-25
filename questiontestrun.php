@@ -282,7 +282,6 @@ if (empty($question->deployedseeds)) {
                 $deployedseed,
                 ['title' => stack_string('currentlyselectedvariant')]
             );
-            ;
             $variantmatched = true;
         } else {
             $choice = html_writer::link(

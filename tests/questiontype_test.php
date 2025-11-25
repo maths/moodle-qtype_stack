@@ -497,17 +497,14 @@ final class questiontype_test extends qtype_stack_walkthrough_test_base {
             'text' => '<p>Correct answer, well done.</p>',
             'format' => FORMAT_HTML, 'files' => [],
         ];
-        ;
         $expectedq->prtpartiallycorrect   = [
             'text' => '<p>Your answer is partially correct.</p>',
             'format' => FORMAT_HTML, 'files' => [],
         ];
-        ;
         $expectedq->prtincorrect          = [
             'text' => '<p>Incorrect answer.</p>',
             'format' => FORMAT_HTML, 'files' => [],
         ];
-        ;
         $expectedq->decimals              = '.';
         $expectedq->scientificnotation    = '*10';
         $expectedq->multiplicationsign    = 'dot';

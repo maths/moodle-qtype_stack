@@ -538,7 +538,6 @@ class stack_question_report {
             }
             if (trim($sumouti) !== '') {
                 $sumout[$prt] = '## ' . $prt . ' (' . $tot[$prt] . ")\n" . $sumouti . "\n";
-                ;
             }
         }
 

@@ -98,7 +98,6 @@ class stack_subscripts_test_data {
         // By default, Maxima drops the leading zeros when it creates subscripts.
         ['a[theta]', 'a[theta]', '!', 'a_{\theta}', '!', '!'],
         ['v[1,2]', 'v[1,2]', '!', 'v_{1,2}', '!', '!'],
-        // ['a[theta]', 'a[theta]', '!', 'a_{\theta}', '!', '!'],//repetition
         ['theta[1]', 'theta[1]', '!', '\theta_{1}', '!', '!'],
         ['theta[a]', 'theta[a]', '!', '\theta_{a}', '!', '!'],
         ['theta[n,m]', 'theta[n,m]', '!', '\theta_{n,m}', '!', '!'],

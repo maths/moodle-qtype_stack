@@ -1334,7 +1334,10 @@ class stack_answertest_test_data {
         ['EqualComAssRules', '[ID_TRANS,NEG_TRANS,ratAdd]', '1/2-1/1', '-1/2', 0, '', ''],
         ['EqualComAssRules', '[oneDiv]', 'x=1', '1=x', 1, '', 'Equations'],
         ['EqualComAssRules', '[noncomEq]', 'x=1', '1=x', 0, '', ''],
-        ['EqualComAssRules', '[zeroAdd]', '20*a+15*b+8*c+4*d-17', 'a*20+b*15+c*8+d*4=-17', 0, 'ATEqualComAssRules ATAlgEquiv_SA_not_equation.', ''],
+        [
+            'EqualComAssRules', '[zeroAdd]', '20*a+15*b+8*c+4*d-17',
+            'a*20+b*15+c*8+d*4=-17', 0, 'ATEqualComAssRules ATAlgEquiv_SA_not_equation.', ''
+        ],
         ['EqualComAssRules', '[zeroAdd]', '20*a+15*b+8*c+4*d=-17', 'a*20+b*15+c*8+d*4=-17', 1, '', ''],
 
         ['CasEqual', '', '1/0', 'x^2-2*x+1', -1, 'ATCASEqual_STACKERROR_SAns.', ''],

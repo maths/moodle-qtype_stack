@@ -24,7 +24,7 @@
         <version>1.15.0</version>
         <license>MIT License</license>
     </library>
-        <library>
+    <library>
         <location>api/vendor</location>
         <name>API vendor files</name>
         <version>1</version>

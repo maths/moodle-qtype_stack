@@ -637,7 +637,7 @@ class StackQuestionLoader {
                         $subnode = $xml->addChild($key);
                         self::array_to_xml($element, $subnode);
                     } else {
-                        $xml->addChild[$key] = $element;
+                        $xml->addChild($key, $element);
                     }
                 }
             } else if (is_array($value)) {

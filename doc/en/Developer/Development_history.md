@@ -2,6 +2,12 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## Version 4.12.0
+
+- Validation of XML imports. XML files that fail validation will be marked as broken but still imported where possible.
+- Editing of question XML within STACK from link in STACK dashboard. STACK now requires the importasversion plugin to make this possible.
+- Much code tidying to comply with updated to Moodle Code Checker.
+
 ## Version 4.11.0
 
 Released October 2025.

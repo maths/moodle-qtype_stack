@@ -6370,7 +6370,7 @@ class MP_Parser {
        $options['allowPM'] = true;
      }
      $this->options = $options;
-
+     
     /* END initializer code */
 
     $peg_result = call_user_func($peg_startRuleFunction);

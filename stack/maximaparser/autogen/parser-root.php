@@ -33,7 +33,7 @@ class stack_maxima_parser2_root {
     private stack_parser_options $options;
 
     // The selection of the correct reduce logic could be done
-    // with a switch or a match, but then one would need to
+    // with a switch or a match, but then one would need to 
     // actually check for the value. Instead, we use an array:
     //  - Here rule-number maps to a tuple of number of items
     //    to extract from the stack and a function to give those to
@@ -175,11 +175,11 @@ class stack_maxima_parser2_root {
     }
 
     /**
-     * Attempts to parse whatever is left in the lexer.
-     *
+     * Attempts to parse whatever is left in the lexer. 
+     * 
      * Should insertions be enabled and lead to notes being generated
      * will add them to the given array.
-     *
+     * 
      * May throw a stack_maxima_parser_exception
      */
     public function parse(stack_maxima_lexer_base $lexer, array &$notes = []): ?MP_Node {
@@ -406,7 +406,7 @@ class stack_maxima_parser2_root {
 
                 // Logic.
                 [$numargs, $funnum] = self::$reducemap[$rule];
-
+                
                 $args = [];
                 while ($numargs > 0) {
                     $numargs--;
@@ -434,7 +434,7 @@ class stack_maxima_parser2_root {
                                 $commenttoassign = array_shift($commentdump);
                             }
                             $interleaved[] = $item;
-                        }
+                        } 
                         foreach ($commentdump as $commenttoassign) {
                             $interleaved[] = $commenttoassign;
                         }
@@ -491,10 +491,10 @@ class stack_maxima_parser2_root {
 	 */
 	private function r0($term0) {
 		$term = $term0;
-
+	
 		return $term;
 	}
-
+	
 	/**
 	 * Reduce logic for rules:
 	 * 1: Root ->   END OF FILE
@@ -502,10 +502,10 @@ class stack_maxima_parser2_root {
 	private function r1() {
 		$term = new MP_Root([]);
 		$term->position = ['start'=>1,'end'=>1,'start-column'=>1,'start-line'=>1,'end-column'=>1,'end-line'=>1];
-
+	
 		return $term;
 	}
-
+	
 	/**
 	 * Reduce logic for rules:
 	 * 2: Root ->   StatementList
@@ -513,10 +513,10 @@ class stack_maxima_parser2_root {
 	private function r2($term0) {
 		$term = new MP_Root($term0);
 		$term->set_position_from_nodes($term0[0], $term0[count($term0) - 1]);
-
+	
 		return $term;
 	}
-
+	
 	/**
 	 * Reduce logic for rules:
 	 * 3: StatementList ->   Statement  EvalFlags  StatementListN
@@ -528,10 +528,10 @@ class stack_maxima_parser2_root {
 		} else {
 			$term[0]->set_position_from_node($term0);
 		}
-
+	
 		return $term;
 	}
-
+	
 	/**
 	 * Reduce logic for rules:
 	 * 4: StatementListN ->   END TOKEN  Statement  EvalFlags  StatementListN
@@ -543,10 +543,10 @@ class stack_maxima_parser2_root {
 		} else {
 			$term[0]->set_position_from_node($term1);
 		}
-
+	
 		return $term;
 	}
-
+	
 	/**
 	 * Reduce logic for rules:
 	 * 5: StatementListN ->   END OF FILE
@@ -558,20 +558,20 @@ class stack_maxima_parser2_root {
 	 */
 	private function r5() {
 		$term = [];
-
+	
 		return $term;
 	}
-
+	
 	/**
 	 * Reduce logic for rules:
 	 * 6: StatementListN ->   END TOKEN
 	 */
 	private function r6($term0) {
 		$term = [];
-
+	
 		return $term;
 	}
-
+	
 	/**
 	 * Reduce logic for rules:
 	 * 7: EvalFlags ->   LIST SEP  ID  EvalFlags
@@ -580,10 +580,10 @@ class stack_maxima_parser2_root {
 		$term = array_merge([new MP_EvaluationFlag(new MP_Identifier($term1->value), new MP_Boolean(true))], $term2);
 		$term[0]->name->set_position_from_parser_token($term1);
 		$term[0]->set_position_from_parser_token($term1);
-
+	
 		return $term;
 	}
-
+	
 	/**
 	 * Reduce logic for rules:
 	 * 8: EvalFlags ->   LIST SEP  ID  :  Statement  EvalFlags
@@ -593,10 +593,10 @@ class stack_maxima_parser2_root {
 		$term = array_merge([new MP_EvaluationFlag(new MP_Identifier($term1->value), $term3)], $term4);
 		$term[0]->name->set_position_from_parser_token($term1);
 		$term[0]->set_position_from_nodes($term[0]->name, $term3);
-
+	
 		return $term;
 	}
-
+	
 	/**
 	 * Reduce logic for rules:
 	 * 11: List ->   [  StatementNullList  ]
@@ -604,10 +604,10 @@ class stack_maxima_parser2_root {
 	private function r11($term2, $term1, $term0) {
 		$term = new MP_List($term1);
 		$term->set_position_from_parser_tokens($term0, $term2);
-
+	
 		return $term;
 	}
-
+	
 	/**
 	 * Reduce logic for rules:
 	 * 12: Set ->   {  StatementNullList  }
@@ -615,10 +615,10 @@ class stack_maxima_parser2_root {
 	private function r12($term2, $term1, $term0) {
 		$term = new MP_Set($term1);
 		$term->set_position_from_parser_tokens($term0, $term2);
-
+	
 		return $term;
 	}
-
+	
 	/**
 	 * Reduce logic for rules:
 	 * 13: Group ->   (  StatementNullList  )
@@ -626,10 +626,10 @@ class stack_maxima_parser2_root {
 	private function r13($term2, $term1, $term0) {
 		$term = new MP_Group($term1);
 		$term->set_position_from_parser_tokens($term0, $term2);
-
+	
 		return $term;
 	}
-
+	
 	/**
 	 * Reduce logic for rules:
 	 * 14: StatementNullList ->   Statement  TermList
@@ -639,20 +639,20 @@ class stack_maxima_parser2_root {
 	 */
 	private function r14($term1, $term0) {
 		$term = array_merge([$term0], $term1);
-
+	
 		return $term;
 	}
-
+	
 	/**
 	 * Reduce logic for rules:
 	 * 16: TermList ->   LIST SEP  Statement  TermList
 	 */
 	private function r16($term2, $term1, $term0) {
 		$term = array_merge([$term1], $term2);
-
+	
 		return $term;
 	}
-
+	
 	/**
 	 * Reduce logic for rules:
 	 * 19: Term ->   BOOL
@@ -660,10 +660,10 @@ class stack_maxima_parser2_root {
 	private function r19($term0) {
 		$term = new MP_Boolean($term0->value === 'true');
 		$term->set_position_from_parser_token($term0);
-
+	
 		return $term;
 	}
-
+	
 	/**
 	 * Reduce logic for rules:
 	 * 20: Term ->   INT
@@ -671,10 +671,10 @@ class stack_maxima_parser2_root {
 	private function r20($term0) {
 		$term = new MP_Integer($term0->value, $term0->value);
 		$term->set_position_from_parser_token($term0);
-
+	
 		return $term;
 	}
-
+	
 	/**
 	 * Reduce logic for rules:
 	 * 21: Term ->   FLOAT
@@ -682,10 +682,10 @@ class stack_maxima_parser2_root {
 	private function r21($term0) {
 		$term = new MP_Float($term0->value, $term0->value);
 		$term->set_position_from_parser_token($term0);
-
+	
 		return $term;
 	}
-
+	
 	/**
 	 * Reduce logic for rules:
 	 * 23: IndexableOrCallable ->   STRING
@@ -693,10 +693,10 @@ class stack_maxima_parser2_root {
 	private function r23($term0) {
 		$term = new MP_String($term0->value);
 		$term->set_position_from_parser_token($term0);
-
+	
 		return $term;
 	}
-
+	
 	/**
 	 * Reduce logic for rules:
 	 * 24: IndexableOrCallable ->   ID
@@ -704,10 +704,10 @@ class stack_maxima_parser2_root {
 	private function r24($term0) {
 		$term = new MP_Identifier($term0->value);
 		$term->set_position_from_parser_token($term0);
-
+	
 		return $term;
 	}
-
+	
 	/**
 	 * Reduce logic for rules:
 	 * 25: IndexableOrCallable ->   ?  LISP ID
@@ -715,10 +715,10 @@ class stack_maxima_parser2_root {
 	private function r25($term1, $term0) {
 		$term = new MP_Identifier($term0->value . $term1->value);
 		$term->set_position_from_parser_tokens($term0, $term1);
-
+	
 		return $term;
 	}
-
+	
 	/**
 	 * Reduce logic for rules:
 	 * 29: CallOrIndex? ->   IndexableOrCallable  ListsOrGroups
@@ -734,10 +734,10 @@ class stack_maxima_parser2_root {
 			}
 			$term->set_position_from_nodes($term0, $item);
 		}
-
+	
 		return $term;
 	}
-
+	
 	/**
 	 * Reduce logic for rules:
 	 * 36: IfBase ->   if  Statement  then  Statement  IfTail
@@ -746,40 +746,40 @@ class stack_maxima_parser2_root {
 		$term = new MP_If(array_merge([$term1], $term4[0]), array_merge([$term3], $term4[1]));
 		$endposition = count($term->branches) > 0 ? $term->branches[count($term->branches)-1] : $term3;
 		$term->set_position_from_token_node($term0, $endposition);
-
+	
 		return $term;
 	}
-
+	
 	/**
 	 * Reduce logic for rules:
 	 * 37: IfTail ->   else  Statement
 	 */
 	private function r37($term1, $term0) {
 		$term = [[],[$term1]];
-
+	
 		return $term;
 	}
-
+	
 	/**
 	 * Reduce logic for rules:
 	 * 38: IfTail ->   elseif  Statement  then  Statement  IfTail
 	 */
 	private function r38($term4, $term3, $term2, $term1, $term0) {
 		$term = [array_merge([$term1], $term4[0]), array_merge([$term3], $term4[1])];
-
+	
 		return $term;
 	}
-
+	
 	/**
 	 * Reduce logic for rules:
 	 * 39: IfTail ->   END OF FILE
 	 */
 	private function r39() {
 		$term = [[],[]];
-
+	
 		return $term;
 	}
-
+	
 	/**
 	 * Reduce logic for rules:
 	 * 40: Loop ->   LoopBits  do  Statement
@@ -791,10 +791,10 @@ class stack_maxima_parser2_root {
 		} else {
 			$term->set_position_from_token_node($term1, $term2);
 		}
-
+	
 		return $term;
 	}
-
+	
 	/**
 	 * Reduce logic for rules:
 	 * 43: LoopBit ->   for  Statement
@@ -809,10 +809,10 @@ class stack_maxima_parser2_root {
 	private function r43($term1, $term0) {
 		$term = new MP_LoopBit($term0->value, $term1);
 		$term->set_position_from_token_node($term0, $term1);
-
+	
 		return $term;
 	}
-
+	
 	/**
 	 * Reduce logic for rules:
 	 * 56: OpPrefix ->   -  TopOp
@@ -834,10 +834,10 @@ class stack_maxima_parser2_root {
 	private function r56($term1, $term0) {
 		$term = new MP_PrefixOp($term0->value, $term1);
 		$term->set_position_from_token_node($term0, $term1);
-
+	
 		return $term;
 	}
-
+	
 	/**
 	 * Reduce logic for rules:
 	 * 68: OpSuffix ->   TopOp  !
@@ -846,10 +846,10 @@ class stack_maxima_parser2_root {
 	private function r68($term1, $term0) {
 		$term = new MP_PostfixOp($term1->value, $term0);
 		$term->set_position_from_node_token($term0, $term1);
-
+	
 		return $term;
 	}
-
+	
 	/**
 	 * Reduce logic for rules:
 	 * 70: OpInfix ->   TopOp  *  TopOp
@@ -860,10 +860,10 @@ class stack_maxima_parser2_root {
 		if ($term1->note !== null) {
 			$term->position[$term1->note === 'inserted with whitespace' ? 'fixspaces' : 'insertstars'] = true;
 		}
-
+	
 		return $term;
 	}
-
+	
 	/**
 	 * Reduce logic for rules:
 	 * 71: OpInfix ->   TopOp  #pm#  TopOp
@@ -910,10 +910,10 @@ class stack_maxima_parser2_root {
 	private function r71($term2, $term1, $term0) {
 		$term = new MP_Operation($term1->value, $term0, $term2);
 		$term->set_position_from_nodes($term0, $term2);
-
+	
 		return $term;
 	}
-
+	
 	/**
 	 * Reduce logic for rules:
 	 * 102: Abs ->   |  TopOp  |
@@ -921,10 +921,10 @@ class stack_maxima_parser2_root {
 	private function r102($term2, $term1, $term0) {
 		$term = new MP_FunctionCall(new MP_Identifier('abs'), [$term1]);
 		$term->set_position_from_parser_tokens($term0, $term2);
-
+	
 		return $term;
 	}
-
+	
 	/**
 	 * Reduce logic for rules:
 	 * 109: OpInfix ->   TopOp  @@Is@@  TopOp
@@ -933,10 +933,10 @@ class stack_maxima_parser2_root {
 		$term = new MP_Operation('*', $term0, $term2);
 		$term->set_position_from_nodes($term0, $term2);
 		$term->position['fixspaces'] = true;
-
+	
 		return $term;
 	}
-
+	
 	/**
 	 * Reduce logic for rules:
 	 * 110: OpInfix ->   TopOp  @@IS@@  TopOp
@@ -945,10 +945,10 @@ class stack_maxima_parser2_root {
 		$term = new MP_Operation('*', $term0, $term2);
 		$term->set_position_from_nodes($term0, $term2);
 		$term->position['insertstars'] = true;
-
+	
 		return $term;
 	}
-
+	
 	/**
 	 * Reduce logic for rules:
 	 * 113: OpInfix ->   TopOp   ^-  TopOp
@@ -969,7 +969,7 @@ class stack_maxima_parser2_root {
 		$term = new MP_Operation($op1->value, $term0, new MP_PrefixOp($op2->value, $term2));
 		$term->set_position_from_nodes($term0, $term2);
 		$term->rhs->set_position_from_token_node($op2, $term2);
-
+	
 		return $term;
 	}
 }

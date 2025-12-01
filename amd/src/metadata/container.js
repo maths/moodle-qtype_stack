@@ -16,8 +16,9 @@
 /**
  * Main STACK metadata component
  *
+ * @module     qtype_stack/metadata
  * @copyright  2025 University of Edinburgh
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 
 import {BaseComponent} from 'core/reactive';
@@ -28,6 +29,7 @@ export default class extends BaseComponent {
         this.name = 'stack-metadata-container';
         this.selectors = {
             METADATACONTAINER: `[data-for='qtype-stack-metadata']`,
+            SUBMIT: `#stack-metadata-update`,
         };
     }
 
@@ -51,11 +53,22 @@ export default class extends BaseComponent {
      *
      * @param {object} state the initial state
      */
-    stateReady(state) {
-        this.reloadContainerComponent({state});
+    async stateReady(state) {
+        await this.reloadContainerComponent({state});
+        this.addEventListener(
+            this.getElement(this.selectors.SUBMIT),
+            'click',
+            this.update
+        );
     }
 
-    reloadContainerComponent({state}) {
+    getWatchers() {
+        return [
+            {watch: `contributor:updated`, handler: this.reloadContainerComponent},
+        ];
+    }
+
+    async reloadContainerComponent({state}) {
         // Mustache data is not fully compatible with state object so we need to convert it
         // into a plain object.
         const data = {
@@ -75,6 +88,21 @@ export default class extends BaseComponent {
         if (!metadataContainer) {
             throw new Error('Missing metadata container.');
         }
-        this.renderComponent(metadataContainer, 'qtype_stack/metadata', data);
+
+        await this.renderComponent(metadataContainer, 'qtype_stack/metadatacontent', data);
+    }
+
+    /**
+     * Our submit handler.
+     *
+     * @param {Event} event the click event
+     */
+    update(event) {
+        // We don't want to submit the form.
+        event.preventDefault();
+        // Get the selected person id.
+        const first = this.getElement('#contributor-1-firstName').value;
+        const last = this.getElement('#contributor-1-lastName').value;
+        this.reactive.dispatch('updateContributor', 1, first, last);
     }
 }

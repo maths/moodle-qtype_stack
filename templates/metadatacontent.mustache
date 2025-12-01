@@ -19,12 +19,26 @@
     {
     }
 }}
-<div id="qtype-stack-metadata-main">
+<div id="qtype-stack-metadata-content">
     <ul class="qtype_stack_contrib">
         {{#contributor}}
             <li>
                 {{firstName}} {{lastName}}
+                <input id="contributor-{{id}}-firstName" value="{{firstName}}">
+                <input id="contributor-{{id}}-lastName" value="{{lastName}}">
             </li>
         {{/contributor}}
     </ul>
+    <div class="col-sm-6 col-lg-5">
+        <div class="btn-group" role="group" style="float:right">
+            <button class="btn btn-primary" type="button" id="stack-metadata-update">
+                {{#str}} stack_library_import, qtype_stack {{/str}}
+            </button>
+        </div>
+    </div>
 </div>
+{{#js}}
+require(['qtype_stack/metadata/metadatacontent'], function(component) {
+    component.init('#qtype-stack-metadata-content');
+});
+{{/js}}

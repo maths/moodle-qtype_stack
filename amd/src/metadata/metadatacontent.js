@@ -14,45 +14,38 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * STACK metadata modal setup
+ * Main STACK metadata component
  *
  * @module     qtype_stack/metadata
  * @copyright  2025 University of Edinburgh
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 
-import Modal from 'core/modal';
-import ModalRegistry from 'core/modal_registry';
-import ModalFactory from 'core/modal_factory';
+import {BaseComponent} from 'core/reactive';
 import {metadata} from 'qtype_stack/metadata/metadata';
 
-export class MetadataModal extends Modal {
-    static TYPE = "qtype_stack/metadatamodal";
-    static TEMPLATE = "qtype_stack/metadatamodal";
-}
+export default class extends BaseComponent {
+    create() {
+        this.name = 'stack-metadata-content';
+        this.selectors = {
+            METADATACONTAINER: `[data-for='qtype-stack-metadata']`,
+            SUBMIT: `#stack-metadata-update`,
+        };
+    }
 
-let registered = false;
-if (!registered) {
-    ModalRegistry.register(MetadataModal.TYPE, MetadataModal, MetadataModal.TEMPLATE);
-    registered = true;
-}
-
-let modal = null;
-
-export const setup = () => {
-   document.querySelector('#id_metadatamodal')?.addEventListener('click', openModal);
-   metadata.loadState();
-};
-
-/**
- * Open the metadata modal.
- */
-async function openModal() {
-    if (!modal) {
-        modal = await ModalFactory.create({
-            type: MetadataModal.TYPE,
+    /**
+     * Static method to create a component instance form the mustache template.
+     *
+     * @param {string} target the DOM main element or its ID
+     * @param {object} selectors optional css selector overrides
+     * @return {Component}
+     */
+    static init(target, selectors) {
+        return new this({
+            element: document.querySelector(target),
+            reactive: metadata,
+            selectors,
         });
     }
 
-    modal.show();
 }

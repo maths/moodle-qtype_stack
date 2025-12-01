@@ -16,8 +16,9 @@
 /**
  * Metadata entry reactive component
  *
+ * @module     qtype_stack/metadata
  * @copyright  2025 University of Edinburgh
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 
 import {Reactive} from 'core/reactive';

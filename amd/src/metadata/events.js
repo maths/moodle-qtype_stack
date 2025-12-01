@@ -18,10 +18,9 @@ import {dispatchEvent} from 'core/event_dispatcher';
 /**
  * Javascript events for the `mod_nosferatu` activity.
  *
- * @module     mod_nosferatu/events
- * @copyright  2021 Ferran Recio <ferran@moodle.com>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @since      4.0
+ * @module     qtype_stack/metadata
+ * @copyright  2025 University of Edinburgh
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 
 /**

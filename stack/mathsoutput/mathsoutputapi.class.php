@@ -26,7 +26,6 @@ require_once(__DIR__ . '/mathsoutputfilterbase.class.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_maths_output_api extends stack_maths_output_filter_base {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function initialise_delimiters() {
         $this->displaywrapstart = '';

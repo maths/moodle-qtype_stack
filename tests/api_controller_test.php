@@ -94,7 +94,7 @@ final class api_controller_test extends qtype_stack_testcase {
             ->getMock();
         // Need to use callback so data can be altered in each test.
         $this->request->method("getParsedBody")->willReturnCallback(
-            function() {
+            function () {
 
                 return $this->requestdata;
             }
@@ -121,7 +121,7 @@ final class api_controller_test extends qtype_stack_testcase {
             ->getMock();
 
         $this->result->expects($this->any())->method('write')->willReturnCallback(
-            function() {
+            function () {
 
                 $this->output = json_decode(func_get_args()[0]);
                 return 1;
@@ -132,7 +132,7 @@ final class api_controller_test extends qtype_stack_testcase {
         // so we have to mock both. We override the write method to write to a propery of the testsuite
         // so we have something easily accessible to perform some asserts on.
         $this->response->expects($this->any())->method('getBody')->willReturnCallback(
-            function() {
+            function () {
 
                 return $this->result;
             }
@@ -161,8 +161,10 @@ final class api_controller_test extends qtype_stack_testcase {
         $this->assertMatchesRegularExpression('/^<p>Calculate/', $this->output->questionrender);
         $this->assertEquals(86, $this->output->questionseed);
         $this->assertEquals('matrix([35,30],[28,24])', $this->output->questioninputs->ans1->samplesolution->_val);
-        $this->assertMatchesRegularExpression('/^<div class="matrixsquarebrackets"><table class="matrixtable"/',
-                $this->output->questioninputs->ans1->render);
+        $this->assertMatchesRegularExpression(
+            '/^<div class="matrixsquarebrackets"><table class="matrixtable"/',
+            $this->output->questioninputs->ans1->render
+        );
         $this->assertMatchesRegularExpression('/^<p>To multiply matrices/', $this->output->questionsamplesolutiontext);
         $this->assertEquals(0, count((array)$this->output->questionassets));
         $this->assertContains(86, $this->output->questionvariants);
@@ -221,8 +223,10 @@ final class api_controller_test extends qtype_stack_testcase {
         $this->requestdata['inputName'] = 'ans1';
         $vc = new ValidationController();
         $vc->__invoke($this->request, $this->response, []);
-        $this->assertMatchesRegularExpression('/\\\[ \\\left\[\\begin\{array\}\{cc\} 1 & 2 \\\\ 3 & 4 \\end{array}\\right\] \\\]/s',
-                $this->output->validation);
+        $this->assertMatchesRegularExpression(
+            '/\\\[ \\\left\[\\begin\{array\}\{cc\} 1 & 2 \\\\ 3 & 4 \\end{array}\\right\] \\\]/s',
+            $this->output->validation
+        );
         $this->assertEquals(0, count($this->output->iframes));
     }
 
@@ -316,7 +320,7 @@ final class api_controller_test extends qtype_stack_testcase {
         $results = $this->output;
         $this->assertEquals('test_3_matrix', $results->name);
         $this->assertEquals(false, $results->isupgradeerror);
-        $this->assertEquals(true, $results->isgeneralfeedback );
+        $this->assertEquals(true, $results->isgeneralfeedback);
         $this->assertEquals(true, $results->isdeployedseeds);
         $this->assertEquals(true, $results->israndomvariants);
         $this->assertEquals(true, $results->istests);
@@ -337,7 +341,7 @@ final class api_controller_test extends qtype_stack_testcase {
         $results = $this->output;
         $this->assertEquals('Algebraic input', $results->name);
         $this->assertEquals(false, $results->isupgradeerror);
-        $this->assertEquals(false, $results->isgeneralfeedback );
+        $this->assertEquals(false, $results->isgeneralfeedback);
         $this->assertEquals(false, $results->isdeployedseeds);
         $this->assertEquals(false, $results->israndomvariants);
         $this->assertEquals(true, $results->istests);
@@ -359,7 +363,7 @@ final class api_controller_test extends qtype_stack_testcase {
         $results = $this->output;
         $this->assertEquals('Algebraic input', $results->name);
         $this->assertEquals(true, $results->isupgradeerror);
-        $this->assertEquals(false, $results->isgeneralfeedback );
+        $this->assertEquals(false, $results->isgeneralfeedback);
         $this->assertEquals(false, $results->isdeployedseeds);
         $this->assertEquals(false, $results->israndomvariants);
         $this->assertEquals(false, $results->istests);
@@ -376,7 +380,7 @@ final class api_controller_test extends qtype_stack_testcase {
         $results = $this->output;
         $this->assertEquals('Algebraic input', $results->name);
         $this->assertEquals(false, $results->isupgradeerror);
-        $this->assertEquals(false, $results->isgeneralfeedback );
+        $this->assertEquals(false, $results->isgeneralfeedback);
         $this->assertEquals(false, $results->isdeployedseeds);
         $this->assertEquals(false, $results->israndomvariants);
         $this->assertEquals(false, $results->istests);
@@ -395,7 +399,7 @@ final class api_controller_test extends qtype_stack_testcase {
         $results = $this->output;
         $this->assertEquals('Algebraic input', $results->name);
         $this->assertEquals(false, $results->isupgradeerror);
-        $this->assertEquals(false, $results->isgeneralfeedback );
+        $this->assertEquals(false, $results->isgeneralfeedback);
         $this->assertEquals(false, $results->isdeployedseeds);
         $this->assertEquals(false, $results->israndomvariants);
         $this->assertEquals(false, $results->istests);
@@ -409,11 +413,13 @@ final class api_controller_test extends qtype_stack_testcase {
             $this->markTestSkipped('Symfony YAML extension is not available.');
             return;
         }
-        
+
         $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('test2');
         $dc = new DiffController();
         $dc->__invoke($this->request, $this->response, []);
-        $this->assertMatchesRegularExpression('/name: \'Algebraic input\'\nquestiontext: \|-\n/s',
-                $this->output->diff);
+        $this->assertMatchesRegularExpression(
+            '/name: \'Algebraic input\'\nquestiontext: \|-\n/s',
+            $this->output->diff
+        );
     }
 }

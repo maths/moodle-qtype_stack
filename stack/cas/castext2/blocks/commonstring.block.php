@@ -46,7 +46,6 @@ require_once(__DIR__ . '/../../ast.container.class.php');
  *
  */
 class stack_cas_castext2_commonstring extends stack_cas_castext2_block {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
         // The user should use this block's full name "commonstring" but
@@ -64,12 +63,15 @@ class stack_cas_castext2_commonstring extends stack_cas_castext2_block {
                     $ev = new MP_FunctionCall(
                         new MP_Identifier('_EC'),
                         [
-                            new MP_FunctionCall(new MP_Identifier('errcatch'),
+                            new MP_FunctionCall(
+                                new MP_Identifier('errcatch'),
                                 [
                                     new MP_Operation(':', new MP_Identifier('_ct2_tmp'), $ast),
-                                ]),
+                                ]
+                            ),
                             new MP_String($epos),
-                        ]);
+                        ]
+                    );
 
                     if (strpos($key, 'nosimp_raw_') === 0) {
                         $r->items[] = new MP_String(mb_substr($key, 11));
@@ -78,11 +80,16 @@ class stack_cas_castext2_commonstring extends stack_cas_castext2_block {
                             new MP_Operation(':', new MP_Identifier('_ct2_simp'), new MP_Identifier('simp')),
                             new MP_Operation(':', new MP_Identifier('simp'), new MP_Boolean(false)),
                             $ev,
-                            new MP_Operation(':', new MP_Identifier('_ct2_tmp'),
-                            new MP_FunctionCall(new MP_Identifier('string'),
-                                [
+                            new MP_Operation(
+                                ':',
+                                new MP_Identifier('_ct2_tmp'),
+                                new MP_FunctionCall(
+                                    new MP_Identifier('string'),
+                                    [
                                     new MP_Identifier('_ct2_tmp'),
-                                ])),
+                                    ]
+                                )
+                            ),
                             new MP_Operation(':', new MP_Identifier('simp'), new MP_Identifier('_ct2_simp')),
                             new MP_Identifier('_ct2_tmp'),
                         ]);
@@ -94,13 +101,18 @@ class stack_cas_castext2_commonstring extends stack_cas_castext2_block {
                             new MP_Operation(':', new MP_Identifier('simp'), new MP_Boolean(false)),
                             $ev,
                             new MP_Operation(':', new MP_Identifier('simp'), new MP_Boolean(false)),
-                            new MP_Operation(':', new MP_Identifier('_ct2_tmp'),
-                            new MP_FunctionCall(new MP_Identifier('ct2_latex'),
-                                [
+                            new MP_Operation(
+                                ':',
+                                new MP_Identifier('_ct2_tmp'),
+                                new MP_FunctionCall(
+                                    new MP_Identifier('ct2_latex'),
+                                    [
                                     new MP_Identifier('_ct2_tmp'),
                                     new MP_String('i'),
                                     new MP_Boolean(false),
-                                ])),
+                                    ]
+                                )
+                            ),
                             new MP_Operation(':', new MP_Identifier('simp'), new MP_Identifier('_ct2_simp')),
                             new MP_Identifier('_ct2_tmp'),
                         ]);
@@ -120,13 +132,18 @@ class stack_cas_castext2_commonstring extends stack_cas_castext2_block {
                             new MP_Operation(':', new MP_Identifier('_ct2_simp'), new MP_Identifier('simp')),
                             $ev,
                             new MP_Operation(':', new MP_Identifier('simp'), new MP_Boolean(false)),
-                            new MP_Operation(':', new MP_Identifier('_ct2_tmp'),
-                            new MP_FunctionCall(new MP_Identifier('ct2_latex'),
-                                [
+                            new MP_Operation(
+                                ':',
+                                new MP_Identifier('_ct2_tmp'),
+                                new MP_FunctionCall(
+                                    new MP_Identifier('ct2_latex'),
+                                    [
                                     new MP_Identifier('_ct2_tmp'),
                                     new MP_String('i'),
                                     new MP_Identifier('_ct2_simp'),
-                                ])),
+                                    ]
+                                )
+                            ),
                             new MP_Operation(':', new MP_Identifier('simp'), new MP_Identifier('_ct2_simp')),
                             new MP_Identifier('_ct2_tmp'),
                         ]);
@@ -147,15 +164,20 @@ class stack_cas_castext2_commonstring extends stack_cas_castext2_block {
         $r = [];
         foreach ($this->params as $key => $value) {
             $r[] = stack_ast_container_silent::make_from_teacher_source(
-                $value, 'ct2:commonstring', new stack_cas_security());
+                $value,
+                'ct2:commonstring',
+                new stack_cas_security()
+            );
         }
         return $r;
-
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function postprocess(array $params, castext2_processor $processor,
-        castext2_placeholder_holder $holder): string {
+    public function postprocess(
+        array $params,
+        castext2_processor $processor,
+        castext2_placeholder_holder $holder
+    ): string {
         if (count($params) === 2) {
             return stack_string($params[1]);
         }
@@ -176,10 +198,12 @@ class stack_cas_castext2_commonstring extends stack_cas_castext2_block {
 
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function validate(&$errors=[], $options=[]): bool {
+    public function validate(&$errors = [], $options = []): bool {
         if (!array_key_exists('key', $this->params)) {
-            $errors[] = new $options['errclass']('The commonstring block must always have a key for the string template.',
-                $options['context'] . '/' . $this->position['start'] . '-' . $this->position['end']);
+            $errors[] = new $options['errclass'](
+                'The commonstring block must always have a key for the string template.',
+                $options['context'] . '/' . $this->position['start'] . '-' . $this->position['end']
+            );
             return false;
         }
 

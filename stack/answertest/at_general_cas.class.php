@@ -27,7 +27,6 @@ require_once(__DIR__ . '/../cas/cassession2.class.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_answertest_general_cas extends stack_anstest {
-
     /**
      * @var bool If this variable is set to true or false we override the
      *      simplification options in the CAS variables.
@@ -40,11 +39,17 @@ class stack_answertest_general_cas extends stack_anstest {
      * @param  string $tans
      * @param  string $casoption
      */
-    public function __construct(stack_ast_container $sans, stack_ast_container $tans, string $atname,
-            $atoption = null, $options = null, $contextsession = []) {
+    public function __construct(
+        stack_ast_container $sans,
+        stack_ast_container $tans,
+        string $atname,
+        $atoption = null,
+        $options = null,
+        $contextsession = []
+    ) {
         parent::__construct($sans, $tans, $options, $atoption, $contextsession);
 
-        $this->casfunction       = 'AT'. $atname;
+        $this->casfunction       = 'AT' . $atname;
         $this->atname            = $atname;
         $this->simp              = stack_ans_test_controller::simp($atname);
     }
@@ -59,7 +64,7 @@ class stack_answertest_general_cas extends stack_anstest {
         if ('' == trim($this->sanskey->ast_to_string())) {
             $this->aterror      = stack_string('TEST_FAILED', ['errors' => stack_string('AT_EmptySA')]);
             $this->atfeedback   = stack_string('TEST_FAILED', ['errors' => stack_string('AT_EmptySA')]);
-            $this->atansnote    = $this->casfunction.'TEST_FAILED-Empty SA.';
+            $this->atansnote    = $this->casfunction . 'TEST_FAILED-Empty SA.';
             $this->atmark       = 0;
             $this->atvalid      = false;
             return null;
@@ -68,7 +73,7 @@ class stack_answertest_general_cas extends stack_anstest {
         if ('' == trim($this->tanskey->ast_to_string())) {
             $this->aterror      = stack_string('TEST_FAILED', ['errors' => stack_string('AT_EmptyTA')]);
             $this->atfeedback   = stack_string('TEST_FAILED', ['errors' => stack_string('AT_EmptyTA')]);
-            $this->atansnote    = $this->casfunction.'TEST_FAILED-Empty TA.';
+            $this->atansnote    = $this->casfunction . 'TEST_FAILED-Empty TA.';
             $this->atmark       = 0;
             $this->atvalid      = false;
             return null;
@@ -121,8 +126,11 @@ class stack_answertest_general_cas extends stack_anstest {
         $ta->set_key('STACKTA');
 
         $ops = stack_ast_container::make_from_teacher_source('STACKOP:true', '', new stack_cas_security());
-        $result = stack_ast_container::make_from_teacher_source("result:{$this->casfunction}(STACKSA,STACKTA)", '',
-            new stack_cas_security());
+        $result = stack_ast_container::make_from_teacher_source(
+            "result:{$this->casfunction}(STACKSA,STACKTA)",
+            '',
+            new stack_cas_security()
+        );
         if (stack_ans_test_controller::process_atoptions($this->atname)) {
             if ($this->atoption->is_correctly_evaluated()) {
                 $ops = stack_ast_container::make_from_teacher_source($this->atoption->get_value());
@@ -147,7 +155,7 @@ class stack_answertest_general_cas extends stack_anstest {
         if ('' != $sa->get_errors() || !$sa->get_valid()) {
             $this->aterror      = 'TEST_FAILED';
             $this->atfeedback   = stack_string('TEST_FAILED', ['errors' => $sa->get_errors()]);
-            $this->atansnote    = $this->casfunction.'_STACKERROR_SAns.';
+            $this->atansnote    = $this->casfunction . '_STACKERROR_SAns.';
             $this->atmark       = 0;
             $this->atvalid      = false;
             return null;
@@ -156,7 +164,7 @@ class stack_answertest_general_cas extends stack_anstest {
         if ('' != $ta->get_errors() || !$ta->get_valid()) {
             $this->aterror      = 'TEST_FAILED';
             $this->atfeedback   = stack_string('TEST_FAILED', ['errors' => $ta->get_errors()]);
-            $this->atansnote    = $this->casfunction.'_STACKERROR_TAns.';
+            $this->atansnote    = $this->casfunction . '_STACKERROR_TAns.';
             $this->atmark       = 0;
             $this->atvalid      = false;
             return null;
@@ -166,7 +174,7 @@ class stack_answertest_general_cas extends stack_anstest {
             if ('' != $ops->get_errors() || !$ops->get_valid()) {
                 $this->aterror      = 'TEST_FAILED';
                 $this->atfeedback   = stack_string('TEST_FAILED', ['errors' => $ops->get_errors()]);
-                $this->atansnote    = $this->casfunction.'_STACKERROR_Opt.';
+                $this->atansnote    = $this->casfunction . '_STACKERROR_Opt.';
                 $this->atmark       = 0;
                 $this->atvalid      = false;
                 return null;

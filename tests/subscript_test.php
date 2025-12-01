@@ -47,7 +47,6 @@ require_once(__DIR__ . '/../stack/cas/ast.container.class.php');
  * @covers \stack_ast_container
  */
 final class subscript_test extends qtype_stack_testcase {
-
     /**
      * Add description
      * @codingStandardsIgnoreStart

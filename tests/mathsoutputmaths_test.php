@@ -37,7 +37,6 @@ require_once(__DIR__ . '/../doc/docslib.php');
  * @covers \stack_maths_output_maths
  */
 final class mathsoutputmaths_test extends advanced_testcase {
-
     public function test_maths_rendering(): void {
 
         if (!stack_maths_output_maths::filter_is_installed()) {
@@ -51,41 +50,53 @@ final class mathsoutputmaths_test extends advanced_testcase {
 
         $this->resetAfterTest();
         set_config('mathsdisplay', 'maths', 'qtype_stack');
-        set_config('texservice',     FILTER_MATHS_TEST_SERVICE_URL_BASE . 'tex',      'filter_maths');
-        set_config('imageservice',   FILTER_MATHS_TEST_SERVICE_URL_BASE . 'imagetex', 'filter_maths');
-        set_config('englishservice', FILTER_MATHS_TEST_SERVICE_URL_BASE . 'english',  'filter_maths');
+        set_config('texservice', FILTER_MATHS_TEST_SERVICE_URL_BASE . 'tex', 'filter_maths');
+        set_config('imageservice', FILTER_MATHS_TEST_SERVICE_URL_BASE . 'imagetex', 'filter_maths');
+        set_config('englishservice', FILTER_MATHS_TEST_SERVICE_URL_BASE . 'english', 'filter_maths');
         stack_utils::clear_config_cache();
         filter_set_global_state('mathjaxloader', TEXTFILTER_DISABLED);
 
         // Test language string.
-        $this->assertMatchesRegularExpression('~^Your answer needs to be a single fraction of the form ' .
+        $this->assertMatchesRegularExpression(
+            '~^Your answer needs to be a single fraction of the form ' .
                 '<a .*alt="a over b".*</a>\. $~',
-                stack_string('ATSingleFrac_part'));
+            stack_string('ATSingleFrac_part')
+        );
 
         // Test docs - make sure maths inside <code> is not rendered.
-        $this->assertMatchesRegularExpression('~^<p><code>\\\\\(x\^2\\\\\)</code> gives <a .*alt="x squared".*</a>\.</p>\n$~',
-                stack_docs_render_markdown('<code>\(x^2\)</code> gives \(x^2\).'));
+        $this->assertMatchesRegularExpression(
+            '~^<p><code>\\\\\(x\^2\\\\\)</code> gives <a .*alt="x squared".*</a>\.</p>\n$~',
+            stack_docs_render_markdown('<code>\(x^2\)</code> gives \(x^2\).')
+        );
 
         // Test docs - make sure maths inside <textarea> is not rendered.
-        $this->assertMatchesRegularExpression('~^<p><textarea readonly="readonly" rows="3" cols="50">\n' .
+        $this->assertMatchesRegularExpression(
+            '~^<p><textarea readonly="readonly" rows="3" cols="50">\n' .
                         'Differentiate \\\\\[x\^2 \+ y\^2\\\\\] with respect to \\\\\(x\\\\\).</textarea></p>\n$~',
-                stack_docs_render_markdown('<textarea readonly="readonly" rows="3" cols="50">' . "\n" .
-                        'Differentiate \[x^2 + y^2\] with respect to \(x\).</textarea>'));
+            stack_docs_render_markdown('<textarea readonly="readonly" rows="3" cols="50">' . "\n" .
+            'Differentiate \[x^2 + y^2\] with respect to \(x\).</textarea>')
+        );
 
         // Test CAS text with inline maths.
-        $this->assertEquals('What is &lt;tex mode="inline"&gt;x^2&lt;/tex&gt;?',
-                stack_maths::process_display_castext('What is \(x^2\)?'));
+        $this->assertEquals(
+            'What is &lt;tex mode="inline"&gt;x^2&lt;/tex&gt;?',
+            stack_maths::process_display_castext('What is \(x^2\)?')
+        );
 
         // Test CAS text with display maths.
-        $this->assertEquals('What is <span class="displayequation">&lt;tex mode="display"&gt;x^2&lt;/tex&gt;</span>?',
-                stack_maths::process_display_castext('What is \[x^2\]?'));
+        $this->assertEquals(
+            'What is <span class="displayequation">&lt;tex mode="display"&gt;x^2&lt;/tex&gt;</span>?',
+            stack_maths::process_display_castext('What is \[x^2\]?')
+        );
 
         // Test with replacedollars.
         set_config('replacedollars', '1', 'qtype_stack');
         stack_utils::clear_config_cache();
-        $this->assertEquals('What is &lt;tex mode="inline"&gt;x^2&lt;/tex&gt; or ' .
+        $this->assertEquals(
+            'What is &lt;tex mode="inline"&gt;x^2&lt;/tex&gt; or ' .
                 '<span class="displayequation">&lt;tex mode="display"&gt;x^2&lt;/tex&gt;</span>?',
-                stack_maths::process_display_castext('What is $x^2$ or $$x^2$$?'));
+            stack_maths::process_display_castext('What is $x^2$ or $$x^2$$?')
+        );
 
         stack_utils::clear_config_cache();
     }

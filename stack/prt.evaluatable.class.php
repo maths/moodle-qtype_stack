@@ -21,7 +21,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 
-defined('MOODLE_INTERNAL')|| die();
+defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/cas/evaluatable_object.interfaces.php');
 require_once(__DIR__ . '/cas/castext2/utils.php');
@@ -35,7 +35,6 @@ require_once(__DIR__ . '/cas/castext2/utils.php');
  * This is not entirely unlike the old PRT-state class.
  */
 class prt_evaluatable implements cas_raw_value_extractor {
-
     // The function to call.
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $signature;
@@ -224,7 +223,7 @@ class prt_evaluatable implements cas_raw_value_extractor {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function get_feedback($processor=null) {
+    public function get_feedback($processor = null) {
         if (!$this->is_evaluated()) {
             // If not procesed return undefined or any overrides.
             return $this->renderedfeedback;
@@ -292,7 +291,7 @@ class prt_evaluatable implements cas_raw_value_extractor {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function get_errors($format='strings') {
+    public function get_errors($format = 'strings') {
         // Apparently one wants to separate feedback-var errors?
         $err = [];
         foreach ($this->errors as $er) {
@@ -308,7 +307,7 @@ class prt_evaluatable implements cas_raw_value_extractor {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function get_fverrors($format='strings') {
+    public function get_fverrors($format = 'strings') {
         $err = [];
         foreach ($this->errors as $er) {
             if (strpos($er->get_context(), '/fv') !== false) {

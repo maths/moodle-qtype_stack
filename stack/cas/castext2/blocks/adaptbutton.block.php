@@ -34,7 +34,6 @@ stack_cas_castext2_iframe::register_counter('///ADAPTBUTTON_COUNT///');
  * This class adds in the "adapt button" blocks to castext.
  */
 class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
 
@@ -58,7 +57,7 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
         $code .= "stack_js.request_access_to_input('" . $this->params['save_state'] . "', true).then((id) => {\n";
         $code .= "const input = document.getElementById(id);\n";
         $code .= "if (input.value=='true'){ hide_and_show(); }\n";
-        $code .= "stack_js.register_external_button_listener('stack-adaptbutton-". $uid . "', function() {";
+        $code .= "stack_js.register_external_button_listener('stack-adaptbutton-" . $uid . "', function() {";
         $code .= 'input.value="true";';
         $code .= 'input.dispatchEvent(new Event("change"));';
         $code .= "hide_and_show();";
@@ -69,7 +68,7 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
 
         $list[] = new MP_String("function hide_and_show(){");
         if (isset($this->params['show_ids'])) {
-            $splitshowid = preg_split ("/[\ \n\;]+/", $this->params['show_ids']);
+            $splitshowid = preg_split("/[\ \n\;]+/", $this->params['show_ids']);
             foreach ($splitshowid as &$id) {
                 $list[] = new MP_String("stack_js.toggle_visibility('");
                 // We use the quid block to make the ids unique.
@@ -78,7 +77,7 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
             }
         }
         if (isset($this->params['hide_ids'])) {
-            $splitshowid = preg_split ("/[\ \n\;]+/", $this->params['hide_ids']);
+            $splitshowid = preg_split("/[\ \n\;]+/", $this->params['hide_ids']);
             foreach ($splitshowid as &$id) {
                 $list[] = new MP_String("stack_js.toggle_visibility('");
                 // We use the quid block to make the ids unique.
@@ -127,7 +126,7 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function validate(&$errors=[], $options=[]): bool {
+    public function validate(&$errors = [], $options = []): bool {
         if (!array_key_exists('title', $this->params)) {
             $errors[] = new $options['errclass']('Adaptbutton block requires a title parameter.', $options['context'] . '/' .
                 $this->position['start'] . '-' . $this->position['end']);
@@ -135,15 +134,19 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
         }
 
         if (!array_key_exists('show_ids', $this->params) && !array_key_exists('hide_ids', $this->params)) {
-            $errors[] = new $options['errclass']('Adaptbutton block requires a show_ids or a hide_ids parameter.',
+            $errors[] = new $options['errclass'](
+                'Adaptbutton block requires a show_ids or a hide_ids parameter.',
                 $options['context'] . '/' .
-                $this->position['start'] . '-' . $this->position['end']);
+                $this->position['start'] . '-' . $this->position['end']
+            );
             return false;
         }
         if (!array_key_exists('save_state', $this->params)) {
-            $errors[] = new $options['errclass']('Adaptbutton block requires a save_state parameter.',
+            $errors[] = new $options['errclass'](
+                'Adaptbutton block requires a save_state parameter.',
                 $options['context'] . '/' .
-                $this->position['start'] . '-' . $this->position['end']);
+                $this->position['start'] . '-' . $this->position['end']
+            );
             return false;
         }
         return true;

@@ -34,7 +34,7 @@
 
 define('NO_OUTPUT_BUFFERING', true);
 
-require_once(__DIR__.'/../../../config.php');
+require_once(__DIR__ . '/../../../config.php');
 
 require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/vle_specific.php');
@@ -45,7 +45,7 @@ require_once(__DIR__ . '/stack/bulktester.class.php');
 // Get the parameters from the URL.
 $questionid = required_param('questionid', PARAM_INT);
 
-list($qversion, $questionid) = get_latest_question_version($questionid);
+[$qversion, $questionid] = get_latest_question_version($questionid);
 
 // Load the necessary data.
 $questiondata = question_bank::load_question_data($questionid);
@@ -58,7 +58,7 @@ $question = question_bank::load_question($questionid);
 $question->options->set_option('decimals', '.');
 
 // Process any other URL parameters, and do require_login.
-list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($question);
+[$context, $seed, $urlparams] = qtype_stack_setup_question_test_page($question);
 
 // Check permissions.
 question_require_capability_on($questiondata, 'view');
@@ -126,21 +126,36 @@ $chatlink = new moodle_url('/question/type/stack/adminui/caschat.php', $chatpara
 
 $links = [];
 if ($canedit) {
-    $links[] = html_writer::link($questionbanklinkedit, stack_string('editquestioninthequestionbank'),
-        ['class' => 'nav-link']);
+    $links[] = html_writer::link(
+        $questionbanklinkedit,
+        stack_string('editquestioninthequestionbank'),
+        ['class' => 'nav-link']
+    );
 }
-$links[] = html_writer::link($questionbanklink, stack_string('seethisquestioninthequestionbank'),
-    ['class' => 'nav-link']);
+$links[] = html_writer::link(
+    $questionbanklink,
+    stack_string('seethisquestioninthequestionbank'),
+    ['class' => 'nav-link']
+);
 if ($canedit) {
     $links[] = html_writer::link($chatlink, stack_string('sendgeneralfeedback'), ['class' => 'nav-link']);
-    $links[] = html_writer::link($question->qtype->get_tidy_question_url($question),
-        stack_string('tidyquestion'), ['class' => 'nav-link']);
+    $links[] = html_writer::link(
+        $question->qtype->get_tidy_question_url($question),
+        stack_string('tidyquestion'),
+        ['class' => 'nav-link']
+    );
     $links[] = html_writer::link($exportquestionlink, stack_string('exportthisquestion'), ['class' => 'nav-link']);
 }
-$links[] = html_writer::link(new moodle_url('/question/type/stack/questiontestreport.php', $urlparams),
-    stack_string('basicquestionreport'), ['class' => 'nav-link']);
-$links[] = html_writer::link($todolink, stack_string('seetodolist'),
-    ['class' => 'nav-link']);
+$links[] = html_writer::link(
+    new moodle_url('/question/type/stack/questiontestreport.php', $urlparams),
+    stack_string('basicquestionreport'),
+    ['class' => 'nav-link']
+);
+$links[] = html_writer::link(
+    $todolink,
+    stack_string('seetodolist'),
+    ['class' => 'nav-link']
+);
 echo html_writer::tag('nav', implode(' ', $links), ['class' => 'nav']);
 
 flush();
@@ -181,8 +196,10 @@ if (empty($testscases) && $canedit && $question->inputs !== []) {
         'method' => 'get', 'class' => 'defaulttestcase',
         'action' => new moodle_url('/question/type/stack/questiontestrun.php', $urlparams),
     ]);
-    echo html_writer::input_hidden_params(new moodle_url($PAGE->url,
-        ['sesskey' => sesskey(), 'defaulttestcase' => 1]));
+    echo html_writer::input_hidden_params(new moodle_url(
+        $PAGE->url,
+        ['sesskey' => sesskey(), 'defaulttestcase' => 1]
+    ));
     echo ' ' . html_writer::empty_tag('input', [
         'type' => 'submit', 'class' => 'btn btn-danger',
         'value' => stack_string('runquestiontests_autoprompt'),
@@ -245,7 +262,6 @@ if (empty($question->deployedseeds)) {
                 $OUTPUT->action_icon($qurl, new pix_icon('t/preview', get_string('preview'))));
     }
 } else {
-
     $notestable = new html_table();
     $notestable->head = [
         stack_string('variant'),
@@ -261,12 +277,18 @@ if (empty($question->deployedseeds)) {
 
     foreach ($question->deployedseeds as $key => $deployedseed) {
         if (!is_null($question->seed) && $question->seed == $deployedseed) {
-            $choice = html_writer::tag('b', $deployedseed,
-                    ['title' => stack_string('currentlyselectedvariant')]);;
+            $choice = html_writer::tag(
+                'b',
+                $deployedseed,
+                ['title' => stack_string('currentlyselectedvariant')]
+            );
             $variantmatched = true;
         } else {
-            $choice = html_writer::link(new moodle_url($PAGE->url, ['seed' => $deployedseed]),
-                    $deployedseed, ['title' => stack_string('testthisvariant')]);
+            $choice = html_writer::link(
+                new moodle_url($PAGE->url, ['seed' => $deployedseed]),
+                $deployedseed,
+                ['title' => stack_string('testthisvariant')]
+            );
         }
 
         $qurl = qbank_previewquestion\helper::question_preview_url($questionid, null, null, null, $key + 1, $context);
@@ -274,17 +296,27 @@ if (empty($question->deployedseeds)) {
         $choice .= ' ' . $OUTPUT->action_icon($qurl, new pix_icon('t/preview', get_string('preview')));
 
         if ($canedit) {
-            $choice .= ' ' . $OUTPUT->action_icon(new moodle_url('/question/type/stack/deploy.php',
-                        $urlparams + ['undeploy' => $deployedseed, 'sesskey' => sesskey()]),
-                    new pix_icon('t/delete', stack_string('undeploy')));
+            $choice .= ' ' . $OUTPUT->action_icon(
+                new moodle_url(
+                    '/question/type/stack/deploy.php',
+                    $urlparams + ['undeploy' => $deployedseed, 'sesskey' => sesskey()]
+                ),
+                new pix_icon('t/delete', stack_string('undeploy'))
+            );
         }
 
         $bulktestresults = [false, ''];
         if (optional_param('testall', null, PARAM_INT)) {
             // Bulk test all variants.
             $bulktester = new stack_bulk_tester();
-            $bulktestresults = $bulktester->qtype_stack_test_question($context, $questionid,
-                    $testscases, 'web', $deployedseed, true);
+            $bulktestresults = $bulktester->qtype_stack_test_question(
+                $context,
+                $questionid,
+                $testscases,
+                'web',
+                $deployedseed,
+                true
+            );
         }
 
         // Print out question notes of all deployed variants.
@@ -347,18 +379,27 @@ flush();
 
 if (!$variantmatched) {
     if ($canedit) {
-        $deploybutton = ' ' . $OUTPUT->single_button(new moodle_url('/question/type/stack/deploy.php',
-                $urlparams + ['deploy' => $question->seed]),
-                stack_string('deploy'));
+        $deploybutton = ' ' . $OUTPUT->single_button(
+            new moodle_url(
+                '/question/type/stack/deploy.php',
+                $urlparams + ['deploy' => $question->seed]
+            ),
+            stack_string('deploy')
+        );
         if ($variantdeployed) {
             $deploybutton = stack_string('alreadydeployed');
         }
     } else {
         $deploybutton = '';
     }
-    echo html_writer::tag('div', stack_string('showingundeployedvariant',
-            html_writer::tag('b', $question->seed)) . $deploybutton,
-            ['class' => 'undeployedvariant']);
+    echo html_writer::tag(
+        'div',
+        stack_string(
+            'showingundeployedvariant',
+            html_writer::tag('b', $question->seed)
+        ) . $deploybutton,
+        ['class' => 'undeployedvariant']
+    );
     echo "\n";
 }
 
@@ -545,30 +586,46 @@ if ($question->inputs !== []) {
     }
 
     if ($canedit) {
-        echo $OUTPUT->single_button(new moodle_url('/question/type/stack/questiontestedit.php',
-                $urlparams), $addlabel, 'get');
+        echo $OUTPUT->single_button(new moodle_url(
+            '/question/type/stack/questiontestedit.php',
+            $urlparams
+        ), $addlabel, 'get');
     }
 }
 
 foreach ($testresults as $key => $result) {
-
     echo $result->html_output($question, $key);
     flush(); // Force output to prevent timeouts and to make progress clear.
 
     if ($canedit) {
         echo "\n";
         echo html_writer::start_tag('div', ['class' => 'testcasebuttons']);
-        echo $OUTPUT->single_button(new moodle_url('/question/type/stack/questiontestedit.php',
-                $urlparams + ['testcase' => $key]),
-                stack_string('editthistestcase', 'qtype_stack'), 'get');
+        echo $OUTPUT->single_button(
+            new moodle_url(
+                '/question/type/stack/questiontestedit.php',
+                $urlparams + ['testcase' => $key]
+            ),
+            stack_string('editthistestcase', 'qtype_stack'),
+            'get'
+        );
 
-        echo $OUTPUT->single_button(new moodle_url('/question/type/stack/questiontestedit.php',
-            $urlparams + ['testcase' => $key, 'confirmthistestcase' => true]),
-            stack_string('confirmthistestcase', 'qtype_stack'), 'get');
+        echo $OUTPUT->single_button(
+            new moodle_url(
+                '/question/type/stack/questiontestedit.php',
+                $urlparams + ['testcase' => $key, 'confirmthistestcase' => true]
+            ),
+            stack_string('confirmthistestcase', 'qtype_stack'),
+            'get'
+        );
 
-        echo $OUTPUT->single_button(new moodle_url('/question/type/stack/questiontestdelete.php',
-                $urlparams + ['testcase' => $key]),
-                stack_string('deletethistestcase', 'qtype_stack'), 'get');
+        echo $OUTPUT->single_button(
+            new moodle_url(
+                '/question/type/stack/questiontestdelete.php',
+                $urlparams + ['testcase' => $key]
+            ),
+            stack_string('deletethistestcase', 'qtype_stack'),
+            'get'
+        );
         echo html_writer::end_tag('div');
         echo "\n";
     }
@@ -606,21 +663,33 @@ echo "\n";
 
 // Display the question note.
 echo $OUTPUT->heading(stack_string('questionnote'), 3);
-echo html_writer::tag('div', html_writer::tag('div', stack_ouput_castext($question->get_question_summary()),
-    ['class' => 'questionnote']), ['class' => 'que']);
+echo html_writer::tag('div', html_writer::tag(
+    'div',
+    stack_ouput_castext($question->get_question_summary()),
+    ['class' => 'questionnote']
+), ['class' => 'que']);
 
 // Display the general feedback, aka "Worked solution".
 echo $OUTPUT->heading(stack_string('generalfeedback'), 3);
-echo html_writer::tag('div', html_writer::tag('div', $rendergeneralfeedback,
-    ['class' => 'outcome generalfeedback']), ['class' => 'que']);
+echo html_writer::tag('div', html_writer::tag(
+    'div',
+    $rendergeneralfeedback,
+    ['class' => 'outcome generalfeedback']
+), ['class' => 'que']);
 
 echo $OUTPUT->heading(stack_string('questiondescription'), 3);
-echo html_writer::tag('div', html_writer::tag('div', $renderquestiondescription,
-    ['class' => 'outcome generalfeedback']), ['class' => 'que']);
+echo html_writer::tag('div', html_writer::tag(
+    'div',
+    $renderquestiondescription,
+    ['class' => 'outcome generalfeedback']
+), ['class' => 'que']);
 // The description might consit only of [[todo]] blocks, which won't show up.  Show the raw form.
 if (trim($question->questiondescription) !== '') {
-    echo html_writer::tag('div', html_writer::tag('pre', $question->questiondescription,
-        ['class' => 'outcome generalfeedback']), ['class' => 'que']);
+    echo html_writer::tag('div', html_writer::tag(
+        'pre',
+        $question->questiondescription,
+        ['class' => 'outcome generalfeedback']
+    ), ['class' => 'que']);
 }
 
 echo "\n";

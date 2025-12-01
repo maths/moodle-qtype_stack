@@ -14,6 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Classes
+ * @package    qtype_stack
+ * @copyright  2025 Aalto University
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * phpcs:disable PSR1.Classes.ClassDeclaration.MultipleClasses
+ */
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once('lexer.base.class.php');
@@ -23,6 +31,8 @@ require_once('autogen/parser-root.php');
 require_once('autogen/parser-equivline.php');
 require_once('error.interpreter.class.php');
 
+
+// phpcs:ignore moodle.Commenting.MissingDocblock.Enum
 enum StackParserInsertionOption {
     // No insertion attempts.
     case None;
@@ -32,6 +42,8 @@ enum StackParserInsertionOption {
     case EndToken;
 }
 
+
+// phpcs:ignore moodle.Commenting.MissingDocblock.Enum
 enum StackLexerSeparators {
     // List separator is ',', decimal separator is '.', statements by ';' and '$'.
     case Dot;
@@ -39,10 +51,12 @@ enum StackLexerSeparators {
     case Comma;
 }
 
+
+// phpcs:ignore moodle.Commenting.MissingDocblock.Enum
 enum StackParserRule {
-    // Normal maxima expressions and possibly multiple statements
+    // Normal maxima expressions and possibly multiple statements.
     case Root;
-    // Equivline singular expressions with some extra notation
+    // Equivline singular expressions with some extra notation.
     case Equivline;
 }
 
@@ -57,48 +71,54 @@ enum StackParserRule {
   2. Separate lexer/parser settings.
   3. Localisation related details.
   4. The filters needed to be applied on the parse result.
-  
+
 
  @copyright  2023 Aalto University.
  @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 */
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_parser_options {
-
     /**
      * This is where we load up the mappings from ./unicode/*.json files.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public static $defaultunicodemap = null;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public static $defaultextraletters = null;
 
     /**
-     * Does the parser consider keywords to be case insensitive? 
+     * Does the parser consider keywords to be case insensitive?
      * `If` == `if`, `true` == `TRUE` etc.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $casesensitivekeywords = true;
 
     /**
      * Is the special `+-` operator active? If not considered as two
      * separate operators.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $pm = true;
 
     /**
      * Do we have overriding localised alternatives for keywords?
      * e.g. `['true' => 'tosi', 'false' => 'epätosi']` or
      * `['let' => stack_string('equiv_LET')]`
-     * 
+     *
      * Those are just alternatives, by default allow the normal ones.
-     * 
+     *
      * TODO: do we need multiple options for the same keyword? If so
      * the lexers will need to know.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $locals = [];
 
     /**
      * Localised syntax, currently not freely mixable.
-     * 
+     *
      * Also currently no support for digit groupping.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public StackLexerSeparators $separators = StackLexerSeparators::Dot;
 
     /**
@@ -106,6 +126,7 @@ class stack_parser_options {
      * the grammar and affects the output. Original parser supported
      * the values `'Root'` and `'Equivline'`
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public StackParserRule $rule = StackParserRule::Root;
 
 
@@ -113,22 +134,24 @@ class stack_parser_options {
      * Drop comments. If you do not need comments for example for
      * annotation purposes you might drop them during processing.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $dropcomments = true;
 
 
     /**
      * Turn on base-N integer literals. i.e. C-style (0b0010, 0777, 0xBEEF)
      * and B453_36 suffix for variable bases.
-     * 
+     *
      * In this mode decimal numbers do not exist and localised decimal
      * separators have no role.
-     * 
+     *
      * No decimal separators, both ',' and ';' are list separators,
      * statements by '$'.
-     * 
+     *
      * A big TODO... Someone should desing a lexer and syntax for supporting
      * base-N decimal numbers mixed in this. Also normal floats...
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $basen = false;
 
     /**
@@ -136,23 +159,25 @@ class stack_parser_options {
      * parse the current tokens. Basically, this is the old insert stars
      * corrective parser. It may also choose to insert an end token like `;`
      * to fix similar situations.
-     * 
+     *
      * Use this setting to tell whether you want to use `'*'` or `';'` symbols
      * when trying to fix things or keep this off if you do not want to fix
      * things.
-     * 
+     *
      * Note that these fixes are for raw parse issues, one can also fix other
      * things during filtering.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public StackParserInsertionOption $tryinsert = StackParserInsertionOption::None;
 
     /**
      * Do we allow LISP-identifiers? This is a special feature not to
      * be used for student or even author content. Exists here to make
      * certain development tools able to use this same logic.
-     * 
+     *
      * When false `?` is being mapped to `QMCHAR`.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $lispids = false;
 
 
@@ -165,13 +190,15 @@ class stack_parser_options {
      *     non first identifier chars and might get dealt with by AST
      *     filtering later.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $unicodemap = [];
 
     /**
-     * Special characters that are supposed to be considered part of 
+     * Special characters that are supposed to be considered part of
      * identifiers but are not strictly letters. Or just numbers.
      * Basically, this allows us to handle superscripts etc.
      */
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $extraletters = false;
 
     /**
@@ -239,7 +266,8 @@ class stack_parser_options {
             }
         }
         self::$defaultextraletters = '/[' . preg_quote(
-            implode('', array_keys($chars))) . ']/u';
+            implode('', array_keys($chars))
+        ) . ']/u';
 
         return self::$defaultextraletters;
     }
@@ -298,10 +326,10 @@ class stack_parser_options {
     }
 
     /**
-     * Gets a parser matching the settings. 
+     * Gets a parser matching the settings.
      */
     public function get_parser() {
-        return match($this->rule) {
+        return match ($this->rule) {
             StackParserRule::Root => new stack_maxima_parser2_root($this),
             StackParserRule::Equivline => new stack_maxima_parser2_equivline($this)
         };
@@ -312,7 +340,7 @@ class stack_parser_options {
      * settings. Intended for cases where parsing produces items that need
      * post-processing, e.g., base-N integers may need to be rewritten into
      * some wrappings.
-     * 
+     *
      * Returns a list of filter names and filter options.
      */
     public function get_ast_filters(): array {
@@ -333,12 +361,12 @@ class stack_parser_options {
             StackLexerSeparators::Dot => [
                 'decimal' => '.',
                 'listsep' => ',',
-                'statementsep' => ';'
+                'statementsep' => ';',
             ],
             StackLexerSeparators::Comma => [
                 'decimal' => ',',
                 'listsep' => ';',
-                'statementsep' => '$'
+                'statementsep' => '$',
             ]
         };
         if ($this->basen) {

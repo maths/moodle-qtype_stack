@@ -36,7 +36,6 @@ require_once(__DIR__ . '/../stack/options.class.php');
  * @covers \stack_options
  */
 final class stack_options_test extends qtype_stack_testcase {
-
     public function test_set_exception_1(): void {
 
         $opts = new stack_options();

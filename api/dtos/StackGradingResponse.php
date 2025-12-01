@@ -44,5 +44,4 @@ class StackGradingResponse {
     public $responsesummary;
     /** @var array */
     public $iframes;
-
 }

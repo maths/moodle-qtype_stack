@@ -68,7 +68,7 @@ class stack_varmatrix_input extends stack_input {
             'spellcheck'     => 'false',
             'class'          => 'varmatrixinput',
             'size'           => $this->parameters['boxWidth'] * 1.1,
-            'style'          => 'width: '.$size.'em',
+            'style'          => 'width: ' . $size . 'em',
         ];
 
         if ($this->extraoptions['monospace']) {
@@ -226,7 +226,7 @@ class stack_varmatrix_input extends stack_input {
                 $vals[] = 'EMPTYCHAR';
             }
         }
-        $s = 'matrix('.implode(',', $vals).')';
+        $s = 'matrix(' . implode(',', $vals) . ')';
         if (!$secrules) {
             $secrules = $caslines[0]->get_securitymodel();
         }
@@ -245,9 +245,9 @@ class stack_varmatrix_input extends stack_input {
         }
         $matrix = [];
         foreach ($contents as $row) {
-            $matrix[] = '['.implode(',', $row).']';
+            $matrix[] = '[' . implode(',', $row) . ']';
         }
-        return 'matrix('.implode(',', $matrix).')';
+        return 'matrix(' . implode(',', $matrix) . ')';
     }
 
     /**
@@ -260,7 +260,7 @@ class stack_varmatrix_input extends stack_input {
         $errors = [];
         $notes = [];
         $valid = true;
-        list ($secrules, $filterstoapply) = $this->validate_contents_filters($basesecurity);
+        [$secrules, $filterstoapply] = $this->validate_contents_filters($basesecurity);
         // Separate rules for inert display logic, which wraps floats with certain functions.
         $secrulesd = clone $secrules;
         $secrulesd->add_allowedwords('dispdp,displaysci');
@@ -280,8 +280,15 @@ class stack_varmatrix_input extends stack_input {
                         $notes['too_long'] = true;
                         $val = '';
                     }
-                    $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply,
-                        [], 'Root', $localoptions->get_option('decimals'));
+                    $answer = stack_ast_container::make_from_student_source(
+                        $val,
+                        '',
+                        $secrules,
+                        $filterstoapply,
+                        [],
+                        'Root',
+                        $localoptions->get_option('decimals')
+                    );
                     if ($answer->get_valid()) {
                         $modifiedrow[] = $answer->get_inputform();
                     } else {
@@ -295,12 +302,20 @@ class stack_varmatrix_input extends stack_input {
                         }
                     }
                     // For varmatrix with '.', use of comma needs specific feedback.
-                    if ($localoptions->get_option('decimals') === '.' &&
-                            array_key_exists('unencapsulated_comma', array_flip($note))) {
+                    if (
+                        $localoptions->get_option('decimals') === '.' &&
+                            array_key_exists('unencapsulated_comma', array_flip($note))
+                    ) {
                         $errors[] = stack_string('stackCas_unencpsulated_varmatrix');
-                        $errors[] = stack_string('stackCas_varmatrix_eg',
+                        $errors[] = stack_string(
+                            'stackCas_varmatrix_eg',
                             ['bad' => stack_maxima_format_casstring($val),
-                             'good' => stack_maxima_format_casstring(str_replace(',', ' ', $val))]);
+                            'good' => stack_maxima_format_casstring(str_replace(
+                                ',',
+                                ' ',
+                                $val
+                            ))]
+                        );
                     } else {
                         $errors[] = $answer->get_errors();
                     }
@@ -329,9 +344,15 @@ class stack_varmatrix_input extends stack_input {
         $answer = stack_ast_container::make_from_teacher_source($value, '', $secrules);
         $answer->get_valid();
 
-        $inertform = stack_ast_container::make_from_student_source($value, '', $secrules,
+        $inertform = stack_ast_container::make_from_student_source(
+            $value,
+            '',
+            $secrules,
             array_merge($filterstoapply, ['910_inert_float_for_display', '912_inert_string_for_display']),
-            [], 'Root', '.');
+            [],
+            'Root',
+            '.'
+        );
         $inertform->get_valid();
 
         $errors = array_unique($errors);
@@ -450,7 +471,7 @@ class stack_varmatrix_input extends stack_input {
      */
     public function internal_validate_parameter($parameter, $value) {
         $valid = true;
-        switch($parameter) {
+        switch ($parameter) {
             case 'boxWidth':
                 $valid = is_int($value) && $value > 0;
                 break;

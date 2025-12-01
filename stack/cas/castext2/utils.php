@@ -21,7 +21,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -35,7 +35,6 @@ require_once(__DIR__ . '/autogen/parser.mbstring.php');
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class castext2_parser_utils {
-
     // For the cases where you need to define the format.
     // In general it is either MD or anything else. For now we
     // have no other special cases.
@@ -49,7 +48,7 @@ class castext2_parser_utils {
     // Basically when compiling we need to know if Markdown is in use and
     // some blocks may need details. That is why we have those parameters.
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public static function compile(string $castext, $format=null, $options=null): MP_Node {
+    public static function compile(string $castext, $format = null, $options = null): MP_Node {
         if ($castext === '' || $castext === null) {
             return new MP_String('');
         }
@@ -145,8 +144,11 @@ class castext2_parser_utils {
     // Postprocesses the result from CAS. For those that have parsed the response
     // to PHP array/string form. Note that you need to give unescaped strings...
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public static function postprocess_parsed(array $casresult, ?castext2_processor $processor,
-                                                castext2_placeholder_holder $holder): string {
+    public static function postprocess_parsed(
+        array $casresult,
+        ?castext2_processor $processor,
+        castext2_placeholder_holder $holder
+    ): string {
         if ($processor === null) {
             $processor = new castext2_default_processor();
         }
@@ -155,8 +157,11 @@ class castext2_parser_utils {
 
     // Postprocesses AST style result, as often one includes stuff in larger structures.
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public static function postprocess_mp_parsed(MP_Node $result, ?castext2_processor $processor,
-                                                    castext2_placeholder_holder $holder): string {
+    public static function postprocess_mp_parsed(
+        MP_Node $result,
+        ?castext2_processor $processor,
+        castext2_placeholder_holder $holder
+    ): string {
         // Some common unpacking.
         if ($result instanceof MP_Root) {
             $result = $result->items[0];
@@ -172,7 +177,7 @@ class castext2_parser_utils {
 
     // Parses a string of castext code to an AST tree for use elsewhere.
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public static function parse(string $code, $format=null): CTP_Root {
+    public static function parse(string $code, $format = null): CTP_Root {
         $parser = new CTP_Parser();
         $ast    = $parser->parse($code);
 
@@ -362,10 +367,14 @@ class castext2_parser_utils {
                     }
                 }
 
-                if ((($lastslash && $activeformat !== self::MDFORMAT) ||
-                        ($activeformat === self::MDFORMAT && ($doubleslash || $tripleslash))) && $c !== '\\') {
-                    if (($lastslash && $activeformat !== self::MDFORMAT) ||
-                            ($activeformat === self::MDFORMAT && $tripleslash)) {
+                if (
+                    (($lastslash && $activeformat !== self::MDFORMAT) ||
+                        ($activeformat === self::MDFORMAT && ($doubleslash || $tripleslash))) && $c !== '\\'
+                ) {
+                    if (
+                        ($lastslash && $activeformat !== self::MDFORMAT) ||
+                            ($activeformat === self::MDFORMAT && $tripleslash)
+                    ) {
                         if ($c === '[' || $c === '(') {
                             $mathmode = true;
                         }
@@ -373,15 +382,19 @@ class castext2_parser_utils {
                             $mathmode = false;
                         }
                     }
-                    if (($lastslash && $activeformat !== self::MDFORMAT) ||
-                            ($activeformat === self::MDFORMAT && $doubleslash)) {
+                    if (
+                        ($lastslash && $activeformat !== self::MDFORMAT) ||
+                            ($activeformat === self::MDFORMAT && $doubleslash)
+                    ) {
                         if ($c === 'b') {
                             // So do we have a \begin{ here?
                             $slice = mb_substr($skipped, $j);
                             if (mb_strpos($slice, 'begin{') === 0) {
                                 foreach ($mathmodeenvs as $envname) {
-                                    if (mb_strpos($slice, 'begin{' .
-                                        $envname . '}') === 0) {
+                                    if (
+                                        mb_strpos($slice, 'begin{' .
+                                        $envname . '}') === 0
+                                    ) {
                                         $mathmode = true;
                                         break;
                                     }
@@ -391,13 +404,17 @@ class castext2_parser_utils {
                                 // The rules say it should be even though things do work without.
                                 if (mb_strpos($slice, 'begin\\{') === 0) {
                                     foreach ($mathmodeenvs as $envname) {
-                                        if (mb_strpos($slice, 'begin\\{' .
-                                            $envname . '}') === 0) {
+                                        if (
+                                            mb_strpos($slice, 'begin\\{' .
+                                            $envname . '}') === 0
+                                        ) {
                                             $mathmode = true;
                                             break;
                                         }
-                                        if (mb_strpos($slice, 'begin\\{' .
-                                            $envname . '\\}') === 0) {
+                                        if (
+                                            mb_strpos($slice, 'begin\\{' .
+                                            $envname . '\\}') === 0
+                                        ) {
                                             $mathmode = true;
                                             break;
                                         }
@@ -410,8 +427,10 @@ class castext2_parser_utils {
                             $slice = mb_substr($skipped, $j);
                             if (mb_strpos($slice, 'end{') === 0) {
                                 foreach ($mathmodeenvs as $envname) {
-                                    if (mb_strpos($slice, 'end{' . $envname
-                                        . '}') === 0) {
+                                    if (
+                                        mb_strpos($slice, 'end{' . $envname
+                                        . '}') === 0
+                                    ) {
                                         $mathmode = false;
                                         break;
                                     }
@@ -421,13 +440,17 @@ class castext2_parser_utils {
                                 // The rules say it should be even though things do work without.
                                 if (mb_strpos($slice, 'end\\{') === 0) {
                                     foreach ($mathmodeenvs as $envname) {
-                                        if (mb_strpos($slice, 'end\\{' .
-                                            $envname . '}') === 0) {
+                                        if (
+                                            mb_strpos($slice, 'end\\{' .
+                                            $envname . '}') === 0
+                                        ) {
                                             $mathmode = true;
                                             break;
                                         }
-                                        if (mb_strpos($slice, 'end\\{' .
-                                            $envname . '\\}') === 0) {
+                                        if (
+                                            mb_strpos($slice, 'end\\{' .
+                                            $envname . '\\}') === 0
+                                        ) {
                                             $mathmode = true;
                                             break;
                                         }
@@ -478,9 +501,11 @@ class castext2_parser_utils {
         bool $deep = false
     ): array {
         $strings = stack_utils::all_substring_strings(
-            $stringwithcommasandnesting);
+            $stringwithcommasandnesting
+        );
         $safe = stack_utils::eliminate_strings(
-            $stringwithcommasandnesting);
+            $stringwithcommasandnesting
+        );
         $elems = stack_utils::list_to_array($safe, false);
         if (count($strings) == 0) {
             return $elems;
@@ -531,7 +556,7 @@ class castext2_parser_utils {
     // By reduce we mean that it merges the adjacent MP_Strings to cut
     // down the parsers work.
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public static function string_list_reduce(array $list, bool $ignorefirst=false): array {
+    public static function string_list_reduce(array $list, bool $ignorefirst = false): array {
         $r = [];
         $work = array_reverse($list);
         if ($ignorefirst) {
@@ -635,8 +660,10 @@ class castext2_parser_utils {
         ];
 
         // Case 1.
-        if (mb_stripos($line, '<pre') === 0 || mb_stripos($line, '<script') === 0 ||
-            mb_stripos($line, '<style') === 0 || mb_stripos($line, '<textarea') === 0) {
+        if (
+            mb_stripos($line, '<pre') === 0 || mb_stripos($line, '<script') === 0 ||
+            mb_stripos($line, '<style') === 0 || mb_stripos($line, '<textarea') === 0
+        ) {
             return ['</pre>', '</script>', '</style>', '</textarea>'];
         }
         // Case 2.

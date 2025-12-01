@@ -94,12 +94,15 @@ class castext2_static_replacer {
         $ast = maxima_parser_utils::parse($in);
 
         $map = $this->map;
-        $collector = function($node) use(&$map) {
+        $collector = function ($node) use (&$map) {
             // Yes that array_search = false case is something but it does not apply here.
-            if ($node instanceof MP_String && $node->parentnode instanceof MP_List &&
-                    array_search($node, $node->parentnode->items) > 0 && mb_strlen($node->value) > 10) {
+            if (
+                $node instanceof MP_String && $node->parentnode instanceof MP_List &&
+                    array_search($node, $node->parentnode->items) > 0 && mb_strlen($node->value) > 10
+            ) {
                 // Ensure that the list is a CASText2 thing.
-                if ($node->parentnode->items[0] instanceof MP_String && (
+                if (
+                    $node->parentnode->items[0] instanceof MP_String && (
                     $node->parentnode->items[0]->value === '%root' ||
                     $node->parentnode->items[0]->value === '%cs' ||
                     $node->parentnode->items[0]->value === 'p h' ||
@@ -110,7 +113,8 @@ class castext2_static_replacer {
                     ||
                     ($node->parentnode->items[0]->value === 'geogebra' &&
                             array_search($node, $node->parentnode->items) > 1)
-                    )) {
+                    )
+                ) {
                     // Do we already have this string value?
                     $key = array_search($node->value, $map);
                     if ($key === false) {

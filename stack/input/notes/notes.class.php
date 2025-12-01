@@ -103,7 +103,7 @@ class stack_notes_input extends stack_input {
         $notes    = [];
         $caslines = [];
         $valid    = true;
-        $answer   = stack_ast_container::make_from_student_source('', '', $basesecurity);;
+        $answer   = stack_ast_container::make_from_student_source('', '', $basesecurity);
 
         return [$valid, $errors, $notes, $answer, $caslines, $answer, []];
     }
@@ -153,7 +153,7 @@ class stack_notes_input extends stack_input {
      */
     public function internal_validate_parameter($parameter, $value) {
         $valid = true;
-        switch($parameter) {
+        switch ($parameter) {
             case 'boxWidth':
                 $valid = is_int($value) && $value > 0;
                 break;

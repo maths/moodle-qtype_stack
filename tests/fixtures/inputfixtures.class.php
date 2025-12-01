@@ -30,7 +30,6 @@ require_once(__DIR__ . '/../../stack/cas/cassession2.class.php');
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_inputvalidation_test_data {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const RAWSTRING     = 0;
     // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
@@ -162,8 +161,8 @@ class stack_inputvalidation_test_data {
             'a/(a(x+1)+2)', 'php_true', 'a/(a*(x+1)+2)', 'cas_true', '\frac{a}{a\cdot \left(x+1\right)+2}',
             'missing_stars | Variable_function', "",
         ],
-        ["f''(x)", 'php_false', '' , '', '', 'apostrophe', "Apostrophies again..."],
-        ["''diff(f,x)", 'php_false', '' , '', '', 'apostrophe', ""],
+        ["f''(x)", 'php_false', '', '', '', 'apostrophe', "Apostrophies again..."],
+        ["''diff(f,x)", 'php_false', '', '', '', 'apostrophe', ""],
         [
             'dosomething(x,y,z)', 'php_false', '', '', '', 'forbiddenFunction',
             "Students have a restricted list of function names.  Teachers are less restricted.",
@@ -956,8 +955,15 @@ class stack_inputvalidation_test_data {
 
         $secrules = new stack_cas_security();
         $secrules->set_allowedwords('dispdp,displaysci');
-        $cs = stack_ast_container::make_from_student_source($test->rawstring, '', $secrules,
-            $filterstoapply, [], 'Root', $test->decimals);
+        $cs = stack_ast_container::make_from_student_source(
+            $test->rawstring,
+            '',
+            $secrules,
+            $filterstoapply,
+            [],
+            'Root',
+            $test->decimals
+        );
         $cs->set_cas_validation_context('ans1', true, '', $test->validationmethod, false, 0, '.');
 
         $phpvalid     = $cs->get_valid();
@@ -973,12 +979,12 @@ class stack_inputvalidation_test_data {
 
         if ($phpvalid != $expected) {
             $passed = false;
-            $errors .= ' '.stack_string('phpvalidatemismatch');
+            $errors .= ' ' . stack_string('phpvalidatemismatch');
         }
         if ($phpvalid && $phpcasstring != $test->phpcasstring) {
             $passed = false;
             $errors .= ' ' . stack_maxima_format_casstring($phpcasstring) .
-                    ' \(\neq \) '.stack_maxima_format_casstring($test->phpcasstring);
+                    ' \(\neq \) ' . stack_maxima_format_casstring($test->phpcasstring);
         }
 
         $casvalid = '';
@@ -1007,7 +1013,7 @@ class stack_inputvalidation_test_data {
 
             if ($casexpected != $casvalid) {
                 $passed = false;
-                $caserrors .= ' '.stack_string('casvalidatemismatch');
+                $caserrors .= ' ' . stack_string('casvalidatemismatch');
             }
             $casdisplay = '';
             if ($cs->is_correctly_evaluated()) {
@@ -1023,8 +1029,8 @@ class stack_inputvalidation_test_data {
         $answernote = $cs->get_answernote();
         if ($answernote != $test->ansnotes) {
             $passed = false;
-            $errors .= ' '.stack_string('ansnotemismatch');
-            $errors .= html_writer::tag('pre', s($test->ansnotes)).html_writer::tag('pre', s($answernote));
+            $errors .= ' ' . stack_string('ansnotemismatch');
+            $errors .= html_writer::tag('pre', s($test->ansnotes)) . html_writer::tag('pre', s($answernote));
         }
 
         $test->passed     = $passed;

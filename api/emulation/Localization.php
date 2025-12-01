@@ -37,18 +37,17 @@ function get_string($identifier, $component, $a = null) {
     $userlanguage = current_language();
 
     static $string = [];
-    switch ($userlanguage)
-    {
+    switch ($userlanguage) {
         case 'de':
             if (empty($string)) {
                 // Load en values as defaults.
-                include(__DIR__ .'/../../lang/en/qtype_stack.php');
-                include(__DIR__ .'/../../lang/de/qtype_stack.php');
+                include(__DIR__ . '/../../lang/en/qtype_stack.php');
+                include(__DIR__ . '/../../lang/de/qtype_stack.php');
             }
             break;
         default:
             if (empty($string)) {
-                include(__DIR__ .'/../../lang/en/qtype_stack.php');
+                include(__DIR__ . '/../../lang/en/qtype_stack.php');
             }
             break;
     }

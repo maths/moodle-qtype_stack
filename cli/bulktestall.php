@@ -29,7 +29,7 @@
 define('CLI_SCRIPT', true);
 
 require(__DIR__ . '/../../../../config.php');
-require_once($CFG->libdir.'/clilib.php');
+require_once($CFG->libdir . '/clilib.php');
 require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/../stack/utils.class.php');
@@ -38,7 +38,7 @@ require_once(__DIR__ . '/../stack/bulktester.class.php');
 $start = microtime(true);
 
 // Get cli options.
-list($options, $unrecognized) = cli_get_params(['help' => false, 'id' => false, 'remote' => false,
+[$options, $unrecognized] = cli_get_params(['help' => false, 'id' => false, 'remote' => false,
     'addtags' => false], ['h' => 'help']);
 
 if ($unrecognized) {
@@ -85,7 +85,7 @@ if ($options['id']) {
         $categories = qbank_managecategories\helper::question_category_options([$testcontext]);
         $categories = reset($categories);
         foreach ($categories as $key => $category) {
-            list($categoryid) = explode(',', $key);
+            [$categoryid] = explode(',', $key);
             $questions = $bulktester->stack_questions_in_category($categoryid);
             if (array_key_exists($options['id'], $questions)) {
                 $found = true;
@@ -100,17 +100,28 @@ if ($options['id']) {
 }
 
 foreach ($contexts as $contextid => $numstackquestions) {
-
     $testcontext = context::instance_by_id($contextid);
 
     echo "\n\n# " . $contextid . ": " . stack_string('bulktesttitle', $testcontext->get_context_name());
 
     if ($partialcontext === $contextid) {
-        list($passed, $failing) = $bulktester->run_all_tests_for_context($testcontext,
-            null, 'cli', (int) $options['id'], false, (bool) $options['addtags']);
+        [$passed, $failing] = $bulktester->run_all_tests_for_context(
+            $testcontext,
+            null,
+            'cli',
+            (int) $options['id'],
+            false,
+            (bool) $options['addtags']
+        );
     } else {
-        list($passed, $failing) = $bulktester->run_all_tests_for_context($testcontext,
-            null, 'cli', false, false, (bool) $options['addtags']);
+        [$passed, $failing] = $bulktester->run_all_tests_for_context(
+            $testcontext,
+            null,
+            'cli',
+            false,
+            false,
+            (bool) $options['addtags']
+        );
     }
 
     $allpassed = $allpassed && $passed;

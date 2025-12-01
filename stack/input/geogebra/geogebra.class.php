@@ -49,7 +49,7 @@ class stack_geogebra_input extends stack_input {
             'name'  => $fieldname,
             'id'    => $fieldname,
             'size'  => $this->parameters['boxWidth'] * 1.1,
-            'style' => 'width: '.$size.'em',
+            'style' => 'width: ' . $size . 'em',
             'autocapitalize' => 'none',
             'spellcheck'     => 'false',
             'class' => 'geogebra',
@@ -130,7 +130,7 @@ class stack_geogebra_input extends stack_input {
      */
     public function internal_validate_parameter($parameter, $value) {
         $valid = true;
-        switch($parameter) {
+        switch ($parameter) {
             case 'boxWidth':
                 $valid = is_int($value) && $value > 0;
                 break;
@@ -152,6 +152,6 @@ class stack_geogebra_input extends stack_input {
         $cs = stack_ast_container::make_from_teacher_source($value, '', new stack_cas_security());
         $cs->set_nounify(0);
         $value = $cs->get_inputform(true, 0, true);
-        return stack_string('teacheranswershow', ['value' => '<code>'.$value.'</code>', 'display' => $display]);
+        return stack_string('teacheranswershow', ['value' => '<code>' . $value . '</code>', 'display' => $display]);
     }
 }

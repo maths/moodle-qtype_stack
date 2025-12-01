@@ -26,28 +26,28 @@ global $CFG;
 require_once($CFG->dirroot . '/mod/quiz/lib.php');
 require_once($CFG->dirroot . '/mod/quiz/tests/quiz_question_helper_test_trait.php');
 
-define ('RESPONSET', '# = 1 | prt1-1-T');
-define ('RESPONSEFF', '# = 0 | prt1-1-F | prt1-2-F');
-define ('RESPONSEFT', '# = 1 | prt1-1-F | prt1-2-T');
-define ('RESPONSE3FF', 'Seed: 333333333; ans1: "thing1_yuck" [score]; PotResTree_1: ' . RESPONSEFF);
-define ('RESPONSE3FF2', 'Seed: 333333333; ans1: "thing2_yuck" [score]; PotResTree_1: ' . RESPONSEFF);
-define ('RESPONSE3T', 'Seed: 333333333; ans1: "thing1_true" [score]; PotResTree_1: ' . RESPONSET);
-define ('RESPONSE3FT', 'Seed: 333333333; ans1: "thing2_true" [score]; PotResTree_1: ' . RESPONSEFT);
-define ('RESPONSE1FF', 'Seed: 123456789; ans1: "thing1_ew" [score]; PotResTree_1: ' . RESPONSEFF);
-define ('RESPONSE5FF', 'Seed: 555555555; ans1: "thing1_ew" [score]; PotResTree_1: ' . RESPONSEFF);
+define('RESPONSET', '# = 1 | prt1-1-T');
+define('RESPONSEFF', '# = 0 | prt1-1-F | prt1-2-F');
+define('RESPONSEFT', '# = 1 | prt1-1-F | prt1-2-T');
+define('RESPONSE3FF', 'Seed: 333333333; ans1: "thing1_yuck" [score]; PotResTree_1: ' . RESPONSEFF);
+define('RESPONSE3FF2', 'Seed: 333333333; ans1: "thing2_yuck" [score]; PotResTree_1: ' . RESPONSEFF);
+define('RESPONSE3T', 'Seed: 333333333; ans1: "thing1_true" [score]; PotResTree_1: ' . RESPONSET);
+define('RESPONSE3FT', 'Seed: 333333333; ans1: "thing2_true" [score]; PotResTree_1: ' . RESPONSEFT);
+define('RESPONSE1FF', 'Seed: 123456789; ans1: "thing1_ew" [score]; PotResTree_1: ' . RESPONSEFF);
+define('RESPONSE5FF', 'Seed: 555555555; ans1: "thing1_ew" [score]; PotResTree_1: ' . RESPONSEFF);
 
-define ('MULTRESPONSE3TTFT', 'Seed: 333333333; ans1: x^3 [score]; ans2: x^4 [score]; ans3: 0 [score]; ans4: true [score];' .
+define('MULTRESPONSE3TTFT', 'Seed: 333333333; ans1: x^3 [score]; ans2: x^4 [score]; ans3: 0 [score]; ans4: true [score];' .
         ' odd: # = 1 | odd-1-T; even: # = 1 | even-1-T;' .
         ' oddeven: # = 1 | oddeven-1-T | oddeven-2-T; unique: # = 1 | ATLogic_True. | unique-1-T');
-define ('MULTRESPONSE1TNNN', 'Seed: 123456789; ans1: x^5 [score]; ans2: vvv [invalid]; ans3: iii [invalid]; ans4: zz [invalid];' .
+define('MULTRESPONSE1TNNN', 'Seed: 123456789; ans1: x^5 [score]; ans2: vvv [invalid]; ans3: iii [invalid]; ans4: zz [invalid];' .
         ' odd: # = 1 | odd-1-T; even: !; oddeven: !; unique: !');
 
-define ('MULTRESPONSE1TVIO', 'Seed: 123456789; ans1: x^3 [score]; ans2: vv [valid]; ans3: iii [invalid]; ans4: zzz;' .
+define('MULTRESPONSE1TVIO', 'Seed: 123456789; ans1: x^3 [score]; ans2: vv [valid]; ans3: iii [invalid]; ans4: zzz;' .
         ' odd: # = 1 | odd-1-T; even: !; oddeven: !; unique: !');
-define ('RESPONSEOT', '# = 1 | odd-1-T');
-define ('RESPONSEET', '# = 1 | even-1-T');
-define ('RESPONSEOET', '# = 1 | oddeven-1-T | oddeven-2-T');
-define ('RESPONSEUT', '# = 1 | ATLogic_True. | unique-1-T');
+define('RESPONSEOT', '# = 1 | odd-1-T');
+define('RESPONSEET', '# = 1 | even-1-T');
+define('RESPONSEOET', '# = 1 | oddeven-1-T | oddeven-2-T');
+define('RESPONSEUT', '# = 1 | ATLogic_True. | unique-1-T');
 
 /**
  * Unit tests for the response analysis report.
@@ -60,6 +60,7 @@ define ('RESPONSEUT', '# = 1 | ATLogic_True. | unique-1-T');
  */
 final class responseanalysis_test extends qtype_stack_testcase {
     use \quiz_question_helper_test_trait;
+
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $report;
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
@@ -425,7 +426,6 @@ final class responseanalysis_test extends qtype_stack_testcase {
         parent::setUpBeforeClass();
         self::$question = test_question_maker::make_question('stack', 'test1');
         self::$question2 = test_question_maker::make_question('stack', 'test3');
-
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
@@ -478,15 +478,19 @@ final class responseanalysis_test extends qtype_stack_testcase {
         $contextid = \context_course::instance($course->id)->id;
         // For Moodle 5 this will be in a question bank module.
         $qcategory = $generator->create_question_category(
-            ['contextid' => $contextid]);
+            ['contextid' => $contextid]
+        );
         $user = $this->getDataGenerator()->create_user();
         $managerroleid = $DB->get_field('role', 'id', ['shortname' => 'manager']);
         role_assign($managerroleid, $user->id, $contextid);
         $this->setUser($user);
         switch ($type) {
             case 'singleinput':
-                $q = $generator->create_question('stack', 'response_test',
-                                ['name' => 'QNAME1', 'category' => $qcategory->id]);
+                $q = $generator->create_question(
+                    'stack',
+                    'response_test',
+                    ['name' => 'QNAME1', 'category' => $qcategory->id]
+                );
                 $this->quizquestion = $q;
                 $steps = [
                     [0, 'John', 'Jones', 3,
@@ -507,8 +511,11 @@ final class responseanalysis_test extends qtype_stack_testcase {
                 $behaviour = 'immediatefeedback';
                 break;
             case 'multiinput':
-                $q = $generator->create_question('stack', 'response_test_2',
-                                ['name' => 'QNAME1', 'category' => $qcategory->id]);
+                $q = $generator->create_question(
+                    'stack',
+                    'response_test_2',
+                    ['name' => 'QNAME1', 'category' => $qcategory->id]
+                );
                 $this->quizquestion = $q;
 
                 $steps = [
@@ -529,8 +536,11 @@ final class responseanalysis_test extends qtype_stack_testcase {
                 break;
             case 'interactive1':
                 // Two wrong answers and then correct.
-                $q = $generator->create_question('stack', 'response_test',
-                                ['name' => 'QNAME1', 'category' => $qcategory->id]);
+                $q = $generator->create_question(
+                    'stack',
+                    'response_test',
+                    ['name' => 'QNAME1', 'category' => $qcategory->id]
+                );
                 $this->quizquestion = $q;
                 $steps = [
                     [0, 'John', 'Jones', 3,
@@ -542,8 +552,11 @@ final class responseanalysis_test extends qtype_stack_testcase {
                 break;
             case 'interactive2':
                 // Three wrong answers.
-                $q = $generator->create_question('stack', 'response_test',
-                                ['name' => 'QNAME1', 'category' => $qcategory->id]);
+                $q = $generator->create_question(
+                    'stack',
+                    'response_test',
+                    ['name' => 'QNAME1', 'category' => $qcategory->id]
+                );
                 $this->quizquestion = $q;
                 $steps = [
                     [0, 'John', 'Jones', 3,
@@ -555,8 +568,11 @@ final class responseanalysis_test extends qtype_stack_testcase {
                 break;
             case 'interactive3':
                 // Three wrong answers. No final submit.
-                $q = $generator->create_question('stack', 'response_test',
-                                ['name' => 'QNAME1', 'category' => $qcategory->id]);
+                $q = $generator->create_question(
+                    'stack',
+                    'response_test',
+                    ['name' => 'QNAME1', 'category' => $qcategory->id]
+                );
                 $this->quizquestion = $q;
                 $steps = [
                     [0, 'John', 'Jones', 3,
@@ -568,8 +584,11 @@ final class responseanalysis_test extends qtype_stack_testcase {
                 break;
             case 'interactive4':
                 // One wrong answer and then correct. No final submit.
-                $q = $generator->create_question('stack', 'response_test',
-                                ['name' => 'QNAME1', 'category' => $qcategory->id]);
+                $q = $generator->create_question(
+                    'stack',
+                    'response_test',
+                    ['name' => 'QNAME1', 'category' => $qcategory->id]
+                );
                 $this->quizquestion = $q;
                 $steps = [
                     [0, 'John', 'Jones', 3,
@@ -605,7 +624,6 @@ final class responseanalysis_test extends qtype_stack_testcase {
                 $user = $this->getDataGenerator()->create_user($username);
                 $studentid = $DB->get_field('role', 'id', ['shortname' => 'student']);
                 role_assign($studentid, $user->id, $contextid);
-
             }
 
             if (!isset($attemptids[$step[0]])) {
@@ -881,7 +899,7 @@ final class responseanalysis_test extends qtype_stack_testcase {
             "\n\n# 1 (1)" .
             "\n1 (100.00%); " . htmlspecialchars(RESPONSE1FF) .
             "\n\n# 5 (1)" .
-            "\n1 (100.00%); " . htmlspecialchars(RESPONSE5FF) ."\n";
+            "\n1 (100.00%); " . htmlspecialchars(RESPONSE5FF) . "\n";
         $this->assertEquals($expected, $rawdata);
     }
 
@@ -1045,15 +1063,22 @@ final class responseanalysis_test extends qtype_stack_testcase {
         $contextid = \context_course::instance($course->id)->id;
         // For Moodle 5 this will be in a question bank module.
         $qcategory = $generator->create_question_category(
-            ['contextid' => $contextid]);
+            ['contextid' => $contextid]
+        );
         $user = $this->getDataGenerator()->create_user();
         $managerroleid = $DB->get_field('role', 'id', ['shortname' => 'manager']);
         role_assign($managerroleid, $user->id, $contextid);
         $this->setUser($user);
-        $q = $generator->create_question('shortanswer', null,
-                        ['name' => 'QNAME1', 'category' => $qcategory->id]);
-        $q2 = $generator->create_question('shortanswer', null,
-                        ['name' => 'QNAME2', 'category' => $qcategory->id]);
+        $q = $generator->create_question(
+            'shortanswer',
+            null,
+            ['name' => 'QNAME1', 'category' => $qcategory->id]
+        );
+        $q2 = $generator->create_question(
+            'shortanswer',
+            null,
+            ['name' => 'QNAME2', 'category' => $qcategory->id]
+        );
 
         $quizgenerator = new \testing_data_generator();
         $quizgenerator = $quizgenerator->get_plugin_generator('mod_quiz');
@@ -1070,9 +1095,13 @@ final class responseanalysis_test extends qtype_stack_testcase {
 
         $quiz1contextid = \context_module::instance($quiz1->cmid)->id;
         $quiz1qcategory = $generator->create_question_category(
-            ['contextid' => $quiz1contextid]);
-        $q3 = $generator->create_question('shortanswer', null,
-            ['name' => 'QNAME2', 'category' => $quiz1qcategory->id]);
+            ['contextid' => $quiz1contextid]
+        );
+        $q3 = $generator->create_question(
+            'shortanswer',
+            null,
+            ['name' => 'QNAME2', 'category' => $quiz1qcategory->id]
+        );
 
         // No questions added to quizzes.
         $quizzes = stack_question_report::get_relevant_quizzes($q->id, $qcategory->contextid);

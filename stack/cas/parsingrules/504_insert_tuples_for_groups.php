@@ -29,11 +29,10 @@ require_once(__DIR__ . '/filter.interface.php');
  * Does not change function calls, or arguments of operators, so x/(y+z) is not changed.
  */
 class stack_ast_filter_504_insert_tuples_for_groups implements stack_cas_astfilter {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 
-        $insettuples = function($node) use (&$answernotes, &$errors) {
+        $insettuples = function ($node) use (&$answernotes, &$errors) {
             if ($node instanceof MP_Group && count($node->items) > 1 && !($node->is_in_operation())) {
                 // Guard clause to allow nested tuples, but not other function calls.
                 if ($node->parentnode instanceof MP_FunctionCall) {

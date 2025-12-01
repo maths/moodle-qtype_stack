@@ -29,7 +29,6 @@ require_once(__DIR__ . '/../stack/cas/castext2/utils.php');
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_multilang {
-
     /**
      * @var string Variable to hold the current language.
      */
@@ -89,18 +88,24 @@ class stack_multilang {
                 $parentlangs = get_string_manager()->get_language_dependencies($lang);
                 self::$parentcache[$lang] = $parentlangs;
             }
-            $result = preg_replace_callback($this->search2,
+            $result = preg_replace_callback(
+                $this->search2,
                 function ($matches) {
                     return $this->filter_multilang2_impl($matches);
-                }, $text);
+                },
+                $text
+            );
             if ($this->replacementdone) {
                 return $result;
             }
             $this->lang = 'other';
-            $result = preg_replace_callback($this->search2,
+            $result = preg_replace_callback(
+                $this->search2,
                 function ($matches) {
                     return $this->filter_multilang2_impl($matches);
-                }, $text);
+                },
+                $text
+            );
 
             if (is_null($result)) {
                 return $text;
@@ -248,7 +253,8 @@ class stack_multilang {
 
         if ((mb_strpos($text, 'span') !== false) && (mb_strpos($text, 'multilang') !== false)) {
             $gotlangs = [];
-            $duh = preg_replace_callback($this->search,
+            $duh = preg_replace_callback(
+                $this->search,
                 function ($matches) use (&$gotlangs) {
                     $rawlanglist = [];
                     if (!preg_match_all($this->searchtosplit, $matches[0], $rawlanglist)) {
@@ -259,7 +265,9 @@ class stack_multilang {
                         $gotlangs[$lang] = true;
                     }
                     return '';
-                }, $text);
+                },
+                $text
+            );
 
             if (count($gotlangs) > 0) {
                 return [1, $gotlangs];
@@ -267,14 +275,17 @@ class stack_multilang {
         }
         if ((mb_strpos($text, '{') !== false) && (mb_strpos($text, 'mlang') !== false) && (mb_strpos($text, '}') !== false)) {
             $gotlangs = [];
-            $duh = preg_replace_callback($this->search2,
+            $duh = preg_replace_callback(
+                $this->search2,
                 function ($matches) use (&$gotlangs) {
                     $blocklangs = explode(',', str_replace(' ', '', str_replace('-', '_', strtolower($matches[1]))));
                     foreach ($blocklangs as $code) {
                         $gotlangs[$code] = true;
                     }
                     return '';
-                }, $text);
+                },
+                $text
+            );
 
             if (count($gotlangs) > 0) {
                 return [2, $gotlangs];

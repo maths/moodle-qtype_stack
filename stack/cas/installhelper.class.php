@@ -78,7 +78,8 @@ class stack_cas_configuration {
         $this->date = date("F j, Y, g:i a");
 
         $this->maximacodepath = stack_utils::convert_slash_paths(
-                $CFG->dirroot . '/question/type/stack/stack/maxima');
+            $CFG->dirroot . '/question/type/stack/stack/maxima'
+        );
 
         $this->logpath = stack_utils::convert_slash_paths($CFG->dataroot . '/stack/logs');
 
@@ -158,7 +159,6 @@ END;
 */
 STACK_SETUP(true);
 END;
-
         } else {
             $contents .= <<<END
 /* Load the main libraries. */
@@ -171,13 +171,12 @@ END;
                 $lib = trim($lib);
                 // Only include and load supported libraries.
                 if (in_array($lib, array_keys(self::$maximalibraries))) {
-                    $contents .= 'load("'.$lib.'")$'."\n";
+                    $contents .= 'load("' . $lib . '")$' . "\n";
                 }
             }
-
         }
 
-        $contents .= 'print(sconcat("[ STACK-Maxima started, library version ", stackmaximaversion, " ]"))$'."\n";
+        $contents .= 'print(sconcat("[ STACK-Maxima started, library version ", stackmaximaversion, " ]"))$' . "\n";
 
         return $contents;
     }
@@ -297,23 +296,22 @@ END;
         // Try to make a new version of the maxima local file.
         self::create_maximalocal();
         // Try to actually connect to Maxima.
-        list($message, $genuinedebug, $result) = stack_connection_helper::stackmaxima_genuine_connect();
+        [$message, $genuinedebug, $result] = stack_connection_helper::stackmaxima_genuine_connect();
 
         // Check if the libraries look like they are messing things up.
         if (strpos($genuinedebug, 'eval_string not found') > 0) {
             // If so, get rid of the libraries and try again.
             set_config('maximalibraries', '', 'qtype_stack');
             stack_utils::get_config()->maximalibraries = '';
-            list($message, $genuinedebug, $result) = stack_connection_helper::stackmaxima_genuine_connect();
+            [$message, $genuinedebug, $result] = stack_connection_helper::stackmaxima_genuine_connect();
         }
 
         $revert = true;
         if (!$result) {
             $errmsg = "Uncached connection failed: $message\n\n$genuinedebug";
-
         } else {
             // Try to auto make the optimised image.
-            list($message, $genuinedebug, $result, $commandline, $rawcommand)
+            [$message, $genuinedebug, $result, $commandline, $rawcommand]
                     = stack_connection_helper::stackmaxima_auto_maxima_optimise($genuinedebug);
 
             if (!$result) {

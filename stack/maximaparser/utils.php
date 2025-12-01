@@ -32,7 +32,6 @@ require_once(__DIR__ . '/MP_classes.php');
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class maxima_parser_utils {
-
     /**
      * Parses a string of Maxima code to an AST tree for use elsewhere.
      *
@@ -80,7 +79,8 @@ class maxima_parser_utils {
      * @return MP_Node the AST.
      */
     protected static function do_parse(string $code, stack_parser_options $parseoptions, string $cachekey): MP_Node {
-        /* TODO: restore the cache or not.
+        // phpcs:disable Squiz.PHP.CommentedOutCode.Found
+        /* TO-DO: restore the cache or not.
         $muccachelimit = get_config('qtype_stack', 'parsercacheinputlength');
 
         $cache = null;
@@ -101,6 +101,7 @@ class maxima_parser_utils {
             $cache->set($cachekey, $ast);
         }
         */
+        // phpcs:enable Squiz.PHP.CommentedOutCode.Found
         return $ast;
     }
 
@@ -259,9 +260,11 @@ class maxima_parser_utils {
             // Ok now seek for the inclusions if any are there.
             $includecount = 0;
             $errors = [];
-            $include = function($node) use (&$includecount, &$errors) {
-                if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Atom &&
-                    ($node->name->value === 'stack_include' || $node->name->value === 'stack_include_contrib')) {
+            $include = function ($node) use (&$includecount, &$errors) {
+                if (
+                    $node instanceof MP_FunctionCall && $node->name instanceof MP_Atom &&
+                    ($node->name->value === 'stack_include' || $node->name->value === 'stack_include_contrib')
+                ) {
                     // Now the first requirement for this is that this must be a top level item
                     // in this statement, this statement may not have flags or anythign else.
                     if ($node->parentnode instanceof MP_Statement) {
@@ -395,8 +398,10 @@ class maxima_parser_utils {
             return true;
         }
         $num = ord($mbc);
-        if ($num === 160 || $num === 8287 || $num < 33
-            || ($num > 8191 && $num < 8208) || ($num > 8231 && $num < 8240)) {
+        if (
+            $num === 160 || $num === 8287 || $num < 33
+            || ($num > 8191 && $num < 8208) || ($num > 8231 && $num < 8240)
+        ) {
             return true;
         }
         return false;
@@ -406,7 +411,7 @@ class maxima_parser_utils {
     // In a given parsed section of code. Updates a given usage list so that use
     // for example in going through a PRT tree is convenient.
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public static function variable_usage_finder($ast, $output=[]) {
+    public static function variable_usage_finder($ast, $output = []) {
         if (!array_key_exists('read', $output)) {
             $output['read'] = [];
         }
@@ -419,7 +424,7 @@ class maxima_parser_utils {
         if (!array_key_exists('declares', $output)) {
             $output['declares'] = [];
         }
-        $recursion = function($node) use(&$output) {
+        $recursion = function ($node) use (&$output) {
             // Feel free to expand this to track any other types of usages,
             // like functions and their definitions.
             if ($node instanceof MP_Identifier) {
@@ -484,6 +489,7 @@ class maxima_parser_utils {
         }
 
         throw new stack_exception(
-            'Tried to convert something not fully evaluated to PHP object.');
+            'Tried to convert something not fully evaluated to PHP object.'
+        );
     }
 }

@@ -36,5 +36,4 @@ class ErrorRenderer implements ErrorRendererInterface {
             'message' => $message,
         ]);
     }
-
 }

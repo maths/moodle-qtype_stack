@@ -34,7 +34,6 @@ require_once($CFG->libdir . '/weblib.php');
  * to map the problem of Moodle auto-format back to the normal HTML-processing.
  */
 class stack_cas_castext2_demoodle extends stack_cas_castext2_block {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
         // Basically mark the contents for post-processing.
@@ -56,14 +55,19 @@ class stack_cas_castext2_demoodle extends stack_cas_castext2_block {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function postprocess(array $params, castext2_processor $processor,
-        castext2_placeholder_holder $holder): string {
+    public function postprocess(
+        array $params,
+        castext2_processor $processor,
+        castext2_placeholder_holder $holder
+    ): string {
         // First collapse the content.
         $content = [''];
         $dontproc = [];
         for ($i = 1; $i < count($params); $i++) {
-            if (is_array($params[$i]) && $params[$i][0] !== 'demoodle' &&
-                    $params[$i][0] !== 'demarkdown' && $params[$i][0] !== 'htmlformat') {
+            if (
+                is_array($params[$i]) && $params[$i][0] !== 'demoodle' &&
+                    $params[$i][0] !== 'demarkdown' && $params[$i][0] !== 'htmlformat'
+            ) {
                 $content[count($content) - 1] .= $processor->process($params[$i][0], $params[$i], $holder, $processor);
             } else if (is_array($params[$i])) {
                 $dontproc[count($content)] = true;

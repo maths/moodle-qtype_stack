@@ -42,7 +42,6 @@ require_once(__DIR__ . '/../stack/cas/keyval.class.php');
  * @covers \stack_cas_keyval
  */
 final class caskeyval_exception_test extends qtype_stack_testcase {
-
     public function test_exception_1(): void {
 
         $this->expectException(stack_exception::class);

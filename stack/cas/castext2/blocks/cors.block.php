@@ -32,7 +32,6 @@ require_once(__DIR__ . '/../../../../vle_specific.php');
  * Simple block for dealing with CORS content urls.
  */
 class stack_cas_castext2_cors extends stack_cas_castext2_block {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
         $r = new MP_String(stack_cors_link($this->params['src']));

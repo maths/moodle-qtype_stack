@@ -14,30 +14,48 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Common classes
+ * @package    qtype_stack
+ * @copyright  2025 Aalto University
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * phpcs:disable PSR1.Classes.ClassDeclaration.MultipleClasses
+ */
+
+defined('MOODLE_INTERNAL') || die();
+
 require_once('lexer.base.class.php');
 require_once('MP_classes.php');
 
 // Used to filter parser stacks to pick only relevant items for exceptions.
 // Basically, drop state numbers as those can change and we should not use
 // them in errors.
+// phpcs:ignore moodle.Commenting.MissingDocblock.Function
 function stack_maxima_parser_exception_partial_filter($item): bool {
     return $item instanceof MP_Node || $item instanceof stack_maxima_lexer_token;
 }
 
 // General exception from a parser.
+// phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_maxima_parser_exception extends Exception implements JsonSerializable {
     // What tokens were expected. String form.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public ?array $expected = null;
     // What was seen, the full token.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public ?stack_maxima_lexer_token $received = null;
     // The full original code.
-    public String $original;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
+    public string $original;
     // The previous token.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public ?stack_maxima_lexer_token $previous = null;
-    // Partial results, i.e., the parser stack with tokens and reduced 
+    // Partial results, i.e., the parser stack with tokens and reduced
     // MP objects. State numbers and other parsing details eliminated.
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public array $partial;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct($message, $expected, $received, $original, $previous, $partial) {
         parent::__construct($message);
         $this->expected = $expected;
@@ -47,17 +65,19 @@ class stack_maxima_parser_exception extends Exception implements JsonSerializabl
         $this->partial = $partial;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __toString() {
         return 'Expected [' . implode(',', $this->expected) . '] received ' . json_encode($this->received);
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function jsonSerialize(): mixed {
         return [
             'expected' => $this->expected,
             'received' => $this->received,
             'previous' => $this->previous,
             'partial' => $this->partial,
-            'original' => $this->original
+            'original' => $this->original,
         ];
     }
 }
@@ -68,19 +88,28 @@ class stack_maxima_parser_exception extends Exception implements JsonSerializabl
 /**
  * Holds static copies of variants of the tables and provides common
  * access logic.
- * 
+ *
  * Exists to abstract any encoding/compression of the table away from
  * the parser. And naturally to avoid loading the same static data
  * multiple times.
+ * @package qtype_stack
  */
 class stack_maxima_parser_table_holder {
+    // phpcs:disable moodle.NamingConventions.ValidVariableName.MemberNameUnderscore
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private static $cache = [];
-    private $table; // state -> [t_id -> action]
-    private $goto; // state -> [nt_id -> state]
-    private $rules_to_nonterminals; // rule num -> nt_id
-    private $nonterminals; // nt_id -> name
-    private $terminals; // name -> nt_id
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
+    private $table; // ... state -> [t_id -> action] .
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
+    private $goto; // ... state -> [ntid -> state] .
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
+    private $rules_to_nonterminals; // ... rule num -> ntid .
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
+    private $nonterminals; // ... ntid -> name .
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
+    private $terminals; // ... name -> ntid .
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_for_grammar(string $jsonname) {
         if (isset(self::$cache[$jsonname])) {
             return self::$cache[$jsonname];
@@ -100,16 +129,16 @@ class stack_maxima_parser_table_holder {
 
     /**
      * Action (Shift/Reduce) based on the current state and token seen.
-     * 
+     *
      * The action will be retuned as an array as follows:
      *  - if Shift a single element array with [state num]
      *  - if Reduce an array of [rule, nt name, nt id]
-     * 
+     *
      * If no match is available null will be returned.
      */
-    public function get_action(int $state, String $token): ?array {
+    public function get_action(int $state, string $token): ?array {
         if (!isset($this->terminals[$token])) {
-            return null; // "let" or other special keyword not present in this grammar.
+            return null; // As "let" or other special keyword not present in this grammar.
         }
         $t = $this->terminals[$token];
         if (!isset($this->table[$state]) || !isset($this->table[$state][$t])) {
@@ -118,12 +147,12 @@ class stack_maxima_parser_table_holder {
         $encoded = $this->table[$state][$t];
         if ($encoded % 2 == 0) {
             // Even ones are shifts.
-            return [$encoded/2];
+            return [$encoded / 2];
         } else {
             // Odd ones are reduces.
-            $rule = ($encoded - 1)/2;
-            $nt_id = $this->rules_to_nonterminals[$rule];
-            return [$rule, $this->nonterminals[$nt_id], $nt_id];
+            $rule = ($encoded - 1) / 2;
+            $ntid = $this->rules_to_nonterminals[$rule];
+            return [$rule, $this->nonterminals[$ntid], $ntid];
         }
     }
 
@@ -142,13 +171,14 @@ class stack_maxima_parser_table_holder {
 
     /**
      * Next state based on the current state and the reduced nonterminal.
-     * 
+     *
      * Null if impossible.
      */
-    public function get_goto(int $state, int $nonterminal_id): ?int {
-        if (!isset($this->goto[$state]) || !isset($this->goto[$state][$nonterminal_id])) {
+    public function get_goto(int $state, int $nonterminalid): ?int {
+        if (!isset($this->goto[$state]) || !isset($this->goto[$state][$nonterminalid])) {
             return null;
         }
-        return $this->goto[$state][$nonterminal_id];
+        return $this->goto[$state][$nonterminalid];
     }
+    // phpcs:enable moodle.NamingConventions.ValidVariableName.MemberNameUnderscore
 }

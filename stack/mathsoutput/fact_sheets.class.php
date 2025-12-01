@@ -22,7 +22,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 abstract class stack_fact_sheets {
-
     /**
      * This is the list of allowable facts tags. Each of these needs to have
      * two corresponding lines in the language file.
@@ -97,9 +96,11 @@ abstract class stack_fact_sheets {
                 throw new stack_exception('stack_fact_sheets: the following facts tag does not exist: ' . $tag);
             }
 
-            $text = str_replace('[[facts:' . $tag . ']]',
-                    $renderer->fact_sheet(stack_string($tag . '_name'), stack_string($tag . '_fact')),
-                    $text);
+            $text = str_replace(
+                '[[facts:' . $tag . ']]',
+                $renderer->fact_sheet(stack_string($tag . '_name'), stack_string($tag . '_fact')),
+                $text
+            );
         }
 
         return $text;

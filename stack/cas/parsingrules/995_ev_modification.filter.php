@@ -31,7 +31,6 @@ require_once(__DIR__ . '/996_call_modification.filter.php');
  * in play.
  */
 class stack_ast_filter_995_ev_modification implements stack_cas_astfilter_parametric {
-
     // Whether to rewrite evaluation flags. Don't do for students.
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $flags = false;
@@ -44,11 +43,13 @@ class stack_ast_filter_995_ev_modification implements stack_cas_astfilter_parame
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 
-        $process = function($node) {
+        $process = function ($node) {
             // If not student input, turn all evaluation flags to ev-calls.
             // Do it now before other ev logic gets executed.
-            if ($this->flags && $node instanceof MP_Statement &&
-                $node->flags !== null && count($node->flags) > 0) {
+            if (
+                $this->flags && $node instanceof MP_Statement &&
+                $node->flags !== null && count($node->flags) > 0
+            ) {
                 $fun = new MP_FunctionCall(new MP_Identifier('ev'), [$node->statement]);
                 if ($node->statement instanceof MP_Operation && $node->statement->op === ':') {
                     $fun->arguments[0] = $node->statement->rhs;
@@ -62,8 +63,10 @@ class stack_ast_filter_995_ev_modification implements stack_cas_astfilter_parame
                 $node->flags = [];
                 return false;
             }
-            if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Atom &&
-                $node->name->value === 'ev') {
+            if (
+                $node instanceof MP_FunctionCall && $node->name instanceof MP_Atom &&
+                $node->name->value === 'ev'
+            ) {
                 $payload = $node->arguments[0];
                 $tc = $payload->type_count();
                 // Do not touch these, indempotent behaviour required.
@@ -78,8 +81,10 @@ class stack_ast_filter_995_ev_modification implements stack_cas_astfilter_parame
                         if ($arg !== $payload) {
                             if ($arg instanceof MP_Identifier && $arg->value === 'simp') {
                                 $simp = new MP_Boolean(true);
-                            } else if ($arg instanceof MP_Operation && ($arg->op === ':' || $arg->op === '=')
-                                       && $arg->lhs instanceof MP_Identifier && $arg->lhs->value === 'simp') {
+                            } else if (
+                                $arg instanceof MP_Operation && ($arg->op === ':' || $arg->op === '=')
+                                       && $arg->lhs instanceof MP_Identifier && $arg->lhs->value === 'simp'
+                            ) {
                                 $simp = clone $arg->rhs;
                             }
                         }
@@ -87,14 +92,17 @@ class stack_ast_filter_995_ev_modification implements stack_cas_astfilter_parame
 
                     $replacement = null;
                     if ($simp === null) {
-                        $replacement = new MP_FunctionCall(new MP_Identifier('block'),
+                        $replacement = new MP_FunctionCall(
+                            new MP_Identifier('block'),
                             [
                                 new MP_List([new MP_Identifier('%_sev_e')]),
                                 new MP_Operation(':', new MP_Identifier('%_sev_e'), $payload),
                                 $node,
-                            ]);
+                            ]
+                        );
                     } else {
-                        $replacement = new MP_FunctionCall(new MP_Identifier('block'),
+                        $replacement = new MP_FunctionCall(
+                            new MP_Identifier('block'),
                             [
                                 new MP_List([new MP_Identifier('%_sev_e'), new MP_Identifier('%_sev_s')]),
                                 new MP_Operation(':', new MP_Identifier('%_sev_s'), new MP_Identifier('simp')),
@@ -102,7 +110,8 @@ class stack_ast_filter_995_ev_modification implements stack_cas_astfilter_parame
                                 new MP_Operation(':', new MP_Identifier('%_sev_e'), $payload),
                                 new MP_Operation(':', new MP_Identifier('simp'), new MP_Identifier('%_sev_s')),
                                 $node,
-                            ]);
+                            ]
+                        );
                     }
                     $node->replace($payload, new MP_Identifier('%_sev_e'));
                     $node->parentnode->replace($node, $replacement);

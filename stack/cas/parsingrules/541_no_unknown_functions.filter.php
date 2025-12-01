@@ -33,19 +33,23 @@ class stack_ast_filter_541_no_unknown_functions implements stack_cas_astfilter_e
         $hasany = false;
         $known = stack_cas_security::get_protected_identifiers('function', $identifierrules->get_units());
 
-        $process = function($node) use (&$hasany, &$errors, $known) {
+        $process = function ($node) use (&$hasany, &$errors, $known) {
             if ($node instanceof MP_FunctionCall && !isset($node->position['invalid'])) {
-                if ($node->name instanceof MP_Identifier &&
-                    array_key_exists($node->name->value, $known)) {
+                if (
+                    $node->name instanceof MP_Identifier &&
+                    array_key_exists($node->name->value, $known)
+                ) {
                     return true;
                 }
                 $hasany = true;
                 // Insert stars into the pattern.
-                $errors[] = stack_string('stackCas_unknownFunction',
-                        [
+                $errors[] = stack_string(
+                    'stackCas_unknownFunction',
+                    [
                             'forbid' => stack_maxima_format_casstring($node->name->toString()),
                             'term' => stack_maxima_format_casstring($node->toString()),
-                        ]);
+                    ]
+                );
                 $node->position['invalid'] = true;
                 return false;
             }
@@ -66,8 +70,10 @@ class stack_ast_filter_541_no_unknown_functions implements stack_cas_astfilter_e
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function conflicts_with(string $otherfiltername): bool {
-        if ($otherfiltername === '442_split_all_functions' ||
-            $otherfiltername === '407_split_unknown_functions') {
+        if (
+            $otherfiltername === '442_split_all_functions' ||
+            $otherfiltername === '407_split_unknown_functions'
+        ) {
             return true;
         }
         return false;

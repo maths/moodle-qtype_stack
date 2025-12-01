@@ -27,7 +27,7 @@
 
 use question_bank;
 
-require_once(__DIR__.'/../../../../config.php');
+require_once(__DIR__ . '/../../../../config.php');
 
 require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/../locallib.php');
@@ -85,20 +85,20 @@ $parser = $po->get_parser();
 
 if ($q->get_cached('preamble-qv') !== null) {
     echo '<p>Preamble:</p>';
-    echo '<pre>' . htmlspecialchars($parser->parse($po->get_lexer($q->get_cached('preamble-qv')))->
-        toString(['pretty' => true]), ENT_COMPAT) . '</pre>';
+    echo '<pre>' . htmlspecialchars($parser->parse($po->get_lexer($q->get_cached('preamble-qv')))
+        ->toString(['pretty' => true]), ENT_COMPAT) . '</pre>';
 }
 
 if ($q->get_cached('contextvariables-qv') !== null) {
     echo '<p>Contextvariables:</p>';
-    echo '<pre>' . htmlspecialchars($parser->parse($po->get_lexer($q->get_cached('contextvariables-qv')))->
-        toString(['pretty' => true]), ENT_COMPAT) . '</pre>';
+    echo '<pre>' . htmlspecialchars($parser->parse($po->get_lexer($q->get_cached('contextvariables-qv')))
+        ->toString(['pretty' => true]), ENT_COMPAT) . '</pre>';
 }
 
 if ($q->get_cached('statement-qv') !== null) {
     echo '<p>Question variables:</p>';
-    echo '<pre>' . htmlspecialchars($parser->parse($po->get_lexer($q->get_cached('statement-qv')))->
-        toString(['pretty' => true]), ENT_COMPAT) . '</pre>';
+    echo '<pre>' . htmlspecialchars($parser->parse($po->get_lexer($q->get_cached('statement-qv')))
+        ->toString(['pretty' => true]), ENT_COMPAT) . '</pre>';
 } else {
     echo '<p>No actual question variables.</p>';
 }
@@ -112,23 +112,27 @@ foreach ($q->prts as $prt) {
 
     echo '<p>Required inputs: ' . json_encode(array_keys($q->get_cached('required')[$prt->get_name()])) . '</p>';
 
-    if (isset($q->get_cached('prt-preamble')[$prt->get_name()]) &&
-            $q->get_cached('prt-preamble')[$prt->get_name()] !== null) {
+    if (
+        isset($q->get_cached('prt-preamble')[$prt->get_name()]) &&
+            $q->get_cached('prt-preamble')[$prt->get_name()] !== null
+    ) {
         echo '<p>PRT-preamble:</p>';
-        echo '<pre>' . htmlspecialchars($parser->parse($po->get_lexer($q->get_cached('prt-preamble')[$prt->get_name()]))->
-            toString(['pretty' => true]), ENT_COMPAT) . '</pre>';
+        echo '<pre>' . htmlspecialchars($parser->parse($po->get_lexer($q->get_cached('prt-preamble')[$prt->get_name()]))
+            ->toString(['pretty' => true]), ENT_COMPAT) . '</pre>';
     }
 
-    if (isset($q->get_cached('prt-contextvariables')[$prt->get_name()]) &&
-            $q->get_cached('prt-contextvariables')[$prt->get_name()] !== null) {
+    if (
+        isset($q->get_cached('prt-contextvariables')[$prt->get_name()]) &&
+            $q->get_cached('prt-contextvariables')[$prt->get_name()] !== null
+    ) {
         echo '<p>PRT-contextvariables:</p>';
-        echo '<pre>' . htmlspecialchars($parser->parse($po->get_lexer($q->get_cached('prt-contextvariables')[$prt->get_name()]))->
-            toString(['pretty' => true]), ENT_COMPAT) . '</pre>';
+        echo '<pre>' . htmlspecialchars($parser->parse($po->get_lexer($q->get_cached('prt-contextvariables')[$prt->get_name()]))
+            ->toString(['pretty' => true]), ENT_COMPAT) . '</pre>';
     }
 
     echo '<p>PRT-logic:</p>';
-    echo '<pre>' . htmlspecialchars($parser->parse($po->get_lexer($q->get_cached('prt-definition')[$prt->get_name()]))->
-        toString(['pretty' => true]), ENT_COMPAT) . '</pre>';
+    echo '<pre>' . htmlspecialchars($parser->parse($po->get_lexer($q->get_cached('prt-definition')[$prt->get_name()]))
+        ->toString(['pretty' => true]), ENT_COMPAT) . '</pre>';
 }
 
 echo '<h3>Various text fragments</h3>';
@@ -137,7 +141,7 @@ echo '<table><tr><th>Part</th><th>Compiled CASText code</th></tr>';
 
 foreach ($q->compiledcache as $key => $value) {
     if (strpos($key, 'castext-') === 0) {
-        echo '<tr><td>'. $key . '</td><td><pre>';
+        echo '<tr><td>' . $key . '</td><td><pre>';
         echo htmlspecialchars($parser->parse($po->get_lexer($value))->toString(['pretty' => true]), ENT_COMPAT);
         echo '</pre></td></tr>';
     }

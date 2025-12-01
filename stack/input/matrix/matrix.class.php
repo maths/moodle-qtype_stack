@@ -143,9 +143,9 @@ class stack_matrix_input extends stack_input {
     public function contents_to_maxima($contents) {
         $matrix = [];
         foreach ($contents as $row) {
-            $matrix[] = '['.implode(',', $row).']';
+            $matrix[] = '[' . implode(',', $row) . ']';
         }
-        return 'matrix('.implode(',', $matrix).')';
+        return 'matrix(' . implode(',', $matrix) . ')';
     }
 
     /**
@@ -190,7 +190,7 @@ class stack_matrix_input extends stack_input {
         $notes = [];
         $valid = true;
 
-        list ($secrules, $filterstoapply) = $this->validate_contents_filters($basesecurity);
+        [$secrules, $filterstoapply] = $this->validate_contents_filters($basesecurity);
         // Separate rules for inert display logic, which wraps floats with certain functions.
         $secrulesd = clone $secrules;
         $secrulesd->add_allowedwords('dispdp,displaysci');
@@ -208,8 +208,15 @@ class stack_matrix_input extends stack_input {
                     $val = '';
                 }
 
-                $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply,
-                    [], 'Root', $this->options->get_option('decimals'));
+                $answer = stack_ast_container::make_from_student_source(
+                    $val,
+                    '',
+                    $secrules,
+                    $filterstoapply,
+                    [],
+                    'Root',
+                    $this->options->get_option('decimals')
+                );
                 if ($answer->get_valid()) {
                     $modifiedrow[] = $answer->get_inputform();
                 } else {
@@ -246,9 +253,15 @@ class stack_matrix_input extends stack_input {
         $answer = stack_ast_container::make_from_teacher_source($value, '', $secrules);
         $answer->get_valid();
 
-        $inertform = stack_ast_container::make_from_student_source($value, '', $secrules,
+        $inertform = stack_ast_container::make_from_student_source(
+            $value,
+            '',
+            $secrules,
             array_merge($filterstoapply, ['910_inert_float_for_display', '912_inert_string_for_display']),
-            [], 'Root', '.');
+            [],
+            'Root',
+            '.'
+        );
         $inertform->get_valid();
 
         $caslines = [];
@@ -330,9 +343,11 @@ class stack_matrix_input extends stack_input {
                 if ($useplaceholder) {
                     $field = 'placeholder';
                 }
-                $name = $fieldname.'_sub_'.$i.'_'.$j;
-                $html   = html_writer::empty_tag('input',
-                    array_merge(['type' => 'text', 'id'  => $name, 'name'  => $name, $field => $val], $attr));
+                $name = $fieldname . '_sub_' . $i . '_' . $j;
+                $html   = html_writer::empty_tag(
+                    'input',
+                    array_merge(['type' => 'text', 'id'  => $name, 'name'  => $name, $field => $val], $attr)
+                );
                 $xhtml .= html_writer::tag('td', $html);
             }
 
@@ -402,7 +417,7 @@ class stack_matrix_input extends stack_input {
                 if ('?' == $val) {
                     $val = '';
                 }
-                $response[$this->name.'_sub_'.$i.'_'.$j] = $val;
+                $response[$this->name . '_sub_' . $i . '_' . $j] = $val;
             }
         }
 
@@ -410,7 +425,6 @@ class stack_matrix_input extends stack_input {
             $response[$this->name . '_val'] = $in;
         }
         return $response;
-
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -447,7 +461,7 @@ class stack_matrix_input extends stack_input {
      */
     public function internal_validate_parameter($parameter, $value) {
         $valid = true;
-        switch($parameter) {
+        switch ($parameter) {
             case 'boxWidth':
                 $valid = is_int($value) && $value > 0;
                 break;
@@ -533,7 +547,7 @@ class stack_matrix_input extends stack_input {
                 if ('?' == $val) {
                     $val = '';
                 }
-                $response[$this->name.'_sub_'.$i.'_'.$j] = $val;
+                $response[$this->name . '_sub_' . $i . '_' . $j] = $val;
             }
         }
 
@@ -604,7 +618,7 @@ class stack_matrix_input extends stack_input {
                         $current .= $char;
                     }
                     break;
-                default;
+                default:
                     $current .= $char;
             }
         }

@@ -98,7 +98,6 @@ class stack_subscripts_test_data {
         // By default, Maxima drops the leading zeros when it creates subscripts.
         ['a[theta]', 'a[theta]', '!', 'a_{\theta}', '!', '!'],
         ['v[1,2]', 'v[1,2]', '!', 'v_{1,2}', '!', '!'],
-        //        ['a[theta]', 'a[theta]', '!', 'a_{\theta}', '!', '!'],//repetition
         ['theta[1]', 'theta[1]', '!', '\theta_{1}', '!', '!'],
         ['theta[a]', 'theta[a]', '!', '\theta_{a}', '!', '!'],
         ['theta[n,m]', 'theta[n,m]', '!', '\theta_{n,m}', '!', '!'],
@@ -173,9 +172,9 @@ class stack_subscripts_test_data {
         $sec = new stack_cas_security();
 
         $cs = [];
-        $cs[] = 'p:'.$test->rawinput;
+        $cs[] = 'p:' . $test->rawinput;
         $cs[] = 'tex_plain_atoms:true';
-        $cs[] = 'q:'.$test->rawinput;
+        $cs[] = 'q:' . $test->rawinput;
         foreach ($cs as $s) {
             $cs = stack_ast_container::make_from_student_source($s, 'subscripts_fixtures', $sec);
             $cs->get_valid();

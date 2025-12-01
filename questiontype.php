@@ -48,7 +48,6 @@ require_once(__DIR__ . '/stack/prt.class.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_stack extends question_type {
-
     /** @var int array key into the results of get_input_names_from_question_text for the count of input placeholders. */
     const INPUTS = 0;
     /** @var int array key into the results of get_input_names_from_question_text for the count of validation placeholders. */
@@ -103,8 +102,10 @@ class qtype_stack extends question_type {
             $fromform->{$field}['text'] = stack_maths::replace_dollars($fromform->{$field}['text']);
         }
 
-        $prtnames = array_keys($this->get_prt_names_from_question($fromform->questiontext['text'],
-                $fromform->specificfeedback['text']));
+        $prtnames = array_keys($this->get_prt_names_from_question(
+            $fromform->questiontext['text'],
+            $fromform->specificfeedback['text']
+        ));
         foreach ($prtnames as $prt) {
             foreach ($fromform->{$prt . 'truefeedback'} as &$feedback) {
                 $feedback['text'] = stack_maths::replace_dollars($feedback['text']);
@@ -168,26 +169,56 @@ class qtype_stack extends question_type {
 
         $options->stackversion              = $fromform->stackversion;
         $options->questionvariables         = $fromform->questionvariables;
-        $options->specificfeedback          = $this->import_or_save_files($fromform->specificfeedback,
-                    $context, 'qtype_stack', 'specificfeedback', $fromform->id);
+        $options->specificfeedback          = $this->import_or_save_files(
+            $fromform->specificfeedback,
+            $context,
+            'qtype_stack',
+            'specificfeedback',
+            $fromform->id
+        );
         $options->specificfeedbackformat    = $fromform->specificfeedback['format'];
-        $options->questionnote              = $this->import_or_save_files($fromform->questionnote,
-                    $context, 'qtype_stack', 'questionnote', $fromform->id);
+        $options->questionnote              = $this->import_or_save_files(
+            $fromform->questionnote,
+            $context,
+            'qtype_stack',
+            'questionnote',
+            $fromform->id
+        );
         $options->questionnoteformat        = $fromform->questionnote['format'];
-        $options->questiondescription       = $this->import_or_save_files($fromform->questiondescription,
-            $context, 'qtype_stack', 'questiondescription', $fromform->id);
+        $options->questiondescription       = $this->import_or_save_files(
+            $fromform->questiondescription,
+            $context,
+            'qtype_stack',
+            'questiondescription',
+            $fromform->id
+        );
         $options->questiondescriptionformat = $fromform->questiondescription['format'];
         $options->questionsimplify          = $fromform->questionsimplify;
         $options->assumepositive            = $fromform->assumepositive;
         $options->assumereal                = $fromform->assumereal;
-        $options->prtcorrect                = $this->import_or_save_files($fromform->prtcorrect,
-                    $context, 'qtype_stack', 'prtcorrect', $fromform->id);
+        $options->prtcorrect                = $this->import_or_save_files(
+            $fromform->prtcorrect,
+            $context,
+            'qtype_stack',
+            'prtcorrect',
+            $fromform->id
+        );
         $options->prtcorrectformat          = $fromform->prtcorrect['format'];
-        $options->prtpartiallycorrect       = $this->import_or_save_files($fromform->prtpartiallycorrect,
-                    $context, 'qtype_stack', 'prtpartiallycorrect', $fromform->id);
+        $options->prtpartiallycorrect       = $this->import_or_save_files(
+            $fromform->prtpartiallycorrect,
+            $context,
+            'qtype_stack',
+            'prtpartiallycorrect',
+            $fromform->id
+        );
         $options->prtpartiallycorrectformat = $fromform->prtpartiallycorrect['format'];
-        $options->prtincorrect              = $this->import_or_save_files($fromform->prtincorrect,
-                    $context, 'qtype_stack', 'prtincorrect', $fromform->id);
+        $options->prtincorrect              = $this->import_or_save_files(
+            $fromform->prtincorrect,
+            $context,
+            'qtype_stack',
+            'prtincorrect',
+            $fromform->id
+        );
         $options->prtincorrectformat        = $fromform->prtincorrect['format'];
         $options->decimals                  = $fromform->decimals;
         $options->scientificnotation        = $fromform->scientificnotation;
@@ -206,8 +237,12 @@ class qtype_stack extends question_type {
         $DB->update_record('qtype_stack_options', $options);
 
         $inputnames = array_keys($this->get_input_names_from_question_text_lang($fromform->questiontext));
-        $inputs = $DB->get_records('qtype_stack_inputs',
-                ['questionid' => $fromform->id], '', 'name, id, questionid');
+        $inputs = $DB->get_records(
+            'qtype_stack_inputs',
+            ['questionid' => $fromform->id],
+            '',
+            'name, id, questionid'
+        );
         $questionhasinputs = false;
         foreach ($inputnames as $inputname) {
             if (array_key_exists($inputname, $inputs)) {
@@ -243,10 +278,13 @@ class qtype_stack extends question_type {
         }
 
         if ($inputs) {
-            list($test, $params) = $DB->get_in_or_equal(array_keys($inputs));
+            [$test, $params] = $DB->get_in_or_equal(array_keys($inputs));
             $params[] = $fromform->id;
-            $DB->delete_records_select('qtype_stack_inputs',
-                    'name ' . $test . ' AND questionid = ?', $params);
+            $DB->delete_records_select(
+                'qtype_stack_inputs',
+                'name ' . $test . ' AND questionid = ?',
+                $params
+            );
         }
 
         if (!$questionhasinputs) {
@@ -256,8 +294,12 @@ class qtype_stack extends question_type {
 
         $prtnames = array_keys($this->get_prt_names_from_question($fromform->questiontext, $options->specificfeedback));
 
-        $prts = $DB->get_records('qtype_stack_prts',
-                ['questionid' => $fromform->id], '', 'name, id, questionid');
+        $prts = $DB->get_records(
+            'qtype_stack_prts',
+            ['questionid' => $fromform->id],
+            '',
+            'name, id, questionid'
+        );
         foreach ($prtnames as $prtname) {
             if (!isset($fromform->{$prtname . 'feedbackvariables'})) {
                 // Skip the PRT if it's not been set up. This should only occur when
@@ -304,7 +346,7 @@ class qtype_stack extends question_type {
             if (
                     (empty($fromform->isbroken) && (count($roots) > 1 || $graph->get_broken_cycles()))
                     || count($roots) == 0
-             ) {
+            ) {
                 // If no roots then the edit page can't be built so we don't want to allow a save.
                 // This shouldn't be possible using the edit form.
                 if ($throwexceptions) {
@@ -328,9 +370,12 @@ class qtype_stack extends question_type {
             $prt->firstnodename     = $firstnode;
             $DB->update_record('qtype_stack_prts', $prt);
 
-            $nodes = $DB->get_records('qtype_stack_prt_nodes',
-                    ['questionid' => $fromform->id, 'prtname' => $prtname],
-                    '', 'nodename, id, questionid, prtname');
+            $nodes = $DB->get_records(
+                'qtype_stack_prt_nodes',
+                ['questionid' => $fromform->id, 'prtname' => $prtname],
+                '',
+                'nodename, id, questionid, prtname'
+            );
 
             foreach ($fromform->{$prtname . 'answertest'} as $nodename => $notused) {
                 if (array_key_exists($nodename, $nodes)) {
@@ -364,7 +409,8 @@ class qtype_stack extends question_type {
                 $node->truescore           = $fromform->{$prtname . 'truescore'}[$nodename];
                 if (property_exists($fromform, $prtname . 'truepenalty')) {
                     $node->truepenalty         = stack_utils::fix_approximate_thirds(
-                        $fromform->{$prtname . 'truepenalty'}[$nodename]);
+                        $fromform->{$prtname . 'truepenalty'}[$nodename]
+                    );
                 } else {
                     // Else we just deleted a PRT.
                     $node->truepenalty = '';
@@ -372,14 +418,19 @@ class qtype_stack extends question_type {
                 $node->truenextnode        = $fromform->{$prtname . 'truenextnode'}[$nodename];
                 $node->trueanswernote      = $fromform->{$prtname . 'trueanswernote'}[$nodename];
                 $node->truefeedback        = $this->import_or_save_files(
-                                $fromform->{$prtname . 'truefeedback'}[$nodename],
-                                $context, 'qtype_stack', 'prtnodetruefeedback', $node->id);
+                    $fromform->{$prtname . 'truefeedback'}[$nodename],
+                    $context,
+                    'qtype_stack',
+                    'prtnodetruefeedback',
+                    $node->id
+                );
                 $node->truefeedbackformat  = $fromform->{$prtname . 'truefeedback'}[$nodename]['format'];
                 $node->falsescoremode      = $fromform->{$prtname . 'falsescoremode'}[$nodename];
                 $node->falsescore          = $fromform->{$prtname . 'falsescore'}[$nodename];
                 if (property_exists($fromform, $prtname . 'falsepenalty')) {
                     $node->falsepenalty         = stack_utils::fix_approximate_thirds(
-                        $fromform->{$prtname . 'falsepenalty'}[$nodename]);
+                        $fromform->{$prtname . 'falsepenalty'}[$nodename]
+                    );
                 } else {
                     // Else we just deleted a PRT.
                     $node->falsepenalty = '';
@@ -387,8 +438,12 @@ class qtype_stack extends question_type {
                 $node->falsenextnode       = $fromform->{$prtname . 'falsenextnode'}[$nodename];
                 $node->falseanswernote     = $fromform->{$prtname . 'falseanswernote'}[$nodename];
                 $node->falsefeedback        = $this->import_or_save_files(
-                                $fromform->{$prtname . 'falsefeedback'}[$nodename],
-                                $context, 'qtype_stack', 'prtnodefalsefeedback', $node->id);
+                    $fromform->{$prtname . 'falsefeedback'}[$nodename],
+                    $context,
+                    'qtype_stack',
+                    'prtnodefalsefeedback',
+                    $node->id
+                );
                 $node->falsefeedbackformat  = $fromform->{$prtname . 'falsefeedback'}[$nodename]['format'];
 
                 if ('' === $node->truepenalty) {
@@ -402,21 +457,30 @@ class qtype_stack extends question_type {
             }
 
             if ($nodes) {
-                list($test, $params) = $DB->get_in_or_equal(array_keys($nodes));
+                [$test, $params] = $DB->get_in_or_equal(array_keys($nodes));
                 $params[] = $fromform->id;
                 $params[] = $prt->name;
-                $DB->delete_records_select('qtype_stack_prt_nodes',
-                        'nodename ' . $test . ' AND questionid = ? AND prtname = ?', $params);
+                $DB->delete_records_select(
+                    'qtype_stack_prt_nodes',
+                    'nodename ' . $test . ' AND questionid = ? AND prtname = ?',
+                    $params
+                );
             }
         }
 
         if ($prts) {
-            list($test, $params) = $DB->get_in_or_equal(array_keys($prts));
+            [$test, $params] = $DB->get_in_or_equal(array_keys($prts));
             $params[] = $fromform->id;
-            $DB->delete_records_select('qtype_stack_prt_nodes',
-                    'prtname ' . $test . ' AND questionid = ?', $params);
-            $DB->delete_records_select('qtype_stack_prts',
-                    'name ' . $test . ' AND questionid = ?', $params);
+            $DB->delete_records_select(
+                'qtype_stack_prt_nodes',
+                'prtname ' . $test . ' AND questionid = ?',
+                $params
+            );
+            $DB->delete_records_select(
+                'qtype_stack_prts',
+                'name ' . $test . ' AND questionid = ?',
+                $params
+            );
         }
 
         $this->save_hints($fromform);
@@ -441,15 +505,21 @@ class qtype_stack extends question_type {
         // Irrespective of what else has happened, ensure there is no garbage
         // in the database, for example if we delete a PRT, remove the expected
         // values for that PRT while leaving the rest of the testcases alone.
-        list($nametest, $params) = $DB->get_in_or_equal($inputnames, SQL_PARAMS_NAMED, 'input', false, null);
+        [$nametest, $params] = $DB->get_in_or_equal($inputnames, SQL_PARAMS_NAMED, 'input', false, null);
         $params['questionid'] = $fromform->id;
-        $DB->delete_records_select('qtype_stack_qtest_inputs',
-                'questionid = :questionid AND inputname ' . $nametest, $params);
+        $DB->delete_records_select(
+            'qtype_stack_qtest_inputs',
+            'questionid = :questionid AND inputname ' . $nametest,
+            $params
+        );
 
-        list($nametest, $params) = $DB->get_in_or_equal($prtnames, SQL_PARAMS_NAMED, 'prt', false, null);
+        [$nametest, $params] = $DB->get_in_or_equal($prtnames, SQL_PARAMS_NAMED, 'prt', false, null);
         $params['questionid'] = $fromform->id;
-        $DB->delete_records_select('qtype_stack_qtest_expected',
-                'questionid = :questionid AND prtname ' . $nametest, $params);
+        $DB->delete_records_select(
+            'qtype_stack_qtest_expected',
+            'questionid = :questionid AND prtname ' . $nametest,
+            $params
+        );
         return $result;
     }
 
@@ -459,22 +529,34 @@ class qtype_stack extends question_type {
 
         parent::get_question_options($question);
 
-        $question->options = $DB->get_record('qtype_stack_options',
-                ['questionid' => $question->id], '*', MUST_EXIST);
+        $question->options = $DB->get_record(
+            'qtype_stack_options',
+            ['questionid' => $question->id],
+            '*',
+            MUST_EXIST
+        );
 
-        $question->inputs = $DB->get_records('qtype_stack_inputs',
-                ['questionid' => $question->id], 'name',
-                'name, id, questionid, type, tans, boxsize, strictsyntax, insertstars, ' .
+        $question->inputs = $DB->get_records(
+            'qtype_stack_inputs',
+            ['questionid' => $question->id],
+            'name',
+            'name, id, questionid, type, tans, boxsize, strictsyntax, insertstars, ' .
                 'syntaxhint, syntaxattribute, forbidwords, allowwords, forbidfloat, requirelowestterms, ' .
-                'checkanswertype, mustverify, showvalidation, options');
+            'checkanswertype, mustverify, showvalidation, options'
+        );
 
-        $question->prts = $DB->get_records('qtype_stack_prts',
-                ['questionid' => $question->id], 'name',
-                'name, id, questionid, value, autosimplify, feedbackstyle, feedbackvariables, firstnodename');
+        $question->prts = $DB->get_records(
+            'qtype_stack_prts',
+            ['questionid' => $question->id],
+            'name',
+            'name, id, questionid, value, autosimplify, feedbackstyle, feedbackvariables, firstnodename'
+        );
 
-        $noders = $DB->get_recordset('qtype_stack_prt_nodes',
-                ['questionid' => $question->id],
-                'prtname, nodename, description');
+        $noders = $DB->get_recordset(
+            'qtype_stack_prt_nodes',
+            ['questionid' => $question->id],
+            'prtname, nodename, description'
+        );
         foreach ($noders as $node) {
             if (!property_exists($question->prts[$node->prtname], 'nodes')) {
                 $question->prts[$node->prtname]->nodes = [];
@@ -530,17 +612,17 @@ class qtype_stack extends question_type {
         }
 
         $question->options = new stack_options();
-        $question->options->set_option('decimals',           $questiondata->options->decimals);
+        $question->options->set_option('decimals', $questiondata->options->decimals);
         $question->options->set_option('scientificnotation', $questiondata->options->scientificnotation);
         $question->options->set_option('multiplicationsign', $questiondata->options->multiplicationsign);
-        $question->options->set_option('complexno',          $questiondata->options->complexno);
-        $question->options->set_option('inversetrig',        $questiondata->options->inversetrig);
-        $question->options->set_option('logicsymbol',        $questiondata->options->logicsymbol);
-        $question->options->set_option('matrixparens',       $questiondata->options->matrixparens);
-        $question->options->set_option('sqrtsign',    (bool) $questiondata->options->sqrtsign);
-        $question->options->set_option('simplify',    (bool) $questiondata->options->questionsimplify);
-        $question->options->set_option('assumepos',   (bool) $questiondata->options->assumepositive);
-        $question->options->set_option('assumereal',  (bool) $questiondata->options->assumereal);
+        $question->options->set_option('complexno', $questiondata->options->complexno);
+        $question->options->set_option('inversetrig', $questiondata->options->inversetrig);
+        $question->options->set_option('logicsymbol', $questiondata->options->logicsymbol);
+        $question->options->set_option('matrixparens', $questiondata->options->matrixparens);
+        $question->options->set_option('sqrtsign', (bool) $questiondata->options->sqrtsign);
+        $question->options->set_option('simplify', (bool) $questiondata->options->questionsimplify);
+        $question->options->set_option('assumepos', (bool) $questiondata->options->assumepositive);
+        $question->options->set_option('assumereal', (bool) $questiondata->options->assumereal);
 
         $requiredparams = stack_input_factory::get_parameters_used();
         foreach (stack_utils::extract_placeholders($question->questiontext, 'input') as $name) {
@@ -568,7 +650,12 @@ class qtype_stack extends question_type {
                 $parameters[$paramname] = $allparameters[$paramname];
             }
             $question->inputs[$name] = stack_input_factory::make(
-                    $inputdata->type, $inputdata->name, $inputdata->tans, $question->options, $parameters);
+                $inputdata->type,
+                $inputdata->name,
+                $inputdata->tans,
+                $question->options,
+                $parameters
+            );
         }
 
         $prtnames = array_keys($this->get_prt_names_from_question($question->questiontext, $question->specificfeedback));
@@ -598,8 +685,11 @@ class qtype_stack extends question_type {
                 if (!$allformative) {
                     $prtvalue = $questiondata->prts[$name]->value / $totalvalue;
                 }
-                $question->prts[$name] = new stack_potentialresponse_tree_lite($questiondata->prts[$name],
-                    $prtvalue, $question);
+                $question->prts[$name] = new stack_potentialresponse_tree_lite(
+                    $questiondata->prts[$name],
+                    $prtvalue,
+                    $question
+                );
             } // If not we just added a PRT.
         }
 
@@ -625,16 +715,12 @@ class qtype_stack extends question_type {
         $context = context::instance_by_id($question->contextid);
         if ($cmid = optional_param('cmid', null, PARAM_INT)) {
             $urlparams['cmid'] = $cmid;
-
         } else if ($courseid = optional_param('courseid', null, PARAM_INT)) {
             $urlparams['courseid'] = $courseid;
-
         } else if ($context->contextlevel == CONTEXT_MODULE) {
             $urlparams['cmid'] = $context->instanceid;
-
         } else if ($context->contextlevel == CONTEXT_COURSE) {
             $urlparams['courseid'] = $context->instanceid;
-
         } else {
             $urlparams['courseid'] = get_site()->id;
         }
@@ -675,17 +761,19 @@ class qtype_stack extends question_type {
         // Directly link to question tests and deployed variants.
         if (question_has_capability_on($question, 'view')) {
             $actions[] = new \action_menu_link_secondary(
-                    new moodle_url('/question/type/stack/questiontestrun.php', $linkparams),
-                    new \pix_icon('t/approve', ''),
-                    get_string('runquestiontests', 'qtype_stack'));
+                new moodle_url('/question/type/stack/questiontestrun.php', $linkparams),
+                new \pix_icon('t/approve', ''),
+                get_string('runquestiontests', 'qtype_stack')
+            );
         }
 
         // Directly link to tidy question script.
         if (question_has_capability_on($question, 'view')) {
             $actions[] = new \action_menu_link_secondary(
-                    new moodle_url('/question/type/stack/tidyquestion.php', $linkparams),
-                    new \pix_icon('t/edit', ''),
-                    get_string('tidyquestion', 'qtype_stack'));
+                new moodle_url('/question/type/stack/tidyquestion.php', $linkparams),
+                new \pix_icon('t/edit', ''),
+                get_string('tidyquestion', 'qtype_stack')
+            );
         }
 
         return $actions;
@@ -696,10 +784,10 @@ class qtype_stack extends question_type {
         global $DB;
         $this->delete_question_tests($questionid);
         $DB->delete_records('qtype_stack_deployed_seeds', ['questionid' => $questionid]);
-        $DB->delete_records('qtype_stack_prt_nodes',      ['questionid' => $questionid]);
-        $DB->delete_records('qtype_stack_prts',           ['questionid' => $questionid]);
-        $DB->delete_records('qtype_stack_inputs',         ['questionid' => $questionid]);
-        $DB->delete_records('qtype_stack_options',        ['questionid' => $questionid]);
+        $DB->delete_records('qtype_stack_prt_nodes', ['questionid' => $questionid]);
+        $DB->delete_records('qtype_stack_prts', ['questionid' => $questionid]);
+        $DB->delete_records('qtype_stack_inputs', ['questionid' => $questionid]);
+        $DB->delete_records('qtype_stack_options', ['questionid' => $questionid]);
         parent::delete_question($questionid, $contextid);
     }
 
@@ -711,25 +799,65 @@ class qtype_stack extends question_type {
         parent::move_files($questionid, $oldcontextid, $newcontextid);
         $this->move_files_in_hints($questionid, $oldcontextid, $newcontextid);
 
-        $fs->move_area_files_to_new_context($oldcontextid, $newcontextid,
-                                            'qtype_stack', 'specificfeedback',    $questionid);
-        $fs->move_area_files_to_new_context($oldcontextid, $newcontextid,
-                                            'qtype_stack', 'questionnote',        $questionid);
-        $fs->move_area_files_to_new_context($oldcontextid, $newcontextid,
-                                            'qtype_stack', 'questiondescription', $questionid);
-        $fs->move_area_files_to_new_context($oldcontextid, $newcontextid,
-                                            'qtype_stack', 'prtcorrect',          $questionid);
-        $fs->move_area_files_to_new_context($oldcontextid, $newcontextid,
-                                            'qtype_stack', 'prtpartiallycorrect', $questionid);
-        $fs->move_area_files_to_new_context($oldcontextid, $newcontextid,
-                                            'qtype_stack', 'prtincorrect',        $questionid);
+        $fs->move_area_files_to_new_context(
+            $oldcontextid,
+            $newcontextid,
+            'qtype_stack',
+            'specificfeedback',
+            $questionid
+        );
+        $fs->move_area_files_to_new_context(
+            $oldcontextid,
+            $newcontextid,
+            'qtype_stack',
+            'questionnote',
+            $questionid
+        );
+        $fs->move_area_files_to_new_context(
+            $oldcontextid,
+            $newcontextid,
+            'qtype_stack',
+            'questiondescription',
+            $questionid
+        );
+        $fs->move_area_files_to_new_context(
+            $oldcontextid,
+            $newcontextid,
+            'qtype_stack',
+            'prtcorrect',
+            $questionid
+        );
+        $fs->move_area_files_to_new_context(
+            $oldcontextid,
+            $newcontextid,
+            'qtype_stack',
+            'prtpartiallycorrect',
+            $questionid
+        );
+        $fs->move_area_files_to_new_context(
+            $oldcontextid,
+            $newcontextid,
+            'qtype_stack',
+            'prtincorrect',
+            $questionid
+        );
 
         $nodeids = $DB->get_records_menu('qtype_stack_prt_nodes', ['questionid' => $questionid], 'id', 'id,1');
         foreach ($nodeids as $nodeid => $notused) {
-            $fs->move_area_files_to_new_context($oldcontextid, $newcontextid,
-                                                'qtype_stack', 'prtnodetruefeedback', $nodeid);
-            $fs->move_area_files_to_new_context($oldcontextid, $newcontextid,
-                                                'qtype_stack', 'prtnodefalsefeedback', $nodeid);
+            $fs->move_area_files_to_new_context(
+                $oldcontextid,
+                $newcontextid,
+                'qtype_stack',
+                'prtnodetruefeedback',
+                $nodeid
+            );
+            $fs->move_area_files_to_new_context(
+                $oldcontextid,
+                $newcontextid,
+                'qtype_stack',
+                'prtnodefalsefeedback',
+                $nodeid
+            );
         }
     }
 
@@ -741,19 +869,29 @@ class qtype_stack extends question_type {
         parent::delete_files($questionid, $contextid);
         $this->delete_files_in_hints($questionid, $contextid);
 
-        $fs->delete_area_files($contextid, 'qtype_stack', 'specificfeedback',    $questionid);
+        $fs->delete_area_files($contextid, 'qtype_stack', 'specificfeedback', $questionid);
         $fs->delete_area_files($contextid, 'qtype_stack', 'questionnote', $questionid);
         $fs->delete_area_files($contextid, 'qtype_stack', 'questiondescription', $questionid);
-        $fs->delete_area_files($contextid, 'qtype_stack', 'prtcorrect',          $questionid);
+        $fs->delete_area_files($contextid, 'qtype_stack', 'prtcorrect', $questionid);
         $fs->delete_area_files($contextid, 'qtype_stack', 'prtpartiallycorrect', $questionid);
-        $fs->delete_area_files($contextid, 'qtype_stack', 'prtincorrect',        $questionid);
+        $fs->delete_area_files($contextid, 'qtype_stack', 'prtincorrect', $questionid);
 
         $nodeids = $DB->get_records_menu('qtype_stack_prt_nodes', ['questionid' => $questionid], 'id', 'id,1');
         foreach ($nodeids as $nodeid => $notused) {
-            $fs->delete_area_files($oldcontextid, $newcontextid,
-                                                'qtype_stack', 'prtnodetruefeedback', $nodeid);
-            $fs->delete_area_files($oldcontextid, $newcontextid,
-                                                'qtype_stack', 'prtnodefalsefeedback', $nodeid);
+            $fs->delete_area_files(
+                $oldcontextid,
+                $newcontextid,
+                'qtype_stack',
+                'prtnodetruefeedback',
+                $nodeid
+            );
+            $fs->delete_area_files(
+                $oldcontextid,
+                $newcontextid,
+                'qtype_stack',
+                'prtnodefalsefeedback',
+                $nodeid
+            );
         }
     }
 
@@ -787,8 +925,12 @@ class qtype_stack extends question_type {
         // Limit the length of descriptions.
         $description = substr($qtest->description, 0, 255);
 
-        if (!$testcase || !$DB->record_exists('qtype_stack_qtests',
-                ['questionid' => $questionid, 'testcase' => $testcase])) {
+        if (
+            !$testcase || !$DB->record_exists(
+                'qtype_stack_qtests',
+                ['questionid' => $questionid, 'testcase' => $testcase]
+            )
+        ) {
             // Find the first unused testcase number.
             $testcase = $DB->get_field_sql('
                         SELECT MIN(qt.testcase) + 1
@@ -808,10 +950,18 @@ class qtype_stack extends question_type {
             $testcasedata->timemodified = time();
             $DB->insert_record('qtype_stack_qtests', $testcasedata);
         } else {
-            $DB->set_field('qtype_stack_qtests', 'timemodified', time(),
-                    ['questionid' => $questionid, 'testcase' => $testcase]);
-            $DB->set_field('qtype_stack_qtests', 'description', $description,
-                ['questionid' => $questionid, 'testcase' => $testcase]);
+            $DB->set_field(
+                'qtype_stack_qtests',
+                'timemodified',
+                time(),
+                ['questionid' => $questionid, 'testcase' => $testcase]
+            );
+            $DB->set_field(
+                'qtype_stack_qtests',
+                'description',
+                $description,
+                ['questionid' => $questionid, 'testcase' => $testcase]
+            );
         }
 
         // Save the input data.
@@ -841,7 +991,8 @@ class qtype_stack extends question_type {
                 $expected->expectedpenalty = null;
             } else {
                 $expected->expectedpenalty = stack_utils::fix_approximate_thirds(
-                        (float) $expectedresults->penalty);
+                    (float) $expectedresults->penalty
+                );
             }
             $expected->expectedanswernote = $expectedresults->answernotes[0];
             $DB->insert_record('qtype_stack_qtest_expected', $expected);
@@ -874,8 +1025,10 @@ class qtype_stack extends question_type {
     public function undeploy_variant($questionid, $seed) {
         global $DB;
 
-        $DB->delete_records('qtype_stack_deployed_seeds',
-                ['questionid' => $questionid, 'seed' => $seed]);
+        $DB->delete_records(
+            'qtype_stack_deployed_seeds',
+            ['questionid' => $questionid, 'seed' => $seed]
+        );
 
         $this->notify_question_edited($questionid);
     }
@@ -893,22 +1046,36 @@ class qtype_stack extends question_type {
 
         // Place-holders in the question text.
         $questiontext = $DB->get_field('question', 'questiontext', ['id' => $questionid]);
-        $questiontext = str_replace(["[[input:{$from}]]", "[[validation:{$from}]]"],
-                ["[[input:{$to}]]", "[[validation:{$to}]]"], $questiontext);
+        $questiontext = str_replace(
+            ["[[input:{$from}]]", "[[validation:{$from}]]"],
+            ["[[input:{$to}]]", "[[validation:{$to}]]"],
+            $questiontext
+        );
         $DB->set_field('question', 'questiontext', $questiontext, ['id' => $questionid]);
 
         // Input names in question test data.
-        $DB->set_field('qtype_stack_qtest_inputs', 'inputname', $to,
-                ['questionid' => $questionid, 'inputname' => $from]);
+        $DB->set_field(
+            'qtype_stack_qtest_inputs',
+            'inputname',
+            $to,
+            ['questionid' => $questionid, 'inputname' => $from]
+        );
 
         // The input itself.
-        $DB->set_field('qtype_stack_inputs', 'name', $to,
-                ['questionid' => $questionid, 'name' => $from]);
+        $DB->set_field(
+            'qtype_stack_inputs',
+            'name',
+            $to,
+            ['questionid' => $questionid, 'name' => $from]
+        );
 
         $regex = '~\b' . preg_quote($from, '~') . '\b~';
         // Where the input name appears in expressions in PRTs.
-        $prts = $DB->get_records('qtype_stack_prts', ['questionid' => $questionid],
-                    'id, feedbackvariables');
+        $prts = $DB->get_records(
+            'qtype_stack_prts',
+            ['questionid' => $questionid],
+            'id, feedbackvariables'
+        );
         foreach ($prts as $prt) {
             $prt->feedbackvariables = preg_replace($regex, $to, $prt->feedbackvariables, -1, $changes);
             if ($changes) {
@@ -917,8 +1084,11 @@ class qtype_stack extends question_type {
         }
 
         // Where the input name appears in expressions in PRT node.
-        $nodes = $DB->get_records('qtype_stack_prt_nodes', ['questionid' => $questionid],
-                        'id, sans, tans, testoptions, truefeedback, falsefeedback');
+        $nodes = $DB->get_records(
+            'qtype_stack_prt_nodes',
+            ['questionid' => $questionid],
+            'id, sans, tans, testoptions, truefeedback, falsefeedback'
+        );
         foreach ($nodes as $node) {
             $changes = false;
             $node->sans = preg_replace($regex, $to, $node->sans, -1, $count);
@@ -963,11 +1133,18 @@ class qtype_stack extends question_type {
         $DB->set_field('question', 'questiontext', $questiontext, ['id' => $questionid]);
 
         // Place-holders in the specific feedback.
-        $specificfeedback = $DB->get_field('qtype_stack_options', 'specificfeedback',
-                ['questionid' => $questionid]);
+        $specificfeedback = $DB->get_field(
+            'qtype_stack_options',
+            'specificfeedback',
+            ['questionid' => $questionid]
+        );
         $specificfeedback = str_replace("[[feedback:{$from}]]", "[[feedback:{$to}]]", $specificfeedback);
-        $DB->set_field('qtype_stack_options', 'specificfeedback', $specificfeedback,
-                ['questionid' => $questionid]);
+        $DB->set_field(
+            'qtype_stack_options',
+            'specificfeedback',
+            $specificfeedback,
+            ['questionid' => $questionid]
+        );
 
         // The PRT name in node answer notes if defaults are being used.
         // To do this we need to extract all nodes corresponding to the old PRT name along with their notes.
@@ -981,47 +1158,75 @@ class qtype_stack extends question_type {
         // Then loop through {nodename: trueanswernote} to update true answer notes.
         foreach (array_combine($currentnodenames, $trueanswernotes) as $nodename => $trueanswernote) {
             // Rename the note in the node if default used.
-            $DB->set_field('qtype_stack_prt_nodes', 'trueanswernote', $to . '-' . (intval($nodename) + 1) . '-T',
+            $DB->set_field(
+                'qtype_stack_prt_nodes',
+                'trueanswernote',
+                $to . '-' . (intval($nodename) + 1) . '-T',
                 [
                     'questionid' => $questionid,
                     'prtname' => $from,
                     'trueanswernote' => $from . '-' . (intval($nodename) + 1) . '-T',
-                ]);
+                ]
+            );
             // Rename the note in any tests containing the note if default is used.
-            $DB->set_field('qtype_stack_qtest_expected', 'expectedanswernote', $to . '-' . (intval($nodename) + 1) . '-T',
+            $DB->set_field(
+                'qtype_stack_qtest_expected',
+                'expectedanswernote',
+                $to . '-' . (intval($nodename) + 1) . '-T',
                 [
                     'questionid' => $questionid,
                     'prtname' => $from,
                     'expectedanswernote' => $from . '-' . (intval($nodename) + 1) . '-T',
-                ]);
+                ]
+            );
         }
         // Do the same for false answer notes.
         foreach (array_combine($currentnodenames, $falseanswernotes) as $nodename => $falseanswernote) {
-            $DB->set_field('qtype_stack_prt_nodes', 'falseanswernote', $to . '-' . (intval($nodename) + 1) . '-F',
+            $DB->set_field(
+                'qtype_stack_prt_nodes',
+                'falseanswernote',
+                $to . '-' . (intval($nodename) + 1) . '-F',
                 [
                     'questionid' => $questionid,
                     'prtname' => $from,
                     'falseanswernote' => $from . '-' . (intval($nodename) + 1) . '-F',
-                ]);
-            $DB->set_field('qtype_stack_qtest_expected', 'expectedanswernote', $to . '-' . (intval($nodename) + 1) . '-F',
+                ]
+            );
+            $DB->set_field(
+                'qtype_stack_qtest_expected',
+                'expectedanswernote',
+                $to . '-' . (intval($nodename) + 1) . '-F',
                 [
                     'questionid' => $questionid,
                     'prtname' => $from,
                     'expectedanswernote' => $from . '-' . (intval($nodename) + 1) . '-F',
-                ]);
+                ]
+            );
         }
 
         // PRT names in question test data.
-        $DB->set_field('qtype_stack_qtest_expected', 'prtname', $to,
-                ['questionid' => $questionid, 'prtname' => $from]);
+        $DB->set_field(
+            'qtype_stack_qtest_expected',
+            'prtname',
+            $to,
+            ['questionid' => $questionid, 'prtname' => $from]
+        );
 
         // The PRT name in its nodes.
-        $DB->set_field('qtype_stack_prt_nodes', 'prtname', $to,
-                ['questionid' => $questionid, 'prtname' => $from]);
+        $DB->set_field(
+            'qtype_stack_prt_nodes',
+            'prtname',
+            $to,
+            ['questionid' => $questionid, 'prtname' => $from]
+        );
 
         // The PRT itself.
-        $DB->set_field('qtype_stack_prts', 'name', $to,
-                ['questionid' => $questionid, 'name' => $from]);
+        $DB->set_field(
+            'qtype_stack_prts',
+            'name',
+            $to,
+            ['questionid' => $questionid, 'name' => $from]
+        );
 
         // If someone plays with PRT names we need to clear compiledcache.
         $sql = 'UPDATE {qtype_stack_options} SET compiledcache = ? WHERE questionid = ?';
@@ -1046,54 +1251,86 @@ class qtype_stack extends question_type {
         $transaction = $DB->start_delegated_transaction();
 
         // True answer note if default answer note is used.
-        $DB->set_field('qtype_stack_prt_nodes', 'trueanswernote', $prtname . '-' . (intval($to) + 1) . '-T',
-                [
+        $DB->set_field(
+            'qtype_stack_prt_nodes',
+            'trueanswernote',
+            $prtname . '-' . (intval($to) + 1) . '-T',
+            [
                     'questionid' => $questionid,
                     'prtname' => $prtname,
                     'nodename' => $from,
                     'trueanswernote' => $prtname . '-' . (intval($from) + 1) . '-T',
-                ]);
+            ]
+        );
 
         // False answer note if default answer note is used.
-        $DB->set_field('qtype_stack_prt_nodes', 'falseanswernote', $prtname . '-' . (intval($to) + 1) . '-F',
-                [
+        $DB->set_field(
+            'qtype_stack_prt_nodes',
+            'falseanswernote',
+            $prtname . '-' . (intval($to) + 1) . '-F',
+            [
                     'questionid' => $questionid,
                     'prtname' => $prtname,
                     'nodename' => $from,
                     'falseanswernote' => $prtname . '-' . (intval($from) + 1) . '-F',
-                ]);
+            ]
+        );
 
         // True answer notes in question test data if default is used.
-        $DB->set_field('qtype_stack_qtest_expected', 'expectedanswernote', $prtname . '-' . (intval($to) + 1) . '-T',
-                [
+        $DB->set_field(
+            'qtype_stack_qtest_expected',
+            'expectedanswernote',
+            $prtname . '-' . (intval($to) + 1) . '-T',
+            [
                     'questionid' => $questionid,
                     'prtname' => $prtname,
                     'expectedanswernote' => $prtname . '-' . (intval($from) + 1) . '-T',
-                ]);
+            ]
+        );
 
         // False answer notes in question test data if default is used.
-        $DB->set_field('qtype_stack_qtest_expected', 'expectedanswernote', $prtname . '-' . (intval($to) + 1) . '-F',
-                [
+        $DB->set_field(
+            'qtype_stack_qtest_expected',
+            'expectedanswernote',
+            $prtname . '-' . (intval($to) + 1) . '-F',
+            [
                     'questionid' => $questionid,
                     'prtname' => $prtname,
                     'expectedanswernote' => $prtname . '-' . (intval($from) + 1) . '-F',
-                ]);
+            ]
+        );
 
         // The PRT node itself.
-        $DB->set_field('qtype_stack_prt_nodes', 'nodename', $to,
-                ['questionid' => $questionid, 'prtname' => $prtname, 'nodename' => $from]);
+        $DB->set_field(
+            'qtype_stack_prt_nodes',
+            'nodename',
+            $to,
+            ['questionid' => $questionid, 'prtname' => $prtname, 'nodename' => $from]
+        );
 
         // True next node links.
-        $DB->set_field('qtype_stack_prt_nodes', 'truenextnode', $to,
-                ['questionid' => $questionid, 'prtname' => $prtname, 'truenextnode' => $from]);
+        $DB->set_field(
+            'qtype_stack_prt_nodes',
+            'truenextnode',
+            $to,
+            ['questionid' => $questionid, 'prtname' => $prtname, 'truenextnode' => $from]
+        );
 
         // False next node links.
-        $DB->set_field('qtype_stack_prt_nodes', 'falsenextnode', $to,
-                ['questionid' => $questionid, 'prtname' => $prtname, 'falsenextnode' => $from]);
+        $DB->set_field(
+            'qtype_stack_prt_nodes',
+            'falsenextnode',
+            $to,
+            ['questionid' => $questionid, 'prtname' => $prtname, 'falsenextnode' => $from]
+        );
 
         // PRT first node link.
-        $DB->set_field('qtype_stack_prts', 'firstnodename', $to,
-                ['questionid' => $questionid, 'name' => $prtname, 'firstnodename' => $from]);
+        $DB->set_field(
+            'qtype_stack_prts',
+            'firstnodename',
+            $to,
+            ['questionid' => $questionid, 'name' => $prtname, 'firstnodename' => $from]
+        );
 
         // If someone plays with PRT node names we need to clear compiledcache.
         $sql = 'UPDATE {qtype_stack_options} SET compiledcache = ? WHERE questionid = ?';
@@ -1125,15 +1362,22 @@ class qtype_stack extends question_type {
     public function load_question_tests($questionid) {
         global $DB;
 
-        $testinputdata = $DB->get_records('qtype_stack_qtest_inputs',
-                ['questionid' => $questionid], 'testcase, inputname');
+        $testinputdata = $DB->get_records(
+            'qtype_stack_qtest_inputs',
+            ['questionid' => $questionid],
+            'testcase, inputname'
+        );
         $testinputs = [];
         foreach ($testinputdata as $data) {
             $testinputs[$data->testcase][$data->inputname] = $data->value;
         }
 
-        $testcasenumbers = $DB->get_records_menu('qtype_stack_qtests',
-                ['questionid' => $questionid], 'testcase', 'testcase, description');
+        $testcasenumbers = $DB->get_records_menu(
+            'qtype_stack_qtests',
+            ['questionid' => $questionid],
+            'testcase',
+            'testcase, description'
+        );
         $testcases = [];
         foreach ($testcasenumbers as $number => $description) {
             if (!array_key_exists($number, $testinputs)) {
@@ -1143,13 +1387,23 @@ class qtype_stack extends question_type {
             $testcases[$number] = $testcase;
         }
 
-        $expecteddata = $DB->get_records('qtype_stack_qtest_expected',
-                ['questionid' => $questionid], 'testcase, prtname');
+        $expecteddata = $DB->get_records(
+            'qtype_stack_qtest_expected',
+            ['questionid' => $questionid],
+            'testcase, prtname'
+        );
         foreach ($expecteddata as $data) {
-            $testcases[$data->testcase]->add_expected_result($data->prtname,
-                    new stack_potentialresponse_tree_state(1, true,
-                            $data->expectedscore, $data->expectedpenalty,
-                            '', [$data->expectedanswernote]));
+            $testcases[$data->testcase]->add_expected_result(
+                $data->prtname,
+                new stack_potentialresponse_tree_state(
+                    1,
+                    true,
+                    $data->expectedscore,
+                    $data->expectedpenalty,
+                    '',
+                    [$data->expectedanswernote]
+                )
+            );
         }
 
         return $testcases;
@@ -1165,23 +1419,38 @@ class qtype_stack extends question_type {
         global $DB;
 
         // Verify that this testcase exists.
-        $test = $DB->get_record('qtype_stack_qtests',
-                ['questionid' => $questionid, 'testcase' => $testcase], '*', MUST_EXIST);
+        $test = $DB->get_record(
+            'qtype_stack_qtests',
+            ['questionid' => $questionid, 'testcase' => $testcase],
+            '*',
+            MUST_EXIST
+        );
 
         // Load the inputs.
-        $inputs = $DB->get_records_menu('qtype_stack_qtest_inputs',
-                ['questionid' => $questionid, 'testcase' => $testcase],
-                'inputname', 'inputname, value');
+        $inputs = $DB->get_records_menu(
+            'qtype_stack_qtest_inputs',
+            ['questionid' => $questionid, 'testcase' => $testcase],
+            'inputname',
+            'inputname, value'
+        );
         $qtest = new stack_question_test($test->description, $inputs, $testcase);
 
         // Load the expectations.
-        $expectations = $DB->get_records('qtype_stack_qtest_expected',
-                ['questionid' => $questionid, 'testcase' => $testcase], 'prtname',
-                'prtname, expectedscore, expectedpenalty, expectedanswernote');
+        $expectations = $DB->get_records(
+            'qtype_stack_qtest_expected',
+            ['questionid' => $questionid, 'testcase' => $testcase],
+            'prtname',
+            'prtname, expectedscore, expectedpenalty, expectedanswernote'
+        );
         foreach ($expectations as $prtname => $expected) {
             $qtest->add_expected_result($prtname, new stack_potentialresponse_tree_state(
-                    1, true, $expected->expectedscore, $expected->expectedpenalty,
-                    '', [$expected->expectedanswernote]));
+                1,
+                true,
+                $expected->expectedscore,
+                $expected->expectedpenalty,
+                '',
+                [$expected->expectedanswernote]
+            ));
         }
 
         return $qtest;
@@ -1195,9 +1464,9 @@ class qtype_stack extends question_type {
         global $DB;
         $transaction = $DB->start_delegated_transaction();
         $DB->delete_records('qtype_stack_qtest_expected', ['questionid' => $questionid]);
-        $DB->delete_records('qtype_stack_qtest_inputs',   ['questionid' => $questionid]);
-        $DB->delete_records('qtype_stack_qtests',         ['questionid' => $questionid]);
-        $DB->delete_records('qtype_stack_qtest_results',  ['questionid' => $questionid]);
+        $DB->delete_records('qtype_stack_qtest_inputs', ['questionid' => $questionid]);
+        $DB->delete_records('qtype_stack_qtests', ['questionid' => $questionid]);
+        $DB->delete_records('qtype_stack_qtest_results', ['questionid' => $questionid]);
         $transaction->allow_commit();
     }
 
@@ -1209,14 +1478,22 @@ class qtype_stack extends question_type {
     public function delete_question_test($questionid, $testcase) {
         global $DB;
         $transaction = $DB->start_delegated_transaction();
-        $DB->delete_records('qtype_stack_qtest_expected',
-                ['questionid' => $questionid, 'testcase' => $testcase]);
-        $DB->delete_records('qtype_stack_qtest_inputs',
-                ['questionid' => $questionid, 'testcase' => $testcase]);
-        $DB->delete_records('qtype_stack_qtests',
-                ['questionid' => $questionid, 'testcase' => $testcase]);
-        $DB->delete_records('qtype_stack_qtest_results',
-                ['questionid' => $questionid, 'testcase' => $testcase]);
+        $DB->delete_records(
+            'qtype_stack_qtest_expected',
+            ['questionid' => $questionid, 'testcase' => $testcase]
+        );
+        $DB->delete_records(
+            'qtype_stack_qtest_inputs',
+            ['questionid' => $questionid, 'testcase' => $testcase]
+        );
+        $DB->delete_records(
+            'qtype_stack_qtests',
+            ['questionid' => $questionid, 'testcase' => $testcase]
+        );
+        $DB->delete_records(
+            'qtype_stack_qtest_results',
+            ['questionid' => $questionid, 'testcase' => $testcase]
+        );
         $transaction->allow_commit();
     }
 
@@ -1231,9 +1508,13 @@ class qtype_stack extends question_type {
                 // STACK allows variables in scores, which may not be evaluated.
                 $parts[$index . '-' . $nodeid] = [
                     $choices->falseanswernote => new question_possible_response(
-                            $choices->falseanswernote, (float) $choices->falsescore * $prt->get_value()),
+                        $choices->falseanswernote,
+                        (float) $choices->falsescore * $prt->get_value()
+                    ),
                     $choices->trueanswernote => new question_possible_response(
-                            $choices->trueanswernote, (float) $choices->truescore * $prt->get_value()),
+                        $choices->trueanswernote,
+                        (float) $choices->truescore * $prt->get_value()
+                    ),
                     null              => question_possible_response::no_response(),
                 ];
             }
@@ -1253,8 +1534,16 @@ class qtype_stack extends question_type {
      * @param string $indent the amount of indent to add at the start of the line.
      * @return string XML fragment.
      */
-    protected function export_xml_text(qformat_xml $format, $tag, $text, $textformat,
-            $contextid, $filearea, $itemid, $indent = '    ') {
+    protected function export_xml_text(
+        qformat_xml $format,
+        $tag,
+        $text,
+        $textformat,
+        $contextid,
+        $filearea,
+        $itemid,
+        $indent = '    '
+    ) {
         $fs = get_file_storage();
         $files = $fs->get_area_files($contextid, 'qtype_stack', $filearea, $itemid);
 
@@ -1288,21 +1577,63 @@ class qtype_stack extends question_type {
         $output .= "    <questionvariables>\n";
         $output .= "      " . $format->writetext($options->questionvariables, 0);
         $output .= "    </questionvariables>\n";
-        $output .= $this->export_xml_text($format, 'specificfeedback', $options->specificfeedback,
-                        $options->specificfeedbackformat, $contextid, 'specificfeedback', $questiondata->id);
-        $output .= $this->export_xml_text($format, 'questionnote', $options->questionnote,
-                        $options->questionnoteformat, $contextid, 'questionnote', $questiondata->id);
-        $output .= $this->export_xml_text($format, 'questiondescription', $options->questiondescription,
-                        $options->questiondescriptionformat, $contextid, 'questiondescription', $questiondata->id);
+        $output .= $this->export_xml_text(
+            $format,
+            'specificfeedback',
+            $options->specificfeedback,
+            $options->specificfeedbackformat,
+            $contextid,
+            'specificfeedback',
+            $questiondata->id
+        );
+        $output .= $this->export_xml_text(
+            $format,
+            'questionnote',
+            $options->questionnote,
+            $options->questionnoteformat,
+            $contextid,
+            'questionnote',
+            $questiondata->id
+        );
+        $output .= $this->export_xml_text(
+            $format,
+            'questiondescription',
+            $options->questiondescription,
+            $options->questiondescriptionformat,
+            $contextid,
+            'questiondescription',
+            $questiondata->id
+        );
         $output .= "    <questionsimplify>{$options->questionsimplify}</questionsimplify>\n";
         $output .= "    <assumepositive>{$options->assumepositive}</assumepositive>\n";
         $output .= "    <assumereal>{$options->assumereal}</assumereal>\n";
-        $output .= $this->export_xml_text($format, 'prtcorrect', $options->prtcorrect,
-                        $options->prtcorrectformat, $contextid, 'prtcorrect', $questiondata->id);
-        $output .= $this->export_xml_text($format, 'prtpartiallycorrect', $options->prtpartiallycorrect,
-                        $options->prtpartiallycorrectformat, $contextid, 'prtpartiallycorrect', $questiondata->id);
-        $output .= $this->export_xml_text($format, 'prtincorrect', $options->prtincorrect,
-                        $options->prtincorrectformat, $contextid, 'prtincorrect', $questiondata->id);
+        $output .= $this->export_xml_text(
+            $format,
+            'prtcorrect',
+            $options->prtcorrect,
+            $options->prtcorrectformat,
+            $contextid,
+            'prtcorrect',
+            $questiondata->id
+        );
+        $output .= $this->export_xml_text(
+            $format,
+            'prtpartiallycorrect',
+            $options->prtpartiallycorrect,
+            $options->prtpartiallycorrectformat,
+            $contextid,
+            'prtpartiallycorrect',
+            $questiondata->id
+        );
+        $output .= $this->export_xml_text(
+            $format,
+            'prtincorrect',
+            $options->prtincorrect,
+            $options->prtincorrectformat,
+            $contextid,
+            'prtincorrect',
+            $questiondata->id
+        );
         $output .= "    <decimals>{$options->decimals}</decimals>\n";
         $output .= "    <scientificnotation>{$options->scientificnotation}</scientificnotation>\n";
         $output .= "    <multiplicationsign>{$options->multiplicationsign}</multiplicationsign>\n";
@@ -1359,15 +1690,31 @@ class qtype_stack extends question_type {
                 $output .= "        <truepenalty>{$format->xml_escape($node->truepenalty)}</truepenalty>\n";
                 $output .= "        <truenextnode>{$node->truenextnode}</truenextnode>\n";
                 $output .= "        <trueanswernote>{$format->xml_escape($node->trueanswernote)}</trueanswernote>\n";
-                $output .= $this->export_xml_text($format, 'truefeedback', $node->truefeedback, $node->truefeedbackformat,
-                                $contextid, 'prtnodetruefeedback', $node->id, '        ');
+                $output .= $this->export_xml_text(
+                    $format,
+                    'truefeedback',
+                    $node->truefeedback,
+                    $node->truefeedbackformat,
+                    $contextid,
+                    'prtnodetruefeedback',
+                    $node->id,
+                    '        '
+                );
                 $output .= "        <falsescoremode>{$node->falsescoremode}</falsescoremode>\n";
                 $output .= "        <falsescore>{$format->xml_escape($node->falsescore)}</falsescore>\n";
                 $output .= "        <falsepenalty>{$format->xml_escape($node->falsepenalty)}</falsepenalty>\n";
                 $output .= "        <falsenextnode>{$node->falsenextnode}</falsenextnode>\n";
                 $output .= "        <falseanswernote>{$format->xml_escape($node->falseanswernote)}</falseanswernote>\n";
-                $output .= $this->export_xml_text($format, 'falsefeedback', $node->falsefeedback, $node->falsefeedbackformat,
-                                $contextid, 'prtnodefalsefeedback', $node->id, '        ');
+                $output .= $this->export_xml_text(
+                    $format,
+                    'falsefeedback',
+                    $node->falsefeedback,
+                    $node->falsefeedbackformat,
+                    $contextid,
+                    'prtnodefalsefeedback',
+                    $node->id,
+                    '        '
+                );
                 $output .= "      </node>\n";
             }
 
@@ -1479,8 +1826,13 @@ class qtype_stack extends question_type {
             }
         }
 
-        $format->import_hints($fromform, $xml, false, false,
-                $format->get_format($fromform->questiontextformat));
+        $format->import_hints(
+            $fromform,
+            $xml,
+            false,
+            false,
+            $format->get_format($fromform->questiontextformat)
+        );
 
         if (isset($xml['#']['deployedseed'])) {
             $fromform->deployedseeds = [];
@@ -1492,7 +1844,7 @@ class qtype_stack extends question_type {
         if (isset($xml['#']['qtest'])) {
             $fromform->testcases = [];
             foreach ($xml['#']['qtest'] as $qtestxml) {
-                list($no, $testcase) = $this->import_xml_qtest($qtestxml, $format);
+                [$no, $testcase] = $this->import_xml_qtest($qtestxml, $format);
                 $fromform->testcases[$no] = $testcase;
             }
         }
@@ -1541,8 +1893,11 @@ class qtype_stack extends question_type {
     protected function import_xml_text($xml, $field, qformat_xml $format, $defaultformat) {
         $text = [];
         $text['text']   = $format->getpath($xml, ['#', $field, 0, '#', 'text', 0, '#'], '', true);
-        $text['format'] = $format->trans_format($format->getpath($xml, ['#', $field, 0, '@', 'format'],
-                                                $format->get_format($defaultformat)));
+        $text['format'] = $format->trans_format($format->getpath(
+            $xml,
+            ['#', $field, 0, '@', 'format'],
+            $format->get_format($defaultformat)
+        ));
         $text['files']  = $format->import_files($format->getpath($xml, ['#', $field, 0, '#', 'file'], [], false));
 
         return $text;
@@ -1589,14 +1944,18 @@ class qtype_stack extends question_type {
         $fromform->{$name . 'value'}             = $format->getpath($xml, ['#', 'value', 0, '#'], 1);
         $fromform->{$name . 'autosimplify'}      = $format->getpath($xml, ['#', 'autosimplify', 0, '#'], 1);
         $fromform->{$name . 'feedbackstyle'}     = $format->getpath($xml, ['#', 'feedbackstyle', 0, '#'], 1);
-        $fromform->{$name . 'feedbackvariables'} = $format->getpath($xml,
-                            ['#', 'feedbackvariables', 0, '#', 'text', 0, '#'], '', true);
+        $fromform->{$name . 'feedbackvariables'} = $format->getpath(
+            $xml,
+            ['#', 'feedbackvariables', 0, '#', 'text', 0, '#'],
+            '',
+            true
+        );
 
         // We need to initialise all these arrays in case a broken question is imported.
         $fields = ['description', 'answertest', 'sans', 'tans', 'testoptions', 'quiet', 'truescoremode', 'truescore',
                     'truepenalty', 'truenextnode', 'trueanswernote', 'truefeedback', 'falsescoremode', 'falsescore',
                     'falsepenalty', 'falsenextnode', 'falseanswernote', 'falsefeedback'];
-        forEach ($fields as $field) {
+        foreach ($fields as $field) {
             $fromform->{$name . $field} = [];
         }
 
@@ -1611,7 +1970,7 @@ class qtype_stack extends question_type {
         // Instead we set the nodes to 'stop' and add an error. This will lead to the question being marked
         // as broken.
         if (isset($fromform->{$name . 'falsenextnode'})) {
-            forEach ($fromform->{$name . 'falsenextnode'} as $nodename => $falsenextnode) {
+            foreach ($fromform->{$name . 'falsenextnode'} as $nodename => $falsenextnode) {
                 if ($falsenextnode != -1 && !isset($fromform->{$name . 'description'}[$falsenextnode])) {
                     $fromform->{$name . 'falsenextnode'}[$nodename] = -1;
                     $errors[] = stack_string('missingnextnode', ['type' => 'False', 'prt' => $name, 'node' => $nodename]);
@@ -1620,14 +1979,15 @@ class qtype_stack extends question_type {
         }
 
         if (isset($fromform->{$name . 'truenextnode'})) {
-            forEach ($fromform->{$name . 'truenextnode'} as $nodename => $truenextnode) {
+            foreach ($fromform->{$name . 'truenextnode'} as $nodename => $truenextnode) {
                 if ($truenextnode != -1 && !isset($fromform->{$name . 'description'}[$truenextnode])) {
                     $fromform->{$name . 'truenextnode'}[$nodename] = -1;
                     $errors[] = stack_string('missingnextnode', ['type' => 'True', 'prt' => $name, 'node' => $nodename]);
                 }
             }
         }
-        return implode(' ', $errors);;
+        return implode(' ', $errors);
+        ;
     }
 
     /**
@@ -1650,17 +2010,29 @@ class qtype_stack extends question_type {
         $fromform->{$prtname . 'truescore'}[$name]       = $format->getpath($xml, ['#', 'truescore', 0, '#'], 1);
         $fromform->{$prtname . 'truepenalty'}[$name]     = $format->getpath($xml, ['#', 'truepenalty', 0, '#'], '');
         $fromform->{$prtname . 'truenextnode'}[$name]    = $format->getpath($xml, ['#', 'truenextnode', 0, '#'], -1);
-        $fromform->{$prtname . 'trueanswernote'}[$name]  = $format->getpath($xml,
-                ['#', 'trueanswernote', 0, '#'], 1, '');
-        $fromform->{$prtname . 'truefeedback'}[$name]    = $this->import_xml_text($xml,
-                'truefeedback', $format, $fromform->questiontextformat);
+        $fromform->{$prtname . 'trueanswernote'}[$name]  = $format->getpath(
+            $xml,
+            ['#', 'trueanswernote', 0, '#'],
+            1,
+            ''
+        );
+        $fromform->{$prtname . 'truefeedback'}[$name]    = $this->import_xml_text(
+            $xml,
+            'truefeedback',
+            $format,
+            $fromform->questiontextformat
+        );
         $fromform->{$prtname . 'falsescoremode'}[$name]  = $format->getpath($xml, ['#', 'falsescoremode', 0, '#'], '=');
         $fromform->{$prtname . 'falsescore'}[$name]      = $format->getpath($xml, ['#', 'falsescore', 0, '#'], 1);
         $fromform->{$prtname . 'falsepenalty'}[$name]    = $format->getpath($xml, ['#', 'falsepenalty', 0, '#'], '');
         $fromform->{$prtname . 'falsenextnode'}[$name]   = $format->getpath($xml, ['#', 'falsenextnode', 0, '#'], -1);
         $fromform->{$prtname . 'falseanswernote'}[$name] = $format->getpath($xml, ['#', 'falseanswernote', 0, '#'], '');
-        $fromform->{$prtname . 'falsefeedback'}[$name]   = $this->import_xml_text($xml,
-                'falsefeedback', $format, $fromform->questiontextformat);
+        $fromform->{$prtname . 'falsefeedback'}[$name]   = $this->import_xml_text(
+            $xml,
+            'falsefeedback',
+            $format,
+            $fromform->questiontextformat
+        );
     }
 
     /**
@@ -1695,7 +2067,13 @@ class qtype_stack extends question_type {
                 $expectedanswernote = $format->getpath($expectedxml, ['#', 'expectedanswernote', 0, '#'], '');
 
                 $testcase->add_expected_result($name, new stack_potentialresponse_tree_state(
-                        1, true, $expectedscore, $expectedpenalty, '', [$expectedanswernote]));
+                    1,
+                    true,
+                    $expectedscore,
+                    $expectedpenalty,
+                    '',
+                    [$expectedanswernote]
+                ));
             }
         }
 
@@ -1714,21 +2092,21 @@ class qtype_stack extends question_type {
      * @param object $question.
      * @return array($errors, $warnings).
      */
-    public function validate_fromform($fromform, $errors, $question=null) {
+    public function validate_fromform($fromform, $errors, $question = null) {
         $fixingdollars = array_key_exists('fixdollars', $fromform);
 
         $this->options = new stack_options();
-        $this->options->set_option('decimals',           $fromform['decimals']);
+        $this->options->set_option('decimals', $fromform['decimals']);
         $this->options->set_option('scientificnotation', $fromform['scientificnotation']);
         $this->options->set_option('multiplicationsign', $fromform['multiplicationsign']);
-        $this->options->set_option('complexno',          $fromform['complexno']);
-        $this->options->set_option('inversetrig',        $fromform['inversetrig']);
-        $this->options->set_option('logicsymbol',        $fromform['logicsymbol']);
-        $this->options->set_option('matrixparens',       $fromform['matrixparens']);
-        $this->options->set_option('sqrtsign',    (bool) $fromform['sqrtsign']);
-        $this->options->set_option('simplify',    (bool) $fromform['questionsimplify']);
-        $this->options->set_option('assumepos',   (bool) $fromform['assumepositive']);
-        $this->options->set_option('assumereal',  (bool) $fromform['assumereal']);
+        $this->options->set_option('complexno', $fromform['complexno']);
+        $this->options->set_option('inversetrig', $fromform['inversetrig']);
+        $this->options->set_option('logicsymbol', $fromform['logicsymbol']);
+        $this->options->set_option('matrixparens', $fromform['matrixparens']);
+        $this->options->set_option('sqrtsign', (bool) $fromform['sqrtsign']);
+        $this->options->set_option('simplify', (bool) $fromform['questionsimplify']);
+        $this->options->set_option('assumepos', (bool) $fromform['assumepositive']);
+        $this->options->set_option('assumereal', (bool) $fromform['assumereal']);
 
         // We slightly break the usual conventions of validation, in that rather
         // than building up $errors as an array of strings, we initially build it
@@ -1768,7 +2146,9 @@ class qtype_stack extends question_type {
         $sloppytags = $this->validation_get_sloppy_tags($fromform['questiontext']['text']);
         foreach ($sloppytags as $sloppytag) {
             $errors['questiontext'][] = stack_string(
-                    'questiontextplaceholderswhitespace', $sloppytag);
+                'questiontextplaceholderswhitespace',
+                $sloppytag
+            );
         }
 
         // Check multi-language versions all have the same inputs and validation tags.
@@ -1780,7 +2160,8 @@ class qtype_stack extends question_type {
             $inputsbylang = [];
             foreach ($langs as $lang) {
                 $inputsbylang[$lang] = $this->get_input_names_from_question_text_lang(
-                        $ml->filter($fromform['questiontext']['text'], $lang));
+                    $ml->filter($fromform['questiontext']['text'], $lang)
+                );
             }
             // Check they are all equal, but don't fuss about exact differences as feedback.
             $inputs = reset($inputsbylang);
@@ -1797,7 +2178,7 @@ class qtype_stack extends question_type {
 
         // Check input placholders appear with the correct number of times in the question text.
         foreach ($inputs as $inputname => $counts) {
-            list($numinputs, $numvalidations) = $counts;
+            [$numinputs, $numvalidations] = $counts;
 
             if ($numinputs == 0 && $numvalidations == 0) {
                 if (!$fromform[$inputname . 'deleteconfirm']) {
@@ -1808,18 +2189,26 @@ class qtype_stack extends question_type {
 
             if ($numinputs == 0) {
                 $errors['questiontext'][] = stack_string(
-                        'questiontextmustcontain', '[[input:' . $inputname . ']]');
+                    'questiontextmustcontain',
+                    '[[input:' . $inputname . ']]'
+                );
             } else if ($numinputs > 1) {
                 $errors['questiontext'][] = stack_string(
-                        'questiontextonlycontain', '[[input:' . $inputname . ']]');
+                    'questiontextonlycontain',
+                    '[[input:' . $inputname . ']]'
+                );
             }
 
             if ($numvalidations == 0) {
                 $errors['questiontext'][] = stack_string(
-                        'questiontextmustcontain', '[[validation:' . $inputname . ']]');
+                    'questiontextmustcontain',
+                    '[[validation:' . $inputname . ']]'
+                );
             } else if ($numvalidations > 1) {
                 $errors['questiontext'][] = stack_string(
-                        'questiontextonlycontain', '[[validation:' . $inputname . ']]');
+                    'questiontextonlycontain',
+                    '[[validation:' . $inputname . ']]'
+                );
             }
         }
 
@@ -1828,8 +2217,12 @@ class qtype_stack extends question_type {
         }
 
         // Question variables.
-        $errors = $this->validate_cas_keyval($errors, $fromform['questionvariables'], 'questionvariables',
-                array_keys($inputs));
+        $errors = $this->validate_cas_keyval(
+            $errors,
+            $fromform['questionvariables'],
+            'questionvariables',
+            array_keys($inputs)
+        );
 
         // Default mark.
         if (empty($inputs) && $fromform['defaultmark'] != 0) {
@@ -1847,14 +2240,18 @@ class qtype_stack extends question_type {
         $errors = $this->validate_cas_text($errors, $fromform['specificfeedback']['text'], 'specificfeedback', $fixingdollars);
 
         $errors['specificfeedback'] += $this->validation_check_no_placeholders(
-                stack_string('specificfeedback'), $fromform['specificfeedback']['text'],
-                ['input', 'validation']);
+            stack_string('specificfeedback'),
+            $fromform['specificfeedback']['text'],
+            ['input', 'validation']
+        );
 
         // General feedback.
         $errors['generalfeedback'] = [];
         $errors = $this->validate_cas_text($errors, $fromform['generalfeedback']['text'], 'generalfeedback', $fixingdollars);
         $errors['generalfeedback'] += $this->validation_check_no_placeholders(
-                get_string('generalfeedback', 'question'), $fromform['generalfeedback']['text']);
+            get_string('generalfeedback', 'question'),
+            $fromform['generalfeedback']['text']
+        );
 
         // Question note.
         $errors['questionnote'] = [];
@@ -1874,19 +2271,27 @@ class qtype_stack extends question_type {
         }
 
         $errors['questionnote'] += $this->validation_check_no_placeholders(
-                stack_string('questionnote'), $fromform['questionnote']['text']);
+            stack_string('questionnote'),
+            $fromform['questionnote']['text']
+        );
 
         // Question description.
         $errors['questiondescription'] = [];
-        $errors = $this->validate_cas_text($errors, $fromform['questiondescription']['text'],
-            'questiondescription', $fixingdollars);
+        $errors = $this->validate_cas_text(
+            $errors,
+            $fromform['questiondescription']['text'],
+            'questiondescription',
+            $fixingdollars
+        );
         $errors['questiondescription'] += $this->validation_check_no_placeholders(
-            stack_string('questiondescription', 'question'), $fromform['questiondescription']['text']);
+            stack_string('questiondescription', 'question'),
+            $fromform['questiondescription']['text']
+        );
 
         // 2) Validate all inputs.
         $stackinputfactory = new stack_input_factory();
         foreach ($inputs as $inputname => $counts) {
-            list($numinputs, $numvalidations) = $counts;
+            [$numinputs, $numvalidations] = $counts;
 
             if ($numinputs == 0 && $numvalidations == 0 && !$fromform[$inputname . 'deleteconfirm']) {
                 $errors[$inputname . 'deleteconfirm'][] = stack_string('youmustconfirm');
@@ -1901,8 +2306,10 @@ class qtype_stack extends question_type {
                 $errors['questiontext'][] = stack_string('inputnamelength', $inputname);
             }
 
-            if (!preg_match('/^([a-zA-Z]+|[a-zA-Z]+[0-9a-zA-Z_]*[0-9a-zA-Z]+)$/', $inputname) &&
-                    !isset($fromform[$inputname . 'deleteconfirm'])) {
+            if (
+                !preg_match('/^([a-zA-Z]+|[a-zA-Z]+[0-9a-zA-Z_]*[0-9a-zA-Z]+)$/', $inputname) &&
+                    !isset($fromform[$inputname . 'deleteconfirm'])
+            ) {
                 $errors['questiontext'][] = stack_string('inputnameform', $inputname);
             }
 
@@ -1911,8 +2318,12 @@ class qtype_stack extends question_type {
             }
 
             if (array_key_exists($inputname . 'modelans', $fromform)) {
-                $errors = $this->validate_cas_string($errors,
-                        $fromform[$inputname . 'modelans'], $inputname . 'modelans', $inputname . 'modelans');
+                $errors = $this->validate_cas_string(
+                    $errors,
+                    $fromform[$inputname . 'modelans'],
+                    $inputname . 'modelans',
+                    $inputname . 'modelans'
+                );
             }
 
             $inputtype = $fromform[$inputname . 'type'];
@@ -1938,8 +2349,12 @@ class qtype_stack extends question_type {
             }
             // Validate the syntaxHint as castext: the castext validation method is here, not in the input class.
             if (array_key_exists($inputname . 'syntaxhint', $fromform)) {
-                $errors = $this->validate_cas_text($errors, $fromform[$inputname . 'syntaxhint'],
-                    $inputname . 'syntaxhint', $fixingdollars);
+                $errors = $this->validate_cas_text(
+                    $errors,
+                    $fromform[$inputname . 'syntaxhint'],
+                    $inputname . 'syntaxhint',
+                    $fixingdollars
+                );
                 if (strlen($fromform[$inputname . 'syntaxhint']) > 255) {
                     $errors[$inputname . 'syntaxhint'][] = stack_string('syntaxhint_toolong');
                 }
@@ -1959,14 +2374,14 @@ class qtype_stack extends question_type {
                 }
                 // Don't show validation errors relating to a PRT that is to be deleted.
                 continue;
-
             } else if ($count > 1) {
                 $errors['specificfeedback'][] = stack_string(
-                        'questiontextfeedbackonlycontain', '[[feedback:' . $prtname . ']]');
+                    'questiontextfeedbackonlycontain',
+                    '[[feedback:' . $prtname . ']]'
+                );
             }
 
             $errors = $this->validate_prt($errors, $fromform, $prtname, $fixingdollars, $question);
-
         }
 
         // 4) Validate all hints.
@@ -2030,10 +2445,8 @@ class qtype_stack extends question_type {
 
         if ($notblank && '' === trim($value)) {
             $errors[$fieldname][] = stack_string('nonempty');
-
         } else if (strlen($value) > $maxlength) {
             $errors[$fieldname][] = stack_string('strlengtherror');
-
         } else {
             $casstring = stack_ast_container::make_from_teacher_source($value, '', new stack_cas_security());
             if (!$casstring->get_valid()) {
@@ -2076,8 +2489,10 @@ class qtype_stack extends question_type {
         // Validate any [[facts:...]] tags.
         $unrecognisedtags = stack_fact_sheets::get_unrecognised_tags($value);
         if ($unrecognisedtags) {
-            $errors[$fieldname][] = stack_string('unrecognisedfactstags',
-                    ['tags' => implode(', ', $unrecognisedtags)]);
+            $errors[$fieldname][] = stack_string(
+                'unrecognisedfactstags',
+                ['tags' => implode(', ', $unrecognisedtags)]
+            );
             return $errors;
         }
 
@@ -2151,7 +2566,7 @@ class qtype_stack extends question_type {
         $inputvalues = [];
         foreach ($inputs as $inputname) {
             if (array_key_exists($inputname . 'modelans', $fromform)) {
-                $value = $inputname.':'.$fromform[$inputname . 'modelans'];
+                $value = $inputname . ':' . $fromform[$inputname . 'modelans'];
                 $cs = stack_ast_container::make_from_teacher_source($value, '', new stack_cas_security());
                 $inputvalues[] = $cs;
             }
@@ -2165,8 +2580,10 @@ class qtype_stack extends question_type {
 
         $getdebuginfo = false;
         foreach ($inputs as $inputname) {
-            if ($inputsession->get_by_key($inputname) !== null &&
-                    $inputsession->get_by_key($inputname)->get_errors() !== '') {
+            if (
+                $inputsession->get_by_key($inputname) !== null &&
+                    $inputsession->get_by_key($inputname)->get_errors() !== ''
+            ) {
                 $errors[$inputname . 'modelans'][] = $inputsession->get_by_key($inputname)->get_errors();
                 $in = $inputsession->get_by_key($inputname);
                 if (!$in->is_correctly_evaluated()) {
@@ -2176,8 +2593,10 @@ class qtype_stack extends question_type {
                 // For example, the matrix input type could check that the model answer is a matrix.
             }
 
-            if ($fromform[$inputname . 'options'] && $inputsession->get_by_key('optionsfor' . $inputname)
-                    && $inputsession->get_by_key('optionsfor' . $inputname)->get_errors() !== '') {
+            if (
+                $fromform[$inputname . 'options'] && $inputsession->get_by_key('optionsfor' . $inputname)
+                    && $inputsession->get_by_key('optionsfor' . $inputname)->get_errors() !== ''
+            ) {
                 $errors[$inputname . 'options'][] = $inputsession->get_by_key('optionsfor' . $inputname)->get_errors();
             }
             // ... else TO-DO: Send the actual value to the input, and ask it to validate it.
@@ -2220,13 +2639,18 @@ class qtype_stack extends question_type {
      * @param array $placeholders types to check for. By default 'input', 'validation' and 'feedback'.
      * @return array of problems (so an empty array means all is well).
      */
-    protected function validation_check_no_placeholders($fieldname, $value,
-            $placeholders = ['input', 'validation', 'feedback']) {
+    protected function validation_check_no_placeholders(
+        $fieldname,
+        $value,
+        $placeholders = ['input', 'validation', 'feedback']
+    ) {
         $problems = [];
         foreach ($placeholders as $placeholder) {
             if (stack_utils::extract_placeholders($value, 'input')) {
-                $problems[] = stack_string('fieldshouldnotcontainplaceholder',
-                        ['field' => $fieldname, 'type' => $placeholder]);
+                $problems[] = stack_string(
+                    'fieldshouldnotcontainplaceholder',
+                    ['field' => $fieldname, 'type' => $placeholder]
+                );
             }
         }
         return $problems;
@@ -2240,7 +2664,7 @@ class qtype_stack extends question_type {
      * @param object $question the question.
      * @return array the update $errors array.
      */
-    protected function validate_prt($errors, $fromform, $prtname, $fixingdollars, $question=null) {
+    protected function validate_prt($errors, $fromform, $prtname, $fixingdollars, $question = null) {
 
         if (strlen($prtname) > 18 && !isset($fromform[$prtname . 'prtdeleteconfirm'])) {
             $errors['specificfeedback'][] = stack_string('prtnamelength', $prtname);
@@ -2257,8 +2681,12 @@ class qtype_stack extends question_type {
 
         // Check the fields that belong to the PRT as a whole.
         $inputs = array_keys($this->get_input_names_from_question_text($fromform['questiontext']['text']));
-        $errors = $this->validate_cas_keyval($errors, $fromform[$prtname . 'feedbackvariables'],
-                $prtname . 'feedbackvariables', $inputs);
+        $errors = $this->validate_cas_keyval(
+            $errors,
+            $fromform[$prtname . 'feedbackvariables'],
+            $prtname . 'feedbackvariables',
+            $inputs
+        );
 
         if ($fromform[$prtname . 'value'] < 0) {
             $errors[$prtname . 'value'][] = stack_string('questionvaluepostive');
@@ -2278,7 +2706,7 @@ class qtype_stack extends question_type {
 
         try {
             $graph = $this->get_prt_graph($prtname, $question, $fromform);
-        } catch(stack_exception $e) {
+        } catch (stack_exception $e) {
             // This should only occur on import and means an attempt to save will fail.
             $errors[$prtname . 'PRT'][] = $e->getMessage();
             $errors['structuralerror'][] = stack_string('structuralproblem');
@@ -2317,13 +2745,13 @@ class qtype_stack extends question_type {
             $errors[$prtname . 'node[' . ($node->name - 1) . ']'][] = stack_string('nodenotused');
         }
         foreach ($graph->get_broken_cycles() as $backlink => $notused) {
-            list($nodename, $direction) = explode('|', $backlink);
+            [$nodename, $direction] = explode('|', $backlink);
             if ($direction == stack_abstract_graph::LEFT) {
                 $field = 'nodewhentrue';
             } else {
                 $field = 'nodewhenfalse';
             }
-            $errors[$prtname.$field.'['.($nodename - 1).']'][] = stack_string('nodeloopdetected');
+            $errors[$prtname . $field . '[' . ($nodename - 1) . ']'][] = stack_string('nodeloopdetected');
         }
 
         // TO-DO: check the descriptions of all nodes are unique.
@@ -2342,11 +2770,21 @@ class qtype_stack extends question_type {
     protected function validate_prt_node($errors, $fromform, $prtname, $nodekey, $fixingdollars) {
         $nodegroup = $prtname . 'node[' . $nodekey . ']';
 
-        $errors = $this->validate_cas_string($errors, $fromform[$prtname . 'sans'][$nodekey],
-                $nodegroup, $prtname . 'sans' . $nodekey, 'sansrequired');
+        $errors = $this->validate_cas_string(
+            $errors,
+            $fromform[$prtname . 'sans'][$nodekey],
+            $nodegroup,
+            $prtname . 'sans' . $nodekey,
+            'sansrequired'
+        );
 
-        $errors = $this->validate_cas_string($errors, $fromform[$prtname . 'tans'][$nodekey],
-                $nodegroup, $prtname . 'tans' . $nodekey, 'tansrequired');
+        $errors = $this->validate_cas_string(
+            $errors,
+            $fromform[$prtname . 'tans'][$nodekey],
+            $nodegroup,
+            $prtname . 'tans' . $nodekey,
+            'tansrequired'
+        );
 
         $atname = $fromform[$prtname . 'answertest'][$nodekey];
         if (stack_ans_test_controller::required_atoptions($atname)) {
@@ -2354,15 +2792,15 @@ class qtype_stack extends question_type {
 
             if ('' === trim($opt) && stack_ans_test_controller::required_atoptions($atname) === true) {
                 $errors[$nodegroup][] = stack_string('testoptionsrequired');
-
             } else if (strlen($opt) > 255) {
-                $errors[$nodegroup][] = stack_string('testoptionsinvalid',
-                        stack_string('strlengtherror'));
-
+                $errors[$nodegroup][] = stack_string(
+                    'testoptionsinvalid',
+                    stack_string('strlengtherror')
+                );
             } else {
                 $cs = stack_ast_container::make_from_teacher_source('null', '', new stack_cas_security());
                 $answertest = new stack_ans_test_controller($atname, $cs, $cs);
-                list($valid, $message) = $answertest->validate_atoptions($opt);
+                [$valid, $message] = $answertest->validate_atoptions($opt);
                 if (!$valid) {
                     $errors[$nodegroup][] = stack_string('testoptionsinvalid', $message);
                 }
@@ -2398,20 +2836,24 @@ class qtype_stack extends question_type {
                 $errors[$branchgroup][] = stack_string('answernoterequired');
             } else if (strstr($answernote, '|') !== false) {
                 $errors[$branchgroup][] = stack_string('answernote_err');
-                foreach ($fromform[$prtname.$branch.'answernote'] as $key => $strin) {
+                foreach ($fromform[$prtname . $branch . 'answernote'] as $key => $strin) {
                     if ('' == trim($strin)) {
-                        $interror[$prtname.'nodewhen'.$branch.'['.$key.']'][] = stack_string('answernoterequired');
+                        $interror[$prtname . 'nodewhen' . $branch . '[' . $key . ']'][] = stack_string('answernoterequired');
                     } else if (strstr($strin, '|') !== false) {
                         $nodename = $key + 1;
-                        $interror[$prtname.'nodewhen'.$branch.'['.$key.']'][] = stack_string('answernote_err');
+                        $interror[$prtname . 'nodewhen' . $branch . '[' . $key . ']'][] = stack_string('answernote_err');
                     }
                 }
             } else if (strstr($answernote, ';') !== false || strstr($answernote, ':') !== false) {
                 $errors[$branchgroup][] = stack_string('answernote_err2');
             }
 
-            $errors = $this->validate_cas_text($errors, $fromform[$prtname . $branch . 'feedback'][$nodekey]['text'],
-                    $prtname . $branch . 'feedback[' . $nodekey . ']', $fixingdollars);
+            $errors = $this->validate_cas_text(
+                $errors,
+                $fromform[$prtname . $branch . 'feedback'][$nodekey]['text'],
+                $prtname . $branch . 'feedback[' . $nodekey . ']',
+                $fixingdollars
+            );
         }
 
         return $errors;
@@ -2472,14 +2914,14 @@ class qtype_stack extends question_type {
      */
     public function get_prt_names_from_question($questiontext, $specificfeedback) {
         $ml = new stack_multilang();
-        $langs = $ml->languages_used($questiontext.$specificfeedback);
+        $langs = $ml->languages_used($questiontext . $specificfeedback);
         if ($langs == []) {
-            return $this->get_prt_names_from_question_lang($questiontext.$specificfeedback);
+            return $this->get_prt_names_from_question_lang($questiontext . $specificfeedback);
         }
 
         // At this point, all languages are assumed to have the same prts.
         $lang = reset($langs);
-        return($this->get_prt_names_from_question_lang($ml->filter($questiontext.$specificfeedback, $lang)));
+        return($this->get_prt_names_from_question_lang($ml->filter($questiontext . $specificfeedback, $lang)));
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -2520,12 +2962,12 @@ class qtype_stack extends question_type {
         // an existing PRT, base things on the submitted data.
         $submitted = optional_param_array($prtname . 'truenextnode', null, PARAM_RAW);
         if ($submitted) {
-            $description    = optional_param_array($prtname . 'description',    null, PARAM_RAW);
-            $truescoremode  = optional_param_array($prtname . 'truescoremode',  null, PARAM_RAW);
-            $truescore      = optional_param_array($prtname . 'truescore',      null, PARAM_RAW);
-            $falsenextnode  = optional_param_array($prtname . 'falsenextnode',  null, PARAM_RAW);
+            $description    = optional_param_array($prtname . 'description', null, PARAM_RAW);
+            $truescoremode  = optional_param_array($prtname . 'truescoremode', null, PARAM_RAW);
+            $truescore      = optional_param_array($prtname . 'truescore', null, PARAM_RAW);
+            $falsenextnode  = optional_param_array($prtname . 'falsenextnode', null, PARAM_RAW);
             $falsescoremode = optional_param_array($prtname . 'falsescoremode', null, PARAM_RAW);
-            $falsescore     = optional_param_array($prtname . 'falsescore',     null, PARAM_RAW);
+            $falsescore     = optional_param_array($prtname . 'falsescore', null, PARAM_RAW);
             $graph = new stack_abstract_graph();
 
             $deletednode = null;
@@ -2557,10 +2999,15 @@ class qtype_stack extends question_type {
                 if (is_numeric($fs)) {
                     $fs = round($fs, 2);
                 }
-                $graph->add_prt_node($key + 1, $description[$key], $left, $right,
-                        $truescoremode[$key] . $ts,
-                        $falsescoremode[$key] . $fs,
-                        '#fgroup_id_' . $prtname . 'node_' . $key);
+                $graph->add_prt_node(
+                    $key + 1,
+                    $description[$key],
+                    $left,
+                    $right,
+                    $truescoremode[$key] . $ts,
+                    $falsescoremode[$key] . $fs,
+                    '#fgroup_id_' . $prtname . 'node_' . $key
+                );
 
                 $lastkey = max($lastkey, $key);
             }
@@ -2569,13 +3016,27 @@ class qtype_stack extends question_type {
                 $numtoadd = optional_param($prtname . 'nodeaddnum', 1, PARAM_INT);
                 if (is_integer($numtoadd) && $numtoadd > 0 && $numtoadd < 10) {
                     for ($i = 1; $i <= $numtoadd; $i++) {
-                        $graph->add_prt_node($lastkey + $i + 1, '', null, null, '+0', '-0',
-                            '#fgroup_id_' . $prtname . 'node_' . ($lastkey + 1));
+                        $graph->add_prt_node(
+                            $lastkey + $i + 1,
+                            '',
+                            null,
+                            null,
+                            '+0',
+                            '-0',
+                            '#fgroup_id_' . $prtname . 'node_' . ($lastkey + 1)
+                        );
                     }
                 } else {
                     // Can't add requested number so just add one.
-                    $graph->add_prt_node($lastkey + 2, '', null, null, '+0', '-0',
-                        '#fgroup_id_' . $prtname . 'node_' . ($lastkey + 1));
+                    $graph->add_prt_node(
+                        $lastkey + 2,
+                        '',
+                        null,
+                        null,
+                        '+0',
+                        '-0',
+                        '#fgroup_id_' . $prtname . 'node_' . ($lastkey + 1)
+                    );
                 }
             }
 
@@ -2620,10 +3081,15 @@ class qtype_stack extends question_type {
                 if (is_numeric($fs)) {
                     $fs = round($fs, 2);
                 }
-                $graph->add_prt_node($key + 1, $description[$key], $left, $right,
-                        $truescoremode[$key] . $ts,
-                        $falsescoremode[$key] . $fs,
-                        '#fgroup_id_' . $prtname . 'node_' . $key);
+                $graph->add_prt_node(
+                    $key + 1,
+                    $description[$key],
+                    $left,
+                    $right,
+                    $truescoremode[$key] . $ts,
+                    $falsescoremode[$key] . $fs,
+                    '#fgroup_id_' . $prtname . 'node_' . $key
+                );
 
                 $lastkey = max($lastkey, $key);
             }
@@ -2648,14 +3114,24 @@ class qtype_stack extends question_type {
                 } else {
                     $right = $node->falsenextnode + 1;
                 }
-                $graph->add_prt_node($node->nodename + 1, $node->description, $left, $right,
-                        $node->truescoremode . $node->truescore,
-                        $node->falsescoremode . $node->falsescore,
-                        '#fgroup_id_' . $prtname . 'node_' . $node->nodename);
+                $graph->add_prt_node(
+                    $node->nodename + 1,
+                    $node->description,
+                    $left,
+                    $right,
+                    $node->truescoremode . $node->truescore,
+                    $node->falsescoremode . $node->falsescore,
+                    '#fgroup_id_' . $prtname . 'node_' . $node->nodename
+                );
                 // Generate a text-based representation of the cas command.
                 $at = stack_potentialresponse_tree_lite::compile_node_answertest($node);
-                $graph->add_prt_text($node->nodename + 1, $at, $node->quiet,
-                    $node->trueanswernote, $node->falseanswernote);
+                $graph->add_prt_text(
+                    $node->nodename + 1,
+                    $at,
+                    $node->quiet,
+                    $node->trueanswernote,
+                    $node->falseanswernote
+                );
             }
             $graph->layout();
             $this->prtgraph[$prtname] = $graph;

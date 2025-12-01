@@ -107,8 +107,10 @@ class library_import extends \external_api {
         $loadingquiz = false;
         $categories = [];
 
-        if (pathinfo($params['filepath'], PATHINFO_EXTENSION) === 'json'
-                    && strrpos($params['filepath'], '_quiz.json') !== false) {
+        if (
+            pathinfo($params['filepath'], PATHINFO_EXTENSION) === 'json'
+                    && strrpos($params['filepath'], '_quiz.json') !== false
+        ) {
             // We've got a quiz file. Load JSON and instantiate.
             $quizcontents = file_get_contents($CFG->dirroot . '/question/type/stack/samplequestions/' . $params['filepath']);
             $quizdata = json_decode($quizcontents);
@@ -122,7 +124,7 @@ class library_import extends \external_api {
             // Convert the paths to the question files to be relative to the sample questions folder. Paths in the quiz
             // data file are relative to the location of the quiz data file itself.
             $reldirname = dirname($params['filepath']);
-            $files = array_map(function($question) use ($reldirname) {
+            $files = array_map(function ($question) use ($reldirname) {
                 return $reldirname . $question->quizfilepath;
             }, $questions);
             // Create an array of the gitsync category files we will also need. Each unique directory
@@ -145,11 +147,11 @@ class library_import extends \external_api {
             // List all the files in the same folder.
             $files = scandir(dirname($fullpath));
             // Discard anything which isn't XML. Also discard category files.
-            $files = array_filter($files, function($file) {
+            $files = array_filter($files, function ($file) {
                 return pathinfo($file, PATHINFO_EXTENSION) === 'xml' && strrpos($file, 'gitsync_category') === false;
             });
             // Convert file names into paths relative to the sample questions folder.
-            $files = array_map(function($file) use ($reldirname) {
+            $files = array_map(function ($file) use ($reldirname) {
                 return $reldirname . '/' . $file;
             }, $files);
         }
@@ -340,7 +342,7 @@ class library_import extends \external_api {
             $moduleinfo->coursemodule = (int) $quizdata->quiz->cmid;
             $moduleinfo->cmidnumber = $moduleinfo->coursemodule;
             $module = get_coursemodule_from_id('', $moduleinfo->coursemodule, 0, false, \MUST_EXIST);
-            list($module, $moduleinfo) = \update_moduleinfo($module, $moduleinfo, \get_course($courseid));
+            [$module, $moduleinfo] = \update_moduleinfo($module, $moduleinfo, \get_course($courseid));
             $module = get_module_from_cmid($moduleinfo->coursemodule)[0];
         } else {
             // We're creating the quiz.
@@ -363,7 +365,7 @@ class library_import extends \external_api {
         $DB->update_record('quiz', $reviewchoice);
 
         // Sort questions by slot.
-        usort($quizdata->questions, function($a, $b) {
+        usort($quizdata->questions, function ($a, $b) {
             if ((int) $a->slot > (int) $b->slot) {
                 return 1;
             } else if ((int) $a->slot < (int) $b->slot) {
@@ -384,8 +386,11 @@ class library_import extends \external_api {
                         'SELECT MAX(questionbankentryid) FROM {question_versions} WHERE questionid = :questionid',
                         ['questionid' => $question->id]
                     );
-                    $itemid = $DB->get_field('question_references', 'itemid',
-                        ['usingcontextid' => $quizcontext->id, 'questionbankentryid' => $questionbankentryid]);
+                    $itemid = $DB->get_field(
+                        'question_references',
+                        'itemid',
+                        ['usingcontextid' => $quizcontext->id, 'questionbankentryid' => $questionbankentryid]
+                    );
                     $DB->set_field('quiz_slots', 'requireprevious', 1, ['id' => $itemid]);
                 }
             }
@@ -400,15 +405,21 @@ class library_import extends \external_api {
                 $section->firstslot = (int) $section->firstslot;
                 // First slot will have been automatically created so we need to overwrite.
                 if ($section->firstslot == 1) {
-                    $sectionid = $DB->get_field('quiz_sections', 'id',
-                        ['quizid' => $moduleinfo->instance, 'firstslot' => 1]);
+                    $sectionid = $DB->get_field(
+                        'quiz_sections',
+                        'id',
+                        ['quizid' => $moduleinfo->instance, 'firstslot' => 1]
+                    );
                     $section->id = $sectionid;
                     $DB->update_record('quiz_sections', $section);
                 } else {
                     $sectionid = $DB->insert_record('quiz_sections', $section);
                 }
-                $slotid = $DB->get_field('quiz_slots', 'id',
-                    ['quizid' => $moduleinfo->instance, 'slot' => (int) $section->firstslot]);
+                $slotid = $DB->get_field(
+                    'quiz_slots',
+                    'id',
+                    ['quizid' => $moduleinfo->instance, 'slot' => (int) $section->firstslot]
+                );
 
                 // Log section break created event.
                 $event = \mod_quiz\event\section_break_created::create([

@@ -32,10 +32,10 @@ require_once(__DIR__ . '/../../utils.class.php');
  * This filter needs to come before 910_inert_float_for_display to make it easy to decide if we have floats.
  */
 class stack_ast_filter_545_wrong_decimal_separator_validation implements stack_cas_astfilter {
-
     /*
      * This function decides if we have something which looks like a number.
      */
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     private function looks_like_number($ast) {
         if ($ast instanceof MP_Integer) {
             return true;
@@ -46,8 +46,9 @@ class stack_ast_filter_545_wrong_decimal_separator_validation implements stack_c
         return false;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
-        $process = function($node) use (&$answernotes, &$errors) {
+        $process = function ($node) use (&$answernotes, &$errors) {
             if ($node instanceof MP_Operation && $node->op === ".") {
                 // We need to check both integers and floats, as in sets of numbers we have {1.2,3}.
                 // For simplicity, this check needs to be done before any dispdp functions are applied.
@@ -66,4 +67,3 @@ class stack_ast_filter_545_wrong_decimal_separator_validation implements stack_c
         // @codingStandardsIgnoreEnd
     }
 }
-

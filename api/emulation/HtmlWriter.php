@@ -24,7 +24,6 @@
  * @category output
  */
 class html_writer {
-
     /**
      * Outputs a tag with attributes and contents
      *
@@ -220,7 +219,12 @@ class html_writer {
      * @return string HTML fragment
      */
     public static function select(
-        array $options, $name, $selected = '', $nothing = ['' => 'choosedots'], ?array $attributes = null) {
+        array $options,
+        $name,
+        $selected = '',
+        $nothing = ['' => 'choosedots'],
+        ?array $attributes = null
+    ) {
         $attributes = (array)$attributes;
         if (is_array($nothing)) {
             foreach ($nothing as $k => $v) {
@@ -382,8 +386,11 @@ class html_writer {
             $attributes['id'] = self::random_id('ts_');
         }
         $timerselector = self::select($timeunits, $name, $currentdate[$userdatetype], null, ['id' => $attributes['id']]);
-        $label = self::tag('label', get_string(substr($type, 0, -1), 'form'),
-            ['for' => $attributes['id'], 'class' => 'accesshide']);
+        $label = self::tag(
+            'label',
+            get_string(substr($type, 0, -1), 'form'),
+            ['for' => $attributes['id'], 'class' => 'accesshide']
+        );
 
         return $label . $timerselector;
     }
@@ -595,8 +602,11 @@ class html_writer {
 
             foreach ($table->data as $key => $row) {
                 if (($row === 'hr') && ($countcols)) {
-                    $output .= self::tag('td', self::tag('div', '',
-                        ['class' => 'tabledivider']), ['colspan' => $countcols]);
+                    $output .= self::tag('td', self::tag(
+                        'div',
+                        '',
+                        ['class' => 'tabledivider']
+                    ), ['colspan' => $countcols]);
                 } else {
                     // Convert array rows to html_table_rows and cell strings to html_table_cell objects.
                     if (!($row instanceof html_table_row)) {

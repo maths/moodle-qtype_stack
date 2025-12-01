@@ -111,10 +111,17 @@ abstract class stack_connection_helper {
         }
 
         self::$otherdb = moodle_database::get_driver_instance(
-                self::$config->cascachedbtype, self::$config->cascachedblibrary);
-        self::$otherdb->connect(self::$config->cascachedbhost,
-                self::$config->cascachedbuser, self::$config->cascachedbpass,
-                self::$config->cascachedbname, self::$config->cascachedbprefix, $dboptions);
+            self::$config->cascachedbtype,
+            self::$config->cascachedblibrary
+        );
+        self::$otherdb->connect(
+            self::$config->cascachedbhost,
+            self::$config->cascachedbuser,
+            self::$config->cascachedbpass,
+            self::$config->cascachedbname,
+            self::$config->cascachedbprefix,
+            $dboptions
+        );
         return self::$otherdb;
     }
 
@@ -326,11 +333,11 @@ abstract class stack_connection_helper {
                 'cte("MAXIMAversionnum",errcatch(MAXIMA_VERSION_NUM)), print("4=[ error= ["), ' .
                 'cte("externalformat",errcatch(adjust_external_format())), print("5=[ error= ["), ' .
                 'cte("ts",errcatch(trigsimp(sin(x)^2+cos(x)^2))), print("6=[ error= ["), ' .
-                'cte("CAStime",errcatch(CAStime:"'.$date.'")), print("] ]"), return(true));' .
+                'cte("CAStime",errcatch(CAStime:"' . $date . '")), print("] ]"), return(true));' .
                 "\n";
 
         // Really make sure there is no cache.
-        list($results, $debug) = self::stackmaxima_nocache_call($command);
+        [$results, $debug] = self::stackmaxima_nocache_call($command);
 
         $success = true;
         $message = [];
@@ -347,12 +354,14 @@ abstract class stack_connection_helper {
             foreach ($results as $result) {
                 if ('CASresult' === $result['key']) {
                     if ($result['value'] != 'n*x^(n-1)') {
-                        $message[] = stack_string('healthuncachedstack_CAS_calculation',
-                                ['expected' => "n*x^(n-1)", 'actual' => $result['value']]);
+                        $message[] = stack_string(
+                            'healthuncachedstack_CAS_calculation',
+                            ['expected' => "n*x^(n-1)", 'actual' => $result['value']]
+                        );
                         $success = false;
                     }
                 } else if ('CAStime' === $result['key']) {
-                    if ($result['value'] != '"'.$date.'"') {
+                    if ($result['value'] != '"' . $date . '"') {
                         $success = false;
                     }
                 } else if ('ts' === $result['key']) {
@@ -361,13 +370,17 @@ abstract class stack_connection_helper {
                         $success = false;
                     }
                 } else if ('MAXIMAversion' === $result['key']) {
-                    $maximaversionstr = $result['value'] . ' ('.$maximaversionum.')';
+                    $maximaversionstr = $result['value'] . ' (' . $maximaversionum . ')';
                     if ('default' == $maximaversion) {
-                        $message[] = stack_string('healthuncachedstack_CAS_versionnotchecked',
-                                ['actual' => $maximaversionstr]);
-                    } else if ($result['value'] != '"'.$maximaversion.'"') {
-                        $message[] = stack_string('healthuncachedstack_CAS_version',
-                                ['expected' => $maximaversion, 'actual' => $maximaversionstr]);
+                        $message[] = stack_string(
+                            'healthuncachedstack_CAS_versionnotchecked',
+                            ['actual' => $maximaversionstr]
+                        );
+                    } else if ($result['value'] != '"' . $maximaversion . '"') {
+                        $message[] = stack_string(
+                            'healthuncachedstack_CAS_version',
+                            ['expected' => $maximaversion, 'actual' => $maximaversionstr]
+                        );
                         $success = false;
                     }
                 }
@@ -414,20 +427,20 @@ abstract class stack_connection_helper {
 
         switch ($lisp) {
             case 'GCL':
-                $maximacommand = ':lisp (si::save-system "'.$imagename.'")' . "\n";
-                $maximacommand .= 'quit();'."\n";
+                $maximacommand = ':lisp (si::save-system "' . $imagename . '")' . "\n";
+                $maximacommand .= 'quit();' . "\n";
                 $rawcommand = stack_utils::convert_slash_paths($imagename . ' -eval \'(cl-user::run)\'');
                 break;
 
             case 'SBCL':
-                $maximacommand = ':lisp (sb-ext:save-lisp-and-die "'.$imagename.'" :toplevel #\'run :executable t)' . "\n";
+                $maximacommand = ':lisp (sb-ext:save-lisp-and-die "' . $imagename . '" :toplevel #\'run :executable t)' . "\n";
                 $rawcommand = stack_utils::convert_slash_paths($imagename);
                 break;
 
             case 'CLISP':
                 $imagename .= '.mem';
-                $maximacommand = ':lisp (ext:saveinitmem "'.$imagename.'" :init-function #\'user::run)' . "\n";
-                $maximacommand .= 'quit();'."\n";
+                $maximacommand = ':lisp (ext:saveinitmem "' . $imagename . '" :init-function #\'user::run)' . "\n";
+                $maximacommand .= 'quit();' . "\n";
                 $lisprun = shell_exec('locate lisp.run');
                 if (trim($lisprun) == '') {
                     $success = false;
@@ -435,7 +448,7 @@ abstract class stack_connection_helper {
                     return [$message, '', $success, ''];
                 }
                 $lisprun = explode("\n", $lisprun);
-                $rawcommand = $lisprun[0].' -q -M '.stack_utils::convert_slash_paths($imagename);
+                $rawcommand = $lisprun[0] . ' -q -M ' . stack_utils::convert_slash_paths($imagename);
                 break;
 
             default:
@@ -445,13 +458,13 @@ abstract class stack_connection_helper {
         }
 
         // Really make sure there is no cache.
-        list($results, $debug) = self::stackmaxima_nocache_call($maximacommand);
+        [$results, $debug] = self::stackmaxima_nocache_call($maximacommand);
 
         // Question: should we at this stage try to use the optimised image we have created?
         $success = true;
 
         // Add the timeout command to the message.
-        $commandline = 'timeout --kill-after=30s 30s '.$rawcommand;
+        $commandline = 'timeout --kill-after=30s 30s ' . $rawcommand;
         $message = stack_string('healthautomaxopt_ok', ['command' => $commandline]);
         if (!file_exists($imagename)) {
             $success = false;
@@ -460,5 +473,4 @@ abstract class stack_connection_helper {
 
         return [$message, $debug, $success, $commandline, $rawcommand];
     }
-
 }

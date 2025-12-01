@@ -1279,3 +1279,10 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
 .que .comment {
     color: #44331b;
 }
+.stack-metadata input {
+    width: 98%;
+}
+.stack-metadata .inputcol {
+    padding-left: 0px;
+    padding-right: 0px;
+}

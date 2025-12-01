@@ -20,15 +20,29 @@
     }
 }}
 <div id="qtype-stack-metadata-content">
-    <ul class="qtype_stack_contrib">
-        {{#contributor}}
-            <li>
-                {{firstName}} {{lastName}}
-                <input id="contributor-{{id}}-firstName" value="{{firstName}}">
-                <input id="contributor-{{id}}-lastName" value="{{lastName}}">
-            </li>
-        {{/contributor}}
-    </ul>
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-2 inputcol">{{#str}} firstname, qtype_stack {{/str}}</div>
+        <div class="col-2 inputcol">{{#str}} lastname, qtype_stack {{/str}}</div>
+        <div class="col-3 inputcol">{{#str}} institution, qtype_stack {{/str}}</div>
+        <div class="col-1 inputcol">{{#str}} year, qtype_stack {{/str}}</div>
+    </div>
+    <div class="row">
+        <div class="col-2 inputcol">{{#str}} creator, qtype_stack {{/str}}</div>
+        <div class="col-2 inputcol"><input id="creator-firstName" value="{{creator.firstName}}"></div>
+        <div class="col-2 inputcol"><input id="creator-lastName" value="{{creator.lastName}}"></div>
+        <div class="col-3 inputcol"><input id="creator-institution" value="{{creator.institution}}"></div>
+        <div class="col-1 inputcol"><input id="creator-year" value="{{creator.year}}"></div>
+    </div>
+    {{#contributor}}
+        <div class="row">
+            <div class="col-2 inputcol">{{#str}} contributor, qtype_stack {{/str}}</div>
+            <div class="col-2 inputcol"><input id="contributor-{{id}}-firstName" value="{{firstName}}"></div>
+            <div class="col-2 inputcol"><input id="contributor-{{id}}-lastName" value="{{lastName}}"></div>
+            <div class="col-3 inputcol"><input id="contributor-{{id}}-institution" value="{{institution}}"></div>
+            <div class="col-1 inputcol"><input id="contributor-{{id}}-year" value="{{year}}"></div>
+        </div>
+    {{/contributor}}
     <div class="col-sm-6 col-lg-5">
         <div class="btn-group" role="group" style="float:right">
             <button class="btn btn-primary" type="button" id="stack-metadata-update">

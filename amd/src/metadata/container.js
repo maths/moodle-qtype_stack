@@ -64,7 +64,7 @@ export default class extends BaseComponent {
 
     getWatchers() {
         return [
-            {watch: `contributor:updated`, handler: this.reloadContainerComponent},
+            {watch: `*:updated`, handler: this.reloadContainerComponent},
         ];
     }
 
@@ -72,15 +72,21 @@ export default class extends BaseComponent {
         // Mustache data is not fully compatible with state object so we need to convert it
         // into a plain object.
         const data = {
-            creator: {},
+            creator: state.creator,
             contributor: [],
             language: [],
-            license: '',
-            isPartOf: '',
+            license: state.license,
+            isPartOf: state.isPartOf,
             additional: []
         };
         state.contributor.forEach(contributor => {
             data.contributor.push({...contributor});
+        });
+        state.language.forEach(language => {
+            data.language.push({...language});
+        });
+        state.additional.forEach(additional => {
+            data.additional.push({...additional});
         });
 
         // To render a child component we need a container.

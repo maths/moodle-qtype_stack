@@ -27,7 +27,6 @@ class Mutations {
         state.contributor.get(id).firstName = firstName;
         state.contributor.get(id).LastName = LastName;
         stateManager.setReadOnly(true);
-        console.log(state);
     }
 }
 

@@ -410,6 +410,13 @@ $string['mustconfirm'] = 'You have changes to confirm.';
 $string['moodleerrors'] = 'You have errors related to Moodle\'s basic question setup.';
 $string['stackerrors'] = 'You have errors in your question.';
 $string['editmetadata'] = 'Edit metadata';
+$string['metadata'] = 'Metadata';
+$string['firstname'] = 'First name';
+$string['lastname'] = 'Last name';
+$string['institution'] = 'Institution';
+$string['year'] = 'Year';
+$string['contributor'] = 'Contributor';
+$string['creator'] = 'Creator';
 
 // Strings used by input elements.
 $string['studentinputtoolong'] = 'Your input is longer than permitted by STACK.';

@@ -20,5 +20,29 @@
             "institution": "MIT",
             "year": 2025
         }
+    ],
+    "language": [
+        {
+            "id": "en"
+        },
+        {
+            "id": "fr"
+        }
+    ],
+    "license": {
+        "value": "Creative Commons - NoDerivatives 4.0 International"
+    },
+    "isPartOf": {
+        "value": "HELM"
+    },
+    "additional": [
+        {
+            "id": 1,
+            "scope": "EdmundsData",
+            "property": "tags",
+            "qualifier": "colour",
+            "value": "red"
+        }
     ]
+
 }

@@ -23,6 +23,7 @@
 
 import {BaseComponent} from 'core/reactive';
 import {metadata} from 'qtype_stack/metadata/metadata';
+import {notifyFieldValidationFailure} from 'core_form/events';
 
 export default class extends BaseComponent {
     create() {
@@ -64,23 +65,77 @@ export default class extends BaseComponent {
 
     getWatchers() {
         return [
-            {watch: `*:updated`, handler: this.reloadContainerComponent},
+            {watch: `contributor:updated`, handler: this.reloadContainerComponent},
         ];
     }
 
     async reloadContainerComponent({state}) {
+        console.log('Refresh');
         // Mustache data is not fully compatible with state object so we need to convert it
         // into a plain object.
+        const element = {
+            hiddenlabel: "Course full name",
+            required: true,
+            element: {
+                wrapperid: "fitem_id_fullname",
+                id: "id_fullname",
+                name: "fullname"
+            }
+        };
+
         const data = {
-            creator: state.creator,
+            creator: {},
             contributor: [],
             language: [],
             license: state.license,
             isPartOf: state.isPartOf,
-            additional: []
+            additional: [],
+            element: []
         };
         state.contributor.forEach(contributor => {
-            data.contributor.push({...contributor});
+            const element = {
+                firstname: {
+                    required: false,
+                    element: {
+                        hiddenlabel: "Contributor first name",
+                        value: contributor.firstName,
+                        wrapperid: "fitem_" + contributor.id + "_confirstname",
+                        id: 'id_' + contributor.id + "_confirstname",
+                        name: contributor.id + "_confirstname",
+                    }
+                },
+                lastname: {
+                    required: true,
+                    element: {
+                        hiddenlabel: "Contributor last name",
+                        value: contributor.lastName,
+                        wrapperid: "fitem_" + contributor.id + "_conlastname",
+                        id: 'id_' + contributor.id + "_conlastname",
+                        name: contributor.id + "_conlastname",
+                    }
+                },
+                institution: {
+                    required: false,
+                    element: {
+                        hiddenlabel: "Contributor institution",
+                        value: contributor.institution,
+                        wrapperid: "fitem_" + contributor.id + "_coninstitution",
+                        id: 'id_' + contributor.id + "_coninstitution",
+                        name: contributor.id + "_coninstitution",
+                    }
+                },
+                year: {
+                    required: false,
+                    element: {
+                        hiddenlabel: "Contributor year",
+                        value: contributor.year,
+                        wrapperid: "fitem_" + contributor.id + "_conyear",
+                        id: 'id_' + contributor.id + "_conyear",
+                        name: contributor.id + "_conyear",
+                    }
+                }
+            };
+            data.contributor.push({...element});
         });
         state.language.forEach(language => {
             data.language.push({...language});
@@ -88,6 +143,18 @@ export default class extends BaseComponent {
         state.additional.forEach(additional => {
             data.additional.push({...additional});
         });
+        data.element.push(element);
+        data.creator = data.contributor[0];
+        data.json = {
+            required: true,
+            element: {
+                hiddenlabel: "JSON metadata",
+                value: JSON.stringify(state),
+                wrapperid: "fitem_metadata_json",
+                id: "id_metadata_json",
+                name: "metadata_json",
+            }
+        };
 
         // To render a child component we need a container.
         const metadataContainer = this.getElement(this.selectors.METADATACONTAINER);
@@ -106,9 +173,17 @@ export default class extends BaseComponent {
     update(event) {
         // We don't want to submit the form.
         event.preventDefault();
+        const elements = this.getElements('#qtype-stack-metadata-content input[aria-required="true"]');
+        for (const element of elements) {
+            if (element.value === '') {
+                notifyFieldValidationFailure(element, 'Required');
+            } else if (element.classList.contains('is-invalid')) {
+                notifyFieldValidationFailure(element, '');
+            }
+        }
         // Get the selected person id.
-        const first = this.getElement('#contributor-1-firstName').value;
-        const last = this.getElement('#contributor-1-lastName').value;
-        this.reactive.dispatch('updateContributor', 1, first, last);
+        const first = this.getElement('#id_2_confirstname').value;
+        const last = this.getElement('#id_2_conlastname').value;
+        this.reactive.dispatch('updateContributor', 2, first, last);
     }
 }

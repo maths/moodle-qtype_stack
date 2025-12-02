@@ -417,6 +417,8 @@ $string['institution'] = 'Institution';
 $string['year'] = 'Year';
 $string['contributor'] = 'Contributor';
 $string['creator'] = 'Creator';
+$string['addcontributor'] = 'Add contributor';
+$string['updateJSON'] = 'Update JSON';
 
 // Strings used by input elements.
 $string['studentinputtoolong'] = 'Your input is longer than permitted by STACK.';

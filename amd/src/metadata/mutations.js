@@ -21,12 +21,15 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 class Mutations {
-    updateContributor(stateManager, id, firstName, LastName) {
+    updateContributor(stateManager, id, firstName, lastName) {
         const state = stateManager.state;
         stateManager.setReadOnly(false);
         state.contributor.get(id).firstName = firstName;
-        state.contributor.get(id).LastName = LastName;
+        state.contributor.get(id).lastName = lastName;
         stateManager.setReadOnly(true);
+        console.log(state.contributor.get(id).firstName);
+        console.log(state.contributor.get(id).lastName);
+        console.log(state);
     }
 }
 

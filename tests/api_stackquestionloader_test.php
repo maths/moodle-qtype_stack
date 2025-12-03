@@ -142,27 +142,27 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         $this->assertEquals('Default', $question->name);
         $this->assertEquals(
             '<p>Default question</p><p>[[input:ans1]] [[validation:ans1]]</p>',
-             $question->questiontext
+            $question->questiontext
         );
         $this->assertEquals('html', $question->questiontextformat);
         $this->assertEquals(
             '',
-             $question->generalfeedback
+            $question->generalfeedback
         );
         $this->assertEquals('html', $question->generalfeedbackformat);
         $this->assertEquals(
             '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
-             $question->prtcorrect
+            $question->prtcorrect
         );
         $this->assertEquals('html', $question->prtcorrectformat);
         $this->assertEquals(
             '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.',
-             $question->prtpartiallycorrect
+            $question->prtpartiallycorrect
         );
         $this->assertEquals('html', $question->prtpartiallycorrectformat);
         $this->assertEquals(
             '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
-             $question->prtincorrect
+            $question->prtincorrect
         );
         $this->assertEquals('html', $question->prtincorrectformat);
         $this->assertEquals(1, $question->defaultmark);
@@ -173,7 +173,7 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         }
         $this->assertEquals(
             \get_config('qtype_stack', 'stackversion'),
-             $question->stackversion
+            $question->stackversion
         );
         $this->assertEquals(
             'ta1:1;',
@@ -181,17 +181,17 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         );
         $this->assertEquals(
             '[[feedback:prt1]]',
-             $question->specificfeedback
+            $question->specificfeedback
         );
         $this->assertEquals('html', $question->specificfeedbackformat);
         $this->assertEquals(
             '{@ta1@}',
-             $question->questionnote
+            $question->questionnote
         );
         $this->assertEquals('html', $question->questionnoteformat);
         $this->assertEquals(
             '',
-             $question->questiondescription
+            $question->questiondescription
         );
         $this->assertEquals('html', $question->questiondescriptionformat);
 

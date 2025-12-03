@@ -31,8 +31,12 @@ class qtype_stack_question_xml_form extends moodleform {
 
         $mform = $this->_form;
 
-        $mform->addElement('textarea', 'questionxml',
-                stack_string('editxmlquestion'), ['rows' => $this->_customdata['numberrows'], 'cols' => 100]);
+        $mform->addElement(
+            'textarea',
+            'questionxml',
+            stack_string('editxmlquestion'),
+            ['rows' => $this->_customdata['numberrows'], 'cols' => 100]
+        );
         $mform->setType('questionxml', PARAM_RAW);
 
         // Submit buttons.
@@ -43,6 +47,7 @@ class qtype_stack_question_xml_form extends moodleform {
         }
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function,moodle.NamingConventions.ValidFunctionName.LowercaseMethod
     public function setConstants($data) {
         $this->_form->setConstants($data);
     }

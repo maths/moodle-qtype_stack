@@ -35,6 +35,6 @@ $plugin->dependencies = [
     'qbehaviour_adaptivemultipart'     => 2020103000,
     'qbehaviour_dfexplicitvaildate'    => 2018080600,
     'qbehaviour_dfcbmexplicitvaildate' => 2018080600,
-    // TODO - We will need an updated version of this.
+    // TO-DO - We will need an updated version of this.
     'qbank_importasversion'            => 2025041400,
 ];

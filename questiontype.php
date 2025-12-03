@@ -1782,7 +1782,10 @@ class qtype_stack extends question_type {
         $fromform->name = ($fromform->name === '') ? 'Default' : $fromform->name;
         if ($fromform->questiontext === '') {
             // Default only applied if field does not exist.
-            $fromform->questiontext     = $format->getpath($xml, ['#', 'questiontext', 0, '#', 'text', 0, '#'], '<p>Default question</p><p>[[input:ans1]] [[validation:ans1]]</p>', true);
+            $fromform->questiontext     = $format->getpath($xml, [
+                '#', 'questiontext',
+                0, '#', 'text', 0, '#',
+            ], '<p>Default question</p><p>[[input:ans1]] [[validation:ans1]]</p>', true);
         }
 
         $fromform->stackversion          = $format->getpath($xml, ['#', 'stackversion', 0, '#', 'text', 0, '#'], '', true);
@@ -1805,35 +1808,54 @@ class qtype_stack extends question_type {
             $fformat = $fromform->questiondescriptionformat;
         }
         $fromform->questiondescription   = $this->import_xml_text($xml, 'questiondescription', $format, $fformat);
-        $fromform->questionsimplify      = $format->getpath($xml, ['#', 'questionsimplify', 0, '#'], get_config('qtype_stack', 'questionsimplify'));
-        $fromform->assumepositive        = $format->getpath($xml, ['#', 'assumepositive', 0, '#'], get_config('qtype_stack', 'assumepositive'));
-        $fromform->assumereal            = $format->getpath($xml, ['#', 'assumereal', 0, '#'], get_config('qtype_stack', 'assumereal'));
+        $fromform->questionsimplify
+            = $format->getpath($xml, ['#', 'questionsimplify', 0, '#'], get_config('qtype_stack', 'questionsimplify'));
+        $fromform->assumepositive
+            = $format->getpath($xml, ['#', 'assumepositive', 0, '#'], get_config('qtype_stack', 'assumepositive'));
+        $fromform->assumereal
+            = $format->getpath($xml, ['#', 'assumereal', 0, '#'], get_config('qtype_stack', 'assumereal'));
         $fromform->isbroken              = $format->getpath($xml, ['#', 'isbroken', 0, '#'], 0);
         $fformat = FORMAT_HTML;
         if (isset($fromform->prtcorrectformat)) {
             $fformat = $fromform->prtcorrectformat;
         }
-        $fromform->prtcorrect            = $this->import_xml_text($xml, 'prtcorrect', $format, $fformat, get_config('qtype_stack', 'prtcorrect'));
+        $fromform->prtcorrect
+            = $this->import_xml_text($xml, 'prtcorrect', $format, $fformat, get_config('qtype_stack', 'prtcorrect'));
         $fformat = FORMAT_HTML;
         if (isset($fromform->prtpartiallycorrectformat)) {
             $fformat = $fromform->prtpartiallycorrectformat;
         }
-        $fromform->prtpartiallycorrect   = $this->import_xml_text($xml, 'prtpartiallycorrect', $format, $fformat, get_config('qtype_stack', 'prtpartiallycorrect'));
+        $fromform->prtpartiallycorrect = $this->import_xml_text(
+            $xml,
+            'prtpartiallycorrect',
+            $format,
+            $fformat,
+            get_config('qtype_stack', 'prtpartiallycorrect')
+        );
         $fformat = FORMAT_HTML;
         if (isset($fromform->prtincorrectformat)) {
             $fformat = $fromform->prtincorrectformat;
         }
-        $fromform->prtincorrect          = $this->import_xml_text($xml, 'prtincorrect', $format, $fformat, get_config('qtype_stack', 'prtincorrect'));
+        $fromform->prtincorrect
+            = $this->import_xml_text($xml, 'prtincorrect', $format, $fformat, get_config('qtype_stack', 'prtincorrect'));
         $fromform->penalty               = $format->getpath($xml, ['#', 'penalty', 0, '#'], 0.1);
         $fromform->hidden                = $format->getpath($xml, ['#', 'hidden', 0, '#'], 0);
-        $fromform->decimals              = $format->getpath($xml, ['#', 'decimals', 0, '#'], get_config('qtype_stack', 'decimals'));
-        $fromform->scientificnotation    = $format->getpath($xml, ['#', 'scientificnotation', 0, '#'], get_config('qtype_stack', 'scientificnotation'));
-        $fromform->multiplicationsign    = $format->getpath($xml, ['#', 'multiplicationsign', 0, '#'], get_config('qtype_stack', 'multiplicationsign'));
-        $fromform->sqrtsign              = $format->getpath($xml, ['#', 'sqrtsign', 0, '#'], get_config('qtype_stack', 'sqrtsign'));
-        $fromform->complexno             = $format->getpath($xml, ['#', 'complexno', 0, '#'], get_config('qtype_stack', 'complexno'));
-        $fromform->inversetrig           = $format->getpath($xml, ['#', 'inversetrig', 0, '#'], get_config('qtype_stack', 'inversetrig'));
-        $fromform->logicsymbol           = $format->getpath($xml, ['#', 'logicsymbol', 0, '#'], get_config('qtype_stack', 'logicsymbol'));
-        $fromform->matrixparens          = $format->getpath($xml, ['#', 'matrixparens', 0, '#'], get_config('qtype_stack', 'matrixparens'));
+        $fromform->decimals
+            = $format->getpath($xml, ['#', 'decimals', 0, '#'], get_config('qtype_stack', 'decimals'));
+        $fromform->scientificnotation
+            = $format->getpath($xml, ['#', 'scientificnotation', 0, '#'], get_config('qtype_stack', 'scientificnotation'));
+        $fromform->multiplicationsign
+            = $format->getpath($xml, ['#', 'multiplicationsign', 0, '#'], get_config('qtype_stack', 'multiplicationsign'));
+        $fromform->sqrtsign
+            = $format->getpath($xml, ['#', 'sqrtsign', 0, '#'], get_config('qtype_stack', 'sqrtsign'));
+        $fromform->complexno
+            = $format->getpath($xml, ['#', 'complexno', 0, '#'], get_config('qtype_stack', 'complexno'));
+        $fromform->inversetrig
+            = $format->getpath($xml, ['#', 'inversetrig', 0, '#'], get_config('qtype_stack', 'inversetrig'));
+        $fromform->logicsymbol
+            = $format->getpath($xml, ['#', 'logicsymbol', 0, '#'], get_config('qtype_stack', 'logicsymbol'));
+        $fromform->matrixparens
+            = $format->getpath($xml, ['#', 'matrixparens', 0, '#'], get_config('qtype_stack', 'matrixparens'));
         $fromform->variantsselectionseed = $format->getpath($xml, ['#', 'variantsselectionseed', 0, '#'], '');
 
         $structurerepairs = '';
@@ -1860,7 +1882,7 @@ class qtype_stack extends question_type {
                     'sans' => [0 => ['#' => 'ans1']],
                     'tans' => [0 => ['#' => 'ta1']],
                     'trueanswernote' => [0 => ['#' => 'prt1-1-T']],
-                    'falseanswernote' => [0 => ['#' => 'prt1-1-F']]
+                    'falseanswernote' => [0 => ['#' => 'prt1-1-F']],
                 ];
                 $defaultprt = [];
                 $defaultprt['#'] = ['name' => [0 => ['#' => 'prt1']], 'node' => [['#' => $defaultnode]]];
@@ -1957,18 +1979,26 @@ class qtype_stack extends question_type {
 
         $fromform->{$name . 'type'}               = $format->getpath($xml, ['#', 'type', 0, '#'], 'algebraic');
         $fromform->{$name . 'modelans'}           = $format->getpath($xml, ['#', 'tans', 0, '#'], 'ta1');
-        $fromform->{$name . 'boxsize'}            = (int) $format->getpath($xml, ['#', 'boxsize', 0, '#'], get_config('qtype_stack', 'inputboxsize'));
+        $fromform->{$name . 'boxsize'}
+            = (int) $format->getpath($xml, ['#', 'boxsize', 0, '#'], get_config('qtype_stack', 'inputboxsize'));
         $fromform->{$name . 'strictsyntax'}       = $format->getpath($xml, ['#', 'strictsyntax', 0, '#'], 1);
-        $fromform->{$name . 'insertstars'}        = $format->getpath($xml, ['#', 'insertstars', 0, '#'], get_config('qtype_stack', 'inputinsertstars'));
+        $fromform->{$name . 'insertstars'}
+            = $format->getpath($xml, ['#', 'insertstars', 0, '#'], get_config('qtype_stack', 'inputinsertstars'));
         $fromform->{$name . 'syntaxhint'}         = $format->getpath($xml, ['#', 'syntaxhint', 0, '#'], '');
         $fromform->{$name . 'syntaxattribute'}    = $format->getpath($xml, ['#', 'syntaxattribute', 0, '#'], 0);
-        $fromform->{$name . 'forbidwords'}        = $format->getpath($xml, ['#', 'forbidwords', 0, '#'], get_config('qtype_stack', 'inputforbidwords'));
+        $fromform->{$name . 'forbidwords'}
+            = $format->getpath($xml, ['#', 'forbidwords', 0, '#'], get_config('qtype_stack', 'inputforbidwords'));
         $fromform->{$name . 'allowwords'}         = $format->getpath($xml, ['#', 'allowwords', 0, '#'], '');
-        $fromform->{$name . 'forbidfloat'}        = $format->getpath($xml, ['#', 'forbidfloat', 0, '#'], get_config('qtype_stack', 'inputforbidfloat'));
-        $fromform->{$name . 'requirelowestterms'} = $format->getpath($xml, ['#', 'requirelowestterms', 0, '#'], get_config('qtype_stack', 'inputrequirelowestterms'));
-        $fromform->{$name . 'checkanswertype'}    = $format->getpath($xml, ['#', 'checkanswertype', 0, '#'], get_config('qtype_stack', 'inputcheckanswertype'));
-        $fromform->{$name . 'mustverify'}         = $format->getpath($xml, ['#', 'mustverify', 0, '#'], get_config('qtype_stack', 'inputmustverify'));
-        $fromform->{$name . 'showvalidation'}     = $format->getpath($xml, ['#', 'showvalidation', 0, '#'], get_config('qtype_stack', 'inputshowvalidation'));
+        $fromform->{$name . 'forbidfloat'}
+            = $format->getpath($xml, ['#', 'forbidfloat', 0, '#'], get_config('qtype_stack', 'inputforbidfloat'));
+        $fromform->{$name . 'requirelowestterms'}
+            = $format->getpath($xml, ['#', 'requirelowestterms', 0, '#'], get_config('qtype_stack', 'inputrequirelowestterms'));
+        $fromform->{$name . 'checkanswertype'}
+            = $format->getpath($xml, ['#', 'checkanswertype', 0, '#'], get_config('qtype_stack', 'inputcheckanswertype'));
+        $fromform->{$name . 'mustverify'}
+            = $format->getpath($xml, ['#', 'mustverify', 0, '#'], get_config('qtype_stack', 'inputmustverify'));
+        $fromform->{$name . 'showvalidation'}
+            = $format->getpath($xml, ['#', 'showvalidation', 0, '#'], get_config('qtype_stack', 'inputshowvalidation'));
         $fromform->{$name . 'options'}            = $format->getpath($xml, ['#', 'options', 0, '#'], '');
     }
 

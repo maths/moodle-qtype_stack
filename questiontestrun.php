@@ -155,7 +155,8 @@ $links[] = html_writer::link(
 $links[] = html_writer::link(
     $todolink,
     stack_string('seetodolist'),
-    ['class' => 'nav-link']);
+    ['class' => 'nav-link']
+);
 $links[] = html_writer::link(
     $questionxmllink,
     stack_string('editxml'),

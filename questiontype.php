@@ -149,10 +149,12 @@ class qtype_stack extends question_type {
                         $dashboardlink,
                         $fromform->name
                     ) . '<br>' . $result->notice;
-                    // If we send the notice back to Moodle the question import process will stop
-                    // without importing any later questions in the file.
-                    echo $OUTPUT->notification($result->notice);
-                    unset($result->notice);
+                    if ($PAGE->pagetype === 'question-bank-importquestions-import') {
+                        // If we send the notice back to Moodle the question import process will stop
+                        // without importing any later questions in the file.
+                        echo $OUTPUT->notification($result->notice);
+                        unset($result->notice);
+                    }
                 }
                 break;
                 // Ideally importasversion would handle notice/errors messages.

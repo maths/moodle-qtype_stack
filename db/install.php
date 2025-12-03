@@ -34,8 +34,13 @@ function xmldb_qtype_stack_install() {
     global $CFG;
 
     // Define stackmaximaversion config parameter.
-    if (!preg_match('~stackmaximaversion:(\d{10})~',
-            file_get_contents($CFG->dirroot . '/question/type/stack/stack/maxima/stackmaxima.mac'), $matches)) {
+    if (
+        !preg_match(
+            '~stackmaximaversion:(\d{10})~',
+            file_get_contents($CFG->dirroot . '/question/type/stack/stack/maxima/stackmaxima.mac'),
+            $matches
+        )
+    ) {
         throw new coding_exception('Maxima libraries version number not found in stackmaxima.mac.');
     }
     set_config('stackmaximaversion', $matches[1], 'qtype_stack');
@@ -80,9 +85,11 @@ function xmldb_qtype_stack_install() {
         set_config('casdebugging', 1, 'qtype_stack');
         set_config('mathsdisplay', 'mathjax', 'qtype_stack');
 
-        if (!defined('QTYPE_STACK_TEST_CONFIG_PLATFORM')
-                    || !in_array(QTYPE_STACK_TEST_CONFIG_PLATFORM, ['server', 'server-proxy', 'none'])) {
-            list($ok, $message) = stack_cas_configuration::create_auto_maxima_image();
+        if (
+            !defined('QTYPE_STACK_TEST_CONFIG_PLATFORM')
+                    || !in_array(QTYPE_STACK_TEST_CONFIG_PLATFORM, ['server', 'server-proxy', 'none'])
+        ) {
+            [$ok, $message] = stack_cas_configuration::create_auto_maxima_image();
             if (!$ok) {
                 throw new coding_exception('maxima_opt_auto creation failed.', $message);
             }

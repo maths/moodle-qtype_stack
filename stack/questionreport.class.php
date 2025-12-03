@@ -20,6 +20,7 @@
  * @package    qtype_stack
  * @copyright 2024 University of Edinburgh.
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ * phpcs:disable PSR1.Classes.ClassDeclaration.MultipleClasses
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -536,7 +537,7 @@ class stack_question_report {
                 }
             }
             if (trim($sumouti) !== '') {
-                $sumout[$prt] = '## ' . $prt . ' ('. $tot[$prt] . ")\n" . $sumouti . "\n";;
+                $sumout[$prt] = '## ' . $prt . ' (' . $tot[$prt] . ")\n" . $sumouti . "\n";
             }
         }
 
@@ -572,12 +573,13 @@ class stack_question_report {
                     // Use the old $tot, to give meaningful percentages of which individual notes occur overall.
                     $prtlabels[$prt][$dat] = $num;
                     $sumouti .= str_pad($num, strlen((string) $pad) + 1) . '(' .
-                        str_pad(number_format((float) 100 * $num / $tot[$prt], 2, '.', ''), 6, ' ', STR_PAD_LEFT) . '%); '.
+                        str_pad(number_format((float) 100 * $num / $tot[$prt], 2, '.', ''), 6, ' ', STR_PAD_LEFT) . '%); ' .
                         $dat . "\n";
                 }
             }
             if (trim($sumouti) !== '') {
-                $sumout[$prt] = '## ' . $prt . ' ('. $tot[$prt] . ")\n" . $sumouti . "\n";;
+                $sumout[$prt] = '## ' . $prt . ' (' . $tot[$prt] . ")\n" . $sumouti . "\n";
+                ;
             }
         }
 
@@ -629,7 +631,7 @@ class stack_question_report {
                 $tot += $num;
             }
             if ($idata !== []) {
-                $sumout .= '## ' . $prt . ' ('. $tot . ")\n";
+                $sumout .= '## ' . $prt . ' (' . $tot . ")\n";
                 $pad = max($idata);
             }
             $sumprtheadline = '';
@@ -683,7 +685,7 @@ class stack_question_report {
                 }
             }
             if (trim($sumouti) !== '') {
-                $sumout .= '## ' . $input . ' ('. $tot . ")\n" . $sumouti;
+                $sumout .= '## ' . $input . ' (' . $tot . ")\n" . $sumouti;
             }
         }
         return $sumout;
@@ -717,7 +719,7 @@ class stack_question_report {
                 }
             }
             if (trim($sumouti) !== '') {
-                $sumout .= '## ' . $input . ' ('. $tot . ")\n" . $sumouti;
+                $sumout .= '## ' . $input . ' (' . $tot . ")\n" . $sumouti;
             }
         }
         $output->inputs = $sumout;
@@ -738,7 +740,7 @@ class stack_question_report {
                     $tot += $num;
                 }
                 $pad = max($vdata);
-                $sumout .= "\n# " . $variant . ' ('. $tot . ")\n";
+                $sumout .= "\n# " . $variant . ' (' . $tot . ")\n";
                 foreach ($vdata as $dat => $num) {
                     $sumout .= str_pad($num, strlen((string) $pad) + 1) . '(' .
                             str_pad(number_format((float) 100 * $num / $tot, 2, '.', ''), 6, ' ', STR_PAD_LEFT) .

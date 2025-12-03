@@ -58,7 +58,6 @@ use stack_cas_castext2_iframe;
  * @group qtype_stack_castext_module
  */
 final class parsons_block_test extends qtype_stack_testcase {
-
     /**
      * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_parsons
@@ -302,7 +301,8 @@ final class parsons_block_test extends qtype_stack_testcase {
             $this->assertFalse($at1->get_valid());
             $this->assertEquals(
                 stack_string('stackBlock_parsons_unknown_named_version', ['version' => implode(', ', $validversions)]),
-                $at1->get_errors());
+                $at1->get_errors()
+            );
         }
     }
 
@@ -332,7 +332,8 @@ final class parsons_block_test extends qtype_stack_testcase {
             $this->assertFalse($at1->get_valid());
             $this->assertEquals(
                 $err . ', ' . stack_string('stackBlock_parsons_param', ['param' => implode(', ', $validparameters)]),
-                $at1->get_errors());
+                $at1->get_errors()
+            );
         }
     }
 }

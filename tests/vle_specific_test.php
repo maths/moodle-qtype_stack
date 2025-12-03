@@ -33,7 +33,6 @@ require_once(__DIR__ . '/../vle_specific.php');
  * @covers \vle_specific
  */
 final class vle_specific_test extends qtype_stack_testcase {
-
     public function test_mathjaxurl(): void {
 
         $this->resetAfterTest();
@@ -41,30 +40,43 @@ final class vle_specific_test extends qtype_stack_testcase {
         // Parameters but no config.
         set_config('httpsurl', 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?one=1&two=two', 'filter_mathjaxloader');
         $result = stack_get_mathjax_url();
-        $this->assertEquals('https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML&one=1&two=two',
-                            $result);
+        $this->assertEquals(
+            'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML&one=1&two=two',
+            $result
+        );
 
         // No setting at all.
         set_config('httpsurl', '', 'filter_mathjaxloader');
         $result = stack_get_mathjax_url();
-        $this->assertEquals('https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js?config=TeX-AMS-MML_HTMLorMML',
-                            $result);
+        $this->assertEquals(
+            'https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js?config=TeX-AMS-MML_HTMLorMML',
+            $result
+        );
 
         // Config already set and other parameter.
-        set_config('httpsurl', 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=alreadyhere&one=1',
-                    'filter_mathjaxloader');
+        set_config(
+            'httpsurl',
+            'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=alreadyhere&one=1',
+            'filter_mathjaxloader'
+        );
         $result = stack_get_mathjax_url();
         $this->assertEquals('https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=alreadyhere&one=1', $result);
 
         // Config already set.
-        set_config('httpsurl', 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=alreadyhere',
-                    'filter_mathjaxloader');
+        set_config(
+            'httpsurl',
+            'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=alreadyhere',
+            'filter_mathjaxloader'
+        );
         $result = stack_get_mathjax_url();
         $this->assertEquals('https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=alreadyhere', $result);
 
         // Parameter with question mark.
-        set_config('httpsurl', 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=already?here',
-                    'filter_mathjaxloader');
+        set_config(
+            'httpsurl',
+            'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=already?here',
+            'filter_mathjaxloader'
+        );
         $result = stack_get_mathjax_url();
         $this->assertEquals('https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=already%3Fhere', $result);
 
@@ -73,7 +85,6 @@ final class vle_specific_test extends qtype_stack_testcase {
         set_config('httpsurl', 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js', 'filter_mathjaxloader');
         $result = stack_get_mathjax_url();
         $this->assertEquals('https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML', $result);
-
     }
 
     public function test_get_mathjax_version(): void {
@@ -89,32 +100,47 @@ final class vle_specific_test extends qtype_stack_testcase {
         $this->assertEquals('3.2.2', $result);
 
         // Config already set and other parameter.
-        set_config('httpsurl', 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=alreadyhere&one=1',
-                    'filter_mathjaxloader');
+        set_config(
+            'httpsurl',
+            'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=alreadyhere&one=1',
+            'filter_mathjaxloader'
+        );
         $result = stack_get_mathjax_version();
         $this->assertEquals('2.7.9', $result);
 
         // Config already set.
-        set_config('httpsurl', 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=alreadyhere',
-                    'filter_mathjaxloader');
+        set_config(
+            'httpsurl',
+            'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=alreadyhere',
+            'filter_mathjaxloader'
+        );
         $result = stack_get_mathjax_version();
         $this->assertEquals('2.7.9', $result);
 
         // Parameter with question mark.
-        set_config('httpsurl', 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=already?here',
-                    'filter_mathjaxloader');
+        set_config(
+            'httpsurl',
+            'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=already?here',
+            'filter_mathjaxloader'
+        );
         $result = stack_get_mathjax_version();
         $this->assertEquals('2.7.9', $result);
 
         // MathJax 3.
-        set_config('httpsurl', 'https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js?one=1&two=two',
-                    'filter_mathjaxloader');
+        set_config(
+            'httpsurl',
+            'https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js?one=1&two=two',
+            'filter_mathjaxloader'
+        );
         $result = stack_get_mathjax_version();
         $this->assertEquals('3.2.2', $result);
 
         // Some other host, and non-default version.
-        set_config('httpsurl', 'https://unknown.host/mathjax@1.2.2/es5/tex-mml-chtml.js',
-                    'filter_mathjaxloader');
+        set_config(
+            'httpsurl',
+            'https://unknown.host/mathjax@1.2.2/es5/tex-mml-chtml.js',
+            'filter_mathjaxloader'
+        );
         $result = stack_get_mathjax_version();
         $this->assertEquals("1.2.2", $result);
 
@@ -124,10 +150,12 @@ final class vle_specific_test extends qtype_stack_testcase {
         $this->assertEquals('2.7.7', $result);
 
         // Unable to determine version.
-        set_config('httpsurl', 'https://invalid.url',
-                    'filter_mathjaxloader');
+        set_config(
+            'httpsurl',
+            'https://invalid.url',
+            'filter_mathjaxloader'
+        );
         $result = stack_get_mathjax_version();
         $this->assertEquals('3.2.2', $result);
     }
 }
-

@@ -76,5 +76,4 @@ class ValidationController {
         $response->getBody()->write(json_encode($validationresponse));
         return $response->withHeader('Content-Type', 'application/json');
     }
-
 }

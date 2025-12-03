@@ -36,12 +36,13 @@ require_once(__DIR__ . '/../doc/docslib.php');
  * @covers \stack_maths_output_mathjax
  */
 final class mathsoutputmathjax_test extends qtype_stack_testcase {
-
     public function test_maths_output_mathsjax(): void {
 
         // MathJax output is the default.
-        $this->assert_content_with_maths_equals('Your answer needs to be a single fraction of the form \( {a}\over{b} \). ',
-                stack_string('ATSingleFrac_part'));
+        $this->assert_content_with_maths_equals(
+            'Your answer needs to be a single fraction of the form \( {a}\over{b} \). ',
+            stack_string('ATSingleFrac_part')
+        );
 
         // @codingStandardsIgnoreStart
         $this->assert_content_with_maths_equals("<p><code>\\(x^2\\)</code> gives \\(x^2\\).</p>\n",

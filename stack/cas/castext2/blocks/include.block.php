@@ -47,7 +47,6 @@ require_once(__DIR__ . '/../utils.php');
  * this code to expect something else.
  */
 class stack_cas_castext2_include extends stack_cas_castext2_block {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
         $src = stack_fetch_included_content($this->params['src']);
@@ -88,7 +87,7 @@ class stack_cas_castext2_include extends stack_cas_castext2_block {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function validate(&$errors=[], $options=[]): bool {
+    public function validate(&$errors = [], $options = []): bool {
         if (!array_key_exists('src', $this->params)) {
             $errors[] = new $options['errclass']('Include block requires a src parameter.', $options['context'] . '/' .
                 $this->position['start'] . '-' . $this->position['end']);

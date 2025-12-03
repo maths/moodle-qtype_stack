@@ -24,7 +24,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(__DIR__.'/../../../../config.php');
+require_once(__DIR__ . '/../../../../config.php');
 
 require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/../locallib.php');
@@ -47,14 +47,14 @@ if (!$questionid) {
     require_capability('qtype/stack:usediagnostictools', $context);
     $urlparams = [];
 } else {
-    list($qversion, $questionid) = get_latest_question_version($questionid);
+    [$qversion, $questionid] = get_latest_question_version($questionid);
     $questiondata = question_bank::load_question_data($questionid);
     if (!$questiondata) {
         throw new stack_exception('questiondoesnotexist');
     }
     $question = question_bank::load_question($questionid);
     // Process any other URL parameters, and do require_login.
-    list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($question);
+    [$context, $seed, $urlparams] = qtype_stack_setup_question_test_page($question);
 
     // Check permissions.
     question_require_capability_on($questiondata, 'edit');
@@ -185,10 +185,18 @@ if ($string) {
 
         // Save updated data in the DB when everything is valid.
         if ($questionid && $savedb) {
-            $DB->set_field('question', 'generalfeedback', $string,
-                ['id' => $questionid]);
-            $DB->set_field('qtype_stack_options', 'questionvariables', $vars,
-                ['questionid' => $questionid]);
+            $DB->set_field(
+                'question',
+                'generalfeedback',
+                $string,
+                ['id' => $questionid]
+            );
+            $DB->set_field(
+                'qtype_stack_options',
+                'questionvariables',
+                $vars,
+                ['questionid' => $questionid]
+            );
             $DB->set_field('qtype_stack_options', 'compiledcache', null, ['questionid' => $questionid]);
             // Invalidate the question definition cache.
             stack_clear_vle_question_cache($questionid);
@@ -208,8 +216,11 @@ if ($questionid) {
     $qpreviewlink = qbank_previewquestion\helper::question_preview_url($questionid, null, null, null, null, $context);
     $links[] = html_writer::link($qpreviewlink, '<i class="fa fa-plus-circle"></i> '
                                 . stack_string('questionpreview'), ['class' => 'nav-link']);
-    $links[] = html_writer::link($questioneditlatesturl, stack_string('editquestioninthequestionbank'),
-                                 ['class' => 'nav-link']);
+    $links[] = html_writer::link(
+        $questioneditlatesturl,
+        stack_string('editquestioninthequestionbank'),
+        ['class' => 'nav-link']
+    );
     echo html_writer::tag('nav', implode(' ', $links), ['class' => 'nav']);
 }
 echo $OUTPUT->heading($title);
@@ -239,18 +250,24 @@ if (!$varerrs) {
 $fout  = html_writer::tag('h2', stack_string('questionvariables'));
 $fout .= html_writer::tag('p', implode($varerrs));
 $varlen = substr_count($vars, "\n") + 3;
-$fout .= html_writer::tag('p', html_writer::tag('textarea', $vars,
-            ['cols' => 100, 'rows' => $varlen, 'name' => 'maximavars']));
+$fout .= html_writer::tag('p', html_writer::tag(
+    'textarea',
+    $vars,
+    ['cols' => 100, 'rows' => $varlen, 'name' => 'maximavars']
+));
 if ($questionid) {
     $inplen = substr_count($inps, "\n");
-    $fout .= html_writer::tag('p', html_writer::tag('textarea', $inps,
-            ['cols' => 100, 'rows' => $inplen, 'name' => 'inputs']));
+    $fout .= html_writer::tag('p', html_writer::tag(
+        'textarea',
+        $inps,
+        ['cols' => 100, 'rows' => $inplen, 'name' => 'inputs']
+    ));
 }
 if ($simp) {
-    $fout .= stack_string('autosimplify').' '.
+    $fout .= stack_string('autosimplify') . ' ' .
         html_writer::empty_tag('input', ['type' => 'checkbox', 'checked' => $simp, 'name' => 'simp']);
 } else {
-    $fout .= stack_string('autosimplify').' '.html_writer::empty_tag('input', ['type' => 'checkbox', 'name' => 'simp']);
+    $fout .= stack_string('autosimplify') . ' ' . html_writer::empty_tag('input', ['type' => 'checkbox', 'name' => 'simp']);
 }
 if ($questionid) {
     $fout .= html_writer::tag('h2', stack_string('generalfeedback'));
@@ -259,19 +276,29 @@ if ($questionid) {
 }
 $fout .= html_writer::tag('p', $errs);
 $stringlen = max(substr_count($string, "\n") + 3, 8);
-$fout .= html_writer::tag('p', html_writer::tag('textarea', $string,
-            ['cols' => 100, 'rows' => $stringlen, 'name' => 'cas']));
+$fout .= html_writer::tag('p', html_writer::tag(
+    'textarea',
+    $string,
+    ['cols' => 100, 'rows' => $stringlen, 'name' => 'cas']
+));
 $fout .= html_writer::start_tag('p');
-$fout .= html_writer::empty_tag('input',
-            ['type' => 'submit', 'name' => 'action', 'value' => stack_string('chat'), 'formaction' => $PAGE->url]);
+$fout .= html_writer::empty_tag(
+    'input',
+    ['type' => 'submit', 'name' => 'action', 'value' => stack_string('chat'), 'formaction' => $PAGE->url]
+);
 if ($questionid && !$varerrs) {
-    $fout .= html_writer::empty_tag('input',
-        ['type' => 'submit',  'name' => 'action', 'value' => stack_string('savechat'), 'formaction' => $PAGE->url]);
+    $fout .= html_writer::empty_tag(
+        'input',
+        ['type' => 'submit', 'name' => 'action', 'value' => stack_string('savechat'), 'formaction' => $PAGE->url]
+    );
 }
 if ($questionid && !$varerrs) {
-    $fout .= html_writer::empty_tag('input',
-        ['type' => 'submit',  'name' => 'action', 'value' => stack_string('savechatnew'),
-        'formaction' => $questionediturl, 'title' => stack_string('savechatexp')]);
+    $fout .= html_writer::empty_tag(
+        'input',
+        ['type' => 'submit', 'name' => 'action', 'value' => stack_string('savechatnew'),
+        'formaction' => $questionediturl,
+        'title' => stack_string('savechatexp')]
+    );
 }
 $fout .= html_writer::end_tag('p');
 
@@ -291,4 +318,3 @@ if ('' != trim($debuginfo)) {
 
 echo html_writer::tag('p', stack_string('chatintro') . (($questionid) ? stack_string('chatintro2') : ''));
 echo $OUTPUT->footer();
-

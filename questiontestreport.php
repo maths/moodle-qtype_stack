@@ -26,7 +26,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(__DIR__.'/../../../config.php');
+require_once(__DIR__ . '/../../../config.php');
 require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/vle_specific.php');
 require_once(__DIR__ . '/stack/questionreport.class.php');
@@ -34,7 +34,7 @@ require_login();
 
 // Get the parameters from the URL.
 $questionid = required_param('questionid', PARAM_INT);
-list($qversion, $questionid) = get_latest_question_version($questionid);
+[$qversion, $questionid] = get_latest_question_version($questionid);
 $quizcontext = optional_param('context', null, PARAM_INT);
 // Load the necessary data.
 $questiondata = question_bank::load_question_data($questionid);
@@ -44,7 +44,7 @@ if (!$questiondata) {
 $question = question_bank::load_question($questionid);
 
 // Process any other URL parameters, and do require_login.
-list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($question);
+[$context, $seed, $urlparams] = qtype_stack_setup_question_test_page($question);
 
 // Check permissions.
 question_require_capability_on($questiondata, 'view');
@@ -78,8 +78,10 @@ echo $OUTPUT->header();
 $quizzes = stack_question_report::get_relevant_quizzes($questionid, (int) $question->contextid);
 $quizoutput = [];
 foreach ($quizzes as $contextid => $quiz) {
-    $quiz->url = new moodle_url('/question/type/stack/questiontestreport.php',
-            $urlparams + ['context' => $quiz->quizcontextid]);
+    $quiz->url = new moodle_url(
+        '/question/type/stack/questiontestreport.php',
+        $urlparams + ['context' => $quiz->quizcontextid]
+    );
     $quiz->url = $quiz->url->out();
     $quiz->active = ($contextid === $quizcontext) ? true : false;
     $quizoutput[] = $quiz;

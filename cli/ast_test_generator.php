@@ -48,11 +48,15 @@ $inputs = array_unique($inputs);
 // Ensure that the inputs are parseable.
 $okinputs = [];
 foreach ($inputs as $input) {
-    $test = maxima_corrective_parser::parse($input,
-            $devnull, $devnull, [
+    $test = maxima_corrective_parser::parse(
+        $input,
+        $devnull,
+        $devnull,
+        [
                 'startRule' => 'Root',
                 'letToken' => stack_string('equiv_LET'),
-            ]);
+        ]
+    );
     if ($test !== null) {
         $okinputs[] = $input;
     }
@@ -87,17 +91,25 @@ foreach ($filters as $key => $filter) {
     $asts['units'][$key] = [];
     $asts['no units'][$key] = [];
     foreach ($inputs as $input) {
-        $ast = maxima_corrective_parser::parse($input,
-            $devnull, $devnull, [
+        $ast = maxima_corrective_parser::parse(
+            $input,
+            $devnull,
+            $devnull,
+            [
                 'startRule' => 'Root',
                 'letToken' => stack_string('equiv_LET'),
-            ]);
+            ]
+        );
         $asts['units'][$key][$input] = $ast;
-        $ast = maxima_corrective_parser::parse($input,
-            $devnull, $devnull, [
+        $ast = maxima_corrective_parser::parse(
+            $input,
+            $devnull,
+            $devnull,
+            [
                 'startRule' => 'Root',
                 'letToken' => stack_string('equiv_LET'),
-            ]);
+            ]
+        );
         $asts['no units'][$key][$input] = $ast;
         $total = $total + 2;
     }
@@ -105,7 +117,7 @@ foreach ($filters as $key => $filter) {
 
 $parsetime = microtime(true) - $start;
 
-cli_writeln('Parsed the test inputs ' . (2 * count($filters)) . ' ('. $total . ') times. Average parsetime was ' .
+cli_writeln('Parsed the test inputs ' . (2 * count($filters)) . ' (' . $total . ') times. Average parsetime was ' .
         (1000 * $parsetime / $total) . 'ms');
 
 cli_writeln('');
@@ -153,9 +165,10 @@ cli_heading('Now generating the tests');
 $nl = "\n";
 $indent = '    ';
 $indent2 = $indent . $indent;
+$indent3 = $indent2 . $indent;
 
 $hasinvalid = false;
-$findinvalid = function($node) use(&$hasinvalid) {
+$findinvalid = function ($node) use (&$hasinvalid) {
     if (isset($node->position['invalid']) && $node->position['invalid'] === true) {
         $hasinvalid = true;
         return false;
@@ -229,39 +242,43 @@ ESCAPE;
     $testactiveunits .= $indent2 . '$this->security = new stack_cas_security(true);' . $nl;
     $testpassiveunits = $indent . 'public function test_non_affected_units(): void {' . $nl;
     $testpassiveunits .= $indent2 . '$this->security = new stack_cas_security(true);' . $nl;
-    $testactivenounits = $nl . $indent . 'public function test_affected_no_units(): void {' . $nl;
+    $testactivenounits = $indent . 'public function test_affected_no_units(): void {' . $nl;
     $testactivenounits .= $indent2 . '$this->security = new stack_cas_security(false);' . $nl;
     $testpassivenounits = $indent . 'public function test_non_affected_no_units(): void {' . $nl;
     $testpassivenounits .= $indent2 . '$this->security = new stack_cas_security(false);' . $nl;
 
     if (substr($key, 0, 3) !== '000') {
         $testactiveunits .= $indent2 . '$this->filter = stack_parsing_rule_factory::get_by_common_name(\'' . addslashes($key) .
-            '\');' . $nl . $nl;
+            '\');' . $nl;
         $testpassiveunits .= $indent2 . '$this->filter = stack_parsing_rule_factory::get_by_common_name(\'' . addslashes($key) .
-            '\');' . $nl . $nl;
+            '\');' . $nl;
         $testactivenounits .= $indent2 . '$this->filter = stack_parsing_rule_factory::get_by_common_name(\'' . addslashes($key) .
-            '\');' . $nl . $nl;
+            '\');' . $nl;
         $testpassivenounits .= $indent2 . '$this->filter = stack_parsing_rule_factory::get_by_common_name(\'' . addslashes($key) .
-            '\');' . $nl . $nl;
+            '\');' . $nl;
     } else {
         $testactiveunits .= $indent2 .
-            '$this->filter = stack_parsing_rule_factory::get_filter_pipeline([], [], true);' . $nl . $nl;
+            '$this->filter = stack_parsing_rule_factory::get_filter_pipeline([], [], true);' . $nl;
         $testpassiveunits .= $indent2 .
-            '$this->filter = stack_parsing_rule_factory::get_filter_pipeline([], [], true);' . $nl . $nl;
+            '$this->filter = stack_parsing_rule_factory::get_filter_pipeline([], [], true);' . $nl;
         $testactivenounits .= $indent2 .
-            '$this->filter = stack_parsing_rule_factory::get_filter_pipeline([], [], true);' . $nl . $nl;
+            '$this->filter = stack_parsing_rule_factory::get_filter_pipeline([], [], true);' . $nl;
         $testpassivenounits .= $indent2 .
-            '$this->filter = stack_parsing_rule_factory::get_filter_pipeline([], [], true);' . $nl . $nl;
+            '$this->filter = stack_parsing_rule_factory::get_filter_pipeline([], [], true);' . $nl;
     }
 
 
     foreach ($inputs as $input) {
         // What does it look if nothing changes.
-        $base = maxima_corrective_parser::parse($input,
-            $devnull, $devnull, [
+        $base = maxima_corrective_parser::parse(
+            $input,
+            $devnull,
+            $devnull,
+            [
                 'startRule' => 'Root',
                 'letToken' => stack_string('equiv_LET'),
-            ]);
+            ]
+        );
         $basestring = $base->toString(['nosemicolon' => true]);
 
         // Check with units.
@@ -286,21 +303,22 @@ ESCAPE;
             $affects = true;
         }
 
-        $item = $indent2 . '$this->expect(' . escp($args[0]) .',' . $nl;
-        $item .= $indent2 . '              ' . escp($args[1]) . ',' . $nl;
-        $item .= $indent2 . '              [';
+        $item = $indent2 . '$this->expect(' . $nl;
+        $item .= $indent3 . escp($args[0]) . ',' . $nl;
+        $item .= $indent3 . escp($args[1]) . ',' . $nl;
+        $item .= $indent3 . '[';
         $nos = array_map('trim', $args[2]);
         $nos = array_map('escp', $nos);
         if (!empty($nos)) {
             $item .= implode(', ', $nos);
         }
         $item .= '],' . $nl;
-        $item .= $indent2 . '              ' . ($args[3] === true ? 'true' : 'false') .
-            ', ' . ($args[4] === true ? 'true' : 'false') . ');' . $nl;
+        $item .= $indent3 . ($args[3] === true ? 'true' : 'false') .
+            ',' . $nl . $indent3 . ($args[4] === true ? 'true' : 'false') . $nl . $indent2 . ');' . $nl;
         if ($affects) {
-            $testactiveunits .= $item . $nl;
+            $testactiveunits .= $nl . $item;
         } else {
-            $testpassiveunits .= $item . $nl;
+            $testpassiveunits .= $nl . $item;
         }
 
         // No units.
@@ -325,21 +343,22 @@ ESCAPE;
             $affects = true;
         }
 
-        $item = $indent2 . '$this->expect(' . escp($args[0]) .',' . $nl;
-        $item .= $indent2 . '              ' . escp($args[1]) . ',' . $nl;
-        $item .= $indent2 . '              [';
+        $item = $indent2 . '$this->expect(' . $nl;
+        $item .= $indent3 . escp($args[0]) . ',' . $nl;
+        $item .= $indent3 . escp($args[1]) . ',' . $nl;
+        $item .= $indent3 . '[';
         $nos = array_map('trim', $args[2]);
         $nos = array_map('escp', $nos);
         if (!empty($nos)) {
             $item .= implode(', ', $nos);
         }
         $item .= '],' . $nl;
-        $item .= $indent2 . '              ' . ($args[3] === true ? 'true' : 'false') .
-            ', ' . ($args[4] === true ? 'true' : 'false') . ');' . $nl;
+        $item .= $indent3 . ($args[3] === true ? 'true' : 'false') .
+            ',' . $nl . $indent3 . ($args[4] === true ? 'true' : 'false') . $nl . $indent2 . ');' . $nl;
         if ($affects) {
-            $testactivenounits .= $item . $nl;
+            $testactivenounits .= $nl . $item;
         } else {
-            $testpassivenounits .= $item . $nl;
+            $testpassivenounits .= $nl . $item;
         }
     }
 

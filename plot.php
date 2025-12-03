@@ -52,15 +52,17 @@ if (!is_readable($plot)) {
 
 // Handle If-Modified-Since.
 $filedate = filemtime($plot);
-if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) &&
-        strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) >= $filedate) {
+if (
+    isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) &&
+        strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) >= $filedate
+) {
     header('HTTP/1.0 304 Not Modified');
     die();
 }
-header('Last-Modified: '.gmdate('D, d M Y H:i:s', $filedate).' GMT');
+header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $filedate) . ' GMT');
 
 // Type.
-header('Content-Type: ' . mimeinfo('type', 'x.'.$filetype));
+header('Content-Type: ' . mimeinfo('type', 'x.' . $filetype));
 header('Content-Length: ' . filesize($plot));
 
 // Unlock session during file serving.

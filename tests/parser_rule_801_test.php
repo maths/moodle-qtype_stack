@@ -41,10 +41,14 @@ require_once(__DIR__ . '/../stack/cas/parsingrules/801_singleton_numeric.filter.
  * @covers \ast_filter_801_singleton_numeric_auto_generated_test
  */
 final class parser_rule_801_test extends qtype_stack_testcase {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
-    public function filter(string $input, bool $floats = true, bool $ints = true, bool $power = true,
-            string $convert = 'none'): array {
+    public function filter(
+        string $input,
+        bool $floats = true,
+        bool $ints = true,
+        bool $power = true,
+        string $convert = 'none'
+    ): array {
         $ast = maxima_parser_utils::parse($input);
         $filter = new stack_ast_filter_801_singleton_numeric();
         $filter->set_filter_parameters([
@@ -60,7 +64,7 @@ final class parser_rule_801_test extends qtype_stack_testcase {
         $ast = $filter->filter($ast, $errs, $note, $security);
 
         $hasinvalid = false;
-        $findinvalid = function($node) use(&$hasinvalid) {
+        $findinvalid = function ($node) use (&$hasinvalid) {
             if (isset($node->position['invalid']) && $node->position['invalid'] === true) {
                 $hasinvalid = true;
                 return false;

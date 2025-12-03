@@ -29,14 +29,15 @@ require_once(__DIR__ . '/filter.interface.php');
  * with floats and the matrix multiplication operator.
  */
 class stack_ast_filter_003_no_dot_dot implements stack_cas_astfilter {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 
-        $process = function($node) use (&$valid, &$errors, &$answernotes) {
-            if ($node instanceof MP_Operation && $node->op === '.' && (
+        $process = function ($node) use (&$valid, &$errors, &$answernotes) {
+            if (
+                $node instanceof MP_Operation && $node->op === '.' && (
                 $node->lhs instanceof MP_Float ||
-                $node->rhs instanceof MP_Float)) {
+                $node->rhs instanceof MP_Float)
+            ) {
                 // In general one can write '0.1 . 0.1' but one
                 // cannot write '0.1.0.1' while we could check
                 // for the original representation and ensure that
@@ -46,12 +47,14 @@ class stack_ast_filter_003_no_dot_dot implements stack_cas_astfilter {
                 // anyway. So lets forbid all matrix
                 // multiplications that have floats as scalars.
                 // also deal with the extra special '1..1'.
-                if (($node->rhs instanceof MP_Float &&
+                if (
+                    ($node->rhs instanceof MP_Float &&
                     $node->rhs->raw !== null &&
                     substr($node->rhs->raw, 0, 1) === '.') ||
                     ($node->lhs instanceof MP_Float &&
                     $node->lhs->raw !== null &&
-                    substr($node->lhs->raw, -1) === '.')) {
+                    substr($node->lhs->raw, -1) === '.')
+                ) {
                     $a = [];
                     $a['cmd']  = stack_maxima_format_casstring('..');
                     if (array_search(stack_string('stackCas_spuriousop', $a), $errors) === false) {
@@ -61,14 +64,16 @@ class stack_ast_filter_003_no_dot_dot implements stack_cas_astfilter {
                     if (array_search('spuriousop', $answernotes) === false) {
                         $answernotes[] = 'spuriousop';
                     }
-                } else if (($node->rhs instanceof MP_Operation &&
+                } else if (
+                    ($node->rhs instanceof MP_Operation &&
                             $node->rhs->lhs instanceof MP_Float &&
                             $node->rhs->lhs->raw !== null &&
                             substr($node->rhs->lhs->raw, 0, 1) === '.') ||
                             ($node->lhs instanceof MP_Operation &&
                             $node->lhs->rhs instanceof MP_Float &&
                             $node->lhs->rhs->raw !== null &&
-                            substr($node->lhs->rhs->raw, -1) === '.')) {
+                            substr($node->lhs->rhs->raw, -1) === '.')
+                ) {
                     $node->position['invalid'] = true;
                     $a = [];
                     $a['cmd']  = stack_maxima_format_casstring('..');
@@ -81,8 +86,10 @@ class stack_ast_filter_003_no_dot_dot implements stack_cas_astfilter {
                 } else {
                     // Check for spacing. "1.2. 3.4", "1.2 .3.4" and "1.2 . 3.4" are ok.
                     $ok = true;
-                    if ($node->lhs instanceof MP_Float && $node->lhs->raw !== null &&
-                        $node->rhs instanceof MP_Float && $node->rhs->raw !== null) {
+                    if (
+                        $node->lhs instanceof MP_Float && $node->lhs->raw !== null &&
+                        $node->rhs instanceof MP_Float && $node->rhs->raw !== null
+                    ) {
                         if ($node->lhs->position['end'] + 1 >= $node->rhs->position['start']) {
                             $ok = false;
                         }

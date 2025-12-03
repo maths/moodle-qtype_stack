@@ -144,10 +144,16 @@ class stack_ans_test_controller {
      * @param  object $options
      * @param  CasString $casoption
      */
-    public function __construct(string $anstest, stack_ast_container $sans, stack_ast_container $tans, $casoption = null,
-            $options = null, $contextsession = []) {
+    public function __construct(
+        string $anstest,
+        stack_ast_container $sans,
+        stack_ast_container $tans,
+        $casoption = null,
+        $options = null,
+        $contextsession = []
+    ) {
 
-        switch($anstest) {
+        switch ($anstest) {
             case 'AlgEquiv':
             case 'AlgEquivNouns':
             case 'EqualComAss':
@@ -220,7 +226,7 @@ class stack_ans_test_controller {
                 break;
 
             default:
-                throw new stack_exception('stack_ans_test_controller: called with invalid answer test name: '.$anstest);
+                throw new stack_exception('stack_ans_test_controller: called with invalid answer test name: ' . $anstest);
         }
     }
 
@@ -370,4 +376,3 @@ class stack_ans_test_controller {
         return $this->at->get_trace($includeresult);
     }
 }
-

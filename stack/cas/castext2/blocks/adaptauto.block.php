@@ -35,7 +35,6 @@ stack_cas_castext2_iframe::register_counter('///ADAPTAUTO_COUNT///');
  * This class adds in the automatic adapt blocks to castext.
  */
 class stack_cas_castext2_adaptauto extends stack_cas_castext2_block {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
         $body = new MP_List([new MP_String('%root')]);
@@ -53,7 +52,7 @@ class stack_cas_castext2_adaptauto extends stack_cas_castext2_block {
         }
 
         if (isset($this->params['show_ids'])) {
-            $splitshowid = preg_split ("/[\ \n\;]+/", $this->params['show_ids']);
+            $splitshowid = preg_split("/[\ \n\;]+/", $this->params['show_ids']);
             foreach ($splitshowid as &$id) {
                 $list[] = new MP_String("stack_js.toggle_visibility('");
                 // We use the quid block to make the ids unique.
@@ -62,7 +61,7 @@ class stack_cas_castext2_adaptauto extends stack_cas_castext2_block {
             }
         }
         if (isset($this->params['hide_ids'])) {
-            $splitshowid = preg_split ("/[\ \n\;]+/", $this->params['hide_ids']);
+            $splitshowid = preg_split("/[\ \n\;]+/", $this->params['hide_ids']);
             foreach ($splitshowid as &$id) {
                 $list[] = new MP_String("stack_js.toggle_visibility('");
                 // We use the quid block to make the ids unique.
@@ -72,7 +71,7 @@ class stack_cas_castext2_adaptauto extends stack_cas_castext2_block {
         }
 
         if (isset($this->params['delay']) && ctype_digit($this->params['delay'])) {
-            $list[] = new MP_String("}, ".$this->params['delay'].");");
+            $list[] = new MP_String("}, " . $this->params['delay'] . ");");
         }
 
         $list[] = new MP_String('});');

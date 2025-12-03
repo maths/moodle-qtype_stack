@@ -55,14 +55,17 @@ require_once(__DIR__ . '/../stack/options.class.php');
  * @covers \qtype_stack
  */
 final class castext2_test extends qtype_stack_testcase {
-
     // This function maps a given set of CASText code, CASString
     // style preamble statements and STACK options to the current
     // implementation and generates the end result.
     // Validation is not being tested, here.
     // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
-    private function evaluate(string $code, array $preamble=[], ?stack_options $options=null,
-            $context='castext-test-case'): string {
+    private function evaluate(
+        string $code,
+        array $preamble = [],
+        ?stack_options $options = null,
+        $context = 'castext-test-case'
+    ): string {
         $statements = [];
         foreach ($preamble as $statement) {
             $statements[] = stack_ast_container::make_from_teacher_source($statement, 'castext-test-case');

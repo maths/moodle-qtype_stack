@@ -48,7 +48,6 @@ require_once(__DIR__ . '/../stack/cas/castext2/castext2_evaluatable.class.php');
  * @covers \stack_cas_keyval
  */
 final class maxima_replication_test extends qtype_stack_testcase {
-
     /**
      * All tests in this set of tests share the form of having
      * a section of code which will be taken as a keyval and which
@@ -239,5 +238,4 @@ final class maxima_replication_test extends qtype_stack_testcase {
 
         $this->check($code, $result);
     }
-
 }

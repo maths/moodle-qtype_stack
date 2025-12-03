@@ -7,6 +7,11 @@ We use the [github issue tracker](https://github.com/maths/moodle-qtype_stack/is
 
 ## Version 4.12.0
 
+Note, this version of STACK requires PHP 8.1 or newer.  PHP 7.4 will not work, and we no longer support Moodle 4.1.
+
+1. Add in new parser (parser2): major re-engineering of the Maxima code.
+2. Add in support for number bases.
+
 Issues with [github milestone 4.12.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.12.0) include
 
 1. Fix [issue #406](https://github.com/maths/moodle-qtype_stack/issues/406)

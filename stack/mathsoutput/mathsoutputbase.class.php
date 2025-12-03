@@ -51,10 +51,13 @@ abstract class stack_maths_output {
                 return $match[1] . str_replace('\\', '&#92;', $match[2]) . $match[3];
             }, $docs);
         // @codingStandardsIgnoreEnd
-        $docs = preg_replace_callback('~(<code>|<textarea[^>]*>)(.*?)(</code>|</textarea>)~s',
-                function ($match) {
-                    return $match[1] . str_replace('\\', '&#92;', $match[2]) . $match[3];
-                }, $docs);
+        $docs = preg_replace_callback(
+            '~(<code>|<textarea[^>]*>)(.*?)(</code>|</textarea>)~s',
+            function ($match) {
+                return $match[1] . str_replace('\\', '&#92;', $match[2]) . $match[3];
+            },
+            $docs
+        );
         // Double all the remaining \ characters, since Markdown uses it as an escape char, but we use it for maths.
         $docs = str_replace('\\', '\\\\', $docs);
 
@@ -69,16 +72,22 @@ abstract class stack_maths_output {
      */
     public function post_process_docs_page($html) {
         // Now, undo the doubling of the \\ characters inside <code> and <textarea> regions.
-        $html = preg_replace_callback('~(<code>|<textarea[^>]*>)(.*?)(</code>|</textarea>)~s',
-                function ($match) {
-                    return $match[1] . str_replace('&#92;', '\\', $match[2]) . $match[3];
-                }, $html);
+        $html = preg_replace_callback(
+            '~(<code>|<textarea[^>]*>)(.*?)(</code>|</textarea>)~s',
+            function ($match) {
+                return $match[1] . str_replace('&#92;', '\\', $match[2]) . $match[3];
+            },
+            $html
+        );
         // Using four spaces at the start of the line in markdown creates a code block.
         // This will not have had \ changed to &#92; in pre-process, so they will have been doubled.
-        $html = preg_replace_callback('~(<code>|<textarea[^>]*>)(.*?)(</code>|</textarea>)~s',
+        $html = preg_replace_callback(
+            '~(<code>|<textarea[^>]*>)(.*?)(</code>|</textarea>)~s',
             function ($match) {
                 return $match[1] . str_replace('\\\\', '\\', $match[2]) . $match[3];
-            }, $html);
+            },
+            $html
+        );
         $html = str_replace('\\\\', '\\', $html);
 
         return $html;
@@ -97,8 +106,11 @@ abstract class stack_maths_output {
             $text = $this->replace_dollars($text);
         }
 
-        $text = str_replace('!ploturl!',
-                moodle_url::make_file_url('/question/type/stack/plot.php', '/'), $text ?? '');
+        $text = str_replace(
+            '!ploturl!',
+            moodle_url::make_file_url('/question/type/stack/plot.php', '/'),
+            $text ?? ''
+        );
 
         $text = stack_fact_sheets::display($text, $renderer);
 

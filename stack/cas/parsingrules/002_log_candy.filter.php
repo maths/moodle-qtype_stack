@@ -37,9 +37,13 @@ require_once(__DIR__ . '/../../maximaparser/corrective_parser.php');
  */
 class stack_ast_filter_002_log_candy implements stack_cas_astfilter {
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function filter(MP_Node $ast, array &$errors,
-            array &$answernotes, stack_cas_security $identifierrules): MP_Node {
-        $process = function($node) use (&$errors, &$answernotes) {
+    public function filter(
+        MP_Node $ast,
+        array &$errors,
+        array &$answernotes,
+        stack_cas_security $identifierrules
+    ): MP_Node {
+        $process = function ($node) use (&$errors, &$answernotes) {
             if ($node instanceof MP_Functioncall && $node->name instanceof MP_Identifier) {
                 // If we are already a function call and the name fits then this might be easy.
                 if ($node->name->value === 'log10') {
@@ -124,8 +128,10 @@ class stack_ast_filter_002_log_candy implements stack_cas_astfilter {
                         $node->parentnode->replace($node, $node->lhs);
                         return false;
                     } else if ($rhs instanceof MP_Group) {
-                        if ($node->op === '*' && (isset($node->position['fixspaces']) ||
-                            isset($node->position['insertstars']))) {
+                        if (
+                            $node->op === '*' && (isset($node->position['fixspaces']) ||
+                            isset($node->position['insertstars']))
+                        ) {
                             // If there were starts insertted it was probably a function call
                             // to begin with. Let's merge it back.
                             $rhs->parentnode->replace($rhs, new MP_Functioncall(new MP_Identifier($lhs->value), $rhs->items));
@@ -158,20 +164,24 @@ class stack_ast_filter_002_log_candy implements stack_cas_astfilter {
                     }
                     if ($node->parentnode->rhs instanceof MP_Atom) {
                         $newname .= $node->parentnode->rhs->toString();
-                        $node->parentnode->parentnode->replace($node->parentnode,
-                            new MP_Identifier($newname));
+                        $node->parentnode->parentnode->replace(
+                            $node->parentnode,
+                            new MP_Identifier($newname)
+                        );
                         return false;
                     }
                 }
             }
 
             if ($node instanceof MP_Identifier && !$node->is_function_name()) {
-                if (mb_substr($node->value, 0, 4) === 'log_' && (
+                if (
+                    mb_substr($node->value, 0, 4) === 'log_' && (
                     $node->parentnode instanceof MP_List ||
                     $node->parentnode instanceof MP_Set ||
                     $node->parentnode instanceof MP_Group ||
                     $node->parentnode instanceof MP_Statement ||
-                    $node->parentnode instanceof MP_Functioncall)) {
+                    $node->parentnode instanceof MP_Functioncall)
+                ) {
                     // We have ended up in a situation where there is nothing to eat.
                     $node->position['invalid'] = true;
                     // TO-DO: localise, maybe include the erroneous portion.

@@ -28,7 +28,6 @@ require_once(__DIR__ . '/../../ast.container.class.php');
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_cas_castext2_define extends stack_cas_castext2_block {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
         $epos = $options['context'] . '/' . $this->position['start'] . '-' . $this->position['end'];
@@ -36,13 +35,15 @@ class stack_cas_castext2_define extends stack_cas_castext2_block {
         foreach ($this->params as $param) {
             $ev = stack_ast_container::make_from_teacher_source($param['value']);
             $ast = $ev->get_commentles_primary_statement();
-            $r->items[] = new MP_FunctionCall(new MP_Identifier('_EC'),
+            $r->items[] = new MP_FunctionCall(
+                new MP_Identifier('_EC'),
                 [
                     new MP_FunctionCall(new MP_Identifier('errcatch'), [
                         new MP_Operation(':', new MP_Identifier($param['key']), $ast),
                     ]),
                     new MP_String($epos),
-                ]);
+                ]
+            );
         }
 
         // In the end we need to return something. Note that this will break all

@@ -32,18 +32,21 @@ require_once(__DIR__ . '/fixtures/test_base.php');
  * @covers \qtype_stack_testcase
  */
 final class qtype_stack_test_base_test extends qtype_stack_testcase {
-
     public function test_prepare_actual_maths_filtering(): void {
 
         $this->assertEquals('frog', qtype_stack_testcase::prepare_actual_maths('frog'));
         $this->assertEquals('frog', qtype_stack_testcase::prepare_actual_maths(
-                '<span class="nolink">frog</span>'));
+            '<span class="nolink">frog</span>'
+        ));
         $this->assertEquals('frog', qtype_stack_testcase::prepare_actual_maths(
-                '<span class="filter_mathjaxloader_equation">frog</span>'));
+            '<span class="filter_mathjaxloader_equation">frog</span>'
+        ));
         $this->assertEquals('frog', qtype_stack_testcase::prepare_actual_maths(
-                '<span class="filter_mathjaxloader_equation"><span class="nolink">frog</span></span>'));
+            '<span class="filter_mathjaxloader_equation"><span class="nolink">frog</span></span>'
+        ));
         $this->assertEquals("\n\nfrog\n\n", qtype_stack_testcase::prepare_actual_maths(
-                "<span class=\"filter_mathjaxloader_equation\">\n<span class=\"nolink\">\nfrog\n</span>\n</span>"));
+            "<span class=\"filter_mathjaxloader_equation\">\n<span class=\"nolink\">\nfrog\n</span>\n</span>"
+        ));
     }
 
     public function test_prepare_actual_maths_floats(): void {

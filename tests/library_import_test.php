@@ -48,7 +48,7 @@ use stack_cas_session2;
  */
 final class library_import_test extends externallib_advanced_testcase {
     /** @var \core_question_generator plugin generator */
-    protected \core_question_generator  $generator;
+    protected \core_question_generator $generator;
     /** @var \stdClass generated course object */
     protected \stdClass $course;
     /** @var \stdClass generated question categoryobject */
@@ -65,13 +65,15 @@ final class library_import_test extends externallib_advanced_testcase {
         $this->generator = $this->getDataGenerator()->get_plugin_generator('core_question');
         $this->course = $this->getDataGenerator()->create_course();
         $this->qcategory = $this->generator->create_question_category(
-                        ['contextid' => \context_course::instance($this->course->id)->id]);
+            ['contextid' => \context_course::instance($this->course->id)->id]
+        );
         $user = $this->getDataGenerator()->create_user();
         $this->user = $user;
         $this->setUser($user);
         if (!\qtype_stack_test_config::is_test_config_available()) {
             $this->markTestSkipped(
-                    'To run the STACK unit tests, you must set up the Maxima configuration in config.php.');
+                'To run the STACK unit tests, you must set up the Maxima configuration in config.php.'
+            );
         }
         \stack_utils::clear_config_cache();
         \qtype_stack_test_config::setup_test_maxima_connection();

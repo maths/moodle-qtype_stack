@@ -57,7 +57,6 @@ require_once(__DIR__ . '/../stack/cas/evaluatable_object.interfaces.php');
  * @covers \qtype_stack
  */
 final class api_tests_stateful_test extends \qtype_stack_testcase {
-
     public function test_security_map_path(): void {
 
         $this->assertTrue(file_exists(__DIR__ . '/../stack/cas/security-map.json'));
@@ -190,4 +189,3 @@ final class api_tests_stateful_test extends \qtype_stack_testcase {
         $this->assertTrue(function_exists('stack_maxima_latex_tidy'));
     }
 }
-

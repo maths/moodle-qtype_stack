@@ -77,7 +77,8 @@ class library_render extends \external_api {
                     'title' => new \external_value(PARAM_RAW, 'Iframe details'),
                     'scrolling' => new \external_value(PARAM_BOOL, 'Iframe details'),
                     'evil' => new \external_value(PARAM_BOOL, 'Iframe details'),
-                ])),
+                ])
+            ),
             'questionname' => new \external_value(PARAM_RAW, 'Question name'),
             'questiontext' => new \external_value(PARAM_RAW, 'Original question text'),
             'questionvariables' => new \external_value(PARAM_RAW, 'Question variable definitions'),

@@ -35,7 +35,6 @@ stack_cas_castext2_iframe::register_counter('///PARSONS_COUNT///');
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_cas_castext2_parsons extends stack_cas_castext2_block {
-
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public static $namedversions = [
         'cdn' => [
@@ -129,8 +128,10 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         // Figure out what scripts we serve.
         $css = self::$namedversions['local']['css'];
         $js = self::$namedversions['local']['js'];
-        if (isset($this->params['version']) &&
-            isset(self::$namedversions[$this->params['version']])) {
+        if (
+            isset($this->params['version']) &&
+            isset(self::$namedversions[$this->params['version']])
+        ) {
             $css = self::$namedversions['local']['css'];
             $js = self::$namedversions[$this->params['version']]['js'];
         }
@@ -299,7 +300,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
 
         // Instantiate STACK sortable helper class.
         $code .= 'const stackSortable = new stack_sortable(proofSteps, id, sortableUserOpts, "' .
-                $clone .'", "' . $columns .'", "' . $rows . '", "' . $orientation . '", index, "' . $gridmode . '",
+                $clone . '", "' . $columns . '", "' . $rows . '", "' . $orientation . '", index, "' . $gridmode . '",
                 "' . $itemheight . '", "' . $itemwidth . '", "' . $log . '");' . "\n";
         // Generate the two lists, headers and index in HTML.
         $code .= 'stackSortable.add_reorientation_button();' . "\n";
@@ -393,8 +394,11 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function postprocess(array $params, castext2_processor $processor,
-        castext2_placeholder_holder $holder): string {
+    public function postprocess(
+        array $params,
+        castext2_processor $processor,
+        castext2_placeholder_holder $holder
+    ): string {
         return 'This is never happening! The logic goes to [[iframe]].';
     }
 
@@ -426,13 +430,17 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $heighttrim = $height;
 
         foreach ($validunits as $suffix) {
-            if (!$widthend && strlen($width) >= strlen($suffix) &&
-                substr($width, -strlen($suffix)) === $suffix) {
+            if (
+                !$widthend && strlen($width) >= strlen($suffix) &&
+                substr($width, -strlen($suffix)) === $suffix
+            ) {
                 $widthend  = true;
                 $widthtrim = substr($width, 0, -strlen($suffix));
             }
-            if (!$heightend && strlen($height) >= strlen($suffix) &&
-                substr($height, -strlen($suffix)) === $suffix) {
+            if (
+                !$heightend && strlen($height) >= strlen($suffix) &&
+                substr($height, -strlen($suffix)) === $suffix
+            ) {
                 $heightend  = true;
                 $heighttrim = substr($height, 0, -strlen($suffix));
             }
@@ -457,27 +465,37 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             $err[] = stack_string('stackBlock_parsons_height_num');
         }
 
-        if (array_key_exists('width', $this->params) &&
+        if (
+            array_key_exists('width', $this->params) &&
             array_key_exists('height', $this->params) &&
-            array_key_exists('aspect-ratio', $this->params)) {
+            array_key_exists('aspect-ratio', $this->params)
+        ) {
             $valid    = false;
             $err[] = stack_string('stackBlock_parsons_overdefined_dimension');
         }
-        if (!(array_key_exists('width', $this->params) ||
+        if (
+            !(array_key_exists('width', $this->params) ||
             array_key_exists('height', $this->params)) &&
-            array_key_exists('aspect-ratio', $this->params)) {
+            array_key_exists('aspect-ratio', $this->params)
+        ) {
             $valid    = false;
             $err[] = stack_string('stackBlock_parsons_underdefined_dimension');
         }
 
         // Check version is only one of valid options.
-        if (array_key_exists('version', $this->params) && !array_key_exists($this->params['version'],
-                self::$namedversions)) {
+        if (
+            array_key_exists('version', $this->params) && !array_key_exists(
+                $this->params['version'],
+                self::$namedversions
+            )
+        ) {
             $valid    = false;
             $validversions = ['cdn', 'local'];
             $err[] = stack_string('stackBlock_parsons_unknown_named_version', [
-                'version' => implode(', ',
-                $validversions),
+                'version' => implode(
+                    ', ',
+                    $validversions
+                ),
             ]);
         }
 
@@ -539,10 +557,21 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         // Check that only valid parameters are passed to block header.
         $valids = null;
         foreach ($this->params as $key => $value) {
-            if ($key !== 'width' && $key !== 'height' && $key !== 'aspect-ratio' &&
-                    $key !== 'version' && $key !== 'overridecss' && $key !== 'input'
-                    && $key !== 'clone' && $key !== 'columns' && $key !== 'rows' &&
-                    $key !== 'transpose' && $key !== 'item-height' && $key !== 'item-width' && $key !== 'log') {
+            if (
+                $key !== 'width' &&
+                $key !== 'height' &&
+                $key !== 'aspect-ratio' &&
+                $key !== 'version' &&
+                $key !== 'overridecss' &&
+                $key !== 'input' &&
+                $key !== 'clone' &&
+                $key !== 'columns' &&
+                $key !== 'rows' &&
+                $key !== 'transpose' &&
+                $key !== 'item-height' &&
+                $key !== 'item-width' &&
+                $key !== 'log'
+            ) {
                 $err[] = "Unknown parameter '$key' for Parson's block.";
                 $valid    = false;
                 if ($valids === null) {

@@ -44,7 +44,6 @@ require_once(__DIR__ . '/../stack/cas/keyval.class.php');
  * @covers \stack_cas_keyval
  */
 final class caskeyval_test extends qtype_stack_testcase {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     public function get_valid($s, $val, $session) {
         $kv = new stack_cas_keyval($s, null, 123);
@@ -54,8 +53,10 @@ final class caskeyval_test extends qtype_stack_testcase {
         // In the old world (<4.3) we compared the raw objects.
         // But now the objects contain complex references and positional data
         // so we comapre the representations of those objects.
-        $this->assertEquals($session->get_keyval_representation(),
-                            $kv->get_session()->get_keyval_representation());
+        $this->assertEquals(
+            $session->get_keyval_representation(),
+            $kv->get_session()->get_keyval_representation()
+        );
     }
 
     public function test_get_valid(): void {
@@ -264,7 +265,7 @@ final class caskeyval_test extends qtype_stack_testcase {
 
         $kv = new stack_cas_keyval($tests);
         $this->assertFalse($kv->get_valid());
-        $expected = ['The characters @ and \ are not allowed in CAS input.'];
+        $expected = ['Forbidden operator: <span class="stacksyntaxexample">@</span>.'];
         $this->assertEquals($expected, $kv->get_errors());
     }
 
@@ -274,8 +275,8 @@ final class caskeyval_test extends qtype_stack_testcase {
                  "R : get_lu_factors(lu_factor(A))\nL : R[2]\nU : R[3]\n\n/* Help for worked solutions */\n" .
                  "a11 : A[1,1]\na12 : A[1,2]\na13 : A[1,3]\na21 : A[2,1]\na22 : A[2,2]\na23 : A[2,3]\na31 : A[3,1]" .
                  "a32 : A[3,2]\na33 : A[3,3]\nB :\nmatrix([a11,a12,a13],[a21-a21/a11*a11,a22-a21/a11*a12," .
-                 "a23-a21/a11*a13],[a31-a31/a11*a11,a32-a31/a11*a12,a33-a31/a11*a13])\n".
-                 "C : B-matrix([0,0,0],[0,0,0],[0,B[3,2]/B[2,2]*B[2,2], B[3,2]/B[2,2]*B[2,3]])\n".
+                 "a23-a21/a11*a13],[a31-a31/a11*a11,a32-a31/a11*a12,a33-a31/a11*a13])\n" .
+                 "C : B-matrix([0,0,0],[0,0,0],[0,B[3,2]/B[2,2]*B[2,2], B[3,2]/B[2,2]*B[2,3]])\n" .
                  "coef1 : a21/a11\ncoef2 : a31/a11\ncoef3 : B[3,2]/B[2,2]";
 
         $kv = new stack_cas_keyval($tests);
@@ -407,6 +408,19 @@ final class caskeyval_test extends qtype_stack_testcase {
             '<span class="stacksyntaxexample">c:(b+1)-(b+1)<span class="stacksyntaxexamplehighlight">' .
             '*</span>(d+1)</span>.', ];
         $this->assertEquals($expected, $kv->get_errors());
+    }
+
+    public function test_stack_compile_unexpected_lambda_2(): void {
+        // This is related to issue #1279.
+        $tests = 'a:b+1; c:a-a(d+1);';
+        $kv = new stack_cas_keyval($tests);
+        $this->asserttrue($kv->get_valid());
+        $expected = [];
+        $this->assertEquals($expected, $kv->get_errors());
+        $kv->instantiate();
+        $s = $kv->get_session();
+        $s->instantiate();
+        $this->assertEquals($s->get_by_key('c')->get_evaluationform(), 'c:a-a(d+1)');
     }
 
     public function test_stack_add_slash(): void {

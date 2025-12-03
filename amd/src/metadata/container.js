@@ -93,6 +93,7 @@ export default class extends BaseComponent {
                 lastname: this.createDataElement(true, contributor.id, 'contributor_lastName', contributor.lastName),
                 institution: this.createDataElement(false, contributor.id, 'contributor_institution', contributor.institution),
                 year: this.createDataElement(false, contributor.id, 'contributor_year', contributor.year),
+                id: contributor.id,
             };
             data.contributor.push({...element});
         });

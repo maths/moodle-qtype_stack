@@ -26,10 +26,10 @@ import {metadata} from 'qtype_stack/metadata/metadata';
 
 export default class extends BaseComponent {
     create() {
-        this.name = 'stack-metadata-content';
+        this.name = 'stack-metadata-contributor';
         this.selectors = {
             METADATACONTAINER: `[data-for='qtype-stack-metadata']`,
-            DELETE: `#smd_1_delete`,
+            SUBMIT: `#stack-metadata-update`,
         };
     }
 
@@ -48,15 +48,4 @@ export default class extends BaseComponent {
         });
     }
 
-    stateReady() {
-        this.addEventListener(
-            this.getElement(this.selectors.DELETE),
-            'click',
-            this.delete
-        );
-    }
-
-    delete() {
-        console.log('Here');
-    }
 }

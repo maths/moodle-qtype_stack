@@ -29,7 +29,6 @@ class Mutations {
             const id = parts[1];
             const property = parts[2];
             const subproperty = parts[3];
-            console.log(property, subproperty, id);
             if (id != 0) {
                 const existing = state[property].get(id);
                 if (existing) {

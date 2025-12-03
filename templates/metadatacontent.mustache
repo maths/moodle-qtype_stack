@@ -20,29 +20,29 @@
     }
 }}
 <form class="mform" data-boost-form-errors-enhanced="1" id="qtype-stack-metadata-content">
-    <div class="row d-none d-md-block">
+    <div class="row d-none d-md-flex">
         <div class="col-2"></div>
         <div class="col-2">{{#str}} firstname, qtype_stack {{/str}}</div>
         <div class="col-2">{{#str}} lastname, qtype_stack {{/str}}</div>
         <div class="col-3">{{#str}} institution, qtype_stack {{/str}}</div>
-        <div class="col-2">{{#str}} year, qtype_stack {{/str}}</div>
+        <div class="col-1">{{#str}} year, qtype_stack {{/str}}</div>
     </div>
     {{#creator}}
         <div class="row">
-            <div class="col-md-2">{{#str}} creator, qtype_stack {{/str}}</div>
+            <div class="col-lg-2">{{#str}} creator, qtype_stack {{/str}}</div>
             <div class="col-2 inputcol">{{#firstname}}{{> core_form/element-text-inline }}{{/firstname}}</div>
             <div class="col-2 inputcol">{{#lastname}}{{> core_form/element-text-inline }}{{/lastname}}</div>
             <div class="col-3 inputcol">{{#institution}}{{> core_form/element-text-inline }}{{/institution}}</div>
-            <div class="col-2 inputcol">{{#year}}{{> core_form/element-text-inline }}{{/year}}</div>
+            <div class="col-1 inputcol">{{#year}}{{> core_form/element-text-inline }}{{/year}}</div>
         </div>
     {{/creator}}
     {{#contributor}}
         <div class="row">
-            <div class="col-md-2">{{#str}} contributor, qtype_stack {{/str}}</div>
+            <div class="col-lg-2">{{#str}} contributor, qtype_stack {{/str}}</div>
             <div class="col-2 inputcol">{{#firstname}}{{> core_form/element-text-inline }}{{/firstname}}</div>
             <div class="col-2 inputcol">{{#lastname}}{{> core_form/element-text-inline }}{{/lastname}}</div>
             <div class="col-3 inputcol">{{#institution}}{{> core_form/element-text-inline }}{{/institution}}</div>
-            <div class="col-2 inputcol">{{#year}}{{> core_form/element-text-inline }}{{/year}}</div>
+            <div class="col-1 inputcol">{{#year}}{{> core_form/element-text-inline }}{{/year}}</div>
             <div class="col-1"><button type="button" class="btn btn-danger">{{#str}} delete {{/str}}</button></div>
         </div>
     {{/contributor}}
@@ -50,18 +50,39 @@
         <div class="col-md-2"></div>
         <div class="col-10"><button type="button" class="btn btn-primary">{{#str}} addcontributor, qtype_stack {{/str}}</button></div>
     </div>
+    <br>
     <div class="row">
-        <div class="col-lg-10">
-            <div class="btn-group" role="group" style="float:right">
+        <div class="col-md-2"></div>
+        <div class="col-10">
+            <div class="btn-group" role="group">
                 <button class="btn btn-primary" type="button" id="stack-metadata-update">
                     {{#str}} updateJSON, qtype_stack {{/str}}
                 </button>
             </div>
         </div>
     </div>
+    <br>
     <div class="row">
-        <div class="col-md-2">{{#str}} contributor, qtype_stack {{/str}}</div>
-        <div class="col-10 inputcol">{{#json}}{{> core_form/element-textarea }}{{/json}}</div>
+        <div class="col-md-2">{{#str}} JSONmetadata, qtype_stack {{/str}}</div>
+        <div class="col-10">
+            {{#json}}
+                {{< core_form/element-template-inline }}
+                    {{$element}}
+                        <textarea
+                            name="{{element.name}}"
+                            class="form-control {{#error}}is-invalid{{/error}}"
+                            {{#error}}
+                                autofocus aria-describedby="{{element.iderror}}"
+                            {{/error}}
+                            {{#required}}
+                                aria-required="true"
+                            {{/required}}
+                            {{{element.attributes}}}
+                        >{{element.value}}</textarea>
+                    {{/element}}
+                {{/ core_form/element-template-inline }}
+            {{/json}}
+        </div>
     </div>
 </form>
 {{#js}}

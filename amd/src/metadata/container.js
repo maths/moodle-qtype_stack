@@ -56,84 +56,43 @@ export default class extends BaseComponent {
      */
     async stateReady(state) {
         await this.reloadContainerComponent({state});
-        this.addEventListener(
-            this.getElement(this.selectors.SUBMIT),
-            'click',
-            this.update
-        );
     }
 
     getWatchers() {
         return [
-            {watch: `contributor:updated`, handler: this.reloadContainerComponent},
+            {watch: `state:updated`, handler: this.reloadContainerComponent},
         ];
     }
 
-    async reloadContainerComponent({state}) {
-        console.log('Refresh');
-        // Mustache data is not fully compatible with state object so we need to convert it
-        // into a plain object.
-        const element = {
-            hiddenlabel: "Course full name",
-            required: true,
+    createDataElement(required, id, tag, value) {
+        return {
+            required: required,
             element: {
-                wrapperid: "fitem_id_fullname",
-                id: "id_fullname",
-                name: "fullname"
+                value: value,
+                wrapperid: 'fitem_smdi_' + id + '_' + tag,
+                id: 'smdi_' + id + '_' + tag,
+                name: 'smdi_' + id + '_' + tag,
             }
         };
+    }
 
+    async reloadContainerComponent({state}) {
+        // Mustache data is not fully compatible with state object so we need to convert it
+        // into a plain object.
         const data = {
             creator: {},
             contributor: [],
             language: [],
             license: state.license,
             isPartOf: state.isPartOf,
-            additional: [],
-            element: []
+            additional: []
         };
         state.contributor.forEach(contributor => {
             const element = {
-                firstname: {
-                    required: false,
-                    element: {
-                        hiddenlabel: "Contributor first name",
-                        value: contributor.firstName,
-                        wrapperid: "fitem_" + contributor.id + "_confirstname",
-                        id: 'id_' + contributor.id + "_confirstname",
-                        name: contributor.id + "_confirstname",
-                    }
-                },
-                lastname: {
-                    required: true,
-                    element: {
-                        hiddenlabel: "Contributor last name",
-                        value: contributor.lastName,
-                        wrapperid: "fitem_" + contributor.id + "_conlastname",
-                        id: 'id_' + contributor.id + "_conlastname",
-                        name: contributor.id + "_conlastname",
-                    }
-                },
-                institution: {
-                    required: false,
-                    element: {
-                        hiddenlabel: "Contributor institution",
-                        value: contributor.institution,
-                        wrapperid: "fitem_" + contributor.id + "_coninstitution",
-                        id: 'id_' + contributor.id + "_coninstitution",
-                        name: contributor.id + "_coninstitution",
-                    }
-                },
-                year: {
-                    required: false,
-                    element: {
-                        hiddenlabel: "Contributor year",
-                        value: contributor.year,
-                        wrapperid: "fitem_" + contributor.id + "_conyear",
-                        id: 'id_' + contributor.id + "_conyear",
-                        name: contributor.id + "_conyear",
-                    }
-                }
+                firstname: this.createDataElement(false, contributor.id, 'contributor_firstName', contributor.firstName),
+                lastname: this.createDataElement(true, contributor.id, 'contributor_lastName', contributor.lastName),
+                institution: this.createDataElement(false, contributor.id, 'contributor_institution', contributor.institution),
+                year: this.createDataElement(false, contributor.id, 'contributor_year', contributor.year),
             };
             data.contributor.push({...element});
         });
@@ -143,16 +102,20 @@ export default class extends BaseComponent {
         state.additional.forEach(additional => {
             data.additional.push({...additional});
         });
-        data.element.push(element);
-        data.creator = data.contributor[0];
+        data.creator = {
+            firstname: this.createDataElement(false, 0, 'creator_firstName', state.creator.firstName),
+            lastname: this.createDataElement(true, 0, 'creator_lastName', state.creator.lastName),
+            institution: this.createDataElement(false, 0, 'creator_institution', state.creator.institution),
+            year: this.createDataElement(false, 0, 'creator_year', state.creator.year),
+        };
         data.json = {
             required: true,
             element: {
-                hiddenlabel: "JSON metadata",
                 value: JSON.stringify(state),
-                wrapperid: "fitem_metadata_json",
-                id: "id_metadata_json",
-                name: "metadata_json",
+                attributes: 'rows="10"',
+                wrapperid: 'fitem_metadata_json',
+                id: 'id_metadata_json',
+                name: 'metadata_json',
             }
         };
 
@@ -163,6 +126,11 @@ export default class extends BaseComponent {
         }
 
         await this.renderComponent(metadataContainer, 'qtype_stack/metadatacontent', data);
+        this.addEventListener(
+            this.getElement(this.selectors.SUBMIT),
+            'click',
+            this.update
+        );
     }
 
     /**
@@ -173,17 +141,16 @@ export default class extends BaseComponent {
     update(event) {
         // We don't want to submit the form.
         event.preventDefault();
-        const elements = this.getElements('#qtype-stack-metadata-content input[aria-required="true"]');
-        for (const element of elements) {
+        const requiredElements = this.getElements('#qtype-stack-metadata-content input[aria-required="true"]');
+        for (const element of requiredElements) {
             if (element.value === '') {
                 notifyFieldValidationFailure(element, 'Required');
             } else if (element.classList.contains('is-invalid')) {
                 notifyFieldValidationFailure(element, '');
             }
         }
-        // Get the selected person id.
-        const first = this.getElement('#id_2_confirstname').value;
-        const last = this.getElement('#id_2_conlastname').value;
-        this.reactive.dispatch('updateContributor', 2, first, last);
+        let inputElements = this.getElements('#qtype-stack-metadata-content input[id^="smdi"]');
+        inputElements = Array.from(inputElements).map((el) => [el.id, el.value]);
+        this.reactive.dispatch('updateAll', inputElements);
     }
 }

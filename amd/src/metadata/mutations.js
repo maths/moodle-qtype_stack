@@ -21,15 +21,25 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 class Mutations {
-    updateContributor(stateManager, id, firstName, lastName) {
+    updateAll(stateManager, inputArray) {
         const state = stateManager.state;
         stateManager.setReadOnly(false);
-        state.contributor.get(id).firstName = firstName;
-        state.contributor.get(id).lastName = lastName;
+        for (const field of inputArray) {
+            const parts = field[0].split('_');
+            const id = parts[1];
+            const property = parts[2];
+            const subproperty = parts[3];
+            console.log(property, subproperty, id);
+            if (id != 0) {
+                const existing = state[property].get(id);
+                if (existing) {
+                    existing[subproperty] = field[1];
+                }
+            } else {
+                state[property][subproperty] = field[1];
+            }
+        }
         stateManager.setReadOnly(true);
-        console.log(state.contributor.get(id).firstName);
-        console.log(state.contributor.get(id).lastName);
-        console.log(state);
     }
 }
 

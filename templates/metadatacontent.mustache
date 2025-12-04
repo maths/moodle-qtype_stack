@@ -41,7 +41,7 @@
     {{/contributor}}
     <div class="row">
         <div class="col-md-2"></div>
-        <div class="col-10"><button type="button" class="btn btn-primary">{{#str}} addcontributor, qtype_stack {{/str}}</button></div>
+        <div class="col-10"><button type="button" class="btn btn-primary" id="stack-metadata-add-contrib">{{#str}} addcontributor, qtype_stack {{/str}}</button></div>
     </div>
     <br>
     <div class="row">
@@ -50,6 +50,9 @@
             <div class="btn-group" role="group">
                 <button class="btn btn-primary" type="button" id="stack-metadata-update">
                     {{#str}} updateJSON, qtype_stack {{/str}}
+                </button>
+                <button class="btn btn-primary" type="button" id="stack-metadata-update-inputs">
+                    {{#str}} updateinputs, qtype_stack {{/str}}
                 </button>
             </div>
         </div>
@@ -62,6 +65,7 @@
                 {{< core_form/element-template-inline }}
                     {{$element}}
                         <textarea
+                            id="{{element.id}}"
                             name="{{element.name}}"
                             class="form-control {{#error}}is-invalid{{/error}}"
                             {{#error}}

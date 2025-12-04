@@ -28,8 +28,7 @@ export default class extends BaseComponent {
     create() {
         this.name = 'stack-metadata-contributor';
         this.selectors = {
-            METADATACONTAINER: `[data-for='qtype-stack-metadata']`,
-            SUBMIT: `#stack-metadata-update`,
+            DELETE: `[name="smd_delete"]`,
         };
     }
 
@@ -48,4 +47,16 @@ export default class extends BaseComponent {
         });
     }
 
+    stateReady() {
+        this.addEventListener(
+            this.getElement(this.selectors.DELETE),
+            'click',
+            this.delete
+        );
+    }
+
+    delete(event) {
+        const id = event.target.id.split('_')[1];
+        this.reactive.dispatch('deleteContributor', id);
+    }
 }

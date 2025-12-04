@@ -40,6 +40,41 @@ class Mutations {
         }
         stateManager.setReadOnly(true);
     }
+    deleteContributor(stateManager, id) {
+        const state = stateManager.state;
+        stateManager.setReadOnly(false);
+        state.contributor.delete(id);
+        stateManager.setReadOnly(true);
+    }
+
+    addContributor(stateManager) {
+        const state = stateManager.state;
+        const keys = Array.from(state.contributor);
+        keys.sort((a, b) => b[0] - a[0]);
+
+        const newCon = {
+            id: 1 + parseInt(keys[0][0]),
+            firstName: "",
+            lastName: "",
+            institution: "",
+            year: 2025
+        };
+        console.log(keys);
+        stateManager.setReadOnly(false);
+        state.contributor.add(newCon);
+        stateManager.setReadOnly(true);
+        console.log(state.contributor);
+    }
+
+    updateFromJson(stateManager, data) {
+        const state = stateManager.state;
+        data = JSON.parse(data);
+        stateManager.setReadOnly(false);
+        for (const prop in data) {
+            state[prop] = data[prop];
+        }
+        stateManager.setReadOnly(true);
+    }
 }
 
 export const mutations = new Mutations();

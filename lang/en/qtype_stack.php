@@ -419,6 +419,7 @@ $string['contributor'] = 'Contributor';
 $string['creator'] = 'Creator';
 $string['addcontributor'] = 'Add contributor';
 $string['updateJSON'] = 'Update JSON';
+$string['updateinputs'] = 'Update inputs';
 $string['JSONmetadata'] = 'JSON metadata';
 
 // Strings used by input elements.

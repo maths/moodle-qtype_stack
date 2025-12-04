@@ -30,7 +30,9 @@ export default class extends BaseComponent {
         this.name = 'stack-metadata-container';
         this.selectors = {
             METADATACONTAINER: `[data-for='qtype-stack-metadata']`,
-            SUBMIT: `#stack-metadata-update`,
+            UPDATEJSON: `#stack-metadata-update`,
+            UPDATEINPUTS: `#stack-metadata-update-inputs`,
+            ADDCONTRIB: `#stack-metadata-add-contrib`,
         };
     }
 
@@ -112,7 +114,7 @@ export default class extends BaseComponent {
         data.json = {
             required: true,
             element: {
-                value: JSON.stringify(state),
+                value: JSON.stringify(state, null, 4),
                 attributes: 'rows="10"',
                 wrapperid: 'fitem_metadata_json',
                 id: 'id_metadata_json',
@@ -128,9 +130,19 @@ export default class extends BaseComponent {
 
         await this.renderComponent(metadataContainer, 'qtype_stack/metadatacontent', data);
         this.addEventListener(
-            this.getElement(this.selectors.SUBMIT),
+            this.getElement(this.selectors.UPDATEJSON),
             'click',
             this.update
+        );
+        this.addEventListener(
+            this.getElement(this.selectors.ADDCONTRIB),
+            'click',
+            this.addContrib
+        );
+        this.addEventListener(
+            this.getElement(this.selectors.UPDATEINPUTS),
+            'click',
+            this.updateInputs
         );
     }
 
@@ -153,5 +165,13 @@ export default class extends BaseComponent {
         let inputElements = this.getElements('#qtype-stack-metadata-content input[id^="smdi"]');
         inputElements = Array.from(inputElements).map((el) => [el.id, el.value]);
         this.reactive.dispatch('updateAll', inputElements);
+    }
+
+    addContrib() {
+        this.reactive.dispatch('addContributor');
+    }
+
+    updateInputs() {
+        this.reactive.dispatch('updateFromJson', this.getElement('#id_metadata_json').value);
     }
 }

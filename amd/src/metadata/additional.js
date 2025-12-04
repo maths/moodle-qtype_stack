@@ -26,7 +26,7 @@ import {metadata} from 'qtype_stack/metadata/metadata';
 
 export default class extends BaseComponent {
     create() {
-        this.name = 'stack-metadata-contributor';
+        this.name = 'stack-metadata-additional';
         this.selectors = {
             DELETE: `[name="smd_delete"]`,
         };
@@ -56,7 +56,7 @@ export default class extends BaseComponent {
     }
 
     delete(event) {
-        const parts = event.target.id.split('_');
-        this.reactive.dispatch('deleteRow', parts[1], parts[2]);
+        const id = event.target.id.split('_')[1];
+        this.reactive.dispatch('delete', 'additional', id);
     }
 }

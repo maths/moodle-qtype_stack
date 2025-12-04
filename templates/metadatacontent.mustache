@@ -44,6 +44,15 @@
         <div class="col-10"><button type="button" class="btn btn-primary" id="stack-metadata-add-contrib">{{#str}} addcontributor, qtype_stack {{/str}}</button></div>
     </div>
     <br>
+    {{#str}} additionalmetadata, qtype_stack {{/str}}:
+    {{#scope}}
+        {{>qtype_stack/metadatascope}}
+    {{/scope}}
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-10"><button type="button" class="btn btn-primary" id="stack-metadata-add-scope">{{#str}} addscope, qtype_stack {{/str}}</button></div>
+    </div>
+    <br>
     <div class="row">
         <div class="col-md-2"></div>
         <div class="col-10">

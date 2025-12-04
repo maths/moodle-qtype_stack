@@ -410,6 +410,7 @@ $string['mustconfirm'] = 'You have changes to confirm.';
 $string['moodleerrors'] = 'You have errors related to Moodle\'s basic question setup.';
 $string['stackerrors'] = 'You have errors in your question.';
 $string['editmetadata'] = 'Edit metadata';
+$string['additionalmetadata'] = 'Additional metadata';
 $string['metadata'] = 'Metadata';
 $string['firstname'] = 'First name';
 $string['lastname'] = 'Last name';
@@ -418,9 +419,15 @@ $string['year'] = 'Year';
 $string['contributor'] = 'Contributor';
 $string['creator'] = 'Creator';
 $string['addcontributor'] = 'Add contributor';
+$string['addscope'] = 'Add scope';
+$string['addproperty'] = 'Add property';
 $string['updateJSON'] = 'Update JSON';
 $string['updateinputs'] = 'Update inputs';
 $string['JSONmetadata'] = 'JSON metadata';
+$string['scope'] = 'Scope';
+$string['property'] = 'Property';
+$string['qualifier'] = 'Qualifier';
+$string['value'] = 'Value';
 
 // Strings used by input elements.
 $string['studentinputtoolong'] = 'Your input is longer than permitted by STACK.';

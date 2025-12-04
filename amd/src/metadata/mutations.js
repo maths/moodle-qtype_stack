@@ -41,10 +41,10 @@ class Mutations {
         stateManager.setReadOnly(true);
     }
 
-    deleteContributor(stateManager, id) {
+    deleteRow(stateManager, property, id) {
         const state = stateManager.state;
         stateManager.setReadOnly(false);
-        state.contributor.delete(id);
+        state[property].delete(id);
         stateManager.setReadOnly(true);
     }
 

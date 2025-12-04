@@ -87,7 +87,7 @@ export default class extends BaseComponent {
             language: [],
             license: state.license,
             isPartOf: state.isPartOf,
-            additional: []
+            scope: []
         };
         state.contributor.forEach(contributor => {
             const element = {
@@ -102,9 +102,23 @@ export default class extends BaseComponent {
         state.language.forEach(language => {
             data.language.push({...language});
         });
+        const scopeHolder = {};
         state.additional.forEach(additional => {
-            data.additional.push({...additional});
+            const element = {
+                property: this.createDataElement(true, additional.id, 'additional_property', additional.property),
+                qualifier: this.createDataElement(false, additional.id, 'additional_qualifier', additional.qualifier),
+                value: this.createDataElement(false, additional.id, 'additional_value', additional.value),
+                id: additional.id,
+            };
+            if (!scopeHolder[additional.scope]) {
+                scopeHolder[additional.scope] = [];
+            }
+            scopeHolder[additional.scope].push(element);
         });
+        for (const scope in scopeHolder) {
+            const current = { name: scope, properties: scopeHolder[scope], input: this.createDataElement(true, scope, 'additional_scope', scope)};
+            data.scope.push(current);
+        }
         data.creator = {
             firstname: this.createDataElement(false, 0, 'creator_firstName', state.creator.firstName),
             lastname: this.createDataElement(true, 0, 'creator_lastName', state.creator.lastName),
@@ -121,6 +135,7 @@ export default class extends BaseComponent {
                 name: 'metadata_json',
             }
         };
+        console.log(data);
 
         // To render a child component we need a container.
         const metadataContainer = this.getElement(this.selectors.METADATACONTAINER);
@@ -167,12 +182,14 @@ export default class extends BaseComponent {
 
     reviver(key, value) {
         const holder = [];
+        let id = 1;
         switch(key) {
             case 'contributor':
             case 'additional':
                 for (const current of value) {
-                    current.id = Math.floor(Math.random() * 1000000);
+                    current.id = id;
                     holder.push(current);
+                    id++;
                 }
                 return holder;
             case 'language':

@@ -1,0 +1,44 @@
+{{!
+    This file is part of Stack - http://stack.maths.ed.ac.uk/
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template qtype_stack/metadata
+
+
+    Example context (json):
+    {
+    }
+}}
+<div class="row" id="qtype-stack-metadata-scope-{{{name}}}">
+    <div class="col-lg-2">{{#str}} scope, qtype_stack {{/str}}</div>
+    <div class="col-2 inputcol">{{#input}}{{> core_form/element-text-inline }}{{/input}}</div>
+    <div class="col-1"><button id="smd_scope_{{name}}_delete" name="smd_delete" type="button" class="btn btn-danger">{{#str}} delete {{/str}}</button></div>
+</div>
+<div class="row d-none d-md-flex">
+    <div class="col-2">{{#str}} property, qtype_stack {{/str}}</div>
+    <div class="col-2">{{#str}} qualifier, qtype_stack {{/str}}</div>
+    <div class="col-3">{{#str}} value, qtype_stack {{/str}}</div>
+</div>
+{{#properties}}
+    {{>qtype_stack/metadataadditional}}
+{{/properties}}
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-10"><button type="button" class="btn btn-primary" id="stack-metadata-add-property">{{#str}} addproperty, qtype_stack {{/str}}</button></div>
+</div>
+<br>
+{{#js}}
+require(['qtype_stack/metadata/contributor'], function(component) {
+    component.init('#qtype-stack-metadata-scope-{{{name}}}');
+});
+{{/js}}

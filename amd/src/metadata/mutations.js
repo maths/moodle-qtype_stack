@@ -40,6 +40,7 @@ class Mutations {
         }
         stateManager.setReadOnly(true);
     }
+
     deleteContributor(stateManager, id) {
         const state = stateManager.state;
         stateManager.setReadOnly(false);
@@ -59,16 +60,13 @@ class Mutations {
             institution: "",
             year: 2025
         };
-        console.log(keys);
         stateManager.setReadOnly(false);
         state.contributor.add(newCon);
         stateManager.setReadOnly(true);
-        console.log(state.contributor);
     }
 
     updateFromJson(stateManager, data) {
         const state = stateManager.state;
-        data = JSON.parse(data);
         stateManager.setReadOnly(false);
         for (const prop in data) {
             state[prop] = data[prop];

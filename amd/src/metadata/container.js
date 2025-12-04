@@ -114,7 +114,7 @@ export default class extends BaseComponent {
         data.json = {
             required: true,
             element: {
-                value: JSON.stringify(state, null, 4),
+                value: JSON.stringify(state, this.replacer, 4),
                 attributes: 'rows="10"',
                 wrapperid: 'fitem_metadata_json',
                 id: 'id_metadata_json',
@@ -146,6 +146,49 @@ export default class extends BaseComponent {
         );
     }
 
+    replacer(key, value) {
+        const languages = [];
+        switch(key) {
+            case 'id':
+                return undefined;
+            case 'language':
+                for (const lang of value) {
+                    languages.push(lang.id);
+                }
+                return languages;
+            case 'license':
+            case 'isPartOf':
+                return value.value;
+            default:
+                return value;
+        }
+
+    }
+
+    reviver(key, value) {
+        const holder = [];
+        switch(key) {
+            case 'contributor':
+            case 'additional':
+                for (const current of value) {
+                    current.id = Math.floor(Math.random() * 1000000);
+                    holder.push(current);
+                }
+                return holder;
+            case 'language':
+                for (const lang of value) {
+                    holder.push({id: lang});
+                }
+                return holder;
+            case 'license':
+            case 'isPartOf':
+                return {value: value};
+            default:
+                return value;
+        }
+
+    }
+
     /**
      * Our submit handler.
      *
@@ -172,6 +215,8 @@ export default class extends BaseComponent {
     }
 
     updateInputs() {
-        this.reactive.dispatch('updateFromJson', this.getElement('#id_metadata_json').value);
+        const data = JSON.parse(this.getElement('#id_metadata_json').value, this.reviver);
+        console.log(data);
+        this.reactive.dispatch('updateFromJson', data);
     }
 }

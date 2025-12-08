@@ -31,7 +31,7 @@ require_once(__DIR__ . '/../stack/utils.class.php');
 require_once($CFG->libdir . '/clilib.php');
 
 /** @var int the Maximum allowable length of a filename. */
-const MAX_FILENAME_LENGTH = 100;
+const MAX_FILENAME_LENGTH = 120;
 /** @var int the Maximum allowable length of a directory name. */
 const MAX_DIRNAME_LENGTH = 100;
 

@@ -9,6 +9,8 @@ We use the [github issue tracker](https://github.com/maths/moodle-qtype_stack/is
 
 This incremental release contains some minor, but useful, bug fixes.
 
+Add in support for JSXGraph 1.12.2.
+
 This release contains the HELM materials as part of the STACK question library.
 
 ## Version 4.12.0

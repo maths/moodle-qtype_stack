@@ -44,24 +44,63 @@ class Mutations {
     deleteRow(stateManager, property, id) {
         const state = stateManager.state;
         stateManager.setReadOnly(false);
-        state[property].delete(id);
+        if (property === 'scope') {
+            const matchingAddInfo = [];
+            state.additional.forEach((addInfo) => {
+                if (addInfo.scope === id) {
+                    matchingAddInfo.push(addInfo.id);
+                }
+            });
+            for (const current of matchingAddInfo) {
+                state.additional.delete(current);
+            }
+        } else {
+            state[property].delete(id);
+        }
         stateManager.setReadOnly(true);
     }
 
-    addContributor(stateManager) {
+    addItem(stateManager, category, id) {
         const state = stateManager.state;
-        const keys = Array.from(state.contributor);
+        let addCategory = category;
+        let newItem = null;
+        let existingProperty = null;
+        debugger;
+        switch (category) {
+            case 'contributor':
+                newItem = {
+                    firstName: "",
+                    lastName: "",
+                    institution: "",
+                    year: 2025
+                };
+                break;
+            case 'scope':
+                newItem = {
+                    scope: '',
+                    property: '',
+                    qualifier: '',
+                    value: ''
+                };
+                addCategory = 'additional';
+                break;
+            case 'property':
+                existingProperty = state.additional.get(id);
+                newItem = {
+                    scope: existingProperty.scope,
+                    property: '',
+                    qualifier: '',
+                    value: ''
+                };
+                addCategory = 'additional';
+                break;
+            default:
+        }
+        const keys = Array.from(state[addCategory]);
         keys.sort((a, b) => b[0] - a[0]);
-
-        const newCon = {
-            id: 1 + parseInt(keys[0][0]),
-            firstName: "",
-            lastName: "",
-            institution: "",
-            year: 2025
-        };
+        newItem.id = 1 + parseInt(keys[0][0]);
         stateManager.setReadOnly(false);
-        state.contributor.add(newCon);
+        state[addCategory].add(newItem);
         stateManager.setReadOnly(true);
     }
 

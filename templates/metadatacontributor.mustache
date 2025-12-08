@@ -28,7 +28,7 @@
     <div class="col-1"><button id="smd_contributor_{{id}}_delete" name="smd_delete" type="button" class="btn btn-danger">{{#str}} delete {{/str}}</button></div>
 </div>
 {{#js}}
-require(['qtype_stack/metadata/contributor'], function(component) {
+require(['qtype_stack/metadata/datarow'], function(component) {
     component.init('#qtype-stack-metadata-contributor-{{{id}}}');
 });
 {{/js}}

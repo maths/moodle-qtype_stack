@@ -41,16 +41,21 @@
     {{/contributor}}
     <div class="row">
         <div class="col-md-2"></div>
-        <div class="col-10"><button type="button" class="btn btn-primary" id="stack-metadata-add-contrib">{{#str}} addcontributor, qtype_stack {{/str}}</button></div>
+        <div class="col-10"><button type="button" class="btn btn-primary" name="smd_add" id="smd_contributor_0_add">{{#str}} addcontributor, qtype_stack {{/str}}</button></div>
     </div>
     <br>
+    <div class="row">
+        <div class="col-lg-2">{{#str}} ispartof, qtype_stack {{/str}}</div>
+        <div class="col-2 inputcol">{{#isPartOf}}{{> core_form/element-text-inline }}{{/isPartOf}}</div>
+    </div>
     {{#str}} additionalmetadata, qtype_stack {{/str}}:
+    <br>
     {{#scope}}
         {{>qtype_stack/metadatascope}}
     {{/scope}}
-    <div class="row">
+    <div class="row" style="padding-top: 10px">
         <div class="col-md-2"></div>
-        <div class="col-10"><button type="button" class="btn btn-primary" id="stack-metadata-add-scope">{{#str}} addscope, qtype_stack {{/str}}</button></div>
+        <div class="col-10"><button type="button" class="btn btn-primary" name="smd_add" id="smd_scope_0_add">{{#str}} addscope, qtype_stack {{/str}}</button></div>
     </div>
     <br>
     <div class="row">

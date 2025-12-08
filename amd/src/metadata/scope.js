@@ -26,9 +26,10 @@ import {metadata} from 'qtype_stack/metadata/metadata';
 
 export default class extends BaseComponent {
     create() {
-        this.name = 'stack-metadata-additional';
+        this.name = 'stack-metadata-scope';
         this.selectors = {
-            DELETE: `[name="smd_delete"]`,
+            DELETE: `[name="smd_scope_delete"]`,
+            ADD: `[name="smd_property_add"]`,
         };
     }
 
@@ -53,10 +54,15 @@ export default class extends BaseComponent {
             'click',
             this.delete
         );
+        this.addEventListener(
+            this.getElement(this.selectors.ADD),
+            'click',
+            this.addItem
+        );
     }
 
     delete(event) {
-        const id = event.target.id.split('_')[1];
-        this.reactive.dispatch('delete', 'additional', id);
+        const parts = event.target.id.split('_');
+        this.reactive.dispatch('deleteRow', parts[1], parts[2]);
     }
 }

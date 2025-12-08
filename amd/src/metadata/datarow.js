@@ -26,9 +26,10 @@ import {metadata} from 'qtype_stack/metadata/metadata';
 
 export default class extends BaseComponent {
     create() {
-        this.name = 'stack-metadata-contributor';
+        this.name = 'stack-metadata-datarow';
         this.selectors = {
             DELETE: `[name="smd_delete"]`,
+            ADD: `[name="smd_add"]`,
         };
     }
 
@@ -53,10 +54,23 @@ export default class extends BaseComponent {
             'click',
             this.delete
         );
+        const addButton = this.getElement(this.selectors.ADD);
+        if (addButton) {
+            this.addEventListener(
+                addButton,
+                'click',
+                this.addItem
+            );
+        }
     }
 
     delete(event) {
         const parts = event.target.id.split('_');
         this.reactive.dispatch('deleteRow', parts[1], parts[2]);
+    }
+
+    addItem(event) {
+        const parts = event.target.id.split('_');
+        this.reactive.dispatch('addItem', parts[1], parts[2]);
     }
 }

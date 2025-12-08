@@ -1286,3 +1286,6 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
     padding-left: 0px;
     padding-right: 0px;
 }
+.stack-metadata .scope {
+    padding: 20px 10px 0px 10px;
+}

@@ -32,7 +32,7 @@ export default class extends BaseComponent {
             METADATACONTAINER: `[data-for='qtype-stack-metadata']`,
             UPDATEJSON: `#stack-metadata-update`,
             UPDATEINPUTS: `#stack-metadata-update-inputs`,
-            ADDCONTRIB: `#stack-metadata-add-contrib`,
+            ADDITEM: `[name="smd_add"]`,
         };
     }
 
@@ -86,7 +86,7 @@ export default class extends BaseComponent {
             contributor: [],
             language: [],
             license: state.license,
-            isPartOf: state.isPartOf,
+            isPartOf: this.createDataElement(false, 0, 'isPartOf_value', state.isPartOf.value),
             scope: []
         };
         state.contributor.forEach(contributor => {
@@ -116,7 +116,7 @@ export default class extends BaseComponent {
             scopeHolder[additional.scope].push(element);
         });
         for (const scope in scopeHolder) {
-            const current = { name: scope, properties: scopeHolder[scope], input: this.createDataElement(true, scope, 'additional_scope', scope)};
+            const current = { name: scope, firstProp: scopeHolder[scope][0].id, properties: scopeHolder[scope], input: this.createDataElement(true, scope, 'additional_scope', scope)};
             data.scope.push(current);
         }
         data.creator = {
@@ -135,7 +135,7 @@ export default class extends BaseComponent {
                 name: 'metadata_json',
             }
         };
-        console.log(data);
+        console.table(data);
 
         // To render a child component we need a container.
         const metadataContainer = this.getElement(this.selectors.METADATACONTAINER);
@@ -149,11 +149,14 @@ export default class extends BaseComponent {
             'click',
             this.update
         );
-        this.addEventListener(
-            this.getElement(this.selectors.ADDCONTRIB),
-            'click',
-            this.addContrib
-        );
+        const addButtons = this.getElements(this.selectors.ADDITEM);
+        for (const addButton of addButtons) {
+            this.addEventListener(
+                addButton,
+                'click',
+                this.addItem
+            );
+        }
         this.addEventListener(
             this.getElement(this.selectors.UPDATEINPUTS),
             'click',
@@ -209,31 +212,33 @@ export default class extends BaseComponent {
     /**
      * Our submit handler.
      *
-     * @param {Event} event the click event
      */
-    update(event) {
-        // We don't want to submit the form.
-        event.preventDefault();
+    update() {
         const requiredElements = this.getElements('#qtype-stack-metadata-content input[aria-required="true"]');
+        let isError = false;
         for (const element of requiredElements) {
             if (element.value === '') {
                 notifyFieldValidationFailure(element, 'Required');
+                isError = true;
             } else if (element.classList.contains('is-invalid')) {
                 notifyFieldValidationFailure(element, '');
             }
+        }
+        if (isError) {
+            return;
         }
         let inputElements = this.getElements('#qtype-stack-metadata-content input[id^="smdi"]');
         inputElements = Array.from(inputElements).map((el) => [el.id, el.value]);
         this.reactive.dispatch('updateAll', inputElements);
     }
 
-    addContrib() {
-        this.reactive.dispatch('addContributor');
+    addItem(event) {
+        const parts = event.target.id.split('_');
+        this.reactive.dispatch('addItem', parts[1], parts[2]);
     }
 
     updateInputs() {
         const data = JSON.parse(this.getElement('#id_metadata_json').value, this.reviver);
-        console.log(data);
         this.reactive.dispatch('updateFromJson', data);
     }
 }

@@ -428,6 +428,7 @@ $string['scope'] = 'Scope';
 $string['property'] = 'Property';
 $string['qualifier'] = 'Qualifier';
 $string['value'] = 'Value';
+$string['ispartof'] = 'isPartOf';
 
 // Strings used by input elements.
 $string['studentinputtoolong'] = 'Your input is longer than permitted by STACK.';

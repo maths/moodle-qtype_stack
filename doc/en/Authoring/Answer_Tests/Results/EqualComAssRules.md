@@ -1514,4 +1514,47 @@ RANS,ratAdd]</pre></td>
 RANS,ratAdd]</pre></td>
   <td class="cell c5">0</td>
   <td class="cell c6"></td>
+</tr>
+<tr class="notes">
+  <td class="cell c0"><td colspan="6">Equations</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>x=1</pre></td>
+  <td class="cell c3"><pre>1=x</pre></td>
+  <td class="cell c4"><pre>[oneDiv]</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>x=1</pre></td>
+  <td class="cell c3"><pre>1=x</pre></td>
+  <td class="cell c4"><pre>[noncomEq]</pre></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>20*a+15*b+8*c+4*d-17</pre></td>
+  <td class="cell c3"><pre>a*20+b*15+c*8+d*4=-17</pre></td>
+  <td class="cell c4"><pre>[zeroAdd]</pre></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">ATEqualComAssRules ATAlgEquiv_SA_not_equation.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">Your answer should be an equation, but is not.</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>20*a+15*b+8*c+4*d=-17</pre></td>
+  <td class="cell c3"><pre>a*20+b*15+c*8+d*4=-17</pre></td>
+  <td class="cell c4"><pre>[zeroAdd]</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
 </tr></tbody></table></div>

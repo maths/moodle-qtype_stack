@@ -16,7 +16,8 @@ The questions are contained in the STACK source code
 
 This directory contains sub-directories with large libraries of questions, some of which arose from specific projects:
 
-* `Algebra-Refresher` contains questions to cover all parts of the [The Map of Algebraic Manipulation](Algebra_refresher.md). Question numbers are linked to the map.
+* `HELM` provides [comprehensive workbooks for engineering undergraduates](HELM.md).  Question numbers are linked to the original workbooks.
+* `Algebra-Refresher` contains elemntary algebra questions to cover all parts of the [The Map of Algebraic Manipulation](Algebra_refresher.md). Question numbers are linked to the map.
 * `Calculus-Refresher` contains questions to cover all of the [Calculus Refresher](https://docs.stack-assessment.org/static/final0502-calc-ref-ukmlsc.pdf) by Dr Tony Croft and Dr Anthony Kay.
 * `Doc-Examples` contains questions linked to documentation pages.  These are not intended as exemplar questions!  (They may be incomplete, and illustrate a starting point for an exercise for question authors to complete.) This is split by documentation section.
 * `Features` contains questions to illustrate the features of STACK such as different input types.  These are intended as exemplar questions.
@@ -26,7 +27,8 @@ This directory contains sub-directories with large libraries of questions, some 
 
 We would encourage colleagues to release their materials under a creative commons licence.  Please contact the developers.
 
-A significant advantage of using questions from the STACK library is that they are distributed with the source code, and therefore use features which match your version of STACK.
+A significant advantage of using questions from the STACK library is that they are distributed with the source code, and therefore use features which match your version of STACK.  Consider using [Gitsync](https://github.com/maths/moodle-qbank_gitsync) to manage large question banks.
+
 
 # Moodle courses released with STACK #
 

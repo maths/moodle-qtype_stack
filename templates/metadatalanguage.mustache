@@ -1,0 +1,31 @@
+{{!
+    This file is part of Stack - http://stack.maths.ed.ac.uk/
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template qtype_stack/metadata
+
+
+    Example context (json):
+    {
+    }
+}}
+<div class="row" id="qtype-stack-metadata-language-{{{id}}}">
+    <div class="col-lg-2">{{#str}} language, core {{/str}}</div>
+    <div class="col-2 inputcol">{{#lang}}{{> core_form/element-text-inline }}{{/lang}}</div>
+    <div class="col-1"><button id="smd_language_{{id}}_delete" name="smd_delete" type="button" class="btn btn-danger">{{#str}} delete {{/str}}</button></div>
+</div>
+{{#js}}
+require(['qtype_stack/metadata/datarow'], function(component) {
+    component.init('#qtype-stack-metadata-language-{{{id}}}');
+});
+{{/js}}

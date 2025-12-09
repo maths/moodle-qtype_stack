@@ -421,6 +421,7 @@ $string['creator'] = 'Creator';
 $string['addcontributor'] = 'Add contributor';
 $string['addscope'] = 'Add scope';
 $string['addproperty'] = 'Add property';
+$string['addlanguage'] = 'Add language';
 $string['updateJSON'] = 'Update JSON';
 $string['updateinputs'] = 'Update inputs';
 $string['JSONmetadata'] = 'JSON metadata';

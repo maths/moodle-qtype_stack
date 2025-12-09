@@ -23,10 +23,12 @@
     ],
     "language": [
         {
-            "id": "en"
+            "id": 1,
+            "value": "en"
         },
         {
-            "id": "fr"
+            "id": 2,
+            "value": "fr"
         }
     ],
     "license": {

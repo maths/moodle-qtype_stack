@@ -85,12 +85,16 @@ export default class extends BaseComponent {
             creator: {},
             contributor: [],
             language: [],
-            license: state.license,
+            license: this.createDataElement(true, 0, 'license_value', state.license.value),
             isPartOf: this.createDataElement(false, 0, 'isPartOf_value', state.isPartOf.value),
-            scope: []
+            scope: [],
         };
+        state.language.forEach(language => {
+            const element = { id: language.id, lang: this.createDataElement(true, language.id, 'language_value', language.value) };
+            data.language.push({...element});
+        });
         state.contributor.forEach(contributor => {
-            const element = {
+             const element = {
                 firstname: this.createDataElement(false, contributor.id, 'contributor_firstName', contributor.firstName),
                 lastname: this.createDataElement(true, contributor.id, 'contributor_lastName', contributor.lastName),
                 institution: this.createDataElement(false, contributor.id, 'contributor_institution', contributor.institution),
@@ -98,9 +102,6 @@ export default class extends BaseComponent {
                 id: contributor.id,
             };
             data.contributor.push({...element});
-        });
-        state.language.forEach(language => {
-            data.language.push({...language});
         });
         const scopeHolder = {};
         state.additional.forEach(additional => {
@@ -116,7 +117,12 @@ export default class extends BaseComponent {
             scopeHolder[additional.scope].push(element);
         });
         for (const scope in scopeHolder) {
-            const current = { name: scope, firstProp: scopeHolder[scope][0].id, properties: scopeHolder[scope], input: this.createDataElement(true, scope, 'additional_scope', scope)};
+            const current = {
+                name: scope,
+                firstProp: scopeHolder[scope][0].id,
+                properties: scopeHolder[scope],
+                input: this.createDataElement(true, scope, 'additional_scope', scope)
+            };
             data.scope.push(current);
         }
         data.creator = {
@@ -135,7 +141,6 @@ export default class extends BaseComponent {
                 name: 'metadata_json',
             }
         };
-        console.table(data);
 
         // To render a child component we need a container.
         const metadataContainer = this.getElement(this.selectors.METADATACONTAINER);
@@ -171,7 +176,7 @@ export default class extends BaseComponent {
                 return undefined;
             case 'language':
                 for (const lang of value) {
-                    languages.push(lang.id);
+                    languages.push(lang.value);
                 }
                 return languages;
             case 'license':
@@ -197,7 +202,8 @@ export default class extends BaseComponent {
                 return holder;
             case 'language':
                 for (const lang of value) {
-                    holder.push({id: lang});
+                    holder.push({id: id, value: lang});
+                    id++;
                 }
                 return holder;
             case 'license':

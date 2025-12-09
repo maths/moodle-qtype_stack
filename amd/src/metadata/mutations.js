@@ -65,8 +65,12 @@ class Mutations {
         let addCategory = category;
         let newItem = null;
         let existingProperty = null;
-        debugger;
         switch (category) {
+            case 'language':
+                newItem = {
+                    value: ""
+                };
+                break;
             case 'contributor':
                 newItem = {
                     firstName: "",

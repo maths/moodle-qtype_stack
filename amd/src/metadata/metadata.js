@@ -45,8 +45,123 @@ class StackMetadata extends Reactive {
         let languages = new Set(this.lib.languages);
         this.lib.languages = languages.difference(new Set([null, undefined, ""]));
         this.lib.languages = Array.from(this.lib.languages);
-        metadata = JSON.parse(metadata?.value);
+        metadata = this.jsonToState(metadata?.value);
+        console.log(metadata);
         this.setInitialState(metadata);
+    }
+
+    replacer(key, value) {
+        const languages = [];
+        switch(key) {
+            case 'id':
+                return undefined;
+            case 'language':
+                for (const lang of value) {
+                    languages.push(lang.value);
+                }
+                return languages;
+            case 'license':
+            case 'isPartOf':
+                return value.value;
+            default:
+                return value;
+        }
+
+    }
+
+    reviver(key, value) {
+        const holder = [];
+        let id = 1;
+        switch(key) {
+            case 'contributor':
+            case 'additional':
+                for (const current of value) {
+                    current.id = id;
+                    holder.push(current);
+                    id++;
+                }
+                return holder;
+            case 'language':
+                for (const lang of value) {
+                    holder.push({id: id, value: lang});
+                    id++;
+                }
+                return holder;
+            case 'license':
+            case 'isPartOf':
+                return {value: value};
+            default:
+                return value;
+        }
+    }
+
+    jsonToState(data) {
+        data = JSON.parse(data, this.reviver);
+        const fields = ['creator', 'contributor', 'language', 'license', 'isPartOf', 'additional'];
+        data = this.stripFields(data, fields);
+        const contribFields = ['id', 'firstName', 'lastName', 'institution', 'year'];
+        const additionalFields = ['id', 'scope', 'property', 'qualifier', 'value'];
+        const standardFields = ['id', 'value'];
+
+        for (const field of fields) {
+            switch (field) {
+                case 'creator':
+                    data.creator = this.tidyObject(data.creator, contribFields);
+                    break;
+                case 'contributor':
+                    data.contributor = (Array.isArray(data.contributor)) ? data.contributor : [];
+                    for (let contrib in data.contributor) {
+                        contrib = this.tidyObject(contrib, contribFields);
+                    }
+                    break;
+                case 'language':
+                    data.language = (Array.isArray(data.language)) ? data.language : [];
+                    for (let lang of data.language) {
+                        lang = this.tidyObject(lang, standardFields);
+                    }
+                    break;
+                case 'isPartOf':
+                case 'license':
+                    data[field] = this.tidyObject(data[field], standardFields);
+                    break;
+                case 'additional':
+                    data.additional = (Array.isArray(data.additional)) ? data.additional : [];
+                    for (let addInfo in data.additional) {
+                        addInfo = this.tidyObject(addInfo, additionalFields);
+                    }
+                    break;
+                default:
+            }
+        }
+        return data;
+    }
+
+    stripFields(obj, fields) {
+        const result = {};
+        for (const suppliedField in obj) {
+            if (fields.includes(suppliedField)) {
+                result[suppliedField] = obj[suppliedField];
+            }
+        }
+        return result;
+    }
+
+    addFields(obj, fields) {
+        for (const field in fields) {
+            if (!Object.hasOwn(obj, field)) {
+                obj[field] = '';
+            } else {
+                obj[field] = String(obj[field]);
+            }
+        }
+        return obj;
+    }
+
+    tidyObject(obj, fields) {
+        obj = (obj && typeof obj === 'object') ? obj : {};
+        obj = this.stripFields(obj, fields);
+        obj = this.addFields(obj, fields);
+        return obj;
     }
 }
 

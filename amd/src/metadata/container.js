@@ -149,7 +149,7 @@ export default class extends BaseComponent {
         data.json = {
             required: true,
             element: {
-                value: JSON.stringify(state, this.replacer, 4),
+                value: JSON.stringify(state, metadata.replacer, 4),
                 attributes: 'rows="10"',
                 wrapperid: 'fitem_metadata_json',
                 id: 'id_metadata_json',
@@ -184,52 +184,6 @@ export default class extends BaseComponent {
         );
     }
 
-    replacer(key, value) {
-        const languages = [];
-        switch(key) {
-            case 'id':
-                return undefined;
-            case 'language':
-                for (const lang of value) {
-                    languages.push(lang.value);
-                }
-                return languages;
-            case 'license':
-            case 'isPartOf':
-                return value.value;
-            default:
-                return value;
-        }
-
-    }
-
-    reviver(key, value) {
-        const holder = [];
-        let id = 1;
-        switch(key) {
-            case 'contributor':
-            case 'additional':
-                for (const current of value) {
-                    current.id = id;
-                    holder.push(current);
-                    id++;
-                }
-                return holder;
-            case 'language':
-                for (const lang of value) {
-                    holder.push({id: id, value: lang});
-                    id++;
-                }
-                return holder;
-            case 'license':
-            case 'isPartOf':
-                return {value: value};
-            default:
-                return value;
-        }
-
-    }
-
     /**
      * Our submit handler.
      *
@@ -259,7 +213,7 @@ export default class extends BaseComponent {
     }
 
     updateInputs() {
-        const data = JSON.parse(this.getElement('#id_metadata_json').value, this.reviver);
+        const data = metadata.jsonToState(this.getElement('#id_metadata_json').value);
         this.reactive.dispatch('updateFromJson', data);
     }
 }

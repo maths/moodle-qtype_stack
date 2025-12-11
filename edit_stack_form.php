@@ -268,7 +268,13 @@ class qtype_stack_edit_form extends question_edit_form {
         $datalib->user->lastname = $USER->lastname;
         $datalib->user->institution = $USER->institution;
         $datalib = json_encode($datalib);
-        $data = file_get_contents($CFG->dirroot . '/question/type/stack/amd/src/metadata/sample.json');
+        if (!isset($this->question->id)) {
+            $data = '{"creator":{"firstName":"' . $USER->firstname . '","lastName":"' . $USER->lastname . '",' .
+            '"institution":"' . $USER->institution . '","year":"' . date('Y') . '"},' .
+            '"contributor":[],"language":["' . current_language() . '"],"license":"' . $CFG->sitedefaultlicense . '"}';
+        } else {
+            $data = file_get_contents($CFG->dirroot . '/question/type/stack/amd/src/metadata/sample.json');
+        }
         $md = $mform->createElement('hidden', 'metadata', $data, ['data-lib' => $datalib]);
         $mform->insertElementBefore($md, 'metadatamodal');
         $mform->setType('metadata', PARAM_RAW);

@@ -209,7 +209,7 @@ class qtype_stack_edit_form extends question_edit_form {
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function definition_inner(/* MoodleQuickForm */ $mform) {
-        global $OUTPUT, $PAGE;
+        global $OUTPUT, $PAGE, $CFG, $SESSION, $USER;
 
         // Load the configuration.
         $this->stackconfig = stack_utils::get_config();
@@ -257,9 +257,19 @@ class qtype_stack_edit_form extends question_edit_form {
         }
         $PAGE->requires->js_call_amd('qtype_stack/metadata/metadatamodal', 'setup');
         $mform->addElement('button', 'metadatamodal', stack_string("editmetadata"));
-        global $CFG;
+        $datalib = new \stdClass();
+        $datalib->licenses = explode(',', $CFG->licenses);
+        $datalib->licenses = array_map(function($license) { return ['value' => $license, 'text' => get_string($license, 'license')];}, $datalib->licenses);
+        $datalib->activelicense = $CFG->sitedefaultlicense;
+        $datalib->languages = [$PAGE->cm->lang, $PAGE->course->lang, $SESSION->lang, $USER->lang, $CFG->lang, 'en'];
+        $datalib->defaultlanguage = stack_get_system_language();
+        $datalib->user = new stdClass();
+        $datalib->user->firstname = $USER->firstname;
+        $datalib->user->lastname = $USER->lastname;
+        $datalib->user->institution = $USER->institution;
+        $datalib = json_encode($datalib);
         $data = file_get_contents($CFG->dirroot . '/question/type/stack/amd/src/metadata/sample.json');
-        $md = $mform->createElement('hidden', 'metadata', $data);
+        $md = $mform->createElement('hidden', 'metadata', $data, ['data-lib' => $datalib]);
         $mform->insertElementBefore($md, 'metadatamodal');
         $mform->setType('metadata', PARAM_RAW);
 

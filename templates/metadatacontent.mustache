@@ -54,11 +54,11 @@
     <br>
     <div class="row">
         <div class="col-lg-2">{{#str}} ispartof, qtype_stack {{/str}}</div>
-        <div class="col-2 inputcol">{{#isPartOf}}{{> core_form/element-text-inline }}{{/isPartOf}}</div>
+        <div class="col-2 inputcol">{{#isPartOf}}{{> core_form/element-text-inline}}{{/isPartOf}}</div>
     </div>
     <div class="row">
         <div class="col-lg-2">{{#str}} license {{/str}}</div>
-        <div class="col-2 inputcol">{{#license}}{{> core_form/element-text-inline }}{{/license}}</div>
+        <div class="col-6 inputcol">{{#license}}{{> core_form/element-autocomplete-inline}}{{/license}}</div>
     </div>
     {{#str}} additionalmetadata, qtype_stack {{/str}}:
     <br>

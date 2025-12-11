@@ -32,7 +32,7 @@
         }
     ],
     "license": {
-        "value": "Creative Commons - NoDerivatives 4.0 International"
+        "value": "cc-4.0"
     },
     "isPartOf": {
         "value": "HELM"

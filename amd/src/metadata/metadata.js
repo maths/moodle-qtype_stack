@@ -26,8 +26,25 @@ import {mutations} from 'qtype_stack/metadata/mutations';
 import {eventTypes, notifyQtypeStackStateUpdated} from 'qtype_stack/metadata/events';
 
 class StackMetadata extends Reactive {
+    lib = {
+        languages: ['en'],
+        defaultLanguage: 'en',
+        user: {
+            firstname: '',
+            lastname: '',
+            institution: ''
+        },
+        licenses: [{value: 'unknown', text: 'unknown'}],
+        defaultlicense: 'unknown',
+    };
+
     loadState() {
         let metadata = document.querySelector('input[name="metadata"]');
+        this.lib = JSON.parse(metadata.dataset.lib);
+        this.lib.user.year = new Date().getFullYear();
+        let languages = new Set(this.lib.languages);
+        this.lib.languages = languages.difference(new Set([null, undefined, ""]));
+        this.lib.languages = Array.from(this.lib.languages);
         metadata = JSON.parse(metadata?.value);
         this.setInitialState(metadata);
     }

@@ -89,6 +89,21 @@ export default class extends BaseComponent {
             isPartOf: this.createDataElement(false, 0, 'isPartOf_value', state.isPartOf.value),
             scope: [],
         };
+        data.license.element.options = JSON.parse(JSON.stringify(metadata.lib.licenses));
+        const selectedLicense = state.license.value;
+        let selectedOption = data.license.element.options.find((op) => op.value === selectedLicense);
+        if (selectedOption) {
+            selectedOption.selected = true;
+        } else {
+            data.license.element.options.push({value: state.license.value, text: state.license.value, selected: true});
+        }
+        data.license.element.tags = '[]';
+        data.license.element.ajax = '';
+        data.license.element.placeholder = '';
+        data.license.element.noselectionstring = '';
+        data.license.element.showsuggestions = 'true';
+        data.license.element.casesensitive = 'false';
+        console.table(data);
         state.language.forEach(language => {
             const element = { id: language.id, lang: this.createDataElement(true, language.id, 'language_value', language.value) };
             data.language.push({...element});
@@ -233,7 +248,7 @@ export default class extends BaseComponent {
         if (isError) {
             return;
         }
-        let inputElements = this.getElements('#qtype-stack-metadata-content input[id^="smdi"]');
+        let inputElements = this.getElements('#qtype-stack-metadata-content [id^="smdi"]');
         inputElements = Array.from(inputElements).map((el) => [el.id, el.value]);
         this.reactive.dispatch('updateAll', inputElements);
     }

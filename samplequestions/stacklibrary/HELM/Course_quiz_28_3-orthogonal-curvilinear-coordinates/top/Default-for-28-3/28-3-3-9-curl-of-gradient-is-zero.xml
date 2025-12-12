@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>28.3.3.9 curl of gradient is zero</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>For \(f = {@aa@}\phi^2z^2 \cos 2\phi\), find \(\underline{\nabla} \times (\underline{\nabla} f)\).</p>
+
+<p>\(\underline{\nabla} \times (\underline{\nabla} f) =\) [[input:ans1]][[validation:ans1]]\(\hat{\underline{\rho}} +\)[[input:ans2]][[validation:ans2]]\(\hat{\underline{\phi}} + \)[[input:ans3]][[validation:ans3]]\(\hat{\underline{z}}\) [[feedback:prt1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p>We know that\(f = {@aa@}\phi^2z^2 \cos 2\phi\) and aim to find \(\underline{\nabla} \times (\underline{\nabla} f)\).</p>
+
+<p>First we may write grad \(f\) as follows: \(\underline{\nabla}f = \left(\dfrac{\partial f}{\partial \rho}\hat{\underline{\rho}} +\dfrac{\partial f}{\partial \phi}\hat{\underline{\phi}} + \dfrac{\partial f}{\partial z}\hat{\underline{z}}\right) \). Taking the curl of this, we find:</p>
+<p>\[
+\begin{aligned}
+\nabla \times (\underline{\nabla} f) &= \frac{1}{\rho}\begin{vmatrix}
+\hat{\underline{\rho}} & \rho \hat{\underline{\phi}} & \hat{\underline{z}} \\
+\frac{\partial}{\partial \rho} & \frac{\partial}{\partial \phi} & \frac{\partial}{\partial z} \\
+\frac{\partial f}{\partial \rho} & \frac{\partial f}{\partial \phi} & \frac{\partial f}{\partial z}
+\end{vmatrix} \\
+&= \frac{1}{\rho} \left[
+\hat{\underline{\rho}} \left( \frac{\partial}{\partial \phi} ( \frac{\partial f}{\partial z}) - \frac{\partial}{\partial z} (\frac{\partial f}{\partial \phi}) \right)
+-\rho \hat{\underline{\phi}} \left(\frac{\partial}{\partial \rho}(\frac{\partial f}{\partial z}) -  \frac{\partial}{\partial z}(\frac{\partial f}{\partial \rho}) \right)
++ \hat{\underline{z}} \left(\frac{\partial}{\partial \rho}(\frac{\partial f}{\partial \phi}) - \frac{\partial}{\partial \phi}(\frac{\partial f}{\partial \rho}\right)
+\right]\\
+& \mbox{using the equality of mixed partial derivatives }\\
+&= \frac{1}{\rho}\left[
+\hat{\underline{\rho}} \left( \frac{\partial^2 f}{\partial \phi \partial z} - \frac{\partial^2 f}{\partial \phi \partial z} \right)
+-\rho \hat{\underline{\phi}} \left(\frac{\partial^2 f}{\partial \rho \partial z} -  \frac{\partial^2 f}{\partial \rho \partial z}) \right)
++ \hat{\underline{z}} \left(\frac{\partial^2 f}{\partial \rho \partial \phi} - \frac{\partial^2 f}{\partial \rho \partial \phi}\right)
+\right]\\
+&= \underline{0}
+\end{aligned}
+\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025073100</text>
+    </stackversion>
+    <questionvariables>
+      <text>aa:rand(6)+2;
+
+ta1i:0;
+ta1j:0;
+ta1k:0;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="html">
+      <text>\(f = {@aa@}\phi^2z^2 \cos 2\phi\)</text>
+    </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1i</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>ta1j</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>algebraic</type>
+      <tans>ta1k</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1i</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>ta1j</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>ta1k</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1193829640</deployedseed>
+    <deployedseed>1651841512</deployedseed>
+    <deployedseed>850592702</deployedseed>
+    <deployedseed>1343010551</deployedseed>
+    <deployedseed>316028103</deployedseed>
+    <deployedseed>587957105</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1i</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta1j</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta1k</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1i</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta1j+3</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta1k</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt1-2-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

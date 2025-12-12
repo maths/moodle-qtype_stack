@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>1.5.1.1</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3><span style="color: inherit; font-family: inherit;">Using formulae and substitution</span><br></h3>
+<p>In the study of engineering, physical quantities can be related to each other using a formula. The formula will contain variables and constants which represent the physical quantities. To evaluate a formula we must <strong>substitute</strong> numbersin
+    place of the variables.</p>
+<p>For example, Ohm’s law provides a formula for relating the voltage, \(v\), across a resistor with resistance value, \(R\), to the current through it, \(i\). The formula states \[\begin{aligned} v &amp;= iR\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\end{aligned}\]We
+    can use this formula to calculate \(v\) if we know values for \(i\) and \(R\). For example, if \(i=13\) \(\textrm{A}\), and \(R=5\,\Omega\), then \[\begin{aligned} v &amp;= iR\\ &amp;= (13)(5)\\ &amp;= 65\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\end{aligned}\]The
+    voltage is 65 \(\textrm{V}\).</p>
+
+<p>Note that it is important to pay attention to the units of any physical quantities involved. Unless a consistent set of units is used a formula is not valid.</p>
+
+<hr>
+<h4 class="HELM_example">Example <br></h4>
+<p>The kinetic energy, \(K\), of an object of mass \(M\) moving with speed \(v\) can be calculated from the formula, \(K=\dfrac{1}{2}Mv^2\). Calculate the kinetic energy of an object of mass 5 \(\textrm{kg}\) moving with a speed of 2 \(\textrm{ms}^{-1}\).</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>In this example M = 5 and v = 2. Substituting these values into the formula we find\[\begin{aligned} v &amp;={1\over 2}Mv^2\\ &amp;= {1\over 2}(5)(2^2)\\ &amp;= 10 \qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\end{aligned}\]</p>
+
+<hr>
+<h4 class="HELM_example">Example <br></h4>
+<p>The volume, \(V\), of a circular cylinder is equal to its cross-sectional area, \(A\), times its length, \(h\). Find the volume of a cylinder having diameter 0.1 \(\textrm{m}\) and length 0.3 \(\textrm{m}\).</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>We can use the result of the previous Task to obtain the cross-sectional area \(A=\dfrac{\pi d^2}{4}\). Then\[\begin{aligned} V &amp;= Ah\\ &amp;= \dfrac{\pi d^2}{4}\times0.3\\ &amp;= 0.0024 \qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\end{aligned}\]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

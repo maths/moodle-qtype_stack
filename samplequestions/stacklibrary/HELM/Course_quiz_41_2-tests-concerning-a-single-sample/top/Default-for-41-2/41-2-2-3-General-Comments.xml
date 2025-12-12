@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>41.2.2.3 General Comments</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h5>General comments about tests concerning a population mean</h5>
+     <ol>
+       <li> The sample mean \(\bar x\) is often used as a test statistic when testing a hypothesis concerning a population mean \(\mu\).</li>
+       <li> Even if the population distribution cannot be assumed to be normal, the distribution of sample means can often be assumed to be normal. This depends on the sample size. </li>
+       <li> The tests described above sometimes require us to assume that the population variance is known. This is often unrealistic and we turn to the \(t\)-test to deal with cases where the population standard deviation is unknown and must be estimated from the data available.</li>
+     </ol>
+ <h5>General comments on the t-test</h5>
+     <ol>
+       <li> The test only applies when the underlying distribution can be assumed to be normal. </li>
+       <li> The test is used when the standard deviation of the parent population has to be estimated. </li>
+       <li> As the sample size \(n\) get larger, the distribution approximates to the standard normal distribution.</li>
+       <li> The distribution depends on the number of degrees of freedom, for a single sample or equal paired samples (see below), the number of degrees of freedom is always one less than the sample size. </li>
+     </ol>
+ <h5>Tests concerning paired data</h5>
+ <p>Sometimes experimental data may be directly compared using an appropriate test. The following Example looks at experimental data concerning the throttle reaction times of two turbochargers fitted to an internal combustion engine.</p>
+ <hr>
+<h4 class="HELM_example">Example</h4>
+ <p>3 In order to test the hypothesis that two standard turbochargers \(A\) and \(B\) have the same throttle reaction times, a random sample of 7 cars were fitted with the turbochargers and the throttle reaction times measured. The results were as follows:</p>
+ <table class="HELM_table">
+  <thead>
+    <tr>
+      <th><strong>Car</strong></th>
+ <th><strong>1</strong></th>
+ <th><strong>2</strong></th>
+ <th><strong>3</strong></th>
+ <th><strong>4</strong></th>
+ <th><strong>5</strong></th>
+ <th><strong>6</strong></th>
+ <th><strong>7</strong></th></tr>
+  </thead>
+<tbody>
+    <tr>
+      <td> Throttle Reaction time for \(A; R1\)</td> <td>0.223</td> <td>0.212</td> <td>0.201</td> <td>0.205</td> <td>0.216</td> <td>0.211</td> <td>0.209</td></tr> 
+ <tr><td>Throttle Reaction time for \(B; R2\)</td> <td>0.208</td> <td>0.207</td> <td>0.203</td> <td>0.204</td> <td>0.205</td> <td>0.202</td> <td>0.206</td>
+  <tr>
+      <td>\(D = R1 - R2\)</td> <td>0.015</td> <td>0.005</td> <td>\(-\)0.002</td> <td>0.001</td> <td>0.011</td> <td>0.009</td> <td>0.003</td></tr>
+  </tbody>
+</table>
+  <h4 class="HELM_solution">Solution</h4>
+ <p>Let \( D \) be the difference between the throttle reaction times of the two turbochargers. We assume that the distribution of \( D \) is normal. Our null hypothesis is that \( \mu_{D}, \) the mean of the population of differences, is zero. We must decide between the two hypotheses
+
+\[ H_{0}:\ \mu_{D}=0 \hspace{1cm} H_{1}:\ \mu_{D} \neq 0 \]
+
+The alternative hypothesis here indicates that we perform a two-tailed test.
+
+Let \( \bar{d} \) be the sample mean of the seven observed differences. Then
+
+\[ \bar{d} = \frac{\sum d}{7} = \frac{0.042}{7} = 0.006 \]
+
+The sample variance of the differences is
+
+\[ s^{2}_{d} = \frac{\sum(d-\bar{d})^{2}}{n-1} = \frac{0.000214}{6} = 3.5667 \times 10^{-5} \]
+
+The value of the test statistic is
+
+\[ |t| = \frac{|\bar{d}-0|}{\sqrt{s^{2}_{d}/n}} = \frac{0.006}{\sqrt{3.5667 \times 10^{-5}/7}} = 2.658 \]
+
+The number of degrees of freedom is \( 7-1=6 \) and the critical value from the table is 2.447. Since \( 2.658 > 2.447 \) we reject \( H_{0} \) at the 5% level and conclude that the evidence suggests that there is a difference in the throttle reaction times between the two turbochargers.
+</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

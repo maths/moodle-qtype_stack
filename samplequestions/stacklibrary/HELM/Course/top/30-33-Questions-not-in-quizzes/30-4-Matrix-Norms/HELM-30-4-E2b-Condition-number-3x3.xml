@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>HELM 30.4 E2b Condition number 3x3</text>
+    </name>
+    <questiontext format="markdown">
+      <text><![CDATA[**30.4 E2b Condition numbers 3x3**
+
+Calculate the condition number of the given matrix using the norm as indicated by the subscript.
+
+\\\[{@'A=M@}\\\]
+
+\\\({\kappa}\_1=\\\) [[input:S_n1]] [[validation:S_n1]] [[feedback:n1]]<br>
+\\\({\kappa}_F=\\\) [[input:S_nf]] [[validation:S_nf]] [[feedback:nf]]<br>]]></text>
+    </questiontext>
+    <generalfeedback format="markdown">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2024012900</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[/* generate random Matrix */
+m:6
+M: matrix([rand_with_prohib(-m,m,[0]), 0, 0],
+          [0, rand_with_prohib(-m,m,[0]), 0],
+          [0, 0, rand_with_prohib(-m,m,[0])]);
+n1: mat_cond(M,1);
+ni: mat_cond(M,inf); /* not useful, same as kappa_1 */
+nf: mat_cond(M,frobenius);
+
+stack_include("https://raw.githubusercontent.com/mkraska/meclib/main/Maxima/fb_value_EN.mac");]]></text>
+    </questionvariables>
+    <specificfeedback format="markdown">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>{@M@}, {@invert(M)@}, {@[n1,dispsf(nf,3)]@}</text>
+    </questionnote>
+    <questiondescription format="markdown">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="markdown">
+      <text>Richtige Antwort, gut gemacht!</text>
+    </prtcorrect>
+    <prtpartiallycorrect format="markdown">
+      <text>Ihre Antwort ist teilweise korrekt.</text>
+    </prtpartiallycorrect>
+    <prtincorrect format="markdown">
+      <text>Falsche Antwort.</text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>S_n1</name>
+      <type>algebraic</type>
+      <tans>n1</tans>
+      <boxsize>8</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>3 s.f.</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>S_nf</name>
+      <type>algebraic</type>
+      <tans>dispsf(nf,3)</tans>
+      <boxsize>8</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>3 s.f.</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>n1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumRelative</answertest>
+        <sans>S_n1</sans>
+        <tans>n1</tans>
+        <testoptions>0.005</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>n1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>n1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>{@fb_unit(S_n1, n1, 0.005)@}</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>nf</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumRelative</answertest>
+        <sans>S_nf</sans>
+        <tans>nf</tans>
+        <testoptions>0.005</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>nf-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>nf-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1831826615</deployedseed>
+    <deployedseed>2065968024</deployedseed>
+    <deployedseed>971086245</deployedseed>
+    <deployedseed>1176998145</deployedseed>
+    <deployedseed>2010240290</deployedseed>
+    <deployedseed>566270976</deployedseed>
+    <deployedseed>951490522</deployedseed>
+    <deployedseed>1673278953</deployedseed>
+    <deployedseed>1907275208</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>S_n1</name>
+        <value>n1</value>
+      </testinput>
+      <testinput>
+        <name>S_nf</name>
+        <value>dispsf(nf,3)</value>
+      </testinput>
+      <expected>
+        <name>n1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>n1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>nf</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>nf-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>S_n1</name>
+        <value>n1</value>
+      </testinput>
+      <testinput>
+        <name>S_nf</name>
+        <value>dispsf(nf,3)</value>
+      </testinput>
+      <expected>
+        <name>n1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>n1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>nf</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>nf-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

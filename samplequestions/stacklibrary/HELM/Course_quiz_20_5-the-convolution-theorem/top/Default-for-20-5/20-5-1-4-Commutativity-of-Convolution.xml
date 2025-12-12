@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>20.5.1.4 Commutativity of Convolution</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>This Task illustrates the general result in the following Key Point:</p>
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p><center><strong>Commutativity Property of Convolution</strong></center></p>
+<p>\[(f*g)(t)=(g*f)(t)\] In words: the convolution of \(f(t)\) with \(g(t)\) is the same as the convolution of \(g(t)\) with \(f(t)\).</p>
+</div>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Obtain the Laplace transforms of \(f(t)=t.u(t)\) and \(g(t)=\sin t.u(t)\) and \((f*g)(t)\).</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>Begin by finding \({\cal L}\{f(t)\}\), \({\cal L}\{g(t)\}\):</p>
+<p>\[{\cal L}\{f(t)\} ={1\over {s^2}}\qquad {\cal L}\{g(t)\}={1\over {s^2+1}}\]</p>
+<p>Now find \({\cal L}\{(f*g)(t)\}\):</p>
+<p>From the previous Example \((f*g)(t)=t-\sin t\) and so  \[ {\cal L}\{(f*g)(t)\}={\cal L}\{t-\sin t\}={1\over {s^2}}-{1\over {s^2+1}}\]</p>
+<p>Now compare \({\cal L}\{f(t)\}\times {\cal L}\{g(t)\}\) with \({\cal L}\{f*g(t)\}\). What do you observe?</p>
+<p>\[{\cal L}\{(f*g)(t)\}={1\over {s^2}}-{1\over {s^2+1}}={1\over {s^2}}\left({1\over {s^2+1}}\right) ={\cal L}\{f(t)\}{\cal L}\{g(t)\} =F(s)G(s)\] We see that the Laplace transform of the convolution of \(f(t)\) and \(g(t)\) is the product of their separate Laplace transforms. This, in fact, is a general result which is expressed in the statement of the <strong>convolution theorem</strong> which we discuss in the next subsection.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>38.2.2.1 Expected net profit</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p><p>In the manufacture of petroleum the distilling temperature (\(T^\circ\)C) is crucial in determining the quality of the final product.&nbsp; \(T\) can be considered as a random variable uniformly distributed over \({@na@}^\circ\)C to \({@nb@}^\circ\)C.&nbsp; It costs&nbsp; £\( A\) to produce 1 gallon of petroleum. If the oil distils at temperatures less than or equal to&nbsp;<span style="font-size: 0.9375rem;">\({@nm@}^\circ\)C the product sells for&nbsp; £\(B\) per gallon.&nbsp; If it distils at a temperature greater than \({@nm@}^\circ\)C it sells for&nbsp; £\(D\) per gallon.&nbsp; Find the formula for the expected net profit per gallon.</span></p><p><br></p><p>Expected net profit per gallon = [[input:ans1]] [[validation:ans1]]&nbsp;[[feedback:prt1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p style="text-align: left;">The distribution for the distilling temperature is \(T \sim \text{Uniform}({@na@}, {@nb@})\). The probability the distilling temperature is less than or equal to \({@nm@}^\circ\)C is:</p><p style="text-align: left;">\[ \text{P}(T\leq{@nm@}) = \dfrac{{@nm@} - {@na@}}{{@nb@} - {@na@}} = {@nr1@}.\]</p><p style="text-align: left;">By the complement rule, the probability that the distilling temperature exceeds&nbsp;\({@nm@}^\circ\)C is:</p><p style="text-align: left;">\[\text{P}(T &gt; {@nm@}) = 1 - \text{P}(T \leq {@nm@}) = 1 - {@nr1@} = {@1 - nr1@}.\]</p><p style="text-align: left;"><span style="font-size: 0.9375rem;">The net profit (sell price - cost price) per gallon under these two scenarios are presented in the table below:</span><br></p><p></p><center><table frame="void" rules="all" border="1"><thead><tr class="header"><th style="text-align: center;">Scenario</th>
+<th style="text-align: center;">\(T \leq {@nm@}\)<br></th>
+<th style="text-align: center;">\(T &gt; {@nm@}\)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">net profit</span></td>
+<td style="text-align: center;">£\((B-A)\)</td>
+<td style="text-align: center;">£\((D-A)\)</td>
+</tr><tr class="odd">
+<td style="text-align: center;">Probability&nbsp;</td>
+<td style="text-align: center;">&nbsp;\({@nr1@}\)</td>
+<td style="text-align: center;">\({@1-nr1@}\)&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</center>Therefore, the expected net profit per gallon is:<br>\[\text{E}(\text{net profit}) = {@nr1@}(B-A) + {@1-nr1@}(D-A) = £{@ta@}. \]<br><p></p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021072200</text>
+    </stackversion>
+    <questionvariables>
+      <text>na: 10*(rand(10)+11);
+nl: 10*(rand(10)+11);
+nb: na+nl;
+nml: 10*rand(7)+10;
+nm: na+ nml;
+nr1: nml/nl;
+ta: ratsimp(nr1*(B-A)+(1-nr1)*(D-A));</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>low: {@na@}, upper: {@nb@}, threshold: {@nm@}, formula:\({@ta@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta</tans>
+      <boxsize>20</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>348789532</deployedseed>
+    <deployedseed>466471460</deployedseed>
+    <deployedseed>233165332</deployedseed>
+    <deployedseed>395403573</deployedseed>
+    <deployedseed>1835445406</deployedseed>
+    <deployedseed>120254950</deployedseed>
+    <deployedseed>278792220</deployedseed>
+    <deployedseed>1717832567</deployedseed>
+    <deployedseed>1305249252</deployedseed>
+    <deployedseed>86308759</deployedseed>
+    <deployedseed>319487033</deployedseed>
+    <deployedseed>791354393</deployedseed>
+    <deployedseed>1281450344</deployedseed>
+    <deployedseed>1193881100</deployedseed>
+    <deployedseed>2064241301</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>D+C-2*A</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

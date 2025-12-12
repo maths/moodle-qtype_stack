@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>(not in quiz) 37.2.3.13  Five machines in a factory</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p><p>There are five machines in a factory. Of these machines, three are working properly and two are defective. Machines which are working properly produce articles each of which has independently a probability of {@p_no_def@} of being imperfect. For the defective machines, this probability is {@p_def@}. A machine is chosen at random and {@n_art@} articles produced by the machine are examined. What is the probability that the machine chosen is defective given that, of the {@n_art@} articles examined, {@n_imp@} are imperfect and {@n_perf@} are perfect?</p><p>[[input:ans1]] [[validation:ans1]]&nbsp;[[feedback:prt1]]</p>
+<p><b>Note</b>: please round your answer up to 5 decimal places</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>Let <span class="math inline">\(D\)</span> denote the event that the chosen machine is defective and <span class="math inline">\(\bar{D}\)</span> denote the event “not <span class="math inline">\(D\)</span>”.</p>
+<p>Let <span class="math inline">\(Y\)</span> be the number of imperfect articles in the sample of five.</p>
+<p>Then</p>
+<p><span class="math display">\(\begin{aligned}
+\text{P}(D \mid Y={@n_art@}) &amp; = \dfrac{ \text{P}(D)\times  \text{P}(Y={@n_art@} \mid D)}{ \text{P}(D)\times \text{P}(Y={@n_art@} \mid D) +  \text{P}(\bar{D})\times \text{P}(Y={@n_art@} \mid \bar{D})}&nbsp;&nbsp;\\ &amp; = \dfrac{ \dfrac{2}{5} \times \left( \begin{array}{c} {@n_art@} \\ {@n_imp@} \end{array} \right) \times {@p_def@}^{{@n_imp@}} \times {@1 - p_def@}^{{@n_perf@}}}{ \frac{2}{5} \times \left( \begin{array}{c} {@n_art@} \\ {@n_imp@} \end{array} \right) \times {@p_def@}^{{@n_imp@}} \times {@1 - p_def@}^{{@n_perf@}} + \dfrac{3}{5} \times \left( \begin{array}{c} {@n_art@} \\ {@n_imp@} \end{array} \right) {@p_no_def@}^{{@n_imp@}} \times {@1 - p_no_def@}^{{@n_perf@}}} \\&nbsp; &amp; =&nbsp; \dfrac{{@decimalplaces(numerator,5)@}}{{@decimalplaces(denomin_1,5)@} + {@decimalplaces(denomin_2,5)@}} = {@ta@}.\end{aligned}\)</span></p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020070100</text>
+    </stackversion>
+    <questionvariables>
+      <text>p_no_def: 0.1 + 0.1*rand(3)
+p_def: p_no_def + 0.1
+n_art: 4 + rand(3)
+n_imp:1 + rand(2)
+n_perf:n_art - n_imp
+numerator: 0.4*(factorial(n_art)/(factorial(n_imp)*factorial(n_art-n_imp)))*(p_def^n_imp)*((1-p_def)^n_perf)
+denomin_1: numerator
+denomin_2: 0.6*(factorial(n_art)/(factorial(n_imp)*factorial(n_art-n_imp)))*(p_no_def^n_imp)*((1-p_no_def)^n_perf)
+ta: decimalplaces(numerator/(denomin_1 + denomin_2),5)</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\( \text{P}(D \mid Y={@n_art@}) = {@ta@} \)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>numerical</type>
+      <tans>ta</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>maxdp:5, mindp:5</options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumAbsolute</answertest>
+        <sans>ans1</sans>
+        <tans>ta</tans>
+        <testoptions>0.00002</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>556056456</deployedseed>
+    <deployedseed>1049624710</deployedseed>
+    <deployedseed>1377521186</deployedseed>
+    <deployedseed>299631290</deployedseed>
+    <deployedseed>1049465364</deployedseed>
+    <deployedseed>661835620</deployedseed>
+    <deployedseed>8241769</deployedseed>
+    <deployedseed>665577136</deployedseed>
+    <deployedseed>141730573</deployedseed>
+    <deployedseed>1943936883</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>dispdp(ev(ta+1.00,simp),5)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

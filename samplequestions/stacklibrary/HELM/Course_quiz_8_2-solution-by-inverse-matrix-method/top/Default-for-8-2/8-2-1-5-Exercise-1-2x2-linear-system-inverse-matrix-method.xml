@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>8.2.1.5 Exercise 1 2x2 linear system inverse matrix method</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p> Solve the following linear system of equations using the inverse matrix method:
+<span class="math display">\[\begin{matrix}
+{@a@} x_1 &amp; + &amp; {@b@} x_2 &amp; = &amp; {@y[1, 1]@} \\
+{@c@} x_1 &amp; + &amp; {@d@} x_2 &amp; = &amp; {@y[2, 1]@} \\
+\end{matrix}\]</span></p>
+
+<div> \(x =\) [[input:ans1]] [[validation:ans1]] </div><div><br></div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>We first check if \(A \) is invertible by, for instance, computing the determinant. Since \[ \det A = {@determinant(A)@} \neq 0, \] A is invertible. From the equation \(Ax = b\), since \(A \) is invertible, we can obtain the solution using \(x = A^{-1}Ax
+    = A^{-1}b\).</p>
+<p>We compute \(A^{-1} = {@Ainv@}\).</p>
+<p>&nbsp;Finally we find \(x = A^{-1}b = {@Ainv@}\times {@y@}={@ta1@}\).&nbsp;</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020120600</text>
+    </stackversion>
+    <questionvariables>
+      <text>y : matrix([rand(5)+1], [rand(5)+1]);
+a : rand(5) + 2;
+b : rand(5) + 2;
+c : rand(5) + 2;
+d : rand(5) + 2;
+A : matrix([a,b],[c, d]);
+Ainv : invert(A);
+ta1 : Ainv . y;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text><![CDATA[\[\begin{matrix} {@a@} x_1 & + & {@b@} x_2 & = & {@y[1, 1]@} \\ {@c@} x_1 & + & {@d@} x_2 & = & {@y[2, 1]@} \\ \end{matrix}, \quad x={@ta1@}\]]]></text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<p><span class="correct">Correct answer, well done.</span></p>]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<p><span class="partially">Your answer is partially correct.</span></p>]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<p><span class="incorrect">Incorrect answer.</span></p>]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>matrix</type>
+      <tans>ta1</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>determinant,invert</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty>0</truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Your answer is correct, well done!</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your answer doesn't satisfy the linear system of equations. Indeed, at least one of the equations \[ {@a@} x_1 + {@b@} x_2 = {@a@} \cdot ({@ans1[1][1]@}) + {@b@} \cdot ({@ans1[2][1]@}) = {@y[1][1]@} \] or
+\[ {@c@} x_1 + {@d@} x_2 = {@c@} \cdot ({@ans1[1][1]@}) + {@d@} \cdot ({@ans1[2][1]@}) = {@y[2][1]@} \] is not satisfied. </p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1583119429</deployedseed>
+    <deployedseed>515163712</deployedseed>
+    <deployedseed>165882995</deployedseed>
+    <deployedseed>49945630</deployedseed>
+    <deployedseed>1411181967</deployedseed>
+    <deployedseed>332387096</deployedseed>
+    <deployedseed>1976379294</deployedseed>
+    <deployedseed>1628336970</deployedseed>
+    <deployedseed>655334240</deployedseed>
+    <deployedseed>1090183477</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(ta1*2,simp)</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>Result-0-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

@@ -1,0 +1,117 @@
+{
+    "quiz": {
+        "name": "18_1 Functions of Several Variables",
+        "intro": "<p>A function of a single variable <span class=\"math inline\">\\(y=f(x)\\)<\/span> is interpreted graphically as a planar curve. We generalise the concept to functions of more than one variable. We shall see that a function of two variables <span class=\"math inline\">\\(z=f(x,y)\\)<\/span> can be interpreted as a surface. Functions of two or more variables often arise in engineering and in science and it is important to be able to deal with such functions with confidence and skill. We see how to sketch simple surfaces.&nbsp;<\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Introduction",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "2",
+            "heading": "Function with two variables",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "4",
+            "heading": "Function with three variables",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "7",
+            "heading": "Function with four variables",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "8",
+            "heading": "Geometrical interpretation of a function with two variables",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-18-1\/18-1-1-1-Functions-of-Several-Variables.xml"
+        },
+        {
+            "slot": "2",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-18-1\/18-1-1-2-Find-values-of-a-function.xml"
+        },
+        {
+            "slot": "3",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-18-1\/18-1-1-3-Find-values-of-a-function-(2).xml"
+        },
+        {
+            "slot": "4",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-18-1\/18-1-1-4-Function-of-Three-Variables.xml"
+        },
+        {
+            "slot": "5",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-18-1\/18-1-1-5-Find-values-of-a-function-with-three-variables.xml"
+        },
+        {
+            "slot": "6",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-18-1\/18-1-1-6-Find-values-of-a-function-with-three-variables(2).xml"
+        },
+        {
+            "slot": "7",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-18-1\/18-1-1-7-Find-values-of-a-function-with-four-variables.xml"
+        },
+        {
+            "slot": "8",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-18-1\/18-1-2-1-Functions-of-two-variables.xml"
+        },
+        {
+            "slot": "9",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-18-1\/18-1-2-2-Special-cases-of-planes.xml"
+        },
+        {
+            "slot": "10",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-18-1\/18-1-2-3-Sketching-surfaces.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

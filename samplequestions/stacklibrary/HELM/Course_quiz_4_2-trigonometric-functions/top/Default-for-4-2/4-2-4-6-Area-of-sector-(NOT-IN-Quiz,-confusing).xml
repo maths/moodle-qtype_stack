@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>4.2.4.6 Area of sector (NOT IN Quiz, confusing)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise<br></p>
+<ol class="HELM_parts">
+<li><p>What is the area \(A\) of a sector formed by a central angle \(\theta \) radians in a circle of radius \( r \)?</p>
+<p> \(A =\) [[input:ans1]] [[validation:ans1]][[feedback:prt1]]</p><p>(Hint: By proportionality the ratio of the area of the sector to the total area of the circle equals the ratio of \( \theta \) to the total angle at the centre of the circle.)</p></li>
+<p>
+The shaded area \(S\) is the difference between a sector of radius \(R\) and a sector of radius \(r\), both of angle \(\theta\). What is the value of the shaded area \(S\) if \(\theta\) is measured (b) in radians, (c) in degrees?</p><p style="text-align: center;"><img src="@@PLUGINFILE@@/4.2%20fig%2016%20area%20of%20sector%20of%20annulus.svg" alt="Angular sector of angle theta" role="presentation" class="img-responsive atto_image_button_text-bottom" width="151" height="94"><br></p>
+<li><p> \(S =\) [[input:ans2]] [[validation:ans2]][[feedback:prt2]] <br></p></li>
+<li><p> \(S =\) [[input:ans3]] [[validation:ans3]][[feedback:prt3]]</p></li>
+</ol>]]></text>
+<file name="4.2 fig 16 area of sector of annulus.svg" path="/" encoding="base64">PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMTUwLjk0NyIgaGVpZ2h0PSI5My43NzYiIHZpZXdCb3g9IjAgMCAxMTMuMjEgNzAuMzMyIj48ZyBkYXRhLW5hbWU9IkRvY3VtZW50Ij48cGF0aCBkPSJNMTExLjk2IDU1LjIyM2wtLjc1LTUuNS0xMS43NS00My41TDk3LjY2Ni43NTIgNzkuNDYgMTEuNzIzbDIuNSA1LjUgMi4yNSA0LjI1IDIuMjUgNS41IDEuMjUgNC41IDEuNSA1Ljc1IDEgNi41Ljc1IDUuNS4yNSA2aDIwLjc1IiBmaWxsPSIjYmVjMGMyIi8+PHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYmVjMGMyIiBkPSJNMTExLjk2IDU1LjIyM2wtLjc1LTUuNS0xMS43NS00My41TDk3LjY2Ni43NTIgNzkuNDYgMTEuNzIzbDIuNSA1LjUgMi4yNSA0LjI1IDIuMjUgNS41IDEuMjUgNC41IDEuNSA1Ljc1IDEgNi41Ljc1IDUuNS4yNSA2aDIwLjc1eiIvPjxwYXRoIGQ9Ik05Ny42NjYuNzUyYzkuNTYgMTYuMTg1IDE1LjA0NCAzNS4wNjMgMTUuMDQ0IDU1LjIyMSIgZmlsbD0iI2JlYzBjMiIvPjxjbGlwUGF0aCBpZD0iYSI+PHBhdGggdHJhbnNmb3JtPSJtYXRyaXgoMSAwIDAgLTEgMCA3MC4zMzIpIiBkPSJNLjA2IDcwLjMzMmgxMTMuMTVWLjA2SC4wNnoiLz48L2NsaXBQYXRoPjxnIGNsaXAtcGF0aD0idXJsKCNhKSI+PHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjMxZjIwIiBkPSJNOTcuNjY2Ljc1MmM5LjU2IDE2LjE4NSAxNS4wNDQgMzUuMDYzIDE1LjA0NCA1NS4yMjEiLz48L2c+PHBhdGggZD0iTTc4LjgzNyAxMS42NDhDODYuNTM4IDI0LjYyOSA5MC45NiAzOS43ODUgOTAuOTYgNTUuOTczIiBmaWxsPSIjZmZmIi8+PHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjMxZjIwIiBkPSJNNzguODM3IDExLjY0OEM4Ni41MzggMjQuNjI5IDkwLjk2IDM5Ljc4NSA5MC45NiA1NS45NzNtLTg3IDBMOTcuNTQyLjU0Mm0xNS4xNjggNTUuNDMxSDMuOTZtMS44NzMtOS4wMzVMNzAuNDMgOC42NzciLz48cGF0aCBkPSJNNzEuOTM5IDYuNTkxYy0xLjY3Ni40MTMtMi44MzUuNTY1LTQuMjQ4Ljc4M2wyLjU3MSA0LjM0Yy4yOTQtLjQzNiAxLjU1OS0yLjA3NyAyLjcyOC0zLjM0OSAxLjI1LTEuMzYyIDIuNDQ0LTIuNDk0IDMuMjczLTMuMTM3LS45NjIuNDE4LTIuNTI5LjkyMS00LjMyNCAxLjM2MyIgZmlsbD0iIzIzMWYyMCIvPjxjbGlwUGF0aCBpZD0iYiI+PHBhdGggdHJhbnNmb3JtPSJtYXRyaXgoMSAwIDAgLTEgMCA3MC4zMzIpIiBkPSJNLjA2IDcwLjMzMmgxMTMuMTVWLjA2SC4wNnoiLz48L2NsaXBQYXRoPjxnIGNsaXAtcGF0aD0idXJsKCNiKSI+PHBhdGggZD0iTTQuMzIzIDQ5LjAyNGMxLjY3Ny0uNDEzIDIuODM2LS41NjUgNC4yNDgtLjc4M2wtMi41Ny00LjM0Yy0uMjk0LjQzNi0xLjU2IDIuMDc3LTIuNzI5IDMuMzQ5QzIuMDIyIDQ4LjYxMi44MyA0OS43NDUgMCA1MC4zODdjLjk2Mi0uNDE4IDIuNTI4LS45MjEgNC4zMjMtMS4zNjMiIGZpbGw9IiMyMzFmMjAiLz48L2c+PHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjMxZjIwIiBkPSJNOS4yMSA2My4yMjNoOTYuMjUiLz48cGF0aCBkPSJNMTA3LjgyMSA2Mi4xOThjLTEuNjUyLS41LTIuNzI3LS45Ni00LjA1My0xLjQ5MnY1LjA0NWMuNDc0LS4yMjYgMi40MDEtLjk5MyA0LjA1My0xLjQ5MiAxLjc3LS41MzQgMy4zNzUtLjkgNC40MTUtMS4wMy0xLjA0LS4xMy0yLjY0NS0uNDk3LTQuNDE1LTEuMDNNNi44NDkgNjQuMjQ4YzEuNjUzLjUgMi43MjcuOTYgNC4wNTMgMS40OTJ2LTUuMDQ1Yy0uNDc0LjIyNi0yLjQuOTkzLTQuMDUzIDEuNDkyLTEuNzcuNTM1LTMuMzc0LjktNC40MTUgMS4wMyAxLjA0LjEzMSAyLjY0NS40OTcgNC40MTUgMS4wMzEiIGZpbGw9IiMyMzFmMjAiLz48c3ltYm9sIGlkPSJjIj48cGF0aCBkPSJNLjQwMy41MTNjMCAuMTAyLS4wMzIuMjAxLS4xMTQuMjAxQy4xNDkuNzE0IDAgLjQyMSAwIC4yMDEgMCAuMTU1LjAxIDAgLjExNSAwYy4xMzYgMCAuMjg4LjI4Ni4yODguNTEzTS4xLjM3MmMuMDE1LjA1OS4wMzYuMTQzLjA3Ni4yMTQuMDMzLjA2LjA2OC4xMDguMTEyLjEwOEMuMzIxLjY5NC4zNDMuNjY2LjM0My41N0EuNzQ0Ljc0NCAwIDAwLjMxMS4zNzJILjFtLjIwNC0uMDNBLjg0NS44NDUgMCAwMC4yMjIuMTE4Qy4xOTMuMDY3LjE1OC4wMi4xMTYuMDIuMDg1LjAyLjA2LjA0NC4wNi4xNDNjMCAuMDY1LjAxNi4xMzMuMDMyLjE5OWguMjEyeiIvPjwvc3ltYm9sPjx1c2UgeGxpbms6aHJlZj0iI2MiIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSAyMi44MDUgNTMuOTYzKSIgZmlsbD0iIzIzMWYyMCIvPjxwYXRoIGQ9Ik00NS4yMSA2NS40NzNoMTcuMjV2LTQuMjVINDUuMjF6IiBmaWxsPSIjZmZmIi8+PHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBkPSJNNjIuNDYgNjUuNDczSDQ1LjIxdi00LjI1aDE3LjI1eiIvPjxwYXRoIGQ9Ik00NS4wNjEgMjYuMTMyTDI5Ljk2IDM0LjQ3M2wtMi4wNTUtMy43MjEgMTUuMS04LjM0IDIuMDU2IDMuNzIiIGZpbGw9IiNmZmYiLz48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIGQ9Ik00NS4wNjEgMjYuMTMyTDI5Ljk2IDM0LjQ3M2wtMi4wNTUtMy43MjEgMTUuMS04LjM0IDIuMDU2IDMuNzJ6Ii8+PHN5bWJvbCBpZD0iZCI+PHBhdGggZD0iTS4zNjIuNDE5Qy4zMzEuNDEzLjMxNS4zOTEuMzE1LjM2OWMwLS4wMjQuMDE5LS4wMzIuMDMzLS4wMzIuMDI4IDAgLjA1MS4wMjQuMDUxLjA1NCAwIC4wMzItLjAzMS4wNi0uMDgxLjA2Qy4yNzguNDUxLjIzMi40MzMuMTkuMzcyYS4wODYuMDg2IDAgMDEtLjA4Ny4wNzlDLjA2NC40NTEuMDQ0LjQyMS4wMzIuMzk5QS41MTUuNTE1IDAgMDEwIC4yOThDMCAuMjk0LjAwNC4yODkuMDExLjI4OS4wMTkuMjg5LjAyLjI5LjAyNi4zMTMuMDQxLjM3My4wNi40MzEuMS40MzEuMTI0LjQzMS4xMzEuNDE0LjEzMS4zODUuMTMxLjM2My4xMjEuMzI0LjExNC4yOTNMLjA4Ni4xODVhMS45NjUgMS45NjUgMCAwMC0uMDItLjA4Mi45NzUuOTc1IDAgMDEtLjAxOC0uMDc4Qy4wNDguMDExLjA1OSAwIC4wNzQgMGMuMDExIDAgLjAzLjAwNy4wMzYuMDI3bC4wNDYuMTgyLjAxNi4wNjVhLjkxLjkxIDAgMDEuMDExLjA0M2MuMDAzLjAwOS4wMy4wNTguMDU1LjA4YS4xMTQuMTE0IDAgMDAuMDc5LjAzNC4wNzguMDc4IDAgMDAuMDQ1LS4wMTJ6Ii8+PC9zeW1ib2w+PHN5bWJvbCBpZD0iZSI+PHBhdGggZD0iTS4zMjEuNjM2Qy4zMy42NzMuMzM0LjY3NS4zNzMuNjc1aC4wNzJjLjA4NiAwIC4xNS0uMDI2LjE1LS4xMDRDLjU5NS41Mi41NjkuMzczLjM2OC4zNzNILjI1NWwuMDY2LjI2M00uNDYuMzYxYy4xMjQuMDI3LjIyMS4xMDcuMjIxLjE5MyAwIC4wNzgtLjA3OS4xNS0uMjE4LjE1SC4xOTJjLS4wMiAwLS4wMjkgMC0uMDI5LS4wMTkgMC0uMDEuMDA3LS4wMS4wMjYtLjAxLjA2IDAgLjA2LS4wMDguMDYtLjAxOSAwLS4wMDIgMC0uMDA4LS4wMDQtLjAyM0wuMTEuMDk1Qy4xMDEuMDYuMDk5LjA1LjAzLjA1LjAwNy4wNSAwIC4wNSAwIC4wMzFjMC0uMDEuMDExLS4wMS4wMTQtLjAxbC4wNTguMDAySC4xOUwuMjQ3LjAyMWMuMDA4IDAgLjAxOSAwIC4wMTkuMDE5IDAgLjAxLS4wMDkuMDEtLjAyNC4wMUMuMTgxLjA1LjE4MS4wNTguMTgxLjA2OGwuMDAyLjAxNi4wNjcuMjY5aC4xMkMuNDY1LjM1My40ODMuMjkzLjQ4My4yNkEuNDg0LjQ4NCAwIDAwLjQ2Ni4xOEMuNDU1LjEzNC40NTIuMTIzLjQ1Mi4xMDQuNDUyLjAzMy41MSAwIC41NzcgMGMuMDgxIDAgLjExNi4wOTkuMTE2LjExMyAwIC4wMDctLjAwNS4wMS0uMDExLjAxQy42NzQuMTIzLjY3Mi4xMTcuNjcuMTA5LjY0Ni4wMzguNjA1LjAyLjU4LjAyLjU1NS4wMi41MzkuMDMxLjUzOS4wNzZjMCAuMDI0LjAxMi4xMTUuMDEzLjEyLjAwNS4wMzcuMDA1LjA0MS4wMDUuMDQ5Qy41NTcuMzE4LjQ5OC4zNDkuNDYuMzYxeiIvPjwvc3ltYm9sPjx1c2UgeGxpbms6aHJlZj0iI2QiIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSAzNC4wODIgMzAuOTYzKSIgZmlsbD0iIzIzMWYyMCIvPjx1c2UgeGxpbms6aHJlZj0iI2UiIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSA0OC4zMjIgNjcuNTk0KSIgZmlsbD0iIzIzMWYyMCIvPjwvZz48L3N2Zz4=</file>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<ol class="HELM_parts">
+<li><p>Using the hint, <span>\(\dfrac{\theta}{2\pi}=\dfrac{A}{\pi r^2}\)</span>&nbsp;and from here we obtain \(A=\dfrac{\pi r^2\theta}{2\pi}=\dfrac{r^2\theta}{2}\)</p></li>
+<li><p>With \(\theta\) in radians the shaded area is \(S=\dfrac{R^2\theta}{2}-\dfrac{r^2\theta}{2}=\dfrac{\theta}{2} (R^2-r^2)\)</p></li>
+<li><p>If \(\theta\) is in degrees, then the proportion of the circle is \(\dfrac{\theta}{360^\circ}\) and we multiply this by the area of the the larger circle minus the smaller circle to give \(S=\dfrac{\pi\theta^\circ}{360^\circ}(R^2-r^2)\)</p></li>
+</ol>]]></text>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020120600</text>
+    </stackversion>
+    <questionvariables>
+      <text>ta1: theta*r^2/2;
+ta2: theta/2*(R^2 - r^2);
+ta3: pi*theta/360*(R^2 - r^2)</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text/>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>ta2</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>algebraic</type>
+      <tans>ta3</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p><br><span class="math inline"></span></p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>ta3</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta3</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>x^2*theta/2</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>x^2/2</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>x^2/2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt3-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

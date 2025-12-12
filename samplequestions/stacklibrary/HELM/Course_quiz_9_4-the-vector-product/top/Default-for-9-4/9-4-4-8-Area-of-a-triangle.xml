@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>9.4.4.8 Area of a triangle</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p><p>The area of the triangle with vertices at the points with coordinates <span class="math inline">\(({@a1@},2,{@a3@})\)</span>, <span class="math inline">\(({@b1@},-3,{@b3@})\)</span> and <span class="math inline">\(({@c1@},1,{@c3@})\) is:</span></p><p>[[input:ans1]] units\(^2\)&nbsp;(please give your answer to one decimal place). [[validation:ans1]][[feedback:prt1]]<br></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>As you checked in a previous example, the area of a triangle \(A_T\) defined by 3 points \(A\),&nbsp;\(B\) and&nbsp;\(C\) is given by: \(A_T = \dfrac{1}{2}|\overrightarrow{AB}\times \overrightarrow{AC}|\). If we define&nbsp;&nbsp;\(A=({@a1@},2,{@a3@})\),&nbsp;\(B=({@b1@},-3,{@b3@})\)&nbsp;and&nbsp;\(C=({@c1@},1,{@c3@})\), then, we have that \(&nbsp;\overrightarrow{AB} = {@b1-a1@} \underline{i} -5\underline{j} + {@b3-a3@}\underline{k} \) and&nbsp;\(&nbsp;\overrightarrow{AC} = {@c1-a1@} \underline{i} -\underline{j} + {@c3-a3@}\underline{k}&nbsp;\), thus:</p><p>\(\begin{aligned} \overrightarrow{AB}\times \overrightarrow{AC} &amp;=&nbsp;\left| \begin{matrix} \underline{i} &amp; \underline{j} &amp; \underline{k} \\ {@b1-a1@} &amp; -5 &amp; {@b3-a3@} \\ {@c1-a1@} &amp; -1 &amp; {@c3-a3@} \\ \end{matrix}&nbsp;\right| \\ &amp; =&nbsp;\underline{i}((-5)({@c3-a3@})-({@b3-a3@})(-1)) - \underline{j}(({@b1-a1@})({@c3-a3@})-({@b3-a3@})({@c1-a1@})) + \underline{k}(({@b1-a1@})(-1)-(-5)({@c1-a1@})) \\ &amp; = &nbsp;{@4*a3 +b3 -5*c3@}\underline{i}-({@(b1-a1)*(c3-a3) - (c1-a1)*(b3-a3)@})\underline{j} +({@5*c1 -b1 -4*a1@})\underline{k} \end{aligned}\).<br></p><p>Thus:</p><p>\(&nbsp;A_T = \dfrac{1}{2}|\overrightarrow{AB}\times \overrightarrow{AC}| =&nbsp;\dfrac{1}{2} \sqrt{({@4*a3 +b3 -5*c3@})^2 + (-({@(b1-a1)*(c3-a3) - (c1-a1)*(b3-a3)@}))^2 + ({@5*c1 -b1 -4*a1@})^2} =&nbsp;{@ta@}&nbsp; \)</p>In conclusion,the area of the triangle with vertices at the points with coordinates \(({@a1@},2,{@a3@})\), \(({@b1@},-3,{@b3@})\) and \(({@c1@},1,{@c3@})\) is {@ta@} units\(^2\).<br>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020120600</text>
+    </stackversion>
+    <questionvariables>
+      <text>a1: 2 + rand(3);
+a3: 2 + rand(3);
+b1: 8 + rand(4);
+b3: 8 + rand(4);
+c1: 8 + rand(4);
+c3: 8 + rand(4);
+ta_prev: sqrt((4*a3 +b3 -5*c3)^2 + ((b1-a1)*(c3-a3) - (c1-a1)*(b3-a3))^2 + (5*c1 -b1 -4*a1)^2)/2;
+ta: 0.1*round(ta_prev*10);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>The area of the triangle with vertices at the points with coordinates \(({@a1@},2,{@a3@})\), \(({@b1@},-3,{@b3@})\) and \(({@c1@},1,{@c3@})\) is {@ta@} units\(^2\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>numerical</type>
+      <tans>ta</tans>
+      <boxsize>4</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>-</forbidwords>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>maxdp:1</options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>ans1</sans>
+        <tans>ta</tans>
+        <testoptions>1</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>752212846</deployedseed>
+    <deployedseed>886008112</deployedseed>
+    <deployedseed>1562199388</deployedseed>
+    <deployedseed>1572791435</deployedseed>
+    <deployedseed>1316779509</deployedseed>
+    <deployedseed>1322767625</deployedseed>
+    <deployedseed>1757028178</deployedseed>
+    <deployedseed>476249521</deployedseed>
+    <deployedseed>653989543</deployedseed>
+    <deployedseed>609354042</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

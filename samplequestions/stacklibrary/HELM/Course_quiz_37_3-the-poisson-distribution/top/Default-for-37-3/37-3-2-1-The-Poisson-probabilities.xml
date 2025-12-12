@@ -1,0 +1,576 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>37.3.2.1 The Poisson probabilities</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p><br></p><p>Using the Poisson distribution <span class="math inline">\(\text{P}(X=r)=e^{-\lambda}\dfrac{\lambda^r}{r!}\)</span>&nbsp;to calculate <span class="math inline">\(\text{P}(X=r)\)</span>&nbsp;for \(r=0,\ldots,5\)&nbsp;when <span class="math inline">\(\lambda={@lambda@}\).</span></p><p>Give your answers to 4 decimal places.</p><table style="text-align: center;">
+<thead>
+<tr>
+<th scope="col" style="text-align: center;"><span style="font-weight: normal;">\(\text{P}(X = 0) = \)</span></th>
+<th scope="col" style="text-align: center;"><span style="font-weight: normal;">[[input:ans1]] [[validation:ans1]]&nbsp;[[feedback:prt1]]</span></th>
+</tr>
+</thead>
+<tbody>
+
+<tr>
+<td style="text-align: center;">\(\text{P}(X = 1) = \)</td>
+<td style="text-align: center;">[[input:ans2]] [[validation:ans2]]&nbsp;[[feedback:prt2]]</td>
+</tr>
+<tr>
+<td style="text-align: center;">\(\text{P}(X = 2) = \)</td>
+<td style="text-align: center;">[[input:ans3]] [[validation:ans3]]&nbsp;[[feedback:prt3]]</td>
+</tr>
+<tr>
+<td style="text-align: center;">\(\text{P}(X = 3) = \)</td>
+<td style="text-align: center;">[[input:ans4]] [[validation:ans4]]&nbsp;[[feedback:prt4]]</td>
+</tr>
+<tr>
+<td style="text-align: center;">\(\text{P}(X = 4) = \)</td>
+<td style="text-align: center;">[[input:ans5]] [[validation:ans5]]&nbsp;[[feedback:prt5]]</td>
+</tr><tr>
+<td style="text-align: center;">&nbsp;\(\text{P}(X = 5) = \)</td>
+<td style="text-align: center;">[[input:ans6]] [[validation:ans6]]&nbsp;[[feedback:prt6]]</td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: center;"><br></p><br>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<br><table style="text-align: center;">
+<thead>
+<tr>
+<th scope="col" style="text-align: center;"><span style="font-weight: normal;">\(\text{P}(X = 0) = \)</span></th><th scope="col" style="text-align: center;"><span style="font-weight: normal;">{@tans1@}&nbsp;</span></th>
+</tr>
+</thead>
+<tbody>
+
+<tr>
+<td style="text-align: center;">\(\text{P}(X = 1)&nbsp;=&nbsp;\)</td>
+<td style="text-align: center;">{@tans2@}</td>
+</tr>
+<tr>
+<td style="text-align: center;">\(\text{P}(X = 2)&nbsp;=&nbsp;\)</td>
+<td style="text-align: center;">{@tans3@}</td>
+</tr>
+<tr>
+<td style="text-align: center;">\(\text{P}(X = 3)&nbsp;=&nbsp;\)</td>
+<td style="text-align: center;">{@tans4@}</td>
+</tr>
+<tr>
+<td style="text-align: center;">\(\text{P}(X = 4)&nbsp;=&nbsp;\)</td>
+<td style="text-align: center;">{@tans5@}</td>
+</tr>
+<tr>
+<td style="text-align: center;">\(\text{P}(X = 5)&nbsp;=&nbsp;\)</td>
+<td style="text-align: center;">{@tans6@}</td>
+</tr>
+</tbody>
+</table><p><br></p><p>Notice how the values for <span class="math inline">\(\text{P}(X=r)\)</span> in the above answer increase, stay the same and then decrease relatively rapidly (due to the significant increase in <span class="math inline">\(r!\)</span> with increasing <span class="math inline">\(r\)</span>). Here two of the probabilities are equal and this will always be the case when <span class="math inline">\(\lambda\)</span> is an integer.&nbsp;</p><p>In this exercise we only went up to <span class="math inline">\(\text{P}(X=5)\)</span> and calculated each entry separately. However, each probability need not be calculated directly. We can use the following relations (which can be checked from the formulae for <span class="math inline">\(\text{P}(X=r)\)</span>&nbsp;to get the next probability from the previous one:&nbsp;</p><p><span class="math inline">\(\qquad \text{P}(X=1)=\dfrac{\lambda}{1}\ \text{P}(X=0)\ ,\ \ \ \text{P}(X=2)=\dfrac{\lambda}{2}\text{P}(X=1),\ \ \ \ \ \text{P}(X=3)=\frac{\lambda}{3}\ \text{P}(X=2)\ ,\ \text{etc.}\)</span></p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021072200</text>
+    </stackversion>
+    <questionvariables>
+      <text>lambda: 2 + rand(4);   
+/*WARNING lambda = 3 is a worked example in the corresponding information question*/
+
+L: makelist( pdf_poisson(x,lambda), x, 0, 5);
+tans1: decimalplaces(float(L[1]),4);
+tans2: decimalplaces(float(L[2]),4);
+tans3: decimalplaces(float(L[3]),4);
+tans4: decimalplaces(float(L[4]),4);
+tans5: decimalplaces(float(L[5]),4);
+tans6: decimalplaces(float(L[6]),4);
+
+/*OLD CODE*/
+/*tans1: decimalplaces(((%e)^-lambda), 4)
+tans2: decimalplaces(((%e)^-lambda)* lambda, 4)
+tans3: decimalplaces(((%e)^-lambda)* (lambda^2)/2, 4)
+tans4: decimalplaces(((%e)^-lambda)* (lambda^3)/6, 4)
+tans5: decimalplaces(((%e)^-lambda)* (lambda^4)/24, 4)
+tans6: decimalplaces(((%e)^-lambda)* (lambda^5)/120, 4)
+*/</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\(\lambda\) = {@lambda@}, \(\text{P}(X=0)\)= {@tans1@}, \(\text{P}(X=1)\)= {@tans2@}, \(\text{P}(X=2)\)= {@tans3@}, \(\text{P}(X=3)\)= {@tans4@}, \(\text{P}(X=4)\)= {@tans5@}, \(\text{P}(X=5)\)= {@tans6@}</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>numerical</type>
+      <tans>tans1</tans>
+      <boxsize>8</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>to 4 d.p.</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords>,</forbidwords>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>maxdp:4, mindp:4</options>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>numerical</type>
+      <tans>tans2</tans>
+      <boxsize>8</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>to 4 d.p.</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords>,</forbidwords>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>maxdp:4, mindp:4</options>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>numerical</type>
+      <tans>tans3</tans>
+      <boxsize>8</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>to 4 d.p.</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords>,</forbidwords>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>maxdp:4, mindp:4</options>
+    </input>
+    <input>
+      <name>ans4</name>
+      <type>numerical</type>
+      <tans>tans4</tans>
+      <boxsize>8</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>to 4 d.p.</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords>,</forbidwords>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>maxdp:4, mindp:4</options>
+    </input>
+    <input>
+      <name>ans5</name>
+      <type>numerical</type>
+      <tans>tans5</tans>
+      <boxsize>8</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>to 4 d.p.</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords>,</forbidwords>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>maxdp:4, mindp:4</options>
+    </input>
+    <input>
+      <name>ans6</name>
+      <type>numerical</type>
+      <tans>tans6</tans>
+      <boxsize>8</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>to 4 d.p.</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords>,</forbidwords>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>maxdp:4, mindp:4</options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>ans1</sans>
+        <tans>tans1</tans>
+        <testoptions>4</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>ans2</sans>
+        <tans>tans2</tans>
+        <testoptions>4</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>ans3</sans>
+        <tans>tans3</tans>
+        <testoptions>4</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt4</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>ans4</sans>
+        <tans>tans4</tans>
+        <testoptions>4</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt4-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt4-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt5</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>ans5</sans>
+        <tans>tans5</tans>
+        <testoptions>4</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt5-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt5-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt6</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>ans6</sans>
+        <tans>tans6</tans>
+        <testoptions>4</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt6-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt6-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>210116959</deployedseed>
+    <deployedseed>378848015</deployedseed>
+    <deployedseed>1933146725</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>tans1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>tans2</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>tans3</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>tans4</value>
+      </testinput>
+      <testinput>
+        <name>ans5</name>
+        <value>tans5</value>
+      </testinput>
+      <testinput>
+        <name>ans6</name>
+        <value>tans6</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt4-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt5</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt5-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt6</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt6-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(tans1+1,simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ev(tans2+1,simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ev(tans3+1,simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>ev(tans4+1,simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans5</name>
+        <value>ev(tans5+1,simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans6</name>
+        <value>ev(decimalplaces(tans6+1,4),simp)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt4-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt5</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt5-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt6</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt6-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

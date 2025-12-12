@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>36.1.6.4 Exercise 3 - Average over 2 samples</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>A lecturer gives a science test to two classes and calculates the results as follows:</p>
+<ul><li>Class \(A\) - average mark \({@x@}\%\)</li>
+<li>Class \(B\) - average mark \({@y@}\%\)</li></ul>For each of the following questions, report your answer to the nearest percent.<br><br>
+<ol class="HELM_parts">
+<li><p>Suppose Class \(A\) has \({@a@}\) students and Class \(B\) has \({@aa@}\) students. 
+</p><p>The average mark over the two classes = [[input:ans1]] [[validation:ans1]] \(\%\) [[feedback:prt1]]</p>
+<p>Syntax hint: If the answer is, say \(30 \%\), then enter \(30\).</p></li>
+<li><p>Suppose Class \(A\) has \({@a@}\) students and Class \(B\) has \({@b@}\) students. 
+</p><p>The average mark over the two classes = [[input:ans2]] [[validation:ans2]] \(\%\) [[feedback:prt2]]</p></li>
+<li><p>Suppose Class \(A\) and Class \(B\) have the same number of students. 
+</p><p>The average mark over the two classes = [[input:ans3]] [[validation:ans3]] \(\%\) [[feedback:prt3]]</p></li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<ol class="HELM_parts">
+    <li>
+      <p>The sum of the marks of all students in Class \(A\) is \({@a@} \times {@x@} \%\). Similarly, the sum of the marks of all students in Class \(B\) is \({@aa@} \times {@y@} \%\). Hence, the average mark to the nearest percent over the two classes is
+    \[ \dfrac{{@a@} \times {@x@} \% + {@aa@} \times {@y@} \%}{{@a@}+{@aa@}} =&nbsp; {@decimalplaces(av1,3)@} \%,\] which is \({@ta1@}\%\) to the nearest percent.</p>
+  </li>
+  <li>
+    <p>The sum of the marks of all students in Class \(A\) is \({@a@} \times {@x@} \%\). Similarly, the sum of the marks of all students in Class \(B\) is \({@b@} \times {@y@} \%\). Hence, the average mark to the nearest percent over the two classes is \[
+    \dfrac{{@a@} \times {@x@} \% + {@b@} \times {@y@} \%}{{@a@}+{@b@}} = {@decimalplaces(av2,3)@} \%,\] which is \({@ta2@}\%\) to the nearest percent.</p>
+  </li>
+  <li>
+    <p>Suppose Class \(A\) has \(n\) students and so does Class \(B\). The sum of the marks of all students in Class \(A\) is \(n \times {@x@} \%\). Similarly, the sum of the marks of all students in Class \(B\) is \(n \times {@y@} \%\). Hence, the average
+    mark over the two classes is \[ \dfrac{n \times {@x@} \% + n \times {@y@} \%}{n+n} = \dfrac{n \times ({@x@} \%+{@y@} \%)}{2n} =\dfrac{{@x@} \%+{@y@} \%}{2} = {@ta3@} \%.\]</p>
+<p>Note that the answers for (a) and (c) are the same. That is, when Class \(A\) and Class \(B\) have the same number of students, the answer is independent of the class sizes, and is given by \[ \dfrac{{@x@} \%+{@y@} \%}{2} = {@ta3@} \%.\]</p>
+  </li>
+</ol>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021072200</text>
+    </stackversion>
+    <questionvariables>
+      <text>a:rand([20,25,30]);
+aa:a-5;
+b:rand([50,55,60]);
+x:rand([34,36,38]);
+y:rand([40,42,44]);
+av1: float((a*x+aa*y)/(a+aa));
+av2:float((a*x+b*y)/(a+b));
+ta1:rationalize(decimalplaces(av1,0));
+ta2:rationalize(decimalplaces(av2,0));
+ta3:(x+y)/2;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\[A = {@x@}\%, \quad B ={@y@}\% \]
+\[ \dfrac{{@a@} \times {@x@} + {@aa@} \times {@y@}}{{@a@}+{@aa@}} = {@decimalplaces(float(av1),2)@} = {@ta1@}, \quad \dfrac{{@a@} \times {@x@} + {@b@} \times {@y@}}{{@a@}+{@b@}} = {@decimalplaces(float(av2),2)@} = {@ta2@}, \frac{x+y}{2} = {@ta3@}\]</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>numerical</type>
+      <tans>ta1</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>numerical</type>
+      <tans>ta2</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>numerical</type>
+      <tans>ta3</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions>2</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>ta3</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>273223100</deployedseed>
+    <deployedseed>2023152754</deployedseed>
+    <deployedseed>271480207</deployedseed>
+    <deployedseed>484160731</deployedseed>
+    <deployedseed>2004032693</deployedseed>
+    <deployedseed>1224351379</deployedseed>
+    <deployedseed>338769291</deployedseed>
+    <deployedseed>165171661</deployedseed>
+    <deployedseed>2134611134</deployedseed>
+    <deployedseed>642217134</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta3</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(ta1+1,simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ev(ta2+1,simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ev(ta3+1,simp)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt3-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

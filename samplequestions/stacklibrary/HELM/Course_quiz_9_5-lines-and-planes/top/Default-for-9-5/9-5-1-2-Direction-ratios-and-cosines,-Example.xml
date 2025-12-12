@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>9.5.1.2 Direction ratios and cosines, Example</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4 class="HELM_example">Example</h4>
+<p>Point <span class="math inline">\(A\)</span> has coordinates <span class="math inline">\((3,5)\)</span>, and point <span class="math inline">\(B\)</span> has coordinates <span class="math inline">\((7,8)\)</span>.</p>
+<ol class="HELM_parts_inline">
+<p></p><li>Write down the vector <span class="math inline">\(\overrightarrow{AB}\)</span>.</li><p></p>
+<p></p><li>Find the direction ratio of the vector <span class="math inline">\(\overrightarrow{AB}\)</span>.</li><p></p>
+<p></p><li>Find its direction cosines, <span class="math inline">\(\ell\)</span> and <span class="math inline">\(m\)</span>.</li><p></p>
+<p></p><li>Show that <span class="math inline">\(\ell^2+m^2=1.\)</span></li><p></p>
+</ol>
+
+<h4 class="HELM_solution">Solution</h4>
+<ol class="HELM_parts_inline">
+<p></p><li><span class="math inline">\(\overrightarrow{AB}=\underline{b}-\underline{a}
+=4\underline{ i}+3\underline{ j}\)</span>.</li><p></p>
+<p></p><li>The direction ratio of <span class="math inline">\(\overrightarrow{AB}\)</span> is therefore 4:3.</li><p></p>
+<p></p><li>The direction cosines are \(\ell= \dfrac{4}{\sqrt{4^2+3^2}} =\dfrac{4}{5},\: m = \dfrac{3}{\sqrt{4^2+3^2}} = \dfrac{3}{5}.\)</li><p></p>
+<p></p><li><span class="math inline">\(\ell^2+m^2=\left(\dfrac{4}{5}\right)^2 +
+\left(\dfrac{3}{5}\right)^2 = \dfrac{16}{25}+\dfrac{9}{25}=\dfrac{25}{25}=1.\)</span></li><p></p>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

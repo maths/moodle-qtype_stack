@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>27.4.4.4 Volume of a Torus</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>A torus (doughnut) has major radius \(R\) and minor radius \(r\). Using the transformation </p>
+<p> \(\qquad \displaystyle x=(R + \tau \cos \alpha) \cos \theta \, \), \(y=(R + \tau \cos \alpha) \sin \theta \, \), \(z=\tau \sin \alpha \, \), </p>
+<p> find the volume of the torus, shown in the figure below. </p>
+<p> [Hint 1: the limits on \(\alpha\) and \(\theta\) are \(0\) to \(2\pi\), and the limits on \(\tau\) are \(0\) to \(r\).] </p>
+<p> [Hint 2: the Jacobian is \(\tau(R + \tau \cos \alpha)\)]
+
+&nbsp;</p><p><img src="@@PLUGINFILE@@/27-4-figure-torus.svg" alt="The described torus" width="396" height="198" class="img-fluid atto_image_button_text-bottom"><br></p>
+
+<p> Volume \(= \) [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</p>
+<p> [Note: leave your answer in terms of \(\pi, R, \, \text{and} \, r\), which can be entered as <code>pi</code>, <code>R</code>, and <code>r</code> respectively.]</p>]]></text>
+<file name="27-4-figure-torus.svg" path="/" encoding="base64">PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMzk2LjM2IiBoZWlnaHQ9IjE5Ny44OTIiIHZpZXdCb3g9IjAgMCAyOTcuMjcgMTQ4LjQxOSI+PGcgZGF0YS1uYW1lPSJEb2N1bWVudCI+PHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjMxZjIwIiBkPSJNMTkyIDk5LjgyaDkzLjI3NyIvPjxwYXRoIGQ9Ik0yODcuMTY3IDk5Yy0xLjMyMi0uNC0yLjE4My0uNzY4LTMuMjQzLTEuMTkzdjQuMDM1Yy4zOC0uMTggMS45MjEtLjc5NCAzLjI0My0xLjE5NCAxLjQxNS0uNDI3IDIuNy0uNzIgMy41MzItLjgyNC0uODMyLS4xMDQtMi4xMTctLjM5Ny0zLjUzMi0uODI0IiBmaWxsPSIjMjMxZjIwIi8+PHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjMxZjIwIiBkPSJNMTQwLjQ3OCAxNDguNDE5VjEwLjgyIi8+PHBhdGggZD0iTTEzOS42NTcgOC45M2MtLjM5OSAxLjMyMy0uNzY2IDIuMTgzLTEuMTkyIDMuMjQ0aDQuMDM1Yy0uMTgtLjM4LS43OTQtMS45MjEtMS4xOTMtMy4yNDQtLjQyOC0xLjQxNS0uNzIxLTIuNjk5LS44MjUtMy41MzItLjEwNC44MzMtLjM5NiAyLjExNy0uODI1IDMuNTMyIiBmaWxsPSIjMjMxZjIwIi8+PHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjMxZjIwIiBkPSJtMTA4LjUyMSAxMjQuNzI5IDExNy41NDEtOTQuNzExIi8+PHBhdGggZD0iTTIyNy4yNTcgMjcuNzM4Yy0xLjYwMS42NDktMi43MjYuOTY1LTQuMDkyIDEuMzgybDMuMTY0IDMuOTI4Yy4yMjktLjQ3MyAxLjI0OC0yLjI3OSAyLjIyMi0zLjcwNSAxLjA0Mi0xLjUyNyAyLjA2MS0yLjgxOCAyLjc5MS0zLjU3My0uODkyLjU1MS0yLjM3MSAxLjI3NC00LjA4NSAxLjk2OCIgZmlsbD0iIzIzMWYyMCIvPjxjbGlwUGF0aCBpZD0iYSI+PHBhdGggdHJhbnNmb3JtPSJtYXRyaXgoMSAwIDAgLTEgMCAxNDguNDE5KSIgZD0iTS4wNiAxNDguNDE5aDI5Ny4yMVYwSC4wNnoiLz48L2NsaXBQYXRoPjxnIGNsaXAtcGF0aD0idXJsKCNhKSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjMxZjIwIj48cGF0aCBkPSJNMjY3IDk3Ljc5N2MwIDIyLjM2OC0xOC4xMzMgNDAuNS00MC41IDQwLjVzLTQwLjUtMTguMTMyLTQwLjUtNDAuNWMwLTIyLjM2NyAxOC4xMzMtNDAuNSA0MC41LTQwLjVTMjY3IDc1LjQzIDI2NyA5Ny43OTd6bS0xNzMgMGMwIDIyLjM2OC0xOC4xMzMgNDAuNS00MC41IDQwLjUtMjIuMzY4IDAtNDAuNS0xOC4xMzItNDAuNS00MC41IDAtMjIuMzY3IDE4LjEzMi00MC41IDQwLjUtNDAuNSAyMi4zNjcgMCA0MC41IDE4LjEzMyA0MC41IDQwLjV6TTMxLjI5OSA2My4yMzljMjIuNzE5LTEzLjc5MiA2Mi42MTQtMjIuOTQyIDEwOC4wMzUtMjIuOTQyIDQ0LjE2NSAwIDgzLjEwNiA4LjY1MSAxMDYuMTEyIDIxLjgwOU04My42MjQgMTI1Ljg4M2MxMC40LTExLjAxNiAzMS45NjMtMTguNTg2IDU2Ljg3Ni0xOC41ODYgMjQuNTM5IDAgNDUuODI3IDcuMzQ0IDU2LjM5OSAxOC4wOTIiLz48cGF0aCBkPSJNMTkyIDk5LjgySDBtMjQ0LTIwLjUyMy0xNy41IDIwLjUgMjMuNSAyMC41Ii8+PC9nPjxwYXRoIGQ9Ik0yNTIuNDUzIDEyMS4wNzhjLS45MTctMS40NjQtMS40MjUtMi41MTctMi4wNzQtMy43ODlsLTMuMzE2IDMuODAxYy41MDYuMTQyIDIuNDYxLjgzIDQuMDM2IDEuNTQxIDEuNjg0Ljc2IDMuMTM0IDEuNTM5IDQuMDA0IDIuMTI1LS42OTktLjc4Mi0xLjY2Ny0yLjExMi0yLjY1LTMuNjc4TTI0NC43NTQgNzYuODM1Yy0xLjQ1My45MzQtMi41MDEgMS40NTMtMy43NjcgMi4xMTZsMy44MzcgMy4yNzVjLjEzNi0uNTA4LjgwNC0yLjQ3MSAxLjQ5Ny00LjA1Mi43NDItMS42OTMgMS41MDYtMy4xNTEgMi4wODItNC4wMjctLjc3NC43MDctMi4wOTQgMS42ODktMy42NDkgMi42ODgiIGZpbGw9IiMyMzFmMjAiLz48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiMyMzFmMjAiIGQ9Ik0yMjcuNSA3OC43OTd2MzhtLTE3My0zM3YzOG04NS41LTguNWg3OCIvPjxwYXRoIGQ9Ik0yMjAuMzYxIDExMi4yNzJjLTEuNjUyLS40OTktMi43MjctLjk1OS00LjA1My0xLjQ5MXY1LjA0NGMuNDc0LS4yMjUgMi40MDEtLjk5MiA0LjA1My0xLjQ5MiAxLjc3LS41MzQgMy4zNzUtLjkgNC40MTUtMS4wMy0xLjA0LS4xMzEtMi42NDUtLjQ5Ni00LjQxNS0xLjAzMU0xNDAgMTAwLjI5N2wzNS0xOCIgZmlsbD0iIzIzMWYyMCIvPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzIzMWYyMCIgZD0ibTE0MCAxMDAuMjk3IDM1LTE4Ii8+PHBhdGggZD0iTTE3Ni42MzIgODAuMzA2Yy0xLjY5OS4zMTItMi44NjUuMzk0LTQuMjg4LjUyN2wyLjMwNyA0LjQ4NmMuMzE5LS40MTcgMS42ODEtMS45ODEgMi45MjMtMy4xOCAxLjMyOS0xLjI4NSAyLjU4OS0yLjM0NCAzLjQ1NC0yLjkzNi0uOTg0LjM2LTIuNTc5Ljc2OS00LjM5NiAxLjEwMyIgZmlsbD0iIzIzMWYyMCIvPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzIzMWYyMCIgZD0iTTIzNi44NjUgODcuNzI3YTE0LjQ2OCAxNC40NjggMCAwIDEgNS4wODkgMTIuMjM3bS04OC4zMjItNi42NTdBMTQuNDM2IDE0LjQzNiAwIDAgMSAxNTUgOTkuNDY0Ii8+PHN5bWJvbCBpZD0iYiI+PHBhdGggZD0iTS40NDYuNDE4Qy40MTQuNDEyLjQwMi4zODguNDAyLjM2OWMwLS4wMjQuMDE5LS4wMzIuMDMzLS4wMzIuMDMgMCAuMDUxLjAyNi4wNTEuMDUzIDAgLjA0Mi0uMDQ4LjA2MS0uMDkuMDYxQy4zMzUuNDUxLjMwMS4zOTEuMjkyLjM3MmEuMTA0LjEwNCAwIDAgMS0uMTAzLjA3OUMuMDg3LjQ1MS4wMzMuMzIuMDMzLjI5OGMwLS4wMDQuMDA0LS4wMDkuMDExLS4wMDkuMDA4IDAgLjAxLjAwNi4wMTIuMDEuMDM0LjExMS4xMDEuMTMyLjEzLjEzMkMuMjMxLjQzMS4yNC4zODkuMjQuMzY1LjI0LjM0My4yMzQuMzIuMjIyLjI3MkwuMTg4LjEzNUMuMTczLjA3NS4xNDQuMDIuMDkxLjAyLjA4Ni4wMi4wNjEuMDIuMDQuMDMzYS4wNTIuMDUyIDAgMCAxIC4wNDQuMDQ5YzAgLjAyLS4wMTUuMDMyLS4wMzQuMDMyQS4wNTIuMDUyIDAgMCAxIDAgLjA2MUMwIC4wMTkuMDQ3IDAgLjA5IDBjLjA0OCAwIC4wODIuMDM4LjEwMy4wNzlBLjEwNS4xMDUgMCAwIDEgLjI5NiAwYy4xMDIgMCAuMTU2LjEzMS4xNTYuMTUzIDAgLjAwNS0uMDA0LjAwOS0uMDEuMDA5Qy40MzMuMTYyLjQzMi4xNTcuNDI5LjE0OS40MDIuMDYxLjM0NC4wMi4yOTkuMDIuMjY0LjAyLjI0NS4wNDYuMjQ1LjA4N2MwIC4wMjIuMDA0LjAzOC4wMi4xMDRMLjMuMzI3Yy4wMTUuMDYuMDQ5LjEwNC4wOTUuMTA0LjAwMiAwIC4wMyAwIC4wNTEtLjAxM3oiLz48L3N5bWJvbD48dXNlIHhsaW5rOmhyZWY9IiNiIiB0cmFuc2Zvcm09Im1hdHJpeCg5LjU2NCAwIDAgLTkuNTY0IDI5Mi4yMiAxMDYuMTYpIiBmaWxsPSIjMjMxZjIwIi8+PHN5bWJvbCBpZD0iYyI+PHBhdGggZD0iTS4yMzYuMDkyQy4yMDkuMDU0LjE3LjAyLjEyMS4wMi4xMDkuMDIuMDYxLjAyMi4wNDYuMDY4bC4wMS0uMDAxYy4wMyAwIC4wNS4wMjYuMDUuMDQ5IDAgLjAyMy0uMDE5LjAzMS0uMDM0LjAzMUMuMDU2LjE0Ny4wMjEuMTM1LjAyMS4wODYuMDIxLjAzNS4wNjQgMCAuMTIxIDBjLjEgMCAuMjAxLjA5Mi4yMjkuMjAzbC4wOTguMzlDLjQ0OS41OTguNDUxLjYwNC40NTEuNjFjMCAuMDE1LS4wMTIuMDI1LS4wMjcuMDI1Qy40MTUuNjM1LjM5NC42MzEuMzg2LjYwMUwuMzEyLjMwN0MuMzA3LjI4OS4zMDcuMjg3LjI5OS4yNzYuMjc5LjI0OC4yNDYuMjE0LjE5OC4yMTQuMTQyLjIxNC4xMzcuMjY5LjEzNy4yOTZjMCAuMDU3LjAyNy4xMzQuMDU0LjIwNi4wMTEuMDI5LjAxNy4wNDMuMDE3LjA2MyAwIC4wNDItLjAzLjA4LS4wNzkuMDhDLjAzNy42NDUgMCAuNSAwIC40OTIgMCAuNDg4LjAwNC40ODMuMDExLjQ4M2MuMDA5IDAgLjAxLjAwNC4wMTQuMDE4LjAyNC4wODQuMDYyLjEyNC4xMDEuMTI0LjAwOSAwIC4wMjYgMCAuMDI2LS4wMzNBLjI3NS4yNzUgMCAwIDAgLjEyNi40OTlDLjA3Ny4zNjguMDc3LjMzNS4wNzcuMzExYzAtLjA5NS4wNjgtLjExNy4xMTgtLjExNy4wMjkgMCAuMDY1LjAwOS4xLjA0NkwuMjk2LjIzOWEuMzgxLjM4MSAwIDAgMC0uMDYtLjE0N3oiLz48L3N5bWJvbD48dXNlIHhsaW5rOmhyZWY9IiNjIiB0cmFuc2Zvcm09InNjYWxlKDkuNTY0IC05LjU2NCkgcm90YXRlKDkuMDY4IDMzLjAxMSAxNTIuNTI4KSIgZmlsbD0iIzIzMWYyMCIvPjxzeW1ib2wgaWQ9ImQiPjxwYXRoIGQ9Ik0uMDg0LjA5MWMuMDQzLjA0OS4wNzguMDguMTI4LjEyNS4wNi4wNTIuMDg2LjA3Ny4xLjA5Mi4wNy4wNjkuMTA1LjEyNy4xMDUuMTM1IDAgLjAwOC0uMDA4LjAwOC0uMDEuMDA4Qy40LjQ1MS4zOTguNDQ3LjM5My40NC4zNjguMzk3LjM0NC4zNzYuMzE4LjM3Ni4yOTcuMzc2LjI4Ni4zODUuMjY3LjQwOS4yNDYuNDM0LjIyOS40NTEuMi40NTEuMTI3LjQ1MS4wODMuMzYuMDgzLjMzOS4wODMuMzM2LjA4NC4zMy4wOTMuMzNjLjAwOCAwIC4wMDkuMDA0LjAxMi4wMTEuMDE3LjA0LjA2NS4wNDcuMDg0LjA0N0EuMTU4LjE1OCAwIDAgMCAuMjUxLjM3MkMuMjg5LjM1Ni4zMDUuMzU2LjMxNS4zNTZsLjAxNi4wMDFDLjI5OC4zMTguMjQ0LjI3LjE5OS4yMjkuMTM1LjE3My4xMTguMTU1LjA5OC4xMzZBLjUuNSAwIDAgMSAwIC4wMDhDMCAuMDAyLjAwNSAwIC4wMTEgMGMuMDA2IDAgLjAwNy4wMDEuMDE0LjAxMy4wMTYuMDI1LjA0OC4wNjIuMDg1LjA2Mi4wMjEgMCAuMDMxLS4wMDcuMDUxLS4wMzJDLjE4LjAyMS4xOTcgMCAuMjI5IDBjLjA5OCAwIC4xNTQuMTI3LjE1NC4xNSAwIC4wMDQtLjAwMS4wMS0uMDExLjAxQy4zNjQuMTYuMzYzLjE1Ni4zNi4xNDZBLjEzMi4xMzIgMCAwIDAgLjI0LjA2M2EuMTU4LjE1OCAwIDAgMC0uMDYyLjAxNkMuMTM4LjA5NS4xMjcuMDk1LjExNC4wOTVjLS4wMSAwLS4wMjEgMC0uMDMtLjAwNHoiLz48L3N5bWJvbD48c3ltYm9sIGlkPSJlIj48cGF0aCBkPSJNLjQyMy4yNjNDLjQyMy4zNi4zNjguNDUxLjI2Mi40NTEuMTMxLjQ1MSAwIC4zMDggMCAuMTY2IDAgLjA3OS4wNTQgMCAuMTU2IDBjLjA2MiAwIC4xMzYuMDI0LjIwNy4wODRDLjM3Ny4wMjguNDA4IDAgLjQ1MSAwYy4wNTQgMCAuMDgxLjA1Ni4wODEuMDY5IDAgLjAwOS0uMDA3LjAwOS0uMDEuMDA5Qy41MTQuMDc4LjUxMy4wNzUuNTEuMDY3LjUwMS4wNDIuNDc4LjAyLjQ1NC4wMi40MjMuMDIuNDIzLjA4NC40MjMuMTQ1YS42LjYgMCAwIDEgLjEyNi4yNDljMCAuMDA5LS4wMDguMDA5LS4wMTEuMDA5Qy41MjkuNDAzLjUyOC40LjUyNC4zODJBLjYyMi42MjIgMCAwIDAgLjQyMy4xNzh2LjA4NU0uMzYuMTA4QS4zMDMuMzAzIDAgMCAwIC4xNTguMDJDLjA4Ny4wMi4wNjcuMDgzLjA2Ny4xM2MwIC4wNDMuMDIyLjE0NS4wNTMuMi4wNDEuMDcuMDk3LjEwMS4xNDIuMTAxQy4zNTkuNDMxLjM1OS4zMDQuMzU5LjIyTC4zNTguMTQ0YzAtLjAyLjAwMS0uMDI1LjAwMi0uMDM2eiIvPjwvc3ltYm9sPjxzeW1ib2wgaWQ9ImYiPjxwYXRoIGQ9Ik0uMjYxLjM4OGguMTY2Yy4wMTMgMCAuMDQ2IDAgLjA0Ni4wMzIgMCAuMDIyLS4wMTkuMDIyLS4wMzcuMDIySC4xNjFjLS4wMjMgMC0uMDU3IDAtLjEwMy0uMDQ5QS4zODguMzg4IDAgMCAxIDAgLjMwNUMwIC4yOTkuMDA1LjI5Ny4wMTEuMjk3LjAxOC4yOTcuMDE5LjMuMDI0LjMwNmMuMDUyLjA4Mi4xMDQuMDgyLjEyOS4wODJoLjA4M0wuMTMyLjA0NUMuMTI3LjAzLjEyNy4wMjguMTI3LjAyNS4xMjcuMDE0LjEzNCAwIC4xNTQgMCAuMTg1IDAgLjE5LjAyNy4xOTMuMDQybC4wNjguMzQ2eiIvPjwvc3ltYm9sPjxzeW1ib2wgaWQ9ImciPjxwYXRoIGQ9Ik0uMzIxLjYzNkMuMzMuNjczLjMzNC42NzUuMzczLjY3NWguMDcyYy4wODYgMCAuMTUtLjAyNi4xNS0uMTA0Qy41OTUuNTIuNTY5LjM3My4zNjguMzczSC4yNTVsLjA2Ni4yNjNNLjQ2LjM2MWMuMTI0LjAyNy4yMjEuMTA3LjIyMS4xOTMgMCAuMDc4LS4wNzkuMTUtLjIxOC4xNUguMTkyYy0uMDIgMC0uMDI5IDAtLjAyOS0uMDE5IDAtLjAxLjAwNy0uMDEuMDI2LS4wMS4wNiAwIC4wNi0uMDA4LjA2LS4wMTkgMC0uMDAyIDAtLjAwOC0uMDA0LS4wMjNMLjExLjA5NUMuMTAxLjA2LjA5OS4wNS4wMy4wNS4wMDcuMDUgMCAuMDUgMCAuMDMxYzAtLjAxLjAxMS0uMDEuMDE0LS4wMWwuMDU4LjAwMkguMTlMLjI0Ny4wMjFjLjAwOCAwIC4wMTkgMCAuMDE5LjAxOSAwIC4wMS0uMDA5LjAxLS4wMjQuMDFDLjE4MS4wNS4xODEuMDU4LjE4MS4wNjhsLjAwMi4wMTYuMDY3LjI2OWguMTJDLjQ2NS4zNTMuNDgzLjI5My40ODMuMjZBLjQ4NC40ODQgMCAwIDAgLjQ2Ni4xOEMuNDU1LjEzNC40NTIuMTIzLjQ1Mi4xMDQuNDUyLjAzMy41MSAwIC41NzcgMGMuMDgxIDAgLjExNi4wOTkuMTE2LjExMyAwIC4wMDctLjAwNS4wMS0uMDExLjAxQy42NzQuMTIzLjY3Mi4xMTcuNjcuMTA5LjY0Ni4wMzguNjA1LjAyLjU4LjAyLjU1NS4wMi41MzkuMDMxLjUzOS4wNzZjMCAuMDI0LjAxMi4xMTUuMDEzLjEyLjAwNS4wMzcuMDA1LjA0MS4wMDUuMDQ5Qy41NTcuMzE4LjQ5OC4zNDkuNDYuMzYxeiIvPjwvc3ltYm9sPjxzeW1ib2wgaWQ9ImgiPjxwYXRoIGQ9Ik0uMzYyLjQxOUMuMzMxLjQxMy4zMTUuMzkxLjMxNS4zNjljMC0uMDI0LjAxOS0uMDMyLjAzMy0uMDMyLjAyOCAwIC4wNTEuMDI0LjA1MS4wNTQgMCAuMDMyLS4wMzEuMDYtLjA4MS4wNkMuMjc4LjQ1MS4yMzIuNDMzLjE5LjM3MmEuMDg2LjA4NiAwIDAgMS0uMDg3LjA3OUMuMDY0LjQ1MS4wNDQuNDIxLjAzMi4zOTlBLjUxNS41MTUgMCAwIDEgMCAuMjk4QzAgLjI5NC4wMDQuMjg5LjAxMS4yODkuMDE5LjI4OS4wMi4yOS4wMjYuMzEzLjA0MS4zNzMuMDYuNDMxLjEuNDMxLjEyNC40MzEuMTMxLjQxNC4xMzEuMzg1LjEzMS4zNjMuMTIxLjMyNC4xMTQuMjkzTC4wODYuMTg1YTEuOTY1IDEuOTY1IDAgMCAwLS4wMi0uMDgyLjk3NS45NzUgMCAwIDEtLjAxOC0uMDc4Qy4wNDguMDExLjA1OSAwIC4wNzQgMGMuMDExIDAgLjAzLjAwNy4wMzYuMDI3bC4wNDYuMTgyLjAxNi4wNjVhLjkxLjkxIDAgMCAxIC4wMTEuMDQzYy4wMDMuMDA5LjAzLjA1OC4wNTUuMDhhLjExNC4xMTQgMCAwIDAgLjA3OS4wMzQuMDc4LjA3OCAwIDAgMCAuMDQ1LS4wMTJ6Ii8+PC9zeW1ib2w+PHN5bWJvbCBpZD0iaSI+PHBhdGggZD0iTS40MDMuNTEzYzAgLjEwMi0uMDMyLjIwMS0uMTE0LjIwMUMuMTQ5LjcxNCAwIC40MjEgMCAuMjAxIDAgLjE1NS4wMSAwIC4xMTUgMGMuMTM2IDAgLjI4OC4yODYuMjg4LjUxM00uMS4zNzJjLjAxNS4wNTkuMDM2LjE0My4wNzYuMjE0LjAzMy4wNi4wNjguMTA4LjExMi4xMDhDLjMyMS42OTQuMzQzLjY2Ni4zNDMuNTdBLjc0NC43NDQgMCAwIDAgLjMxMS4zNzJILjFtLjIwNC0uMDNBLjg0NS44NDUgMCAwIDAgLjIyMi4xMThDLjE5My4wNjcuMTU4LjAyLjExNi4wMi4wODUuMDIuMDYuMDQ0LjA2LjE0M2MwIC4wNjUuMDE2LjEzMy4wMzIuMTk5aC4yMTJ6Ii8+PC9zeW1ib2w+PHVzZSB4bGluazpocmVmPSIjZCIgdHJhbnNmb3JtPSJtYXRyaXgoMTEuOTU1IDAgMCAtMTEuOTU1IDEyOS43MzEgMTAuMTgpIiBmaWxsPSIjMjMxZjIwIi8+PHVzZSB4bGluazpocmVmPSIjZSIgdHJhbnNmb3JtPSJtYXRyaXgoMTEuOTU1IDAgMCAtMTEuOTU1IDIzMi40MzUgOTcuODgpIiBmaWxsPSIjMjMxZjIwIi8+PHVzZSB4bGluazpocmVmPSIjZiIgdHJhbnNmb3JtPSJtYXRyaXgoMTEuOTU1IDAgMCAtMTEuOTU1IDIzNi4wMjUgODAuNTU5KSIgZmlsbD0iIzIzMWYyMCIvPjx1c2UgeGxpbms6aHJlZj0iI2ciIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSAxNTUuNzYgMTIzLjY3OCkiIGZpbGw9IiMyMzFmMjAiLz48dXNlIHhsaW5rOmhyZWY9IiNoIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgMjM3LjQzIDEyMS41NDYpIiBmaWxsPSIjMjMxZjIwIi8+PHVzZSB4bGluazpocmVmPSIjaSIgdHJhbnNmb3JtPSJtYXRyaXgoMTEuOTU1IDAgMCAtMTEuOTU1IDE2NC40NzggOTcuNDE2KSIgZmlsbD0iIzIzMWYyMCIvPjwvZz48L3N2Zz4=</file>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p> We are asked to find the volume of the torus with major radius \(R\) and minor radius \(r\) using the transformation</p>
+<p> \(\qquad \displaystyle x=(R + \tau \cos \alpha) \cos \theta \, \), \(y=(R + \tau \cos \alpha) \sin \theta \, \), \(z=\tau \sin \alpha \, \). </p>
+<p> We are told that the limits on \(\alpha\) and \(\theta\) are \(0\) to \(2\pi\), and the limits on \(\tau\) are \(0\) to \(r\), and additionally we are given that the Jacobian is \(\tau(R + \tau \cos \alpha)\).</p>
+
+<p> Since in general, the volume of a shape is given by </p>
+<p> \(\qquad \displaystyle \text{Volume} = \int \int \int \mathrm{d}V,\) </p>
+<p> and we know that the volume element \(\mathrm{d}V=\mathrm{d}x\,\mathrm{d}y\,\mathrm{d}z\) becomes \(\mathrm{d}V=|J(\tau,\alpha,\theta)|\; \mathrm{d}\tau\,\mathrm{d}\alpha\,\mathrm{d}\theta\), we have everything we need to find the volume of the torus. </p>
+
+<p> \( \begin{align} 
+\text{Volume} &= \int_{0}^{2\pi} \int_{0}^{2\pi} \int_{0}^{r} \tau(R + \tau \cos \alpha) \, \mathrm{d}\tau \,\mathrm{d}\alpha \,\mathrm{d}\theta \\ 
+&= \int_{0}^{2\pi} \int_{0}^{2\pi} \int_{0}^{r} \left(\tau R + \tau^2 \cos \alpha\right) \, \mathrm{d}\tau \,\mathrm{d}\alpha \,\mathrm{d}\theta \\ 
+&= \int_{0}^{2\pi} \int_{0}^{2\pi} \left[\dfrac{1}{2} \tau^2 R + \dfrac{1}{3} \tau^3 \cos \alpha \right]_{0}^{r} \,\mathrm{d}\alpha \,\mathrm{d}\theta \\ 
+&= \int_{0}^{2\pi} \int_{0}^{2\pi} \left(\dfrac{1}{2} r^2 R + \dfrac{1}{3} r^3 \cos \alpha \right) \,\mathrm{d}\alpha \,\mathrm{d}\theta \\ 
+&= \int_{0}^{2\pi} \left[\dfrac{1}{2} r^2 R \alpha + \dfrac{1}{3} r^3 \sin \alpha \right]_{0}^{2\pi}  \,\mathrm{d}\theta \\ 
+&= \int_{0}^{2\pi} \left(\dfrac{1}{2} r^2 R (2\pi) + \dfrac{1}{3} r^3 \sin (2\pi) - 0\right) \,\mathrm{d}\theta \\ 
+&= \int_{0}^{2\pi} \pi r^2 R \,\mathrm{d}\theta \\ 
+&= \displaystyle \left[\pi r^2 R \theta\right]_0^{2\pi} \\
+&= 2 \pi^2 R r^2. \end{align}\).</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025040100</text>
+    </stackversion>
+    <questionvariables>
+      <text>ta1: 2*pi^2*R*r^2;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="html">
+      <text>Volume = {@ta1@}</text>
+    </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1+1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

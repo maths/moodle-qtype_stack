@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>19.3.2.7 Repeated Roots</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<div class="HELM_keypoint">
+    <h4>Key Point</h4>
+    <p>If the auxiliary equation has two equal roots, <span class="math inline">\(k\)</span>, the <span><strong>complementary function</strong></span> is: <span class="math display">\[y_\text{cf}=(A+Bx)\text{e}^{kx}\]</span></p>
+
+</div>
+
+<hr>
+
+<h4 class="HELM_example">Example</h4>
+<p>The auxiliary equation of <span class="math inline">\(ay''+by'+cy=0\)</span> is <span class="math inline">\(ak^2+bk+c=0.\)</span> Suppose this equation has equal roots <span class="math inline">\(k=k_1\)</span> and <span class="math inline">\(k=k_1\)</span>.
+    Verify that <span class="math inline">\(y=x\text{e}^{k_1x}\)</span> is a solution of the differential equation.</p>
+
+<h4 class="HELM_solution">Solution</h4>
+<p>We have: <span class="math inline">\[ y=x\text{e}^{k_1x}\qquad\quad y'=\text{e}^{k_1x}(1+k_1x)\qquad\quad
+y''=\text{e}^{k_1x}(k_1^2x+2k_1)\]</span> Substitution into the left-hand side of the differential equation yields: <span class="math inline">\[ 
+\text{e}^{k_1x}\{a(k^2_1x+2k_1)+b(1+k_1x)+cx\}=\text{e}^{k_1x}\{(ak_1^2+bk_1+c)x+2ak_1+b\}\]</span> But <span class="math inline">\(ak_1^2+bk_1+c=0\)</span> since <span class="math inline">\(k_1\)</span> satisfies the auxiliary equation. Also, <span class="math inline">\[ k_1={-b\pm\sqrt{b^2-4ac}\over 2a}\]</span>    but since the roots are equal, then <span class="math inline">\(b^2-4ac=0\)</span> hence <span class="math inline">\(k_1=-b/2a\)</span>. So <span class="math inline">\(2ak_1+b=0\)</span>. Hence <span class="math inline">\[\text{e}^{k_1x}\{(ak_1^2+bk_1+c)x+2ak_1+b\}=\text{e}^{k_1x}\{(0)x+0\}=0\]</span>&nbsp;We conclude that <span class="math inline">\(y=x\text{e}^{k_1x}\)</span> is a solution of <span class="math inline">\(ay''+by'+cy=0\)</span> when the roots of the auxiliary equation are equal. This illustrates the previous Key Point.</p>
+
+<hr>
+
+<h4 class="HELM_example">Example</h4>
+<p>Obtain the general solution of the equation: <span class="math inline">\[ {d^2y\over dx^2}+8{dy\over dx}+16y=0.\]</span></p>
+
+<h4 class="HELM_solution">Solution</h4>
+<p>As before, a trial solution of the form <span class="math inline">\(y=\text{e}^{kx}\)</span> yields an auxiliary equation <span class="math inline">\(k^2+8k+16=0\)</span>. This equation factorizes so that <span class="math inline">\((k+4)(k+4)=0\)</span>    and we obtain equal roots, that is, <span class="math inline">\(k=-4\)</span> (twice). If we proceed as before, writing <span class="math inline">\(y_1(x)=\text{e}^{-4x}\)</span> <span class="math inline">\(y_2(x)=\text{e}^{-4x},\)</span> it is clear
+    that the two solutions are not independent. We need to find a second independent solution. Using the result summarised in the previous Key Point, we conclude that the second independent solution is <span class="math inline">\(y_2=x\text{e}^{-4x}\)</span>. The
+    general solution is then: <span class="math inline">\[ y(x)=(A+Bx)\text{e}^{-4x}\]</span></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

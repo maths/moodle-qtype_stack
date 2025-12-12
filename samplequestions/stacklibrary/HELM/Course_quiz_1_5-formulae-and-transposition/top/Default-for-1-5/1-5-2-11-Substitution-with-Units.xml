@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>1.5.2.11 Substitution with Units</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise <br></p>
+<p>The moment of inertia of an object is a measure of its resistance to rotation. It depends upon both the mass of the object and the distribution of mass about the axis of rotation. It can be shown that the moment of inertia, J, of a solid disc rotating about an axis through its centre and perpendicular to the plane of the disc, is given by the formula</p>
+<p>\(\qquad J = \dfrac{1}{2}Ma^2\)</p>
+<p>where M is the mass of the disc and a is its radius. Find the moment of inertia of a disc of mass {@au1@} and diameter {@au2@}. The SI unit of moment of inertia is {@listofunits(ta)[1]@} {@listofunits(ta)[2]^2@}. </p>
+<br>
+<p>\(J =\) [[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>The diameter of the spinning disk is {@au2@} and therefore its radius is \(\dfrac{{@au2@}}{2} = {@au3@}\).</p>
+<p>The moment of inertia of the spinning disk is given by the formula \(J = \dfrac{1}{2}Ma^2\) and we have \(M = {@au1@}\) and \(a = {@au3@}\). Substituting these values into the formula we find:</p>
+<p>\[J = \dfrac{1}{2}Ma^2 = \dfrac{1}{2}\cdot {@a1@} \cdot {@a3@}^2 = \dfrac{1}{2}\cdot {@a1@} \cdot {@a3^2@} = \dfrac{1}{2}\cdot {@a1*(a3^2)@} = {@ta@}\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021072200</text>
+    </stackversion>
+    <questionvariables>
+      <text>stack_unit_si_declare(true);
+eqn: (1/2)*x1*(x2^2);
+a1: rand([12,14,16]);
+au1:stackunits(a1, kg);
+a2: rand([10,12,14]);
+au2:stackunits(a2, m);
+a3: a2/2
+au3:stackunits(a3, m);
+
+ta:stackunits(ev(eqn, x1=a1,x2=a3),kg*m^2);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\(\dfrac{1}{2}\cdot {@a1@} \cdot {@a3@}^2 = {@ta@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>units</type>
+      <tans>ta</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>5</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>Units</answertest>
+        <sans>ans1</sans>
+        <tans>ta</tans>
+        <testoptions>[3,-1]</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1673491673</deployedseed>
+    <deployedseed>692799727</deployedseed>
+    <deployedseed>331843178</deployedseed>
+    <deployedseed>1014803415</deployedseed>
+    <deployedseed>1334245963</deployedseed>
+    <deployedseed>1819927488</deployedseed>
+    <deployedseed>1634756469</deployedseed>
+    <deployedseed>1684740530</deployedseed>
+    <deployedseed>1901630883</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>stackunits(ev(eqn*1000, x1=a1,x2=a3,simp),g*m^2)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(eqn, x1=a1,x2=a3,simp)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore/>
+        <expectedpenalty/>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

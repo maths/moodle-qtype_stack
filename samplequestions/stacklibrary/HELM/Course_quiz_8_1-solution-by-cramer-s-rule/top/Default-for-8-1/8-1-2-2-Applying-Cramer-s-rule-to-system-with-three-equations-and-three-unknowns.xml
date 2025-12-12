@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>8.1.2.2 Applying Cramer's rule to system with three equations and three unknowns</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>Use Cramer's rule to find the y-coordinate of the solution of the system:  <br> \[{@eqns[1]@}\ =\ {@bmat[1,1]@} , \]  \[ {@eqns[2]@}\ =\ {@bmat[2,1]@} , \]  \[ {@eqns[3]@}\ =\ {@bmat[3,1]@} . \] <br> y= [[input:ans1]] [[validation:ans1]]&nbsp;[[feedback:Result]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>Cramer's rule states that \(y = \frac{\Delta_{y}}{\Delta}\) where \(\Delta\) is the determinant of the matrix and \(\Delta_{y}\) is the determinant of the matrix with the y column replaced by the numbers on the right hand side of
+the equations. <br>
+</p><p></p>
+<p>Therefore for the system <br> \[{@eqns[1]@}\ =\ {@bmat[1,1]@} , \] \[ {@eqns[2]@}\ =\ {@bmat[2,1]@} , \] \[ {@eqns[3]@}\ =\ {@bmat[3,1]@} , \]</p>
+<p> \[ \Delta = \det{@Amat@}={@D@},\] and<br></p>
+<p> \[\Delta_{y} = \det{@Amaty@}={@Dy@},\]</p>
+<p>where the notation \(\det A = |A|\) is the determinant of a matrix \(A.\)<br></p>
+<p>Hence, \[y=\frac{\Delta_{y}}{\Delta}=\frac{@Dy@}{@D@} = {@Dy/D@}.\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020120600</text>
+    </stackversion>
+    <questionvariables>
+      <text>ordergreat(x,y,z);
+Au:matrix([rand_with_step(-1,1,2),ev(rand(7)-3),ev(rand(7)-3)],[0,rand_with_step(-1,1,2),ev(rand(7)-3)],[0,0,rand_with_step(-1,1,2)]);
+ Bu:matrix([rand_with_step(-1,1,2),ev(rand(7)-3),ev(rand(7)-3)],[0,rand_with_step(-1,1,2),ev(rand(7)-3)],[0,0,rand_with_step(-1,1,2)]);
+ Amat:ev(transpose(Au).Bu);
+ bmat:matrix([rand(5)+1],[rand(5)+1],[rand(5)+1]);
+ xyz:matrix([x],[y],[z]);
+ eqns[1]:ev(Amat.xyz)[1,1];
+ eqns[2]:ev(Amat.xyz)[2,1];
+ eqns[3]:ev(Amat.xyz)[3,1];
+ truesolm:ev(invert(Amat) . bmat);
+ correctanswer:truesolm[2,1];
+ D:determinant(Amat);
+ Amaty:copymatrix(Amat);
+ Amaty[1,2]:ev(bmat[1,1]);
+ Amaty[2,2]:ev(bmat[2,1]);
+ Amaty[3,2]:ev(bmat[3,1]);
+ Dy:determinant(Amaty);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\[ {@eqns[1]@}\ =\ {@bmat[1,1]@}\]  \[{@eqns[2]@}\ =\ {@bmat[2,1]@}\]
+\[{@eqns[3]@}\ =\ {@bmat[3,1]@} \quad\] gives y= {@correctanswer@}</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<p><span class="correct">Correct answer, well done.</span></p>]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<p><span class="partially">Your answer is partially correct.</span></p>]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<p><span class="incorrect">Incorrect answer.</span></p>]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>correctanswer</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>2.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>correctanswer</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1946506527</deployedseed>
+    <deployedseed>2084874014</deployedseed>
+    <deployedseed>607398891</deployedseed>
+    <deployedseed>1441251235</deployedseed>
+    <deployedseed>629089706</deployedseed>
+    <deployedseed>912469399</deployedseed>
+    <deployedseed>1648714820</deployedseed>
+    <deployedseed>1150508064</deployedseed>
+    <deployedseed>1660747688</deployedseed>
+    <deployedseed>789096562</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>correctanswer</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(correctanswer-10, simp)</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>Result-0-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

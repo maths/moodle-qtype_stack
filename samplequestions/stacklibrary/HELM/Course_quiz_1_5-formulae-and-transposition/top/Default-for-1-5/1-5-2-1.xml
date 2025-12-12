@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>1.5.2.1</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Rearranging a formula</h3>
+
+<p>In the formula for the area of a circle, \(A=\pi r^2\), we say that \(A\) is the <strong>subject</strong> of the formula. A variable is the subject of the formula if it appears by itself on one side of the formula, usually the left-hand side, and <strong>nowhere else in the formula</strong>.
+    If we are asked to <strong>transpose</strong> the formula for \(r\), or <strong>solve</strong> for \(r\), then we have to make \(r\) the subject of the formula. When transposing a formula <em>whatever is done to one side is done to the other</em>.
+    There are five rules that must be adhered to.</p>
+
+<p><strong>Rearranging a formula:</strong></p>
+<div class="HELM_keypoint">
+    <h4>Key Point</h4>
+    <p>You may carry out the following operations:</p>
+    <ul>
+        <li>add the same quantity to both sides of the formula</li>
+        <li>subtract the same quantity from both sides of the formula</li>
+        <li>multiply both sides of the formula by the same quantity</li>
+        <li>divide both sides of the formula by the same quantity</li>
+        <li>take a ‘function’ of both sides of the formula: for example, find the reciprocal of both sides (i.e. invert).</li>
+    </ul>
+</div>
+
+<hr>
+<h4 class="HELM_example">Example <br></h4>
+<p>Transpose the formula \(p=5t-17\) for \(t\).</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>We must obtain \(t\) on its own on the left-hand side. We do this in stages by using one or more of the five rules in Key Point 22. For example, by adding 17 to both sides of \(p = 5t − 17\) we find </p>
+<p>\(\begin{aligned}\qquad p + 17 &amp;= 5t - 17 + 17\\ &amp;=5t \end{aligned}\)
+</p>
+<p></p>
+
+<hr>
+<h4 class="HELM_example">Example <br></h4>
+<p>Transpose the formula \(\sqrt{2q}=p\) for \(q\).</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>First we square both sides to remove the square root. Note that \(\sqrt(2q)^2 = 2q\). This gives </p>
+<p>\(\begin{aligned}\qquad 2q &amp;= p^2 \end{aligned}\)</p>
+<p></p>
+
+<hr>
+<h4 class="HELM_example">Example <br></h4>
+<p>Transpose \(x=\dfrac{1}{y}\) for \(y\).</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>We must try to obtain an expression for y. Multiplying both sides by y has the effect of removing this fraction: Multiply both sides of \(x=\dfrac{1}{y} \text{ by } y\) to get </p>
+<p>\(\begin{aligned}\qquad yx &amp;= y \times \dfrac{1}{y}\\ yx &amp;= 1\end{aligned}\)</p>
+Divide both sides by \(x\) to leave \(y\) on its own, \(y = \dfrac{1}{x}\).
+<p></p>
+<p>Alternatively: simply invert both sides of the equation \(x = \dfrac{1}{y}\) to get \(\dfrac{1}{x} = y\)</p>
+
+
+<hr>
+<h4 class="HELM_example">Example <br></h4>
+<p>Make \(R\) the subject of the formula \(\dfrac{2}{R}=\dfrac{3}{x+y}\)</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>In the given form \(R\) appears in a fraction. Inverting both sides gives </p>
+<p>\(\begin{aligned}\qquad \dfrac{R}{2} &amp;= \dfrac{x+y}{3} \end{aligned}\)</p> Thus multiplying both sides by 2 gives
+<p>\(\begin{aligned}\qquad R &amp;= \dfrac{2(x+y)}{3} \end{aligned}\)</p>
+<p></p>
+
+<hr>
+<h4 class="HELM_example">Example <br></h4>
+<p>Make \(R\) the subject of the formula \(\dfrac{1}{R} = \dfrac{1}{R_1} + \dfrac{1}{R_2}\)</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>Add the 2 terms on the right: \( \dfrac{1}{R_1} + \dfrac{1}{R_2} = \dfrac{R_2+R_1}{R_1 R_2} \)</p>
+<p>Write down the complete formula: \( \dfrac{1}{R} = \dfrac{R_2+R_1}{R_1 R_2} \) </p>
+<p>Now invert both sides: \( R = \dfrac{R_1 R_2}{R_2+R_1}\)</p>
+<p></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

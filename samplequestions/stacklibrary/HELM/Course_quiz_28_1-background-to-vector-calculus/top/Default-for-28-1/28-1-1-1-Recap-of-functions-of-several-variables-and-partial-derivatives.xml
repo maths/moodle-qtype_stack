@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>28.1.1.1 Recap of functions of several variables and partial derivatives</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Functions of several variables and partial derivatives</h3>
+<p>As a reminder:</p>
+<ul>
+<li>
+<p>a function of the two independent variables \(x\) and \(y\) may be written as \(f(x, y)\)</p>
+</li>
+<li>
+<p>the first and second order partial derivatives are \(\dfrac{\partial f}{\partial x}\), \(\dfrac{\partial f}{\partial y}\), \(\dfrac{\partial ^2f}{\partial x^2}\), \(\dfrac{\partial ^2f}{\partial y^2}\) and \(\dfrac{\partial ^2f}{\partial x \partial y}\).</p>
+</li>
+</ul>
+<p>Consider, for example, the function \(f\)(\(x\), \(y\)) = \(x\)<sup>2</sup> + 5\(x\)\(y\) + 3\(y\)<sup>4</sup> + 1. The first and second partial derivatives are \[\dfrac{\partial f}{\partial x} =2x + 5y \hspace{1.0cm} \text{(differentiating with respect to \(x\) keeping \(y\) constant)}\] \[\dfrac{\partial f}{\partial y} = 5x + 12y^3 \hspace{0.7cm}\text{(differentiating with respect to \(y\) keeping \(x\) constant)} \] \[\dfrac{\partial ^2f}{\partial x^2}=\dfrac{\partial}{\partial x}\left(\dfrac{\partial f}{\partial x}\right)=\dfrac{\partial}{\partial x}\left(2x + 5y\right)=2 \] \[\dfrac{\partial ^2f}{\partial y^2}=\dfrac{\partial}{\partial y}\left(\dfrac{\partial f}{\partial y}\right)=\dfrac{\partial}{\partial y}\left(5x + 12y^3\right)=36y^2 \] \[\dfrac{\partial ^2f}{\partial x \partial y}=\dfrac{\partial ^2f}{\partial y \partial x}=\dfrac{\partial}{\partial y}\left(\dfrac{\partial f}{\partial x}\right)=\dfrac{\partial}{\partial y}\left(2x + 5y\right)=5\]</p>
+<p>The number of independent variables is not restricted to two. For example, if \(u\) is a function of the three variables \(x\), \(y\) and \(z\), say \(u = x^2 + y^2 + z^2\) then: \(\displaystyle \qquad \frac{\partial u}{\partial x}=2x,\quad \frac{\partial u}{\partial y}=2y, \quad \frac{\partial u}{\partial z}=2z,\quad \frac{\partial ^2 u}{\partial x^2}=2,\quad \frac{\partial ^2 u} {\partial y^2}=2, \quad \frac{\partial ^2 u}{\partial z^2}=2\)</p>
+<p>Similarly, if \(u\) is a function of the four variables \(x, y, z\) and \(t\) say \(u = xy^2z^3e^t\) then</p>
+<p>\(\displaystyle \qquad \frac{\partial u}{\partial x}=y^2z^3e^t,\quad \frac{\partial u}{\partial t}=xy^2z^3e^t,\quad \frac{\partial ^2 u}{\partial z^2}=6xy^2ze^t\), etc.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

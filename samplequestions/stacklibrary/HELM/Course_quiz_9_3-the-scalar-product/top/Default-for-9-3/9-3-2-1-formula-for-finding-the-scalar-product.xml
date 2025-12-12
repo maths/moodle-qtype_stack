@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>9.3.2.1 formula for finding the scalar product</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4><b>A formula for finding the scalar product</b></h4><p>We can use the results summarized previously to obtain a formula for finding a scalar product when the vectors are given in Cartesian form. We consider vectors in the <span class="math inline">\(xy\)</span>-plane. Suppose <span class="math inline">\(\underline{a}=a_1\underline{i} + a_2\underline{j}\)</span> and <span class="math inline">\(\underline{b}=b_1\underline{i}+b_2\underline{j}\)</span>. Then</p><p><br></p>
+
+<p><span class="math display">\[\begin{aligned}
+\underline{a}\cdot\underline{b}&amp;=(a_1\underline{i}+a_2\underline{j})\cdot(b_1\underline{i}+b_2\underline{j})\\
+&amp;= a_1\underline{i}\cdot(b_1\underline{i}+b_2\underline{j}) + a_2\underline{j}\cdot(b_1\underline{i}+b_2\underline{j})\\
+&amp;= a_1b_1\underline{i}\cdot\underline{i} + a_1b_2\underline{i}\cdot\underline{j} + a_2b_1\underline{j}\cdot\underline{i}+a_2b_2\underline{j}\cdot\underline{j}\end{aligned}\]</span></p>
+
+<p>Thus to find the scalar product of two vectors their <span class="math inline">\(\underline{ i}\)</span> components are multiplied together, their <span class="math inline">\(\underline{ j}\)</span> components are multiplied together and the results are added.</p>
+
+<p>Using the results explained in a previous Key Point, we can simplify this to give the following formula:</p>
+
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p><span class="math display">\[\hbox{If}  \quad \underline{ a}=a_1\underline{ i} + a_2\underline{ j}\quad\hbox{ and }\quad
+\underline{ b}=b_1\underline{ i}+b_2\underline{ j}\quad 
+\hbox{&nbsp; then }\]</span> <span class="math display">\[\underline{ a}\cdot\underline{b}= a_1b_1+a_2b_2\]</span></p>
+</div>
+
+<p><br></p><p>Thus to find the scalar product of two vectors their <span class="math inline">\(\underline{ i}\)</span> components are multiplied together, their <span class="math inline">\(\underline{ j}\)</span> components are multiplied together and the results are added.</p>
+
+<hr>
+<h4 class="HELM_example">Example</h4><p>If <span class="math inline">\(\underline{ a}=7\underline{ i}+8\underline{ j}\)</span> and <span class="math inline">\(\underline{ b}=5\underline{ i}-2\underline{ j}\)</span>, find the scalar product <span class="math inline">\(\underline{a}\cdot\underline{b}\)</span>.</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>We use the previous Key Point: <span class="math inline">\(\qquad\underline{ a}\cdot\underline{ b} = (7\underline{ i}+8\underline{ j})\cdot(5\underline{i}-2\underline{ j})= (7)(5) + (8)(-2)= 35-16= 19\)</span></p>
+
+<p><br></p><p>The formula readily generalises to vectors in three dimensions as follows:</p>
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p><span class="math display">\[\hbox{If}  \quad \underline{ a}=a_1\underline{ i} + a_2\underline{ j} + a_3\underline{ k}\quad \hbox{ and }\quad\underline{ b}=b_1\underline{ i}+b_2\underline{ j} + b_3\underline{ k} \hbox{&nbsp; then }\]</span> <span class="math display">\[\underline{ a}\cdot\underline{b} = a_1b_1 + a_2b_2 + a_3b_3\]</span></p>
+</div>
+
+<hr>
+<h4 class="HELM_example">Example</h4><p>If <span class="math inline">\(\underline{ a}=5\underline{ i}+3\underline{ j}-2\underline{ k}\)</span> and <span class="math inline">\(\underline{ b}=8\underline{i}-9\underline{ j}+11\underline{ k}\)</span>, find <span class="math inline">\(\underline{a}\cdot\underline{b}\)</span>.</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>We use the formula in the previous Key Point:</p>
+<p><span class="math inline">\(\qquad \underline{ a}\cdot\underline{b}=(5)(8) + (3)(-9) + (-2)(11) = 40-27-22=-9\)</span>&nbsp;</p><p>Note again that the result is a scalar: there are no <span class="math inline">\(\underline{ i}\)</span>’s, <span class="math inline">\(\underline{ j}\)</span>’s, or <span class="math inline">\(\underline{k}\)</span>’s in the answer.</p><hr><p>The above result is generally true:</p>
+
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p style="text-align: center;">&nbsp;For any vector&nbsp;<span class="math inline">\(\underline{ r}\)</span>,&nbsp; &nbsp; &nbsp;<span class="math inline">\(|\underline{r}|^2=\underline{ r}\cdot\underline{ r}\)</span></p>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>9.2.1.5 Adding vectors written in component form</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>It is very important to note from the last task that vectors in Cartesian form can be added by simply adding their respective \(\underline{ i}\) and \(\underline{ j}\) components.</p><p><br></p><p>Thus, if \(\underline{ a}=a_x\underline{ i} + a_y\underline{ j}\) and \(\underline{ b}=b_x\underline{ i}+b_y\underline{ j}\) then \[\underline{ a}+\underline{ b}=(a_x+b_x)\underline{ i}+ (a_y+b_y)\underline{ j}.\] A similar, and obvious, rule applies when subtracting: \[\underline{ a}-\underline{ b}=(a_x-b_x)\underline{ i}+(a_y-b_y)\underline{ j}.\]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

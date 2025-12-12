@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>7.3.2.7 Evaluating general determinants example</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>In the case of \(\Delta=\begin{vmatrix} 4 & 1 & 1 \\ 1 & 2 & 3 \\ 3 & 1 & 2 \end{vmatrix}\) we have \(a_{11}=4, a_{12}=1, a_{13}=1,\) and \begin{align*} A_{11} & = + \begin{vmatrix} 2 & 3 \\ 1 & 2 \end{vmatrix} = 4 - 3 = 1, \\ A_{12} & = - \begin{vmatrix} 1 & 3 \\ 3 & 2 \end{vmatrix} = - ( 2 - 9 ) = 7, \\ A_{13} & = + \begin{vmatrix} 1 & 2 \\ 3 & 1 \end{vmatrix} = 1 - 6 = - 5.\end{align*}</p> 
+
+<p>Hence, \(\Delta=4\times 1 + 1\times 7 + 1\times -5 = 6\).</p>
+
+<p>Alternatively, choosing to expand along the second row:
+\begin{align*}\Delta & = a_{21} A_{21} + a_{22} A_{22} + a_{23} A_{23} \\ & = 1 \left( - \begin{vmatrix} 1 & 1 \\ 1 & 2 \end{vmatrix} \right) + 2 \left( \begin{vmatrix} 4 & 1 \\ 3 & 2 \end{vmatrix} \right) + 3 \left( - \begin{vmatrix} 4 & 1 \\ 3 & 1 \end{vmatrix} \right) \\ & = 6\end{align*}
+as before.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

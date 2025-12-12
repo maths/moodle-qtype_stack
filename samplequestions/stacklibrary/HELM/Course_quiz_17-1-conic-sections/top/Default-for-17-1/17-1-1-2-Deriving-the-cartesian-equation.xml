@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>17.1.1.2 Deriving the cartesian equation</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[Consider the point \(A\) and \(B\) with Cartesian coordinates \(({@c@},0)\) and \(({@-c@},0)\) respectively. A curve has the property that for every point \(P\) on it, the sum of the distances \(PA\) and \(PB\) is \({@2*a@}\). Derive the Cartesian form of the equation of the curve and, hence, deduce which type of conic section it is.
+<br><br><p>The equation of the curve is:[[input:ans1]] [[validation:ans1]]</p><p>[[feedback:prt1]]<br></p>
+<p> Hence the curve is a [[input:ans2]][[validation:ans2]]</p><p>[[feedback:prt2]]<br></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[We use Pythagoras's theorem to work out the distances \(PA\) and \(PB\):&nbsp;<br>\[ \text{Let}\ \ R_1=PB=[{@(x+c)^2+y^2@}]^{1/2}\qquad\text{ and let }\qquad R_2=PA=[({@c@}-x)^2+y^2]^{1/2}.\]<br>We
+now take the given equation \(R_1+R_2={@2*a@}\) and multiply both sides by \(R_1-R_2\). The quantity \(R_1^2-R_2^2\)
+on the left is calculated to be \({@4*c*x@}\), and \({@2*a@}(R_1-R_2)\) is on the right. We thus obtain a
+pair of equations:
+<br><br>\[ R_1+R_2={@2*a@}\qquad \text{ and }\qquad R_1-R_2=\dfrac{{@2*c*x@}}{{@a@}}.\]<br>Adding these equations together gives \(R_1={@a@}+\dfrac{{@c*x@}}{{@a@}}\) and squaring this equation gives&nbsp;<br>\[ {@x^2+c^2+2*c*x+y^2=a^2+c^2*x^2/a^2+2*c*x@}.\] <br>Simplifying:<br>\[ {@x^2*(1-c^2/a^2)+y^2=a^2-c^2@}\qquad \text{ whence }\qquad {@x^2/a^2+y^2/(a^2-c^2)@}=1.\]<br>This is the standard equation of an ellipse.<br><br><p>The foci \(A\) and \(B\) have <strong>optical </strong>properties; a beam of light travelling from \(A\) along \(AP\)&nbsp;<span style="font-size: calc(0.90375rem + 0.045vw);">and undergoing a mirror reflection from the ellipse at \(P\) will return along the path \(PB\) to the other&nbsp;</span><span style="font-size: calc(0.90375rem + 0.045vw);">focus \(B\).</span></p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020120600</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[ordergreat(x,y);
+c:3+rand(6);
+n:2+rand(5);
+a:c+n;
+ta1:x^2/a^2+y^2/(a^2-c^2)=1;
+ta2:[["Circle",false],["Ellipse",true],["Parabola",false],["Hyperbola",false]]]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>Cartesian equation is {@ta1@}</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>20</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>dropdown</type>
+      <tans>ta2</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>[ans2]</sans>
+        <tans>mcq_correct(ta2)</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1121028261</deployedseed>
+    <deployedseed>1064095624</deployedseed>
+    <deployedseed>1737762350</deployedseed>
+    <deployedseed>988143843</deployedseed>
+    <deployedseed>198866504</deployedseed>
+    <deployedseed>467511500</deployedseed>
+    <deployedseed>1915692193</deployedseed>
+    <deployedseed>361636570</deployedseed>
+    <deployedseed>1050178532</deployedseed>
+    <deployedseed>1536172844</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>first(mcq_correct(ta2))</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>x^2+c^2+2*c*x +y^2 = a^2+c^2*x^2/a^2+2*c*x</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value/>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore/>
+        <expectedpenalty/>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>x^2*(a^2-c^2)+y^2*a^2= a^2*(a^2-c^2)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value/>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore/>
+        <expectedpenalty/>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>x = 0</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>first(mcq_incorrect(ta2))</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>HELM 31.4 E4 Approximate Newton-Raphson</text>
+    </name>
+    <questiontext format="markdown">
+      <text><![CDATA[**31.4 E4 Approximate Newton-Raphson**
+
+The smallest positive zero of
+
+\\\[ {@'f('x)=f(x)@}\\\]
+
+is a measure of how quickly certain evanescent water waves decay.
+
+<p>{@plot(f(x), [x,-8,8], [y,-6,6], [xlabel,"x"], [ylabel,"f(x)"])@}</p>
+
+Use a forward diﬀerence at {@'x0=x0@} with {@'h=h@} to estimate \\\(f′(x_0)\\\) and use this value for the first iteration in an approximate version of the Newton-Raphson method.
+
+\\\(f′(x_0)\approx\\\) [[input:S_d0]] [[validation:S_d0]] [[feedback:d0]]
+
+\\\(x^{(1)}=\\\) [[input:S_x1]] [[validation:S_x1]] [[feedback:x1]]]]></text>
+    </questiontext>
+    <generalfeedback format="markdown">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2024072400</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[f(x):=x*tan(x) + 1;
+
+x0: rand([2,2.5, 2.9,3,3.1]);
+h: rand([0.1, 0.05, 0.02, 0.01]);
+d0: float((f(x0+h)-f(x0))/h);
+x1: float(x0-f(x0)/d0);
+
+stack_include("https://raw.githubusercontent.com/mkraska/meclib/main/Maxima/fb_value_EN.mac");]]></text>
+    </questionvariables>
+    <specificfeedback format="markdown">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>{@x0@}, {@h@}, {@d0@}, {@x1@}</text>
+    </questionnote>
+    <questiondescription format="markdown">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="markdown">
+      <text>Richtige Antwort, gut gemacht!</text>
+    </prtcorrect>
+    <prtpartiallycorrect format="markdown">
+      <text>Ihre Antwort ist teilweise korrekt.</text>
+    </prtpartiallycorrect>
+    <prtincorrect format="markdown">
+      <text>Falsche Antwort.</text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>S_d0</name>
+      <type>numerical</type>
+      <tans>d0</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>6 s.f.</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>S_x1</name>
+      <type>numerical</type>
+      <tans>x1</tans>
+      <boxsize>8</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>6 s.f.</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>d0</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumRelative</answertest>
+        <sans>S_d0</sans>
+        <tans>d0</tans>
+        <testoptions>0.000005</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>d0-1-T</trueanswernote>
+        <truefeedback format="markdown">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>d0-1-F</falseanswernote>
+        <falsefeedback format="markdown">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>x1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumRelative</answertest>
+        <sans>S_x1</sans>
+        <tans>x1</tans>
+        <testoptions>0.000005</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>x1-1-T</trueanswernote>
+        <truefeedback format="markdown">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>x1-1-F</falseanswernote>
+        <falsefeedback format="markdown">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1587513181</deployedseed>
+    <deployedseed>2004592882</deployedseed>
+    <deployedseed>527247886</deployedseed>
+    <deployedseed>1607512437</deployedseed>
+    <deployedseed>1375238827</deployedseed>
+    <deployedseed>601364107</deployedseed>
+    <deployedseed>358755534</deployedseed>
+    <deployedseed>357270809</deployedseed>
+    <deployedseed>1570850980</deployedseed>
+    <deployedseed>255004610</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>S_d0</name>
+        <value>d0</value>
+      </testinput>
+      <testinput>
+        <name>S_x1</name>
+        <value>x1</value>
+      </testinput>
+      <expected>
+        <name>d0</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>d0-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>x1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>x1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>S_d0</name>
+        <value>d0</value>
+      </testinput>
+      <testinput>
+        <name>S_x1</name>
+        <value>x1</value>
+      </testinput>
+      <expected>
+        <name>d0</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>d0-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>x1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>x1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>S_d0</name>
+        <value>d0</value>
+      </testinput>
+      <testinput>
+        <name>S_x1</name>
+        <value>x1</value>
+      </testinput>
+      <expected>
+        <name>d0</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>d0-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>x1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>x1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

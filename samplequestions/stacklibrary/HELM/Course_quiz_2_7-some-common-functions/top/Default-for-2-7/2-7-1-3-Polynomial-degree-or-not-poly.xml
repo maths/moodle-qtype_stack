@@ -1,0 +1,535 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>2.7.1.3 Polynomial degree or not poly</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise<br></p>
+<p>Select the correct description associated with each of the following functions.</p>
+<ol class="HELM_parts">
+<li>\({@f1@}\)&nbsp; [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</li>
+<li>\({@f2@}\)&nbsp; [[input:ans2]] [[validation:ans2]] [[feedback:prt2]]</li>
+<li>\(\displaystyle{@f3@}\)&nbsp; [[input:ans3]] [[validation:ans3]] [[feedback:prt3]]</li>
+<li>\({@f4@}\)&nbsp; [[input:ans4]] [[validation:ans4]] [[feedback:prt4]]</li>
+<li>\(\displaystyle{@f5@}\)&nbsp; [[input:ans5]] [[validation:ans5]] [[feedback:prt5]]</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>A polynomial is a function of the form \(P_n=a_n x^n+a_{n-1} x^{n-1}+...+a_2 x^2+a_1 x+a_0\); its degree is given by the highest of the degrees of the polynomial's monomials with non-zero coefficients.</p>
+<p>For the given functions:</p>
+<ol class="HELM_parts">
+<li><p>\({@f1@}:\) {@TA1@}, in fact, \(4\) represents the highest power of \(x\).</p></li>
+<li><p>\({@f2@}:\) {@TA2@}; in this case, we have the constant function, so we can interpret it as \(h(x)={@rand1@}x^0\) and we can see explicitly that the degree is zero.</p></li>
+<li><p>\(\displaystyle{@f3@}:\) {@TA3@}.This function does not represent a polynomial because of the inverse powers of x, \(\dfrac{{@coeffg1@}}{{@var1^2@}}\) and \(\dfrac{{@coeffg2@}}{{@var1@}}\).</p></li>
+<li><p>\({@f4@}:\) {@TA4@}. The highest of the degrees of the monomials is \(3\), the dominant monomial is \({@coefft3@}{@var2@}^3\).</p></li>
+<li><p>\(\displaystyle{@f5@}:\) {@TA5@}. Same case as \({@f2@}\).</p></li>
+</ol>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021072200</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[var1: x;
+var2: t;
+coeffx4: rand_with_prohib(-5,5,[0]);
+coeffx3: rand_with_prohib(-9,9,[0]);
+coeffx2: rand_with_prohib(-2,9,[0]);
+f1: f(x)=coeffx2*var1^2+coeffx3*var1^3+coeffx4*var1^4;
+coefft3: rand_with_prohib(-7,5,[0]);
+coefft2: rand_with_prohib(-3,13,[0]);
+rand0: rand_with_prohib(-9,9,[0]);
+f4: f(t)=coefft3*var2^3+coefft2*var2^2+rand0;
+coeffg1: rand_with_step(1,10,1);
+coeffg2: rand_with_prohib(-3,9,[0]);
+f3: g(x)=coeffg1/var1^2+coeffg2/var1;
+rand1: rand_with_step(-10,10,1);
+f2: h(x)=rand1;
+rand2: rand_with_prohib(-8, 8,[0]);
+f5: k(x)=1/rand2;
+
+ta1:[["Not a polynomial",false],["Polynomial of degree 0 (constant)", false],["Polynomial of degree 1 (linear)",false],["Polynomial of degree 2 (quadratic)", false], ["Polynomial of degree 3 (cubic)", false],["Polynomial of degree 4 (quartic)", true]];
+ta4:[["Not a polynomial",false],["Polynomial of degree 0 (constant)", false],["Polynomial of degree 1 (linear)",false],["Polynomial of degree 2 (quadratic)", false], ["Polynomial of degree 3 (cubic)", true],["Polynomial of degree 4 (quartic)", false]];
+ta3:[["Not a polynomial",true],["Polynomial of degree 0 (constant)", false],["Polynomial of degree 1 (linear)",false],["Polynomial of degree 2 (quadratic)", false], ["Polynomial of degree 3 (cubic)", false],["Polynomial of degree 4 (quartic)", false]];
+ta2:[["Not a polynomial",false],["Polynomial of degree 0 (constant)", true],["Polynomial of degree 1 (linear)",false],["Polynomial of degree 2 (quadratic)", false], ["Polynomial of degree 3 (cubic)", false],["Polynomial of degree 4 (quartic)", false]];
+ta5:[["Not a polynomial",false],["Polynomial of degree 0 (constant)", true],["Polynomial of degree 1 (linear)",false],["Polynomial of degree 2 (quadratic)", false], ["Polynomial of degree 3 (cubic)", false],["Polynomial of degree 4 (quartic)", false]];
+
+TA1: "Polynomial of degree 4 (quartic)";
+TA4: "Polynomial of degree 3 (cubic)";
+TA3: "Not a polynomial";
+TA2: "Polynomial of degree 0 (constant)";
+TA5: "Polynomial of degree 0 (constant)";]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text><![CDATA[<p>\({@f1@} \)</p>
+<p>\({@f2@} \)</p>
+<p>\({@f3@} \)</p>
+<p>\({@f4@} \)</p>
+<p>\({@f5@} \)</p>]]></text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>dropdown</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>dropdown</type>
+      <tans>ta2</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>dropdown</type>
+      <tans>ta3</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans4</name>
+      <type>dropdown</type>
+      <tans>ta4</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans5</name>
+      <type>dropdown</type>
+      <tans>ta5</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>[ans1]</sans>
+        <tans>mcq_correct(ta1)</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>[ans2]</sans>
+        <tans>mcq_correct(ta2)</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>[ans3]</sans>
+        <tans>mcq_correct(ta3)</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt4</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>[ans4]</sans>
+        <tans>mcq_correct(ta4)</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt4-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt4-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt5</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>[ans5]</sans>
+        <tans>mcq_correct(ta5)</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt5-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt5-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>818747097</deployedseed>
+    <deployedseed>2098313585</deployedseed>
+    <deployedseed>1186605486</deployedseed>
+    <deployedseed>395995267</deployedseed>
+    <deployedseed>680737032</deployedseed>
+    <deployedseed>1383827447</deployedseed>
+    <deployedseed>1228868470</deployedseed>
+    <deployedseed>1295517051</deployedseed>
+    <deployedseed>933462638</deployedseed>
+    <deployedseed>315600800</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value><![CDATA["Polynomial of degree 4 (quartic)"]]></value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value><![CDATA["Polynomial of degree 0 (constant)"]]></value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value><![CDATA["Not a polynomial"]]></value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value><![CDATA["Polynomial of degree 3 (cubic)"]]></value>
+      </testinput>
+      <testinput>
+        <name>ans5</name>
+        <value><![CDATA["Polynomial of degree 0 (constant)"]]></value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt4-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt5</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt5-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value><![CDATA["Not a polynomial"]]></value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value><![CDATA["Not a polynomial"]]></value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value><![CDATA["Polynomial of degree 0 (constant)"]]></value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value><![CDATA["Not a polynomial"]]></value>
+      </testinput>
+      <testinput>
+        <name>ans5</name>
+        <value><![CDATA["Not a polynomial"]]></value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt3-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt4-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt5</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt5-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value><![CDATA["Polynomial of degree 0 (constant)"]]></value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value><![CDATA["Polynomial of degree 2 (quadratic)"]]></value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value><![CDATA["Polynomial of degree 1 (linear)"]]></value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value><![CDATA["Polynomial of degree 0 (constant)"]]></value>
+      </testinput>
+      <testinput>
+        <name>ans5</name>
+        <value><![CDATA["Polynomial of degree 3 (cubic)"]]></value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt3-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt4-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt5</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt5-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

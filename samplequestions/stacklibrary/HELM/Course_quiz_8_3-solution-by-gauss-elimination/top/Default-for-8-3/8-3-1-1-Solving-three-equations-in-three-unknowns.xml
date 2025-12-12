@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>8.3.1.1 Solving three equations in three unknowns</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Solving three equations in three unknowns</h4>
+
+<p>Solving the system of linear equations
+</p><p><span class="math display">\[\begin{matrix}
+    a_{11} x + a_{12} y + a_{13} z = b_1 \\
+    a_{21} x + a_{22} y + a_{23} z = b_2 \\
+    a_{31} x + a_{32} y + a_{33} z = b_3 \\
+\end{matrix}\]</span></p>
+is to find <span class="math inline">\(x, y\)</span> and <span class="math inline">\(z\)</span> such that all the equations are satisfied. In matrix form, this can be written as <span class="math inline">\(AX = B\)</span>. In other words,<p></p>
+<p><span class="math display"><span>\[ \displaystyle{\left [ \begin{matrix}
+    a_{11} &amp; a_{12} &amp; a_{13} \\
+    a_{21} &amp; a_{22} &amp; a_{23} \\
+    a_{31} &amp; a_{32} &amp; a_{33} \\
+\end{matrix} \right ]
+\left [ \begin{matrix}
+    x \\
+    y \\
+    z \\
+\end{matrix} \right ] = 
+\left [\begin{matrix}
+    b_1 \\
+    b_2 \\
+    b_3 \\
+\end{matrix} \right ] . }\]</span></span></p>
+<p>Note that not all systems have unique solutions. Some systems will have no solutions while others will have infinitely many. We begin here with the most simple cases and develop more general cases as we progress.</p>
+
+<h5>The diagonal system</h5>
+
+<p>The easiest set of three simultaneous linear equations to solve is of the following type: <span class="math display">\[\begin{matrix}
+    3x_1 &amp; = &amp; 6 \\
+    2x_2 &amp; = &amp; 5 \\
+    4x_3 &amp; = &amp; 7 \\
+\end{matrix}\]</span> which obviously has solution <span class="math inline">\(\displaystyle{[x_1,x_2,x_3]^T=\left[2,\frac{5}{2},\frac{7}{4}\right]^T}\)</span> or, equivalently, <span class="math inline">\(\displaystyle{x_1=2,
+x_2=\frac{5}{2}, x_3=\frac{7}{4}}\)</span>.</p>
+<p>In matrix form <span class="math inline">\(AX=B\)</span> the equations are <span class="math display">\[\left[\begin{array}{ccc}3&amp;0&amp;0\\ 0&amp;2&amp;0\\ 0&amp;0&amp;4\end{array}\right]\left[\begin{array}{c}x_1\\
+x_2\\ x_3\end{array}\right]=\left[\begin{array}{c}6\\ 5\\ 7\end{array}\right]\]</span> where the matrix of coefficients, <span class="math inline">\(A\)</span>, is clearly diagonal.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

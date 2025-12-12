@@ -1,0 +1,114 @@
+{
+    "quiz": {
+        "name": "12_1 Tangents and Normals",
+        "intro": "<h4><span style=\"color: inherit; font-family: inherit; font-size: 16px;\">Introduction<\/span><br><\/h4> <p>In this Section we see how the equations of the tangent line and the normal line at a particular point on the curve \\(y=f(x)\\) can be obtained. The equations of tangent and normal lines are often written as&nbsp;<\/p><p>\\(\\qquad y=mx+c,\\ \\ \\ \\ \\ \\ y=nx+d\\)&nbsp;<\/p><p>respectively. We shall show that the product of their gradients \\(m\\) and \\(n\\) is such that \\(mn\\) is \\(-1\\) which is the condition for perpendicularity.<\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "7.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Perpendicular lines",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "4",
+            "heading": "The tangent line to a curve",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "7",
+            "heading": "The normal line to a curve",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-12-1\/12-1-1-1-Introduction-and-Perpendicular-lines.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-12-1\/12-1-1-2-Perpendicular-lines-Exercises.xml"
+        },
+        {
+            "slot": "3",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-12-1\/12-1-2-1-Tangents-and-normals-to-a-curve.xml"
+        },
+        {
+            "slot": "4",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-12-1\/12-1-3-1-The-tangent-line-to-a-curve.xml"
+        },
+        {
+            "slot": "5",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-12-1\/12-1-3-2-The-tangent-line-to-a-curve-exponential.xml"
+        },
+        {
+            "slot": "6",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-12-1\/12-1-3-3-The-tangent-line-to-a-curve-sinusoid.xml"
+        },
+        {
+            "slot": "7",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-12-1\/12-1-4-1-The-normal-line-to-a-curve.xml"
+        },
+        {
+            "slot": "8",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-12-1\/12-1-4-2-The-normal-line-to-a-sinusoid.xml"
+        },
+        {
+            "slot": "9",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-12-1\/12-1-4-3-The-normal-line-to-a-cubic.xml"
+        },
+        {
+            "slot": "10",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-12-1\/12-1-4-4-tangents-and-normals-to-various-functions.xml"
+        },
+        {
+            "slot": "11",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-12-1\/12-1-4-5-Intersect-at-right-angles.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "8.00000"
+        }
+    ]
+}

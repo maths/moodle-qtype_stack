@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>22.2.1.5 Powers of Matrices</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>We now use the relation <span class="math inline">\(\ \  A=PDP^{-1}\)</span>&nbsp;&nbsp;to obtain a formula for powers of <span class="math inline">\(A\)</span> in terms of the easily calculated powers of the diagonal matrix <span class="math inline">\(D\)</span>:</p>
+\begin{align*}
+A^ = A \cdot A &amp; = (PDP^{-1})(PDP^{-1}) \\
+&amp; = PD(P^{-1}P)DP^{-1} \\
+&amp; = PDIDP^{-1} \\
+&amp; = PD^2P^{-1}
+\end{align*}
+
+<p>Similarly,</p>
+\begin{align*}
+A^3 = A^2 \cdot A &amp; (PD^2P^{-1})(PDP^{-1}) \\
+&amp; = PD^2(P^{-1}P)DP^{-1} \\
+&amp; = PD^3P^{-1}
+\end{align*}
+<p>The general result is given in the following Key Point:</p>
+
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p>For a matrix <span class="math inline">\(A\)</span> with distinct eigenvalues <span class="math inline">\(\lambda_1,\lambda_2,\dots ,\lambda_n\)</span> and associated eigenvectors <span class="math inline">\(\underline{x}_1, \underline{x}_2,\dots ,\underline{x}_n\)</span>, if</p>
+\[P=[\underline{x}_1 : \underline{x}_2 : \ \cdots\  : \underline{x}_n]\]
+</p>then \(D=P^{-1}AP\) is a diagonal matrix such that
+\[ D=\left[\begin{matrix}\lambda_1&amp;&amp;&amp;&amp;\\
+&amp;\lambda_2&amp;&amp;&amp;\\
+&amp;&amp;\ddots &amp;&amp;\\
+&amp;&amp;&amp;\lambda_n\end{matrix}\right]\qquad\text{and}\qquad A^k=PD^kP^{-1}\]</p>
+</div>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>If <span class="math inline">\(A=\left[\begin{array}{cc}2&amp;3\\ 3&amp;2\end{array}\right]\),</span> find <span class="math inline">\(A^{23}\)</span>. (Use the results of the previous Example.)</p>
+
+<h4 class="HELM_solution">Solution</h4>
+<p>We know from the previous Example that if \(P=\left[\begin{array}{rr}1&amp;1\\-1&amp;1\end{array}\right]\) then \(  P^{-1}AP=\left[\begin{array}{rr}-1&amp;0\\ 0&amp;5\end{array}\right]= D\) 
+where \(P^{-1}=\dfrac{1}{2}\left[\begin{array}{rr}\hfill 1&amp;\hfill -1\\ \hfill 1&amp;\hfill
+1\end{array}\right]\).</p>
+<p>Therefore,</p>
+<p style="text-align: center;">\(A=PDP^{-1}\) &emsp; and &emsp; \(A^{23}=PD^{23}P^{-1}\) &emsp; using the general result in the Key Point, i.e.,</p>
+\[A^{23}= \dfrac{1}{2}
+\left[\begin{array}{rr}\hfill 1&amp;\hfill 1\\ \hfill -1&amp;\hfill 1\end{array}\right]
+\left[\begin{array}{rr}\hfill -1&amp;\hfill 0\\ \hfill 0&amp;\hfill 5^{23}\end{array}\right]
+\left[\begin{array}{rr}\hfill 1&amp;\hfill -1\\ \hfill 1&amp;\hfill 1\end{array}\right]\]
+<p>which is easily evaluated, especially compared to calculating the product \(A^{23}\) directly!&nbsp;</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

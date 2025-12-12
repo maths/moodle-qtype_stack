@@ -1,0 +1,710 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>HELM 30.1 E4 Problem Condition</text>
+    </name>
+    <questiontext format="markdown">
+      <text>**30.1 E4 Problem condition**
+
+Consider the function \\\(f(x) = {@x^2+x+q@}\\\) and suppose we want to evaluate it for some \\\(x\\\).
+
+(a) Let \\\(x = {@xa@}\\\). Evaluate \\\(f({@xa@})=\\\) 
+[[input:S_fxa]] [[validation:S_fxa]] [[feedback:fxa]]
+
+and then evaluate \\\(f\\\) again having altered \\\(x\\\) by just 1%.
+
+\\\(f({@xa1@})=\\\) [[input:S_fxa1]] [[validation:S_fxa1]] [[feedback:fxa1]]
+
+What is the percentage change in \\\(f\\\)? 
+[[input:S_pa]] [[validation:S_pa]] [[feedback:pa]]
+
+Based on this, the problem of evaluating \\\(f(x)\\\), for \\\(x = {@xa@}\\\), is 
+[[input:S_a]]. [[validation:S_a]] [[feedback:a]]
+
+(b) Let \\\(x = {@xb@}\\\). Evaluate \\\(f(x)\\\) 
+[[input:S_fxb]] [[validation:S_fxb]] [[feedback:fxb]]
+
+and then evaluate f again having altered \\\(x\\\) by just 1%.
+
+\\\(f({@xb1@})=\\\) [[input:S_fxb1]] [[validation:S_fxb1]] [[feedback:fxb1]]
+
+
+What is the percentage change in \\\(f\\\)? 
+[[input:S_pb]] [[validation:S_pb]] [[feedback:pb]]
+
+Based on this, the problem of evaluating \\\(f(x)\\\), for \\\(x = {@xb@}\\\), is 
+[[input:S_b]]. [[validation:S_b]] [[feedback:b]]</text>
+    </questiontext>
+    <generalfeedback format="markdown">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2024012900</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[q: -rand_with_step(1000,2000,1);
+f(x):= x^2+x+q;
+x0: -1/2+sqrt(1/4-q);
+xa: round(x0/2)+rand_with_step(-2,2,1); xb: rand([ceiling(x0), floor(x0)]);
+xa1: xa*1.01; xb1: xb*1.01;
+fxa: f(xa); fxa1: f(xa1);
+fxb: f(xb); fxb1: f(xb1);
+if fxb=0 then (
+  xb:xb+1, 
+  fxb: f(xb),
+  xb1: xb*1.01,
+  fxb1: f(xb1)
+)
+pa: (fxa1-fxa)/fxa*100;
+pb: (fxb1-fxb)/fxb*100;
+
+a_mcq: [
+  [1, true, "well conditioned"],
+  [2, false, "ill conditioned" ]
+];
+b_mcq: [
+  [1, false, "well conditioned"],
+  [2, true, "ill conditioned" ]
+];]]></text>
+    </questionvariables>
+    <specificfeedback format="markdown">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>{@xa@}, {@xb@} {@fxb@} {@fxb1@} {@pa@} {@pb@}</text>
+    </questionnote>
+    <questiondescription format="markdown">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="markdown">
+      <text>Richtige Antwort, gut gemacht!</text>
+    </prtcorrect>
+    <prtpartiallycorrect format="markdown">
+      <text>Ihre Antwort ist teilweise korrekt.</text>
+    </prtpartiallycorrect>
+    <prtincorrect format="markdown">
+      <text>Falsche Antwort.</text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>S_a</name>
+      <type>dropdown</type>
+      <tans>a_mcq</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>S_b</name>
+      <type>dropdown</type>
+      <tans>b_mcq</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>S_fxa</name>
+      <type>numerical</type>
+      <tans>fxa</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>2 d.p.</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>S_fxa1</name>
+      <type>numerical</type>
+      <tans>fxa1</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>2 d.p.</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>S_fxb</name>
+      <type>numerical</type>
+      <tans>fxb</tans>
+      <boxsize>8</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>2 d.p.</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>S_fxb1</name>
+      <type>numerical</type>
+      <tans>fxb1</tans>
+      <boxsize>8</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>2 d.p.</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>S_pa</name>
+      <type>numerical</type>
+      <tans>pa</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>3 s.f.</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>S_pb</name>
+      <type>numerical</type>
+      <tans>pb</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>3 s.f.</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>a</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text>S_XX
+TAns	mcq_correct(XX_mcq)[1]</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>S_a</sans>
+        <tans>mcq_correct(a_mcq)[1]</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>a-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>a-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>b</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>S_b </sans>
+        <tans>mcq_correct(b_mcq)[1]</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>b-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>b-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>fxa</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumAbsolute</answertest>
+        <sans>S_fxa</sans>
+        <tans>fxa</tans>
+        <testoptions>0.01</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>fxa-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>fxa-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>fxa1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumAbsolute</answertest>
+        <sans>S_fxa1</sans>
+        <tans>fxa1</tans>
+        <testoptions>0.01</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>fxa1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>fxa1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>fxb</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>3</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumAbsolute</answertest>
+        <sans>S_fxb</sans>
+        <tans>fxb</tans>
+        <testoptions>0.01</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>fxb-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>fxb-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>fxb1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumAbsolute</answertest>
+        <sans>S_fxb1</sans>
+        <tans>fxb1</tans>
+        <testoptions>0.02</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>fxb1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>fxb1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>pa</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumRelative</answertest>
+        <sans>S_pa</sans>
+        <tans>pa</tans>
+        <testoptions>0.005</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>pa-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>pa-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>pb</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumRelative</answertest>
+        <sans>S_pb</sans>
+        <tans>pb</tans>
+        <testoptions>0.005</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>pb-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>pb-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>336360829</deployedseed>
+    <deployedseed>1953875469</deployedseed>
+    <deployedseed>1834931245</deployedseed>
+    <deployedseed>403421496</deployedseed>
+    <deployedseed>1230971453</deployedseed>
+    <deployedseed>1186765366</deployedseed>
+    <deployedseed>856085085</deployedseed>
+    <deployedseed>1130819451</deployedseed>
+    <deployedseed>1351888500</deployedseed>
+    <deployedseed>302422472</deployedseed>
+    <deployedseed>710153423</deployedseed>
+    <deployedseed>1100246999</deployedseed>
+    <deployedseed>598273901</deployedseed>
+    <deployedseed>25215682</deployedseed>
+    <deployedseed>291603966</deployedseed>
+    <deployedseed>173832681</deployedseed>
+    <deployedseed>683094547</deployedseed>
+    <deployedseed>1408709988</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>S_a</name>
+        <value>first(mcq_correct(a_mcq))</value>
+      </testinput>
+      <testinput>
+        <name>S_b</name>
+        <value>first(mcq_correct(b_mcq))</value>
+      </testinput>
+      <testinput>
+        <name>S_fxa</name>
+        <value>fxa</value>
+      </testinput>
+      <testinput>
+        <name>S_fxa1</name>
+        <value>fxa1</value>
+      </testinput>
+      <testinput>
+        <name>S_fxb</name>
+        <value>fxb</value>
+      </testinput>
+      <testinput>
+        <name>S_fxb1</name>
+        <value>fxb1</value>
+      </testinput>
+      <testinput>
+        <name>S_pa</name>
+        <value>pa</value>
+      </testinput>
+      <testinput>
+        <name>S_pb</name>
+        <value>pb</value>
+      </testinput>
+      <expected>
+        <name>a</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>a-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>b</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>b-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>fxa</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>fxa-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>fxa1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>fxa1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>fxb</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>fxb-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>fxb1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>fxb1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>pa</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>pa-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>pb</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>pb-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>S_a</name>
+        <value>first(mcq_correct(a_mcq))</value>
+      </testinput>
+      <testinput>
+        <name>S_b</name>
+        <value>first(mcq_correct(b_mcq))</value>
+      </testinput>
+      <testinput>
+        <name>S_fxa</name>
+        <value>fxa</value>
+      </testinput>
+      <testinput>
+        <name>S_fxa1</name>
+        <value>fxa1</value>
+      </testinput>
+      <testinput>
+        <name>S_fxb</name>
+        <value>fxb</value>
+      </testinput>
+      <testinput>
+        <name>S_fxb1</name>
+        <value>fxb1</value>
+      </testinput>
+      <testinput>
+        <name>S_pa</name>
+        <value>pa</value>
+      </testinput>
+      <testinput>
+        <name>S_pb</name>
+        <value>pb</value>
+      </testinput>
+      <expected>
+        <name>a</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>a-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>b</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>b-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>fxa</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>fxa-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>fxa1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>fxa1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>fxb</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>fxb-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>fxb1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>fxb1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>pa</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>pa-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>pb</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>pb-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

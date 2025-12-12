@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>25.1.2.1 Partial differential equations</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Partial differential equations</h3>
+<p>In all the above examples we had a function \(y\) of a single variable \(x,y\) being
+the solution of an <strong>ordinary</strong> differential equation.</p>
+
+<p>In engineering and science ODEs arise as models for systems where there is <strong>one</strong> independent  variable (often \(x\)) and <strong>one</strong> dependent variable (often \(y\)). Obvious examples are lumped electrical circuits where the current \(i\) is a function only of time \(t\) (and not of position in the circuit) and lumped mechanical systems (such as the simple harmonic oscillator referred to above) where the displacement of a moving particle depends only on \(t\). </p>
+
+<p>However, in problems where one variable, say \(u\), depends on <strong>more than one</strong> independent variable, say both \(x\) and \(t\), then any derivatives of \(u\) will be <strong>partial derivatives</strong> such as \(\dfrac{\partial u}{\partial x}\) or \(\dfrac{\partial^2u}{\partial t^2}\) and any differential equation arising will be known as a <strong>partial differential equation.</strong> In particular, one-dimensional (1-D) time-dependent problems where \(u\) depends on a position coordinate \(x\) and the time \(t\) and two-dimensional (2-D) time-independent problems where \(u\) is a function of the two position coordinates \(x\) and \(y\) both give rise to PDEs involving <strong>two</strong> independent variables. This is the case we shall concentrate on.  A two-dimensional time-dependent problem would involve 3 independent variables \(x,y,t\) as would a three-dimensional time-independent problem where \(x,y,z\) would be the independent variables.</p>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Show that \(u=\sin x\cosh y\) satisfies the PDE
+\[ \dfrac{\partial^2u}{\partial x^2}+\dfrac{\partial^2u}{\partial y^2}=0.\] </p>
+<p>This PDE is known as <strong>Laplace's equation in two dimensions</strong> and it arises in many applications e.g. electrostatics, fluid flow, heat conduction.</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>\[u=\sin x\cosh y\qquad\Rightarrow\qquad \dfrac{\partial u}{\partial x}=\cos x\cosh y\quad \text{and} \quad \dfrac{\partial u}{\partial y}=\sin x\sinh y.\] Differentiating again gives \( \displaystyle \dfrac{\partial^2u}{\partial x^2}\ \ =-\sin x\cosh y\) and \(\dfrac{\partial^2u}{\partial y^2}=\sin x \cosh y\).</p>
+<p>Hence \[\dfrac{\partial^2u}{\partial x^2}+\dfrac{\partial^2u}{\partial y^2}=-\sin x\cosh y+\sin x\cosh y=0\] so the given function \(u(x,y)\) is indeed a solution of the PDE.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

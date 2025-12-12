@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>HELM 30.2 E3a Gaussian Elimination</text>
+    </name>
+    <questiontext format="markdown">
+      <text>**30.2 E3a Gaussian Elimination**
+
+Carry out row operations (with partial pivoting if necessary) to reduce this matrix to upper
+triangular form.
+
+\\\[{@M0@}\\\]
+
+[[input:S_M]] [[validation:S_M]] [[feedback:M]]</text>
+    </questiontext>
+    <generalfeedback format="markdown">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2024012900</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[m:5;
+M: matrix([1, rand_with_prohib(-m,m,[0]), rand_with_prohib(-m,m,[0])],
+          [0, rand_with_prohib(-m,m,[-1,0,1]), rand_with_prohib(-m,m,[0])],
+          [0, 0, rand_with_prohib(-m,m,[-1,0,1])]
+);
+M0: rowop(M,3,2,rand_with_prohib(-m,m,[-1,0,1]));
+M0: rowop(M0,3,1,rand_with_prohib(-m,m,[-1,0,1]));
+M0: rowop(M0,2,1,rand_with_prohib(-m,m,[-1,0,1]));
+
+fb_echelon(M,Mref):=block(
+    [txt: "", OK:true],
+    for j: 2 thru length(M) do (
+        for k: 1 thru j-1 do (
+            if float(M[j,k]) # 0.0 then (
+                OK: false,
+                txt: sconcat(txt, "<br>Element in row ", string(j), " and column ", string(k), " is not zero.")
+            )
+        )
+    ),
+    if echelon(M) # echelon(Mref) then (
+        OK: false,
+        txt: sconcat(txt, "The matrices differ by more than row swapping and row operations.")
+    ),
+   [txt, OK]
+   
+);]]></text>
+    </questionvariables>
+    <specificfeedback format="markdown">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>{@M0@}, {@M@}</text>
+    </questionnote>
+    <questiondescription format="markdown">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="markdown">
+      <text>Richtige Antwort, gut gemacht!</text>
+    </prtcorrect>
+    <prtpartiallycorrect format="markdown">
+      <text>Ihre Antwort ist teilweise korrekt.</text>
+    </prtpartiallycorrect>
+    <prtincorrect format="markdown">
+      <text>Falsche Antwort.</text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>S_M</name>
+      <type>matrix</type>
+      <tans>M</tans>
+      <boxsize>4</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>M</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text>[txt,OK]: fb_echelon(S_M, M);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>OK</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>M-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>M-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>{@txt@}</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>185533712</deployedseed>
+    <deployedseed>97038521</deployedseed>
+    <deployedseed>1517836361</deployedseed>
+    <deployedseed>1662151632</deployedseed>
+    <deployedseed>1855979355</deployedseed>
+    <deployedseed>1379163910</deployedseed>
+    <deployedseed>1578832493</deployedseed>
+    <deployedseed>186809998</deployedseed>
+    <deployedseed>149737609</deployedseed>
+    <deployedseed>325160686</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>S_M</name>
+        <value>M</value>
+      </testinput>
+      <expected>
+        <name>M</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>M-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>S_M</name>
+        <value>M</value>
+      </testinput>
+      <expected>
+        <name>M</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>M-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

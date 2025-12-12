@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>37.1.3.1 Mean of a discrete probability distribution</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4> Mean and variance of a discrete probability distribution </h4>
+<p>If an experiment is performed <span class="math inline">\(N\)</span> times in which the <span class="math inline">\(n\)</span> possible outcomes <span class="math inline">\(X=x_1,x_2,x_3,\dots
+,x_n\)</span> are observed with frequencies <span class="math inline">\(f_1,f_2,f_3,\dots ,f_n\)</span> respectively, we know that the mean of the distribution of outcomes is given by</p>
+\[\displaystyle{\bar x =\dfrac{f_1x_1+f_2x_2+\ldots +f_nx_n}{f_1+f_2+\ldots +f_n}
+=\dfrac{\sum_{i=1}^n f_ix_i}{\sum_{i=1}^n f_i} =\dfrac{1}{N}\sum_{i=1}^n f_ix_i
+=\sum_{i=1}^n \left(\dfrac{f_i}{N}\right)x_i.}\]
+<br>(Note that \(\displaystyle{\sum_{i=1}^nf_i=f_1+f_2+\dots +f_n=N}\))
+<p>The quantity <span class="math inline">\(\dfrac{f_i}{N}\)</span> is called the <span><strong>relative frequency</strong></span> of the observation <span class="math inline">\(x_i\)</span>. Relative frequencies may be thought of as akin to probabilities; informally we would say that the chance of observing the outcome <span class="math inline">\(x_i\)</span> is <span class="math inline">\(\dfrac{f_i}{N}\)</span>. Formally, we consider what happens as the number of experiments becomes very large. In order to give meaning to the quantity <span class="math inline">\(\dfrac{f_i}{N}\)</span> we consider the limit (if it exists) of the quantity <span class="math inline">\(\dfrac{f_i}{N}\)</span> as <span class="math inline">\(N\rightarrow\infty\)</span> . Essentially, we define the probability <span class="math inline">\(p_i\)</span> as 
+<br><span class="math inline">\(\qquad p_i= \lim_{N\rightarrow\infty}\dfrac{f_i}{N}\)</span>
+</p><p>Replacing <span class="math inline">\(\dfrac{f_i}{N}\)</span> with the probability <span class="math inline">\(p_i\)</span> leads to the following definition of the mean or <span><strong>expectation</strong></span> of the discrete random variable <span class="math inline">\(X\)</span>.</p>
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p>Let <span class="math inline">\(X\)</span> be a random variable with values <span class="math inline">\(x_1,x_2,\ldots, x_n\)</span>. Let the probability that <span class="math inline">\(X\)</span> takes the value <span class="math inline">\(x_i\)</span> (i.e. <span class="math inline">\(\text{P}(X=x_i)\)</span>) be denoted by <span class="math inline">\(p_i\)</span>. The mean or <span><strong>expected value</strong></span> or <span><strong>expectation</strong></span> of <span class="math inline">\(X\)</span>, which is written <span class="math inline">\(\text{E}(X)\)</span> is defined as:</p>
+\[\displaystyle{\text{E}(X)=\sum_{i=1}^n x_i\  \text{P}(X=x_i)= p_1x_1+p_2x_2+\dots +p_nx_n}\]
+<p>The symbol <span class="math inline">\(\mu\)</span> is sometimes used to denote <span class="math inline">\(\text{E}(X)\)</span>.</p>
+</div>
+<br>
+<p>The expectation <span class="math inline">\(\text{E}(X)\)</span> of <span class="math inline">\(X\)</span> is the value of <span class="math inline">\(X\)</span> which we expect on average. In a similar way we can write down the expected value of the function <span class="math inline">\(g(X)\)</span> as <span class="math inline">\(\text{E}[g(X)]\)</span>, the value of <span class="math inline">\(g(X)\)</span> we expect on average. We have
+<br><span class="math inline">\[\displaystyle{\qquad \text{E}[g(X)]=\sum_i^ng(x_i)f(x_i).}\]</span></p><p> In particular if <span class="math inline">\(g(X)=X^2\)</span>, we obtain 
+<br><span class="math inline">\[\displaystyle{\qquad \text{E}[X^2]=\sum_i^nx_i^2f(x_i).}\]</span></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

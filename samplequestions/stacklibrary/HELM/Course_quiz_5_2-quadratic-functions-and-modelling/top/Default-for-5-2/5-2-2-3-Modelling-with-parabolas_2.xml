@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>5.2.2.3 Modelling with parabolas</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p><p>In this modelling context, negative time would correspond to time before the villain dislodges the rock. It seems likely that the rock was stationary before this instant. The parabolic function would not be appropriate for \(t\le 0\) since it would predict that the rock was moving. An appropriate function would have two parts to its domain:</p><p>For \(t\le 0, s\) would be constant (\(=0\)) and for \(0\le t \le T,\ s = 4.9t^2\).&nbsp;</p><p>The corresponding graph would also have two parts:</p><p>A flat line along the \(s = 0\) axis for \(t\le 0\) and part of a parabola for \(0&lt; t \le T\).</p><p>A different form of quadratic function for position is appropriate if position is measured&nbsp;<b>upwards</b>&nbsp;as height \((h)\) above the ground below the cliff-top. This is given as&nbsp;</p><p>\(\qquad h = 35 - 4.9t^2\qquad (0\le t \le 2.6)\)&nbsp;</p><p>Note that once \(t=2.6\) then \(h=0\) and the rock cannot fall any further. When position is measured upwards, velocities and accelerations, which are downwards for falling objects, will be negative.</p><br></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

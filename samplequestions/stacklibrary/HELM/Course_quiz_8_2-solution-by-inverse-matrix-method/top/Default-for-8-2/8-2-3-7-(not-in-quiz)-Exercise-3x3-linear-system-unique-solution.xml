@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>8.2.3.7 (not in quiz) Exercise 3x3 linear system unique solution</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>Consider the following linear system of equations: <span class="math display">\[\begin{matrix}
+    {@eqq1@} \\
+    {@eqq2@} \\
+    {@eqq3@} \\
+\end{matrix}\]</span>
+
+</p>
+<ol class="HELM_parts">
+
+    <li>
+        <p> Consider the matrix form <span class="math inline">\(AX = B\)</span> of the system and identify <span class="math inline">\(A\)</span></p>
+    </li>
+
+    <div>\(A=\) [[input:ans1]] [[validation:ans1]]</div>
+    <div><br></div>
+
+    <li>
+        <p>Find the determinant of <span class="math inline">\(A\)</span>: </p>
+        <p><span class="math inline">\(|A| =\)</span> [[input:ans2]] [[validation:ans2]]</p>
+    </li>
+
+    <li>
+        <p>Determine if the system has no solution, a unique solution, or infinitely many solutions.</p>
+    </li>
+    <p>[[input:ans3]] [[validation:ans3]]</p>
+
+    <li>
+        <p>If it has a unique solution or infinitely many solutions, these are:</p>
+    </li>
+
+    <p>\(x =\) [[input:ans4]] [[validation:ans4]] </p>
+
+    <p>\(y =\) [[input:ans5]] [[validation:ans5]] </p>
+
+    <p>\(z =\) [[input:ans6]] [[validation:ans6]] </p>
+
+    <p> Give all the solutions if there is more than one. If there are no solutions, fill the gaps for \(x, y \) and \(z \) with the word <b>null</b>. </p>
+
+</ol>
+[[feedback:prt1]]]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<ol class="HELM_parts">
+  <li>
+<p> In matrix form \(AX = B\), the matrix \(A \) is \[ A = {@AA@}.\]</p>
+  </li>
+  
+  <li>
+<p> \( \det A = {@determinant(AA)@} \). </p>
+  </li>
+  
+  <li>
+<p> Since \( \det A = {@determinant(A)@} \neq 0 \), the system has a unique solution. Furthermore, the matrix \(A \) is invertible.</p>
+  </li>
+  
+  <li>
+<p> We can compute the inverse of \( A \) \[ A^{-1} = {@inverseAA@} \] and apply the inverse matrix method to solve the system of equations. Multiply the matrix equation \(A X = B \) by \(A^{-1} \) from the left to obtain \[ X = A^{-1} A X = A^{-1} B
+    = {@inverseAA@} {@BB@} = {@inverseAA . BB@}. \] </p>
+  </li>
+</ol>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020120600</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[/* Set an order in the variables */
+ordergreat(x, y, z);
+/* Generate the system of equations by multiplying an upper triangular matrix with a lower triangular matrix, so that it has determinant 1. For display purposes, all coeficients nonnegative.*/
+/* For display purposes, a1, a2 are positive, b1, b2 any, c1, c2 negative */
+a : rand(4);
+b : rand(4);
+c : rand(4);
+d : rand(4);
+e : rand(4);
+f : rand(4);
+matUT : matrix([1, a, b], [0, 1, c], [0, 0, 1]);
+matLT : matrix([1, 0, 0], [d, 1, 0], [e, f, 1]);
+AA : matUT . matLT;
+inverseAA : invert(AA);
+vecX : matrix([x], [y], [z]);
+BB : matrix([rand(8) - 4], [rand(8) - 4], [rand(8) - 4]);
+eqq : AA . vecX;
+eqq1 : eqq[1][1] = BB[1][1];
+eqq2 : eqq[2][1] = BB[2][1];
+eqq3 : eqq[3][1] = BB[3][1];
+
+detAA : determinant(AA);
+
+/* Variables for dropdown list */
+ta3:[["No solution",false],["One unique solution",true],["Infinitely many solutions",false]];
+ta3:random_permutation(ta3);
+ta3c: "One unique solution";
+
+/* Determine solution to the system */
+ta4 : algsys([eqq1, eqq2, eqq3], [x, y, z]);
+xx1 : rhs(ta4[1][1]);
+xx2 : rhs(ta4[1][2]);
+xx3 : rhs(ta4[1][3]);
+XX : matrix([xx1], [xx2], [xx3]);]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\[\begin{matrix} {@eqq1@} \\ {@eqq2@} \\ \end{matrix}\]
+\( A = {@AA@}, \quad |A| = {@detAA@},\) {@ta3c@}, {@XX@}</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>matrix</type>
+      <tans>AA</tans>
+      <boxsize>4</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>detAA</tans>
+      <boxsize>4</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>dropdown</type>
+      <tans>ta3</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans4</name>
+      <type>algebraic</type>
+      <tans>xx1</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans5</name>
+      <type>algebraic</type>
+      <tans>xx2</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans6</name>
+      <type>algebraic</type>
+      <tans>xx3</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>/* Create the vector containing the answers */
+vecAns : matrix([ans4], [ans5], [ans6]);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>AA</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.2000000</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>(a) Matrix <span class="math inline">\(A\)</span> correctly identified. </p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p> (a) Be careful, matrix <span class="math inline">\(A\)</span> was not introduced correctly.  Unfortunately, this error changed the difficulty of the problem and no more points can be awarded. </p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>detAA</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.2000000</truescore>
+        <truepenalty/>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p> (b) Determinant of <span class="math inline">\(A\)</span> correctly computed. </p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p> (b) Be careful, the determinant of <span class="math inline">\(A\)</span> was not computed correctly.  Unfortunately, this error changed the difficulty of the problem and no more points can be awarded.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>ta3c</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.2000000</truescore>
+        <truepenalty/>
+        <truenextnode>3</truenextnode>
+        <trueanswernote>prt1-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p> (c) The dimension of the solution space was identified correctly. </p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>(c) The dimension of the solution space was not identified correctly. What can we say when the determinant of \( A \) is non-zero?  Unfortunately, this error changed the difficulty of the problem and no more points can be awarded.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>3</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>AA.vecAns</sans>
+        <tans>BB</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.4000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-4-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p> (d) You've identified all the solutions correctly </p>
+<p> Well done! </p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-4-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p> (d) Your answer does not solve the linear system of equations: &nbsp;\[ {@AA@}{@vecAns@} =  {@AA . vecAns@}  \neq {@BB@}.\]</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1000814482</deployedseed>
+    <deployedseed>156934082</deployedseed>
+    <deployedseed>227885702</deployedseed>
+    <deployedseed>270651983</deployedseed>
+    <deployedseed>1236941279</deployedseed>
+    <deployedseed>388755296</deployedseed>
+    <deployedseed>1385143367</deployedseed>
+    <deployedseed>586944291</deployedseed>
+    <deployedseed>556815169</deployedseed>
+    <deployedseed>1999338558</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>AA</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>detAA</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta3c</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>xx1</value>
+      </testinput>
+      <testinput>
+        <name>ans5</name>
+        <value>xx2</value>
+      </testinput>
+      <testinput>
+        <name>ans6</name>
+        <value>xx3</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-4-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(2*AA,simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>0</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value><![CDATA["No solution"]]></value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>xx1</value>
+      </testinput>
+      <testinput>
+        <name>ans5</name>
+        <value>xx2</value>
+      </testinput>
+      <testinput>
+        <name>ans6</name>
+        <value>xx3</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

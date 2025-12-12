@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>HELM 33.1 E2 BVP System of Equations</text>
+    </name>
+    <questiontext format="markdown">
+      <text><![CDATA[**33.1 E2 1D Boundary Value Problem, System of Equations**
+
+<p>Let \( y = y(x) \) be a solution to the boundary value problem:</p>
+
+<p>
+  \(\displaystyle {@p(x)*'diff('y,x,2) + q(x)*'diff('y,x) + r(x)*'y(x) = s(x)@} \quad 0 < x < {@L@} \)
+</p>
+<p>
+  \( y(0) = {@y0@} \), \( y({@L@}) = {@yL@} \)
+</p>
+
+<p>
+Using a mesh width of \( h = {@h@} \), obtain a central difference approximation to the differential equation and hence find a system of equations satisfied by \( y_1 \approx y({@h@}) \), \( y_2 \approx y({@2*h@}) \), and \( y_3 \approx y({@3*h@}) \). </p>
+
+<p>Specify the values to 3 d.p. (trailing zeros can be ommitted).
+</p>
+
+<table border="0">
+ <tbody>
+  <tr>
+   <td>[[input:S_A]]</td>
+   <td>[[validation:S_A]]</td>
+   <td>\( \left[ \begin{array}{c} y_1 \\ y_2 \\ y_3 \end{array} \right] = \) </td>
+   <td>[[input:S_b]]</td>
+   <td>[[validation:S_b]]</td>
+  </tr>
+ </tbody>
+</table>
+<p>[[feedback:GLS]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="markdown">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2024072400</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[/* Define parameters */
+L: 1.2;
+h: 0.3;
+y0: -2;
+yL: 3;
+y0: rand_with_step(-3,-1,1);
+yL: rand_with_step(2,4,1);
+
+/* Define the coefficients of the ODE */
+p(x):= 2;
+q(x):= 3;
+r(x):= 0;
+s(x):= 5;
+p0: rand_with_step(1,3,1);
+q0: rand_with_step(2,4,1);
+s0: rand_with_step(4,6,1);
+p(x):= p0;
+q(x):= q0;
+r(x):= 0;
+s(x):= s0;
+
+/* Define the equations using central difference approximations */
+c1: p(x)-h*q(x)/2;
+c2: h^2*r(x)-2*p(x);
+c3: p(x)+h*q(x)/2;
+c4: h^2*s(x);
+A: matrix( [c2, c3, 0], [c1, c2, c3], [0, c1, c2] );
+b: matrix( [c4-c1*y0], [c4], [c4-c3*yL] );
+
+y: invert(A).b;
+
+stack_include("https://raw.githubusercontent.com/mkraska/meclib/main/Maxima/fb_value_EN.mac");
+
+toList(m):= args(transpose(m))[1];]]></text>
+    </questionvariables>
+    <specificfeedback format="markdown">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text><![CDATA[\(\displaystyle {@p(x)*'diff('y,x,2) + q(x)*'diff('y,x) + r(x)*'y(x) = s(x)@} \quad 0 < x < {@L@} \), {@float(round(1000*[y0,y[1,1],y[2,1],y[3,1],yL])/1000)@}]]></text>
+    </questionnote>
+    <questiondescription format="markdown">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="markdown">
+      <text>Richtige Antwort, gut gemacht!</text>
+    </prtcorrect>
+    <prtpartiallycorrect format="markdown">
+      <text>Ihre Antwort ist teilweise korrekt.</text>
+    </prtpartiallycorrect>
+    <prtincorrect format="markdown">
+      <text>Falsche Antwort.</text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>S_A</name>
+      <type>matrix</type>
+      <tans>A</tans>
+      <boxsize>4</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>S_b</name>
+      <type>matrix</type>
+      <tans>b</tans>
+      <boxsize>4</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>GLS</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text>SA: float(round(S_A*1000)/1000);
+TA: float(round(A*1000)/1000);
+Sb: float(round(S_b*1000)/1000);
+Tb: float(round(b*1000)/1000);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumRelative</answertest>
+        <sans>toList(invert(S_A).S_b)</sans>
+        <tans>toList(y)</tans>
+        <testoptions>0.005</testoptions>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>GLS-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[Your system provides the correct solution:
+<br>
+ {@float(round(1000*invert(S_A).S_b)/1000)@}]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>GLS-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[Your system has the solution
+<br>
+ {@float(round(1000*invert(S_A).S_b)/1000)@}. 
+<br>
+The correct solution is 
+<br>
+{@float(round(1000*y)/1000)@}.<br>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>SA</sans>
+        <tans>TA</tans>
+        <testoptions>0.005</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>GLS-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>GLS-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>Sb</sans>
+        <tans>Tb</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>GLS-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>GLS-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>579624181</deployedseed>
+    <deployedseed>1343186453</deployedseed>
+    <deployedseed>1134831928</deployedseed>
+    <deployedseed>2076650385</deployedseed>
+    <deployedseed>1366787899</deployedseed>
+    <deployedseed>1910156339</deployedseed>
+    <deployedseed>336030133</deployedseed>
+    <deployedseed>487474868</deployedseed>
+    <deployedseed>1130909704</deployedseed>
+    <deployedseed>624011609</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>S_A</name>
+        <value>A</value>
+      </testinput>
+      <testinput>
+        <name>S_b</name>
+        <value>b</value>
+      </testinput>
+      <expected>
+        <name>GLS</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>GLS-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>S_A</name>
+        <value>A</value>
+      </testinput>
+      <testinput>
+        <name>S_b</name>
+        <value>b</value>
+      </testinput>
+      <expected>
+        <name>GLS</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>GLS-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

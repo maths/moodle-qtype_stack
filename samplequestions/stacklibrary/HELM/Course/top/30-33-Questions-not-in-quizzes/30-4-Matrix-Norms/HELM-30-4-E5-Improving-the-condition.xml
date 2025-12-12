@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>HELM 30.4 E5 Improving the condition</text>
+    </name>
+    <questiontext format="markdown">
+      <text><![CDATA[**30.4 E5 Improving the condition**
+
+**(a)** Calculate the condition number (use any norm you choose) of the coeﬃcient matrix of
+the system
+
+\\\[{@M@}\,{@x=r@}\\\]
+
+\\\({\kappa}=\\\) [[input:S_k0]] [[validation:S_k0]] [[feedback:k0]]<br>
+
+**(b)** Multiply one of the equations through by a suitably chosen constant \\\(c\\\) so as to make the
+system better conditioned. Calculate the condition number of the coeﬃcient matrix in
+your new system of equations.
+
+Equation  [[input:S_n]] [[validation:S_n]] [[feedback:n]] is multiplied by factor \\\(c=\\\)
+[[input:S_c]] [[validation:S_c]] [[feedback:c]].
+
+The condition number is now [[input:S_k1]] [[validation:S_k1]] [[feedback:k1]]<br>]]></text>
+    </questiontext>
+    <generalfeedback format="markdown">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2024012900</text>
+    </stackversion>
+    <questionvariables>
+      <text>/* generate random Matrix */
+m:6
+M: matrix([rand_with_prohib(-m,m,[0]), rand_with_prohib(-m,m,[0])],
+          [rand_with_prohib(-m,m,[0]), rand_with_prohib(-m,m,[0])]);
+n: rand([1,2]); /* modified row */
+c: 1/( rand([10^4, 10^5])*rand_with_step(1,m,1));
+M[n,rand([1,2])]: 1/c;
+x: matrix([x1],[x2]);
+r: matrix([rand_with_prohib(-m,m,[0])],[rand_with_prohib(-m,m,[0])]);
+k10: mat_cond(M,1);
+ki0: mat_cond(M,inf); /* not useful, same as kappa_1 */
+kf0: ratsimp(mat_cond(M,frobenius));
+M1: matrix([1,0], [0,1]);
+M1[n,n]:c;
+k11_ref: mat_cond(M1.M,1);</text>
+    </questionvariables>
+    <specificfeedback format="markdown">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>{@M@}, {@invert(M)@}, {@[n1,ni,nf]@}</text>
+    </questionnote>
+    <questiondescription format="markdown">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="markdown">
+      <text>Richtige Antwort, gut gemacht!</text>
+    </prtcorrect>
+    <prtpartiallycorrect format="markdown">
+      <text>Ihre Antwort ist teilweise korrekt.</text>
+    </prtpartiallycorrect>
+    <prtincorrect format="markdown">
+      <text>Falsche Antwort.</text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>S_c</name>
+      <type>algebraic</type>
+      <tans>c</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>exact</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>S_k0</name>
+      <type>numerical</type>
+      <tans>dispsf(k10,4)</tans>
+      <boxsize>4</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>float</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>S_k1</name>
+      <type>algebraic</type>
+      <tans>dispsf(k11_ref,4)</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>number</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>S_n</name>
+      <type>numerical</type>
+      <tans>n</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>1 or 2</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>c</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>numberp(S_c)</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>c-1-T</trueanswernote>
+        <truefeedback format="markdown">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>c-1-F</falseanswernote>
+        <falsefeedback format="markdown">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>k0</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumRelative</answertest>
+        <sans>S_k0</sans>
+        <tans>k10</tans>
+        <testoptions>0.005</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>k0-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<br>This is the condition number when using the 1-norm.]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>k0-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>NumRelative</answertest>
+        <sans>S_k0</sans>
+        <tans>ki0</tans>
+        <testoptions>0.005</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>k0-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<br>This is the condition number when using the infinity norm.]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>k0-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>NumRelative</answertest>
+        <sans>S_k0</sans>
+        <tans>kf1</tans>
+        <testoptions>0.005</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>k0-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<br>This is the condition number when using the Frobenius norm.]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>k0-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<br> This is not one of the possible condition numbers.]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>k1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text>M1: matrix([1,0], [0,1]);
+M1[S_n,S_n]:S_c;
+k11: mat_cond(M1.M,1);
+ki1: mat_cond(M1,inf); /* not useful, same as kappa_1 */
+kf1: ratsimp(mat_cond(M1,frobenius));</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumRelative</answertest>
+        <sans>S_k1</sans>
+        <tans>k11</tans>
+        <testoptions>0.005</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>k1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<br>This is the condition number when using the 1-norm.]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>k1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>NumRelative</answertest>
+        <sans>S_k1</sans>
+        <tans>ki1</tans>
+        <testoptions>0.005</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>k1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<br>This is the condition number when using the infinity norm.]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>k1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>NumRelative</answertest>
+        <sans>S_k1</sans>
+        <tans>kf1</tans>
+        <testoptions>0.005</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>k1-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<br>This is the condition number when using the Frobenius norm.]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>k1-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<br> This is not one of the possible condition numbers.]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>n</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>S_n</sans>
+        <tans>1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>n-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>n-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>S_n</sans>
+        <tans>2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>n-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>n-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[&nbsp;(must be 1 or 2)]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1831826615</deployedseed>
+    <deployedseed>2065968024</deployedseed>
+    <deployedseed>971086245</deployedseed>
+    <deployedseed>1176998145</deployedseed>
+    <deployedseed>2010240290</deployedseed>
+    <deployedseed>566270976</deployedseed>
+    <deployedseed>951490522</deployedseed>
+    <deployedseed>1673278953</deployedseed>
+    <deployedseed>1907275208</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>S_c</name>
+        <value>c</value>
+      </testinput>
+      <testinput>
+        <name>S_k0</name>
+        <value>dispsf(k10,4)</value>
+      </testinput>
+      <testinput>
+        <name>S_k1</name>
+        <value>dispsf(k11_ref,4)</value>
+      </testinput>
+      <testinput>
+        <name>S_n</name>
+        <value>n</value>
+      </testinput>
+      <expected>
+        <name>c</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>c-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>k0</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>k0-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>k1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>k1-3-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>n</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>n-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

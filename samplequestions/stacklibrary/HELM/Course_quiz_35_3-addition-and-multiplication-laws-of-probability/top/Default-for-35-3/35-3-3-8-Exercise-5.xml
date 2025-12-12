@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>35.3.3.8 Exercise 5</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise" style="text-align: left;">Exercise</p>
+
+<p>Current flows through a relay only if it is closed. The probability of any relay being closed is \(\displaystyle{{@aa@}}\). Assuming that all the relays operate independently, calculate the probability that a current will flow through a circuit composed of <b>3</b> relays in parallel.</p>
+<p> \( P = \) [[input:ans3]] [[validation:ans3]] [[feedback:prt3]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p><br></p><ol class="HELM_parts">
+<li><p>Let \(A\) be event \(\{\)relay \(A\) is closed\(\}\):&nbsp; Similarly for \(B,\ C\). The required event is \[\{A\cap B\cap C\}\cup\underbrace{\{A'\cap B\cap C\}}_{ ^3C_1}\cap \underbrace{\{A'\cap B'\cap C\}}_{ ^3C_2}\]</p><p>\[\text{P(required event)} = \left({@aa@}\right)^3+3\left({@aa@}\right)^2\left({@na@}\right)+3\left({@aa@}\right)\left({@na@}\right)^2={@ta2@}\]</p><p>It is often easier to think of this as \(1-\text{P(all relays open)} =1-\left({@na@}\right)^3={@ta2@}\).</p></li></ol>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2024072400</text>
+    </stackversion>
+    <questionvariables>
+      <text>/*aa:(99-rand(8))/100*/ /*BAD RANDOM CHOICE*/
+aa: rand([1/2,2/3,3/4,3/5,4/5,5/6,4/7,5/7,6/7,5/8,7/8]);
+na:1-aa
+ta2:(aa)^3+3*(aa)^2*(na)+3*(aa)*(na)^2</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\( P_{close} = {@aa@}, \, P_{flow} = {@ta2@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans3</name>
+      <type>algebraic</type>
+      <tans>ta2</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>ta2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1294766717</deployedseed>
+    <deployedseed>495906481</deployedseed>
+    <deployedseed>752369693</deployedseed>
+    <deployedseed>2083611693</deployedseed>
+    <deployedseed>2124210968</deployedseed>
+    <deployedseed>577601822</deployedseed>
+    <deployedseed>285211262</deployedseed>
+    <deployedseed>1079864570</deployedseed>
+    <deployedseed>2132771298</deployedseed>
+    <deployedseed>1936585877</deployedseed>
+    <deployedseed>146719221</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans3</name>
+        <value>ta2</value>
+      </testinput>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans3</name>
+        <value>ta2+2</value>
+      </testinput>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt3-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

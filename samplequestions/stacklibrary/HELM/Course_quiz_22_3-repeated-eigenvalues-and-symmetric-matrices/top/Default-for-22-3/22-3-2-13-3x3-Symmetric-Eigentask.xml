@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>22.3.2.13 3x3 Symmetric Eigentask</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>The symmetric matrix \[A={@a@}\] has eigenvalues \({@double_eigval@},{@double_eigval@},{@single_eigval@}\) (i.e. eigenvalue \({@double_eigval@}\) is repeated with multiplicity \(2\)).</p>
+<p>Associated with the non-repeated eigenvalue \({@single_eigval@}\) is an eigenvector \[X={@covect1(single_eigvec)@}\] (or any non-zero multiple).</p>
+<ol class="HELM_parts">
+    <li>
+        <div>Normalize the eigenvector \(X\): [[input:ans_xunit]] [[validation:ans_xunit]]</div>
+      [[feedback:prt_xunit]]
+    </li>
+    <li>
+        <p>Investigate the eigenvectors associated with the repeated eigenvalue \({@double_eigval@}\): find a general form of these eigenvectors:</p>
+        <div>[[input:ans_dvecs]] [[validation:ans_dvecs]]</div>
+      [[feedback:prt_dvecs]]
+    </li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<ol class="HELM_parts">
+    <li>
+        <p>Normalizing \(X\) which has magnitude \(\sqrt{({@single_eigvec[1]@})^2+({@single_eigvec[2]@})^2+({@single_eigvec[3]@})^2} = {@norm(single_eigvec)@}\) gives \[\frac{1}{{@norm(single_eigvec)@}}{@covect1(single_eigvec)@} = {@single_normalized@}.\]
+        </p>
+    </li>
+    <li>
+        <p>The eigenvectors associated with \(\lambda={@double_eigval@}\) satisfy \(AY={@double_eigval@}Y\) which gives \[{@a-double_eigval*ident(3)@}{@covect1([x,y,z])@} = {@zeromatrix(3,1)@}.\] All three equations simplify to \({@eq@}\). Having a single
+            equation with three unknowns, we choose two of the variables to be parameters \({@uu@},{@vv@}\) and thus obtain that \[Y={@covect1(gensol)@}\] where \({@uu@},{@vv@}\) are arbitrary (but not both simultaneously zero).
+        </p>
+    </li>
+</ol>
+<p><strong>Further discussion</strong></p>
+<p>A certain amount of care is now require in the choice of \({@uu@}\) and \({@vv@}\) if we are to find an orthogonal modal matrix to diagonalize \(A\).</p>
+<p>For any choice \[X^TY = {@matrix(single_eigvec)@}{@covect1(gensol)@} = {@(simp:false,xy_comp)@} = {@(simp:true,zeromatrix(1,1))@},\] so \(X\) and \(Y\) are orthogonal. (The normalization of \(X\) does not affect this.)</p>
+<p>However, we also need two <strong>orthogonal</strong> eigenvectors of the form \({@covect1(gensol)@}\). One possibility to calculate them is as follows. Obtain one vector by choosing both parameters, for example \({@uu@}=0\), \({@vv@}=1\) which yields
+    \(Y^{(1)}={@covect1(vecs[2])@}\). To calculate the second vector, we consider the equation expressing orthogonality, that is, \(Y^TY^{(1)}={@zeromatrix(1,1)@}\), which simplifies to \({@yy1_comp@}=0\). Choosing \({@uu@}=1\), we calculate \({@vv@}\),
+    which leads to the vector \(Y^{(2)}={@covect1(vecs[1])@}\).</p>
+<p>After normalization, these become \(Y^{(1)}={@covect1(vecs_norm[2])@}\) and \(Y^{(2)}={@covect1(vecs_norm[1])@}\). Hence the matrix \[P = \left[\begin{matrix}X&amp;\vdots&amp;Y^{(1)}&amp;\vdots &amp;Y^{(2)}\end{matrix}\right] = {@modalmat@}\] is orthogonal
+    and diagonalizes \(A\): \[P^TAP = {@diag_matrix(single_eigval,double_eigval,double_eigval)@}.\]
+</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>2</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2024072400</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[/* use_mats: a static list of 3x3 symmetric ±2,±√(2)±1,0-valued matxs, 2+1 integer eigenvalues, not block-diag */
+/* generated in maxima; code from https://github.com/spakula/maxima-stack/blob/master/generators.mac */
+use_mats:[matrix([-2,-2,-2],[-2,1,-1],[-2,-1,1]),matrix([-2,-2,-1],[-2,1,2],[-1,2,-2]),matrix([-2,-2,1],[-2,1,-2],[1,-2,-2]),matrix([-2,-2,2],[-2,-2,2],[2,2,-2]),matrix([-2,-2,2],[-2,1,1],[2,1,1]),matrix([-2,-2,-sqrt(2)],[-2,-2,-sqrt(2)],[-sqrt(2),-sqrt(2),-1]),matrix([-2,-2,sqrt(2)],[-2,-2,sqrt(2)],[sqrt(2),sqrt(2),-1]),matrix([-2,-1,-1],[-1,-2,-1],[-1,-1,-2]),matrix([-2,-1,1],[-1,-2,1],[1,1,-2]),matrix([-2,-1,-sqrt(2)],[-1,-2,sqrt(2)],[-sqrt(2),sqrt(2),-1]),matrix([-2,1,2],[1,-2,2],[2,2,1]),matrix([-2,1,-sqrt(2)],[1,-2,-sqrt(2)],[-sqrt(2),-sqrt(2),-1]),matrix([-2,1,sqrt(2)],[1,-2,sqrt(2)],[sqrt(2),sqrt(2),-1]),matrix([-2,2,2],[2,1,-1],[2,-1,1]),matrix([-2,2,-sqrt(2)],[2,-2,sqrt(2)],[-sqrt(2),sqrt(2),-1]),matrix([-2,-sqrt(2),-sqrt(2)],[-sqrt(2),-1,-1],[-sqrt(2),-1,-1]),matrix([-2,-sqrt(2),-sqrt(2)],[-sqrt(2),-1,2],[-sqrt(2),2,-1]),matrix([-2,-sqrt(2),sqrt(2)],[-sqrt(2),-1,-2],[sqrt(2),-2,-1]),matrix([-2,-sqrt(2),sqrt(2)],[-sqrt(2),-1,1],[sqrt(2),1,-1]),matrix([-2,sqrt(2),sqrt(2)],[sqrt(2),-1,-1],[sqrt(2),-1,-1]),matrix([-2,sqrt(2),sqrt(2)],[sqrt(2),-1,2],[sqrt(2),2,-1]),matrix([-1,-2,2],[-2,-1,2],[2,2,-1]),matrix([-1,-2,-sqrt(2)],[-2,-1,-sqrt(2)],[-sqrt(2),-sqrt(2),0]),matrix([-1,-2,sqrt(2)],[-2,-1,sqrt(2)],[sqrt(2),sqrt(2),0]),matrix([-1,-1,1],[-1,-1,1],[1,1,-1]),matrix([-1,-1,-sqrt(2)],[-1,-1,sqrt(2)],[-sqrt(2),sqrt(2),0]),matrix([-1,1,-sqrt(2)],[1,-1,-sqrt(2)],[-sqrt(2),-sqrt(2),0]),matrix([-1,1,sqrt(2)],[1,-1,sqrt(2)],[sqrt(2),sqrt(2),0]),matrix([-1,2,-sqrt(2)],[2,-1,sqrt(2)],[-sqrt(2),sqrt(2),0]),matrix([-1,-sqrt(2),-sqrt(2)],[-sqrt(2),0,-1],[-sqrt(2),-1,0]),matrix([-1,-sqrt(2),-sqrt(2)],[-sqrt(2),0,2],[-sqrt(2),2,0]),matrix([-1,-sqrt(2),sqrt(2)],[-sqrt(2),0,-2],[sqrt(2),-2,0]),matrix([-1,-sqrt(2),sqrt(2)],[-sqrt(2),0,1],[sqrt(2),1,0]),matrix([-1,sqrt(2),sqrt(2)],[sqrt(2),0,-1],[sqrt(2),-1,0]),matrix([-1,sqrt(2),sqrt(2)],[sqrt(2),0,2],[sqrt(2),2,0])];
+/* a:rand([-1,1])*rand(use_mats)+rand([-2,-1,0,1,2])*ident(3); */ /* this sometimes gives matrix for which eigenvectors(a) silently gives a wrong result */
+/* so instead just do this for the matrices that are tested to not fail, and _then_ adjust */
+a:rand(use_mats);
+ee:eigenvectors(a);
+shift:rand([-2,-1,0,1,2]);
+a:a+shift*ident(3);
+ee[1][1]:ee[1][1]+shift;
+
+clear_denoms_list_getdenom(l):=block([varr],denom(ratsimp(l.makelist(varr[i],i,1,length(l)))));
+clear_denoms_list(l):=clear_denoms_list_getdenom(l)*l;
+covect1(l):=transpose(matrix(l));
+norm(l):=sqrt(lreduce("+",makelist(x^2,x,l)));
+
+double_eig_i:sublist_indices(ee[1][2],lambda([t],t=2))[1];
+double_eigval:ee[1][1][double_eig_i];
+single_eigval:ee[1][1][3-double_eig_i];
+single_eigvec:clear_denoms_list(ee[2][3-double_eig_i][1]);
+single_normalized:covect1(single_eigvec/(norm(single_eigvec)));
+
+/* preparing for printing */
+uu:alpha; vv:beta;
+reduce_gcd_list(v):=block([d],d:lreduce('gcd,v),v/d);
+eq:reduce_gcd_list(args(a-double_eigval*ident(3))[1]) . [x,y,z] = 0;
+/* want two orthogonal solutions of an equation (1 homog lin eq in x,y,z) */
+gensol_r:linsolve(eq,[x,y,z]);
+gensol:subst(subst([%rnum_list[1]=uu,%rnum_list[2]=vv],gensol_r), [x,y,z]);
+getvecs1(sol):=block([eqn,ret:[]],push(subst([uu=0,vv=1],sol),ret),eqn:subst(uu=1,ret[1] . sol = 0),push( subst(append(linsolve(eqn,vv),[uu=1]), sol), ret),ret);
+vecs:getvecs1(gensol);
+yy1_comp:simplify(gensol . vecs[2]);
+yy1_comp:denom(ratsimp(yy1_comp))*yy1_comp;
+vecs_norm:map(lambda([t],t/norm(t)),vecs);
+modalmat:addcol(single_normalized,covect1(vecs_norm[2]),covect1(vecs_norm[1]));
+
+dotprod_comp2_list(v1,v2):=matrix([ lreduce("+",ev(map("*",v1,v2),simp,ratsimp)) ]);
+simp:false;
+xy_comp:dotprod_comp2_list(single_eigvec,gensol);
+simp:true;]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\(A = {@a@}, \qquad \text{eigenvalues} \; {@double_eigval@},{@double_eigval@},{@single_eigval@}, \qquad X = {@single_eigval@} \implies X = {@single_normalized@}, \qquad {@covect1(gensol)@}  \)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans_dvecs</name>
+      <type>matrix</type>
+      <tans>covect(gensol)</tans>
+      <boxsize>20</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans_xunit</name>
+      <type>matrix</type>
+      <tans>single_normalized</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt_dvecs</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text><![CDATA[sa1:expand(ans_dvecs);
+lvars:listofvars(sa1);
+/* check if the expression in linear in variables */
+deg:apply(max, maplist(lambda([ex], hipow(sa1, ex)), lvars));
+deg:max(deg,hipow(subst(map(lambda([var],var=ppppp),lvars),sa1),ppppp));
+sa_is_linear:is(deg<=1);
+
+/* is a vector in the described set? (expr: column vector, list:list)*/
+is_vect_in_space(expr,list):=is(length(ev(linsolve(flatten(args(expr))-list,listofvars(expr))))>0);
+sa_contains_eigspace:is_vect_in_space(sa1,[0,0,0]) and is_vect_in_space(sa1,vecs[1]) and is_vect_in_space(sa1,vecs[2]);
+sa_dim:rank(coefmatrix(flatten(args(sa1)),lvars));]]></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>CasEqual</answertest>
+        <sans>sa_is_linear</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt_dvecs-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt_dvecs-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>The general form of eigenvectors is always a <em>linear</em> expression, i.e. each coordinate is a sum of terms, each of which is a number multiplied by a parameter. There are no powers of parameters, or multiplication between the parameters themselves.</p>
+<p>The expression(s) you entered are not linear.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>CasEqual</answertest>
+        <sans>sa_contains_eigspace</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>prt_dvecs-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt_dvecs-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your expression does not generate all the eigenvectors for \(\lambda={@double_eigval@}\).</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>CasEqual</answertest>
+        <sans>sa_dim</sans>
+        <tans>2</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt_dvecs-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt_dvecs-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your expression includes vectors which are not eigenvectors for \(\lambda={@double_eigvec@}\) (other than the zero vector).</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt_xunit</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>ans_xunit_norm:norm(list_matrix_entries(ans_xunit));
+ans_xunit_ldep:is(rank(addcol(ans_xunit,single_normalized))=1);
+ans_xunit_iszero:is(ans_xunit=zeromatrix(3,1));</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>CasEqual</answertest>
+        <sans>ans_xunit_norm</sans>
+        <tans>1</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt_xunit-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt_xunit-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your vector has magnitude \({@ans_xunit_norm@}\neq 1\), so it is not a unit vector.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>CasEqual</answertest>
+        <sans>ans_xunit_ldep</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt_xunit-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt_xunit-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your vector is not a multiple of the vector \(X\).</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>CasEqual</answertest>
+        <sans>ans_xunit_iszero</sans>
+        <tans>false</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>0</truenextnode>
+        <trueanswernote>prt_xunit-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt_xunit-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your answer, the zero vector, is never an eigenvector (by definition).</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1398395986</deployedseed>
+    <deployedseed>2126924267</deployedseed>
+    <deployedseed>964849467</deployedseed>
+    <deployedseed>660783167</deployedseed>
+    <deployedseed>1671484680</deployedseed>
+    <deployedseed>1217184718</deployedseed>
+    <deployedseed>1670946190</deployedseed>
+    <deployedseed>574447874</deployedseed>
+    <deployedseed>1514765764</deployedseed>
+    <deployedseed>1003008478</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans_dvecs</name>
+        <value>covect(gensol)</value>
+      </testinput>
+      <testinput>
+        <name>ans_xunit</name>
+        <value>single_normalized</value>
+      </testinput>
+      <expected>
+        <name>prt_dvecs</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt_dvecs-3-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_xunit</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt_xunit-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans_dvecs</name>
+        <value>ev(covect([s*t,s-t,r+t]),simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans_xunit</name>
+        <value>zeromatrix(3,1)</value>
+      </testinput>
+      <expected>
+        <name>prt_dvecs</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt_dvecs-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_xunit</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt_xunit-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans_dvecs</name>
+        <value>ev(covect((s+t)*vecs[1]),simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans_xunit</name>
+        <value>covect(single_eigvec)</value>
+      </testinput>
+      <expected>
+        <name>prt_dvecs</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt_dvecs-2-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_xunit</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt_xunit-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description/>
+      <testinput>
+        <name>ans_dvecs</name>
+        <value>matrix([s],[t],[r])</value>
+      </testinput>
+      <testinput>
+        <name>ans_xunit</name>
+        <value>covect([1,0,0]);</value>
+      </testinput>
+      <expected>
+        <name>prt_dvecs</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt_dvecs-3-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_xunit</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt_xunit-2-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

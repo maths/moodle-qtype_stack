@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>6.4.4.1 Solving equations involving hyperbolic functions</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3> Solving equations involving hyperbolic functions</h3>
+As a final example we consider equations involving the hyperbolic functions.
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Solve the equations : </p>
+<ol class="HELM_parts_inline">
+    <li>\(\sinh 3x=0\)</li>
+    <li>\(\cosh 3x=2\)</li>
+    <li>\(2\cosh^2x=3\cosh 2x-3\)</li>
+</ol>
+
+<h4 class="HELM_solution">Solution</h4>
+<ol class="HELM_parts">
+    <li>From its graph we know that \(\sinh x=0\) only when \(x=0\), so we need \(3x=0\) which implies \(x=0\).</li>
+    <li>\[\cosh 3x=2 \qquad \text{ implies } \qquad \dfrac{e^{3x}+e^{-3x}}{2}=2 \qquad \text{ or } \qquad e^{3x}+e^{-3x}-4=0.\] Now multiply through by \(e^{3x}\) (to eliminate the term \(e^{-3x}\)) to give \[e^{3x}e^{3x}+e^{3x}e^{-3x}-4e^{3x}=0 \qquad \text{
+        or } \qquad (e^{3x})^2-4e^{3x}+1=0.\] This is a quadratic equation in the variable \(e^{3x}\) so substituting \(y=e^{3x}\) gives \[y^2-4y+1=0\qquad \text{implying}\qquad y=2\pm\sqrt{3}\quad \text{so}\quad y=3.7321\quad\text{or}\quad 0.26795\]
+        \[ \qquad e^{3x}=3.7321\qquad \text{implies}\qquad x=\dfrac{1}{3}\ln 3.7321=0.439\quad\text{to 3 d.p.}\] \[ \qquad e^{3x}=0.26795\qquad \text{implies}\qquad x=\dfrac{1}{3}\ln 0.26795=-0.439\quad\text{to 3 d.p.}\] </li>
+    <li>We first simplify this expression by using the identity: \(\cosh 2x=2\cosh^2-1\). Thus the original equation \(2\cosh^2x=3\cosh 2x-3\) becomes \(\cosh 2x+1=3\cosh 2x-3\) or, when written in terms of exponentials: \[\dfrac{e^{2x}+e^{-2x}}{2}=3\left(\dfrac{e^{2x}+e^{-2x}}{2}\right)-4.\]
+        Multiplying through by \(2e^{2x}\) gives \(e^{4x}+1=3(e^{4x}+1)-8e^{2x}\) or, after simplifying: \[e^{4x}-4e^{2x}+1=0.\] Writing \(y=e^{2x}\) we easily obtain \(y^2-4y+1=0\) with solution (using the quadratic formula): \[y=\dfrac{4\pm \sqrt{16-4}}{2}=2\pm\sqrt{3}\]
+        If \(y=2+\sqrt{3}\) then \(2+\sqrt{3}=e^{2x}\) implying \(x=0.65848\) to \(5\) d.p. If \(y=2-\sqrt{3}\) then \(2-\sqrt{3}=e^{2x}\) implying \(x=-0.65848\) to \(5\) d.p. </li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

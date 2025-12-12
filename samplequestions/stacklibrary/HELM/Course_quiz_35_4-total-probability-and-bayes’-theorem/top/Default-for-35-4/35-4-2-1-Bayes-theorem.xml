@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>35.4.2.1 Bayes' theorem</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4> Bayes' theorem </h4>
+<p>We again consider the conditional probability statement:\[\mathbb{P}(A|B) = \frac{\mathbb{P}(A\cap B)}{\mathbb{P}(B)} = \frac{\mathbb{P}(A\cap B)}{\mathbb{P}(B|A_1)\mathbb{P}(A_1) + \mathbb{P}(B|A_2)\mathbb{P}(A_2)+\cdots+\mathbb{P}(B|A_n)\mathbb{P}(A_n)}\]in which we have used the theorem of Total Probability to replace \(\mathbb{P}(B)\). Now\[\mathbb{P}(A\cap B) = \mathbb{P}(B\cap A) = \mathbb{P}(B|A)\times\mathbb{P}(A).\]Substituting this in the expression for \(\mathbb{P}(A|B)\) we immediately obtain the result\[\mathbb{P}(A|B) = \frac{\mathbb{P}(B|A)\times\mathbb{P}(A)}{\mathbb{P}(B|A_1)\mathbb{P}(A_1)+\mathbb{P}(B|A_2)P(A_2)+\cdots+ \mathbb{P}(B|A_n)\mathbb{P}(A_n)}.\]This is true for any event \(A\) and so, replacing \(A\) by \(A_i\) gives the result, known as <strong>Bayes’ theorem</strong> as\[\mathbb{P}(A_i|B) = \frac{\mathbb{P}(B|A_i)\times\mathbb{P}(A_i)}{\mathbb{P}(B|A_1)\mathbb{P}(A_1)+\mathbb{P}(B|A_2)\mathbb{P}(A_2)+\cdots+\mathbb{P}(B|A_n)\mathbb{P}(A_n)}.\]
+</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

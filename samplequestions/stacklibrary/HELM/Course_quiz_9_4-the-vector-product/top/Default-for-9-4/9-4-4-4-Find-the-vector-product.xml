@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>9.4.4.4 Find the vector product</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p><p>Points <span class="math inline">\(A\)</span>, <span class="math inline">\(B\)</span> and <span class="math inline">\(C\)</span> have coordinates <span class="math inline">\(({@a1@},1,-{@a3@})\)</span>, \(({@b1@},1,{@b3@})\), and <span class="math inline">\((1,0,1)\)</span> respectively. Find the vector product <span class="math inline">\(\overrightarrow{AB}\times \overrightarrow{AC}\)</span>.</p>
+
+
+<p>[[input:ans1]]&nbsp;[[validation:ans1]] \(\underline{i}\) \(+\) [[input:ans2]] [[validation:ans2]] \(\underline{j}\) \(+\) [[input:ans3]] [[validation:ans3]] \(\underline{k}\)&nbsp;</p><p>[[feedback:prt1]]<br></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>First, we have that:</p><p>\(\overrightarrow{AB} = ({@b1@}-{@a1@})\underline{i} + (1-1)\underline{j} + ({@b3@}-(-{@a3@}))\underline{k} = {@b1-a1@}\underline{i} + {@b3+a3@} \underline{k}.\)</p><p>\(\overrightarrow{AC} = (1-{@a1@})\underline{i} + (0-1)\underline{j} + (1-(-{@a3@}))\underline{k} = -{@a1-1@}\underline{i} -1\underline{j} + {@1+a3@} \underline{k}.\)<br></p><p>Then:</p><p>\(\begin{aligned} \overrightarrow{AB}\times \overrightarrow{AC} &amp;=&nbsp;\left| \begin{matrix} \underline{i} &amp; \underline{j} &amp; \underline{k} \\ {@b1-a1@} &amp; 0 &amp; {@b3+a3@} \\ -{@a1-1@} &amp; -1 &amp; {@1+a3@} \\ \end{matrix}&nbsp;\right| \\ &amp; =&nbsp;\underline{i}((0)({@1+a3@})-({@b3+a3@})(-1)) - \underline{j}(({@b1-a1@})({@1+a3@})-({@b3+a3@})(-{@a1-1@})) + \underline{k}(({@b1-a1@})(-1)-(0)(-{@a1-1@})) \\ &amp; = &nbsp;{@ta_i@}\underline{i}-{@ta_j@}\underline{j} -{@ta_k@}\underline{k}. \end{aligned}\)</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021072200</text>
+    </stackversion>
+    <questionvariables>
+      <text>a1: 2 + rand(3)
+a3: 2 + rand(3)
+b1: 9 + rand(6)
+b3: 2 + rand(3)
+ta_i: b3+a3 
+ta_j: (b1-a1)*(1+a3) - (1-a1)*(b3+a3)
+ta_k: b1 - a1</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\( \overrightarrow{AB}\times \overrightarrow{AC} = ({@b1@}-{@a1@})\underline{i} + ({@b3@}+{@a3@}) \underline{k} \times (1 - {@a1@})\underline{i} -\underline{j} + (1+{@a3@})\underline{k} = {@ta_i@}\underline{i} - {@ta_j@}\underline{j} -{@ta_k@}\underline{k} \)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>numerical</type>
+      <tans>ta_i</tans>
+      <boxsize>3</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>numerical</type>
+      <tans>-ta_j</tans>
+      <boxsize>3</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>numerical</type>
+      <tans>-ta_k</tans>
+      <boxsize>3</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta_i</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty>0</truepenalty>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty>0</falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p><br></p><br><p></p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>-ta_j</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty>0</truepenalty>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty>0</falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>-ta_k</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty>0</truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty>0</falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1817811891</deployedseed>
+    <deployedseed>1759901532</deployedseed>
+    <deployedseed>1966737084</deployedseed>
+    <deployedseed>1696659110</deployedseed>
+    <deployedseed>1710607592</deployedseed>
+    <deployedseed>1679664269</deployedseed>
+    <deployedseed>1097463912</deployedseed>
+    <deployedseed>2097692005</deployedseed>
+    <deployedseed>2083056873</deployedseed>
+    <deployedseed>934052987</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta_i</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>-ta_j</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>-ta_k</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta_i</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>3</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta_k</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-2-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

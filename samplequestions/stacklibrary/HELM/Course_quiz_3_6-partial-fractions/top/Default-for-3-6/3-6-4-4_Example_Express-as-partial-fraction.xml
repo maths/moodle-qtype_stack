@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.6.4.4_Example_Express as partial fraction</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Express as partial fractions</p>
+<p>\[\dfrac{2x^2-x-2}{x+1}\]</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>The fraction is improper because <span class="math inline">\(n=2\)</span>, <span class="math inline">\(d=1\)</span> and so <span class="math inline">\(d\le n\)</span>. Here <span class="math inline">\(n-d=1\)</span>, so we need to include as an extra term a polynomial of the form <span class="math inline">\(Bx+C\)</span>, in addition to the usual partial fractions. The linear term in the denominator gives rise to a partial fraction <span class="math inline">\(\dfrac{A}{x+1}\)</span>. So altogther we have </p>
+<p>\[\dfrac{2x^2-x-2}{x+1}= \dfrac{A}{x+1}+ (Bx+C)\]</p>
+<p> Multiplying both sides by <span class="math inline">\(x+1\)</span> we find</p>
+<p>\[2x^2-x-2 = A+(Bx+C)(x+1)  = Bx^2 + (C+B)x + (C+A)\]</p>
+<p> Equating coefficients of <span class="math inline">\(x^2\)</span> gives</p>
+<p>\[B=2\].</p>
+<p>Equating coefficients of <span class="math inline">\(x\)</span> gives</p>
+<p>\[-1=C+B\]</p>
+<p> and so </p>
+<p>\[C=-1-B=-3\].</p>
+<p>Equating the constant terms gives</p>
+<p>\[-2=C+A\]</p>
+<p> and so</p> 
+<p>\[A=-2-C=-2-(-3)=1\].</p>
+<p>Finally, we have </p>
+<p>\[\dfrac{2x^2-x-2}{x+1}=  \dfrac{1}{x+1}+2x-3\]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

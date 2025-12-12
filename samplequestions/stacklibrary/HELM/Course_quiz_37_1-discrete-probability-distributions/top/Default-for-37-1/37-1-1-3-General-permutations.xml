@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>37.1.1.3 General permutations</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>In general we can order <span class="math inline">\(n\)</span> distinct objects in <span class="math inline">\(n!\)</span> ways.<br>
+Suppose we have <span class="math inline">\(r\)</span> different types of object. It follows that if we have <span class="math inline">\(n_1\)</span> objects of one kind, <span class="math inline">\(n_2\)</span> of another kind and so on then the <span class="math inline">\(n_1\)</span> objects can be ordered in <span class="math inline">\(n_1!\)</span> ways, the <span class="math inline">\(n_2\)</span> objects in <span class="math inline">\(n_2!\)</span> ways and so on. If <span class="math inline">\(n_1+n_2+\dots +n_r=n\)</span> and if <span class="math inline">\(p\)</span> is the number of permutations possible from <span class="math inline">\(n\)</span> objects we may write 
+<br>\[\qquad p\times (n_1!\times n_2!\times\dots \times n_r!)=n!\]<br>
+and so <span class="math inline">\(p\)</span> is given by the formula 
+<br>\[\displaystyle{\qquad p=\frac{n!}{n_1!\times n_2!\times\dots \times n_r!}}.\]<br>
+Very often we will find it useful to be able to calculate the number of permutations of <span class="math inline">\(n\)</span> objects taken <span class="math inline">\(r\)</span> at a time. Assuming that we do not allow repetitions, we may choose the first object in <span class="math inline">\(n\)</span> ways, the second in <span class="math inline">\(n-1\)</span> ways, the third in <span class="math inline">\(n-2\)</span> ways and so on so that the <span class="math inline">\(r^{\text{th}}\)</span> object may be chosen in <span class="math inline">\(n-r+1\)</span> ways.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>11.2.1.9 Engineering Example 1</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Engineering Example 1</h4>
+
+<h5>Electrostatic potential</h5>
+
+<p></p>
+<b>Introduction</b>
+<p></p>
+The electrostatic potential due to a point charge \(Q\) <b>coulombs</b> at a position \(r\) (<b>m</b>) from the charge is given by
+\[ V = \dfrac{Q}{4 \pi \epsilon_0 r} \]
+where \( \epsilon_0 \), the permittivity of free space, \( \approx 8.85 \times 10^{-12}\&nbsp; \mathrm{Fm^{-1}}\) and \(\pi \approx 3.14\).
+<p></p>
+The field strength at position \(r\) is given by \(E =- \dfrac{dV}{dr} \).
+<p></p>
+<b>Problem in words</b>
+<p></p>
+Find the electric field strength at a distance of \(5 \ \mathrm{m}\)&nbsp;from a source with a charge of \(1 \ \mathrm{coulomb}\).<p></p>
+<b>Mathematical statement of the problem</b>
+<p></p>
+\( V = \dfrac{Q}{4 \pi \epsilon_0 r} \).
+<p></p>
+Substitute for \( \epsilon_0\) and \(\pi\) and use \(Q = 1\), so that
+\[ V = \dfrac{1}{4 \times 3.14 \times 8.85 \times 10^{-12} r} \approx \dfrac{9 \times 10^9}{r} = 9 \times 10^9 r^{-1}. \]
+We need to differentiate \(V\) in order to find the electric field strength from the relationship \( E = - \dfrac{dV}{dr} \)
+<p></p>
+<b>Mathematical analysis</b>
+<p></p>
+\( E = - \dfrac{dV}{dr} = -9 \times 10^9(-r^{-2}) = 9 \times 10^9 r^{-2} \) 
+<p></p>
+When  \(r = 5\). 
+\[ E = \dfrac{9 \times 10^9}{25} = 3.6 \times 10^8 \ \mathrm{Vm}^{-1} \]
+<p></p>
+<b>Interpretation</b>
+<p></p>
+The electric field strength is \( 3.6 \times 10^8 \ \mathrm{Vm}^{-1}\)&nbsp;at \(r = 5 \ \mathrm{m}\).<p></p>
+Note that the field potential varies with the reciprocal of distance (i.e. inverse linear law with distance) whereas the field strength obeys an inverse square law with distance.]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

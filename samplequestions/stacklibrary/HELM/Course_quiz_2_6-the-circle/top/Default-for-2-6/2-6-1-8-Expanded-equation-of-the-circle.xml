@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>2.6.1.8 Expanded equation of the circle</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Consider again the equation of the circle, centre \((3,4)\) of radius \(2\):</p>
+<p> \(\qquad (x-3)^2 + (y-4)^2 = 4 \qquad \) (3)</p>
+<p>In this form of the equation the centre and radius of the circle can be clearly identigied and, as we said, there is no advantage in squaring out. However, if we did square out the equation would become</p>
+<p>\( \qquad x^2-6x + 9 + y^2 - 8x + 16 = 4\) or \(x^2 - 6x + y^2 - 8x + 21 = 0 \quad\) (4)</p>
+<p>Equation (4) is of course a valid equation for this circle but, we cannot immediately obtain the centre and radius from it.</p>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>For the case of the general circle of radius \(R\) \[(x-x_0)^2 + (y-y_0)^2 = R^2\]</p>
+<p>expand out the square terms and simplify.</p>
+
+<h4 class="HELM_solution">Solution</h4>
+<p>We obtain \[x^2 - 2x_0x+x_0^2 + y^2-2y_0y + y_0^2 - R^2 = 0\]</p>
+<p>or \[x^2 + y^2 - 2x_0x- 2y_0y +c = 0\]</p>
+<p>where the constant \(c= x_0^2+y_0^2-R^2. \)</p>
+<hr>
+
+<p>It follows from the above task that any equation of the form</p>
+<p>\( \qquad x^2+y^2-2gx - 2fy +c=0 \qquad \) (5)</p>
+<p>represents a circle with centre \((g, f)\) and a radius obtained by solving</p>
+<p>
+</p>
+<p>\( \qquad c= g^2+f^2-R^2\)</p>
+<p>for \(R.\)</p>
+<p>Thus \(R = \sqrt{g^2+f^2-c} \qquad \) (6)</p>
+<p>There is no need to remember Equation (6). In any specificc problem the technique of <strong>completion</strong> of square can be used to turn an equation of the form (5) into the form of Equation (2) (i.e. \((x-x0)^2 + (y-y0)^2 = R^2\)) and hence obtain
+    the centre and radius of the circle.</p>
+<p>NB. The key point about Equation (5) is that the coeficients of the term \(x^2\) and \(y^2\) are the same, i.e. 1. An equation with the coeficient of \(x^2\) and \(y^2\) identical with value \(k \neq 1\) could be converted into the form (5) by division of the whole equation by \(k.\)</p>
+
+<p><br></p>
+<p><strong>Add Task here!</strong></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

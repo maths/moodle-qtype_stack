@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>4.5.3.1 Key</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Time shift and phase difference</h4>
+<div class="HELM_keypoint">
+    <h4>Key Point <br></h4>
+    <p>The equations</p>
+    \[ \quad x=R\cos\omega t\qquad\qquad x=R\sin\omega t \]
+    <p>both represent waves of amplitude \(R\) and period \(\dfrac{2\pi}{\omega}\).</p>
+    <p>The<b> time shift</b> between these waves is \(\dfrac{\pi}{2\omega}\) because \(\cos \left\{\omega\left(t-\dfrac{\pi}{2\omega}\right)\right\}=\sin\omega t\).</p>
+    <p>The <b>phase difference</b> between these waves is said to be \(\dfrac{\pi}{2}\) because \(\cos {\left (\omega t-\dfrac{\pi}{2}\right)}=\sin {\omega t}\)</p>
+</div>
+<p><br></p>
+
+<h4>Combining two wave equations</h4>
+<p>A situation that arises in some applications is the need&nbsp; to combine two trigonometric terms such as \[ \quad \qquad&nbsp; A\cos\theta+B\sin\theta \quad \text{where } A \text{ and } B \text{ are constants} .\]</p>
+<p>For example this sort of situation might arise if we wish to combine two waves of the same frequency but not necessarily the same amplitude or phase. In particular we wish to be able to deal with an expression of the form \[ \quad R_1\cos \omega t +R_2\sin\omega
+    t\]&nbsp; where the individual waves have, as we have seen, a time shift of \( \dfrac{\pi}{2\omega}\) or a phase difference of \( \dfrac{\pi}{2}\).</p>
+<h4>General Theory</h4>
+<p>Consider an expression \( A\cos\theta+B\sin\theta.\)&nbsp; We seek to transform this into the single form \(C\cos (\theta-\alpha)\)&nbsp; (or \(C\sin (\theta-\alpha))\), where \(C\) and \(\alpha\) have to be determined. The problem is easily solved
+    with the aid of trigonometric identities.</p>
+<p>We know that \[ \quad C\cos (\theta -\alpha)\equiv C(\cos\theta\cos\alpha+\sin\theta\sin\alpha)\]</p>
+<p> Hence if \(A\cos\theta +B\sin\theta = C\cos (\theta -\alpha ) \) then\[ \quad A\cos\theta+B\sin\theta=(C\cos\alpha)\cos\theta+(C\sin\alpha)\sin\theta\] <br></p>
+<p>For this to be an identity (true for all values of \(\theta\)) we must be able to equate the coefficients of \(\cos\theta\) and \(\sin\theta\) on each side. <br></p>
+<p>Hence\[ \quad A=C\cos\alpha\qquad \text{and}\qquad B=C\sin \alpha\]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

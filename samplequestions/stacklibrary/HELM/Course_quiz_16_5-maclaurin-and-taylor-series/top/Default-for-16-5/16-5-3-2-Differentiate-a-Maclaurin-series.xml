@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="multichoice">
+    <name>
+      <text>16.5.3.2 Differentiate a Maclaurin series</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>Using differentiation, find the Maclaurin expansion of <span class="math inline">\((1-x)^{-3}\)</span>.</p><p>(<em>Hint&nbsp;</em>: \(\dfrac{1}{1-x}=1+x+x^2+\cdots\qquad |x|&lt;1\))</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p dir="ltr" style="text-align: left;"><br></p>
+<p>Now, by differentiation, obtain the expansion of <span class="math inline">\(\dfrac{1}{(1-x)^2}\)</span>: <span class="math display">\[\begin{aligned} \dfrac{1}{(1-x)^2}=\dfrac{\mathrm{d}}{\mathrm{d}x}\left(\dfrac{1}{1-x}\right) &amp;= \dfrac{\mathrm{d}}{\mathrm{d}x}\left(1+x+x^2+\cdots\right), \\ &amp;= 1+2x+3x^2+4x^3 \end{aligned}\]</span> Differentiate again to obtain the expansion of <span class="math inline">\((1-x)^{-3}\)</span>: <span class="math display">\[\begin{aligned} \dfrac{1}{(1-x)^3}=\dfrac{1}{2}\dfrac{\mathrm{d}}{\mathrm{d}x}\left(\dfrac{1}{(1-x)^2}\right) &amp;= \dfrac{1}{2}\left[2+6x+12x^2+20x^3+\cdots\right], \\ &amp;= 1+3x+6x^2+10x^3+\cdots \end{aligned}\]</span></p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <showstandardinstruction>0</showstandardinstruction>
+    <correctfeedback format="html">
+      <text>Your answer is correct.</text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="html">
+      <text>Your answer is partially correct.</text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="html">
+      <text>Your answer is incorrect.</text>
+    </incorrectfeedback>
+    <shownumcorrect/>
+    <answer fraction="100" format="html">
+      <text><![CDATA[<p dir="ltr" style="text-align: left;">\(1+3x+6x^2+10x^3+\cdots\)<br></p>]]></text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text><![CDATA[<p dir="ltr" style="text-align: left;">\(2+6x+12x^2+20x^3+\cdots\)<br></p>]]></text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text><![CDATA[<p dir="ltr" style="text-align: left;">\(1+2x+3x^2+4x^3+\cdots\)<br></p>]]></text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+  </question>
+</quiz>

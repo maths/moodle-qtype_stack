@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>35.3.1.1 The Addition Law</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3> </h3><h3>The addition law</h3><p>The sample space \(S\) is the set of all possible outcomes of a given experiment. Certain events \(A\) and \(B\) are subsets of \(S\).&nbsp; Recall what was meant by \(\text{P}(A), \text{P}(B)\) and their complements in the particular case in which the experiment had equally likely outcomes.</p><p>Events, like sets, can be combined to produce new events.&nbsp;&nbsp;</p><p></p><ul><li>\(A\cup B\) denotes the event that&nbsp; event \(A\) or event \(B\) (or both) occur when the experiment is performed.&nbsp;</li><li>\(A\cap B\) denotes the event that both \(A\) and \(B\) occur together.</li></ul><p></p><p>In this quiz we obtain expressions for determining the probabilities of these combined events, which are written \(\text{P}(A\cup B)\) and \(\text{P}(A\cap B)\) respectively.</p><h5>Types of events</h5><p>There are two types of events you will need to able to identify and work with: mutually exclusive events and independent events. (We deal with independent events later).</p><h5>Mutually exclusive events</h5><p><b>Mutually exclusive</b> events are events that by definition cannot happen together.&nbsp; For example, when tossing a coin, the events 'head'&nbsp; and 'tail'&nbsp; are mutually exclusive; when testing a switch 'operate' and 'fail' are mutually exclusive; and when testing the tensile strength of a piece of wire, 'hold' and 'snap' are mutually exclusive. In such cases, the probability of both events occurring together must be zero. Hence, using the usual set theory notation for events \(A\) and \(B\), we may write:</p><p>\[\qquad \text{P} (A \cap&nbsp; B)=0,\quad\text{provided that}\ A\ \text{and}\ B\ \text{are mutually exclusive events.}\]</p><p></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

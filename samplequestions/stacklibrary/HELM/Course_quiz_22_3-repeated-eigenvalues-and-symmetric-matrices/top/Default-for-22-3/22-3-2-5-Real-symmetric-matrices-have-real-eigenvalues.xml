@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>22.3.2.5 Real symmetric matrices have real eigenvalues</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>In particular any \(2\times 2\) matrix of the form
+\[ A=\left[\begin{array}{rc}a&amp;b\\ -b&amp;a\end{array}\right]\]
+has complex conjugate eigenvalues \(a\pm \mathrm{i} b\).</p>
+
+<p>A \(3\times 3\) example of a matrix with some complex eigenvalues is
+\[ B=\left[\begin{array}{crr}1&amp;-1&amp;-1\\ 1&amp;-1&amp;0\\ 1&amp;0&amp;-1\end{array}\right].\]
+A straightforward calculation shows that the eigenvalues of \(B\) are
+\[ \lambda=-1 \text{ (real)}, \lambda =\pm \mathrm{i} \text{ (complex conjugates)}.\]</p>
+
+<p>With <strong>symmetric</strong> matrices on the other hand, complex eigenvalues are not possible.</p>
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p>The eigenvalues of a symmetric matrix with real elements are always real.</p>
+</div>
+
+<p>The general proof of this result in the above Key Point is beyond our scope, but a simple proof for symmetric \(2\times 2\) matrices is straightforward.</p>
+<p>Let \(A=\left[\begin{array}{cc}a&amp;b\\ b&amp;c\end{array}\right]\) be any \(2\times 2\) symmetric matrix, \(a,\ b,\ c\) being real numbers.</p>
+<p>The characteristic equation for \(A\) is
+\[ (a-\lambda)(c-\lambda)-b^2=0\]
+or, expanding: \[ \lambda^2-(a+c)\lambda+ac-b^2=0 \]
+from which
+\[ \lambda=\dfrac{(a+c)\pm\sqrt{(a+c)^2-4ac+4b^2}}{2}.\]
+The quantity under the square root sign can be treated as follows:
+\[ (a+c)^2-4ac+4b^2=a^2+c^2+2ac-4ac+b^2=(a-c)^2+4b^2\]
+which is always positive and hence \(\lambda\) <strong>cannot be complex</strong>.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

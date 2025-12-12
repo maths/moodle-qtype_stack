@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="gapselect">
+    <name>
+      <text>7.1.2.3 Classify the following matrices</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p><p>Classify the following \(3\times 3\) matrices. If multiple options are valid then choose the most restrictive option.<br></p><p>\(A=\left[\begin{array}{lll}\hfill 1&amp;\hfill 1&amp;\hfill 2\\ \hfill 1&amp;\hfill 1&amp;\hfill 1\\ \hfill 0&amp;\hfill 1&amp;\hfill 3 \end{array}\right]\), \(B=\left[\begin{array}{lll}\hfill 1&amp;\hfill 0&amp;\hfill 0\\ \hfill 1&amp;\hfill 1&amp;\hfill 0\\ \hfill 0&amp;\hfill 1&amp;\hfill 3 \end{array}\right]\), \(C=\left[\begin{array}{lll}\hfill 1&amp;\hfill 2&amp;\hfill 1\\ \hfill 0&amp;\hfill 1&amp;\hfill 4\\ \hfill 0&amp;\hfill 0&amp;\hfill 1 \end{array}\right]\), \(D=\left[\begin{array}{lll}\hfill 1&amp;\hfill 0&amp;\hfill 0\\ \hfill 0&amp;\hfill 3&amp;\hfill 0\\ \hfill 0&amp;\hfill 0&amp;\hfill 2 \end{array}\right]\)</p><p></p><p>Matrix \(A\) is: [[1]]</p><p>Matrix \(B\) is: [[3]]</p><p>Matrix \(C\) is: [[4]]</p><p>Matrix \(D\) is: [[2]]<br></p><br><p></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <shuffleanswers>0</shuffleanswers>
+    <correctfeedback format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </incorrectfeedback>
+    <shownumcorrect/>
+    <selectoption>
+      <text>A Square Matrix</text>
+      <group>1</group>
+    </selectoption>
+    <selectoption>
+      <text>Diagonal</text>
+      <group>1</group>
+    </selectoption>
+    <selectoption>
+      <text>Lower triangular</text>
+      <group>1</group>
+    </selectoption>
+    <selectoption>
+      <text>Upper triangular</text>
+      <group>1</group>
+    </selectoption>
+    <selectoption>
+      <text>None of the above apply</text>
+      <group>1</group>
+    </selectoption>
+  </question>
+</quiz>

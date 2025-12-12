@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>22.1.2.2 Example 1: 2 x 2 matrix</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4 class="HELM_example">Example<br></h4>
+<p>Find the eigenvalues and eigenvectors of the matrix \(A=\begin{bmatrix}1&amp;0\\ 1&amp;2\end{bmatrix}\).</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>The eigenvalues and eigenvectors are found by solving the eigenvalue problem</p>
+\[ A\underline{x}=\lambda \underline{x} \qquad \underline{x}=\begin{bmatrix}x\\ y\end{bmatrix} \quad \implies \quad (A - \lambda I) \underline{x} = \underline{0}\]
+<p>Non-trivial solutions will exist if \(\det(A-\lambda I)=0\), that is,\[\det\left\{\begin{bmatrix}1&amp;0\\ 
+1&amp;2\end{bmatrix} - \lambda\begin{bmatrix}1&amp;0\\
+0&amp;1 \end{bmatrix}\right\} = 0 \quad \therefore \quad \begin{vmatrix}1-\lambda&amp;0 \\ 1&amp;2-\lambda\end{vmatrix} = 0\]
+<p>Expanding this determinant gives: \((1-\lambda)(2-\lambda)=0\). Hence the solutions for \(\lambda\) are \(\lambda =1\) and \(\lambda=2\).</p>
+<p>So we have found two values of \(\lambda\) for this \(2\times 2\) matrix \(A\). Since these are not equal they are said to be <strong>distinct</strong> eigenvalues.</p>
+<p>To each value of \(\lambda\) there corresponds an eigenvector. We now proceed to find the eigenvectors.</p>
+<h5>Case 1</h5>
+<p>\(\lambda = 1\) (smaller eigenvalue). Our original eigenvalue problem then becomes: \(A\underline{x}=\underline{x}\). In full this is</p>
+\[\left\{\begin{alignedat}{2}
+&amp; &amp; x &amp; = x \\
+x &amp; {}+{} &amp; 2y &amp; = y
+\end{alignedat}\right.\]
+<p>Simplifying,</p>
+\[\left\{\begin{alignedat}{2}
+&amp; &amp; x &amp; = x \\
+x &amp; {}+{} &amp; y &amp; = 0
+\end{alignedat}\right.\]
+<p>All we can deduce here is that \(x=-y\), so \(\underline{x}=\begin{bmatrix}x\\ -x\end{bmatrix}\) for any \(x\neq 0\).</p>
+<p>(We specify \(x \ne 0\) as, otherwise, we would have the trivial solution.)</p>
+<p>So the eigenvectors corresponding to eigenvalue \(\lambda = 1\) are all proportional to \(\begin{bmatrix} 1 \\ -1\end{bmatrix}\), e.g. \(\begin{bmatrix} 2\\  -2\end{bmatrix}\), \(\begin{bmatrix} -1 \\ 1\end{bmatrix}\) etc.</p>
+<p>Sometimes we write the eigenvector in <span> <strong>normalised</strong></span> form that is, with modulus or magnitude 1. Here, the normalised form of <span class="math inline">\(\underline{x}\)</span> is </p>
+<p style="text-align: center;">\(\displaystyle \frac{1}{\sqrt{2}} \begin{bmatrix} 1 \\ -1 \end{bmatrix}\) &emsp; which is <strong>unique</strong>.</p>
+
+<h5>Case 2</h5>
+<p>Now we consider the larger eigenvalue <span class="math inline">\(\lambda =2\)</span>. Our original eigenvalue problem <span class="math inline">\(A\underline{x}=\lambda \underline{x}\)</span> becomes <span class="math inline">\(A\underline{x}=2\underline{x}\)</span> which gives the following equations:</p>
+\[\begin{bmatrix} 1 &amp; 0 \\ 1 &amp; 2 \end{bmatrix}
+\begin{bmatrix} x \\ y \end{bmatrix} = 
+2 \begin{bmatrix} x \\ y \end{bmatrix}\]
+<p>i.e.,</p>
+\[\left\{\begin{alignedat}{2}
+&amp; &amp; x &amp; = 2x \\
+x &amp; {}+{} &amp; 2y &amp; = 2y
+\end{alignedat}\right.\]
+<p>These equations imply that \(x=0\), whilst the variable <span class="math inline">\(y\)</span> may take any value whatsoever (except zero as this gives the trivial solution).</p>
+<p>Thus the eigenvector corresponding to eigenvalue <span class="math inline">\(\lambda =2\)</span> has the form <span class="math inline">\(\begin{bmatrix}0\\ y\end{bmatrix}\)</span>, e.g. \(\begin{bmatrix} 0\\ 1 \end{bmatrix}\), \(\begin{bmatrix} 0\\ 2\end{bmatrix}\) etc.</p>
+<p>The normalised eigenvector here is \(\begin{bmatrix} 0\\ 1\end{bmatrix}\).</p>
+<p>In conclusion, the matrix \(A=\begin{bmatrix} 1&amp;0\\
+1&amp;2\end{bmatrix}\) has two eigenvalues and two associated normalised eigenvectors:</p>
+\[\begin{aligned}
+\lambda_1 &amp;= 1 &amp; \lambda_2 &amp;= 2 \\
+\underline{x}_1 &amp;= \frac{1}{\sqrt{2}} \begin{bmatrix} 1 \\ -1 \end{bmatrix} &amp; \underline{x}_2 &amp;= \begin{bmatrix} 0 \\ 1 \end{bmatrix}
+\end{aligned}\]]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

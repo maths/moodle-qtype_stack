@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>25.4.1.2 Solutions involving infinite Fourier series</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4 class="HELM_example">Example</h4>
+<p>Solve Laplace’s equation to determine the steady state temperature \(u(x,y)\) in the semi-infinite plate \(0\le x\le 1,\ \ y\ge 0\). Assume that the left and right sides are insulated and assume that the solution is bounded. The temperature along the
+    bottom side is a known function \(f(x)\).<br></p>
+<ol class="HELM_parts">
+    <li>First write this problem as a mathematical boundary value problem paying particular attention to the mathematical representation of the boundary conditions:
+        <h4 class="HELM_solution">Solution</h4>
+        <p>Since the sides \(x = 0\) and \(x = 1\) are insulated, the temperature gradient across these sides is zero </p>
+        <p> i.e. \(\dfrac{\partial u}{\partial x}=0\) for \(x = 0\),\( 0 &lt;y&lt;\infty \) and \(\dfrac{\partial u}{\partial x}=0\) for \(x = 1, 0 &lt; y&lt;\infty \) </p><br>The third boundary condition is \(u(x, 0) = f(x)\).<br>The fourth boundary condition
+        is less obvious: since the solution should be bounded (ie not grow and grow) we must demand that \( u(x, y) → 0 \) as \(y → \infty.\) (See figure below.)
+        <figure class="HELM_figure">
+            <img src="@@PLUGINFILE@@/workbook31fig4-1.svg" alt="Workbook 25.4 Task Solution Figure" width="296" height="205" class="img-responsive atto_image_button_text-bottom">
+            <figcaption></figcaption>
+        </figure>
+    </li>
+    <li>
+        <p>Now use the separation of variables method, putting \(u(x,y)=X(x)Y(y)\), to find the differential equations satisfied by \(X(x)\), \(Y(y)\) and decide on the sign of the separation constant \(K\):</p>
+        <h4 class="HELM_solution">Solution</h4>
+        <p>We have boundary conditions which, like the worked example above, are periodic in \(x\). Hence the differential equations are, again,
+
+        </p>
+        <table width="60%">
+            <tbody>
+                <tr>
+                    <td>\(\qquad X''=-\lambda^2 X\)</td>
+                    <td>\(Y''=+\lambda^2\)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        putting the separation constant \(K\) as \(-\lambda^2\).
+    </li>
+    <li>
+        <p>Write down the solutions for \(X\), for \(Y\) and hence the product solution \(u(x,y)=X(x)Y(y)\):</p>
+        <h4 class="HELM_solution">Solution</h4>
+
+        <table width="80%">
+            <tbody>
+                <tr>
+                    <td>\(X=A\cos \lambda x +B\sin \lambda x\)</td>
+                    <td>\(Y=Ce^{\lambda y}+D e^{-\lambda y}\)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        so
+
+        <table width="100%">
+            <tbody>
+                <tr>
+                    <td>\(\qquad u=(A\cos \lambda x +B\sin \lambda x)(Ce^{\lambda y}+D e^{-\lambda y})\)</td>
+                    <td>\[(4)\]</td>
+                </tr>
+            </tbody>
+        </table>
+    </li>
+    <li>
+        <p>Impose the derivative boundary conditions on this solution:</p>
+        <h4 class="HELM_solution">Solution</h4>
+        <p></p>
+        <p>\(\qquad \dfrac{\partial u}{\partial x}=(-\lambda A \sin \lambda x +\lambda B\cos \lambda x)(Ce^{\lambda y}+D e^{-\lambda y})\)</p> <br> Hence\(\dfrac{\partial u}{\partial x}(0, y) = 0\) gives \(\lambda B(Ce^{\lambda y}+D e^{-\lambda y}) = 0\)
+        for all \(y.\)
+        <br>The possibility \(\lambda = 0\) can be excluded this would give a trivial constant solution in \((4)\). Hence we must choose \(B = 0\). <br> The condition \(\dfrac{\partial u}{\partial x}(1, y) = 0\) gives
+        <p> \(\qquad -\lambda A\sin\lambda(Ce^{\lambda y}+D e^{-\lambda y}) = 0\)</p> Choosing \(A = 0\) would make \(u \equiv 0\) so we must force \(\sin \lambda\) to be zero i.e. choose \(\lambda = nπ\) where \(n\) is a positive integer.<br> Thus, at this
+        stage \((4)\) becomes
+
+        <table width="100%">
+            <tbody>
+                <tr>
+                    <td>\(\qquad u = A \cos nπx(Ce^{nπy} + De^{-nπy})\)</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>\(&nbsp; &nbsp; &nbsp;\qquad = \cos nπx(Ee^{nπy} + F e^{−nπy})\)</td>
+                    <td>\[(5)\]</td>
+                </tr>
+            </tbody>
+        </table>
+    </li>
+    <li>
+        <p>Now impose the condition that this solution should be bounded: </p>
+        <h4 class="HELM_solution">Solution</h4>
+        <p>The region over which we are solving Laplace’s equation is semi-infinite i.e. the \(y\) coordinate increases without limit. The solution for \(u(x, y)\) in \((5)\) will increase without limit as \(y → \infty\) due to the term \(e^{nπy}\) (\(n\)
+            being a positive integer.) This can be avoided i.e. the solution will be bounded if the constant \(E\) is chosen as zero.
+        </p>
+  </li>
+  <li><p>Finally, use Fourier series techniques to deal with the final boundary condition \(u(x,0)=f(x)\):</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>Superposing solutions of the form \((5)\) (with \(E = 0\)) gives
+</p>
+
+<table width="100%">
+    <tbody>
+        <tr>
+            <td>\(\qquad u(x, y) = \sum_{n=0}^\infty F_n\cos(n\pi x)e^{-n\pi x}\)</td>
+            <td>\((6)\)</td>
+        </tr>
+    </tbody>
+</table>
+
+
+so the boundary condition gives
+<p>\(\qquad f(x) = \sum_{n=0}^\infty F_n\cos(n\pi x)\)</p>
+We have here a half-range Fourier cosine series representation of a function \(f(x)\) defined over \(0 &lt; x &lt; 1\). Extending \(f(x)\) as an even periodic function with period 2 and using standard Fourier series theory gives
+
+<table width="80%">
+    <tbody>
+        <tr>
+            <td>\(\qquad F_n=2\int_0^{1}f(x)\cos(n\pi x) \;dx\)</td>
+            <td>\[n = 1,2,...\]</td>
+        </tr>
+    </tbody>
+</table>
+
+
+with
+<p>\(\qquad \dfrac{F_0}{2}=\int_0^{1}f(x) \;dx\) </p>
+Hence \((6)\) is the solution of this given boundary value problem, the integrals giving us in principle the Fourier coefficients \(F_n\) for a given function \(f(x)\).</li>
+</ol>]]></text>
+<file name="workbook31fig4-1.svg" path="/" encoding="base64">PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMjk1LjUyOSIgaGVpZ2h0PSIyMDUuNDE1IiB2aWV3Qm94PSIwIDAgMjIxLjY0NyAxNTQuMDYxIj48ZyBkYXRhLW5hbWU9IkRvY3VtZW50Ij48Y2xpcFBhdGggaWQ9ImEiPjxwYXRoIHRyYW5zZm9ybT0ibWF0cml4KDEgMCAwIC0xIDAgMTU0LjA2MSkiIGQ9Ik0uMDYgMTU0LjA2MWgyMjEuNTg3Vi4wNkguMDZ6Ii8+PC9jbGlwUGF0aD48ZyBjbGlwLXBhdGg9InVybCgjYSkiPjxwYXRoIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzIzMWYyMCIgZD0iTTAgMTM0LjA3NWgyMDYuODciLz48L2c+PHBhdGggZD0ibTIwNi44NyAxMzQuMDc1LTEuNzUyLTIuODgyLjA5OC0uMDY2IDQuNyAxLjg2OCA0LjkxMyAxLjA4LTQuOTEzIDEuMDgxLTQuNyAxLjg2Ny0uMDk4LS4wNDkgMS43NTItMi44OTlNNjMgMTUuMDZsLTIuODgyIDEuNzUyLS4wNjYtLjA5OCAxLjg2Ny00LjdMNjMgNy4xMDFsMS4wODEgNC45MTMgMS44NjcgNC43LS4wNS4wOThMNjMgMTUuMDYiIGZpbGw9IiMyMzFmMjAiLz48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiMyMzFmMjAiIGQ9Ik0xNTEgMTM1LjA2di0xMjBNNjMgMTM1LjA2di0xMjAiLz48cGF0aCBkPSJNMjIuOTk5IDg0LjMxaDEzLjQ5MnYtLjQ3OEgyMi45OTl6TTE1Ny41OCA4Mi4yNDNoMTMuNDkydi0uNDc4SDE1Ny41OHoiIGZpbGw9IiMyMzFmMjAiLz48c3ltYm9sIGlkPSJiIj48cGF0aCBkPSJNLjQ0Ni40MThDLjQxNC40MTIuNDAyLjM4OC40MDIuMzY5YzAtLjAyNC4wMTktLjAzMi4wMzMtLjAzMi4wMyAwIC4wNTEuMDI2LjA1MS4wNTMgMCAuMDQyLS4wNDguMDYxLS4wOS4wNjFDLjMzNS40NTEuMzAxLjM5MS4yOTIuMzcyYS4xMDQuMTA0IDAgMCAxLS4xMDMuMDc5Qy4wODcuNDUxLjAzMy4zMi4wMzMuMjk4YzAtLjAwNC4wMDQtLjAwOS4wMTEtLjAwOS4wMDggMCAuMDEuMDA2LjAxMi4wMS4wMzQuMTExLjEwMS4xMzIuMTMuMTMyQy4yMzEuNDMxLjI0LjM4OS4yNC4zNjUuMjQuMzQzLjIzNC4zMi4yMjIuMjcyTC4xODguMTM1Qy4xNzMuMDc1LjE0NC4wMi4wOTEuMDIuMDg2LjAyLjA2MS4wMi4wNC4wMzNhLjA1Mi4wNTIgMCAwIDEgLjA0NC4wNDljMCAuMDItLjAxNS4wMzItLjAzNC4wMzJBLjA1Mi4wNTIgMCAwIDEgMCAuMDYxQzAgLjAxOS4wNDcgMCAuMDkgMGMuMDQ4IDAgLjA4Mi4wMzguMTAzLjA3OUEuMTA1LjEwNSAwIDAgMSAuMjk2IDBjLjEwMiAwIC4xNTYuMTMxLjE1Ni4xNTMgMCAuMDA1LS4wMDQuMDA5LS4wMS4wMDlDLjQzMy4xNjIuNDMyLjE1Ny40MjkuMTQ5LjQwMi4wNjEuMzQ0LjAyLjI5OS4wMi4yNjQuMDIuMjQ1LjA0Ni4yNDUuMDg3YzAgLjAyMi4wMDQuMDM4LjAyLjEwNEwuMy4zMjdjLjAxNS4wNi4wNDkuMTA0LjA5NS4xMDQuMDAyIDAgLjAzIDAgLjA1MS0uMDEzeiIvPjwvc3ltYm9sPjxzeW1ib2wgaWQ9ImMiPjxwYXRoIGQ9Ik0uNDE2LjM1NUMuNDEuNDExLjM3NS40NzguMjg1LjQ3OC4xNDQuNDc4IDAgLjMzNSAwIC4xNzYgMCAuMTE1LjA0MiAwIC4xNzggMGMuMjM2IDAgLjMzNy4zNDQuMzM3LjQ4MSAwIC4xNDQtLjA4MS4yNTUtLjIwOS4yNTVBLjE4NC4xODQgMCAwIDEgLjExOC41ODJjMC0uMDA5LjAwNi0uMDMxLjAzNC0uMDMxLjAzNSAwIC4wNS4wMzIuMDUuMDQ5IDAgLjAzMS0uMDMxLjAzMS0uMDQ0LjAzMWEuMTYyLjE2MiAwIDAgMCAuMTQ0LjA4MUMuMzkuNzEyLjQ0Ni42NDIuNDQ2LjUzQS43My43MyAwIDAgMCAuNDE3LjM1NUguNDE2TS4xODEuMDI3Yy0uMDk0IDAtLjExLjA3NC0uMTEuMTE2IDAgLjA0NC4wMjguMTQ3LjA0My4xODQuMDEzLjAzLjA3LjEzMS4xNzQuMTMxQy4zNzkuNDU4LjQuMzc5LjQuMzI1LjQuMjUxLjMzNS4wMjcuMTgxLjAyN3oiLz48L3N5bWJvbD48c3ltYm9sIGlkPSJkIj48cGF0aCBkPSJNLjMxNC4wNjhBLjA4Ni4wODYgMCAwIDEgLjM5OSAwYy4wMzIgMCAuMDU2LjAyMS4wNzIuMDU1LjAxNy4wMzYuMDMuMDk1LjAzLjA5OCAwIC4wMDUtLjAwNC4wMDktLjAxLjAwOS0uMDA5IDAtLjAxLS4wMDUtLjAxNC0uMDJDLjQ1OS4wNzMuNDQxLjAyLjQwMS4wMmMtLjAzIDAtLjAzLjAzMy0uMDMuMDQ2IDAgLjAyMy4wMDMuMDMzLjAxMy4wNzVsLjAyLjA4MmE5Ljc2NyA5Ljc2NyAwIDAgMSAuMDQ4LjE5M0MuNDUyLjQzMS40NC40NDEuNDI1LjQ0MS4zOTYuNDQxLjM4OS40MTYuMzgzLjM5MS4zNzMuMzUyLjMxOS4xMzcuMzEyLjEwMi4zMTEuMTAyLjI3Mi4wMi4xOTkuMDIuMTQ3LjAyLjEzNy4wNjUuMTM3LjEwMmEuNjYuNjYgMCAwIDAgLjA1NC4yMDRjLjAxMi4wMzIuMDE3LjA0NS4wMTcuMDY1IDAgLjA0My0uMDMxLjA4LS4wNzkuMDhDLjAzNy40NTEgMCAuMzA2IDAgLjI5OCAwIC4yOTQuMDA0LjI4OS4wMTEuMjg5Yy4wMDkgMCAuMDEuMDA0LjAxNC4wMTguMDI0LjA4Ni4wNjMuMTI0LjEwMS4xMjQuMDEgMCAuMDI2LS4wMDEuMDI2LS4wMzNBLjI3NS4yNzUgMCAwIDAgLjEyNi4zMDUuNTQuNTQgMCAwIDEgLjA3Ny4xMThDLjA3Ny4wMTYuMTU0IDAgLjE5NSAwYy4wNjQgMCAuMDk5LjA0NC4xMTkuMDY4eiIvPjwvc3ltYm9sPjx1c2UgeGxpbms6aHJlZj0iI2IiIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSAyMTUuMzM1IDE0Mi4xOCkiIGZpbGw9IiMyMzFmMjAiLz48dXNlIHhsaW5rOmhyZWY9IiNjIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgMjMuNDUzIDc5LjIyMykiIGZpbGw9IiMyMzFmMjAiLz48dXNlIHhsaW5rOmhyZWY9IiNkIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgMzAuMTUyIDc5LjA5MikiIGZpbGw9IiMyMzFmMjAiLz48dXNlIHhsaW5rOmhyZWY9IiNjIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgMjMuNDU4IDk1LjUxMikiIGZpbGw9IiMyMzFmMjAiLz48dXNlIHhsaW5rOmhyZWY9IiNiIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgMzAuMTY5IDk1LjM4KSIgZmlsbD0iIzIzMWYyMCIvPjxzeW1ib2wgaWQ9ImUiPjxwYXRoIGQ9Ik0uNjIxLjE4NmMuMDE0IDAgLjAzMiAwIC4wMzIuMDE4IDAgLjAxOS0uMDE3LjAxOS0uMDMyLjAxOUguMDMyQy4wMTguMjIzIDAgLjIyMyAwIC4yMDUgMCAuMTg2LjAxNy4xODYuMDMyLjE4NmguNTg5bTAtLjE4NmMuMDE0IDAgLjAzMiAwIC4wMzIuMDE4IDAgLjAxOS0uMDE3LjAxOS0uMDMyLjAxOUguMDMyQy4wMTguMDM3IDAgLjAzNyAwIC4wMTkgMCAwIC4wMTcgMCAuMDMyIDBoLjU4OXoiLz48L3N5bWJvbD48c3ltYm9sIGlkPSJmIj48cGF0aCBkPSJNLjQwNy4zNDFhLjU0Ni41NDYgMCAwIDEtLjA0MS4yNC4xNzkuMTc5IDAgMCAxLS4zMjgtLjAwN0EuNTMuNTMgMCAwIDEgMCAuMzQxQzAgLjI0NC4wMDcuMTcxLjA0My4xYS4xNzguMTc4IDAgMCAxIC4xNi0uMUMuMjkgMCAuMzQuMDUyLjM2OS4xMWEuNTYuNTYgMCAwIDEgLjAzOC4yMzFNLjIwMy4wMkMuMTcxLjAyLjEwNi4wMzguMDg3LjE0Ny4wNzYuMjA3LjA3Ni4yODMuMDc2LjM1M2MwIC4wODIgMCAuMTU2LjAxNi4yMTUuMDE3LjA2Ny4wNjguMDk4LjExMS4wOTguMDM4IDAgLjA5Ni0uMDIzLjExNS0uMTA5Qy4zMzEuNS4zMzEuNDIxLjMzMS4zNTMuMzMxLjI4Ni4zMzEuMjEuMzIuMTQ5LjMwMS4wMzkuMjM4LjAyLjIwMy4wMnoiLz48L3N5bWJvbD48dXNlIHhsaW5rOmhyZWY9IiNlIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgNDEuNjU0IDg1LjQxMSkiIGZpbGw9IiMyMzFmMjAiLz48dXNlIHhsaW5rOmhyZWY9IiNmIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgNTMuOTIzIDg3LjMxMikiIGZpbGw9IiMyMzFmMjAiLz48dXNlIHhsaW5rOmhyZWY9IiNkIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgODIuNjYzIDE1MS4xOCkiIGZpbGw9IiMyMzFmMjAiLz48dXNlIHhsaW5rOmhyZWY9IiNlIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgOTIuOTcgMTQ5LjQxMSkiIGZpbGw9IiMyMzFmMjAiLz48c3ltYm9sIGlkPSJnIj48cGF0aCBkPSJNLjM5NS42MDZjLjAyIDAgLjAyOCAwIC4wMjguMDE5IDAgLjAxLS4wMDguMDEtLjAyNi4wMUguMzE2Yy4wMTkuMTAzLjAzMy4xNzQuMDQxLjIwNi4wMDYuMDI0LjAyNy4wNDcuMDUzLjA0N0EuMDg1LjA4NSAwIDAgMCAuNDYyLjg3Qy40MjMuODY2LjQxMS44MzcuNDExLjgyLjQxMS44LjQyNi43ODguNDQ1Ljc4OGMuMDIgMCAuMDUuMDE3LjA1LjA1NSAwIC4wNDItLjA0Mi4wNjUtLjA4Ni4wNjVDLjM2Ni45MDguMzI0Ljg3Ni4zMDQuODM3QS42OS42OSAwIDAgMSAuMjUzLjYzNUguMTg2Yy0uMDE5IDAtLjAyOSAwLS4wMjktLjAxOCAwLS4wMTEuMDA2LS4wMTEuMDI2LS4wMTFoLjA2NEMuMjI5LjUxMy4xODguMjg3LjE2NS4xOC4xNDguMDkzLjEzMy4wMi4wODMuMDIuMDguMDIuMDUxLjAyLjAzMy4wMzljLjA1MS4wMDQuMDUxLjA0OC4wNTEuMDQ5Qy4wODQuMTA4LjA2OS4xMi4wNS4xMkEuMDUyLjA1MiAwIDAgMSAwIC4wNjVDMCAuMDIyLjA0NCAwIC4wODMgMGMuMTAyIDAgLjE0NC4xODMuMTU1LjIzM0MuMjU2LjMxLjMwNS41NzYuMzEuNjA2aC4wODV6Ii8+PC9zeW1ib2w+PHVzZSB4bGluazpocmVmPSIjZyIgdHJhbnNmb3JtPSJtYXRyaXgoMTEuOTU1IDAgMCAtMTEuOTU1IDEwNS4zNiAxNTMuNSkiIGZpbGw9IiMyMzFmMjAiLz48Y2xpcFBhdGggaWQ9ImgiPjxwYXRoIHRyYW5zZm9ybT0ibWF0cml4KDEgMCAwIC0xIDAgMTU0LjA2MSkiIGQ9Ik0uMDYgMTU0LjA2MWgyMjEuNTg3Vi4wNkguMDZ6Ii8+PC9jbGlwUGF0aD48ZyBjbGlwLXBhdGg9InVybCgjaCkiPjxzeW1ib2wgaWQ9ImkiPjxwYXRoIGQ9Ik0uMjI3LjAwOGMwIC4wMDMgMCAuMDA1LS4wMTcuMDIyQy4xMS4xMzEuMDU0LjI5Ni4wNTQuNWMwIC4xOTQuMDQ3LjM2MS4xNjMuNDc5LjAxLjAwOS4wMS4wMTEuMDEuMDE0IDAgLjAwNi0uMDA1LjAwOC0uMDA5LjAwOGEuNDIuNDIgMCAwIDEtLjE0NC0uMTdBLjcxMy43MTMgMCAwIDEgMCAuNUMwIC40MTEuMDE0LjI5Mi4wNjYuMTg1QS40MjYuNDI2IDAgMCAxIC4yMTggMGMuMDA0IDAgLjAwOS4wMDIuMDA5LjAwOHoiLz48L3N5bWJvbD48dXNlIHhsaW5rOmhyZWY9IiNpIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgMTEyLjk2NyAxNTQuMDYpIiBmaWxsPSIjMjMxZjIwIi8+PC9nPjx1c2UgeGxpbms6aHJlZj0iI2IiIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSAxMTYuNjgzIDE1MS4xOCkiIGZpbGw9IiMyMzFmMjAiLz48Y2xpcFBhdGggaWQ9ImoiPjxwYXRoIHRyYW5zZm9ybT0ibWF0cml4KDEgMCAwIC0xIDAgMTU0LjA2MSkiIGQ9Ik0uMDYgMTU0LjA2MWgyMjEuNTg3Vi4wNkguMDZ6Ii8+PC9jbGlwUGF0aD48ZyBjbGlwLXBhdGg9InVybCgjaikiPjxzeW1ib2wgaWQ9ImsiPjxwYXRoIGQ9Ik0uMjI3LjVjMCAuMDc2LS4wMS4yLS4wNjYuMzE2YS40MjYuNDI2IDAgMCAxLS4xNTIuMTg1Qy4wMDUgMS4wMDEgMCAuOTk5IDAgLjk5MyAwIC45OSAwIC45ODguMDE3Ljk3MS4xMTcuODcuMTczLjcwNS4xNzMuNTAxLjE3My4zMDcuMTI2LjE0LjAxLjAyMiAwIC4wMTMgMCAuMDExIDAgLjAwOCAwIC4wMDIuMDA1IDAgLjAwOSAwYS40Mi40MiAwIDAgMSAuMTQ0LjE3LjcyLjcyIDAgMCAxIC4wNzQuMzN6Ii8+PC9zeW1ib2w+PHVzZSB4bGluazpocmVmPSIjayIgdHJhbnNmb3JtPSJtYXRyaXgoMTEuOTU1IDAgMCAtMTEuOTU1IDEyMy42NTggMTU0LjA2KSIgZmlsbD0iIzIzMWYyMCIvPjwvZz48c3ltYm9sIGlkPSJsIj48cGF0aCBkPSJNLjE5Ny42NDFjMCAuMDIzIDAgLjAyNC0uMDIuMDI0Qy4xNTMuNjM4LjEwMy42MDEgMCAuNjAxVi41NzJjLjAyMyAwIC4wNzMgMCAuMTI4LjAyNlYuMDc3Qy4xMjguMDQxLjEyNS4wMjkuMDM3LjAyOUguMDA2VjBDLjAzMy4wMDIuMTMuMDAyLjE2My4wMDJTLjI5Mi4wMDIuMzE5IDB2LjAyOUguMjg4Qy4yLjAyOS4xOTcuMDQxLjE5Ny4wNzd2LjU2NHoiLz48L3N5bWJvbD48dXNlIHhsaW5rOmhyZWY9IiNmIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgNTguNDkgMTQ3LjMxMSkiIGZpbGw9IiMyMzFmMjAiLz48dXNlIHhsaW5rOmhyZWY9IiNsIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgMTQ5LjU1NyAxNDkuMDYpIiBmaWxsPSIjMjMxZjIwIi8+PHN5bWJvbCBpZD0ibSI+PHBhdGggZD0iTS4yMzYuMDkyQy4yMDkuMDU0LjE3LjAyLjEyMS4wMi4xMDkuMDIuMDYxLjAyMi4wNDYuMDY4bC4wMS0uMDAxYy4wMyAwIC4wNS4wMjYuMDUuMDQ5IDAgLjAyMy0uMDE5LjAzMS0uMDM0LjAzMUMuMDU2LjE0Ny4wMjEuMTM1LjAyMS4wODYuMDIxLjAzNS4wNjQgMCAuMTIxIDBjLjEgMCAuMjAxLjA5Mi4yMjkuMjAzbC4wOTguMzlDLjQ0OS41OTguNDUxLjYwNC40NTEuNjFjMCAuMDE1LS4wMTIuMDI1LS4wMjcuMDI1Qy40MTUuNjM1LjM5NC42MzEuMzg2LjYwMUwuMzEyLjMwN0MuMzA3LjI4OS4zMDcuMjg3LjI5OS4yNzYuMjc5LjI0OC4yNDYuMjE0LjE5OC4yMTQuMTQyLjIxNC4xMzcuMjY5LjEzNy4yOTZjMCAuMDU3LjAyNy4xMzQuMDU0LjIwNi4wMTEuMDI5LjAxNy4wNDMuMDE3LjA2MyAwIC4wNDItLjAzLjA4LS4wNzkuMDhDLjAzNy42NDUgMCAuNSAwIC40OTIgMCAuNDg4LjAwNC40ODMuMDExLjQ4M2MuMDA5IDAgLjAxLjAwNC4wMTQuMDE4LjAyNC4wODQuMDYyLjEyNC4xMDEuMTI0LjAwOSAwIC4wMjYgMCAuMDI2LS4wMzNBLjI3NS4yNzUgMCAwIDAgLjEyNi40OTlDLjA3Ny4zNjguMDc3LjMzNS4wNzcuMzExYzAtLjA5NS4wNjgtLjExNy4xMTgtLjExNy4wMjkgMCAuMDY1LjAwOS4xLjA0NkwuMjk2LjIzOWEuMzgxLjM4MSAwIDAgMC0uMDYtLjE0N3oiLz48L3N5bWJvbD48dXNlIHhsaW5rOmhyZWY9IiNtIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgNjkuMzI0IDEyLjUpIiBmaWxsPSIjMjMxZjIwIi8+PHVzZSB4bGluazpocmVmPSIjYyIgdHJhbnNmb3JtPSJtYXRyaXgoMTEuOTU1IDAgMCAtMTEuOTU1IDE1OC4wMzYgNzcuMTU3KSIgZmlsbD0iIzIzMWYyMCIvPjx1c2UgeGxpbms6aHJlZj0iI2QiIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSAxNjQuNzM0IDc3LjAyNSkiIGZpbGw9IiMyMzFmMjAiLz48dXNlIHhsaW5rOmhyZWY9IiNjIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgMTU4LjA0IDkzLjQ0NSkiIGZpbGw9IiMyMzFmMjAiLz48dXNlIHhsaW5rOmhyZWY9IiNiIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgMTY0Ljc1MSA5My4zMTQpIiBmaWxsPSIjMjMxZjIwIi8+PHVzZSB4bGluazpocmVmPSIjZSIgdHJhbnNmb3JtPSJtYXRyaXgoMTEuOTU1IDAgMCAtMTEuOTU1IDE3Ni4yMzYgODMuMzQ1KSIgZmlsbD0iIzIzMWYyMCIvPjx1c2UgeGxpbms6aHJlZj0iI2YiIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSAxODguNTA2IDg1LjI0NSkiIGZpbGw9IiMyMzFmMjAiLz48L2c+PC9zdmc+</file>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

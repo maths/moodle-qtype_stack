@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>9.2.1.2 Column vector notation</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h5></h5><h5>Column vector notation</h5><p>An alternative, useful, and often briefer notation is to write the vector \(\underline{r}=a\underline{i}+b\underline{j}\) in notation as \[\underline{r}= \begin{bmatrix} a\\ b \end{bmatrix}\,.\]</p><p></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

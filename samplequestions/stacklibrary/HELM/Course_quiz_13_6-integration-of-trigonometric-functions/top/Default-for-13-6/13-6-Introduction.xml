@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>13.6 Introduction</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3><span>Integration of Trigonometric Functions</span><br></h3>
+
+<p>Integrals involving trigonometric functions are commonplace in engineering mathematics. This is especially true when modelling waves and alternating current circuits. When the root-mean-square (rms) value of a waveform, or signal is to be calculated, you will often find these results in an integral of the form 
+  \[\int\sin^2t \,\mathrm{d}t.\]</p>
+<p>In this Section you will learn how such integrals can be evaluated.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>8.3.1.4 Exercise linear system upper triangular matrix</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+
+<p>Solve the following system of equations using back-substitution:</p>
+\[ {@matA@} {@vecX@} = {@vecB@}.\] 
+
+<div>\(X=\) [[input:ans1]] [[validation:ans1]]&nbsp;[[feedback:prt1]]</div><div><br></div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>We are given the system&nbsp;\[ {@matA@} {@vecX@} = {@vecB@}.\]</p><p>For an upper triangular matrix, we apply back-substitution. The last equation can be solved immediately to give \[ z = {@ta[3][1]@}. \]</p><p>Substituting this value of \( z \) into the second equation, we get \[{@ev(eq2, z = ta[3][1])@} \] which implies \(y
+    = {@ta[2][1]@} \).</p><p>Finally, substituting this values of \( y \) and \( z \) into the first equation, we get \[{@ev(eq1, y = ta[2][1], z = ta[3][1])@} \] which implies \(x = {@ta[1][1]@} \).</p><p>Therefore, \[ x = {@ta[1][1]@}, \qquad y = {@ta[2][1]@},
+    \qquad {@z= ta[3][1]@}. \]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021072200</text>
+    </stackversion>
+    <questionvariables>
+      <text>ordergreat(x, y, z);
+/* Generate randomly an upper triangular matrix matA with non-zero integer entries on the diagonal and a vector vecB */
+a11 : rand(6) * 3 - 8;
+a12 : rand(19) - 9;
+a13 : rand(19) - 9;
+a22 : rand(6) * 3 - 8;
+a23 : rand(19) - 9;
+a33 : rand(6) * 3 - 8;
+matA : matrix([a11, a12, a13], [0, a22, a23], [0, 0, a33]);
+vecB : matrix([rand(19) - 9], [rand(19) - 9], [rand(19) - 9]);
+vecX : matrix([x], [y], [z]);
+
+/* Construct the solution */
+aux_LHS : matA.vecX;
+eq1 : aux_LHS[1][1] = vecB[1][1];
+eq2 : aux_LHS[2][1] = vecB[2][1];
+eq3 : aux_LHS[3][1] = vecB[3][1];
+ta_aux : algsys([eq1, eq2, eq3], [x, y, z]);
+ta : matrix([rhs(ta_aux[1][1])], [rhs(ta_aux[1][2])], [rhs(ta_aux[1][3])]);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\[ {@matA@} {@vecX@} = {@vecB@}\]
+\[X= {@ta@} \]</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>matrix</type>
+      <tans>ta</tans>
+      <boxsize>4</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Well done!</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Be careful, your solution doesn't satisfy the system
+\[ {@matA@} \cdot {@ans1@} = {@matA . ans1 @} \neq {@vecB@}. \]</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>79317627</deployedseed>
+    <deployedseed>595630114</deployedseed>
+    <deployedseed>1527117945</deployedseed>
+    <deployedseed>1375462406</deployedseed>
+    <deployedseed>2062615942</deployedseed>
+    <deployedseed>1642121931</deployedseed>
+    <deployedseed>1459166191</deployedseed>
+    <deployedseed>1490571913</deployedseed>
+    <deployedseed>1752479612</deployedseed>
+    <deployedseed>775575866</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>vecB</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

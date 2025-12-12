@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>2.1.3.6 Composite function 5</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>Given \(\displaystyle{f\left(x\right) = {@fx@}}\) and \(\displaystyle{g\left(x\right) = {@gx@}}\) find the composite function:</p>
+
+<p> \(g\left(f\left(x\right)\right)=\) [[input:ans1]] [[validation:ans1]] [[feedback:Result]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>We are given the functions \(f\left(x\right) = \displaystyle {@fx@}\) and \(g\left(x\right) = \displaystyle {@gx@}.\)</p>
+<p>The maximum domain of \(f(x)\) is \(D_f: x \neq -{@b@}.\)</p>
+<p>The maximum domain of \(g(x)\) is \(D_g: x \neq 0.\)</p>
+<p>The maximum domain of \( g(f(x))\) is determined by:</p>
+<p>\[ x \in D_f \quad \text{and} \quad f(x) \in D_g \]</p>
+<p>or,</p>
+<p>\[\left\{\begin{array}{l} x \neq - {@b@}\\ f(x) \neq 0 \end{array} \Leftrightarrow \begin{array}{l} x \neq - {@b@}\\ {@fx@} \neq 0 \end{array} \Leftrightarrow \begin{array}{l} x \neq - {@b@}\\ x \neq {@a@} \end{array} \right.\]</p>
+<p>Substituting \(f\left(x\right)= \displaystyle {@fx@}\) for \(x\) in the expression \(g\left(x\right) =\displaystyle {@gx@}\) we obtain the composite function:</p>
+\[g\left(f\left(x\right)\right)=\dfrac{@c@}{@fx@}={@ta1@}.\]]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021072200</text>
+    </stackversion>
+    <questionvariables>
+      <text>a:rand(4)+2
+b:rand(7)+2;
+c:1
+
+simp:true;
+fnum:x-a;
+fdem: x+b;
+fx:fnum/fdem;
+gx:c/x;
+
+gfx:c/fx;
+expgfx: expand(gfx);
+ta1: gfx;
+</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>Given \(f\left(x\right) = {@fx@}\) and \(g\left(x\right) = {@gx@}\) then \(g\left(f\left(x\right)\right)={@ta1@}\) and \(f\left(g\left(x\right)\right)={@ta2@}\).</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>FNC-CMP-TRUE</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>4</falsenextnode>
+        <falseanswernote>FNC-CMP-FALSE </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>4</name>
+        <description/>
+        <answertest>EqualComAss</answertest>
+        <sans>ans1</sans>
+        <tans>fx*gx</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>PRODUCT</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Your answer is the product of \(f\left(x\right)\) and \(g\left(y\right)\).  This is not the same as the composite function \(g\left(f\left(x\right)\right)\).</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>5</falsenextnode>
+        <falseanswernote>FNC-CMP-4-FALSE </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>5</name>
+        <description/>
+        <answertest>EqualComAss</answertest>
+        <sans>ans1</sans>
+        <tans>fx+gx</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>SUM</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Your answer is the sum of \(f\left(x\right)\) and \(g\left(y\right)\). This is not the same as the composite function \(g\left(f\left(x\right)\right)\).</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>FNC-CMP-5-FALSE </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>4407265</deployedseed>
+    <deployedseed>1541167426</deployedseed>
+    <deployedseed>667378515</deployedseed>
+    <deployedseed>1987828995</deployedseed>
+    <deployedseed>279553901</deployedseed>
+    <deployedseed>806016054</deployedseed>
+    <deployedseed>1024155900</deployedseed>
+    <deployedseed>493794515</deployedseed>
+    <deployedseed>965128269</deployedseed>
+    <deployedseed>329069966</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>FNC-CMP-TRUE</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>fx+gx</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>SUM</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>fx*gx</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>PRODUCT</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(ta1+1,simp)</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>FNC-CMP-5-FALSE</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

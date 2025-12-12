@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>18.4.4.3 Exercise 2</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>The sides of a right-angled triangle enclosing the right-angle are measured as \({@side_1@} \, \textrm{m} \) and \({@side_2@} \, \textrm{m}.\) The maximum errors in the measurement of each side are \(\pm {@max_error@} \, \textrm{m}.\)&nbsp;</p>
+<p>The angle opposite the&nbsp;\({@side_2@} \, \textrm{m} \) side is calculated from \(\tan\theta = \frac{{@side_2@}}{{@side_1@}}\) as \(\theta = {@opp_angle@}\).&nbsp;</p>
+<p>Calculate the&nbsp;approximate maximum error in that angle, giving your answer in radians.</p>
+<p>The maximum error in \(\theta\) is [[input:ans1]] [[validation:ans1]] [[feedback:prt1]].</p>
+<p>Note: Keep 1 s.f. in your answer.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>We know that \( \tan \theta = \dfrac{y}{x}\) so \(\theta = \tan^{-1}\dfrac{y}{x}.\)</p><p>Therefore:</p><p>\[\delta \theta = \frac{\partial \theta}{\partial x} \delta x + \frac{\partial \theta}{\partial y} \delta y = - \frac{y}{x^2+y^2} \delta x + \frac{x}{x^2+y^2} \delta y\]</p><p>We have \( y= {@side_2@}, \, x = {@side_1@} \) and \( \delta y = \delta x= {@max_error@}. \)</p>
+<p>So the maximum error in \(\theta\) is: \[\left| \frac{-{@side_2@}}{{@side_1@}^2+{@side_2@}^2}({@max_error@}) \right| + \left| \frac{{@side_1@}}{{@side_1@}^2+{@side_2@}^2} ({@max_error@}) \right| = {@ta1@}\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020120600</text>
+    </stackversion>
+    <questionvariables>
+      <text>side_1: rand([2,3,4,5]);
+side_2: rand_with_prohib(2,7,[side_1]);
+max_error: rand([0.1,0.2]);
+opp_angle: atan(side_2/side_1);
+ta1: abs( (-side_2/(side_1^2+side_2^2))*max_error) + abs((side_1/(side_1^2+side_2^2))*max_error);
+ta1: significantfigures(ta1,1);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>side {@side_2@}, opposite angle: \(\tan\theta = \frac{{@side_2@}}{{@side_1@}}\), max error in angle: {@ta1@} rad</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>numerical</type>
+      <tans>ta1</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumSigFigs</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions>1</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>172529670</deployedseed>
+    <deployedseed>325951348</deployedseed>
+    <deployedseed>1115158494</deployedseed>
+    <deployedseed>1039609836</deployedseed>
+    <deployedseed>181307871</deployedseed>
+    <deployedseed>154311902</deployedseed>
+    <deployedseed>600703012</deployedseed>
+    <deployedseed>231009744</deployedseed>
+    <deployedseed>325151558</deployedseed>
+    <deployedseed>1686473613</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(ta1+0.009, simp)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

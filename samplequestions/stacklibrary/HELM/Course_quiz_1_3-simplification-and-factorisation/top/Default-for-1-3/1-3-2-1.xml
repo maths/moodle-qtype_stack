@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>1.3.2.1</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>2. Removing brackets from expressions \( a(b+c) \) and \( a(b-c) \)</h3>
+<p>Removing brackets means <b>multiplying out</b>. For example \( 5(2+4)=5\times 2 +5\times 4=10+20=30\). In this simple example we could alternatively get the same result as follows: \(5(2+4)=5\times 6=30\). That is: \[ 5(2+4)=5\times 2+5\times 4. \]</p>
+<p>In an expression such as \(5(x+y)\) it is intended that the 5 multiplies both \(x\) and \(y\) to produce \(5x+5y\). Thus the expressions \(5(x+y)\) and \(5x+5y\) are equivalent. In general we have the following rules known as <strong>distributive laws</strong>:</p>
+
+<div class="HELM_keypoint">
+    <h4>Key Point</h4>
+    <p>\[ a(b + c) = ab + ac \]</p>
+    <p>\[ a(b - c) = ab - ac \]</p>
+    <p>Note that when the brackets are removed both terms in the brackets are multiplied by \(a\).</p>
+</div>
+<p><strong> </strong></p>
+<p>As we have noted above, if you insert numbers instead of letters into these expressions you will see that both left and right hand sides are equivalent. For example</p>
+<p>\[ 4(3 + 5) \text{ has the same value as } 4(3) + 4(5); \text {that is } 32, \]</p>
+<p>and</p>
+<p>\[ 7(8 - 3) \text{ has the same value as } 7(8) - 7(3); \text{ that is } 35. \]</p>
+<hr>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Remove the brackets from </p>
+<ol class="HELM_parts_inline">
+    <li>\( 9(2 + y) \)</li>
+    <li>\(9(2y)\)</li>
+</ol>
+
+<h4 class="HELM_solution">Solution</h4>
+<ol class="HELM_parts">
+    <li>In the expression \( 9(2 + y) \) the \(9\) must multiply both terms in the brackets: \[ 9(2 + y) = 9(2) + 9(y) \] \[ = 18 + 9y. \]</li>
+    <li>Recall that \(9(2y)\) means \(9 \times (2 \times y) \) and that when multiplying numbers together the presence of brackets is irrelevant. Thus \[ 9(2y) = 9 \times 2 \times y = 18y. \] </li>
+</ol>
+
+ <p>The crucial distinction between the role of the factor \(9\) in the two expressions \( 9(2 + y) \) and \(9(2y)\) in this example should be noted.</p>
+<hr>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Remove the brackets from \( 9(x + 2y) \).</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>In the expression \(9(x + 2y) \) the \(9\) must multiply both the \(x\) and the \(2y\) in the brackets. Thus</p>
+<p>\[ 9(x + 2y) = 9x + 9(2y) \]</p>
+<p>\[ = 9x + 18y. \]</p>
+
+<h4 class="HELM_example">Example</h4>
+<p>Remove the brackets from \( -3(5x - z) \).</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>The number \(-3\) must multiply both the \(5x\) and the \(z\). \[ -3(5x - z) = (-3)(5x) - (-3)(z) \] \[ = -15x + 3z. \]</p>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Remove the brackets from \( -(3x + 1) \).</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>Although the \(1\) is unwritten, the minus sign outside the brackets stands for \(-1\). We must therefore consider the expression \( -1(3x + 1). \) \[ -1(3x + 1) = (-1)(3x) + (-1)(1) \] \[ = -3x + (-1) \] \[ = -3x - 1. \]</p>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Remove the brackets from the expression \( 5x - (3x+1) \) and simplify the result by collecting like terms.</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>The brackets in \(-(3x + 1)\) were removed in Example 8. \[ 5x - (3x + 1) = 5x - 1(3x + 1) \] \[ = 5x - 3x - 1 \] \[ = 2x - 1. \]</p>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Show that</p>
+<p>\[ \frac{-x-1}{4}, \hspace{0.3cm} \frac{-(x+1)}{4}, \text{ and } -\frac{x+1}{4} \]</p>
+<p>are all equivalent expressions.</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>Consider \( -(x + 1) \). Removing the brackets we obtain \(-x - 1 \) and so</p>
+<p>\[ \frac{-x - 1}{4} \text{ is equivalent to } \frac{-(x + 1)}{4} . \]</p>
+<p>A negative quantity divided by a positive quantity will be negative. Hence</p>
+<p>\[ \frac{-(x + 1)}{4} \text{ is equivalent to } -\frac{x + 1}{4} . \]</p>
+<p>You should study all three expressions carefully to recognise the variety of equivalent ways in which we can write an algebraic expression.</p>
+<p>Sometimes the bracketed expression can appear on the left, as in \( (a + b)c \). To remove the brackets here we use the following rules:</p>
+
+<div class="HELM_keypoint">
+  <h4>Key Point</h4>
+  <p>\[ (a + b)c = ac + bc \]</p>
+  <p>\[ (a - b)c = ac - bc \]</p>
+</div>
+<p>Note that when the brackets are removed both the terms in the brackets multiply \( c \).</p>
+
+<h4 class="HELM_example">Example</h4>
+<p>Remove the brackets from \( (2x + 3y)x \).</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>Both terms in the brackets multiply the x outside. Thus</p>
+<p>\[ (2x + 3y)x = 2x(x) + 3y(x) \]</p>
+<p>\[ = 2x^2 + 3yx. \]</p>
+<hr>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

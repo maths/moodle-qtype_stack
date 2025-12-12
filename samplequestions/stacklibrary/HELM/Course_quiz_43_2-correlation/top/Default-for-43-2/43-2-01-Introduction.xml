@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>43.2.01 Introduction</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p></p><h3>Introduction</h3>
+
+While medical researchers might be interested in knowing the answers to questions such as `Is age
+related to blood pressure?' engineers might be interested in knowing the answers to questions such
+as `Is the shear strength of a weld related to its diameter?' or `Is the rate of wear of a petrol engine
+related to its operating temperature?' Hopefully you remember from the Regression section, statisticians measure the strength of a relationship between two variables by using a quantity called the correlation coefficient. As you might expect, tests exist which allow us to interpret the meaning of a calculated correlation coefficient.]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

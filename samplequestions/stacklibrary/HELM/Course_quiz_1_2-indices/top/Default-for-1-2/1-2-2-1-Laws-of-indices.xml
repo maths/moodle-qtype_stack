@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>1.2.2.1 Laws of indices</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Laws of indices
+</h3><p>
+There is a set of rules which enable us to manipulate expressions involving indices. These
+rules are known as the <b>laws of indices</b>, and they occur so commonly that it is worthwhile to memorise them.
+</p>
+
+
+<div class="HELM_keypoint">
+<h4>Key Point<br></h4><table>
+<caption style="caption-side: top">Laws of Indices</caption>
+<thead>
+<tr>
+<th scope="row">First law<br></th>
+<td>\(a^m \times a^n = a^{m+n}\)</td>
+<td>add indices when multiplying numbers with the same base</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th scope="row">Second law<br></th>
+<td>\(\dfrac{a^m}{a^n} = a^{m-n}\)</td>
+<td>subtract indices when dividing numbers with the same base</td>
+</tr>
+<tr>
+<th scope="row">Third law<br></th>
+<td>\((a^m)^n = a^{mn}\)</td>
+<td>multiply indices together when raising a number to a power</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+
+<hr>
+<h4 class="HELM_example">Example <br></h4>
+<p>Simplify</p>
+<ol class="HELM_parts_inline">
+<li>\(a^5\times a^4\)</li>
+<li>\(2x^5(x^3)\)</li>
+</ol>
+<h4 class="HELM_solution">Solution</h4>
+<p>In each case we are required to multiply expressions involving indices. The bases are the same and we  use the first law of indices.</p>
+<ol class="HELM_parts">
+  <li>The indices must be added, thus \(a^5\times a^4 = a^{5+4}=a^9\).</li>
+  <li>Because of the associativity of multiplication we can write \(2x^5(x^3) = 2(x^5x^3) = 2x^{5+3}=2x^8\).</li>
+</ol><p>&nbsp;</p>
+<hr>
+<p>The first law of indices (above) extends in an obvious way when more terms are involved, as in the following example.</p>
+
+<hr>
+<h4 class="HELM_example">Example <br></h4>
+<p>Simplify</p>
+<ol class="HELM_parts_inline">
+<li>\(b^5\times b^4\times b^7\)</li>
+<li>\(y^4y^2y^3\)</li>
+</ol>
+<h4 class="HELM_solution">Solution</h4>
+<ol class="HELM_parts">
+  <li>The indices are added. Thus \(b^5\times b^4\times b^7=b^{5+4+7}= b^{16}\).</li>
+  <li>All quantities  have the same base.  To multiply the quantities together, the indices are added: \(y^9\).</li>
+</ol><p>&nbsp;</p>
+<hr>
+
+<h4 class="HELM_example">Example <br></h4>
+<p>Simplify</p>
+<ol class="HELM_parts_inline">
+<li>\(\dfrac{8^4}{8^2}\)</li>
+<li>\(x^{18} \div x^7\)</li>
+<li>\(\dfrac{5^9}{5^7}\)</li>
+<li>\(\dfrac{y^5}{y^2}\)</li>
+<li>\((8^2)^3\)</li>
+<li>\((z^3)^4\)</li>
+<li>\((x^2)^5\)</li>
+<li>\((e^x)^y\)</li>
+</ol>
+<h4 class="HELM_solution">Solution</h4>
+<p>In each case we are required to divide expressions involving indices. The bases are the same and we  use the second law of indices (above).</p>
+<ol class="HELM_parts">
+  <li>The indices must be subtracted,  thus \(\dfrac{8^4}{8^2} = 8^{4-2}=8^2=64\).</li>
+  <li>Again the indices are subtracted, and so \(x^{18}\div x^7 = x^{18-7} = x^{11}\).</li>
+  <li>The bases are the same, and the division is carried out by subtracting  the indices: \(5^{9-7} = 5^2=25\).</li>
+  <li>\(y^{5-2} = y^3\).</li>
+ <li>We use the third law of indices, \((8^2)^3= 8^{2\times 3} = 8^6\).</li>
+ <li>Again, we use the third law of indices, \((z^3)^4= z^{3\times 4} = z^{12}\).</li>
+ <li>\(x^{2\times 5} = x^{10}\).</li>
+ <li>\(e^{x\times y} = e^{xy}\).</li>
+
+</ol><p>&nbsp;</p>
+<hr>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

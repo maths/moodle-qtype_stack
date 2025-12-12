@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>25.4.1.3</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4 class="HELM_example">Example</h4>
+<p>Now use the separation of variables method, putting \(u(x,y)=X(x)Y(y)\), to find the differential equations satisfied by \(X(x)\), \(Y(y)\) and decide on the sign of the separation constant \(K\):</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>We have boundary conditions which, like the worked example above, are periodic in \(x\). Hence the differential equations are, again,
+
+</p>
+<table width="60%">
+    <tbody>
+        <tr>
+            <td>\(\qquad X''=-\lambda^2 X\)</td>
+            <td>\(Y''=+\lambda^2\)</td>
+        </tr>
+    </tbody>
+</table>
+
+putting the separation constant \(K\) as \(-\lambda^2\).
+<p></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

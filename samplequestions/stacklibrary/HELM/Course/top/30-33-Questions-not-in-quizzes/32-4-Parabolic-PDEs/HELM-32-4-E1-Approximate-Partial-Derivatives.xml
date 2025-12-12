@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>HELM 32.4 E1 Approximate Partial Derivatives</text>
+    </name>
+    <questiontext format="markdown">
+      <text>**32.4 E1 Approximate Partial Derivatives**
+
+Consider the function \\\(u\\\) deﬁned by
+
+{@'u('x, 't) = fn('x,'t)@}
+
+Using increments of \\\(\delta x = {@hx@}\\\) and \\\(\delta t = {@ht@}\\\), and working to 8 decimal places, approximate
+
+(a) \\\(u_x({@x@}, {@t@})\\\) with a one-sided forward diﬀerence
+
+[[input:S_dxf]] [[validation:S_dxf]] [[feedback:dxf]]
+
+(b) \\\(u_{xx}({@x@}, {@t@})\\\) with a central diﬀerence
+
+[[input:S_dxxc]] [[validation:S_dxxc]] [[feedback:dxxc]]
+
+(c) \\\(u_t({@x@}, {@t@}) \\\) with a one-sided forward diﬀerence
+
+[[input:S_dtf]] [[validation:S_dtf]] [[feedback:dtf]]
+
+(d) \\\(u_t({@x@}, {@t@}) \\\) with a central diﬀerence.
+
+[[input:S_dtc]] [[validation:S_dtc]] [[feedback:dtc]]
+
+State the approximate derivatives to 3 decimal places.</text>
+    </questiontext>
+    <generalfeedback format="markdown">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2024012900</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[fn(x,t):=x^3*cos(x*t);
+[hx,ht]: rand_selection([0.001,0.01,0.02,0.005],2);
+[x,t]: rand_selection([1,2,3],2);
+dxf: decimalplaces((fn(x+hx,t)-fn(x,t))/hx,3);
+dxxc: decimalplaces((fn(x-hx,t)-2*fn(x,t)+fn(x+hx,t))/hx^2,3);
+dtf: decimalplaces((fn(x,t+ht)-fn(x,t))/ht,3);
+dtc: decimalplaces((fn(x,t+ht)-fn(x,t-ht))/(2*ht),3);
+
+stack_include("https://raw.githubusercontent.com/mkraska/meclib/main/Maxima/fb_value_EN.mac");]]></text>
+    </questionvariables>
+    <specificfeedback format="markdown">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>{@hx@}, {@ht@}, {@x@}, {@t@}, {@dxf@}, {@dxxc@}, {@dtf@}, {@dtc@}</text>
+    </questionnote>
+    <questiondescription format="markdown">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="markdown">
+      <text>Richtige Antwort, gut gemacht!</text>
+    </prtcorrect>
+    <prtpartiallycorrect format="markdown">
+      <text>Ihre Antwort ist teilweise korrekt.</text>
+    </prtpartiallycorrect>
+    <prtincorrect format="markdown">
+      <text>Falsche Antwort.</text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>S_dtc</name>
+      <type>numerical</type>
+      <tans>dtc</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>3 d.p.</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>S_dtf</name>
+      <type>numerical</type>
+      <tans>dtf</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>3 d.p.</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>S_dxf</name>
+      <type>numerical</type>
+      <tans>dxf</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>3 d.p.</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>S_dxxc</name>
+      <type>numerical</type>
+      <tans>dxxc</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>3 d.p.</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>dtc</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>S_dtc</sans>
+        <tans>dtc</tans>
+        <testoptions>3</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>dtc-1-T</trueanswernote>
+        <truefeedback format="markdown">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>dtc-1-F</falseanswernote>
+        <falsefeedback format="markdown">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>dtf</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>S_dtf</sans>
+        <tans>dtf</tans>
+        <testoptions>3</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>dtf-1-T</trueanswernote>
+        <truefeedback format="markdown">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>dtf-1-F</falseanswernote>
+        <falsefeedback format="markdown">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>dxf</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>S_dxf</sans>
+        <tans>dxf</tans>
+        <testoptions>3</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>dxf-1-T</trueanswernote>
+        <truefeedback format="markdown">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>dxf-1-F</falseanswernote>
+        <falsefeedback format="markdown">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>dxxc</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>S_dxxc</sans>
+        <tans>dxxc</tans>
+        <testoptions>3</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>dxxc-1-T</trueanswernote>
+        <truefeedback format="markdown">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>dxxc-1-F</falseanswernote>
+        <falsefeedback format="markdown">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>579624181</deployedseed>
+    <deployedseed>1343186453</deployedseed>
+    <deployedseed>1134831928</deployedseed>
+    <deployedseed>2076650385</deployedseed>
+    <deployedseed>1366787899</deployedseed>
+    <deployedseed>1910156339</deployedseed>
+    <deployedseed>336030133</deployedseed>
+    <deployedseed>487474868</deployedseed>
+    <deployedseed>624011609</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>S_dtc</name>
+        <value>dispdp(dtc,3)</value>
+      </testinput>
+      <testinput>
+        <name>S_dtf</name>
+        <value>dispdp(dtf,3)</value>
+      </testinput>
+      <testinput>
+        <name>S_dxf</name>
+        <value>dispdp(dxf,3)</value>
+      </testinput>
+      <testinput>
+        <name>S_dxxc</name>
+        <value>dispdp(dxxc,3)</value>
+      </testinput>
+      <expected>
+        <name>dtc</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>dtc-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>dtf</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>dtf-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>dxf</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>dxf-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>dxxc</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>dxxc-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

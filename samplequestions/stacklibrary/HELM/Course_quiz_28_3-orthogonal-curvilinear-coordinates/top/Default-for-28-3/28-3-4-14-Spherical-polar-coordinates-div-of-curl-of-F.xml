@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>28.3.4.14 Spherical polar coordinates div of curl of F</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>For \(\underline{F} = {@aa@}r^{2}\cos\theta\underline{\hat{r}} + {@aa@}\cos\phi \underline{\hat{\theta}}\), find \(\underline{\nabla} \cdot (\underline{\nabla} \times \underline{F})\).</p>
+<p>In your answer, type \(\theta\), \(\phi\), \(\sin(x)\), and \(cos(x)\) as <code>theta</code>, <code>phi</code>, <code>sin(x)</code>, <code>cos(x)</code> respectively.</p>
+
+<p>\(\underline{\nabla} \cdot (\underline{\nabla} \times \underline{F}) =\)[[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p>We know that \(\underline{F} = {@aa@}r^{2}\cos\theta\underline{\hat{r}} + {@aa@}\cos\phi \underline{\hat{\theta}}\), and aim to find \(\underline{\nabla} \cdot (\underline{\nabla} \times \underline{F})\). We start first by finding \(\underline{\nabla} \times \underline{F}\):</p>
+
+<p> 
+\[\begin{aligned}
+\underline{\nabla} \times \underline{F} &= \frac{1}{r^2\sin\theta}\begin{vmatrix}
+\hat{\underline{r}} & r\hat{\underline{\theta}} & r\sin\theta\hat{\underline{\phi}} \\
+\frac{\partial}{\partial r} & \frac{\partial}{\partial \theta} & \frac{\partial}{\partial \phi}\\
+F_r & rF_\theta & r\sin\theta F_\phi
+\end{vmatrix}\\
+&= \frac{1}{r^2\sin\theta}\begin{vmatrix}
+\hat{\underline{r}} & r\hat{\underline{\theta}} & r\sin\theta\hat{\underline{\phi}} \\
+\frac{\partial}{\partial r} & \frac{\partial}{\partial \theta} & \frac{\partial}{\partial \phi}\\
+{@aa@}r^2\cos\theta & {@aa@}r\cos\phi & 0
+\end{vmatrix}\\
+&= \frac{1}{r^2\sin\theta} \left[
+\hat{\underline{r}}\left(\frac{\partial}{\partial \theta}(0) - \frac{\partial}{\partial \phi}( {@aa@}r\cos\phi)\right)
+-r\hat{\underline{\theta}}\left(\frac{\partial}{\partial r}(0) - \frac{\partial}{\partial \phi}({@aa@}r^2\cos\theta) \right)
++r\sin\theta\hat{\underline{\phi}}\left(\frac{\partial}{\partial r}({@aa@}r\cos\phi) - \frac{\partial}{\partial \theta}({@aa@}r^2\cos\theta) \right)
+\right] \\
+&=\frac{1}{r^2\sin\theta} \left[ {@aa@}r\sin\phi\hat{\underline{r}} + r\sin\theta\hat{\underline{\phi}}({@aa@}\cos\phi+{@aa@}r^2\sin\theta) \right]\\
+&=\frac{{@aa@}}{r}\sin\phi\csc\theta\hat{\underline{r}} + \left(\frac{{@aa@}}{r}\cos\phi+{@aa@}r\sin\theta)\right)\hat{\underline{\phi}}\\
+\\
+\underline{\nabla} \cdot (\underline{\nabla} \times \underline{F}) &=\underline{\nabla} \cdot (\frac{{@aa@}}{r}\sin\phi\csc\theta\hat{\underline{r}} + \left(\frac{{@aa@}}{r}\cos\phi+{@aa@}r\sin\theta)\right)\hat{\underline{\phi}})\\
+&= \frac{1}{r^2\sin\theta}\left[\frac{\partial}{\partial r}({@aa@}r\sin\phi) + \frac{\partial}{\partial \theta}(0) + \frac{\partial}{\partial \phi}({@aa@}\cos\phi+{@aa@}r^2\sin\theta)\right] \\
+&= \frac{1}{r^2\sin\theta}\left[{@aa@}\sin\phi-{@aa@}\sin\phi\right] \\
+&= 0
+\end{aligned}\]
+</p>
+<p>It is worthy of note that more generally speaking, for any vector field \(\underline{G}\), \(\underline{\nabla} \cdot (\underline{\nabla} \times \underline{G}) = 0\) is always true.</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025073100</text>
+    </stackversion>
+    <questionvariables>
+      <text>aa:rand(6)+2;
+
+ta1:0;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="html">
+      <text>\(\underline{F} = {@aa@}r^{-4}\cos\theta\underline{\hat{r}} + {@aa@}r^{-4}\sin\theta \underline{\hat{\theta}}, \quad \underline{\nabla} \cdot (\underline{\nabla} \times \underline{F}) = {@ta1@}\)</text>
+    </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1508005984</deployedseed>
+    <deployedseed>2043618661</deployedseed>
+    <deployedseed>554320156</deployedseed>
+    <deployedseed>369972013</deployedseed>
+    <deployedseed>986951640</deployedseed>
+    <deployedseed>862436285</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1+5</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

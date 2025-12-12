@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>17.2.2.6 Simple curves in polar coordinates</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Simple curves in polar coordinates</h3>
+<p>We are used to describing the equations of curves in Cartesian variables \(x,y\). Thus \(x^2+y^2=1\) represents a circle, centre the origin, and of radius 1, and \(y=2x^2\) is the equation of a parabola whose axis is the \(y\)-axis and with vertex located at the origin. (In colloquial terms the vertex is the ‘sharp end’ of a conic.) We can convert these equations into polar form by using the relations
+\(x=r\cos\theta\), \(y=r\sin\theta\).</p>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Find the polar coordinate form of <ol class="HELM_parts_inline"> <li> the circle \(x^2+y^2=1\)</li>  <li>the parabola \(y=2x^2\).</li></ol></p>
+<h4 class="HELM_solution">Solution</h4>
+<ol class="HELM_parts">
+<li> Using \(x=r\cos\theta\), \(y=r\sin\theta\) in the expression \(x^2+y^2=1\) we have \(\qquad\displaystyle (r\cos\theta)^2+(r\sin\theta)^2=1\ \ \text{or}\ \ r^2(\cos^2\theta+\sin^2\theta)=1\) 
+giving \(r^2=1\). We simplify this to \(r=1\) (since \(r=-1\) is invalid being a negative distance). Of course we might have guessed this answer since the relation \(r=1\) states that every point on the curve is a
+constant distance \(1\) away from the origin.
+</li>
+<li> Repeating the approach used in (a) for \(y=2x^2\) we obtain:
+\(\qquad\displaystyle r\sin \theta=2(r\cos \theta)^2\qquad \text{i.e.}\qquad r\sin\theta-2r^2\cos^2\theta=0\)
+Therefore \(\quad r(\sin\theta-2r\cos^2\theta)=0\). Either \(r=0\) (which is a single point, the origin, and is clearly not a parabola) or
+\(\qquad\displaystyle \sin\theta-2r\cos^2\theta=0\qquad \text{giving, finally} \qquad r={1\over 2}\tan\theta\sec\theta.\)
+This is the polar equation of this particular parabola, \(y=2x^2\).</li></p>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

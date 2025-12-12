@@ -1,0 +1,243 @@
+{
+    "quiz": {
+        "name": "10_1 Complex Arithmetic",
+        "intro": "<p>Complex numbers are used in many areas of engineering and science. In this quiz we define what a complex number is and explore how two such numbers may be combined together by adding, subtracting, multiplying and dividing. We also show how to find \u2018complex roots\u2019 of polynomial equations. <br><\/p><p>A complex number is a generalisation of an ordinary real number. In fact, as we shall see, for each complex number there is a pair of real numbers ordered in a particular way. Fundamental to the study of complex numbers is the symbol \\(i\\), or sometimes \\(j\\), with the property \\(i^2 = \u22121\\). The algebra of complex numbers is similar to the usual algebra of real numbers.<\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "What is a Complex Number?",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "10",
+            "heading": "Addition of Complex Numbers",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "13",
+            "heading": "Multiplication of Complex Numbers",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "20",
+            "heading": "Division of Complex Numbers",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "24",
+            "heading": "Solutions to polynomial equations",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-10-1\/10-1-1-1-What-is-a-Complex-Number-.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-10-1\/10-1-1-3-What-is-a-Complex-Number-.xml"
+        },
+        {
+            "slot": "3",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-10-1\/10-1-1-4-What-is-a-Complex-Number-.xml"
+        },
+        {
+            "slot": "4",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-10-1\/10-1-1-6-What-is-a-Complex-Number-.xml"
+        },
+        {
+            "slot": "5",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-10-1\/10-1-1-7-Equal-complex-numbers.xml"
+        },
+        {
+            "slot": "6",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-10-1\/10-1-1-8-What-is-a-Complex-Number-.xml"
+        },
+        {
+            "slot": "7",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-10-1\/10-1-1-9-What-is-a-Complex-Number-.xml"
+        },
+        {
+            "slot": "8",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-10-1\/10-1-1-10-Complex-Conjugate.xml"
+        },
+        {
+            "slot": "9",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-10-1\/10-1-1-11-Conjugate-and-Modulus.xml"
+        },
+        {
+            "slot": "10",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-10-1\/10-1-2-1-Addition-and-subtraction-of-complex-numbers.xml"
+        },
+        {
+            "slot": "11",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-10-1\/10-1-2-2-Algebra-of-complex-numbers.xml"
+        },
+        {
+            "slot": "12",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-10-1\/10-1-2-3-Add-Subtract-Complex-Numbers.xml"
+        },
+        {
+            "slot": "13",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-10-1\/10-1-2-4-Multiplying-one-complex-number-by-another.xml"
+        },
+        {
+            "slot": "14",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-10-1\/10-1-2-5-Multiplication-of-complex-numbers.xml"
+        },
+        {
+            "slot": "15",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-10-1\/10-1-2-6-Multiplying-Complex-Numbers.xml"
+        },
+        {
+            "slot": "16",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-10-1\/10-1-2-7-Multiplication-of-Complex-numbers.xml"
+        },
+        {
+            "slot": "17",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-10-1\/10-1-2-8-Multiplying-complex-numbers.xml"
+        },
+        {
+            "slot": "18",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-10-1\/10-1-2-10-Conjugates.xml"
+        },
+        {
+            "slot": "19",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-10-1\/10-1-2-11-Algebra-of-complex-numbers.xml"
+        },
+        {
+            "slot": "20",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-10-1\/10-1-2-12-Dividing-one-complex-number-by-another.xml"
+        },
+        {
+            "slot": "21",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-10-1\/10-1-2-13-Dividing-one-complex-number-by-another.xml"
+        },
+        {
+            "slot": "22",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-10-1\/10-1-2-16-Dividing-complex-numbers.xml"
+        },
+        {
+            "slot": "23",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-10-1\/10-1-2-14-Dividing-complex-numbers.xml"
+        },
+        {
+            "slot": "24",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-10-1\/10-1-3-1-Solutions-to-polynomial-equations.xml"
+        },
+        {
+            "slot": "25",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-10-1\/10-1-3-2-Solutions-to-polynomial-equations.xml"
+        },
+        {
+            "slot": "26",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-10-1\/10-1-3-3-Solutions-of-Polynomial-equations.xml"
+        },
+        {
+            "slot": "27",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-10-1\/10-1-3-4-Solutions-of-Polynomial-Equations.xml"
+        },
+        {
+            "slot": "28",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-10-1\/10-1-3-5-Solution-to-Polynomial-Equations.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>22.3.2.11 Orthogonal matrices</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>Determine \({@u@}\) and \({@v@}\) so that the matrices \[A={@a_mat@},\qquad B={@b_mat@}\] are orthogonal. Then verify that \(A^TA=AA^T=I\) and \(B^TB=BB^T=I\) i.e. that \(A^T=A^{-1}\) and \(B^T=B^{-1}\).</p>
+<p>\({@u@}=\) [[input:ans_a]] [[validation:ans_a]] &nbsp;&nbsp;&nbsp; \({@v@}=\) [[input:ans_b]] [[validation:ans_b]]</p>
+<p>[[feedback:prt_a]]&nbsp;[[feedback:prt_b]]<br></p>
+<p>(Note: a square root can be entered with <code>sqrt()</code>; for example \({@sqrt(5)@}\) would be entered as <code>sqrt(5)</code>.)</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p><strong>Matrix \(A\)</strong></p>
+<p><i>Approach 1</i>: For \(A\) to be orthogonal, its columns must be orthogonal to each other. This means \[{@matrix([0])@} = {@transpose(col(a_mat,1))@}{@col(a_mat,2)@} = {@(simp:false,a_dotprod)@} = {@(simp:true,a_dotprod)@}\] from which \({@u@}={@a_mat[1,1]@}\).
+</p>
+<p><i>Approach 2</i>: From the above description of \(2\times2\) orthogonal matrices, we know they are all of the form \({@matrix([cos(theta),sin(theta)],[-sin(theta),cos(theta)])@}\) for some real number \({@theta@}\). In particular, their diagonal entries
+    are the same, hence \({@u@}={@a_mat[1,1]@}\).
+</p>
+<p><strong>Matrix \(B\)</strong></p>
+<p>
+    The columns of the matrix \(B\) are orthogonal to each other for any choice of \({@v@}\). However each column of an orthogonal matrix has unit magnitude. For the second column of \(B\), this leads to \[1^2={@b_mat[1,2]@}^2+{@b_mat[2,2]@}^2+{@b_mat[3,2]@}^2
+    = {@b_mat[1,2]^2+b_mat[2,2]^2+b_mat[3,2]^2@}, \] thus \({@v@} =\pm 1\).
+</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021072200</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[angles:[%pi*[1/6,1/3,2/3,5/6,7/6,4/3,5/3,11/6], %pi*[1/4,3/4,5/4,7/4]];
+u:a; v:b;
+ind2:rand(2)+1; a_ang: rand(angles[ind2]); b_ang: rand(angles[3-ind2]);
+a_mat: matrix([cos(a_ang),sin(a_ang)],[-sin(a_ang),u]);
+b_mat: matrix([cos(b_ang),0,sin(b_ang)],[0,v,0],[-sin(b_ang),0,cos(b_ang)]);
+
+/* preparing for printing the solution */
+dotprod_comp1_list(v1,v2):=matrix([ lreduce("+",map("*",v1,v2)) ]);
+col_list(m,i):=first(args(transpose(col(m,i))));
+simp:false;
+a_dotprod:dotprod_comp1_list(col_list(a_mat,1),col_list(a_mat,2));
+simp:true;]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\(A = {@a_mat@}, B = {@b_mat@}, \qquad a = {@cos(a_ang)@}, b = 1 \)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans_a</name>
+      <type>numerical</type>
+      <tans>cos(a_ang)</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans_b</name>
+      <type>numerical</type>
+      <tans>1</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt_a</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>simp:false;
+a_ans_dotprod:dotprod_comp1_list([a_mat[1,1],a_mat[2,1]],[a_mat[1,2],ans_a]);
+simp:true;</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans_a</sans>
+        <tans>cos(a_ang)</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt_a-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt_a-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>The columns of \(A\) need to be orthogonal, but with \({@u@} = {@ans_a@}\), we have \[{@transpose(col(a_mat,1))@}{@matrix([a_mat[1,2]],[ans_a])@}={@(simp:false,make_multsgn("cross"),a_ans_dotprod)@} = {@(simp:true,a_ans_dotprod)@} \neq {@matrix([0])@}.\]</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt_b</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>b_ans_check:is(member(ans_b,[1,-1]));</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>CasEqual</answertest>
+        <sans>b_ans_check</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt_b-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt_b-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>The columns of \(B\) need to have unit magnitude, but with \({@v@}={@ans_b@}\) the magnitude of the second column is \[\sqrt{{@b_mat[1,2]@}^2+{@ans_b@}^2+{@b_mat[3,2]@}^2} = \sqrt{{@b_mat[1,2]^2+ans_b^2+b_mat[3,2]^2@}} = {@sqrt(b_mat[1,2]^2+ans_b^2+b_mat[3,2]^2)@} \neq 1.\]</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1475625346</deployedseed>
+    <deployedseed>306760336</deployedseed>
+    <deployedseed>317651943</deployedseed>
+    <deployedseed>1667450243</deployedseed>
+    <deployedseed>702966124</deployedseed>
+    <deployedseed>1245053452</deployedseed>
+    <deployedseed>1952049461</deployedseed>
+    <deployedseed>1030001422</deployedseed>
+    <deployedseed>1212360488</deployedseed>
+    <deployedseed>1614117515</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans_a</name>
+        <value>a_mat[1,1]</value>
+      </testinput>
+      <testinput>
+        <name>ans_b</name>
+        <value>1</value>
+      </testinput>
+      <expected>
+        <name>prt_a</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt_a-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_b</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt_b-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans_a</name>
+        <value>0</value>
+      </testinput>
+      <testinput>
+        <name>ans_b</name>
+        <value>0</value>
+      </testinput>
+      <expected>
+        <name>prt_a</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt_a-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_b</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt_b-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans_a</name>
+        <value>a</value>
+      </testinput>
+      <testinput>
+        <name>ans_b</name>
+        <value>-1</value>
+      </testinput>
+      <expected>
+        <name>prt_a</name>
+        <expectedscore/>
+        <expectedpenalty/>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_b</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt_b-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

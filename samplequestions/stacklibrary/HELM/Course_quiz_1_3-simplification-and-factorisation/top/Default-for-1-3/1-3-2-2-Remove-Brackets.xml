@@ -1,0 +1,1058 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>1.3.2.2 Remove Brackets</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>Remove the brackets from each of the following expressions:<br></p>
+
+<ol class="HELM_parts">
+
+<li><p>\( {@a1@}(mn)=\) [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</p></li>
+
+<li><p>\((am)n=\) [[input:ans6]] [[validation:ans6]] [[feedback:prt6]]</p></li>
+
+<li><p>\( (a + m)n=\) [[input:ans7]] [[validation:ans7]] [[feedback:prt7]]</p></li>
+
+<li><p> \((a - m)n =\) [[input:ans8]] [[validation:ans8]] [[feedback:prt8]]</p></li>
+
+<li><p> \( {@j1@}(p+q)=\) [[input:ans10]] [[validation:ans10]] [[feedback:prt10]]</p></li>
+
+<li><p>\( {@k1@}(p-q)=\) [[input:ans11]] [[validation:ans11]] [[feedback:prt11]]</p></li>
+
+<li><p> \({@o1@}({@o2@}p + q)=\) [[input:ans15]] [[validation:ans15]] [[feedback:prt15]]</p></li>
+
+<li><p>\( {@p1@}({@p2@}pq)=\) [[input:ans16]] [[validation:ans16]] [[feedback:prt16]]</p></li>
+
+<li><p>\( {@o1@}({@o2@}p - q)=\) [[input:ans17]] [[validation:ans17]] [[feedback:prt17]]</p></li>
+
+<li><p> \( {@r1@} (p - {@r2@}q&nbsp; ) =\) [[input:ans18]] [[validation:ans18]] [[feedback:prt18]]</p></li>
+
+<li><p> \(&nbsp; {@r1@} (p + {@r2@}q&nbsp; )&nbsp;=\) [[input:ans19]] [[validation:ans19]] [[feedback:prt19]]</p></li>
+
+<li><p> \( {@r1@} ({@r2@}pq)=\) [[input:ans20]] [[validation:ans20]] [[feedback:prt20]]</p></li>
+
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<ol class="HELM_parts">
+
+    <li>
+        <p>\( {@a1@}(mn)= {@ta1@}\) </p>
+    </li>
+
+    <li>
+        <p>\((am)n= {@ta6@}\)</p>
+    </li>
+
+    <li>
+        <p>\( (a + m)n= {@ta7@}\)</p>
+    </li>
+
+    <li>
+        <p> \((a - m)n = {@ta8@}\)</p>
+    </li>
+
+    <li>
+        <p> \( {@j1@}(p+q)= {@ta10@}\)</p>
+    </li>
+
+    <li>
+        <p>\( {@k1@}(p-q)= {@ta11@}\)</p>
+    </li>
+
+    <li>
+        <p> \({@o1@}({@o2@}p + q)= {@ta15@}\)</p>
+    </li>
+
+    <li>
+        <p>\( {@p1@}({@p2@}pq)= {@ta16@}\)</p>
+    </li>
+
+    <li>
+        <p>\( {@o1@}({@o2@}p - q)= {@ta17@}\)</p>
+    </li>
+
+    <li>
+        <p> \( {@r1@} (p - {@r2@}q) = {@ta18@}\)</p>
+    </li>
+
+    <li>
+        <p> \({@r1@} (p + {@r2@}q) = {@ta19@}\)</p>
+    </li>
+
+    <li>
+        <p> \( {@r1@} ({@r2@}pq)= {@ta20@}\)</p>
+    </li>
+
+</ol>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021072200</text>
+    </stackversion>
+    <questionvariables>
+      <text>a1: rand(7)+3;
+ta1: a1*m*n
+
+ta6:a*m*n;
+ta7:a*n + m*n;
+ta8:a*n - m*n;
+
+b1: rand(5)+3;
+j1: b1+1;
+ta10:j1*p + j1*q;
+
+k1: j1;
+ta11:k1*p - k1*q;
+
+n1: rand(7)+2;
+o1:n1+1;
+o2:rand(4)+2;
+ta15:o1*o2*p + o1*q;
+
+p1:o1;
+p2:o2;
+ta16:p1*p2*p*q;
+
+ta17:o1*o2*p - o1*q;
+
+r1:rand(5)+4;
+r2:r1-2;
+ta18:r1*p - r1*r2*q;
+
+ta19:r1*p + r1*r2*q;
+
+ta20: r1*r2*p*q;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\[{@ta1@}, \, {@ta6@}, \, {@ta7@}, \,{@ta8@}, \, {@ta10@}, \, {@ta11@}\]
+\[{@ta15@}, \, {@ta16@}, \, {@ta17@}, \, {@ta18@}, \, {@ta19@}, \, {@ta20@}\]</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>(,)</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans10</name>
+      <type>algebraic</type>
+      <tans>ta10</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>(, )</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans11</name>
+      <type>algebraic</type>
+      <tans>ta11</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>(, )</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans15</name>
+      <type>algebraic</type>
+      <tans>ta15</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>(, )</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans16</name>
+      <type>algebraic</type>
+      <tans>ta16</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>(, )</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans17</name>
+      <type>algebraic</type>
+      <tans>ta17</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>(, )</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans18</name>
+      <type>algebraic</type>
+      <tans>ta18</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>(, )</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans19</name>
+      <type>algebraic</type>
+      <tans>ta19</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>(, )</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans20</name>
+      <type>algebraic</type>
+      <tans>ta20</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>(, )</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans6</name>
+      <type>algebraic</type>
+      <tans>ta6</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>(, )</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans7</name>
+      <type>algebraic</type>
+      <tans>ta7</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>(, )</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans8</name>
+      <type>algebraic</type>
+      <tans>ta8</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>(, )</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>EqualComAss</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p></p><div title="Page 2">
+			<div>
+				<div>
+					<div>
+						<p>\( {@a1@}(mn) \) means \( {@a1@} \times (m \times n) \) and that when multiplying numbers together the presence of brackets is irrelevant. So the answer is \( {@a1@}mn \).</p>
+					</div>
+				</div>
+			</div>
+		</div><br><p></p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt10</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>EqualComAss</answertest>
+        <sans>ans10</sans>
+        <tans>ta10</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt10-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt10-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p></p><p>In the expression \( {@j1@}(p +q) \), the \( {@j1@} \) must multiply both the \(p\) and the \(q\) in the brackets. Thus</p><p>\[ {@j1@}(p + q) = {@j1@}p + {@j1@}q. \]</p><br><p></p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt11</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>EqualComAss</answertest>
+        <sans>ans11</sans>
+        <tans>ta11</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt11-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt11-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p></p><p>In the expression \( {@k1@}(p - q) \), the \( {@k1@} \) must multiply both the \(p\) and the \(-q\) in the brackets. Thus</p><p>\[ {@k1@}(p - q) = {@k1@}p - {@k1@}q. \]</p><br><p></p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt15</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>EqualComAss</answertest>
+        <sans>ans15</sans>
+        <tans>ta15</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt15-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt15-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p></p><p>In the expression \( {@o1@} ( {@o2@}p&nbsp;+ q) \), the \( {@o1@} \) must multiply both the \({@o2@}p\) and the \(q\) in the brackets. Thus</p><p>\[ &nbsp;{@o1@} ( {@o2@}p&nbsp;+ q)&nbsp; = {@o1@} \times {@o2@} p + {@o1@}q. \]</p><p>\[ = {@o1*o2@}p + {@o1@}q .\]</p><br><br><p></p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt16</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>EqualComAss</answertest>
+        <sans>ans16</sans>
+        <tans>ta16</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt16-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt16-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p></p><div><div><div><p>\( {@p1@}({@p2@}pq)\) means \( {@p1@} \times ({@p2@} \times p \times q) \) and that when multiplying numbers together the presence of brackets is irrelevant. So the answer is \( {@p1*p2@}pq \).</p></div></div></div><br><br><p></p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt17</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>EqualComAss</answertest>
+        <sans>ans17</sans>
+        <tans>ta17</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt17-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt17-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p></p><p>In the expression \( {@o1@} ( {@o2@}p - q) \), the \( {@o1@} \) must multiply both the \({@o2@}p\) and the \(-q\) in the brackets. Thus</p><p>\[ &nbsp;{@o1@} ( {@o2@}p&nbsp;- q)&nbsp; = {@o1@} \times {@o2@} p - {@o1@}q. \]</p><p>\[ = {@o1*o2@}p - {@o1@}q .\]</p><br><br><p></p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt18</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>EqualComAss</answertest>
+        <sans>ans18</sans>
+        <tans>ta18</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt18-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt18-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p></p><p>In the expression \( {@r1@} ( p - {@r2@}q) \), the \( {@r1@} \) must multiply both the \(p\) and the \(- {@r2@}q\) in the brackets. Thus</p><p>\[ &nbsp;{@r1@} ( p - {@r2@}q)&nbsp; = {@r1@} \times p - {@r1@}&nbsp; \times {@r2@}q. \]</p><p>\[ = {@r1@}p - {@r1*r2@}q. .\]</p><br><br><p></p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt19</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>EqualComAss</answertest>
+        <sans>ans19</sans>
+        <tans>ta19</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt19-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt19-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p></p><p>In the expression \( {@r1@} ( p + {@r2@}q) \), the \( {@r1@} \) must multiply both the \(p\) and the \( {@r2@}q\) in the brackets. Thus</p><p>\[ &nbsp;{@r1@} ( p + {@r2@}q)&nbsp; = {@r1@} \times p + {@r1@}&nbsp; \times {@r2@}q. \]</p><p>\[ = {@r1@}p + {@r1*r2@}q. .\]</p><br><br><p></p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt20</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>EqualComAss</answertest>
+        <sans>ans20</sans>
+        <tans>ta20</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt20-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt20-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p></p><div><div><div><p>\( {@r1@}({@r2@}pq)\) means \( {@r1@} \times ({@r2@} \times p \times q) \) and that when multiplying numbers together the presence of brackets is irrelevant. So the answer is \( {@r1*r2@}pq \).</p></div></div></div><br><br><p></p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt6</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>EqualComAss</answertest>
+        <sans>ans6</sans>
+        <tans>ta6</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt6-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt6-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>The \( am \) term in the bracket multiplies the \( n \) outside. Thus</p><p>\[ (am)n = a \times m \times n = amn. \]</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt7</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>EqualComAss</answertest>
+        <sans>ans7</sans>
+        <tans>ta7</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt7-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt7-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Both terms in the brackets multiply the \(n\) outside. Thus</p><p>\[ (a +m)n = an + mn. \]</p><p><br></p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt8</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>EqualComAss</answertest>
+        <sans>ans8</sans>
+        <tans>ta8</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt8-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt8-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p></p><p>Both terms in the brackets multiply the \(n\) outside. Thus</p><p>\[ (a - m)n = an - mn. \]</p><p><br>
+
+</p><br><p></p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>79601230</deployedseed>
+    <deployedseed>1617398922</deployedseed>
+    <deployedseed>596256040</deployedseed>
+    <deployedseed>1748433739</deployedseed>
+    <deployedseed>1261927964</deployedseed>
+    <deployedseed>1504312365</deployedseed>
+    <deployedseed>651665611</deployedseed>
+    <deployedseed>365698355</deployedseed>
+    <deployedseed>661926031</deployedseed>
+    <deployedseed>2027162456</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans10</name>
+        <value>ta10</value>
+      </testinput>
+      <testinput>
+        <name>ans11</name>
+        <value>ta11</value>
+      </testinput>
+      <testinput>
+        <name>ans15</name>
+        <value>ta15</value>
+      </testinput>
+      <testinput>
+        <name>ans16</name>
+        <value>ta16</value>
+      </testinput>
+      <testinput>
+        <name>ans17</name>
+        <value>ta17</value>
+      </testinput>
+      <testinput>
+        <name>ans18</name>
+        <value>ta18</value>
+      </testinput>
+      <testinput>
+        <name>ans19</name>
+        <value>ta19</value>
+      </testinput>
+      <testinput>
+        <name>ans20</name>
+        <value>ta20</value>
+      </testinput>
+      <testinput>
+        <name>ans6</name>
+        <value>ta6</value>
+      </testinput>
+      <testinput>
+        <name>ans7</name>
+        <value>ta7</value>
+      </testinput>
+      <testinput>
+        <name>ans8</name>
+        <value>ta8</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt10</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt10-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt11</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt11-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt15</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt15-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt16</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt16-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt17</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt17-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt18</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt18-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt19</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt19-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt20</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt20-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt6</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt6-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt7</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt7-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt8</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt8-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>a1*(m*n)</value>
+      </testinput>
+      <testinput>
+        <name>ans10</name>
+        <value>j1*(p+q)</value>
+      </testinput>
+      <testinput>
+        <name>ans11</name>
+        <value>k1*(p-q)</value>
+      </testinput>
+      <testinput>
+        <name>ans15</name>
+        <value>o1*(o2*p + q)</value>
+      </testinput>
+      <testinput>
+        <name>ans16</name>
+        <value>p1*(p2*p*q)</value>
+      </testinput>
+      <testinput>
+        <name>ans17</name>
+        <value>o1*(o2*p - q)</value>
+      </testinput>
+      <testinput>
+        <name>ans18</name>
+        <value>r1*(p - r2*q)</value>
+      </testinput>
+      <testinput>
+        <name>ans19</name>
+        <value>r1*(p+r2*q)</value>
+      </testinput>
+      <testinput>
+        <name>ans20</name>
+        <value>r1*(r2*p*q)</value>
+      </testinput>
+      <testinput>
+        <name>ans6</name>
+        <value>(a*m)*n</value>
+      </testinput>
+      <testinput>
+        <name>ans7</name>
+        <value>(a + m)*n</value>
+      </testinput>
+      <testinput>
+        <name>ans8</name>
+        <value>(a - m)*n</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore/>
+        <expectedpenalty/>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt10</name>
+        <expectedscore/>
+        <expectedpenalty/>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt11</name>
+        <expectedscore/>
+        <expectedpenalty/>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt15</name>
+        <expectedscore/>
+        <expectedpenalty/>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt16</name>
+        <expectedscore/>
+        <expectedpenalty/>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt17</name>
+        <expectedscore/>
+        <expectedpenalty/>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt18</name>
+        <expectedscore/>
+        <expectedpenalty/>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt19</name>
+        <expectedscore/>
+        <expectedpenalty/>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt20</name>
+        <expectedscore/>
+        <expectedpenalty/>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt6</name>
+        <expectedscore/>
+        <expectedpenalty/>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt7</name>
+        <expectedscore/>
+        <expectedpenalty/>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt8</name>
+        <expectedscore/>
+        <expectedpenalty/>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

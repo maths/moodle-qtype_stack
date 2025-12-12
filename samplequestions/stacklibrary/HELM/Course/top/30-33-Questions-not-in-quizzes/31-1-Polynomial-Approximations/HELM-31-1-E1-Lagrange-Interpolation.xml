@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>HELM 31.1 E1 Lagrange Interpolation</text>
+    </name>
+    <questiontext format="markdown">
+      <text>**31.1 E1 Lagrange Interpolation**
+
+A political analyst is preparing a dossier involving the following data
+
+{@T@}
+
+He interpolates the data with a polynomial \\\(p(x)\\\) of degree 3 in order to ﬁnd an approximation \\\(p({@xp@})\\\) to \\\(f({@xp@})\\\). What value does he ﬁnd for \\\(p({@xp@})\\\)?
+
+\\\(p({@xp@})=\\\) [[input:S_iv]] [[validation:S_iv]] [[feedback:iv]]</text>
+    </questiontext>
+    <generalfeedback format="markdown">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025073100</text>
+    </stackversion>
+    <questionvariables>
+      <text>Xdata:[10,15,20,25];
+Fdata:[9.2+rand_with_step(0.01,0.09,0.01), 
+       8.4+rand_with_step(0.01,0.09,0.01), 
+       7.1+rand_with_step(0.01,0.09,0.01),
+       4.1+rand_with_step(0.01,0.09,0.01)];
+xp: rand([21,22,23,24]);
+
+T:table([x,f(x)],
+        [Xdata[1],Fdata[1]] , [Xdata[2],Fdata[2] ], 
+        [Xdata[3],Fdata[3] ], [Xdata[4],Fdata[4] ]);
+/* general definitions for interpolation */
+L(X,x,j):= product(if j#k then (x-X[k])/(X[j]-X[k]) else 1, k,1,length(X));
+Lagrange(X,Y,x):=sum(Y[j]*L(X,x,j),j,1,length(X));
+
+iv: Lagrange(Xdata,Fdata,xp);</text>
+    </questionvariables>
+    <specificfeedback format="markdown">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\[{@Fdata@}, {@'x_p=xp@}, {@iv@}\]</text>
+    </questionnote>
+    <questiondescription format="markdown">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="markdown">
+      <text>Richtige Antwort, gut gemacht!</text>
+    </prtcorrect>
+    <prtpartiallycorrect format="markdown">
+      <text>Ihre Antwort ist teilweise korrekt.</text>
+    </prtpartiallycorrect>
+    <prtincorrect format="markdown">
+      <text>Falsche Antwort.</text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>S_iv</name>
+      <type>numerical</type>
+      <tans>iv</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>x.xx</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>iv</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>S_iv</sans>
+        <tans>iv</tans>
+        <testoptions>2</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>iv-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>iv-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1306714061</deployedseed>
+    <deployedseed>451910963</deployedseed>
+    <deployedseed>1683056454</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>S_iv</name>
+        <value>dispdp(iv,2)</value>
+      </testinput>
+      <expected>
+        <name>iv</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>iv-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

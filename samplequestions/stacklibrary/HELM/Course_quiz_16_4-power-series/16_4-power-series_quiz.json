@@ -1,0 +1,124 @@
+{
+    "quiz": {
+        "name": "16_4 Power Series",
+        "intro": "<p>In this Section we consider power series. These are examples of infinite series where each term contains a variable, \\(x\\), raised to a positive integer power, that is \\(\\displaystyle{\\sum_{n=0}^\\infty a_nx^n}\\) where \\((a_n)_{n\\geq 0}\\) is an infinite series of real numbers.&nbsp;<\/p><p><span style=\"font-size: 0.9375rem;\">We use the ratio test to obtain the <\/span><b style=\"font-size: 0.9375rem;\">radius of convergence<\/b><span style=\"font-size: 0.9375rem;\">, \\(R\\), of the power series, this is the result that the series is absolutely convergent if \\(|x|&lt;R\\), divergent if \\(|x|&gt;R\\), and may or may not be convergent if \\(x=\\pm R\\).&nbsp;<\/span><\/p><p><span style=\"font-size: 0.9375rem;\">Finally, we extend the work to apply to general power series when the variable \\(x\\) is replaced by \\((x \u2212 x_0)\\), that is, series of the form&nbsp;\\(\\displaystyle{\\sum_{n=0}^\\infty a_n(x-x_0)^n}\\). Note that here we say the series is 'centered' at \\(x_0\\)<\/span><br><\/p>",
+        "introformat": "1",
+        "questionsperpage": "0",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Power series",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "2",
+            "heading": "The radius of convergence",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "4",
+            "heading": "Properties of power series",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "6",
+            "heading": "General power series",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "8",
+            "heading": "Exercises",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-16-4\/16-4-1-Power-Series.xml"
+        },
+        {
+            "slot": "2",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-16-4\/16-4-2-The-radius-of-convergence.xml"
+        },
+        {
+            "slot": "3",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-16-4\/16-4-2-Radius-of-convergence-question.xml"
+        },
+        {
+            "slot": "4",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-16-4\/16-4-3-Properties-of-power-series.xml"
+        },
+        {
+            "slot": "5",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-16-4\/16-4-3-ln(1+x)-approximation.xml"
+        },
+        {
+            "slot": "6",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-16-4\/16-4-4-General-power-series.xml"
+        },
+        {
+            "slot": "7",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-16-4\/16-4-4-General-power-series-radius-of-convergence.xml"
+        },
+        {
+            "slot": "8",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-16-4\/16-4-5-1-ln(1-x)-approximation.xml"
+        },
+        {
+            "slot": "9",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-16-4\/16-4-5-2-General-power-series.xml"
+        },
+        {
+            "slot": "10",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-16-4\/16-4-5-4-Differentiate-to-obtain-power-series.xml"
+        },
+        {
+            "slot": "11",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-16-4\/16-4-5-5-Find-radius-of-convergence.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

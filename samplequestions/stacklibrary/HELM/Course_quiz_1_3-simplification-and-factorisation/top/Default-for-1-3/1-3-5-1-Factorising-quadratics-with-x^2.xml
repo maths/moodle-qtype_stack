@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>1.3.5.1 Factorising quadratics with x^2</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>Factorise:<br></p>
+
+<ol class="HELM_parts">
+
+<li><p> \( x^2 + {@a1+1@}x + {@a1@} =\) [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</p></li>
+
+<li><p> \( x^2 + {@b1 - 1@}x - {@b1@} =\) [[input:ans2]] [[validation:ans2]] [[feedback:prt2]]</p></li>
+
+<li><p> \( x^2 + {@c1+c2@}x + {@c1*c2@} =\) [[input:ans3]] [[validation:ans3]] [[feedback:prt3]]</p></li>
+
+<li><p> \( x^2 - {@d1+d1@}x + {@d1*d1@}=\) [[input:ans4]] [[validation:ans4]] [[feedback:prt4]]</p></li>
+
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<ol class="HELM_parts">
+    <li>
+        <p>We need to write \( x^2 + {@a1+1@}x + {@a1@} \) in the form&nbsp; \((x + m)(x + n)\). Thus we seek numbers&nbsp;\(m\) and \(n\) such that \(m+ n = {@a1+1@}\) and \(mn = {@a1*1@}\). By trial and error it is not difficult to find that \(m = 1\) and \(n = {@a1@}\) (or, the other way round, \(m = {@a1@}\) and \(n = 1\)). So we can write</p><p></p><p>\[ &nbsp;x^2 + {@a1+1@}x + {@a1@} =&nbsp;(x + 1)(x + {@a1@}) . \]</p><p>The answer can be checked easily by removing brackets.</p><p></p>
+    </li>
+    <li>
+        <p><span style="font-size: 0.9375rem;">We need to write \(x^2 + {@b1 - 1@}x - {@b1@} \) in the form&nbsp; \((x + m)(x + n)\). Thus we seek numbers&nbsp;\(m\) and \(n\) such that \(m+ n = {@b1-1@}\) and \(mn = -{@b1*1@}\). By trial and error it is not difficult to find that \(m = -1\) and \(n = {@b1@}\) (or, the other way round, \(m = {@b1@}\) and \(n = -1\)). So we can write</span></p><p>\[x^2 + {@b1 - 1@}x - {@b1@} = (x-1)(x + {@b1@}) . \]</p><p>The answer can be checked easily by removing brackets.</p><br><p></p>
+    </li>
+    <li>
+        <p><span style="font-size: 0.9375rem;">We need to write \( &nbsp;x^2 + {@c1+c2@}x + {@c1*c2@} \) in the form&nbsp; \((x + m)(x + n)\). Thus we seek numbers&nbsp;\(m\) and \(n\) such that \(m+ n = {@c1+c2@}\) and \(mn = {@c1*c2@}\). By trial and error it is not difficult to find that \(m = {@c1@}\) and \(n = {@c2@}\) (or, the other way round, \(m = {@c2@}\) and \(n = {@c1@} \)). So we can write</span></p><p>\[ x^2 + {@c1+c2@}x + {@c1*c2@} = (x+{@c1@})(x+{@c2@}) . \]</p><p>The answer can be checked easily by removing brackets.</p><br><p></p>
+    </li>
+    <li>
+        <p><span style="font-size: 0.9375rem;">We need to write \( x^2 - {@d1+d1@}x + {@d1*d1@} \) in the form&nbsp; \((x + m)(x + n)\). Thus we seek numbers \(m\) and \(n\) such that \(m+ n = -{@d1+d1@}\) and \(mn = {@d1*d1@}\). By trial and error it is not difficult to find that \(m = -{@d1@}\) and \(n = -{@d1@}\). So we can write</span></p><p>\[ x^2 - {@d1+d1@}x + {@d1*d1@} = (x-{@d1@})(x-{@d1@}) . \]</p><p>The answer can be checked easily by removing brackets.</p></li>&nbsp;</ol>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021072200</text>
+    </stackversion>
+    <questionvariables>
+      <text>a1: rand(2)+7;
+ta1: (x + 1)*(x + a1)
+f1:x^2 + (a1+1)*x + a1;
+
+b1: a1;
+ta2: (x-1)*(x + b1);
+f2:x^2 + (b1 - 1)*x - b1;
+
+c1: rand([2,3]);
+c2:rand([5,6]);
+ta3: (x+c1)*(x+c2);
+f3: x^2 + (c1+c2)*x + c1*c2;
+
+d1: rand([3,4,6]);
+ta4: (x-d1)*(x-d1);
+f4:x^2 - (d1+d1)*x + d1*d1;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\[x^2 + {@a1+1@}x + {@a1@} ={@ta1@}\]
+\[x^2 + {@b1 - 1@}x - {@b1@} = {@ta2@}\]
+\[x^2 + {@c1+c2@}x + {@c1*c2@} = {@ta3@}\]
+\[x^2 - {@d1+d1@}x + {@d1*d1@} = {@ta4@}\]</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>ta2</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>algebraic</type>
+      <tans>ta3</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans4</name>
+      <type>algebraic</type>
+      <tans>ta4</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>FacForm</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions>x</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[We need to write \( x^2 + {@a1+1@}x + {@a1@} \) in the form&nbsp; \((x + m)(x + n)\). Thus we seek numbers&nbsp;\(m\) and \(n\) such that \(m+ n = {@a1+1@}\) and \(mn = {@a1*1@}\). By trial and error it is not difficult to find that \(m = 1\) and \(n = {@a1@}\) (or, the other way round, \(m = {@a1@}\) and \(n = 1\)). So we can write<p></p><p>\[ &nbsp;x^2 + {@a1+1@}x + {@a1@} =&nbsp;(x + 1)(x + {@a1@}) . \]</p><p>The answer can be checked easily by removing brackets.</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>FacForm</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions>x</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[We need to write \(x^2 + {@b1 - 1@}x - {@b1@} \) in the form&nbsp; \((x + m)(x + n)\). Thus we seek numbers&nbsp;\(m\) and \(n\) such that \(m+ n = {@b1-1@}\) and \(mn = -{@b1*1@}\). By trial and error it is not difficult to find that \(m = -1\) and \(n = {@b1@}\) (or, the other way round, \(m = {@b1@}\) and \(n = -1\)). So we can write<p>\[x^2 + {@b1 - 1@}x - {@b1@} = (x-1)(x + {@b1@}) . \]</p><p>The answer can be checked easily by removing brackets.</p><br><p></p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>FacForm</answertest>
+        <sans>ans3</sans>
+        <tans>ta3</tans>
+        <testoptions>x</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[We need to write \( &nbsp;x^2 + {@c1+c2@}x + {@c1*c2@} \) in the form&nbsp; \((x + m)(x + n)\). Thus we seek numbers&nbsp;\(m\) and \(n\) such that \(m+ n = {@c1+c2@}\) and \(mn = {@c1*c2@}\). By trial and error it is not difficult to find that \(m = {@c1@}\) and \(n = {@c2@}\) (or, the other way round, \(m = {@c2@}\) and \(n = {@c1@} \)). So we can write<p>\[ x^2 + {@c1+c2@}x + {@c1*c2@} = (x+{@c1@})(x+{@c2@}) . \]</p><p>The answer can be checked easily by removing brackets.</p><br><p></p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt4</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>FacForm</answertest>
+        <sans>ans4</sans>
+        <tans>ta4</tans>
+        <testoptions>x</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt4-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt4-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[We need to write \( x^2 - {@d1+d1@}x + {@d1*d1@} \) in the form&nbsp; \((x + m)(x + n)\). Thus we seek numbers \(m\) and \(n\) such that \(m+ n = -{@d1+d1@}\) and \(mn = {@d1*d1@}\). By trial and error it is not difficult to find that \(m = -{@d1@}\) and \(n = -{@d1@}\). So we can write<p>\[ x^2 - {@d1+d1@}x + {@d1*d1@} = (x-{@d1@})(x-{@d1@}) . \]</p><p>The answer can be checked easily by removing brackets.</p><br><br><p></p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1233637514</deployedseed>
+    <deployedseed>531928072</deployedseed>
+    <deployedseed>1842361152</deployedseed>
+    <deployedseed>816113547</deployedseed>
+    <deployedseed>748746616</deployedseed>
+    <deployedseed>506194171</deployedseed>
+    <deployedseed>1225990601</deployedseed>
+    <deployedseed>874051823</deployedseed>
+    <deployedseed>1311205526</deployedseed>
+    <deployedseed>840800142</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta3</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>ta4</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt4-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1+1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2+2</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta3+1</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>ta4+1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt3-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt4-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>f1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>f2</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>f3</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>f4</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt3-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt4-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

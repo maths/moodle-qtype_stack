@@ -1,0 +1,133 @@
+{
+    "quiz": {
+        "name": "13_5 Substitution and Partial Fractions",
+        "intro": "<h3><span>Substitution and Using Partial Fractions<\/span><br><\/h3>\n\n<p>The first technique described here involves making a substitution to simplify an integral. We let a new variable equal a complicated part of the function we are trying to integrate. Choosing the correct substitution often requires experience. This skill develops with practice.<\/p>\n<p> Often the technique of partial fractions can be used to write an algebraic fraction as the sum of simpler fractions. On occasions this means that we can then integrate a complicated algebraic fraction. We shall explore this approach in the second half of the section.<\/p>",
+        "introformat": "1",
+        "questionsperpage": "0",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Making a substitution",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "4",
+            "heading": "Substitution and definite integration",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "6",
+            "heading": "Integrals giving rise to logarithms",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "11",
+            "heading": "Integration using partial fractions",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-13-5\/13-5-1-1-Making-a-substitution.xml"
+        },
+        {
+            "slot": "3",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-13-5\/13-5-1-3-Substitution.xml"
+        },
+        {
+            "slot": "4",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-13-5\/13-5-2-1-Substitution-and-definite-integration.xml"
+        },
+        {
+            "slot": "5",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-13-5\/13-5-2-2-Definite-integrals.xml"
+        },
+        {
+            "slot": "6",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-13-5\/13-5-3-1-Integrals-and-logarithms.xml"
+        },
+        {
+            "slot": "10",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-13-5\/13-5-3-5-Integrals-and-logarithms.xml"
+        },
+        {
+            "slot": "11",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-13-5\/13-5-4-1-Integrals-and-partial-fractions.xml"
+        },
+        {
+            "slot": "13",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-13-5\/13-5-4-3-Integrals-and-partial-fractions.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-13-5\/13-5-1-2-T-Sub-and-Int.xml"
+        },
+        {
+            "slot": "7",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-13-5\/13-5-3-2-T-Find-Integrals.xml"
+        },
+        {
+            "slot": "8",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-13-5\/13-5-3-3-T-Integrate-Polynomial-Fraction.xml"
+        },
+        {
+            "slot": "9",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-13-5\/13-5-3-4-Integrals-and-logarithms--continuing.xml"
+        },
+        {
+            "slot": "12",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-13-5\/13-5-4-2-T-Integrate-Partial-Fractions.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "1.00000"
+        }
+    ]
+}

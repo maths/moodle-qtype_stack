@@ -1,0 +1,109 @@
+{
+    "quiz": {
+        "name": "14_3 Volumes of Revolution",
+        "intro": "<p>In this Section we show how the concept of integration as the limit of a sum, introduced in Section <i>Integration as the Limit of a Sum<\/i>, can be used to find volumes of solids formed when curves are rotated around the \\(x\\) or \\(y\\) axis.<\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Rotating curves about the x-axis",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "8",
+            "heading": "Rotating curves about the y-axis",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-14-3\/14-3-1-1-Volumes-generated-by-rotating-curves-about-the-x-axis.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-14-3\/14-3-1-2-Find-volume-of-cone.xml"
+        },
+        {
+            "slot": "3",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-14-3\/14-3-1-3-Find-volume-of-rotated-parabola.xml"
+        },
+        {
+            "slot": "4",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-14-3\/14-3-1-4-Find-volume-of-solid-of-revolution.xml"
+        },
+        {
+            "slot": "5",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-14-3\/14-3-1-5-Volume-of-a-solid-of-revolution.xml"
+        },
+        {
+            "slot": "6",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-14-3\/14-3-1-6-Finding-volume-of-a-solid-of-revolution.xml"
+        },
+        {
+            "slot": "7",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-14-3\/14-3-1-7-Finding-volume-of-a-solid-of-revolution.xml"
+        },
+        {
+            "slot": "8",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-14-3\/14-3-2-1-Volumes-generated-by-rotating-curves-about-the-y-axis.xml"
+        },
+        {
+            "slot": "9",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-14-3\/14-3-2-2-Find-volume-of-parabola-around-y-axis.xml"
+        },
+        {
+            "slot": "10",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-14-3\/14-3-2-3-Find-volume-of-parabola-around-y-axis.xml"
+        },
+        {
+            "slot": "11",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-14-3\/14-3-2-4-Find-volume-of-line-around-y-axis.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

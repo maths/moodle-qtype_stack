@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>16.5.4.1 The Taylor series</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3><span>The Taylor series</span></h3><br>
+<p>The <strong>Taylor series</strong> is a generalisation of the Maclaurin series being a power series developed in powers of <span class="math inline">\((x-x_0)\)</span> rather than in powers of <span class="math inline">\(x\)</span>.</p>
+<div class="HELM_keypoint">
+    <h4>Key Point</h4>
+    <p>If the function <span class="math inline">\(f(x)\)</span> can be differentiated as often as required at <span class="math inline">\(x=x_0\)</span> then: <span class="math display">\[f(x)=f(x_0)+(x-x_0)f'(x_0)+\dfrac{(x-x_0)^2}{2!}f''(x_0)+\cdots\]</span>        This is called the Taylor series of <span class="math inline">\(f(x)\)</span> about the point <span class="math inline">\(x_0\)</span>.</p>
+</div>
+<p>The Maclaurin expansion is the Taylor expansion obtained if <span class="math inline">\(x_0\)</span> is chosen to be zero.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

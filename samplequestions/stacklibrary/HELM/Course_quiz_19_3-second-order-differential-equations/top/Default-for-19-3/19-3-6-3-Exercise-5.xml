@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>19.3.6.3 Exercise 5</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4 class="HELM_exercise">Exercise</h4>
+<p>Obtain the general solution of the equation</p>
+\[{@deq@}.\]
+<p>\(y = A\ \) [[input:ans1]] [[validation:ans1]] \(\ +\ B\ \) [[input:ans2]] [[validation:ans2]] \(\ +\ \) [[input:ans3]] [[validation:ans3]]</p>
+<p>[[feedback:prt1]]</p>
+<p>Find the particular solution satisfying \(y(0) = {@y0@}\) and \(\displaystyle \frac{\mathrm{d}y}{\mathrm{d}x}(0) = {@dy0@}\).</p>
+<p>[[input:ans4]] [[validation:ans4]]</p>
+<p>[[feedback:prt2]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>We are asked to find the general solution of the second order, constant coefficients, inhomogeneous differential equation</p>
+\[{@deq@}.\]
+<p>First we find the complementary function. Suppose \(y = e^{kx}\) is a solution of the corresponding homogeneous equation. This gives the auxiliary equation \({@auxeq@}\), which has roots \(k = {@a1@}\) and \(k = {@a2@}\). Therefore, the complementary function is given by</p>
+\[y_\text{cf}(x) = {@cf@}.\]
+<p>Next, we find a particular integral. Since the righ-hand side of the differential equation involves a cosine, we try a particular integral of the form \(y_\text{p}(x) = {@pitest@}\). This gives the derivatives</p>
+\[\begin{aligned}
+\frac{\mathrm{d}y_\text{p}}{\mathrm{d}x} &amp;= {@dpitest@}, \\
+\frac{\mathrm{d}^2y_\text{p}}{\mathrm{d}x^2} &amp;= {@ddpitest@}.
+\end{aligned}\]
+<p>Substituting these into the original equation gives</p>
+\[{@pieq@}.\]
+<p>Equating the coefficients of \(\cos ({@kk@} x)\) and \(\sin ({@kk@} x)\) gives the simultaneous equations</p>
+\[\begin{cases}
+{@lhs(pieq1)@} &amp;= {@rhs(pieq1)@} \\
+{@lhs(pieq2)@} &amp;= {@rhs(pieq2)@}
+\end{cases}\]
+<p>These give the values \(a = {@aval@}\) and \(b = {@bval@}\). Hence, a particular integral for the differential equation is</p>
+\[y_\text{p}(x) = {@pi1@}.\]
+<p>Therefore, the general solution is given by</p>
+\[y(x) = {@gsol@}.\]
+<p>We are now asked to find the particular solution that satisfies \(y(0) = {@y0@}\) and \(\displaystyle \frac{\mathrm{d}y}{\mathrm{d}x}(0) = {@dy0@}\). First, we find the first derivative of the general solution:</p>
+\[\frac{\mathrm{d}y}{\mathrm{d}x} = {@dgsol@}.\]
+<p>We now evaluate the function and the derivative at zero to give the following simultaneous equations:</p>
+\[\begin{cases}
+{@lhs(psoleq1)@} &amp;= {@rhs(psoleq1)@} \\
+{@lhs(psoleq2)@} &amp;= {@rhs(psoleq2)@}
+\end{cases}\]
+<p>These give the values \(A = {@Aval@}\) and \(B = {@Bval@}\). Therefore, the particular solution we seek is</p>
+\[y(x) = {@psol@}.\]]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021120900</text>
+    </stackversion>
+    <questionvariables>
+      <text>/* Coefficient randomisation */
+/* Roots of auxiliary equation */
+a1: rand_with_prohib(-4, 4, [0]);
+a2: rand_with_prohib(-4, 4, [0, a1, -a1]);
+/* Coefficients */
+bb: -a1 - a2;
+cc: a1 * a2;
+ll: rand_with_step(2, 10, 1);
+kk: rand_with_step(2, 4, 1);
+y0: rand_with_step(-1, 1, 1);
+dy0: rand_with_step(-1, 1, 1);
+
+/* Equation */
+deq: 'diff(y, x, 2) + bb * 'diff(y, x) + cc * y = ll * cos(kk * x);
+
+/* Needed for solution */
+auxeq: k^2 + bb * k + cc = 0;
+cf1: %e^(a1 * x);
+cf2: %e^(a2 * x);
+cf: A * cf1 + B * cf2;
+pitest: a * cos(kk * x) + b * sin(kk * x);
+dpitest: diff(pitest, x);
+ddpitest: diff(dpitest, x);
+pieq: ddpitest + bb * dpitest + cc * pitest = ll * cos(kk * x);
+pieq: collectterms(expand(pieq));
+
+pieq1: a * (cc - kk^2) + b * bb * kk = ll;
+pieq2: a * (-bb) * kk + b * (cc - kk^2) = 0;
+pieqsol: linsolve([pieq1, pieq2], [a, b]);
+aval: rhs(pieqsol[1]);
+bval: rhs(pieqsol[2]);
+pi1:  aval * cos(kk * x) + bval * sin(kk * x);
+/*pi1: ev(pitest, a=aval, b=bval);*/   /* the ev() funtion break the question and the whole quiz doesn't preview. It happens when I use in the ev() that values I found from solve(). Don't know why, but I substitute the values manually and it works... */
+
+gsol: cf + pi1;
+dgsol: diff(gsol, x);
+psoleq1: ev(gsol, x=0) = y0;
+psoleq2: ev(dgsol, x=0) = dy0;
+psoleqsol: linsolve([psoleq1, psoleq2], [A, B]);
+Aval: rhs(psoleqsol[1]);
+Bval: rhs(psoleqsol[2]);
+/*psol: ev(gsol, A=Aval, B=Bval);*/  /* Same issue with ev() here*/
+psol: Aval * cf1 + Bval * cf2 + pi1
+
+ta1: cf1;
+ta2: cf2;
+ta3: pi1;
+ta4: psol;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\[{@deq@}, y(0) = {@y0@}, y'(0) = {@dy0@} \quad y(x) = {@psol@}\]
+\[ aval= {@aval@}, bval={@bval@} \]</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>7</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>ta2</tans>
+      <boxsize>7</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>algebraic</type>
+      <tans>ta3</tans>
+      <boxsize>20</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans4</name>
+      <type>algebraic</type>
+      <tans>ta4</tans>
+      <boxsize>40</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>ta3</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.5000000</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="plain_text">
+          <text>Your particular integral is incorrect.</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>Sets</answertest>
+        <sans>{ans1, ans2}</sans>
+        <tans>{ta1, ta2}</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.5000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="plain_text">
+          <text>Your complementary function is not fully correct.</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans4</sans>
+        <tans>ta4</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>175912038</deployedseed>
+    <deployedseed>1611661802</deployedseed>
+    <deployedseed>584781842</deployedseed>
+    <deployedseed>886238809</deployedseed>
+    <deployedseed>619180236</deployedseed>
+    <deployedseed>2049861452</deployedseed>
+    <deployedseed>1935983301</deployedseed>
+    <deployedseed>1455458001</deployedseed>
+    <deployedseed>2057822531</deployedseed>
+    <deployedseed>1925228233</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta3</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>ta4</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta2</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta3</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>ta4</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1+1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2+1</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta3+1</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>ta4+1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-2-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

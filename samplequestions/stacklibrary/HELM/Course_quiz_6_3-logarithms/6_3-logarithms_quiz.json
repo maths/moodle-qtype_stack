@@ -1,0 +1,154 @@
+{
+    "quiz": {
+        "name": "6_3 Logarithms",
+        "intro": "<h3>Introduction<\/h3><p>In this quiz we introduce the logarithm: \\(\\log_ab\\). The operation of taking a logarithm essentially reverses the operation of raising a number to a power. We will formulate the basic laws satisfied by all logarithms and learn how to manipulate expressions involving logarithms. We shall see that to every law of indices there is an equivalent law of logarithms. Although logarithms to any positive base are defined it is common practice to employ only two kinds of logarithms: logs to base \\(10\\) and logs to base \\(e\\).<\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Logarithms",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "5",
+            "heading": "Simplifying expressions",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "8",
+            "heading": "Logs base 10 and natural logs",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "12",
+            "heading": "Logarithms with arbitrary base",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-6-3\/6-3-1-1-Logarithms.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-6-3\/6-3-1-2-Find-log_a(a^n).xml"
+        },
+        {
+            "slot": "3",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-6-3\/6-3-1-3-Log-of-a-product.xml"
+        },
+        {
+            "slot": "4",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-6-3\/6-3-1-4-Laws-of-logarithms.xml"
+        },
+        {
+            "slot": "5",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-6-3\/6-3-2-1-Simplifying-expressions-involving-logarithms.xml"
+        },
+        {
+            "slot": "6",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-6-3\/6-3-2-2-Simplify-sums-of-logs.xml"
+        },
+        {
+            "slot": "7",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-6-3\/6-3-5-4-Simplify-exercise-2(b).xml"
+        },
+        {
+            "slot": "8",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-6-3\/6-3-3-1-Logs-to-base-10-and-natural-logs.xml"
+        },
+        {
+            "slot": "9",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-6-3\/6-3-3-2-Compute-logs-base-10.xml"
+        },
+        {
+            "slot": "10",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-6-3\/6-3-3-3-Compute-logs-base-e.xml"
+        },
+        {
+            "slot": "11",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-6-3\/6-3-5-5-Simplify-exercise-2(c).xml"
+        },
+        {
+            "slot": "12",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-6-3\/6-3-4-1-Changing-base-in-logarithms.xml"
+        },
+        {
+            "slot": "13",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-6-3\/6-3-4-2-Computing-logs-arbitrary-base.xml"
+        },
+        {
+            "slot": "14",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-6-3\/6-3-5-6-Simplify-exercise-2(d).xml"
+        },
+        {
+            "slot": "15",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-6-3\/6-3-4-3-Inverse-of-taking-logs.xml"
+        },
+        {
+            "slot": "16",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-6-3\/6-3-5-1-Compute-logs-exercise-1(a).xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

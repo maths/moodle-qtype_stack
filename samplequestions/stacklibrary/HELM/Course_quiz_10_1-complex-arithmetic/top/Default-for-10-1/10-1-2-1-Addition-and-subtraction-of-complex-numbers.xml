@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>10.1.2.1 Addition and subtraction of complex numbers</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Addition and subtraction of complex numbers</h3>
+<p>Let <span class="math inline">\(z\)</span> and <span class="math inline">\(w\)</span> be any two complex numbers <span class="math inline"> where \(z=a+i b\) and \(w=c+i d\)</span> then 
+<span class="math inline">\[z+w=(a+c)+i(b+d),\] \[z-w=(a-c)+i(b-d).\]</span> For example if <span class="math inline">\(z=2-3i\)</span>, <span class="math inline">\(w=-4+2i\)</span> then <span class="math inline">
+\[z+w=\{2+(-4)\}+\{(-3)+2\}i =-2-i,\]
+\[z-w=\{2-(-4)\}+\{(-3)-2\}i =6-5i\]</span></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

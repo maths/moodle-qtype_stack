@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>16.4.3 ln(1+x) approximation</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>Using the known result that \[\dfrac{1}{1+x}= {@ser1@} \qquad |x|&lt;1,\]</p><br>
+
+<p>Find the first three terms in the approximation of \(\ln(1+x)\). </p>
+<p><b>Note:</b> in the input box below, type "<b>log(x)</b>" to represent \( \ln x \) (the natural logarithm of \(x\)). </p>
+<p><b>Hint:</b> integrate both sides of the expression. </p>
+<p>\(\ln(1+x)\approx\) [[input:ans1]]&nbsp;<span style="font-size: calc(0.90375rem + 0.045vw);">[[validation:ans1]]</span></p><p><span style="font-size: calc(0.90375rem + 0.045vw);">[[feedback:prt1]]</span></p><br>
+
+<p>Use the expression to obtain an approximation to \(\ln({@var2@})\). <b>Note:</b> give your answer to <b>3 significant figures.</b></p>
+<p>\(\ln({@var2@})\approx\) [[input:ans2]]&nbsp;<span style="font-size: calc(0.90375rem + 0.045vw);">[[validation:ans2]]</span></p><p><span style="font-size: calc(0.90375rem + 0.045vw);">[[feedback:prt2]]</span></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>Integrate both sides of \(\dfrac{1}{1+x}= {@ser1@} \, :\)</p><p>\[ \int \dfrac{\mathrm{d}x}{1+x}= \ln(1+x)+c,\] where \(c\) is a constant of integration, and \[\int (1-x+x^2-\dots)\mathrm{d}x = x - \dfrac{x^2}{2} + \dfrac{x^3}{3} - \dots + k,\] where \(k\) is a constant of integration.</p>
+
+<p>So we conclude \[\ln(1+x) +c = x - \dfrac{x^2}{2} + \dfrac{x^3}{3} - \dots + k \qquad \mathrm{if} \; |x|&lt;1. \] </p>
+
+<p>Choosing \(x=0\) shows that \(c=k\) so they cancel from this equation, therefore \[\ln(1+x) = x - \dfrac{x^2}{2} + \dfrac{x^3}{3} - \dots \qquad \mathrm{if} \; |x|&lt;1.\]</p>
+
+<p>Now choose \(x = {@var1@}\) to approximate \(\ln(1+{@var1@}) = \ln({@var2@})\) using terms up to cubic: \[\ln({@var2@}) = {@var1@} - \dfrac{( {@var1@})^2}{2} + \dfrac{( {@var1@})^3}{3} - \dots \approx  {@ta2@}\] which is easily checked by a calculator.</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020120600</text>
+    </stackversion>
+    <questionvariables>
+      <text>q1: 1/(1+x);
+ser1: taylor(q1,x,0,3);
+q2: ln(1+x);
+ser2: taylor(q2,x,0,3);
+var1: rand_with_step(0.1,0.9,0.1);
+var2: 1 + var1;
+
+ta1: ser2;
+ta2: significantfigures(subst(var1,x,ser2),3);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\(\ln({@var2@})\approx = {@ta2@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>ta2</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumSigFigs</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions>3</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>235181782</deployedseed>
+    <deployedseed>1950681629</deployedseed>
+    <deployedseed>5838692</deployedseed>
+    <deployedseed>2084338085</deployedseed>
+    <deployedseed>1077803720</deployedseed>
+    <deployedseed>579554414</deployedseed>
+    <deployedseed>1561316329</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

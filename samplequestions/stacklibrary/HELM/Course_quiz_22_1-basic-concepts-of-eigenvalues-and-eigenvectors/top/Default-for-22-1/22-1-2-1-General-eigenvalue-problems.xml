@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>22.1.2.1 General eigenvalue problems</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>General eigenvalue problems</h3><p>Consider a given square matrix <span class="math inline">\(A\)</span>. If <span class="math inline">\(\underline{x}\)</span> is a column vector and <span class="math inline">\(\lambda\)</span> is a scalar (a number) then the relation</p>
+\[A\underline{x}=\lambda \underline{x} \tag{1}\]
+<p>is called an <span><strong>eigenvalue problem</strong></span>. Our purpose is to carry out an analysis of this equation in a manner similar to the example above. However, we will attempt a more general approach which will apply to <span><strong>all</strong></span> problems of this kind.</p>
+<p>Firstly, we can spot an obvious solution (for <span class="math inline">\(\underline{x}\)</span>) to these equations. The solution <span class="math inline">\(\underline{x}=\underline{0}\)</span> is a possibility (for then both sides are zero). We will not be interested in these <span><strong>trivial solutions</strong></span> of the eigenvalue problem. Our main interest will be in the occurrence of <span><strong>non-trivial solutions</strong></span> for <span class="math inline">\(\underline{x}\)</span>. These may exist for special values of <span class="math inline">\(\lambda\)</span>, called the <span><strong>eigenvalues</strong></span> of the matrix <span class="math inline">\(A\)</span>. We proceed as in the previous example:</p>
+<p>Take all unknowns to one side:</p>
+\[(A-\lambda I)\underline{x}=\underline{0} \tag{2}\]
+<p>where <span class="math inline">\(I\)</span> is a unit matrix with the same dimensions as <span class="math inline">\(A\)</span>. (Note that <span class="math inline">\(A\underline{x}-\lambda \underline{x}=\underline{0}\)</span> does <strong>not</strong> simplify to <span class="math inline">\((A-\lambda)\underline{x}=\underline{0}\)</span> as you <strong>cannot</strong> subtract a scalar <span class="math inline">\(\lambda\)</span> from a matrix <span class="math inline">\(A\)</span>). This equation \((2)\) is a <strong>homogeneous</strong> system of equations. In the notation of the earlier discussion <span class="math inline">\(C\equiv A-\lambda I\)</span> and <span class="math inline">\(\underline{k}\equiv \underline{0}\)</span>. For such a system we know that non-trivial solutions will only exist if the determinant of the coefficient matrix is zero:</p>
+\[\det(A-\lambda I)=0 \tag{3}\]
+<p>Equation \((3)\) is called the <strong>characteristic equation</strong> of the eigenvalue problem. We see that the characteristic equation only involves one unknown <span class="math inline">\(\lambda\)</span>. The characteristic equation is generally a polynomial in <span class="math inline">\(\lambda\)</span>, with degree being the same as the order of <span class="math inline">\(A\)</span> (so if <span class="math inline">\(A\)</span> is <span class="math inline">\(2\times 2\)</span> the characteristic equation is a quadratic, if <span class="math inline">\(A\)</span> is a <span class="math inline">\(3\times 3\)</span> it is a cubic equation, and so on). For each value of <span class="math inline">\(\lambda\)</span> that is obtained the corresponding vector <span class="math inline">\(\underline{x}\)</span> is obtained by solving the original equations \((1)
+\). These <span class="math inline">\(\underline{x}\)</span> are called <strong>eigenvectors</strong>.</p>
+<p>N.B. We shall see that eigenvectors are only unique up to a multiplicative factor: i.e. if <span class="math inline">\(\underline{x}\)</span> satisfies <span class="math inline">\(A\underline{x}=\lambda \underline{x}\)</span> then so does <span class="math inline">\(k\underline{x}\)</span> when <span class="math inline">\(k\)</span> is any constant.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

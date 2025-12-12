@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>9.5.3.8 Vector and cartesian equation of a line, Exercise</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>Let the point \(A\) have position vector \({@stackvector(a)@} = {@A1@}\), and the point \(B\) have position vector \({@stackvector(b)@} = {@B1@}\).</p>
+<ol class="HELM_parts">
+<li>
+<p>Using this information, give the <i>canonical</i> vector equation of the line passing through \(A\) and \(B\). Input your answer, in column vector notation, in the boxes provided below. The line through \(A\) and \(B\) is given by the following equation, where \(t\) is a parameter which may take any real number as its value.
+</p>
+<div>\(\underline{r} = \) [[input:ans1]] [[validation:ans1]] \({}+t\ \) [[input:ans2]] [[validation:ans2]]</div>
+[[feedback:VecEq]]
+</li>
+
+<li><p>Now give the equation of the line in its Cartesian form. Enter your answers as fractions, e.g. <code>(k-5)/18</code>.</p>
+<p>The Cartesian equation of the line through \(A\) and \(B\) is:</p>
+<div>[[input:ans3]] [[validation:ans3]] \({}={}\) [[input:ans4]] [[validation:ans4]] \({}={}\) [[input:ans5]] [[validation:ans5]]</div>
+[[feedback:CartEq]]
+</li></ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<ol class="HELM_parts">
+<li>
+<p>The <i>canonical</i> vector equation of the line passing through \(A\) and \(B\) is given by the formula</p>
+\[\underline{r} = \underline{a} + t(\underline{b} - \underline{a}).\]
+<p>This is the <i>canonical</i> form because we have \(\underline{r}(t = 0) = \underline{a}\) and \(\underline{r}(t = 1) = \underline{b}\).</p>
+<p>In our case, the values are</p>
+\[\underline{r} = {@a1@} + t\, {@BMA@}.\]
+</li>
+
+<li>
+<p>Recall that the Cartesian equation of a line given by \(\underline{r} = \underline{a} + t(\underline{b} - \underline{a})\) is given by</p>
+\[\frac{x - a_1}{b_1 - a_1} = \frac{y - a_2}{b_2 - a_2} = \frac{z - a_3}{b_3 - a_3},\]
+<p>where</p>
+\[\underline{a} = \begin{bmatrix} a_1 \\ a_2 \\ a_3 \end{bmatrix} \quad \text{and} \quad \underline{b} = \begin{bmatrix} b_1 \\ b_2 \\b_3 \end{bmatrix}.\]
+<p>Applying this formula in our case gives the equation:</p>
+\[{@canonical_mat[1,1]@} = {@canonical_mat[2,1]@} = {@canonical_mat[3,1]@}\]
+</li>
+</ol>]]></text>
+    </generalfeedback>
+    <defaultgrade>2</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020120600</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[stackvectortex(ex):= block(sconcat("{ \\underline{", tex1(first(args(ex))), "}}"));
+ordergreat(i,j,k);
+a1: matrix([16],[16],[16]) - rand(matrix([33],[33],[33]));
+b1: matrix(
+  [rand_with_prohib(-16, 16, [a1[1,1]])],
+  [rand_with_prohib(-16, 16, [a1[2,1]])],
+  [rand_with_prohib(-16, 16, [a1[3,1]])]);
+u1: matrix([i],[j],[k]); 
+A1: texboldatoms(dotproduct(a1,u1));
+B1: texboldatoms(dotproduct(b1,u1));
+
+BMA: b1 - a1;
+ta11: a1;
+ta12: BMA;
+canonical_mat: matrix([(x-a1[1,1])/(BMA[1,1])],[(y-a1[2,1])/(BMA[2,1])],[(z-a1[3,1])/(BMA[3,1])]);
+ta21: canonical_mat[1,1];
+ta22: canonical_mat[2,1];
+ta23: canonical_mat[3,1];]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>The vector equation of the line through the points {@A1@} and {@B1@} is
+\[\mathbf{r} = {@a1@} + t\,{@BMA@},\]
+and the Cartesian form of the equation is
+\[{@ev((x - a1[1,1])/BMA[1,1],simp)@} = {@ev((y - a1[2,1])/BMA[2,1],simp)@} = {@ev((z - a1[3,1])/BMA[3,1],simp)@}.\]</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<p>Correct answer, well done.</p>]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<p>Your answer is partially correct.</p>]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<p>Incorrect answer.</p>]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>symi</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>matrix</type>
+      <tans>ta11</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>matrix</type>
+      <tans>ta12</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>algebraic</type>
+      <tans>ta21</tans>
+      <boxsize>8</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans4</name>
+      <type>algebraic</type>
+      <tans>ta22</tans>
+      <boxsize>8</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans5</name>
+      <type>algebraic</type>
+      <tans>ta23</tans>
+      <boxsize>8</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>CartEq</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>answer_mat: matrix([ans3],[ans4],[ans5]);
+ECFBMA: ans2;
+ECF_mat: matrix([(x-ans1[1,1])/(ECFBMA[1,1])],[(y-ans1[2,1])/(ECFBMA[2,1])],[(z-ans1[3,1])/(ECFBMA[3,1])]);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>answer_mat</sans>
+        <tans>canonical_mat</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>VEC-CARTEQ-TRUE</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>VEC-CARTEQ-FALSE-0</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>answer_mat</sans>
+        <tans>ECF_mat</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty>0</truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>VEC-CARTEQ-FALSE_BUT_ECF</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Although your answers for this part of the question do give the Cartesian equation of the line from part (a), it appears that the equation of the line you gave in part (a) is invalid &ndash; either incorrect outright, or not in canonical form.</p>
+<p>Please correct your answers to part (a), then amend your Cartesian equation of the line, and input the correct values in the boxes for part (b).</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>VEC-CARTEQ-FALSE-1</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>It appears your answer for the Cartesian equation of the line through \(A\) and \(B\) is incorrect.</p>
+<p>Refer back to how we can move from the vector equation of a line to the Cartesian equation of a line, and try again. Make sure your answer to part (a) is correct and in the canonical form, too!</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>VecEq</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta11</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty>0</truepenalty>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>VEC-VECEQ-TRUE-0</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty>0</falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>VEC-VECEQ-FALSE-0</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>The first vector you have entered as part of the vector equation of the line is invalid &ndash; it is either incorrect outright, or not the canonical choice of vector. Please try again.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>ta12</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>VEC-VECEQ-TRUE-1</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty>0</falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>VEC-VECEQ-FALSE-1</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>The second vector you have entered as part of the vector equation of the line is invalid &ndash; it is either incorrect outright, or not the canonical choice of vector. Please try again.</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1692160676</deployedseed>
+    <deployedseed>274327739</deployedseed>
+    <deployedseed>13451817</deployedseed>
+    <deployedseed>774589802</deployedseed>
+    <deployedseed>1248931864</deployedseed>
+    <deployedseed>1572694177</deployedseed>
+    <deployedseed>641284927</deployedseed>
+    <deployedseed>1286376242</deployedseed>
+    <deployedseed>994504584</deployedseed>
+    <deployedseed>1826193064</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta11</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta12</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta21</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>ta22</value>
+      </testinput>
+      <testinput>
+        <name>ans5</name>
+        <value>ta23</value>
+      </testinput>
+      <expected>
+        <name>CartEq</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>VEC-CARTEQ-TRUE</expectedanswernote>
+      </expected>
+      <expected>
+        <name>VecEq</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>VEC-VECEQ-TRUE-1</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>b1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta12</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta21</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>ta22</value>
+      </testinput>
+      <testinput>
+        <name>ans5</name>
+        <value>ta23</value>
+      </testinput>
+      <expected>
+        <name>CartEq</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>VEC-CARTEQ-TRUE</expectedanswernote>
+      </expected>
+      <expected>
+        <name>VecEq</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>VEC-VECEQ-FALSE-0</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta11</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta12</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>0</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>0</value>
+      </testinput>
+      <testinput>
+        <name>ans5</name>
+        <value>0</value>
+      </testinput>
+      <expected>
+        <name>CartEq</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>VEC-CARTEQ-FALSE-1</expectedanswernote>
+      </expected>
+      <expected>
+        <name>VecEq</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>VEC-VECEQ-TRUE-1</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta11</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ev(-ta12,simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta21</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>ta22</value>
+      </testinput>
+      <testinput>
+        <name>ans5</name>
+        <value>ta23</value>
+      </testinput>
+      <expected>
+        <name>CartEq</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>VEC-CARTEQ-TRUE</expectedanswernote>
+      </expected>
+      <expected>
+        <name>VecEq</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>VEC-VECEQ-FALSE-1</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

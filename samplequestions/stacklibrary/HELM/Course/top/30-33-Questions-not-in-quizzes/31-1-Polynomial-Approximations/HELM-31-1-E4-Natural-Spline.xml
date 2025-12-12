@@ -1,0 +1,566 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>HELM 31.1 E4 Natural Spline</text>
+    </name>
+    <questiontext format="markdown">
+      <text>**31.1 E4 Natural Spline**
+
+Find the natural cubic spline which interpolates the data
+
+{@T@}
+
+\\\(s_1(x), x\in[x_1,x_2]=\\\) [[input:S_s1]] [[validation:S_s1]]
+ 
+\\\(s_2(x), x\in[x_2,x_3]=\\\) [[input:S_s2]] [[validation:S_s2]] 
+
+\\\(s_3(x), x\in[x_3,x_4]=\\\) [[input:S_s3]] [[validation:S_s3]]
+ 
+[[feedback:s1]]</text>
+    </questiontext>
+    <generalfeedback format="markdown">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025102100</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[X:[2,4,5,7];
+Y:[1.34+rand(100)/100,1.84+rand(100)/100,1.12+rand(100)/100, 0.02+rand(100)/100];
+/*Y:[2.2+rand(10)/10,5.4+rand(10)/10,6.5+rand(10)/10, 13.2+rand(10)/10];*/
+T:apply(table,args(append(matrix([x_i,f_i]),transpose(matrix(X,Y)))));
+/* compute spline directly from conditions */
+s1(x):= a1*(x-X[1])^3+b1*(x-X[1])^2+c1*(x-X[1])+d1;
+s2(x):= a2*(x-X[2])^3+b2*(x-X[2])^2+c2*(x-X[2])+d2;
+s3(x):= a3*(x-X[3])^3+b3*(x-X[3])^2+c3*(x-X[3])+d3;
+eq: [
+    s1(X[1])=Y[1],
+    s1(X[2])=Y[2],
+    s2(X[2])=Y[2],
+    s2(X[3])=Y[3],
+    s3(X[3])=Y[3],
+    s3(X[4])=Y[4],
+    at(diff(s1(x),x),x=X[2])=at(diff(s2(x),x),x=X[2]),
+    at(diff(s2(x),x),x=X[3])=at(diff(s3(x),x),x=X[3]),
+    at(diff(s1(x),x,2),x=X[2])=at(diff(s2(x),x,2),x=X[2]),
+    at(diff(s2(x),x,2),x=X[3])=at(diff(s3(x),x,2),x=X[3]),
+    at(diff(s1(x),x,2),x=X[1])=0,
+    at(diff(s3(x),x,2),x=X[4])=0
+];
+[d1,a1,b1,c1,d2,a2,b2,c2,d3,a3,b3,c3]: 
+  ev([d1,a1,b1,c1,d2,a2,b2,c2,d3,a3,b3,c3],solve(eq,listofvars(eq))),float;
+
+fb_poly(p,x,o,n):=block(
+  if not polynomialp(p,[x]) then return([sconcat("<br>\\(", n, "\\) is not a polynomial in \\(x\\)."), false]),
+    ord: hipow(ratexpand(p),x),
+  if  ord > o then return([sconcat("<br>\\(", n, "\\) is of order \\(", string(ord), "\\). Maximum order should be \\(",string(o),"\\)."), false]),
+  ["",true]  
+);]]></text>
+    </questionvariables>
+    <specificfeedback format="markdown">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>{@Y@}</text>
+    </questionnote>
+    <questiondescription format="markdown">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="markdown">
+      <text>Richtige Antwort, gut gemacht!</text>
+    </prtcorrect>
+    <prtpartiallycorrect format="markdown">
+      <text>Ihre Antwort ist teilweise korrekt.</text>
+    </prtpartiallycorrect>
+    <prtincorrect format="markdown">
+      <text>Falsche Antwort.</text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>S_s1</name>
+      <type>algebraic</type>
+      <tans>s1(x)</tans>
+      <boxsize>20</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>3</insertstars>
+      <syntaxhint>Expression</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>S_s2</name>
+      <type>algebraic</type>
+      <tans>s2(x)</tans>
+      <boxsize>20</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>3</insertstars>
+      <syntaxhint>Expression</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>S_s3</name>
+      <type>algebraic</type>
+      <tans>s3(x)</tans>
+      <boxsize>20</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>3</insertstars>
+      <syntaxhint>Expression</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>s1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text><![CDATA[S_k11: at(diff(S_s1,x,2),x=X[1]);
+[txt1,OK1]: fb_poly(S_s1,x,3,"s_1(x)");
+[txt2,OK2]: fb_poly(S_s2,x,3,"s_2(x)");
+[txt3,OK3]: fb_poly(S_s3,x,3,"s_3(x)");]]></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description>k1(x1)=0?</description>
+        <answertest>NumAbsolute</answertest>
+        <sans>S_k11</sans>
+        <tans>0</tans>
+        <testoptions>0.1</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>s1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>s1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<br>The curvature \(s''_1(x_1)\) is {@dispsf(S_k11,4)@}. Should be zero for a natural spline.]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description>s1(x1)=y1?</description>
+        <answertest>NumAbsolute</answertest>
+        <sans>ev(S_s1, x=X[1])</sans>
+        <tans>Y[1]</tans>
+        <testoptions>0.01</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>s1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>s1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<br>The value \(s_1(x_1)\) is {@dispdp(ev(S_s1, x=X[1]),2)@}. It should be equal to the data value   {@'f_1=Y[1]@}.]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>10</name>
+        <description>s1'(x2)=s2'(x2)?</description>
+        <answertest>NumAbsolute</answertest>
+        <sans>at(diff(s1(x),x),x=X[2])</sans>
+        <tans>at(diff(s2(x),x),x=X[2])</tans>
+        <testoptions>0.01</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>11</truenextnode>
+        <trueanswernote>s1-11-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>11</falsenextnode>
+        <falseanswernote>s1-11-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<br>The slopes \(s'_1(x_2)={@dispsf(at(diff(S_s1,x),x=X[2]),4)@}\) and \(s'_2(x_2)={@dispsf(at(diff(S_s2,x),x=X[2]),4)@}\) do not coincide.]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>11</name>
+        <description>s2'(x3)=s3'(x3)?</description>
+        <answertest>NumAbsolute</answertest>
+        <sans>at(diff(s2(x),x),x=X[3])</sans>
+        <tans>at(diff(s3(x),x),x=X[3])</tans>
+        <testoptions>0.01</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>12</truenextnode>
+        <trueanswernote>s1-12-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>12</falsenextnode>
+        <falseanswernote>s1-12-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<br>The slopes \(s'_2(x_3)={@dispsf(at(diff(S_s2,x),x=X[3]),4)@}\) and \(s'_3(x_3)={@dispsf(at(diff(S_s3,x),x=X[3]),4)@}\) do not coincide.]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>12</name>
+        <description>is s1 a cubic polynomial?</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>OK1</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>13</truenextnode>
+        <trueanswernote>s1-13-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>13</falsenextnode>
+        <falseanswernote>s1-13-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>{@txt1@}</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>13</name>
+        <description>is s2 a cubic polynomial?</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>OK2</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>14</truenextnode>
+        <trueanswernote>s1-14-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>14</falsenextnode>
+        <falseanswernote>s1-14-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>{@txt2@}</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>14</name>
+        <description>is s3 a cubic polynomial?</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>OK3</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>s1-15-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>s1-15-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>{@txt3@}</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description>s1(x2)=y2?</description>
+        <answertest>NumAbsolute</answertest>
+        <sans>ev(S_s1, x=X[2])</sans>
+        <tans>Y[2]</tans>
+        <testoptions>0.01</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>3</truenextnode>
+        <trueanswernote>s1-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>3</falsenextnode>
+        <falseanswernote>s1-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<br>The value \(s_1(x_2)\) is {@dispdp(ev(S_s1, x=X[2]),2)@}. It should be equal to the data value   {@'f_2=Y[2]@}.]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>3</name>
+        <description>s2(x2)=y2?</description>
+        <answertest>NumAbsolute</answertest>
+        <sans>ev(S_s2, x=X[2])</sans>
+        <tans>Y[2]</tans>
+        <testoptions>0.01</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>4</truenextnode>
+        <trueanswernote>s1-4-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>4</falsenextnode>
+        <falseanswernote>s1-4-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<br>The value \(s_2(x_2)\) is {@dispdp(ev(S_s2, x=X[2]),2)@}. It should be equal to the data value   {@'f_2=Y[2]@}.]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>4</name>
+        <description>s2(x3)=y3?</description>
+        <answertest>NumAbsolute</answertest>
+        <sans>ev(S_s2, x=X[3])</sans>
+        <tans>Y[3]</tans>
+        <testoptions>0.01</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>5</truenextnode>
+        <trueanswernote>s1-5-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>5</falsenextnode>
+        <falseanswernote>s1-5-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<br>The value \(s_2(x_3)\) is {@dispdp(ev(S_s2, x=X[3]),2)@}. It should be equal to the data value {@'f_3=Y[3]@}.]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>5</name>
+        <description>s3(x3)=y3?</description>
+        <answertest>NumAbsolute</answertest>
+        <sans>ev(S_s3, x=X[3])</sans>
+        <tans>Y[3]</tans>
+        <testoptions>0.02</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>6</truenextnode>
+        <trueanswernote>s1-6-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>6</falsenextnode>
+        <falseanswernote>s1-6-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<br>The value \(s_3(x_3)\) is {@dispdp(ev(S_s3, x=X[3]),2)@}. It should be equal to the data value {@'f_3=Y[3]@}.]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>6</name>
+        <description>s3(x4)=y4?</description>
+        <answertest>NumAbsolute</answertest>
+        <sans>ev(S_s3, x=X[4])</sans>
+        <tans>Y[4]</tans>
+        <testoptions>0.01</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>7</truenextnode>
+        <trueanswernote>s1-7-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>7</falsenextnode>
+        <falseanswernote>s1-7-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<br>The value \(s_3(x_4)\) is {@dispdp(ev(S_s3, x=X[4]),2)@}. It should be equal to the data value {@'f_4=Y[4]@}.]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>7</name>
+        <description>s3''(x4)=0?</description>
+        <answertest>NumAbsolute</answertest>
+        <sans>at(diff(S_s3,x,2),x=X[4])</sans>
+        <tans>0</tans>
+        <testoptions>0.01</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>8</truenextnode>
+        <trueanswernote>s1-8-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>8</falsenextnode>
+        <falseanswernote>s1-8-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<br>The curvature \(s''_3(x_4)\) is {@dispsf(at(diff(S_s3,x,2),x=X[4]),4)@}. Should be zero for a natural spline.]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>8</name>
+        <description>s1''(x2)=s2''(x2)?</description>
+        <answertest>NumAbsolute</answertest>
+        <sans>at(diff(s1(x),x,2),x=X[2])</sans>
+        <tans>at(diff(s2(x),x,2),x=X[2])</tans>
+        <testoptions>0.01</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>9</truenextnode>
+        <trueanswernote>s1-9-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>9</falsenextnode>
+        <falseanswernote>s1-9-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<br>The curvatures \(s''_1(x_2)={@dispsf(at(diff(S_s1,x,2),x=X[2]),4)@}\) and \(s''_2(x_2)={@dispsf(at(diff(S_s2,x,2),x=X[2]),4)@}\) do not coincide.]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>9</name>
+        <description>s2''(x3)=s3''(x3)?</description>
+        <answertest>NumAbsolute</answertest>
+        <sans>at(diff(s2(x),x,2),x=X[3])</sans>
+        <tans>at(diff(s3(x),x,2),x=X[3])</tans>
+        <testoptions>0.01</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>10</truenextnode>
+        <trueanswernote>s1-10-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>10</falsenextnode>
+        <falseanswernote>s1-10-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<br>The curvatures \(s''_2(x_3)={@dispsf(at(diff(S_s2,x,2),x=X[3]),4)@}\) and \(s''_3(x_3)={@dispsf(at(diff(S_s3,x,2),x=X[3]),4)@}\) do not coincide.]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1714307211</deployedseed>
+    <deployedseed>1919839395</deployedseed>
+    <deployedseed>803610062</deployedseed>
+    <deployedseed>376079144</deployedseed>
+    <deployedseed>1144649887</deployedseed>
+    <deployedseed>403376843</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>S_s1</name>
+        <value>s1(x)</value>
+      </testinput>
+      <testinput>
+        <name>S_s2</name>
+        <value>s2(x)</value>
+      </testinput>
+      <testinput>
+        <name>S_s3</name>
+        <value>s3(x)</value>
+      </testinput>
+      <expected>
+        <name>s1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>s1-15-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

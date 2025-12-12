@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="multichoice">
+    <name>
+      <text>35.1.4.1 Complement, empty set exercise (exercise 1)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>Given a set \(A\), its complement \(A'\) and a universal set \(S\), which of the following expressions are true?</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p dir="ltr" style="text-align: left;">The complement set \(A'\) consists of all elements in the universal set that are not in set \(A\), so \(A \cup A' = S\) and \(A \cap A' = \emptyset\). Also, the subset sequence \(\emptyset \subset A \subset S\) means means that a union between any pair equates to the larger set, \(A \cup \emptyset = A\), and an intersection equates to the smaller set, \(A \cap S = A\).</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <single>false</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>none</answernumbering>
+    <showstandardinstruction>1</showstandardinstruction>
+    <correctfeedback format="html">
+      <text>Your answer is correct.</text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="html">
+      <text>Your answer is partially correct.</text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="html">
+      <text>Your answer is incorrect.</text>
+    </incorrectfeedback>
+    <shownumcorrect/>
+    <answer fraction="20" format="html">
+      <text><![CDATA[<p>\(A \cup A' = S\)</p>]]></text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="20" format="html">
+      <text><![CDATA[<p>\(A \cap A' = \emptyset\)</p>]]></text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="-5" format="html">
+      <text><![CDATA[<p>\(A \cap A' = S\)</p>]]></text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="20" format="html">
+      <text><![CDATA[<p>\(A \cup \emptyset = A \)</p>]]></text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="-5" format="html">
+      <text><![CDATA[<p>\(A \cup \emptyset = \emptyset\)</p>]]></text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="-5" format="html">
+      <text><![CDATA[<p>\(A \cap \emptyset = A\)</p>]]></text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="20" format="html">
+      <text><![CDATA[<p>\(A \cap \emptyset = \emptyset\)</p>]]></text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="20" format="html">
+      <text><![CDATA[<p>\(A \cup S = S \)</p>]]></text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+  </question>
+</quiz>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="gapselect">
+    <name>
+      <text>2.5.1.5 The linear function: task 1</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise </p>
+<p>Considering the line \(L\): \(y=ax+b\).</p> <br>
+<p>Changing the value of \(b\) results in a line [[2]].</p>
+<p>Changing the value of \(a\) results in a line [[3]].</p>
+
+<p><br></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>The value of \(a\) gives the gradient of the line and changing it has the possibility of making a line perpendicular to \(L\) (can you recall what we would need to change it to?). However this would not be the case for every value. Changing the value of \(a\) will always leave the \(y\)-intercept unchanged since we get this by evaluating at \(x=0\).<br></p><p>In a similar way, if we only change the value of \(b\) then the we change the \(y\)-intercept but not the gradient. We can imagine this as sliding the line up or down the \(y\)-axis and the result will always be parallel to \(L\).&nbsp;</p><p>&nbsp;</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <shuffleanswers>0</shuffleanswers>
+    <correctfeedback format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </incorrectfeedback>
+    <shownumcorrect/>
+    <selectoption>
+      <text>which is perpendicular to L</text>
+      <group>1</group>
+    </selectoption>
+    <selectoption>
+      <text>which is parallel to L</text>
+      <group>1</group>
+    </selectoption>
+    <selectoption>
+      <text>with the same y-intercept as L</text>
+      <group>1</group>
+    </selectoption>
+  </question>
+</quiz>

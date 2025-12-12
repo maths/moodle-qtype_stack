@@ -1,0 +1,100 @@
+{
+    "quiz": {
+        "name": "11_7 Implicit Differentiation",
+        "intro": "This Section introduces implicit differentiation which is used to differentiate functions expressed in implicit form (where the variables are found together). Examples are \\(x^3 + xy + y^2 = 1\\), and \\( \\dfrac{x^2}{a^2} + \\dfrac{y^2}{b^2} = 1 \\) which represents an ellipse.",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Implicit to explicit",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "3",
+            "heading": "Implicit differentiation examples",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "8",
+            "heading": "Second order implicit differentiation",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-11-7\/11-7-1a-imp-to-exp.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-11-7\/11-7-1b-circle-example.xml"
+        },
+        {
+            "slot": "3",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-11-7\/11-7-2-Differentiation-of-implicit-functions.xml"
+        },
+        {
+            "slot": "4",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-11-7\/11-7-2-task.xml"
+        },
+        {
+            "slot": "5",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-11-7\/11-7-2a-first-imp-derivative.xml"
+        },
+        {
+            "slot": "6",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-11-7\/11-7-2b-first-imp-derivative.xml"
+        },
+        {
+            "slot": "7",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-11-7\/11-7-2c-first-imp-derivative.xml"
+        },
+        {
+            "slot": "8",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-11-7\/11-7-3-Second-order-imp-diff.xml"
+        },
+        {
+            "slot": "9",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-11-7\/11-7-3-Beam-Curvature.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

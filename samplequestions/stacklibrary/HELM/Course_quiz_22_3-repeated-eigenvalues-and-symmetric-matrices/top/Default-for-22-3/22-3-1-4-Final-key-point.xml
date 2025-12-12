@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>22.3.1.4 Final key point</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p>An \(n\times n\) matrix with repeated eigenvalues can be diagonalized provided we can obtain \(n\) linearly independent eigenvectors for it. This will be the case if, for each repeated eigenvalue \(\lambda_i\), of multiplicity \(m_i&gt;1\), we can obtain \(m_i\) linearly independent eigenvectors.</p>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

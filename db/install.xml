@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="question/type/stack/db" VERSION="20240324" COMMENT="XMLDB file for Moodle question/type/stack"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:noNamespaceSchemaLocation="../../../../lib/xmldb/xmldb.xsd"
+<XMLDB PATH="question/type/stack/db" VERSION="20251212" COMMENT="XMLDB file for Moodle question/type/stack"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../../lib/xmldb/xmldb.xsd"
 >
   <TABLES>
     <TABLE NAME="qtype_stack_options" COMMENT="Stores the main options for each Stack question">
@@ -10,6 +10,7 @@
         <FIELD NAME="questionid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Foreign key link to question.id"/>
         <FIELD NAME="stackversion" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="The version of the STACK plugin on which this question was authored."/>
         <FIELD NAME="isbroken" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Has this question been saved in a broken state."/>
+        <FIELD NAME="metadata" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="Question metadata in JSON format."/>
         <FIELD NAME="questionvariables" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Maxima code that is run when the question is started to initialise variables."/>
         <FIELD NAME="specificfeedback" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="CAS text for the specific feedback for the question."/>
         <FIELD NAME="specificfeedbackformat" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The FORMAT_... for the specific feedback"/>

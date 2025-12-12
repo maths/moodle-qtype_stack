@@ -255,6 +255,10 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      * @var bool is this question marked as broken.
      */
     public $isbroken = false;
+    /**
+     * @var string The question metadata in JSON form.
+     */
+    public $metadata = '';
 
     /**
      * Make sure the cache is valid for the current response. If not, clear it.

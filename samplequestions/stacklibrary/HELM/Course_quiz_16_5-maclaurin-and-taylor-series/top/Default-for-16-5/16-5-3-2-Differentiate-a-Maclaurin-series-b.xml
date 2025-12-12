@@ -2,7 +2,7 @@
 <quiz>
   <question type="stack">
     <name>
-      <text>16.5.3.2 Differentiate a Maclaurin Series</text>
+      <text>16.5.3.2 Differentiate a Maclaurin series-b</text>
     </name>
     <questiontext format="html">
       <text><![CDATA[<p>Find the Maclaurin expansion of \(\displaystyle {@ff@}\) and state its radius of convergence.</p>

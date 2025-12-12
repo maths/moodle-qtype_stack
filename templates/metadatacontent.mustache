@@ -29,11 +29,11 @@
     </div>
     {{#creator}}
         <div class="row">
-            <div class="col-lg-2">{{#str}} creator, qtype_stack {{/str}}</div>
+            <div class="col-md-2">{{#str}} creator, qtype_stack {{/str}}</div>
             <div class="col-2 inputcol">{{#firstname}}{{> core_form/element-text-inline }}{{/firstname}}</div>
             <div class="col-2 inputcol">{{#lastname}}{{> core_form/element-text-inline }}{{/lastname}}</div>
             <div class="col-3 inputcol">{{#institution}}{{> core_form/element-text-inline }}{{/institution}}</div>
-            <div class="col-1 inputcol">{{#year}}{{> core_form/element-text-inline }}{{/year}}</div>
+            <div class="col-2 col-lg-1 inputcol">{{#year}}{{>qtype_stack/metadatayear}}{{/year}}</div>
         </div>
     {{/creator}}
     {{#contributor}}

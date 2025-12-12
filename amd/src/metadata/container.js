@@ -34,6 +34,7 @@ export default class extends BaseComponent {
             UPDATEINPUTS: `#stack-metadata-update-inputs`,
             ADDITEM: `[name="smd_add"]`,
         };
+        metadata.container = this;
     }
 
     /**
@@ -103,7 +104,6 @@ export default class extends BaseComponent {
         data.license.element.noselectionstring = '';
         data.license.element.showsuggestions = 'true';
         data.license.element.casesensitive = 'false';
-        console.table(data);
         state.language.forEach(language => {
             const element = { id: language.id, lang: this.createDataElement(true, language.id, 'language_value', language.value) };
             data.language.push({...element});
@@ -157,6 +157,7 @@ export default class extends BaseComponent {
             }
         };
 
+        document.querySelector('input[name="metadata"]').value = JSON.stringify(state, metadata.replacer);
         // To render a child component we need a container.
         const metadataContainer = this.getElement(this.selectors.METADATACONTAINER);
         if (!metadataContainer) {
@@ -188,23 +189,25 @@ export default class extends BaseComponent {
      * Our submit handler.
      *
      */
-    update() {
+    async update() {
         const requiredElements = this.getElements('#qtype-stack-metadata-content input[aria-required="true"]');
         let isError = false;
         for (const element of requiredElements) {
             if (element.value === '') {
-                notifyFieldValidationFailure(element, 'Required');
                 isError = true;
+                notifyFieldValidationFailure(element, 'Required');
             } else if (element.classList.contains('is-invalid')) {
+                // Reset as no longer empty.
                 notifyFieldValidationFailure(element, '');
             }
         }
         if (isError) {
-            return;
+            return false;
         }
         let inputElements = this.getElements('#qtype-stack-metadata-content [id^="smdi"]');
         inputElements = Array.from(inputElements).map((el) => [el.id, el.value]);
-        this.reactive.dispatch('updateAll', inputElements);
+        await this.reactive.dispatch('updateAll', inputElements);
+        return true;
     }
 
     addItem(event) {
@@ -213,7 +216,9 @@ export default class extends BaseComponent {
     }
 
     updateInputs() {
-        const data = metadata.jsonToState(this.getElement('#id_metadata_json').value);
+        let jsonElement = this.getElement('#id_metadata_json');
+        const data = metadata.jsonToState(jsonElement.value);
+        jsonElement.value = JSON.stringify(data, metadata.replacer, 4);
         this.reactive.dispatch('updateFromJson', data);
     }
 }

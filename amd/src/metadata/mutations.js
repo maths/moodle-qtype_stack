@@ -76,7 +76,7 @@ class Mutations {
                     firstName: "",
                     lastName: "",
                     institution: "",
-                    year: 2025
+                    year: String(new Date().getFullYear())
                 };
                 break;
             case 'scope':
@@ -101,8 +101,12 @@ class Mutations {
             default:
         }
         const keys = Array.from(state[addCategory]);
-        keys.sort((a, b) => b[0] - a[0]);
-        newItem.id = 1 + parseInt(keys[0][0]);
+        if (keys.length === 0) {
+            newItem.id = 1;
+        } else {
+            keys.sort((a, b) => b[0] - a[0]);
+            newItem.id = 1 + parseInt(keys[0][0]);
+        }
         stateManager.setReadOnly(false);
         state[addCategory].add(newItem);
         stateManager.setReadOnly(true);

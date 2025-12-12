@@ -29,6 +29,13 @@ import {metadata} from 'qtype_stack/metadata/metadata';
 export class MetadataModal extends Modal {
     static TYPE = "qtype_stack/metadatamodal";
     static TEMPLATE = "qtype_stack/metadatamodal";
+
+    async hide() {
+        const result = await metadata.container.update();
+        if (result) {
+            super.hide();
+        }
+    }
 }
 
 let registered = false;
@@ -53,6 +60,6 @@ async function openModal() {
             type: MetadataModal.TYPE,
         });
     }
-
     modal.show();
 }
+

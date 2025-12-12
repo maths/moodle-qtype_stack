@@ -50,17 +50,4 @@ class metadatamodal implements renderable, templatable {
         $PAGE->requires->js_call_amd('qtype_stack/metadata/metadatamodal', 'init');
     }
 
-    /**
-     * Export this data so it can be used as the context for a mustache template.
-     * Initial data shown.
-     *
-     * @param renderer_base $output
-     * @return stdClass
-     */
-    public function export_for_template(renderer_base $output) {
-
-        $data = ['haspeople' => true, 'people' => ['name' => 'bob']];
-
-        return $data;
-    }
 }

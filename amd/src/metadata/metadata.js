@@ -38,6 +38,8 @@ class StackMetadata extends Reactive {
         defaultlicense: 'unknown',
     };
 
+    container = null;
+
     loadState() {
         let metadata = document.querySelector('input[name="metadata"]');
         this.lib = JSON.parse(metadata.dataset.lib);
@@ -46,7 +48,6 @@ class StackMetadata extends Reactive {
         this.lib.languages = languages.difference(new Set([null, undefined, ""]));
         this.lib.languages = Array.from(this.lib.languages);
         metadata = this.jsonToState(metadata?.value);
-        console.log(metadata);
         this.setInitialState(metadata);
     }
 
@@ -99,40 +100,36 @@ class StackMetadata extends Reactive {
         data = JSON.parse(data, this.reviver);
         const fields = ['creator', 'contributor', 'language', 'license', 'isPartOf', 'additional'];
         data = this.stripFields(data, fields);
+        const creatorFields = ['firstName', 'lastName', 'institution', 'year'];
         const contribFields = ['id', 'firstName', 'lastName', 'institution', 'year'];
         const additionalFields = ['id', 'scope', 'property', 'qualifier', 'value'];
         const standardFields = ['id', 'value'];
 
-        for (const field of fields) {
-            switch (field) {
-                case 'creator':
-                    data.creator = this.tidyObject(data.creator, contribFields);
-                    break;
-                case 'contributor':
-                    data.contributor = (Array.isArray(data.contributor)) ? data.contributor : [];
-                    for (let contrib in data.contributor) {
-                        contrib = this.tidyObject(contrib, contribFields);
-                    }
-                    break;
-                case 'language':
-                    data.language = (Array.isArray(data.language)) ? data.language : [];
-                    for (let lang of data.language) {
-                        lang = this.tidyObject(lang, standardFields);
-                    }
-                    break;
-                case 'isPartOf':
-                case 'license':
-                    data[field] = this.tidyObject(data[field], standardFields);
-                    break;
-                case 'additional':
-                    data.additional = (Array.isArray(data.additional)) ? data.additional : [];
-                    for (let addInfo in data.additional) {
-                        addInfo = this.tidyObject(addInfo, additionalFields);
-                    }
-                    break;
-                default:
-            }
+        data.creator = this.tidyObject(data.creator, creatorFields);
+        data.contributor = (Array.isArray(data.contributor)) ? data.contributor : [];
+        const contribHolder = [];
+        for (let contrib in data.contributor) {
+            contrib = this.tidyObject(contrib, contribFields);
+            contribHolder.push(contrib);
         }
+        data.contributor = contribHolder;
+        data.language = (Array.isArray(data.language)) ? data.language : [];
+        const langHolder = [];
+        for (let lang of data.language) {
+            lang = this.tidyObject(lang, standardFields);
+            langHolder.push(lang);
+        }
+        data.language = langHolder;
+        data.isPartOf = this.tidyObject(data.isPartOf, standardFields);
+        data.license = this.tidyObject(data.license, standardFields);
+        data.additional = (Array.isArray(data.additional)) ? data.additional : [];
+        const addHolder = [];
+        for (let addInfo in data.additional) {
+            addInfo = this.tidyObject(addInfo, additionalFields);
+            addHolder.push(addInfo);
+        }
+        data.additional = addHolder;
+
         return data;
     }
 
@@ -147,7 +144,7 @@ class StackMetadata extends Reactive {
     }
 
     addFields(obj, fields) {
-        for (const field in fields) {
+        for (const field of fields) {
             if (!Object.hasOwn(obj, field)) {
                 obj[field] = '';
             } else {

@@ -1046,8 +1046,8 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
         ex:ev(ex, lg=logbasesimp),
     lvs: listofvars(%_ce_rem(ex)),
     lvs: sublist(lvs, lambda([ex], not(ex = discrete or ex = parametric or ex = minus or ex = plus))),
-    if length(lvs)>1 then
-       error("Plot error: Can't create a plot with more than one variable, whereas you have: \\(",string(lvs),"\\)"),
+    if length(lvs)>2 then
+       error("Plot error: Can't create a plot with more than two variables, whereas you have: \\(",string(lvs),"\\)"),
     /*********************/
     /* Sort out alt-text */
     kill(alt),

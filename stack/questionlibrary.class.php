@@ -43,6 +43,7 @@ class stack_question_library {
      * @return string HTML render of question text
      */
     public static function render_question(object $question): string {
+        global $CFG;
         StackSeedHelper::initialize_seed($question, null);
 
         // Handle Pluginfiles.
@@ -100,6 +101,10 @@ class stack_question_library {
             $questiontext = str_replace("[[validation:{$name}]]",
                 '',
                 $questiontext);
+        }
+
+        foreach ($plots as $original => $new) {
+            $questiontext = str_replace($original, $CFG->wwwroot . '/question/type/stack/plot.php/' . $new, $questiontext);
         }
 
         return '<div class="formulation">' . $questiontext . '</div>';

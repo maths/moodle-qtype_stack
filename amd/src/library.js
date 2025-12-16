@@ -172,7 +172,7 @@ define([
                         if (currentQuestion.isstack) {
                             importListDiv.innerHTML += '<br>' + '<a target="_blank" href="'
                                 + currentDashLink + '">' + currentQuestion.questionname + '</a>';
-                        } else if (filepath.endsWith('_quiz.json')) {
+                        } else if (currentQuestion.filename.endsWith('_quiz.json')) {
                             importListDiv.innerHTML += '<br>' + '<a target="_blank" href="'
                                 + quizLink + '?id=' + currentQuestion.questionid + '">'
                                 + currentQuestion.questionname + '</a>';

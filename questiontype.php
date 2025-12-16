@@ -157,9 +157,18 @@ class qtype_stack extends question_type {
                     }
                 }
                 break;
-                // Ideally importasversion would handle notice/errors messages.
-                // That would allow us to show validation messages in Gitsync
-                // and when importing as new.
+            case 'question-bank-importasversion-import':
+                $throwexceptions = false;
+                $result = new \StdClass();
+                if (!empty($fromform->validationerrors)) {
+                    $result->notice = $fromform->validationerrors;
+                    $dashboardlink = new moodle_url('/question/type/stack/questiontestrun.php', ['questionid' => $fromform->id]);
+                    $result->notice = html_writer::link(
+                        $dashboardlink,
+                        $fromform->name
+                    ) . '<br>' . $result->notice;
+                }
+                break;
             default:
                 // Edit page and everything else should behave as before.
                 $result = null;

@@ -1,34 +1,35 @@
 # The STACK question library
 
-STACK is distributed with a large library of sample questions in
+STACK is distributed with a library of over 4200 questions.
 
-     /qtype_stack/samplequestions
+* Examples are tied to documentation and to demonstrate features.
+* Templates for particular types of problems, e.g. drag and drop Parsons proofs
+* Collections of questions for particular groups of students, e.g. engineering students.
 
-The sample questions are in English.
+Individual question files can be imported via the STACK library page. 
 
-# STACK library # 
+1. Create a new STACK question in your required question category. 
+2. On the question edit form click on the 'STACK question library' link. You can then browse and import questions.
 
-This is a collection of individual question files which can be imported via the STACK library page. Begin creating a new STACK question in your required question category. On the question edit form, rather than entering question data, click on the 'STACK question library' link. You can then browse and import questions.
-
-The questions are contained in the STACK source code
+The question files are contained in the STACK source code under
 
      /qtype_stack/samplequestions/stacklibrary
 
 This directory contains sub-directories with large libraries of questions, some of which arose from specific projects:
 
 * `HELM` provides [comprehensive workbooks for engineering undergraduates](HELM.md).  Question numbers are linked to the original workbooks.
-* `Algebra-Refresher` contains elemntary algebra questions to cover all parts of the [The Map of Algebraic Manipulation](Algebra_refresher.md). Question numbers are linked to the map.
+* `Algebra-Refresher` contains elementary algebra questions to cover all parts of the [The Map of Algebraic Manipulation](Algebra_refresher.md). Question numbers are linked to the map.
 * `Calculus-Refresher` contains questions to cover all of the [Calculus Refresher](https://docs.stack-assessment.org/static/final0502-calc-ref-ukmlsc.pdf) by Dr Tony Croft and Dr Anthony Kay.
-* `Doc-Examples` contains questions linked to documentation pages.  These are not intended as exemplar questions!  (They may be incomplete, and illustrate a starting point for an exercise for question authors to complete.) This is split by documentation section.
-* `Features` contains questions to illustrate the features of STACK such as different input types.  These are intended as exemplar questions.
 * `Introductory-Mathematics` is a comprehensive course of mathematics questions for students at the upper level of school or the transition to university. 
-* `Templates` contains questions which are templates for question authors to use. They should require a small amount of editing to make them into a complete tailored question.
 * `Topics` contains questions on a variety of mathematical topics.
 
-We would encourage colleagues to release their materials under a creative commons licence.  Please contact the developers.
+The following directories are linked to documentation and templates
+
+* `Doc-Examples` contains questions linked to documentation pages.  These are not intended as exemplar questions!  (They may be incomplete, and illustrate a starting point for an exercise for question authors to complete.) This is split by documentation section.
+* `Features` contains questions to illustrate the features of STACK such as different input types.  These are intended as exemplar questions.
+* `Templates` contains questions which are templates for question authors to use. They should require a small amount of editing to make them into a complete tailored question.
 
 A significant advantage of using questions from the STACK library is that they are distributed with the source code, and therefore use features which match your version of STACK.  Consider using [Gitsync](https://github.com/maths/moodle-qbank_gitsync) to manage large question banks.
-
 
 # Moodle courses released with STACK #
 

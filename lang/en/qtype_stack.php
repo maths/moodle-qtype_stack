@@ -471,7 +471,7 @@ $string['settingcaspreparse_true'] = 'Always preparse';
 $string['settingcaspreparse_false'] = 'Do not preparse (not recommended)';
 $string['settingdefaultinputoptions'] = 'Default input options';
 $string['settingdefaultinputoptions_desc'] = 'Used when creating a new question, or adding a new input to an existing question.';
-$string['settingdefaultquestionoptions'] = 'Default input options';
+$string['settingdefaultquestionoptions'] = 'Default question options';
 $string['settingdefaultquestionoptions_desc'] = 'Used when creating a new question.';
 $string['settingmathsdisplay'] = 'Maths filter';
 $string['settingmathsdisplay_mathjax'] = 'MathJax';
@@ -622,6 +622,8 @@ $string['exportthisquestion'] = '<i class="fa fa-download"></i> Export as Moodle
 $string['exportthisquestion_help'] = 'This will create a Moodle XML export file containing just this one question. One example of when this is useful if you think this question demonstrates a bug in STACK that you would like to report to the developers.';
 $string['tidyquestion'] = '<i class="fa fa-sort-amount-asc"></i> Tidy inputs and PRTs';
 $string['sendgeneralfeedback'] = '<i class="fa fa-file-text"></i> Send general feedback to the CAS';
+$string['editxml'] = '<i class="fa fa-align-left"></i> Edit question XML';
+$string['reloadsavedXML'] = '<i class="fa fa-rotate-left"></i> Reload saved version of question';
 $string['seetodolist'] = '<i class="fa fa-exclamation-triangle"></i> Find <tt>[[todo]]</tt> blocks';
 $string['seetodolist_desc'] = 'The purpose of this page is to find all questions containing <tt>[[todo]]</tt> blocks and to group them by any tags. Questions that have been marked as broken will also be found and displayed.';
 $string['seetodolist_help'] = 'Clicking on the question name takes you to the dashboard.  You can also preview the question.';
@@ -640,7 +642,7 @@ $string['analyzeresponsesnotes'] = "Note, (1) all the students' answers for each
 $string['splitsummary'] = 'Split summary';
 $string['variants'] = 'Variants';
 
-$string['importwillfail'] = 'Import will fail.';
+$string['importwillfail'] = 'This question cannot be saved or imported in its current state.';
 $string['noroots'] = 'The graph of this PRT has no roots. Does it have nodes?';
 $string['structuralproblem'] = 'The PRT structure is malformed.';
 $string['missingnextnode'] = 'The PRT structure is malformed. {$a->type} next node for PRT {$a->prt} node {$a->node} is invalid. It has been set to stop.';
@@ -666,6 +668,11 @@ $string['chattitle'] = 'Test the connection to the CAS';
 $string['clearedthecache'] = 'CAS cached has been cleared.';
 $string['clearingcachefiles'] = 'Clearing cached STACK plot files {$a->done}/{$a->total}';
 $string['clearthecache'] = 'Clear the cache';
+$string['editxmlintro'] = 'You can edit the XML of the question here and then save it as a new version of the question. Validation failures will result in a a warning being displayed and the saved question will be marked as broken (i.e. the <code>&lt;isbroken&gt;</code> tag will be set to 1). Serious issues with node layout may prevent the question from being saved. Missing question parts or invalid values are likely to cause an error. In most cases, you should see an error message and receive a warning that the question has not been saved. You can then edit your changes and try again. With great power comes great responsibility, however. If you are not careful with your XML, you will encounter issues and obscure error messages that you are protected from when using the normal question edit form. Please save frequently and/ or edit your question in another application to avoid losing work.';
+$string['editxmltitle'] = 'Edit question XML';
+$string['editxmlquestion'] = 'Question XML';
+$string['editxmlbutton'] = 'Save as new version and continue editing';
+$string['xmldisplayerror'] = ' There was a problem displaying the XML.';
 $string['healthcheck'] = 'STACK healthcheck';
 $string['healthcheck_desc'] = 'The <a href="{$a->link}">healthcheck script</a> helps you verify that all aspects of STACK are working properly.';
 $string['healthcheckcache_db'] = 'CAS results are being cached in the database.';

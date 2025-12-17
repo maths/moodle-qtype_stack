@@ -24,10 +24,10 @@
 
 namespace api\controller;
 defined('MOODLE_INTERNAL') || die();
-require_once(__DIR__ . '/../dtos/StackRenderResponse.php');
+require_once(__DIR__ . '/../dtos/StackDiffResponse.php');
 require_once(__DIR__ . '/../util/StackQuestionLoader.php');
 
-use api\dtos\StackRenderResponse;
+use api\dtos\StackDiffResponse;
 use api\util\StackQuestionLoader;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -39,11 +39,11 @@ class DiffController {
         // TO-DO: Validate.
         $data = $request->getParsedBody();
 
-        $renderresponse = new StackRenderResponse();
+        $diffresponse = new StackDiffResponse();
         $diff = StackQuestionLoader::detect_differences($data["questionDefinition"]);
-        $renderresponse->diff = $diff;
+        $diffresponse->diff = $diff;
 
-        $response->getBody()->write(json_encode($renderresponse));
+        $response->getBody()->write(json_encode($diffresponse));
         return $response->withHeader('Content-Type', 'application/json');
     }
 }

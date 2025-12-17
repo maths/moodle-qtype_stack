@@ -121,7 +121,7 @@ class StackQuestionLoader {
         // Use (array) because isset($xmldata->question->defaultgrade) returns true if the element is empty and
         // empty() returns true if element is 0. Casting to array returns [] and [0] which return false and true respectively.
         $question->defaultmark = (array) $xmldata->question->defaultgrade ? (float) $xmldata->question->defaultgrade :
-            self::get_default('question', 'defaultgrade', 1.0);
+            self::get_default('question', 'defaultgrade', 1);
         $question->penalty = (array) $xmldata->question->penalty ? (float) $xmldata->question->penalty :
             self::get_default('question', 'penalty', 0.1);
 
@@ -164,7 +164,7 @@ class StackQuestionLoader {
                 self::get_default(
                     'question',
                     'prtcorrect',
-                    get_string('defaultprtcorrectfeedback', 'qtype_stack', null)
+                    get_config('qtype_stack', 'prtcorrect')
                 );
             $question->prtcorrectformat = self::get_default('question', 'prtcorrectformat', 'html');
         }
@@ -179,7 +179,7 @@ class StackQuestionLoader {
                 self::get_default(
                     'question',
                     'prtpartiallycorrect',
-                    get_string('defaultprtpartiallycorrectfeedback', 'qtype_stack', null)
+                    get_config('qtype_stack', 'prtpartiallycorrect')
                 );
             $question->prtpartiallycorrectformat =
                 self::get_default('question', 'prtpartiallycorrectformat', 'html');
@@ -195,7 +195,7 @@ class StackQuestionLoader {
                 self::get_default(
                     'question',
                     'prtincorrect',
-                    get_string('defaultprtincorrectfeedback', 'qtype_stack', null)
+                    get_config('qtype_stack', 'prtincorrect')
                 );
             $question->prtincorrectformat =
                 self::get_default('question', 'prtincorrectformat', 'html');
@@ -633,7 +633,7 @@ class StackQuestionLoader {
         // Name is a special case. Has text tag but no format.
         $name = (string) $xml->question->name ? (string) $xml->question->name : self::get_default('question', 'name', 'Default');
         $xml->question->name = new SimpleXMLElement('<root></root>');
-        $xml->question->name->addChild('text', $name);
+        $xml->question->name->text = $name;
         return $xml;
     }
 

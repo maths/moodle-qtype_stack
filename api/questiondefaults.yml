@@ -9,7 +9,7 @@ question:
   penalty: '0.1'
   hidden: '0'
   idnumber: ''
-  stackversion: '2025042500'
+  stackversion: '2025102200'
   questionvariables: 'ta1:1;'
   specificfeedback: '<p>[[feedback:prt1]]</p>'
   specificfeedbackformat: html

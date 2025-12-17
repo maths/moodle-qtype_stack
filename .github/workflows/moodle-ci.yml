@@ -8,7 +8,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres:15
+        image: postgres:16
         env:
           POSTGRES_USER: 'postgres'
           POSTGRES_HOST_AUTH_METHOD: 'trust'
@@ -126,6 +126,7 @@ jobs:
           moodle-plugin-ci add-plugin maths/moodle-qbehaviour_dfexplicitvaildate
           moodle-plugin-ci add-plugin maths/moodle-qbehaviour_dfcbmexplicitvaildate
           moodle-plugin-ci add-plugin maths/moodle-qbehaviour_adaptivemultipart
+          moodle-plugin-ci add-plugin maths/moodle-qbank_importasversion
 
           moodle-plugin-ci install --plugin ./plugin --db-host=127.0.0.1
 
@@ -158,6 +159,7 @@ jobs:
           moodle-plugin-ci add-plugin maths/moodle-qbehaviour_dfexplicitvaildate
           moodle-plugin-ci add-plugin maths/moodle-qbehaviour_dfcbmexplicitvaildate
           moodle-plugin-ci add-plugin maths/moodle-qbehaviour_adaptivemultipart
+          moodle-plugin-ci add-plugin maths/moodle-qbank_importasversion
 
           moodle-plugin-ci install --plugin ./plugin --db-host=127.0.0.1
 

@@ -50,16 +50,17 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         $this->assertEquals('test_3_matrix', $question->name);
         $this->assertEquals('<p><span class="correct">Correct answer, well done.</span></p>', $question->prtcorrect);
         $this->assertEquals('html', $question->prtcorrectformat);
-        $this->assertEquals('-1', $question->prts['prt1']->get_nodes_summary()[0]->truenextnode);
-        $this->assertEquals('1-0-T ', $question->prts['prt1']->get_nodes_summary()[0]->trueanswernote);
-        $this->assertEquals(10, $question->prts['prt1']->get_nodes_summary()[0]->truescore);
-        $this->assertEquals('=', $question->prts['prt1']->get_nodes_summary()[0]->truescoremode);
-        $this->assertEquals('1', $question->prts['prt1']->get_nodes_summary()[0]->falsenextnode);
-        $this->assertEquals('1-0-F', $question->prts['prt1']->get_nodes_summary()[0]->falseanswernote);
-        $this->assertEquals(0, $question->prts['prt1']->get_nodes_summary()[0]->falsescore);
-        $this->assertEquals('=', $question->prts['prt1']->get_nodes_summary()[0]->falsescoremode);
-        $this->assertEquals(true, $question->prts['prt1']->get_nodes_summary()[0]->quiet);
-        $this->assertEquals('ATAlgEquiv(ans1,TA)', $question->prts['prt1']->get_nodes_summary()[0]->answertest);
+        $nodesummary = $question->prts['prt1']->get_nodes_summary()[0];
+        $this->assertEquals('-1', $nodesummary->truenextnode);
+        $this->assertEquals('1-0-T ', $nodesummary->trueanswernote);
+        $this->assertEquals(10, $nodesummary->truescore);
+        $this->assertEquals('=', $nodesummary->truescoremode);
+        $this->assertEquals('1', $nodesummary->falsenextnode);
+        $this->assertEquals('1-0-F', $nodesummary->falseanswernote);
+        $this->assertEquals(0, $nodesummary->falsescore);
+        $this->assertEquals('=', $nodesummary->falsescoremode);
+        $this->assertEquals(true, $nodesummary->quiet);
+        $this->assertEquals('ATAlgEquiv(ans1,TA)', $nodesummary->answertest);
         $this->assertContains(86, $question->deployedseeds);
         $this->assertContains(219862533, $question->deployedseeds);
         $this->assertContains(1167893775, $question->deployedseeds);
@@ -67,11 +68,10 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
     }
 
     public function test_question_loader_use_defaults(): void {
-
-        global $CFG;
         $xml = stack_api_test_data::get_question_string('usedefaults');
         $ql = new StackQuestionLoader();
         $question = $ql->loadXML($xml)['question'];
+
         $this->assertEquals($question->options->get_option('decimals'), get_config('qtype_stack', 'decimals'));
         $this->assertEquals(
             $question->options->get_option('scientificnotation'),
@@ -140,18 +140,91 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         $xml = stack_api_test_data::get_question_string('empty');
         $question = StackQuestionLoader::loadXML($xml)['question'];
         $this->assertEquals('Default', $question->name);
-        $this->assertEquals('Correct answer, well done.', $question->prtcorrect);
+        $this->assertEquals(
+            '<p>Default question</p><p>[[input:ans1]] [[validation:ans1]]</p>',
+            $question->questiontext
+        );
+        $this->assertEquals('html', $question->questiontextformat);
+        $this->assertEquals(
+            '',
+            $question->generalfeedback
+        );
+        $this->assertEquals('html', $question->generalfeedbackformat);
+        $this->assertEquals(
+            '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            $question->prtcorrect
+        );
         $this->assertEquals('html', $question->prtcorrectformat);
-        $this->assertEquals('-1', $question->prts['prt1']->get_nodes_summary()[0]->truenextnode);
-        $this->assertEquals('prt1-1-T', $question->prts['prt1']->get_nodes_summary()[0]->trueanswernote);
-        $this->assertEquals(1, $question->prts['prt1']->get_nodes_summary()[0]->truescore);
-        $this->assertEquals('=', $question->prts['prt1']->get_nodes_summary()[0]->truescoremode);
-        $this->assertEquals('-1', $question->prts['prt1']->get_nodes_summary()[0]->falsenextnode);
-        $this->assertEquals('prt1-1-F', $question->prts['prt1']->get_nodes_summary()[0]->falseanswernote);
-        $this->assertEquals(0, $question->prts['prt1']->get_nodes_summary()[0]->falsescore);
-        $this->assertEquals('=', $question->prts['prt1']->get_nodes_summary()[0]->falsescoremode);
-        $this->assertEquals(false, $question->prts['prt1']->get_nodes_summary()[0]->quiet);
-        $this->assertEquals('ATAlgEquiv(ans1,ta1)', $question->prts['prt1']->get_nodes_summary()[0]->answertest);
+        $this->assertEquals(
+            '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.',
+            $question->prtpartiallycorrect
+        );
+        $this->assertEquals('html', $question->prtpartiallycorrectformat);
+        $this->assertEquals(
+            '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            $question->prtincorrect
+        );
+        $this->assertEquals('html', $question->prtincorrectformat);
+        $this->assertEquals(1, $question->defaultmark);
+        $this->assertEquals(0.1, $question->penalty);
+        if (isset($question->hidden)) {
+            // Moodle > 4.1.
+            $this->assertEquals(0, $question->hidden);
+        }
+        $this->assertEquals(
+            \get_config('qtype_stack', 'stackversion'),
+            $question->stackversion
+        );
+        $this->assertEquals(
+            'ta1:1;',
+            $question->questionvariables
+        );
+        $this->assertEquals(
+            '[[feedback:prt1]]',
+            $question->specificfeedback
+        );
+        $this->assertEquals('html', $question->specificfeedbackformat);
+        $this->assertEquals(
+            '{@ta1@}',
+            $question->questionnote
+        );
+        $this->assertEquals('html', $question->questionnoteformat);
+        $this->assertEquals(
+            '',
+            $question->questiondescription
+        );
+        $this->assertEquals('html', $question->questiondescriptionformat);
+
+        $this->assertEquals(\get_config('qtype_stack', 'decimals'), $question->options->get_option('decimals'));
+        $this->assertEquals(\get_config('qtype_stack', 'scientificnotation'), $question->options->get_option('scientificnotation'));
+        $this->assertEquals(\get_config('qtype_stack', 'assumepositive'), $question->options->get_option('assumepos'));
+        $this->assertEquals(\get_config('qtype_stack', 'assumereal'), $question->options->get_option('assumereal'));
+        $this->assertEquals(\get_config('qtype_stack', 'multiplicationsign'), $question->options->get_option('multiplicationsign'));
+        $this->assertEquals(\get_config('qtype_stack', 'sqrtsign'), $question->options->get_option('sqrtsign'));
+        $this->assertEquals(\get_config('qtype_stack', 'complexno'), $question->options->get_option('complexno'));
+        $this->assertEquals(\get_config('qtype_stack', 'logicsymbol'), $question->options->get_option('logicsymbol'));
+        $this->assertEquals(\get_config('qtype_stack', 'inversetrig'), $question->options->get_option('inversetrig'));
+        $this->assertEquals(\get_config('qtype_stack', 'matrixparens'), $question->options->get_option('matrixparens'));
+        $this->assertEquals(\get_config('qtype_stack', 'questionsimplify'), $question->options->get_option('simplify'));
+        $this->assertEquals(0, $question->isbroken);
+
+        $this->assertEquals(1, $question->prts['prt1']->get_value());
+        $this->assertEquals(1, $question->prts['prt1']->get_feedbackstyle());
+        $this->assertEquals('', $question->prts['prt1']->get_feedbackvariables_keyvals());
+
+        $nodesummary = $question->prts['prt1']->get_nodes_summary()[0];
+        $this->assertEquals('', $nodesummary->description);
+        $this->assertEquals('ATAlgEquiv(ans1,ta1)', $nodesummary->answertest);
+        $this->assertEquals(0, $nodesummary->quiet);
+        $this->assertEquals('-1', $nodesummary->truenextnode);
+        $this->assertEquals('prt1-1-T', $nodesummary->trueanswernote);
+        $this->assertEquals(1, $nodesummary->truescore);
+        $this->assertEquals('=', $nodesummary->truescoremode);
+        $this->assertEquals('-1', $nodesummary->falsenextnode);
+        $this->assertEquals('prt1-1-F', $nodesummary->falseanswernote);
+        $this->assertEquals(0, $nodesummary->falsescore);
+        $this->assertEquals('=', $nodesummary->falsescoremode);
+        $this->assertEquals(0, $nodesummary->quiet);
         $this->assertEquals($question->inputs['ans1']->get_parameter('mustVerify'), get_config('qtype_stack', 'inputmustverify'));
         $this->assertEquals(
             $question->inputs['ans1']->get_parameter('showValidation'),
@@ -458,8 +531,8 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
             "value: '2'\n    autosimplify: '1'\n    feedbackstyle: '1'\n    " .
             "node:\n      - name: '0'\n        answertest: AlgEquiv\n        " .
             "sans: ans1\n        tans: ta1\n        quiet: '1'\n  - name: prt2\n    " .
-            "value: '1.0000001'\n    autosimplify: '1'\n    feedbackstyle: '1'\n    node:\n      - name: '0'\n        " . "
-            answertest: AlgEquiv\n        sans: ans2\n        tans: ta2\n        quiet: '0'\n        falsescore: '1'\n" .
+            "value: '1.0000001'\n    autosimplify: '1'\n    feedbackstyle: '1'\n    node:\n      - name: '0'\n        " .
+            "answertest: AlgEquiv\n        sans: ans2\n        tans: ta2\n        quiet: '0'\n        falsescore: '1'\n" .
             "deployedseed:\n  - '1'\n  - '2'\n  - '3'\nqtest:\n  - testcase: '1'\n    description: 'A test'\n    " .
             "testinput:\n      - name: ans1\n      - name: ans2\n        value: ta2\n    expected:\n      - name: prt1" .
             "\n        expectedscore: '1.0000000'\n        expectedpenalty: '0.0000000'\n      " .

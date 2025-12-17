@@ -123,7 +123,7 @@ define([
                             );
                         });
                   }
-                rawDiv.innerHTML = response.questiontext;
+                rawDiv.innerText = response.questiontext;
                 descriptionDiv.innerHTML = response.questiondescription;
                 variablesDiv.innerHTML = response.questionvariables.replace(/;/g, ";<br>");
                 displayedDiv.innerHTML = response.questionname + '<br>(' + filepath.split('/').pop() + ')';

@@ -54,11 +54,6 @@ export default class extends BaseComponent {
             'click',
             this.delete
         );
-        this.addEventListener(
-            this.getElement(this.selectors.ADD),
-            'click',
-            this.addItem
-        );
     }
 
     delete(event) {

@@ -108,7 +108,7 @@ class StackMetadata extends Reactive {
         data.creator = this.tidyObject(data.creator, creatorFields);
         data.contributor = (Array.isArray(data.contributor)) ? data.contributor : [];
         const contribHolder = [];
-        for (let contrib in data.contributor) {
+        for (let contrib of data.contributor) {
             contrib = this.tidyObject(contrib, contribFields);
             contribHolder.push(contrib);
         }
@@ -124,7 +124,7 @@ class StackMetadata extends Reactive {
         data.license = this.tidyObject(data.license, standardFields);
         data.additional = (Array.isArray(data.additional)) ? data.additional : [];
         const addHolder = [];
-        for (let addInfo in data.additional) {
+        for (let addInfo of data.additional) {
             addInfo = this.tidyObject(addInfo, additionalFields);
             addHolder.push(addInfo);
         }

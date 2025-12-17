@@ -136,7 +136,7 @@ export default class extends BaseComponent {
                 name: scope,
                 firstProp: scopeHolder[scope][0].id,
                 properties: scopeHolder[scope],
-                input: this.createDataElement(true, scope, 'additional_scope', scope)
+                input: this.createDataElement(true, scopeHolder[scope][0].id, 'additional_scope', scope)
             };
             data.scope.push(current);
         }
@@ -206,6 +206,17 @@ export default class extends BaseComponent {
         }
         let inputElements = this.getElements('#qtype-stack-metadata-content [id^="smdi"]');
         inputElements = Array.from(inputElements).map((el) => [el.id, el.value]);
+        const scopeElements = inputElements.filter((el) => el[0].split('_')[4] === 'scope');
+        const propertyElements = inputElements.filter((el) => el[0].split('_')[4] === 'property');
+        let currentScope = null;
+        for (let i=1; i <= propertyElements.length; i++) {
+            let scopeMatch = scopeElements.find((el) => el[0].split('_')[2] === i);
+            if (scopeMatch) {
+                currentScope = scopeMatch;
+            } else {
+                inputElements.push(['smdi_' + i + '_additional_scope', currentScope]);
+            }
+        }
         await this.reactive.dispatch('updateAll', inputElements);
         return true;
     }

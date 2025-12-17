@@ -39,6 +39,7 @@ class Mutations {
             }
         }
         stateManager.setReadOnly(true);
+        console.log(state);
     }
 
     deleteRow(stateManager, property, id) {
@@ -119,6 +120,7 @@ class Mutations {
             state[prop] = data[prop];
         }
         stateManager.setReadOnly(true);
+        console.log(state);
     }
 }
 

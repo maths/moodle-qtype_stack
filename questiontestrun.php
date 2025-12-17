@@ -108,6 +108,8 @@ if (!is_null($seed)) {
 
 $slot = $quba->add_question($question, $question->defaultmark);
 $quba->start_question($slot);
+// Need to save question usage to allow display of files.
+question_engine::save_questions_usage_by_activity($quba);
 
 // Prepare the display options.
 $options = question_display_options();

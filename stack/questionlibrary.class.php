@@ -43,12 +43,30 @@ class stack_question_library {
      * @return string HTML render of question text
      */
     public static function render_question(object $question): string {
+        global $CFG;
         StackSeedHelper::initialize_seed($question, null);
 
         // Handle Pluginfiles.
         $storeprefix = uniqid();
         StackPlotReplacer::persist_plugin_files($question, $storeprefix);
-
+        switch ($question->questiontextformat) {
+            case 'html':
+                $format = FORMAT_HTML;
+                break;
+            case 'plain':
+                $format = FORMAT_PLAIN;
+                break;
+            case 'markdown':
+                $format = FORMAT_MARKDOWN;
+                break;
+            case 'moodle':
+                $format = FORMAT_MOODLE;
+                break;
+            default:
+                $format = $question->questiontextformat;
+                break;
+        }
+        $question->questiontextformat = $format;
         $question->initialise_question_from_seed();
 
         $question->castextprocessor = new \castext2_qa_processor(new \stack_outofcontext_process());
@@ -80,11 +98,6 @@ class stack_question_library {
         );
 
         StackPlotReplacer::replace_plots($plots, $questiontext, 'render', $storeprefix);
-        $formatoptions = new stdClass();
-        $formatoptions->noclean = true;
-        $formatoptions->para = false;
-        $formatoptions->allowid = true;
-        $questiontext = format_text($questiontext, FORMAT_HTML, $formatoptions);
 
         foreach ($question->inputs as $name => $input) {
             $tavalue = $question->get_ta_for_input($name);
@@ -101,6 +114,17 @@ class stack_question_library {
                 '',
                 $questiontext);
         }
+
+        foreach ($plots as $original => $new) {
+            $questiontext = str_replace($original, $CFG->wwwroot . '/question/type/stack/plot.php/' . $new, $questiontext);
+        }
+
+        $formatoptions = new stdClass();
+        $formatoptions->noclean = true;
+        $formatoptions->para = false;
+        $formatoptions->allowid = true;
+        $formatoptions->filter = true;
+        $questiontext = format_text($questiontext, FORMAT_HTML, $formatoptions);
 
         return '<div class="formulation">' . $questiontext . '</div>';
     }

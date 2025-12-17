@@ -531,8 +531,8 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
             "value: '2'\n    autosimplify: '1'\n    feedbackstyle: '1'\n    " .
             "node:\n      - name: '0'\n        answertest: AlgEquiv\n        " .
             "sans: ans1\n        tans: ta1\n        quiet: '1'\n  - name: prt2\n    " .
-            "value: '1.0000001'\n    autosimplify: '1'\n    feedbackstyle: '1'\n    node:\n      - name: '0'\n        " . "
-            answertest: AlgEquiv\n        sans: ans2\n        tans: ta2\n        quiet: '0'\n        falsescore: '1'\n" .
+            "value: '1.0000001'\n    autosimplify: '1'\n    feedbackstyle: '1'\n    node:\n      - name: '0'\n        " .
+            "answertest: AlgEquiv\n        sans: ans2\n        tans: ta2\n        quiet: '0'\n        falsescore: '1'\n" .
             "deployedseed:\n  - '1'\n  - '2'\n  - '3'\nqtest:\n  - testcase: '1'\n    description: 'A test'\n    " .
             "testinput:\n      - name: ans1\n      - name: ans2\n        value: ta2\n    expected:\n      - name: prt1" .
             "\n        expectedscore: '1.0000000'\n        expectedpenalty: '0.0000000'\n      " .

@@ -1937,7 +1937,7 @@ class qtype_stack extends question_type {
             unset($errors['name']);
             $errortext = '';
             foreach ($errors as $key => $error) {
-                $errortext .= $key . ': ' . $error . '<br />';
+                $errortext .= $key . ': ' . $error . ' <br />';
             }
             if (isset($errors['structuralerror'])) {
                 // Graph creation failed. If we import this question

@@ -267,6 +267,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $datalib->user->firstname = $USER->firstname;
         $datalib->user->lastname = $USER->lastname;
         $datalib->user->institution = $USER->institution;
+        $datalib->placeholder = stack_string('licenseselect');
         $datalib = json_encode($datalib);
         if (!isset($this->question->id)) {
             $data = '{"creator":{"firstName":"' . $USER->firstname . '","lastName":"' . $USER->lastname . '",' .

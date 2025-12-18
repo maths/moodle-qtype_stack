@@ -31,8 +31,10 @@ export class MetadataModal extends Modal {
     static TEMPLATE = "qtype_stack/metadatamodal";
 
     async hide() {
-        const result = await metadata.container.update();
+        const result = await metadata.container.update(true);
         if (result) {
+            console.log(metadata);
+            document.querySelector('input[name="metadata"]').value = JSON.stringify(metadata.state, metadata.replacer);
             super.hide();
         }
     }

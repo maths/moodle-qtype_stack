@@ -33,6 +33,10 @@ export default class extends BaseComponent {
             UPDATEJSON: `#stack-metadata-update`,
             UPDATEINPUTS: `#stack-metadata-update-inputs`,
             ADDITEM: `[name="smd_add"]`,
+            DELETEITEM: `[name="smd_delete"]`,
+            MAKECONTRIBUTOR: `#stack-metadata-make-contributor`,
+            MAKECREATOR: `#stack-metadata-make-creator`,
+            REVERT: `#stack-metadata-revert`,
         };
         metadata.container = this;
     }
@@ -100,7 +104,7 @@ export default class extends BaseComponent {
         }
         data.license.element.tags = '[]';
         data.license.element.ajax = '';
-        data.license.element.placeholder = '';
+        data.license.element.placeholder = metadata.lib.placeholder;
         data.license.element.noselectionstring = '';
         data.license.element.showsuggestions = 'true';
         data.license.element.casesensitive = 'false';
@@ -157,7 +161,6 @@ export default class extends BaseComponent {
             }
         };
 
-        document.querySelector('input[name="metadata"]').value = JSON.stringify(state, metadata.replacer);
         // To render a child component we need a container.
         const metadataContainer = this.getElement(this.selectors.METADATACONTAINER);
         if (!metadataContainer) {
@@ -178,10 +181,33 @@ export default class extends BaseComponent {
                 this.addItem
             );
         }
+        const deleteButtons = this.getElements(this.selectors.DELETEITEM);
+        for (const deleteButton of deleteButtons) {
+            this.addEventListener(
+                deleteButton,
+                'click',
+                this.deleteItem
+            );
+        }
         this.addEventListener(
             this.getElement(this.selectors.UPDATEINPUTS),
             'click',
             this.updateInputs
+        );
+        this.addEventListener(
+            this.getElement(this.selectors.MAKECREATOR),
+            'click',
+            this.makeCreator
+        );
+        this.addEventListener(
+            this.getElement(this.selectors.MAKECONTRIBUTOR),
+            'click',
+            this.makeContributor
+        );
+        this.addEventListener(
+            this.getElement(this.selectors.REVERT),
+            'click',
+            this.revert
         );
     }
 
@@ -189,20 +215,22 @@ export default class extends BaseComponent {
      * Our submit handler.
      *
      */
-    async update() {
-        const requiredElements = this.getElements('#qtype-stack-metadata-content input[aria-required="true"]');
-        let isError = false;
-        for (const element of requiredElements) {
-            if (element.value === '') {
-                isError = true;
-                notifyFieldValidationFailure(element, 'Required');
-            } else if (element.classList.contains('is-invalid')) {
-                // Reset as no longer empty.
-                notifyFieldValidationFailure(element, '');
+    async update(mustValidate = true) {
+        if (mustValidate) {
+            const requiredElements = this.getElements('#qtype-stack-metadata-content input[aria-required="true"]');
+            let isError = false;
+            for (const element of requiredElements) {
+                if (element.value === '') {
+                    isError = true;
+                    notifyFieldValidationFailure(element, 'Required');
+                } else if (element.classList.contains('is-invalid')) {
+                    // Reset as no longer empty.
+                    notifyFieldValidationFailure(element, '');
+                }
             }
-        }
-        if (isError) {
-            return false;
+            if (isError) {
+                return false;
+            }
         }
         let inputElements = this.getElements('#qtype-stack-metadata-content [id^="smdi"]');
         inputElements = Array.from(inputElements).map((el) => [el.id, el.value]);
@@ -221,9 +249,20 @@ export default class extends BaseComponent {
         return true;
     }
 
-    addItem(event) {
-        const parts = event.target.id.split('_');
-        this.reactive.dispatch('addItem', parts[1], parts[2]);
+    async addItem(event) {
+        const result = await this.update(false);
+        if (result) {
+            const parts = event.target.id.split('_');
+            this.reactive.dispatch('addItem', parts[1], parts[2]);
+        }
+    }
+
+    async deleteItem(event) {
+        const result = await this.update(false);
+        if (result) {
+            const parts = event.target.id.split('_');
+            this.reactive.dispatch('deleteRow', parts[1], parts[2]);
+        }
     }
 
     updateInputs() {
@@ -231,5 +270,27 @@ export default class extends BaseComponent {
         const data = metadata.jsonToState(jsonElement.value);
         jsonElement.value = JSON.stringify(data, metadata.replacer, 4);
         this.reactive.dispatch('updateFromJson', data);
+    }
+
+    async makeContributor() {
+        const result = await this.update(false);
+        if (result) {
+            this.reactive.dispatch('addItem', 'contributor', 'user');
+        }
+    }
+
+    makeCreator() {
+        this.getElement('#smdi_0_creator_firstName').value = metadata.lib.user.firstname;
+        this.getElement('#smdi_0_creator_lastName').value = metadata.lib.user.lastname;
+        this.getElement('#smdi_0_creator_institution').value = metadata.lib.user.institution;
+        this.getElement('#smdi_0_creator_year').value = new Date().getFullYear();
+    }
+
+    revert() {
+        let previousdata = document.querySelector('input[name="metadata"]');
+        previousdata = metadata.jsonToState(previousdata?.value);
+        let jsonElement = this.getElement('#id_metadata_json');
+        jsonElement.value = JSON.stringify(previousdata, metadata.replacer, 4);
+        this.reactive.dispatch('updateFromJson', previousdata);
     }
 }

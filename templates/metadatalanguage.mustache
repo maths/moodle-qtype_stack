@@ -24,8 +24,3 @@
     <div class="col-2 inputcol">{{#lang}}{{> core_form/element-text-inline }}{{/lang}}</div>
     <div class="col-1"><button id="smd_language_{{id}}_delete" name="smd_delete" type="button" class="btn btn-danger">{{#str}} delete {{/str}}</button></div>
 </div>
-{{#js}}
-require(['qtype_stack/metadata/datarow'], function(component) {
-    component.init('#qtype-stack-metadata-language-{{{id}}}');
-});
-{{/js}}

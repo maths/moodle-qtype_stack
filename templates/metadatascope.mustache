@@ -38,8 +38,3 @@
     <div class="col-md-2"></div>
     <div class="col-10"><button type="button" class="btn btn-primary" name="smd_add" id="smd_property_{{firstProp}}_add">{{#str}} addproperty, qtype_stack {{/str}}</button></div>
 </div>
-{{#js}}
-require(['qtype_stack/metadata/datarow'], function(component) {
-    component.init('#qtype-stack-metadata-scope-{{{firstProp}}}');
-});
-{{/js}}

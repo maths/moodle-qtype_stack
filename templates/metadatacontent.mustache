@@ -41,7 +41,17 @@
     {{/contributor}}
     <div class="row">
         <div class="col-md-2"></div>
-        <div class="col-10"><button type="button" class="btn btn-primary" name="smd_add" id="smd_contributor_0_add">{{#str}} addcontributor, qtype_stack {{/str}}</button></div>
+        <div class="col-10">
+            <button class="btn btn-primary" type="button" name="smd_add" id="smd_contributor_0_add">
+                {{#str}} addcontributor, qtype_stack {{/str}}
+            </button>
+            <button class="btn btn-primary" type="button" id="stack-metadata-make-contributor">
+                {{#str}} makemecontributor, qtype_stack {{/str}}
+            </button>
+            <button class="btn btn-primary" type="button" id="stack-metadata-make-creator">
+                {{#str}} makemecreator, qtype_stack {{/str}}
+            </button>
+        </div>
     </div>
     <br>
     {{#language}}
@@ -73,14 +83,18 @@
     <div class="row">
         <div class="col-md-2"></div>
         <div class="col-10">
-            <div class="btn-group" role="group">
-                <button class="btn btn-primary" type="button" id="stack-metadata-update">
-                    {{#str}} updateJSON, qtype_stack {{/str}}
-                </button>
-                <button class="btn btn-primary" type="button" id="stack-metadata-update-inputs">
-                    {{#str}} updateinputs, qtype_stack {{/str}}
-                </button>
-            </div>
+            <button class="btn btn-primary" type="button" id="stack-metadata-update">
+                {{#str}} updateJSON, qtype_stack {{/str}}
+            </button>
+            <button class="btn btn-primary" type="button" id="stack-metadata-update-inputs">
+                {{#str}} updateinputs, qtype_stack {{/str}}
+            </button>
+            <button class="btn btn-primary" type="button" id="stack-metadata-revert">
+                {{#str}} reverttosaved, qtype_stack {{/str}}
+            </button>
+            <button class="btn btn-primary" type="button" id="stack-metadata-revert" onclick="document.querySelector('.stack-metadata .btn-close').click();">
+                {{#str}} validateandclose, qtype_stack {{/str}}
+            </button>
         </div>
     </div>
     <br>

@@ -422,14 +422,20 @@ $string['addcontributor'] = 'Add contributor';
 $string['addscope'] = 'Add scope';
 $string['addproperty'] = 'Add property';
 $string['addlanguage'] = 'Add language';
-$string['updateJSON'] = 'Update JSON';
-$string['updateinputs'] = 'Update inputs';
+$string['updateJSON'] = 'Validate inputs and update JSON';
+$string['updateinputs'] = 'Update inputs from JSON';
+$string['makemecontributor'] = 'Add me as a contributor';
+$string['makemecreator'] = 'Make me the creator';
+$string['validateandclose'] = 'Validate and close';
 $string['JSONmetadata'] = 'JSON metadata';
+$string['metadataexplanation'] = 'STACK metadata is stored as a JSON object. You can edit metadata in the inputs above or directly edit the JSON below and then click \'Update inputs from JSON\'. On closing this metadata window, the inputs will be validated and, if this is successful you will be returned to the main question edit form. You will still need to save the question as normal to save the metadata.';
 $string['scope'] = 'Scope';
 $string['property'] = 'Property';
 $string['qualifier'] = 'Qualifier';
 $string['value'] = 'Value';
 $string['ispartof'] = 'isPartOf';
+$string['reverttosaved'] = 'Revert current changes';
+$string['licenseselect'] = 'Type or select license';
 
 // Strings used by input elements.
 $string['studentinputtoolong'] = 'Your input is longer than permitted by STACK.';

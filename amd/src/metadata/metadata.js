@@ -36,6 +36,7 @@ class StackMetadata extends Reactive {
         },
         licenses: [{value: 'unknown', text: 'unknown'}],
         defaultlicense: 'unknown',
+        placeholder: ''
     };
 
     container = null;
@@ -48,12 +49,15 @@ class StackMetadata extends Reactive {
         this.lib.languages = languages.difference(new Set([null, undefined, ""]));
         this.lib.languages = Array.from(this.lib.languages);
         metadata = this.jsonToState(metadata?.value);
+        metadata.metadataTicker = {value: 1};
         this.setInitialState(metadata);
     }
 
     replacer(key, value) {
         const languages = [];
         switch(key) {
+            case 'metadataTicker':
+                return undefined;
             case 'id':
                 return undefined;
             case 'language':

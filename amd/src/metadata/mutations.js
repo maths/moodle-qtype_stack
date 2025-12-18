@@ -20,6 +20,8 @@
  * @copyright  2025 University of Edinburgh
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
+import {metadata} from 'qtype_stack/metadata/metadata';
+
 class Mutations {
     updateAll(stateManager, inputArray) {
         const state = stateManager.state;
@@ -74,9 +76,9 @@ class Mutations {
                 break;
             case 'contributor':
                 newItem = {
-                    firstName: "",
-                    lastName: "",
-                    institution: "",
+                    firstName: (id === 'user') ? metadata.lib.user.firstname : "",
+                    lastName: (id === 'user') ? metadata.lib.user.lastname : "",
+                    institution: (id === 'user') ? metadata.lib.user.institution : "",
                     year: String(new Date().getFullYear())
                 };
                 break;
@@ -119,6 +121,7 @@ class Mutations {
         for (const prop in data) {
             state[prop] = data[prop];
         }
+        state.metadataTicker.value += 1;
         stateManager.setReadOnly(true);
         console.log(state);
     }

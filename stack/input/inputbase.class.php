@@ -1499,7 +1499,7 @@ abstract class stack_input {
             $feedbackerr .= stack_string('studentValidation_invalidAnswer');
         }
         if ($state->errors) {
-            $feedbackerr .= $state->errors;
+            $feedbackerr .=  ' ' . $state->errors;
         }
         if ($feedbackerr != '') {
             // Bespoke validation messages might contain maths, which needs to be processed.

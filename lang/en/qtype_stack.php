@@ -1263,7 +1263,7 @@ $string['equiv_IMPLIES']                 = 'implies';
 $string['studentValidation_yourLastAnswer']     = 'Your last answer was interpreted as follows: {$a}';
 $string['studentValidation_listofvariables']    = 'The variables found in your answer were: {$a}';
 $string['studentValidation_listofunits']        = 'The units found in your answer were: {$a}';
-$string['studentValidation_invalidAnswer']      = 'This answer is invalid. ';
+$string['studentValidation_invalidAnswer']      = 'This answer is invalid.';
 $string['studentValidation_notes']              = '(This input is not assessed automatically by STACK.)';
 
 $string['Interval_notinterval']                 = 'An interval was expected, but instead we have {$a->m0}.';

@@ -41,7 +41,6 @@ class Mutations {
             }
         }
         stateManager.setReadOnly(true);
-        console.log(state);
     }
 
     deleteRow(stateManager, property, id) {
@@ -123,7 +122,6 @@ class Mutations {
         }
         state.metadataTicker.value += 1;
         stateManager.setReadOnly(true);
-        console.log(state);
     }
 }
 

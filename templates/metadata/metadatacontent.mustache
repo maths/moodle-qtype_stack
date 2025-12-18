@@ -33,11 +33,11 @@
             <div class="col-2 inputcol">{{#firstname}}{{> core_form/element-text-inline }}{{/firstname}}</div>
             <div class="col-2 inputcol">{{#lastname}}{{> core_form/element-text-inline }}{{/lastname}}</div>
             <div class="col-3 inputcol">{{#institution}}{{> core_form/element-text-inline }}{{/institution}}</div>
-            <div class="col-2 col-lg-1 inputcol">{{#year}}{{>qtype_stack/metadatayear}}{{/year}}</div>
+            <div class="col-2 col-lg-1 inputcol">{{#year}}{{>qtype_stack/metadata/metadatayear}}{{/year}}</div>
         </div>
     {{/creator}}
     {{#contributor}}
-        {{>qtype_stack/metadatacontributor}}
+        {{>qtype_stack/metadata/metadatacontributor}}
     {{/contributor}}
     <div class="row">
         <div class="col-md-2"></div>
@@ -55,7 +55,7 @@
     </div>
     <br>
     {{#language}}
-        {{>qtype_stack/metadatalanguage}}
+        {{>qtype_stack/metadata/metadatalanguage}}
     {{/language}}
     <div class="row">
         <div class="col-md-2"></div>
@@ -72,7 +72,7 @@
     </div>
     <h5>{{#str}} additionalmetadata, qtype_stack {{/str}}:</h5>
     {{#scope}}
-        {{>qtype_stack/metadatascope}}
+        {{>qtype_stack/metadata/metadatascope}}
     {{/scope}}
     <div class="row" style="padding-top: 10px">
         <div class="col-md-2"></div>

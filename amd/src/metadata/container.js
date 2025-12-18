@@ -94,6 +94,7 @@ export default class extends BaseComponent {
             isPartOf: this.createDataElement(false, 0, 'isPartOf_value', state.isPartOf.value),
             scope: [],
         };
+        // Need to copy licenses list as we modify to mark as selected.
         data.license.element.options = JSON.parse(JSON.stringify(metadata.lib.licenses));
         const selectedLicense = state.license.value;
         let selectedOption = data.license.element.options.find((op) => op.value === selectedLicense);
@@ -150,6 +151,7 @@ export default class extends BaseComponent {
             institution: this.createDataElement(false, 0, 'creator_institution', state.creator.institution),
             year: this.createDataElement(false, 0, 'creator_year', state.creator.year),
         };
+
         data.json = {
             required: true,
             element: {
@@ -167,7 +169,7 @@ export default class extends BaseComponent {
             throw new Error('Missing metadata container.');
         }
 
-        await this.renderComponent(metadataContainer, 'qtype_stack/metadatacontent', data);
+        await this.renderComponent(metadataContainer, 'qtype_stack/metadata/metadatacontent', data);
         this.addEventListener(
             this.getElement(this.selectors.UPDATEJSON),
             'click',
@@ -209,11 +211,18 @@ export default class extends BaseComponent {
             'click',
             this.revert
         );
+
+        if (metadata.lib.brokenMetadata) {
+            const jsonElement = this.getElement('#id_metadata_json');
+            notifyFieldValidationFailure(jsonElement, metadata.lib.brokenMetadata);
+        }
     }
 
     /**
-     * Our submit handler.
      *
+     *
+     * @param {bool} mustValidate
+     * @returns {bool}
      */
     async update(mustValidate = true) {
         if (mustValidate) {
@@ -266,8 +275,15 @@ export default class extends BaseComponent {
     }
 
     updateInputs() {
-        let jsonElement = this.getElement('#id_metadata_json');
-        const data = metadata.jsonToState(jsonElement.value);
+        const jsonElement = this.getElement('#id_metadata_json');
+        let data = null;
+        try {
+            data = metadata.jsonToState(jsonElement.value);
+            notifyFieldValidationFailure(jsonElement, '');
+        } catch (e) {
+            notifyFieldValidationFailure(jsonElement, e.message);
+            return;
+        }
         jsonElement.value = JSON.stringify(data, metadata.replacer, 4);
         this.reactive.dispatch('updateFromJson', data);
     }
@@ -287,9 +303,16 @@ export default class extends BaseComponent {
     }
 
     revert() {
+        const jsonElement = this.getElement('#id_metadata_json');
         let previousdata = document.querySelector('input[name="metadata"]');
-        previousdata = metadata.jsonToState(previousdata?.value);
-        let jsonElement = this.getElement('#id_metadata_json');
+        try {
+            previousdata = metadata.jsonToState(previousdata?.value);
+            notifyFieldValidationFailure(jsonElement, '');
+        } catch (e) {
+            notifyFieldValidationFailure(jsonElement, e.message);
+            jsonElement.value = previousdata;
+            return;
+        }
         jsonElement.value = JSON.stringify(previousdata, metadata.replacer, 4);
         this.reactive.dispatch('updateFromJson', previousdata);
     }

@@ -28,12 +28,11 @@ import {metadata} from 'qtype_stack/metadata/metadata';
 
 export class MetadataModal extends Modal {
     static TYPE = "qtype_stack/metadatamodal";
-    static TEMPLATE = "qtype_stack/metadatamodal";
+    static TEMPLATE = "qtype_stack/metadata/metadatamodal";
 
     async hide() {
         const result = await metadata.container.update(true);
         if (result) {
-            console.log(metadata);
             document.querySelector('input[name="metadata"]').value = JSON.stringify(metadata.state, metadata.replacer);
             super.hide();
         }

@@ -43,12 +43,21 @@ class StackMetadata extends Reactive {
 
     loadState() {
         let metadata = document.querySelector('input[name="metadata"]');
-        this.lib = JSON.parse(metadata.dataset.lib);
-        this.lib.user.year = new Date().getFullYear();
-        let languages = new Set(this.lib.languages);
-        this.lib.languages = languages.difference(new Set([null, undefined, ""]));
-        this.lib.languages = Array.from(this.lib.languages);
-        metadata = this.jsonToState(metadata?.value);
+        try {
+            this.lib = JSON.parse(metadata.dataset.lib);
+            this.lib.user.year = new Date().getFullYear();
+            let languages = new Set(this.lib.languages);
+            this.lib.languages = languages.difference(new Set([null, undefined, ""]));
+            this.lib.languages = Array.from(this.lib.languages);
+        } catch (e) {
+            // Lib will be set to defaults.
+        }
+        try {
+            metadata = this.jsonToState(metadata?.value);
+        } catch (e) {
+            this.lib.brokenMetadata = metadata;
+            metadata = {};
+        }
         metadata.metadataTicker = {value: 1};
         this.setInitialState(metadata);
     }

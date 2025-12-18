@@ -326,6 +326,7 @@ class stack_inputvalidation_test_data {
         ['x^(-(y+z))', 'php_true', 'x^(-(y+z))', 'cas_true', 'x^ {- \left(y+z\right) }', '', ""],
         ['x^(-y)', 'php_true', 'x^(-y)', 'cas_true', 'x^ {- y }', '', ""],
         ['x^-y', 'php_true', 'x^-y', 'cas_true', 'x^ {- y }', '', ""],
+        ['x^+y', 'php_true', 'x^+y', 'cas_true', 'x^ {+ y }', '', ""],
         ['x^(y+z)', 'php_true', 'x^(y+z)', 'cas_true', 'x^{y+z}', '', ""],
         ['(1+i)*x', 'php_true', '(1+i)*x', 'cas_true', '\left(1+\mathrm{i}\right)\cdot x', '', ""],
         ['(1+i)+x', 'php_true', '(1+i)+x', 'cas_true', '1+\mathrm{i}+x', '', ""],

@@ -30,6 +30,10 @@ export class MetadataModal extends Modal {
     static TYPE = "qtype_stack/metadatamodal";
     static TEMPLATE = "qtype_stack/metadata/metadatamodal";
 
+    /**
+     * Override the default hide function to validate and update metadata JSON.
+     * On success, stores new JSON to hidden edit form field and closed modal.
+     */
     async hide() {
         const result = await metadata.container.update(true);
         if (result) {
@@ -38,6 +42,9 @@ export class MetadataModal extends Modal {
         }
     }
 
+    /**
+     * Cancel button needs to close the modal without updating form.
+     */
     cancel() {
         super.hide();
     }
@@ -51,24 +58,32 @@ if (!registered) {
 
 let modal = null;
 
+// Prepare for modal creation.
 export const setup = () => {
    document.querySelector('#id_metadatamodal')?.addEventListener('click', openModal);
    metadata.loadState();
 };
 
+// Need to pass appropriate 'this' to cancel function.
 function closeModal() {
     modal.cancel.call(modal);
 }
 
 /**
  * Open the metadata modal.
+ * Only create modal and add listener once.
  */
 async function openModal() {
     let addListener = false;
     if (!modal) {
-        modal = await ModalFactory.create({
-            type: MetadataModal.TYPE,
-        });
+        if (typeof MetadataModal.create === "function") {
+            modal = await MetadataModal.create();
+        } else {
+            // Pre Moodle 4.3 code.
+            modal = await ModalFactory.create({
+                type: MetadataModal.TYPE,
+            });
+        }
         addListener = true;
     }
     modal.show();

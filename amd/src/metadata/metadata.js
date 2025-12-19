@@ -26,27 +26,29 @@ import {mutations} from 'qtype_stack/metadata/mutations';
 import {eventTypes, notifyQtypeStackStateUpdated} from 'qtype_stack/metadata/events';
 
 class StackMetadata extends Reactive {
+    // Default and config data passed through from Moodle.
     lib = {
         languages: ['en'],
-        defaultLanguage: 'en',
         user: {
             firstname: '',
             lastname: '',
-            institution: ''
+            institution: '',
+            year: ''
         },
         licenses: [{value: 'unknown', text: 'unknown'}],
-        defaultlicense: 'unknown',
         placeholder: ''
     };
 
-    container = null;
-
+    /**
+     * Load initial value of state from value on form.
+     */
     loadState() {
         let metadata = document.querySelector('input[name="metadata"]');
         const metadataJSON = metadata.value ?? null;
         try {
             this.lib = JSON.parse(metadata.dataset.lib);
             this.lib.user.year = new Date().getFullYear();
+            // Weed out duplicates and falsy values.
             let languages = new Set(this.lib.languages);
             this.lib.languages = languages.difference(new Set([null, undefined, ""]));
             this.lib.languages = Array.from(this.lib.languages);
@@ -56,6 +58,7 @@ class StackMetadata extends Reactive {
         try {
             metadata = this.jsonToState(metadataJSON);
         } catch (e) {
+            // If the saved data is broken, show empty inputs and save error message for display in modal.
             this.lib.brokenMetadata = e.message;
             metadata = this.jsonToState('{}');
         }
@@ -63,6 +66,14 @@ class StackMetadata extends Reactive {
         this.setInitialState(metadata);
     }
 
+    /**
+     * Replacer function for JSON stringify of state.
+     * Removed unwanted properties and converts some objects to plain values.
+     *
+     * @param {*} key
+     * @param {*} value
+     * @returns
+     */
     replacer(key, value) {
         const languages = [];
         switch(key) {
@@ -84,6 +95,14 @@ class StackMetadata extends Reactive {
 
     }
 
+    /**
+     * Reviver function for JSON parsing to feed into state.
+     * Adds id values and converts strings to obj.value.
+     *
+     * @param {*} key
+     * @param {*} value
+     * @returns
+     */
     reviver(key, value) {
         const holder = [];
         let id = 1;
@@ -110,6 +129,13 @@ class StackMetadata extends Reactive {
         }
     }
 
+    /**
+     * Convert JSON to state format ready for updateFromJson mutation.
+     * Strips out extraneous fields; adds in missing fields with blank values.
+     *
+     * @param {*} data
+     * @returns
+     */
     jsonToState(data) {
         data = JSON.parse(data, this.reviver);
         const fields = ['creator', 'contributor', 'language', 'license', 'isPartOf', 'additional'];
@@ -147,6 +173,13 @@ class StackMetadata extends Reactive {
         return data;
     }
 
+    /**
+     * Remove any properties from an object that are not in a supplied array of property names.
+     *
+     * @param {object} obj
+     * @param {array} fields
+     * @returns {object}
+     */
     stripFields(obj, fields) {
         const result = {};
         for (const suppliedField in obj) {
@@ -157,6 +190,13 @@ class StackMetadata extends Reactive {
         return result;
     }
 
+    /**
+     * Add any missing properties to an object from a supplied array of field names and set to ''.
+     *
+     * @param {object} obj
+     * @param {array} fields
+     * @returns
+     */
     addFields(obj, fields) {
         for (const field of fields) {
             if (!Object.hasOwn(obj, field)) {
@@ -168,6 +208,13 @@ class StackMetadata extends Reactive {
         return obj;
     }
 
+    /**
+     * Set properties of an object to those from a supplied array of field names.
+     *
+     * @param {object} obj
+     * @param {array} fields
+     * @returns
+     */
     tidyObject(obj, fields) {
         obj = (obj && typeof obj === 'object') ? obj : {};
         obj = this.stripFields(obj, fields);

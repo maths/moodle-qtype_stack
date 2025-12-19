@@ -16,7 +16,7 @@
 import {dispatchEvent} from 'core/event_dispatcher';
 
 /**
- * Javascript events for the `mod_nosferatu` activity.
+ * Javascript events for STACK metadata.
  *
  * @module     qtype_stack/metadata
  * @copyright  2025 University of Edinburgh
@@ -24,16 +24,16 @@ import {dispatchEvent} from 'core/event_dispatcher';
  */
 
 /**
- * Events for the `mod_nosferatu` activity.
+ * Events for STACK metadata
  *
  * @constant
- * @property {String} modNosferatuStateUpdated See {@link event:modNosferatuStateUpdated}
+ * @property {String} qtypeStackStateUpdated See {@link event:qtypeStackStateUpdated}
  */
 export const eventTypes = {
     /**
      * Event triggered when the activity reactive state is updated.
      *
-     * @event modNosferatuStateUpdated
+     * @event qtypeStackStateUpdated
      * @type {CustomEvent}
      * @property {Array} nodes The list of parent nodes which were updated
      */
@@ -43,11 +43,11 @@ export const eventTypes = {
 /**
  * Trigger an event to indicate that the activity state is updated.
  *
- * @method notifyModNosferatuStateUpdated
+ * @method qtypeStackStateUpdated
  * @param {object} detail the full state
  * @param {HTMLElement} container the custom event target (document if none provided)
  * @returns {CustomEvent}
- * @fires modNosferatuStateUpdated
+ * @fires qtypeStackStateUpdated
  */
 export const notifyQtypeStackStateUpdated = (detail, container) => {
     return dispatchEvent(eventTypes.qtypeStackStateUpdated, detail, container);

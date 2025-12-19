@@ -40,6 +40,7 @@ class Mutations {
                 state[property][subproperty] = field[1];
             }
         }
+        state.metadataTicker.value += 1;
         stateManager.setReadOnly(true);
     }
 

@@ -1289,3 +1289,6 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
 .stack-metadata .scope {
     padding: 20px 10px 0px 10px;
 }
+.stack-metadata .btn-warning {
+    background-color: pink;
+}

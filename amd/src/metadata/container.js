@@ -214,7 +214,9 @@ export default class extends BaseComponent {
 
         if (metadata.lib.brokenMetadata) {
             const jsonElement = this.getElement('#id_metadata_json');
+            jsonElement.value = document.querySelector('input[name="metadata"]').value ?? '';
             notifyFieldValidationFailure(jsonElement, metadata.lib.brokenMetadata);
+            delete metadata.lib.brokenMetadata;
         }
     }
 
@@ -304,13 +306,14 @@ export default class extends BaseComponent {
 
     revert() {
         const jsonElement = this.getElement('#id_metadata_json');
-        let previousdata = document.querySelector('input[name="metadata"]');
+        let previousdataJSON = document.querySelector('input[name="metadata"]').value ?? null;
+        let previousdata = null;
         try {
-            previousdata = metadata.jsonToState(previousdata?.value);
+            previousdata = metadata.jsonToState(previousdataJSON);
             notifyFieldValidationFailure(jsonElement, '');
         } catch (e) {
             notifyFieldValidationFailure(jsonElement, e.message);
-            jsonElement.value = previousdata;
+            jsonElement.value = previousdataJSON;
             return;
         }
         jsonElement.value = JSON.stringify(previousdata, metadata.replacer, 4);

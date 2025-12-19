@@ -37,6 +37,10 @@ export class MetadataModal extends Modal {
             super.hide();
         }
     }
+
+    cancel() {
+        super.hide();
+    }
 }
 
 let registered = false;
@@ -52,15 +56,24 @@ export const setup = () => {
    metadata.loadState();
 };
 
+function closeModal() {
+    modal.cancel.call(modal);
+}
+
 /**
  * Open the metadata modal.
  */
 async function openModal() {
+    let addListener = false;
     if (!modal) {
         modal = await ModalFactory.create({
             type: MetadataModal.TYPE,
         });
+        addListener = true;
     }
     modal.show();
+    if (addListener) {
+        document.querySelector('#stackmetadata_cancel').addEventListener('click', closeModal);
+    }
 }
 

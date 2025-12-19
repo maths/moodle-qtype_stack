@@ -42,13 +42,13 @@
     <div class="row">
         <div class="col-md-2"></div>
         <div class="col-10">
-            <button class="btn btn-primary" type="button" name="smd_add" id="smd_contributor_0_add">
+            <button class="btn btn-secondary mb-1" type="button" name="smd_add" id="smd_contributor_0_add">
                 {{#str}} addcontributor, qtype_stack {{/str}}
             </button>
-            <button class="btn btn-primary" type="button" id="stack-metadata-make-contributor">
+            <button class="btn btn-secondary mb-1" type="button" id="stack-metadata-make-contributor">
                 {{#str}} makemecontributor, qtype_stack {{/str}}
             </button>
-            <button class="btn btn-primary" type="button" id="stack-metadata-make-creator">
+            <button class="btn btn-secondary mb-1" type="button" id="stack-metadata-make-creator">
                 {{#str}} makemecreator, qtype_stack {{/str}}
             </button>
         </div>
@@ -59,15 +59,15 @@
     {{/language}}
     <div class="row">
         <div class="col-md-2"></div>
-        <div class="col-10"><button type="button" class="btn btn-primary" name="smd_add" id="smd_language_0_add">{{#str}} addlanguage, qtype_stack {{/str}}</button></div>
+        <div class="col-10"><button type="button" class="btn btn-secondary" name="smd_add" id="smd_language_0_add">{{#str}} addlanguage, qtype_stack {{/str}}</button></div>
     </div>
     <br>
     <div class="row">
-        <div class="col-lg-2"><h5>{{#str}} ispartof, qtype_stack {{/str}}</h5></div>
+        <div class="col-md-2"><h5>{{#str}} ispartof, qtype_stack {{/str}}</h5></div>
         <div class="col-2 inputcol">{{#isPartOf}}{{> core_form/element-text-inline}}{{/isPartOf}}</div>
     </div>
     <div class="row">
-        <div class="col-lg-2"><h5>{{#str}} license {{/str}}</h5></div>
+        <div class="col-md-2"><h5>{{#str}} license {{/str}}</h5></div>
         <div class="col-6 inputcol">{{#license}}{{> core_form/element-autocomplete-inline}}{{/license}}</div>
     </div>
     <h5>{{#str}} additionalmetadata, qtype_stack {{/str}}:</h5>
@@ -76,22 +76,21 @@
     {{/scope}}
     <div class="row" style="padding-top: 10px">
         <div class="col-md-2"></div>
-        <div class="col-10"><button type="button" class="btn btn-primary" name="smd_add" id="smd_scope_0_add">{{#str}} addscope, qtype_stack {{/str}}</button></div>
+        <div class="col-10"><button type="button" class="btn btn-secondary" name="smd_add" id="smd_scope_0_add">{{#str}} addscope, qtype_stack {{/str}}</button></div>
     </div>
     <br>
     <div class="row">
-        <div class="col-md-2"></div>
         <div class="col-10">
-            <button class="btn btn-primary" type="button" id="stack-metadata-update">
+            <button class="btn btn-primary mb-1" type="button" id="stack-metadata-update">
                 {{#str}} updateJSON, qtype_stack {{/str}}
             </button>
-            <button class="btn btn-primary" type="button" id="stack-metadata-update-inputs">
+            <button class="btn btn-primary mb-1" type="button" id="stack-metadata-update-inputs">
                 {{#str}} updateinputs, qtype_stack {{/str}}
             </button>
-            <button class="btn btn-primary" type="button" id="stack-metadata-revert">
+            <button class="btn btn-primary mb-1" type="button" id="stack-metadata-revert">
                 {{#str}} reverttosaved, qtype_stack {{/str}}
             </button>
-            <button class="btn btn-primary" type="button" id="stack-metadata-revert" onclick="document.querySelector('.stack-metadata .btn-close').click();">
+            <button class="btn btn-primary mb-1" type="button" id="stack-metadata-revert" onclick="document.querySelector('.stack-metadata .btn-close').click();">
                 {{#str}} validateandclose, qtype_stack {{/str}}
             </button>
         </div>

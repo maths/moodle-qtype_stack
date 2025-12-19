@@ -43,6 +43,7 @@ class StackMetadata extends Reactive {
 
     loadState() {
         let metadata = document.querySelector('input[name="metadata"]');
+        const metadataJSON = metadata.value ?? null;
         try {
             this.lib = JSON.parse(metadata.dataset.lib);
             this.lib.user.year = new Date().getFullYear();
@@ -53,10 +54,10 @@ class StackMetadata extends Reactive {
             // Lib will be set to defaults.
         }
         try {
-            metadata = this.jsonToState(metadata?.value);
+            metadata = this.jsonToState(metadataJSON);
         } catch (e) {
-            this.lib.brokenMetadata = metadata;
-            metadata = {};
+            this.lib.brokenMetadata = e.message;
+            metadata = this.jsonToState('{}');
         }
         metadata.metadataTicker = {value: 1};
         this.setInitialState(metadata);

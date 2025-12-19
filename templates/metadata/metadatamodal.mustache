@@ -15,18 +15,9 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template core/modal_copytoclipboard
+    @template qtype_stack/metadata/metadatamodal
 
-    This template renders a modal. The body contains a readonly input text field.
-    The Footer contains a button "Copy to clipboard" that copies the content
-    of the text field into the clipboard.
-    The purpose of the dialog element is to copy a permalink of a section into
-    the clipboard. Thus, the header of the modal dialog contains the label "Permalink".
-
-    Example context (json):
-    {
-        "text": "content for the input field that is being copied to the clipboard"
-    }
+    Example context (json):  {}
 }}
 {{< core/modal }}
     {{$title}}{{#str}} metadata, qtype_stack {{/str}}{{/title}}

@@ -64,7 +64,9 @@ export const setup = () => {
    metadata.loadState();
 };
 
-// Need to pass appropriate 'this' to cancel function.
+/**
+ * Need to pass appropriate 'this' to cancel function.
+ */
 function closeModal() {
     modal.cancel.call(modal);
 }

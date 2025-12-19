@@ -12,12 +12,343 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template qtype_stack/metadata
+    @template qtype_stack/metadata/metadatacontent
 
 
     Example context (json):
     {
+    "creator": {
+        "firstname": {
+            "required": false,
+            "element": {
+                "value": "Edmund",
+                "wrapperid": "fitem_smdi_0_creator_firstName",
+                "id": "smdi_0_creator_firstName",
+                "name": "smdi_0_creator_firstName"
+            }
+        },
+        "lastname": {
+            "required": true,
+            "element": {
+                "value": "Farrow",
+                "wrapperid": "fitem_smdi_0_creator_lastName",
+                "id": "smdi_0_creator_lastName",
+                "name": "smdi_0_creator_lastName"
+            }
+        },
+        "institution": {
+            "required": false,
+            "element": {
+                "value": "UoE",
+                "wrapperid": "fitem_smdi_0_creator_institution",
+                "id": "smdi_0_creator_institution",
+                "name": "smdi_0_creator_institution"
+            }
+        },
+        "year": {
+            "required": false,
+            "element": {
+                "value": "2025",
+                "wrapperid": "fitem_smdi_0_creator_year",
+                "id": "smdi_0_creator_year",
+                "name": "smdi_0_creator_year"
+            }
+        }
+    },
+    "contributor": [
+        {
+            "firstname": {
+                "required": false,
+                "element": {
+                    "value": "a",
+                    "wrapperid": "fitem_smdi_1_contributor_firstName",
+                    "id": "smdi_1_contributor_firstName",
+                    "name": "smdi_1_contributor_firstName"
+                }
+            },
+            "lastname": {
+                "required": true,
+                "element": {
+                    "value": "b",
+                    "wrapperid": "fitem_smdi_1_contributor_lastName",
+                    "id": "smdi_1_contributor_lastName",
+                    "name": "smdi_1_contributor_lastName"
+                }
+            },
+            "institution": {
+                "required": false,
+                "element": {
+                    "value": "c",
+                    "wrapperid": "fitem_smdi_1_contributor_institution",
+                    "id": "smdi_1_contributor_institution",
+                    "name": "smdi_1_contributor_institution"
+                }
+            },
+            "year": {
+                "required": false,
+                "element": {
+                    "value": "2025",
+                    "wrapperid": "fitem_smdi_1_contributor_year",
+                    "id": "smdi_1_contributor_year",
+                    "name": "smdi_1_contributor_year"
+                }
+            },
+            "id": "1"
+        }
+    ],
+    "language": [
+        {
+            "id": "1",
+            "lang": {
+                "required": true,
+                "element": {
+                    "value": "en",
+                    "wrapperid": "fitem_smdi_1_language_value",
+                    "id": "smdi_1_language_value",
+                    "name": "smdi_1_language_value"
+                }
+            }
+        },
+        {
+            "id": "2",
+            "lang": {
+                "required": true,
+                "element": {
+                    "value": "fr",
+                    "wrapperid": "fitem_smdi_2_language_value",
+                    "id": "smdi_2_language_value",
+                    "name": "smdi_2_language_value"
+                }
+            }
+        }
+    ],
+    "license": {
+        "required": true,
+        "element": {
+            "value": "public",
+            "wrapperid": "fitem_smdi_0_license_value",
+            "id": "smdi_0_license_value",
+            "name": "smdi_0_license_value",
+            "options": [
+                {
+                    "value": "unknown",
+                    "text": "Licence not specified"
+                },
+                {
+                    "value": "allrightsreserved",
+                    "text": "All rights reserved"
+                },
+                {
+                    "value": "public",
+                    "text": "Public domain",
+                    "selected": true
+                },
+                {
+                    "value": "cc-4.0",
+                    "text": "Creative Commons - 4.0 International"
+                },
+                {
+                    "value": "cc-nc-4.0",
+                    "text": "Creative Commons - NonCommercial 4.0 International"
+                },
+                {
+                    "value": "cc-nd-4.0",
+                    "text": "Creative Commons - NoDerivatives 4.0 International"
+                },
+                {
+                    "value": "cc-nc-nd-4.0",
+                    "text": "Creative Commons - NonCommercial-NoDerivatives 4.0 International"
+                },
+                {
+                    "value": "cc-nc-sa-4.0",
+                    "text": "Creative Commons - NonCommercial-ShareAlike 4.0 International"
+                },
+                {
+                    "value": "cc-sa-4.0",
+                    "text": "Creative Commons - ShareAlike 4.0 International"
+                }
+            ],
+            "tags": "[]",
+            "ajax": "",
+            "placeholder": "Type or select license",
+            "noselectionstring": "",
+            "showsuggestions": "true",
+            "casesensitive": "false"
+        }
+    },
+    "isPartOf": {
+        "required": false,
+        "element": {
+            "value": "HELM",
+            "wrapperid": "fitem_smdi_0_isPartOf_value",
+            "id": "smdi_0_isPartOf_value",
+            "name": "smdi_0_isPartOf_value"
+        }
+    },
+    "scope": [
+        {
+            "name": "d",
+            "firstProp": "1",
+            "properties": [
+                {
+                    "property": {
+                        "required": true,
+                        "element": {
+                            "value": "e",
+                            "wrapperid": "fitem_smdi_1_additional_property",
+                            "id": "smdi_1_additional_property",
+                            "name": "smdi_1_additional_property"
+                        }
+                    },
+                    "qualifier": {
+                        "required": false,
+                        "element": {
+                            "value": "f",
+                            "wrapperid": "fitem_smdi_1_additional_qualifier",
+                            "id": "smdi_1_additional_qualifier",
+                            "name": "smdi_1_additional_qualifier"
+                        }
+                    },
+                    "value": {
+                        "required": false,
+                        "element": {
+                            "value": "g",
+                            "wrapperid": "fitem_smdi_1_additional_value",
+                            "id": "smdi_1_additional_value",
+                            "name": "smdi_1_additional_value"
+                        }
+                    },
+                    "id": "1"
+                },
+                {
+                    "property": {
+                        "required": true,
+                        "element": {
+                            "value": "h",
+                            "wrapperid": "fitem_smdi_2_additional_property",
+                            "id": "smdi_2_additional_property",
+                            "name": "smdi_2_additional_property"
+                        }
+                    },
+                    "qualifier": {
+                        "required": false,
+                        "element": {
+                            "value": "i",
+                            "wrapperid": "fitem_smdi_2_additional_qualifier",
+                            "id": "smdi_2_additional_qualifier",
+                            "name": "smdi_2_additional_qualifier"
+                        }
+                    },
+                    "value": {
+                        "required": false,
+                        "element": {
+                            "value": "j",
+                            "wrapperid": "fitem_smdi_2_additional_value",
+                            "id": "smdi_2_additional_value",
+                            "name": "smdi_2_additional_value"
+                        }
+                    },
+                    "id": "2"
+                },
+                {
+                    "property": {
+                        "required": true,
+                        "element": {
+                            "value": "k",
+                            "wrapperid": "fitem_smdi_3_additional_property",
+                            "id": "smdi_3_additional_property",
+                            "name": "smdi_3_additional_property"
+                        }
+                    },
+                    "qualifier": {
+                        "required": false,
+                        "element": {
+                            "value": "l",
+                            "wrapperid": "fitem_smdi_3_additional_qualifier",
+                            "id": "smdi_3_additional_qualifier",
+                            "name": "smdi_3_additional_qualifier"
+                        }
+                    },
+                    "value": {
+                        "required": false,
+                        "element": {
+                            "value": "m",
+                            "wrapperid": "fitem_smdi_3_additional_value",
+                            "id": "smdi_3_additional_value",
+                            "name": "smdi_3_additional_value"
+                        }
+                    },
+                    "id": "3"
+                }
+            ],
+            "input": {
+                "required": true,
+                "element": {
+                    "value": "d",
+                    "wrapperid": "fitem_smdi_1_additional_scope",
+                    "id": "smdi_1_additional_scope",
+                    "name": "smdi_1_additional_scope"
+                }
+            }
+        },
+        {
+            "name": "n",
+            "firstProp": "4",
+            "properties": [
+                {
+                    "property": {
+                        "required": true,
+                        "element": {
+                            "value": "o",
+                            "wrapperid": "fitem_smdi_4_additional_property",
+                            "id": "smdi_4_additional_property",
+                            "name": "smdi_4_additional_property"
+                        }
+                    },
+                    "qualifier": {
+                        "required": false,
+                        "element": {
+                            "value": "p",
+                            "wrapperid": "fitem_smdi_4_additional_qualifier",
+                            "id": "smdi_4_additional_qualifier",
+                            "name": "smdi_4_additional_qualifier"
+                        }
+                    },
+                    "value": {
+                        "required": false,
+                        "element": {
+                            "value": "q",
+                            "wrapperid": "fitem_smdi_4_additional_value",
+                            "id": "smdi_4_additional_value",
+                            "name": "smdi_4_additional_value"
+                        }
+                    },
+                    "id": "4"
+                }
+            ],
+            "input": {
+                "required": true,
+                "element": {
+                    "value": "n",
+                    "wrapperid": "fitem_smdi_4_additional_scope",
+                    "id": "smdi_4_additional_scope",
+                    "name": "smdi_4_additional_scope"
+                }
+            }
+        }
+    ],
+    "json": {
+        "required": true,
+        "element": {
+            "value": "{\n    \"creator\": {\n        \"firstName\": \"Edmund\",\n   ... ... ...    }""
+            "attributes": "rows=\"10\"",
+            "wrapperid": "fitem_metadata_json",
+            "id": "id_metadata_json",
+            "name": "metadata_json"
+        }
     }
+}
+
 }}
 <form class="mform" data-boost-form-errors-enhanced="1" id="qtype-stack-metadata-content">
     <div class="row d-none d-md-flex">

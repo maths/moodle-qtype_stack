@@ -29,5 +29,11 @@ Feature: Create and edit STACK metadata
     When I am on the "Algebraic input" "core_question > edit" page logged in as teacher
     And I click on "View and edit full metadata" "button"
     And I should see "STACK metadata is stored as a JSON object."
-
+    And I set the field "smdi_0_creator_firstName" in the "#qtype-stack-metadata-content" "css_element" to "Edmund"
+    And I set the field "smdi_0_creator_lastName" in the "#qtype-stack-metadata-content" "css_element" to "Farrow"
+    And I set the field "Licence" in the "#qtype-stack-metadata-content" "css_element" to "c"
+    Then "[data-value='cc-nc-4.0']" "css_element" should be visible
+    And I click on "[data-value='cc-nc-4.0']" "css_element"
+    And I click on "Validate and close" "button"
+    And I check the hidden input "metadata" is '{"creator":{"firstName":"Edmund","lastName":"Farrow","institution":"","year":""},"contributor":[],"language":[],"isPartOf":"","license":"","additional":[]}'
 

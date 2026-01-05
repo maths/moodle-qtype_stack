@@ -13,8 +13,16 @@
 }}
 {{!
     @template qtype_stack/metadata/metadatayear
-
-    See metadatacontent.mustache for sample JSON.
+    Example context (json):
+    {
+        "required": false,
+        "element": {
+            "value": "2025",
+            "wrapperid": "fitem_smdi_1_contributor_year",
+            "id": "smdi_1_contributor_year",
+            "name": "smdi_1_contributor_year"
+        }
+    }
 }}
 {{< core_form/element-template-inline }}
     {{$element}}

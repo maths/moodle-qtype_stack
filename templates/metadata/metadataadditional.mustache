@@ -13,8 +13,37 @@
 }}
 {{!
     @template qtype_stack/metadata/metadataadditional
-
-    See metadatacontent.mustache for sample JSON.
+    Example context (json):
+        {
+            "property": {
+                "required": true,
+                "element": {
+                    "value": "h",
+                    "wrapperid": "fitem_smdi_2_additional_property",
+                    "id": "smdi_2_additional_property",
+                    "name": "smdi_2_additional_property"
+                }
+            },
+            "qualifier": {
+                "required": false,
+                "element": {
+                    "value": "i",
+                    "wrapperid": "fitem_smdi_2_additional_qualifier",
+                    "id": "smdi_2_additional_qualifier",
+                    "name": "smdi_2_additional_qualifier"
+                }
+            },
+            "value": {
+                "required": false,
+                "element": {
+                    "value": "j",
+                    "wrapperid": "fitem_smdi_2_additional_value",
+                    "id": "smdi_2_additional_value",
+                    "name": "smdi_2_additional_value"
+                }
+            },
+            "id": "2"
+        }
 }}
 <div class="row" id="qtype-stack-metadata-additional-{{{id}}}">
     <div class="col-2 inputcol">{{#property}}{{> core_form/element-text-inline }}{{/property}}</div>

@@ -14,7 +14,18 @@
 {{!
     @template qtype_stack/metadata/metadatalanguage
 
-    See metadatacontent.mustache for sample JSON.
+    {
+        "id": "1",
+        "lang": {
+            "required": true,
+            "element": {
+                "value": "en",
+                "wrapperid": "fitem_smdi_1_language_value",
+                "id": "smdi_1_language_value",
+                "name": "smdi_1_language_value"
+            }
+        }
+    }
 }}
 <div class="row" id="qtype-stack-metadata-language-{{{id}}}">
     <div class="col-lg-2"><h5>{{#str}} language, core {{/str}}</h5></div>

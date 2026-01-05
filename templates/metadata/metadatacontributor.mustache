@@ -13,8 +13,46 @@
 }}
 {{!
     @template qtype_stack/metadata/metadatacontributor
-
-    See metadatacontent.mustache for sample JSON.
+    Example context (json):
+        {
+            "firstname": {
+                "required": false,
+                "element": {
+                    "value": "a",
+                    "wrapperid": "fitem_smdi_1_contributor_firstName",
+                    "id": "smdi_1_contributor_firstName",
+                    "name": "smdi_1_contributor_firstName"
+                }
+            },
+            "lastname": {
+                "required": true,
+                "element": {
+                    "value": "b",
+                    "wrapperid": "fitem_smdi_1_contributor_lastName",
+                    "id": "smdi_1_contributor_lastName",
+                    "name": "smdi_1_contributor_lastName"
+                }
+            },
+            "institution": {
+                "required": false,
+                "element": {
+                    "value": "c",
+                    "wrapperid": "fitem_smdi_1_contributor_institution",
+                    "id": "smdi_1_contributor_institution",
+                    "name": "smdi_1_contributor_institution"
+                }
+            },
+            "year": {
+                "required": false,
+                "element": {
+                    "value": "2025",
+                    "wrapperid": "fitem_smdi_1_contributor_year",
+                    "id": "smdi_1_contributor_year",
+                    "name": "smdi_1_contributor_year"
+                }
+            },
+            "id": "1"
+        }
 }}
 <div class="row" id="qtype-stack-metadata-contributor-{{{id}}}">
     <div class="col-md-2"><h5>{{#str}} contributor, qtype_stack {{/str}}</h5></div>

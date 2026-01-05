@@ -127,6 +127,25 @@ class behat_qtype_stack extends behat_base {
     }
 
     /**
+     * Check a hidden value
+     *
+     * @param string $name name of hidden field.
+     * @param string $value the response to give.
+     *
+     * @Given /^I check the hidden input "(?P<name>[^"]*)" is '(?P<value>[^']*)'$/
+     */
+    public function i_check_hidden_value($name, $value) {
+        $js = <<<EOF
+            return (function() {
+                let value = document.querySelector('[name="$name"]').value;
+                return value;
+            })();
+        EOF;
+        $formvalue = $this->evaluate_script($js);
+        Assert::assertEquals($value, $formvalue);
+    }
+
+    /**
      * Set the response for a given input in the Moodle app.
      *
      * @param string $identifier the text of the item to drag. E.g. '2:answer'.

@@ -13,8 +13,112 @@
 }}
 {{!
     @template qtype_stack/metadata/metadatascope
-
-    See metadatacontent.mustache for sample JSON.
+    Example context (json):
+        {
+            "name": "d",
+            "firstProp": "1",
+            "properties": [
+                {
+                    "property": {
+                        "required": true,
+                        "element": {
+                            "value": "e",
+                            "wrapperid": "fitem_smdi_1_additional_property",
+                            "id": "smdi_1_additional_property",
+                            "name": "smdi_1_additional_property"
+                        }
+                    },
+                    "qualifier": {
+                        "required": false,
+                        "element": {
+                            "value": "f",
+                            "wrapperid": "fitem_smdi_1_additional_qualifier",
+                            "id": "smdi_1_additional_qualifier",
+                            "name": "smdi_1_additional_qualifier"
+                        }
+                    },
+                    "value": {
+                        "required": false,
+                        "element": {
+                            "value": "g",
+                            "wrapperid": "fitem_smdi_1_additional_value",
+                            "id": "smdi_1_additional_value",
+                            "name": "smdi_1_additional_value"
+                        }
+                    },
+                    "id": "1"
+                },
+                {
+                    "property": {
+                        "required": true,
+                        "element": {
+                            "value": "h",
+                            "wrapperid": "fitem_smdi_2_additional_property",
+                            "id": "smdi_2_additional_property",
+                            "name": "smdi_2_additional_property"
+                        }
+                    },
+                    "qualifier": {
+                        "required": false,
+                        "element": {
+                            "value": "i",
+                            "wrapperid": "fitem_smdi_2_additional_qualifier",
+                            "id": "smdi_2_additional_qualifier",
+                            "name": "smdi_2_additional_qualifier"
+                        }
+                    },
+                    "value": {
+                        "required": false,
+                        "element": {
+                            "value": "j",
+                            "wrapperid": "fitem_smdi_2_additional_value",
+                            "id": "smdi_2_additional_value",
+                            "name": "smdi_2_additional_value"
+                        }
+                    },
+                    "id": "2"
+                },
+                {
+                    "property": {
+                        "required": true,
+                        "element": {
+                            "value": "k",
+                            "wrapperid": "fitem_smdi_3_additional_property",
+                            "id": "smdi_3_additional_property",
+                            "name": "smdi_3_additional_property"
+                        }
+                    },
+                    "qualifier": {
+                        "required": false,
+                        "element": {
+                            "value": "l",
+                            "wrapperid": "fitem_smdi_3_additional_qualifier",
+                            "id": "smdi_3_additional_qualifier",
+                            "name": "smdi_3_additional_qualifier"
+                        }
+                    },
+                    "value": {
+                        "required": false,
+                        "element": {
+                            "value": "m",
+                            "wrapperid": "fitem_smdi_3_additional_value",
+                            "id": "smdi_3_additional_value",
+                            "name": "smdi_3_additional_value"
+                        }
+                    },
+                    "id": "3"
+                }
+            ],
+            "input": {
+                "required": true,
+                "element": {
+                    "value": "d",
+                    "wrapperid": "fitem_smdi_1_additional_scope",
+                    "id": "smdi_1_additional_scope",
+                    "name": "smdi_1_additional_scope"
+                }
+            }
+        }
 }}
 <div class="scope">
     <div class="row" id="qtype-stack-metadata-scope-{{{firstProp}}}">

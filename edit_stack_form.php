@@ -257,7 +257,7 @@ class qtype_stack_edit_form extends question_edit_form {
         }
         $PAGE->requires->js_call_amd('qtype_stack/metadata/metadatamodal', 'setup');
         $mform->addElement('button', 'metadatamodal', stack_string('editmetadata'));
-        $metadataobj = json_decode($this->question->options->metadata);
+        $metadataobj = json_decode($this->question->options->metadata ?? '');
         if ($metadataobj) {
             $metadatasummary = stack_string('creator') . ': ' . ($metadataobj->creator->firstName ?? '') . ' ' . ($metadataobj->creator->lastName ?? '');
             if (isset($metadataobj->contributor) && count($metadataobj->contributor)) {
@@ -274,18 +274,18 @@ class qtype_stack_edit_form extends question_edit_form {
         $metadatatext = $mform->createElement('static', 'metadata_text', stack_string('metadatahighlights'), $metadatasummary);
         $mform->insertElementBefore($metadatatext, 'metadatamodal');
         $datalib = new \stdClass();
-        $datalib->licenses = explode(',', $CFG->licenses);
+        $datalib->licenses = explode(',', $CFG->licenses ?? '');
         $datalib->licenses = array_map(function($license) { return ['value' => $license, 'text' => get_string($license, 'license')];}, $datalib->licenses);
-        $datalib->languages = [$PAGE->cm->lang, $PAGE->course->lang, $SESSION->lang, $USER->lang, $CFG->lang, 'en'];
+        $datalib->languages = [$PAGE->cm->lang ?? '', $PAGE->course->lang ?? '', $SESSION->lang ?? '', $USER->lang ?? '', $CFG->lang ?? '', 'en'];
         $datalib->user = new stdClass();
-        $datalib->user->firstname = $USER->firstname;
-        $datalib->user->lastname = $USER->lastname;
-        $datalib->user->institution = $USER->institution;
+        $datalib->user->firstname = $USER->firstname ?? '';
+        $datalib->user->lastname = $USER->lastname ?? '';
+        $datalib->user->institution = $USER->institution ?? '';
         $datalib->placeholder = stack_string('licenseselect');
         $datalib = json_encode($datalib);
         if (!isset($this->question->id)) {
-            $data = '{"creator":{"firstName":"' . $USER->firstname . '","lastName":"' . $USER->lastname . '",' .
-            '"institution":"' . $USER->institution . '","year":"' . date('Y') . '"},' .
+            $data = '{"creator":{"firstName":"' . ($USER->firstname ?? '') . '","lastName":"' . ($USER->lastname ?? '') . '",' .
+            '"institution":"' . ($USER->institution ?? '') . '","year":"' . date('Y') . '"},' .
             '"contributor":[],"language":["' . current_language() . '"],"license":"' . $CFG->sitedefaultlicense . '"}';
         } else {
             $data = ($this->question->options->metadata) ? $this->question->options->metadata : '{}';
@@ -882,6 +882,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $question->assumepositive        = $opt->assumepositive;
         $question->assumereal            = $opt->assumereal;
         $question->isbroken              = $opt->isbroken;
+        $question->metadata              = $opt->metadata;
 
         return $question;
     }

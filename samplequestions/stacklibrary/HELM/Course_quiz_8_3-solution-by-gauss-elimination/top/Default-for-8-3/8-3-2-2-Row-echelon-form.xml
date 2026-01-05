@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>8.3.2.2 Row echelon form</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>We say a matrix is in <b>row echelon form</b> if it has the shape resulting from Gaussian elimination, where Gaussian elimination has operated on the rows. Furthermore, we say a matrix is in <b>reduced row echelon form</b> if it satisfies the following conditions:</p><ol><li>It is in row echelon form.</li><li>The leading entry in each nonzero row is a \(1 \) (called a leading \( 1 \)).</li><li>Each column containing a leading \( 1 \) has zeros in all its other entries.</li></ol>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p> The matrix
+<span class="math display">\[ \left [ \begin{matrix}
+    2 &amp; -1 &amp; 2 &amp; 0 \\
+    0 &amp; 1 &amp; 4 &amp; -2 \\
+    0 &amp; 0 &amp; -2 &amp; 3 \\
+\end{matrix} \right ] \]</span></p>
+is in row echelon form, but not reduced row echelon form. The matrices
+<p><span class="math display">\[\left [ \begin{matrix}
+    1 &amp; 0 &amp; 0 &amp; -1 \\
+    0 &amp; 1 &amp; 0 &amp; 2 \\
+    0 &amp; 0 &amp; 1 &amp; -5\\
+\end{matrix} \right], \hspace{3mm}
+\left [ \begin{matrix}
+    1 &amp; 3 &amp; 0 &amp; 0 \\
+    0 &amp; 0 &amp; 1 &amp; 0 \\
+    0 &amp; 0 &amp; 0 &amp; 1 \\
+\end{matrix} \right]\]</span></p>
+are in reduced row echelon form.]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

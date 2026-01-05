@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>20.4.1.1 Solving ODEs using Laplace transforms</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h2>Solving ODEs using Laplace transforms</h2>
+
+<p>We begin with a straightforward initial value problem involving a first order constant coefficient differential equation. Let us find the solution of \[{dy\over{dt}}+2y=12\text{e}^{3t}\qquad y(0)=3\] using the Laplace transform approach.</p>
+
+<p>Although it is not stated explicitly we shall assume that \(y(t)\) is a causal function (we have no interest in the value of \(y(t)\) if \(t < 0\).) Similarly, the function on the right-hand side of the differential equation \((12\text{e}^{3t})\), the 'forcing function', will be assumed to be causal. (Strictly, we should write \(12\text{e}^{3t}u(t)\) but the step function \(u(t)\) will often be omitted.) Let us write \({\cal L}\{y(t)\}=Y(s)\). Then, taking the Laplace transform of every term in the differential equation gives: \[ {\cal L}\{{dy\over {dt}}\}+{\cal L}\{2y\}={\cal L}\{12\text{e}^{3t}\}\] </p> 
+<p>Now \[\begin{eqnarray*} {\cal L}\{{dy\over {dt}}\}&=&-y(0)+sY(s)=-3+sY(s)\\{\cal
+L}\{2y\}&=&2Y(s)\qquad \text{ and}\qquad {\cal L}\{12\text{e}^{3t}\}={12\over {s- 3}}
+\end{eqnarray*}\]</p>
+<p> Substituting these expressions into the transformed version of the differential equation gives: \[ [-3+sY(s)]+2Y(s)={12\over {s-3}}\]</p><p>  Solving for \(Y(s)\) we have
+\[ (s+2)Y(s)={12\over {s-3}}+3={3+3s\over {s-3}}\]</p><p> Therefore
+\[ Y(s)={3(s+1)\over {(s+2)(s-3)}}\]</p>
+<p>  Now, using partial fractions, this last expression can be written in a more convenient form: \[ Y(s)={3/5\over {(s+2)}}+{12/5\over {(s-3)}}\] and then, inverting:
+\[y(t)={\cal L}^{-1}\{Y(s)\}=\tfrac{3}{5}{\cal L}^{-1}\{{1\over {s+2}}\}+\tfrac{12}{5}{\cal L}^{-1}\{{1\over {s-3}}\} \] thus
+\[y(t)=\tfrac{3}{5}\text{e}^{-2t}u(t)+\tfrac{12}{5}\text{e}^{3t}u(t)\]</p>
+<p> This is the solution to the given initial value problem.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -2,6 +2,17 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## Version 4.11.1
+
+Released January 2026.
+
+This incremental release contains some minor, but useful, bug fixes.
+
+* Add in support for JSXGraph 1.12.2.
+* Add in support for implicit plots via Maxima's `plot2d` command, wrapped in STACK as `plot`.
+
+This release contains the [HELM materials](../STACK_question_admin/Library/HELM.md) as part of the STACK question library.  HELM question banks are managed using [Gitsync](https://github.com/maths/moodle-qbank_gitsync).
+
 ## Version 4.11.0
 
 Released October 2025.

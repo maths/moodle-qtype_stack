@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>1.5.2.19 Transposition and Substitution with Units</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise <br></p>
+<p> In the design of orifice plate flowmeters, the volumetric flowrate, \(Q\) \((\textrm{m}^{2}\textrm{s}^{-1})\), is given by \[Q = CO\sqrt{\dfrac{2g\Delta h}{1 - O^{2}/P^{2}}}\] where \(C\) is a dimensionless discharge coefficient, \(\Delta h \textrm{ (m)}\)
+    is the head difference across the orifice plate and \(O\) \((\textrm{m}^{2})\) is the area of the orifice and \(P\) \((\textrm{m}^{2})\) is the area of the pipe.
+</p>
+<br>
+<ol class="HELM_parts">
+    <li>Rearrange the equation to solve for the area of the orifice, \(O\), in terms of the other variables \(O =\) [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</li>
+    <li><p>A volumetric flowrate of {@aq*10^6@} \(\textrm{cm}^{3}\textrm{s}^{-1}\) passes through a {@diam*100@} \(\textrm{cm}\) inside diameter pipe. Assuming a discharge coefficient of {@float(ac)@}, calculate the required orifice diameter, so that the head difference across the orifice plate is {@ah*1000@} \(\textrm{mm}\).</p>
+      <p>(Give your answer as a decimal to three decimal places, note that trailing zeroes are required i.e. \(2.3\) must be written as \(2.300\).)</p>
+      <p>Orifice diameter = [[input:ans2]] [[validation:ans2]]</p> [[feedback:prt2]]</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<ol class="HELM_parts">
+<li>We have the equation \[Q = CO\sqrt{\dfrac{2g\Delta h}{1-O^{2}/P^{2}}}\] First divide by \(CO\) \[\implies \dfrac{Q}{CO} = \sqrt{\dfrac{2g\Delta h}{1-O^{2}/P^{2}}}\] Square both sides \[\implies \dfrac{Q^{2}}{C^{2}O^{2}} = \dfrac{2g\Delta h}{1-O^{2}/P^{2}}\] Multiply through by \((1-O^{2}/P^{2})\), expand out the brackets and simplify \[\implies \dfrac{Q^{2}}{C^{2}O^{2}}(1-O^{2}/P^{2}) = 2g\Delta h \implies \dfrac{Q^{2}}{C^{2}O^{2}}-\dfrac{Q^{2}}{C^{2}O^{2}}(\dfrac{O^{2}}{P^{2}}) = 2g\Delta h \implies \dfrac{Q^{2}}{C^{2}O^{2}}-\dfrac{Q^{2}}{C^{2}P^{2}} = 2g\Delta h\] Multiply through by \(C^2P^2\) \[\implies \dfrac{Q^{2}P^{2}}{O^2}-Q^2 = 2g\Delta hC^{2}P^{2}\] Add \(Q^2\) to both sides \[\implies \dfrac{Q^{2}P^{2}}{O^2} = Q^2+2g\Delta hC^{2}P^{2}\] Multiply by \(O^2\) \[\implies Q^{2}P^{2} = O^2(Q^2+2g\Delta hC^{2}P^{2})\] Divide by \((Q^2+2g\Delta hC^{2}P^{2})\) \[\implies O^2 = \dfrac{Q^{2}P^{2}}{Q^2+2g\Delta hC^{2}P^{2}}\] We then take the square root of both sides of the equation \[\implies \sqrt{O^2} = \sqrt{\dfrac{Q^{2}P^{2}}{Q^2+2g\Delta hC^{2}P^{2}}}\] Since Q, O and A take positive values this can be simplified to transpose the equation in terms of \(O\) \[\implies O = \dfrac{QP}{\sqrt{Q^2+2g\Delta hC^{2}P^{2}}}\]</li>
+
+<li>We first need to convert these input values so to SI units.
+<br>
+<p>\(Q = {@aq*10^6@} \textrm{ cm}^{3}\textrm{s}^{-1} = {@dispsf(float(aq),1)@} \textrm{ m}^{3}\textrm{s}^{-1}\)</p>
+<p>diameter of pipe \(= {@diam*100@} \textrm{ cm} = {@float(diam)@} \textrm{ m} \implies P = \pi \dfrac{{@float(diam)@}^2}{4} = {@dispsf(float(ap),4)@}...\textrm{ m}\)</p>
+<p>\(C = {@float(ac)@}\)</p>
+<p>\(\Delta h =  {@ah*1000@} \textrm{ mm} =  {@float(ah)@} \textrm{ m}\)</p>
+<p>\(g = 9.81 \textrm{ m}\textrm{s}^{-2}\)</p>
+<br>
+We can now substitute these values into our equation for \(O\) \[O = \dfrac{QP}{\sqrt{Q^2+2g\Delta hC^{2}P^{2}}} = \dfrac{{@dispsf(float(aq),1)@}\cdot {@dispsf(float(ap),4)@}...}{\sqrt{{@dispsf(float(aq),1)@}^2+2\cdot 9.81\cdot {@float(ah)@}\cdot {@float(ac)@}^{2}\cdot ({@dispsf(float(ap),4)@}...)^{2}}} = {@ta2w@}\]
+To finally get the orifice diameter from this value we transpose the formula for the area of a circle \(\text{area} = \pi \cdot (\dfrac{diameter}{2})^2\) to get \[\text{orifice diameter} = 2 \sqrt{\dfrac{O}{\pi}} = 2 \sqrt{\dfrac{{@ta2w@}}{\pi}} = {@ta2@}\]
+</li></ol>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2022082900</text>
+    </stackversion>
+    <questionvariables>
+      <text>stack_unit_si_declare(true);
+eqn: C*O*((2*g*h)/(1-(O^2/P^2)))
+
+ta1: (Q*P)/sqrt(Q^2+2*g*h*C^2*P^2)
+
+aq: rand([1/10000,1/5000])
+diam: rand([1/10,1/5])
+ap: %pi*((diam/2)^2)
+ah: rand([1/5,2/5])
+ac: rand([6/10,8/10])
+
+eqnd: sqrt((4/%pi)*((Q*P)/sqrt(Q^2+2*g*h*C^2*P^2)))
+ta2: stackunits(dispsf(float(ev(eqnd,Q=aq,P=ap,g=981/1000,h=ah,C=ac)),3), m)
+ta2w: stackunits(dispsf(float(ev(ta1,Q=aq,P=ap,g=981/1000,h=ah,C=ac)),3), m^2)</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\( Q ={@aq*10^6@} \textrm{cm}^{3}\textrm{s}^{-1}, \, C =  {@float(ac)@} \) so \( O = {@ta2@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>20</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>units</type>
+      <tans>ta2</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>Units</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions>[2,-1]</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>Units</answertest>
+        <sans>ans2</sans>
+        <tans>stackunits(dispsf(float(ev(sqrt((4/%pi)*(ans1)),Q=aq,P=ap,g=981/1000,h=ah,C=ac)),3), m)</tans>
+        <testoptions>[2,-1]</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text>You have correctly substituted the inputs into your equation for part (a) however because your part (a) is wrong this is also not the correct answer.</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>11819744</deployedseed>
+    <deployedseed>78265521</deployedseed>
+    <deployedseed>949671228</deployedseed>
+    <deployedseed>78442244</deployedseed>
+    <deployedseed>1698539413</deployedseed>
+    <deployedseed>1889586457</deployedseed>
+    <deployedseed>1545749093</deployedseed>
+    <deployedseed>10719976</deployedseed>
+    <deployedseed>402899688</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>stackunits(dispsf(float(ev(eqnd*100,Q=aq,P=ap,g=981/1000,h=ah,C=ac)),3), cm)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>2</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>dispsf(sqrt((4/%pi)*(2)),3)*m</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

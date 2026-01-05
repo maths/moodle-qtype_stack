@@ -1,0 +1,178 @@
+{
+    "quiz": {
+        "name": "15_2 Calculating Centres of Mass",
+        "intro": "We show how the idea of integration as the limit of a sum can be used to \ufb01nd the centre of mass of an object such as a thin plate (like a sheet of metal). Such a plate is also known as a lamina. An understanding of the term moment is necessary and so this concept is introduced.\n",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "4",
+            "heading": "Multiple point masses",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "7",
+            "heading": "Point masses in the plane",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "10",
+            "heading": "Plane laminas",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "12",
+            "heading": "Different methods to compute the centre of mass",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "15",
+            "heading": "Centre of mass of different shapes",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-15-2\/15-2-1-1-The-centre-of-mass-of-a-collection-of-point-masses.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-15-2\/15-2-1-2-Moment-of-single-point-mass.xml"
+        },
+        {
+            "slot": "3",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-15-2\/15-2-1-3-Intuition-behind-moments.xml"
+        },
+        {
+            "slot": "4",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-15-2\/15-2-1-4-Calculating-centre-of-mass-rod-with-2-masses.xml"
+        },
+        {
+            "slot": "5",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-15-2\/15-2-1-5-Computing-COM-for-multiple-point-masses.xml"
+        },
+        {
+            "slot": "6",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-15-2\/15-2-1-6-COM-of-4-masses-on-line.xml"
+        },
+        {
+            "slot": "7",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-15-2\/15-2-1-7-Distribution-of-particles-in-a-plane.xml"
+        },
+        {
+            "slot": "8",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-15-2\/15-2-1-8-COM-of-point-masses-in-plane.xml"
+        },
+        {
+            "slot": "9",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-15-2\/15-2-1-9-COM-of-5-masses-on-line.xml"
+        },
+        {
+            "slot": "10",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-15-2\/15-2-2-1-COM-of-plane-lamina.xml"
+        },
+        {
+            "slot": "11",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-15-2\/15-2-2-2-COM-of-symmetric-triangular-lamina.xml"
+        },
+        {
+            "slot": "12",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-15-2\/15-2-2-3-x-coordinate-of-COM-of-triangular-lamina.xml"
+        },
+        {
+            "slot": "13",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-15-2\/15-2-2-4-y-coord-of-COM-of-lamina-by-vertical-strips.xml"
+        },
+        {
+            "slot": "14",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-15-2\/15-2-2-5-y-coord-of-COM-of-lamina-by-horizontal-strips.xml"
+        },
+        {
+            "slot": "15",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-15-2\/15-2-2-6b-The-formula-which-doesn-t-exist.xml"
+        },
+        {
+            "slot": "16",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-15-2\/15-2-2-6-COM-of-semicircular-lamina.xml"
+        },
+        {
+            "slot": "17",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-15-2\/15-2-2-9-COM-of-parabola.xml"
+        },
+        {
+            "slot": "18",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-15-2\/15-2-2-7-Suspended-cable.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

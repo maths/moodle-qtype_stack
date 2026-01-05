@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>29.2.4.20 Vector field grad volume integral</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>For \(f = {@aa*x^2@} + {@bb*y*z@}\), and \(V\) the volume bounded by \(y = 0\), \(x + y = 1\) and \(-x + y = 1\) for \(-1 \leq z \leq 1\), find the integral \(\displaystyle \iiint _V (\underline{\nabla}f )\ \mathrm{d}V\).</p>
+
+<p>\(\displaystyle \iiint _V (\underline{\nabla}f )\ \mathrm{d}V =\) [[input:ans1]][[validation:ans1]]\(\underline{i} +\) [[input:ans2]][[validation:ans2]] \(\underline{j} +\) [[input:ans3]][[validation:ans3]]\(\underline{k}\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p>For \(f = {@aa*x^2@} + {@bb*y*z@}\), and \(V\) the volume bounded by \(y = 0\), \(x + y = 1\) and \(-x + y = 1\) for \(-1 \leq z \leq 1\), we aim to find the integral \(\displaystyle \iiint _V (\underline{\nabla}f )\ \mathrm{d}V\).</p>
+
+<p>We start by calculating \(\underline{\nabla}f \):
+\[
+\begin{aligned}
+\underline{\nabla}f & = \frac{\partial}{\partial x}({@aa*x^2@} + {@bb*y*z@}) \underline{i} + \frac{\partial}{\partial y}({@aa*x^2@} + {@bb*y*z@}) \underline{j} + \frac{\partial}{\partial z}({@aa*x^2@} + {@bb*y*z@}) \underline{k}\\
+&= {@2*aa*x@}\underline{i} + {@bb*z@}\underline{j} + {@bb*y@}\underline{k}
+\end{aligned}
+\]
+This can be integrated directly as follows:
+\[
+\begin{aligned}
+\int _V \underline{F} \mathrm{d}V &= \int^{z=1}_{z=-1} \int^{x=0}_{x=-1} \int^{y=1+x}_{y=0}{@expressioni@}\underline{i} +{@expressionj@}\underline{j} + {@expressionk@}\underline{k}  \ \mathrm{d}y\ \mathrm{d}x\ \mathrm{d}z + \int^{z=1}_{z=-1} \int^{x=1}_{x=0} \int^{y=1-x}_{y=0}{@expressioni@}\underline{i} +{@expressionj@}\underline{j} + {@expressionk@}\underline{k}  \ \mathrm{d}y\ \mathrm{d}x\ \mathrm{d}z\\
+&= \int^{z=1}_{z=-1} \int^{x=0}_{x=-1} \left[{@Aia_indef@}\underline{i} +{@Aja_indef@}\underline{j} + {@Aka_indef@}\underline{k}\right]^{y=1+x}_{y=0}\ \mathrm{d}x\ \mathrm{d}z + \int^{z=1}_{z=-1} \int^{x=1}_{x=0} \left[{@Bia_indef@}\underline{i} +{@Bja_indef@}\underline{j} + {@Bka_indef@}\underline{k}\right]^{y=1-x}_{y=0}\ \mathrm{d}x\ \mathrm{d}z\\
+&= \int^{z=1}_{z=-1} \int^{x=0}_{x=-1}{@Aia_def@}\underline{i} +{@Aja_def@}\underline{j} + {@Aka_def@}\underline{k} \ \mathrm{d}x\ \mathrm{d}z + \int^{z=1}_{z=-1} \int^{x=1}_{x=0}{@Bia_def@}\underline{i} +{@Bja_def@}\underline{j} + {@Bka_def@}\underline{k}\ \mathrm{d}x\ \mathrm{d}z\\
+&= \int^{z=1}_{z=-1} \left[{@Aib_indef@}\underline{i} +{@Ajb_indef@}\underline{j} + {@Akb_indef@}\underline{k}\right]^{x=0}_{x=-1}\ \mathrm{d}z +  \int^{z=1}_{z=-1} \left[{@Bib_indef@}\underline{i} +{@Bjb_indef@}\underline{j} + {@Bkb_indef@}\underline{k}\right]^{x=1}_{x=0}\ \mathrm{d}z\\
+&= \int^{z=1}_{z=-1} {@Aib_def@}\underline{i} +{@Ajb_def@}\underline{j} + {@Akb_def@}\underline{k}\ \mathrm{d}z + \int^{z=1}_{z=-1} {@Bib_def@}\underline{i} +{@Bjb_def@}\underline{j} + {@Bkb_def@}\underline{k}\ \mathrm{d}z\\
+&=\left[{@Aic_indef@}\underline{i} +{@Ajc_indef@}\underline{j} + {@Akc_indef@}\underline{k}\right]^{z=1}_{z=-1} + \left[{@Bic_indef@}\underline{i} +{@Bjc_indef@}\underline{j} + {@Bkc_indef@}\underline{k}\right]^{z=1}_{z=-1}\\
+&={@tai@}\underline{i} +{@taj@}\underline{j} + {@tak@}\underline{k}
+\end{aligned}
+\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025073100</text>
+    </stackversion>
+    <questionvariables>
+      <text>aa:rand(5)+1;
+bb:rand(5)+1;
+
+expressioni:2*aa*x;
+Aia_indef:integrate(expressioni, y);
+Aia_def:integrate(expressioni, y, 0, 1+x);
+Aib_indef:integrate(Aia_def, x);
+Aib_def:integrate(Aia_def, x, -1, 0);
+Aic_indef:integrate(Aib_def, z);
+Aic_def:integrate(Aib_def, z, -1, 1);
+
+expressionj:bb*z;
+Aja_indef:integrate(expressionj, y);
+Aja_def:integrate(expressionj, y, 0, 1+x);
+Ajb_indef:integrate(Aja_def, x);
+Ajb_def:integrate(Aja_def, x, -1, 0);
+Ajc_indef:integrate(Ajb_def, z);
+Ajc_def:integrate(Ajb_def, z, -1, 1);
+
+expressionk:bb*y;
+Aka_indef:integrate(expressionk, y);
+Aka_def:integrate(expressionk, y, 0, 1+x);
+Akb_indef:integrate(Aka_def, x);
+Akb_def:integrate(Aka_def, x, -1, 0);
+Akc_indef:integrate(Akb_def, z);
+Akc_def:integrate(Akb_def, z, -1, 1);
+
+
+
+Bia_indef:integrate(expressioni, y);
+Bia_def:integrate(expressioni, y, 0, 1-x);
+Bib_indef:integrate(Bia_def, x);
+Bib_def:integrate(Bia_def, x, 0, 1);
+Bic_indef:integrate(Bib_def, z);
+Bic_def:integrate(Bib_def, z, -1, 1);
+
+Bja_indef:integrate(expressionj, y);
+Bja_def:integrate(expressionj, y, 0, 1-x);
+Bjb_indef:integrate(Bja_def, x);
+Bjb_def:integrate(Bja_def, x, 0, 1);
+Bjc_indef:integrate(Bjb_def, z);
+Bjc_def:integrate(Bjb_def, z, -1, 1);
+
+Bka_indef:integrate(expressionk, y);
+Bka_def:integrate(expressionk, y, 0, 1-x);
+Bkb_indef:integrate(Bka_def, x);
+Bkb_def:integrate(Bka_def, x, 0, 1);
+Bkc_indef:integrate(Bkb_def, z);
+Bkc_def:integrate(Bkb_def, z, -1, 1);
+
+tai:Aic_def+Bic_def;
+taj:Ajc_def+Bjc_def;
+tak:Akc_def+Bkc_def;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="html">
+      <text>\(f = {@aa*x^2@} + {@bb*y*z@} \quad \text{so} \displaystyle \iiint _V (\underline{\nabla}f )\ \mathrm{d}V ={@tai@} \underline{i} +{@taj@} \underline{j} +{@tak@} \underline{k}\)</text>
+    </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>onum</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>tai</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>taj</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>algebraic</type>
+      <tans>tak</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>tai</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>taj</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>tak</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>434830002</deployedseed>
+    <deployedseed>801064986</deployedseed>
+    <deployedseed>3702046</deployedseed>
+    <deployedseed>1552212234</deployedseed>
+    <deployedseed>1841176150</deployedseed>
+    <deployedseed>719850341</deployedseed>
+    <deployedseed>1076648127</deployedseed>
+    <deployedseed>585722611</deployedseed>
+    <deployedseed>984796001</deployedseed>
+    <deployedseed>594043337</deployedseed>
+    <deployedseed>803649278</deployedseed>
+    <deployedseed>453362996</deployedseed>
+    <deployedseed>308423472</deployedseed>
+    <deployedseed>1161980324</deployedseed>
+    <deployedseed>634257717</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>tai</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>taj</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>tak</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description>fail</description>
+      <testinput>
+        <name>ans1</name>
+        <value>tai</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>taj</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>tak+1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt1-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

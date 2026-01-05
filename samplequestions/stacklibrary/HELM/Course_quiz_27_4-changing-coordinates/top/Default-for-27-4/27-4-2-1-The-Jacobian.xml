@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>27.4.2.1 The Jacobian</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3> The Jacobian </h3>
+<p>Given an integral of the form \(\displaystyle \displaystyle\int\displaystyle\int_{A}f(x,y)\;\mathrm{d}x\,\mathrm{d} y\), assume we have a change of variables of the form \(x=x(u,v)\) and \(y=y(u,v)\) then the Jacobian of the transformation is defined as \[\displaystyle J(u,v)=\left| \begin{array}{cc} \displaystyle \frac{\partial x}{\partial u}&\displaystyle \frac{\partial x}{\partial v}\\ &\\ \displaystyle \frac{\partial y}{\partial u}&amp;\displaystyle \frac{\partial y}{\partial v} \end{array}\right|.\]</p>
+
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<h6>Jacobian in Two Variables </h6>
+For given transformations \(x=x(u,v)\) and \(y=y(u,v)\) the Jacobian is
+\[\displaystyle J(u,v)=\left|
+\begin{array}{cc}
+\displaystyle \frac{\partial x}{\partial u}&\displaystyle \frac{\partial x}{\partial v}\\
+&\\
+ \displaystyle \frac{\partial y}{\partial
+u}&\displaystyle \frac{\partial y}{\partial v}
+\end{array}\right|\]
+Notice the pattern occurring in the \(x\), \(y\), \(u\) and
+\(v\). Across a row of the determinant the numerators are the same and
+down a column the denominators are the same.
+</div>
+<p><strong>Notation</strong> Different textbooks use different notation for the Jacobian. The following are equivalent. \[\displaystyle J(u,v)=J(x,y;u,v)=J\left(\frac{x,y}{u,v}\right)=\left|\frac{\partial(x,y)}{\partial(u,v)}\right|\]</p>
+<p>The Jacobian correctly describes how area elements change under such a transformation. The required relationship is \(\displaystyle \mathrm{d} x\,\mathrm{d} y\to\left|J(u,v)\right|\; \mathrm{d}u\, \mathrm{d} v\) that is, \(\left|J(u,v)\right|\; \mathrm{d}u\, \mathrm{d} v\) plays the role of \(\mathrm{d}x\,\mathrm{d}y\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

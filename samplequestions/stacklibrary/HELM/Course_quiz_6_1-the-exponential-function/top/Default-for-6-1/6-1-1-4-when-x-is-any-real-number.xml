@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>6.1.1.4 when x is any real number</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h5><b>Defining \(a^x\) when \(x\) is any real number</b></h5><p>So far we have given the meaning of \(a^p\) where \(p\) is an integer or a rational number, that is, one which can be written as a quotient of integers. So, if \(p\) is rational, then \[\qquad p=\dfrac{m}{n}, \qquad \text{ where } m,n \text{ are integers}. &nbsp; \]</p><p>Now consider \(x\) as a real number which cannot be written as a rational number. Two common examples of these <b>irrational</b> numbers are \(\sqrt{2}\) and \(\pi\). What we shall do is <i>approximate</i> \(x\) by a rational number by working to a fixed number of decimal places. For example if \[\qquad x=3.14159265\dots,&nbsp; \] then, if we are working to 3 d.p., we would write \[\qquad x\approx 3.142,&nbsp; \] and <b>this</b> number can certainly be expressed as a rational number: \[\qquad x\approx 3.142=\dfrac{3142}{1000},&nbsp; \] so in this case \[\qquad a^x=a^{3.14159\dots}\approx a^{3.142}=a^{\dfrac{3142}{1000}}. \] and the final term:&nbsp;\( a^{\dfrac{3142}{1000}} \) can be determined in the usual way by&nbsp; calculator. Henceforth, we shall therefore assume that the expression \(a^x\) is defined for all positive values of \(a\) and for&nbsp; <b>all</b> real values of \(x\).<br></p><p>This approach will allow us, with some care, to approximate \(a^x\) for any real numbers.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

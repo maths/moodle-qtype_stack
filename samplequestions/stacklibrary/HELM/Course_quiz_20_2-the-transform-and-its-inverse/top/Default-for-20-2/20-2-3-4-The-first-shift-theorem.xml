@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>20.2.3.4 The first shift theorem</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p><strong>Inverting using completion of the square</strong></p>
+<br>
+<p></p>
+<p>The function: </p>
+<p>\(\qquad F(s)={4s\over s^2+2s+5}\)</p> does not appear in the table of transforms and, again, needs amending before we can find its inverse transform. In this case, because \(s^2+2s+5\) does not have nice factors, we complete the square in the denominator:
+<p>\(\qquad s^2+2s+5\equiv (s+1)^2+4\)</p> and so
+<p>\(\qquad F(s)={4s\over s^2+2s+5}={4s\over (s+1)^2+4}\)</p> Now the numerator needs amending slightly to enable us to use the appropriate rule in the table of transforms (Table 1, Rule 8):
+<p>\[\begin{aligned} F(s)={4s\over (s+1)^2+4}&amp;=4\left\{{s+1-1\over (s+1)^2+4}\right\}\\ &amp;=4\left\{{s+1\over (s+1)^2+4}-{1\over (s+1)^2+4}\right\}\\ &amp;={4(s+1)\over (s+1)^2+4}-2\left[{2\over (s+1)^2+4}\right] \end{aligned}\]</p>
+Hence
+<p>\[\begin{aligned} {\cal L}^{-1}\{F(s)\}&amp;=4{\cal L}^{-1}\left\{{s+1\over (s+1)^2+4}\right\}-2{\cal L}^{-1}\left\{{2\over (s+1)^2+4}\right\}\\ &amp;=4\text{e}^{-t}\cos 2t\,.\,u(t)-2\text{e}^{-t}\sin 2t\,.\, u(t)\\ &amp;=\text{e}^{-t}[4\cos
+    2t-2\sin 2t]u(t)\end{aligned}\]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

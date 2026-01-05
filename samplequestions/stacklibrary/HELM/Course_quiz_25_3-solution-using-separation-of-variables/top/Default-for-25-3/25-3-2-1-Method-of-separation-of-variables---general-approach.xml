@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>25.3.2.1  Method of separation of variables - general approach</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Method of separation of variables - general approach</h3>
+
+<p>In Section 25.2 we showed that</p>
+<ol type="a">
+
+    <ol type="a">
+        <li>
+            <p><span class="math inline">\(u(x,y)=\sin x \cosh y\)</span> <br>is
+                <span><strong>a</strong></span> solution of the two-dimensional Laplace equation
+            </p>
+        </li>
+        <li>
+            <p><span class="math inline">\(u(x,t)=e^{-2\pi^2t}\sin \pi
+x\)</span> <br>is <span><strong>a</strong></span> solution of the one-dimensional heat conduction equation</p>
+        </li>
+        <li>
+            <p><span class="math inline">\(u(x,t)=u_0\sin \left(\dfrac{\pi
+x}{\ell}\right)\cos \left(\dfrac{\pi c
+t}{\ell}\right)\)</span> <br>is <span><strong>a</strong></span> solution of the one-dimensional wave equation.</p>
+        </li>
+    </ol>
+
+</ol>
+<p>All three solutions here have a specific form: in (a) <span class="math inline">\(u(x,y)\)</span> is a product of a function of
+    <span class="math inline">\(x\)</span> alone, <span class="math inline">\(\sin x\)</span>, and a function of <span class="math inline">\(y\)</span> alone, <span class="math inline">\(\cosh y\)</span>. Similarly, in both (b) and (c),
+    <span class="math inline">\(u(x,t)\)</span> is a product of a function of <span class="math inline">\(x\)</span> alone and a function of <span class="math inline">\(t\)</span> alone. </p><br>The method of separation of variables involves finding solutions
+of PDEs which are of this product form. In the method we assume that a solution to a PDE has the form.
+<p></p>
+
+<table width="80%">
+    <tbody>
+        <tr>
+            <td>\(\qquad\displaystyle u(x,t)=X(x) T(t)\) </td>
+            <td>\(\text{or}\qquad u(x,y)=X(x) Y(y))\)</td>
+        </tr>
+    </tbody>
+</table>
+
+<p>where <span class="math inline">\(X(x)\)</span> is a function of <span class="math inline">\(x\)</span> only, <span class="math inline">\(T(t)\)</span> is a function of <span class="math inline">\(t\)</span> only and <span class="math inline">\(Y(y)\)</span>    is a function <span class="math inline">\(y\)</span> only. You should note that not all solutions to PDEs are of this type; for example, it is easy to verify that </p>
+<p><span class="math inline">\(\qquad\displaystyle
+  u(x,y)=x^2-y^2\)</span> </p>(which is <span><strong>not</strong></span> of the form <span class="math inline">\(u(x,y)=X(x) Y(y)\)</span>) is a solution of the Laplace equation. <br>However, many interesting and useful solutions of PDEs are obtainable
+which are of the product form. We shall firstly consider the types of solution obtainable for our three basic PDEs using trial solutions of the product form.]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

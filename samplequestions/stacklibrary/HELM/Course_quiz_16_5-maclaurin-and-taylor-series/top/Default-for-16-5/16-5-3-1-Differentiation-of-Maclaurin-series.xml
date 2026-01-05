@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>16.5.3.1 Differentiation of Maclaurin series</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3><span>Differentiation of Maclaurin series</span></h3><br>
+<p>We have already noted that, by the binomial series, <span class="math inline">\[ \dfrac{1}{1-x}=1+x+x^2+x^3+\cdots\qquad |x|&lt;1.\]</span> Thus, with <span class="math inline">\(x\)</span> replaced by <span class="math inline">\(-x\)</span>
+    <span class="math inline">\[ \dfrac{1}{1+x}=1-x+x^2-x^3+\cdots \qquad |x|&lt;1.\]</span> We have previously obtained the Maclaurin expansion of <span class="math inline">\(\ln(1+x)\)</span>: <span class="math inline">\[ \ln (1+x)=x-\dfrac{x^2}{2}+\dfrac{x^3}{3}-\dfrac{x^4}{4}+\cdots \qquad -1&lt;x\le 1.\]</span> Now, we differentiate both sides with respect to <span class="math inline">\(x\)</span>:</p>
+<p><span class="math inline">\[ \dfrac{1}{1+x}=1-x+x^2-x^3+\cdots\]</span> This result matches that found from the binomial series and demonstrates that the Maclaurin expansion of a function <span class="math inline">\(f(x)\)</span> may be differentiated
+    term by term to give a series which will be the Maclaurin expansion of <span class="math inline">\(\dfrac {\mathrm{d}f}{\mathrm{d}x}.\)</span></p>
+<p>The derived series will have the <span><strong>same</strong></span> radius of convergence as the original series.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

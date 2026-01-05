@@ -65,6 +65,28 @@ final class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals($maximaconfig, $maximaversion);
     }
 
+    public function test_stackmaximaversion(): void {
+
+        // This test ensures that we are not running against different
+        // version number of the STACK-Maxima scripts. For example,
+        // old image in a server setup or a cache layer somewhere.
+
+        $scriptversion = file_get_contents(__DIR__ . '/../stack/maxima/stackmaxima.mac');
+        $scriptversion = explode('stackmaximaversion:', $scriptversion);
+        $scriptversion = $scriptversion[count($scriptversion) - 1];
+        $scriptversion = explode('$', $scriptversion)[0];
+        
+        $cs = stack_ast_container::make_from_teacher_source('stackmaximaversion', 'version-check');
+
+        $session = new stack_cas_session2([$cs]);
+
+        $session->get_valid();
+        $session->instantiate();
+
+        $this->assertEquals($scriptversion, $cs->get_value(),
+            'To fix this: Check STACK-Maxima script versions, purge caches and/or regenerate images.');
+    }
+
     public function test_get_valid(): void {
 
         $strings = ['foo', 'bar', 'sqrt(4)'];
@@ -484,7 +506,7 @@ final class cassession2_test extends qtype_stack_testcase {
         $at1->instantiate();
         $this->assertEquals('2\, x', $s1[0]->get_display());
         $this->assertEquals('2\times 3\, x', $s1[1]->get_display());
-        $this->assertEquals('3\, 5^2', $s1[2]->get_display());
+        $this->assertEquals('3\times 5^2', $s1[2]->get_display());
         $this->assertEquals('3\, x^2', $s1[3]->get_display());
         $this->assertEquals('x\, \left(-y\right)', $s1[4]->get_display());
         $this->assertEquals('3\times \left(-4\right)\, x\, \left(-y\right)', $s1[5]->get_display());
@@ -493,6 +515,7 @@ final class cassession2_test extends qtype_stack_testcase {
         $cs = [
             'texput(multsgnonlyfornumberssym, "\\\\cdot")',
             'a:9*x', 'b:5*7*x', 'c:3*5^2', 'd:3*x^2', 'z:3*(5/2)',
+            '3*(4/5)*x', '3*4/5*x', '3*(-4/5)*x', '7/6*x+3/4*y',
         ];
         foreach ($cs as $s) {
             $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
@@ -506,10 +529,13 @@ final class cassession2_test extends qtype_stack_testcase {
         $at1->instantiate();
         $this->assertEquals('9\, x', $s1[1]->get_display());
         $this->assertEquals('5\cdot 7\, x', $s1[2]->get_display());
-        $this->assertEquals('3\, 5^2', $s1[3]->get_display());
+        $this->assertEquals('3\cdot 5^2', $s1[3]->get_display());
         $this->assertEquals('3\, x^2', $s1[4]->get_display());
-        $this->assertEquals('3\, x^2', $s1[4]->get_display());
-        $this->assertEquals('3\, \left(\frac{5}{2}\right)', $s1[5]->get_display());
+        $this->assertEquals('3\cdot \frac{5}{2}', $s1[5]->get_display());
+        $this->assertEquals('3\cdot \frac{4}{5}\, x', $s1[6]->get_display());
+        $this->assertEquals('\left(\frac{3\cdot 4}{5}\right)\, x', $s1[7]->get_display());
+        $this->assertEquals('3\cdot \left(\frac{-4}{5}\right)\, x', $s1[8]->get_display());
+        $this->assertEquals('\frac{7}{6}\, x+\frac{3}{4}\, y', $s1[9]->get_display());
     }
 
     public function test_multiplication_option_space(): void {
@@ -1782,7 +1808,7 @@ final class cassession2_test extends qtype_stack_testcase {
                 '1000.0', '1000.0', '1000.0', '1000{,}0',
             ],
             [
-                '-1000', '', '-1.0\cdot 10^3', '-1{,}0\cdot 10^3', '-(1.0*10^3)', '(-1.0)*10^3',
+                '-1000', '', '-1.0\cdot 10^3', '-1{,}0\cdot 10^3', '-(1.0*10^3)', '-1.0*10^3',
                 '-1000.0', '-1000.0', '-1000.0', '-1000{,}0',
             ],
             [
@@ -1800,15 +1826,15 @@ final class cassession2_test extends qtype_stack_testcase {
 
             // @codingStandardsIgnoreEnd
             [
-                '-0.00000001', '', '-1.0\cdot 10^ {- 8 }', '-1{,}0\cdot 10^ {- 8 }', '-(1.0*10^-8)', '(-1.0)*10^-8',
+                '-0.00000001', '', '-1.0\cdot 10^ {- 8 }', '-1{,}0\cdot 10^ {- 8 }', '-(1.0*10^-8)', '-1.0*10^-8',
                 '-1.0E-8', '-1.0E-8', '-1.0E-8', null,
             ],
             [
-                '-0.000000001', '', '-1.0\cdot 10^ {- 9 }', '-1{,}0\cdot 10^ {- 9 }', '-(1.0*10^-9)', '(-1.0)*10^-9',
+                '-0.000000001', '', '-1.0\cdot 10^ {- 9 }', '-1{,}0\cdot 10^ {- 9 }', '-(1.0*10^-9)', '-1.0*10^-9',
                 '-1.0E-9', '-1.0E-9', '-1.0E-9', null,
             ],
             [
-                '-0.000000000001', '', '-1.0\cdot 10^ {- 12 }', '-1{,}0\cdot 10^ {- 12 }', '-(1.0*10^-12)', '(-1.0)*10^-12',
+                '-0.000000000001', '', '-1.0\cdot 10^ {- 12 }', '-1{,}0\cdot 10^ {- 12 }', '-(1.0*10^-12)', '-1.0*10^-12',
                 '-1.0E-12', '-1.0E-12', '-1.0E-12', null,
             ],
         ];
@@ -2390,15 +2416,15 @@ final class cassession2_test extends qtype_stack_testcase {
         $at1->instantiate();
 
         $this->assertEquals('-(4*x^7)+3*x^5+(-2)*x^3+x', $s1[0]->get_value());
-        $this->assertEquals('-(4*x^7)+3*x^5-2*x^3+x', $s1[0]->get_dispvalue());
+        $this->assertEquals('-4*x^7+3*x^5-2*x^3+x', $s1[0]->get_dispvalue());
         $this->assertEquals('-4\cdot x^7+3\cdot x^5-2\cdot x^3+x', $s1[0]->get_display());
 
-        $this->assertEquals('(-a)/b', $s1[1]->get_value());
-        $this->assertEquals('(-a)/b', $s1[1]->get_dispvalue());
+        $this->assertEquals('-a/b', $s1[1]->get_value());
+        $this->assertEquals('-a/b', $s1[1]->get_dispvalue());
         $this->assertEquals('\frac{-a}{b}', $s1[1]->get_display());
 
-        $this->assertEquals('(-a)/b', $s1[2]->get_value());
-        $this->assertEquals('(-a)/b', $s1[2]->get_dispvalue());
+        $this->assertEquals('-a/b', $s1[2]->get_value());
+        $this->assertEquals('-a/b', $s1[2]->get_dispvalue());
         $this->assertEquals('\frac{-a}{b}', $s1[2]->get_display());
 
         $this->assertEquals('-(a/b)', $s1[3]->get_value());
@@ -2584,7 +2610,7 @@ final class cassession2_test extends qtype_stack_testcase {
         $t1 = [];
         $t1[] = ['simp:false', 'false'];
         $t1[] = ['l0:safe_op(2/3)', '"/"'];
-        $t1[] = ['l1:[1,-2,2/3,-4/3, 4/16, 9/3]', '[1,-2,2/3,(-4)/3,4/16,9/3]'];
+        $t1[] = ['l1:[1,-2,2/3,-4/3, 4/16, 9/3]', '[1,-2,2/3,-4/3,4/16,9/3]'];
         $t1[] = ['l2:map(rational_numberp, l1);', '[false,false,true,true,true,true]'];
         $t1[] = ['l3:get_safe_ops(a+b/c)', '{"+","/"}'];
 
@@ -2847,15 +2873,21 @@ final class cassession2_test extends qtype_stack_testcase {
     public function test_parens_delect_display(): void {
 
         $cases = [];
-        $cases[] = ['disp_parens(a+b)+c', '\left( a+b \right)+c'];
-        $cases[] = ['int(disp_parens(x-2),x)', '\int {\left( x-2 \right)}{\;\mathrm{d}x}'];
+        $cases[] = ['disp_parens(a+b)+c', '\left( a+b \right)+c', '(a+b)+c'];
+        $cases[] = [
+            'int(disp_parens(x-2),x)',
+            '\int {\left( x-2 \right)}{\;\mathrm{d}x}',
+            '\'integrate((x-2),x)',
+        ];
         $cases[] = [
             'disp_parens(display_complex(1+%i))*x^2+disp_parens(display_complex(1-%i))',
             '\left( 1+\mathrm{i} \right)\cdot x^2+\left( 1-\mathrm{i} \right)',
+            // This case has subtle differences between SBCL and GCL which don't matter, but which break CI.
+            '',
         ];
-        $cases[] = ['disp_select(a+b)+c', '\color{red}{\underline{a+b}}+c'];
-        $cases[] = ['disp_select(a+b)^3', '{\color{red}{\underline{a+b}}}^3'];
-        $cases[] = ['remove_disp(disp_select(a+b)+c)', 'a+b+c'];
+        $cases[] = ['disp_select(a+b)+c', '\color{red}{\underline{a+b}}+c', 'disp_select(a+b)+c'];
+        $cases[] = ['disp_select(a+b)^3', '{\color{red}{\underline{a+b}}}^3', 'disp_select(a+b)^3'];
+        $cases[] = ['remove_disp(disp_select(a+b)+c)', 'a+b+c', '(a+b)+c'];
 
         $s1 = [];
         foreach ($cases as $k => $case) {
@@ -2871,6 +2903,9 @@ final class cassession2_test extends qtype_stack_testcase {
 
         foreach ($cases as $k => $case) {
             $this->assertEquals($case[1], $s1[$k]->get_display());
+            if ($case[2] !== '') {
+                $this->assertEquals($case[2], $s1[$k]->get_value());
+            }
         }
     }
 
@@ -3139,25 +3174,84 @@ final class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('X^3-3*X^2+3*X-1', $p->get_value());
     }
 
-    public function test_stackmaximaversion(): void {
+    public function test_unary_minus_sort(): void {
+        $cases = [];
+        // Minus as an infix operator. Notice the difference between (-8)*y and -8*y.
+        $cases[] = ['y^3-2*y^2-8*y', 'y^3-2*y^2+(-8)*y', 'y^3-2\cdot y^2-8\cdot y'];
+        $cases[] = ['unary_minus_sort(y^3-2*y^2-8*y)', 'y^3-2*y^2-8*y', 'y^3-2\cdot y^2-8\cdot y'];
+        // Second example with minus as an infix.
+        $cases[] = ['a-(b-4*a);', 'a-(b-4*a)', 'a-\left(b-4\cdot a\right)'];
+        $cases[] = ['unary_minus_sort(a-(b-4*a))', 'a-(b-4*a)', 'a-\left(b-4\cdot a\right)'];
+        // Minus as a prefix unary operator.  In these cases the LaTeX is identical.
+        // However, the CAS expression has brackets in different places, (-4)*a, or -(4*a).
+        $cases[] = ['-4*a+b', '-4*a+b', '-4\cdot a+b'];
+        $cases[] = ['unary_minus_sort(-4*a+b)', '-(4*a)+b', '-4\cdot a+b'];
+        // Second compoud example.
+        $cases[] = ['a-(-4*a+b)', 'a-(-4*a+b)', 'a-\left(-4\cdot a+b\right)'];
+        $cases[] = ['unary_minus_sort(a-(-4*a+b))', 'a-(-(4*a)+b)', 'a-\left(-4\cdot a+b\right)'];
+        // Further test cases.
+        $cases[] = ['-1*a-2+y^3-2*y^2-8*y', '-1*a-2+y^3+(-2)*y^2+(-8)*y', '-1\cdot a-2+y^3-2\cdot y^2-8\cdot y'];
+        $cases[] = ['unary_minus_sort(-1*a-2+y^3-2*y^2-8*y)', '-(1*a)-2+y^3-2*y^2-8*y', '-1\cdot a-2+y^3-2\cdot y^2-8\cdot y'];
+        $cases[] = ['-3*a+2', '-3*a+2', '-3\cdot a+2'];
+        $cases[] = ['unary_minus_sort(-3*a+2)', '-(3*a)+2', '-3\cdot a+2'];
+        $cases[] = [
+            '4*s-(8*s-(-4*g-6+7*g))',
+            '4*s-(8*s-(-4*g-6+7*g))',
+            '4\cdot s-\left(8\cdot s-\left(-4\cdot g-6+7\cdot g\right)\right)',
+            ];
+        $cases[] = [
+            'unary_minus_sort(4*s-(8*s-(-4*g-6+7*g)))',
+            '4*s-(8*s-(-(4*g)-6+7*g))',
+            '4\cdot s-\left(8\cdot s-\left(-4\cdot g-6+7\cdot g\right)\right)',
+            ];
+        $cases[] = ['a-((-4)*a+b)', 'a-(-4*a+b)', 'a-\left(-4\cdot a+b\right)'];
+        $cases[] = ['unary_minus_sort(a-((-4)*a+b))', 'a-(-(4*a)+b)', 'a-\left(-4\cdot a+b\right)'];
+        $cases[] = [
+            '(a-((-4)*a+b-8*b-8*a))-8*a-8*b',
+            '(a-(-4*a+b+(-8)*b+(-8)*a))-8*a+(-8)*b',
+            'a-\left(-4\cdot a+b-8\cdot b-8\cdot a\right)-8\cdot a-8\cdot b',
+            ];
+        $cases[] = [
+            'unary_minus_sort((a-((-4)*a+b-8*b-8*a))-8*a-8*b)',
+            '(a-(-(4*a)+b-8*b-8*a))-8*a-8*b',
+            'a-\left(-4\cdot a+b-8\cdot b-8\cdot a\right)-8\cdot a-8\cdot b',
+            ];
+        $cases[] = [
+            '1-(2*k-(((-6*m)-2*k)+3))',
+            '1-(2*k-((-6*m-2*k)+3))',
+            '1-\left(2\cdot k-\left(-6\cdot m-2\cdot k+3\right)\right)',
+            ];
+        $cases[] = [
+            'unary_minus_sort(1-(2*k-(((-6*m)-2*k)+3)))',
+            '1-(2*k-((-(6*m)-2*k)+3))',
+            '1-\left(2\cdot k-\left(-6\cdot m-2\cdot k+3\right)\right)',
+            ];
+        $cases[] = [
+            '1-(2*k-((-6*m-2*k)+3))',
+            '1-(2*k-((-6*m-2*k)+3))',
+            '1-\left(2\cdot k-\left(-6\cdot m-2\cdot k+3\right)\right)',
+            ];
+        $cases[] = [
+            'unary_minus_sort(1-(2*k-((-6*m-2*k)+3)))',
+            '1-(2*k-((-(6*m)-2*k)+3))',
+            '1-\left(2\cdot k-\left(-6\cdot m-2\cdot k+3\right)\right)',
+            ];
 
-        // This test ensures that we are not running against different
-        // version number of the STACK-Maxima scripts. For example,
-        // old image in a server setup or a cache layer somewhere.
-
-        $scriptversion = file_get_contents(__DIR__ . '/../stack/maxima/stackmaxima.mac');
-        $scriptversion = explode('stackmaximaversion:', $scriptversion);
-        $scriptversion = $scriptversion[count($scriptversion) - 1];
-        $scriptversion = explode('$', $scriptversion)[0];
-
-        $cs = stack_ast_container::make_from_teacher_source('stackmaximaversion', 'version-check');
-
-        $session = new stack_cas_session2([$cs]);
-
-        $session->get_valid();
+        $s1 = [];
+        foreach ($cases as $key => $case) {
+            $s1[] = stack_ast_container::make_from_teacher_source('p' . $key . ':' . $case[0], '',
+                new stack_cas_security(), []);
+        }
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $session = new stack_cas_session2($s1, $options, 0);
+        $this->assertTrue($session->get_valid());
         $session->instantiate();
-
-        $this->assertEquals($scriptversion, $cs->get_value(),
-            'To fix this: Check STACK-Maxima script versions, purge caches and/or regenerate images.');
+        $this->assertTrue($session->is_instantiated());
+        foreach ($cases as $key => $case) {
+            $p = $session->get_by_key('p' . $key);
+            $this->assertEquals($case[1], $p->get_value());
+            $this->assertEquals($case[2], $p->get_display());
+        }
     }
 }

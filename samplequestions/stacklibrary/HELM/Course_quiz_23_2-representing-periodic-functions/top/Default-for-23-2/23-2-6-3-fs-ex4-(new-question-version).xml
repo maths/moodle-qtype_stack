@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>23.2.6.3 fs ex4 (new question version)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise"><span style="font-size: 14px;">Exercise</span><br>
+</p>
+<p> Write out the terms of the Fourier series for the periodic signal given by 
+\[ f(t) = 
+\begin{cases} 0 \hspace{1cm} -\pi &lt; t &lt; 0\\ 
+t^2 \hspace{1cm} 0 &lt; t &lt; \pi 
+\end{cases} 
+\] 
+\[ f(t + 2\pi) = f(t).\] You should give the constant term \(\dfrac{a_0}{2}\) and each term corresponding to \( n = 1\) to \( n = 3\):<br></p> 
+<p>[[input:ans1]][[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[Since \(T = 2\pi\) and since the function has a non-zero average value, the form of the Fourier series is
+\[ \dfrac{a_0}{2} + \sum_{n=1}^\infty \left\{ a_n \cos (n t) + b_n \sin (n t) \right\} \]
+where
+\[
+\begin{align}
+a_n &amp;= \dfrac{1}{\pi} \displaystyle{ \int _{0}^{2\pi} }f(t) \cos (n t) \hspace{0.15cm}dt \hspace{1cm} n = 0, 1, 2, \dots \\
+b_n &amp;= \dfrac{1}{\pi} \displaystyle{ \int _{0}^{2\pi} } f(t)  \sin (n t) \hspace{0.15cm}dt  \hspace{1cm} n =  1, 2, \dots
+\end{align}
+\]
+Because the function is non-negative there will be a constant term. 
+The constant term will be \(\dfrac{a_0}{2}\) where \( a_0 = \dfrac{1}{\pi} \displaystyle{ \int_{0}^{\pi}} t^2 \hspace{0.15cm}dt  = \dfrac{\pi^2}{3} \).
+<p></p>
+For \(n = 1, 2, 3, \dots , \) we have
+\[
+\begin{align}
+a_n &amp;= \dfrac{1}{\pi} \displaystyle{ \int_{0}^{\pi} } t^2 \cos (n\pi t) \hspace{0.15cm} dt \\
+&amp;=\dfrac{1}{\pi} \left\{ \left[ \dfrac{t^2}{n} \sin (n t) \right] _{0}^{\pi} - \dfrac{2}{n} \displaystyle{ \int_{0}^{\pi} }  t \sin n t \hspace{0.15cm} dt \right\}\\
+&amp;= - \dfrac{2}{n\pi} \left\{ \left[ - \dfrac{t}{n} \cos n \pi t \right] _{0}^\pi + \dfrac{1}{n} \displaystyle{ \int_{0}^{\pi} }   \cos n t \hspace{0.15cm} dt \right\} \\
+&amp;= -\dfrac{2}{n\pi} \left\{ -\dfrac{\pi}{n} \cos n\pi + \dfrac{1}{n^2} \left[ \sin n t \right]_{0}^\pi \right\} \\
+&amp;= \dfrac{2}{n^2} \cos n\pi \\
+&amp;= 
+\begin{cases}
+-\dfrac{2}{n^2} \hspace{1cm} n = 1,3,5, \dots\\
+\dfrac{2}{n^2} \hspace{1cm} n = 2,4,6, \dots
+\end{cases}
+\end{align}
+\]
+Similarly for \(b_n\) we have
+\[
+b_n = 
+\begin{cases}
+-\dfrac{\pi}{n} \hspace{1cm} n = 2,4,6, \dots\\
+\dfrac{\pi}{n} - \dfrac{4}{n^3\pi} \hspace{1cm} n = 1,3,5, \dots\\
+\end{cases}
+\]
+<p></p>
+Thus the series is given by
+\[ 
+\begin{align} f(t) &amp;= \dfrac{\pi^2}{6} - 2 \cos t + \dfrac{1}{2} \cos 2t -  \dfrac{2}{9} \cos 3t \dots \\
+&amp;+ \left( \pi - \dfrac{4}{\pi} \right) \sin t - \dfrac{\pi}{2} \sin 2t +  \left( \dfrac{\pi}{3} - \dfrac{4}{9\pi} \right) \sin 3t  + \dots
+\end{align}
+\]]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2023010400</text>
+    </stackversion>
+    <questionvariables>
+      <text>ta1: %pi^2/6 - 2*cos(t) + 1/2*cos(2*t) - 2/9*cos(3*t) + (%pi - 4/%pi)*sin(t) - %pi/2*sin(2*t) +  (%pi/3 - 4/(9*%pi))*sin(3*t);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text/>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>100</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>2</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1+1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>0</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

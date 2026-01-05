@@ -270,6 +270,10 @@ ATEqualComAssRules(sa, sb, so) :=
         so:delete(testdebug, so)
     ) else debugtest:false,
     /* Support non-commutative * and +. */
+    if ev(elementp(noncomEq, setify(so)), simp) then block(
+        so:delete(comEq, so),
+        so:delete(noncomEq, so)
+    ),
     if ev(elementp(noncomAdd, setify(so)), simp) then block(
         so:delete(comAdd, so),
         so:delete(noncomAdd, so)
@@ -292,18 +296,18 @@ ATEqualComAssRules(sa, sb, so) :=
     ret:ATSameTypefun(SAA, SBB),
     if ret[2]=false then
         (ret[3]:StackAddNote("ATEqualComAssRules ", StackTrimNote(ret[3])), return([false, ret[2], ret[3], ret[4]]) ),
-    ret:block([simp:true, ret], ATAlgEquiv(SAA, SBB)),
+    ret:block([simp:true], ATAlgEquiv(SAA, SBB)),
     /* If they are not algebraically equivalent then we bail. */
     if ret[2]=false then
         (ret[3]:StackAddNote("ATEqualComAssRules (AlgEquiv-false)", StackTrimNote(ret[3])), return([false, ret[2], ret[3], ""])),
 
     /* Put the expressions in basic form (non-com version). */
-    SAA:equals_commute_prepare(SAA, {"nouneq", "nounand", "nounor", "nounset"}),
-    SBB:equals_commute_prepare(SBB, {"nouneq", "nounand", "nounor", "nounset"}),
+    SAA:equals_commute_prepare(SAA, {"nounand", "nounor", "nounset"}),
+    SBB:equals_commute_prepare(SBB, {"nounand", "nounor", "nounset"}),
 
-    if debug then print(["Transforming", SAA]),
+    if debug then print(["Transforming SA:", SAA]),
     SAA:transl(SAA, so),
-    if debug then print(["Transforming", SBB]),
+    if debug then print(["Transforming SB:", SBB]),
     SBB:transl(SBB, so),
 
     AnswerNote:"",
@@ -317,19 +321,20 @@ ATEqualComAssRules(sa, sb, so) :=
 )$
 
 /* List of all available rules. */
-ALG_TRANS:[assAdd, assMul, comAdd, comMul]$
+ALG_TRANS:[assAdd, assMul, comAdd, comMul, comEq]$
 ID_TRANS:[zeroAdd, zeroMul, oneMul, onePow, idPow, zeroPow, zPow, oneDiv]$
 NEG_TRANS:[negNeg, negDiv, negOrd]$
 INT_ARITH:[intAdd, intMul, intPow]$
 DIV_TRANS:[recipMul, divDiv, divCancel]$
 
 ALL_TRANS:append(ALG_TRANS, ID_TRANS, NEG_TRANS, DIV_TRANS, INT_ARITH,
-                 [intFac, ratLow, ratAdd, negDist, sqrtRem, noncomAdd, noncomMul, comMulNum, comNeg])$
+                 [intFac, ratLow, ratAdd, negDist, sqrtRem, noncomEq, noncomAdd, noncomMul, comMulNum, comNeg])$
 
 /* Set up a hash table of functions and their corresponding predicate. */
 ALL_TRANSP[assAdd] : assAddp$
 ALL_TRANSP[assMul] : assMulp$
 ALL_TRANSP[comAdd] : comAddp$
+ALL_TRANSP[comEq] : comEqp$
 ALL_TRANSP[comMul] : comMulp$
 ALL_TRANSP[comMulNum] : comMulNump$
 ALL_TRANSP[comNeg] : comNegp$
@@ -478,6 +483,9 @@ assMul(ex) := if assMulp(ex) then flatten(ex) else ex$
 
 /* Sort out the order of elements, i.e. commutativity. */
 /* NOTE: sort(args(ex), orderelementaryp)) should work but does not... */
+comEqp(ex):= if (safe_op(ex)="=" or safe_op(ex)="nouneq") and apply(op(ex), elsort(args(ex)))#ex then true else false$
+comEq(ex) := if comEqp(ex) then apply(op(ex), elsort(args(ex))) else ex$
+
 comAddp(ex):= if (safe_op(ex)="+" or safe_op(ex)="nounadd") and apply(op(ex), elsort(args(ex)))#ex then true else false$
 comAdd(ex) := if comAddp(ex) then apply(op(ex), elsort(args(ex))) else ex$
 

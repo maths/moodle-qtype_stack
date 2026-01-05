@@ -1,0 +1,138 @@
+{
+    "quiz": {
+        "name": "16_5 Maclaurin and Taylor Series",
+        "intro": "This section examines how functions may be expressed in terms of power series. This is an\nextremely useful way of expressing a function since we can then replace \u2018complicated\u2019\nfunctions in terms of \u2018simple\u2019 polynomials. The only requirement is that the\n\u2018complicated\u2019 function should be smooth; this means that at a point of interest, it must be possible to differentiate the function as often as we please.",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Introduction",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "2",
+            "heading": "Maclaurin series",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "5",
+            "heading": "Product of functions",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "9",
+            "heading": "Differentiation of a series",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "11",
+            "heading": "Taylor series",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-16-5\/16-5-1-1-Maclaurin-and-Taylor-series.xml"
+        },
+        {
+            "slot": "2",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-16-5\/16-5-2-1-The-Maclaurin-series.xml"
+        },
+        {
+            "slot": "3",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-16-5\/16-5-2-2-Example-Maclaurin-expansion.xml"
+        },
+        {
+            "slot": "4",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-16-5\/16-5-2-3-Find-the-Maclaurin-series.xml"
+        },
+        {
+            "slot": "5",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-16-5\/16-5-2-4-Product-of-functions.xml"
+        },
+        {
+            "slot": "6",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-16-5\/16-5-2-5-Example-of-product-of-functions.xml"
+        },
+        {
+            "slot": "7",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-16-5\/16-5-2-6-Product-of-Maclaurin-series.xml"
+        },
+        {
+            "slot": "8",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-16-5\/16-5-2-7-Example-of-product-of-functions.xml"
+        },
+        {
+            "slot": "9",
+            "page": "7",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-16-5\/16-5-3-1-Differentiation-of-Maclaurin-series.xml"
+        },
+        {
+            "slot": "11",
+            "page": "8",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-16-5\/16-5-4-1-The-Taylor-series.xml"
+        },
+        {
+            "slot": "12",
+            "page": "8",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-16-5\/16-5-4-2-Find-the-Taylor-series.xml"
+        },
+        {
+            "slot": "13",
+            "page": "8",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-16-5\/16-5-4-3-Find-the-Taylor-series.xml"
+        },
+        {
+            "slot": "10",
+            "page": "7",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-16-5\/16-5-3-2-Differentiate-a-Maclaurin-series-b.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

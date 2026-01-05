@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="matching">
+    <name>
+      <text>28.1.3.8 contours of scalar fields</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Describe the contours for the following scalar fields</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html">
+      <text><![CDATA[<p>Your answer is correct.</p>]]></text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="html">
+      <text><![CDATA[<p>Your answer is partially correct.</p>]]></text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="html">
+      <text><![CDATA[<p>Your answer is incorrect.</p>]]></text>
+    </incorrectfeedback>
+    <shownumcorrect/>
+    <subquestion format="html">
+      <text><![CDATA[<p>\(\phi = y-x\)</p>]]></text>
+      <answer>
+        <text>Straight lines of gradient 1</text>
+      </answer>
+    </subquestion>
+    <subquestion format="html">
+      <text><![CDATA[<p>\(\phi = x^2+y^2\)</p>]]></text>
+      <answer>
+        <text>Circles centred at the origin</text>
+      </answer>
+    </subquestion>
+    <subquestion format="html">
+      <text><![CDATA[<p>\(\phi = y - x^2\)</p>]]></text>
+      <answer>
+        <text>Parabolas y = x² + c</text>
+      </answer>
+    </subquestion>
+    <subquestion format="html">
+      <text/>
+      <answer>
+        <text>Straight lines of gradient -1</text>
+      </answer>
+    </subquestion>
+    <subquestion format="html">
+      <text/>
+      <answer>
+        <text>Cubics y = x³ + c</text>
+      </answer>
+    </subquestion>
+    <subquestion format="html">
+      <text/>
+      <answer>
+        <text>Circles centred around (1,1)</text>
+      </answer>
+    </subquestion>
+  </question>
+</quiz>

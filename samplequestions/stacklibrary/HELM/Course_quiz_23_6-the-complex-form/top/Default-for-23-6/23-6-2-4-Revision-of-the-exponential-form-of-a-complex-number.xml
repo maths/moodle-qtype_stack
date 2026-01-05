@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>23.6.2.4 Revision of the exponential form of a complex number</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[Rewriting in complex exponential form, we have
+\[ a_n \cos n \theta + b_n \sin n\theta = \dfrac{a_n}{2} ( e^{in\theta} + e^{-in\theta} ) + \dfrac{b_n}{2i} ( e^{in\theta} - e^{-in\theta} ) \]
+Now collecting the terms in \(e^{ in\theta}\) and in \(e^{ -in\theta}\)  and use the fact that \( \dfrac{1}{i} = -i \), we have
+\[ \dfrac{1}{2} \left( a_n - ib_n \right) e^{ in\theta} + \dfrac{1}{2} \left( a_n + ib_n \right) e^{ -in\theta} \]
+This can be expressed more concisely by defining 
+<p></p>
+\( c_n = \dfrac{1}{2} (a_n - ib_n)  \) which has complex conjugate \( \displaystyle{c_n^{*}} = \dfrac{1}{2} (a_n + ib_n)  \) giving us
+\[ a_n \cos n \theta + b_n \sin n\theta = c_n e^{i n \theta} + c_n^{*} e^{-i n \theta} \]]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

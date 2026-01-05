@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>9.5.1.2 Direction ratios and cosines, Exercise</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>In all of the following questions give your answers exactly. Recall that \(\sqrt{2}\) can be entered by typing sqrt(2).</p>
+<p>Points\(A\) and \(B\) have position vectors \(\underline{ a} ={@A1@}\), and \(\underline{ b} = {@B1@}\) respectively. Find:</p>
+
+<ol class="HELM_parts">
+<li><p>\(\overrightarrow{AB}=\) [[input:AB1]] [[validation:AB1]]</p>
+<p>[[feedback:AB1]]</p></li>
+
+<li><p>\(|\overrightarrow{AB}|=\) [[input:magAB1]] [[validation:magAB1]]</p>
+<p>[[feedback:magAB1]]</p></li>
+
+<li><p>The direction ratios of \(\overrightarrow{AB}\): [[input:dr1]] [[validation:dr1]]:[[input:dr2]][[validation:dr2]]</p>
+<p>[[feedback:DR]]</p></li>
+
+<li><p>The direction cosines of \(\overrightarrow{AB}\), \((\ell,m)=\) [[input:dc]] [[validation:dc]]</p>
+<p>[[feedback:DC]]</p></li>
+
+<li><p>\(\ell^2+m^2=\) [[input:magCos]] [[validation:magCos]]</p>
+<p>[[feedback:magCos]]</p></li>
+
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p>We have that</p>
+<ol class="HELM_parts">
+<li><p>(a) \(\overrightarrow{AB}={@R1@}\)</p></li>
+<li><p>(b) \(|\overrightarrow{AB}|={@magr1@}\)</p></li>
+<li><p>(c) The direction ratios of \(\overrightarrow{AB}\): \({@r1[1,1]@}:&nbsp;{@r1[2,1]@}\)</p></li>
+<li><p>(d) The direction cosines of \(\overrightarrow{AB}\), \((\ell,m)=\){@tadc@}</p></li>
+<li><p>(e) \(\ell^2+m^2=1\).</p></li>
+</ol>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2022082900</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[stackvectortex(ex):= block(sconcat("{ \\underline{", tex1(first(args(ex))), "}}"));
+ordergreat(i,j,k);
+a1: matrix([5],[3]) - rand(matrix([10],[3]));
+b1: matrix([5],[8]) - rand(matrix([10],[2]));
+r1:  b1-a1;
+magr1: sqrt(dotproduct(r1,r1));
+u1: matrix([i],[j]);
+A1: texboldatoms(dotproduct(a1,u1));
+B1: texboldatoms(dotproduct(b1,u1));
+R1:  texboldatoms(dotproduct(r1,u1));
+l1: (r1[1,1])/(magr1);
+m1: (r1[2,1])/(magr1);
+tadc: matrix([l1,m1]);]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text><![CDATA[The direction ratios for the vector \(\mathbf{r} = {@R1@}\) are \({@r1[1,1]@}:&nbsp;{@r1[2,1]@}\)  and its direction cosines are \(\ell = {@l1@}\) and \(m = {@m1@}\).]]></text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>AB1</name>
+      <type>matrix</type>
+      <tans>r1</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>dc</name>
+      <type>matrix</type>
+      <tans>tadc</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>dr1</name>
+      <type>algebraic</type>
+      <tans>r1[1,1]</tans>
+      <boxsize>3</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>dr2</name>
+      <type>algebraic</type>
+      <tans>r1[2,1]</tans>
+      <boxsize>3</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>magAB1</name>
+      <type>algebraic</type>
+      <tans>magr1</tans>
+      <boxsize>7</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>magCos</name>
+      <type>algebraic</type>
+      <tans>1</tans>
+      <boxsize>3</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>AB1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>AB1</sans>
+        <tans>r1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>AB1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>AB1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>DC</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>dc1 = dc[1,1];
+dc2 = dc[1,2];</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>dc</sans>
+        <tans>tadc</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>DC-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>DC-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>DR</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>student_r: [dr1*x=dr2*y];
+taSys: [r1[1,1]*x=r1[2,1]*y];</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>student_r</sans>
+        <tans>taSys</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>DR-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>DR-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>magAB1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>magAB1</sans>
+        <tans>magr1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>magAB1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>magAB1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>magCos</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>magCos</sans>
+        <tans>1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>magCos-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>magCos-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1685009880</deployedseed>
+    <deployedseed>20663055</deployedseed>
+    <deployedseed>1918699650</deployedseed>
+    <deployedseed>1871159243</deployedseed>
+    <deployedseed>766138017</deployedseed>
+    <deployedseed>1633403323</deployedseed>
+    <deployedseed>1799630080</deployedseed>
+    <deployedseed>366975957</deployedseed>
+    <deployedseed>1972817308</deployedseed>
+    <deployedseed>939893715</deployedseed>
+    <deployedseed>1827244803</deployedseed>
+    <deployedseed>388346719</deployedseed>
+    <deployedseed>18488670</deployedseed>
+    <deployedseed>1874997517</deployedseed>
+    <deployedseed>1756232593</deployedseed>
+    <deployedseed>1337532393</deployedseed>
+    <deployedseed>203709858</deployedseed>
+    <deployedseed>1093898966</deployedseed>
+    <deployedseed>1357059604</deployedseed>
+    <deployedseed>842576261</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>AB1</name>
+        <value>r1</value>
+      </testinput>
+      <testinput>
+        <name>dc</name>
+        <value>tadc</value>
+      </testinput>
+      <testinput>
+        <name>dr1</name>
+        <value>r1[1,1]</value>
+      </testinput>
+      <testinput>
+        <name>dr2</name>
+        <value>r1[2,1]</value>
+      </testinput>
+      <testinput>
+        <name>magAB1</name>
+        <value>magr1</value>
+      </testinput>
+      <testinput>
+        <name>magCos</name>
+        <value>1</value>
+      </testinput>
+      <expected>
+        <name>AB1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>AB1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>DC</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>DC-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>DR</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>DR-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>magAB1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>magAB1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>magCos</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>magCos-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>AB1</name>
+        <value>ev(2*r1,simp)</value>
+      </testinput>
+      <testinput>
+        <name>dc</name>
+        <value>ev(2*tadc,simp)</value>
+      </testinput>
+      <testinput>
+        <name>dr1</name>
+        <value>ev(r1[1,1]+1,simp)</value>
+      </testinput>
+      <testinput>
+        <name>dr2</name>
+        <value>r1[2,1]</value>
+      </testinput>
+      <testinput>
+        <name>magAB1</name>
+        <value>ev(magr1+1,simp)</value>
+      </testinput>
+      <testinput>
+        <name>magCos</name>
+        <value>0</value>
+      </testinput>
+      <expected>
+        <name>AB1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>AB1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>DC</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>DC-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>DR</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>DR-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>magAB1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>magAB1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>magCos</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>magCos-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

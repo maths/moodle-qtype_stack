@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>35.3.3.4 Exercise on Parallel circuits</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p></p><p>A circuit has four independent switches \(A, B, C\) and \(D\) wired in parallel as shown below.</p><p></p><p style="text-align: center;"><img src="@@PLUGINFILE@@/35.3.3%20Exercise.svg" class="img-responsive atto_image_button_text-bottom" alt="" width="191" height="84"></p><p style="text-align: center;"><b>Switches in Parallel</b></p><p></p><p>Current can only flow through the bank of switches if at least one is closed.&nbsp; The probabilities that \(A, B, C\) and \(D\)&nbsp; are closed are \(\displaystyle{{@aa@}, {@bb@}, {@cc@}}\) and \(\displaystyle{{@dd@}}\) respectively. Calculate the probability that current can flow through the bank of switches.</p><p>[[input:ans1]] [[validation:ans1]]</p><p>Hint: First consider the opposite case that the current does not
+flow.</p>]]></text>
+<file name="35.3.3 Exercise.svg" path="/" encoding="base64">PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjxzdmcKICAgeG1sbnM6ZGM9Imh0dHA6Ly9wdXJsLm9yZy9kYy9lbGVtZW50cy8xLjEvIgogICB4bWxuczpjYz0iaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbnMjIgogICB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiCiAgIHhtbG5zOnN2Zz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIKICAgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiCiAgIHhtbG5zOnNvZGlwb2RpPSJodHRwOi8vc29kaXBvZGkuc291cmNlZm9yZ2UubmV0L0RURC9zb2RpcG9kaS0wLmR0ZCIKICAgeG1sbnM6aW5rc2NhcGU9Imh0dHA6Ly93d3cuaW5rc2NhcGUub3JnL25hbWVzcGFjZXMvaW5rc2NhcGUiCiAgIGlua3NjYXBlOnZlcnNpb249IjEuMCAoNDAzNWE0ZmI0OSwgMjAyMC0wNS0wMSkiCiAgIHNvZGlwb2RpOmRvY25hbWU9IkJsb2NrMjIyX0ZpZzMuc3ZnIgogICBpZD0ic3ZnNTQiCiAgIHZlcnNpb249IjEuMiIKICAgdmlld0JveD0iMCAwIDE0MyA2MyIKICAgaGVpZ2h0PSI2M3B0IgogICB3aWR0aD0iMTQzcHQiPgogIDxtZXRhZGF0YQogICAgIGlkPSJtZXRhZGF0YTU4Ij4KICAgIDxyZGY6UkRGPgogICAgICA8Y2M6V29yawogICAgICAgICByZGY6YWJvdXQ9IiI+CiAgICAgICAgPGRjOmZvcm1hdD5pbWFnZS9zdmcreG1sPC9kYzpmb3JtYXQ+CiAgICAgICAgPGRjOnR5cGUKICAgICAgICAgICByZGY6cmVzb3VyY2U9Imh0dHA6Ly9wdXJsLm9yZy9kYy9kY21pdHlwZS9TdGlsbEltYWdlIiAvPgogICAgICAgIDxkYzp0aXRsZT48L2RjOnRpdGxlPgogICAgICA8L2NjOldvcms+CiAgICA8L3JkZjpSREY+CiAgPC9tZXRhZGF0YT4KICA8c29kaXBvZGk6bmFtZWR2aWV3CiAgICAgaW5rc2NhcGU6Y3VycmVudC1sYXllcj0ic3ZnNTQiCiAgICAgaW5rc2NhcGU6d2luZG93LW1heGltaXplZD0iMCIKICAgICBpbmtzY2FwZTp3aW5kb3cteT0iMCIKICAgICBpbmtzY2FwZTp3aW5kb3cteD0iMCIKICAgICBpbmtzY2FwZTpjeT0iNDIiCiAgICAgaW5rc2NhcGU6Y3g9Ijk1LjMzMzMzMyIKICAgICBpbmtzY2FwZTp6b29tPSI3LjQ3Mzc3NjIiCiAgICAgc2hvd2dyaWQ9ImZhbHNlIgogICAgIGlkPSJuYW1lZHZpZXc1NiIKICAgICBpbmtzY2FwZTp3aW5kb3ctaGVpZ2h0PSI0ODAiCiAgICAgaW5rc2NhcGU6d2luZG93LXdpZHRoPSI4MDMiCiAgICAgaW5rc2NhcGU6cGFnZXNoYWRvdz0iMiIKICAgICBpbmtzY2FwZTpwYWdlb3BhY2l0eT0iMCIKICAgICBndWlkZXRvbGVyYW5jZT0iMTAiCiAgICAgZ3JpZHRvbGVyYW5jZT0iMTAiCiAgICAgb2JqZWN0dG9sZXJhbmNlPSIxMCIKICAgICBib3JkZXJvcGFjaXR5PSIxIgogICAgIGJvcmRlcmNvbG9yPSIjNjY2NjY2IgogICAgIHBhZ2Vjb2xvcj0iI2ZmZmZmZiIgLz4KICA8ZGVmcwogICAgIGlkPSJkZWZzMjciPgogICAgPGcKICAgICAgIGlkPSJnMjUiPgogICAgICA8c3ltYm9sCiAgICAgICAgIGlkPSJnbHlwaDAtMCIKICAgICAgICAgb3ZlcmZsb3c9InZpc2libGUiPgogICAgICAgIDxwYXRoCiAgICAgICAgICAgaWQ9InBhdGgxMCIKICAgICAgICAgICBkPSIiCiAgICAgICAgICAgc3R5bGU9InN0cm9rZTpub25lOyIgLz4KICAgICAgPC9zeW1ib2w+CiAgICAgIDxzeW1ib2wKICAgICAgICAgaWQ9ImdseXBoMC0xIgogICAgICAgICBvdmVyZmxvdz0idmlzaWJsZSI+CiAgICAgICAgPHBhdGgKICAgICAgICAgICBpZD0icGF0aDEzIgogICAgICAgICAgIGQ9Ik0gMi4wMzEyNSAtMS4zMjgxMjUgQyAxLjYwOTM3NSAtMC42MjUgMS4yMDMxMjUgLTAuMzc1IDAuNjQwNjI1IC0wLjM0Mzc1IEMgMC41IC0wLjMyODEyNSAwLjQwNjI1IC0wLjMyODEyNSAwLjQwNjI1IC0wLjEyNSBDIDAuNDA2MjUgLTAuMDQ2ODc1IDAuNDY4NzUgMCAwLjU0Njg3NSAwIEMgMC43NjU2MjUgMCAxLjI5Njg3NSAtMC4wMzEyNSAxLjUxNTYyNSAtMC4wMzEyNSBDIDEuODU5Mzc1IC0wLjAzMTI1IDIuMjUgMCAyLjU3ODEyNSAwIEMgMi42NTYyNSAwIDIuNzk2ODc1IDAgMi43OTY4NzUgLTAuMjM0Mzc1IEMgMi43OTY4NzUgLTAuMzI4MTI1IDIuNzAzMTI1IC0wLjM0Mzc1IDIuNjI1IC0wLjM0Mzc1IEMgMi4zNTkzNzUgLTAuMzc1IDIuMTI1IC0wLjQ2ODc1IDIuMTI1IC0wLjc1IEMgMi4xMjUgLTAuOTIxODc1IDIuMjAzMTI1IC0xLjA0Njg3NSAyLjM1OTM3NSAtMS4zMTI1IEwgMy4yNjU2MjUgLTIuODI4MTI1IEwgNi4zMTI1IC0yLjgyODEyNSBDIDYuMzI4MTI1IC0yLjcxODc1IDYuMzI4MTI1IC0yLjYyNSA2LjMyODEyNSAtMi41MTU2MjUgQyA2LjM3NSAtMi4yMDMxMjUgNi41MTU2MjUgLTAuOTUzMTI1IDYuNTE1NjI1IC0wLjczNDM3NSBDIDYuNTE1NjI1IC0wLjM3NSA1LjkwNjI1IC0wLjM0Mzc1IDUuNzE4NzUgLTAuMzQzNzUgQyA1LjU3ODEyNSAtMC4zNDM3NSA1LjQ1MzEyNSAtMC4zNDM3NSA1LjQ1MzEyNSAtMC4xMjUgQyA1LjQ1MzEyNSAwIDUuNTYyNSAwIDUuNjI1IDAgQyA1LjgyODEyNSAwIDYuMDc4MTI1IC0wLjAzMTI1IDYuMjgxMjUgLTAuMDMxMjUgTCA2Ljk1MzEyNSAtMC4wMzEyNSBDIDcuNjg3NSAtMC4wMzEyNSA4LjIxODc1IDAgOC4yMTg3NSAwIEMgOC4zMTI1IDAgOC40Mzc1IDAgOC40Mzc1IC0wLjIzNDM3NSBDIDguNDM3NSAtMC4zNDM3NSA4LjMyODEyNSAtMC4zNDM3NSA4LjE1NjI1IC0wLjM0Mzc1IEMgNy41IC0wLjM0Mzc1IDcuNDg0Mzc1IC0wLjQ1MzEyNSA3LjQ1MzEyNSAtMC44MTI1IEwgNi43MTg3NSAtOC4yNjU2MjUgQyA2LjY4NzUgLTguNTE1NjI1IDYuNjQwNjI1IC04LjUzMTI1IDYuNTE1NjI1IC04LjUzMTI1IEMgNi4zOTA2MjUgLTguNTMxMjUgNi4zMjgxMjUgLTguNTE1NjI1IDYuMjE4NzUgLTguMzI4MTI1IFogTSAzLjQ2ODc1IC0zLjE3MTg3NSBMIDUuODc1IC03LjE4NzUgTCA2LjI4MTI1IC0zLjE3MTg3NSBaIE0gMy40Njg3NSAtMy4xNzE4NzUgIgogICAgICAgICAgIHN0eWxlPSJzdHJva2U6bm9uZTsiIC8+CiAgICAgIDwvc3ltYm9sPgogICAgICA8c3ltYm9sCiAgICAgICAgIGlkPSJnbHlwaDAtMiIKICAgICAgICAgb3ZlcmZsb3c9InZpc2libGUiPgogICAgICAgIDxwYXRoCiAgICAgICAgICAgaWQ9InBhdGgxNiIKICAgICAgICAgICBkPSJNIDQuMzc1IC03LjM0Mzc1IEMgNC40ODQzNzUgLTcuNzk2ODc1IDQuNTMxMjUgLTcuODEyNSA1IC03LjgxMjUgTCA2LjU0Njg3NSAtNy44MTI1IEMgNy45MDYyNSAtNy44MTI1IDcuOTA2MjUgLTYuNjcxODc1IDcuOTA2MjUgLTYuNTYyNSBDIDcuOTA2MjUgLTUuNTkzNzUgNi45Mzc1IC00LjM1OTM3NSA1LjM1OTM3NSAtNC4zNTkzNzUgTCAzLjY0MDYyNSAtNC4zNTkzNzUgWiBNIDYuMzkwNjI1IC00LjI2NTYyNSBDIDcuNzAzMTI1IC00LjUgOC44NzUgLTUuNDIxODc1IDguODc1IC02LjUxNTYyNSBDIDguODc1IC03LjQ1MzEyNSA4LjA2MjUgLTguMTU2MjUgNi43MDMxMjUgLTguMTU2MjUgTCAyLjg3NSAtOC4xNTYyNSBDIDIuNjQwNjI1IC04LjE1NjI1IDIuNTMxMjUgLTguMTU2MjUgMi41MzEyNSAtNy45Mzc1IEMgMi41MzEyNSAtNy44MTI1IDIuNjQwNjI1IC03LjgxMjUgMi44MjgxMjUgLTcuODEyNSBDIDMuNTQ2ODc1IC03LjgxMjUgMy41NDY4NzUgLTcuNzE4NzUgMy41NDY4NzUgLTcuNTkzNzUgQyAzLjU0Njg3NSAtNy41NjI1IDMuNTQ2ODc1IC03LjUgMy41IC03LjMxMjUgTCAxLjg5MDYyNSAtMC44OTA2MjUgQyAxLjc4MTI1IC0wLjQ2ODc1IDEuNzUgLTAuMzQzNzUgMC45MjE4NzUgLTAuMzQzNzUgQyAwLjY4NzUgLTAuMzQzNzUgMC41NzgxMjUgLTAuMzQzNzUgMC41NzgxMjUgLTAuMTI1IEMgMC41NzgxMjUgMCAwLjY0MDYyNSAwIDAuODkwNjI1IDAgTCA0Ljk4NDM3NSAwIEMgNi44MTI1IDAgOC4yMTg3NSAtMS4zOTA2MjUgOC4yMTg3NSAtMi41OTM3NSBDIDguMjE4NzUgLTMuNTc4MTI1IDcuMzU5Mzc1IC00LjE3MTg3NSA2LjM5MDYyNSAtNC4yNjU2MjUgWiBNIDQuNzAzMTI1IC0wLjM0Mzc1IEwgMy4wNzgxMjUgLTAuMzQzNzUgQyAyLjkyMTg3NSAtMC4zNDM3NSAyLjg5MDYyNSAtMC4zNDM3NSAyLjgyODEyNSAtMC4zNTkzNzUgQyAyLjY4NzUgLTAuMzc1IDIuNjcxODc1IC0wLjM5MDYyNSAyLjY3MTg3NSAtMC40ODQzNzUgQyAyLjY3MTg3NSAtMC41NzgxMjUgMi43MDMxMjUgLTAuNjQwNjI1IDIuNzE4NzUgLTAuNzUgTCAzLjU2MjUgLTQuMTI1IEwgNS44MTI1IC00LjEyNSBDIDcuMjE4NzUgLTQuMTI1IDcuMjE4NzUgLTIuODEyNSA3LjIxODc1IC0yLjcxODc1IEMgNy4yMTg3NSAtMS41NjI1IDYuMTg3NSAtMC4zNDM3NSA0LjcwMzEyNSAtMC4zNDM3NSBaIE0gNC43MDMxMjUgLTAuMzQzNzUgIgogICAgICAgICAgIHN0eWxlPSJzdHJva2U6bm9uZTsiIC8+CiAgICAgIDwvc3ltYm9sPgogICAgICA8c3ltYm9sCiAgICAgICAgIGlkPSJnbHlwaDAtMyIKICAgICAgICAgb3ZlcmZsb3c9InZpc2libGUiPgogICAgICAgIDxwYXRoCiAgICAgICAgICAgaWQ9InBhdGgxOSIKICAgICAgICAgICBkPSJNIDguOTIxODc1IC04LjMxMjUgQyA4LjkyMTg3NSAtOC40MjE4NzUgOC44NDM3NSAtOC40MjE4NzUgOC44MjgxMjUgLTguNDIxODc1IEMgOC43OTY4NzUgLTguNDIxODc1IDguNzUgLTguNDIxODc1IDguNjU2MjUgLTguMjk2ODc1IEwgNy44MjgxMjUgLTcuMjk2ODc1IEMgNy40MDYyNSAtOC4wMTU2MjUgNi43NSAtOC40MjE4NzUgNS44NTkzNzUgLTguNDIxODc1IEMgMy4yODEyNSAtOC40MjE4NzUgMC41OTM3NSAtNS43OTY4NzUgMC41OTM3NSAtMi45ODQzNzUgQyAwLjU5Mzc1IC0wLjk4NDM3NSAyIDAuMjUgMy43MzQzNzUgMC4yNSBDIDQuNzAzMTI1IDAuMjUgNS41MzEyNSAtMC4xNTYyNSA2LjIzNDM3NSAtMC43MzQzNzUgQyA3LjI2NTYyNSAtMS42MDkzNzUgNy41NzgxMjUgLTIuNzY1NjI1IDcuNTc4MTI1IC0yLjg3NSBDIDcuNTc4MTI1IC0yLjk2ODc1IDcuNDg0Mzc1IC0yLjk2ODc1IDcuNDUzMTI1IC0yLjk2ODc1IEMgNy4zNDM3NSAtMi45Njg3NSA3LjMyODEyNSAtMi45MDYyNSA3LjI5Njg3NSAtMi44NTkzNzUgQyA2Ljc1IC0wLjk4NDM3NSA1LjE0MDYyNSAtMC4wOTM3NSAzLjkzNzUgLTAuMDkzNzUgQyAyLjY3MTg3NSAtMC4wOTM3NSAxLjU3ODEyNSAtMC45MDYyNSAxLjU3ODEyNSAtMi42MDkzNzUgQyAxLjU3ODEyNSAtMi45ODQzNzUgMS43MDMxMjUgLTUuMDYyNSAzLjA0Njg3NSAtNi42NDA2MjUgQyAzLjcwMzEyNSAtNy40MDYyNSA0LjgyODEyNSAtOC4wNjI1IDUuOTY4NzUgLTguMDYyNSBDIDcuMjgxMjUgLTguMDYyNSA3Ljg1OTM3NSAtNi45ODQzNzUgNy44NTkzNzUgLTUuNzY1NjI1IEMgNy44NTkzNzUgLTUuNDUzMTI1IDcuODI4MTI1IC01LjE4NzUgNy44MjgxMjUgLTUuMTQwNjI1IEMgNy44MjgxMjUgLTUuMDMxMjUgNy45NTMxMjUgLTUuMDMxMjUgNy45ODQzNzUgLTUuMDMxMjUgQyA4LjEwOTM3NSAtNS4wMzEyNSA4LjEyNSAtNS4wNDY4NzUgOC4xNzE4NzUgLTUuMjY1NjI1IFogTSA4LjkyMTg3NSAtOC4zMTI1ICIKICAgICAgICAgICBzdHlsZT0ic3Ryb2tlOm5vbmU7IiAvPgogICAgICA8L3N5bWJvbD4KICAgICAgPHN5bWJvbAogICAgICAgICBpZD0iZ2x5cGgwLTQiCiAgICAgICAgIG92ZXJmbG93PSJ2aXNpYmxlIj4KICAgICAgICA8cGF0aAogICAgICAgICAgIGlkPSJwYXRoMjIiCiAgICAgICAgICAgZD0iTSAxLjg3NSAtMC44OTA2MjUgQyAxLjc2NTYyNSAtMC40Njg3NSAxLjc1IC0wLjM0Mzc1IDAuOTA2MjUgLTAuMzQzNzUgQyAwLjY4NzUgLTAuMzQzNzUgMC41NjI1IC0wLjM0Mzc1IDAuNTYyNSAtMC4xMjUgQyAwLjU2MjUgMCAwLjY0MDYyNSAwIDAuODc1IDAgTCA0LjY1NjI1IDAgQyA3LjA3ODEyNSAwIDkuNDM3NSAtMi41IDkuNDM3NSAtNS4xNTYyNSBDIDkuNDM3NSAtNi44OTA2MjUgOC40MDYyNSAtOC4xNTYyNSA2LjY4NzUgLTguMTU2MjUgTCAyLjg1OTM3NSAtOC4xNTYyNSBDIDIuNjI1IC04LjE1NjI1IDIuNTE1NjI1IC04LjE1NjI1IDIuNTE1NjI1IC03LjkzNzUgQyAyLjUxNTYyNSAtNy44MTI1IDIuNjI1IC03LjgxMjUgMi44MTI1IC03LjgxMjUgQyAzLjUzMTI1IC03LjgxMjUgMy41MzEyNSAtNy43MTg3NSAzLjUzMTI1IC03LjU5Mzc1IEMgMy41MzEyNSAtNy41NjI1IDMuNTMxMjUgLTcuNSAzLjQ4NDM3NSAtNy4zMTI1IFogTSA0LjQwNjI1IC03LjM0Mzc1IEMgNC41IC03Ljc5Njg3NSA0LjU0Njg3NSAtNy44MTI1IDUuMDE1NjI1IC03LjgxMjUgTCA2LjMyODEyNSAtNy44MTI1IEMgNy40NTMxMjUgLTcuODEyNSA4LjQ4NDM3NSAtNy4yMDMxMjUgOC40ODQzNzUgLTUuNTYyNSBDIDguNDg0Mzc1IC00Ljk1MzEyNSA4LjI1IC0yLjg3NSA3LjA5Mzc1IC0xLjU2MjUgQyA2Ljc1IC0xLjE3MTg3NSA1Ljg0Mzc1IC0wLjM0Mzc1IDQuNDY4NzUgLTAuMzQzNzUgTCAzLjEwOTM3NSAtMC4zNDM3NSBDIDIuOTM3NSAtMC4zNDM3NSAyLjkyMTg3NSAtMC4zNDM3NSAyLjg0Mzc1IC0wLjM1OTM3NSBDIDIuNzE4NzUgLTAuMzc1IDIuNzAzMTI1IC0wLjM5MDYyNSAyLjcwMzEyNSAtMC40ODQzNzUgQyAyLjcwMzEyNSAtMC41NzgxMjUgMi43MTg3NSAtMC42NDA2MjUgMi43NSAtMC43NSBaIE0gNC40MDYyNSAtNy4zNDM3NSAiCiAgICAgICAgICAgc3R5bGU9InN0cm9rZTpub25lOyIgLz4KICAgICAgPC9zeW1ib2w+CiAgICA8L2c+CiAgPC9kZWZzPgogIDxnCiAgICAgaWQ9InN1cmZhY2UxOTIyMyI+CiAgICA8cGF0aAogICAgICAgaWQ9InBhdGgyOSIKICAgICAgIHRyYW5zZm9ybT0ibWF0cml4KDEsMCwwLC0xLDAsNjMpIgogICAgICAgZD0iTSAzNi41IDUzIEwgMTA3IDUzIEwgMTA3IDcgTCAzNi41IDcgWiBNIDM2LjUgMzkgTCAxMDYuNSAzOSBNIDM2Ljc1IDIyIEwgMTA2Ljc1IDIyICIKICAgICAgIHN0eWxlPSJmaWxsOm5vbmU7c3Ryb2tlLXdpZHRoOjE7c3Ryb2tlLWxpbmVjYXA6YnV0dDtzdHJva2UtbGluZWpvaW46bWl0ZXI7c3Ryb2tlOnJnYigwJSwwJSwwJSk7c3Ryb2tlLW9wYWNpdHk6MTtzdHJva2UtbWl0ZXJsaW1pdDo0OyIgLz4KICAgIDxwYXRoCiAgICAgICBpZD0icGF0aDMxIgogICAgICAgdHJhbnNmb3JtPSJtYXRyaXgoMSwwLDAsLTEsMCw2MykiCiAgICAgICBkPSJNIDY0IDYyIEwgODEuNSA2MiBMIDgxLjUgMSBMIDY0IDEgWiBNIDY0IDYyICIKICAgICAgIHN0eWxlPSJmaWxsLXJ1bGU6bm9uemVybztmaWxsOnJnYigxMDAlLDEwMCUsMTAwJSk7ZmlsbC1vcGFjaXR5OjE7c3Ryb2tlLXdpZHRoOjE7c3Ryb2tlLWxpbmVjYXA6YnV0dDtzdHJva2UtbGluZWpvaW46bWl0ZXI7c3Ryb2tlOnJnYigxMDAlLDEwMCUsMTAwJSk7c3Ryb2tlLW9wYWNpdHk6MTtzdHJva2UtbWl0ZXJsaW1pdDo0OyIgLz4KICAgIDxwYXRoCiAgICAgICBpZD0icGF0aDMzIgogICAgICAgdHJhbnNmb3JtPSJtYXRyaXgoMSwwLDAsLTEsMCw2MykiCiAgICAgICBkPSJNIDAuNSAzMCBMIDM2IDMwICIKICAgICAgIHN0eWxlPSJmaWxsOm5vbmU7c3Ryb2tlLXdpZHRoOjE7c3Ryb2tlLWxpbmVjYXA6YnV0dDtzdHJva2UtbGluZWpvaW46bWl0ZXI7c3Ryb2tlOnJnYigwJSwwJSwwJSk7c3Ryb2tlLW9wYWNpdHk6MTtzdHJva2UtbWl0ZXJsaW1pdDo0OyIgLz4KICAgIDxwYXRoCiAgICAgICBpZD0icGF0aDM1IgogICAgICAgdHJhbnNmb3JtPSJtYXRyaXgoMSwwLDAsLTEsMCw2MykiCiAgICAgICBkPSJNIDEwNy41IDMwLjUgTCAxNDMgMzAuNSAiCiAgICAgICBzdHlsZT0iZmlsbDpub25lO3N0cm9rZS13aWR0aDoxO3N0cm9rZS1saW5lY2FwOmJ1dHQ7c3Ryb2tlLWxpbmVqb2luOm1pdGVyO3N0cm9rZTpyZ2IoMCUsMCUsMCUpO3N0cm9rZS1vcGFjaXR5OjE7c3Ryb2tlLW1pdGVybGltaXQ6NDsiIC8+CiAgICA8ZwogICAgICAgaWQ9ImczOSIKICAgICAgIHN0eWxlPSJmaWxsOnJnYigxMy43Mjk4NTglLDEyLjE1OTcyOSUsMTIuNTQ4ODI4JSk7ZmlsbC1vcGFjaXR5OjE7Ij4KICAgICAgPHVzZQogICAgICAgICBpZD0idXNlMzciCiAgICAgICAgIHk9IjExLjk4ODcwMSIKICAgICAgICAgeD0iNjcuNTI0Mzk5IgogICAgICAgICB4bGluazpocmVmPSIjZ2x5cGgwLTEiIC8+CiAgICA8L2c+CiAgICA8ZwogICAgICAgaWQ9Imc0MyIKICAgICAgIHN0eWxlPSJmaWxsOnJnYigxMy43Mjk4NTglLDEyLjE1OTcyOSUsMTIuNTQ4ODI4JSk7ZmlsbC1vcGFjaXR5OjE7Ij4KICAgICAgPHVzZQogICAgICAgICBpZD0idXNlNDEiCiAgICAgICAgIHk9IjI2LjQ4ODkyMiIKICAgICAgICAgeD0iNjcuNzAxMzMyIgogICAgICAgICB4bGluazpocmVmPSIjZ2x5cGgwLTIiIC8+CiAgICA8L2c+CiAgICA8ZwogICAgICAgaWQ9Imc0NyIKICAgICAgIHN0eWxlPSJmaWxsOnJnYigxMy43Mjk4NTglLDEyLjE1OTcyOSUsMTIuNTQ4ODI4JSk7ZmlsbC1vcGFjaXR5OjE7Ij4KICAgICAgPHVzZQogICAgICAgICBpZD0idXNlNDUiCiAgICAgICAgIHk9IjQyLjk4OTIxNCIKICAgICAgICAgeD0iNjguNjAwMzQ5IgogICAgICAgICB4bGluazpocmVmPSIjZ2x5cGgwLTMiIC8+CiAgICA8L2c+CiAgICA8ZwogICAgICAgaWQ9Imc1MSIKICAgICAgIHN0eWxlPSJmaWxsOnJnYigxMy43Mjk4NTglLDEyLjE1OTcyOSUsMTIuNTQ4ODI4JSk7ZmlsbC1vcGFjaXR5OjE7Ij4KICAgICAgPHVzZQogICAgICAgICBpZD0idXNlNDkiCiAgICAgICAgIHk9IjU5LjQ4OTUwNSIKICAgICAgICAgeD0iNjguMDYyMzc4IgogICAgICAgICB4bGluazpocmVmPSIjZ2x5cGgwLTQiIC8+CiAgICA8L2c+CiAgPC9nPgo8L3N2Zz4K</file>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>Denoting the switches by \(A, B, C\)&nbsp; and \(D\) we have:</p><p>\[\begin{eqnarray*}\text{P}(A\cup B\cup C\cup D)&amp;=&amp;\text{P} (A)+\text{P}(B)+\text{P} (C)+\text{P} (D)-\text{P} (A\cap B)- \text{P} (B\cap C)\\&amp;-&amp; \text{P} (C\cap D- \text{P} (D\cap A)- \text{P} (A\cap C)-\text{P} (B\cap D)\\&amp;+&amp;\text{P} (A\cap B\cap C)+ \text{P} (B\cap C\cap D)+\text{P} (C\cap D\cap A)+\text{P} (D\cap A\cap B)\\&amp;-&amp; \text{P} (A\cap B\cap C\cap D)\end{eqnarray*}\]</p><p>Using the fact that the switches operate independently and substituting gives:</p><p>\[ \text{P} (A\cup B\cup C\cup D)=3-3.35+1.65-0.3024=0.9976\]</p><p>Hence, the probability that current can flow through the bank of switches is \(\displaystyle {@ta@}\).</p><p>Alternative solution:</p><p>Consider the opposite case where the current does <i>not</i> flow through, then all of the switches
+need to be open. If \(A\), \(B\), \(C\) and \(D\) represent the event that the respective switch is closed, then the
+event \(A’ \cap B’ \cap C’ \cap D’\) represents all four switches being closed. As each switch is
+independent, we have:
+\[
+P(A’\cap B’\cap C’\cap D’) = P(A’)P(B’)P(C’)P(D’)
+= {@naa@}\times{@nbb@}\times{@ncc@}\times{@ndd@}= \frac{3}{1250}. \]
+Therefore the probability that the current flows is</p><p>\begin{eqnarray*}\text{P}(A\cup B\cup C\cup D)&amp;=&amp;1-\text{P}(A'\cap B'\cap C'\cap D')\\&amp;=&amp;1-&nbsp;\frac{3}{1250}=0.9976.\end{eqnarray*}</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021072200</text>
+    </stackversion>
+    <questionvariables>
+      <text>listprobs:[9/10,8/10,7/10,6/10]
+aa:rand(listprobs)
+naa:1-aa
+lista:delete(aa,listprobs)
+bb:rand(lista)
+nbb:1-bb
+listb:delete(bb,lista)
+cc:rand(listb)
+ncc:1-cc
+dd:delete(cc,listb)[1]
+ndd:1-dd
+ta: aa+bb+cc+dd-(aa*bb+aa*cc+aa*dd+bb*cc+bb*dd+cc*dd)+(aa*bb*cc+aa*bb*dd+aa*cc*dd+bb*cc*dd)-aa*bb*cc*dd</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>probabilities that \(A, B, C, D\)  are closed are \(\displaystyle{{@aa@}, {@bb@}, {@cc@}, {@dd@}}\) so \( P(flow) = {@ta@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>977737006</deployedseed>
+    <deployedseed>1359679858</deployedseed>
+    <deployedseed>177755910</deployedseed>
+    <deployedseed>1914776989</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta+1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

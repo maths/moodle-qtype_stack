@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>27.2.5.4 Changing Order of Integration Exercise</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>By reversing the order of the two integrals, evaluate the integral \(\displaystyle\int_{y=0}^{@bb@} \int_{x=y^{1/2}}^{@aa@} {@exp@} \; \mathrm{d}x \, \mathrm{d}y\). Leave your answer in terms of trigonometric functions. </p>
+<p>\(I = \) [[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p>We are asked to evaluate the integral \(\displaystyle\int_{y=0}^{@bb@} \int_{x=y^{1/2}}^{@aa@} {@exp@} \; \mathrm{d}x \, \mathrm{d}y\) by reversing the order of the two integrals; leaving our answer in terms of trigonometric functions. </p>
+<p> It is generally a good idea to first sketch the region of integration. Here it looks as below:</p>
+[[jsxgraph]]
+        var board = JXG.JSXGraph.initBoard(divid, { // STACK: when moving to STACK change 'jxgboard' for divid
+            boundingbox: [-0.25, {#bb+2#}, {#aa+1#}, -1],
+            keepaspectratio: true,
+            axis: true,
+            showCopyright: false,
+			showNavigation: false,
+			grid: false
+		});
+		
+
+		//  y=x^2 
+		var f = board.create('functiongraph', [function(x){return x*x;}, 0, {#aa#}], {name:'x = y^{1/2}', withlabel:true, strokeColor:'blue'});
+
+// Vertical dashed line segment at x and y coords 
+var vline_bottom = board.create('point', [{#aa#}, 0], {visible:false});
+var line_middle = board.create('point', [{#aa#}, {#bb#}], {visible:false});
+var hline_left = board.create('point', [0, {#bb#}], {visible:false});
+
+board.create('segment', [vline_bottom, line_middle], {
+    strokeColor: 'black',
+    dash: 2,
+    strokeWidth: 1,
+    fixed: true,
+    highlight: false
+});
+
+board.create('segment', [line_middle,  hline_left], {
+    strokeColor: 'black',
+    dash: 2,
+    strokeWidth: 1,
+    fixed: true,
+    highlight: false
+});
+	
+
+
+[[/jsxgraph]]
+<p> To reverse the order of integration, we need \(y\) as the inner variable, and therefore we need to have \(y\) in terms of \(x\). </p>
+<p> The integral is taken over the region which can be thought of as being bounded to the left by the curve \(x=\sqrt{y}\). Expressed as a function of \(x\), this curve is\(y=x^2\). Now consider this curve as bounding the region from above, then the line \(x=0\) bounds the region below. These therefore are our bounds in \(y\), and we can see that our bounds in \(x\) are \(0\) and \({@aa@}\) </p>
+<p> So our integral becomes </p>
+<p> \(\qquad \displaystyle I = \int_{0}^{@aa@}\int_{0}^{x^2} {@exp@} \, \mathrm{d}y \, \mathrm{d}x \) </p>
+
+<p> Since \({@exp@}\) is a constant with respect to \(y\), the inner integral is</p>
+<p> \(\qquad \displaystyle \text{Inner} \hspace{0.1cm} \text{Integral} = {@exp2@} \) </p>
+<p> And so </p>
+<p> \(\begin{align} 
+\qquad \displaystyle I &= \int_{0}^{@aa@} {@exp2@} \, \mathrm{d}x  \\
+&= {@cc@} \int_{0}^{@aa@} x^2 \sin(x^3) \, \mathrm{d}x \end{align}\)</p>
+
+<p> This can be evaluated using the substitution \(u = x^3\)</p>
+<p>\(\text{Let} \hspace{0.1cm} u = x^3, \text{then} \hspace{0.1cm} \dfrac{\mathrm{d}u}{\mathrm{d}x} = 3x^2, \text{and} \hspace{0.1cm} \mathrm{d}x = \dfrac{1}{3x^2} \mathrm{d}u \)</p>
+<p> For our limits, \(x=0 \implies u=0\), and \(x={@aa@} \implies u={@dd@}\)</p>
+
+<p> So our integral becomes </p>
+<p> \(\begin{align} 
+\qquad \displaystyle I &= {@cc/3@} \int_{0}^{@dd@} \sin(u) \, \mathrm{d}u \\
+&=  {@cc/3@} \left[-\cos(u)\right]_{0}^{@dd@} \\
+&= {@cc/3@} \left(-\cos({@dd@}) - (-\cos(0))\right) \\
+&= {@ta1@}. \end{align}\)</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025040100</text>
+    </stackversion>
+    <questionvariables>
+      <text>aa: rand(3) + 2;
+bb: aa^2;
+cc: rand(4) + 1;
+dd: aa^3;
+exp: ev(cc*sin(x^3),simp);
+exp2: ev(cc*x^2*sin(x^3),simp);
+ta1: (cc/3)*(1-cos(dd));</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="html">
+      <text>\(I = \displaystyle\int_{y=0}^{@bb@} \int_{x=y^{1/2}}^{@aa@} {@exp@}  \; \mathrm{d}x \, \mathrm{d}y = {@ta1@}\)</text>
+    </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>835862089</deployedseed>
+    <deployedseed>1159955389</deployedseed>
+    <deployedseed>2012226147</deployedseed>
+    <deployedseed>330475783</deployedseed>
+    <deployedseed>1652068923</deployedseed>
+    <deployedseed>1175538980</deployedseed>
+    <deployedseed>371306918</deployedseed>
+    <deployedseed>1136839090</deployedseed>
+    <deployedseed>590550637</deployedseed>
+    <deployedseed>1369537321</deployedseed>
+    <deployedseed>340820354</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1+1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <tags>
+      <tag><text>jsxgraph_solution</text>
+</tag>
+    </tags>
+  </question>
+</quiz>

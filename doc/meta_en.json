@@ -783,12 +783,17 @@
         {
         "file":"index.md",
         "title":"STACK question library - STACK Documentation",
-        "description":"Reference documentation on the libraries in STACK for representing ordinary differential equations."
+        "description":"Reference documentation on the STACK question library."
         },
         {
         "file":"Algebra_refresher.md",
         "title":"Algebra refresher question library - STACK Documentation",
-        "description":"Reference documentation on the libraries in STACK for representing ordinary differential equations."
+        "description":"Reference documentation on the Algebra Refresher STACK question library."
+        },
+        {
+        "file":"HELM.md",
+        "title":"HELM question library - STACK Documentation",
+        "description":"Reference documentation on the HELM STACK question library."
         }
         ]
         }

@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>38.3.2.1 Barges on a waterway</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p><p>The time intervals between successive barges passing a certain point on a busy waterway have an exponential distribution with mean \({@EX@}\) minutes.</p><p><br></p><p></p>
+ <p>
+</p><ol class="HELM_parts">
+  <li>What is the probability, to 4 decimal places, that the time interval between two successive barges is less than&nbsp;\({@case@} \) minutes. <br><p></p>\(\text{P}(\text{less than ${@case@}$ minutes})\) = [[input:ans1]]&nbsp; [[validation:ans1]] [[feedback:prt1]]
+</li>
+
+  <li>Find the time interval \( t \), to 2 decimal places, so that we can be \({@percent@}\)% sure that the time interval between two successive barges will be greater than \(t \).<br><p></p>\(t =\) [[input:ans2]] minutes [[validation:ans2]][[feedback:prt2]]<br></li>
+
+</ol>
+
+
+
+<p></p><p></p><p></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>Let \(T\) denote the random variable between two successive barges so that \(T \sim \text{Exp}(\lambda\). The expectation of an exponentially distributed random variable is \(\text{E}(X) = \dfrac{1}{\lambda}\). With the mean interval time being \({@EX@}\)
+    minutes, it follows that the rate parameter is \(\lambda = \dfrac{1}{\text{E}(X)} = \displaystyle {@lambda@}\).</p>
+
+<ol class="HELM_parts">
+    <li><p>The probability for the time between successive barges being less than \({@case@}\) minutes is: \[\begin{align*} \text{P}(T \leq {@case@}) &amp;= F_T({@case@})\\ &amp;= 1 - e^{-{@lambda@} \times {@case@}}\\ &amp; = {@displaydp(ta1,4)@} ~~(\text{to
+    4 d.p.}).\end{align*}\]</p>
+  </li>
+  
+  <li><p>Using the complement rule, the probability that the time interval between successive barges exceeding \(t\) minutes is \(\text{P}(T&gt;t) = 1 - \text{P}(T \leq t) = e^{-\lambda t}\). The value for \(t\) where this probability is \({@percent@}\)% can be determined by:</p>
+    <p>\[\begin{align*}e^{-{@lambda@}t} &amp;= \dfrac{{@percent@}}{100}\\ -{@lambda@}t &amp;= \ln\left( \dfrac{{@percent@}}{100} \right)\\ t &amp; = {@-1/lambda@} \ln\left( \dfrac{{@percent@}}{100} \right) \end{align*}\]</p>
+    <p>Hence, the required time interval is \(t = {@ta2@}\) minutes to 2 decimal places.</p>
+  </li>
+</ol>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021072200</text>
+    </stackversion>
+    <questionvariables>
+      <text>EX: rand(10) + 4;
+lambda: 1/EX;
+case: EX - rand(3);
+percent: 86 + rand(10);
+ta1: decimalplaces(float(cdf_exp(case, lambda)), 4);
+ta2: decimalplaces(float(quantile_exp(1 - percent/100, lambda)), 2);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>mean: \({@EX@}\), rate: \({@lambda@}\), case: \({@case@}\), prob: \({@displaydp(ta1,4)@}\), time: \({@displaydp(ta2,2)@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>numerical</type>
+      <tans>dispdp(ta1,4)</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>to 4 d.p.</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>mindp:4, maxdp:4</options>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>numerical</type>
+      <tans>dispdp(ta2,2)</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>to 2 d.p.</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>mindp:2, maxdp:2</options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions>4</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions>2</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>689810127</deployedseed>
+    <deployedseed>1436246252</deployedseed>
+    <deployedseed>1312893609</deployedseed>
+    <deployedseed>1740247510</deployedseed>
+    <deployedseed>949206263</deployedseed>
+    <deployedseed>2101365553</deployedseed>
+    <deployedseed>2069784893</deployedseed>
+    <deployedseed>294824009</deployedseed>
+    <deployedseed>763541943</deployedseed>
+    <deployedseed>979526975</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>dispdp(ta1,4)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>dispdp(ta2,2)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>0.9999</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>10.01</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

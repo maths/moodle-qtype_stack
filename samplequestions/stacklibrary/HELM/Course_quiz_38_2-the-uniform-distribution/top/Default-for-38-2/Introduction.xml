@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>Introduction</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>This Section introduces the simplest type of continuous probability distribution which features acontinuous random variableXwith probability density functionf(x)which assumes a constantvalue over a finite interval.<br></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

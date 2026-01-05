@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>29.1.2.12 line integrals of grad and curl of a field</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>Find\(\displaystyle \int_C \underline{F} \cdot \underline{\mathrm{d}r}\) along \(y = {@aa@}x\) from \((0, 0)\) to \((2, {@aa*2@})\) for
+<ol class="HELM_parts">
+<li> \(\underline{F} = \nabla(x^2y)\)<br>
+\(\displaystyle \int_C \underline{F} \cdot \underline{\mathrm{d}r} =\)[[input:ans1]] [[validation:ans1]][[feedback:prt1]]</li>
+<li> \(\underline{F} = \nabla \times (\frac{1}{2} x^2y^2\underline{k})\) [Here \(\nabla \times f\) represents the curl of \(f\) ]<br>
+\(\displaystyle \int_C \underline{F} \cdot \underline{\mathrm{d}r} =\)[[input:ans2]] [[validation:ans2]][[feedback:prt2]]</p></li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p>We know that \(C\) is the path along \(y = {@aa@}x\) from \((0, 0)\) to \((2, {@aa*2@})\), and we aim to calculate \(\displaystyle \int_C \underline{F} \cdot \underline{\mathrm{d}r}\) for the following fields:</p>
+
+<p>(a) For \(\underline{F} = \nabla(x^2y)\):
+\[\begin{aligned}
+\underline{F} &= \nabla(x^2y)\\
+&= \frac{\partial}{\partial x}(x^2y)\underline{i} + \frac{\partial}{\partial y}(x^2y)\underline{j}\\
+&= 2xy\underline{i} + x^2\underline{j}.
+\end{aligned}\]
+So we can now calculate the line integral as follows:
+\[\begin{aligned}
+\int_C \underline{F} \cdot \underline{\mathrm{d}r} &= \int^2_0 2xy\ \mathrm{d}x + \int^{@2*aa@}_0 z^2\ \mathrm{d}y\\
+&= \int^2_0 4x^2\ \mathrm{d}x + \int^{@2*aa@}_0 \frac{y^2}{4}\ \mathrm{d}y\\
+&= \left[\frac{4}{3}x^3\right]^2_0 + \left[\frac{y^3}{12}\right]^{@2*aa@}_0 \\
+&=\frac{32}{3} + {@((2*aa)^3)/12@} \\
+&= {@32/3 +((2*aa)^3)/12@}
+\end{aligned}\]</p>
+
+<p>(b) For \(\underline{F} = \nabla \times (\frac{1}{2} x^2y^2\underline{k})\):
+\[\begin{aligned}
+\underline{F} &= \begin{vmatrix}
+\underline{i} & \underline{j} & \underline{k} \\
+\frac{\partial}{\partial x} & \frac{\partial}{\partial y} & \frac{\partial}{\partial z}\\
+0 & 0 & \frac{1}{2} x^2y^2
+\end{vmatrix}\\
+&= \left(\frac{\partial}{\partial y}(\frac{1}{2}x^2y^2) - \frac{\partial}{\partial z}(0)\right)\underline{i}
+- \left(\frac{\partial}{\partial x}(\frac{1}{2}x^2y^2) - \frac{\partial}{\partial z}(0)\right)\underline{j}
++ \left(\frac{\partial}{\partial x}(0) - \frac{\partial}{\partial y}(0)\right)\underline{k}\\
+&= x^2y\underline{i} - xy^2\underline{j}.
+\end{aligned}\]
+So we can now calculate the line integral as follows:
+\[\begin{aligned}
+\int_C \underline{F} \cdot \underline{\mathrm{d}r} &= \int^2_0 x^2y\ \mathrm{d}x - \int^{@2*aa@}_0  xy^2\ \mathrm{d}y\\
+&= \left[\frac{x^4}{2}\right]^2_0 - \left[\frac{y^4}{8}\right]^{@2*aa@}_0 \\
+&= 8 - {@((2*aa)^4)/8@} \\
+&= {@8 - ((2*aa)^4)/8@}
+\end{aligned}\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025073100</text>
+    </stackversion>
+    <questionvariables>
+      <text>aa:rand(5)+2
+
+ta1:32/3 +((2*aa)^3)/12;
+ta2:8 - ((2*aa)^4)/8;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="html">
+      <text>Path: \(y = {@aa@}x\), \((0, 0)\) to \((2, {@aa*2@}) \quad \int_C \underline{F} \cdot \underline{\mathrm{d}r} ={@ta1@}, \quad \int_C \underline{F} \cdot \underline{\mathrm{d}r} = {@ta2@}\)</text>
+    </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>ta2</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1496667500</deployedseed>
+    <deployedseed>684217823</deployedseed>
+    <deployedseed>113215859</deployedseed>
+    <deployedseed>95749374</deployedseed>
+    <deployedseed>1295280311</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1+1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2+1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

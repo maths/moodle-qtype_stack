@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>27.3.4.1 mass and volume</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Applications of tripple and higher integrals</h3>
+<p>The integral \(\displaystyle\int \displaystyle\int \displaystyle\int f(x,y,z) \;\mathrm{d}z \,\mathrm{d}y\,\mathrm{d}x\) (or \(\displaystyle\int_V f(x,y,z) \;\mathrm{d}V)\) may represent many physical quantities depending on the function \(f(x,y,z)\) and the limits used. 
+<h4>Volume</h4>
+The integral \(\displaystyle\int_V 1 \;\mathrm{d}V\) (i.e. the integral of the function \(f(x,y,z)=1\)) with appropriate limits gives the volume of the solid described by \(V\). This is sometimes more convenient than finding the volume by means of a double integral.
+<h4> Mass </h4>
+The integral \(\displaystyle\int \displaystyle\int \displaystyle\int \rho(x,y,z) \;\mathrm{d}z\,\mathrm{d}y\,\mathrm{d}x\) (or \(\displaystyle\int_V \rho(x,y,z) \;\mathrm{d}V\)), with appropriate limits, gives the mass of the solid bounded by \(V\). <p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

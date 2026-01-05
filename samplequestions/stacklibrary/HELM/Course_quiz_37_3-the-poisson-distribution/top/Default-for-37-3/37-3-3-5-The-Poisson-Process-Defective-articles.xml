@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>37.3.3.5 The Poisson Process: Defective articles</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p><p>
+</p><p>A manufacturer sells a certain article in batches of {@b1@}. By agreement with a customer the following method of inspection is adopted: A sample of 100 items is drawn at random from each batch and inspected. If the sample contains 4 or fewer defective items, then the batch is accepted by the customer. If more than 4 defectives are found, every item in the batch is inspected. If inspection costs are {@cost@} pence per hundred articles, and the manufacturer normally produces {@ta1@}% of defective articles, find the average inspection costs per batch.<br><br>
+</p><ol class="HELM_parts">
+<li>The number of defective items in a sample of 100 has a Poisson distribution with rate \(\lambda=\)[[input:ans1]][[validation:ans1]][[feedback:prt1]]<p><br></p></li><li>Therefore, the&nbsp;probability of \(4\) or fewer defectives in a sample of \(100\) is:<p></p><p>[[input:ans2]][[validation:ans2]]&nbsp;[[feedback:prt2]]</p><p><br></p></li><li><p>The average inspection cost per batch is therefore:</p><p>[[input:ans3]] pence [[validation:ans3]][[feedback:prt3]]<br><br></p></li></ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<h4 class="HELM_solution">Solution</h4>
+<ol class="HELM_parts_inline">
+<li> \(\text{P}(\text{defective}) = \dfrac{{@ta1@}}{100}\). By the Poisson approximation to the Binomial distribution we have \(\lambda = np = 100 \times \dfrac{{@ta1@}}{100} = {@ta1@}\).</li><p></p>
+<li> \[\begin{align*}\text{P}(\text{4 or fewer defectives in sample of 100}) &amp;= \text{P}(X = 0) + \text{P}(X = 1) + \text{P}(X = 2) + \text{P}(X = 3) + \text{P}(X = 4)\\ &amp; e^{-{@ta1@}}\left[1 + {@ta1@} + \dfrac{{@ta1@}^2}{2!} + \dfrac{{@ta1@}^2}{2!} + \dfrac{{@ta1@}^3}{3!} + \dfrac{{@ta1@}^4}{4!}\right]\\&amp; = {@displaydp(ta2,3)@} (\text{to 3 d.p.})\end{align*}\]</li><p></p>
+
+<li>&nbsp;To evaluated the expected cost, we first need to identify what the costs for each scenario and the probability of that occuring:<p></p><table><caption></caption>
+<thead>
+<tr>
+<th scope="col"><br></th>
+<th scope="col" style="text-align: center;">&nbsp; &nbsp; &nbsp; &nbsp; Inspect sample&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</th>
+<th scope="col" style="text-align: center;">&nbsp; &nbsp; &nbsp; &nbsp; Inspect whole batch&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>&nbsp;Cost&nbsp;<i>c</i>:</strong></td>
+<td style="text-align: center;">{@cost@}</td>
+<td style="text-align: center;">{@cost@}\(\times\){@b1/100@}</td>
+</tr><tr>
+<td><strong>P(X=<i>c</i>):</strong></td>
+<td style="text-align: center;"><span>\(\text{P}(X\leq4)\)</span></td>
+<td style="text-align: center;"><span>\(\text{P}(X&gt;4) = 1 - \text{P}(X\leq4)\)</span></td>
+</tr>
+</tbody>
+</table>
+<br>The expected cost is then: \[\text{E}(\text{Cost}) = {@cost@}\text{P}(X \leq 4) + \left({@cost@}\times {@b1/100@}\right)(1 - \text{P}(X \leq 4) ).\] Using what we have calculated, the expected cost is \({@displaydp(ta3,1)@}\) pence to one decimal place.<p>
+</p><table>
+</table><br><p></p><p></p></li><p></p></ol>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021072200</text>
+    </stackversion>
+    <questionvariables>
+      <text>ta1: 1 + rand(5);
+cost: 25*(1+rand(4));
+b1:1000*(3+rand(4));
+pleq4: cdf_poisson(4, ta1);
+ta2: decimalplaces(float(pleq4), 3);
+batch_cost: cost*pleq4 + (cost*b1/100)*(1-pleq4);
+ta3: decimalplaces(batch_cost, 1);
+denom: 1*24 + ta1*24 + 12*ta1^2 + 4*ta1^3 + ta1^4</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>{@cost@}; {@b1@}; {@ta1@}; {@ta2@}; {@ta3@}</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>numerical</type>
+      <tans>ta1</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>numerical</type>
+      <tans>dispdp(ta2,3)</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>to 3 d.p.</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>mindp:3, maxdp:3</options>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>numerical</type>
+      <tans>dispdp(ta3,1)</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>to 1 d.p.</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>mindp:1, maxdp:1</options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions>3</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>ans3</sans>
+        <tans>ta3</tans>
+        <testoptions>1</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>585048196</deployedseed>
+    <deployedseed>2105632913</deployedseed>
+    <deployedseed>1051411292</deployedseed>
+    <deployedseed>1183031488</deployedseed>
+    <deployedseed>890415874</deployedseed>
+    <deployedseed>2041632628</deployedseed>
+    <deployedseed>963874372</deployedseed>
+    <deployedseed>1391413093</deployedseed>
+    <deployedseed>1255050732</deployedseed>
+    <deployedseed>1754758406</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>dispdp(ta2,3)</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>dispdp(ta3,1)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(ta1+1,simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>dispdp(ev(ta2+0.1,simp),3)</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>dispdp(ev(ta3+1,simp),1)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

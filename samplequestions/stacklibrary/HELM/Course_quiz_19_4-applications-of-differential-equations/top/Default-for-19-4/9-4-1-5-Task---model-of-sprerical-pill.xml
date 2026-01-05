@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>9.4.1.5 Task - model of sprerical pill</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<hr>
+<h4 class="HELM_example">Example</h4>
+
+<p>A spherical pill with volume \(V\) and surface area \(S\) is swallowed and slowly dissolves in the stomach, releasing an active component. In one model it is assumed that the capsule dissolves in the stomach acids such that the rate of change in volume,
+    \(\dfrac{dV}{dt}\), is directly proportional to the pill's surface area.</p>
+
+<ol class="HELM_parts">
+    <li>Show that \[\dfrac{dV}{dt}=-kV^{2/3}\] where \(k\) is a positive real constant and solve this given that \(V=V_0\) at \(t=0.\)</li>
+    <li> Experimental measurements indicate that for a \(4 \, \textrm{mm}\) pill, half of the volume has dissolved after 3 hours. Find the rate constant \(k\) (\(\textrm{m s}^{-1}\)).</li>
+    <li>Estimate the time required for \(95 \%\) of the pill to dissolve.</li>
+</ol>
+
+<h4 class="HELM_solution">Solution</h4>
+<ol class="HELM_parts">
+    <li>
+        <p>First write down the formulae for volume of a sphere \((V)\) and surface area of a sphere \((S)\) and so express \(S\) in terms of \(V\) by eliminating \(r\):</p>
+        <p>The volume of a sphere is given by: \(\quad V=\dfrac{4}{3}\pi r^3\)</p>
+        <p>The surface of the sphere is given by: \(\quad S=4\pi r^2\)</p>
+        <p>From the \(V\) equation \( \quad r = \left(\dfrac{3V}{4\pi} \right)^{1/3} \quad\) so</p>
+        <p>\[S=(36\pi)^{1/3}V^{2/3}=kV^{2/3} \] for constant \(k.\)<br></p>
+        <p>Now write down the differential equation modelling the solution:</p>
+        <p>\(\qquad \dfrac{dV}{dt} = -kV^{2/3} \qquad\) (negative to represent a decrease with time).</p>
+        <p>Using the condition \(V=V_0\) when \(t=0\), solve the differential equation:</p>
+        <p>Solving by separation of variables gives \[V= \left\{\dfrac{1}{3}(C-kt) \right\}^{1/3}\]</p>
+        <p>and setting \(V=V_0\) when \(t=0\) means</p>
+        <p>\(V_0 = \left(\dfrac{1}{3}C\right)^3 \quad\) so \(\quad C = 3V_0^{1/3} \quad\) and the solution is: \[V = \left\{V_0^{1/3} - \dfrac{kt}{3} \right\}^3 \]</p>
+    </li>
+
+    <li>
+        <p> Impose the condition that half the volume has dissolved after 3 hours to find \(k:\)</p>
+        <p>\( V=\left\{V_0^{1/3}-\dfrac{kt}{3} \right\}^3\)</p>
+        <p>and when \(t=3\), \(V=\dfrac{V_0}{2}\) so</p>
+        <p>\( \left(\dfrac{V_0}{2}\right)^{1/3} = V_0^{1/3}-k \quad\) and so \(\quad k = V_0^{1/3}(1-(0.5)^{1/3}).\)</p>
+    </li>
+  
+  <li><p>First write down the solution to the differential equation inserting the value of \(k\) obtained in (b) and then use it to estimate the time to \(95%\) dissolving:</p>
+    <p>\(V = \left\{V_0^{1/3}-V_0^{1/3}(1-(0.5)^{1/3}) \dfrac{t}{3} \right\}^3 \quad\) i.e. \(\quad V = V_0 \left\{1-(1-(0.5)^{1/3}) \dfrac{t}{3} \right\}^3\)</p>
+    <p>When \(95\%\) dissolved \(V = 0.05V_0\) so</p>
+    <p>\(0.05V_0 = V_0 \left\{1-(1-(0.5)^{1/3}) \dfrac{t}{3} \right\}^3 \quad\) so \(\quad (0.05)^{1/3} = 1- (1-(0.5)^{1/3}) \dfrac{t}{3}\)</p>
+<p>so \[t = 3 \left\{\dfrac{1-(0.05)^{1/3}}{1-(0.5)^{1/3}} \right\} \approx 9.185 \approx 9 \, \textrm{hr} \, 11 \, \textrm{min}\]</p>
+  </li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

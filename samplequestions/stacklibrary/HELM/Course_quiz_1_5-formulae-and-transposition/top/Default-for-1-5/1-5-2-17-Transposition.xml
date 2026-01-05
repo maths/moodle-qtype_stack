@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>1.5.2.17 Transposition</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise <br></p>
+<p> Transpose \(q = A_{1}\sqrt{\dfrac{{@b1@}gh}{(A_1/A_2)^{2}-{@b2@}}}\text{  for }A_{2}\)</p>
+
+<p>\(A_{2}\) = [[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>We have the equation \[q = A_{1}\sqrt{\dfrac{{@b1@}gh}{(A_{1}/A_{2)}^{2}-{@b2@}}}\] First divide the equation by \(A_{1}\) and then square both sides \[\dfrac{q}{A_{1}} = \sqrt{\dfrac{{@b1@}gh}{(A_1/A_2)^{2}-{@b2@}}} \implies \dfrac{q^2}{A_{1}^2} = \dfrac{{@b1@}gh}{(A_1/A_2)^{2}-{@b2@}}\] Multiply both sides of the equation by \((\dfrac{A_{1}}{A_{2}})^{2}-{@b2@}\) \[\dfrac{q^2}{A_{1}^2}((\dfrac{A_{1}}{A_{2}})^{2}-{@b2@}) = {@b1@}gh\] Expand out both sets of brackets \[\dfrac{q^2}{A_{1}^2}(\dfrac{A_{1}}{A_{2}})^{2}-\dfrac{{@b2*q^2@} }{A_{1}^2}= {@b1@}gh \implies \dfrac{q^2A_{1}^2}{A_{1}^2A_{2}^2}-\dfrac{{@b2*q^2@}}{A_{1}^2} = {@b1@}gh\] The \(A_{1}^{2}\) in the numerator and denominator cancel each other out \[\dfrac{q^2}{A_{2}^2}-\dfrac{{@b2*q^2@}}{A_{1}^2} = {@b1@}gh\] Add to both sides \(\dfrac{{@b2*q^2@}}{A_{1}^2}\) \[\dfrac{q^2}{A_{2}^2} = {@b1@}gh + \dfrac{{@b2*q^2@}}{A_{1}^2}\] Multiply both sides by \(A_{2}^2\) \[q^2 = A_{2}^2({@b1@}gh + \dfrac{{@b2*q^2@}}{A_{1}^2})\] Divide both sides of the equation \(({@b1@}gh + \dfrac{{@b2*q^2@}}{A_{1}^2})\) \[A_{2}^2 = \dfrac{q^2}{{@b1@}gh+\dfrac{{@b2*q^2@}}{A_{1}^2}}\]  Multiply \({@b1@}gh\) by \(\dfrac{A_{2}^2}{A_{2}^2}\) and then simplify to make one fraction \[A_{2}^2 = \dfrac{q^2}{\dfrac{{@b1@}ghA_{1}^2}{A_{1}^2}+\dfrac{{@b2*q^2@}}{A_{1}^2}} = \dfrac{q^2}{\dfrac{{@b1@}ghA_1^2+{@b2*q^2@}}{A_{1}^2}} = \dfrac{q^2A_{1}^2}{{@b1@}ghA_1^2+{@b2*q^2@}}\] Taking the square root of both sides of the equation gives the final answer \[A_{2} = \sqrt{\dfrac{q^2A_{1}^2}{{@b1@}ghA_1^2+{@b2*q^2@}}}\] 
+</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021072200</text>
+    </stackversion>
+    <questionvariables>
+      <text>simp:false;
+powerdisp:true
+
+b1: rand([2,3,4]);
+b2: rand([1,2,3]);
+ta: sqrt(((q^2)*(A1^2))/(b1*g*h*(A1^2)+b2*(q^2)));
+ta1: ev(sqrt((q^2)*(A1^2)), simp)/ev(sqrt(b1*g*h*(A1^2)+b2*(q^2)), simp)</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\(A_{2} = \sqrt{\dfrac{q^2A_{1}^2}{{@b1@}ghA_1^2+{@b2*q^2@}}}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>sqrt(((q^2)*(A1^2))/(b1*g*h*(A1^2)+b2*(q^2)))</tans>
+      <boxsize>20</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>EqualComAssRules</answertest>
+        <sans>ans1</sans>
+        <tans>ta</tans>
+        <testoptions>[oneMul]</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>EqualComAssRules</answertest>
+        <sans>ans1</sans>
+        <tans>sqrt(((q^2)*(A1^2))/(b1*g*h*(A1^2)+b2*(q^2)))</tans>
+        <testoptions>[oneMul]</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>EqualComAss</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>3</falsenextnode>
+        <falseanswernote>prt1-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>3</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-4-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p dir="ltr" style="text-align: left;">You have effectively transposed the formula to make \(e\) the subject but it should be fully simplified to: \(\sqrt{\dfrac{q^2A_{1}^2}{{@b1@}ghA_1^2+{@b2*q^2@}}}\)<br></p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-4-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1460224079</deployedseed>
+    <deployedseed>824269369</deployedseed>
+    <deployedseed>1562797931</deployedseed>
+    <deployedseed>1551295517</deployedseed>
+    <deployedseed>705139204</deployedseed>
+    <deployedseed>598488617</deployedseed>
+    <deployedseed>1110880310</deployedseed>
+    <deployedseed>2030398094</deployedseed>
+    <deployedseed>446807908</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>sqrt(((A1^2))/((b1*g*h*(A1^2)/q^2)+b2))</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-4-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(ta,simp)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>A_2 = sqrt(((q^2)*(A1^2))/(b1*g*h*(A1^2)+b2*(q^2)))</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore/>
+        <expectedpenalty/>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

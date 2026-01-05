@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>16.5.2.1 The Maclaurin series</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3><span>The Maclaurin series</span></h3><br>
+<p>Consider a function <span class="math inline">\(f(x)\)</span> which can be differentiated at <span class="math inline">\(x=0\)</span> as often as we please. For example <span class="math inline">\(e^x,\cos x,\sin x\)</span> would fit into this category but <span class="math inline">\(|x|\)</span> would not.</p>
+<p>Let us assume that <span class="math inline">\(f(x)\)</span> can be represented by a power series in <span class="math inline">\(x\)</span>:  <span class="math inline">\[f(x)=b_0+b_1x+b_2x^2+b_3x^3+b_4x^4+\cdots =\sum_{p=0}^{\infty}b_px^p\]</span> where <span class="math inline">\(b_0,b_1,b_2,\ldots\)</span> are constants to be determined.</p><p> If we substitute <span class="math inline">\(x=0\)</span> then, clearly 
+ <span class="math inline">\[  f(0)=b_0.\]</span> </p><p>The other constants can be determined by further differentiating and, on each differentiation, substituting <span class="math inline">\(x=0\)</span>. For example, differentiating once:  <span class="math inline">\[ f'(x)=0+b_1+2b_2x+3b_3x^2+4b_4x^3+\cdots\]</span> so, putting <span class="math inline">\(x=0\)</span>, we have <span class="math inline">\(f'(0)=b_1\)</span>.</p>
+<p>Continuing to differentiate:</p>
+<p><span class="math inline">\[ f''(x)=0+2b_2+3(2)b_3x+4(3)b_4x^2+\cdots\]</span> so <span class="math inline">\[ f''(0)=2b_2\qquad\text{or}\qquad b_2=\dfrac{1}{2}f''(0)\]</span> Further: </p><p><span class="math inline">\(f'''(x)=3(2)b_3+4(3)(2)b_4x+\cdots\)</span> so <span class="math inline">\(f'''(0)=3(2)b_3\qquad\text{implying}\qquad b_3=\dfrac{1}{3(2)} f'''(0).\)</span> </p> <p>Continuing in this way we easily find that (remembering that <span class="math inline">\(0!=1\)</span>) <span class="math inline">\[\qquad  b_n=\dfrac{1}{n!}f^{(n)}(0)\qquad n=0,1,2, \dots\]</span> where <span class="math inline">\(f^{(n)}(0)\)</span> means the value of the <span class="math inline">\(n^{th}\)</span> derivative at <span class="math inline">\(x=0\)</span> and <span class="math inline">\(f^{(0)}(0)\)</span> means <span class="math inline">\(f(0)\)</span>.</p>
+<p>Bringing all these results together we have:</p>
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p>If \(f(x)\)can be differentiated as often as required:
+\[f(x)=f(0)+xf'(0)+\dfrac{x^2}{2!}f''(0)+\dfrac{x^3}{3!}f'''(0)+\cdots
+=\sum_{p=0}^{\infty}\dfrac{x^p}{p!}f^{(p)}(0)\]
+This is called the Maclaurin expansion of \(f(x)\)</p>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

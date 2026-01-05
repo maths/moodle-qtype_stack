@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>4.4.2.4 Seperation of ships</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>Two ships leave a port at {@t1@} am, one travelling at {@u1@} knots (nautical miles per hour) the other at {@u2@} knots. The faster ship maintains a bearing of \(N{@th1@}^{\circ}W\), the slower one a bearing \(S{@th2@}^{\circ}W\).</p>
+<p> Calculate the separation of the ships at midday. Keep 1 dp in your answer. (Hint: Draw an appropriate diagram.)</p>
+<p>seperation = [[input:ans1]] [[validation:ans1]] nautical miles [[feedback:prt1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p>At midday ({@dt@} hours travelling) ships \(A\) and \(B\) are respectively {@s1@} and {@s2@} nautical miles from the port \(O.\)</p>
+<p><br></p>
+
+[[jsxgraph width='250px' height='200px']] 
+var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-8, 10, 1, -10], keepAspectRatio: true,showCopyright: false, showNavigation: false}); 
+var line1 = board.create("line",[[0,-5],[0,5]], {fixed:true});
+var s = board.create('point', [0,0], {name: "O", fixed:true}); 
+var p = board.create('point', [-7,7], {name: "A", fixed:true}); 
+var q = board.create('point',[-3.5,-9],{name:"B", fixed:true});
+var poly1 = board.create('polygon',[s,p,q]);
+board.create('text', [0.5, 9,"N"]); 
+board.create('text', [0.5, -9,"S"]); 
+board.create('text', [-7, 0,"c"]); 
+board.create('text', [-3.5, 4.5, {#s1#}]); 
+board.create('text', [-3.5, -3, {#s2#}]);
+[[/jsxgraph]]
+
+<p><br></p>
+<p>In triangle \(AOB\) we have: \(\quad A\hat{O}B = 180^{\circ} - ( {@th1@}^{\circ} + {@th2@}^{\circ}) = {@angO@}^{\circ}.\)</p>
+<p>We use the Cosine rule to obtain the required distance apart of the ships. Denoting the
+distance \(AB\) by \(c\), as usual,
+\[ c^2 = {@s1@}^2+{@s2@}^2-2({@s1@})({@s2@})\cos {@angO@}\]</p>
+<p>from which
+\[ c^2 = {@c_sq@} \, \text{ and } \, c = {@ta1@} \, \text{nautical miles}\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025073100</text>
+    </stackversion>
+    <questionvariables>
+      <text>u1: rand([10,11,12,13,14]);
+u2: u1-2;
+t1: rand([8,9]);
+t2: 12;
+th1: rand([45, 46,47, 47]);
+th2: rand([20, 21, 22, 23]);
+
+dt: t2-t1;
+s1: u1*dt;
+s2:u2*dt;
+angO: 180-(th1+th2);
+c_sq: decimalplaces(s1^2+s2^2-2*s1*s2*cos(angO*%pi/180),2);
+ta1: decimalplaces(sqrt(s1^2+s2^2-2*s1*s2*cos(angO*%pi/180)),1);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\( u_1 = {@u1@}, \theta_1 = {@th1@}, u_2= {@u2@}, \theta_2 = {@th2@}, \Delta t = {@dt@}, c= {@ta1@} \)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>numerical</type>
+      <tans>ta1</tans>
+      <boxsize>7</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>maxdp:1, mindp:1</options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions>1</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1720360088</deployedseed>
+    <deployedseed>733871761</deployedseed>
+    <deployedseed>253459784</deployedseed>
+    <deployedseed>1768183860</deployedseed>
+    <deployedseed>204792825</deployedseed>
+    <deployedseed>550295655</deployedseed>
+    <deployedseed>167564664</deployedseed>
+    <deployedseed>1837982422</deployedseed>
+    <deployedseed>1557048069</deployedseed>
+    <deployedseed>1391840504</deployedseed>
+    <deployedseed>676090056</deployedseed>
+    <deployedseed>1382631040</deployedseed>
+    <deployedseed>96570992</deployedseed>
+    <deployedseed>1740345534</deployedseed>
+    <deployedseed>428933157</deployedseed>
+    <deployedseed>1342437459</deployedseed>
+    <deployedseed>2108950019</deployedseed>
+    <deployedseed>2139392489</deployedseed>
+    <deployedseed>696281799</deployedseed>
+    <deployedseed>145878124</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(ta1+1,simp)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <tags>
+      <tag><text>jsxgraph</text>
+</tag>
+    </tags>
+  </question>
+</quiz>

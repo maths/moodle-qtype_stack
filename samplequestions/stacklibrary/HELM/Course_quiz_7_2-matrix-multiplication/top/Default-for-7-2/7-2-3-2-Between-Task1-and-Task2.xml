@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>7.2.3.2 Between Task1 and Task2</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>It is clear that \(AB\) and \(BA\) are <b>not</b> in general the same. In fact it is the <b>exception</b> that \(AB=BA.\) In the special case in which \(AB=BA\) we say that the matrices \(A\) and \(B\) <b>commute</b>.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

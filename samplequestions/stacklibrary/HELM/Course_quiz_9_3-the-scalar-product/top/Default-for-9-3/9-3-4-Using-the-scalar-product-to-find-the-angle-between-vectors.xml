@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>9.3.4 Using the scalar product to find the angle between vectors</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4><b>Using the scalar product to find the angle between vectors</b></h4><p>We have two distinct ways of calculating the scalar product of two vectors. As we hope you will remember <span class="math inline">\(\underline{a}\cdot\underline{b} =|\underline{a}|\,|\underline{b}|\,\cos\theta\)</span> whilst from a previous key point&nbsp;<span class="math inline">\(\underline{ a}\cdot\underline{b} = a_1b_1 + a_2b_2 + a_3b_3\)</span>. Both methods of calculating the scalar product are entirely equivalent and will always give the same value for the scalar product. We can exploit this correspondence to find the angle between two vectors. The following example illustrates the procedure to be followed.</p><p><br></p>
+
+<hr>
+<h4 class="HELM_example">Example</h4><p>Find the angle between the vectors <span class="math inline">\(\underline{ a}=5\underline{ i}+3\underline{ j}-2\underline{ k}\)</span> and <span class="math inline">\(\underline{ b}=8\underline{ i}-9\underline{ j}+11\underline{ k}\)</span>.</p>
+
+
+<h4 class="HELM_solution">Solution</h4>
+<p>The scalar product of these two vectors is&nbsp;<span class="math inline">\(-9\)</span>. The modulus of <span class="math inline">\(\underline{ a}\)</span> is <span class="math inline">\(\sqrt{5^2+3^2+(-2)^2}=\sqrt{38}\)</span>. The modulus of <span class="math inline">\(\underline{ b}\)</span> is <span class="math inline">\(\sqrt{8^2+(-9)^2+11^2}=\sqrt{266}\)</span>. Substituting these values for <span class="math inline">\({\underline a}\cdot {\underline b},\ |{\underline a}|\)</span> and <span class="math inline">\(|{\underline b}|\)</span> into the formula for the scalar product we find&nbsp;</p><p><span class="math display">\[\begin{aligned}
+\underline{ a}\cdot\underline{b} &amp;= |\underline{ a}|\,|\underline{ b}|\,\cos \theta \\
+-9 &amp;= \sqrt{38}\,\sqrt{266}\cos\theta\end{aligned}\]</span>&nbsp;from which \[\displaystyle{\quad\cos\theta = {-9\over \sqrt{38}\sqrt{266}} = -0.0895}\] so that \[\quad\theta = \cos^{-1}(-0.0895)=95.14^\circ.\]</p><p>In general, the angle between two vectors can be found from the following formula:</p>
+
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p>The angle <span class="math inline">\(\theta\)</span> between vectors <span class="math inline">\(\underline{a}\)</span>, <span class="math inline">\(\underline{b}\)</span> is such that:</p>
+<p style="text-align: center; "><span class="math display">\[\cos\theta = {\underline{ a}\cdot\underline{b}\over |\underline{ a}|\,|\underline{ b}|}\]</span></p>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

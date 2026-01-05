@@ -1,0 +1,81 @@
+{
+    "quiz": {
+        "name": "23_4 Convergence",
+        "intro": "In this Section we examine, briefly, the convergence characteristics of a Fourier series. We have seen\nthat a Fourier series can be found for functions which are not necessarily continuous (there may be\n<i>jumps<\/i> in the curve) - the only requirement that we have made is that the function be periodic. We\nhave seen that the more terms we take in the Fourier series the better is the approximation to the\ngiven signal. But an obvious question to ask is<i> what happens at the points of discontinuity?<\/i> What\ndoes the Fourier series converge to at these points? It must converge to something (finite) since a\nFourier series is a sum of very smooth continuous functions. In this Section we give the answer to\nthis question.",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Convergence of a Fourier series",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "5",
+            "heading": "Exercises",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-23-4\/23-4-1-1-Convergence-of-a-Fourier-series.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-23-4\/23-4-1-2-Convergence-of-a-Fourier-series.xml"
+        },
+        {
+            "slot": "3",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-23-4\/23-4-1-3-Example.xml"
+        },
+        {
+            "slot": "4",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-23-4\/23-4-1-4-Example.xml"
+        },
+        {
+            "slot": "5",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-23-4\/23-4-2-1-FS-expression-1.xml"
+        },
+        {
+            "slot": "6",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-23-4\/23-4-2-2-FS-expression-2.xml"
+        },
+        {
+            "slot": "7",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-23-4\/23-4-2-3-FS-expression-3.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>28.3.2.2 Vector derivatives in orthogonal coordinates</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Vector derivatives in orthogonal coordinates</h3>
+<p>Given an orthogonal coordinate system \({u,v,w}\) with unit vectors \(\underline{\hat{u}}\), \(\underline{\hat{v}}\) and \(\underline{\hat{w}}\) and scale factors, \(h_u\), \(h_v\) and \(h_w\), it is possible to find the derivatives \({\underline \nabla} f\), \({\underline \nabla} \cdot \underline{F}\) and \({\underline \nabla} \times \underline{F}\). It is found that <br>
+\[
+\begin{aligned}
+\mbox{grad} \displaystyle f &= {\underline \nabla} f = \frac{1}{h_u} \frac{\partial f}{\partial u} \underline{\hat{u}} + \frac{1}{h_v} \frac{\partial f}{\partial v} \underline{\hat{v}} + \frac{1}{h_w} \frac{\partial f}{\partial w} \underline{\hat{w}}\\
+
+\mbox{If} \quad \underline{F} &= F_u \underline{\hat{u}} + F_v \underline{\hat{v}} + F_w \underline{\hat{w}}\quad \mbox{then} \\
+
+\mbox{div} \displaystyle \underline{F} &= {\underline \nabla} \cdot \underline{F} = \frac{1}{h_u h_v h_w} \left[ \frac{\partial}{\partial u}(F_u h_v h_w) + \frac{\partial}{\partial v}(F_v h_u h_w) + \frac{\partial}{\partial w}(F_w h_u h_v) \right] \\
+
+\mbox{Also if} \quad\underline{F} &= F_u \underline{\hat{u}} + F_v \underline{\hat{v}} + F_w \underline{\hat{w}}\quad \mbox{then} \\
+
+\mbox{curl} \displaystyle \underline{F} &= {\underline \nabla} \times \displaystyle \underline{F} = \frac{1}{h_u h_v h_w} \left|\begin{array}{ccc} h_u \underline{\hat{u}} &amp; h_v \underline{\hat{v}} &amp; h_w \underline{\hat{w}} \\ \\ \displaystyle \frac{\partial}{\partial u} &amp; \displaystyle \frac{\partial}{\partial v} &amp; \displaystyle \frac{\partial}{\partial w} \\ \\ h_u F_u &amp; h_v F_v &amp; h_w F_w \end{array} \right|
+\end{aligned}
+\]</p>
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p>In orthogonal curvilinear coordinates, the vector derivatives \(\underline{\nabla}f \), \(\underline{\nabla} \cdot \underline{F}\) and \(\underline{\nabla} \times \underline{F}\) include the scale factors \(h_u\), \(h_v\) and \(h_w\)</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

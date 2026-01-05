@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>2.5.3.1 The equation of a straight line through two points</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3 style="text-align: left;">The equation of a straight line through two points </h3>
+
+<p>The equation of the line passing through the points with coordinates \(A=(x_1, y_1)\) and \(B=(x_2,y_2)\) is given by the following formula.</p>
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p>The equation of the line passing through two points, \(A=(x_1, y_1)\) and \(B=(x_2, y_2)\), is given by:</p>
+<p style="text-align:center;">\(\displaystyle \frac{y - y_1}{y_2 - y_1} = \frac{x - x_1}{x_2 - x_1}\)
+&emsp; or, equivalently &emsp;
+\(\displaystyle y - y_1 = \left(\frac{y_2 - y_1}{x_2 - x_1}\right)(x - x_1)\).</p>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

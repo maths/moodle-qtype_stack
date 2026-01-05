@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>6.2.1.1 Even and odd functions</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3><span style="">Even and Odd Functions</span></h3><h4><span style="">Constructing even and odd functions</span></h4><p><span style="">A given function \(f(x)\) can always be split into two parts, one of which is even and one of which is odd. To do this write \(f(x)\) as \(\dfrac{1}{2}[f(x)+f(x)]\) and then simply add and subtract \(\dfrac{1}{2}f(-x)\) to this to give \[\qquad f(x)=\dfrac{1}{2}[f(x)+f(-x)]+\dfrac{1}{2}[f(x)-f(-x)].\] The term \(\dfrac{1}{2}[f(x)+f(-x)]\) is even because when \(x\) is replaced by \(-x\) we have \(\dfrac{1}{2}[f(-x)+f(x)]\) which is the same as the original. However, the term \(\dfrac{1}{2}[f(x)-f(-x)]\) is odd since, on replacing \(x\) by \(-x\) we have \(\dfrac{1}{2}[f(-x)-f(x)]=-\dfrac{1}{2}[f(x)-f(-x)]\) which is the negative of the original.<br></span></p>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p><span></span> Separate <span class="math inline">\(x^3+2^x\)</span> into odd and even parts.</p>
+<h4 class="HELM_solution">Solution</h4><p>\[\begin{align*}f(x) &amp;= x^3+2^x,\\ f(-x)&amp;=-x^3+2^{-x}. \end{align*}\]</p><p>Even part: \[\dfrac{1}{2} (f(x) + f(-x)) = \dfrac{1}{2}(x^3+2^x-x^3+2^{-x}) = \dfrac{1}{2}(2^x+2^{-x}).\]</p><p>Odd part: \[\dfrac{1}{2} (f(x) - f(-x)) = \dfrac{1}{2}(x^3+2^x+x^3-2^{-x}) = \dfrac{1}{2}(2x^3+2^x-2^{-x}).\]<br></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <tags>
+      <tag><text>single variable calculus</text>
+</tag>
+      <tag><text>function</text>
+</tag>
+    </tags>
+  </question>
+</quiz>

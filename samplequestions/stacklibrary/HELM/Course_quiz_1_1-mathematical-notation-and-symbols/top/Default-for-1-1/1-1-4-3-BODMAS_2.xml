@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>1.1.4.3 BODMAS</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h4 class="HELM_example">Example</h4>
+<p>Evaluate \(8 \div 2 − (4 − 5)\)</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>The bracketed expression is evaluated first:</p>
+<p>\(\qquad 8 \div 2 − (4 − 5) = 8 \div 2 − (−1)\)</p>
+<p>Division has higher priority than subtraction and so this is carried out next giving</p>
+<p>\(\qquad 8 \div 2 − (−1) = 4 − (−1)\)</p>
+<p>Subtracting a negative number is equivalent to adding a positive number. Thus</p>
+<p>\(\qquad 4 − (−1) = 4 + 1 = 5\)</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

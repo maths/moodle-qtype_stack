@@ -1,0 +1,551 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>17.3.3.6 Parametric Curves Exercise</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>For both of the following curves expressed in parametric form obtain expressions for \(\dfrac{dy}{dx}\) and \(\dfrac{d^2y}{dx^2}\) and then use this information to help make a sketch of the curve on paper.
+<p> (a) \(\quad x=t^2-{@aa@}t,\ \ y=t^2-{@bb@}t\)</p>
+<p> (b) \(\quad x=t^3-{@cc@}t-{@dd@},\ \ y=t^2-t-{@ee@}\) </p>
+
+<ol class="HELM_parts">
+<li><p> \(x=t^2-{@aa@}t,\ \ y=t^2-{@bb@}t \)</p>
+<p> \(\dfrac{dy}{dx} = \) [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</p>
+<p> \(\dfrac{d^2y}{dx^2} = \) [[input:ans2]] [[validation:ans2]] [[feedback:prt2]] </p></li>
+
+<li><p>\(x = t^3-{@cc@}t-{@dd@},\ \ y=t^2-t-{@ee@}\)</p>
+<p> \(\dfrac{dy}{dx} = \) [[input:ans3]] [[validation:ans3]] [[feedback:prt3]] </p>
+<p>\(\dfrac{d^2y}{dx^2} = \) [[input:ans4]] [[validation:ans4]] [[feedback:prt4]] </p></li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p> We are asked to obtain expressions for \(\dfrac{dy}{dx}\) and \(\dfrac{d^2y}{dx^2}\) and use this information to help make a sketch for both </p>
+<p>(a) \( x=t^2-{@aa@}t,\ \ y=t^2-{@bb@}t,\quad \) and (b) \( x=t^3-{@cc@}t-{@dd@},\ \ y=t^2-t-{@ee@}.\) </p><br>
+
+<p> (a) We know that \(\dfrac{\mathrm{d}y}{\mathrm{d}x}=\dfrac{\mathrm{d}y}{\mathrm{d}t}\div\dfrac{\mathrm{d}x}{\mathrm{d}t},\) so we find these derivatives from our parametric equations in (a): </p>
+<p> \(\qquad \displaystyle x=t^2-{@aa@}t \implies \dfrac{\mathrm{d}x}{\mathrm{d}t} = 2t - {@aa@},\) and </p>
+<p> \(\qquad \displaystyle y=t^2-{@bb@}t \implies \dfrac{\mathrm{d}y}{\mathrm{d}t} = 2t - {@bb@}.\)</p>
+
+<p> So </p>
+<p> \(\qquad \dfrac{\mathrm{d}y}{\mathrm{d}x}=\dfrac{\mathrm{d}y}{\mathrm{d}t}\div\dfrac{\mathrm{d}x}{\mathrm{d}t} = \displaystyle {@ta1@}.\)</p>
+
+<p> Now we wish to find  \(\dfrac{d^2y}{\mathrm{d}x^2}\), and we remember that </p>
+<p> \(\qquad \dfrac{d^2y}{\mathrm{d}x^2}=\left(\dfrac{\mathrm{d}x}{\mathrm{d}t} \dfrac{d^2y}{\mathrm{d}t^2}-\dfrac{\mathrm{d}y}{\mathrm{d}t}\dfrac{d^2 x}{\mathrm{d}t^2}\right)\div\left(\dfrac{\mathrm{d}x}{\mathrm{d}t}\right)^3\) </p>
+<p> So we find each of these derivatives: </p>
+<p> \(\qquad \displaystyle \dfrac{\mathrm{d}y}{\mathrm{d}t} = 2t - {@bb@} \implies \dfrac{d^2y}{\mathrm{d}t^2} = 2,\) and </p>
+<p> \(\qquad \displaystyle \dfrac{\mathrm{d}x}{\mathrm{d}t} = 2t - {@aa@} \implies  \dfrac{d^2 x}{\mathrm{d}t^2} = 2.\)<p>
+
+<p> So our second derivative becomes </p>
+<p> \(\qquad \dfrac{d^2y}{\mathrm{d}x^2}= \dfrac{(2t - {@aa@}) \times 2 - (2t - {@bb@}) \times 2}{(2t-{@aa@})^3} = \displaystyle {@ta2@}.\)</p>
+<p> A graph of the curve is shown below. </p>
+[[jsxgraph]]
+        var board = JXG.JSXGraph.initBoard(divid, { // STACK: when moving to STACK change 'jxgboard' for divid
+            boundingbox: [{#-bb-2#}, {#2*bb + 1#}, {#2*bb + 1#}, {#-bb-2#}],
+            keepaspectratio: true,
+            showCopyright: false,
+            axis: true,
+            showNavigation: false
+        });
+		
+
+// Parametric functions
+const f1 = t => t * t - {#aa#}*t;
+const g1 = t => t * t - {#bb#}*t;
+
+// Create the parametric curve for t in [-10,10]
+board.create('curve', [f1, g1, -10, 10], {
+    strokeColor: 'blue',
+    strokeWidth: 2
+});
+
+var pt1 = board.create('point', [0, 0], {
+    name: 't = 0',
+    label: { offset: [-10, 10] },
+    size: 2,
+    color: 'black',
+    fixed: true
+});
+[[/jsxgraph]]
+<br>
+
+<p> (b) Again, since \(\dfrac{\mathrm{d}y}{\mathrm{d}x}=\dfrac{\mathrm{d}y}{\mathrm{d}t}\div\dfrac{\mathrm{d}x}{\mathrm{d}t},\) we find these derivatives from our parametric equations in (b): </p>
+<p> \(\qquad \displaystyle  x=t^3-{@cc@}t-{@dd@} \implies \dfrac{\mathrm{d}x}{\mathrm{d}t} = 3t^2 - {@cc@},\) and </p>
+<p> \(\qquad \displaystyle y=t^2-t-{@ee@} \implies \dfrac{\mathrm{d}y}{\mathrm{d}t} = 2t - 1.\)</p>
+
+<p> So </p>
+<p> \(\qquad \dfrac{\mathrm{d}y}{\mathrm{d}x}=\dfrac{\mathrm{d}y}{\mathrm{d}t}\div\dfrac{\mathrm{d}x}{\mathrm{d}t} = \displaystyle {@ta3@}.\)</p>
+
+<p> Now we wish to find \(\dfrac{d^2y}{\mathrm{d}x^2}\), and again we remember that </p>
+<p> \(\qquad \dfrac{d^2y}{\mathrm{d}x^2}=\left(\dfrac{\mathrm{d}x}{\mathrm{d}t} \dfrac{d^2y}{\mathrm{d}t^2}-\dfrac{\mathrm{d}y}{\mathrm{d}t}\dfrac{d^2 x}{\mathrm{d}t^2}\right)\div\left(\dfrac{\mathrm{d}x}{\mathrm{d}t}\right)^3\) </p>
+<p> So again we find each of these derivatives: </p>
+<p> \(\qquad \displaystyle \dfrac{\mathrm{d}y}{\mathrm{d}t} = 2t -1 \implies \dfrac{d^2y}{\mathrm{d}t^2} = 2,\) and </p>
+<p> \(\qquad \displaystyle \dfrac{\mathrm{d}x}{\mathrm{d}t} =3t^2 - {@cc@} \implies \dfrac{d^2 x}{\mathrm{d}t^2} = 6t.\)</p>
+
+<p> So our second derivative becomes </p>
+<p> \(\qquad \dfrac{d^2y}{\mathrm{d}x^2}= \dfrac{(3t^2 - {@cc@}) \times 2 - (2t - 1) \times 6t}{(3t^2-{@cc@})^3} = \displaystyle {@ta4@}.\)</p>
+<p> A graph of the curve is shown below. </p>
+[[jsxgraph]]
+        var board = JXG.JSXGraph.initBoard(divid, { // STACK: when moving to STACK change 'jxgboard' for divid
+            boundingbox: [{#-cc-2#}, {#cc^2#}, {#cc^2#}, {#-cc-2#}],
+            keepaspectratio: true,
+            showCopyright: false,
+            axis: true,
+            showNavigation: false
+        });
+		
+// Parametric functions
+const f2 = t => t * t * t - {#cc#}*t - {#dd#};
+const g2 = t => t * t - t - {#ee#};
+
+// Create the parametric curve for t in [-10,10]
+board.create('curve', [f2, g2, -10, 10], {
+    strokeColor: 'blue',
+    strokeWidth: 2
+});
+
+var t_label_1 = {#t_value_1#}.toFixed(2)
+var t_label_2 = {#t_value_2#}.toFixed(2)
+
+
+// Double point
+var pt2 = board.create('point', [{#x_coord#}, {#y_coord#}], {
+    name: 't = ' + t_label_1 +',' + t_label_2,
+    label: { offset: [-85, 9] },
+    size: 2,
+    color: 'black',
+    fixed: true
+});
+
+[[/jsxgraph]]
+<br>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025040100</text>
+    </stackversion>
+    <questionvariables>
+      <text>aa: rand(3) + 2;
+bb: rand(3) + 3;
+ee: rand(3) + 1;
+
+real_roots: [[2,1],[3,1],[4,1],[3,2],[5,2]];
+pick : rand(length(real_roots)); /* randomly choose index */
+roots : real_roots[pick + 1];
+cc : roots[1];
+dd : roots[2];
+t_exact_1: (1 + sqrt(4*cc - 3))/2;
+t_exact_2: (1 - sqrt(4*cc - 3))/2;
+t_value_1: float(t_exact_1);
+t_value_2: float(t_exact_2);
+x_coord: float(t_value_1^3 - cc*t_value_1 - dd);
+y_coord: float(t_value_1^2 - t_value_1 - ee);
+
+xexpa: t^2 - aa*t;
+yexpa: t^2 - bb*t;
+xexpb: t^3 - cc*t - dd;
+yexpb: t^2 - t - ee;
+
+dx_dt_1a: diff(xexpa,t);
+dy_dt_1a: diff(yexpa,t);
+ta1: fullratsimp(dy_dt_1a/dx_dt_1a);
+dx_dt_2a: diff(dx_dt_1a, t);
+dy_dt_2a: diff(dy_dt_1a, t);
+ta2: fullratsimp((dx_dt_1a*dy_dt_2a - dy_dt_1a*dx_dt_2a)/(dx_dt_1a)^3);
+
+dx_dt_1b: diff(xexpb,t);
+dy_dt_1b: diff(yexpb,t);
+ta3: fullratsimp(dy_dt_1b/dx_dt_1b);
+dx_dt_2b: diff(dx_dt_1b, t);
+dy_dt_2b: diff(dy_dt_1b, t);
+ta4: fullratsimp((dx_dt_1b*dy_dt_2b - dy_dt_1b*dx_dt_2b)/(dx_dt_1b)^3);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="html">
+      <text><![CDATA[<p> (a) \(x=t^2-{@aa@}t,\ \ y=t^2-{@bb@}t\),  1st \( = {@ta1@}\), 2nd \(={@ta2@}\) </p>
+<p>(b) \(x=t^3-{@cc@}t-{@dd@},\ \ y=t^2-t-{@ee@}\), 1st \(= {@ta3@}\), 2nd \(= {@ta4@}\)</p>]]></text>
+    </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>ta2</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>algebraic</type>
+      <tans>ta3</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans4</name>
+      <type>algebraic</type>
+      <tans>ta4</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>ta3</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt4</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans4</sans>
+        <tans>ta4</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt4-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt4-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1248587330</deployedseed>
+    <deployedseed>41494665</deployedseed>
+    <deployedseed>186823388</deployedseed>
+    <deployedseed>808911293</deployedseed>
+    <deployedseed>1728017106</deployedseed>
+    <deployedseed>1438156135</deployedseed>
+    <deployedseed>1654341347</deployedseed>
+    <deployedseed>766041699</deployedseed>
+    <deployedseed>1749424775</deployedseed>
+    <deployedseed>474121529</deployedseed>
+    <deployedseed>595420589</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta3</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>ta4</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt4-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1+1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2+1</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta3+1</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>ta4+1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt3-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt4-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>1</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta3</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>ta4</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt4-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

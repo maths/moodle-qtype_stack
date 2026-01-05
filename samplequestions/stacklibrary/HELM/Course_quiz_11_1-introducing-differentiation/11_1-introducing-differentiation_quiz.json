@@ -1,0 +1,114 @@
+{
+    "quiz": {
+        "name": "11_1 Introducing Differentiation",
+        "intro": "Differentiation is a technique which can be used for analysing the way in which functions change. In particular, it measures how rapidly a function is changing at any point. In engineering applications the function may, for example, represent the magnetic field strength of a motor, the voltage across a capacitor, the temperature of a chemical mix, and it is often important to know how quickly these quantities change.&nbsp;<p><br><\/p><p>In this Section we explain what is meant by the gradient of a curve and introduce differentiation as a method for finding the gradient at any point.<\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Tangents and Gradients",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "4",
+            "heading": "Gradient at a Point",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "8",
+            "heading": "Differentiation from First Principles",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-11-1\/11-1-1-Drawing-Tangents.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-11-1\/11-1-1a-Key-Point-1.xml"
+        },
+        {
+            "slot": "3",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-11-1\/11-1-1b-Classifying-Gradients.xml"
+        },
+        {
+            "slot": "4",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-11-1\/11-1-2-Finding-the-gradient-at-a-specific-point.xml"
+        },
+        {
+            "slot": "5",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-11-1\/11-1-3-Finding-the-gradient-at-a-general-point.xml"
+        },
+        {
+            "slot": "6",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-11-1\/11-1-3a-Key-Point-2.xml"
+        },
+        {
+            "slot": "7",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-11-1\/11-1-3-differentiate-intro.xml"
+        },
+        {
+            "slot": "8",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-11-1\/11-1-4-Differentiate-function-from-first-principles.xml"
+        },
+        {
+            "slot": "9",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-11-1\/11-1-4-1-differentiate.xml"
+        },
+        {
+            "slot": "10",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-11-1\/11-1-4-2-differentiate-and-evaluate.xml"
+        },
+        {
+            "slot": "11",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-11-1\/11-1-4-3-rate-of-change.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

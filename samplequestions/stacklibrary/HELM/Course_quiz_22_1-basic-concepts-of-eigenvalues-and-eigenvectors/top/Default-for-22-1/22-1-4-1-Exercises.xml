@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>22.1.4.1 Exercises</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Paper Exercise</p>
+<p>If <span class="math inline">\(\lambda_1,\lambda_2,\ldots \lambda_n\)</span> are the eigenvalues of a matrix <span class="math inline">\(A,\)</span>, get a piece of paper and prove the following:<br></p>
+<ol class="HELM_parts">
+<li><p><span class="math inline">\(A^T\)</span> has eigenvalues <span class="math inline">\(\lambda_1,\lambda_2,\ldots
+\lambda_n\)</span>.</p></li>
+<li><p>If <span class="math inline">\(A\)</span> is upper triangular, then its eigenvalues are exactly the main diagonal entries.</p></li>
+<li><p>The inverse matrix <span class="math inline">\(A^{-1}\)</span> has eigenvalues <span class="math inline">\({{1\over
+\lambda_1}},\ {{1\over \lambda_2}},\ldots {{1\over
+\lambda_n}}\)</span>.</p></li>
+<li><p>The matrix <span class="math inline">\(A-kI\)</span> has eigenvalues <span class="math inline">\(\lambda_1-k,\lambda_2-k,\ldots \lambda_n-k\)</span>.</p></li>
+<li><p>(Harder) The matrix <span class="math inline">\(A^2\)</span> has eigenvalues <span class="math inline">\(\lambda_1^2,\lambda_2^2,\ldots \lambda_n^2\)</span>.</p></li>
+<li><p>(Harder) The matrix <span class="math inline">\(A^k\)</span> (<span class="math inline">\(k\)</span> a non-negative integer) has eigenvalues <span class="math inline">\(\lambda_1^k,\lambda_2^k,\ldots \lambda_n^k.\)</span></p></li>
+</ol>
+<p>N.B. Some of these results are useful in the numerical calculation of eigenvalues.&nbsp;</p><p><b>We give the solution on the next page. Please try to complete the problem before referencing the solution.</b></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

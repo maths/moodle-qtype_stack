@@ -1,0 +1,598 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>27.4.4.2 Integral over Cone</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>The function \(f = x^2 + y^2\) is to be integrated over an elliptical cone with base being the ellipse, \(x^2/4 + y^2 = 1\), \(z=0\) and apex (point) at \((0,0,{@yu@})\). The integral can be made simpler by means of the change of variables \[x = {@aa@}\left(1-\dfrac{w}{5}\right) \tau \cos \theta, \qquad y = \left(1-\dfrac{w}{5}\right) \tau \sin \theta, \qquad z=w.\] 
+
+[[jsxgraph]]
+      const board = JXG.JSXGraph.initBoard('jxgbox', {
+            boundingbox: [-4, 4, 4, -1],
+            axis: false,
+            showNavigation: false
+        });
+
+        // Axes points
+        const Xr = board.create('point', [3, 0], {visible: false, fixed: true}); 
+        const Xl = board.create('point', [-3, 0], {visible: false, fixed: true}); 
+       
+        const Yl = board.create('point', [0, 3.5], {visible: false, fixed: true});
+        const Yu = board.create('point', [0, -1], {visible: false, fixed: true}); 
+
+        const Zl = board.create('point', [3, 2], {visible: false, fixed: true});   
+        const Zu = board.create('point', [-0.75, -0.5], {visible: false, fixed: true});     
+     
+
+        // Back triangle
+        const O = board.create('point', [0, 0], {visible: false, fixed: true});
+        const Ae = board.create('point', [1.6, 0], {visible: false, fixed: true});
+        const Be = board.create('point', [-1.6, 0], {visible: false, fixed: true});
+        const A = board.create('point', [1.65, 0], {visible: false, fixed: true});
+        const B = board.create('point', [-1.65, 0], {visible: false, fixed: true});
+        const C = board.create('point', [0, -0.4], {visible: false, fixed: true});
+        const P = board.create('point', [0, 3], {visible: false, fixed: true});
+
+
+
+        // Front triangle
+        const D = board.create('point', [-2, 0], {visible: false, fixed: true});
+        const E = board.create('point', [-2, -2], {visible: false, fixed: true});
+        const F = board.create('point', [-0.5, -2], {visible: false, fixed: true});
+        // Axes with labels
+        board.create('arrow', [Xl, Xr], {strokeColor: 'black', name: 'X', withLabel: false,fontSize: 12});
+        board.create('arrow', [Yu, Yl], {strokeColor: 'black', name: 'Y', withLabel: false,fontSize: 12});
+        board.create('arrow', [Zu, Zl], {strokeColor: 'black', name: 'Z', withLabel: false,fontSize: 12});    
+        board.create('line', [A, P], {straightFirst: false, straightLast: false});
+        board.create('line', [B, P], {straightFirst: false, straightLast: false});
+        var el = board.create('ellipse',[Ae,Be,C],{strokeWidth: 2});
+
+        // Add other labels
+        board.create('text', [0.1, 3.1, '\\((0,0,{#yu#})\\)'], {fontSize: 12,fixed: true});
+        board.create('text', [1.7, -0.1, '\\((2,0,0)\\)'], {fontSize: 12,fixed: true});
+        board.create('text', [-2.6, -0.1, '\\((-2,0,0)\\)'], {fontSize: 12,fixed: true});
+        board.create('text', [0.1, -0.5, '\\((0,-1,0)\\)'], {fontSize: 12,fixed: true});
+[[/jsxgraph]]
+
+<ol class="HELM_parts">
+<li>Find the limits on the variables \(\tau\), \(\theta\) and \(w\). <br>\(\tau: \) [[input:ans1al]] to [[input:ans1au]]. [[validation:ans1al]] [[validation:ans1au]] [[feedback:prt1a]]
+<br>\(\theta: \) [[input:ans1bl]] to [[input:ans1bu]]. [[validation:ans1bl]] [[validation:ans1bu]][[feedback:prt1b]]
+<br>\(w: \) [[input:ans1cl]] to [[input:ans1cu]]. [[validation:ans1cl]] [[validation:ans1cu]][[feedback:prt1c]] </li>
+<li>Find the Jacobian \(J(\tau,\theta,w)\) for this transformation. Input \(\tau\) as <code>tau</code><br>
+\(|J|=\,\)[[input:ans2]] [[validation:ans2]][[feedback:prt2]]</li>
+<li>Express the integral \(\displaystyle\int\!\!\int\!\!\int (x^2 + y^2)\;\mathrm{d}x \,\mathrm{d}y \,\mathrm{d}z\) in terms of \(\tau\), \(\theta\) and \(w\).  Then evaluate this integral. [Hint:- it may be worth noting that \(\cos^2 \theta \equiv\frac{1}{2}(1+ \cos 2\theta)\)]. Note: This integral has relevance in topics such as moments of inertia.<br>
+\(I=\;\)[[input:ans4]] [[validation:ans4]][[feedback:prt4]]</li>
+</ol>
+</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<ol class="HELM_parts">
+
+<li> <p> \(\tau : 0\) to \(1 \, \, \), \(\theta : 0\) to \(2\pi\). These are the bounds of the trigonometric values. </p>
+<p> \(w : 0\) to \({@yu@}\). This is the bounds of the z axis.</li>
+
+<li>Evaluating the partial derivatives, 
+<table>
+<tr>
+ <td> \[\dfrac{\partial x}{\partial \tau}= {@dxdt@},\]</td> 
+ <td>  \[\quad \dfrac{\partial x}{\partial \theta}= {@dxdu@},\] </td> 
+ <td>
+  \[\quad \dfrac{\partial x}{\partial w}= {@dxdw@},\] </td>  </tr>
+<tr>
+ <td>\[ \dfrac{\partial y}{\partial \tau}= {@dydt@},\]</td> 
+ <td>
+  \[\dfrac{\partial y}{\partial \theta}=  {@dydu@},\]</td> 
+ <td>
+  \[\dfrac{\partial y}{\partial w}=  {@dydw@},\] </td> 
+</tr>
+<tr>
+ <td>
+  \[\dfrac{\partial z}{\partial \tau}=  {@dzdt@},\]</td> 
+ <td>
+  \[ \dfrac{\partial z}{\partial \theta}= {@dzdu@},\]</td> 
+ <td>
+  \[ \dfrac{\partial z}{\partial w}= {@dzdw@}\] </td> 
+ </tr>
+</table> so the Jacobian is  
+ \[\left| \begin{array}{ccc} \dfrac{\partial x}{\partial \tau} &
+\dfrac{\partial x}{\partial \theta} & \dfrac{\partial x}{\partial w} \\
+\\
+\dfrac{\partial y}{\partial \tau} & \dfrac{\partial y}{\partial \theta} &
+\dfrac{\partial y}{\partial w} \\ \\ \dfrac{\partial z}{\partial \tau}
+& \dfrac{\partial z}{\partial \theta} & \dfrac{\partial z}{\partial w}
+\end{array} \right| = \left| \begin{array}{ccc} {@dxdt@} &
+{@dxdu@}  & {@dxdw@}  \\
+\\
+{@dydt@} & {@dydu@} & {@dydw@} 
+\\ \\ {@dzdt@} & {@dzdu@} & {@dzdw@}
+\end{array}\right|  = {@ta2@} \] 
+where expansion of the determinant has taken place down the first column.</li>
+
+<li>\begin{align}
+I &= \int\int\int(x^2+y^2) \; \mathrm{d}x\, \mathrm{d}y\,  \mathrm{d}z\\
+&=\int\int\int(x^2+y^2)J(\tau,\omega,w)\; \mathrm{d}w\, \mathrm{d}\theta\,  \mathrm{d}\tau\\
+&=\int\int\int\left(\left({@f1@}\right)^2+\left({@f2@}\right)^2\right){@ta2@}\; \mathrm{d}w\, \mathrm{d}\theta\,  \mathrm{d}\tau\\
+&={@aa@} \displaystyle\int_{\tau=0}^1
+\displaystyle\int_{\theta=0}^{2\pi} \displaystyle\int_{w=0}^{@yu@} (1-\frac{w}{5})^4 \tau^3 (4
+\cos^2 \theta + \sin^2 \theta )\; \mathrm{d}w\, \mathrm{d}\theta\,  \mathrm{d}\tau\\
+&=\int_{\tau=0}^1\displaystyle\int_{\theta=0}^{2\pi} \displaystyle \displaystyle\Bigg[{@fbI11@}\Bigg]_{w=0}^{@yu@}\;\mathrm{d}\theta\,\mathrm{d}\tau\\
+&= \int_{\tau=0}^1\displaystyle\int_{\theta=0}^{2\pi}{@I11@}\;\mathrm{d}\theta\,\mathrm{d}\tau\\
+&= \int_{\tau=0}^1 \Bigg[{@fbI12@}\Bigg]_{\theta=0}^{2\pi}\;\mathrm{d}\tau\\
+&=\displaystyle\int_{\tau=0}^1 {@I12@}\;\mathrm{d}\tau\\
+&= \Bigg[{@fbI13@}\Bigg]_{\tau=0}^1= {@ta4@}
+\end{align}
+</li>
+</ol>]]></text>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025073100</text>
+    </stackversion>
+    <questionvariables>
+      <text>aa:rand([2,3]);
+yu: rand([3,4,5]);
+
+
+ta1al:0; ta1au:1; ta1bl:0; ta1bu:2*pi; ta1cl:0; ta1cu:yu;
+
+
+f1: aa*(1-w/5)*tau*cos(theta);
+f2: (1-w/5)*tau*sin(theta);
+f3: w;
+
+dxdt: diff(f1,tau);
+dxdu: diff(f1,theta);
+dxdw: diff(f1,w);
+
+dydt: diff(f2,tau);
+dydu: diff(f2,theta);
+dydw: diff(f2,w);
+
+dzdt: diff(f3,tau);
+dzdu: diff(f3,theta);
+dzdw: diff(f3,w);
+
+
+J: matrix([dxdt,dxdu,dxdw],[dydt,dydu,dydw],[dzdt,dzdu,dzdw]);
+JAC: determinant (J);
+JAC:trigsimp(JAC);
+JAC:factor(JAC);
+ta2: JAC;
+
+ta3al:0; ta3au:1; ta3bl:0; ta3bu:2*pi; ta3cl:0; ta3cu:yu;
+
+ta3exp: aa*(1-w/5)^4*tau^3*(4*cos(theta)^2+sin(theta)^2);
+
+fbI11:integrate (ta3exp,w);
+I11:integrate (ta3exp,w,ta1cl,ta1cu);
+fbI12: integrate (I11,theta);
+I12: integrate (I11,theta,ta1bl,ta1bu);
+fbI13: integrate (I12,tau);
+I13: integrate (I12,tau,ta1al,ta1au);
+
+ta4: I13;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="html">
+      <text><![CDATA[aa={@aa@}&upper w={@yu@}\(\implies\){@ta2@},{@ta4@}]]></text>
+    </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1al</name>
+      <type>algebraic</type>
+      <tans>ta1al</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans1au</name>
+      <type>algebraic</type>
+      <tans>ta1au</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans1bl</name>
+      <type>algebraic</type>
+      <tans>ta1bl</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans1bu</name>
+      <type>algebraic</type>
+      <tans>ta1bu</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans1cl</name>
+      <type>algebraic</type>
+      <tans>ta1cl</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans1cu</name>
+      <type>algebraic</type>
+      <tans>ta1cu</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>ta2</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans4</name>
+      <type>algebraic</type>
+      <tans>ta4</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1a</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>[ans1al,ans1au]</sans>
+        <tans>[ta1al,ta1au]</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1a-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1a-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt1b</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>[ans1bl,ans1bu]</sans>
+        <tans>[ta1bl,ta1bu]</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1b-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1b-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt1c</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>[ans1cl,ans1cu]</sans>
+        <tans>[ta1cl,ta1cu]</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1c-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1c-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt4</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans4</sans>
+        <tans>ta4</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt4-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt4-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>479977</deployedseed>
+    <deployedseed>79094041</deployedseed>
+    <deployedseed>703885442</deployedseed>
+    <deployedseed>1161290212</deployedseed>
+    <deployedseed>273676388</deployedseed>
+    <deployedseed>1360977080</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1al</name>
+        <value>ta1al</value>
+      </testinput>
+      <testinput>
+        <name>ans1au</name>
+        <value>ta1au</value>
+      </testinput>
+      <testinput>
+        <name>ans1bl</name>
+        <value>ta1bl</value>
+      </testinput>
+      <testinput>
+        <name>ans1bu</name>
+        <value>ta1bu</value>
+      </testinput>
+      <testinput>
+        <name>ans1cl</name>
+        <value>ta1cl</value>
+      </testinput>
+      <testinput>
+        <name>ans1cu</name>
+        <value>ta1cu</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>ta4</value>
+      </testinput>
+      <expected>
+        <name>prt1a</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1a-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt1b</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1b-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt1c</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1c-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt4-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

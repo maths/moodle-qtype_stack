@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>36.2.2.4 outliers:task2 with MCQ</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p><br><p><span style="font-size: 0.9375rem;">Manufacturing processes generally result in a certain amount of wasted material. For reasons of cost, companies need to keep such wastage to a minimum. The following (sorted) data were gathered over a 30-day period by a manufacturing company. The members given represent the percentage wastage of the amount of material used in the manufacturing process.</span><br></p>
+<br>
+<p>Daily Losses (\(\%\))</p>
+{@L1@}<br>{@L2@}<br>{@L3@}
+<br>
+<br>
+<ol class="HELM_parts"><li>Find the mean and compute the standard deviation of the percentage losses of the material over this period. Give each answer to exactly 3 decimal places. If the answer has less than 3 decimal places, then enter zero(s) at the end.<br>
+<p>\(\bar{x} =\) [[input:ans1]] [[validation:ans1]][[feedback:prt1]]</p>
+<p>\(s =\) [[input:ans2]] [[validation:ans2]][[feedback:prt2]]</p></li>
+
+<li>Assuming that the losses are roughly normally distributed, apply criterion 1 to decide whether any of the losses are smaller or larger than might be expected by chance. Select all values that are outliers, or none if all values are as expected.
+[[input:ans3]] [[validation:ans3]][[feedback:prt3]]
+</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>The sample mean is \(\bar{x} = \dfrac{{@lsum(i,i,L)@}}{{@length(L)@}} = {@mean(L)@} = {@ta1@}\). The sum of squared deviations is \(\sum_{i=1}^n (x_i - \bar(x))^2 = {@var1(L)*(length(L)-1)@}\) and so the sample variance is \(s^2 = \dfrac{{@var1(L)*(length(L)-1)@}}{{@length(L)@}-1} = {@var1(L)@}\). This means that the sample variance is \(s = \sqrt{{@var1(L)@}} = {@ta2@}\) to 3 d.p.</p><p><span style="font-size: 0.9375rem;">Using standardized scores with \(x_0\) as the potential outlier we need to calculate the quantity \(|\dfrac{x-\bar{x}}{s}|\) and then accept \(x_0\) as a member of the distribution if \(|\dfrac{x-\bar{x}}{s}|&lt;3.3\). We calculate:</span><br></p><table class="HELM_table">
+<thead>
+<tr>
+<th>\(x\)</th>
+<th>\(|\dfrac{x-\bar{x}}{s_{n-1}}|\)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>{@J[1]@}</td>
+<td>{@re[1]@}</td>
+</tr>
+<tr>
+<td>{@J[2]@}</td>
+<td>{@re[2]@}</td>
+</tr>
+<tr>
+<td>\(\dots\)</td>
+<td>\(\dots\)</td>
+</tr>
+<tr>
+<td>{@J[lenJ]@}</td>
+<td>{@re[lenJ]@}</td>
+</tr>
+</tbody>
+</table>
+
+The calculation shows that all values of \(|\dfrac{x-\bar{x}}{s}|&lt;3.3\) and so we conclude that the daily losses are within the range indicated by chance variation.<br><br><br><em>Comment:</em> If evaluating outliers under criterion 2 based on the quartiles, then we need to calculate the lower quartile, \(Q_1\), the upper quartile, \(Q_3\), and the inter-quartile range \(\text{IQR} = Q_3 - Q_1\). Any anomalous points are those that are either less than \(Q_1 - 1.5 \text{IQR}\) or greater than \(Q_3 + 1.5\text{IQR}\).<br><p></p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021072200</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[/*Generate the data*/
+L:random_binomial (50, 0.3, 25)
+/*Add more extreme values and sort list*/
+L:append(L,[rand_with_step(2,4,1), rand_with_step(1,4,1), rand_with_step(1,4,1), rand_with_step(23,27,1), rand_with_step(23,27,1)]);
+L:sort(L);
+
+/*add to 1 or 2 to last value so that mean is exact when reporting to 3dp*/
+temp_sum: lsum(i,i,L);
+L[length(L)]: if mod(temp_sum,3)=1 then L[length(L)]+2 else if mod(temp_sum,3)=2 then L[length(L)]+1 else L[length(L)];
+
+
+/*Make the rows of the data table as sequences*/
+L1:sequenceify(makelist(L[i],i,1,10));
+L2:sequenceify(makelist(L[i],i,11,20));
+L3:sequenceify(makelist(L[i],i,21,30));
+
+/*Avoiding rounding errors, calculate mean and s.d.*/
+ta1_raw:float(mean(L));
+ta1:decimalplaces(ta1_raw,3);
+ta2_raw:float(std1(L));
+ta2:decimalplaces(ta2_raw,3);
+ta2_bad_divByN: decimalplaces(float(sqrt(var1(L)*(length(L)-1)/length(L))),3);
+
+/*List of answers for MCQ*/
+J:listify(setify(L));
+lenJ:length(J);
+
+ta3:append(makelist([i,false,J[i]],i,1,lenJ),[[0,true,"none of the above"]]);
+f(x) := if(x[2]) then x[1] ;
+ta3_check: delete(false, maplist(f,ta3));
+
+/*List, where the student picked all non-outliers*/
+ta3_opposite:makelist(i,i,1,lenJ);
+
+/*List, where the students picked all outliers based on IQR*/
+rank_lower: 8;    /*LQ rank for length(L) = 30*/ 
+rank_upper: 23;  /*UQ rank for length(L) = 30*/
+Q_lower: L[rank_lower];
+Q_upper: L[rank_upper];
+IQR: Q_upper - Q_lower;
+LIM_lower: Q_lower - 1.5*IQR;
+LIM_upper: Q_upper + 1.5*IQR;
+noneabove: is (J[1] >=LIM_lower) and is (J[lenJ]<=LIM_upper);
+ta3_IQRoutlier: append(makelist([i, is (J[i] < LIM_lower) or is (J[i] > LIM_upper)],i,1,lenJ),[[0,noneabove,"none of the above"]]);  
+ta3_IQRoutlier_check: delete(false, maplist(f,ta3_IQRoutlier));
+
+/*List of x-x bar*/
+tas_raw: makelist(float(J[i]-ta1),i,1,lenJ);
+tas:makelist(decimalplaces(tas_raw[i],3),i,1,lenJ);
+/*List of x-x bar squared*/
+task_raw:makelist(tas_raw[i]^2,i,1,lenJ);
+task: makelist(decimalplaces(task_raw[i],3),i,1,lenJ);
+
+/*list of abs(x-x bar)/s.d.*/
+re: makelist(decimalplaces(abs(tas_raw[i]/ta2_raw),3),i,1,lenJ);]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text><![CDATA[Values: {@L@}
+Mean: {@ta1_raw@}-> {@ta1@}, \(s_{n-1}: {@ta2_raw@}->{@ta2@}\)
+Extreme values of \(|\dfrac{x-\bar{x}}{s_{n-1}}|\): {@re[1]@},{@re[lenJ]@}.
+
+outliers {@ta3@}
+
+Min {@ta1-3.3*ta2@}
+Man {@ta1+3.3*ta2@}
+
+{@ta3_IQRoutlier@}]]></text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>numerical</type>
+      <tans>dispdp(ta1,3)</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>to 3 d.p.</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>maxdp:3, mindp:3</options>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>numerical</type>
+      <tans>dispdp(ta2,3)</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>to 3 d.p.</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>maxdp:3, mindp:3</options>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>checkbox</type>
+      <tans>ta3</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions>3</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions>3</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>ans2</sans>
+        <tans>ta2_bad_divByN</tans>
+        <testoptions>3</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p dir="ltr" style="text-align: left;">When calculating the variance, did you divide by \(n\) rather than \(n-1\)?</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>[0]</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>ta3_opposite</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[The question asks to give all points that are outliers, not all the points that are <b>not</b> outliers.]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>prt3-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>ta3_IQRoutlier_check</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p dir="ltr" style="text-align: left;">Question asks that you use criterion 1 based on the normal assumption. Your answer is correct under criterion 2 using the quartiles.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>739926896</deployedseed>
+    <deployedseed>1998994426</deployedseed>
+    <deployedseed>1934841264</deployedseed>
+    <deployedseed>1183051610</deployedseed>
+    <deployedseed>2136610325</deployedseed>
+    <deployedseed>924267911</deployedseed>
+    <deployedseed>520166306</deployedseed>
+    <deployedseed>1774357585</deployedseed>
+    <deployedseed>738983757</deployedseed>
+    <deployedseed>231995538</deployedseed>
+    <deployedseed>634942800</deployedseed>
+    <deployedseed>825238229</deployedseed>
+    <deployedseed>536014325</deployedseed>
+    <deployedseed>1325398863</deployedseed>
+    <deployedseed>1122534550</deployedseed>
+    <deployedseed>2034933957</deployedseed>
+    <deployedseed>1664420679</deployedseed>
+    <deployedseed>178297348</deployedseed>
+    <deployedseed>1398721768</deployedseed>
+    <deployedseed>1823548014</deployedseed>
+    <deployedseed>1157218321</deployedseed>
+    <deployedseed>74643281</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>dispdp(ta1,3)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>dispdp(ta2,3)</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>[0]</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>dispdp(ev(ta1+0.051,simp),3)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>dispdp(ev(ta2+0.051,simp),3)</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta3_opposite</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-2-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt3-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

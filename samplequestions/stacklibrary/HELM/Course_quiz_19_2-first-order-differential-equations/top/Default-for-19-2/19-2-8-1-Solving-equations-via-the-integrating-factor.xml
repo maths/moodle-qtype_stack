@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>19.2.8.1 Solving equations via the integrating factor</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Solving equations via the integrating factor</h4>
+<p> Having found the integrating factor for a linear equation we now proceed to solve the equation.</p>
+<p>
+Returning to the differential equation, written in standard form:
+\[\dfrac{\mathrm{d}i}{\mathrm{d}t}+{R\over L}i={E\over L}\cos\omega t\] for which the integrating factor is
+\[ e^{Rt/L}\] we multiply the equation by the integrating factor to obtain
+\[e^{Rt/L} \dfrac{\mathrm{d}i}{\mathrm{d}t}+{R\over L} e^{Rt/L} i={E\over L}e^{Rt/L}\cos\omega t.\] At this stage  the left-hand side of this equation can <strong>always</strong> be simplified as
+follows:
+\[ \dfrac{\mathrm{d}}{\mathrm{d}t}(e^{Rt/L} i)={E\over L} e^{Rt/L}\cos\omega t.\]  Now this is in
+the form of an exact differential equation and so we can  integrate both sides to obtain the solution:
+\[ e^{Rt/L} i={E\over L}\int e{Rt/L}\cos\omega t\ \mathrm{d}t.\] All that remains is
+to complete the integral on the right-hand side. Using the method of integration by parts we find
+\[\int e^{Rt/L}\cos\omega t\ \mathrm{d} t=\dfrac{L}{ L^2\omega^2+R^2}\left[\omega L\ \sin \omega
+t+R\cos\omega t\right]e^{Rt/L}.\]
+
+Hence
+\[ e^{Rt/L}\ i={E\over L^2\omega^2+R^2}\left[\omega L\sin\omega t+R\cos\omega t\right]
+e^{Rt/L}+C.\] Finally
+\[ i={E\over L^2\omega^2+R^2}\left[\omega L\sin \omega t +R\cos\omega t\right]+C
+e^{-Rt/L}\]  is the solution to the original differential equation. Note that, as we should
+expect for the solution to a first order differential equation, it contains a single arbitrary constant \(C\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

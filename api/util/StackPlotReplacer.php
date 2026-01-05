@@ -38,7 +38,7 @@ class StackPlotReplacer {
                 return "\"".$name."\"";
             }, $text);
 
-        $text = preg_replace_callback('/["\']@@PLUGINFILE@@\/([\w\-\.]*?)["\']/m', function ($matches) use ($storeprefix, &$plots) {
+        $text = preg_replace_callback('/["\']@@PLUGINFILE@@\/([\w\-\.\%]*?)["\']/m', function ($matches) use ($storeprefix, &$plots) {
             $plots[$matches[1]] = $storeprefix . "-" . $matches[1];
             return "\"".$matches[1]."\"";
         }, $text);

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Info: Accurate significant figures</text>
+    </name>
+    <questiontext format="markdown">
+      <text>**Accurate significant figures**
+
+To how many significant figures is a number \\\(x\\\) correct compared to a reference number \\\(x_0\\\)? This question is important, if loss of precision in floating point operations is to be quantified.
+
+The precise definition of accurate significant figures may vary, here we present the rules used in the exercises 
+
+- If one or both numbers are zero, then the number of accurate significant figures is zero.
+- If the leftmost significant figures are at different decimal positions (just as in 7 and 10 or in 0.06 and 0.1) then the number of accurate s.f. is also zero)
+- Otherwise the number of accurate significant figures is the number of coinciding figures if \\\(x_0\\\) is rounded to that number of significant digits.
+
+{@T@}</text>
+    </questiontext>
+    <generalfeedback format="markdown">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025030600</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[asf(a,b):= block(
+    if b = 0.0 or b=0 then return(0),
+    OMa: floor(float(log(abs(a))/log(10))),
+    OMb: floor(float(log(abs(b))/log(10))),
+    if OMa < 0 then 
+           OMa: -smismatch(string(abs(a)),"0.00000000000000000000000000")+2 else
+           OMa: slength(split(string(abs(a)),".")[1])-1,
+    if OMb < 0 then 
+           OMb: -smismatch(string(abs(b)),"0.00000000000000000000000000")+2 else
+           OMb: slength(split(string(abs(b)),".")[1])-1,
+    if OMa # OMb then return(0),
+    sna:string(float(abs(a)/10^(OMa+1))),
+    snb:string(float(abs(b)/10^(OMb+1))),
+    ad: smismatch(sna,snb)-3,
+    if round(a/10^(OMa+1)*10^(ad))#round(b/10^(OMb+1)*10^(ad)) then return(ad-1),
+    if round(a/10^(OMa+1)*10^(ad+1))=round(b/10^(OMb+1)*10^(ad+1)) and ad<(slength(snb)-2) 
+    then ad: ad+1,
+ad);   
+data: [ [0.003848,0.004], [0.001264489,0.001264], [0.03337045291,0.03], [-0.03337045291,-0.03337], [-29.96662955,-29.97], [39.4, 39], [38.6, 39], [0.0049998750,0.0000], [0.006,0.01], [0.078,0.07], [-0.0111,-0.01] ];
+
+T: apply(table,append([[x_0,x,"a.s.f."]],makelist(
+  [ data[i][1], data[i][2], asf(data[i][1], data[i][2])], i, 1, length(data)
+)));]]></text>
+    </questionvariables>
+    <specificfeedback format="markdown">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text/>
+    </questionnote>
+    <questiondescription format="markdown">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="markdown">
+      <text>Richtige Antwort, gut gemacht!</text>
+    </prtcorrect>
+    <prtpartiallycorrect format="markdown">
+      <text>Ihre Antwort ist teilweise korrekt.</text>
+    </prtpartiallycorrect>
+    <prtincorrect format="markdown">
+      <text>Falsche Antwort.</text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+  </question>
+</quiz>

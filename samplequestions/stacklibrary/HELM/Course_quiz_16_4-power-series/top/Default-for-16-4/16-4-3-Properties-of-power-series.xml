@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>16.4.3 Properties of power series</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Differentiation and integration of power series</h4><p>It is worth keeping the in mind even if you have not seen differentiation and integration before. This is one of the more elegant aspects of power series but feel free to return here when later.</p><p>Let \(P_1\) and \(P_2\) represent two power series with radii of convergence \(R_1\) and \(R_2\) respectively. We can combine \(P_1\) and \(P_2\) together by addition. We find the following properties: </p> 
+
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p>If \(P_1\) and \(P_2\) are power series with respective distinct radii of convergence\(R_1\) and \(R_2\) then the sum \((P_1 +P_2)\) is a power series with the radius of convergence being the <b>smaller</b> of \(R_1\) and \(R_2\).</p>
+</div>
+
+<p><span style="font-size: 0.9375rem;"><br>More care needs to be taken if the radii agree. In general we can only say that the radius of convergence of the sum of the series is at least the common radius of convergence of the two summands.</span><br></p><p>Power series can also be differentiated and integrated on a term by term basis:</p><div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p>If \(P_1\) is a power series with radius of convergence \(R_1\) then \[ \dfrac{\mathrm{d}}{\mathrm{d}x}(P_1) \quad \mathrm{and} \quad \int(P_1)\mathrm{d}x\] are each power series with radius of convergence \(R_1\)</p>
+</div>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Using the known result that \[(1+x)^p = 1 + px + \dfrac{p(p-1)}{2!}x^2 + \cdots \qquad |x|&lt;1,\] choose \(p=\dfrac{1}{2}\) and by differentiating obtain the power series expression for \((1+x)^{-\frac{1}{2}}.\)</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>\[(1+x)^{\frac{1}{2}} = 1 + \dfrac{x}{2} + \dfrac{\frac{1}{2}\left(-\frac{1}{2}\right)}{2}x^2 + \dfrac{\frac{1}{2}\left(-\frac{1}{2}\right)\left(-\frac{3}{2}\right)}{3!}x^3 + \cdots\]</p>
+<p> Differentiating both sides \[\dfrac{1}{2}(1+x)^{-\frac{1}{2}} = 1 - \dfrac{1}{2}x + \dfrac{(-\frac{1}{2})(-\frac{3}{1})}{2}x^2 + \cdots \] This result can, of course, be obtained directly from the expansion for \((1+x)^p\) with \(p=-\dfrac{1}{2}\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

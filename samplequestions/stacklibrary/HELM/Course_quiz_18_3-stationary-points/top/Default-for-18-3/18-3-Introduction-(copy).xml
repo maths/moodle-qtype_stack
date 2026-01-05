@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>18.3 Introduction (copy)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>The calculation of the optimum value of a function of two variables is a common requirement in many areas of engineering, for example in thermodynamics. Unlike the case of a function of one variable we have to use more complicated criteria to distinguish
+    between the various types of stationary point.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

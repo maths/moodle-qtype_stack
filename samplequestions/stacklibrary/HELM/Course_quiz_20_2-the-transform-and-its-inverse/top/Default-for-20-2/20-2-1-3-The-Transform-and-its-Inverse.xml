@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>20.2.1.3 The Transform and its Inverse</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>As a second example, we consider the decaying exponential \(f(t)=\text{e}^{-at}u(t)\) where \(a\) is a positive constant. This function has graph:</p>
+
+<figure class="HELM_figure">
+    <img src="@@PLUGINFILE@@/20-2-fig-2-decayingexp.svg" alt="Workbook 20.2 figure 2" width="304" height="140" class="img-responsive atto_image_button_text-bottom">
+    <figcaption>Figure 12</figcaption>
+</figure>
+
+<p>In this case, \[\begin{aligned} {\cal L}\{\text{e}^{-at}u(t)\} &amp;=\int_0^\infty \text{e}^{-st}\text{e}^{-at}\,dt\\ &amp;=\int_0^\infty \text{e}^{-(s+a)t}\,dt\\ &amp;=\left[{\text{e}^{-(s+a)t}\over -(s+a)}\right]_0^\infty={1\over s+a} \text{(zero contribution
+    from the upper limit)} \end{aligned}\]</p>
+<p>Therefore, if \(f(t)=\text{e}^{-at}u(t)\) then \(F(s) = {1\over s+a}\).</p>
+<p>Following this approach we can develop a table of Laplace transforms which records, for each causal function \(f(t)\) listed, its corresponding transform function \(F(s)\). Table 1 gives a limited table of transforms.<br></p>
+
+<p><br></p>
+<h4>The linearity property of the Laplace transformation</h4>
+
+<p>If \(f(t)\) and \(g(t)\) are causal functions and \(c_1\), \(c_2\) are constants then </p>
+
+<p>\[\begin{aligned} {\cal L}\{c_1f(t)+c_2g(t)\}&amp;=\int_0^\infty \text{e}^{-st}[c_1f(t)+c_2g(t)]\,dt\\ &amp;=c_1\int_0^\infty \text{e}^{-st}f(t)\,dt+c_2\int_0^\infty \text{e}^{-st}g(t)\,dt\\ &amp;=c_1{\cal L}\{f(t)\}+c_2{\cal L}\{g(t)\}\end{aligned}\]</p>
+
+<p></p>
+<div class="HELM_keypoint">
+    <h4>Key Point</h4>
+    <center><strong>Linearity Property of the Laplace Transform</strong>
+    </center>
+    <p>\(\qquad{\cal L}\{c_1f(t)+c_2g(t)\}=c_1{\cal L}\{f(t)\}+c_2{\cal L}\{g(t)\}\)</p>
+</div>
+<p></p>
+
+<center>
+    <br><strong>Table 1.</strong> Table of Laplace Transforms
+    <table style="width:70%;">
+        <tbody>
+            <tr>
+                <th>Rule</th>
+                <th>Causal function</th>
+                <th>Laplace transform</th>
+            </tr>
+
+            <tr>
+                <td>1\(\qquad\)</td>
+                <td>\(f(t)\)</td>
+                <td>\(\displaystyle F(s)\)</td>
+            </tr>
+            <tr>
+                <td>2\(\qquad\)</td>
+                <td>\(u(t)\)</td>
+                <td>\(\displaystyle{1\over s}\)</td>
+            </tr>
+            <tr>
+                <td>3\(\qquad\)</td>
+                <td>\(t^nu(t)\) </td>
+                <td>\(\displaystyle{n!\over s^{n+1}}\)</td>
+            </tr>
+            <tr>
+                <td>4\(\qquad\)</td>
+                <td>\(\text{e}^{-at}u(t)\) </td>
+                <td> \(\displaystyle{1\over s+a}\)</td>
+            </tr>
+            <tr>
+                <td>5\(\qquad\)</td>
+                <td>\(\sin at\,.\,u(t)\)</td>
+                <td> \(\displaystyle{a\over s^2+a^2}\)</td>
+            </tr>
+            <tr>
+                <td>6\(\qquad\)</td>
+                <td>\(\cos at\,.\,u(t)\)</td>
+                <td>\(\displaystyle{s\over s^2+a^2}\)</td>
+            </tr>
+            <tr>
+                <td>7\(\qquad\)</td>
+                <td>\(\text{e}^{-at}\sin bt\,.\,u(t)\)</td>
+                <td> \(\displaystyle{b\over (s+a)^2+b^2}\)</td>
+            </tr>
+            <tr>
+                <td>8\(\qquad\)</td>
+                <td>\(\text{e}^{-at}\cos bt\,u(t)\) </td>
+                <td>\(\displaystyle{s+a\over (s+a)^2+b^2}\)</td>
+            </tr>
+        </tbody>
+    </table>
+</center>
+<br><br>
+
+<p>That is, the Laplace transform of a linear sum of causal functions is a linear sum of Laplace transforms. For example, </p>
+<p> \[\begin{aligned} {\cal L}\{2\cos t\,.\,u(t)-3t^2u(t)\} &amp;=2{\cal L}\{\cos t\,.\, u(t)\}-3{\cal L}\{t^2u(t)\}\\ &amp;=2\left({s\over s^2+1}\right)-3\left({2\over s^3}\right) \end{aligned}\]</p>]]></text>
+<file name="20-2-fig-2-decayingexp.svg" path="/" encoding="base64">PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMzA0IiBoZWlnaHQ9IjE0MCIgdmlld0JveD0iMCAwIDIyOCAxMDUiPjxjbGlwUGF0aCBpZD0iYSI+PHBhdGggdHJhbnNmb3JtPSJtYXRyaXgoMSAwIDAgLTEgMCAxMDUpIiBkPSJNMCAwaDIyOHYxMDVIMHoiLz48L2NsaXBQYXRoPjxnIGNsaXAtcGF0aD0idXJsKCNhKSI+PHBhdGggc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwIiBkPSJNMTIwLjgwNSA5My41NDloNS4wMTdsLjUyNS4wNTloOC4wNWwuNTI1LjA1OGgxNy42MTdsLjUyNS4wNTloMTcuNjE2bS05OS43NS0zLjg1MS40NjcuMTE3LjUyNS4xMTcuNTI1LjExNi40NjcuMDU5LjUyNS4xMTYuNTI1LjExNy40NjYuMDU5IDEuMDUuMjMzLjQ2Ny4wNTguNTI1LjExNy40NjcuMDU4LjUyNS4wNTkuNTI1LjExNi40NjYuMDU4LjUyNS4wNTkuNTI1LjA1OC40NjcuMTE3LjUyNS4wNTguNTI1LjA1OS40NjcuMDU4LjUyNS4wNTguNDY2LjA1OC41MjUuMDU5LjUyNS4wNTguNDY3LjA1OC41MjUuMDU5aC41MjVsLjQ2Ny4wNTguNTI1LjA1OC41MjUuMDU5LjQ2Ni4wNThoLjUyNWwuNDY3LjA1OC41MjUuMDU5LjUyNS4wNThoLjQ2N2wuNTI1LjA1OC41MjUuMDU5aC40NjZsLjUyNS4wNThoLjUyNWwuNDY3LjA1OGguNTI1bC41MjUuMDU5aC40NjdsLjUyNS4wNThoLjQ2NmwuNTI1LjA1OGguNTI1bC40NjcuMDU5aC41MjVsLjUyNS4wNThoLjk5MmwuNTI1LjA1OGguOTkxbC40NjcuMDU5aDEuMDVsLjQ2Ny4wNThoMS4wNWwuNDY3LjA1OGgxLjUxNmwuNTI1LjA1OWgxLjUxN2wuNDY2LjA1OGgyLjA0MmwuNTI1LjA1OGgxLjk4NGwuNTI1LjA1OGgzLjAzM2wuNDY3LjA1OWgzLjU1OGwuNDY2LjA1OGguNTI1TTIxLjA1NiAxOC42NWwuNDY2IDIuMjE3LjUyNSAyLjE1OC40NjcgMi4xLjUyNSAyLjA0MS41MjUgMS45MjUuNDY3IDEuOTI1LjUyNSAxLjg2Ny41MjUgMS44MDguNDY2IDEuNzUuNTI1IDEuNjkyLjUyNSAxLjYzMy40NjcgMS41NzUuNTI1IDEuNTc1LjQ2NyAxLjUxNy41MjUgMS40LjUyNSAxLjQ1OC40NjYgMS4zNDIuNTI1IDEuMzQyLjUyNSAxLjI4My40NjcgMS4yODMuNTI1IDEuMjI1LjUyNSAxLjE2Ny40NjcgMS4xNjcuNTI1IDEuMTA4LjQ2NiAxLjA1IDEuNTE3IDMuMDMzLjUyNS45OTIuNTI1LjkzMy40NjcuODc1IDEuMDUgMS43NS40NjYuODE3LjUyNS44MTcuNTI1Ljc1OC40NjcuNzU4LjUyNS43LjQ2Ny43NTkuNTI1LjY0MS41MjUuNy40NjYuNjQyLjUyNS42NDIuNTI1LjU4My40NjcuNTgzIDEuMDUgMS4xNjcuNDY2LjUyNS41MjUuNTI1LjQ2Ny41MjUuNTI1LjQ2Ny45OTIuOTkxLjUyNS40MDguNTI1LjQ2Ny40NjcuNDA4IDEuMDUuODE3LjQ2Ni40MDkuNTI1LjM1LjQ2Ny40MDggMS4wNS43LjQ2Ny4yOTIuNTI1LjM1LjUyNS4yOTEuNDY2LjM1IDEuMDUuNTg0LjQ2Ny4yMzMuNTI1LjI5Mi41MjUuMjkxLjQ2Ni4yMzQuNTI1LjIzMy40NjcuMjMzLjUyNS4yMzQuNTI1LjIzMy40NjcuMjMzLjUyNS4yMzQuNTI1LjE3NS40NjcuMjMzIDEuMDUuMzUuNDY2LjE3NS41MjUuMjMzLjQ2Ny4xMTcuNTI1LjE3NS41MjUuMTc1LjQ2Ny4xNzUuNTI1LjE3NS41MjUuMTE3LjQ2Ni4xNzUuNTI1LjExNi41MjUuMTE3LjQ2Ny4xNzUuNTI1LjExNi40NjcuMTE3LjUyNS4xMTcuNTI1LjExNiIvPjxwYXRoIHN0cm9rZS13aWR0aD0iLjM1IiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIGQ9Ik0wIDk1Ljc2NmgyMTMuNTU1Ii8+PHBhdGggZD0ibTIxMS44NCA5NS43NjYtMS41MzMtMi41MjIuMDg2LS4wNTcgNC4xMTIgMS42MzMgNC4yOTkuOTQ2LTQuMjk5Ljk0Ni00LjExMiAxLjYzMy0uMDg2LS4wNDMgMS41MzMtMi41MzYiLz48cGF0aCBzdHJva2Utd2lkdGg9Ii4zNSIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwIiBkPSJNMjEuMDU2IDEwNVYxMS4yNjciLz48cGF0aCBkPSJtMjEuMDU2IDEyLjYyNC0yLjUyMiAxLjUzMy0uMDU4LS4wODUgMS42MzQtNC4xMTMuOTQ2LTQuMjk4Ljk0NSA0LjI5OCAxLjYzNCA0LjExMy0uMDQzLjA4NS0yLjUzNi0xLjUzMyIvPjxzeW1ib2wgaWQ9ImIiPjxwYXRoIGQ9Ik0uMzk1LjYwNmMuMDIgMCAuMDI4IDAgLjAyOC4wMTkgMCAuMDEtLjAwOC4wMS0uMDI2LjAxSC4zMTZjLjAxOS4xMDMuMDMzLjE3NC4wNDEuMjA2LjAwNi4wMjQuMDI3LjA0Ny4wNTMuMDQ3QS4wODUuMDg1IDAgMCAwIC40NjIuODdDLjQyMy44NjYuNDExLjgzNy40MTEuODIuNDExLjguNDI2Ljc4OC40NDUuNzg4Yy4wMiAwIC4wNS4wMTcuMDUuMDU1IDAgLjA0Mi0uMDQyLjA2NS0uMDg2LjA2NUMuMzY2LjkwOC4zMjQuODc2LjMwNC44MzdBLjY5LjY5IDAgMCAxIC4yNTMuNjM1SC4xODZjLS4wMTkgMC0uMDI5IDAtLjAyOS0uMDE4IDAtLjAxMS4wMDYtLjAxMS4wMjYtLjAxMWguMDY0Qy4yMjkuNTEzLjE4OC4yODcuMTY1LjE4LjE0OC4wOTMuMTMzLjAyLjA4My4wMi4wOC4wMi4wNTEuMDIuMDMzLjAzOWMuMDUxLjAwNC4wNTEuMDQ4LjA1MS4wNDlDLjA4NC4xMDguMDY5LjEyLjA1LjEyQS4wNTIuMDUyIDAgMCAxIDAgLjA2NUMwIC4wMjIuMDQ0IDAgLjA4MyAwYy4xMDIgMCAuMTQ0LjE4My4xNTUuMjMzQy4yNTYuMzEuMzA1LjU3Ni4zMS42MDZoLjA4NXoiLz48L3N5bWJvbD48dXNlIHhsaW5rOmhyZWY9IiNiIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgMjcuOTEgMTQuNDM5KSIgZmlsbD0iIzIzMWYyMCIvPjxzeW1ib2wgaWQ9ImMiPjxwYXRoIGQ9Ik0uMjI3LjAwOGMwIC4wMDMgMCAuMDA1LS4wMTcuMDIyQy4xMS4xMzEuMDU0LjI5Ni4wNTQuNWMwIC4xOTQuMDQ3LjM2MS4xNjMuNDc5LjAxLjAwOS4wMS4wMTEuMDEuMDE0IDAgLjAwNi0uMDA1LjAwOC0uMDA5LjAwOGEuNDIuNDIgMCAwIDEtLjE0NC0uMTdBLjcxMy43MTMgMCAwIDEgMCAuNUMwIC40MTEuMDE0LjI5Mi4wNjYuMTg1QS40MjYuNDI2IDAgMCAxIC4yMTggMGMuMDA0IDAgLjAwOS4wMDIuMDA5LjAwOHoiLz48L3N5bWJvbD48dXNlIHhsaW5rOmhyZWY9IiNjIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgMzUuNTE5IDE1KSIgZmlsbD0iIzIzMWYyMCIvPjxzeW1ib2wgaWQ9ImQiPjxwYXRoIGQ9Ik0uMTc5LjQxMmguMDkyQy4yOS40MTIuMy40MTIuMy40My4zLjQ0MS4yOTQuNDQxLjI3NC40NDFILjE4NmwuMDM3LjE0NkMuMjI3LjYwMS4yMjcuNjAzLjIyNy42MWMwIC4wMTYtLjAxMy4wMjUtLjAyNi4wMjVDLjE5My42MzUuMTcuNjMyLjE2Mi42TC4xMjMuNDQxSC4wMjlDLjAwOS40NDEgMCAuNDQxIDAgLjQyMmMwLS4wMS4wMDctLjAxLjAyNi0uMDFoLjA4OUwuMDQ5LjE0OEMuMDQxLjExMy4wMzguMTAzLjAzOC4wOS4wMzguMDQzLjA3MSAwIC4xMjcgMGMuMTAxIDAgLjE1NS4xNDYuMTU1LjE1MyAwIC4wMDYtLjAwNC4wMDktLjAxLjAwOS0uMDAyIDAtLjAwNiAwLS4wMDgtLjAwNEwuMjU1LjE0Qy4yMzQuMDkuMTg4LjAyLjEzLjAyLjEuMDIuMDk4LjA0NS4wOTguMDY3YzAgLjAwMSAwIC4wMi4wMDMuMDMybC4wNzguMzEzeiIvPjwvc3ltYm9sPjx1c2UgeGxpbms6aHJlZj0iI2QiIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSAzOS4xNjMgMTIuMTIpIiBmaWxsPSIjMjMxZjIwIi8+PHN5bWJvbCBpZD0iZSI+PHBhdGggZD0iTS4yMjcuNWMwIC4wNzYtLjAxLjItLjA2Ni4zMTZhLjQyNi40MjYgMCAwIDEtLjE1Mi4xODVDLjAwNSAxLjAwMSAwIC45OTkgMCAuOTkzIDAgLjk5IDAgLjk4OC4wMTcuOTcxLjExNy44Ny4xNzMuNzA1LjE3My41MDEuMTczLjMwNy4xMjYuMTQuMDEuMDIyIDAgLjAxMyAwIC4wMTEgMCAuMDA4IDAgLjAwMi4wMDUgMCAuMDA5IDBhLjQyLjQyIDAgMCAxIC4xNDQuMTcuNzIuNzIgMCAwIDEgLjA3NC4zM3oiLz48L3N5bWJvbD48c3ltYm9sIGlkPSJmIj48cGF0aCBkPSJNLjYyMS4xODZjLjAxNCAwIC4wMzIgMCAuMDMyLjAxOCAwIC4wMTktLjAxNy4wMTktLjAzMi4wMTlILjAzMkMuMDE4LjIyMyAwIC4yMjMgMCAuMjA1IDAgLjE4Ni4wMTcuMTg2LjAzMi4xODZoLjU4OW0wLS4xODZjLjAxNCAwIC4wMzIgMCAuMDMyLjAxOCAwIC4wMTktLjAxNy4wMTktLjAzMi4wMTlILjAzMkMuMDE4LjAzNyAwIC4wMzcgMCAuMDE5IDAgMCAuMDE3IDAgLjAzMiAwaC41ODl6Ii8+PC9zeW1ib2w+PHVzZSB4bGluazpocmVmPSIjZSIgdHJhbnNmb3JtPSJtYXRyaXgoMTEuOTU1IDAgMCAtMTEuOTU1IDQzLjc4NSAxNSkiIGZpbGw9IiMyMzFmMjAiLz48dXNlIHhsaW5rOmhyZWY9IiNmIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgNTEuNjQ5IDEwLjM1KSIgZmlsbD0iIzIzMWYyMCIvPjxzeW1ib2wgaWQ9ImciPjxwYXRoIGQ9Ik0uMTM0LjI0MmMuMDI3IDAgLjA5NS4wMDIuMTQzLjAyQy4zNTMuMjkxLjM2LjM0OS4zNi4zNjcuMzYuNDExLjMyMi40NTEuMjU2LjQ1MUEuMjcuMjcgMCAwIDEgMCAuMTc4QzAgLjA3My4wNiAwIC4xNTEgMGMuMTM2IDAgLjIyMi4xMDYuMjIyLjExOUMuMzczLjEyNS4zNjcuMTMuMzYzLjEzLjM2LjEzLjM1OS4xMjkuMzUuMTJhLjI1Ni4yNTYgMCAwIDAtLjE5Ny0uMUMuMDk2LjAyLjA2Ni4wNjUuMDY2LjEzOWMwIC4wMTQgMCAuMDM5LjAxNS4xMDNoLjA1M20tLjA0OC4wMmMuMDQzLjE1NC4xMzguMTY5LjE3LjE2OUMuMy40MzEuMzMuNDA1LjMzLjM2Ny4zMy4yNjIuMTcuMjYyLjEyOC4yNjJILjA4NnoiLz48L3N5bWJvbD48dXNlIHhsaW5rOmhyZWY9IiNnIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgNjMuOTY1IDEyLjEyKSIgZmlsbD0iIzIzMWYyMCIvPjxzeW1ib2wgaWQ9ImgiPjxwYXRoIGQ9Ik0uNjExIDBjLjAxNCAwIC4wMzYgMCAuMDM2LjAyM1MuNjI1LjA0Ni42MTEuMDQ2SC4wMzZDLjAyMi4wNDYgMCAuMDQ2IDAgLjAyM1MuMDIyIDAgLjAzNiAwaC41NzV6Ii8+PC9zeW1ib2w+PHVzZSB4bGluazpocmVmPSIjaCIgdHJhbnNmb3JtPSJtYXRyaXgoNy45NyAwIDAgLTcuOTcgNjkuNTYgNS4yNTUpIiBmaWxsPSIjMjMxZjIwIi8+PHN5bWJvbCBpZD0iaSI+PHBhdGggZD0iTS4zNDkuMzkxYS4xMS4xMSAwIDAgMS0uMDk5LjA2Qy4xMzEuNDUxIDAgLjMxMiAwIC4xNjQgMCAuMDYuMDY3IDAgLjE0NCAwYy4wNjQgMCAuMTE5LjA1MS4xMzcuMDcxQy4yOTkuMDAyLjM2NyAwIC4zNzkgMGMuMDQ2IDAgLjA2OS4wMzguMDc3LjA1NS4wMi4wMzYuMDM0LjA5NC4wMzQuMDk4Qy40OS4xNTkuNDg2LjE2Ni40NzQuMTY2Uy40Ni4xNi40NTQuMTM1Qy40NC4wOC40MjEuMDI4LjM4Mi4wMjguMzU5LjAyOC4zNS4wNDcuMzUuMDc1YzAgLjAxNy4wMDkuMDUxLjAxNS4wNzZMLjM5LjI1NC40MS4zM2MuMDA1LjAyNC4wMTYuMDY2LjAxNi4wNzEgMCAuMDIzLS4wMTkuMDMxLS4wMzIuMDMxQS4wNDYuMDQ2IDAgMCAxIC4zNDkuMzkxTS4yODEuMTE4Qy4yMzEuMDQ5LjE3OS4wMjguMTQ3LjAyOC4xMDEuMDI4LjA3OC4wNy4wNzguMTIyYzAgLjA0Ny4wMjcuMTU0LjA0OS4xOTguMDI5LjA2MS4wNzguMTAzLjEyNC4xMDNDLjMxNi40MjMuMzM1LjM1LjMzNS4zMzhMLjMwNC4yMUMuMjkxLjE2My4yOTEuMTYxLjI4MS4xMTh6Ii8+PC9zeW1ib2w+PHN5bWJvbCBpZD0iaiI+PHBhdGggZD0iTS4xOTYuNDA4aC4wOThjLjAxOSAwIC4wMzEgMCAuMDMxLjAxOSAwIC4wMTQtLjAxMy4wMTQtLjAzLjAxNEguMjA0TC4yNC41ODNjLjAwNC4wMTUuMDA0LjAyLjAwNC4wMjEgMCAuMDIxLS4wMTYuMDMxLS4wMzMuMDMxQy4xNzcuNjM1LjE3LjYwOC4xNTkuNTYzTC4xMjguNDQxSC4wMzJDLjAxMy40NDEgMCAuNDQxIDAgLjQyMiAwIC40MDguMDEzLjQwOC4wMy40MDhoLjA5TC4wNi4xNjhDLjA1NC4xNDMuMDQ1LjEwOC4wNDUuMDk0LjA0NS4wMzQuMDk0IDAgLjE0NyAwYy4xMDcgMCAuMTY4LjE0MS4xNjguMTUzQy4zMTUuMTY0LjMwNi4xNjYuMy4xNjYuMjg5LjE2Ni4yODguMTYyLjI4MS4xNDcuMjYxLjA5OS4yMTEuMDI4LjE1LjAyOC4xMjkuMDI4LjExNy4wNDIuMTE3LjA3NWMwIC4wMTkuMDAzLjAzLjAwNi4wNDNsLjA3My4yOXoiLz48L3N5bWJvbD48dXNlIHhsaW5rOmhyZWY9IiNpIiB0cmFuc2Zvcm09Im1hdHJpeCg3Ljk3IDAgMCAtNy45NyA3NS43OCA3LjE0NCkiIGZpbGw9IiMyMzFmMjAiLz48dXNlIHhsaW5rOmhyZWY9IiNqIiB0cmFuc2Zvcm09Im1hdHJpeCg3Ljk3IDAgMCAtNy45NyA4MC4xMzMgNy4xNDQpIiBmaWxsPSIjMjMxZjIwIi8+PHN5bWJvbCBpZD0iayI+PHBhdGggZD0iTS4zMTQuMDY4QS4wODYuMDg2IDAgMCAxIC4zOTkgMGMuMDMyIDAgLjA1Ni4wMjEuMDcyLjA1NS4wMTcuMDM2LjAzLjA5NS4wMy4wOTggMCAuMDA1LS4wMDQuMDA5LS4wMS4wMDktLjAwOSAwLS4wMS0uMDA1LS4wMTQtLjAyQy40NTkuMDczLjQ0MS4wMi40MDEuMDJjLS4wMyAwLS4wMy4wMzMtLjAzLjA0NiAwIC4wMjMuMDAzLjAzMy4wMTMuMDc1bC4wMi4wODJhOS43NjcgOS43NjcgMCAwIDEgLjA0OC4xOTNDLjQ1Mi40MzEuNDQuNDQxLjQyNS40NDEuMzk2LjQ0MS4zODkuNDE2LjM4My4zOTEuMzczLjM1Mi4zMTkuMTM3LjMxMi4xMDIuMzExLjEwMi4yNzIuMDIuMTk5LjAyLjE0Ny4wMi4xMzcuMDY1LjEzNy4xMDJhLjY2LjY2IDAgMCAwIC4wNTQuMjA0Yy4wMTIuMDMyLjAxNy4wNDUuMDE3LjA2NSAwIC4wNDMtLjAzMS4wOC0uMDc5LjA4Qy4wMzcuNDUxIDAgLjMwNiAwIC4yOTggMCAuMjk0LjAwNC4yODkuMDExLjI4OWMuMDA5IDAgLjAxLjAwNC4wMTQuMDE4LjAyNC4wODYuMDYzLjEyNC4xMDEuMTI0LjAxIDAgLjAyNi0uMDAxLjAyNi0uMDMzQS4yNzUuMjc1IDAgMCAwIC4xMjYuMzA1LjU0LjU0IDAgMCAxIC4wNzcuMTE4Qy4wNzcuMDE2LjE1NCAwIC4xOTUgMGMuMDY0IDAgLjA5OS4wNDQuMTE5LjA2OHoiLz48L3N5bWJvbD48dXNlIHhsaW5rOmhyZWY9IiNrIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgODMuODE1IDEyLjEyKSIgZmlsbD0iIzIzMWYyMCIvPjx1c2UgeGxpbms6aHJlZj0iI2MiIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSA5MS4zMjYgMTUpIiBmaWxsPSIjMjMxZjIwIi8+PHVzZSB4bGluazpocmVmPSIjZCIgdHJhbnNmb3JtPSJtYXRyaXgoMTEuOTU1IDAgMCAtMTEuOTU1IDk0Ljk3IDEyLjEyKSIgZmlsbD0iIzIzMWYyMCIvPjx1c2UgeGxpbms6aHJlZj0iI2UiIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSA5OS41OTMgMTUpIiBmaWxsPSIjMjMxZjIwIi8+PHVzZSB4bGluazpocmVmPSIjZCIgdHJhbnNmb3JtPSJtYXRyaXgoMTEuOTU1IDAgMCAtMTEuOTU1IDIyMy4yNjQgMTAyLjEyKSIgZmlsbD0iIzIzMWYyMCIvPjwvZz48L3N2Zz4=</file>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

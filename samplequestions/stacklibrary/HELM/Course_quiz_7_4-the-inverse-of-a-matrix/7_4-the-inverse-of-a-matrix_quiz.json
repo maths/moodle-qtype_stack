@@ -1,0 +1,126 @@
+{
+    "quiz": {
+        "name": "7_4 The Inverse of a Matrix",
+        "intro": "<p>In number arithmetic every number <span class=\"math inline\">\\(a\\)<\/span> (<span class=\"math inline\">\\(\\ne 0\\)<\/span>) has a reciprocal <span class=\"math inline\">\\(b\\)<\/span> written as <span class=\"math inline\">\\(a^{-1}\\)<\/span> or <span class=\"math inline\">\\(\\dfrac{1}{a}\\)<\/span> such that <span class=\"math inline\">\\(ba=ab=1\\)<\/span>. Some, but not all, square matrices have inverses. If a square matrix <span class=\"math inline\">\\(A\\)<\/span> has an inverse, <span class=\"math inline\">\\(A^{-1}\\)<\/span>, then<\/p><p>&nbsp;<span class=\"math inline\">\\(\\qquad AA^{-1}=A^{-1}A=I\\)<\/span>.&nbsp;<\/p><p>We develop a rule for finding the inverse of a <span class=\"math inline\">\\(2\\times 2\\)<\/span> matrix (where it exists) and we look at two methods of finding the inverse of a <span class=\"math inline\">\\(3\\times 3\\)<\/span> matrix (where it exists).<\/p><p>Non-square matrices do not possess inverses so this Section only refers to square matrices.<\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "The inverse of a square matrix",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "4",
+            "heading": "The inverse of a 2 x 2 matrix",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "9",
+            "heading": "Gauss elimination \u2500 the inverse of a 3 x 3 matrix",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "11",
+            "heading": "Determinant method \u2500 the inverse of a 3 x 3 matrix",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-7-4\/7-4-1-1-The-inverse-of-a-square-matrix.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-7-4\/7-4-1-2-Inverse-of-a-matrix.xml"
+        },
+        {
+            "slot": "3",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-7-4\/7-4-1-3-The-inverse-of-a-square-matrix.xml"
+        },
+        {
+            "slot": "4",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-7-4\/7-4-2-1-Inverse-of-a-2-x-2-matrix.xml"
+        },
+        {
+            "slot": "5",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-7-4\/7-4-2-2-Key-point-\u2500-The-inverse-of-a-2-x-2-matrix.xml"
+        },
+        {
+            "slot": "6",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-7-4\/7-4-2-3-Which-2-x-2-matrix-has-an-inverse-.xml"
+        },
+        {
+            "slot": "7",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-7-4\/7-4-2-4-Inverse-of-a-2-x-2-matrix.xml"
+        },
+        {
+            "slot": "8",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-7-4\/7-4-2-5-Inverse-of-2-x-2-rotation-matrix.xml"
+        },
+        {
+            "slot": "9",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-7-4\/7-4-3-1-The-inverse-of-a-3x3-matrix---Gauss-elimination-method.xml"
+        },
+        {
+            "slot": "10",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-7-4\/7-4-3-2-Inverse-of-3-x-3-matrix-\u2500-Gauss-elimination-method.xml"
+        },
+        {
+            "slot": "11",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-7-4\/7-4-4-1-The-inverse-of-a-3x3-matrix-\u2500-determinant-method.xml"
+        },
+        {
+            "slot": "12",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-7-4\/7-4-4-2-Inverse-of-a-3-x-3-matrix-\u2500-determinant-method.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

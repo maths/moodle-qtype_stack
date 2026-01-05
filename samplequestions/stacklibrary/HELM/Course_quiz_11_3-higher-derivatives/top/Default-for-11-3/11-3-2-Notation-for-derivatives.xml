@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>11.3.2 Notation for derivatives</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Notation for derivatives</h4>
+
+Just as there is a notation for the first derivative so there is a similar notation for higher derivatives.
+Consider the function, \(y(x)\). We know that the first derivative is \( \dfrac{dy}{dx} \) or \( \dfrac{d}{dx}(y)\) which is the instruction to differentiate the function \(y(x)\). The second derivative is calculated by differentiating the first derivative, that is
+\[ \text{second derivative} = \dfrac{d}{dx} \left( \dfrac{dy}{dx} \right) \]
+
+So, using a fairly obvious adaptation of our derivative notation, the second derivative is denoted by
+\( \dfrac{d^2y}{dx^2} \) and is read as `dee two \(y\) by dee \(x\) squared'. This is often written more concisely as \(y''\).
+<p></p>
+In similar manner, the third derivative is denoted by \( \dfrac{d^3y}{dx^3}\) or \(y'''\) and so on. So, referring to the previous example, we could have written
+
+\[ \text{first derivative} =  \dfrac{dy}{dx} =4x^3 + 12x\]
+\[ \text{second derivative} =&nbsp; \dfrac{d^2y}{dx^2} = 12x^2 + 12 \]
+\[ \text{third derivative} =&nbsp; \dfrac{d^3y}{dx^3} = 24x + 0 = 24x \]
+
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p>If \(y = y(x)\) then its first, second and third derivatives are denoted by:</p>
+ \[ \dfrac{dy}{dx} \text{     or     } y' \]
+ \[ \dfrac{d^2y}{dx^2} \text{     or     } y'' \]
+ \[ \dfrac{d^3y}{dx^3} \text{     or     } y''' \]
+</div><p><br></p>
+
+In most examples we use \(x\) to denote the independent variable and \(y\) the dependent variable. However, in many applications, time \(t\) is the independent variable. In this case a special notation is used for derivatives. Derivatives with respect to \(t\) are often indicated using a <b>dot</b> notation, so
+\( \dfrac{dy}{dt}\) can be written as \(\dot{y}\), pronounced `y dot'. Similarly, a second derivative with respect to \(t\) can be written as \(\ddot{y}\), pronounced `y double dot'.
+
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p>If \(y = y(t)\) then </p>
+<p></p>
+\(\dot{y}\) stands for \( \dfrac{dy}{dt}\), and
+<p></p>
+\(\ddot{y}\) stands for \( \dfrac{d^2y}{dt^2}\).
+</div><p><br></p>]]></text>
+<file name="11-1-fig-3-KP1.svg" path="/" encoding="base64">PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMTk2IiBoZWlnaHQ9IjEyNCIgdmlld0JveD0iMCAwIDE0NyA5MyI+PGNsaXBQYXRoIGlkPSJhIj48cGF0aCB0cmFuc2Zvcm09Im1hdHJpeCgxIDAgMCAtMSAwIDkzKSIgZD0iTTAgMGgxNDd2OTNIMHoiLz48L2NsaXBQYXRoPjxnIGNsaXAtcGF0aD0idXJsKCNhKSI+PHBhdGggc3Ryb2tlLXdpZHRoPSIxLjEiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzIzMWYyMCIgZD0iTTM0LjUwNyA3Ny40MzdoMS43OW0tLjg5NS0uODk0djEuNzg3bTI2Ljg0OC0uODkzaDEuNzltLS44OTUtLjg5NHYxLjc4N20yNi44NDctLjg5M2gxLjc5bS0uODk1LS44OTR2MS43ODdtMjYuODQ4LS44OTNoMS43OW0tLjg5NS0uODk0djEuNzg3TTYuNzg5IDQ2Ljc5NGgxLjc5bS0uODk1LS44OTR2MS43ODdNNi43ODkgMTYuMTVoMS43OW0tLjg5NS0uODkzdjEuNzg3TTQuODk5IDc3LjQzN2gxMzMuMTQ2Ii8+PHBhdGggZD0iTTEzNy40ODQgNzcuNDM3bC0xLjIwNC0xLjk4Mi4wNjctLjA0NSAzLjIzMiAxLjI4MyAzLjM3Ny43NDQtMy4zNzcuNzQyLTMuMjMyIDEuMjg0LS4wNjctLjAzNCAxLjIwNC0xLjk5MiIgZmlsbD0iIzIzMWYyMCIvPjxwYXRoIHN0cm9rZS13aWR0aD0iMS4xIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBmaWxsPSJub25lIiBzdHJva2U9IiMyMzFmMjAiIGQ9Ik03LjY4NCA3OC4wNTdWOC45MTEiLz48cGF0aCBkPSJNNy42ODQgOS4zMTFsLTEuOTgxIDEuMjA1LS4wNDYtLjA2OCAxLjI4NC0zLjIzMS43NDMtMy4zNzguNzQzIDMuMzc4IDEuMjgzIDMuMjMxLS4wMzMuMDY4LTEuOTkzLTEuMjA1IiBmaWxsPSIjMjMxZjIwIi8+PGNsaXBQYXRoIGlkPSJiIj48cGF0aCB0cmFuc2Zvcm09Im1hdHJpeCgxIDAgMCAtMSAwIDkzKSIgZD0iTS4wNiAwaDE0Ni4zMTN2OTIuNjZILjA2eiIvPjwvY2xpcFBhdGg+PGcgY2xpcC1wYXRoPSJ1cmwoI2IpIj48c3ltYm9sIGlkPSJjIj48cGF0aCBkPSJNMCAuMDQ0QzAgLjAzNC4wMDIuMDI2LjAwNi4wMTkuMDE0LjAwNi4wMjggMCAuMDQ5IDBjLjAxNSAwIC4wMjkuMDA0LjAzOS4wMTJhLjI2NC4yNjQgMCAwMS4wNDUuMDQ1bC4xLjEzMS4wMzEtLjEyQS4xNS4xNSAwIDAxLjI4LjAyMy4wNDMuMDQzIDAgMDEuMzE4IDBjLjAyNiAwIC4wNTMuMDE3LjA4MS4wNTEuMDE1LjAxOC4wMy4wNC4wNDQuMDY1TC40MjkuMTI0QS40OTQuNDk0IDAgMDAuMzg4LjA3MkMuMzc5LjA2Mi4zNy4wNTcuMzYxLjA1Ny4zNTIuMDU3LjM0My4wNjYuMzM2LjA4M2EuNDA3LjQwNyAwIDAwLS4wMTcuMDU4TC4zLjIyNmEuMjk3LjI5NyAwIDAwLS4wMS4wNDhjMCAuMDA1LjAxNC4wMjguMDQuMDY2LjAyNi4wMzguMDQ2LjA1Ny4wNjEuMDU3QS4wNC4wNCAwIDAwLjM5OC4zOTVsLjAxLS4wMDQuMDEzLS4wMDVhLjA2OS4wNjkgMCAwMS4wMS0uMDA0TC40NDIuMzgxYy4wMSAwIC4wMTguMDAzLjAyNC4wMDkuMDA2LjAwNi4wMDkuMDE1LjAwOS4wMjYgMCAuMDE2LS4wMDYuMDI3LS4wMTkuMDMzYS4wNjIuMDYyIDAgMDEtLjAyNy4wMDUuMDczLjA3MyAwIDAxLS4wMzctLjAxMi4xNzYuMTc2IDAgMDEtLjA0MS0uMDM4LjgzLjgzIDAgMDEtLjA2OS0uMDk1bC0uMDEuMDU2YS4xOC4xOCAwIDAxLS4wMjcuMDc4Qy4yMzkuNDUxLjIyOC40NTUuMjE1LjQ1NUEuMTI1LjEyNSAwIDAxLjE4NC40NTEuNDE5LjQxOSAwIDAxLjE0NS40MzlMLjA5MS40Mi4wOTUuNDA0QS4zODEuMzgxIDAgMDAuMTUuNDE2Qy4xNjMuNDE2LjE3Mi40MTIuMTc3LjQwNUEuMjMuMjMgMCAwMC4xOTQuMzU5IDEuNzYgMS43NiAwIDAwLjIyNS4yMjQgMi45OTggMi45OTggMCAwMC4xMS4wNjUuMDI5LjAyOSAwIDAwLjA5MS4wNTlMLjA4NC4wNmEuMDE5LjAxOSAwIDAwLS4wMDcuMDAyTC4wNi4wNzIuMDQ3LjA3Ny4wMzYuMDc5QS4wNDYuMDQ2IDAgMDEuMDEyLjA3MUMuMDA0LjA2NiAwIC4wNTcgMCAuMDQ0eiIvPjwvc3ltYm9sPjx1c2UgeGxpbms6aHJlZj0iI2MiIHRyYW5zZm9ybT0ibWF0cml4KDkuMSAwIDAgLTkuMSAxNDIuMDc4IDg0LjE0NSkiIGZpbGw9IiMyMzFmMjAiLz48c3ltYm9sIGlkPSJkIj48cGF0aCBkPSJNMCAuMDQ1QS4wNC4wNCAwIDAxLjAxNS4wMTIuMDU4LjA1OCAwIDAxLjA1MSAwQy4wODUgMCAuMTI4LjAyOS4xOC4wODhhMS42MDggMS42MDggMCAwMS4yMTUuMzMxLjQ0NS40NDUgMCAwMS4wNTcuMTY3YzAgLjAyMy0uMDA1LjA0LS4wMTUuMDQ5YS4wNTUuMDU1IDAgMDEtLjA0LjAxNUMuMzg0LjY1LjM3NC42NDYuMzY4LjYzOWEuMDMzLjAzMyAwIDAxLS4wMS0uMDI1LjA0LjA0IDAgMDEuMDExLS4wMjlBLjEuMSAwIDAxLjM4Ny41N0wuMzk1LjU2NkEuMDMxLjAzMSAwIDAwLjQwOS41NTIuMDQ1LjA0NSAwIDAwLjQxMi41MzYuMzUuMzUgMCAwMC4zNjUuNDA5IDQuMTEzIDQuMTEzIDAgMDAuMjkuMjc3TC4yNy4zOTRDLjI2NS40MjQuMjUyLjQ3My4yMzEuNTQuMjA4LjYxNC4xOTMuNjUuMTg1LjY1TC4xNzQuNjQ5LjA0MS42MjNWLjYwN2wuMDI0LjAwMmEuMDY2LjA2NiAwIDAwLjA2OS0uMDNBLjUyNS41MjUgMCAwMC4xNzcuNDZDLjE4OS40MTguMi4zNzEuMjEzLjMxOEEuNjE3LjYxNyAwIDAwLjIzMS4yMUMuMjMxLjE5MS4yMTMuMTYxLjE3OC4xMTkuMTQyLjA3Ny4xMTcuMDU2LjEwMS4wNTZhLjAyLjAyIDAgMDAtLjAwOC4wMDEuMDQ5LjA0OSAwIDAwLS4wMDcuMDAzTC4wNzkuMDY1QS4xMDIuMTAyIDAgMDEuMDYuMDc5YS4wNS4wNSAwIDAxLS4wMjIuMDA1Qy4wMjYuMDg0LjAxNi4wOC4wMS4wNzJBLjAzNi4wMzYgMCAwMTAgLjA0NXoiLz48L3N5bWJvbD48dXNlIHhsaW5rOmhyZWY9IiNkIiB0cmFuc2Zvcm09Im1hdHJpeCg5LjEgMCAwIC05LjEgLS4yMzcgMTAuOTI4KSIgZmlsbD0iIzIzMWYyMCIvPjwvZz48cGF0aCBzdHJva2Utd2lkdGg9IjEuMSIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjMxZjIwIiBkPSJNMzYuOTk2IDQ5LjU1OWMzOC40NDggMjcuMTUxIDY0LjgzNC03LjgwNCA3OS43ODYtNDAuMSIvPjxwYXRoIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzIzMWYyMCIgZD0iTTEzLjExNyA3Ny42MzJsMTEyLjc1Ni0zNi45MzkiLz48c3ltYm9sIGlkPSJlIj48cGF0aCBkPSJNLjQxNS40ODFDLjQxNS40MTUuMzkxLjM3MS4zNDQuMzQ3YS4yNDguMjQ4IDAgMDAtLjEwOC0uMDJMLjIyLjMyOGEuMzk3LjM5NyAwIDAwLS4wMzUuMDAzdi4yNjJjMCAuMDE0LjAwMi4wMjMuMDA3LjAyN1MuMjA5LjYyNi4yMy42MjZBLjI1MS4yNTEgMCAwMC4zMzYuNjA3Qy4zODkuNTg0LjQxNS41NDIuNDE1LjQ4MU0wIDBoLjI4MXYuMDE5Qy4yNC4wMjIuMjE0LjAyOC4yMDMuMDM4LjE5MS4wNDcuMTg1LjA3MS4xODUuMTA4di4xODNMLjIyMi4yODkuMjYzLjI4OEMuMzM4LjI4OC40LjMwMy40NS4zMzRjLjA0OS4wMzEuMDc0LjA4LjA3NC4xNDhhLjE1NS4xNTUgMCAwMS0uMDY3LjEzMS4zMjUuMzI1IDAgMDEtLjE5NC4wNDlIMFYuNjQzQy4wMzYuNjQuMDU5LjYzMy4wNjkuNjIyLjA4LjYxMS4wODUuNTg4LjA4NS41NTRWLjEyQy4wODUuMDc5LjA4LjA1My4wNzEuMDQxLjA2Mi4wMy4wMzguMDIzIDAgLjAxOVYweiIvPjwvc3ltYm9sPjx1c2UgeGxpbms6aHJlZj0iI2UiIHRyYW5zZm9ybT0ibWF0cml4KDkgMCAwIC05IDY3LjgyIDU0LjA0NSkiIGZpbGw9IiMyMzFmMjAiLz48c3ltYm9sIGlkPSJmIj48cGF0aCBkPSJNLjIzLjcwN0MuMTU0LjcwNy4wOTkuNjQ0LjA3Ny42MTVBLjMxNS4zMTUgMCAwMS4wMTguNDc4Ljc3Ni43NzYgMCAwMS4wMTkuMjM0LjMzLjMzIDAgMDEuMDguMDgyQy4xMzYuMDEyLjE5NiAwIC4yMyAwYy4wMzQgMCAuMDk0LjAxMi4xNS4wODJhLjMzLjMzIDAgMDEuMDYxLjE1Mi43NzYuNzc2IDAgMDEuMDAxLjI0NC4zMTUuMzE1IDAgMDEtLjA1OS4xMzdDLjM2MS42NDQuMzA2LjcwNy4yMy43MDdNLjEwOS4zODVMLjExNS40OGEuMzcuMzcgMCAwMC4wNC4xMzlDLjE2Mi42MzEuMTk2LjY3My4yMy42NzMuMjY0LjY3My4yOTguNjMxLjMwNS42MTlBLjM3LjM3IDAgMDAuMzQ1LjQ4TC4zNTEuMzg1SC4xMDlNLjM1LjMzM0wuMzQ0LjIyOUEuMzA0LjMwNCAwIDAwLjI5NS4wODFDLjI3Ny4wNTYuMjU0LjAzOC4yMy4wMzhTLjE4My4wNTYuMTY1LjA4MWEuMzA0LjMwNCAwIDAwLS4wNDkuMTQ4TC4xMS4zMzNoLjI0eiIvPjwvc3ltYm9sPjx1c2UgeGxpbms6aHJlZj0iI2YiIHRyYW5zZm9ybT0ibWF0cml4KDExLjcgMCAwIC0xMS43IDQzLjMxNCA3Ni4zNikiIGZpbGw9IiMyMzFmMjAiLz48cGF0aCBzdHJva2Utd2lkdGg9Ii41IiBmaWxsPSJub25lIiBzdHJva2U9IiMyMzFmMjAiIGQ9Ik0zMC41MzQgNzcuNDEyYzAtMS44NjYtLjMwOC0zLjY1OS0uODc0LTUuMzMyIi8+PC9nPjwvc3ZnPg==</file>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

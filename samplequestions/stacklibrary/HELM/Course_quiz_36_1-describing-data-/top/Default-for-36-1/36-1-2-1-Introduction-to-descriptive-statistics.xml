@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>36.1.2.1 Introduction to descriptive statistics</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Introduction to descriptive statistics</h3>
+<p>In later Workbooks we will consider formal methods for making <b>inferences</b> about a population based on observation of a sample. Before doing this we will consider simple methods for describing and summarizing the observations in a sample, both numerically and graphically. These descriptive methods can be an important first step before we go on to apply more formal analyses. In fact errors can often be avoided by considering suitably chosen graphs before we go any further. In addition, clear presentation of numerical and graphical summaries of data is an important feature of reporting results.</p>
+<p>A <b>statistic</b> is a numerical summary of a sample of data. Later in this Workbook we will look at a number of statistics. First we will look at tabulating data and graphical representations.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

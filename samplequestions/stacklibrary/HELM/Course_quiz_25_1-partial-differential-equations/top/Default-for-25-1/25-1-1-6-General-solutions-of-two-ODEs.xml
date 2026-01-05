@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>25.1.1.6 General solutions of two ODEs</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>The two Exercises above can be generalised as in the following Key Point.</p>
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<ol>
+<li>The general solution to: \(\dfrac{d^2y}{dx^2}-n^2y=0\) is \[ y=Ae^{nx}+B e^{-nx}\] or, equivalently using hyperbolic functions, \[ y=C\cosh nx+D\sinh nx.\]</li>
+<li>The general solution to: \(\dfrac{d^2y}{dx^2}+n^2y=0\) is \[ y=A\cos nx+B\sin nx.\]</li>
+</ol>
+</div>
+<br>
+<p>Those of you who are familiar with elementary dynamics will recognise the second
+differential equation in the above Key Point as modelling <strong> simple harmonic motion</strong>.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

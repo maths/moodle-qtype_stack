@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>22.2.2.3 Using matrices for systems of 1st order diff</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>In the previous Exercise although we had two differential equations to solve they were really quite separate. We needed no knowledge of matrix theory to solve them. However, we should note that the two differential equations can be written in matrix form.</p><p> Thus if
+<br>\(\qquad \underline{x}=\left[\begin{array}{c}x\\ y\end{array}\right]\qquad \dot{ \underline{x}}=\left[\begin{array}{c}\dot x\\ \dot
+y\end{array}\right]\quad A=\left[\begin{array}{rr}-2&amp;0\\ 0&amp;-5\end{array}\right]\)<br><p> the equations
+<br>\(\qquad\left.\begin{array}{l}\dot x=-2x\\ \dot y=-5y\end{array}\right\}\)<br>
+can be written as 
+<br>\(\qquad \left[\begin{array}{c}\dot x\\ \dot y\end{array}\right]=\left[\begin{array}{rr}-2&amp;0\\
+0&amp;-5\end{array}\right]\left[\begin{array}{c}x\\ y\end{array}\right]\)
+<br> i.e. <span class="math inline">\(\dot {\underline{x}}=A \underline{x}\)</span>.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

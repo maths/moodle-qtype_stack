@@ -102,4 +102,4 @@ STACK also supports an inert function `lrparens` which allows fine control over 
 
     eq2:lrparens(".", ex, "\\}");
 
-will simply wrap the LaTeX output of `ex` with `\left.` and `right\}`.  The first and third argumets of lrparens must be strings, and they much correspond to legitimate bracket types in LaTeX.  Note, as normal the curly braces need to be protected.
+will simply wrap the LaTeX output of `ex` with `\left.` and `right\}`.  The first and third arguments of lrparens must be strings, and they much correspond to legitimate bracket types in LaTeX.  Note, as normal the curly braces need to be protected. 

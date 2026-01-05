@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>9.5.4.2 Plane equation</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>The vector equation of a plane</h4><p>The answer to the above question, <span class="math inline">\(\underline{ r} \cdot \underline{ n}=\underline{ a} \cdot \underline{ n},\)</span> is the <strong>equation of a plane</strong>, written in vector form, passing through <span class="math inline">\(A\)</span> and perpendicular to <span class="math inline">\(\underline{n}\)</span>.</p>
+<p>In this formula it does not matter whether or not <span class="math inline">\(\underline{n}\)</span> is a unit vector. If <span class="math inline">\(\underline{ \hat n}\)</span> is a unit vector then <span class="math inline">\(\underline{ a} \cdot \underline{\hat n}\)</span> represents the perpendicular distance from the origin to the plane which we usually denote by <span class="math inline">\(d\)</span>. Hence we can write <span class="math inline">\(\underline{ r} \cdot \underline{ \hat n}= d.\)</span> </p><p>This is the <strong>equation of a plane</strong>, written in vector form, with unit normal <span class="math inline">\(\underline{\hat n}\)</span> and which is a perpendicular distance <span class="math inline">\(d\)</span> from <span class="math inline">\(O\)</span>.</p>
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p>A plane with unit normal <span class="math inline">\(\underline{ \hat n}\)</span>, which is a perpendicular distance <span class="math inline">\(d\)</span> from <span class="math inline">\(O\)</span> is given by <span class="math display">\[\underline{ r} \cdot \underline{ \hat n}=d.\]</span></p>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>2.7.1.1 Polynomial functions</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Polynomial functions</h3>
+<p>A very important type of function is the <b>polynomial</b>. Polynomial functions are made up of multiples of non-negative whole number powers of a variable, such as \(3x^2\), \(−7x^3\) and so on. You are already familiar with many such functions. Other examples include:</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

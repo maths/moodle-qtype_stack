@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>27.3.1.1 Example of volume integral: mass of water in a reservoir</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Example of volume integral: mass of water in a reservoir</h3>
+<p>We previously introduced an example showing how the force on a dam can be represented by a double integral. Suppose, instead of the total force on the dam, an engineer wishes to find the total mass of water in the reservoir behind the dam. The mass of a little element of water (dimensions \(\delta x\) in length, \(\delta y\) in breadth and \(\delta z\) in height) with density \(\rho\) is given by \(\rho\; \delta z \,\delta y\, \delta x\) (i.e. the mass of the element is given by its density multiplied by its volume).</p>
+
+<p>The density may vary at different parts of the reservoir e.g. due to temperature variations and the water expanding at higher temperatures. It is important to realise that the density \(\rho\) may be a function of all three variables, \(x\), \(y\) and \(z\). For example, during the spring months, the depths of the reservoir may be at the cold temperatures of the winter while the parts of the reservoir nearer the surface may be at higher temperatures representing the fact that they have been influenced by the warmer air above; this represents the temperature varying with the vertical coordinate \(z\). Also, the parts of the reservoir near where streams flow in may be extremely cold as melting snow flows into the reservoir. This represents the density varying with the horizontal coordinates \(x\) and \(y\).</p>
+<p>Thus the mass of a small element of water is given by \(\rho(x,y,z)\; \delta z \,\delta y\, \delta x\) The mass of water in a column is given by the integral \(\displaystyle\int_{-h(x,y)}^0 \rho(x,y,z) \;\mathrm{d}z\, \delta y\, \delta x\) where the level \(z=0\) represents the surface of the reservoir and the function \(h(x,y)\) represents the depth of the reservoir for the particular values of \(x\) and \(y\) under consideration. [Note that the depth is positive but as it is measured downwards, it represents a negative value of \(z\).] The mass of water in a slice (aligned parallel to the x-axis) is given by integrating once more with respect to \(y\) i.e. \(\displaystyle\int_{y_1(x)}^{y_2(x)} \displaystyle\int_{-h(x,y)}^0 \rho(x,y,z) \;\mathrm{d}z\,\mathrm{d}y\,\delta x\). Here the functions \(y_1(x)\) and \(y_2(x)\) represent the extreme values of \(y\) for the value of \(x\) under consideration. Finally the total mass of water in the reservoir can be found by integrating over all \(x\) i.e. \(\qquad\displaystyle\int_a^b \displaystyle\int_{y_1(x)}^{y_2(x)} \displaystyle\int_{-h(x,y)}^0 \rho(x,y,z) \;\mathrm{d}z \,\mathrm{d}y\,\mathrm{d}x\). To find the total mass of water, it is necessary to integrate the density three times, firstly with respect to \(z\) (between limits dependent on \(x\) and \(y\)), then with respect to \(y\) (between limits which are functions of \(x\)) and finally with respect to \(x\) (between limits which are constant).<br>This is an example of a triple or volume integral.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

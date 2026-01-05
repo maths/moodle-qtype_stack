@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>6.1.3.1 Exponential growth</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4><b>Exponential growth</b></h4><p><br></p><p>If \(a&gt;1\) then it can be shown that, no matter how large \(K\) is: \[ \quad \dfrac{a^x}{x^K}\rightarrow\infty\quad \text{as}\quad x\rightarrow\infty\] That is, if \(K\) is fixed (though chosen as large as desired) then eventually, as \(x\) increases, \(a^x\) will become larger than the value \(x^K\) provided \(a&gt;1\). The growth of \( a^x\) as \(x\) increases is called <b>exponential growth</b>. This limit tells us that exponential growth is eventually (large \(x\)) faster than polynomial growth of any degree.<br></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

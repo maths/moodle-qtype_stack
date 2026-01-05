@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>1.4.1.1 Cancelling Common Factors</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3><span style="color: inherit; font-family: inherit;">Cancelling Common Factors</span><br></h3>
+<p>Consider the fraction \(\displaystyle{10\over 35}\). To simplify it we can factorise the numerator and the denominator and then cancel any common factors. Common factors are those factors which occur in both the numerator and the denominator. Thus</p>
+<p>\(\qquad\displaystyle {10\over 35} = {\not{5}\times 2\over 7\times \not{5}} = {2\over 7}\)</p>
+<p>Note that the common factor 5 has been cancelled. It is important to remember that only <em>common factors</em> can be cancelled. The fractions \(\displaystyle{10\over 35}\) and \(\displaystyle{2\over 7}\) have identical values - they are equivalent fractions - but \(\displaystyle{2\over 7}\) is in a simpler form than \(\displaystyle{10\over 35}\).</p>
+<p>We apply the same process when simplifying algebraic fractions.</p>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Leave the expression in its most simplified form</p>
+<ol class="HELM_parts_inline">
+<li>\(\displaystyle{yx\over 2x}\)</li>
+<li>\(\displaystyle{x\over xy}\)</li>
+<li>\(\displaystyle{x\over x+y}\)</li>
+</ol>
+
+<h4 class="HELM_solution">Solution</h4>
+<ol class="HELM_parts">
+<li>\(\dfrac{y}{2}\)</li>
+<p>In the expression \(\dfrac{yx}{2x}\) \(x\) is a factor common to both numerator and denominator. This common factor can be cancelled to give</p>
+<p>\(\dfrac{y\not{x}}{2\not{x}} = \dfrac{y}{2}\)</p><br></li>
+<li>\(\dfrac{1}{y}\)
+<p>Note that \(\dfrac{x}{xy}\) can be written as \(\dfrac{1x}{xy}\). The common factor of x can be cancelled to give</p>
+<p>\(\dfrac{1\not{x}}{\not{x}y} = \dfrac{1}{y}\)</p><br></li>
+<li>\(\dfrac{x}{x+y}\)
+<p>In the expression \(\dfrac{x}{x+y}\) notice that an \(x\) appears in both numerator and denominator.</p>
+<p>However \(x\) is not a common factor. Recall that factors of an expression are multiplied together whereas in the denominator \(x\) is added to \(y\). This expression cannot be simplified.
+</p></li>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

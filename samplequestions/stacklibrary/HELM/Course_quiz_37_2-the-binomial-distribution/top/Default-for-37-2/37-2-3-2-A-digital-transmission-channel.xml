@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>37.2.3.2 A digital transmission channel</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p><ol class="HELM_parts"><li><p>A transmission channel transmits zeros and ones in strings of length {@word_len_1@}, called ‘words’.
+Possible distortion may change a one to a zero or vice versa; assume this distortion occurs
+with probability {@p_wrong_digit@} for each digit, independently. An error-correcting code is employed
+in the construction of the word such that the receiver can deduce the word correctly if at
+most one digit is in error. What is the probability the word is decoded incorrectly?</p><p><b>Note:</b> please round your answer to \(4\) decimal places</p><p>[[input:ans1]] [[validation:ans1]]&nbsp;[[feedback:prt1]]</p></li>
+<li><p>Assume that a word is a sequence of {@word_len_2@} zeros or ones and, as before, the probability of incorrect transmission of a digit is {@p_wrong_digit@}. If the error-correcting code allows correct decoding of the word if no more than two digits are incorrect, compute the probability that the word is decoded correctly.</p><p><b>Note:</b> please round your answer to \(4\) decimal places</p><p>[[input:ans2]] [[validation:ans2]]&nbsp;[[feedback:prt2]]</p>
+</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p><b>SOLUTION:</b></p><ol class="HELM_parts"><li><p><span class="math inline">\(\text{P}\)</span> (distortion) <span class="math inline">\(={@p_wrong_digit@}\)</span> for each digit. This is a binomial situation in which the probability of ‘success’is <span class="math inline">\(p={@p_wrong_digit@}\)</span> and there are <span class="math inline">\(n={@word_len_1@}\)</span> trials.</p>
+<p>A word is decoded incorrectly if there are two or more digits in error</p>
+<p><span class="math display">\[\begin{aligned}
+\text{P} (X\ge 2)&amp;=1-\text{P} [(X=0)\cup (X=1)]\\
+&amp;=1-\  ^{@word_len_1@}\!C_0({@1-p_wrong_digit@})^{@word_len_1@}-\  ^{@word_len_1@}\!C_1({@p_wrong_digit@})({@1-p_wrong_digit@})^{@word_len_1 - 1@} \\ &amp; ={@ta_1@}\end{aligned}\]</span></p></li><li><p>Same as what we did previously, but now with <span class="math inline">\(n={@word_len_2@}\)</span>. Correct decoding if <span class="math inline">\(X\le 2\)</span></p>
+<p><span class="math display">\[\begin{aligned}
+\text{P} (X\le 2)&amp;=\text{P} [(X=0)\cup (X=1)\cup (X=2)]\\
+&amp;=\ ^{@word_len_2@}\!C_0({@1-p_wrong_digit@})^{@word_len_2@}+\ ^{@word_len_2@}\!C_1({@p_wrong_digit@})({@1-p_wrong_digit@})^{@word_len_2 - 1@}+\ ^{@word_len_2@}\!C_2({@p_wrong_digit@})^2({@1-p_wrong_digit@})^{@word_len_2 - 2@} \\ &amp; ={@ta_2@}\end{aligned}\]</span></p></li></ol>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021072200</text>
+    </stackversion>
+    <questionvariables>
+      <text>word_len_1: 5 + rand(4);
+word_len_2: 10 + rand(2);
+p_wrong_digit: 0.01 + 0.01*rand(2);
+
+P_q1: sum(pdf_binomial(x, word_len_1, p_wrong_digit),x,2,word_len_1);
+P_q2: sum(pdf_binomial(x, word_len_2, p_wrong_digit), x, 0, 2);
+ta_1: decimalplaces(float(P_q1), 4);
+ta_2: decimalplaces(float(P_q2), 4);
+
+/*ta_1: decimalplaces(1 - (1-p_wrong_digit)^word_len_1 - word_len_1*p_wrong_digit*(1-p_wrong_digit)^(word_len_1-1),4)
+ta_2: decimalplaces((1-p_wrong_digit)^word_len_2 + word_len_2*p_wrong_digit*(1-p_wrong_digit)^(word_len_2-1) + 0.5*word_len_2*(word_len_2-1)*(p_wrong_digit^2)*(1-p_wrong_digit)^(word_len_2-2),4)*/</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\(n_1 = {@word_len_1@}, n_2 = {@word_len_2@}; p = {@p_wrong_digit@}\)
+\( \text{P} (X\ge 2) = {@ta_1@} \), \(\text{P} (X\le 2)\ = {@ta_2@} \)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>numerical</type>
+      <tans>dispdp(ta_1,4)</tans>
+      <boxsize>8</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>to 4 d.p.</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>maxdp:4, mindp:4</options>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>numerical</type>
+      <tans>dispdp(ta_2,4)</tans>
+      <boxsize>8</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>to 4 d.p.</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>maxdp:4, mindp:4</options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>ans1</sans>
+        <tans>ta_1</tans>
+        <testoptions>4</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>ans2</sans>
+        <tans>ta_2</tans>
+        <testoptions>4</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>ans2</sans>
+        <tans>1-ta_2</tans>
+        <testoptions>4</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p dir="ltr" style="text-align: left;">This is the probability that the message is decoded <em>incorrectly</em>, the question asked for the probability the message is decoded <em>correctly</em>.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1741716850</deployedseed>
+    <deployedseed>413411543</deployedseed>
+    <deployedseed>1009948708</deployedseed>
+    <deployedseed>812221510</deployedseed>
+    <deployedseed>141641054</deployedseed>
+    <deployedseed>1615788389</deployedseed>
+    <deployedseed>107489803</deployedseed>
+    <deployedseed>1523543250</deployedseed>
+    <deployedseed>2088453927</deployedseed>
+    <deployedseed>78065554</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>dispdp(ta_1,4)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>dispdp(ta_2,4)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>dispdp(ev(ta_1+1,simp),4)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>dispdp(ev(ta_2+1.02,simp),4)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-2-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

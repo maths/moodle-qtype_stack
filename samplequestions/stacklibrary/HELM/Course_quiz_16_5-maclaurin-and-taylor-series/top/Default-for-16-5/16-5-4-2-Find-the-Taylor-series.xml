@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="multichoice">
+    <name>
+      <text>16.5.4.2 Find the Taylor series</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>What is the Taylor series of <span class="math inline">\(\dfrac{1}{1-x}\)</span> about <span class="math inline">\(x=2\)</span>. (That is, find a power series in powers of <span class="math inline">\((x-2)\)</span>.)</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p dir="ltr" style="text-align: left;"><br></p>
+<p>First, obtain the first three derivatives and the <span class="math inline">\(n^{\text{th}}\)</span> derivative of <span class="math inline">\(f(x)=\dfrac{1}{1-x}\)</span>: <span class="math display">\[f'(x)=\dfrac{1}{(1-x)^2},\qquad f''(x)=\dfrac{2}{(1-x)^3},\qquad f'''(x)=\dfrac{6}{(1-x)^4},\qquad
+\cdots \quad f^{(n)}(x)=\dfrac{n!}{(1-x)^{n+1}}\]</span> Now evaluate these derivatives at <span class="math inline">\(x_0=2\)</span>: <span class="math display">\[f'(2)=1,\qquad f''(2)=-2,\qquad f'''(2)=6,\qquad f^{(n)}(2)=(-1)^{n+1}n!\]</span> Hence, write down the Taylor expansion of <span class="math inline">\(f(x)=\dfrac{1}{1-x}\)</span> about <span class="math inline">\(x=2\)</span>: <span class="math display">\[\dfrac{1}{1-x}=-1+(x-2)-(x-2)^2+(x-2)^3+\cdots + (-1)^{n+1}(x-2)^n+\cdots\]</span></p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <showstandardinstruction>0</showstandardinstruction>
+    <correctfeedback format="html">
+      <text>Your answer is correct.</text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="html">
+      <text>Your answer is partially correct.</text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="html">
+      <text>Your answer is incorrect.</text>
+    </incorrectfeedback>
+    <shownumcorrect/>
+    <answer fraction="100" format="html">
+      <text><![CDATA[<p dir="ltr" style="text-align: left;">\(-1+(x-2)-(x-2)^2+(x-2)^3+\cdots + (-1)^{n+1}(x-2)^n+\cdots\)<br></p>]]></text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text><![CDATA[<p dir="ltr" style="text-align: left;">\(1+(x-2)+(x-2)^2+(x-2)^3+\cdots + (x-2)^n+\cdots\)<br></p>]]></text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text><![CDATA[<p dir="ltr" style="text-align: left;">\(1-(x-2)+(x-2)^2-(x-2)^3+\cdots + (-1)^{n}(x-2)^n+\cdots\)<br></p>]]></text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+  </question>
+</quiz>

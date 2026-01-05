@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>37.2.3.3 Choosing randomly an answer in an exam</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p><p>An examination consists of {@n_questions@} multi-choice questions, in each of which a candidate has to deduce which one of {@n_choices@} suggested answers is correct. A completely unprepared student guesses each answer completely randomly. What is the probability that this student gets {@n_correct_ans@} or more questions correct?</p><p>[[input:ans1]] [[validation:ans1]]&nbsp;[[feedback:prt1]]</p><p><b>Note:</b> round your answer to 5 decimal places. Include additional zero(s) if your answer is exact with a lower number of decimal places.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p><b>SOLUTION:</b></p><p></p><p>Let <span class="math inline">\(X\)</span> be a random variable ‘number of answers guessed correctly’ then for each question (i.e. trial) the probability of a ‘success’ = <span class="math inline">\(\dfrac{1}{{@n_choices@}}\)</span>. It is clear that <span class="math inline">\(X\)</span> follows a binomial distribution with <span class="math inline">\(n={@n_questions@}\)</span> and <span class="math inline">\(p={@1/n_choices@}\)</span>.</p>
+<p><span class="math inline">\(\text{P}\)</span> (randomly choosing correct answer) <span class="math inline">\(=\dfrac{1}{{@n_choices@}}\qquad n={@n_questions@}\)</span>&nbsp;</p><p><span class="math display">\[\begin{aligned}
+\text{P} ({@n_correct_ans@}\ \text{or more correct})&amp;=\text{P} [(X={@n_correct_ans@})\cup (X={@n_correct_ans+1@})\cup (X={@n_correct_ans+2@})]\\
+&amp;=\  ^{{@n_questions@}}\!C_{@n_correct_ans@}\left(\dfrac{1}{{@n_choices@}}\right)^{@n_correct_ans@}\left(\dfrac{@n_choices-1@}{@n_choices@}\right)^2+\  ^{{@n_questions@}}\!C_{@n_correct_ans+1@}\left(\dfrac{1}{{@n_choices@}}\right)^{@n_correct_ans+1@}\left(\dfrac{{@n_choices-1@}}{{@n_choices@}}\right)+\  ^{{@n_questions@}}\!C_{{@n_questions@}}\left(\dfrac{1}{{@n_choices@}}\right)^{{@n_questions@}} \\ &amp; ={@dispdp(ta,5)@}\end{aligned}\]</span></p><p></p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021072200</text>
+    </stackversion>
+    <questionvariables>
+      <text>n_questions: 8 + rand(4);
+n_choices: 4 + rand(2);
+n_correct_ans: n_questions - 2;
+
+Pans: sum(pdf_binomial(x, n_questions, 1/n_choices),x,n_correct_ans,n_questions);
+ta: decimalplaces(float(Pans),5);
+
+/*ta: decimalplaces(0.5*n_questions*(n_questions-1)*((1/n_choices)^n_correct_ans)*((1 - 1/n_choices)^2) + n_questions*((1/n_choices)^(n_correct_ans+1))*(1 - 1/n_choices) + (1/n_choices)^n_questions,5)*/</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>Questions: {@n_questions@}, choices: {@n_choices@}, ncorrect: {@n_correct_ans@},  \( \text{P} (X\geq{@n_correct_ans@}) = {@dispdp(ta,5)@} \)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>numerical</type>
+      <tans>dispdp(ta,5)</tans>
+      <boxsize>8</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>to 5 d.p.</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>maxdp:5, mindp:5</options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>ans1</sans>
+        <tans>ta</tans>
+        <testoptions>5</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>146845940</deployedseed>
+    <deployedseed>323602630</deployedseed>
+    <deployedseed>632959552</deployedseed>
+    <deployedseed>104395557</deployedseed>
+    <deployedseed>1385388782</deployedseed>
+    <deployedseed>1480621635</deployedseed>
+    <deployedseed>2077986296</deployedseed>
+    <deployedseed>84486149</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>dispdp(ta,5)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>dispdp(1,5)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>23.2.5.4 FS task</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+Obtain the Fourier series of the function
+\[
+\begin{align}
+f(t) &amp;= t^2 \hspace{1cm} -1 &lt; t &lt; 1 \\ f(t + 2) &amp;= f(t)
+\end{align}
+\]<p style="text-align: center;"><img src="@@PLUGINFILE@@/23-2-5-fig-12-task-pulse.svg" alt="task-pulse" width="364" height="121" class="img-responsive atto_image_button_text-bottom"><br></p><p><br></p><p>&nbsp;
+</p><p></p>
+\(f(t) = \) [[input:ans1]] [[validation:ans1]] [[feedback:prt1]] + \(\displaystyle{\sum _{n=1}^\infty }\) [[input:ans2]][[validation:ans2]] [[feedback:prt2]]]]></text>
+<file name="23-2-4 task square pulse.svg" path="/" encoding="base64">PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMzMwLjI5MyIgaGVpZ2h0PSIxMTIuNTMyIiB2aWV3Qm94PSIwIDAgMjQ3LjcyIDg0LjM5OSI+PGcgZGF0YS1uYW1lPSJEb2N1bWVudCI+PHBhdGggZD0iTTI0MC4yNzUgNjEuMjAybC0xLjU5NS0xLjk4OC4wODktLjA0NSA0LjI4IDEuMjg3IDQuNDc0Ljc0Ni00LjQ3NC43NDYtNC4yOCAxLjI4OC0uMDg5LS4wMzQgMS41OTUtMiIgZmlsbD0iIzIzMWYyMCIvPjxwYXRoIHN0cm9rZS13aWR0aD0iLjUiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzIzMWYyMCIgZD0iTTg3LjUgNjEuMjAyaDE1Mi43NzUiLz48Y2xpcFBhdGggaWQ9ImEiPjxwYXRoIHRyYW5zZm9ybT0ibWF0cml4KDEgMCAwIC0xIDAgODQuMzk5KSIgZD0iTTAgODQuMzZoMjQ3LjY4VjBIMHoiLz48L2NsaXBQYXRoPjxnIGNsaXAtcGF0aD0idXJsKCNhKSIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjMxZjIwIj48cGF0aCBzdHJva2Utd2lkdGg9IjIiIGQ9Ik01Mi41IDYxLjIwMmgzNSIvPjxwYXRoIHN0cm9rZS13aWR0aD0iLjUiIGQ9Ik0wIDYxLjIwMmg1Mi41Ii8+PC9nPjxwYXRoIGQ9Ik04OC4yNDcgNzEuMTcyaDcuMDY5di0uNDc4aC03LjA2OXoiIGZpbGw9IiMyMzFmMjAiLz48cGF0aCBzdHJva2Utd2lkdGg9Ii41IiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBmaWxsPSJub25lIiBzdHJva2U9IiMyMzFmMjAiIGQ9Ik0xODcuNzUgNjEuMjIzaDUyLjQxNSIvPjxwYXRoIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjMxZjIwIiBkPSJNMTUzLjUgNjEuMjIzaDM0LjI1Ii8+PHBhdGggc3Ryb2tlLXdpZHRoPSIuNSIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjMxZjIwIiBkPSJNMTAwLjYxMyA2MS4yMjNIMTUzLjVNMTE5Ljg5NiA3My4xODhWNi4xMDgiLz48Y2xpcFBhdGggaWQ9ImIiPjxwYXRoIHRyYW5zZm9ybT0ibWF0cml4KDEgMCAwIC0xIDAgODQuMzk5KSIgZD0iTTAgODQuMzZoMjQ3LjY4VjBIMHoiLz48L2NsaXBQYXRoPjxnIGNsaXAtcGF0aD0idXJsKCNiKSI+PHBhdGggZD0iTTEyMC4yMDggNi4wNGwtMS45ODggMS4zMy0uMDQ2LS4wNzUgMS4yODgtMy41NjYuNzQ2LTMuNzI5Ljc0NiAzLjcyOSAxLjI4OCAzLjU2Ni0uMDM0LjA3NS0yLTEuMzMiIGZpbGw9IiMyMzFmMjAiLz48L2c+PHBhdGggZD0iTTE0Ny40NjkgNzEuMjI2aDcuMDY5di0uNDc4aC03LjA2OXoiIGZpbGw9IiMyMzFmMjAiLz48c3ltYm9sIGlkPSJjIj48cGF0aCBkPSJNLjE3OS40MTJoLjA5MkMuMjkuNDEyLjMuNDEyLjMuNDMuMy40NDEuMjk0LjQ0MS4yNzQuNDQxSC4xODZsLjAzNy4xNDZDLjIyNy42MDEuMjI3LjYwMy4yMjcuNjFjMCAuMDE2LS4wMTMuMDI1LS4wMjYuMDI1Qy4xOTMuNjM1LjE3LjYzMi4xNjIuNkwuMTIzLjQ0MUguMDI5Qy4wMDkuNDQxIDAgLjQ0MSAwIC40MjJjMC0uMDEuMDA3LS4wMS4wMjYtLjAxaC4wODlMLjA0OS4xNDhDLjA0MS4xMTMuMDM4LjEwMy4wMzguMDkuMDM4LjA0My4wNzEgMCAuMTI3IDBjLjEwMSAwIC4xNTUuMTQ2LjE1NS4xNTMgMCAuMDA2LS4wMDQuMDA5LS4wMS4wMDktLjAwMiAwLS4wMDYgMC0uMDA4LS4wMDRMLjI1NS4xNEMuMjM0LjA5LjE4OC4wMi4xMy4wMi4xLjAyLjA5OC4wNDUuMDk4LjA2N2MwIC4wMDEgMCAuMDIuMDAzLjAzMmwuMDc4LjMxM3oiLz48L3N5bWJvbD48dXNlIHhsaW5rOmhyZWY9IiNjIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgMjQzLjc2MyA3Mi40MTEpIiBmaWxsPSIjMjMxZjIwIi8+PHN5bWJvbCBpZD0iZCI+PHBhdGggZD0iTS4zMzQuNjUxYzAgLjAxOSAwIC4wMjQtLjAxNC4wMjQtLjAwOCAwLS4wMTEgMC0uMDE5LS4wMTJMMCAuMTk2Vi4xNjdoLjI2M1YuMDc2Qy4yNjMuMDM5LjI2MS4wMjkuMTg4LjAyOWgtLjAyVjBjLjAyMy4wMDIuMTAyLjAwMi4xMy4wMDIuMDI4IDAgLjEwOCAwIC4xMzEtLjAwMnYuMDI5aC0uMDJjLS4wNzIgMC0uMDc1LjAxLS4wNzUuMDQ3di4wOTFoLjEwMXYuMDI5SC4zMzR2LjQ1NU0uMjY4LjU3M1YuMTk2SC4wMjVsLjI0My4zNzd6Ii8+PC9zeW1ib2w+PHVzZSB4bGluazpocmVmPSIjZCIgdHJhbnNmb3JtPSJtYXRyaXgoMTEuOTU1IDAgMCAtMTEuOTU1IDExMS41OSAyMS4xNDcpIiBmaWxsPSIjMjMxZjIwIi8+PHN5bWJvbCBpZD0iZSI+PHBhdGggZD0iTS41NzggMGMuMDE0IDAgLjAzMyAwIC4wMzMuMDJTLjU5Mi4wNC41NzguMDRILjAzM0MuMDE5LjA0IDAgLjA0IDAgLjAyUy4wMTkgMCAuMDMzIDBoLjU0NXoiLz48L3N5bWJvbD48dXNlIHhsaW5rOmhyZWY9IiNlIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgNzkuMDg4IDcwLjE3MikiIGZpbGw9IiMyMzFmMjAiLz48c3ltYm9sIGlkPSJmIj48cGF0aCBkPSJNLjIzMy4zODdoLjExM0ExLjExNyAxLjExNyAwIDAxLjMwMi4xMjJDLjMwMi4xMDguMzAyIDAgLjM0MyAwYy4wMjEgMCAuMDM5LjAxOS4wMzkuMDM2IDAgLjAwNSAwIC4wMDctLjAwNy4wMjJDLjM0OC4xMjcuMzQ4LjIxMy4zNDguMjJjMCAuMDA2IDAgLjA3Ny4wMjEuMTY3aC4xMTJjLjAxMyAwIC4wNDYgMCAuMDQ2LjAzMkMuNTI3LjQ0MS41MDguNDQxLjQ5LjQ0MUguMTYxYy0uMDIzIDAtLjA1NyAwLS4xMDMtLjA0OUEuMzg4LjM4OCAwIDAxMCAuMzA0QzAgLjI5OC4wMDUuMjk2LjAxMS4yOTZjLjAwNyAwIC4wMDguMDAzLjAxMy4wMDkuMDUyLjA4Mi4xMDQuMDgyLjEyOS4wODJILjIxQy4xODguMzEyLjE2My4yMjUuMDgxLjA1LjA3My4wMzQuMDczLjAzMi4wNzMuMDI2LjA3My4wMDUuMDkxIDAgLjEgMGMuMDI5IDAgLjAzNy4wMjYuMDQ5LjA2OC4wMTYuMDUxLjAxNi4wNTMuMDI2LjA5M2wuMDU4LjIyNnoiLz48L3N5bWJvbD48dXNlIHhsaW5rOmhyZWY9IiNmIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgODguNTU3IDY4Ljk1MykiIGZpbGw9IiMyMzFmMjAiLz48c3ltYm9sIGlkPSJnIj48cGF0aCBkPSJNLjM5MS4xNjhILjM2OUMuMzY2LjE1MS4zNTguMDk2LjM0OC4wOC4zNDEuMDcxLjI4NC4wNzEuMjU0LjA3MUguMDY5Yy4wMjcuMDIzLjA4OC4wODcuMTE0LjExMS4xNTIuMTQuMjA4LjE5Mi4yMDguMjkxQy4zOTEuNTg4LjMuNjY1LjE4NC42NjVBLjE4NS4xODUgMCAwMTAgLjQ4QzAgLjQyOS4wNDQuNDI5LjA0Ny40MjljLjAyMSAwIC4wNDcuMDE1LjA0Ny4wNDdhLjA0NS4wNDUgMCAwMS0uMDQ3LjA0N0wuMDMzLjUyMkMuMDUyLjU5LjEwNi42MzYuMTcxLjYzNi4yNTYuNjM2LjMwOC41NjUuMzA4LjQ3My4zMDguMzg4LjI1OS4zMTQuMjAyLjI1TDAgLjAyNFYwaC4zNjVsLjAyNi4xNjh6Ii8+PC9zeW1ib2w+PHVzZSB4bGluazpocmVmPSIjZyIgdHJhbnNmb3JtPSJtYXRyaXgoMTEuOTU1IDAgMCAtMTEuOTU1IDg4Ljk0IDgwLjYyMikiIGZpbGw9IiMyMzFmMjAiLz48dXNlIHhsaW5rOmhyZWY9IiNlIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgNDMuMTg4IDY4LjI2NykiIGZpbGw9IiMyMzFmMjAiLz48dXNlIHhsaW5rOmhyZWY9IiNmIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgNTAuMzA2IDcxLjEzNikiIGZpbGw9IiMyMzFmMjAiLz48dXNlIHhsaW5rOmhyZWY9IiNmIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgMTgyLjg2NCA2OS43NDkpIiBmaWxsPSIjMjMxZjIwIi8+PHVzZSB4bGluazpocmVmPSIjZiIgdHJhbnNmb3JtPSJtYXRyaXgoMTEuOTU1IDAgMCAtMTEuOTU1IDE0Ny43NzkgNjkuMDA3KSIgZmlsbD0iIzIzMWYyMCIvPjx1c2UgeGxpbms6aHJlZj0iI2ciIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSAxNDguNjYyIDgwLjY3NikiIGZpbGw9IiMyMzFmMjAiLz48cGF0aCBzdHJva2Utd2lkdGg9Ii41IiBzdHJva2UtZGFzaGFycmF5PSIzLDMsMywzLDMsMywzLDMsMywzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBmaWxsPSJub25lIiBzdHJva2U9IiMyMzFmMjAiIGQ9Ik0xNTIuNTY4IDYxLjE5OVYyNi4wMjgiLz48cGF0aCBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzIzMWYyMCIgZD0iTTE1Mi42NTIgMjUuNjk1aC0zMi40NTUiLz48cGF0aCBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzIzMWYyMCIgZD0iTTExOS41IDI1LjY2N2gtMzIiLz48cGF0aCBzdHJva2Utd2lkdGg9Ii41IiBzdHJva2UtZGFzaGFycmF5PSIzLDMsMywzLDMsMywzLDMsMywzIiBmaWxsPSJub25lIiBzdHJva2U9IiMyMzFmMjAiIGQ9Ik04Ny41IDI1LjY2N3YzNS41Ii8+PC9nPjwvc3ZnPg==</file>
+<file name="23-2-5-fig-12-task-pulse.svg" path="/" encoding="base64">PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMzY0IiBoZWlnaHQ9IjkxcHQiIHZpZXdCb3g9IjAgMCAyNzMgOTEiPjxjbGlwUGF0aCBpZD0iYSI+PHBhdGggdHJhbnNmb3JtPSJtYXRyaXgoMSAwIDAgLTEgMCA5MSkiIGQ9Ik0wIDBoMjczdjkxSDB6Ii8+PC9jbGlwUGF0aD48ZyBjbGlwLXBhdGg9InVybCgjYSkiPjxzeW1ib2wgaWQ9ImIiPjxwYXRoIGQ9Ik0uMTc5LjQxMmguMDkyQy4yOS40MTIuMy40MTIuMy40My4zLjQ0MS4yOTQuNDQxLjI3NC40NDFILjE4NmwuMDM3LjE0NkMuMjI3LjYwMS4yMjcuNjAzLjIyNy42MWMwIC4wMTYtLjAxMy4wMjUtLjAyNi4wMjVDLjE5My42MzUuMTcuNjMyLjE2Mi42TC4xMjMuNDQxSC4wMjlDLjAwOS40NDEgMCAuNDQxIDAgLjQyMmMwLS4wMS4wMDctLjAxLjAyNi0uMDFoLjA4OUwuMDQ5LjE0OEMuMDQxLjExMy4wMzguMTAzLjAzOC4wOS4wMzguMDQzLjA3MSAwIC4xMjcgMGMuMTAxIDAgLjE1NS4xNDYuMTU1LjE1MyAwIC4wMDYtLjAwNC4wMDktLjAxLjAwOS0uMDAyIDAtLjAwNiAwLS4wMDgtLjAwNEwuMjU1LjE0Qy4yMzQuMDkuMTg4LjAyLjEzLjAyLjEuMDIuMDk4LjA0NS4wOTguMDY3YzAgLjAwMSAwIC4wMi4wMDMuMDMybC4wNzguMzEzeiIvPjwvc3ltYm9sPjx1c2UgeGxpbms6aHJlZj0iI2IiIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSAyNjguNzYzIDc2LjA1NykiIGZpbGw9IiMyMzFmMjAiLz48cGF0aCBzdHJva2Utd2lkdGg9Ii41IiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIGQ9Ik04OC4wMiA3OFYxMC42NzEiLz48cGF0aCBkPSJNODcuOTY2IDExLjA3OGwtMS45ODggMS4zMy0uMDQ1LS4wNzUgMS4yODgtMy41NjYuNzQ1LTMuNzI5Ljc0NiAzLjcyOUw5MCAxMi4zMzNsLS4wMzQuMDc1LTItMS4zMyIvPjxzeW1ib2wgaWQ9ImMiPjxwYXRoIGQ9Ik0uMzk1LjYwNmMuMDIgMCAuMDI4IDAgLjAyOC4wMTkgMCAuMDEtLjAwOC4wMS0uMDI2LjAxSC4zMTZjLjAxOS4xMDMuMDMzLjE3NC4wNDEuMjA2LjAwNi4wMjQuMDI3LjA0Ny4wNTMuMDQ3QS4wODUuMDg1IDAgMDAuNDYyLjg3Qy40MjMuODY2LjQxMS44MzcuNDExLjgyLjQxMS44LjQyNi43ODguNDQ1Ljc4OGMuMDIgMCAuMDUuMDE3LjA1LjA1NSAwIC4wNDItLjA0Mi4wNjUtLjA4Ni4wNjVDLjM2Ni45MDguMzI0Ljg3Ni4zMDQuODM3QS42OS42OSAwIDAxLjI1My42MzVILjE4NmMtLjAxOSAwLS4wMjkgMC0uMDI5LS4wMTggMC0uMDExLjAwNi0uMDExLjAyNi0uMDExaC4wNjRDLjIyOS41MTMuMTg4LjI4Ny4xNjUuMTguMTQ4LjA5My4xMzMuMDIuMDgzLjAyLjA4LjAyLjA1MS4wMi4wMzMuMDM5Yy4wNTEuMDA0LjA1MS4wNDguMDUxLjA0OUMuMDg0LjEwOC4wNjkuMTIuMDUuMTJBLjA1Mi4wNTIgMCAwMTAgLjA2NUMwIC4wMjIuMDQ0IDAgLjA4MyAwYy4xMDIgMCAuMTQ0LjE4My4xNTUuMjMzQy4yNTYuMzEuMzA1LjU3Ni4zMS42MDZoLjA4NXoiLz48L3N5bWJvbD48dXNlIHhsaW5rOmhyZWY9IiNjIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgOTEuNzg0IDE0LjQzOSkiIGZpbGw9IiMyMzFmMjAiLz48c3ltYm9sIGlkPSJkIj48cGF0aCBkPSJNLjIyNy4wMDhjMCAuMDAzIDAgLjAwNS0uMDE3LjAyMkMuMTEuMTMxLjA1NC4yOTYuMDU0LjVjMCAuMTk0LjA0Ny4zNjEuMTYzLjQ3OS4wMS4wMDkuMDEuMDExLjAxLjAxNCAwIC4wMDYtLjAwNS4wMDgtLjAwOS4wMDhhLjQyLjQyIDAgMDEtLjE0NC0uMTdBLjcxMy43MTMgMCAwMTAgLjVDMCAuNDExLjAxNC4yOTIuMDY2LjE4NUEuNDI2LjQyNiAwIDAxLjIxOCAwYy4wMDQgMCAuMDA5LjAwMi4wMDkuMDA4eiIvPjwvc3ltYm9sPjx1c2UgeGxpbms6aHJlZj0iI2QiIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSA5OS4zOTMgMTUpIiBmaWxsPSIjMjMxZjIwIi8+PHVzZSB4bGluazpocmVmPSIjYiIgdHJhbnNmb3JtPSJtYXRyaXgoMTEuOTU1IDAgMCAtMTEuOTU1IDEwMy4wMzcgMTIuMTIpIiBmaWxsPSIjMjMxZjIwIi8+PHN5bWJvbCBpZD0iZSI+PHBhdGggZD0iTS4yMjcuNWMwIC4wNzYtLjAxLjItLjA2Ni4zMTZhLjQyNi40MjYgMCAwMS0uMTUyLjE4NUMuMDA1IDEuMDAxIDAgLjk5OSAwIC45OTMgMCAuOTkgMCAuOTg4LjAxNy45NzEuMTE3Ljg3LjE3My43MDUuMTczLjUwMS4xNzMuMzA3LjEyNi4xNC4wMS4wMjIgMCAuMDEzIDAgLjAxMSAwIC4wMDggMCAuMDAyLjAwNSAwIC4wMDkgMGEuNDIuNDIgMCAwMS4xNDQuMTcuNzIuNzIgMCAwMS4wNzQuMzN6Ii8+PC9zeW1ib2w+PHVzZSB4bGluazpocmVmPSIjZSIgdHJhbnNmb3JtPSJtYXRyaXgoMTEuOTU1IDAgMCAtMTEuOTU1IDEwNy42NTkgMTUpIiBmaWxsPSIjMjMxZjIwIi8+PHBhdGggZD0iTTI2Mi42MTkgNjguMDA4bC0xLjU5Ni0xLjk4OC4wOS0uMDQ2IDQuMjggMS4yODggNC40NzQuNzQ2LTQuNDc0Ljc0Ni00LjI4IDEuMjg4LS4wOS0uMDM0IDEuNTk2LTIiLz48cGF0aCBzdHJva2Utd2lkdGg9Ii41IiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIGQ9Ik0wIDY4LjAwOGgyNjIuNjE5Ii8+PHN5bWJvbCBpZD0iZiI+PHBhdGggZD0iTS41NzggMGMuMDE0IDAgLjAzMyAwIC4wMzMuMDJTLjU5Mi4wNC41NzguMDRILjAzM0MuMDE5LjA0IDAgLjA0IDAgLjAyUy4wMTkgMCAuMDMzIDBoLjU0NXoiLz48L3N5bWJvbD48dXNlIHhsaW5rOmhyZWY9IiNmIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgMzkuOSA3Ni42NDYpIiBmaWxsPSIjMjMxZjIwIi8+PHN5bWJvbCBpZD0iZyI+PHBhdGggZD0iTS4zOTEuMTY4SC4zNjlDLjM2Ni4xNTEuMzU4LjA5Ni4zNDguMDguMzQxLjA3MS4yODQuMDcxLjI1NC4wNzFILjA2OWMuMDI3LjAyMy4wODguMDg3LjExNC4xMTEuMTUyLjE0LjIwOC4xOTIuMjA4LjI5MUMuMzkxLjU4OC4zLjY2NS4xODQuNjY1QS4xODUuMTg1IDAgMDEwIC40OEMwIC40MjkuMDQ0LjQyOS4wNDcuNDI5Yy4wMjEgMCAuMDQ3LjAxNS4wNDcuMDQ3YS4wNDUuMDQ1IDAgMDEtLjA0Ny4wNDdMLjAzMy41MjJDLjA1Mi41OS4xMDYuNjM2LjE3MS42MzYuMjU2LjYzNi4zMDguNTY1LjMwOC40NzMuMzA4LjM4OC4yNTkuMzE0LjIwMi4yNUwwIC4wMjRWMGguMzY1bC4wMjYuMTY4eiIvPjwvc3ltYm9sPjx1c2UgeGxpbms6aHJlZj0iI2ciIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSA0Ni4yOTEgNzkuMzk1KSIgZmlsbD0iIzIzMWYyMCIvPjx1c2UgeGxpbms6aHJlZj0iI2ciIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSAxMjIuMzUgNzguODk2KSIgZmlsbD0iIzIzMWYyMCIvPjxwYXRoIHN0cm9rZS13aWR0aD0iLjciIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMCIgZD0iTTExMi4wOTUgNDMuNzhsLS43Mi0yLjY0LS4xOC0uNjktLjE4LS42Ni0uMTgtLjcyLS4xOC0uNjktLjU0LTIuMTYtLjcyLTMtLjU0LTIuMzQtLjcyLTMuMjQtLjM2LTEuNjhNMTI5Ljk2IDY1LjhsLS4xOC4yMS0uMTguMTgtLjE4LjE4LS4zNi4zLS4zNi4zLS4xOC4xMi0uMTguMTUtLjE4LjA5LS4xOC4xMi0uMTguMDktLjE4LjA5LS4xOC4wOS0uMTguMDYtLjE4LjA5LS4xOC4wMy0uMTguMDYtLjM2LjA2LS4xOC4wMy0uMTguMDNoLS4zNmwtLjE4LS4wM2gtLjE4bC0uMTgtLjAzLS4xOC0uMDMtLjU0LS4xOC0uMTgtLjA2LS4xOC0uMDktLjE4LS4wOS0uMTgtLjA5LS4xOC0uMDktLjE4LS4xMi0uMTgtLjEyLS4xOC0uMTUtLjE4LS4xMi0uMzYtLjMtLjE4LS4xOC0uMTgtLjE1LS4xOC0uMTgtLjE4LS4yMS0uMTgtLjE4LS4xOC0uMjEtLjE4LS4yMS0uMTgtLjI0LS4xOC0uMjEtLjE4LS4yNC0uMTgtLjI3LS4xOC0uMjQtLjU0LS44MS0uNTQtLjktLjcyLTEuMzItLjcyLTEuNDQtLjU0LTEuMTctLjM2LS44NC0uMjI1LS40Mi0uMTgtLjQ1LS4xOC0uNDItLjE4LS40NS0uMTgtLjQ4LS4xOC0uNDUtLjE4LS40OC0uMTgtLjQ4LS4xOC0uNTEtLjE4LS40OC0uMTgtLjUxLS4xOC0uNTQtLjE4LS41MS0uMzYtMS4wOC0uMTgtLjU3LS4xOC0uNTQtLjE4LS41Ny0uMTgtLjYtLjE4LS41Ny0uNTQtMS44LS41NC0xLjg5bTMxLjc3LTE4LjA5bC0uMzYgMS42OC0uMTguODEtLjE4Ljg0LS4xOC44MS0uMTguNzgtLjE4LjgxLS4zNiAxLjU2LS4yMjUuNzUtLjU0IDIuMjUtLjcyIDIuODgtLjU0IDIuMDctLjE4LjY2LS4xOC42OS0uMTguNjMtLjE4LjY2LS43MiAyLjUyLS4zNiAxLjItLjE4LjU3LS4xOC42LS4xOC41Ny0uMTguNTQtLjE4LjU3LS41NCAxLjYyLS41NCAxLjUzLS4xOC40OC0uMTguNTEtLjE4LjQ4LS4xOC40NS0uMTguNDgtLjM2LjktLjE4LjQyLS4xOC40NS0uMTguMzktLjM2Ljg0LS4xOC4zOS0uMTguMzktLjE4LjM2LS4xOC4zNi0uMTguMzktLjE4LjMzLS4xOC4zNi0uMzYuNjYtLjE4LjMtLjE4LjMzLS4xOC4zLS4xOC4zLS43MiAxLjA4LS41NC43Mi0uMTguMjEtLjE4LjI0LS4xOC4yMS0uMTguMThNNzQuNTk1IDQzLjk4bC0uNzItMi42NC0uMTgtLjY5LS4xOC0uNjYtLjE4LS43Mi0uMTgtLjY5LS41NC0yLjE2LS43Mi0zLS41NC0yLjM0LS43Mi0zLjI0LS4zNi0xLjY4TTkyLjQ2IDY2bC0uMTguMjEtLjM2LjM2LS4xOC4xNS0uMzYuMy0uMTguMTUtLjE4LjEyLS4xOC4xNS0uMTguMDktLjE4LjEyLS4zNi4xOC0uMTguMDktLjE4LjA2LS4xOC4wOS0uMTguMDMtLjE4LjA2LS4xOC4wMy0uMTguMDMtLjE4LjAzLS4xOC4wM2gtLjM2bC0uMTgtLjAzaC0uMThsLS4xOC0uMDMtLjE4LS4wMy0uMTgtLjA2LS4xOC0uMDYtLjE4LS4wNi0uMTgtLjA2LS4xOC0uMDktLjU0LS4yNy0uMzYtLjI0LS4xOC0uMTUtLjE4LS4xMi0uMzYtLjMtLjE4LS4xOC0uMTgtLjE1LS4xOC0uMTgtLjE4LS4yMS0uMTgtLjE4LS4zNi0uNDItLjE4LS4yNC0uMTgtLjIxLS4xOC0uMjQtLjE4LS4yNy0uMTgtLjI0LS4zNi0uNTQtLjE4LS4yNy0uNTQtLjktLjU0LS45OS0uMTgtLjMzLS43Mi0xLjQ0LS41NC0xLjE3LS4zNi0uODQtLjIyNS0uNDItLjE4LS40NS0uMTgtLjQyLS4xOC0uNDUtLjE4LS40OC0uMTgtLjQ1LS4zNi0uOTYtLjE4LS41MS0uMTgtLjQ4LS4xOC0uNTEtLjE4LS41NC0uMTgtLjUxLS4zNi0xLjA4LS4xOC0uNTctLjE4LS41NC0uMTgtLjU3LS4xOC0uNi0uMTgtLjU3LS41NC0xLjgtLjU0LTEuODltMzEuNzctMTguMDlsLS4zNiAxLjY4LS4xOC44MS0uMTguODQtLjE4LjgxLS4xOC43OC0uMTguODEtLjM2IDEuNTYtLjIyNS43NS0uNTQgMi4yNS0uNzIgMi44OC0uNTQgMi4wNy0uMTguNjYtLjE4LjY5LS4xOC42My0uMTguNjYtLjcyIDIuNTItLjM2IDEuMi0uMTguNTctLjE4LjYtLjE4LjU3LS4xOC41NC0uMTguNTctLjU0IDEuNjItLjU0IDEuNTMtLjE4LjQ4LS4xOC41MS0uMTguNDgtLjE4LjQ1LS4xOC40OC0uMzYuOS0uMTguNDItLjE4LjQ1LS4xOC4zOS0uMzYuODQtLjM2Ljc4LS4zNi43Mi0uMTguMzktLjE4LjMzLS4xOC4zNi0uMzYuNjYtLjE4LjMtLjE4LjMzLS4zNi42LS43MiAxLjA4LS41NC43Mi0uMTguMjEtLjE4LjI0LS4xOC4yMS0uMTguMThNMzcuMzM2IDQzLjI5bC0uNzItMi42NC0uMTgtLjY5LS4xOC0uNjYtLjE4LS43Mi0uMTgtLjY5LS41NC0yLjE2LS43Mi0zLS41NC0yLjM0LS4xODEtLjgxLS41NC0yLjQzLS4zNi0xLjY4bTIyLjE4NiAzOS44NGwtLjE4LjIxLS4zNi4zNi0uMTguMTUtLjE4LjE1LS4zNi4zLS4xOC4xMi0uMTguMTUtLjE4LjA5LS4xOC4xMi0uMTguMDktLjE4LjA5LS4xOC4wOS0uMTguMDYtLjE4LjA5LS4xOC4wMy0uMTguMDYtLjE4LjAzLS4xOC4wMy0uMTguMDMtLjE4LjAzaC0uMzZsLS4xOC0uMDNoLS4xOGwtLjE4LS4wMy0uMTgtLjAzLS4xOC0uMDYtLjU0LS4xOC0uMzYtLjE4LS4xOC0uMDktLjE4LS4wOS0uMzYtLjI0LS4xOC0uMTUtLjE4LS4xMi0uMzYtLjMtLjE4LS4xOC0uMTgtLjE1LS4xOC0uMTgtLjE4LS4yMS0uMTgtLjE4LS4zNi0uNDItLjE4LS4yNC0uMTgtLjIxLS4xODEtLjI0LS4xOC0uMjctLjE4LS4yNC0uNTQtLjgxLS41NC0uOS0uNzItMS4zMi0uNzItMS40NC0uNTQtMS4xNy0uMzYtLjg0LS4yMjUtLjQyLS4xOC0uNDUtLjE4LS40Mi0uMTgtLjQ1LS4xOC0uNDgtLjE4LS40NS0uMzYtLjk2LS4xOC0uNTEtLjE4LS40OC0uMTgtLjUxLS4xOC0uNTQtLjE4LS41MS0uMzYtMS4wOC0uMTgtLjU3LS4xOC0uNTQtLjE4LS41Ny0uMTgtLjYtLjE4LS41Ny0uNTQtMS44LS41NC0xLjg5TTY5LjEwNiAyNS4ybC0uMzYgMS42OC0uMTguODEtLjE4Ljg0LS4xOC44MS0uMTguNzgtLjE4LjgxLS4zNiAxLjU2LS4yMjUuNzUtLjU0IDIuMjUtLjcyIDIuODgtLjU0IDIuMDctLjE4LjY2LS4xOC42OS0uMTguNjMtLjE4LjY2LS43MiAyLjUyLS4zNiAxLjItLjE4LjU3LS4xODEuNi0uMTguNTctLjE3OS41NC0uMTguNTctLjU0MSAxLjYyLS41MzkgMS41My0uMTguNDgtLjE4MS41MS0uMTc5LjQ4LS4xOC40NS0uMTguNDgtLjM2MS45LS4xNzkuNDItLjE4LjQ1LS4xOC4zOS0uMzYxLjg0LS4zNTkuNzgtLjM2LjcyLS4xOC4zOS0uMTguMzMtLjE4LjM2LS4zNi42Ni0uMTgxLjMtLjE3OS4zMy0uMTguMy0uMTgxLjMtLjcyIDEuMDgtLjU0LjcyLS4xOC4yMS0uMTguMjQtLjE4LjIxLS4xOC4xOE0zMi4xIDI2LjE3bC0uMzYgMS42OC0uMTguODEtLjE4Ljg0LS4xOC44MS0uMTguNzgtLjE4LjgxLS4zNiAxLjU2LS4yMjUuNzUtLjU0IDIuMjUtLjcyIDIuODgtLjU0IDIuMDctLjE4LjY2LS4xOC42OS0uMTguNjMtLjE4LjY2LS43MiAyLjUyLS4zNiAxLjItLjE4LjU3LS4xOC42LS4xOC41Ny0uMTguNTQtLjE4LjU3LS41NCAxLjYyLS41NCAxLjUzLS4xOC40OC0uMTguNTEtLjE4LjQ4LS4xOC40NS0uMTguNDgtLjM2LjktLjE4LjQyLS4xOC40NS0uMTguMzktLjM2Ljg0LS4zNi43OC0uMzYuNzItLjE4LjM5LS4xOC4zMy0uMTguMzYtLjM2LjY2LS4xOC4zLS4xOC4zMy0uMzYuNi0uMTguMjctLjE4LjI3LS4xOC4yNy0uMTguMjctLjE4LjI0LS4xOC4yNC0uMTguMjQtLjE4LjIxLS4xOC4yNC0uMTguMjEtLjE4LjE4TTE0OS4xOSA0My4zMWwtLjcyLTIuNjQtLjE4LS42OS0uMTgtLjY2LS4xOC0uNzItLjE4LS42OS0uNTQtMi4xNi0uNzItMy0uNTQtMi4zNC0uNzItMy4yNC0uMzYtMS42OG0yMi4xODUgMzkuODRsLS4xOC4yMS0uMzYuMzYtLjcyLjYtLjE4LjEyLS4xOC4xNS0uMTguMDktLjE4LjEyLS41NC4yNy0uMTguMDYtLjE4LjA5LS4xOC4wMy0uMTguMDYtLjE4LjAzLS41NC4wOWgtLjM2bC0uMTgtLjAzaC0uMThsLS4xOC0uMDMtLjE4LS4wMy0uMTgtLjA2LS4xOC0uMDYtLjE4LS4wNi0uMTgtLjA2LS4xOC0uMDktLjM2LS4xOC0uMTgtLjA5LS4xOC0uMTItLjE4LS4xMi0uMTgtLjE1LS4xOC0uMTItLjM2LS4zLS4xOC0uMTgtLjE4LS4xNS0uMTgtLjE4LS4xOC0uMjEtLjE4LS4xOC0uMTgtLjIxLS4xOC0uMjEtLjE4LS4yNC0uMTgtLjIxLS4xOC0uMjQtLjE4LS4yNy0uMTgtLjI0LS4zNi0uNTQtLjE4LS4yNy0uMTgtLjMtLjE4LS4zLS4xOC0uMy0uNzItMS4zMi0uNzItMS40NC0uNTQtMS4xNy0uMzYtLjg0LS4yMjUtLjQyLS4xOC0uNDUtLjE4LS40Mi0uMTgtLjQ1LS4xOC0uNDgtLjE4LS40NS0uMzYtLjk2LS4xOC0uNTEtLjE4LS40OC0uMTgtLjUxLS4xOC0uNTQtLjE4LS41MS0uMzYtMS4wOC0uMTgtLjU3LS4xOC0uNTQtLjE4LS41Ny0uMTgtLjYtLjE4LS41Ny0uNTQtMS44LS41NDEtMS44OSIvPjxwYXRoIHN0cm9rZS13aWR0aD0iLjciIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMCIgZD0iTTE4MC45NiAyNS4yMmwtLjM2IDEuNjgtLjE4LjgxLS4xOC44NC0uMTguODEtLjE4Ljc4LS4xOC44MS0uMzYgMS41Ni0uMjI1Ljc1LS41NCAyLjI1LS43MiAyLjg4LS41NCAyLjA3LS4xOC42Ni0uMTguNjktLjE4LjYzLS4xOC42Ni0uNzIgMi41Mi0uMzYgMS4yLS4xOC41Ny0uMTguNi0uMTguNTctLjE4LjU0LS4xOC41Ny0uMzYgMS4wOC0uMTguNTQtLjU0IDEuNTMtLjE4LjQ4LS4xOC41MS0uMTguNDgtLjE4LjQ1LS4xOC40OC0uMzYuOS0uMTguNDItLjE4LjQ1LS4xOC4zOS0uMzYuODQtLjM2Ljc4LS4zNi43Mi0uMTguMzktLjE4LjMzLS4xOC4zNi0uMzYuNjYtLjE4LjMtLjE4LjMzLS4zNi42LS4xOC4yNy0uMTguMjctLjE4LjI3LS4xOC4yNy0uMTguMjQtLjE4LjI0LS4xOC4yNC0uMTguMjEtLjE4LjI0LS4xOC4yMS0uMTguMThtMTguOTc1LTIxLjdsLS43Mi0yLjY0LS4xOC0uNjktLjE4LS42Ni0uMTgtLjcyLS4xOC0uNjktLjU0LTIuMTYtLjcyLTMtLjU0LTIuMzQtLjcyLTMuMjQtLjM2LTEuNjhtMjIuMTg1IDM5Ljg0bC0uMTguMjEtLjE4LjE4LS4xOC4xOC0uNTQuNDUtLjE4LjE1LS4xOC4xMi0uMTguMTUtLjE4LjA5LS4xOC4xMi0uMzYuMTgtLjE4LjA5LS4xOC4wNi0uMTguMDktLjE4LjAzLS4xOC4wNi0uMTguMDMtLjE4LjAzLS4xOC4wMy0uMTguMDNoLS4zNmwtLjE4LS4wM2gtLjE4bC0uMTgtLjAzLS4xOC0uMDMtLjcyLS4yNC0uNzItLjM2LS4xOC0uMTItLjE4LS4xMi0uMTgtLjE1LS4xOC0uMTItLjM2LS4zLS4xOC0uMTgtLjE4LS4xNS0uMTgtLjE4LS4xOC0uMjEtLjE4LS4xOC0uMzYtLjQyLS4xOC0uMjQtLjE4LS4yMS0uMTgtLjI0LS4xOC0uMjctLjE4LS4yNC0uNTQtLjgxLS41NC0uOS0uNzItMS4zMi0uNzItMS40NC0uNTQtMS4xNy0uMzYtLjg0LS4yMjUtLjQyLS4xOC0uNDUtLjE4LS40Mi0uMTgtLjQ1LS4xOC0uNDgtLjE4LS40NS0uMzYtLjk2LS4xOC0uNTEtLjE4LS40OC0uMTgtLjUxLS4xOC0uNTQtLjE4LS41MS0uMzYxLTEuMDgtLjE4LS41Ny0uMTc5LS41NC0uMTgxLS41Ny0uMTgtLjYtLjE4LS41Ny0uNTQtMS44LS41NC0xLjg5TTIxNy44IDI1LjU0bC0uMzYgMS42OC0uMTguODEtLjE4Ljg0LS4xOC44MS0uMTguNzgtLjE4LjgxLS4zNiAxLjU2LS4yMjUuNzUtLjU0IDIuMjUtLjcyIDIuODgtLjU0IDIuMDctLjE4LjY2LS4xOC42OS0uMTguNjMtLjE4LjY2LS43MiAyLjUyLS4zNiAxLjItLjE4LjU3LS4xOC42LS4xOC41Ny0uMTguNTQtLjE4LjU3LS41NCAxLjYyLS41NCAxLjUzLS4xOC40OC0uMTguNTEtLjE4LjQ4LS4xOC40NS0uMTguNDgtLjM2LjktLjE4LjQyLS4xOC40NS0uMTguMzktLjE4LjQyLS4xOC40Mi0uMzYuNzgtLjM2LjcyLS4xOC4zOS0uMTguMzMtLjE4LjM2LS4zNi42Ni0uMTguMy0uMTguMzMtLjE4LjMtLjE4LjMtLjcyIDEuMDgtLjU0LjcyLS4xOC4yMS0uMTguMjQtLjE4LjIxLS4xOC4xOG0xNy44NC0yMi4wMTNsLS43Mi0yLjY0LS4xOC0uNjktLjE4LS42Ni0uMTgtLjcyLS4xOC0uNjktLjU0LTIuMTYtLjcyLTMtLjE4LS43OC0uMzYtMS41NjEtLjcyLTMuMjQtLjM2LTEuNjhNMjM5LjYgNjUuNjU3bC0uMTguMjEtLjM2LjM2LS4zNi4zLS4xOC4xNS0uMTguMTUtLjE4LjEyLS4xOC4xNS0uMTguMDktLjE4LjEyLS4xOC4wOS0uMTguMDktLjE4LjA5LS4xOC4wNi0uMTguMDktLjE4LjAzLS4xOC4wNi0uMTguMDMtLjE4LjAzLS4xOC4wMy0uMTguMDNoLS4zNmwtLjE4LS4wM2gtLjE4bC0uMTgtLjAzLS4xOC0uMDMtLjU0LS4xOC0uMTgtLjA2LS4xOC0uMDktLjE4LS4wOS0uMTgtLjA5LS4xOC0uMDktLjE4LS4xMi0uMTgtLjEyLS4xOC0uMTUtLjE4LS4xMi0uMzYtLjMtLjE4LS4xOC0uMTgtLjE1LS4xOC0uMTgtLjE4LS4yMS0uMTgtLjE4LS4zNi0uNDItLjE4LS4yNC0uMTgtLjIxLS4xOC0uMjQtLjE4LS4yNy0uMTgtLjI0LS41NC0uODEtLjU0LS45LS43Mi0xLjMyLS43Mi0xLjQ0LS41NC0xLjE3LS4zNi0uODQtLjIyNS0uNDItLjE4LS40NS0uMTgtLjQyLS4xOC0uNDUtLjE4LS40OC0uMTgtLjQ1LS4zNi0uOTYtLjE4LS41MS0uMTgtLjQ4LS4xOC0uNTEtLjE4LS41NC0uMTgtLjUxLS4zNi0xLjA4LS4xOC0uNTctLjE4LS41NC0uMTgtLjU3LS4xOC0uNi0uMTgtLjU3LS41NC0xLjgtLjU0LTEuODkiLz48cGF0aCBzdHJva2Utd2lkdGg9Ii43IiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIGQ9Ik0yNTMuNTA1IDI1LjU0NmwtLjM2IDEuNjgtLjE4LjgxLS4xOC44NC0uMTguODEtLjE4Ljc4MS0uMTguODEtLjM2IDEuNTYtLjIyNS43NS0uNTQgMi4yNS0uNzIgMi44OC0uNTQgMi4wNy0uMTguNjYtLjE4LjY5LS4xOC42My0uMTguNjYtLjcyIDIuNTItLjM2IDEuMi0uMTguNTctLjE4LjYtLjE4LjU3LS4xOC41NC0uMTguNTctLjU0IDEuNjItLjU0IDEuNTMtLjE4LjQ4LS4xOC41MS0uMTguNDgtLjE4LjQ1LS4xOC40OC0uMzYuOS0uMTguNDItLjE4LjQ1LS4xOC4zOS0uMzYuODQtLjM2Ljc4LS4zNi43Mi0uMTguMzktLjE4LjMzLS4xOC4zNi0uMzYuNjYtLjE4LjMtLjE4LjMzLS4xOC4zLS4xOC4zLS43MiAxLjA4LS41NC43Mi0uMTguMjEtLjE4LjI0LS4xOC4yMS0uMTguMTgiLz48cGF0aCBzdHJva2Utd2lkdGg9Ii41IiBzdHJva2UtZGFzaGFycmF5PSIzLDMsMywzLDMsMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwIiBkPSJNNjkuNzI2IDY3LjgxMXYtMzkuOU0xMDcgNjYuOTV2LTM5LjkiLz48c3ltYm9sIGlkPSJoIj48cGF0aCBkPSJNLjE5Ny42NDFjMCAuMDIzIDAgLjAyNC0uMDIuMDI0Qy4xNTMuNjM4LjEwMy42MDEgMCAuNjAxVi41NzJjLjAyMyAwIC4wNzMgMCAuMTI4LjAyNlYuMDc3Qy4xMjguMDQxLjEyNS4wMjkuMDM3LjAyOUguMDA2VjBDLjAzMy4wMDIuMTMuMDAyLjE2My4wMDJTLjI5Mi4wMDIuMzE5IDB2LjAyOUguMjg4Qy4yLjAyOS4xOTcuMDQxLjE5Ny4wNzd2LjU2NHoiLz48L3N5bWJvbD48dXNlIHhsaW5rOmhyZWY9IiNoIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgMTA2LjA4OCA4MCkiIGZpbGw9IiMyMzFmMjAiLz48dXNlIHhsaW5rOmhyZWY9IiNmIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgNjMuMDM3IDc2LjI1KSIgZmlsbD0iIzIzMWYyMCIvPjx1c2UgeGxpbms6aHJlZj0iI2giIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSA3MC4wODggNzkpIiBmaWxsPSIjMjMxZjIwIi8+PC9nPjwvc3ZnPg==</file>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[Since \(T = 2l = 2\) and since the function has a non-zero average value, the form of the Fourier series is
+\[ \dfrac{a_0}{2} + \sum_{n=1}^\infty \left\{ a_n \cos (n\pi t) + b_n \sin (n\pi t) \right\} \]
+Because the function is non-negative there will be a constant term. Since \(T = 2l = 2\) then \(l = 1\) and we have
+\[
+\begin{align}
+a_n &amp;= \displaystyle{ \int _{-1}^1 }t^2 \cos (n\pi t) \hspace{0.15cm}dt \hspace{1cm} n = 0, 1, 2, \dots \\
+b_n &amp;= \displaystyle{ \int _{-1}^1 }t^2 \sin (n\pi t) \hspace{0.15cm}dt  \hspace{1cm} n =  1, 2, \dots
+\end{align}
+\]
+The constant term will be \(\dfrac{a_0}{2}\) where \( a_0 = \displaystyle{ \int_{-1}^1} t^2 \hspace{0.15cm}dt \).
+<p></p>
+The integral for \(b_n\) is zero for all \(n\) because the integrand is an odd function of \(t\). Since the integrand is even in the integrals for \(a_n\) we can write
+\[a_n = 2 \displaystyle{ \int _{0}^1 }t^2 \cos (n\pi t) \hspace{0.15cm}dt \hspace{1cm} n = 0, 1, 2, \dots\]
+The constant term will be \( \dfrac{a_0}{2}\) where  \(a_0 = 2 \displaystyle{ \int_{0}^1} t^2 \hspace{0.15cm}dt = \dfrac{2}{3} \).
+For \(n = 1, 2, 3, \dots , \) we must integrate by parts (twice):
+\[
+\begin{align}
+a_n &amp;= 2 \left\{ \left[ \dfrac{t^2}{n\pi}\sin(n\pi t) \right] _0^1 - \dfrac{2}{n\pi} \displaystyle{\int_0^1}t\sin(n\pi t) \hspace{0.15cm}dt \right\} \\
+&amp;= -\dfrac{4}{n\pi}  \left\{ \left[ - \dfrac{t}{n\pi}\cos(n\pi t) \right] _0^1 + \dfrac{1}{n\pi} \displaystyle{\int_0^1}\cos(n\pi t) \hspace{0.15cm}dt \right\} 
+\end{align}
+\]
+The integral in the second term gives zero so \( a_n = \dfrac{4}{n^2\pi^2} \cos n\pi \).
+<p></p>
+Now writing out the final form of the Fourier series we have
+\[ 
+\begin{align}
+f(t) &amp;= \dfrac{1}{3} + \displaystyle{ \sum_{n=1}^\infty} \dfrac{4 \cos n\pi \cos(n\pi t)}{n^2\pi^2} \\
+&amp;= \dfrac{1}{3} + \dfrac{4}{\pi^2} \left\{ -\cos(\pi t) + \dfrac{1}{4} \cos(2\pi t) - \dfrac{1}{9} \cos(3\pi t) + \dots \right\}
+\end{align}
+\]]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021120900</text>
+    </stackversion>
+    <questionvariables>
+      <text>ta1:1/3;
+ta2:4*cos(n*pi)*cos(n*pi*t)/(n^2*pi^2);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text/>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>numerical</type>
+      <tans>ta1</tans>
+      <boxsize>3</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>ta2</tans>
+      <boxsize>30</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1+1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2+1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

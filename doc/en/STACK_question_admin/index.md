@@ -46,7 +46,7 @@ The dependency checker is available from the question setting page or from the "
 
     [...]/question/type/stack/adminui/index.php
 
-See also the notes on [local usageAdvanced_reporting.mdmd) of STACK questions on your server.
+See also the notes on [advanced reporting](Advanced_reporting.md) of STACK questions on your server.
 
 ## Bulk change of the default settings
 

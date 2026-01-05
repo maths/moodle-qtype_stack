@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>17.2.3.13 Polar curve creation</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>Let \(x=-d\) be the directrix for the 2 below conics, and \(e\) be their eccentricity. Drag the sliders on the graphs below to create the following curves (Note that the red dashed line is \(x=-d\)): </p>
+
+<p>\(r = \dfrac{{@dd3*ee3*multiple@}}{{@multiple@}-{@ee3*multiple*cos(theta)@}}\)</p>
+[[jsxgraph input-ref-ans3='ans3Ref']]
+var board = JXG.JSXGraph.initBoard(divid, {
+            boundingbox: [-8, 8, 8, -8],
+            keepaspectratio: true,
+            showCopyright: false,
+            axis: true,
+            showNavigation: true,
+        });
+		
+		JXG.Options.text.useMathHax = true;
+		
+		var e_third= board.create('slider',[[1, -3], [5, -3], [0.25, {#init_e#}, 2]], {name:'e', snapwidth: 0.25});
+		var de_third= board.create('slider',[[1, -4], [5, -4], [-4, {#init_d#}, 4]], {name:'d*e', snapwidth: 0.25});
+
+var p1 = board.create('point', [
+    function() { return -de_third.Value()/e_third.Value(); },
+    -10
+], {visible: false});
+
+var p2 = board.create('point', [
+    function() { return -de_third.Value()/e_third.Value(); },
+    10
+], {visible: false});
+
+var direct= board.create('line', [p1, p2], {
+    straightFirst: false,
+    straightLast: false,
+    strokeColor: 'red',
+    dash: 2,
+    name: 'direct',
+    fixed: true,
+});
+	
+			
+		var curve = board.create('curve', [ function (theta) { return de_third.Value() / (1 - e_third.Value() * Math.cos(theta)); },
+    [0, 0], 0, 2 * Math.PI],
+    {curveType: 'polar',
+    strokewidth: 2,
+    strokeColor: 'blue'});
+
+e_third.on('drag', function () { curve.updateCurve(); board.update(); });
+de_third.on('drag', function () { curve.updateCurve(); board.update(); });
+
+stack_jxg.bind_list_of(ans3Ref, [e_third, de_third]);
+
+[[/jsxgraph]]
+[[feedback:prt3]]
+</li>
+</ol>
+
+<p style="display:none">[[input:ans3]] [[validation:ans3]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025073100</text>
+    </stackversion>
+    <questionvariables>
+      <text>rand2: (rand(8)+1)/2;
+ee3: (rand(4)+1)/4;
+dd3:rand_with_prohib(-2, 2, [0])
+multiple: rand(4)+1;
+init_a: rand_with_prohib(-1, 2, [0])/2 + 1;
+init_b: rand_with_prohib(-8, 8, [-2, 0])/2 + 1;
+init_c: rand_with_prohib(0, 8, [rand2*2])/2;
+init_d: rand_with_prohib(-4, 4, [0, dd3]);
+init_e: rand_with_prohib(0, 8, [ee3])/8;
+
+ta1:[1, 1];
+ta2: rand2;
+ta3:[ee3, dd3*ee3];</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="html">
+      <text>\(r = \dfrac{{@dd3*ee3*multiple@}}{{@multiple@}-{@ee3*multiple*cos(theta)@}}, \quad [e, de] = {@ta3@}\)</text>
+    </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>onum</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans3</name>
+      <type>algebraic</type>
+      <tans>ta3</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumRelative</answertest>
+        <sans>ans3</sans>
+        <tans>ta3</tans>
+        <testoptions>0.02</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Incorrect graph, below is the correct graph with \(de = {@dd3@}\) and \(e={@ee3@}\):</p>
+[[jsxgraph]]
+var board = JXG.JSXGraph.initBoard(divid, {
+            boundingbox: [-8, 8, 8, -8],
+            keepaspectratio: true,
+            showCopyright: false,
+            axis: true,
+            showNavigation: true,
+        });
+		
+		JXG.Options.text.useMathHax = true;
+			
+		var curve = board.create('curve', [ function (theta) { return {#dd3#} / (1 - {#ee3#} * Math.cos(theta)); },
+    [0, 0], 0, 2 * Math.PI],
+    {curveType: 'polar',
+    strokewidth: 2,
+    strokeColor: 'blue'});
+
+[[/jsxgraph]]]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>326937320</deployedseed>
+    <deployedseed>1296161104</deployedseed>
+    <deployedseed>1834955740</deployedseed>
+    <deployedseed>619869952</deployedseed>
+    <deployedseed>1268974929</deployedseed>
+    <deployedseed>2002792616</deployedseed>
+    <deployedseed>1209911712</deployedseed>
+    <deployedseed>1868864703</deployedseed>
+    <deployedseed>2046969679</deployedseed>
+    <deployedseed>1828168448</deployedseed>
+    <deployedseed>1432774246</deployedseed>
+    <deployedseed>609953356</deployedseed>
+    <deployedseed>411063575</deployedseed>
+    <deployedseed>484889348</deployedseed>
+    <deployedseed>656795013</deployedseed>
+    <deployedseed>1830694423</deployedseed>
+    <deployedseed>1631792502</deployedseed>
+    <deployedseed>606193942</deployedseed>
+    <deployedseed>419585363</deployedseed>
+    <deployedseed>722595589</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans3</name>
+        <value>ta3</value>
+      </testinput>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans3</name>
+        <value>ev(ta3+1,simp)</value>
+      </testinput>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt3-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

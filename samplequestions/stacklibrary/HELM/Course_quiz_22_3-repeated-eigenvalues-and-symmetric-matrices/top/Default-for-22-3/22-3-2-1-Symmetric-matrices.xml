@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>22.3.2.1 Symmetric matrices</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3><span style="color: inherit; font-family: inherit;">Symmetric matrices</span></h3>
+<p>Symmetric matrices have a number of useful properties which we will investigate in this Section.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

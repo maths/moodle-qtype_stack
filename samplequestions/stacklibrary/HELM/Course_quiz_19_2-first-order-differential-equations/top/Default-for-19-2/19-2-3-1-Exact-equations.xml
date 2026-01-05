@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>19.2.3.1 Exact equations</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Exact equations</h4>
+<p>Consider the differential equation \[\dfrac{\mathrm{d}y}{\mathrm{d}x}=3x^2.\] By direct integration we find that the general solution of this equation is \[y=x^3+C, \] where <span class="math inline">\(C\)</span> is, as usual, an arbitrary constant of integration.</p>
+<p>Next, consider the differential equation \[\dfrac{\mathrm{d}}{\mathrm{d}x}(yx)=3x^2.\] Again, by direct integration we find that the general solution is \[yx=x^3+C.\]</p>
+<p>We now divide this equation by <span class="math inline">\(x\)</span> to obtain \[y=x^2+\dfrac{C}{x}. \] The differential equation \[\dfrac{\mathrm{d}}{\mathrm{d}x}(yx)=3x^2\] is called an <strong>exact equation</strong>. It can effectively be solved by integrating both sides.</p>
+<p>If we consider examples of this kind in a more general setting we obtain the following Key Point:</p>
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p>The solution of the equation \[\dfrac{\mathrm{d}}{\mathrm{d}x}(f(x)\cdot y)=g(x)
+\] is \[f(x)\cdot y=\int g(x)\, \mathrm{d}x \quad \text{or}\quad y=\dfrac{1}{f(x)}\int g(x) \, \mathrm{d}x.
+\] </p>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

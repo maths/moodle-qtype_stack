@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>19.2.5.1 Recognising an exact equation</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Recognising an exact equation</h4>
+<p>The equation \(\dfrac{\mathrm{d}}{\mathrm{d}x}(yx)=3x^2\) is exact, as we have seen. If we expand the left-hand side of this equation (i.e. differentiate the product) we obtain
+\[ x \dfrac{\mathrm{d}y}{\mathrm{d}x}+y.\]
+Hence the equation \[ x \dfrac{\mathrm{d}y}{\mathrm{d}x}+y=3x^2\] must be exact, but it is not so obvious that it is exact as in the original form. This leads to the following Key
+Point:</p>
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p>The equation
+\[ f(x){\mathrm{d}y\over \mathrm{d}x}+y\ f'(x)=g(x)\] is exact.  It can be re-written as
+\[\dfrac{\mathrm{d}}{\mathrm{d}x}(y\, f(x))=g(x) \quad\text{so that}\quad  y\, f(x)=\int g(x)\, \mathrm{d}x .\]</p>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>7.4.2.2 Key point ─ The inverse of a 2 x 2 matrix</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>You will see that, had we chosen</p>
+\[C = \frac{1}{ad - bc} \begin{bmatrix}d & -b \\ -c & a\end{bmatrix}\]
+<p>instead of \(B\), then both products \(AC\) and \(CA\) will be equal to \(I\). This requires \(ad - bc \neq 0\). Hence this matrix \(C\) is the inverse of \(A\). However, if \(ad - bc = 0\) then \(A\) has <b>no inverse</b>.</p>
+<p>Note that for the matrix</p>
+\[A = \begin{bmatrix}1 & 0 \\ 2 & 0\end{bmatrix},\]
+<p>which occurred in the last question, \(ad - bc = 1 \times 0 - 0 \times 2 = 0\), confirming as we found that \(A\) has no inverse.</p>
+
+<div class="HELM_keypoint">
+<h4>Key Point<br></h4>
+<p>If \(ad-bc\neq 0\) then the \(2\times 2\) matrix \(A=\left[\begin{array}{cc}a&amp;b\\ c&amp;d\end{array}\right]\) has a (unique) inverse given by</p>
+\[A^{-1}=\frac{1}{ad-bc}\left[\begin{array}{cc}d&amp; -b\\ -c &amp; a \end{array}\right]\]
+<p>Note that \(ad-bc=|A|\), the determinant of the matrix \(A\).</p>
+<p>In words: To find the inverse of a \(2\times 2\) matrix \(A\) we interchange the diagonal elements, change the sign of the other two elements, and then divide by the determinant of \(A\).
+</p>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

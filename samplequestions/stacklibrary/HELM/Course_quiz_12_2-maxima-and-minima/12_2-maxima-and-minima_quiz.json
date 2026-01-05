@@ -1,0 +1,140 @@
+{
+    "quiz": {
+        "name": "12_2 Maxima and Minima",
+        "intro": "<p>In this Section we analyse curves in the \u2018local neighbourhood\u2019 of a stationary point and, from this analysis, deduce necessary conditions satisfied by local maxima and local minima. Locating the maxima and minima of a function is an important task which arises often in applications of mathematics to problems in engineering and science. It is a task which can often be carried out using only a knowledge of the derivatives of the function concerned. The problem breaks into two parts<\/p> <ul> <li> finding the stationary points of the given functions <\/li> <li> distinguishing whether these stationary points are maxima, minima or, exceptionally, points of inflection. <\/li> <\/ul> <p>This Section ends with maximum and minimum problems from engineering contexts.<\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Maxima and Minima",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "3",
+            "heading": "Distinguishing Between Local Maxima and Minima",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "9",
+            "heading": "Engineering Examples",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "13",
+            "heading": "Exercises",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-12-2\/12-2-1-1-Maxima-and-Minima.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-12-2\/12-2-1-2-stationary-points.xml"
+        },
+        {
+            "slot": "3",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-12-2\/12-2-2-1-Distinguishing-between-local-maxima-and-minima.xml"
+        },
+        {
+            "slot": "4",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-12-2\/12-2-2-2-local-minima-distinguishing.xml"
+        },
+        {
+            "slot": "5",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-12-2\/12-2-2-3-Determine-local-minima-and-maxima.xml"
+        },
+        {
+            "slot": "6",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-12-2\/12-2-2-4-point-of-inflection.xml"
+        },
+        {
+            "slot": "7",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-12-2\/12-2-2-5-maximum-cross-sectional-area.xml"
+        },
+        {
+            "slot": "8",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-12-2\/12-2-2-6-electrical-circuit.xml"
+        },
+        {
+            "slot": "9",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-12-2\/12-2-3-1-water-wheel-example.xml"
+        },
+        {
+            "slot": "10",
+            "page": "7",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-12-2\/12-2-3-2-refraction-example.xml"
+        },
+        {
+            "slot": "11",
+            "page": "8",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-12-2\/12-2-3-3-fluid-power-transmission-example.xml"
+        },
+        {
+            "slot": "12",
+            "page": "9",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-12-2\/12-2-3-4-Crank-used-to-drive-a-piston-example.xml"
+        },
+        {
+            "slot": "13",
+            "page": "10",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-12-2\/12-2-4-1-locating-and-classifying-stationary-points.xml"
+        },
+        {
+            "slot": "14",
+            "page": "10",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-12-2\/12-2-4-2-maximum-temperature.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

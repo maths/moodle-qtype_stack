@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>37.1.1.7 Combinations</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>A <span><strong>combination</strong></span> of objects takes <span><strong>no account of order</strong></span> whereas a permutation does. The formula <span class="math inline">\(^nP_r=\dfrac{n!}{(n-r)!}\)</span> gives us the number of ordered sets of <span class="math inline">\(r\)</span> objects chosen from <span class="math inline">\(n\)</span>. Suppose the number of sets of <span class="math inline">\(r\)</span> objects (taken from <span class="math inline">\(n\)</span> objects) in which order is not taken into account is <span class="math inline">\(C\)</span>. It follows that
+<br>\(\qquad C\times r!=\dfrac{n!}{(n-r)!}\)<br>
+and so <span class="math inline">\(C\)</span> is given by the formula <br>\(\qquad C=\dfrac{n!}{r!(n-r)!}\)<br>
+We normally denote the right-hand side of this expression by <span class="math inline">\(^nC_r\)</span> so that 
+<br><span class="math inline">\(\qquad ^nC_r=\dfrac{n!}{r!(n-r)!}\)</span><br>A common alternative notation for <span class="math inline">\(^nC_r\)</span> is <span class="math inline">\(\left(\begin{matrix}n\\r\end{matrix}\right)\)</span>.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

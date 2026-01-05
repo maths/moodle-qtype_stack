@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>27.4.4.3 Volume Between Surfaces</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>Using cylindrical polar coordinates, integrate the function \(f = z\left(x^2+y^2\right)^{@cc@}\) over the volume between the surfaces \(z=0\) and \(z={@aa + bb*(x^2 + y^2)@}\) for \(0 \le x^2 + y^2 \le {@dd^2@}\). Remember cylindrical polar coordinates are given by the transformation \(x=r\cos\theta \, \), \(y=r\sin\theta \, \), \(z=z.\)</p>
+<ol class="HELM_parts">
+<li> <p>First find the Jacobian \(J(r,\theta,z)\) for this transformation. </p>
+<p> \(J = \) [[input:ans1]] [[validation:ans1]] [[feedback:prt1]] </p></li>
+
+<li><p> Now evaluate the integral over the volume between the given surfaces</p>
+<p> \( I = \) [[input:ans2]] [[validation:ans2]] </p>
+<p> [Note: leave your answer in terms of \(\pi\) which can be entered as <code>pi</code>]</p>
+<p> [[feedback:prt2]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p> We are asked to  integrate the function \(f = z\left(x^2+y^2\right)^{@cc@}\) over the volume between the surfaces \(z=0\) and \(z={@aa + bb*(x^2 + y^2)@}\) for \(0 \le x^2 + y^2 \le {@dd^2@}\) using cylindrical polar coordinates.</p>
+
+
+<p> (a) We are first asked to find the Jacobian \(J(r,\theta,z)\) for this transformation. </p>
+<p> Using cylindrical polar coordinates means we have </p>
+<p> \(\qquad \displaystyle x = r\cos \theta, \quad y = r\sin \theta, \quad \text{and} \quad z=z\) </p>
+<p>Evaluating the partial derivatives, 
+<p>\( \dfrac{\partial x}{\partial r}= \cos \theta, \qquad \dfrac{\partial x}{\partial \theta}= -r \sin \theta, \qquad\dfrac{\partial x}{\partial z}= 0\)</p>
+<p>\( \dfrac{\partial y}{\partial r}= \sin \theta,  \qquad\dfrac{\partial y}{\partial \theta}=  r \cos \theta,  \qquad \dfrac{\partial y}{\partial w}= 0\)</p>
+<p>\( \dfrac{\partial z}{\partial r}=  0, \qquad  \dfrac{\partial z}{\partial \theta}= 0, \qquad  \dfrac{\partial z}{\partial z}= 1\)</p>
+<p> so the Jacobian is </p> 
+ \[\left| \begin{array}{ccc} \dfrac{\partial x}{\partial r} &
+\dfrac{\partial x}{\partial \theta} & \dfrac{\partial x}{\partial z} \\
+\\
+\dfrac{\partial y}{\partial r} & \dfrac{\partial y}{\partial \theta} &
+\dfrac{\partial y}{\partial z} \\ 
+\\ 
+\dfrac{\partial z}{\partial r} & \dfrac{\partial z}{\partial \theta} & \dfrac{\partial z}{\partial z}
+\end{array} \right| = 
+\left| \begin{array}{ccc} \cos \theta &
+-r \sin \theta  & 0  \\
+\\
+\sin \theta & r \cos \theta & 0 \\ 
+\\ 
+0 & 0 & 1 
+\end{array}\right|  
+=
+\left| \begin{array}{ccc} \cos \theta &
+-r \sin \theta  \\
+\\
+\sin \theta & r \cos \theta \end{array}\right| = {@ta1@} \] </li>
+<p> And our Jacobian is therefore \(J = r.\)</p>
+<br>
+
+<p> (b) To carry out the integration, we now need to find the bounds on our new variables, remembering also that \( r^2 = x^2 + y^2\): </p>
+<p>  \(\qquad \displaystyle 0 \le z \le {@zlim_cart@} \implies 0 \le z \le {@zlim_cyl@},\) </p>
+<p> \(\qquad \displaystyle 0 \le x^2 + y^2 \le {@dd^2@} \implies 0 \le r^2 \le {@dd^2@},\) and so \(0 \le r \le {@dd@},\)</p>
+<p> and since \(0 \le x^2 + y^2 \le {@dd^2@}\)  describes a disc of radius \({@dd@}\) centred at the origin, we have\(\quad \displaystyle 0 \le \theta \le 2\pi\).</p>
+<p> Our function \(f = z\left(x^2+y^2\right)^{@cc@}\) becomes \(f = {@z*r^(2*cc)@}\).</p>
+
+<p> We can now therefore carry out the integration, remembering to include our Jacobian: </p>
+<p> \(\begin{align}
+I &= \int_0^{2\pi} \int_0^{@dd@} \int_0^{@zlim_cyl@} {@exp_cyl@} \,\, r \, \mathrm{d}z \,\mathrm{d}r \, \mathrm{d}\theta \\
+&= \int_0^{2\pi} \int_0^{@dd@} \int_0^{@zlim_cyl@} {@exp_cyl_J@} \,\, \mathrm{d}z \,\mathrm{d}r \, \mathrm{d}\theta \\
+&= \int_0^{2\pi} \int_0^{@dd@} r^{@2*cc + 1@} \left[\dfrac{1}{2} z^2 \right]_0^{@zlim_cyl@} \, \mathrm{d}r \, \mathrm{d}\theta \\
+&= \int_0^{2\pi} \int_0^{@dd@} \left({@inn1@}\right) \, \mathrm{d}r \, \mathrm{d}\theta \\
+&= \int_0^{2\pi} \left[{@I2@}\right]_{0}^{@dd@} \, \mathrm{d}\theta \\
+&= \int_0^{2\pi} {@inn2@} \, \mathrm{d}\theta \\
+&= 2\pi \times {@inn2@} \\
+&= {@ta2@}. \end{align}\)</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025073100</text>
+    </stackversion>
+    <questionvariables>
+      <text>ta1: r;
+aa: rand(3) + 1;
+bb: rand(2) + 1;
+cc: rand([1/2, 3/2]);
+dd: rand(2) + 1;
+
+exp_cart: z*(x^2 + y^2)^cc;
+exp_cyl: z*r^(2*cc);
+exp_cyl_J: z*r^(2*cc + 1);
+zlim_cart: aa + bb*(x^2 + y^2);
+zlim_cyl: aa + bb*r^2;
+
+inn1: simplify(int(exp_cyl_J, z, 0, zlim_cyl));
+I1: int(exp_cyl_J, z);
+inn2: simplify(int(inn1, r, 0, dd));
+I2: simplify(int(inn1, r));
+ta2: int(inn2, theta, 0, 2*pi);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="html">
+      <text>\(f = z(x^2+y^2)^{@cc@}, surfaces \(z=0\) and \(z={@aa + bb*(x^2 + y^2)@},\)  radius \(= {@dd@}, I= {@ta2@}.\)</text>
+    </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>12</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>ta2</tans>
+      <boxsize>12</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>182199929</deployedseed>
+    <deployedseed>1451382833</deployedseed>
+    <deployedseed>1241222022</deployedseed>
+    <deployedseed>1048315027</deployedseed>
+    <deployedseed>1932938647</deployedseed>
+    <deployedseed>1300363525</deployedseed>
+    <deployedseed>70791759</deployedseed>
+    <deployedseed>832309918</deployedseed>
+    <deployedseed>734057628</deployedseed>
+    <deployedseed>1723763757</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1+1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

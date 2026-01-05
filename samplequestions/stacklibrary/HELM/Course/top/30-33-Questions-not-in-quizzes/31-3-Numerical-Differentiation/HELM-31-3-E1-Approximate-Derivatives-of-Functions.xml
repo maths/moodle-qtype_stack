@@ -1,0 +1,543 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>HELM 31.3 E1 Approximate Derivatives of Functions</text>
+    </name>
+    <questiontext format="markdown">
+      <text><![CDATA[**31.2 E1 Approximate Derivatives of Functions**
+
+Let \\\(f(x) = {@fn@}\\\) and {@'a=a@}. Let {@'h = h@} and approximate \\\(f′(a)\\\) using forward, backward
+and central diﬀerences. Specify 8 decimal places and compare your answers with the exact
+result, which is {@(make_multsgn("none"), stack_disp_fractions("i"),diff(fn,x))@} at {@x=a@}. Provide absolute values of the relative error.
+
+Numerical evaluation of the exact result:
+
+\\\(f'(a)=\\\) [[input:S_dx]] [[validation:S_dx]] [[feedback:dx]]
+
+Forward difference:
+
+\\\(f'(a)_F\approx\\\) [[input:S_df]] [[validation:S_df]] [[feedback:df]]
+
+Error: [[input:S_dfp]]% [[validation:S_dfp]] [[feedback:dfp]]
+
+Backward difference:
+
+\\\(f'(a)_B\approx\\\) [[input:S_db]] [[validation:S_db]] [[feedback:db]]
+
+Error: [[input:S_dbp]]% [[validation:S_dbp]] [[feedback:dbp]]
+
+Central difference:
+
+\\\(f'(a)_C\approx\\\) [[input:S_dc]] [[validation:S_dc]] [[feedback:dc]]
+
+Error: [[input:S_dcp]]% [[validation:S_dcp]] [[feedback:dcp]]]]></text>
+    </questiontext>
+    <generalfeedback format="markdown">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025073100</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[simp:false;
+[fn, a]: rand([
+ [sqrt(x),2],[sinh(x),1],[cosh(x),pi/2],[sin(x),pi/3],[cos(x),pi/4]
+] )
+simp:true;
+h: rand([0.01, 0.001]);
+dx: decimalplaces(at(diff(fn,x),x=a),8);
+df: decimalplaces((ev(fn,x=a+h)-ev(fn,x=a))/h,8);
+db: decimalplaces((ev(fn,x=a)-ev(fn,x=a-h))/h,8);
+dc: decimalplaces((ev(fn,x=a+h)-ev(fn,x=a-h))/(2*h),8);
+dfp: significantfigures(abs(df-dx)/dx*100,2);
+dbp: significantfigures(abs(db-dx)/dx*100,2);
+dcp: significantfigures(abs(dc-dx)/dx*100,2);
+
+stack_include("https://raw.githubusercontent.com/mkraska/meclib/main/Maxima/fb_value_EN.mac");]]></text>
+    </questionvariables>
+    <specificfeedback format="markdown">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\[{@fn@}, {@h@}, {@dfp@}, {@dcp@}\]</text>
+    </questionnote>
+    <questiondescription format="markdown">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="markdown">
+      <text>Richtige Antwort, gut gemacht!</text>
+    </prtcorrect>
+    <prtpartiallycorrect format="markdown">
+      <text>Ihre Antwort ist teilweise korrekt.</text>
+    </prtpartiallycorrect>
+    <prtincorrect format="markdown">
+      <text>Falsche Antwort.</text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>S_db</name>
+      <type>numerical</type>
+      <tans>db</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>8 d.p.</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>S_dbp</name>
+      <type>numerical</type>
+      <tans>dbp</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>2 s.f.</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>S_dc</name>
+      <type>numerical</type>
+      <tans>dc</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>8 d.p.</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>S_dcp</name>
+      <type>numerical</type>
+      <tans>dcp</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>2 s.f.</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>S_df</name>
+      <type>numerical</type>
+      <tans>df</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>8 d.p.</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>S_dfp</name>
+      <type>numerical</type>
+      <tans>dfp</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>2 s.f.</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>S_dx</name>
+      <type>numerical</type>
+      <tans>dx</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>8 d.p.</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>mindp:8, maxdp:8</options>
+    </input>
+    <prt>
+      <name>db</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>S_db</sans>
+        <tans>db</tans>
+        <testoptions>8</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>db-1-T</trueanswernote>
+        <truefeedback format="markdown">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>db-1-F</falseanswernote>
+        <falsefeedback format="markdown">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>dbp</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumSigFigs</answertest>
+        <sans>S_dbp</sans>
+        <tans>dbp</tans>
+        <testoptions>2</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>dbp-1-T</trueanswernote>
+        <truefeedback format="markdown">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>dbp-1-F</falseanswernote>
+        <falsefeedback format="markdown">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>dc</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>S_dc</sans>
+        <tans>dc</tans>
+        <testoptions>8</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>dc-1-T</trueanswernote>
+        <truefeedback format="markdown">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>dc-1-F</falseanswernote>
+        <falsefeedback format="markdown">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>dcp</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumSigFigs</answertest>
+        <sans>S_dcp</sans>
+        <tans>dcp</tans>
+        <testoptions>2</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>dcp-1-T</trueanswernote>
+        <truefeedback format="markdown">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>dcp-1-F</falseanswernote>
+        <falsefeedback format="markdown">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>df</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>S_df</sans>
+        <tans>df</tans>
+        <testoptions>8</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>df-1-T</trueanswernote>
+        <truefeedback format="markdown">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>df-1-F</falseanswernote>
+        <falsefeedback format="markdown">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>dfp</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumSigFigs</answertest>
+        <sans>S_dfp</sans>
+        <tans>dfp</tans>
+        <testoptions>2</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>dfp-1-T</trueanswernote>
+        <truefeedback format="markdown">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>dfp-1-F</falseanswernote>
+        <falsefeedback format="markdown">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>dx</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>S_dx</sans>
+        <tans>dx</tans>
+        <testoptions>8</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>dx-1-T</trueanswernote>
+        <truefeedback format="markdown">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>dx-1-F</falseanswernote>
+        <falsefeedback format="markdown">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>579624181</deployedseed>
+    <deployedseed>1343186453</deployedseed>
+    <deployedseed>1134831928</deployedseed>
+    <deployedseed>2076650385</deployedseed>
+    <deployedseed>1366787899</deployedseed>
+    <deployedseed>1910156339</deployedseed>
+    <deployedseed>336030133</deployedseed>
+    <deployedseed>487474868</deployedseed>
+    <deployedseed>1130909704</deployedseed>
+    <deployedseed>624011609</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>S_db</name>
+        <value>dispdp(db,8)</value>
+      </testinput>
+      <testinput>
+        <name>S_dbp</name>
+        <value>dispsf(dbp,2)</value>
+      </testinput>
+      <testinput>
+        <name>S_dc</name>
+        <value>dispdp(dc,8)</value>
+      </testinput>
+      <testinput>
+        <name>S_dcp</name>
+        <value>dispsf(dcp,2)</value>
+      </testinput>
+      <testinput>
+        <name>S_df</name>
+        <value>dispdp(df,8)</value>
+      </testinput>
+      <testinput>
+        <name>S_dfp</name>
+        <value>dispsf(dfp,2)</value>
+      </testinput>
+      <testinput>
+        <name>S_dx</name>
+        <value>dispdp(dx,8)</value>
+      </testinput>
+      <expected>
+        <name>db</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>db-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>dbp</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>dbp-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>dc</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>dc-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>dcp</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>dcp-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>df</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>df-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>dfp</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>dfp-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>dx</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>dx-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

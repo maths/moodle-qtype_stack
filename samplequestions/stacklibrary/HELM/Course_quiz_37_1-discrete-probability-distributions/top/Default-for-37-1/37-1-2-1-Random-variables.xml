@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>37.1.2.1 Random variables</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h4> Random variables </h4>
+
+<p>A random variable <span class="math inline">\(X\)</span> is a quantity whose value cannot be predicted with certainty. We assume that for every real number <span class="math inline">\(a\)</span> the probability <span class="math inline">\(\text{P}(X=a)\)</span> in a trial is well-defined. In practice, engineers are often concerned with two broad types of variables and their probability distributions: discrete random variables and their distributions, and continuous random variables and their distributions. Discrete distributions arise from experiments involving counting, for example, road deaths, car production and aircraft sales, while continuous distributions arise from experiments involving measurement, for example, voltage, corrosion and oil pressure.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

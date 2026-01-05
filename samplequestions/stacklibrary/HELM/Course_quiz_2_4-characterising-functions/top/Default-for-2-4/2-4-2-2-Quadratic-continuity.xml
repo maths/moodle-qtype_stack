@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="ddwtos">
+    <name>
+      <text>2.4.2.2 Quadratic continuity</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>Study the graphs of the functions \(y=x^2\) and \(y=-x^2\), \(x \in \mathbb{R}\) and fill in the blanks with the most descriptive valid option:</p>
+<p>\(y=x^2\) is [[1]] and</p>
+<p>\(y=-x^2\) is [[1]].</p>
+<p>Note: after checking the answer you will need to drag the items out of the boxes before allowing you to drag back in for the next attempt.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <shuffleanswers>1</shuffleanswers>
+    <correctfeedback format="html">
+      <text>Your answer is correct.</text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="html">
+      <text>Your answer is partially correct.</text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="html">
+      <text>Your answer is incorrect.</text>
+    </incorrectfeedback>
+    <shownumcorrect/>
+    <dragbox>
+      <text>continuous</text>
+      <group>1</group>
+      <infinite/>
+    </dragbox>
+    <dragbox>
+      <text>discontinuous</text>
+      <group>1</group>
+      <infinite/>
+    </dragbox>
+    <dragbox>
+      <text>neither continuous nor discontinuous</text>
+      <group>1</group>
+      <infinite/>
+    </dragbox>
+    <dragbox>
+      <text>continuous at all but two points</text>
+      <group>1</group>
+      <infinite/>
+    </dragbox>
+  </question>
+</quiz>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>13.3 Introduction</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3><span>The area bounded by a curve</span><br></h3>
+
+<p>One of the important applications of integration is to find the area bounded by a curve. Often such an area can have a physical significance like the work done by a motor, or the distance travelled by a vehicle. In this Section we explain how such an area is calculated.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

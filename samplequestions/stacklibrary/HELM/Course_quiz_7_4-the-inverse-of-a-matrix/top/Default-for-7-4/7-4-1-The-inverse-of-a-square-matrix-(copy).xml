@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>7.4.1 The inverse of a square matrix (copy)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>The inverse of a square matrix</h4><hr>
+<p>We know that any non-zero number <span class="math inline">\(k\)</span> has an inverse; for example <span class="math inline">\(2\)</span> has an inverse <span class="math inline">\(\frac{1}{2}\)</span> or <span class="math inline">\(2^{-1}\)</span>. The inverse of the number <span class="math inline">\(k\)</span> is usually written <span class="math inline">\(\frac{1}{k}\)</span> or, more formally, by <span class="math inline">\(k^{-1}\)</span>. This numerical inverse has the property that&nbsp;<br></p><p><span class="math inline">\( k\times k^{-1}=k^{-1}\times k=1\)</span></p><p>We now show that an inverse of a matrix can, in certain circumstances, also be defined.&nbsp;</p><p>Given an <span class="math inline">\(n\times n\)</span> square matrix <span class="math inline">\(A,\)</span> then an <span class="math inline">\(n\times n\)</span> square matrix <span class="math inline">\(B\)</span> is said to be the <b>inverse matrix</b> of <span class="math inline">\(A\)</span> if</p><p><span class="math inline">\(AB=BA=I\)</span></p><p>where <span class="math inline">\(I\)</span> is, as usual, the identity matrix (or unit matrix) of the appropriate size.</p><p><br></p>
+
+
+<hr>
+<h4 class="HELM_example">Example 6</h4>
+<p><span>6</span> Show that the inverse matrix of <span class="math inline">\(A=\left[\begin{array}{cc}-1&amp;1\\ -2&amp;0\end{array}\right]\)</span> is <span class="math inline">\(B=\left[\begin{array}{cc}0&amp;-\frac{1}{2}\\ 1&amp;-\frac{1}{2}\end{array}\right]\)</span></p>
+<h4 class="HELM_solution">Solution</h4>
+<p> All we need to do is check that  <span class="math inline"> \(AB=BA=I\)</span>.&nbsp;</p><p><span class="math inline">\(AB=\left[\begin{array}{cc}-1&amp;1\\ -2&amp;0\end{array}\right]\times\frac{1}{2}\left[\begin{array}{cc}0&amp;-1\\ 2&amp;-1\end{array}\right] = \frac{1}{2}\left[\begin{array}{cc}-1&amp;1\\ -2&amp;0\end{array}\right]\times\left[\begin{array}{cc}0&amp;-1\\ 2&amp;-1\end{array}\right] = \frac{1}{2}\left[\begin{array}{cc}2&amp;0\\ 0&amp;2\end{array}\right]=\left[\begin{array}{cc}1&amp;0\\ 0&amp;1\end{array}\right]  \)
+ </span></p>
+
+<p>We make three important remarks:&nbsp;</p><p><span class="math inline">\(\bullet\)</span>Non-square matrices do not have inverses.&nbsp;</p><p><span class="math inline">\(\bullet\)</span>The inverse of <span class="math inline">\(A\)</span> is usually written <span class="math inline">\(A^{-1}\)</span>.&nbsp;</p><p><span class="math inline">\(\bullet\)</span>Not all square matrices have inverses.</p><p><br></p>
+
+<hr>
+
+<p><span class="math inline">\(\bullet\)</span>If a matrix has an inverse then that inverse is unique.</p>
+<p>&nbsp; Suppose <span class="math inline">\(B\)</span> and <span class="math inline">\(C\)</span> are both inverses of <span class="math inline">\(A\)</span>. Then, by definition of the inverse,&nbsp;</p><p><span class="math inline">&nbsp; \(\qquad AB=BA=I\)&nbsp;<b>and&nbsp;</b>\(AC=CA=I\)</span></p><p>&nbsp; Consider the two ways of forming the product <span class="math inline">\(CAB\)</span></p>
+<ol>
+<li><p><span class="math inline">\(CAB=C(AB)=CI=C\)</span></p></li>
+<li><p><span class="math inline">\(CAB=(CA)B=IB=B.\)</span></p></li>
+</ol>
+<p>&nbsp; Hence <span class="math inline">\(B=C\)</span> and the <span><strong>inverse is unique</strong></span>.&nbsp;</p><p><br></p>
+<p><span class="math inline">\(\bullet\)</span>There is no such operation as division in matrix algebra.</p><p>&nbsp; We do not write <span class="math inline">\(\dfrac{B}{A}\)</span> but rather&nbsp;</p><p><span class="math inline">&nbsp; \(\qquad A^{-1}B\ \ \text{or}\ \ BA^{-1},\)</span></p><p>&nbsp; depending on the order required.</p><p><span class="math inline">\(\bullet\)</span>Assuming that the square matrix <span class="math inline">\(A\)</span> has an inverse <span class="math inline">\(A^{-1}\)</span> then the solution of the system of equations <span class="math inline">\(A X=B\)</span> is found by pre-multiplying both sides by <span class="math inline">\(A^{-1}\)</span>.&nbsp;</p><p><br></p><table>
+<caption></caption>
+<thead></thead>
+<tbody>
+<tr>
+<td align="right"></td>
+<td align="right">\(AX\)</td>
+<td style="text-align: center;">=</td>
+<td>\(B\)</td>
+<td></td>
+</tr>
+<tr>
+<td align="right">pre-multiplying by} \(A^{-1}\):</td>
+<td align="right">&nbsp; &nbsp; \(A^{-1}(AX)\)</td>
+<td style="text-align: center;">=</td>
+<td>\(A^{-1}B\),</td>
+<td></td>
+</tr>
+<tr>
+<td align="right">using associativity:</td>
+<td align="right">&nbsp; \((A^{-1}A)X\)</td>
+<td style="text-align: center;">=</td>
+<td>\(A^{-1}B\),</td>
+<td></td>
+</tr>
+<tr>
+<td align="right">using \(A^{-1}A = I\):</td>
+<td align="right">\(IX\)</td>
+<td style="text-align: center;">=</td>
+<td>\(A^{-1}B\),</td>
+<td></td>
+</tr>
+<tr>
+<td align="right">using property of \(I\):</td>
+<td align="right">\(X\)</td>
+<td style="text-align: center;">=</td>
+<td>\(A^{-1}B\)</td>
+<td>&nbsp; &nbsp; which is the solution we seek.</td>
+</tr>
+</tbody>
+</table>
+<br><p><br></p><p><br></p><p></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

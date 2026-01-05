@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>37.1.1.4 Example permutations take r at a time</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Find the number of permutations of the four letters \(A, B, C\) and \(D\) taken three at a time.</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>We may choose the first letter in 4 ways, either <span class="math inline">\(A, B, C\)</span> or <span class="math inline">\(D\)</span>. Suppose, for the purposes of illustration we choose <span class="math inline">\(A\)</span>. We may choose the second letter in 3 ways, either <span class="math inline">\(B, C\)</span> or <span class="math inline">\(D\)</span>. Suppose, for the purposes of illustration we choose <span class="math inline">\(B\)</span>. We may choose the third letter in 2 ways, either <span class="math inline">\(C\)</span> or <span class="math inline">\(D\)</span>. Suppose, for the purposes of illustration we choose <span class="math inline">\(C\)</span>. The total number of choices made is <span class="math inline">\(4\times 3\times 2=24\)</span>.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

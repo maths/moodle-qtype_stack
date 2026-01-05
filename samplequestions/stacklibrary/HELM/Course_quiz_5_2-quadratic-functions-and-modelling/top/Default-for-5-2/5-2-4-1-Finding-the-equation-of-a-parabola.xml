@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>5.2.4.1 Finding the equation of a parabola</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p><h4>Finding the equation of a parabola</h4></p><p>Consider a parabola that has its vertex at \(s = 50\) when \(t = 0\) and rises to \(s = 100\) when \(t = 30\). In coordinate terms, we need the equation of a parabola that has its lowest point or vertex at (0, 50) and passes through (30, 100). The general form&nbsp;<br></p><p>\(\qquad y - C = A(x - B)^2\)&nbsp;</p><p>is useful here.</p><p>In this case \(y\) corresponds to \(s\) and \(x\) to \(t\). So the equation relating \(s\) and \(t\) is&nbsp;</p><p>\(\qquad s - C = A(t - B)^2\)&nbsp;</p><p>According to the general form, the coordinates of the vertex are \((B,C).\) We know that the coordinates of the vertex are (0, 50). So we can deduce that \(B = 0\) and \(C = 50\). It remains to find \(A\). The fact that the parabola must pass through (30, 100) may be used for this purpose. These values together with those for \(B\) and \(C\) may be substituted in the general equation:&nbsp;</p><p>\(\qquad 100 - 50 = A(30 - 0)^2\)&nbsp;</p><p>so \(50 = 900A\) or \(A = \dfrac {1}{18}\) and the function we want is&nbsp;</p><p>\(\qquad s = 50 + \dfrac {1}{18}t^2\qquad (0\le t \le 30)\)</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>19.2.7.1 Finding the integrating factor for linear  ODEs</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Finding the integrating factor for linear  ODEs</h4>
+<p> The differential equation governing the current \(i\) in a circuit with inductance \(L\) and resistance \(R\) in series subject to a constant applied electromotive force \(E\cos\omega t\), where \(E\) and \(\omega\) are constants, is
+  \[ L \dfrac{\mathrm{d}i}{\mathrm{d}t}+Ri=E\cos \omega t. \quad \quad (1)\]&nbsp;</p>
+<p>This is an example of a linear differential equation in which \(i\) is the dependent variable and \(t\) is the independent variable. The general standard form of a linear first order differential equation is normally written with '\(y\)' as the dependent variable and with '\(x\)' as the independent variable and arranged so that the coefficient of \(\dfrac{\mathrm{d}y}{\mathrm{d}x}\) is \(1\). That is, it takes the form:
+\[  \dfrac{\mathrm{d}y}{\mathrm{d}x}+f(x)y=g(x) \quad \quad (2)\]&nbsp; in which \(f(x)\) and \(g(x)\) are functions of \(x\). </p>
+<p> Comparing (1) and (2), \(x\) is replaced by \(t\) and \(y\) by \(i\) to produce \[\dfrac{\mathrm{d}i}{\mathrm{d}t}+f(t)\ i=g(t).\] The function \(f(t)\) is the coefficient of the dependent variable in the differential equation.  We shall describe the method of finding the
+integrating factor for (1) and then generalise it to a linear differential equation written in standard form.</p>
+
+<p><strong> Step 1</strong> Write the differential equation in standard form i.e. with the coefficient of the derivative equal to \(1\). Here we need to divide through by \(L\):
+  \[ \dfrac{\mathrm{d}i}{\mathrm{d}t}+\dfrac{R}{L}i= \dfrac{E}{L}\cos \omega t.\]</p>
+
+<p><strong> Step 2</strong>  Integrate the coefficient of the dependent variable  (that is, \(f(t)= R/L\)) with respect to the independent variable (that is, \(t\)), and ignoring the constant of integration
+  \[ \int \dfrac{R}{L}\, \mathrm{d}t= \dfrac{R}{L} t.\]</p>
+
+<p><strong> Step 3</strong>\quad Take the exponential of the function obtained in Step 2. </p> 
+<p>This is the integrating factor (I.F.)
+\[ \text{I.F.} =\text{e}^{Rt/L}.\]</p><p>This leads to the following Key Point on integrating factors:</p>
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p>The linear differential equation (written in standard form):
+\[\dfrac{\mathrm{d}y}{\mathrm{d}x}+f(x)y=g(x)\qquad \text{has an integrating factor}\qquad
+\text{I.F.} = \text{exp}\left[\int f(x)\mathrm{d}x\right]\] .</p>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

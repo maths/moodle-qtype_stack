@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>HELM 32.4 E3 Crank-Nicolson Scheme</text>
+    </name>
+    <questiontext format="markdown">
+      <text><![CDATA[**32.4  E3 Crank-Nicolson Scheme**
+
+The temperature \\\(u(x, t)\\\) of a metal bar of length \\\(ℓ = {@L@}\\\) at a distance \\\(x\\\) from one end and at
+time \\\(t\\\) is modelled by the partial diﬀerential equation
+
+\\\(u_t = \alpha u_{xx}\quad (0 < x < \ell, t > 0)\\\)
+
+It is given that the metal has diﬀusivity {@'alpha=alpha@}, that the two ends of the bar are kept at temperature \\\(u = 0\\\) and that the initial temperature distribution is \\\(u(x, 0) = f(x) = x(\ell − x)\\\).
+
+Use the Crank-Nicolson scheme with \\\(\delta x = {@dx@}\\\) and \\\(\delta t = {@dt@}\\\) to approximate \\\(u(x, t)\\\) at
+\\\(t = \delta t\\\) and \\\(t = 2\delta t\\\). 
+
+\\\(r=\alpha \delta t / (\delta x)^2=\\\) [[input:S_r]] [[validation:S_r]] [[feedback:r]]
+
+Grid point values at \\\(t=\delta t\\\) with at least 3 s.f.
+[[input:S_u1]] [[validation:S_u1]] [[feedback:u1]]
+
+Grid point values at \\\(t=2\delta t\\\) with at least 3 s.f.
+[[input:S_u2]] [[validation:S_u2]] [[feedback:u2]]]]></text>
+    </questiontext>
+    <generalfeedback format="markdown">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2024072400</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[L: 1.2;        /* Length of the bar */
+alpha: 2.25;    /* Diffusivity */
+dx: 0.4;      /* Spatial step size */
+dt: 0.06;      /* Time step size */
+nx: round(L/dx + 1);  /* Number of spatial points */
+nt: 2;         /* Number of time steps (t=delta t and t=2*delta t) */
+r: alpha * dt / (dx^2); /* Crank-Nicolson parameter */
+
+/* Initialize the grid */
+u: makelist(makelist(0.0, i, 1, nx), j, 1, nt+1);
+
+/* Spatial grid */
+x: makelist((i-1)*dx, i, 1, nx);
+
+/* Initial condition */
+for i:2 thru nx-1 do
+    u[1][i] : float(sin(%pi*x[i]/L));
+
+/* Boundary conditions */
+for j:1 thru nt+1 do (
+    u[j][1] : 0.0,
+    u[j][nx] : 0.0
+);
+
+/* Crank-Nicolson scheme matrices */
+
+/* Matrix A for u[n+1] */
+A: zeromatrix(nx-2, nx-2);
+for i:1 thru nx-2 do (
+    A[i,i] : 1 + r,
+    if i < nx-2 then A[i,i+1] : -r/2,
+    if i > 1 then A[i,i-1] : -r/2
+);
+
+/* Matrix B for u[n] */
+B: zeromatrix(nx-2, nx-2);
+for i:1 thru nx-2 do (
+    B[i,i] : 1 - r,
+    if i < nx-2 then B[i,i+1] : r/2,
+    if i > 1 then B[i,i-1] : r/2
+);
+/* Time-stepping */
+for n:1 thru nt do (
+    b: B . matrix([u[n][2]], [u[n][3]]),  /* not scalable */
+    b[1,1]: b[1,1]+r/2*(u[n][1]+u[n+1][1]),
+    b[nx-2,1]: b[nx-2,1]+r/2*(u[n][nx]+u[n+1][nx]),
+    u_new: invert(A) . b,
+    for i:2 thru nx-1 do
+        u[n+1][i] : u_new[i-1][1]
+);
+
+
+u1: matrix(u[2]);
+u2: matrix(u[3]);
+stack_include("https://raw.githubusercontent.com/mkraska/meclib/main/Maxima/fb_value_EN.mac");
+
+toList(m):= args(transpose(m))[1];]]></text>
+    </questionvariables>
+    <specificfeedback format="markdown">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>{@hx@}, {@ht@}, {@x@}, {@t@}, {@dxf@}, {@dxxc@}, {@dtf@}, {@dtc@}</text>
+    </questionnote>
+    <questiondescription format="markdown">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="markdown">
+      <text>Richtige Antwort, gut gemacht!</text>
+    </prtcorrect>
+    <prtpartiallycorrect format="markdown">
+      <text>Ihre Antwort ist teilweise korrekt.</text>
+    </prtpartiallycorrect>
+    <prtincorrect format="markdown">
+      <text>Falsche Antwort.</text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>S_r</name>
+      <type>numerical</type>
+      <tans>dispsf(r,3)</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>3 s.f.</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>S_u1</name>
+      <type>matrix</type>
+      <tans>u1</tans>
+      <boxsize>4</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>S_u2</name>
+      <type>matrix</type>
+      <tans>u2</tans>
+      <boxsize>4</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>r</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumSigFigs</answertest>
+        <sans>S_r</sans>
+        <tans>r</tans>
+        <testoptions>3</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>r-1-T</trueanswernote>
+        <truefeedback format="markdown">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>r-1-F</falseanswernote>
+        <falsefeedback format="markdown">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>u1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumRelative</answertest>
+        <sans>toList(S_u1)</sans>
+        <tans>toList(u1)</tans>
+        <testoptions>0.005</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>u1-1-T</trueanswernote>
+        <truefeedback format="markdown">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>u1-1-F</falseanswernote>
+        <falsefeedback format="markdown">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>u2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumRelative</answertest>
+        <sans>toList(S_u2)</sans>
+        <tans>toList(u2)</tans>
+        <testoptions>0.005</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>u2-1-T</trueanswernote>
+        <truefeedback format="markdown">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>u2-1-F</falseanswernote>
+        <falsefeedback format="markdown">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>S_r</name>
+        <value>dispsf(r,3)</value>
+      </testinput>
+      <testinput>
+        <name>S_u1</name>
+        <value>u1</value>
+      </testinput>
+      <testinput>
+        <name>S_u2</name>
+        <value>u2</value>
+      </testinput>
+      <expected>
+        <name>r</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>r-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>u1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>u1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>u2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>u2-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

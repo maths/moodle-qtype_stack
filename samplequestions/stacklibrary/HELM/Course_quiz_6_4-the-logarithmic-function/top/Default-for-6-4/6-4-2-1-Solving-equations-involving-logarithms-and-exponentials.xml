@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>6.4.2.1 Solving equations involving logarithms and exponentials</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Solving equations involving logarithms and exponentials
+</h3>
+<p>To solve equations which involve logarithms or exponentials we need to be aware of the basic laws which govern both of these mathematical concepts. We illustrate by considering some examples.
+</p>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Solve for the variable \(x\). </p>
+<ol class="HELM_parts_inline">
+    <li>\(3=10^x\)</li>
+    <li>\(10^{x/4}=\log_{10} 3\)</li>
+    <li>\(\dfrac{1}{17-e^x}=4\)</li>
+</ol>
+
+<h4 class="HELM_solution">Solution</h4>
+<ol class="HELM_parts">
+    <li>Here we take logs (to base \(10\) because of the term \(10^x\)) of both sides to get \[ \log 3=\log 10^x=x\log 10=x \]
+        <nowrap>where we have used the general property that \(\log_aA^k=k\log_aA\) and the specific property that \(\log 10=1\). Hence \(x=\log 3\) or, in numerical form, \(x=0.47712\) to \(5\) d.p.</nowrap>
+    </li>
+    <li>The approach used in (a) is used here. Take logs of both sides: \[\log_{10}(10^{x/4})=\log_{10}(\log_{10}3)\] that is \[\dfrac{x}{4}\log_{10} 10=\log_{10} (\log_{10} 3)=\log_{10} (0.4771212)=-0.3213712.\] So, since \(\log_{10} 10=1\), we have \(x=4(-0.3213712)=-1.28549\)
+        to \(5\) d.p.</li>
+    <li>Here we simplify the expression before taking logs. \[\dfrac{1}{17-e^x}=4\qquad\text{implies}\qquad 1=4(17-e^x)\] or \(4e^x=4(17)-1=67\) so \(e^x=16.75\). Now taking natural logs of both sides (because of the presence of the \(e^x\) term) we have:
+        \[\ln (e^x)=\ln (16.75)=2.8183983.\] But \(\ln (e^x)=x\ln e=x\) and so the solution to \(\dfrac{1}{17-e^x}=4\) is \(x=2.81840\) to \(5\) d.p.
+        <p></p>
+    </li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

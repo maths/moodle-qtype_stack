@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>7.1.5.3 Exercises</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>Find the coefficient matrix \(A\) of the system:<br></p>
+\[\begin{alignedat}{4}
+{@a1@}x_1 &amp; {}+{} &amp; {@a2@}x_2 &amp; {}+{} &amp; {@a3@}x_3 &amp;={@c1@} \\
+{@a4@}x_1 &amp; {}+{} &amp; {@a5@}x_2 &amp; {}+{} &amp; {@a6@}x_3 &amp;={@c2@} \\
+{@a7@}x_1 &amp; {}+{} &amp; {@a8@}x_2 &amp; {}+{} &amp; {@a9@}x_3 &amp;=&amp;{@c3@}
+\end{alignedat}\]
+<p></p><div>\(A = \) [[input:ans1]][[validation:ans1]] [[feedback:prt1]]</div><p></p><p>If \(B={@mat2@}\) determine \((3A^T-B)^T\).<br></p><p></p><p></p><div>\((3A^T-B)^T&nbsp;= \) [[input:ans2]][[validation:ans2]] [[feedback:prt2]]<br></div><p></p><p></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>We are asked to write down the coefficient matrix of the system:</p>
+\[\begin{alignedat}{4}
+{@a1@}x_1 &amp; {}+{} &amp; {@a2@}x_2 &amp; {}+{} &amp; {@a3@}x_3 &amp;={@c1@} \\
+{@a4@}x_1 &amp; {}+{} &amp; {@a5@}x_2 &amp; {}+{} &amp; {@a6@}x_3 &amp;={@c2@} \\
+{@a7@}x_1 &amp; {}+{} &amp; {@a8@}x_2 &amp; {}+{} &amp; {@a9@}x_3 &amp;=&amp;{@c3@}
+\end{alignedat}\]
+<p>In order to do this, we can just read off the coefficients of \(x_1\) into the first column, those of \(x_2\) into the second column and those of \(x_3\) into the third column.</p>
+\[A = {@matA@}\]
+<p>Next, we are given the matrix</p>
+\[B = {@mat2@}\]
+<p>and are asked to compute \((3A^T - B)^T\).</p>
+<p>We can do this directly, but we can simplify the calculation by using the distributivity property of the transpose.</p>
+\[(3A^T - B)^T = 3(A^T)^T - B^T = 3A - B^T\]
+<p>We compute the latter expression, which is simpler.</p>
+\[\begin{aligned}
+3A - B^T &amp;= 3 \cdot {@matA@} - {@mat2@}^T \\
+&amp;= {@stepsAt3@} - {@BT@} \\
+&amp;= {@At3@} - {@BT@} \\
+&amp;= {@ta2@}
+\end{aligned}\]]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021072200</text>
+    </stackversion>
+    <questionvariables>
+      <text>a1:1+rand(10);
+a2:1+rand(10);
+a3:1+rand(10);
+a4:1+rand(10);
+a5:1+rand(10);
+a6:1+rand(10);
+a7:1+rand(10);
+a8:1+rand(10);
+a9:1+rand(10);
+c1:1+rand(10);
+c2:1+rand(10);
+c3:1+rand(10);
+matA: matrix([a1,a2,a3],[a4,a5,a6],[a7,a8,a9]);
+mat2:rand(10+zeromatrix(3,3));
+ta1:matA;
+ta2 : 3*(matA)-transpose(mat2);
+
+/* Needed for solution */
+BT: transpose(mat2);
+At3: 3 * matA;
+
+simp: false;
+stepsAt3: apply(matrix, map(
+    lambda([r], map(lambda([a], 3 * a), r)),
+args(matA)));</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\[A= {@matA@}, \, (3A^T-B)^T ={@mat2@}\]</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>matrix</type>
+      <tans>ta1</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>matrix</type>
+      <tans>ta2</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>pta2: 3 * ans1 - transpose(mat2);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>pta2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Your calculation is correct, but you started with the wrong \(A\).</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1721960807</deployedseed>
+    <deployedseed>1145072119</deployedseed>
+    <deployedseed>1505504020</deployedseed>
+    <deployedseed>1540501439</deployedseed>
+    <deployedseed>733530558</deployedseed>
+    <deployedseed>618858871</deployedseed>
+    <deployedseed>996305075</deployedseed>
+    <deployedseed>709505802</deployedseed>
+    <deployedseed>1670257662</deployedseed>
+    <deployedseed>74114573</deployedseed>
+    <deployedseed>1300804010</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta2</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-2-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta2</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ev(3*ta2 - transpose(mat2),simp)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

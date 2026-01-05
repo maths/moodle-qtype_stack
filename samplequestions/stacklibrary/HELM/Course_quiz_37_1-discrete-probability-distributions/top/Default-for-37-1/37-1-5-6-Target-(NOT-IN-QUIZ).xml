@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>37.1.5.6 Target (NOT IN QUIZ)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+Concentric circles of radii \({@ic@}\) cm and \({@mc@}\) cm are drawn on a circular target of radius \({@oc@}\) cm.  A darts player receives \(10\), \(5\) or \(3\) points for hitting the target inside the smaller circle, middle annular region and outer annular region respectively. The player has only a \(50/50\) chance of hitting the target at all but if they do hit it they are just as likely to hit any one point on it as any other. If \(X=\) 'number of points scored on a single throw of a dart', calculate the expected value of \(X\).<p><b>Write your answer as a rational number (fraction).</b>&nbsp;&nbsp;</p><p>\(\text{E}(X)=\) [[input:ans1]] [[validation:ans1]]&nbsp;</p><p></p><p></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<h4 class="HELM_solution">Solution</h4>
+<p>\(X\) can take 4 values 0, 3, 5 or 10 
+\[\text{P}(X=0)=0.5\qquad \text{[only 50/50 chance of hitting target]}\]
+The probability that a particular points score is obtained is related to the areas of the annular regions which are, from the centre: \({@ic@}^2\times \pi = {@ai@},\ ({@mc@}^2-{@ic@}^2)\times \pi={@am@},\ ({@oc@}^2-{@mc@}^2)\times \pi={@ao@}\)
+\[\begin{aligned}
+\text{P}(X=3\phantom{0})&amp;=\text{P}[(3\ \text{is scored})\cap (\text{target is hit})]\\
+\\
+&amp;=\text{P}(3\ \text{is scored}\,|\,\text{target is hit})\times\text{P}(\text{target is hit})\\
+\\
+&amp;=\dfrac{{@ao@}}{{@at@}}.\dfrac{1}{2}={@eo@}\\
+\\
+\text{P}(X=5\phantom{0})&amp;=\text{P}(5\ \text{is scored}\,|\,\text{target is
+hit})\times\text{P}(\text{target is hit})\\
+\\
+&amp;=\dfrac{{@am@}}{{@ao@}i}.\dfrac{1}{2}={@em@}\\
+\\
+\text{P}(X=10)&amp;=\text{P}(10\ \text{is scored}\,|\,\text{target is
+hit})\times\text{P}(\text{target is hit})\\
+\\
+&amp;=\dfrac{{@ai@}}{{@at@}}.\dfrac{1}{2}={@ei@}\end{aligned}\]
+
+\[\therefore \qquad \text{E}(X)={@op@}\times{@eo@}+{@mp@}\times{@em@}+{@ip@}\times{@ei@} = {@ta1@}\]
+</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020070100</text>
+    </stackversion>
+    <questionvariables>
+      <text>ic : 1+rand(2);
+mc : ic + 1 + rand(3);
+oc : mc + 1 + rand(3);
+ip : 10;
+mp : 5;
+op : 3; 
+/*areas*/
+ai : (ic^2)*pi;
+am : (mc^2 - ic^2)*pi;
+ao : (oc^2 - mc^2)*pi;
+at : oc^2*pi;
+/*probabilities*/
+ei : (ic/oc)^2/2;
+em : ((mc/oc)^2-(ic/oc)^2)/2;
+eo : ((oc/oc)^2-(mc/oc)^2)/2;
+ta1 : ip*ei + mp*em + op*eo;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>radii:{@ic@},{@mc@}, target r:{@oc@}, \(\text{E}(X)= {@ta1@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>8</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>*,+,-</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1183649529</deployedseed>
+    <deployedseed>342757963</deployedseed>
+    <deployedseed>870998749</deployedseed>
+    <deployedseed>1384206679</deployedseed>
+    <deployedseed>2064759681</deployedseed>
+    <deployedseed>1044922189</deployedseed>
+    <deployedseed>750854165</deployedseed>
+    <deployedseed>819278136</deployedseed>
+    <deployedseed>1369573035</deployedseed>
+    <deployedseed>710796632</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(ta1+1,simp)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

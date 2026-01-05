@@ -173,7 +173,9 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
     public static function clear_cache($db) {
         // Delete the cache records from the database.
         $db->delete_records('qtype_stack_cas_cache');
-
+        // We're deleting plots/files used by the STACK library so we need to clear that too.
+        $cache = cache::make('qtype_stack', 'librarycache');
+        $cache->purge();
         // Also take this opportunity to empty the plots folder on disc.
         $glob = \defined('GLOB_BRACE') ? \GLOB_BRACE : 0;
         $plots = glob(stack_cas_configuration::images_location() . '/*.{png,svg}', $glob);

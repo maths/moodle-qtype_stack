@@ -32,9 +32,9 @@ __Do not change anything which alters the randomisation of variants.__
 
 In particular, do not add, remove or re-order `rand` statements or other statement which will increment the state of the pseudo random number generation. Students get a "seed" which starts the pseudo-random number generator.  If your changes change the random version, then the students' previous answers will still stand, and will now most likely be "wrong".  Minor typographical mistakes can be fixed, but often there is nothing you can do to fix seriously bad random versions.  This is why we have the "deploy" system and [question tests](../STACK_question_admin/Testing.md) so question variants can be checked in advance....
 
-Modifying the question variables in a way which does not alter random versions should be fine. E.g. adding variables for test case consturction or improving a worked solution.
+Modifying the question variables in a way which does not alter random versions should be fine. E.g. adding variables for test case construction or improving a worked solution.
 
-If you have a single mis-behaving random variant, you can try the following type of approach.
+If you have a single misbehaving random variant, you can try the following type of approach.
 
 Imagine your question variables are
 

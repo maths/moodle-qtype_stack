@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>35.4.4.5 Current flow through relays (NOT IN QUIZ)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4 class="HELM_exercise"> Exercise </h4>
+<p> Consider the parallel circuit diagram in the figure below. The <strong>relays</strong> in the circuit are the parts labelled \(A\), \(B\), \(C\) and \(D\).</p>
+<p style="text-align: center;"><strong><img src="@@PLUGINFILE@@/3-5-4-ex5.svg" alt="" role="presentation"><br></strong></p><p style="text-align: center;"><strong>Figure:</strong> Circuit with relays.</p>
+<p> Each relay operates independently of the others, and closes with a probability \(p\) (and therefore remains open with a probability \(1-p\)). Let \(P\) be the probability that current can flow from \(L\) to \(R\). Find: </p>
+<ol class="HELM_parts">
+<li> \(P\) in terms of \(p\); </li>
+<li> \(P\) in the case where \(\displaystyle{p = {@pr@}}\). </li>
+</ol>
+<p> <strong>N.B.</strong> When a relay is "open" a current <em>can not</em> flow. I.e. a current passes through a relay when the relay is closed. </p>
+<p> Give the numerical probability as a fraction: </p>
+<ol class="HELM_parts">
+<li> \(P=\quad\)[[input:ans1]][[validation:ans1]][[feedback:prt1]] </li>
+<li> \(P=\quad\)[[input:ans2]][[validation:ans2]][[feedback:prt2]] </li>
+</ol>]]></text>
+<file name="3-5-4-ex5.svg" path="/" encoding="base64">PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMjQ1LjY5NyIgaGVpZ2h0PSIxMDIuMTY3IiB2aWV3Qm94PSIwIDAgMTg0LjI3MyA3Ni42MjUiPjxnIGRhdGEtbmFtZT0iRG9jdW1lbnQiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzIzMWYyMCIgZD0iTTE0NS43NjggNjMuMzc1aC0xMDl2LTQ4aDEwOXptLTcxIDExLjVoLTE2di03M2gxNnptNDguNzUtLjVoLTE2di03M2gxNnoiLz48cGF0aCBkPSJNNTkuNzY4IDc2LjEyNWgxNC4yNVYuODc1aC0xNC4yNXoiIGZpbGw9IiNmZmYiLz48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIGQ9Ik03NC4wMTggNzYuMTI1aC0xNC4yNVYuODc1aDE0LjI1eiIvPjxwYXRoIGQ9Ik0xMDguMjY4IDc1Ljc1aDE0LjI1Vi41aC0xNC4yNXoiIGZpbGw9IiNmZmYiLz48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIGQ9Ik0xMjIuNTE4IDc1Ljc1aC0xNC4yNVYuNWgxNC4yNXoiLz48cGF0aCBkPSJNNDMuMDE4IDUzLjYyNWg5NC4yNXYtMjguMjVoLTk0LjI1eiIgZmlsbD0iI2ZmZiIvPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgZD0iTTEzNy4yNjggNTMuNjI1aC05NC4yNXYtMjguMjVoOTQuMjV6Ii8+PHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjMxZjIwIiBkPSJNOS41MTggMzkuNjI1aDI3LjI1TTE0Ni41MTggMzkuMTI1aDI3LjI1Ii8+PHN5bWJvbCBpZD0iYSI+PHBhdGggZD0iTS4xMzYuMTExQy4xMDEuMDUyLjA2Ny4wMzIuMDE5LjAyOS4wMDguMDI4IDAgLjAyOCAwIC4wMSAwIC4wMDQuMDA1IDAgLjAxMiAwbC4wODEuMDAyTC4xODIgMEMuMTg4IDAgLjIgMCAuMi4wMTljMCAuMDA5LS4wMDguMDEtLjAxNC4wMUMuMTYzLjAzMS4xNDQuMDM5LjE0NC4wNjNjMCAuMDE0LjAwNi4wMjUuMDE5LjA0N2wuMDc2LjEyNmguMjU1TC40OTYuMjFBMy4yNyAzLjI3IDAgMDAuNTExLjA2MUMuNTExLjAzMS40Ni4wMjkuNDQ0LjAyOWMtLjAxMSAwLS4wMjIgMC0uMDIyLS4wMThDLjQyMiAwIC40MzEgMCAuNDM3IDBsLjA1NC4wMDJoLjA1N0MuNjA5LjAwMi42NTMgMCAuNjU0IDBjLjAwNyAwIC4wMTggMCAuMDE4LjAxOSAwIC4wMS0uMDA5LjAxLS4wMjQuMDEtLjA1NSAwLS4wNTYuMDA5LS4wNTkuMDM5TC41MjguNjkyQy41MjYuNzEyLjUyMi43MTQuNTExLjcxNC41MDEuNzE0LjQ5NS43MTIuNDg2LjY5N0wuMTM2LjExMW0uMTIuMTU0bC4yMDEuMzM2LjAzNC0uMzM2SC4yNTZ6Ii8+PC9zeW1ib2w+PHN5bWJvbCBpZD0iYiI+PHBhdGggZD0iTS4zMTguNjE1Qy4zMjcuNjUyLjMzMS42NTQuMzcuNjU0SC41Qy42MTMuNjU0LjYxMy41NTguNjEzLjU0OS42MTMuNDY4LjUzMi4zNjUuNC4zNjVILjI1NmwuMDYyLjI1TS40ODcuMzU3Yy4xMDkuMDIuMjA4LjA5Ni4yMDguMTg4IDAgLjA3OC0uMDY5LjEzOC0uMTgyLjEzOEguMTkyYy0uMDE5IDAtLjAyOCAwLS4wMjgtLjAxOSAwLS4wMS4wMDktLjAxLjAyNC0uMDEuMDYxIDAgLjA2MS0uMDA4LjA2MS0uMDE5IDAtLjAwMiAwLS4wMDgtLjAwNC0uMDIzTC4xMS4wNzRDLjEwMS4wMzkuMDk5LjAyOS4wMjkuMDI5LjAxLjAyOSAwIC4wMjkgMCAuMDExIDAgMCAuMDA2IDAgLjAyNiAwaC4zNDNDLjUyMiAwIC42NC4xMTYuNjQuMjE3YzAgLjA4Mi0uMDcyLjEzMi0uMTUzLjE0TS4zNDUuMDI5SC4yMUwuMTg4LjAzQy4xNzcuMDMxLjE3Ni4wMzMuMTc2LjA0MWMwIC4wMDcuMDAyLjAxMy4wMDQuMDIybC4wNy4yODJoLjE4OGMuMTE4IDAgLjExOC0uMTEuMTE4LS4xMThBLjIwOS4yMDkgMCAwMC4zNDUuMDI5eiIvPjwvc3ltYm9sPjxzeW1ib2wgaWQ9ImMiPjxwYXRoIGQ9Ik0uNjk3LjcxNkMuNjk3LjcyNS42OS43MjUuNjg4LjcyNWMtLjAwMiAwLS4wMDYgMC0uMDE0LS4wMUwuNjA1LjYzMUEuMTguMTggMCAwMS40NC43MjVDLjIyNC43MjUgMCAuNTA2IDAgLjI3MSAwIC4xMDQuMTE3IDAgLjI2MyAwYy4wOCAwIC4xNS4wMzQuMjA4LjA4My4wODcuMDczLjExMy4xNy4xMTMuMTc4Qy41ODQuMjcuNTc2LjI3LjU3My4yNy41NjQuMjcuNTYzLjI2NC41NjEuMjZBLjMxLjMxIDAgMDAuMjguMDI5Yy0uMTA2IDAtLjE5OC4wNjgtLjE5OC4yMSAwIC4wMzIuMDEuMjA2LjEyMy4zMzcuMDU1LjA2NC4xNDkuMTIuMjQ0LjEyLjExIDAgLjE1OS0uMDkxLjE1OS0uMTkzQy42MDguNDc3LjYwNS40NTUuNjA1LjQ1MWMwLS4wMDkuMDEtLjAwOS4wMTMtLjAwOS4wMTEgMCAuMDEyLjAwMS4wMTYuMDE5bC4wNjMuMjU1eiIvPjwvc3ltYm9sPjxzeW1ib2wgaWQ9ImQiPjxwYXRoIGQ9Ik0uMTEuMDc0Qy4xMDEuMDM5LjA5OS4wMjkuMDI5LjAyOS4wMS4wMjkgMCAuMDI5IDAgLjAxMSAwIDAgLjAwNiAwIC4wMjYgMGguMzE3Yy4yMDIgMCAuMzk5LjIwOS4zOTkuNDMyIDAgLjE0NC0uMDg2LjI1MS0uMjI5LjI1MUguMTkyYy0uMDE5IDAtLjAyOCAwLS4wMjgtLjAxOSAwLS4wMS4wMDktLjAxLjAyNC0uMDEuMDYxIDAgLjA2MS0uMDA4LjA2MS0uMDE5IDAtLjAwMiAwLS4wMDgtLjAwNC0uMDIzTC4xMS4wNzRtLjIxMS41NDFDLjMzLjY1Mi4zMzQuNjU0LjM3My42NTRoLjExYy4wOTQgMCAuMTgtLjA1MS4xOC0uMTg5IDAtLjA1LS4wMi0uMjI0LS4xMTctLjMzNEEuMjk0LjI5NCAwIDAwLjMyNy4wMjlILjIxM0wuMTkxLjAzQy4xOC4wMzEuMTc5LjAzMy4xNzkuMDQxYzAgLjAwNy4wMDIuMDEzLjAwNC4wMjJsLjEzOC41NTJ6Ii8+PC9zeW1ib2w+PHN5bWJvbCBpZD0iZSI+PHBhdGggZD0iTS4zMjEuNjA2Yy4wMDkuMDM4LjAxMi4wNDguMS4wNDguMDI3IDAgLjAzNCAwIC4wMzQuMDE5IDAgLjAxLS4wMTEuMDEtLjAxNS4wMUwuMzc3LjY4MUguMjQzbC0uMDYuMDAyYy0uMDA4IDAtLjAxOSAwLS4wMTktLjAxOSAwLS4wMS4wMDktLjAxLjAyNC0uMDEuMDYxIDAgLjA2MS0uMDA4LjA2MS0uMDE5IDAtLjAwMiAwLS4wMDgtLjAwNC0uMDIzTC4xMS4wNzRDLjEwMS4wMzkuMDk5LjAyOS4wMjkuMDI5LjAxLjAyOSAwIC4wMjkgMCAuMDExIDAgMCAuMDA2IDAgLjAyNiAwaC40NDhjLjAyMiAwIC4wMjMuMDAxLjAzLjAxOWwuMDc3LjIxM2EuMDUuMDUgMCAwMS4wMDQuMDE0LjAxLjAxIDAgMDEtLjAxLjAxYy0uMDAxIDAtLjAwNiAwLS4wMDgtLjAwNEMuNTY1LjI1MS41NjUuMjQ5LjU1Ny4yMy41MjUuMTQyLjQ4LjAyOS4zMTEuMDI5SC4yMTVMLjE5My4wM0MuMTgyLjAzMS4xODEuMDMzLjE4MS4wNDFjMCAuMDA3LjAwMi4wMTMuMDA0LjAyMmwuMTM2LjU0M3oiLz48L3N5bWJvbD48c3ltYm9sIGlkPSJmIj48cGF0aCBkPSJNLjMyMS42MzZDLjMzLjY3My4zMzQuNjc1LjM3My42NzVoLjA3MmMuMDg2IDAgLjE1LS4wMjYuMTUtLjEwNEMuNTk1LjUyLjU2OS4zNzMuMzY4LjM3M0guMjU1bC4wNjYuMjYzTS40Ni4zNjFjLjEyNC4wMjcuMjIxLjEwNy4yMjEuMTkzIDAgLjA3OC0uMDc5LjE1LS4yMTguMTVILjE5MmMtLjAyIDAtLjAyOSAwLS4wMjktLjAxOSAwLS4wMS4wMDctLjAxLjAyNi0uMDEuMDYgMCAuMDYtLjAwOC4wNi0uMDE5IDAtLjAwMiAwLS4wMDgtLjAwNC0uMDIzTC4xMS4wOTVDLjEwMS4wNi4wOTkuMDUuMDMuMDUuMDA3LjA1IDAgLjA1IDAgLjAzMWMwLS4wMS4wMTEtLjAxLjAxNC0uMDFsLjA1OC4wMDJILjE5TC4yNDcuMDIxYy4wMDggMCAuMDE5IDAgLjAxOS4wMTkgMCAuMDEtLjAwOS4wMS0uMDI0LjAxQy4xODEuMDUuMTgxLjA1OC4xODEuMDY4bC4wMDIuMDE2LjA2Ny4yNjloLjEyQy40NjUuMzUzLjQ4My4yOTMuNDgzLjI2QS40ODQuNDg0IDAgMDAuNDY2LjE4Qy40NTUuMTM0LjQ1Mi4xMjMuNDUyLjEwNC40NTIuMDMzLjUxIDAgLjU3NyAwYy4wODEgMCAuMTE2LjA5OS4xMTYuMTEzIDAgLjAwNy0uMDA1LjAxLS4wMTEuMDFDLjY3NC4xMjMuNjcyLjExNy42Ny4xMDkuNjQ2LjAzOC42MDUuMDIuNTguMDIuNTU1LjAyLjUzOS4wMzEuNTM5LjA3NmMwIC4wMjQuMDEyLjExNS4wMTMuMTIuMDA1LjAzNy4wMDUuMDQxLjAwNS4wNDlDLjU1Ny4zMTguNDk4LjM0OS40Ni4zNjF6Ii8+PC9zeW1ib2w+PHVzZSB4bGluazpocmVmPSIjYSIgdHJhbnNmb3JtPSJtYXRyaXgoMTEuOTU1IDAgMCAtMTEuOTU1IDYyLjc0OSAxNi4zNjQpIiBmaWxsPSIjMjMxZjIwIi8+PHVzZSB4bGluazpocmVmPSIjYiIgdHJhbnNmb3JtPSJtYXRyaXgoMTEuOTU1IDAgMCAtMTEuOTU1IDExMS41OTMgMTYuMTE0KSIgZmlsbD0iIzIzMWYyMCIvPjx1c2UgeGxpbms6aHJlZj0iI2MiIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSA2Mi43NjYgNjcuODY1KSIgZmlsbD0iIzIzMWYyMCIvPjx1c2UgeGxpbms6aHJlZj0iI2QiIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSAxMTAuODY0IDY3Ljg2NCkiIGZpbGw9IiMyMzFmMjAiLz48dXNlIHhsaW5rOmhyZWY9IiNlIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgLjU1IDQyLjExNCkiIGZpbGw9IiMyMzFmMjAiLz48dXNlIHhsaW5rOmhyZWY9IiNmIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgMTc1LjkyNyA0Mi44NjQpIiBmaWxsPSIjMjMxZjIwIi8+PC9nPjwvc3ZnPg==</file>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<h4 class="HELM_solution"> Solution </h4>
+<p>Let \(F_i\) where \(i\in\{A,B,C,D\}\) be the event that relay \(i\) remains open. We have\[\begin{aligned}P = \mathbb{P}((F_A\cap F_B)\cup(F_C\cap F_D)) &amp;= \mathbb{P}(F_A\cap F_B)+\mathbb{P}(F_C\cap F_D) − \mathbb{P}(F_A\cap F_B\cap F_C\cap F_D)\\ &amp;= p^2 + p^2 - p^4 \\ &amp;= 2p^2 - p^4.\end{aligned}\]Therefore, when \(p =\displaystyle {@pr@}\) we have \(P =\displaystyle {@ta2@}\).</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021072200</text>
+    </stackversion>
+    <questionvariables>
+      <text>pr: rand([1/8,1/7,1/6,1/5,1/4,1/3,1/2,3/5,7/10,4/5,9/10]);
+ta1: 2*(p^2) - p^4;
+ta2: 2*(pr^2) - pr^4;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\[ {@ta1@} = {@ta2@} \]</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color: green; --darkreader-inline-color:#72ff72;" data-darkreader-inline-color=""><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color: orange; --darkreader-inline-color:#ffae1a;" data-darkreader-inline-color=""><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color: red; --darkreader-inline-color:#ff1a1a;" data-darkreader-inline-color=""><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>ta2</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>189945949</deployedseed>
+    <deployedseed>703622936</deployedseed>
+    <deployedseed>1573710691</deployedseed>
+    <deployedseed>1314045479</deployedseed>
+    <deployedseed>2022349803</deployedseed>
+    <deployedseed>1747240870</deployedseed>
+    <deployedseed>1029970205</deployedseed>
+    <deployedseed>157277073</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>0</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>0</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

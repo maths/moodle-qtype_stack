@@ -1798,7 +1798,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             if ($this->{$fieldinstantiated} !== null) {
                 $text = trim($this->{$fieldinstantiated}->get_rendered());
             } else {
-                $text = trim($this->{$field});
+                $text = trim($this->{$field} ?? '');
             }
             if ($text !== '') {
                 $tocheck[stack_string($field)] = $text;

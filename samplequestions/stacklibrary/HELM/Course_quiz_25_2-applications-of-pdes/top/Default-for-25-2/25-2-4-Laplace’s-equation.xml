@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>25.2.4 Laplace’s equation</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Laplace’s equation</h3>
+<p>If you look back at the two-dimensional heat conduction equation \((4)\): </p>
+<p>\(\qquad \dfrac{\partial u}{\partial t}=k\left(\dfrac{\partial^2u}{\partial x^2}+\dfrac{\partial^2 u}{\partial y^2}\right)\)</p>
+it is clear that if the heat flow is steady, i.e. time independent, then \(\dfrac{\partial u}{\partial t}=0\) so the temperature \(u(x,y)\) is a solution of
+
+<table width="100%">
+    <tbody>
+        <tr>
+            <td>\(\qquad \dfrac{\partial^2u}{\partial x^2}+\dfrac{\partial^2 u}{\partial y^2}=0\)</td>
+            <td>\[(8)\]</td>
+        </tr>
+    </tbody>
+</table>
+
+
+\((8)\) is the <strong>two-dimensional Laplace equation</strong>. Both this, and its three-dimensional counterpart
+
+<table width="98%">
+    <tbody>
+        <tr>
+            <td>\(\qquad \dfrac{\partial^2u}{\partial x^2}+\dfrac{\partial^2 u}{\partial y^2}+\dfrac{\partial^2u}{\partial z^2}=0\)</td>
+            <td>\[(9)\]</td>
+        </tr>
+    </tbody>
+</table>
+
+
+arise in a wide variety of applications, quite apart from steady state heat conduction theory. Since time does not arise in \((8)\) or \((9)\) it is evident that Laplace’s equation is always a model for
+<strong>equilibrium</strong> situations. In any problem involving Laplace’s equation we are interested in solving it in a specific region \(R\) for given boundary conditions. Since conditions may involve
+<p></p>
+<ol type="a">
+
+    <ol type="a">
+        <li>\(u\) specified on the boundary curve \(C\) (two dimensions) or boundary surface \(S\) (three dimensions) of the region \(R\). Such boundary conditions are called <strong>Dirichlet conditions</strong>.</li>
+        <li> The derivative of \(u\) normal to the boundary, written \(\dfrac{\partial u}{\partial n},\) specified on \(C\) or \(S\). These are referred to as <strong>Neumann boundary conditions</strong>.</li>
+        <li> A mixture of (a) and (b). </li>
+    </ol>
+
+</ol>
+<p>Some areas in which Laplace’s equation arises are</p>
+
+
+<ol type="a">
+    <li> electrostatics ( \(u\) being the electrostatic potential in a charge free region)</li>
+    <li> gravitation ( \(u\) being the gravitational potential in free space)</li>
+    <li> steady state flow of inviscid fluids </li>
+    <li> steady state heat conduction (as already discussed) </li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

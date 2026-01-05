@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>27.3.2.6 Order of integrals</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>It is important to note that the three integrations can be carried out in whatever order is most convenient. The result does not depend on the order in which the integrals are carried out. However, when the order of the integrations is changed, it is necessary to consider carefully what the limits should be on each integration. Simply moving the limits from one integration to another will only work in the case of integration over a cuboid (i.e. where all limits are constants).</p>
+
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<strong>Order of Integration for Triple Integrals </strong>
+<ol>
+<li>The three integrations can be carried out in whichever order is most convenient.</li>
+<li>When changing the order of the integrations, it is important to reconsider the limits on each
+integration; a diagram can often help. </li>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

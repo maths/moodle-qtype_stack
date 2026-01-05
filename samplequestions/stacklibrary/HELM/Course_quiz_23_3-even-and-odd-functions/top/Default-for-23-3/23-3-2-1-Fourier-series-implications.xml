@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>23.3.2.1 Fourier series implications</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Fourier series implications</h4>
+Since a sum of even functions is itself an even function it is not unreasonable to suggest that a Fourier
+series containing only cosine terms (and perhaps a constant term which can also be considered as
+an even function) can only represent an even periodic function. Similarly a series of sine terms (and
+no constant) can only represent an odd function. These results can readily be shown more formally
+using the expressions for the Fourier coefficients \(a_n\) and \(b_n\).
+<p></p>
+Recall that for a \(2\pi\)-periodic function,
+\[ b_n = \dfrac{1}{\pi} \displaystyle{ \int_{-\pi}^\pi }f(t) \sin nt \hspace{0.1cm} dt \]
+Then, if \(f(t)\) is even,
+\[ f(t) \sin nt = \text{ (even) } \times \text{ (odd) } = \text{ (odd)} \]
+hence
+\[ b_n = \dfrac{1}{\pi} \displaystyle{ \int_{-\pi}^\pi } \text{ (odd function)} \hspace{0.1cm} dt = 0\]
+Thus an even function has no sine terms in its Fourier series.
+<p></p>
+Also, 
+\[ f(t) \cos nt = \text{ (even) } \times \text{ (even) } = \text{ (even)} \]
+\[ \therefore \hspace{1cm} a_n =  \dfrac{1}{\pi} \displaystyle{ \int_{-\pi}^\pi } \text{ (even function)} \hspace{0.1cm} dt =  \dfrac{2}{\pi} \displaystyle{ \int_{-\pi}^\pi }f(t) \cos nt \hspace{0.1cm} dt \]
+It should be obvious that, for an odd function \(f(t)\),
+\[ 
+\begin{align}
+a_n &amp;= \dfrac{1}{\pi} \displaystyle{ \int_{-\pi}^\pi }f(t) \cos nt \hspace{0.1cm} dt = \dfrac{1}{\pi} \displaystyle{ \int_{-\pi}^\pi } \text{ (odd function)} \hspace{0.1cm} dt = 0 \\
+b_n &amp;= \dfrac{2}{\pi} \displaystyle{ \int_{-\pi}^\pi }f(t) \sin nt \hspace{0.1cm} dt
+\end{align}
+\]
+Analogous results hold for functions of any period, not necessarily \(2\pi\).]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

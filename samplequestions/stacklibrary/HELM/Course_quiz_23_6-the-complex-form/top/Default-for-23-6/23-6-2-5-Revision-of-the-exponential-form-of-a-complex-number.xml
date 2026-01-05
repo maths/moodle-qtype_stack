@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>23.6.2.5 Revision of the exponential form of a complex number</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[Clearly, we can now rewrite the trigonometric Fourier series
+\[ \dfrac{a_0}{2} + \sum_{n=1}^\infty \left( a_n \cos n \omega_0 t + b_n \sin n \omega_0 t \right) \]
+as
+\[ \dfrac{a_0}{2} + \sum_{n=1}^\infty \left( c_n e^{i n \omega_0 t} + c_n^* e^{-i n \omega_0 t} \right) \]
+A neater, and particularly concise, form of this expression can be obtained as follows:
+<p></p>
+Firstly write \( \dfrac{a_0}{2} = c_0\) (which is consistent with the general definition of \(c_n\) since \(b_0 = 0\)).
+The second term in the summation
+\[ \sum_{n=1}^\infty c_n^*e^{-i n \omega_0 t} = c_1^* e^{-i \omega_0 t} + c_2^*e^{-2i  \omega_0 t} + \dots \]
+can be written, if we define \( c_{-n} = c_n^* = \dfrac{1}{2} (a_n + ib_n) \), as
+\[ c_{-1} e^{-i \omega_0 t} + c_{-2} e^{-2i  \omega_0 t} + c_{-3} e^{-3i  \omega_0 t} +\dots \sum_{n=-1}^{-\infty} c_n e^{i n \omega_0 t} \]<p>Hence the trigonometric Fourier series can be written
+\[ c_0 +  \sum_{n=1}^{\infty} c_n e^{i n \omega_0 t} +  \sum_{n=-1}^{-\infty} c_n e^{i n \omega_0 t} \]
+or in the very concise form
+\[  \sum_{n=-\infty}^{\infty} c_n e^{i n \omega_0 t}. \]
+The <b>complex Fourier coefficients</b> \(c_n\) can be readily obtained as follows using the usual Fourier series definitions for \(a_n\) and \(b_n\). 
+</p><p></p>
+Firstly, 
+\[ c_0 = \dfrac{a_0}{2} = \dfrac{1}{T} \int_{-\frac{T}{2}}^{\frac{T}{2}} f(t) \hspace{0.1cm} dt \] 
+For \( n = 1, 2, 3, \dots\) we have 
+\[ 
+\begin{align}
+c_n &amp;= d\frac{1}{2}(a_n- i b_n)=d\frac{1}{T}\int_{-\frac{T}{2}}^\frac{T}{2} f(t)(\cos n\omega_0 t - i \sin n\omega_0 t) dt \\
+&amp;= \dfrac{1}{T}\int_{-\frac{T}{2}}^\frac{T}{2} f(t) e^{- i n\omega_0t} dt
+\end{align}
+\]
+Also for \( n = 1, 2, 3, \dots\) we have
+\[ c_{-n}={c^*_n}=\dfrac{1}{2}(a_n+ i b_n)=\dfrac{1}{T}\int_{-\frac{T}{2}}^\frac{T}{2}
+f(t) e^{i n\omega_0 t} dt \]
+This last expression is equivalent to stating that for \(n=-1,-2,-3,\dots\)
+\[ c_n=\dfrac{1}{T}\int_{-\frac{T}{2}}^\frac{T}{2} f(t) 
+e^{-i n\omega_0t}dt \]
+The three equations above can be contained in the one expression
+\[ c_n=\dfrac{1}{T}\int_{-\frac{T}{2}}^\frac{T}{2} f(t) e^{-i n\omega_0t} dt\qquad \text{ for}\quad n=0,\pm 1,\pm 2,\pm 3,\dots \]
+The results of this discussion are summarised in the following Key Point.
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p><b>Fourier Series in Complex Form</b></p>
+A function \(f(t)\) of period \(T\) has a complex Fourier series
+\[ f(t)=\sum_{n=-\infty}^\infty c_n e^{ i n \omega_0 t}\qquad\text{ where}\qquad c_n=\frac{1}{T}\int_{-\frac{T}{2}}^\frac{T}{2} f(t) e^{- i n\omega_0t}dt\]
+For the special case \(T=2\pi\), so that \( \omega_0=1\), these formulae become particularly simple:
+\[f(t)=\sum_{n=-\infty}^\infty c_n e^{i nt}\qquad c_n=\frac{1}{2\pi}\int_{-\pi}^\pi f(t) e^{-\text{ i}nt} dt\]
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

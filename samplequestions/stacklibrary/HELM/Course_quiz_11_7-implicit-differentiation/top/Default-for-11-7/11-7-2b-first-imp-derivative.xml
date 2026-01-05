@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>11.7.2b first imp derivative</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>Compute the derivative, \(\dfrac{dy}{dx}\) given \({@n@}x^{@a@}+y={@c@} + y^{@b@}.\)</p><p>\( \dfrac{dy}{dx} = \) [[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>We are given the expression \({@n@}x^{@a@}+y={@c@} + y^{@b@}.\)</p>
+<p>We can deal with each term separately:<br></p>
+<p>\(\dfrac{d}{dx} {@n@}x^{@a@} = {@n*a@}x^{@a-1@}.\)</p>
+<p>\(\dfrac{d}{dx}y = \dfrac{dy}{dx}.\)</p>
+<p>\(\dfrac{d}{dx}{@c@} = 0.\)</p>
+<p>\(\dfrac{d}{dx}y^{@b@} = {@b@}y^{@b-1@} \dfrac{dy}{dx}.\)</p>
+<p>This gives the equation \({@a*n@}x^{@a-1@} + \dfrac{dy}{dx}= {@b@}y^{@b-1@}\dfrac{dy}{dx}.\)</p>
+<p>By rearranging, and factoring out the term \( \dfrac{dy}{dx} \), we find that \( \dfrac{dy}{dx} = \displaystyle{{@ta1@}}.\)</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020120600</text>
+    </stackversion>
+    <questionvariables>
+      <text>a : rand(3)+2
+b : rand(5)+3
+n : rand(3)+2
+m : rand(5)+3
+c : rand([12,13,14,15])
+
+p : a*x^b + n*x^m + c
+ta1 : n*a*x^(a-1)/(b*y^(b-1)-1)</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\({@n@}x^{@a@}+y={@c@} + y^{@b@}, \quad  \dfrac{dy}{dx} ={@ta1@} \)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<p><span class="correct">Correct answer, well done.</span></p>]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<p><span class="partially">Your answer is partially correct.</span></p>]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<p><span class="incorrect">Incorrect answer.</span></p>]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>diff</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty>0</truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty>0</falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>484638908</deployedseed>
+    <deployedseed>1018263883</deployedseed>
+    <deployedseed>764344480</deployedseed>
+    <deployedseed>1531652713</deployedseed>
+    <deployedseed>1050754737</deployedseed>
+    <deployedseed>1112786836</deployedseed>
+    <deployedseed>645226555</deployedseed>
+    <deployedseed>28711475</deployedseed>
+    <deployedseed>90169865</deployedseed>
+    <deployedseed>779219874</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1+1</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

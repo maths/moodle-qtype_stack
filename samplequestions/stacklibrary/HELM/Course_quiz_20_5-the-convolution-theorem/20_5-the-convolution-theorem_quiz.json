@@ -1,0 +1,93 @@
+{
+    "quiz": {
+        "name": "20_5 The Convolution Theorem",
+        "intro": "In this Section we introduce the convolution of two functions \\(f(t),\\ g(t)\\) which we denote by \\((f*g)(t)\\). The convolution is an important construct because of the convolution theorem which allows us to find the inverse Laplace transform of a product of two transformed\nfunctions: \\(\\displaystyle {\\cal L}^{-1}\\{F(s)G(s)\\}=(f*g)(t)\\).",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Convolution",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "5",
+            "heading": "The Convolution Theorem",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "7",
+            "heading": "Exercises",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-20-5\/20-5-1-1-Convolution.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-20-5\/20-5-1-2-Example-Convolution.xml"
+        },
+        {
+            "slot": "3",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-20-5\/20-5-1-3-Convolution-Integral.xml"
+        },
+        {
+            "slot": "4",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-20-5\/20-5-1-4-Commutativity-of-Convolution.xml"
+        },
+        {
+            "slot": "5",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-20-5\/20-5-2-1-The-convolution-theorem.xml"
+        },
+        {
+            "slot": "6",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-20-5\/20-5-2-2-Inverse-Laplace-with-Convolution-Theorem.xml"
+        },
+        {
+            "slot": "7",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-20-5\/20-5-3-1-Convolution-Exercises.xml"
+        },
+        {
+            "slot": "8",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-20-5\/20-5-3-2-Convolution-Theorem-Exercises.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>29.2.4.14 Intro to Volume integrals involving vectors</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Volume integrals involving vectors</h3>
+<p>Integrating a scalar function of a vector over a volume involves essentially the same procedure as in regular volume integrals. In 3D cartesian coordinates the volume element \(dV\) is \(dx dy dz\). The scalar function may be the divergence of a vector function.</p>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Integrate \({\underline \nabla} \cdot \underline{F}\) over the unit cube \(0 \le x \le 1\), \(0 \le y \le 1\), \(0 \le z \le 1\) where \(\underline{F}\) is the vector function \(x^2 y \underline{i} + (x-z)\underline{j} + 2 x z^2 \underline{k}\).</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>\({\underline \nabla} \cdot \underline{F} = \dfrac{\partial}{\partial x}(x^2 y) + \dfrac{\partial}{\partial y}(x-z) +\dfrac{\partial}{\partial z}(2 x z^2) = 2xy + 4xz \) </p>
+<p>The integral is
+\begin{eqnarray*} && \displaystyle\int_{x=0}^1 \displaystyle\int_{y=0}^1
+\displaystyle\int_{z=0}^1 (2xy + 4 xz) dz dy dx = \displaystyle\int_{x=0}^1
+\displaystyle\int_{y=0}^1 \left[\phantom{\dfrac{1}{1}}\!\!\! 2 x y z + 2 x z^2 \right]_0^1 dy dx\qquad\qquad\qquad\qquad \\
+&=& \displaystyle\int_{x=0}^1 \displaystyle\int_{y=0}^1 \left( 2 x y + 2 x \right) dy dx
+= \displaystyle\int_{x=0}^1  \left[\phantom{\dfrac{1}{1}}\!\!\!  x y^2 + 2 x y \right]_0^1 dx \\
+&=& \displaystyle\int_{x=0}^1  3x dx = \left[ \frac{3}{2} x^2 \right]_0^1 =
+\frac{3}{2}
+\end{eqnarray*}</p>
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+The volume integral of a scalar function (including the divergence of a vector) is a scalar.
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

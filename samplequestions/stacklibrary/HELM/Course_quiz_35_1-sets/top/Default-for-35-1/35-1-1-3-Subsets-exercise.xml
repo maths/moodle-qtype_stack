@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="multichoice">
+    <name>
+      <text>35.1.1.3 Subsets exercise</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>A factory produces cars over a five day period; Monday to Friday. Consider the following sets,</p>
+<p>\(A = \{\hbox{cars produced from Monday to Friday}\}\)</p>
+<p>\(B = \{\hbox{cars produced from Monday to Thursday}\}\)</p>
+<p>\(D = \{\hbox{cars produced on Wednesday}\}\)</p>
+<p>\(E = \{\hbox{cars produced on Wednesday and Thursday}\}\)</p>
+<p>Which of the following statements are correct?</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p dir="ltr" style="text-align: left;">Let \(A = \{\hbox{Mo},&nbsp;\hbox{Tu},&nbsp;\hbox{We},&nbsp;\hbox{Th},&nbsp;\hbox{Fi} \}\),&nbsp;\(B = \{\hbox{Mo},&nbsp;\hbox{Tu},&nbsp;\hbox{We},&nbsp;\hbox{Th} \}\),&nbsp;\(D = \{\hbox{We}\}\) and&nbsp;\(E = \{\hbox{We},&nbsp;\hbox{Th} \}\), then \(D \subset E \subset B \subset A\). Note that \(E \subset A\) because \(E \subset B\) and \(B \subset A\).</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <single>false</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>none</answernumbering>
+    <showstandardinstruction>1</showstandardinstruction>
+    <correctfeedback format="html">
+      <text>Your answer is correct.</text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="html">
+      <text>Your answer is partially correct.</text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="html">
+      <text>Your answer is incorrect.</text>
+    </incorrectfeedback>
+    <shownumcorrect/>
+    <answer fraction="16.66667" format="html">
+      <text><![CDATA[<p>\(B \subset A \)</p>]]></text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="-5" format="html">
+      <text><![CDATA[<p>\(B \subset E\)<br></p>]]></text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="16.66667" format="html">
+      <text><![CDATA[<p>\(D \subset A\)</p>]]></text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="16.66667" format="html">
+      <text><![CDATA[<p>\(E \subset A\)</p>]]></text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="16.66667" format="html">
+      <text><![CDATA[<p>\(D \subset B\)</p>]]></text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="16.66667" format="html">
+      <text><![CDATA[<p>\(E \subset B\)</p>]]></text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="16.66667" format="html">
+      <text><![CDATA[<p>\(D \subset E\)</p>]]></text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="-5" format="html">
+      <text><![CDATA[<p>\(A \subset B\)<br></p>]]></text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+  </question>
+</quiz>

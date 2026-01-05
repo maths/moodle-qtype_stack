@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>18.4.3.1 Relative error and percentage relative error</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p><h3>Relative error and percentage relative error</h3>Two other measures of error can be obtained from a knowledge of the expression for the absolute error. As mentioned earlier, the relative error in \(f\) is \(\dfrac{\delta f}{f}\) and the percentage relative error is \(\left(\dfrac{\delta f}{f} \times 100 \right)%\). Suppose that \(f(x,y)=x^2+y^2+xy\) then \[\begin{aligned} \delta f &amp; \simeq \frac{\partial f}{\partial x} \delta x + \frac{\partial f}{\partial y} \delta y \\ &amp; = (2x+y) \delta x + (2y+x) \delta y. \end{aligned} \] </p>
+<p>The relative error is \[\begin{aligned} \frac{\delta f}{f} &amp; \simeq \frac{1}{f} \frac{\partial f}{\partial x} \delta x + \frac{1}{f} \frac{\partial f}{\partial y} \delta y \\ &amp; = \frac{(2x+y)}{x^2+y^2+xy} \delta x + \frac{(2y+x)}{x^2+y^2+xy} \delta y \end{aligned}\]</p>
+<p>The actual value of the relative error can be obtained if the actual errors of the independent variables are known and the values of \(x\) and \(y\) at the point of interest. In the special case where the function is a combination of powers of the input variables then there is a short cut to finding the relative error in the value of the function. For example, if \(f(x,y,u)=\dfrac{x^2 y^4}{u^3}\) then \[\frac{\partial f}{\partial x} = \frac{2xy^4}{u^3}, \quad \frac{\partial f}{\partial y} = \frac{4x^2y^3}{u^3}, \quad \frac{\partial f}{\partial u} = -\frac{3x^2y^4}{u^4}.\] Hence \[\delta f \simeq \frac{2xy^4}{u^3} \delta x + \frac{4x^2 y^3}{u^3} \delta y- \frac{3x^2y^4}{u^4} \delta u\] Finally, \[\frac{\delta f}{f} \simeq \frac{2xy^4}{u^3} \times \frac{u^3}{x^2y^4} \delta x + \frac{4x^2 y^3}{u^3} \times \frac{u^3}{x^2 y^4} \delta y - \frac{3x^2 y^4}{u^4} \times \frac{u^3}{x^2 y^4} \delta u\] Cancelling down the fractions, \[\frac{\delta f}{f} \simeq 2 \frac{\delta x}{x} + 4 \frac{\delta y}{y} - 3 \frac{\delta u}{u} \qquad \qquad (1)\] so that \[\text{rel. error in } f \simeq 2 \times (\text{rel. error in } x) + 4 \times (\text{rel. error in } y) - 3 \times (\text{rel. error in } u).\] Note that if we write \[f(x,y,u)=x^2 y^4 u^{-3}\] we see that the coefficients of the relative errors on the right-hand sie of \((1)\) are the powers of the appropriate variable.</p>
+<p>To find the percentage relative error we simply multiply the relative error by \(100\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

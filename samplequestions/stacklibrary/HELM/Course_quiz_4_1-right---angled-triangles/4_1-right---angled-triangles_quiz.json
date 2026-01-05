@@ -1,0 +1,177 @@
+{
+    "quiz": {
+        "name": "4_1 Right - angled triangles",
+        "intro": "",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Right-angled triangles",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "9",
+            "heading": "Solving right-angled triangles",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "14",
+            "heading": "Exercises",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-4-1\/4-1-1-1-Right-angled-triangles.xml"
+        },
+        {
+            "slot": "2",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-4-1\/4-1-1-2-Engineering-Example-1.xml"
+        },
+        {
+            "slot": "3",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-4-1\/4-1-1-3-Engineering-Example-2.xml"
+        },
+        {
+            "slot": "4",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-4-1\/4-1-1-4-Task-sin,cos,tan-30-and-60.xml"
+        },
+        {
+            "slot": "6",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-4-1\/4-1-1-6-Task-sin,-cos,-tan-using-calculator.xml"
+        },
+        {
+            "slot": "5",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-4-1\/4-1-1-5.xml"
+        },
+        {
+            "slot": "7",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-4-1\/4-1-1-7-Inverse-trigonometric-functions-(a-first-look).xml"
+        },
+        {
+            "slot": "8",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-4-1\/4-1-1-8-Task---find-inverse-trig-numb.xml"
+        },
+        {
+            "slot": "9",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-4-1\/4-1-2-1-Solving-right-angled-triangles.xml"
+        },
+        {
+            "slot": "10",
+            "page": "7",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-4-1\/4-1-2-2-Engineering-Example-3.xml"
+        },
+        {
+            "slot": "11",
+            "page": "8",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-4-1\/4-1-2-3-Example.xml"
+        },
+        {
+            "slot": "12",
+            "page": "8",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-4-1\/4-1-2-4-Find-sides-and-angles-triangle.xml"
+        },
+        {
+            "slot": "13",
+            "page": "8",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-4-1\/4-1-2-5-Find-sides-and-angles-triangle.xml"
+        },
+        {
+            "slot": "14",
+            "page": "9",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-4-1\/4-1-3-1-find-cosec,-sec,-cot.xml"
+        },
+        {
+            "slot": "15",
+            "page": "9",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-4-1\/4-1-3-2-Find-sin,-cos,-tan,-cosec.xml"
+        },
+        {
+            "slot": "16",
+            "page": "9",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-4-1\/4-1-3-3-Find-cos,-tan-for-given-sin.xml"
+        },
+        {
+            "slot": "17",
+            "page": "9",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-4-1\/4-1-3-4-Find-angle-given-trig-values.xml"
+        },
+        {
+            "slot": "18",
+            "page": "9",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-4-1\/4-1-3-5-Find-sides-and-angles-triangle.xml"
+        },
+        {
+            "slot": "19",
+            "page": "9",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-4-1\/4-1-3-6-FAULTY-IMAGE-angle-of-elevation.xml"
+        },
+        {
+            "slot": "20",
+            "page": "9",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-4-1\/4-1-3-7-Find-distance.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

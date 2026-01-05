@@ -1,4 +1,4 @@
-# STACK release process notes
+# Releasing new STACK versions
 
 Note, these notes are designed for developers releasing a new version through the Moodle plugin database.  They are probably not useful for anyone else.
 
@@ -39,6 +39,7 @@ Unless you want to discuss something confidential with the developers, please do
 * Run PHP [unit tests](Unit_tests.md).
 * Run code checker.
 * If needed re-build the minified Javascript (e.g. `npx grunt --root=question/type/stack`).
+* Check version of JSXGraph.
 
 ### Check API
 

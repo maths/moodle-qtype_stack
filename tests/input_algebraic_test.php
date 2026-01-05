@@ -1332,8 +1332,12 @@ final class input_algebraic_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', '6*v*y*(5*z-8*x*y)');
         $el->set_parameter('insertStars', 7);
-        $state = $el->validate_student_response(['sans1' => '6vy(5z-8xy)'], $options, '6*v*y*(5*z-8*x*y)',
-            new stack_cas_security(false, '', '', ['ta']));
+        $state = $el->validate_student_response(
+            ['sans1' => '6vy(5z-8xy)'],
+            $options,
+            '6*v*y*(5*z-8*x*y)',
+            new stack_cas_security(false, '', '', ['ta'])
+        );
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('missing_stars | function_stars', $state->note);
         $this->assertEquals('6*v*y*(5*z-8*x*y)', $state->contentsmodified);

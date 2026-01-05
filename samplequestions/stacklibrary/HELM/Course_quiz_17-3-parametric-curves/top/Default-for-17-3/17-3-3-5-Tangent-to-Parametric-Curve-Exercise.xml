@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>17.3.3.5 Tangent to Parametric Curve Exercise</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>Find the tangent line to the parametric curve \(x=t^2-t, \ \ \) \(y=t^2+t\) at the point where \(t={@bb@}\).</p>
+<p>Equation of tangent line: \(y =\) [[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p> We are asked to find the tangent line to the parametric curve \(x=t^2-t, \ \ \) \(y=t^2+t\) at the point where \(t={@bb@}\).</p>
+
+<p> To find the tangent line, we need the derivative \( \dfrac{\mathrm{d}y}{\mathrm{d}x}.\) Since we have parametric equations, we must find this derivative in terms of  \( \dfrac{\mathrm{d}y}{\mathrm{d}t}\) and \( \dfrac{\mathrm{d}x}{\mathrm{d}t}.\) So</p>
+<p> \(\qquad \displaystyle x=t^2-t \implies \dfrac{\mathrm{d}x}{\mathrm{d}t} = 2t - 1\), and </p>
+<p> \(\qquad \displaystyle y=t^2+t \implies \dfrac{\mathrm{d}y}{\mathrm{d}t} = 2t + 1.\)</p>
+<br>
+
+<p> So since \(\quad \dfrac{\mathrm{d}y}{\mathrm{d}x}=\dfrac{\mathrm{d}y}{\mathrm{d}t}\div\dfrac{\mathrm{d}x}{\mathrm{d}t}, \quad\) here we have </p>
+<p> \( \qquad \displaystyle \dfrac{\mathrm{d}y}{\mathrm{d}x} = {@deriv@} \quad \), and at the point \(t={@bb@}\),
+<p> \( \qquad \displaystyle \dfrac{\mathrm{d}y}{\mathrm{d}x} = {@cc@}.\)</p>
+<br>
+
+<p> Now we find the point at which the tangent meets the curve.</p>
+<p> \(\qquad \displaystyle t={@bb@} \implies x= {@bb@}^2 - {@bb@} = {@dd@}, \quad \) and</p>
+<p> \(\qquad \displaystyle t={@bb@} \implies y = {@bb@}^2+ {@bb@} = {@ee@}.\)</p>
+
+<p> So our gradient \(\displaystyle \dfrac{\mathrm{d}y}{\mathrm{d}x} = {@cc@}\) and our point \(({@dd@},{@ee@})\) gives the equation of the tangent line:</p>
+<p> \(\begin{align} \qquad \displaystyle y - {@ee@} &= {@cc@}(x-{@dd@}) \\
+y &= {@ta1@}. \end{align}\).</p>
+<br>
+
+<p> A graph of the curve and the corresponding tangent is shown below:</p>
+[[jsxgraph]]
+        var board = JXG.JSXGraph.initBoard(divid, { // STACK: when moving to STACK change 'jxgboard' for divid
+            boundingbox: [-3, {#p2+3#}, {#p1+3#}, -3],
+            keepaspectratio: true,
+            showCopyright: false,
+            axis: true,
+            showNavigation: true
+        });
+		
+// Parameter value (from STACK variable)
+const t0 = {#bb#};
+
+// Parametric functions
+const f = t => t * t - t;
+const g = t => t * t + t;
+
+// Create the parametric curve for t in [-10,10]
+board.create('curve', [f, g, -10, 10], {
+    strokeColor: 'blue',
+    strokeWidth: 2
+});
+
+// Compute point on curve at t = t0
+const x0 = f(t0);
+const y0 = g(t0);
+
+// Derivatives
+const df = 2 * t0 - 1;
+const dg = 2 * t0 + 1;
+const m = dg / df;
+
+// Create the tangent point
+board.create('point', [x0, y0], {
+    name: '',
+    size: 2,
+    color: 'red',
+    fixed: true
+});
+
+// Create tangent line at P with slope m
+board.create('line', [
+    () => [x0, y0],
+    () => [x0 + 1, y0 + m]
+], {
+    strokeColor: 'green',
+    dash: 2
+});
+[[/jsxgraph]]]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025040100</text>
+    </stackversion>
+    <questionvariables>
+      <text>bb: rand(5) + 1;
+xexp: t^2 - t;
+yexp: t^2 + t;
+deriv: diff(yexp,t)/diff(xexp,t);
+p1: subst(t=bb, xexp);
+p2: subst(t=bb, yexp);
+cc: subst(t=bb, deriv);
+dd: bb^2 - bb;
+ee: bb^2 + bb;
+ta1: ev(cc*x - dd*cc + ee, simp);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="html">
+      <text>Point: \(t={@bb@}\), equation of tangent: \(y = {@ta1@}\)</text>
+    </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>8</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>821506607</deployedseed>
+    <deployedseed>1587476593</deployedseed>
+    <deployedseed>998939901</deployedseed>
+    <deployedseed>1836478844</deployedseed>
+    <deployedseed>652510435</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1 + 1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

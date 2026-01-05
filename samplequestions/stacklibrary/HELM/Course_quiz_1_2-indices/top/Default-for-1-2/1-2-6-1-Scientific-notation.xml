@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>1.2.6.1 Scientific notation</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Scientific notation
+</h3>
+<p>It is often necessary to use very large or very small numbers such as \(78000000\) and \(0.00000034\). <strong><br></strong></p><p><strong>Scientific notation</strong> can be used to express such numbers in a more concise form. Each number is written in the form <br></p><p>\( a\times 10^n\) where \(a\) is a number between \(1\) and \(10\). <br></p><p>We can make use of the following facts:</p>
+<ul><li>\(10=10^1, \quad 100=10^2, \quad 1000=10^3\) and so on,</li>
+<li>\( 0.1=10^{-1},\quad 0.01=10^{-2},\quad 0.001=10^{-3}\) and so on. </li>
+</ul>
+<p>For example,</p>
+<ul> 
+<li>the number \(5000\) can be written \(5\times 1000=5\times 10^3\),</li>
+ <li>the number \(403\) can be written \(4.03\times 100=4.03\times 10^2\),</li>
+ <li>the number \(0.009\) can be written \(9\times 0.001=9\times 10^{-3}\).</li>
+</ul>
+<p>Furthermore, to multiply a number by \(10^n\) the decimal point is moved \(n\) places to the right if \(n\) is a positive integer, and \(n\) places to the left if \(n\) is a negative integer. (If necessary additional zeros are inserted to make up the required number of digits before the decimal point.)</p>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Write the following numbers  in scientific notation.</p>
+<ol class="HELM_parts_inline">
+<li>\(0.00678\)  </li>
+<li> \(123456.7\)</li>
+</ol>
+<h4 class="HELM_solution">Solution</h4>
+<ol class="HELM_parts">
+<li>\(0.00678=6.78\times 10^{-3}\)</li>
+<li>\(123456.7=1.234567\times 10^5\)</li>
+</ol>
+<p>&nbsp;</p>
+<hr>
+
+<h3>Engineering constants</h3>
+<p>Many constants appearing in engineering calculations are expressed in scientific notation. For example the charge on an electron equals \(1.6\times 10^{-19}\) coulomb and the speed of light is \(3\times 10^8\) m s\(^{-1}\). Avogadro’s constant is equal to \(6.023\times 10^{26}\) and is the number of atoms in one kilomole of an element. Clearly the use of scientific notation avoids writing lengthy strings of zeros.</p>
+ <p>Your scientific calculator will be able to accept numbers in scientific notation. Often the \(E\) button is used and a number like \(4.2\times 10^7\) will be entered as \(4.2 E7\). Note that \(10E4\) means \(10\times 10^4\), that is \(10^5\). To enter the number \(10^3\) say, you would key in \(1E3\). Entering powers of 10 incorrectly is a common cause of error. You must check how your particular calculator accepts numbers in scientific notation.</p>
+<p> The following example is designed to check that you can enter numbers given in scientific notation into your calculator.</p>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Use your calculator to find \(4.2\times 10^{-3}\times 3.6\times 10^{-4}\).</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>\(1.512 \times 10^{−6}\).</p>
+<hr>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

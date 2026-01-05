@@ -1,0 +1,579 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>7.3.3.2 Evaluate a 4x4 determinant</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4 class="HELM_example">Example</h4>
+<p>This exercise is in five parts. Consider the determinant \[\Delta = \det{@matrixa@}\]</p>
+
+<ol class="HELM_parts">
+
+<li>
+<p>Use property 2 to find another matrix whose determinant is equal to \(\Delta\):</p> 	
+<div>[[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</div><div><br></div>
+</li>
+
+<li>
+<p>Now expand along the top row to express \(\Delta\) as the difference of two products, each of a number and a \(3\times 3\) determinant:
+</p><div>\(\Delta=\) [[input:ans21]] [[validation:ans21]]\(\times\det\)[[input:ans22]] [[validation:ans22]] \(-\) [[input:ans23]] [[validation:ans23]] \(\times\det\) [[input:ans24]] [[validation:ans24]] [[feedback:prt2]]<p></p>
+</div></li>
+
+<li>
+<p>Use property 4 to evaluate the first \(3\times3\) determinant: [[input:ans3]] [[validation:ans3]] [[feedback:prt3]]
+</p></li>
+
+<li>
+<p>Use property 4 to evaluate the second \(3\times3\) determinant: [[input:ans4]] [[validation:ans4]] [[feedback:prt4]]
+</p></li>
+
+<li>
+<p>Deduce the value of \(\Delta\): [[input:ans5]] [[validation:ans5]] [[feedback:prt5]]
+</p></li>
+
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text>Property 2 states that the determinant of a matrix is equal to the determinant of its transpose. So the other matrix is just the transpose of the matrix in the question:
+\[{@AA@}^{T} = {@AAT@}\]
+
+Expanding along the top row is easiest, because of the two zeros in the row. The formula for the determinant in terms of cofactors tells us:
+\[\det{@AA@} = ({@ta21@}){@ta22@}-({@ta23@}){@ta24@}\]
+Note the minus sign, which comes from the \(4\times4\) pattern of signs.
+
+In the second of the two \(3\times3\) determinants, the second row is double the first row. Hence the determinant is zero, by Property 4.
+
+In the first of the two \(3\times3\) determinants, the third column is \({@cc/bb@}\) times the second column. Hence this determinant is also zero.
+
+Therefore \(\Delta=0\).</text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020120600</text>
+    </stackversion>
+    <questionvariables>
+      <text>aa: rand([-5,-4,-3,-2,2,3,4,5]);
+bb: rand([-5,-4,-3,-2,2,3,4,5]);
+cc: rand([-5,-4,-3,-2,2,3,4,5]);
+dd: rand([-5,-4,-3,-2,2,3,4,5]);
+
+matrixa: matrix([rand([-5,-4,-3,-2,2,3,4,5]), aa, 2*aa, rand_with_step(-5,5,1)], [rand([-5,-4,-3,-2,2,3,4,5]), rand_with_step(-5,5,1), rand_with_step(-5,5,1), rand_with_step(-5,5,1)], [0, bb, 2*bb, bb*dd], [0, cc, 2*cc, cc*dd]);
+matrixa: ev(matrixa,simp);
+matrixat: ev(transpose(matrixa),simp);
+
+AA: matrixa;
+AAT: matrixat;
+
+ta: ev(determinant(matrixa),simp);
+ta1: AAT;
+ta21: AAT[1,1];
+ta22: ev(matrix([AAT[2,2], AAT[2,3], AAT[2,4]], [AAT[3,2], AAT[3,3], AAT[3,4]], [AAT[4,2], AAT[4,3], AAT[4,4]]),simp)
+ta23: AAT[1,2];
+ta24: ev(matrix([AAT[2,1], AAT[2,3], AAT[2,4]], [AAT[3,1], AAT[3,3], AAT[3,4]], [AAT[4,1], AAT[4,3], AAT[4,4]]),simp)
+ta3: ev(determinant(ta22),simp);
+ta4: ev(determinant(ta24),simp);
+ta5: ta;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\({@AA@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>matrix</type>
+      <tans>AAT</tans>
+      <boxsize>2</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans21</name>
+      <type>algebraic</type>
+      <tans>ta21</tans>
+      <boxsize>2</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans22</name>
+      <type>matrix</type>
+      <tans>ta22</tans>
+      <boxsize>2</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>minor</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans23</name>
+      <type>algebraic</type>
+      <tans>ta23</tans>
+      <boxsize>2</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans24</name>
+      <type>matrix</type>
+      <tans>ta24</tans>
+      <boxsize>2</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>minor</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>algebraic</type>
+      <tans>ta3</tans>
+      <boxsize>2</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>determinant</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans4</name>
+      <type>algebraic</type>
+      <tans>ta4</tans>
+      <boxsize>3</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>determinant</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans5</name>
+      <type>algebraic</type>
+      <tans>ta5</tans>
+      <boxsize>2</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>determinant</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>[ans21,ans22,ans23,ans24]</sans>
+        <tans>[ta21,ta22,ta23,ta24]</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>ta3</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt4</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans4</sans>
+        <tans>ta4</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt4-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt4-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt5</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans5</sans>
+        <tans>ta5</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt5-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt5-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1739000014</deployedseed>
+    <deployedseed>1040523509</deployedseed>
+    <deployedseed>383214816</deployedseed>
+    <deployedseed>788263319</deployedseed>
+    <deployedseed>1251177985</deployedseed>
+    <deployedseed>30243275</deployedseed>
+    <deployedseed>336164335</deployedseed>
+    <deployedseed>648338251</deployedseed>
+    <deployedseed>2094046336</deployedseed>
+    <deployedseed>2014318189</deployedseed>
+    <deployedseed>417148975</deployedseed>
+    <deployedseed>589195366</deployedseed>
+    <deployedseed>671498101</deployedseed>
+    <deployedseed>1168318196</deployedseed>
+    <deployedseed>352546611</deployedseed>
+    <deployedseed>504212919</deployedseed>
+    <deployedseed>732851237</deployedseed>
+    <deployedseed>1453878120</deployedseed>
+    <deployedseed>1613831681</deployedseed>
+    <deployedseed>108312719</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans21</name>
+        <value>ta21</value>
+      </testinput>
+      <testinput>
+        <name>ans22</name>
+        <value>ta22</value>
+      </testinput>
+      <testinput>
+        <name>ans23</name>
+        <value>ta23</value>
+      </testinput>
+      <testinput>
+        <name>ans24</name>
+        <value>ta24</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta3</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>ta4</value>
+      </testinput>
+      <testinput>
+        <name>ans5</name>
+        <value>ta5</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt4-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt5</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt5-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans21</name>
+        <value>ta21</value>
+      </testinput>
+      <testinput>
+        <name>ans22</name>
+        <value>ta22</value>
+      </testinput>
+      <testinput>
+        <name>ans23</name>
+        <value>-ta23</value>
+      </testinput>
+      <testinput>
+        <name>ans24</name>
+        <value>ta24</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta3</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>ta4</value>
+      </testinput>
+      <testinput>
+        <name>ans5</name>
+        <value>ta5</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt4-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt5</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt5-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

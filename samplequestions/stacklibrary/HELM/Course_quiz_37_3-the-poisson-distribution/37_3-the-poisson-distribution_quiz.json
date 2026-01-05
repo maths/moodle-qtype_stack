@@ -1,0 +1,112 @@
+{
+    "quiz": {
+        "name": "37_3 The Poisson Distribution",
+        "intro": "<p>We introduce a probability model which can be used when the outcome of an experiment\nis a random variable taking on positive integer values and where the only information available is a\nmeasurement of its average value. This has widespread applications, for example in analysing traffic\nflow, in fault prediction on electric cables and in the prediction of randomly occurring accidents.&nbsp;<\/p><p>We\nshall look at the Poisson distribution in two distinct ways. Firstly, as a distribution in its own right.\nThis will enable us to apply statistical methods to a set of problems which cannot be solved using\nthe binomial distribution. Secondly, as an approximation to the binomial distribution \\(X \\sim B(n, p)\\) in the case where \\(n\\) is large and \\(p\\) is small. You will find that this approximation can often save the\nneed to do much tedious arithmetic.<br><\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "7.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "The Poisson approximation to the binomial distribution",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "2",
+            "heading": "The Poisson distribution",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "4",
+            "heading": "Expectation and variance of the poisson distribution",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "5",
+            "heading": "Exercises",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-37-3\/37-3-1-The-Poisson-approximation-to-the-binomial-distribution.xml"
+        },
+        {
+            "slot": "2",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-37-3\/37-3-2-The-Poisson-Distribution.xml"
+        },
+        {
+            "slot": "3",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-37-3\/37-3-2-1-The-Poisson-probabilities.xml"
+        },
+        {
+            "slot": "4",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-37-3\/37-3-3-Expectation-and-variance-of-the-Poisson-distribution.xml"
+        },
+        {
+            "slot": "5",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-37-3\/37-3-3-1-The-Poisson-Process-Large-metal-sheets.xml"
+        },
+        {
+            "slot": "6",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-37-3\/37-3-3-3-The-Poisson-Process-Vehicle-arrival.xml"
+        },
+        {
+            "slot": "7",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-37-3\/37-3-3-4-The-Poisson-Process-Defective-transistors.xml"
+        },
+        {
+            "slot": "8",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-37-3\/37-3-3-5-The-Poisson-Process-Defective-articles.xml"
+        },
+        {
+            "slot": "9",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-37-3\/37-3-3-6-The-Poisson-Process-Book-page-misprints.xml"
+        },
+        {
+            "slot": "10",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-37-3\/37-3-3-9-The-Poisson-Process-Machine-failures.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "8.00000"
+        }
+    ]
+}

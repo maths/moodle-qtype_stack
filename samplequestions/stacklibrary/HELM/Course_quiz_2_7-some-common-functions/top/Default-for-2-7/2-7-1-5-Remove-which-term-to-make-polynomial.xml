@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>2.7.1.5  Remove which term to make polynomial</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise </p>
+<p>In each case below, identify the term which prevents the expression from being a polynomial.</p>
+<ol class="HELM_parts">
+<li><p>\(\displaystyle{@g1@}\):&nbsp; [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</p></li>
+<li><p>\(\displaystyle{@g2@}\):&nbsp; [[input:ans2]] [[validation:ans2]] [[feedback:prt2]]</p></li>
+<li><p>\(\displaystyle{@g3@}\):&nbsp; [[input:ans3]] [[validation:ans3]] [[feedback:prt3]]</p></li>
+<li><p>\(\displaystyle{@g4@}\):&nbsp; [[input:ans4]] [[validation:ans4]] [[feedback:prt4]]</p></li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>A polynomial is always a function of the form \(P_n(x)=a_n x^n+a_{n-1} x^{n-1}...a_2 x^2+a_1 x+a_0\), so inverse powers of \(x\), semi integer power of \(x\) or, in general, other functions as trigonometric functions, logarithms etc. are not allowed in
+    a polynomial.</p>
+<p>For the given functions:</p>
+<ol class="HELM_parts">
+    <li>
+        <p>\(\displaystyle{@g1@},\) the term \(\displaystyle{@correct1@}\) is not allowed because it is an inverse power of \(x\).</p>
+    </li>
+    <li>
+        <p>\(\displaystyle{@g2@},\) the term \(\displaystyle{@correct2@}\) is not allowed because it is not an integer power of \(x\).</p>
+    </li>
+    <li>
+        <p>\(\displaystyle{@g3@},\) the term \(\displaystyle{@correct3@}\) is not allowed because it is an inverse power of \(x\).</p>
+    </li>
+    <li>
+        <p>\(\displaystyle{@g4@},\) the term \(\displaystyle{@correct4@}\) is not allowed because it is a trigonometric function.</p>
+    </li>
+</ol>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2022071300</text>
+    </stackversion>
+    <questionvariables>
+      <text>var1: x;
+rand1: rand_with_prohib(-2,5,[0]);
+rand2: rand_with_prohib(-1, 14, [0]);
+rand3: rand_with_prohib(-5,5,[0]);
+rand4: rand_with_prohib(-13,7,[0]);
+rand5: rand_with_prohib(-1,15,[0]);
+rand6: rand_with_prohib(-4,7,[0]);
+rand7: rand_with_prohib(-5,5,[0]);
+rand8: rand_with_prohib(-19,15,[0]);
+
+ra1: rand_with_prohib(-7,7,[0]);
+ra2: rand_with_prohib(-9,17,[0]);
+ra3: rand_with_prohib(-3,23,[0]);
+ra4: rand_with_step(1,7,1);
+ra5: rand_with_step(8,15,1);
+ra6: rand_with_prohib(-6,7,[0]);
+g1: g (x)=var1^3+ra3/var1^2+ra1*var1+rand2;
+ra7: ra4/ra5;
+g2: g(x)=ra6*var1^4+rand3*var1^2+ra2*var1^ra7+rand8;
+g3: g(x)=ra1/ra2*var1^2+ra5*var1+rand3/var1+rand8/ra1;
+g4: g(x)=rand4/ra4*var1^3+sin(var1)+rand7/ra1;
+correct1: ra3/var1^2;
+correct2: ra2*var1^ra7;
+correct3: rand3/var1;
+correct4: sin(var1);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text><![CDATA[<li>\({@g1@}\)= {@correct1@},</li>
+<li>\({@g2@}\)={@correct2@},</li>
+<li>\({@g3@}\) ={@correct3@},</li>
+<li>\({@g4@}\)= {@correct4@}.</li>]]></text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>correct1</tans>
+      <boxsize>7</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>correct2</tans>
+      <boxsize>7</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>algebraic</type>
+      <tans>correct3</tans>
+      <boxsize>7</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans4</name>
+      <type>algebraic</type>
+      <tans>correct4</tans>
+      <boxsize>7</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>EqualComAss</answertest>
+        <sans>ans1</sans>
+        <tans>correct1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>EqualComAss</answertest>
+        <sans>ans2</sans>
+        <tans>correct2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>EqualComAss</answertest>
+        <sans>ans3</sans>
+        <tans>correct3</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt4</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>EqualComAss</answertest>
+        <sans>ans4</sans>
+        <tans>correct4</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt4-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt4-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1042773387</deployedseed>
+    <deployedseed>50618793</deployedseed>
+    <deployedseed>890386750</deployedseed>
+    <deployedseed>756709705</deployedseed>
+    <deployedseed>1635533886</deployedseed>
+    <deployedseed>1900801919</deployedseed>
+    <deployedseed>1028404237</deployedseed>
+    <deployedseed>413916826</deployedseed>
+    <deployedseed>2135689454</deployedseed>
+    <deployedseed>866037051</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>correct1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>correct2</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>correct3</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>correct4</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt4-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(2*correct1, simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ev(2*correct2, simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ev(2*correct3, simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>ev(2*correct4, simp)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt3-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt4-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

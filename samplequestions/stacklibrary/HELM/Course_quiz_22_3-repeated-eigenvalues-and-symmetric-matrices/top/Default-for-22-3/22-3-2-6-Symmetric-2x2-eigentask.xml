@@ -1,0 +1,639 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>22.3.2.6 Symmetric 2x2 eigentask</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>Consider the \(2\times 2\) symmetric matrix \[A={@m@}.\]</p>
+<ol class="HELM_parts">
+    <li>
+        <div>Find the eigenvalues of \(A\): [[input:anseigenvalues]] [[validation:anseigenvalues]] </div>
+        [[feedback:prt_eigenvalues]]
+    </li>
+    <li>
+        <div>Find (independent) eigenvectors of \(A\): \(X=\) [[input:anseig_x]] [[validation:anseig_x]] &nbsp;and \(Y=\) [[input:anseig_y]] [[validation:anseig_y]]</div>
+      [[feedback:prt_eigenvectors]]
+    </li>
+    <li>
+        <div>For the two eigenvectors found above, evaluate \(X^TY=\) [[input:ansprod]] [[validation:ansprod]] </div>
+      [[feedback:prt_dotprod]]
+    </li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<ol class="HELM_parts">
+    <li>
+        <p>The characteristic equation for \(A\) is \[{@charpoly_raw@}=0\qquad\text{or}\qquad{@charpoly_simp@}=0,\] giving \(\lambda={@eigvaly@}\) and \(\lambda={@eigvalx@}\), both of which are of course real and also unequal (i.e. distinct).</p>
+    </li>
+    <li>
+        <p>For the larger eigenvalue \(\lambda={@eigvalx@}\) the eigenvector \(X={@matrix([x],[y])@}\) satisfies \[{@m@}{@matrix([x],[y])@} = {@eigvalx*matrix([x],[y])@}.\] Both equations simplify to \({@-eigvecx[2,1]*x+eigvecx[1,1]*y@}=0\), so an eigenvector
+            for \(\lambda={@eigvalx@}\) is \(X={@eigvecx@}\) or any non-zero multiple of it.</p>
+        <p>For \(\lambda={@eigvaly@}\) the associated eigenvectors satisfy \({@-eigvecy[2,1]*x+eigvecy[1,1]*y@}=0\) (from both equations), so an eigenvector is \(Y={@eigvecy@}\) or any non-zero multiple.
+        </p>
+    </li>
+    <li>
+        <p>We compute \[X^TY = {@transpose(eigvecx)@}{@eigvecy@} = {@(simp:false,make_multsgn("cross"),prodcomp)@} = {@(simp:true,zeromatrix(1,1))@} = \mathbf{0}.\] The relation \(X^TY = \mathbf{0}\) means that \(X\) and \(Y\) are <strong>orthogonal</strong>.
+        </p>
+    </li>
+</ol>]]></text>
+    </generalfeedback>
+    <defaultgrade>3</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020120600</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[/* Generate a 2x2 symmetric matrix with nice eigenvalues/eigenvectors */
+/* From: https://www.researchgate.net/publication/228855146_Setting_linear_algebra_problems */
+[a,b]:rand_selection([-2,-1,1,2],2);
+kk:1; /* the eigvals will be kk*(a^2+b^2) apart */
+m : kk*matrix([b*b,a*b],[a*b,a*a]);  /* eigvals are 0, kk*(a^2+b^2) */
+tt : rand_with_step(0,kk*a*a+kk*b*b,1);
+m : m - tt*ident(2);  /* can shift by any*ident(2) */
+
+gg : gcd(a,b);
+eigvecy : matrix([a/gg],[-b/gg]); if a<0 then eigvecy : -eigvecy;
+eigvecx : matrix([b/gg],[a/gg]); if b<0 then eigvecx : -eigvecx;
+eigvaly : -tt;
+eigvalx : kk*a*a+kk*b*b-tt;
+eigvalmat : matrix([eigvalx,eigvaly]);
+
+/* Preparing for printing the solution */
+charpoly_raw : charpoly(m,lambda);
+charpoly_simp : simplify(charpoly_raw);
+simp:false;
+prodcomp: matrix([eigvecx[1,1]*eigvecy[1,1] + eigvecx[2,1]*eigvecy[2,1]]);
+simp:true;]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\(A = {@m@}, \qquad \lambda = {@eigvaly@}, {@eigvalx@}, \qquad \text{eigenvectors} \; Y = {@eigvecy@}, X = {@eigvecx@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>anseig_x</name>
+      <type>matrix</type>
+      <tans>eigvecx</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>anseig_y</name>
+      <type>matrix</type>
+      <tans>eigvecy</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>anseigenvalues</name>
+      <type>matrix</type>
+      <tans>eigvalmat</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ansprod</name>
+      <type>matrix</type>
+      <tans>matrix([0])</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt_dotprod</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>simp:false;
+prod_from_xy_raw : anseig_x[1,1]*anseig_y[1,1]+anseig_x[2,1]*anseig_y[2,1];
+simp:true;
+prod_from_xy : simplify(prod_from_xy_raw);
+anspair : [is(prod_from_xy=ansprod[1,1]), is(ansprod[1,1]=0)];</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>CasEqual</answertest>
+        <sans>anspair</sans>
+        <tans>[true,true]</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt_dotprod-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt_dotprod-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>CasEqual</answertest>
+        <sans>anspair</sans>
+        <tans>[false,true]</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.5000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt_dotprod-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Your answer \({@zeromatrix(1,1)@}\) is the correct one for the actual eigenvectors of \(A\), but does not match the vectors \(X,Y\) you determined, since \(X^TY={@transpose(anseig_x)@}{@anseig_y@}= {@(simp:false,make_multsgn("cross"),matrix([prod_from_xy_raw]))@} = {@(simp:true,matrix([prod_from_xy]))@}\).</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>prt_dotprod-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>CasEqual</answertest>
+        <sans>anspair</sans>
+        <tans>[true,false]</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt_dotprod-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>You have computed \(X^TY = {@matrix([prod_from_xy])@}\) from your vectors \(X\) and \(Y\) correctly, but please see the Answer: for the actual eigenvectors of \(A\) this product is \({@zeromatrix(1,1)@}\), i.e. the eigenvectors are orthogonal.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt_dotprod-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>For your vectors \(X\) and \(Y\), we have \(X^TY={@transpose(anseig_x)@}{@anseig_y@}={@(simp:false,make_multsgn("cross"),matrix([prod_from_xy_raw]))@} = {@(simp:true,matrix([prod_from_xy]))@} \neq {@ansprod@}\).</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt_eigenvalues</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>got_first : member(eigvalx, anseigenvalues[1]);
+got_second : member(eigvaly, anseigenvalues[1]);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>CasEqual</answertest>
+        <sans>got_first</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.5000000</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt_eigenvalues-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt_eigenvalues-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>You didn't find \({@eigvalx@}\) as an eigenvalue.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>CasEqual</answertest>
+        <sans>got_second</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.5000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt_eigenvalues-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt_eigenvalues-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>You didn't find \({@eigvaly@}\) as an eigenvalue.</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt_eigenvectors</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>ax_eigvec_eval : [is(zeromatrix(2,1) = (m-eigvalx*ident(2)) . anseig_x), is(zeromatrix(2,1) = (m-eigvaly*ident(2)) . anseig_x),  is(zeromatrix(2,1)=anseig_x)];
+ay_eigvec_eval : [is(zeromatrix(2,1) = (m-eigvalx*ident(2)) . anseig_y), is(zeromatrix(2,1) = (m-eigvaly*ident(2)) . anseig_y),  is(zeromatrix(2,1)=anseig_y)];
+
+all_zero : ax_eigvec_eval[3] and ay_eigvec_eval[3];
+ax_is_eigvec : (ax_eigvec_eval[1] or  ax_eigvec_eval[2]) and not(ax_eigvec_eval[3]);
+ay_is_eigvec : (ay_eigvec_eval[1] or  ay_eigvec_eval[2]) and not(ay_eigvec_eval[3]);
+are_nz_dependent : is(rank(addcol(anseig_x,anseig_y))=1) and ax_is_eigvec and ay_is_eigvec and not(ax_eigvec_eval[3]) and not(ay_eigvec_eval[3]);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>CasEqual</answertest>
+        <sans>all_zero</sans>
+        <tans>false</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt_eigenvectors-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt_eigenvectors-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>The zero vector is never an eigenvector of any matrix (by definition).</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>CasEqual</answertest>
+        <sans>ax_is_eigvec</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.5000000</truescore>
+        <truepenalty/>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>prt_eigenvectors-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>prt_eigenvectors-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>The vector \(X={@anseig_x@}\) is not an eigenvector of \(A\).</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>CasEqual</answertest>
+        <sans>ay_is_eigvec</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.5000000</truescore>
+        <truepenalty/>
+        <truenextnode>3</truenextnode>
+        <trueanswernote>prt_eigenvectors-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>3</falsenextnode>
+        <falseanswernote>prt_eigenvectors-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>The vector \(Y={@anseig_y@}\) is not an eigenvector of \(A\).</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>3</name>
+        <description/>
+        <answertest>CasEqual</answertest>
+        <sans>are_nz_dependent</sans>
+        <tans>false</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt_eigenvectors-4-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.5000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt_eigenvectors-4-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>The two vectors \(X\) and \(Y\) are linearly dependent (one of them is a multiple of the other). Thus they are eigenvectors for the same eigenvalue, and you are missing another independent eigenvector.</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1840622559</deployedseed>
+    <deployedseed>1374245326</deployedseed>
+    <deployedseed>2050662052</deployedseed>
+    <deployedseed>904461369</deployedseed>
+    <deployedseed>454547234</deployedseed>
+    <deployedseed>1520403740</deployedseed>
+    <deployedseed>1767821257</deployedseed>
+    <deployedseed>943622216</deployedseed>
+    <deployedseed>307422312</deployedseed>
+    <deployedseed>245396139</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>anseig_x</name>
+        <value>eigvecx</value>
+      </testinput>
+      <testinput>
+        <name>anseig_y</name>
+        <value>eigvecy</value>
+      </testinput>
+      <testinput>
+        <name>anseigenvalues</name>
+        <value>eigvalmat</value>
+      </testinput>
+      <testinput>
+        <name>ansprod</name>
+        <value>matrix([0])</value>
+      </testinput>
+      <expected>
+        <name>prt_dotprod</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt_dotprod-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_eigenvalues</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt_eigenvalues-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_eigenvectors</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt_eigenvectors-4-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>anseig_x</name>
+        <value>ev(eigvecx+matrix([1000],[1000000]),simp)</value>
+      </testinput>
+      <testinput>
+        <name>anseig_y</name>
+        <value>ev(eigvecy+matrix([1000],[1000000]),simp)</value>
+      </testinput>
+      <testinput>
+        <name>anseigenvalues</name>
+        <value>ev(eigvalmat+matrix([1000,1000]),simp)</value>
+      </testinput>
+      <testinput>
+        <name>ansprod</name>
+        <value>matrix([100])</value>
+      </testinput>
+      <expected>
+        <name>prt_dotprod</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt_dotprod-3-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_eigenvalues</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt_eigenvalues-2-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_eigenvectors</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt_eigenvectors-4-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>anseig_x</name>
+        <value>eigvecy</value>
+      </testinput>
+      <testinput>
+        <name>anseig_y</name>
+        <value>ev(eigvecx+matrix([1000],[1000]),simp)</value>
+      </testinput>
+      <testinput>
+        <name>anseigenvalues</name>
+        <value>ev(eigvalmat+matrix([0,1000]),simp)</value>
+      </testinput>
+      <testinput>
+        <name>ansprod</name>
+        <value>ev(matrix([transpose(eigvecx+matrix([1000],[1000])) . eigvecy]) ,simp)</value>
+      </testinput>
+      <expected>
+        <name>prt_dotprod</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt_dotprod-3-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_eigenvalues</name>
+        <expectedscore>0.5000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt_eigenvalues-2-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_eigenvectors</name>
+        <expectedscore>0.5000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt_eigenvectors-4-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description/>
+      <testinput>
+        <name>anseig_x</name>
+        <value>ev(eigvecx+matrix([1000],[1000]),simp)</value>
+      </testinput>
+      <testinput>
+        <name>anseig_y</name>
+        <value>eigvecy</value>
+      </testinput>
+      <testinput>
+        <name>anseigenvalues</name>
+        <value>ev(eigvalmat+matrix([1000,0]),simp)</value>
+      </testinput>
+      <testinput>
+        <name>ansprod</name>
+        <value>matrix([0])</value>
+      </testinput>
+      <expected>
+        <name>prt_dotprod</name>
+        <expectedscore>0.5000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt_dotprod-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_eigenvalues</name>
+        <expectedscore>0.5000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt_eigenvalues-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_eigenvectors</name>
+        <expectedscore>0.5000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt_eigenvectors-4-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>5</testcase>
+      <description/>
+      <testinput>
+        <name>anseig_x</name>
+        <value>eigvecx</value>
+      </testinput>
+      <testinput>
+        <name>anseig_y</name>
+        <value>ev(3*eigvecx,simp)</value>
+      </testinput>
+      <testinput>
+        <name>anseigenvalues</name>
+        <value>eigvalmat</value>
+      </testinput>
+      <testinput>
+        <name>ansprod</name>
+        <value>matrix([0])</value>
+      </testinput>
+      <expected>
+        <name>prt_dotprod</name>
+        <expectedscore>0.5000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt_dotprod-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_eigenvalues</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt_eigenvalues-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_eigenvectors</name>
+        <expectedscore>0.5000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt_eigenvectors-4-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

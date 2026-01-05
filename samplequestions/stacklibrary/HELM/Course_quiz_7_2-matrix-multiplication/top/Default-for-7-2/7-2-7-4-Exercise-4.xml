@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>7.2.7.4 Exercise 4</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>If \(A = {@matrixa@},\) \(B = {@matrixb@}\) and \(C={@matrixc@},\) compute the matrix \(ABC\):</p>
+<br>
+<div>\(ABC = \) [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</div><div></div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>
+\[A = {@AA@}, \qquad B = {@BB@}, \qquad C = {@CC@}\]
+</p><div>Method 1: First compute \(AB\), then multiply that on the right by \(C\).</div>
+\begin{align*} AB &amp; = {@AB@} \\ &amp; = {@ABs@} \\ &amp; \\ ABC &amp; = {@ABC1@} \\ &amp; = {@ABC1s@} \end{align*}
+<p></p><p>Method 2: First compute \(BC\), then multiply that on the left by \(A\).</p><p>\begin{align*} BC &amp; = {@BC@} \\ &amp; = {@BCs@} \\ &amp; \\ ABC &amp; = {@ABC2@} \\ &amp; = {@ABC2s@} \end{align*}</p><p>Note that we obtain the same result either way.</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021072200</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[matrixa: matrix([rand_with_step(-5,5,1),rand_with_step(-5,5,1),rand_with_step(-5,5,1)],[rand_with_step(-5,5,1),rand_with_step(-5,5,1),rand_with_step(-5,5,1)]);
+matrixa: ev(matrixa,simp);
+matrixb: matrix([rand_with_step(-5,5,1),rand_with_step(-5,5,1),rand_with_step(-5,5,1)],[rand_with_step(-5,5,1),rand_with_step(-5,5,1),rand_with_step(-5,5,1)], [rand_with_step(-5,5,1),rand_with_step(-5,5,1),rand_with_step(-5,5,1)]);
+matrixb: ev(matrixb,simp);
+matrixc: matrix([rand_with_step(-5,5,1)],[rand_with_step(-5,5,1)],[rand_with_step(-5,5,1)]);
+matrixc: ev(matrixc,simp);
+
+ta1: ev((matrixa.matrixb).matrixc,simp);
+
+/* what follows is only for general feedback */
+
+AA: ev(matrixa,simp);
+BB: ev(matrixb,simp);
+CC: ev(matrixc,simp);
+AAT: ev(transpose(matrixa),simp);
+BBT: ev(transpose(matrixb),simp);
+CCT: ev(transpose(matrixc),simp);
+
+AB: zeromatrix (first(matrix_size(AA)), first(matrix_size(BBT)));
+SS: for a:1 thru first(matrix_size(AA)) do for b:1 thru first(matrix_size(BBT)) do AB[ev(a,simp),ev(b,simp)]:apply("+",zip_with("*",AA[ev(a,simp)],BBT[ev(b,simp)]));
+ABs: ev(AB,simp);
+
+ABC1: zeromatrix(first(matrix_size(ABs)), first(matrix_size(CCT)));
+SS: for d:1 thru first(matrix_size(ABs)) do for c:1 thru first(matrix_size(CCT)) do ABC1[ev(d,simp),ev(c,simp)]:apply("+",zip_with("*",ABs[ev(d,simp)],CCT[ev(c,simp)]));
+ABC1s: ev(ABC1,simp);
+
+BC: zeromatrix (first(matrix_size(BB)), first(matrix_size(CCT)));
+SS: for b:1 thru first(matrix_size(BB)) do for c:1 thru first(matrix_size(CCT)) do BC[ev(b,simp),ev(c,simp)]:apply("+",zip_with("*",BB[ev(b,simp)],CCT[ev(c,simp)]));
+BCs: ev(BC,simp);
+
+BCT: ev(transpose(BCs),simp);
+
+ABC2: zeromatrix(first(matrix_size(AA)), first(matrix_size(BCT)));
+SS: for a:1 thru first(matrix_size(AA)) do for d:1 thru first(matrix_size(BCT)) do ABC2[ev(a,simp),ev(d,simp)]:apply("+",zip_with("*",AA[ev(a,simp)],BCT[ev(d,simp)]));
+ABC2s: ev(ABC2,simp);
+
+/*
+the following code defines a heuristic M to measure how bad the arithmetic gets 
+the heuristic M is printed in the question note for the instructor's convenience
+*/
+Interm1: ev(matrixa.matrixb,simp);
+Interm2: ev(matrixb.matrixc,simp);
+MM: ev(lmax([ev(mat_norm(Interm1,1),simp),ev(mat_norm(Interm2,1),simp),ev(mat_norm(ta1,1),simp)]),simp);]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\(A = {@matrixa@}, B = {@matrixb@}, C = {@matrixc@}, ABC = {@ta1@}, M = {@MM@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>0</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>matrix</type>
+      <tans>ta1</tans>
+      <boxsize>1</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>determinant</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>0.2000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1333204668</deployedseed>
+    <deployedseed>147583968</deployedseed>
+    <deployedseed>1550441960</deployedseed>
+    <deployedseed>940032131</deployedseed>
+    <deployedseed>105974638</deployedseed>
+    <deployedseed>239342529</deployedseed>
+    <deployedseed>1739732314</deployedseed>
+    <deployedseed>1946502795</deployedseed>
+    <deployedseed>756321419</deployedseed>
+    <deployedseed>646506471</deployedseed>
+    <deployedseed>1485917163</deployedseed>
+    <deployedseed>517462630</deployedseed>
+    <deployedseed>967072693</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(ta1+1,simp)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

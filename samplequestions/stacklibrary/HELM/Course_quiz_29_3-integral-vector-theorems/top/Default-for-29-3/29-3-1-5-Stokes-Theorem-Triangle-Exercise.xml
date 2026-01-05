@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>29.3.1.5 Stokes' Theorem Triangle Exercise</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p> Consider the vector field \(\underline{F} = -y \underline{i} + x \underline{j} + z\underline{k}\) and the contour around the triangle \((0,0,0), ({@aa@},0,0), ({@aa@},{@aa@},0)\).</p>
+<p> Using Stokes' theorem, evaluate either the surface integral or the line integral. [Remember that if evaluated correctly, they will both give the same answer.]</p>
+<p> \(I =\) [[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>We are asked to consider the vector field \(\underline{F} = -y \underline{i} + x \underline{j} + z\underline{k}\) and the contour around the triangle \((0,0,0), ({@aa@},0,0), ({@aa@},{@aa@},0)\) and to use Stokes' theorem to evaluate either the surface integral or the line integral.  </p>
+<p> Stokes' Theorem tells us that for any vector field \(\underline{F}\) and a contour \(C\) which bounds an area \(S\),</p>
+<p>\(\qquad \displaystyle\int\!\! \displaystyle\int_S ({\underline \nabla} \times \underline{F}) \cdot \underline{dS} = \displaystyle\oint_C \underline{F} \cdot \underline{dr}\) </p>
+
+<p> You may choose to evaluate this integral either using the surface integral or the line integral side of Stokes' Theorem. </p>
+<p> We give the solution for the <strong>surface integral </strong> method first:</p>
+<p> First we find the curl, \({\underline \nabla} \times \underline{F}\):</p>
+<p> \(\begin{align}
+{\underline \nabla} \times \underline{F} = \left| \begin{array}{ccc} \underline{i} & \underline{j} & \underline{k}\\
+\\
+\dfrac{\partial}{\partial x} & \dfrac{\partial}{\partial y} & \dfrac{\partial}{\partial z} \\ 
+\\ 
+-y & x & z \end{array} \right| &= \underline{i} \left| \begin{array}{cc} \dfrac{\partial}{\partial y} & \dfrac{\partial}{\partial z}  \\
+x & z  \end{array}\right|  - \underline{j} \left| \begin{array}{cc} \dfrac{\partial}{\partial x} & \dfrac{\partial}{\partial z}  \\
+-y & z  \end{array}\right|  + \underline{k} \left| \begin{array}{cc} \dfrac{\partial}{\partial x} & \dfrac{\partial}{\partial y}  \\
+-y & x  \end{array}\right|  \\
+&=  \underline{i} \left(0-0\right) -  \underline{j} \left(0-0\right) +  \underline{k} \left(1- (-1)\right) \\
+&= 2\underline{k} \end{align}\) </p>
+
+<p> Now, since the triangle lies in the \(xy\) plane, our normal vector \(\underline{\mathrm{d}S}\) is \(\mathrm{d}x \, \mathrm{d}y \, \underline{k},\) and so our surface integral becomes </p>
+<p> \(\begin{align}
+\qquad\displaystyle\int\!\! \displaystyle\int_S ({\underline \nabla} \times \underline{F}) \cdot \underline{dS} &= \int \int_S 2\underline{k} \cdot \underline{k} \, \mathrm{d}x \, \mathrm{d}y \\
+&=  \int \int_S 2\, \mathrm{d}x \, \mathrm{d}y \\
+&= 2 \int \int_A \, \mathrm{d}x \, \mathrm{d}y \\
+&= 2 \times \text{Area of Triangle} \end{align}\)</p>
+
+<p> Since our triangle is in the \(xy\) plane, its area is simply \(\dfrac{1}{2} \times \text{base} \times \text{height}\) and so here since our triangle has base and height of length \({@aa@}\), </p>
+<p> \(\qquad \text{Area of Triangle} = \dfrac{1}{2} \times {@aa@} \times {@aa@} = {@area@}\), and so now the surface integral becomes </p>
+<p> \(\begin{align}
+\qquad\displaystyle\int\!\! \displaystyle\int_S ({\underline \nabla} \times \underline{F}) \cdot \underline{dS} &= 2 \times \text{Area of Triangle} \\
+&= 2 \times {@area@} \\
+&={@ta1@}.\end{align}\)</p>
+
+
+
+<br>
+<p>We now show the <strong> line integral</strong> solution. </p>
+
+<p> We are aiming to find the line integral \(\displaystyle \oint_C \underline{F} \cdot \underline{\mathrm{d}r}\) which we do by considering the contribution of each of the \(3\) sides of the triangle separately. </p>
+
+<p> First we find \(\underline{F} \cdot \underline{\mathrm{d}r}\). </p> 
+<p> We have  \(\underline{F} = -y \underline{i} + x \underline{j} + z\underline{k}, \, \) and \(\, \underline{\mathrm{d}r} = \mathrm{d}x \underline{i} + \mathrm{d}y\underline{j} + \mathrm{d}z \underline{k}, \, \) and so </p>
+<p> \(\qquad \displaystyle \underline{F} \cdot \underline{\mathrm{d}r} = -y \, \mathrm{d}x + x \, \mathrm{d}y + z \, \mathrm{d}z\)</p>
+
+<p> We now consider the contribution of each side to \(\displaystyle \oint_C \underline{F} \cdot \underline{\mathrm{d}r}\): </p>
+<p> Side 1: \((0,0,0) \to ({@aa@},0,0)\)</p>
+<p> \(y=0, z=0 \implies \mathrm{d}y=0, \mathrm{d}z = 0, \, \text{and} \, x:0 \to {@aa@},\) so we have </p>
+<p> \(\qquad  \text{Contribution} = \displaystyle \int_0^{@aa@} 0 = 0.\)</p>
+
+<p> Side 2: \(({@aa@},0,0) \to ({@aa@},{@aa@},0)\)</p>
+<p> \(x={@aa@}, z=0 \implies \mathrm{d}x=0, \mathrm{d}z = 0, \, \text{and} \, y:0 \to {@aa@},\) so we have </p>
+<p> \(\begin{align}
+\qquad \text{Contribution} &= \int_0^{@aa@} {@aa@} \, \mathrm{d}y \\
+&= \left[{@aa@}y\right]_0^{@aa@} \\
+&= {@aa^2@}.\end{align}\)</p>
+
+<p> Side 3: \(({@aa@},{@aa@},0)->(0,0,0)\)</p>
+<p> \(z=0 \implies \mathrm{d}z = 0,\) and \(x: {@aa@} \to 0, y: {@aa@} \to 0\), and we have the line \(y=x,\) and so  \(\mathrm{d}x = \mathrm{d}y\)
+<p> \(\begin{align}
+\qquad \text{Contribution} &= \int_{@aa@}^0 -y \, \mathrm{d}x + \int_{@aa@}^0 x \, \mathrm{d}y \\
+&=  \int_{@aa@}^0 -x \, \mathrm{d}x + \int_{@aa@}^0 x \, \mathrm{d}x \\
+&= \int_{@aa@}^0 \left(-x+x\right) \, \mathrm{d}x \\
+&= 0. \end{align}\)</p>
+
+<p> Therefore since our total line integral is the sum of the 3 contributions, we have </p>
+<p> \(\qquad \displaystyle \oint_C \underline{F} \cdot \underline{\mathrm{d}r} = 0 + {@ta1@} + 0 = {@ta1@}.\)</p>
+<p> This is the same answer as the surface integral, as Stokes' Theorem tells us.</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025073100</text>
+    </stackversion>
+    <questionvariables>
+      <text>aa: rand(4) + 1;
+area: aa^2/2
+ta1: aa^2;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="html">
+      <text>Vertices: \((0,0,0), ({@aa@},0,0), ({@aa@},{@aa@},0)\), and Integral \(= {@ta1@}\)</text>
+    </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1958838380</deployedseed>
+    <deployedseed>1125510753</deployedseed>
+    <deployedseed>109079238</deployedseed>
+    <deployedseed>999026935</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1+1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

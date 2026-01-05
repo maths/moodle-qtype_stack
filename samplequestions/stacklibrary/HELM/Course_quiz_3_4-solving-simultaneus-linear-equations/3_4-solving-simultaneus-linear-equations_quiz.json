@@ -1,0 +1,107 @@
+{
+    "quiz": {
+        "name": "3_4 Solving Simultaneus Linear Equations",
+        "intro": "<p>Equations often arise in which there is more than one unknown quantity. When this is the case there will usually be more than one equation involved. For example in the two linear equations \\( 7x+y=9, -3x+2y=1\\) there are two unknowns: \\(x\\) and \\(y\\).\n    In order to solve the equations we must find values for \\(x\\) and \\(y\\) that satisfy both of the equations simultaneously. The two equations are called <strong>simultaneous equations<\/strong>. You should verify that the solution of these equations\n    is \\(x=1\\), \\(y=2\\) because by substituting these values into both equations, the left-hand and right-hand sides are equal.<\/p><br>\n\n<p>In this Section we shall show how two simultaneous equations can be solved either by a method known as <strong>elimination<\/strong> or by drawing graphs. In realistic problems which arise in mathematics and in engineering there may be many equations with\n    many unknowns. Such problems cannot be solved using a graphical approach (we run out of dimensions in our 3-dimensional world!). Solving these more general problems requires the use of more general elimination procedures or the use of matrix algebra.\n    Both of these topics are discussed in later Workbooks.<\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Solving simultaneous equations by elimination",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "2",
+            "heading": "Equations with no solution or infinite solutions",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "7",
+            "heading": "The graphs of simultaneous linear equations",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-3-4\/3-4-1-2-Introduction-elimination.xml"
+        },
+        {
+            "slot": "2",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-3-4\/3-4-1-3-Introduction-no-solution.xml"
+        },
+        {
+            "slot": "3",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-3-4\/3-4-1-4-Introduction-infinite-solutions.xml"
+        },
+        {
+            "slot": "7",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-3-4\/3-4-1-8-Graphical-solutions-simultaneous.xml"
+        },
+        {
+            "slot": "4",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-3-4\/3-4-1-5-Solve-simultaneous.xml"
+        },
+        {
+            "slot": "5",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-3-4\/3-4-1-6-Write-and-solve-simultaneous.xml"
+        },
+        {
+            "slot": "6",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-3-4\/3-4-1-7-Solve-signal-simultaneous.xml"
+        },
+        {
+            "slot": "8",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-3-4\/3-4-1-9-Use-a-graph-to-solve-simultaneous.xml"
+        },
+        {
+            "slot": "9",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-3-4\/3-4-1-10-Use-a-graph-to-solve-simultaneous.xml"
+        },
+        {
+            "slot": "10",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-3-4\/3-4-1-11-Use-a-graph-to-solve-simultaneous.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

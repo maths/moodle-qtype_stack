@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>4.5.2.1 Time shifts between  waves</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Time shifts between waves</h4>
+<p>We recall that \(\cos\left(\theta-\dfrac{\pi}{2}\right)=\sin\theta\) which means that the graph of \(x=\sin\theta\) is the same shape as that of \(x=\cos\theta\) but is shifted to the right by \(\dfrac{\pi}{2}\) radians. <br></p>
+<p>
+Suppose now that we consider the waves \[ \quad \qquad x_1=R\cos 2t\qquad\qquad x_2=R\sin 2t\] <br></p>
+<p>Both have amplitude \(R\), angular frequency \(\omega=2\) rad \(s^{-1}\). 
+Also \[ \quad x_2=R\cos\left(2t-\dfrac{\pi}{2}\right)=R\cos\left[2\left(t-\dfrac{\pi}{4}\right)\right] \] 
+The graphs of \(x_1\) against \(t\) and of \(x_2\) against
+ \(t\) are said to have a <b>time shift</b> of \(\dfrac{\pi}{4}\). Specifically \(x_1\) is ahead of, or 'leads' \(x_2\) by a time \(\dfrac{\pi}{4}\) s.</p>
+<p>More generally, consider the following two sine waves of the same amplitude and frequency: \[ \quad \qquad x_1(t)=R\sin\omega t\] \[ \quad \qquad x_2(t)=R\sin (\omega t-\alpha)\]
+</p><p>Now \(x_1\left(t-\dfrac{\alpha}{\omega}\right)=R\sin \left[\omega\left(t-\dfrac{\alpha}{\omega}\right)\right]=R\sin(\omega t-\alpha)=x_2(t)\) so it is clear that the waves \(x_1\) and \(x_2\) are shifted in time by \(\dfrac{\alpha}{\omega}\). Specifically \(x_1\) leads \(x_2\) by \(\dfrac{\alpha}{\omega}\) (if \(\alpha\ &gt;0)\).<br></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

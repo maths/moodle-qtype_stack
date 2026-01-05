@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="gapselect">
+    <name>
+      <text>35.3.1.2 Mutually Exclusive or Not? (edited)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p></p><p>Decide which of the following pairs of events (\(A\) and \(B\)) arising from the experiments described are mutually exclusive.<br></p><ol><li>Two cards are drawn from a pack:<br>
+
+\(A=\) a red card is drawn.<br>
+
+\(B=\) a picture card is drawn.<br>
+\(A\) and \(B\) are [[2]]</li><li>A participant is recruited to a clinical trial who is randomly assigned to receive one of two treatments:<br>\(A=\) the participant receives a placebo.<br>\(B=\) the participant receives the experimental treatment.<br>\(A\) and \(B\) are [[1]]</li><li><span style="font-size: 0.9375rem;">A box contains \(20\) nuts. Some have a metric thread, some have a British Standard Fine (BSF) thread and some have a&nbsp; British Standard Whitworth (BSW) thread.<br>\(</span>A=\) first nut picked out of the box is BSF.<br>\(B=\) second nut picked out of the box is metric.<br>\(A\) and \(B\) are [[2]]</li></ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p dir="ltr" style="text-align: left;"><ol><li>It is possible to draw a red picture card (e.g. Jack of hearts) meaning that events \(A\) and \(B\) are not mutually exclusive.</li><li>A participant is randomly assigned to either the placebo or the experimental treatment, never both. This means that events \(A\) and \(B\) are mutually exclusive.</li><li>As the box contains at least one of the three types if nuts, there is a non-zero probability of selecting one that is BSF and another that is metric. Therefore events \(A\) and \(B\) are not mutually exclusive.</li></ol></p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <shuffleanswers>0</shuffleanswers>
+    <correctfeedback format="html">
+      <text>Your answer is correct.</text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="html">
+      <text>Your answer is partially correct.</text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="html">
+      <text>Your answer is incorrect.</text>
+    </incorrectfeedback>
+    <shownumcorrect/>
+    <selectoption>
+      <text>Mutually Exclusive</text>
+      <group>1</group>
+    </selectoption>
+    <selectoption>
+      <text>Not Mutually Exclusive</text>
+      <group>1</group>
+    </selectoption>
+  </question>
+</quiz>

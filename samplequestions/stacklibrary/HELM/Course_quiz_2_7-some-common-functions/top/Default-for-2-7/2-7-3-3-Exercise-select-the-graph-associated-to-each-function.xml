@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>2.7.3.3 Exercise: select the graph associated to each function</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+
+<p>Select the graph associated with each of the following function.</p>
+
+<ol class="HELM_parts">
+<li>\(f(x)=3|x|\) &emsp; [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</li>
+<li>\(f(x)=|x+1|\) &emsp; [[input:ans2]] [[validation:ans2]] [[feedback:prt2]]</li>
+<li>\(f(x)=7|x-3|\) &emsp; [[input:ans3]] [[validation:ans3]] [[feedback:prt3]]</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>Sketching the graph of the absolute value of a function is not complicated. In these cases, we have absolute values of lines. It is enough to identify some points and to join them, as we see in the previous exercise. Remember that the absolute value is always positive, so it is in the upper plane.</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020120600</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[var: x;
+cfn1:3*|var|;
+wfn1:|var+1|;
+wfn2:7*|var-3|;
+wfn3:|var+2|;
+wfn4:|var-3|;
+wfn5: |var|;
+xmax:6;
+ymax:6;
+cplot1:plot(cfn1,[x,-xmax,xmax],[y,-ymax,ymax],[box, false],[yx_ratio, 1],[axes, solid]);
+wplot1:plot(wfn1,[x,-xmax,xmax],[y,-ymax,ymax],[box, false],[yx_ratio, 1],[axes, solid]);
+wplot2:plot(wfn2,[x,-xmax,xmax],[y,-ymax,ymax],[box, false],[yx_ratio, 1],[axes, solid]);
+wplot3:plot(wfn3,[x,-xmax,xmax],[y,-ymax,ymax],[box, false],[yx_ratio, 1],[axes, solid]);
+wplot4:plot(wfn4,[x,-xmax,xmax],[y,-ymax,ymax],[box, false],[yx_ratio, 1],[axes, solid]);
+wplot5:plot(wfn5,[x,-xmax,xmax],[y,-ymax,ymax],[box, false],[yx_ratio, 1],[axes, solid]);
+corbase:[cplot1];
+wrongbase:[wplot1,wplot2,wplot3,wplot4];
+/* code lifted and adapted from multiselqnalpha */
+sel_cor: maplist(lambda([ex], [ex, true]), rand_selection(corbase, 1));
+sel_incorr: maplist(lambda([ex], [ex, false]), rand_selection(wrongbase, 3));
+opts: random_permutation(append(sel_cor,sel_incorr));
+talab: ev(makelist(sconcat("(",ascii(96+i),")"), i, 1, length(opts)), simp);
+ta1:zip_with(lambda([ex1, ex2], [ex1, ex2[2], sconcat("<b>", ex1, "</b> ", ex2[1])]), talab, opts);
+version: map(first, opts);
+corr1:mcq_correct(ta1);
+incorr1:mcq_incorrect(ta1);
+
+
+cfn2:|var+1|;
+wfn7:3*|var|;
+wfn8:7*|var-3|;
+wfn9:|var+2|;
+wfn10:|var-3|;
+wfn11: |var|;
+xmax:6;
+ymax:6;
+cplot2:plot(cfn2,[x,-xmax,xmax],[y,-ymax,ymax],[box, false],[yx_ratio, 1],[axes, solid]);
+wplot7:plot(wfn7,[x,-xmax,xmax],[y,-ymax,ymax],[box, false],[yx_ratio, 1],[axes, solid]);
+wplot8:plot(wfn8,[x,-xmax,xmax],[y,-ymax,ymax],[box, false],[yx_ratio, 1],[axes, solid]);
+wplot9:plot(wfn9,[x,-xmax,xmax],[y,-ymax,ymax],[box, false],[yx_ratio, 1],[axes, solid]);
+wplot10:plot(wfn10,[x,-xmax,xmax],[y,-ymax,ymax],[box, false],[yx_ratio, 1],[axes, solid]);
+wplot11:plot(wfn11,[x,-xmax,xmax],[y,-ymax,ymax],[box, false],[yx_ratio, 1],[axes, solid]);
+corbase:[cplot2];
+wrongbase:[wplot7,wplot8,wplot9,wplot10, wplot11];
+/* code lifted and adapted from multiselqnalpha */
+sel_cor: maplist(lambda([ex], [ex, true]), rand_selection(corbase, 1));
+sel_incorr: maplist(lambda([ex], [ex, false]), rand_selection(wrongbase, 3));
+opts: random_permutation(append(sel_cor,sel_incorr));
+talab: ev(makelist(sconcat("(",ascii(96+i),")"), i, 1, length(opts)), simp);
+ta2:zip_with(lambda([ex1, ex2], [ex1, ex2[2], sconcat("<b>", ex1, "</b> ", ex2[1])]), talab, opts);
+version: map(first, opts);
+corr2:mcq_correct(ta2);
+incorr2:mcq_incorrect(ta2);
+
+cfn3:7*|var-3|;
+wfn12:3*|var|;
+wfn13:|var+1|;
+wfn14:|var+2|;
+wfn15:|var-3|;
+wfn16: |var|;
+xmax:6;
+ymax:6;
+cplot3:plot(cfn3,[x,-xmax,xmax],[y,-ymax,ymax],[box, false],[yx_ratio, 1],[axes, solid]);
+wplot12:plot(wfn12,[x,-xmax,xmax],[y,-ymax,ymax],[box, false],[yx_ratio, 1],[axes, solid]);
+wplot13:plot(wfn13,[x,-xmax,xmax],[y,-ymax,ymax],[box, false],[yx_ratio, 1],[axes, solid]);
+wplot14:plot(wfn14,[x,-xmax,xmax],[y,-ymax,ymax],[box, false],[yx_ratio, 1],[axes, solid]);
+wplot15:plot(wfn15,[x,-xmax,xmax],[y,-ymax,ymax],[box, false],[yx_ratio, 1],[axes, solid]);
+wplot16:plot(wfn16,[x,-xmax,xmax],[y,-ymax,ymax],[box, false],[yx_ratio, 1],[axes, solid]);
+corbase:[cplot3];
+wrongbase:[wplot12,wplot13,wplot14,wplot15, wplot16];
+/* code lifted and adapted from multiselqnalpha */
+sel_cor: maplist(lambda([ex], [ex, true]), rand_selection(corbase, 1));
+sel_incorr: maplist(lambda([ex], [ex, false]), rand_selection(wrongbase, 3));
+opts: random_permutation(append(sel_cor,sel_incorr));
+talab: ev(makelist(sconcat("(",ascii(96+i),")"), i, 1, length(opts)), simp);
+ta3:zip_with(lambda([ex1, ex2], [ex1, ex2[2], sconcat("<b>", ex1, "</b> ", ex2[1])]), talab, opts);
+version: map(first, opts);
+corr3:mcq_correct(ta3);
+incorr3:mcq_incorrect(ta3);]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>{@version@}</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>checkbox</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>checkbox</type>
+      <tans>ta2</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>checkbox</type>
+      <tans>ta3</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>setify(ans1)</sans>
+        <tans>setify(corr1)</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>You have correctly identified the correct answer.<br></p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>The correct answer is \({@setdifference(setify(corr1),setify(ans1))@}\).<br></p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>setify(ans2)</sans>
+        <tans>setify(corr2)</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>You have correctly identified the correct answer.<br></p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>The correct answer is \({@setdifference(setify(corr2),setify(ans2))@}\).<br></p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>setify(ans3)</sans>
+        <tans>setify(corr3)</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>You have correctly identified the correct answer.<br></p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>The correct answer is \({@setdifference(setify(corr3),setify(ans3))@}\).<br></p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>788837724</deployedseed>
+    <deployedseed>460047039</deployedseed>
+    <deployedseed>532908492</deployedseed>
+    <deployedseed>860277425</deployedseed>
+    <deployedseed>33653178</deployedseed>
+    <deployedseed>347074165</deployedseed>
+    <deployedseed>889573366</deployedseed>
+    <deployedseed>388616097</deployedseed>
+    <deployedseed>1364851397</deployedseed>
+    <deployedseed>444608214</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>corr1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>corr2</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>corr3</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>incorr1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>incorr2</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>incorr3</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt3-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

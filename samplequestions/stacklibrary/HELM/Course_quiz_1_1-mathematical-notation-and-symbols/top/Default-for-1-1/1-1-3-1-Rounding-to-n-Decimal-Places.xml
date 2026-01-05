@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>1.1.3.1 Rounding to n Decimal Places</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3><span style="color: inherit; font-family: inherit;">Rounding to n Decimal Places</span><br></h3>
+<p>In general, a calculator or computer is unable to store every decimal place of a real number. Real numbers are <strong>rounded</strong>. To round a number to \(n\) decimal places we look at the \((n+1)^{th}\) digit in the decimal expansion of the number.</p>
+<ul>
+    <li> If the \((n+1)^{th}\) digit is 0, 1, 2, 3 or 4 then we : that is, we simply chop to \(n\) places. (In other words we neglect the \((n+1)^{th}\) digit and any digits to its right.)</li>
+    <li> If the \((n+1)^{th}\) digit is 5, 6, 7, 8 or 9 then we : we add \(1\) to the \(n^{th}\) decimal place and then chop to \(n\) places.</li>
+</ul>
+<p>For example</p>
+<p>\(\qquad\qquad\qquad\begin{aligned} \dfrac{1}{3} &amp;= 0.3333 &amp; \qquad &amp; \mbox{rounded to 4 decimal places} \\ \pi &amp;= 3.14159 &amp; \qquad &amp; \mbox{rounded to 5 decimal places}\\ \dfrac{8}{3} &amp;= 2.667 &amp; \qquad &amp; \mbox{rounded
+    to 3 decimal places}\\ 2136 &amp;= 2000.000 &amp; \qquad &amp; \mbox{rounded to 3 decimal places}\\ 36.8 &amp;= 37 &amp; \qquad &amp; \mbox{rounded to 1 decimal place}\\ 6.2399 &amp;= 6.240 &amp; \qquad &amp; \mbox{rounded to 3 decimal places} \end{aligned}\)</p>
+<p>Sometimes the phrase ‘decimal places’ is abbreviated to ‘d.p.’ or ‘dec.pl.’.</p>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Write down each of these numbers rounded to 4 decimal places: </p>
+<ol class="HELM_parts_inline">
+    <li>\(0.12345\)</li>
+    <li>\(-0.44444\)</li>
+    <li>\(0.5555555\)</li>
+    <li>\(0.000127351\)</li>
+    <li>\(0.000005\)</li>
+    <li>\(123.456789\)</li>
+</ol>
+<h4 class="HELM_solution">Solution</h4>
+<ol class="HELM_parts">
+    <li>\(0.12345\) rounded to 4 decimal place becomes \(0.1235.\)</li>
+    <li>\(-0.44444\) rounded to 4 decimal place becomes \(-0.4444.\)</li>
+    <li>\(0.5555555\) rounded to 4 decimal place becomes \(0.5556.\)</li>
+    <li>\(0.000127351\) rounded to 4 decimal place becomes \(0.0001.\)</li>
+    <li>\(0.000005\) rounded to 4 decimal place becomes \(0.0000.\)</li>
+    <li>\(123.456789\) rounded to 4 decimal place becomes \(123.4568.\)</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

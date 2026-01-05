@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>4.3.3.9 Summary</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Summary</h4>
+<p>We have covered a large number of trigonometric identities. The most important of them and probably the ones most worth memorising are given in the following Key Point.</p>
+
+<div class="HELM_keypoint">
+<h4>Key Point<br></h4>
+\[\begin{aligned}
+\cos^2\theta+\sin^2\theta&amp;\equiv 1\\
+\sin 2\theta&amp;\equiv 2\sin\theta\cos\theta\\
+\cos 2\theta&amp;\equiv \cos^2\theta-\sin^2\theta\\
+&amp;\equiv 2\cos^2\theta -1\\
+&amp;\equiv 1-2\sin^2\theta\\
+\sin (A\pm B)&amp;\equiv \sin A\cos B\pm\cos A\sin B\\
+\cos (A\pm B)&amp;\equiv \cos A\cos B\mp\sin A\sin B
+\end{aligned}\]
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

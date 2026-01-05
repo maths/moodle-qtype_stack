@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>8.2.1.4 Example 2 inverse matrix method</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4 class="HELM_example">Example</h4>
+
+<p>Use the inverse matrix method to solve <span class="math display">\[\begin{matrix}
+2x_1 &amp; + &amp; 3x_2 &amp; = &amp; 3 \\
+5x_1 &amp; + &amp; 4x_2 &amp; = &amp; 11 \\
+\end{matrix} \]</span></p>
+
+<h4 class="HELM_solution">Solution</h4>
+
+<p>The system in <span class="math inline">\(AX=B\)</span> form is <span class="math display">\[\left[\begin{matrix}2&amp;3\\5&amp;4\end{matrix}\right]
+\left[\begin{matrix}x_1\\x_2\end{matrix}\right]=\left[\begin{matrix}3\\11\end{matrix}\right] . \]</span> We have <span class="math inline">\(|A|=2\times 4-3\times 5=-7 \neq 0\)</span> and therefore <span class="math inline">\(A^{-1}\)</span> exists. We
+    can now compute <span class="math display">\[A^{-1}=-\dfrac{1}{7}\left[\begin{matrix}4&amp;-3\\-5&amp;2\end{matrix}\right] . \]</span> Using <span class="math inline">\(X=A^{-1}B\)</span>, we have <span class="math display">\[X=\left[\begin{matrix}x_1\\x_2\end{matrix}\right]=-\dfrac{1}{7}\left[\begin{matrix}4&amp;-3\\-5&amp;2\end{matrix}\right]
+\left[\begin{matrix}3\\11\end{matrix}\right]=-\dfrac{1}{7}\left[\begin{matrix}4\times 3-3\times 11\\-5\times
+3+2\times 11\end{matrix}\right]=-\dfrac{1}{7}\left[\begin{matrix}-21\\7\end{matrix}\right]=
+\left[\begin{matrix}3\\-1\end{matrix}\right] .\]</span> Therefore, <span class="math inline">\(x_1=3,\ x_2=-1\)</span>.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

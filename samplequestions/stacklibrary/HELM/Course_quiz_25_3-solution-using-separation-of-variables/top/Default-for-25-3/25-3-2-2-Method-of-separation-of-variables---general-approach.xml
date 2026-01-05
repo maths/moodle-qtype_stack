@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>25.3.2.2  Method of separation of variables - general approach</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<b>Heat conduction equation</b>
+
+<table width="100%">
+    <tbody>
+        <tr>
+            <td>\(\dfrac{\partial^2u}{\partial x^2}=\dfrac{1}{k}\dfrac{\partial u}{\partial t}\)
+            </td>
+            <td>\(k&gt;0\)</td>
+            <td>\[(1)\]</td>
+        </tr>
+    </tbody>
+</table>
+Assuming that
+
+<table width="100%">
+    <tbody>
+        <tr>
+            <td>\(\qquad u=X(x)T(t)\)</td>
+            <td>\[(2)\]</td>
+        </tr>
+        <tr>
+        </tr>
+    </tbody>
+</table>
+<p> then \(=XT \qquad \) for short</p>
+<br>\(\qquad \dfrac{\partial u}{\partial x}=\dfrac{dX}{dx}T=X'T\qquad\) for short
+<p>\(\qquad \dfrac{\partial^2u}{\partial x^2}=\dfrac{d^2X}{dx^2}T=X''T\qquad\) for short</p>
+<p>\(\qquad \dfrac{\partial u}{\partial t}=X\dfrac{dT}{dt}=XT'\qquad\) for short
+    <br>Substituting into the original PDE (1)
+</p>
+<p><span class="math inline">\(\qquad\displaystyle
+X''T=\dfrac{1}{k}XT'\)</span>
+    <br>which can be re-arranged as</p>
+<table width="100%">
+    <tbody>
+        <tr>
+            <td>\(\qquad\displaystyle \dfrac{X''}{X}=\dfrac{1}{k}\dfrac{T'}{T}\)
+            </td>
+            <td></td>
+
+            <td>\[(3)\]</td>
+        </tr>
+    </tbody>
+</table>
+
+Now the left-hand side of \((3)\) involves functions of <span class="math inline">\(x\)</span> only and the right-hand side expression contain functions of <span class="math inline">\(t\)</span> only. Thus altering the value of \(t\) cannot change the
+left-hand side of \((3)\) i.e. it stays constant. Hence so must the right-hand side be constant. We conclude that <span class="math inline">\(T(t)\)</span> is a function such that
+<table width="100%">
+    <tbody>
+        <tr>
+            <td>\(\qquad\displaystyle \dfrac{1}{k}\dfrac{T'}{T}=K\)
+            </td>
+            <td></td>
+            <td>\((4)\)</td>
+        </tr>
+    </tbody>
+</table>
+where <span class="math inline">\(K\)</span> is a constant whose sign is yet to be determined.
+<br>By a similar argument, altering the value of <span class="math inline">\(x\)</span> cannot change the right-hand side of \((3)\) and consequently the left-hand side must be a constant, i.e.
+<table width="100%">
+    <tbody>
+        <tr>
+            <td>\(\qquad\displaystyle \dfrac{X''}{X}=K\)
+            </td>
+            <td></td>
+            <td>\((5)\)</td>
+        </tr>
+    </tbody>
+</table>
+
+
+<p>We see that the effect of assuming a product trial solution of the form \((2)\) converts the PDE \((1)\) into the two ODEs \((4)\) and \((5)\).
+    <br>Both these ODEs are types whose solution we revised at the beginning of this Workbook but we shall not attempt to solve them yet. In particular the solution of \((5)\) depends on whether the constant <span class="math inline">\(K\)</span> is positive
+    or negative.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

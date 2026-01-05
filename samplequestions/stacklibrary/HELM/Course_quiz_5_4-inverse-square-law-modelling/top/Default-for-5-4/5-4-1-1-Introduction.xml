@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>5.4.1.1 Introduction</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p><h4>Introduction</h4>Many aspects of physics and engineering involve inverse square law dependence. For example gravitational forces and electrostatic forces vary with the inverse square of distance from the mass or charge. The following short case study illustrates this and concerns the dependence of sound intensity on distance from a source.<br></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

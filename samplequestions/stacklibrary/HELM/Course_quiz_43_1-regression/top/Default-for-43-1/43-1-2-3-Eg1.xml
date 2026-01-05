@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>43.1.2.3 Eg1</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4 class="HELM_example">Example</h4>
+<p>A warehouse manager of a company dealing in large quantities of steel cable needs to be able to estimate how much cable is left on his partially used drums. A random sample of twelve partially used drums is taken and each drum is weighed and the corresponding length of cable measured. The results are given in the table below:</p>
+<table border="1"><caption>&nbsp;</caption>
+<thead>
+<tr>
+<th scope="col">Weight of drum and cable \( (x) \) kg.</th>
+<th scope="col">Measured length of cable \( (y) \) m.</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">70</td>
+</tr>
+<tr>
+<td style="text-align: center;">40</td>
+<td style="text-align: center;">90</td>
+</tr>
+<tr>
+<td style="text-align: center;">40</td>
+<td style="text-align: center;">100</td>
+</tr>
+<tr>
+<td style="text-align: center;">50</td>
+<td style="text-align: center;">120</td>
+</tr>
+<tr>
+<td style="text-align: center;">50</td>
+<td style="text-align: center;">130</td>
+</tr>
+<tr>
+<td style="text-align: center;">50</td>
+<td style="text-align: center;">150</td>
+</tr>
+<tr>
+<td style="text-align: center;">60</td>
+<td style="text-align: center;">160</td>
+</tr>
+<tr>
+<td style="text-align: center;">70</td>
+<td style="text-align: center;">190</td>
+</tr>
+<tr>
+<td style="text-align: center;">70</td>
+<td style="text-align: center;">200</td>
+</tr>
+<tr>
+<td style="text-align: center;">80</td>
+<td style="text-align: center;">200</td>
+</tr>
+<tr>
+<td style="text-align: center;">80</td>
+<td style="text-align: center;">220</td>
+</tr>
+<tr>
+<td style="text-align: center;">80</td>
+<td style="text-align: center;">230</td>
+</tr>
+</tbody>
+</table>
+<p><br><br></p>
+Find the least squares regression line in the form \(y = mx+c\) and use it to predict the lengths of cable left on drums whose weights are:
+<p></p>
+<ol class="HELM_parts_inline">
+<li>\(35\) <b>kg</b></li>
+<li>\(85\) <b>kg</b></li>
+<li>\(100\) <b>kg</b></li>
+</ol>
+In the latter case state any assumptions which you make in order to find the length
+of cable left on the drum.
+<h4 class="HELM_solution">Solution</h4>
+<ol class="HELM_parts">
+<p>Excel calculations give
+\( \sum x = 700\), \( \sum  x^2 = 44200 \), \( \sum y = 1860 \), \( \sum xy = 118600\),  so that
+the formulae
+\[ b = \dfrac{ \dfrac{ \sum xy}{n} - \dfrac{ \sum x}{n}\dfrac{ \sum y}{n}  }{ \dfrac{\sum x^2}{n} - \left( \dfrac{\sum x}{n} \right)^2 }, \text{   and   } a = \bar{y}  - b \bar{x} \]
+give \(a  = -20\) and \(b = 3\). Our regression line is \(y = -20 + 3x\), so \( y = 3x - 20 \). 
+
+Hence, the required predicted values are 
+</p><li> \[ y_{35} = 3 \times 35 - 20 = 85 \] </li> <p></p>
+<p></p><li> \[ y_{85} = 3 \times 85 - 20 = 235 \] </li> <p></p>
+<p></p><li> \[ y_{100} = 3 \times 100 - 20 = 280 \] </li> <p></p>
+all results being in metres.
+
+To obtain the last result we have assumed that the linearity of the relationship continues beyond
+the range of values actually taken.</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

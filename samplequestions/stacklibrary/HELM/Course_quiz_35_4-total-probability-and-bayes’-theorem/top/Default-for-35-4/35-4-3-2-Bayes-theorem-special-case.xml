@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>35.4.3.2 Bayes' theorem: special case</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4> Bayes' theorem: special case </h4>
+<p> This result is obtained by supposing that the sample space \(S\) is partitioned by event \(A\) and its complement \(A'\) to give:\[\mathbb{P}(A|B) = \frac{\mathbb{P}(B|A)\times\mathbb{P}(A)}{\mathbb{P}(B|A)\times\mathbb{P}(A) + \mathbb{P}(B|A')\times\mathbb{P}(A')}\]</p>
+<hr>
+<h4 class="HELM_example"> Example </h4>
+<p> At a certain university, let \(M\) denote the set of students assigned male at birth, and let \(F\) denote the set of students assigned female at birth. \(4\%\) of students in \(M\) are over \(6\) feet tall and \(1\%\) of students in \(F\) are over
+\(6\) feet tall. The total student population is divided between these two sets. in the ratio \(3:2\) with \(F\) being the larger set. If a student is selected at random from among all those over six feet tall,
+what is the probability that the student is in \(F\)? </p>
+<h4 class="HELM_solution"> Solution </h4>
+<p><span style="font-size: 0.9375rem;">Note that \(M\) and \(F\) partition the sample space of students.</span><br></p>
+<p> Let \(T=\{\text{Student is over 6 feet tall}\}\). </p>
+<p> We know that \(\mathbb{P}(M) = 2/5\), \(\mathbb{P}(F) = 3/5\), \(\mathbb{P}(T|M) = 4/100\) and \(\mathbb{P}(T|F) = 1/100\). </p>
+<p> We require \(\mathbb{P}(F|T)\). Using Bayes’ theorem we have:\[\begin{aligned}\mathbb{P}(F|T) &amp;= \frac{\mathbb{P}(T|F)\mathbb{P}(F)}{\mathbb{P}(T|F)\mathbb{P}(F)+\mathbb{P}(T|M)\mathbb{P}(M)} \\ &amp;= \frac{(1/100)(3/5)}{(1/100)(3/5) + (4/100)(2/5)} \\ &amp;= \frac{3}{11}.\end{aligned}\]</p>
+<hr>
+<h4 class="HELM_example"> Example </h4>
+<p> A factory production line is manufacturing bolts using three machines, \(1\), \(2\) and \(3\). Of the total output, machine \(1\) is responsible for \(25\%\), machine \(2\) for \(35\%\) and machine \(3\) for the rest. It is known from previous experience with the machines that \(5\%\) of the output from machine \(1\) is defective, \(4\%\) from machine \(2\) and \(2\%\) from machine \(3\). A bolt is chosen at random from the production line and found to be defective. What is the probability that it came from:</p>
+<ol class="HELM_parts_inline">
+<li> machine \(1\)? </li>
+<li> machine \(2\)? </li>
+<li> machine \(3\)? </li>
+</ol>
+<h4 class="HELM_solution"> Solution </h4>
+<p> Let\[\begin{aligned}D &amp;=\{\text{bolt is defective}\},\\ A &amp;=\{\text{bolt is from machine }1\},\\
+B &amp;=\{\text{bolt is from machine }2\},\\ C &amp;=\{\text{bolt is from machine }3\}.\end{aligned}\] </p>
+<p> We know that \(\mathbb{P}(A) = 0.25\), \(\mathbb{P}(B) = 0.35\) and \(\mathbb{P}(C) = 0.4\). Also\[\mathbb{P}(D|A) = 0.05,\quad\mathbb{P}(D|B) = 0.04,\quad\mathbb{P}(D|C) = 0.02.\]</p>
+<p> A statement of Bayes’ theorem for three events \(A\), \(B\) and \(C\) is\[\begin{aligned}\mathbb{P}(A|D) &amp;= \frac{\mathbb{P}(D|A)\mathbb{P}(A)}{\mathbb{P}(D|A)\mathbb{P}(A) + \mathbb{P}(D|B)P(B) + \mathbb{P}(D|C)\mathbb{P}(C)}\\ &amp;= \frac{0.05\times0.25}{0.05\times0.25+0.04\times0.35+0.02\times0.4}\\ &amp;= 0.362.\end{aligned}\]</p>
+<p> Similarly\[\begin{aligned}\mathbb{P}(B|D) &amp;= \frac{0.04\times0.35}{0.05\times0.25+0.04\times0.35+0.02\times0.4}\\ &amp;= 0.406 \\
+\mathbb{P}(C|D) &amp;= \frac{0.02\times0.4}{0.05\times0.25+0.04\times0.35+0.02\times0.4}\\ &amp;= 0.232.\end{aligned}\]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

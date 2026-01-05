@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>13.3.3.4 Finding areas</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>Calculate the area enclosed by the curve \(y=x^3\) and the line \(y=x\). [[input:ans4]] [[validation:ans4]] [[feedback:prt4]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>The curve \(y=x^3\) and the line \(y=x\) intersect at \(x=-1,0,1\). Between 0 and 1 the graph is above the \(x\) axis and \(y=x\) is greater than \(y=x^3\). Between -1 and 0, the graph is below the \(x\) axis and \(y=x^3\) is greater than \(y=x\). Hence
+    the area is \[- \int_{-1}^0 (x^3 -x) \,\mathrm{d}x + \int_0^1 (x-x^3) \, \mathrm{d}x = {@ta4@}\]</p>
+<p>A sketch of the graph is shown below.</p>
+<p style="text-align: center;"></p>
+        <div style="margin-left:4em;margin-right:auto;">[[jsxgraph width='300px' height='350px']]
+JXG.Options.axis.ticks.insertTicks = false; /*don't insert extra ticks between major ticks*/ 
+JXG.Options.axis.ticks.majorHeight = 10; 
+JXG.Options.axis.ticks.minorHeight = 0.5; /*if minor ticks needed adjust height*/
+JXG.Options.text.fontSize = 16; 
+JXG.Options.axis.ticks.ticksDistance=1; 
+var board = JXG.JSXGraph.initBoard(divid, {boundingbox: {#BB#}, axis: true, showCopyright:false, showNavigation:false}); 
+var f = board.jc.snippet('{#curve#}', true, 'x', true); 
+var ff = board.create('functiongraph',[f,-1.2,1.2], {strokeColor:'#003399',strokeWidth:2});
+var g = board.jc.snippet('{#line#}', true, 'x', true);
+var plotg = board.create('functiongraph', [g,-1.2,1.2],{strokeColor:'#003399',strokeWidth:2});
+ var pa = board.create('point', [-1,-1], {label: { offset: [15, 0], anchorX: 'middle', anchorY: 'middle' }});
+ var pb = board.create('point', [1, 1], {label: { offset: [15, 0], anchorX: 'middle', anchorY: 'middle' }});
+[[/jsxgraph]] 
+</div>
+<p></p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020120600</text>
+    </stackversion>
+    <questionvariables>
+      <text>exp4: x-x^3;
+curve: x^3
+line: x; 
+ta4: 2*int(exp4, x, 0, 1); 
+
+/*jsxgraph settings */ 
+BB: [-1.5, 2, 1.5, -2]     /* boundingbox:[left, top, right, bottom]*/ 
+c: ev(exp4, x=0);    /* y axis ticks*/
+d: ev(exp4, x=1);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>{{@ta1@}, {@ta2@}, {@ta3@}, {@ta4@}, {@ta5@}, {@ta6@}}</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans4</name>
+      <type>numerical</type>
+      <tans>ta4</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt4</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans4</sans>
+        <tans>ta4</tans>
+        <testoptions>x</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt4-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt4-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans4</name>
+        <value>ta4</value>
+      </testinput>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt4-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans4</name>
+        <value>ev(ta4+1,simp)</value>
+      </testinput>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt4-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <hint format="html">
+      <text><![CDATA[<p>If you are unsure of the limits of integration draw a diagram.</p>]]></text>
+    </hint>
+  </question>
+</quiz>

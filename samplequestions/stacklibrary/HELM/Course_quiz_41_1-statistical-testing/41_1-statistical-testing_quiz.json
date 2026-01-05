@@ -1,0 +1,41 @@
+{
+    "quiz": {
+        "name": "41_1 Statistical Testing",
+        "intro": "<p>If you are applying statistics to practical problems in industry, you may find that much of your work is concerned with making decisions concerning populations and population parameters on the basis of available evidence. For example you may be asked to decide whether one production process is preferable to another or whether to repair or continue to use a machine that is producing a certain proportion of defective components. In order to make such decisions, you will find that you have to make certain assumptions which will determine the statistical tools that you may legitimately use. Any assumptions made may or may not be true but you must always be sure of your grounds for using a given statistical tool. Effectively you will find that you will be asked to decide which of two statements, each called an hypothesis, is the more likely to be true. Note the choice of words. You should be clear from the outset that the statistical tools you will study here will not allow you to prove anything, but they will allow you to measure the strength of the evidence against the hypothesis.<\/p>\r\n",
+        "introformat": "0",
+        "questionsperpage": "1",
+        "grade": "0.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Statistical Testing",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-41-1\/41-1-1-1-Types-of-statements.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-41-1\/41-1-2-2-Types-of-errors.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "0.00000"
+        }
+    ]
+}

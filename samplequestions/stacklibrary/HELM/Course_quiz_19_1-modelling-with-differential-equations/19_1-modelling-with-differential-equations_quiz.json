@@ -1,0 +1,178 @@
+{
+    "quiz": {
+        "name": "19_1 Modelling with Differential Equations",
+        "intro": "<p dir=\"ltr\">Many models of engineering systems involve the <strong>rate of change<\/strong> of a quantity. There is thus a need&nbsp;<span style=\"font-size: 0.9375rem;\">to incorporate derivatives into the mathematical model. These mathematical models are examples&nbsp;<\/span><span style=\"font-size: 0.9375rem;\">of <strong>differential equations<\/strong>.<\/span><\/p><p dir=\"ltr\">Accompanying the differential equation will be one or more conditions that let us obtain a unique&nbsp;<span style=\"font-size: 0.9375rem;\">solution to a particular problem. Often we solve the differential equation first to obtain a general&nbsp;<\/span><span style=\"font-size: 0.9375rem;\">solution; then we apply the conditions to obtain the unique solution. It is important to know which&nbsp;<\/span><span style=\"font-size: 0.9375rem;\">conditions must be specified in order to obtain a unique solution.<\/span><\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Newton's Law of Cooling",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "4",
+            "heading": "General Solution of a Differential Equation",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "6",
+            "heading": "Arbitrary Constants",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "8",
+            "heading": "Unique Solutions",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "11",
+            "heading": "Classifying Differential Equations",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "15",
+            "heading": "Exercises",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-19-1\/19-1-1-1-Newton-s-Law-of-Cooling.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-1\/19-1-1-2-Newton-s-Law-of-Cooling.xml"
+        },
+        {
+            "slot": "3",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-19-1\/19-1-1-3-Initial-Condition.xml"
+        },
+        {
+            "slot": "4",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-19-1\/19-1-2-1-The-general-solution-of-a-differential-equation.xml"
+        },
+        {
+            "slot": "6",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-19-1\/19-1-2-3-Arbitrary-Constants-in-a-Differential-Equation.xml"
+        },
+        {
+            "slot": "7",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-1\/19-1-2-4-Arbitrary-constants.xml"
+        },
+        {
+            "slot": "8",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-19-1\/19-1-2-5-Family-of-Solutions.xml"
+        },
+        {
+            "slot": "10",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-19-1\/19-1-2-6-Example-of-family-of-solutions.xml"
+        },
+        {
+            "slot": "9",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-1\/19-1-2-7-Solve-differential-equation-with-boundary-condition.xml"
+        },
+        {
+            "slot": "11",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-19-1\/19-1-3-1-Classifying-differential-equations.xml"
+        },
+        {
+            "slot": "12",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-19-1\/19-1-3-2-Example-on-classifying-differential-equations.xml"
+        },
+        {
+            "slot": "13",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-1\/19-1-3-3-Classify-the-differential-equation.xml"
+        },
+        {
+            "slot": "14",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-1\/19-1-3-4.xml"
+        },
+        {
+            "slot": "5",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-1\/19-1-2-2-Find-differential-equation.xml"
+        },
+        {
+            "slot": "16",
+            "page": "7",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-1\/19-1-4-2-Find-differential-equations.xml"
+        },
+        {
+            "slot": "17",
+            "page": "7",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-1\/19-1-4-3-Find-general-and-specific-solution.xml"
+        },
+        {
+            "slot": "18",
+            "page": "7",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-1\/19-1-4-4-Find-general-and-particular-solutions.xml"
+        },
+        {
+            "slot": "15",
+            "page": "7",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-1\/19-1-4-1-RL-and-LCR-circuit.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

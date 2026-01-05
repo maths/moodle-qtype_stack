@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>35.2.1.9 Complement</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4> Complement </h4>
+<p> We have met the complement before in relation to sets. We consider it again
+here in relation to sample spaces and events. The complement of an event is the set of outcomes
+which are not members of the event.</p>
+<p> For example, the experiment of throwing a 6-faced die has sample space \(S = \{1,2,3,4,5,6\}\).</p>
+<ul>
+<li> The event “score of 3 or more is obtained” is the set \(\{3,4,5,6\}\). The complement of this event is \(\{1,2\}\) which can be described in words as “score of 3 or more is not obtained” or “score of 1 or 2 is obtained”. </li>
+<li> The event “even score is obtained” is the set \(\{2,4,6\}\). The complement of this event is \(\{1,3,5\}\) or, in words “even score is not obtained” or “odd score is obtained”. </li>
+</ul>
+<p> In a previous exercise concerning tossing three coins:</p>
+<ul>
+<li> the complement of event (a) is \(\{TTT,THH,HTH,HHT,HHH\}\). </li>
+<li> the complement of event (b) is \(\{THH,HTH,HHT,HHH\}\). </li>
+<li> the complement of event (c) is \(\{TTT\}\). </li>
+</ul>
+<p> <strong>Notation:</strong> It is customary to use a capital letter to denote an event. For example, \(A = \{\)two Heads are thrown\(\}\). The complementary event is denoted \(A'\).</p>
+<hr>
+<h4 class="HELM_example"> Example </h4>
+<p>State, in words, what are the complements of each of the following events in
+relation to the experiment of throwing three coins (avoid using the word not):</p>
+<ol class="HELM_parts_inline">
+<li> two Heads. </li>
+<li> at least two Heads. </li>
+<li> at most two Heads. </li>
+</ol>
+<h4 class="HELM_solution"> Solution </h4>
+<ol class="HELM_parts">
+<li> no Heads, one Head or three Heads. </li>
+<li> no Heads or one Head (or equivalently, at most one Head).</li>
+<li> three Heads. </li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

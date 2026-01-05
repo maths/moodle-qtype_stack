@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>22.3.2.4 Complex conjugate 2x2 eigentask</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>Consider the non-symmetric matrix
+\[A={@m@}.\]
+Obtain the eigenvalues of \(A\): </p><div>[[input:anseigenvalues]] [[validation:anseigenvalues]]&nbsp;[[feedback:prt_eigenvalues]]</div><p></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>The characteristic equation of \(A\) is \[\det( A-\lambda I ) = {@(lmxchar:"|",a-lambda*ident(2))@} = 0,\] i.e. \[{@(lmxchar:saved_lmxchar, charpoly_raw)@} = 0\] leading to \[{@charpoly_simp@}=0,\] giving eigenvalues \({@eigvals[1,1]@}\) and \({@eigvals[1,2]@}\).
+    These are clearly <strong>complex conjugate</strong>.</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020120600</text>
+    </stackversion>
+    <questionvariables>
+      <text>/* Generate a 2x2 matrix with complex eigenvalues */
+a : rand_with_prohib(-5,5,[0]); d : -a; /* choose a,d so that a+d is even */
+imp : 1+rand(4);  /* imaginary part of an eigval */
+/* choose b,c so that bc=ad-(a+d)^2/4-imp^2 */
+bc : a*d - 1/4 * (a+d)^2 - imp^2;
+b : (if primep(bc) then 1 else first(flatten(ifactors(abs(bc))))) *rand([-1,1]);
+c : bc / b;
+m : matrix([a,b],[c,d]);
+eigvals : matrix([ (a+d)/2 + sqrt(-1)*imp, (a+d)/2 - sqrt(-1)*imp ]);
+
+/* prepare for printing the solution */
+charpoly_raw : charpoly(m,lambda);
+charpoly_simp : simplify(charpoly_raw);
+
+/* save original lmxchar */
+saved_lmxchar : lmxchar;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\(A = {@m@}, \qquad \lambda = {@eigvals[1,1]@}, {@eigvals[1,2]@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>anseigenvalues</name>
+      <type>matrix</type>
+      <tans>eigvals</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt_eigenvalues</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>got_ev1 : member(anseigenvalues[1,1], eigvals[1]);
+got_ev2 : member(anseigenvalues[1,2], eigvals[1]);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>CasEqual</answertest>
+        <sans>got_ev1</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.5000000</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>You didn't identify \({@eigvals[1,1]@}\) as an eigenvalue.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>CasEqual</answertest>
+        <sans>got_ev2</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.5000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>You didn't identify \({@eigvals[1,2]@}\) as an eigenvalue.</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1791513702</deployedseed>
+    <deployedseed>122062414</deployedseed>
+    <deployedseed>1615884555</deployedseed>
+    <deployedseed>1745714007</deployedseed>
+    <deployedseed>412712207</deployedseed>
+    <deployedseed>995194110</deployedseed>
+    <deployedseed>1507220549</deployedseed>
+    <deployedseed>1803901398</deployedseed>
+    <deployedseed>76367518</deployedseed>
+    <deployedseed>1752147708</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>anseigenvalues</name>
+        <value>eigvals</value>
+      </testinput>
+      <expected>
+        <name>prt_eigenvalues</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>anseigenvalues</name>
+        <value>matrix([0,0])</value>
+      </testinput>
+      <expected>
+        <name>prt_eigenvalues</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-2-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>anseigenvalues</name>
+        <value>ev(matrix([eigvals[1,2],eigvals[1,1]+1]),simp)</value>
+      </testinput>
+      <expected>
+        <name>prt_eigenvalues</name>
+        <expectedscore>0.5000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-2-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

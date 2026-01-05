@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>37.1.1.8 Example: Car registrations</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<hr>
+<h4 class="HELM_example">Example</h4>
+<p>How many car registrations are there beginning with \(NP05\) followed by three letters? Note that, conventionally, \(I, O\) and \(Q\) may not be chosen..</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>We have to choose 3 letters from 23 allowing repetition. Hence the number of registrations beginning with <span class="math inline">\(NP05\)</span> must be <span class="math inline">\(23^3=12167\)</span>.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

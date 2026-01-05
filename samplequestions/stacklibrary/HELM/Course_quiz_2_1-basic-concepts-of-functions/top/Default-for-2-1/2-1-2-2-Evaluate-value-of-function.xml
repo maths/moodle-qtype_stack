@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>2.1.2.2 Evaluate value of function</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>Given \(f\left(x\right) = {@fx@}\) evaluate:</p>
+<ol class="HELM_parts">
+<li><p> \(f\left({@xvalue1@}\right)=\) [[input:ans1]]. [[validation:ans1]] [[feedback:Result]]</p>
+</li>
+<li><p> \(f\left({@xvalue2@}\right)=\)&nbsp;[[input:ans2]]. [[validation:ans2]] [[feedback:prt2]]</p></li>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<ol class="HELM_parts">
+<li>
+<p>We must substitute {@xvalue1@} in place of \(x\) in the definition of the function:</p>
+\[\begin{array}{rcl}\displaystyle f\left({@xvalue1@}\right) &amp;\displaystyle =&amp;\displaystyle {@a@} \cdot ({@xvalue1@})^2 + ({@b@}) \cdot ({@xvalue1@}) + ({@c@})\\ &amp;\displaystyle =&amp;\displaystyle {@fxvalue@}\mbox{.} \end{array}\]
+</li>
+<li>
+<p>We must substitute {@xvalue2@} in place of \(x\) in the definition of the function:</p>
+\[\begin{array}{rcl}\displaystyle f\left({@xvalue2@}\right) &amp;\displaystyle =&amp;\displaystyle {@a@} \cdot ({@xvalue2@})^2 + ({@b@}) \cdot ({@xvalue2@}) + ({@c@})\\ &amp;\displaystyle =&amp;\displaystyle {@ta2@}\mbox{.} \end{array}\]
+</p>
+</li>
+</ol>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020120600</text>
+    </stackversion>
+    <questionvariables>
+      <text>a_magnitude:rand(8)+2;
+ a_sign:2*rand(2)-1;
+ a:a_magnitude*a_sign;
+ b_magnitude:rand(8)+2;
+ b_sign:2*rand(2)-1;
+ b:b_magnitude*b_sign;
+ c_magnitude:rand(9)+1;
+ c_sign:2*rand(2)-1;
+ c:c_magnitude*c_sign;
+ xvalue1:rand(19)-9;
+ xvalue2:0;
+ fx:a*x^2+b*x+c;
+ fxvalue:a*xvalue1^2+b*xvalue1+c;
+ ta1: fxvalue;
+ta2:a*xvalue2^2+b*xvalue2+c;
+ fxvalue_a2:a^2*xvalue1^2+b*xvalue1+c;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>Given \(f\left(x\right) = {@fx@}\) then \(f({@xvalue1@})={@ta1@}\) and \(f({@xvalue2@})={@ta2@}\).</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>numerical</type>
+      <tans>ta1</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>*</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>numerical</type>
+      <tans>ta2</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>*</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>Result</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>FNC-EVL-TRUE</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>FNC-EVL-FALSE</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>fxvalue_a2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>ART-RUL-FALSE </trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>You should look at order of operations when it comes to multiplication and powers.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-1-F </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>522143659</deployedseed>
+    <deployedseed>1172463441</deployedseed>
+    <deployedseed>1956421563</deployedseed>
+    <deployedseed>1513275847</deployedseed>
+    <deployedseed>1958928738</deployedseed>
+    <deployedseed>1228527132</deployedseed>
+    <deployedseed>1648564778</deployedseed>
+    <deployedseed>1995697291</deployedseed>
+    <deployedseed>2093631138</deployedseed>
+    <deployedseed>211873478</deployedseed>
+    <deployedseed>2009479218</deployedseed>
+    <deployedseed>1598660664</deployedseed>
+    <deployedseed>332114259</deployedseed>
+    <deployedseed>395369297</deployedseed>
+    <deployedseed>1134648556</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>fxvalue</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>FNC-EVL-TRUE</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>fxvalue-1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2-1</value>
+      </testinput>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>Result-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

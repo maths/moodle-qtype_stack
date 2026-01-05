@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>8.2.1.1 Introduction</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Solving a system of two equations using the inverse matrix</h4><p>If we have one linear equation 
+<span class="math inline">\( ax=b\)</span>
+in which the unknown is <span class="math inline">\(x\)</span> and <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> are constants and <span class="math inline">\(a\neq 0\)</span> then <span class="math inline">\(x=\dfrac{b}{a}= a^{-1}b\)</span>.</p>
+<p>What happens if we have more than one equation and more than one unknown? In this worksheet we copy the algebraic solution <span class="math inline">\(x=a^{-1}b\)</span> used for a single equation to solve a system of linear equations. As we shall see, this will be a very natural way of solving the system if it is first written in matrix form.</p>
+<p>Consider the system <span class="math display">\[\begin{matrix}
+2x_1 &amp; + &amp; 3x_2&amp;= &amp; 5 \\
+x_1 &amp; - &amp; 2x_2&amp;= &amp; -1. \end{matrix} \]</span> In matrix form this becomes <span class="math display">\[\qquad \left[\begin{array}{rr}
+2&amp;3\\ 1&amp;-2\end{array}\right] \left[\begin{array}{c}x_1\\
+x_2\end{array}\right]=\left[\begin{array}{r}5\\ -1\end{array}\right]\ \
+\quad\text{which is of the form}\ \quad AX=B.\]</span></p>
+<p>If <span class="math inline">\(A^{-1}\)</span> exists then the solution is <span class="math display">\[\qquad X=A^{-1}B.\qquad\text{(compare the solution} \ x=a^{-1}b \ \text{above)}\]</span></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

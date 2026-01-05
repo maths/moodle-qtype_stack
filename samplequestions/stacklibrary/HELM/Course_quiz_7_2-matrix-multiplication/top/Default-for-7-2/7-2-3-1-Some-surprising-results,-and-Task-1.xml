@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>7.2.3.1 Some surprising results, and Task 1</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Some surprising results</h3>
+<p class="HELM_exercise">Exercise</p>
+<p>We have already seen how to calculate a product \(AB\) where, for example,
+\[ A = {@matrixa@}, \qquad B = {@matrixb@} \] In this case the product is \[AB = {@ev(matrixa.matrixb,simp)@}\] In this exercise you will determine the product \(BA,\) i.e., with the matrices in the reverse order.</p>
+
+<p>Form the products of:</p>
+<p>row 1 of \(B\) and column 1 of \(A\)</p>
+<p>row 1 of \(B\) and column 2 of \(A\)</p>
+<p>row 2 of \(B\) and column 1 of \(A\)</p>
+<p>row 2 of \(B\) and column 2 of \(A\)</p>
+<p>Now enter the matrix \(BA\):</p>
+<div>[[input:ans1]][[validation:ans1]][[feedback:prt1]]</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>We are given the matrices \(A = {@matrixa@}\) and \(B = {@matrixb@}\) and are asked to compute the product \(BA\). This is given by:</p>
+\[BA = {@CC@} = {@DD@}\]
+<p>Note how our result for \(BA\) is not equal to \(AB\).</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020120600</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[matrixa: matrix([rand_with_step(-5,5,1),rand_with_step(-5,5,1)],[rand_with_step(-5,5,1),rand_with_step(-5,5,1)]);
+matrixa: ev(matrixa,simp);
+matrixb: matrix([rand_with_step(-5,5,1),rand_with_step(-5,5,1)],[rand_with_step(-5,5,1),rand_with_step(-5,5,1)]);
+matrixb: ev(matrixb,simp);
+correctanswer: ev(matrixb . matrixa,simp);
+
+/* these need to be renamed! */
+AA: matrixb;
+BBT: transpose(matrixa);
+CC: zeromatrix (first(matrix_size(AA)), first(matrix_size(BBT)));
+SS: for a:1 thru first(matrix_size(AA)) do for b:1 thru first(matrix_size(BBT)) do CC[ev(a,simp),ev(b,simp)]:apply("+",zip_with("*",AA[ev(a,simp)],BBT[ev(b,simp)]));
+DD: ev(CC,simp);
+
+ta1: correctanswer]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\(A = {@matrixa@}, B = {@matrixb@}, BA ={@correctanswer@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>0</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>matrix</type>
+      <tans>ta1</tans>
+      <boxsize>1</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>determinant</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>CasEqual</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>95628754</deployedseed>
+    <deployedseed>1775091312</deployedseed>
+    <deployedseed>245330457</deployedseed>
+    <deployedseed>1965837673</deployedseed>
+    <deployedseed>1389803148</deployedseed>
+    <deployedseed>1829180109</deployedseed>
+    <deployedseed>1372851919</deployedseed>
+    <deployedseed>1931232441</deployedseed>
+    <deployedseed>1277226495</deployedseed>
+    <deployedseed>721254620</deployedseed>
+    <deployedseed>839270455</deployedseed>
+    <deployedseed>655998488</deployedseed>
+    <deployedseed>1129965067</deployedseed>
+    <deployedseed>1480151935</deployedseed>
+    <deployedseed>1603726730</deployedseed>
+    <deployedseed>1577850419</deployedseed>
+    <deployedseed>1646849911</deployedseed>
+    <deployedseed>357615259</deployedseed>
+    <deployedseed>717019481</deployedseed>
+    <deployedseed>606166384</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(transpose(matrixa.matrixb),simp)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

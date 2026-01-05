@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>43.1.4.1 Significance testing for regression</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Significance testing for regression</h3>
+
+Note that the results in this Section apply to the simple linear model only. Some additions are necessary before the results can be generalized.
+
+The discussions so far pre-suppose that a linear model adequately describes the relationship between
+the variables. We can use a significance test involving the distribution to decide whether or not \(y\) is
+linearly dependent on \(x\). We set up the following hypotheses:
+\[ H_0 : \beta = 0 \hspace{1cm} \text{and} \hspace{1cm} H_1: \beta \neq 0 \]
+
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p><b>Significance Test for Regression</b>&nbsp;</p><p>The test statistic is
+\[ F_{test} = \dfrac{SS_R}{SS_E/(n-2)} \]
+where \(SS_R = SS_T - SS_E\) and rejection at the \(5\%\) level of significance occurs if
+\[F_{test} &gt; f_{0.05, 1, n-2} \]
+</p>
+</div>
+
+Note that we have one degree of freedom since we are testing only one parameter \( (m)\) and that \(n\)
+denotes the number of pairs of \( (x, y) \) values. A set of tables giving the \(5\%\) values of the \(F\)-distribution is given at the end of this Workbook (Table 1).]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

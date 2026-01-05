@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>28.3.3.4 grad in cylindrical polar coordinates simple</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Using cylindrical polar coordinates, find \(\underline{\nabla} f\) for \(f = \rho^{@aa@} z \sin \phi\).</p>
+<p>In your answer, type \(\rho\), \(\phi\), \(\sin(x)\), and \(cos(x)\) as <code>rho</code>, <code>phi</code>, <code>sin(x)</code>, and <code>cos(x)</code> respectively.</p>
+
+<p>\(\underline{\nabla} f =\)[[input:ans1]]\(\hat{\underline{\rho}} + \) [[input:ans2]] \(\hat{\underline{\phi}} + \) [[input:ans3]] \(\hat{\underline{z}}\)</p>
+[[validation:ans1]][[validation:ans2]][[validation:ans3]]]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p>We know that \(f = \rho^{@aa@} z \sin \phi\), and aim to find \(\underline{\nabla} f\), using cylindrical polar coordinates.
+In simple polar coordinates, \(\underline{\nabla} f = \dfrac{\partial f}{\partial \rho} \underline{\hat{\rho}} + \dfrac{1}{\rho} \dfrac{\partial f}{\partial \phi} \underline{\hat{\phi}} + \dfrac{\partial f}{\partial z} \underline{\hat{z}}\), for all \(f\).</p>
+<p>Therefore we have:
+\[
+\begin{aligned}
+\underline{\nabla} f &= \dfrac{\partial f}{\partial \rho} \underline{\hat{\rho}} + \dfrac{1}{\rho} \dfrac{\partial f}{\partial \phi} \underline{\hat{\phi}} + \dfrac{\partial f}{\partial z} \underline{\hat{z}} \\
+&= \dfrac{\partial }{\partial \rho}\left[\rho^{@aa@} z \sin \phi\right] \underline{\hat{\rho}} + \dfrac{1}{\rho} \dfrac{\partial }{\partial \phi}\left[\rho^{@aa@} z \sin \phi\right] \underline{\hat{\phi}} + \dfrac{\partial }{\partial z}\left[\rho^{@aa@} z \sin \phi\right] \underline{\hat{z}} \\
+& = {@aa@}\rho^{{@aa-1@}}z\sin(\phi) \hat{\underline{\rho}}+ \rho^{@aa-1@}z\cos(\phi)\underline{\hat{\phi}} + \rho^{@aa@}\sin(\phi)\underline{\hat{z}}.
+\end{aligned}
+\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025073100</text>
+    </stackversion>
+    <questionvariables>
+      <text>aa:rand(8)+2
+tarho:aa*rho^(aa-1)*z*sin(phi);
+taphi:rho^(aa-1)*z*cos(phi);
+taz:rho^(aa)*sin(phi);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="html">
+      <text>\(f = \rho^{@aa@} z \sin \phi, \quad \underline{\nabla} f ={@tarho@} \hat{\underline{\rho}} + {@taphi@} \hat{\underline{\phi}} + {@taz@} \hat{\underline{z}}\)</text>
+    </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>tarho</tans>
+      <boxsize>11</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>taphi</tans>
+      <boxsize>11</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>algebraic</type>
+      <tans>taz</tans>
+      <boxsize>11</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>tarho</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>taphi</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>taz</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>360184034</deployedseed>
+    <deployedseed>1979475549</deployedseed>
+    <deployedseed>2068794494</deployedseed>
+    <deployedseed>313594769</deployedseed>
+    <deployedseed>1278246920</deployedseed>
+    <deployedseed>972212991</deployedseed>
+    <deployedseed>1699797843</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>tarho</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>taphi</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>taz</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description>fail</description>
+      <testinput>
+        <name>ans1</name>
+        <value>tarho</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>taphi+1</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>taz+6</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt1-2-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

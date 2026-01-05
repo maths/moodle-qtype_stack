@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>27.3.2.1 Evaluating triple integrals</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Evaluating triple integrals</h3>
+<p>A triple integral is an integral of the form \(\displaystyle \displaystyle\int_a^b \displaystyle\int_{p(x)}^{q(x)} \displaystyle\int_{r(x,y)}^{s(x,y)} f(x,y,z) \;\mathrm{d}z\,\mathrm{d}y\,\mathrm{d}x\)</p>
+<p>The evaluation can be split into an “inner integral" (the integral with respect to \(z\) between limits which are functions of \(x\) and \(y\)), an “intermediate integral" (the integration with respect to \(y\) between limits which are functions of \(x\)) and an “outer integral" (the integration with respect to \(x\) between limits which are constants. Note that there is nothing special about the variable names \(x\), \(y\) and \(z\): other variable names could have been used instead.</p>
+<p>Triple integrals can be represented in different ways. \(\displaystyle\int_V f \;\mathrm{d}V\) represents a triple integral where the \(\mathrm{d}V\) is replaced by \(\;\mathrm{d}z\,\mathrm{d}y\,\mathrm{d}x\) (or equivalent) and the limit of \(V\) on the integral is replaced by appropriate limits on the three integrals.</p>
+<p>Note that the integral \(\displaystyle\int_V \;\mathrm{d}V\) (i.e. integrating the function \(f(x,y,z)=1\)) gives the volume of the relevant shape. Hence the alternative name of volume integral.</p>
+<p>One special case is where the limits on <strong>all</strong> the integrals are constants (a constant is, of course, a special case of a function). This represents an integral over a cuboidal region.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>23.7.1.1 Modelling vibration by differential equation</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3> Modelling vibration by differential equation<br></h3>
+
+<p>Vibration problems are often modelled by ordinary differential equations with constant coefficients. For example the motion of a spring with stiffness \(k\) and damping constant \(c\) is modelled by</p>
+<p>\(\qquad m\dfrac{d^2y}{dt^2}+c\dfrac{dy}{dt}+k y=0 \qquad \qquad \qquad \qquad\) (1)</p>
+<p>where \(y(t)\) is the displacement of a mass \(m\) connected to the spring. It is well-known that if \(c^2<4mk\), usually referred to as the lightly damped case, then</p>
+<p>\(\qquad y(t) = e^{-\alpha t}(A\cos\omega t+B\sin\omega t) \qquad \qquad \qquad\) (2)</p>
+<p>i.e. the motion is sinusoidal but damped by the negative exponential term. In (2) we have used the notation</p>
+<p>\(\qquad \alpha = \dfrac{c}{2m}\qquad\omega = \dfrac{1}{2m}\sqrt{4km-c^2} \quad\) to simplify
+the equation.</p>
+<p>The values of \(A\) and \(B\) depend upon initial conditions.</p>
+<p>The system represented by (1),  whose solution is (2), is referred to as an <strong>unforced damped harmonic oscillator</strong>.</p>
+<p>A lightly damped oscillator driven by a time-dependent forcing function \(F(t)\) is modelled by the differential equation</p>
+<p>\(\qquad m\dfrac{d^2y}{dt^2} + c\dfrac{dy}{dt}+k y = F(t) \qquad \qquad \qquad\) (3)</p>
+
+<p>The solution or <strong>system response</strong> in (3) has two parts:</p>
+<p>\( \quad\) (a) A <strong>transient</strong> solution of the form (2),</p>
+<p>\(\quad\) (b) A <strong>forced</strong> or <strong>steady state</strong> solution whose form, of course, depends on \(F(t).\)</p>
+
+<p>If \(F(t)\) is sinusoidal such that</p>
+<p>\(\qquad  F(t)= A\sin (\Omega t+\phi) \, \) where \(\Omega\) and \(\phi\) are constants,</p>
+<p>then the steady state solution is fairly readily obtained by standard techniques for solving differential equations. If \(F(t)\) is periodic but non-sinusoidal then Fourier series may be used to obtain the steady state solution. The method is based on the <strong>principle of superposition</strong> which is actually applicable to any linear (homogeneous) differential equation. (Another engineering application is the series \(LCR\) circuit with an applied periodic voltage.)</p>
+<p>The principle of superposition is easily demonstrated:</p>
+<p>Let \(y_1(t)\) and \(y_2(t)\) be the steady state solutions of (3) when \(F(t)=F_1(t)\) and \(F(t)=F_2(t)\) respectively. Then</p>
+<p>\(\qquad m\dfrac{d^2y_1}{dt^2} + c\dfrac{dy_1}{dt}+k y_1 = F_1(t)\)</p>
+<p>\(\qquad m\dfrac{d^2y_2}{dt^2} + c\dfrac{dy_2}{dt}+k y_2 = F_2(t)\)</p>
+<p>Simply adding these equations we obtain</p>
+<p>\(\qquad m\dfrac{d^2}{dt^2}(y_1+y_2) + c\dfrac{d}{dt}(y_1+y_2) + k(y_1+y_2) = F_1(t) + F_2(t)\)</p>
+<p>from which it follows that if \(F(t) = F_1(t) + F_2(t)\) then the system response is the sum \( \, y_1(t) + y_2(t).\) This, in its simplest form, is the principle of superposition. More generally if the forcing function is</p>
+<p>\(\qquad F(t )= \sum_{n=1}^NF_n(t)\)</p>
+<p>then the response is \(\, \, y(t) = \sum_{n=1}^Ny_n(t)\) where \(y_n(t)\) is the response to the forcing function \(F_n(t).\)</p>
+
+<p>Returning to the specific case where \(F(t)\) is periodic, the solution procedure for the steady state response is as follows:</p>
+<p>\( \quad\) <strong>Step 1:</strong> Obtain the Fourier series of \(F(t).\)</p>
+<p>\( \quad\) <strong>Step 2:</strong> Solve the differential equation (3) for the response \(y_n(t)\) corresponding to the \(n^{\text{ th}}\) harmonic in the Fourier series. (The response \(y_o\) to the constant term, if any, in the Fourier series may have to be obtained separately.)</p>
+<p>\( \quad\) <strong>Step 3:</strong> Superpose the solutions obtained to give the overall steady state motion:</p>
+<p>\(\qquad \qquad y(t) = y_0(t)+\sum_{n=1}^Ny_n(t)\)</p>
+<p>The procedure can be lengthy but the solution is of great engineering interest because if the frequency of one harmonic in the Fourier series is close to the <strong>natural frequency</strong> \(\, \sqrt{\dfrac{k}{m}}\) of the undamped system then the response to that harmonic will dominate the solution.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

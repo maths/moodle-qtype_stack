@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>8.1.1.5 Exercise: Cramer's rule for solving simultaneous equations</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise 1 (paper exercise)<br></p>
+<p>
+</p>
+<p>Use Cramer’s rule to determine any and all solutions to the equations</p>
+<p></p>
+<p><span class="math display">\[\text{(a)}\ \ \ \ \begin{array}{rrrrr}2x-3y&amp;=&amp;6\\ 4x-6y&amp;=&amp;12\end{array}
+\qquad\ \ \ \text{(b)}\ \ \begin{array}{rrrrr}2x-3y&amp;=&amp;6\\
+4x-6y&amp;=&amp;10\end{array}\]</span></p>
+<hr>
+<p class="HELM_exercise">Solution</p>
+<p>You should first have checked \(\begin{vmatrix}2 &amp; -3\\ 4 &amp; -6\end{vmatrix}\) since \[\begin{vmatrix}2 &amp; -3\\ 4 &amp; -6\end{vmatrix}=-12-(-12)=0.\]</p>
+<p>Hence there is no unique solution in either case.</p>
+<p>In system (a) the second equation is twice the first so there are infinitely many solutions. (Here we can give \(y\) <i>any</i>&nbsp;value we wish, \(t\) say; but then the \(x\) value is always \((6+3t)/2\). So for each value of \(t\) there are values
+    for \(x\) and \(y\) which simultaneously satisfy both equations. There is an infinite number of possible solutions.)</p>
+<p>In (b) the equations are inconsistent (since the first is \(2x-3y=6\) and the second is \(2x-3y=5\) which is not possible). Hence there are no solutions.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

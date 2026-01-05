@@ -1,0 +1,105 @@
+{
+    "quiz": {
+        "name": "13_2 Definite Integrals",
+        "intro": "<h3><span>Definite integrals<\/span><br><\/h3>\n\n<p>When you were first introduced to integration as the reverse of differentiation, the integrals you dealt with were <strong>indefinite integrals<\/strong>. The result of finding an indefinite integral is usually a function plus a constant of integration. In this Section we introduce <strong>definite integrals<\/strong>, so called because the result will be a definite answer, usually a number, with no constant of integration. Definite integrals have many applications, for example in finding areas bounded by curves, and finding volumes of solids.<\/p>",
+        "introformat": "1",
+        "questionsperpage": "0",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "DEFINITE INTEGRALS",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "2",
+            "heading": "EVALUATING DEFINITE INTEGRALS",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "7",
+            "heading": "TORSION OF A MILD-STEEL BAR",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "8",
+            "heading": "SOME INTEGRALS WITH INFINITE LIMITS",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-13-2\/13-2-1-1-Definite-integrals.xml"
+        },
+        {
+            "slot": "2",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-13-2\/13-2-2-1-Evaluating-definite-integrals.xml"
+        },
+        {
+            "slot": "4",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-13-2\/13-2-2-3-Work-done-by-a-spring.xml"
+        },
+        {
+            "slot": "5",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-13-2\/13-2-2-4-Find-definite-integrals.xml"
+        },
+        {
+            "slot": "6",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-13-2\/13-2-2-5-Find-definite-integrals.xml"
+        },
+        {
+            "slot": "7",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-13-2\/13-2-2-6-Engineering-example-2.xml"
+        },
+        {
+            "slot": "8",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-13-2\/13-2-3-1-Infinite-limits.xml"
+        },
+        {
+            "slot": "9",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-13-2\/13-2-3-2-Find-infinite-integrals.xml"
+        },
+        {
+            "slot": "3",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-13-2\/13-2-2-2-T-Definite-integral-switch-limits.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

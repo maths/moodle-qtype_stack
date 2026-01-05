@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>29.3.3.2 Green’s Theorem in the Plane</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h5>Green’s Theorem in the Plane</h5>
+<p>This states that </p>
+<p> \(\displaystyle \qquad \oint_C (P \mathrm{d}x + Q \mathrm{d}y) = \displaystyle\int\!\! \displaystyle\int_S \left( \frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y} \right) \mathrm{d}x \mathrm{d}y\) </p>
+<p> \(S\) is a \(2\)-\(D\) surface with perimeter \(C\); \(P(x,y)\) and \(Q(x,y)\) are scalar functions. </p>
+<p> This should not be confused with Green’s identities.</p>
+
+
+<h4>Justification of Green's Theorem in the Plane </h4>
+<p>Green’s theorem in the plane can be derived from Stokes’ theorem. </p>
+<p> \(\qquad\displaystyle \displaystyle\int\!\! \displaystyle\int_S ({\underline \nabla} \times \underline{F}) \cdot \underline{dS} = \displaystyle\oint_C \underline{F} \cdot \underline{dr}\) </p>
+<p> Now let \(\underline{F}\) be the vector field \(P(x,y) \underline{i} + Q(x,y) \underline{j}\) i.e. there is no dependence on \(z\) and there are no components in the \(z-\) direction. Now </p><br> 
+
+<p> \({\underline \nabla} \times \underline{F} = \left|\begin{array}{ccc} \underline{i} &amp; \underline{j} &amp; \underline{k} \\ \\ \dfrac{\partial}{\partial x} &amp; \dfrac{\partial}{\partial y} &amp; \dfrac{\partial}{\partial z} \\ \\ P(x,y) &amp; Q(x,y) &amp; 0 \end{array} \right| = \left( \dfrac{\partial Q}{\partial x} - \dfrac{\partial P}{\partial y} \right) \underline{k}\) <br> and \(\underline{dS} = \mathrm{d}x \mathrm{d}y \underline{k}\) giving \(({\underline \nabla} \times \underline{F}) \cdot \underline{dS} = \left( \dfrac{\partial Q}{\partial x} - \dfrac{\partial P}{\partial y} \right) \mathrm{d}x \mathrm{d}y\). </p>
+<p>  Thus Stokes’ theorem becomes </p>
+<p> \(\displaystyle \displaystyle\int\!\! \displaystyle\int_S \left( \dfrac{\partial Q}{\partial x} - \dfrac{\partial P}{\partial y} \right) \mathrm{d}x \mathrm{d}y = \displaystyle\oint_C \underline{F} \cdot \underline{dr}\) </p>
+<p> and Green’s theorem in the plane follows. </p>
+
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p><b>Green's Theorem in the Plane</b>
+<p>\[\oint_C (P \mathrm{d}x + Q \mathrm{d}y) =  \int\!\! \int_S \left( \frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y} \right)\  \mathrm{d}x\  \mathrm{d}y \]</p>
+<p>This relates a line integral around a closed path \(C\) with a double integral over the region \(S\) enclosed by \(C\). It is effectively a two-dimensional form of Stokes' theorem.</p>
+</div>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Evaluate the line integral \(\displaystyle\oint_C \left[(4x^2 + y - 3)\mathrm{d}x + (3x^2 + 4 y^2 - 2)\mathrm{d}y \right]\) around the rectangle \(0 \le x \le 3\), \(0 \le y \le 1\).</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>The integral could be obtained by evaluating four line integrals but it is easier to note that \(\left[(4x^2 + y - 3)\mathrm{d}x + (3x^2 + 4 y^2 - 2)\mathrm{d}y \right]\) is of the form \(P \mathrm{d}x + Q \mathrm{d}y\) with \(P = 4x^2 + y - 3\) and \(Q = 3x^2 + 4y^2 -2\). It is thus of a suitable form for Green's theorem in the plane.
+Note that \(\dfrac{\partial Q}{\partial x} = 6x\) and \(\dfrac{\partial P}{\partial y} = 
+1\).
+Green's theorem in the plane becomes \begin{eqnarray*}  \displaystyle\oint_C 
+\{(4x^2 + y - 3) \mathrm{d}x + (3x^2 + 4y^2 -2) \mathrm{d}y\} &=&  \displaystyle\int_{y=0}^1 
+ \displaystyle\int_{x=0}^3 \left( 6x - 1 \right)  \mathrm{d}x  \mathrm{d}y \\ 
+&=&  \displaystyle\int_{y=0}^1  \left[ \phantom{\dfrac{1}{1}}\!\!\! 3x^2 - x  \right]_{x=0}^3  \mathrm{d}y = 
+ \displaystyle\int_{y=0}^1 
+24 \ \mathrm{d}y = 24 \\ 
+\end{eqnarray*}</p>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Verify Green’s theorem in the plane for the integral \(\displaystyle\oint_C \left[ 4 z \mathrm{d}y + (y^2 - 2)\mathrm{d}z \right]\) and the triangular contour starting at the origin \(O = (0,0,0)\) and going to \(A = (0,2,0)\) and \(B = (0,0,1)\) before returning to the origin.</p>
+
+<h4 class="HELM_solution">Solution</h4>
+<p>The whole of the contour is in the plane \(x=0\) and Green's theorem in the plane becomes </p>
+<p> \(\qquad\displaystyle  \displaystyle\oint_C (P \mathrm{d}y + Q \mathrm{d}z) =  \displaystyle\int\!\! \displaystyle\int_S 
+\left( \frac{\partial Q}{\partial y} - \frac{\partial P}{\partial z} \right)  \mathrm{d}y  \mathrm{d}z \)  </p>
+
+<p> (a) Firstly evaluate \( \displaystyle\oint_C \left\{ 4 z  \mathrm{d}y + (y^2 - 2)\mathrm{d}z \right\}\).</p>
+
+<p>On \(OA\), \(z=0\) and \(\mathrm{d}z = 0\). As the integrand is zero, the integral will also be zero.</p>
+<p> On \(AB\), \(z = (1 - \frac{y}{2})\) and \(\mathrm{d}z = -\frac{1}{2}\mathrm{d}y\). The integral is </p>
+<p> \( \displaystyle\int_{y=2}^0 \left( (4 - 2y) \mathrm{d}y -  \frac{1}{2} (y^2 - 2) \mathrm{d}y \right) =  \displaystyle\int_2^0 (5 - 2y - \frac{1}{2} y^2 ) \mathrm{d}y = \left[ 5 y - 
+y^2 - \frac{1}{6}y^3 \right]_2^0 = -\frac{14}{3}\) </p>
+
+<p> On \(BO\), \(y=0\) and \(\mathrm{d}y=0\). The integral is \( \displaystyle\int_1^0 (-2 ) \mathrm{d}z = \left[\phantom{\dfrac{1}{1}}\!\!\!-2z \right]_1^0 = 2\).</p>
+<p> Summing, \( \displaystyle\oint_C \left( 4 z  \mathrm{d}y + (y^2 - 2)\mathrm{d}z \right) = -\frac{8}{3}\)</p>
+
+<p> (b) Secondly evaluate \(\displaystyle\int\!\! \displaystyle\int_S \left( \frac{\partial Q}{\partial y} - \frac{\partial P}{\partial z} \right)  \mathrm{d}y  \mathrm{d}z \)</p>
+
+<p> In this example, \(P = 4z\) and \(Q = y^2 - 2\). Thus \(\dfrac{\partial P}{\partial z} = 4\) and \(\dfrac{\partial Q}{\partial y} = 2 y\). Hence, </p>
+<p> \(\begin{align} 
+ \displaystyle\int\!\! \displaystyle\int_S \left( \frac{\partial Q}{\partial y} - \frac{\partial P}{\partial z} \right)  \mathrm{d}y  \mathrm{d}z 
+&=  \displaystyle\int_{y=0}^2  \displaystyle\int_{z=0}^{1-y/2} \left( 2y - 4 \right)  \mathrm{d}z\mathrm{d}y \\ 
+&=  \displaystyle\int_{y=0}^2 \left[\phantom{\dfrac{1}{1}}\!\!\! 2 y z - 4 z \right]_{z=0}^{1-y/2}  \mathrm{d}y = \displaystyle\int_{y=0}^2 \left( -y^2 + 4 y - 4 \right)  \mathrm{d}y\qquad\qquad \\ 
+&= \left[ -\frac{1}{3}y^3 + 2 y^2 - 4 y \right]_0^2 = -\frac{8}{3} 
+\end{align} \)</p>
+<p> Hence:</p>
+<p> \(\displaystyle  \displaystyle\oint_C (P \mathrm{d}y + Q \mathrm{d}z) =  \displaystyle\int\!\! \displaystyle\int_S \left( \frac{\partial Q}{\partial y} - \frac{\partial P}{\partial z} \right)  \mathrm{d}y  \mathrm{d}z = -\frac{8}{3}\) and Green's theorem in the plane is verified.</p>
+
+<hr>
+<p> One very useful, special case of Green’s theorem in the plane is when \(Q=x\) and \(P=-y\). The theorem becomes </p>
+<p> \(\qquad\displaystyle \displaystyle\oint_C \{-y \mathrm{d}x + x \mathrm{d}y\} = \displaystyle\int\!\! \displaystyle\int_S \left( 1 - (-1) \right) \mathrm{d}x \mathrm{d}y\) </p>
+<p> The right-hand side becomes \(\displaystyle\int\!\! \displaystyle\int_S 2\; \mathrm{d}x \mathrm{d}y\) i.e. \(2A\) where \(A\) is the area inside the contour \(C\). Hence </p>
+<p> \(\qquad\displaystyle A = \frac{1}{2} \displaystyle\oint_C \{x \mathrm{d}y - y \mathrm{d}x\}\) </p>
+<p> This result is known as the <strong>area theorem</strong>. It gives us the area bounded by a curve \(C\) in terms of a line integral around \(C\). </p>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Verify the area theorem for the segment of the circle \(x^2 + y^2 = 4\) lying above the line \(y = 1\).</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>Firstly, the area of the segment \(ADBC\) can be found by subtracting the area of the triangle \(OADB\) from the area of the sector \(OACB\). The triangle has area \(\frac{1}{2} \times 2\sqrt{3}  \times 1 = \sqrt{3}\). The sector has area \(\frac{\pi}{3} \times  2^2 = \frac{4}{3}\pi\). Thus segment \(ADBC\) has area \(\frac{4}{3}\pi - \sqrt{3}\). </p>
+<p> Now, evaluate the integral \( \displaystyle\oint_C \{x \mathrm{d}y - y \mathrm{d}x\}\) around the segment. </p>
+<p:> Along the line, \(y = 1\), \(\mathrm{d}y = 0\) so the integral \( \displaystyle\int_C  \{x \mathrm{d}y - y \mathrm{d}x\}\) becomes \( \displaystyle\int_{-\sqrt{3}}^{\sqrt{3}} (x \times 0  - 1\times  \mathrm{d}x) =  \displaystyle\int_{-\sqrt{3}}^{\sqrt{3}}(- \mathrm{d}x) = - 2\sqrt{3}\). </p>
+<p> Along the arc of the circle, \(y = \sqrt{4-x^2} = (4-x^2)^{1/2}\) so \(\mathrm{d}y = -x (4-x^2)^{-1/2} \mathrm{d}x\).</p>
+
+<p> The integral \( \displaystyle\int_C \{x \mathrm{d}y - y \mathrm{d}x\}\) becomes </p>
+<p> \[\begin{align}  \displaystyle\int_{\sqrt{3}}^{-\sqrt{3}} 
+\{-x^2(4-x^2)^{-1/2} - (4-x^2)^{1/2}\}\mathrm{d}x &=  \displaystyle\int_{-\sqrt{3}}^{\sqrt{3}} \dfrac{4}{\sqrt{4-x^2}}\mathrm{d}x \\ 
+&=  \displaystyle\int_{-\pi/3}^{\pi/3} 4 \frac{1}{2\cos\theta}2\cos\theta\  d\theta \mbox { (letting \(x=2 \sin \theta\))}\\ 
+&=  \displaystyle\int_{-\pi/3}^{\pi/3} 4 d\theta = \frac{8}{3}\pi \\ 
+\end{align} \]</p>
+
+<p> So, \(\dfrac{1}{2}  \displaystyle\oint_C \{x \mathrm{d}y - y \mathrm{d}x\} = \frac{1}{2} \left[  \frac{8}{3}\pi - 2\sqrt{3}\right] = \frac{4}{3}\pi - \sqrt{3}. \) </p>
+<p> Hence both sides of the area theorem equal  \( \ \dfrac{4}{3}\pi - \sqrt{3}\) thus verifying the theorem. </p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,924 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>9.5.2.3 The angle between a vector and the axes, Exercise</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>Consider the vector \(\overrightarrow{OP}\), where \(P\) is the point with coordinates \({@p1@}\).</p>
+
+<ol class="HELM_parts">
+<li>
+<p>Find the direction ratios \(l : m : n\) of \(\overrightarrow{OP}\).</p> 
+<div>\((l,m,n) = \) [[input:ansRat]] [[validation:ansRat]] [[feedback:ratio]]</div>
+</li>
+
+<li>
+<p>Now find the cosines of the angles between the vector \(\overrightarrow{OP}\) and the \(x\),\(y\), and \(z\)-axes. Let these angles be \(\theta_x\), \(\theta_y\) and \(\theta_z\), respectively. Give exact answers, using square roots.</p>
+<p>\(\cos \theta_x =\) [[input:ans4x]] [[validation:ans4x]] [[feedback:Part3ax]]</p>
+<p>\(\cos \theta_y =\) [[input:ans4y]] [[validation:ans4y]] [[feedback:Part3ay]]</p>
+<p>\(\cos \theta_z =\) [[input:ans4z]] [[validation:ans4z]] [[feedback:Part3az]]</p>
+</li>
+
+<li>
+<p>Lastly, find the angles between the vector \(\overrightarrow{OP}\) and the \(x\),\(y\), and \(z\)-axes. Give your answer in degrees, to three significant figures.</p>
+<p>\( \theta_x =\) [[input:ans5x]] [[validation:ans5x]] degrees. [[feedback:Part3bx]]</p>
+<p>\( \theta_y =\) [[input:ans5y]] [[validation:ans5y]] degrees. [[feedback:Part3by]]</p>
+<p>\( \theta_z =\) [[input:ans5z]] [[validation:ans5z]] degrees.[[feedback:Part3bz]]</p>
+</li></ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<ol class="HELM_parts">
+<li>
+<p>We can just read off the direction rations \(l : m : n\) from the vector.</p>
+\[(l,m,n) = \begin{bmatrix} {@p1[1,1]@} &amp; {@p1[2,1]@} &amp; {@p1[3,1]@} \end{bmatrix}\]
+</li>
+
+<li>
+<p>Next, we are asked for the cosines of the angles between \(\overrightarrow{OP}\) and the \(x\), \(y\) and \(z\)-axes. These are simply the direction cosines. In order to find them, we must first compute the magnitude of \(\overrightarrow{OP}\).</p>
+\[\lvert\overrightarrow{OP}\rvert = {@mag_p1@}\]
+<p>Then we have</p>
+\[\begin{aligned}
+\cos \theta_x &amp;= {@cos_thetax@} \\
+\cos \theta_y &amp;= {@cos_thetay@} \\
+\cos \theta_z &amp;= {@cos_thetaz@}
+\end{aligned}\]
+</li>
+
+<li>
+<p>Lastly, we are asked to find what each of these angles is. We can do this using the arccosine function in our calculator. Remember we must write our answers in degress and to three significant figures.</p>
+\[\begin{aligned}
+\theta_x &amp;= {@r_thetax_d@} \\
+\theta_y &amp;= {@r_thetay_d@} \\
+\theta_z &amp;= {@r_thetaz_d@}
+\end{aligned}\]
+</li>
+</ol>]]></text>
+    </generalfeedback>
+    <defaultgrade>5</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021072200</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[stackvectortex(ex):= block(sconcat("{ \\underline{", tex1(first(args(ex))), "}}"));
+ordergreat(i,j,k);
+ /*Sets up relevant vectors to be used in the question.*/
+ p1: matrix([9],[9],[8]) - rand(matrix([18],[18],[7]));
+drRowVec: transpose(p1);
+ u1: matrix([i],[j],[k]);
+ /*Presents the vectors p in a suitable form to be displayed in the question text / note.*/ 
+ P1: texboldatoms(dotproduct(p1,u1)); 
+ /*Computes the vectors' respective magnitudes.*/
+ mag_p1: sqrt(dotproduct(p1,p1));
+ /*Evaluates cos theta in terms of the scalar product and the magnitudes.*/
+ cos_thetax: p1[1,1]/(mag_p1);
+ cos_thetay: p1[2,1]/(mag_p1);
+ cos_thetaz: p1[3,1]/(mag_p1);
+ /*Finds the value of theta (truncated to three sig fig) in both radians and degrees.*/
+ r_thetax_r: significantfigures(ev(acos(cos_thetax),float),3);
+ r_thetax_d: significantfigures(ev(acos(cos_thetax)*(180/pi),float),3);
+ r_thetay_r: significantfigures(ev(acos(cos_thetay),float),3);
+ r_thetay_d: significantfigures(ev(acos(cos_thetay)*(180/pi),float),3);
+ r_thetaz_r: significantfigures(ev(acos(cos_thetaz),float),3);
+ r_thetaz_d: significantfigures(ev(acos(cos_thetaz)*(180/pi),float),3);
+ /*Students may possibly sum the components of the vector product as one of their answers. This item may be used as part of the PRT, to give relevant feedback about their error.*/
+ /*q1 is basis vector for x axis, should probably include y and z*/
+q1: matrix([1],[0],[0]);
+ vector_sum:(p1[2,1]*q1[3,1] - p[3,1]*q1[2,1]) + (p1[3,1]*q1[1,1] - p1[1,1]*q1[3,1]) + (p1[1,1]*q1[2,1] - p1[2,1]*q1[1,1]);
+ /*entri that wont occur for test of ECF*/
+ecfTest: matrix([10,20,30]);
+ecfTestCosx: 1/sqrt(14);
+ecfTestCosy: 2/sqrt(14);
+ecfTestCosz: 3/sqrt(14);
+ r_ecfthetax_d: significantfigures(ev(acos(ecfTestCosx)*(180/pi),float),3);
+ r_ecfthetay_d: significantfigures(ev(acos(ecfTestCosy)*(180/pi),float),3);
+ r_ecfthetaz_d: significantfigures(ev(acos(ecfTestCosz)*(180/pi),float),3);]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\[ (\ell,m,n)= {@drRowVec@}\]
+\[\cos \theta_x = {@cos_thetax@}, \theta_x = {@r_thetax_d@}\  \text{degrees}\]
+\[\cos \theta_y = {@cos_thetay@}, \theta_y = {@r_thetay_d@}\  \text{degrees}\]
+\[\cos \theta_z = {@cos_thetaz@}, \theta_z = {@r_thetaz_d@}\  \text{degrees}\]</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<p>Correct answer, well done.</p>]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<p>Your answer is partially correct.</p>]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<p>Incorrect answer.</p>]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>symi</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans4x</name>
+      <type>algebraic</type>
+      <tans>cos_thetax</tans>
+      <boxsize>8</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans4y</name>
+      <type>algebraic</type>
+      <tans>cos_thetay</tans>
+      <boxsize>8</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans4z</name>
+      <type>algebraic</type>
+      <tans>cos_thetaz</tans>
+      <boxsize>8</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans5x</name>
+      <type>numerical</type>
+      <tans>r_thetax_d</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans5y</name>
+      <type>numerical</type>
+      <tans>r_thetay_d</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans5z</name>
+      <type>numerical</type>
+      <tans>r_thetaz_d</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ansRat</name>
+      <type>matrix</type>
+      <tans>drRowVec</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>Part3ax</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans4x</sans>
+        <tans>cos_thetax</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>COSx-TRUE</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>COSx-FALSE</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p></p><p>You have incorrectly calculated \(\cos \theta_x\) here.</p><br><p></p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>Part3ay</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans4y</sans>
+        <tans>cos_thetay</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>COSy-TRUE</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>COSy-FALSE</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p></p><p>You have incorrectly calculated \(\cos \theta_y\) here.</p><p>You have incorrectly calculated \(\cos \theta_y\) here.</p><br><p></p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>Part3az</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans4z</sans>
+        <tans> cos_thetaz</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>COSz-TRUE</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>COSz-FALSE</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p></p><p>You have incorrectly calculated \(\cos \theta_z\) here.</p><br><p></p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>Part3bx</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>s_thetax_deg_ECF: significantfigures(ev(acos(ans4x)*(180/pi),float),3);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans5x</sans>
+        <tans>r_thetax_d</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>ANGx-TRUE</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>ANGx-FALSE</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans5x</sans>
+        <tans>r_thetax_r</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>ANGx-INRADIANS</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p></p><p>Your (rounded) answer appears 
+to have been given in radians. Please enter the appropriate answer in 
+degrees. Remember, only round your answer at the very final stage of the
+ calculation!</p><br><p></p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>ANGx-FALSE1</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans5x</sans>
+        <tans>s_thetax_deg_ECF</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>ANGx-FALSE-TRUEwECF</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p></p><p>You appear to have used the correct formula to find \(\theta_x\) in 
+degrees (and to round it to the appropriate number of significant 
+figures!), but it appears that your value of \(\cos \theta_x\) from 
+earlier is incorrect; this means your answer here is not correct, 
+either.</p>
+<p>Please amend your answer to the previous part of the question, and 
+attempt this part again as well using the correct value of \(\cos 
+\theta_x\).</p><br><p></p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>ANGx-FALSE2</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p></p><p>You do not appear to have 
+entered the correct answer. Perhaps you are using some incorrect units? 
+Perhaps you have not rounded correctly? Perhaps you are using an 
+incorrect formula?</p>
+<p>Remind yourself of how to correctly calculate the angle between the two vectors, and please try again.</p><br><p></p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>Part3by</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>s_thetay_deg_ECF: significantfigures(ev(acos(ans4y)*(180/pi),float),3);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans5y</sans>
+        <tans>r_thetay_d</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>ANGy-TRUE</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>ANGy-FALSE</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans5y</sans>
+        <tans>r_thetay_r</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>ANGy-INRADIANS</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p></p><p>Your (rounded) answer appears 
+to have been given in radians. Please enter the appropriate answer in 
+degrees. Remember, only round your answer at the very final stage of the
+ calculation!</p><br><p></p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>ANGy-FALSE1</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans5y</sans>
+        <tans>s_thetay_deg_ECF</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>ANGy-FALSE-TRUEwECF</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p></p><p>You appear to have used the correct formula to find \(\theta_y\) in 
+degrees (and to round it to the appropriate number of significant 
+figures!), but it appears that your value of \(\cos \theta_y\) from 
+earlier is incorrect; this means your answer here is not correct, 
+either.</p>
+<p>Please amend your answer to the previous part of the question, and 
+attempt this part again as well using the correct value of \(\cos 
+\theta_y\).</p><br><p></p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>ANGy-FALSE2</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p></p><p>You do not appear to have 
+entered the correct answer. Perhaps you are using some incorrect units? 
+Perhaps you have not rounded correctly? Perhaps you are using an 
+incorrect formula?</p><br><p></p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>Part3bz</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>s_thetaz_deg_ECF: significantfigures(ev(acos(ans4z)*(180/pi),float),3);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans5z</sans>
+        <tans>r_thetaz_d</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>ANGz-TRUE</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>ANGz-FALSE</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans5z</sans>
+        <tans>r_thetaz_r</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>ANGz-INRADIANS</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Your (rounded) answer appears 
+to have been given in radians. Please enter the appropriate answer in 
+degrees. Remember, only round your answer at the very final stage of the
+ calculation!</p><p></p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>ANGz-FALSE1</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans5z</sans>
+        <tans>s_thetaz_deg_ECF</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>ANGz-FALSE-TRUEwECF</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p></p><p>You appear to have used the correct formula to find \(\theta_z\) in 
+degrees (and to round it to the appropriate number of significant 
+figures!), but it appears that your value of \(\cos \theta_z\) from 
+earlier is incorrect; this means your answer here is not correct, 
+either.</p>
+<p>Please amend your answer to the previous part of the question, and 
+attempt this part again as well using the correct value of \(\cos 
+\theta_z\).</p><br><p></p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>ANGz-FALSE2</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p></p><p>You do not appear to have 
+entered the correct answer. Perhaps you are using some incorrect units? 
+Perhaps you have not rounded correctly? Perhaps you are using an 
+incorrect formula?</p><br><p></p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>ratio</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>drRowVec</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ansRat</sans>
+        <tans>drRowVec</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>DIR-RATIO-TRUE</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>DIR-RATIO-FALSE</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p></p><p>Remember how we obtain the 
+direction ratios for a three-dimensional vector from its expression in 
+terms of \(\mathbf{i}\)&nbsp;and \(\mathbf{j}\) components, and try again.</p><br><p></p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1427186675</deployedseed>
+    <deployedseed>958945957</deployedseed>
+    <deployedseed>1087728891</deployedseed>
+    <deployedseed>298331475</deployedseed>
+    <deployedseed>1567412295</deployedseed>
+    <deployedseed>191135283</deployedseed>
+    <deployedseed>5280898</deployedseed>
+    <deployedseed>261526416</deployedseed>
+    <deployedseed>1164644081</deployedseed>
+    <deployedseed>727148584</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans4x</name>
+        <value>cos_thetax</value>
+      </testinput>
+      <testinput>
+        <name>ans4y</name>
+        <value>cos_thetay</value>
+      </testinput>
+      <testinput>
+        <name>ans4z</name>
+        <value>cos_thetaz</value>
+      </testinput>
+      <testinput>
+        <name>ans5x</name>
+        <value>r_thetax_d</value>
+      </testinput>
+      <testinput>
+        <name>ans5y</name>
+        <value>r_thetay_d</value>
+      </testinput>
+      <testinput>
+        <name>ans5z</name>
+        <value>r_thetaz_d</value>
+      </testinput>
+      <testinput>
+        <name>ansRat</name>
+        <value>drRowVec</value>
+      </testinput>
+      <expected>
+        <name>Part3ax</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>COSx-TRUE</expectedanswernote>
+      </expected>
+      <expected>
+        <name>Part3ay</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>COSy-TRUE</expectedanswernote>
+      </expected>
+      <expected>
+        <name>Part3az</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>COSz-TRUE</expectedanswernote>
+      </expected>
+      <expected>
+        <name>Part3bx</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>ANGx-TRUE</expectedanswernote>
+      </expected>
+      <expected>
+        <name>Part3by</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>ANGy-TRUE</expectedanswernote>
+      </expected>
+      <expected>
+        <name>Part3bz</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>ANGz-TRUE</expectedanswernote>
+      </expected>
+      <expected>
+        <name>ratio</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>DIR-RATIO-TRUE</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans4x</name>
+        <value>cos_thetax</value>
+      </testinput>
+      <testinput>
+        <name>ans4y</name>
+        <value>cos_thetay</value>
+      </testinput>
+      <testinput>
+        <name>ans4z</name>
+        <value>cos_thetaz</value>
+      </testinput>
+      <testinput>
+        <name>ans5x</name>
+        <value>r_thetax_r</value>
+      </testinput>
+      <testinput>
+        <name>ans5y</name>
+        <value>r_thetay_r</value>
+      </testinput>
+      <testinput>
+        <name>ans5z</name>
+        <value>r_thetaz_r</value>
+      </testinput>
+      <testinput>
+        <name>ansRat</name>
+        <value>drRowVec</value>
+      </testinput>
+      <expected>
+        <name>Part3ax</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>COSx-TRUE</expectedanswernote>
+      </expected>
+      <expected>
+        <name>Part3ay</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>COSy-TRUE</expectedanswernote>
+      </expected>
+      <expected>
+        <name>Part3az</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>COSz-TRUE</expectedanswernote>
+      </expected>
+      <expected>
+        <name>Part3bx</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>ANGx-INRADIANS</expectedanswernote>
+      </expected>
+      <expected>
+        <name>Part3by</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>ANGy-INRADIANS</expectedanswernote>
+      </expected>
+      <expected>
+        <name>Part3bz</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>ANGz-INRADIANS</expectedanswernote>
+      </expected>
+      <expected>
+        <name>ratio</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>DIR-RATIO-TRUE</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans4x</name>
+        <value>ecfTestCosx</value>
+      </testinput>
+      <testinput>
+        <name>ans4y</name>
+        <value>ecfTestCosy</value>
+      </testinput>
+      <testinput>
+        <name>ans4z</name>
+        <value>ecfTestCosz</value>
+      </testinput>
+      <testinput>
+        <name>ans5x</name>
+        <value> r_ecfthetax_d: significantfigures(ev(acos(ecfTestCosx)*(180/pi),float),3);</value>
+      </testinput>
+      <testinput>
+        <name>ans5y</name>
+        <value> r_ecfthetay_d: significantfigures(ev(acos(ecfTestCosy)*(180/pi),float),3);</value>
+      </testinput>
+      <testinput>
+        <name>ans5z</name>
+        <value> r_ecfthetaz_d: significantfigures(ev(acos(ecfTestCosz)*(180/pi),float),3);</value>
+      </testinput>
+      <testinput>
+        <name>ansRat</name>
+        <value>ecfTest</value>
+      </testinput>
+      <expected>
+        <name>Part3ax</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>COSx-FALSE</expectedanswernote>
+      </expected>
+      <expected>
+        <name>Part3ay</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>COSy-FALSE</expectedanswernote>
+      </expected>
+      <expected>
+        <name>Part3az</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>COSz-FALSE</expectedanswernote>
+      </expected>
+      <expected>
+        <name>Part3bx</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>ANGx-FALSE-TRUEwECF</expectedanswernote>
+      </expected>
+      <expected>
+        <name>Part3by</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>ANGy-FALSE-TRUEwECF</expectedanswernote>
+      </expected>
+      <expected>
+        <name>Part3bz</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>ANGz-FALSE-TRUEwECF</expectedanswernote>
+      </expected>
+      <expected>
+        <name>ratio</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>DIR-RATIO-FALSE</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

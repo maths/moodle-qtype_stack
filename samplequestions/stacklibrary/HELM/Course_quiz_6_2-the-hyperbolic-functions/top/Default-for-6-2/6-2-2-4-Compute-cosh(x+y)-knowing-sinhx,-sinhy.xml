@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>6.2.2.4 Compute cosh(x+y) knowing sinhx, sinhy</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise&nbsp;</p>
+<p> Let \( \sinh x = {@xx@} \), and \( \sinh y = {@yy@} \), calculate \(\cosh(x+y)\).</p>
+<p>Note: Write down a formula for \( \cosh(x+y) \) in terms of \( \sinh x, \sinh y \), and only sub in numbers and use a calculator at the final step.&nbsp;</p><p>Round up your answer and enter \(4\) decimal places. If the answer has fewer than \(4\) decimal places, then enter zero(s) at the end.</p>
+<p> \( \cosh(x+y) = \) [[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>Using the fundamental identity \( \cosh^2x - \sinh^2x = 1\), we get \(\cosh^2 x = 1 + \sinh^2 x\).</p>
+<p>Similarly, \(\cosh^2 y = 1 + \sinh^2 y\).</p>
+<p>Next, take the (positive) square root to obtain \( \cosh x\), noting that \( \cosh x &gt; 0 \) for all value of \(x\). Similar for \( \cosh y \).<br></p>
+<p>Then use the formula \( \cosh(x+y) = \cosh x \cosh y + \sinh x \sinh y \), we obtain \[\begin{align*} \cosh(x+y) &amp; = \cosh x \cosh y + \sinh x \sinh y \\ &amp; = \sqrt{1 + \sinh^2 x} \cdot \sqrt{1 + \sinh^2 y} + \sinh x \sinh y \\ &amp; = \sqrt{1
+    + ({@xx@})^2} \cdot \sqrt{1 +({@yy@})^2} + ({@xx@}) \cdot ({@yy@})\\ &amp; = {@ta@} \text{ after rounding up.} \end{align*}\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020120600</text>
+    </stackversion>
+    <questionvariables>
+      <text>aa: -(rand(9)+1)/10;
+bb: (rand(9)+11)/10;
+xx: decimalplaces(float(sinh(aa)),4);
+yy: decimalplaces(float(sinh(bb)),4);
+uu: sqrt(1+xx*xx);
+vv: sqrt(1+yy*yy);
+coshsum: uu*vv+xx*yy;
+ta: decimalplaces(float(coshsum),4);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\( \sinh x = {@xx@} \), and \( \sinh y = {@yy@} \)
+\[\cosh(x+y) = {@ta@} \]</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>numerical</type>
+      <tans>ta</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>sinh,cosh,tanh,coth,sech,cosech,[[BASIC-ALGEBRA]]</forbidwords>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>ans1</sans>
+        <tans>ta</tans>
+        <testoptions>4</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>982545460</deployedseed>
+    <deployedseed>1179273946</deployedseed>
+    <deployedseed>478703206</deployedseed>
+    <deployedseed>2079972473</deployedseed>
+    <deployedseed>1851342731</deployedseed>
+    <deployedseed>1698850236</deployedseed>
+    <deployedseed>2050626762</deployedseed>
+    <deployedseed>820167191</deployedseed>
+    <deployedseed>45264675</deployedseed>
+    <deployedseed>1416930157</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>dispdp(ta,4)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>1.97</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

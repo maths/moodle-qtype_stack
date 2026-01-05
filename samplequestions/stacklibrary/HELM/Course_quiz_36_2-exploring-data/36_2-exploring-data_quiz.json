@@ -1,0 +1,133 @@
+{
+    "quiz": {
+        "name": "36_2 Exploring Data",
+        "intro": "<h4>Introduction<\/h4>\n<p>The title \u2018Exploratory Data Analysis\u2019 (EDA) is usually taken to mean the activity by which data is explored and organized so that the information it contains is made clear. This branch of statistics usually deals with summary statistics which are resistant to departures from normality. The techniques used in EDA were first developed by the statistician John Tukey and for details of EDA, you are referred to the text Exploratory Data Analysis, by J.W.\nTukey, Addison-Wesley, 1977. Tukey\u2019s techniques have been used in innumerable papers and books since that date.<\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "7.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Exploratory data analysis",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "6",
+            "heading": "Outliers",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "10",
+            "heading": "Skewness, gaps and multiple peaks",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "11",
+            "heading": "Exercises",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-36-2\/36-2-1-1-Exploring-data-introduction.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-36-2\/36-2-1-2-(not-used-for-Edinburgh)-Mid-spread,-high-spread-and-low-spread-for-a-distribution-exercise.xml"
+        },
+        {
+            "slot": "3",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-36-2\/36-2-1-3-(not-used-for-Edinburgh)-The-steam-and-leaf-diagram.xml"
+        },
+        {
+            "slot": "4",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-36-2\/36-2-1-4-(not-used-for-Edinburgh)-steam-and-leaf-section-task1.xml"
+        },
+        {
+            "slot": "5",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-36-2\/36-2-1-5-The-box-and-whisker-diagram.xml"
+        },
+        {
+            "slot": "6",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-36-2\/36-2-2-1-Outliers.xml"
+        },
+        {
+            "slot": "7",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-36-2\/36-2-2-2-Outliers-task.xml"
+        },
+        {
+            "slot": "8",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-36-2\/36-2-2-3-Criteria-for-rejecting-outliers.xml"
+        },
+        {
+            "slot": "9",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-36-2\/36-2-2-4-outliers-task2-with-MCQ.xml"
+        },
+        {
+            "slot": "10",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-36-2\/36-2-3-1-Skewness,-gaps-and-multiple-peaks.xml"
+        },
+        {
+            "slot": "11",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-36-2\/36-2-3-2-Exercises-task1.xml"
+        },
+        {
+            "slot": "12",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-36-2\/36-2-3-3-Exercises-Task-2.xml"
+        },
+        {
+            "slot": "13",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-36-2\/36-2-3-4-Exercises-task-3.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "7.70000"
+        }
+    ]
+}

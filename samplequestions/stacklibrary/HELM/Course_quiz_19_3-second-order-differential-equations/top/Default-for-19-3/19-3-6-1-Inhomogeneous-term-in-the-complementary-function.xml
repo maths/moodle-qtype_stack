@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>19.3.6.1 Inhomogeneous term in the complementary function</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h4>Inhomogeneous term in the complementary function</h4>
+<p>Occasionally, you will come accross a differential equation \(\displaystyle a\frac{\mathrm{d}^2y}{\mathrm{d}x^2} + b \frac{\mathrm{d}y}{\mathrm{d}x} + cy = f(x)\) for which the inhomogeneous term, \(f(x)\), forms part of the complementary function. One such example is the equation</p>
+\[\frac{\mathrm{d}^2y}{\mathrm{d}x^2} - \frac{\mathrm{d}y}{\mathrm{d}x} - 6y = e^{3x}.\]
+<p>It is straightforward to check that the complementary function is \(y_\text{cf} = Ae^{3x} + Be^{-2x}\). Note that the first of these terms has the same form as the inhomogeneous term, \(e^{3x}\), on the right-hand side of the differential equation.</p>
+<p>You should verify for yourself that trying a particular integral of the form \(y_p(x) = \alpha e^{3x}\) will not work in a case like this. Can you see why?</p>
+<p>Instead, try a particular integral of the form \(y_\text{p}(x) = \alpha x e^{3x}\). Verify that</p>
+\[\frac{\mathrm{d}y_\text{p}}{\mathrm{d}x} = \alpha e^{3x}(3x + 1) \qquad \text{and} \qquad \frac{\mathrm{d}^2y_\text{p}}{\mathrm{d}x^2} = \alpha e^{3x}(9x + 6).\]
+<p>Substitute these expressions into the differential equation to find \(\displaystyle\alpha = \frac{1}{5}\).</p>
+<p>Finally, the particular integral is \(\displaystyle y_\text{p}(x) = \frac{1}{5}xe^{3x}\), and so the general solution to the differential equation is:</p>
+\[y = Ae^{3x} + Be^{-2x} + \frac{1}{5}xe^{3x}\]
+<p>This shows a generally effective method &ndash; where the inhomogeneous term \(f(x)\) appears in the complementary function use as a trial particular integral \(x\) times what would otherwise be used.</p>
+
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p>When solving</p>
+\[a\frac{\mathrm{d}^2y}{\mathrm{d}x^2} + b \frac{\mathrm{d}y}{\mathrm{d}x} + cy = f(x),\]
+<p>if the inhomogeneous \(f(x)\) appears in the complementary function use as a trial particular integral \(x\) times what would otherwise be used.</p>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

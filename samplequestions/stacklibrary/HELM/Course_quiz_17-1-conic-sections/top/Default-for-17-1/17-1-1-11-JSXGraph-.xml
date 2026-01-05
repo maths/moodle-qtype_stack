@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>17.1.1.11 JSXGraph?</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text>The question says:
+
+Sketch the curves \(y^2=x\) and \(x^2=2(y-3)\). Not too sure what to do as an alternative here.</text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

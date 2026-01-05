@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>L10.1 Q02 Order DE</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p></p><p><b>(a)</b> State the order of the following differential equation: \[ \left(\frac{d^2{@v@}}{dt^2}\right)^{@p@} + {@a@} {@v@} = 0 \]</p><p>[[input:ans1]] [[validation:ans1]]</p><p><b>(b)</b> Is it an linear equation?</p><p>[[input:ans2]] [[validation:ans2]]</p><p></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p><b>(a)</b> The order of a differential equation is the degree of the highest derivative that occurs in the equation. The order of the equation is not effected by any power to which the derivatives may be raised.&nbsp;</p><p>In our case we have the equation \[ \left(\frac{d^2{@v@}}{dt^2}\right)^{@p@} + {@a@} {@v@} = 0 \]&nbsp;which is a second order differential equation.&nbsp;</p><p><b>(b)</b>&nbsp;In a linear differential equation the dependent variable and its derivatives do not occur as products, raised to powers or in nonlinear functions. So&nbsp;our differential equation is a non linear one since the second order derivative is raised on a power.<br></p><p><br></p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2018080600</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[v: rand([y,z,x,f,g,h])
+p: rand(4)+2
+a: rand(8)+2
+ta1: [["one",false], ["two",true], ["three",false], ["four",false]];
+ta1:random_permutation(ta1)
+ta_1: "two"
+ta2: [["No",true], ["Yes",false]]
+ta2:random_permutation(ta2)
+ta_2: "No"
+ta3: [["No",true], ["Yes",false]]
+ta3:random_permutation(ta3)
+ta_3: "No"]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]] [[feedback:prt2]]</text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\( \left(\frac{d^2{@v@}}{dt^2}\right)^{@p@} + {@a@} {@v@} = 0\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>radio</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>radio</type>
+      <tans>ta2</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta_1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>ta_2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>173101050</deployedseed>
+    <deployedseed>1401035085</deployedseed>
+    <deployedseed>548020095</deployedseed>
+    <deployedseed>3938247</deployedseed>
+    <deployedseed>672220130</deployedseed>
+    <deployedseed>785213302</deployedseed>
+    <deployedseed>1879937729</deployedseed>
+    <deployedseed>1656681919</deployedseed>
+    <deployedseed>958920550</deployedseed>
+    <deployedseed>34596204</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta_1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta_2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value><![CDATA["one"]]></value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value><![CDATA["Yes"]]></value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

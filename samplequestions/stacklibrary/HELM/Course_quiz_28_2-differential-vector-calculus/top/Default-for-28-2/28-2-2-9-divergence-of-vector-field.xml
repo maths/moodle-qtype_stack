@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>28.2.2.9 divergence of vector field</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>Find the divergence of the following vector field, in general terms and at the point \(({@alpha@}, {@beta@}, {@gamma@})\). <br> \(\underline{F}_1 = x^{@aa@}\underline{i} + y^{@bb@} \underline{j} + z^{@cc@} \underline{k}\)</p> <br>
+<p> In terms of \(x, y,\) and \(z\): [[input:ans1]] [[validation:ans1]]</p>
+<p> At the point  \(({@alpha@}, {@beta@}, {@gamma@})\): [[input:ans2]] [[validation:ans2]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p>For \(\underline{F}_1 =  x^{@aa@}\underline{i} + y^{@bb@} \underline{j} + z^{@cc@} \underline{k}\), we have that div \(\underline{F}_1 = \dfrac{\partial  x^{@aa@}}{\partial x} + \dfrac{\partial  y^{@bb@}}{\partial y} + \dfrac{\partial  z^{@cc@}}{\partial z} = {@ta1@}\).</p> <br>
+<p>To find the value at the point, we can substitute \(({@alpha@}, {@beta@}, {@gamma@})\) into the above equation: \( {@(aa*alpha^(ev(aa-1,simp))+bb*beta^(ev(bb-1,simp))+cc*gamma^(ev(cc-1, simp))), simp=false@} = {@ta2@}\)</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025073100</text>
+    </stackversion>
+    <questionvariables>
+      <text>ordergreat(x,y,z);
+aa:rand(4)+2;
+bb:rand(4)+2;
+cc:rand(4)+2;
+
+alpha:rand(4)+2;
+beta:rand(4)+2;
+gamma:rand(4)+2;
+ta1:aa*x^(aa-1)+bb*y^(bb-1)+cc*z^(cc-1);
+simp:false;
+subs(x,y,z):=aa*x^(aa-1)+bb*y^(bb-1)+cc*z^(cc-1);
+simp:true;
+ta2:aa*alpha^(aa-1)+bb*beta^(bb-1)+cc*gamma^(cc-1);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="html">
+      <text>\(\underline{F}_1 = x^{@aa@}\underline{i} + y^{@bb@} \underline{j} + z^{@cc@} \underline{k}\), point \(({@alpha@}, {@beta@}, {@gamma@})\)</text>
+    </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>ta2</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>915955765</deployedseed>
+    <deployedseed>1895834433</deployedseed>
+    <deployedseed>1050019259</deployedseed>
+    <deployedseed>680974398</deployedseed>
+    <deployedseed>932426049</deployedseed>
+    <deployedseed>1176030604</deployedseed>
+    <deployedseed>1638274680</deployedseed>
+    <deployedseed>645715629</deployedseed>
+    <deployedseed>712463591</deployedseed>
+    <deployedseed>188765964</deployedseed>
+    <deployedseed>498273803</deployedseed>
+    <deployedseed>378262201</deployedseed>
+    <deployedseed>1595277023</deployedseed>
+    <deployedseed>1661206941</deployedseed>
+    <deployedseed>2017381779</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1*x^2</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2+2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

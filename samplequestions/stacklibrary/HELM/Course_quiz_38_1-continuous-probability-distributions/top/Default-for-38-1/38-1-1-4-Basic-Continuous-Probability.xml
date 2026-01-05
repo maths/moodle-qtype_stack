@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>38.1.1.4 Basic Continuous Probability</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>Let \(X\) be a random variable and consider its pdf in the figure below.</p><p style="text-align: center;"><img src="@@PLUGINFILE@@/38.1%20figure%208.svg" alt="Graph of a function where: the line y=0 everywhere except for two line segments - one from (-2,0) to (0,1/2), and the second one from (0,1/2) to (2,0)." width="378" height="159" role="presentation" class="img-responsive atto_image_button_text-bottom"></p><p>Calculate the probability that \(X\) takes on a value between \(\displaystyle{@-1/a@}\) and \(\displaystyle{@1/a@}\).</p><p>\(P\left(\displaystyle{{@-1/a@}} \leq X \leq \displaystyle{{@1/a@}}\right)\) = [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]<br></p><ol class="HELM_parts_inline"><p></p><br><p></p>
+</ol>]]></text>
+<file name="38.1 figure 8.svg" path="/" encoding="base64">PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhLS0gQ3JlYXRlZCB3aXRoIElua3NjYXBlIChodHRwOi8vd3d3Lmlua3NjYXBlLm9yZy8pIC0tPgoKPHN2ZwogICB4bWxuczpkYz0iaHR0cDovL3B1cmwub3JnL2RjL2VsZW1lbnRzLzEuMS8iCiAgIHhtbG5zOmNjPSJodHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9ucyMiCiAgIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyIKICAgeG1sbnM6c3ZnPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIKICAgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIgogICB4bWxuczpzb2RpcG9kaT0iaHR0cDovL3NvZGlwb2RpLnNvdXJjZWZvcmdlLm5ldC9EVEQvc29kaXBvZGktMC5kdGQiCiAgIHhtbG5zOmlua3NjYXBlPSJodHRwOi8vd3d3Lmlua3NjYXBlLm9yZy9uYW1lc3BhY2VzL2lua3NjYXBlIgogICB2ZXJzaW9uPSIxLjEiCiAgIGlkPSJzdmc4MTUiCiAgIHhtbDpzcGFjZT0icHJlc2VydmUiCiAgIHdpZHRoPSIzNzguMTAyNjYiCiAgIGhlaWdodD0iMTU4LjU4NjY3IgogICB2aWV3Qm94PSIwIDAgMzc4LjEwMjY2IDE1OC41ODY2NyIKICAgc29kaXBvZGk6ZG9jbmFtZT0iZmlndXJlOC5zdmciCiAgIGlua3NjYXBlOnZlcnNpb249IjAuOTIuNCAoNWRhNjg5YzMxMywgMjAxOS0wMS0xNCkiPjxtZXRhZGF0YQogICAgIGlkPSJtZXRhZGF0YTgyMSI+PHJkZjpSREY+PGNjOldvcmsKICAgICAgICAgcmRmOmFib3V0PSIiPjxkYzpmb3JtYXQ+aW1hZ2Uvc3ZnK3htbDwvZGM6Zm9ybWF0PjxkYzp0eXBlCiAgICAgICAgICAgcmRmOnJlc291cmNlPSJodHRwOi8vcHVybC5vcmcvZGMvZGNtaXR5cGUvU3RpbGxJbWFnZSIgLz48ZGM6dGl0bGU+PC9kYzp0aXRsZT48L2NjOldvcms+PC9yZGY6UkRGPjwvbWV0YWRhdGE+PGRlZnMKICAgICBpZD0iZGVmczgxOSI+PGlua3NjYXBlOnBhdGgtZWZmZWN0CiAgICAgICBlZmZlY3Q9ImJzcGxpbmUiCiAgICAgICBpZD0icGF0aC1lZmZlY3Q0NTk0IgogICAgICAgaXNfdmlzaWJsZT0idHJ1ZSIKICAgICAgIHdlaWdodD0iMzMuMzMzMzMzIgogICAgICAgc3RlcHM9IjIiCiAgICAgICBoZWxwZXJfc2l6ZT0iMCIKICAgICAgIGFwcGx5X25vX3dlaWdodD0idHJ1ZSIKICAgICAgIGFwcGx5X3dpdGhfd2VpZ2h0PSJ0cnVlIgogICAgICAgb25seV9zZWxlY3RlZD0iZmFsc2UiIC8+PGNsaXBQYXRoCiAgICAgICBjbGlwUGF0aFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIKICAgICAgIGlkPSJjbGlwUGF0aDg1NyI+PHBhdGgKICAgICAgICAgZD0iTSAwLjA1OTk5OCwxMTguOTIgSCAyODMuNTc3IFYgMCBIIDAuMDU5OTk4IFoiCiAgICAgICAgIGlkPSJwYXRoODU1IgogICAgICAgICBpbmtzY2FwZTpjb25uZWN0b3ItY3VydmF0dXJlPSIwIiAvPjwvY2xpcFBhdGg+PC9kZWZzPjxzb2RpcG9kaTpuYW1lZHZpZXcKICAgICBwYWdlY29sb3I9IiNmZmZmZmYiCiAgICAgYm9yZGVyY29sb3I9IiM2NjY2NjYiCiAgICAgYm9yZGVyb3BhY2l0eT0iMSIKICAgICBvYmplY3R0b2xlcmFuY2U9IjEwIgogICAgIGdyaWR0b2xlcmFuY2U9IjEwIgogICAgIGd1aWRldG9sZXJhbmNlPSIxMCIKICAgICBpbmtzY2FwZTpwYWdlb3BhY2l0eT0iMCIKICAgICBpbmtzY2FwZTpwYWdlc2hhZG93PSIyIgogICAgIGlua3NjYXBlOndpbmRvdy13aWR0aD0iMTkyMCIKICAgICBpbmtzY2FwZTp3aW5kb3ctaGVpZ2h0PSIxMDAxIgogICAgIGlkPSJuYW1lZHZpZXc4MTciCiAgICAgc2hvd2dyaWQ9ImZhbHNlIgogICAgIGlua3NjYXBlOnpvb209IjMuNzYzNTI4MSIKICAgICBpbmtzY2FwZTpjeD0iMTg5LjA1MTMzIgogICAgIGlua3NjYXBlOmN5PSI3OS4yOTMzMzUiCiAgICAgaW5rc2NhcGU6d2luZG93LXg9Ii05IgogICAgIGlua3NjYXBlOndpbmRvdy15PSItOSIKICAgICBpbmtzY2FwZTp3aW5kb3ctbWF4aW1pemVkPSIxIgogICAgIGlua3NjYXBlOmN1cnJlbnQtbGF5ZXI9Imc4MjMiIC8+PGcKICAgICBpZD0iZzgyMyIKICAgICBpbmtzY2FwZTpncm91cG1vZGU9ImxheWVyIgogICAgIGlua3NjYXBlOmxhYmVsPSJmaWd1cmU4ICgxKSIKICAgICB0cmFuc2Zvcm09Im1hdHJpeCgxLjMzMzMzMzMsMCwwLC0xLjMzMzMzMzMsMCwxNTguNTg2NjcpIj48cGF0aAogICAgICAgZD0ibSAyNjguODEzLDIxLjU0NiAtMi4xOSwzLjYwNCAwLjEyMywwLjA4MSA1Ljg3NSwtMi4zMzQgYyAyLjA0NiwtMC40NSA0LjA5NCwtMC45IDYuMTQxLC0xLjM1MSAtMi4wNDcsLTAuNDUgLTQuMDk1LC0wLjkgLTYuMTQxLC0xLjM1MSBsIC01Ljg3NSwtMi4zMzMgLTAuMTIzLDAuMDYxIDIuMTksMy42MjMiCiAgICAgICBzdHlsZT0iZmlsbDojMjMxZjIwO2ZpbGwtb3BhY2l0eToxO2ZpbGwtcnVsZTpub256ZXJvO3N0cm9rZTpub25lIgogICAgICAgaWQ9InBhdGg4MjUiCiAgICAgICBpbmtzY2FwZTpjb25uZWN0b3ItY3VydmF0dXJlPSIwIiAvPjxwYXRoCiAgICAgICBkPSJtIDEzNC4zNTQsMTcuNTI2IHYgODUuNSIKICAgICAgIHN0eWxlPSJmaWxsOiMyMzFmMjA7ZmlsbC1vcGFjaXR5OjE7ZmlsbC1ydWxlOm5vbnplcm87c3Ryb2tlOm5vbmUiCiAgICAgICBpZD0icGF0aDgyNyIKICAgICAgIGlua3NjYXBlOmNvbm5lY3Rvci1jdXJ2YXR1cmU9IjAiIC8+PHBhdGgKICAgICAgIGQ9Im0gMTM0LjM1NCwxMDIuMDA2IC0zLjYwMywtMi4xOTEgLTAuMDgxLDAuMTIzIDIuMzMzLDUuODc1IGMgMC40NTEsMi4wNDcgMC45MDEsNC4wOTQgMS4zNTEsNi4xNDEgMC40NTEsLTIuMDQ3IDAuOTAxLC00LjA5NCAxLjM1MSwtNi4xNDEgbCAyLjMzNCwtNS44NzUgLTAuMDYxLC0wLjEyMyAtMy42MjQsMi4xOTEiCiAgICAgICBzdHlsZT0iZmlsbDojMjMxZjIwO2ZpbGwtb3BhY2l0eToxO2ZpbGwtcnVsZTpub256ZXJvO3N0cm9rZTpub25lIgogICAgICAgaWQ9InBhdGg4MjkiCiAgICAgICBpbmtzY2FwZTpjb25uZWN0b3ItY3VydmF0dXJlPSIwIiAvPjx0ZXh0CiAgICAgICB0cmFuc2Zvcm09Im1hdHJpeCgxLDAsMCwtMSwxMDkuMzc4LDEwOC44Nzk5KSIKICAgICAgIHN0eWxlPSJmb250LXN0eWxlOml0YWxpYztmb250LXZhcmlhbnQ6bm9ybWFsO2ZvbnQtd2VpZ2h0Om5vcm1hbDtmb250LXNpemU6MTEuOTU0OTk5OTJweDtmb250LWZhbWlseTpDTU1JMTA7LWlua3NjYXBlLWZvbnQtc3BlY2lmaWNhdGlvbjpDTU1JMTA7d3JpdGluZy1tb2RlOmxyLXRiO2ZpbGw6IzIzMWYyMDtmaWxsLW9wYWNpdHk6MTtmaWxsLXJ1bGU6bm9uemVybztzdHJva2U6bm9uZSIKICAgICAgIGlkPSJ0ZXh0ODMzIj48dHNwYW4KICAgICAgICAgeD0iMCIKICAgICAgICAgeT0iMCIKICAgICAgICAgaWQ9InRzcGFuODMxIj5mPC90c3Bhbj48L3RleHQ+Cjx0ZXh0CiAgICAgICB0cmFuc2Zvcm09Im1hdHJpeCgxLDAsMCwtMSwxMTYuNTE3NTMsMTA4Ljg3OTkpIgogICAgICAgc3R5bGU9ImZvbnQtdmFyaWFudDpub3JtYWw7Zm9udC13ZWlnaHQ6bm9ybWFsO2ZvbnQtc2l6ZToxMS45NTQ5OTk5MnB4O2ZvbnQtZmFtaWx5OkNNUjEwOy1pbmtzY2FwZS1mb250LXNwZWNpZmljYXRpb246Q01SMTA7d3JpdGluZy1tb2RlOmxyLXRiO2ZpbGw6IzIzMWYyMDtmaWxsLW9wYWNpdHk6MTtmaWxsLXJ1bGU6bm9uemVybztzdHJva2U6bm9uZSIKICAgICAgIGlkPSJ0ZXh0ODM3Ij48dHNwYW4KICAgICAgICAgeD0iMCIKICAgICAgICAgeT0iMCIKICAgICAgICAgaWQ9InRzcGFuODM1Ij4oPC90c3Bhbj48L3RleHQ+Cjx0ZXh0CiAgICAgICB0cmFuc2Zvcm09Im1hdHJpeCgxLDAsMCwtMSwxMjEuMTY2ODMsMTA4Ljg3OTkpIgogICAgICAgc3R5bGU9ImZvbnQtc3R5bGU6aXRhbGljO2ZvbnQtdmFyaWFudDpub3JtYWw7Zm9udC13ZWlnaHQ6bm9ybWFsO2ZvbnQtc2l6ZToxMS45NTQ5OTk5MnB4O2ZvbnQtZmFtaWx5OkNNTUkxMDstaW5rc2NhcGUtZm9udC1zcGVjaWZpY2F0aW9uOkNNTUkxMDt3cml0aW5nLW1vZGU6bHItdGI7ZmlsbDojMjMxZjIwO2ZpbGwtb3BhY2l0eToxO2ZpbGwtcnVsZTpub256ZXJvO3N0cm9rZTpub25lIgogICAgICAgaWQ9InRleHQ4NDEiPjx0c3BhbgogICAgICAgICB4PSIwIgogICAgICAgICB5PSIwIgogICAgICAgICBpZD0idHNwYW44MzkiPng8L3RzcGFuPjwvdGV4dD4KPHRleHQKICAgICAgIHRyYW5zZm9ybT0ibWF0cml4KDEsMCwwLC0xLDEyOC4wMDAzLDEwOC44Nzk5KSIKICAgICAgIHN0eWxlPSJmb250LXZhcmlhbnQ6bm9ybWFsO2ZvbnQtd2VpZ2h0Om5vcm1hbDtmb250LXNpemU6MTEuOTU0OTk5OTJweDtmb250LWZhbWlseTpDTVIxMDstaW5rc2NhcGUtZm9udC1zcGVjaWZpY2F0aW9uOkNNUjEwO3dyaXRpbmctbW9kZTpsci10YjtmaWxsOiMyMzFmMjA7ZmlsbC1vcGFjaXR5OjE7ZmlsbC1ydWxlOm5vbnplcm87c3Ryb2tlOm5vbmUiCiAgICAgICBpZD0idGV4dDg0NSI+PHRzcGFuCiAgICAgICAgIHg9IjAiCiAgICAgICAgIHk9IjAiCiAgICAgICAgIGlkPSJ0c3Bhbjg0MyI+KTwvdHNwYW4+PC90ZXh0Pgo8dGV4dAogICAgICAgdHJhbnNmb3JtPSJtYXRyaXgoMSwwLDAsLTEsMjc2Ljc1MDM5LDEzLjI2ODU5MikiCiAgICAgICBzdHlsZT0iZm9udC1zdHlsZTppdGFsaWM7Zm9udC12YXJpYW50Om5vcm1hbDtmb250LXdlaWdodDpub3JtYWw7Zm9udC1zaXplOjExLjk1NDk5OTkycHg7Zm9udC1mYW1pbHk6Q01NSTEwOy1pbmtzY2FwZS1mb250LXNwZWNpZmljYXRpb246Q01NSTEwO3dyaXRpbmctbW9kZTpsci10YjtmaWxsOiMyMzFmMjA7ZmlsbC1vcGFjaXR5OjE7ZmlsbC1ydWxlOm5vbnplcm87c3Ryb2tlOm5vbmUiCiAgICAgICBpZD0idGV4dDg0OSI+PHRzcGFuCiAgICAgICAgIHg9IjAiCiAgICAgICAgIHk9IjAiCiAgICAgICAgIGlkPSJ0c3Bhbjg0NyI+eDwvdHNwYW4+PC90ZXh0Pgo8ZwogICAgICAgaWQ9Imc4NTEiPjxnCiAgICAgICAgIGlkPSJnODUzIgogICAgICAgICBjbGlwLXBhdGg9InVybCgjY2xpcFBhdGg4NTcpIj48cGF0aAogICAgICAgICAgIGQ9Ik0gMCwyMS41NDYgSCAyNzQiCiAgICAgICAgICAgc3R5bGU9ImZpbGw6bm9uZTtzdHJva2U6IzIzMWYyMDtzdHJva2Utd2lkdGg6MC41O3N0cm9rZS1saW5lY2FwOmJ1dHQ7c3Ryb2tlLWxpbmVqb2luOm1pdGVyO3N0cm9rZS1taXRlcmxpbWl0OjQ7c3Ryb2tlLWRhc2hhcnJheTpub25lO3N0cm9rZS1vcGFjaXR5OjEiCiAgICAgICAgICAgaWQ9InBhdGg4NTkiCiAgICAgICAgICAgaW5rc2NhcGU6Y29ubmVjdG9yLWN1cnZhdHVyZT0iMCIgLz48L2c+PC9nPjxwYXRoCiAgICAgICBkPSJNIDEzNC4xMjUsOTEuNzEzIDIwNC40NTgsMjEuMzggbSAtMTQwLjA2MiwwLjYwNCA2OS42NjcsNjkuNjY3IgogICAgICAgc3R5bGU9ImZpbGw6bm9uZTtzdHJva2U6IzIzMWYyMDtzdHJva2Utd2lkdGg6MS41O3N0cm9rZS1saW5lY2FwOmJ1dHQ7c3Ryb2tlLWxpbmVqb2luOm1pdGVyO3N0cm9rZS1taXRlcmxpbWl0OjQ7c3Ryb2tlLWRhc2hhcnJheTpub25lO3N0cm9rZS1vcGFjaXR5OjEiCiAgICAgICBpZD0icGF0aDg2MSIKICAgICAgIGlua3NjYXBlOmNvbm5lY3Rvci1jdXJ2YXR1cmU9IjAiIC8+PHRleHQKICAgICAgIHRyYW5zZm9ybT0ibWF0cml4KDEsMCwwLC0xLDIwMS4yNjMsMTAuODEpIgogICAgICAgc3R5bGU9ImZvbnQtdmFyaWFudDpub3JtYWw7Zm9udC13ZWlnaHQ6bm9ybWFsO2ZvbnQtc2l6ZToxMS45NTQ5OTk5MnB4O2ZvbnQtZmFtaWx5OkNNUjEwOy1pbmtzY2FwZS1mb250LXNwZWNpZmljYXRpb246Q01SMTA7d3JpdGluZy1tb2RlOmxyLXRiO2ZpbGw6IzIzMWYyMDtmaWxsLW9wYWNpdHk6MTtmaWxsLXJ1bGU6bm9uemVybztzdHJva2U6bm9uZSIKICAgICAgIGlkPSJ0ZXh0ODY1Ij48dHNwYW4KICAgICAgICAgeD0iMCIKICAgICAgICAgeT0iMCIKICAgICAgICAgaWQ9InRzcGFuODYzIj4yPC90c3Bhbj48L3RleHQ+Cjx0ZXh0CiAgICAgICB0cmFuc2Zvcm09Im1hdHJpeCgxLDAsMCwtMSw1Mi41MTg4OSwxMS40NzcwODkpIgogICAgICAgc3R5bGU9ImZvbnQtc3R5bGU6aXRhbGljO2ZvbnQtdmFyaWFudDpub3JtYWw7Zm9udC13ZWlnaHQ6bm9ybWFsO2ZvbnQtc2l6ZToxMS45NTQ5OTk5MnB4O2ZvbnQtZmFtaWx5OkNNU1kxMDstaW5rc2NhcGUtZm9udC1zcGVjaWZpY2F0aW9uOkNNU1kxMDt3cml0aW5nLW1vZGU6bHItdGI7ZmlsbDojMjMxZjIwO2ZpbGwtb3BhY2l0eToxO2ZpbGwtcnVsZTpub256ZXJvO3N0cm9rZTpub25lIgogICAgICAgaWQ9InRleHQ4NjkiPjx0c3BhbgogICAgICAgICB4PSIwIgogICAgICAgICB5PSIwIgogICAgICAgICBpZD0idHNwYW44NjciPuKIkjwvdHNwYW4+PC90ZXh0Pgo8dGV4dAogICAgICAgdHJhbnNmb3JtPSJtYXRyaXgoMSwwLDAsLTEsNjEuMTQwODM2LDExLjE0MzU0NSkiCiAgICAgICBzdHlsZT0iZm9udC12YXJpYW50Om5vcm1hbDtmb250LXdlaWdodDpub3JtYWw7Zm9udC1zaXplOjExLjk1NDk5OTkycHg7Zm9udC1mYW1pbHk6Q01SMTA7LWlua3NjYXBlLWZvbnQtc3BlY2lmaWNhdGlvbjpDTVIxMDt3cml0aW5nLW1vZGU6bHItdGI7ZmlsbDojMjMxZjIwO2ZpbGwtb3BhY2l0eToxO2ZpbGwtcnVsZTpub256ZXJvO3N0cm9rZTpub25lIgogICAgICAgaWQ9InRleHQ4NzMiPjx0c3BhbgogICAgICAgICB4PSIwIgogICAgICAgICB5PSIwIgogICAgICAgICBpZD0idHNwYW44NzEiPjI8L3RzcGFuPjwvdGV4dD4KPHBhdGgKICAgICAgIGQ9Im0gNS42MjUsMjIuMDA1IGggNTggbSAxNDAuMjUsMCBoIDU4IgogICAgICAgc3R5bGU9ImZpbGw6bm9uZTtzdHJva2U6IzIzMWYyMDtzdHJva2Utd2lkdGg6MS41O3N0cm9rZS1saW5lY2FwOmJ1dHQ7c3Ryb2tlLWxpbmVqb2luOm1pdGVyO3N0cm9rZS1taXRlcmxpbWl0OjQ7c3Ryb2tlLWRhc2hhcnJheTpub25lO3N0cm9rZS1vcGFjaXR5OjEiCiAgICAgICBpZD0icGF0aDg3NSIKICAgICAgIGlua3NjYXBlOmNvbm5lY3Rvci1jdXJ2YXR1cmU9IjAiIC8+PHRleHQKICAgICAgIHRyYW5zZm9ybT0ibWF0cml4KDEsMCwwLC0xLDE0MC44NDYsODkuOTkyMikiCiAgICAgICBzdHlsZT0iZm9udC12YXJpYW50Om5vcm1hbDtmb250LXdlaWdodDpub3JtYWw7Zm9udC1zaXplOjExLjk1NDk5OTkycHg7Zm9udC1mYW1pbHk6Q01SMTI7LWlua3NjYXBlLWZvbnQtc3BlY2lmaWNhdGlvbjpDTVIxMjt3cml0aW5nLW1vZGU6bHItdGI7ZmlsbDojMjMxZjIwO2ZpbGwtb3BhY2l0eToxO2ZpbGwtcnVsZTpub256ZXJvO3N0cm9rZTpub25lIgogICAgICAgaWQ9InRleHQ4NzkiPjx0c3BhbgogICAgICAgICB4PSIwIgogICAgICAgICB5PSIwIgogICAgICAgICBpZD0idHNwYW44NzciPjE8L3RzcGFuPjwvdGV4dD4KPHRleHQKICAgICAgIHRyYW5zZm9ybT0ibWF0cml4KDEsMCwwLC0xLDE0Ni42OTkxNyw4OS45OTIyKSIKICAgICAgIHN0eWxlPSJmb250LXN0eWxlOml0YWxpYztmb250LXZhcmlhbnQ6bm9ybWFsO2ZvbnQtd2VpZ2h0Om5vcm1hbDtmb250LXNpemU6MTEuOTU0OTk5OTJweDtmb250LWZhbWlseTpDTU1JMTI7LWlua3NjYXBlLWZvbnQtc3BlY2lmaWNhdGlvbjpDTU1JMTI7d3JpdGluZy1tb2RlOmxyLXRiO2ZpbGw6IzIzMWYyMDtmaWxsLW9wYWNpdHk6MTtmaWxsLXJ1bGU6bm9uemVybztzdHJva2U6bm9uZSIKICAgICAgIGlkPSJ0ZXh0ODgzIj48dHNwYW4KICAgICAgICAgeD0iMCIKICAgICAgICAgeT0iMCIKICAgICAgICAgaWQ9InRzcGFuODgxIj4vPC90c3Bhbj48L3RleHQ+Cjx0ZXh0CiAgICAgICB0cmFuc2Zvcm09Im1hdHJpeCgxLDAsMCwtMSwxNTIuNTUyMzQsODkuOTkyMikiCiAgICAgICBzdHlsZT0iZm9udC12YXJpYW50Om5vcm1hbDtmb250LXdlaWdodDpub3JtYWw7Zm9udC1zaXplOjExLjk1NDk5OTkycHg7Zm9udC1mYW1pbHk6Q01SMTI7LWlua3NjYXBlLWZvbnQtc3BlY2lmaWNhdGlvbjpDTVIxMjt3cml0aW5nLW1vZGU6bHItdGI7ZmlsbDojMjMxZjIwO2ZpbGwtb3BhY2l0eToxO2ZpbGwtcnVsZTpub256ZXJvO3N0cm9rZTpub25lIgogICAgICAgaWQ9InRleHQ4ODciPjx0c3BhbgogICAgICAgICB4PSIwIgogICAgICAgICB5PSIwIgogICAgICAgICBpZD0idHNwYW44ODUiPjI8L3RzcGFuPjwvdGV4dD4KPHBhdGgKICAgICAgIHN0eWxlPSJmaWxsOm5vbmU7c3Ryb2tlOiMwMDAwMDA7c3Ryb2tlLXdpZHRoOjAuNTY2OTI5MTU7c3Ryb2tlLWxpbmVjYXA6YnV0dDtzdHJva2UtbGluZWpvaW46bWl0ZXI7c3Ryb2tlLW9wYWNpdHk6MTtzdHJva2UtbWl0ZXJsaW1pdDo0O3N0cm9rZS1kYXNoYXJyYXk6bm9uZSIKICAgICAgIGQ9Im0gMTM0LjM1NCwxMDIuMDA2IGMgMCwtMjguMTU5MjQ1IDAsLTU2LjMxOTI0NiAwLC04NC40Nzk5OTUiCiAgICAgICBpZD0icGF0aDQ1OTIiCiAgICAgICBpbmtzY2FwZTpjb25uZWN0b3ItY3VydmF0dXJlPSIwIgogICAgICAgaW5rc2NhcGU6cGF0aC1lZmZlY3Q9IiNwYXRoLWVmZmVjdDQ1OTQiCiAgICAgICBpbmtzY2FwZTpvcmlnaW5hbC1kPSJtIDEzNC4zNTQsMTAyLjAwNiBjIDcuNWUtNCwtMjguMTU5MjQ1IDcuNWUtNCwtNTYuMzE5MjQ2IDAsLTg0LjQ3OTk5NSIgLz48L2c+PC9zdmc+</file>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<h4 class="HELM_solution">Solution</h4><p>First, we write down the pdf:&nbsp;<span style="font-size: 0.9375rem;">\[f(x) = \left\{\begin{array}{ll}0, &amp; \text{if $x \leq -2$}, \\ \dfrac{1}{2} + \dfrac{x}{4}, &amp; \text{if $-2 \leq x \leq 0$},\\ \dfrac{1}{2} - \dfrac{x}{4}, &amp; \text{if $0 \leq x \leq 2$},\\ 0, &amp; \text{if $x \geq 2$}.\end{array}\right.\]</span></p><p><span style="font-size: 0.9375rem;">Then, we see that&nbsp;\(\text{P}({{@-1/a@}} \leq X \leq {{@1/a@}})=\int_{{{@-1/a@}}}^{{{@1/a@}}} f(x) \; dx.\) Since \(f(x)\) is an even function, we have that</span><br></p><p>\[\begin{align*} \text{P}({{@-1/a@}} \leq X \leq {{@1/a@}})&amp;=2\int_{0}^{{@1/a@}} f(x) \; dx\\ &amp; = 2 \int_{0}^{{{@1/a@}}} \dfrac{1}{2} - \dfrac{x}{4} \; dx\\ &amp; = 2\left(\left.\dfrac{x}{2}\right|_{0}^{{{@1/a@}}} - \left.\dfrac{x^2}{8}\right|_{0}^{{{@1/a@}}}\right) \\&amp;= 2\left({{@1/(2*a)@}}-{{@1/(8*a^2)@}}\right)\\ &amp; = {{@ta1@}}. \end{align*}\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021072200</text>
+    </stackversion>
+    <questionvariables>
+      <text>a:rand([1,2,3,4,5]);
+f1(x):=1/2 + 1/4*x;
+f2(x):=1/2 - 1/4*x;
+s1: integrate(f1(x),x,-1/a,0);
+s2: integrate(f2(x),x,0,1/a);
+ta1:s1+s2;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\({@a@}\) ; \(P({@-1/a@} \leq X \leq {@1/a@})={@ta1@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords>integrate </forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1386179153</deployedseed>
+    <deployedseed>466731054</deployedseed>
+    <deployedseed>1228292998</deployedseed>
+    <deployedseed>686704642</deployedseed>
+    <deployedseed>1837884783</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1+1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

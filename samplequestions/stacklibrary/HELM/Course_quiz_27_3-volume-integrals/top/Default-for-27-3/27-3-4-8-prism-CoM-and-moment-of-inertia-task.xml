@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>27.3.4.8 prism CoM and moment of inertia task</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>For the solid prism shown below</p>
+<p>[[jsxgraph  width="400px" height="300px"  ]]
+      const board = JXG.JSXGraph.initBoard('jxgbox', {
+            boundingbox: [-5, 5, 5, -5],
+            axis: false,
+            showNavigation: false
+        });
+
+        // Axes points
+        const X = board.create('point', [0, 4], {visible: false, fixed: true});        
+        const Y = board.create('point', [4, 0], {visible: false, fixed: true});
+        const Z = board.create('point', [-3, -3], {visible: false, fixed: true});       
+     
+
+
+        // Back triangle
+        const O = board.create('point', [0, 0], {visible: false, fixed: true});
+        const A = board.create('point', [1.5, 0], {visible: false, fixed: true});
+        const B = board.create('point', [0, 2], {visible: false, fixed: true});
+
+
+        // Front triangle
+        const D = board.create('point', [-2, 0], {visible: false, fixed: true});
+        const E = board.create('point', [-2, -2], {visible: false, fixed: true});
+        const F = board.create('point', [-0.5, -2], {visible: false, fixed: true});
+        // Axes with labels
+        board.create('arrow', [O, X], {strokeColor: 'black', name: 'X', withLabel: false,fontSize: 12});
+        board.create('arrow', [O, Y], {strokeColor: 'black', name: 'Y', withLabel: false,fontSize: 12});
+        board.create('arrow', [O, Z], {strokeColor: 'black', name: 'Z', withLabel: false,fontSize: 12});    
+        // Create lines for the back triangle
+        board.create('line', [O, A], {straightFirst: false, straightLast: false});
+        board.create('line', [O, B], {straightFirst: false, straightLast: false});
+        board.create('line', [A, B], {straightFirst: false, straightLast: false});
+        // Create lines for the front triangle
+        board.create('line', [D, E], {straightFirst: false, straightLast: false});
+        board.create('line', [E, F], {straightFirst: false, straightLast: false});
+        board.create('line', [F, D], {straightFirst: false, straightLast: false});
+
+        // Create lines for the sides of the prism
+        board.create('line', [A, F], {straightFirst: false, straightLast: false});
+        board.create('line', [B, D], {straightFirst: false, straightLast: false});
+        board.create('line', [O, E], {straightFirst: false, straightLast: false});
+       
+        // Add other labels
+        board.create('text', [-1.2, -2.3, '\\(x = {#aa#}\\)'], {fontSize: 12,fixed: true});
+        board.create('text', [4.2, 0, '\\(x\\)'], {fontSize: 12,fixed: true});
+        board.create('text', [0, 4.2, '\\(y\\)'], {fontSize: 12,fixed: true});
+        board.create('text', [-3.2, -3.2, '\\(z\\)'], {fontSize: 12,fixed: true});
+        board.create('text', [1, 1, '\\(y + z = 1\\)'], {fontSize: 12,fixed: true});
+        board.create('text', [0.1, 2.1, '\\(1\\)'], {fontSize: 12,fixed: true});
+        board.create('text', [1.6, 0.2, '\\(1\\)'], {fontSize: 12,fixed: true});
+        board.create('text', [-2.4, -2.0, '\\({#aa#}\\)'], {fontSize: 12,fixed: true});
+[[/jsxgraph]]</p>
+<p>Find:</p>
+<ol class="HELM_parts">
+<li>the coordinates of the centre of mass (input as a list): [[input:ans1]] [[validation:ans1]][[feedback:prt1]]</li>
+<li>the moment of inertia about the \(x\)- , \(y\)- and \(z\)-axes (input as a list in terms of M): [[input:ans2]] [[validation:ans2]][[feedback:prt2]]</li>
+</ol>
+<p></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<ol class="HELM_parts">
+<li>The \(x\), \(y\) and \(z\) coordinates of the centre of mass of a solid of constant density are given by \[\displaystyle \overline{x} = \frac{\displaystyle\int x\;\mathrm{d}V}{\displaystyle\int \mathrm{d}V}\qquad\quad\overline{y} = \frac{\displaystyle\int y\;\mathrm{d}V}{\displaystyle\int \mathrm{d}V} \qquad\quad \overline{z} = \frac{\displaystyle\int z\;dV}{\displaystyle\int \mathrm{d}V} \] Let us find \(\displaystyle\int \mathrm{d}V.\) \begin{align*} \int \mathrm{d}V &amp;= \int_{z=0}^1 \int_{y=0}^{1-z} \int_{x=0}^{@aa@} \;\mathrm{d}x \,\mathrm{d}y \,\mathrm{d}z \\ &amp;= \int_{z=0}^1 \int_{y=0}^{1-z} \bigg[ x\bigg]_0^{@aa@} \;\mathrm{d}y \,\mathrm{d}z = \int_{z=0}^1 \int_{y=0}^{1-z} {@aa@} \;\mathrm{d}y \,\mathrm{d}z \\ &amp;= \int_{z=0}^1 \bigg[ {@fbI12@}\bigg]_{y=0}^{1-z} \;\mathrm{d}z = \int_{z=0}^1 \left( {@I12@} \right) \;\mathrm{d}z \\ &amp;= \bigg[{@fbI13@} \bigg]_0^1 = {@I13@} \end{align*} The numerator of the expression for \(\overline{x}\) is given by \begin{align*} \int x\;\mathrm{d}V &amp;= \int_{z=0}^1 \int_{y=0}^{1-z} \int_{x=0}^{@aa@} x \;\mathrm{d}x \,\mathrm{d}y \,\mathrm{d}z = \int_{z=0}^1 \int_{y=0}^{1-z} \left[{@fbIx1@} \right]_0^{@aa@} \;\mathrm{d}y \,\mathrm{d}z = \int_{z=0}^1 \int_{y=0}^{1-z} {@Ix1@} \;\mathrm{d}y \,\mathrm{d}z \\ &amp;= \int_{z=0}^1 \bigg[ {@fbIx2@}\bigg]_{y=0}^{1-z} \;\mathrm{d}z = \int_{z=0}^1 \left( {@Ix2@} \right) \;\mathrm{d}z = \int_{z=0}^1 \left( {@fbIx3@} \right) \;\mathrm{d}z = {@Ix3@} \end{align*} So, \(\overline{x} = {@Ix3@}\div{@I13@} = {@ta1x@}\). By similar integration it can be shown that \(\bar y={@ta1y@}, \ \bar z={@ta1z@}\).</li>
+<li>The moment of inertia about the \(x-\)axis, \(I_x\) is given by \(\displaystyle I_x = \rho \int_V (y^2 + z^2)\; dV\) which for the solid under consideration is given by \begin{align*} I_x &amp;= \rho \int_{x=0}^{@aa@} \int_{y=0}^1 \int_{z=0}^{1-y}(y^2 + z^2)\;\mathrm{d}z\,\mathrm{d}y\,\mathrm{d}x \\ &amp;= \rho \int_{x=0}^{@aa@} \int_{y=0}^1 \left(y^2 - y^3 + \frac{(1-y)^3}{3}\right) \;\mathrm{d}y\,\mathrm{d}x \\ &amp;= \rho \int_{x=0}^{@aa@} \frac{1}{6} \;\mathrm{d}x = {@I2x3@}\rho \end{align*} Now, the mass \(M\) of the solid is given by \(M = \rho \times {\rm Volume} = {@I13@} \rho\) (where the volume is found in part a) so \(\qquad\displaystyle I_x = {@I2x3*rho@} = {@I2x3@} \rho \times \frac{M}{{@I13*rho@}} = {@ta2x@} \) Similarly, the moment of inertia about the \(y-\)axis, \(I_y\) is given by \(\displaystyle I_y = \rho \int_V (x^2 + z^2)\; \mathrm{d}V\) which for the solid under consideration is given by \begin{eqnarray*} I_y &amp;= \rho \int_{x=0}^{@aa@} \int_{y=0}^1 \int_{z=0}^{1-y}(x^2 + z^2)\;\mathrm{d}z\,\mathrm{d}y\,\mathrm{d}x \\ &amp;= \rho \int_{x=0}^{@aa@} \int_{y=0}^1 \left(x^2(1-y) + \frac{(1-y)^3}{3}\right) \;\mathrm{d}y\,\mathrm{d}x \\ &amp;= \rho \int_{x=0}^{@aa@} \left( \frac{1}{2} x^2 + \frac{1}{12} \right) \;\mathrm{d}x = {@I2y3@}\rho \end{eqnarray*} and so \(\ \displaystyle I_y = {@I2y3*rho@} = {@I2y3*rho@} \times \frac{M}{ {@I13*rho@}} = {@ta2y@} \). Finally, by symmetry, \(I_z = I_y = {@ta2z@}\).</li>
+</ol>]]></text>
+    </generalfeedback>
+    <defaultgrade>2</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025040100</text>
+    </stackversion>
+    <questionvariables>
+      <text>aa: rand([1,2,3,4]);
+
+fbI11:integrate (1,x);
+I11:integrate (1,x,0,aa);
+fbI12: integrate (I11,y);
+I12: integrate (I11,y,0,1-z);
+fbI13: integrate (I12,z);
+I13: integrate (I12,z,0,1);
+
+
+fbIx1:integrate (x,x);
+Ix1:integrate (x,x,0,aa);
+fbIx2: integrate (Ix1,y);
+Ix2: integrate (Ix1,y,0,1-z);
+fbIx3: integrate (Ix2,z);
+Ix3: integrate (Ix2,z,0,1);
+
+fbIy1:integrate (y,x);
+Iy1:integrate (y,x,0,aa);
+fbIy2: integrate (Iy1,y);
+Iy2: integrate (Iy1,y,0,1-z);
+fbIy3: integrate (Iy2,z);
+Iy3: integrate (Iy2,z,0,1);
+
+fbIz1:integrate (z,x);
+Iz1:integrate (z,x,0,aa);
+fbIz2: integrate (Iz1,y);
+Iz2: integrate (Iz1,y,0,1-z);
+fbIz3: integrate (Iz2,z);
+Iz3: integrate (Iz2,z,0,1);
+
+
+ta1x:Ix3/I13;
+ta1y:Iy3/I13;
+ta1z:Iz3/I13;
+
+ta1:[ta1x,ta1y,ta1z]
+fbI2x1:integrate (y^2+z^2,z);
+I2x1:integrate (y^2+z^2,z,0,1-y);
+fbI2x2: integrate (I2x1,y);
+I2x2: integrate (I2x1,y,0,1);
+fbI2x3: integrate (I2x2,x);
+I2x3: integrate (I2x2,x,0,aa);
+
+fbI2y1:integrate (x^2+z^2,z);
+I2y1:integrate (x^2+z^2,z,0,1-y);
+fbI2y2: integrate (I2y1,y);
+I2y2: integrate (I2y1,y,0,1);
+fbI2y3: integrate (I2y2,x);
+I2y3: integrate (I2y2,x,0,aa);
+
+
+fbI2z1:integrate (x^2+y^2,z);
+I2z1:integrate (x^2+y^2,z,0,1-y);
+fbI2z2: integrate (I2z1,y);
+I2z2: integrate (I2z1,y,0,1);
+fbI2z3: integrate (I2z2,x);
+I2z3: integrate (I2z2,x,0,aa);
+
+ta2x: I2x3/I13*M;
+ta2y: I2y3/I13*M;
+ta2z: I2z3/I13*M;
+
+ta2:[I2x3/I13*M, I2y3/I13*M, I2z3/I13*M];</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="html">
+      <text><![CDATA[<p>aa={@aa@}=&gt; a){@ta1@}, b) {@ta2@}</p>]]></text>
+    </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<p><i class="fa fa-check"></i> Correct answer, well done.</p>]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<p><i class="fa fa-adjust"></i> Your answer is partially correct.</p>]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<p><i class="fa fa-times"></i> Incorrect answer.</p>]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>[x,y,z]</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>ta2</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>[x,y,z]</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1524915112</deployedseed>
+    <deployedseed>512502328</deployedseed>
+    <deployedseed>2145765290</deployedseed>
+    <deployedseed>151996986</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(ta1+1,simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ev(ta2+1,simp)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

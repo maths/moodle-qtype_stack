@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>29.2.4.15 spherical polar coordinates div surface Integral</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>Using spherical polar coordinates \((r, \theta, \phi)\), and the vector field \(\underline{F} = r2 \underline{\hat{r}}+r^2 \sin \theta \underline{\hat{\theta}}\), evaluate the integral \(\displaystyle \iiint_V \underline{\nabla} \cdot \underline{F} \mathrm{d}V\) over the sphere given by \(0 \leq r \leq a\).</p>
+
+<p>\(\displaystyle \iiint_V \underline{\nabla} \cdot \underline{F} \mathrm{d}V =\) [[input:ans1]][[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p>Using spherical polar coordinates \((r, \theta, \phi)\), and the vector field \(\underline{F} = r^2 \underline{\hat{r}}+r^2 \sin \theta \underline{\hat{\theta}}\), we aim to evaluate the integral \(\displaystyle \iiint_V \underline{\nabla} \cdot \underline{F} \mathrm{d}V\) over the sphere given by \(0 \leq r \leq a\).</p>
+
+<p>As we are calculatin the volume integral over a sphere of radius \(a\) at the origin, we know that we'll have \(\mathrm{d}V = \mathrm{d}\phi \mathrm{d}\theta \mathrm{d}r\) and bounds from outer to inner most of: \([a, 0], [\pi, 0], [2\pi, 0].\) Now calculating \(\underline{\nabla} \cdot \underline{F}\) for spherical polar coordinates:
+\[
+\begin{aligned}
+\underline{\nabla} \cdot \underline{F} &= \underline{\nabla} \cdot( r^2 \underline{\hat{r}}+r^2 \sin \theta \underline{\hat{\theta}})\\
+&=\frac{1}{r^2}\frac{\partial}{\partial r}\left((r^2)(r^2)\right) +\frac{1}{r\sin\theta} \frac{\partial}{\partial \theta}\left((r^2 \sin \theta) (\sin\theta)\right) +\frac{1}{r\sin\theta} \frac{\partial}{\partial \phi}\left(0 \right)\\
+&=4r + 2r\cos\theta
+\end{aligned}
+\]
+Now Bearing in mind that the Jacobian for spherical polar coordinates is \(J=r^2\sin\theta\), we can evaluate the volume integral as follows:
+\[
+\begin{aligned}
+\iiint_V \underline{\nabla} \cdot \underline{F} \mathrm{d}V &= \int^{r=a}_{r=0} \int^{\theta=\pi}_{\theta=0} \int^{\phi=2\pi}_{\phi=0}{@expression@}\ \mathrm{d}\phi\ \mathrm{d}\theta\ \mathrm{d}r \\
+&= \int^{r=a}_{r=0} \int^{\theta=\pi}_{\theta=0} \left[{@inner_int_indef@}\right]^{\phi=2\pi}_{\phi=0}\ \mathrm{d}\theta\  \mathrm{d}r\\
+&= \int^{r=a}_{r=0} \int^{\theta=\pi}_{\theta=0} {@inner_int_def@}\ \mathrm{d}\theta\ \mathrm{d}r\\
+&= \int^{r=a}_{r=0}\left[{@mid_int_indef@}\right]^{\theta=\pi}_{\theta=0} \ \mathrm{d}r\\
+&= \int^{r=a}_{r=0} {@mid_int_def@} \ \mathrm{d}r\\
+&= \left[{@out_int_indef@}\right]^{r=a}_{r=0}\\
+&={@out_int_def@}
+\end{aligned}
+\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025040100</text>
+    </stackversion>
+    <questionvariables>
+      <text>expression:(4*r+2*r*cos(theta))*r^2*sin(theta);
+inner_int_indef:integrate(expression, phi);
+inner_int_def:integrate(expression, phi, 0, 2*pi);
+mid_int_indef:integrate(inner_int_def, theta);
+mid_int_def:integrate(inner_int_def, theta, 0, pi);
+out_int_indef:integrate(mid_int_def, r);
+out_int_def:integrate(mid_int_def, r, 0, a);
+
+ta:out_int_def;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="html">
+      <text/>
+    </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>onum</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>-ta</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ta</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description>fail</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ta+1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt1-2-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

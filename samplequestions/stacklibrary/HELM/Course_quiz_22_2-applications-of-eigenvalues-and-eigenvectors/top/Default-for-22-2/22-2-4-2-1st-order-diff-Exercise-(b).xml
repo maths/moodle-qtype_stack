@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>22.2.4.2 1st order diff Exercise (b)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Solve by decoupling the following first order system:
+</p><p>\(\dot x_1= {@eq_b[1,1]@} \qquad \dot x_2= {@eq_b[2,1]@} \qquad \dot x_3= {@eq_b[3,1]@} \qquad\) with \(x_1(0)={@init[1,1]@}, \qquad x_2(0)={@init[2,1]@}, \qquad x_3(0)={@init[3,1]@}.\)
+</p><div>\(\underline{x}=\) [[input:ans2]] [[validation:ans2]] [[feedback:prt2]]</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text>We first translate the system of equations into a single matrix equation: \(\ddot{\underline{x}} ={@matB@}\underline{x}\). The eigenvalues are \({@evals_b[1][1]@},{@evals_b[1][2]@}\) and \({@evals_b[1][3]@}\), the eigenvectors are \({@evecs_b[2][1][1]@}^T,{@evecs_b[2][2][1]@}^T,{@evecs_b[2][3][1]@}^T\) and hence we substitute \(\underline{x}={@p_b@}\underline{y}\) to get \(\dot{\underline{y}}={@matD_b@}\underline{y}\). 
+We solve the decoupled equations to get \(\underline{y}={@soly_2@}\), then write that in terms of \(\underline{x}\) as \(\underline{x}={@p_b@}{@soly_2@}={@sol2_gen@}\). To find the specific solution we solve \(\underline{x}(0)={@init@}\), which leads to the final solution \(\underline{x}={@sol2@}\).</text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2024072400</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[/*part (b)*/
+/*For this one, it was easier to pick from some prepicked "simple" matrices*/
+matrices_b:[matrix([0,1,0],[1,0,3],[0,1,0]),matrix([0,0,1],[0,0,1],[3,1,0]),matrix([0,3,1],[1,0,0],[1,0,0]),matrix([0,1,0],[1,0,3],[0,1,0]),matrix([0,0,1],[0,0,1],[3,1,0]),matrix([0,3,1],[1,0,0],[1,0,0])];
+inits:[matrix([2],[0],[2]),matrix([4],[4],[0]),matrix([0],[-2],[-2]),matrix([-2],[0],[-2]),matrix([2],[2],[0]),matrix([0],[4],[4])];
+
+/*Pick matrix and its initial conditions, and calculate eigenvectors*/
+index:rand(6)+1;
+matB:matrices_b[index];
+init:inits[index];
+evals_b:eigenvalues(matB);
+evecs_b:eigenvectors(matB);
+
+p_b:transpose(matrix(evecs_b[2][1][1],evecs_b[2][2][1],evecs_b[2][3][1]));
+matD_b:matrix([evals_b[1][1],0,0],[0,evals_b[1][2],0],[0,0,evals_b[1][3]]);
+
+/*Deduce the solution by finding the general form...(Note by construction, there are three distinct eigenvalues)*/
+soly_2:matrix([A*e^(evals_b[1][1]*t)],[B*e^(evals_b[1][2]*t)],[C*e^(evals_b[1][3]*t)]);
+sol2_gen:p_b.soly_2;
+/*...Deducing a particular solution by substituting t=0...*/
+sol2_subst:subst(t=0,sol2_gen);
+
+/*...finding A,B,C s.t. it equals the initial conditions...*/
+abc:solve([sol2_subst[1,1]=init[1,1],sol2_subst[2,1]=init[2,1],sol2_subst[3,1]=init[3,1]],[A,B,C]);
+/*... and substituting back into the general form*/
+sol2:subst(abc[1][1],subst(abc[1][2],subst(abc[1][3],sol2_gen)));
+
+/*Convert the matrix into a system of equations*/
+eq_b: matB.matrix([x_1],[x_2],[x_3]);
+
+/*Other variables used for testing*/
+null2:matrix([0],[0]);
+null3:matrix([0],[0],[0]);
+wa1:subst(A=0,subst(B=0,subst(C=0,sol2_gen)));]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\(A={@matB@}\), evecs:\({@evecs_b@}\), general: {@sol2_gen@}, init:{@init@}, solution\(= {@sol2@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans2</name>
+      <type>matrix</type>
+      <tans>sol2</tans>
+      <boxsize>18</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>ans2_prime:matrix([diff(ans2[1,1],t)],[diff(ans2[2,1],t)],[diff(ans2[3,1],t)]);
+ans2_subst:subst(t=0,ans2);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2_prime</sans>
+        <tans>matB.ans2</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.5</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[Your answer satisfies \(\dot{\underline{x}}= A\underline{x}\).<br>]]></text>
+        </truefeedback>
+        <falsescoremode>+</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[Your answer should satisfy \(\dot{\underline{x}}= A\underline{x}\). In your case,
+<br>\(\dot{\underline{x}}={@ans2_prime@}\),
+<br>\(A\underline{x}={@matB.ans2@}\).
+<br>Please try again.]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2_subst</sans>
+        <tans>init</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.5</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[Your answer satisfies \(\underline{x}(0)={@init@}\).<br>
+Hence your answer is correct. Well done.]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>prt2-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>SubstEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>sol2_gen</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[However, it looks like you forgot to use the initial conditions to find a specific solution. <br>Please try again.]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[However, your answer should satisfy \(\underline{x}(0)={@init@}\), when in your case \(\underline{x}(0)={@ans2_subst@}\). <br>Please try again.]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>496660860</deployedseed>
+    <deployedseed>1791804520</deployedseed>
+    <deployedseed>1666241603</deployedseed>
+    <deployedseed>1278253507</deployedseed>
+    <deployedseed>651244535</deployedseed>
+    <deployedseed>734693042</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans2</name>
+        <value>sol2</value>
+      </testinput>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans2</name>
+        <value>sol2_gen</value>
+      </testinput>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.5000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans2</name>
+        <value>null3</value>
+      </testinput>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.5000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description/>
+      <testinput>
+        <name>ans2</name>
+        <value>wa1</value>
+      </testinput>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.5000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

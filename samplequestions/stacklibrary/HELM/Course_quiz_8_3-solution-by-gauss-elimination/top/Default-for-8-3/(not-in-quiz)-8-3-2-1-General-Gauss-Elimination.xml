@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>(not in quiz) 8.3.2.1 General Gauss Elimination</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h5> The general system of three simultaneous linear equations </h5>
+
+<p>In the previous subsection we met systems of equations which could be solved by back-substitution alone. In this Section we meet systems which are not so amenable and where preliminary work must be done before back-substitution can be used.</p>
+<p>Consider the system <span class="math display">\[\begin{matrix}
+    x_1 &amp; + &amp; 3x_2 &amp; + &amp; 5x_3 &amp; = &amp; 14 \\
+    2x_1 &amp; - &amp; x_2 &amp; - &amp; 3x_3 &amp; = &amp; 3 \\
+    4x_1 &amp; + &amp; 5x_2 &amp; - &amp; x_3 &amp; = &amp; 7 \\
+\end{matrix}\]</span> We will use the solution method known as <span><strong>Gauss elimination</strong></span>, which has three stages. In the first stage the equations are written in matrix form. In the second stage the matrix equations are replaced by a system of equations having the same solution but which are in <span><strong>triangular form</strong></span>. In the final stage the new system is solved by <span><strong>back-substitution</strong></span>.</p>
+
+<p><span><strong>Stage 1</strong></span>:Matrix Formulation</p>
+<p>The first step is to write the equations in matrix form:</p>
+
+<p><span class="math display">\[\left[\begin{matrix}
+    1&amp;3&amp;5\\ 
+    2&amp;-1&amp;-3\\
+    4&amp;5&amp;-1 \\
+\end{matrix}\right]
+\left[\begin{matrix}
+    x_1\\
+    x_2\\
+    x_3 \\
+\end{matrix}\right] = 
+\left[\begin{matrix} 
+    14\\
+    3\\
+    7\\
+\end{matrix}\right].\]</span> Then, for conciseness, we combine the matrix of coefficients with the column vector of right-hand sides to produce the <span><strong>augmented matrix</strong></span>:</p>
+
+<p>\[\left[\begin{array}{rrr|r}
+    1 &amp; 3 &amp; 5 &amp; 14 \\
+    2 &amp; -1 &amp; -3 &amp; 3 \\
+    4 &amp; 5 &amp; -1 &amp; 7 \\
+\end{array}\right].\]</p>
+
+<p>If the general system of equations is written <span class="math inline">\(A X =B\)</span> then the augmented matrix is written <span class="math inline">\([A|B]\)</span>. Hence the first equation <span class="math display">\[x_1+3x_2+5x_3=14\]</span> is replaced by the first row of the augmented matrix, <span class="math display">\[1 \qquad 3\qquad 5\qquad |\qquad 14\]</span> and so on. Stage 1 has now been completed. We will next triangularise the matrix of coefficients by means of <span><strong>row operations</strong></span>. There are three possible row operations:</p>
+
+<ul>
+<li><p>interchange two rows;</p></li>
+<li><p>multiply or divide a row by a non-zero constant factor;</p></li>
+<li><p>add to, or subtract from, one row a multiple of another row.</p></li>
+</ul>
+<p>Note that interchanging two rows of the augmented matrix is equivalent to interchanging the two corresponding equations. The shorthand notation we use is introduced by example. To interchange row 1 and row 3 we write <span class="math inline">\(R1\leftrightarrow R3\)</span>. To divide row 2 by 5 we write <span class="math inline">\(R2\div 5\)</span>. To add three times row 1 to row 2, we write <span class="math inline">\(R2+3R1\)</span>. In the Task which follows you will see where these annotations are placed.</p>
+<p>Note that these operations neither create nor destroy solutions so that at every step the system of equations has the same solution as the original system.</p>
+
+<p><span><strong>Stage 2</strong></span>: Triangularisation </p>
+<p>The second stage proceeds by first eliminating <span class="math inline">\(x_1\)</span> from the second and third equations using row operations.</p>
+<p><span class="math display">\[\left[\begin{array}{rrr|r} 
+    1 &amp; 3 &amp; 5 &amp; 14 \\
+    2 &amp; -1 &amp; -3 &amp; 3 \\
+    4 &amp; 5 &amp; -1 &amp; 7 
+\end{array}\right]
+\begin{array}{c}
+    \\ R2-2 \times R1 \\
+    R3-4 \times R1 \\
+\end{array}
+\Rightarrow 
+\left[\begin{array}{rrr|r}
+    1 &amp; 3 &amp; 5 &amp; 14 \\
+    0 &amp; -7 &amp; -13 &amp; -25 \\
+    0 &amp; -7 &amp; -21 &amp; -49 \\
+\end{array}\right]\]</span></p>
+<p>In the above we have subtracted twice row (equation) 1 from row (equation) 2.</p>
+<p>In full these operations would be written, respectively, as <span class="math display">\[(2x_1-x_2-3x_3)-2(x_1+3x_2+5x_3)=3-2\times 14 \qquad \text{or} \qquad -7x_2-13x_3=-25\]</span> and <span class="math display">\[(4x_1+5x_2-x_3)-4(x_1+3x_2+5x_3)=7-4\times 14 \qquad \text{or} \qquad -7x_2-21x_3=-49.\]</span></p>
+<p>Now since all the elements in rows 2 and 3 are negative we multiply throughout by <span class="math inline">\(-1\)</span>: <span class="math display">\[\left[\begin{array}{rrr|r} 
+    1 &amp; 3 &amp; 5 &amp; 14 \\
+    0 &amp; -7 &amp; -13 &amp; -25 \\
+    0 &amp; -7 &amp; -21 &amp; -49 
+\end{array}\right]
+\begin{array}{c}
+    \\ 
+    R2\times (-1) \\
+    R3\times (-1) \\
+\end{array}
+\Rightarrow
+\left[\begin{array}{rrr|r}
+    1 &amp; 3 &amp; 5 &amp; 14 \\
+    0 &amp; 7 &amp; 13 &amp; 25 \\
+    0 &amp; 7 &amp; 21 &amp; 49 
+\end{array}\right]\]</span></p>
+<p>Finally, we eliminate <span class="math inline">\(x_2\)</span> from the third equation by subtracting equation 2 from equation 3, i.e., <span class="math inline">\(R3-R2\)</span>: <span class="math display">\[\left[\begin{array}{rrr|r}
+    1&amp;3&amp;5&amp;14\\
+    0&amp;7&amp;13&amp;25\\
+    0&amp;7&amp;21&amp;49 \\
+\end{array}\right]
+\begin{array}{c}
+    \\
+    \\
+    R3-R2 \\
+\end{array}
+\Rightarrow
+\left[\begin{array}{rrr|r}
+    1&amp;3&amp;5&amp;14\\
+    0&amp;7&amp;13&amp;25\\
+    0&amp;0&amp;8&amp;24 \\
+\end{array}\right]\]</span></p>
+<p>The system is now in triangular form.</p>
+<p><span><strong>Stage 3</strong></span>: Back Substitution</p>
+<p>Here we solve the equations from bottom to top. At each step of the back substitution process we encounter equations which only have a <span><strong>single</strong></span> unknown and so can be easily solved.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>19.2.9.1 Engineering Example</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h5>An RC circuit with a single frequency input</h5>
+<h6>Introduction</h6>
+
+<p>The components in RC circuits containing resistance, inductance and capacitance can be chosen so that the circuit filters out certain frequencies from the input. A particular kind of filter circuit consists of a resistor and capacitor in series and acts
+    as a high cut (or low pass) filter. The high cut frequency is defined to be the frequency at which the magnitude of the voltage across the capacitor (the output voltage) is <span class="math inline">\(1/ \sqrt{2}\)</span> of the magnitude of the input
+    voltage.
+</p>
+
+<h6>Problem in Words</h6>
+<p>Calculate the high cut frequency for an RC circuit is subjected to a single frequency input of angular frequency <span class="math inline">\(\omega\)</span> and magnitude <span class="math inline">\(v_i\)</span>.</p>
+
+<p>(a) Find the steady state solution of the equation<br> <span class="math inline">\[ R\frac{\mathrm{d}q}{\mathrm{d}t}+\frac{q}{C}=v_ie^{j\omega t}\]</span><br> and hence find the magnitude of</p>
+<ol>
+    <li>
+        <p>the voltage across the capacitor <span class="math inline">\(v_c =\dfrac{q}{C}\)</span></p>
+    </li>
+    <li>
+        <p>the voltage across the resistor <span class="math inline">\(v_R =R\  \dfrac{ \mathrm{d}q}{\mathrm{d}t}\)</span></p>
+    </li>
+</ol>
+<p>(b) Using the impedance method covered in previous workbooks, confirm your results to part (a) by calculating</p>
+<ol>
+    <li>
+        <p>the voltage across the capacitor <span class="math inline">\(v_c\)</span></p>
+    </li>
+    <li>
+        <p>the voltage across the resistor <span class="math inline">\(v_R\)</span> in response to a single frequency of angular frequency <span class="math inline">\(\omega\)</span> and magnitude <span class="math inline">\(v_i\)</span>.</p>
+    </li>
+</ol>
+<p>(c) For the case where <span class="math inline">\(R = 1\ k\Omega\)</span> and <span class="math inline">\(C = 1\ \mu F,\)</span> find the ratio <span class="math inline">\(\dfrac{|v_c|}{|v_i|}\)</span> and complete the table below</p>
+<table class="HELM_table">
+    <thead>
+        <tr class="header">
+            <th style="text-align: center;"><span class="math inline">\(\omega\)</span></th>
+            <th style="text-align: center;">\(10\)</th>
+            <th style="text-align: center;"><span class="math inline">\(10^2\)</span></th>
+            <th style="text-align: center;"><span class="math inline">\(10^3\)</span></th>
+            <th style="text-align: center;"><span class="math inline">\(10^4\)</span></th>
+            <th style="text-align: center;"><span class="math inline">\(10^5\)</span></th>
+            <th style="text-align: center;"><span class="math inline">\(10^6\)</span></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="odd">
+            <td style="text-align: center;"><span class="math inline">\(\dfrac{|v_c|}{|v_i|}\)</span></td>
+            <td style="text-align: center;"></td>
+            <td style="text-align: center;"></td>
+            <td style="text-align: center;"></td>
+            <td style="text-align: center;"></td>
+            <td style="text-align: center;"></td>
+            <td style="text-align: center;"></td>
+        </tr>
+    </tbody>
+</table>
+<p>(d) Explain why the table results show that a RC circuit acts as a high-cut filter and find the value of the high-cut frequency, defined as <span class="math inline">\(f_{hc} = \omega_{hc}/2\pi,\)</span> such that <span class="math inline">\(\dfrac{|v_c|}{|v_i|}=\dfrac{1}{\sqrt{2}}\)</span>.</p>
+
+<h6>Mathematical Statement of the Problem</h6>
+<p>We need to find a particular solution to the differential equation <span class="math inline">\(R\ \dfrac{\mathrm{d}q}{\mathrm{d}t}+\dfrac{q}{C}= v_ie^{j\omega t}\)</span>.</p>
+<p>This will give us the steady state solution for the charge <span class="math inline">\(q\)</span>. Using this we can find <span class="math inline">\(v_c =\dfrac{q}{C}\)</span> and <span class="math inline">\(v_R = R\
+\dfrac{\mathrm{d}q}{\mathrm{d}t}\)</span>. These should give the same result as the values calculated by considering the impedances in the circuit. Finally we can calculate <span class="math inline">\(\dfrac{|v_c|}{|v_i|}\)</span> and fill in the table
+    of values as required and find the high-cut frequency from <span class="math inline">\(\dfrac{|v_c|}{|v_i|}=\dfrac{1}{\sqrt{2}}\)</span> and <span class="math inline">\(f_{hc} = \omega_{hc}/2\pi\)</span>.</p>
+
+<h6>Mathematical Solution</h6>
+<p>(a) To find a particular solution, we try a function of the form <span class="math inline">\(q=c_0e^{j\omega t}\)</span> which means that <span class="math inline">\[\qquad \dfrac{\mathrm{d}q}{\mathrm{d}t}=j\omega c_0e^{j\omega t}\]</span>.</p>
+<p>Substituting into <span class="math inline">\(R\ \dfrac{\mathrm{d}q}{\mathrm{d}t}   + \dfrac{q}{C}  = v_ie^{j\omega t}\)</span> we get</p>
+<p><span class="math inline">\(R j\omega c_0e^{j\omega t}+\dfrac{c_0e^{j\omega t}}{C}  = v_ie^{j\omega t}\quad \Rightarrow\)</span><span class="math inline">\(Rj\omega c_0+\dfrac{c_0}{C} 
+=v_i\)</span></p>
+<p><span class="math inline">\(\Rightarrow\)</span><span class="math inline">\(c_0=\dfrac{v_i}{Rj\omega+\frac{1}{C}}=\dfrac{Cv_i}{RC j\omega+1}\)</span><span class="math inline">\(\Rightarrow\)</span> <span class="math inline">\(q=\dfrac{Cv_i}{RCj\omega+1}\  e^{j\omega t}\)</span></p>
+<p>Thus</p>
+<ol>
+    <li>
+        <p><span class="math inline">\(v_c =\dfrac{q}{C}  =\dfrac{v_i}{RCj\omega +1}\ e^{j\omega t}\)</span> and</p>
+    </li>
+    <li>
+        <p> <span class="math inline">\(v_R=\dfrac{\mathrm{d}q}{\mathrm{d}t}=\dfrac{RCv_ij\omega}{RC j \omega+1}\ e^{j\omega t}\)</span></p>
+    </li>
+</ol>
+
+<p>(b) We use the impedance to determine the voltage across each of the elements. The applied voltage is a single frequency of angular frequency <span class="math inline">\(\omega\)</span> and magnitude <span class="math inline">\(v_i\)</span> such that
+    <span class="math inline">\(V=v_ie^{j\omega t}\)</span>. For an RC circuit, the impedance of the circuit is <span class="math inline">\(Z=Z_R+Z_c\)</span> where <span class="math inline">\(Z_R\)</span> is the impedance of the resistor <span class="math inline">\(R\)</span>    and <span class="math inline">\(Z_c\)</span> is the impedance of the capacitor <span class="math inline">\(Z_c= -\dfrac{j}{\omega C}\)</span>.</p>
+<p>Therefore <span class="math inline">\(Z= R- \dfrac{j}{\omega C}\)</span>. The current can be found using <span class="math inline">\(v=Zi\)</span> giving</p>
+<p><span class="math inline">\(v_ie^{j\omega t}=\left(R-\dfrac{j}{\omega C}\right)\ i\quad \Rightarrow\quad   i=\dfrac{v_i e^{j\omega t}}{R-\frac{j}{\omega C}}\)</span></p>
+<p>We can now use <span class="math inline">\(v_c=z_ci\)</span> and <span class="math inline">\(v_R=z_Ri\)</span> giving</p>
+<ol>
+    <li>
+        <p><span class="math inline">\(v_c=\dfrac{q}{C}=-\dfrac{j}{\omega C}\times\dfrac{v_i}{R-\frac{j}{\omega C}}\ e^{j\omega t}=\dfrac{v_i}{RCj\omega+1}\
+e^{j\omega t}\)</span></p>
+    </li>
+    <li>
+        <p><span class="math inline">\(v_R=\dfrac{Rv_i}{R-\frac{j}{\omega C}}\ e^{j\omega t}=\dfrac{RC v_i j\omega}{RC j\omega +1}\ e^{j\omega t}\)</span> which confirms the result in part (a) found by solving the differential equation.</p>
+    </li>
+</ol>
+
+<p>(c) When <span class="math inline">\(R=1000\ \Omega\)</span> and <span class="math inline">\(C=10^{-6}F\)</span></p>
+<p><span class="math inline">\(v_c=\dfrac{v_i}{RCj\omega +1}\ e^{j\omega t}=\dfrac{v_i}{10^{-3} j\omega +1}\ e^{j\omega t}\)</span></p>
+<p>So <span class="math inline">\(\dfrac{|v_c|}{|v_i|}=\left|\dfrac{1}{10^{-3} j\omega +1}\right|\ \left|e^{j\omega t}\right|=\left|\dfrac{1}{10^{-3} j\omega
++1}\right|=\dfrac{1}{\sqrt{10^{-6}\omega^2+1}}\).</span></p>
+<p><span class="math inline">The table below shows values of \(\dfrac{|v_c|}{|v_i|}\) for a range of values of \(\omega\).</span></p>
+<p><span class="math inline"><br></span></p>
+<table class="HELM_table">
+    <thead>
+        <tr class="header">
+            <th style="text-align: center;"><span class="math inline">\(\omega\)</span></th>
+            <th style="text-align: center;">10</th>
+            <th style="text-align: center;"><span class="math inline">\(10^2\)</span></th>
+            <th style="text-align: center;"><span class="math inline">\(10^3\)</span></th>
+            <th style="text-align: center;"><span class="math inline">\(10^4\)</span></th>
+            <th style="text-align: center;"><span class="math inline">\(10^5\)</span></th>
+            <th style="text-align: center;"><span class="math inline">\(10^6\)</span></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="odd">
+            <td style="text-align: center;"><span class="math inline">\(\dfrac{|v_c|}{|v_i|}\)</span></td>
+            <td style="text-align: center;">0.99995</td>
+            <td style="text-align: center;">0.995</td>
+            <td style="text-align: center;">0.707</td>
+            <td style="text-align: center;">0.00995</td>
+            <td style="text-align: center;">0.0099995</td>
+            <td style="text-align: center;">0.001</td>
+        </tr>
+    </tbody>
+</table><br>
+
+<p>(d) The table above shows that a RC circuit can be used as a high-cut filter because for low values of <span class="math inline">\(\omega\)</span>, <span class="math inline">\(\dfrac{|v_c|}{|v_i|}\)</span> is approximately 1 and for high values of
+    <span class="math inline">\(\omega\)</span>, <span class="math inline">\(\dfrac{|v_c|}{|v_i|}\)</span> is approximately 0. So the circuit will filter out high frequency values. <span class="math inline">\(\qquad\dfrac{|v_c|}{|v_i|}=\dfrac{1}{\sqrt{2}}\)</span>    when <span class="math inline">\(\dfrac{1}{\sqrt{10^{-6}\omega^2+1}}=\dfrac{1}{\sqrt{2}}\quad\Leftrightarrow
+\quad 10^{-6}\omega^2+1=2 \Leftrightarrow 10^{-6}\omega^2=1 \Leftrightarrow\omega^2=10^6\)</span> As we are considering <span class="math inline">\(\omega\)</span> to be a positive frequency, <span class="math inline">\(\omega=1000.\)</span> So
+    <span class="math inline">\(f_{hc}=\dfrac{\omega_{hc}}{2\pi}=\dfrac{1000}{2\pi}\approx 159 \; \textrm{Hz}\) </span>.</p>
+
+<h6>Interpretation</h6>
+<p>We have shown that for an RC circuit finding the steady state solution of the differential equation with a single frequency input voltage yields the same result for <span class="math inline">\(\dfrac{|v_c|}{|v_i|}\)</span> and <span class="math inline">\(\dfrac{|v_R|}{|v_i|}\)</span>    as found by working with the complex impedances for the circuit. An RC circuit can be used as a high-cut filter and in the case where <span class="math inline">\(R = 1\
+k\Omega, C = 1\
+\mu F\)</span> we found the high-cut frequency to be at approximately \(159 \; \textrm{Hz} \). This means that the circuit will pass frequencies less than this value and remove frequencies greater than this value.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

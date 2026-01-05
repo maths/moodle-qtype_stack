@@ -1,0 +1,126 @@
+{
+    "quiz": {
+        "name": "23_6 The Complex form",
+        "intro": "<p>In this Section we show how a Fourier series can be expressed more concisely if we introduce the complex number \\(i\\) where \\(i^2 = -1\\). By utilising the Euler relation: \\[ e^{i\\theta} \\equiv \\cos \\theta + i \\sin \\theta \\]<\/p>\n<p>we can replace the trigonometric functions by complex exponential functions. By also combining the Fourier coefficients \\(a_n\\) and \\(b_n\\) into a complex coefficient \\(c_n\\) through \\[ c_n = \\dfrac{1}{2} \\left( a_n - i b_n \\right) \\]<\/p>\n<p>we find that, for a given periodic signal, both sets of constants can be found in one operation.<\/p>\n<p>We also obtain Parseval's theorem which has important applications in electrical engineering.<\/p>\n<p>The complex formulation of a Fourier series is an important precursor of the Fourier transform which attempts to Fourier analyse non-periodic functions.<\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Complex exponential form of a Fourier series",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "2",
+            "heading": "Revision of the exponential form of a complex number",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "7",
+            "heading": "Properties of the complex Fourier coefficients",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "10",
+            "heading": "Parseval\u2019s theorem",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-23-6\/23-6-1-1-Complex-exponential-form-of-a-Fourier-series.xml"
+        },
+        {
+            "slot": "2",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-23-6\/23-6-2-1-Revision-of-the-exponential-form-of-a-complex-number.xml"
+        },
+        {
+            "slot": "4",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-23-6\/23-6-2-3-Revision-of-the-exponential-form-of-a-complex-number.xml"
+        },
+        {
+            "slot": "5",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-23-6\/23-6-2-4-Revision-of-the-exponential-form-of-a-complex-number.xml"
+        },
+        {
+            "slot": "6",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-23-6\/23-6-2-5-Revision-of-the-exponential-form-of-a-complex-number.xml"
+        },
+        {
+            "slot": "7",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-23-6\/23-6-3-1-Properties-of-the-complex-Fourier-coefficients.xml"
+        },
+        {
+            "slot": "8",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-23-6\/23-6-3-2-Ex-Properties-of-the-complex-Fourier-coefficients.xml"
+        },
+        {
+            "slot": "10",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-23-6\/23-6-4-1-Parseval\u2019s-theorem.xml"
+        },
+        {
+            "slot": "11",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-23-6\/23-6-4-2-Parseval\u2019s-theorem-in-FS-coeffs.xml"
+        },
+        {
+            "slot": "12",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-23-6\/23-6-4-3-Parseval\u2019s-theorem-example.xml"
+        },
+        {
+            "slot": "3",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-23-6\/23-6-2-2-Task-1a-trig-and-Cartesian-form.xml"
+        },
+        {
+            "slot": "9",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-23-6\/23-6-3-4-Complex-FS-Task-3.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

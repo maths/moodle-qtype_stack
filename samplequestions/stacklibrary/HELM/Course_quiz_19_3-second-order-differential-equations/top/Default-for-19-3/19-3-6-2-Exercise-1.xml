@@ -1,0 +1,1247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>19.3.6.2 Exercise 1</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4 class="HELM_exercise">Exercise</h4>
+<p>Find the general solution of the following equations.</p>
+<ol class="HELM_parts">
+    <li>
+        <p>\(\displaystyle {@deq1@}\)</p>
+        <p>\({@v1[1]@} = A\ \) [[input:ans11]] [[validation:ans11]] \(\ +\ B\ \) [[input:ans12]] [[validation:ans12]] \(\ +\ \) [[input:ans1pi]] [[validation:ans1pi]] [[feedback:prt1]]</p>
+    </li>
+    <li>
+        <p>\(\displaystyle {@deq2@}\)</p>
+        <p>\({@v2[1]@} = A\ \) [[input:ans21]] [[validation:ans21]] \(\ +\ B\ \) [[input:ans22]] [[validation:ans22]] \(\ +\ \) [[input:ans2pi]] [[validation:ans2pi]] [[feedback:prt2]]</p>
+    </li>
+    <li>
+        <p>\(\displaystyle {@deq3@}\)</p>
+        <p>Make sure to factor out the \(e^{\alpha x}\) term.</p>
+        <p>\({@v3[1]@} =\ \) [[input:ans33]] [[validation:ans33]] \(\ \times\  \bigg(A\ \) [[input:ans31]] [[validation:ans31]] \(\ +\ B\ \) [[input:ans32]] [[validation:ans32]] \(\ \bigg)\ +\ \) [[input:ans3pi]] [[validation:ans3pi]] [[feedback:prt3]]</p>
+    </li>
+    <li>
+        <p>\(\displaystyle {@deq4@}\)</p>
+        <p>\({@v4[1]@} = A\ \) [[input:ans41]] [[validation:ans41]] \(\ +\ B\ \) [[input:ans42]] [[validation:ans42]] \(\ +\ \) [[input:ans4pi]] [[validation:ans4pi]] [[feedback:prt4]]</p>
+    </li>
+    <li>
+        <p>\(\displaystyle {@deq5@}\)</p>
+        <p>\({@v5[1]@} = A\ \) [[input:ans51]] [[validation:ans51]] \(\ +\ B\ \) [[input:ans52]] [[validation:ans52]] \(\ +\ \) [[input:ans5pi]] [[validation:ans5pi]] [[feedback:prt5]]</p>
+    </li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<ol class="HELM_parts">
+    <li>
+        <p>We are asked to find the general solution of the second order, constant coefficients, inhomogeneous differental equation</p>
+        \[{@deq1@}.\]
+        <p>First, we find the complementary function. Suppose \({@v1[1]@} = e^{k{@v1[2]@}}\) is a solution to the corresponding homogeneous equation. This gives the auxiliary equation \({@auxeq1@}\), which has roots \(k = {@a11@}\) and \(k = {@a12@}\). The complementary function therefore has the form</p>
+        \[{@v1[1]@}_\text{cp}({@v1[2]@}) = {@cf1@}.\]
+        <p>Next, we find a particular integral. Since the function on the right-hand side of the equation is a constant, we try \({@v1[1]@}_\text{p}({@v1[2]@}) = \alpha\). Its derivatives are zero, so we get the equation:</p>
+        \[{@c1@}\alpha = {@f1@},\]
+        <p>which gives \(\alpha = {@alpha1@}\).</p>
+        <p>Therefore, the general solution is</p>
+        \[{@v1[1]@}({@v1[2]@}) = {@ta1@}.\]
+    </li>
+    <li>
+        <p>We are asked to find the general solution of the second order, constant coefficients, inhomogeneous differental equation</p>
+        \[{@deq2@}.\]
+        <p>First, we find the complementary function. Suppose \({@v2[1]@} = e^{k{@v2[2]@}}\) is a solution to the corresponding homogeneous equation. This gives the auxiliary equation \({@auxeq2@}\), which has roots \(k = {@a21@}\) and \(k = {@a22@}\). The complementary function therefore has the form</p>
+        \[{@v2[1]@}_\text{cp}({@v2[2]@}) = {@cf2@}.\]
+        <p>Next, we find a particular integral. Since the function on the right-hand side of the equation is a linear term, we try \({@v2[1]@}_\text{p}({@v2[2]@}) = {@pitest2@}\). Its derivatives are:</p>
+        \[\begin{aligned}
+        \frac{\mathrm{d}{@v2[1]@}}{\mathrm{d}{@v2[2]@}} &amp;= {@dpitest2@} \\
+        \frac{\mathrm{d}^2{@v2[1]@}}{\mathrm{d}{@v2[2]@}^2} &amp;= {@ddpitest2@}
+        \end{aligned}\]
+        <p>We substitute these in the inhomogeneous differential equation to get:</p>
+        \[{@pieq2@},\]
+        <p>which gives \(a = {@aa2@}\) and \(b = {@bb2@}\).</p>
+        <p>Therefore, the general solution is</p>
+        \[{@v2[1]@}({@v2[2]@}) = {@ta2@}.\]
+    </li>
+    <li>
+        <p>We are asked to find the general solution of the second order, constant coefficients, inhomogeneous differental equation</p>
+        \[{@deq3@}.\]
+        <p>First, we find the complementary function. Suppose \({@v3[1]@} = e^{k{@v3[2]@}}\) is a solution to the corresponding homogeneous equation. This gives the auxiliary equation \({@auxeq3@}\), which has roots \(k = {@a31@}\) and \(k = {@a32@}\). The complementary function therefore has the form</p>
+        \[{@v3[1]@}_\text{cp}({@v3[2]@}) = {@cf3@}.\]
+        <p>Next, we find a particular integral. Since the function on the right-hand side of the equation is a basic trigonometric function, we try \({@v3[1]@}_\text{p}({@v3[2]@}) = {@pitest3@}\). Its derivatives are:</p>
+        \[\begin{aligned}
+        \frac{\mathrm{d}{@v3[1]@}}{\mathrm{d}{@v3[2]@}} &amp;= {@dpitest3@} \\
+        \frac{\mathrm{d}^2{@v3[1]@}}{\mathrm{d}{@v3[2]@}^2} &amp;= {@ddpitest3@}
+        \end{aligned}\]
+        <p>We substitute these in the inhomogeneous differential equation to get:</p>
+        \[{@pieq3@},\]
+        <p>which, equating coefficients, gives the simultaneous equations</p>
+        \[\begin{cases}
+        {@lhs(pieq31)@} &amp;= {@rhs(pieq31)@} \\
+        {@lhs(pieq32)@} &amp;= {@rhs(pieq32)@}  
+        \end{cases}\]
+        <p>Solving these gives \(a = {@aa3@}\) and \(b = {@bb3@}\).</p>
+        <p>Therefore, the general solution is</p>
+        \[{@v3[1]@}({@v3[2]@}) = {@ta3@}.\]
+    </li>
+    <li>
+        <p>We are asked to find the general solution of the second order, constant coefficients, inhomogeneous differental equation</p>
+        \[{@deq4@}.\]
+        <p>First, we find the complementary function. Suppose \({@v4[1]@} = e^{k{@v4[2]@}}\) is a solution to the corresponding homogeneous equation. This gives the auxiliary equation \({@auxeq4@}\), which has roots \(k = {@a41@}\) and \(k = {@a42@}\). The complementary function therefore has the form</p>
+        \[{@v4[1]@}_\text{cp}({@v4[2]@}) = {@cf4@}.\]
+        <p>Next, we find a particular integral. Since the function on the right-hand side of the equation is a exponential, we try \({@v4[1]@}_\text{p}({@v4[2]@}) = {@pitest4@}\). Its derivatives are:</p>
+        \[\begin{aligned}
+        \frac{\mathrm{d}{@v4[1]@}}{\mathrm{d}{@v4[2]@}} &amp;= {@dpitest4@} \\
+        \frac{\mathrm{d}^2{@v4[1]@}}{\mathrm{d}{@v4[2]@}^2} &amp;= {@ddpitest4@}
+        \end{aligned}\]
+        <p>We substitute these in the inhomogeneous differential equation to get:</p>
+        \[{@pieq4@},\]
+        <p>which, equating coefficients, gives the equation:</p>
+        \[{@pieq41@}\]
+        <p>Solving this gives \(a = {@aa4@}\).</p>
+        <p>Therefore, the general solution is</p>
+        \[{@v4[1]@}({@v4[2]@}) = {@ta4@}.\]
+    </li>
+    <li>
+        <p>We are asked to find the general solution of the second order, constant coefficients, inhomogeneous differental equation</p>
+        \[{@deq5@}.\]
+        <p>First, we find the complementary function. Suppose \({@v5[1]@} = e^{k{@v5[2]@}}\) is a solution to the corresponding homogeneous equation. This gives the auxiliary equation \({@auxeq5@}\), which has roots \(k = {@a51@}\) and \(k = {@a52@}\). The complementary function therefore has the form</p>
+        \[{@v5[1]@}_\text{cp}({@v5[2]@}) = {@cf5@}.\]
+        <p>Next, we find a particular integral. Since the function on the right-hand side of the equation is a exponential, we try \({@v5[1]@}_\text{p}({@v5[2]@}) = {@pitest5@}\). Its derivatives are:</p>
+        \[\begin{aligned}
+        \frac{\mathrm{d}{@v5[1]@}}{\mathrm{d}{@v5[2]@}} &amp;= {@dpitest5@} \\
+        \frac{\mathrm{d}^2{@v5[1]@}}{\mathrm{d}{@v5[2]@}^2} &amp;= {@ddpitest5@}
+        \end{aligned}\]
+        <p>We substitute these in the inhomogeneous differential equation to get:</p>
+        \[{@pieq5@},\]
+        <p>which, equating coefficients, gives the equation:</p>
+        \[{@pieq51@}\]
+        <p>Solving this gives \(a = {@aa5@}\).</p>
+        <p>Therefore, the general solution is</p>
+        \[{@v5[1]@}({@v5[2]@}) = {@ta5@}.\]
+    </li>
+</ol>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021120900</text>
+    </stackversion>
+    <questionvariables>
+      <text>ordergreat(x, y);
+
+/*============*
+/* Equation 1 */
+/*============*/
+/* Coefficient randomisation */
+a11: rand_with_prohib(-4, 4, [0]);
+a12: rand_with_prohib(-4, 4, [0, -a11, a11]);
+b1: -a11 - a12;
+c1: a11 * a12;
+f1: rand_with_step(2, 4, 1) * c1;
+
+/* Select variables */
+deq1: 'diff(py, px, 2) + b1 * 'diff(py, px) + c1 * py = f1;
+v1: rand([[y, x], [x, t]]);
+deq1: ev(deq1, py=v1[1], px=v1[2]);
+
+/* Steps for solution */
+auxeq1: k^2 + b1 * k + c1 = 0;
+cf1: ev(A * %e^(a11 * px) + B * %e^(a12 * px), px=v1[2]);
+alpha1: f1 / c1;
+pi1: alpha1;
+
+ta1: cf1 + pi1;
+ta11: ev(%e^(a11 * px), px=v1[2]);
+ta12: ev(%e^(a12 * px), px=v1[2]);
+ta1pi: pi1;
+
+
+/*============*/
+/* Equation 2 */
+/*============*/
+/* Coefficient randomisation */
+a21: rand_with_prohib(-5, 5, [0]);
+a22: rand_with_prohib(-5, 5, [0, -a21, a21]);
+b2: -a21 - a22;
+c2: a21 * a22;
+l2: rand_with_step(2, 8, 1);
+
+/* Select variables */
+f2: l2 * px;
+deq2: 'diff(py, px, 2) + b2 * 'diff(py, px) + c2 * py = f2;
+v2: rand([[y, x], [x, t]]);
+deq2: ev(deq2, py=v2[1], px=v2[2]);
+
+/* Steps for solution */
+auxeq2: k^2 + b2 * k + c2 = 0;
+cf2: ev(A * %e^(a21 * px) + B * %e^(a22 * px), px=v2[2]);
+pitest2: a * v2[2] + b;
+dpitest2: diff(pitest2, v2[2]);
+ddpitest2: diff(dpitest2, v2[2]);
+pieq2: ddpitest2 + b2 * dpitest2 + c2 * pitest2 = ev(f2, px=v2[2]);
+aa2: l2 / c2;
+bb2: -b2 * l2 / c2;
+pi2: aa2 * v2[2] + bb2;
+
+ta2: cf2 + pi2;
+ta21: ev(%e^(a21 * px), px=v2[2]);
+ta22: ev(%e^(a22 * px), px=v2[2]);
+ta2pi: pi2;
+
+
+/*============*/
+/* Equation 3 */
+/*============*/
+/* Coefficient randomisation */
+re3: rand_with_prohib(-2, 2, [0]);
+im3: sqrt(rand([2,3]));
+a31: re3 + %i * im3;
+a32: conjugate(a31);
+b3: -a31 - a32;
+c3: re3^2 + im3^2;
+l3: rand_with_step(2, 8, 1);
+k3: rand_with_step(2, 3, 1);
+s3: rand(2);
+
+/* Select variables */
+f3: l3 * if s3 = 0 then sin(k3 * px) else cos(k3 * px);
+deq3: 'diff(py, px, 2) + b3 * 'diff(py, px) + c3 * py = f3;
+v3: rand([[y, x], [x, t]]);
+deq3: ev(deq3, py=v3[1], px=v3[2]);
+
+/* Steps for solution */
+auxeq3: k^2 + b3 * k + c3 = 0;
+cf3: ev(%e^(re3 * px) * (A * cos(im3 * px) + B * sin(im3 * px)), px=v3[2]);
+pitest3: ev(a * cos(k3 * px) + b * sin(k3 * px), px=v3[2]);
+dpitest3: diff(pitest3, v3[2]);
+ddpitest3: diff(dpitest3, v3[2]);
+pieq3: ddpitest3 + b3 * dpitest3 + c3 * pitest3 = ev(f3, px=v3[2]);
+pieq3: collectterms(expand(pieq3));
+pieq31:  (c3 - k3^2) * a + b3 * k3 * b = if s3 = 0 then 0 else l3;
+pieq32: -b3 * k3 * a + (c3 - k3^2) * b = if s3 = 0 then l3 else 0;
+pieq3sol: linsolve([pieq31, pieq32], [a, b]);
+aa3: rhs(pieq3sol[1]);
+bb3: rhs(pieq3sol[2]);
+pi3: ev(aa3 * cos(k3 * px) + bb3 * sin(k3 * px), px=v3[2]);
+
+ta3: cf3 + pi3;
+ta31: ev(cos(im3 * px), px=v3[2]);
+ta32: ev(sin(im3 * px), px=v3[2]);
+ta33: ev(%e^(re3 * px), px=v3[2]);
+ta3pi: pi3;
+
+
+/*============*/
+/* Equation 4 */
+/*============*/
+/* Coefficient randomisation */
+im4: rand_with_step(2, 5, 1);
+a41: %i * im4;
+a42: -a41;
+c4: im4^2;
+l4: rand_with_step(2, 5, 1);
+k4: rand_with_step(2, 8, 1);
+
+/* Select variables */
+f4: l4 * %e^(k4 * px);
+deq4: 'diff(py, px, 2) + c4 * py = f4;
+v4: rand([[y, x], [x, t]]);
+deq4: ev(deq4, py=v4[1], px=v4[2]);
+
+/* Steps for solution */
+auxeq4: k^2 + c4 = 0;
+cf4: ev(A * cos(im4 * px) + B * sin(im4 * px), px=v4[2]);
+pitest4: ev(a * %e^(k4 * px), px=v4[2]);
+dpitest4: diff(pitest4, v4[2]);
+ddpitest4: diff(dpitest4, v4[2]);
+pieq4: ddpitest4 + c4 * pitest4 = ev(f4, px=v4[2]);
+pieq4: collectterms(expand(pieq4));
+pieq41: k4^2 * a + c4 * a = l4;
+pieq4sol: solve(pieq4, a);
+aa4: rhs(pieq4sol[1]);
+pi4: ev(pitest4, a=aa4);
+
+ta4: cf4 + pi4;
+ta41: ev(cos(im4 * px), px=v4[2]);
+ta42: ev(sin(im4 * px), px=v4[2]);
+ta4pi: pi4;
+
+/*============*/
+/* Equation 5 */
+/*============*/
+/* Coefficient randomisation */
+re5: rand_with_step(2, 5, 1);
+a51: re5;
+a52: -a51;
+c5: a51 * a52;
+l5: rand_with_step(2, 5, 1);
+k5: rand_with_prohib(2, 8, [re5]);
+
+/* Select variables */
+f5: l5 * %e^(k5 * px);
+deq5: 'diff(py, px, 2) + c5 * py = f5;
+v5: rand([[y, x], [x, t]]);
+deq5: ev(deq5, py=v5[1], px=v5[2]);
+
+/* Steps for solution */
+auxeq5: k^2 + c5 = 0;
+cf5: ev(A * %e^(re5 * px) + B * %e^(-re5 * px), px=v5[2]);
+pitest5: ev(a * %e^(k5 * px), px=v5[2]);
+dpitest5: diff(pitest5, v5[2]);
+ddpitest5: diff(dpitest5, v5[2]);
+pieq5: ddpitest5 + c5 * pitest5 = ev(f5, px=v5[2]);
+pieq5: collectterms(expand(pieq5));
+pieq51: k5^2 * a + c5 * a = l5;
+pieq5sol: solve(pieq5, a);
+aa5: rhs(pieq5sol[1]);
+pi5: ev(pitest5, a=aa5);
+
+ta5: cf5 + pi5;
+ta51: ev(%e^(re5 * px), px=v4[2]);
+ta52: ev(%e^(-re5 * px), px=v4[2]);
+ta5pi: pi5;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\({@deq1@}, \quad {@v1[1]@} = {@ta1@}\)
+\({@deq2@}, \quad {@v2[1]@} = {@ta2@}\)
+\({@deq3@}, \quad {@v3[1]@} = {@ta3@}\)
+\({@deq4@}, \quad {@v4[1]@} = {@ta4@}\)
+\({@deq5@}, \quad {@v5[1]@} = {@ta5@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans11</name>
+      <type>algebraic</type>
+      <tans>ta11</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans12</name>
+      <type>algebraic</type>
+      <tans>ta12</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans1pi</name>
+      <type>algebraic</type>
+      <tans>ta1pi</tans>
+      <boxsize>2</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans21</name>
+      <type>algebraic</type>
+      <tans>ta21</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans22</name>
+      <type>algebraic</type>
+      <tans>ta22</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2pi</name>
+      <type>algebraic</type>
+      <tans>ta2pi</tans>
+      <boxsize>9</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans31</name>
+      <type>algebraic</type>
+      <tans>ta31</tans>
+      <boxsize>8</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans32</name>
+      <type>algebraic</type>
+      <tans>ta32</tans>
+      <boxsize>8</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans33</name>
+      <type>algebraic</type>
+      <tans>ta33</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3pi</name>
+      <type>algebraic</type>
+      <tans>ta3pi</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans41</name>
+      <type>algebraic</type>
+      <tans>ta41</tans>
+      <boxsize>7</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans42</name>
+      <type>algebraic</type>
+      <tans>ta42</tans>
+      <boxsize>7</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans4pi</name>
+      <type>algebraic</type>
+      <tans>ta4pi</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans51</name>
+      <type>algebraic</type>
+      <tans>ta51</tans>
+      <boxsize>7</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans52</name>
+      <type>algebraic</type>
+      <tans>ta52</tans>
+      <boxsize>7</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans5pi</name>
+      <type>algebraic</type>
+      <tans>ta5pi</tans>
+      <boxsize>11</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1pi</sans>
+        <tans>ta1pi</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.5000000</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="plain_text">
+          <text>Your particular integral is incorrect.</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>Sets</answertest>
+        <sans>{ans11, ans12}</sans>
+        <tans>{ta11, ta12}</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.5000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="plain_text">
+          <text>Your complementary function is not fully correct.</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2pi</sans>
+        <tans>ta2pi</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.5000000</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="plain_text">
+          <text>Your particular integral is incorrect.</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>Sets</answertest>
+        <sans>{ans21, ans22}</sans>
+        <tans>{ta21, ta22}</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.5000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-2-F</falseanswernote>
+        <falsefeedback format="plain_text">
+          <text>Your complementary function is not fully correct.</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3pi</sans>
+        <tans>ta3pi</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.3400000</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="plain_text">
+          <text>Your particular integral is incorrect.</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>Sets</answertest>
+        <sans>{ans31, ans32}</sans>
+        <tans>{ta31, ta32}</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.3300000</truescore>
+        <truepenalty/>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>prt3-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>prt3-2-F</falseanswernote>
+        <falsefeedback format="plain_text">
+          <text>Your complementary function is not fully correct.</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans33</sans>
+        <tans>ta33</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.3300000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-3-F</falseanswernote>
+        <falsefeedback format="plain_text">
+          <text>The factored term is not correct.</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt4</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans4pi</sans>
+        <tans>ta4pi</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.5000000</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt4-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt4-1-F</falseanswernote>
+        <falsefeedback format="plain_text">
+          <text>Your particular integral is incorrect.</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>{ans41, ans42}</sans>
+        <tans>{ta41, ta42}</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.5000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt4-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt4-2-F</falseanswernote>
+        <falsefeedback format="plain_text">
+          <text>Your complementary function is not fully correct.</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt5</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans5pi</sans>
+        <tans>ta5pi</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.5000000</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt5-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt5-1-F</falseanswernote>
+        <falsefeedback format="plain_text">
+          <text>Your particular integral is incorrect.</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>{ans51, ans52}</sans>
+        <tans>{ta51, ta52}</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.5000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt5-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt5-2-F</falseanswernote>
+        <falsefeedback format="plain_text">
+          <text>Your complementary function is not fully correct.</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1593372180</deployedseed>
+    <deployedseed>1970641509</deployedseed>
+    <deployedseed>1178287164</deployedseed>
+    <deployedseed>1903312771</deployedseed>
+    <deployedseed>964195639</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans11</name>
+        <value>ta11</value>
+      </testinput>
+      <testinput>
+        <name>ans12</name>
+        <value>ta12</value>
+      </testinput>
+      <testinput>
+        <name>ans1pi</name>
+        <value>ta1pi</value>
+      </testinput>
+      <testinput>
+        <name>ans21</name>
+        <value>ta21</value>
+      </testinput>
+      <testinput>
+        <name>ans22</name>
+        <value>ta22</value>
+      </testinput>
+      <testinput>
+        <name>ans2pi</name>
+        <value>ta2pi</value>
+      </testinput>
+      <testinput>
+        <name>ans31</name>
+        <value>ta31</value>
+      </testinput>
+      <testinput>
+        <name>ans32</name>
+        <value>ta32</value>
+      </testinput>
+      <testinput>
+        <name>ans33</name>
+        <value>ta33</value>
+      </testinput>
+      <testinput>
+        <name>ans3pi</name>
+        <value>ta3pi</value>
+      </testinput>
+      <testinput>
+        <name>ans41</name>
+        <value>ta41</value>
+      </testinput>
+      <testinput>
+        <name>ans42</name>
+        <value>ta42</value>
+      </testinput>
+      <testinput>
+        <name>ans4pi</name>
+        <value>ta4pi</value>
+      </testinput>
+      <testinput>
+        <name>ans51</name>
+        <value>ta51</value>
+      </testinput>
+      <testinput>
+        <name>ans52</name>
+        <value>ta52</value>
+      </testinput>
+      <testinput>
+        <name>ans5pi</name>
+        <value>ta5pi</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-3-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt4-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt5</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt5-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans11</name>
+        <value>ta11+1</value>
+      </testinput>
+      <testinput>
+        <name>ans12</name>
+        <value>ta12+1</value>
+      </testinput>
+      <testinput>
+        <name>ans1pi</name>
+        <value>ta1pi+1</value>
+      </testinput>
+      <testinput>
+        <name>ans21</name>
+        <value>ta21+1</value>
+      </testinput>
+      <testinput>
+        <name>ans22</name>
+        <value>ta22+1</value>
+      </testinput>
+      <testinput>
+        <name>ans2pi</name>
+        <value>ta2pi+1</value>
+      </testinput>
+      <testinput>
+        <name>ans31</name>
+        <value>ta31+1</value>
+      </testinput>
+      <testinput>
+        <name>ans32</name>
+        <value>ta32+1</value>
+      </testinput>
+      <testinput>
+        <name>ans33</name>
+        <value>ta33+1</value>
+      </testinput>
+      <testinput>
+        <name>ans3pi</name>
+        <value>ta3pi+1</value>
+      </testinput>
+      <testinput>
+        <name>ans41</name>
+        <value>ta41+1</value>
+      </testinput>
+      <testinput>
+        <name>ans42</name>
+        <value>ta42+1</value>
+      </testinput>
+      <testinput>
+        <name>ans4pi</name>
+        <value>ta4pi+1</value>
+      </testinput>
+      <testinput>
+        <name>ans51</name>
+        <value>ta51+1</value>
+      </testinput>
+      <testinput>
+        <name>ans52</name>
+        <value>ta52+1</value>
+      </testinput>
+      <testinput>
+        <name>ans5pi</name>
+        <value>ta5pi+1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-2-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-2-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt3-3-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt4-2-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt5</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt5-2-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans11</name>
+        <value>ta12</value>
+      </testinput>
+      <testinput>
+        <name>ans12</name>
+        <value>ta11</value>
+      </testinput>
+      <testinput>
+        <name>ans1pi</name>
+        <value>ta1pi</value>
+      </testinput>
+      <testinput>
+        <name>ans21</name>
+        <value>ta22</value>
+      </testinput>
+      <testinput>
+        <name>ans22</name>
+        <value>ta21</value>
+      </testinput>
+      <testinput>
+        <name>ans2pi</name>
+        <value>ta2pi</value>
+      </testinput>
+      <testinput>
+        <name>ans31</name>
+        <value>ta32</value>
+      </testinput>
+      <testinput>
+        <name>ans32</name>
+        <value>ta31</value>
+      </testinput>
+      <testinput>
+        <name>ans33</name>
+        <value>ta33</value>
+      </testinput>
+      <testinput>
+        <name>ans3pi</name>
+        <value>ta3pi</value>
+      </testinput>
+      <testinput>
+        <name>ans41</name>
+        <value>ta42</value>
+      </testinput>
+      <testinput>
+        <name>ans42</name>
+        <value>ta41</value>
+      </testinput>
+      <testinput>
+        <name>ans4pi</name>
+        <value>ta4pi</value>
+      </testinput>
+      <testinput>
+        <name>ans51</name>
+        <value>ta52</value>
+      </testinput>
+      <testinput>
+        <name>ans52</name>
+        <value>ta51</value>
+      </testinput>
+      <testinput>
+        <name>ans5pi</name>
+        <value>ta5pi</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-3-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt4-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt5</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt5-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

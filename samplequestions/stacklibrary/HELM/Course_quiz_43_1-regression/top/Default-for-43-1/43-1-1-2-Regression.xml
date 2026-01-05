@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>43.1.1.2 Regression</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Regression</h3>
+
+<p>As we have already noted, relationship(s) between variables are of interest to engineers who may
+wish to determine the degree of association existing between independent and dependent variables.
+Knowing this often helps engineers to make predictions and, on this basis, to forecast and plan.
+Essentially, regression analysis provides a sound knowledge base from which accurate estimates of
+the values of a dependent variable may be made once the values of related independent variables are known.</p>
+
+It is worth noting that in practice the choice of independent variable(s) may be made by the engineer
+on the basis of experience and/or prior knowledge since this may indicate to the engineer which
+independent variables are likely to have a substantial influence on the dependent variable. In summary, we may state that the principle objectives of regression analysis are:&nbsp;<p><br></p><div class="editor-indent" style="margin-left: 30px;"><p>&nbsp;(a) to enable accurate estimates of the values of a dependent variable to be made from known values of a set of independent variables;</p></div><div class="editor-indent" style="margin-left: 30px;"><p>&nbsp;(b) to enable estimates of errors resulting from the use of a regression line as a basis of prediction.</p><p><br></p></div>
+
+
+Note that if a regression line is represented as \(y = f(x)\) where \(x\) is the independent variable, then
+the actual function used (linear, quadratic, higher degree polynomial etc.) may be obtained via the use of a theoretical analysis or perhaps a scatter diagram (see below) of some real data. Note that a regression line represented as \(y = f(x)\) is called a <b>regression line of \(y\) on \(x\).</b>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

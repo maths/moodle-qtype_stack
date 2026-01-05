@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>12.3.4.1 Exercise 1</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>Using the sketch of the function \(f(x) = {@f@}\) below, confirm that there is a simple root near \(x_0 = {@x0@}\).</p>
+<figure class="HELM_figure">
+    [[jsxgraph]]
+    const brd = JXG.JSXGraph.initBoard(divid, {boundingbox: [-1, 5, 6, -5], axis: true, showCopyright: false});
+    const f = brd.jc.snippet('{#f#}', true, 'x', true);
+    const plot = brd.create('functiongraph', [f]);
+    [[/jsxgraph]]
+</figure>
+<p>Use two iterations of the Newton–Raphson method to obtain a better estimate of the root.</p>
+<p>Keep track of the values of \(x_1\) and \(x_2\), and give them here to \(4\) d.p.</p>
+<p>\(x_1 = \) [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</p>
+<p>\(x_2 = \) [[input:ans2]] [[validation:ans2]] [[feedback:prt2]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>First we find the derivative of \(f\), which is given by</p>
+\[f'(x) = {@df@}.\]
+<p>Next, we repeatedly apply the formula:</p>
+\[x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}\]
+<p>With \(x_0 = {@x0@}\), we get</p>
+\[x_1 = {@x0@} - \frac{{@decimalplaces(subst(x0, x, f), 4)@}}{{@decimalplaces(subst(x0, x, df), 4)@}} = {@ta1@}, \quad \text{to 4 d.p.}\]
+<p>With \(x_1 = {@x1@}\), we get</p>
+\[x_2 = {@x1@} - \frac{{@decimalplaces(subst(x1, x, f), 4)@}}{{@decimalplaces(subst(x1, x, df), 4)@}} = {@ta2@}, \quad \text{to 4 d.p.}\]
+<p>We can visualise the process in the following graph.</p>
+[[jsxgraph]]
+const brd = JXG.JSXGraph.initBoard(divid, {boundingbox: [1.5, 2, 3.5, -4], axis: true, showCopyright: false});
+const f = brd.jc.snippet('{#f#}', true, 'x', true);
+const plot = brd.create('functiongraph', [f]);
+const x0 = brd.create('point', [{#x0#}, 0], {name: 'x_0', fixed: true});
+const y0 = brd.create('point', [function() {return x0.X();}, function() {return f(x0.X());}],
+    {withLabel: false, size: 2, strokeColor: 'none'});
+const auxl0 = brd.create('line', [x0, y0], {dash: 2, strokeColor: 'red', straightFirst: false, straightLast: false});
+const x1 = brd.create('point', [{#x1#}, 0], {name: 'x_1', fixed: true});
+const l1 = brd.create('line', [y0, x1], {strokeColor: 'green'});
+const y1 = brd.create('point', [function() {return x1.X();}, function() {return f(x1.X());}],
+    {withLabel: false, size: 2, strokeColor: 'none'});
+const auxl1 = brd.create('line', [x1, y1], {dash: 2, strokeColor: 'red', straightFirst: false, straightLast: false});
+const x2 = brd.create('point', [{#x2#}, 0], {name: 'x_2', fixed: true, strokeColor: 'green', fillColor: 'green'});
+const l2 = brd.create('line', [y1, x2], {strokeColor: 'green'});
+[[/jsxgraph]]]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021120900</text>
+    </stackversion>
+    <questionvariables>
+      <text>x0: rand([2, 3]);
+if x0 = 2
+    then a: 1
+    else a: rand([2, 3]);
+f: x - a - sin(x);
+
+df: diff(f, x);
+x1: x0 - ev(f, x=x0) / ev(df, x=x0);
+x2: x1 - ev(f, x=x1) / ev(df, x=x1);
+
+x1: decimalplaces(float(x1), 4);
+x2: decimalplaces(float(x2), 4);
+
+ta1: decimalplaces(float(x1), 4);
+ta2: decimalplaces(float(x2), 4);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\(f(x) = {@f@}, \quad x_1 = {@x1@}, \quad x_2 = {@x2@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>numerical</type>
+      <tans>dispdp(ta1,4)</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>maxdp:4,mindp:4</options>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>numerical</type>
+      <tans>dispdp(ta2,4)</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>maxdp:4,mindp:4</options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions>4</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions>4</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>71605510</deployedseed>
+    <deployedseed>553317232</deployedseed>
+    <deployedseed>196069254</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>dispdp(ta1,4)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>dispdp(ta2,4)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>dispdp(1+ta1,4)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>dispdp(1+ta2,4)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

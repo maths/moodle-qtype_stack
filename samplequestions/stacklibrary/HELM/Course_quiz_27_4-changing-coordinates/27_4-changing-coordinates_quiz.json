@@ -1,0 +1,145 @@
+{
+    "quiz": {
+        "name": "27_4 Changing Coordinates",
+        "intro": "<p>We have seen how changing the variable of integration of a single integral or changing the coordinate system for multiple integrals can make integrals easier to evaluate. In this Section we introduce the Jacobian. The Jacobian gives a general method for transforming the coordinates of any multiple integral.<\/p>\r\n",
+        "introformat": "0",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Changing variables in multiple integrals",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "2",
+            "heading": "The Jacobian",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "6",
+            "heading": "The Jacobian in 3 dimensions",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "10",
+            "heading": "Engineering Example",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "11",
+            "heading": "Exercises",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-27-4\/27-4-1-1-Changing-Variables-in-Multiple-Integrals.xml"
+        },
+        {
+            "slot": "2",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-27-4\/27-4-2-1-The-Jacobian.xml"
+        },
+        {
+            "slot": "3",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-27-4\/27-4-2-2-Example-1-Find-the-area-of-the-circle-of-radius-R-.xml"
+        },
+        {
+            "slot": "4",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-27-4\/27-4-2-3-Diamond-and-Square-Example.xml"
+        },
+        {
+            "slot": "5",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "10.0000000",
+            "quizfilepath": "\/top\/Default-for-27-4\/27-4-2-4-Task-Transformation.xml"
+        },
+        {
+            "slot": "6",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-27-4\/27-4-3-1-Jacobian-in-Three-Variables.xml"
+        },
+        {
+            "slot": "7",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-27-4\/27-4-3-2-Polar-Coordinates-Example.xml"
+        },
+        {
+            "slot": "8",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-27-4\/27-4-3-3-Parallelepiped-Example.xml"
+        },
+        {
+            "slot": "9",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-27-4\/27-4-3-4-jacobian-transformation-task.xml"
+        },
+        {
+            "slot": "10",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-27-4\/27-4-4-1-Engineering-example.xml"
+        },
+        {
+            "slot": "11",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-27-4\/27-4-4-2-Integral-over-Cone.xml"
+        },
+        {
+            "slot": "12",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-27-4\/27-4-4-3-Volume-Between-Surfaces.xml"
+        },
+        {
+            "slot": "13",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-27-4\/27-4-4-4-Volume-of-a-Torus.xml"
+        },
+        {
+            "slot": "14",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-27-4\/27-4-4-5-Jacobian-of-Transformation.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

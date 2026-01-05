@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>22.2.3.1 Systems of second order differential equations</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3><span style="color: inherit; font-family: inherit;">Systems of second order differential equations</span><br></h3>
+
+<p>The decoupling method discussed above can be readily extended to this situation which could arise, for example, in a mechanical system consisting of coupled springs.</p>
+<p>A typical example of such a system with two unknowns has the form <br>
+<br>\(\qquad \ddot x=ax+by\)
+<br>\(\qquad \ddot y= cx+dy\)<br>
+<br>or, in matrix form,<br>
+<br>\(\qquad  \ddot{\underline{x}}=A \underline{x}\) where 
+<br>\(\qquad \underline{x}=\left[\begin{array}{c}x\\ y\end{array}\right]\qquad A=\left[\begin{array}{cc}a&amp;b\\
+c&amp;d\end{array}\right],\qquad \ddot x=\dfrac{d^2x}{dt^2},\quad \ddot y=\dfrac{d^2y}{dt^2}.\)</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

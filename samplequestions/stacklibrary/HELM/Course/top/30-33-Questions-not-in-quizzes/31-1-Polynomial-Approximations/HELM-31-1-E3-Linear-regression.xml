@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>HELM 31.1 E3 Linear regression</text>
+    </name>
+    <questiontext format="markdown">
+      <text>**31.1 E3 Linear Regression**
+
+An experiment is carried out and the data obtained as follows
+
+{@T@}
+
+Obtain the least squares best ﬁt straight line, \\\(y = mx + c\\\), to these data. (Give intercept \\\(c\\\) and slope \\\(m\\\) to 2 decimal places.)
+
+\\\(c=\\\) [[input:S_c]] [[validation:S_c]] [[feedback:c]]
+\\\(m=\\\) [[input:S_m]] [[validation:S_m]] [[feedback:m]]</text>
+    </questiontext>
+    <generalfeedback format="markdown">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2024012900</text>
+    </stackversion>
+    <questionvariables>
+      <text>X:[2,3,5,7];
+Y:[2.2+rand(10)/10,5.4+rand(10)/10,6.5+rand(10)/10, 13.2+rand(10)/10];
+M:transpose(matrix(X, 0*X+1));
+y:transpose(matrix(Y));
+[m,c]: args(transpose(invert(transpose(M).M).transpose(M).y))[1];
+
+T:apply(table,args(append(matrix([x_n,f_n]),transpose(matrix(X,Y)))));</text>
+    </questionvariables>
+    <specificfeedback format="markdown">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>{@Y@}, {@'c=c@}, {@'m=m@},</text>
+    </questionnote>
+    <questiondescription format="markdown">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="markdown">
+      <text>Richtige Antwort, gut gemacht!</text>
+    </prtcorrect>
+    <prtpartiallycorrect format="markdown">
+      <text>Ihre Antwort ist teilweise korrekt.</text>
+    </prtpartiallycorrect>
+    <prtincorrect format="markdown">
+      <text>Falsche Antwort.</text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>S_c</name>
+      <type>numerical</type>
+      <tans>c</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>Number </syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>mindp:2, maxdp:2</options>
+    </input>
+    <input>
+      <name>S_m</name>
+      <type>numerical</type>
+      <tans>m</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>Number</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>c</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumAbsolute</answertest>
+        <sans>S_c</sans>
+        <tans>c</tans>
+        <testoptions>0.01</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>c-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>c-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>m</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumAbsolute</answertest>
+        <sans>S_m</sans>
+        <tans>m</tans>
+        <testoptions>0.01</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>m-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>m-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1417741575</deployedseed>
+    <deployedseed>1394255831</deployedseed>
+    <deployedseed>770322840</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>S_c</name>
+        <value>dispdp(c,2)</value>
+      </testinput>
+      <testinput>
+        <name>S_m</name>
+        <value>m</value>
+      </testinput>
+      <expected>
+        <name>c</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>c-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>m</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>m-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

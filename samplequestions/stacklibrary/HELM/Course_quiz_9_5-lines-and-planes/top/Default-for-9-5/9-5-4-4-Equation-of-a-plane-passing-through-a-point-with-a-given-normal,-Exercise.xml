@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>9.5.4.4 Equation of a plane passing through a point with a given normal, Exercise</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<ol class="HELM_parts">
+<li>
+<p>Find the Cartesian equation of the plane which passes through the point \(A\) and is perpendicular to the vector \({@stackvector(n)@}\). Here, \(A\) has position vector \({@stackvector(a)@} = {@A@}\), and \({@stackvector(n)@}=&nbsp;{@N@}\).</p>
+<p>Give your answer as an equation (e.g <code>2*x + 3*y -9*z = -15</code>).</p>
+<p>The Cartesian equation of the plane passing through \(A\) and perpendicular to \({@stackvector(n)@}\) is:</p>
+<p>[[input:ans1]] [[validation:ans1]]</p>
+[[feedback:CartEq]]
+</li>
+
+<li>
+<p>What is the perpendicular distance from the origin to the plane? Give your answer exactly, involving square roots (remember the syntax, e.g. <code>sqrt(17)</code>).</p>
+<p>The plane is a perpendicular distance of [[input:ans2]] [[validation:ans2]] units from the origin.</p>
+[[feedback:PerpDis]]
+</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<ol class="HELM_parts">
+<li>
+<p>Let \(R\) be a general point on our plane, with position vector \({@stackvector(r)@}= {@r1@}\). Because \(A\) is a point in the plane, the vector \({@stackvector(r)@} - {@stackvector(a)@}\) is a vector lying within the plane.</p>
+<p>We know already that the plane must be perpendicular to the vector \({@stackvector(n)@}\); this must be true everywhere in the plane &ndash; and in particular, for our vector \({@stackvector(r)@}- {@stackvector(a)@}\). Recall from earlier that two vectors are perpendicular if and only if their scalar product (dot product) is equal to zero.</p>
+<p>Hence we have \(({@stackvector(r)@} - {@stackvector(a)@}) \cdot {@stackvector(n)@}= 0,\) or, upon rearrangement, \({@stackvector(r)@} \cdot {@stackvector(n)@} = {@stackvector(a)@} \cdot {@stackvector(n)@}\) as the vector equation of the plane. When we substitute in the particular vectors \({@stackvector(a)@}\) and \({@stackvector(n)@}\) for this question, we arrive at the Cartesian equation of the plane:</p>
+<p>\[{@r_n@} = {@a_n@}\]</p>
+</li>
+
+<li>
+<p>The vector \({@stackvector(n)@}\) which is perpendicular to the plane may be normalised to give a unit vector \(\underline{\hat{n}}\) (recall from earlier how this is done). In this case, our unit vector perpendicular to the plane is</p>
+ \[\underline{\hat{n}} = \displaystyle{@unit_n@}.\]
+<p>If we were to find the equation of the plane now, using the vector \(\underline{\hat{n}}\) instead of \({@stackvector(n)@}\), its vector equation would be</p>
+<p>\[{@stackvector(r)@} \cdot \underline{\hat{n}} ={@stackvector(a)@} \cdot \underline{\hat{n}}\]</p>
+<p>using the same idea as before. The quantity \(|\,{@stackvector(a)@} \cdot \underline{\hat{n}}\,| = d\) is understood to be the perpendicular distance from the origin to the plane. In this question, the plane is a perpendicular distance \(d = \displaystyle{{@d@}}\) units from the origin.</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>2</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020120600</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[stackvectortex(ex):= block(sconcat("{ \\underline{", tex1(first(args(ex))), "}}"));
+ordergreat(x,y,z,i,j,k);
+ a1: matrix([16],[16],[16]) - rand(matrix([33],[33],[33]));
+ r1: matrix([x],[y],[z]);
+ rma: r1 - a1;
+ n1: matrix([5],[5],[5]) - rand(matrix([11],[11],[11]));
+ unit_n: n1/sqrt(dotproduct(n1,n1));
+ d: abs(dotproduct(a1,unit_n));
+ negd:-d;
+ u: matrix([i],[j],[k]);
+ A: texboldatoms(dotproduct(a1,u));
+ N: texboldatoms(dotproduct(n1,u));
+ r_n: dotproduct(r1,n1);
+ a_n: dotproduct(a1,n1);
+ errAns1: dotproduct(rma,n1)=dotproduct(a1,n1);]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>The Cartesian equation of the plane passing through the point A (with position vector \({@stackvector(a)@}= {@A@}\)), and perpendicular to \({@stackvector(n)@} = {@N@}\), is  \({@r_n@} = {@a_n@}\). The plane is a perpendicular distance of {@d@} units from the origin.</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<p>Correct answer, well done.</p>]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<p>Your answer is partially correct.</p>]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<p>Incorrect answer.</p>]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>symi</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>r_n = a_n</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>d</tans>
+      <boxsize>8</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>CartEq</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>r_n = a_n</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>VEC-CARTEQP-TRUE</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Your answer is either in the canonical form we would expect an answer to be given in, or it is equivalent to this canonical form up to rearrangement. Well done!</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>3</falsenextnode>
+        <falseanswernote>VEC-CARTEQP-FALSE-0</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>3</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>r_n = 2*(a_n)</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>(R-A).N=A.N_OR_EQUIV</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Your answer here is incorrect. You have mistakenly given</p>
+<p>\[(\mathbf{r} - \mathbf{a}) \cdot \mathbf{n} = \mathbf{a} \cdot \mathbf{n}\]</p>
+<p>(or its equivalent) as your answer, instead of using the correct formula.</p>
+<p>This is probably due to jumbling up the two stages involved in finding the equation of the plane. Try again!</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>VEC-CARTEQP-FALSE-3</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your answer for the Cartesian equation of the plane is incorrect. If you need to refresh your memory on how we generate the equation of a plane, please consult the HELM Workbook before trying again.</p>
+<p>(Hint: we know what any vector in the plane must be perpendicular to...)</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>PerpDis</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>negd: -d</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>d</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>VEC-PERPDIS-TRUE</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>VEC-PERPDIS-FALSE-0</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>abs(a_n)</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>NON_UNIT_VECTOR_USED</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>You have mistakenly used \(|\,\mathbf{a} \cdot \mathbf{n}\,|\) as your perpendicular distance, instead of \(|\,\mathbf{a} \cdot \mathbf{\hat{n}}\,|\) (i.e. using the non-unit vector instead of the unit vector). Please try again.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>VEC-PERPDIS-FALSE-1</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>negd</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>PerpDis-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Don't forget that distances are positive!<br></p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>PerpDis-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p></p><p>Your answer here is incorrect 
+for the perpendicular distance from the origin to the plane. Remember 
+how we calculate this and try again.</p><br><p></p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1506137299</deployedseed>
+    <deployedseed>1558476906</deployedseed>
+    <deployedseed>732094486</deployedseed>
+    <deployedseed>1993362240</deployedseed>
+    <deployedseed>1735041899</deployedseed>
+    <deployedseed>407557995</deployedseed>
+    <deployedseed>1713803792</deployedseed>
+    <deployedseed>1253161226</deployedseed>
+    <deployedseed>864752336</deployedseed>
+    <deployedseed>1340961325</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ans1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ans2</value>
+      </testinput>
+      <expected>
+        <name>CartEq</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>VEC-CARTEQP-TRUE</expectedanswernote>
+      </expected>
+      <expected>
+        <name>PerpDis</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>VEC-PERPDIS-TRUE</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ans1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ans2</value>
+      </testinput>
+      <expected>
+        <name>CartEq</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>VEC-CARTEQP-TRUE</expectedanswernote>
+      </expected>
+      <expected>
+        <name>PerpDis</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>VEC-PERPDIS-TRUE</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>errAns1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ans2</value>
+      </testinput>
+      <expected>
+        <name>CartEq</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>(R-A).N=A.N_OR_EQUIV</expectedanswernote>
+      </expected>
+      <expected>
+        <name>PerpDis</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>VEC-PERPDIS-TRUE</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>r_n = 2*a_n</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ans2</value>
+      </testinput>
+      <expected>
+        <name>CartEq</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>(R-A).N=A.N_OR_EQUIV</expectedanswernote>
+      </expected>
+      <expected>
+        <name>PerpDis</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>VEC-PERPDIS-TRUE</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>5</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ans1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>abs(a_n)</value>
+      </testinput>
+      <expected>
+        <name>CartEq</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>VEC-CARTEQP-TRUE</expectedanswernote>
+      </expected>
+      <expected>
+        <name>PerpDis</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>NON_UNIT_VECTOR_USED</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>6</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ans1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ans2 + sqrt(7)</value>
+      </testinput>
+      <expected>
+        <name>CartEq</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>VEC-CARTEQP-TRUE</expectedanswernote>
+      </expected>
+      <expected>
+        <name>PerpDis</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>PerpDis-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>7</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>1000*x + e*y - sqrt(11)*z = pi</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ans2 + sqrt(13)</value>
+      </testinput>
+      <expected>
+        <name>CartEq</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>VEC-CARTEQP-FALSE-3</expectedanswernote>
+      </expected>
+      <expected>
+        <name>PerpDis</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>PerpDis-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>8</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ans1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>negd</value>
+      </testinput>
+      <expected>
+        <name>CartEq</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>VEC-CARTEQP-TRUE</expectedanswernote>
+      </expected>
+      <expected>
+        <name>PerpDis</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>PerpDis-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

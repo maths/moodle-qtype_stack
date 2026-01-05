@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>25.3.1.3 Solution of important PDEs</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Consider now a similar type of PDE i.e. one that can also be solved by direct integration.
+</p>
+Suppose we require the general solution of
+<p> <span class="math inline">\(\qquad\displaystyle \dfrac{\partial^2u}{\partial
+  x^2}=2xe^t\)</span></p> where <span class="math inline">\(u\)</span> is a function of <span class="math inline">\(x\)</span> and <span class="math inline">\(t\)</span>.
+<p></p>
+<p>Integrating with respect to <span class="math inline">\(x\)</span> gives us </p>
+<p><span class="math inline">\(\qquad\displaystyle \dfrac{\partial
+  u}{\partial x}=x^2e^t+f(t)\)</span></p> where the arbitrary function <span class="math inline">\(f(t)\)</span> replaces the normal “arbitrary constant” of ordinary integration. This function of <span class="math inline">\(t\)</span> only is needed because
+we are integrating “partially” with respect to <span class="math inline">\(x\)</span> i.e. we are reversing a partial differentiation with respect to <span class="math inline">\(x\)</span> at constant <span class="math inline">\(t\)</span>.
+<p></p>
+<p>Integrating again with respect to <span class="math inline">\(x\)</span> gives the general solution: </p>
+<p><span class="math inline">\(\qquad\displaystyle u=\dfrac{x^3}{3}e^t+x\
+  f(t)+g(t)\)</span></p> where <span class="math inline">\(g(t)\)</span> is a second arbitrary function. We have now obtained the general solution of the given PDE but to find the arbitrary function we must know two initial conditions.
+<p></p>
+<p>Suppose, for the sake of example, that these conditions are <span class="math inline">\(\qquad\displaystyle  u (0,t)=t\ ,\qquad
+\dfrac{\partial u}{\partial x}(0,t)=e^t\)</span></p>
+<p> Inserting the first of these conditions into the general solution gives<span class="math inline">\(\ \ \displaystyle g(t)=t\)</span>.</p>
+<p>Inserting the second condition into the general solution gives
+    <span class="math inline">\(\ \ \displaystyle f(t)=e^t\)</span>.</p> So the final solution is<span class="math inline">\(\ \ \displaystyle
+u=\dfrac{x^3}{3}e^t+xe^t+t.\)</span>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

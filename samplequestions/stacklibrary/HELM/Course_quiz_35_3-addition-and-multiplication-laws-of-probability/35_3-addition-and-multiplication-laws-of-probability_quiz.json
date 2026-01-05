@@ -1,0 +1,151 @@
+{
+    "quiz": {
+        "name": "35_3 Addition and Multiplication Laws of Probability",
+        "intro": "<p>When we require the probability of two events occurring simultaneously or the probability of one or the other or both of two events occurring then we need probability laws to carry out the calculations. For example, if a traffic management engineer looking at accident rates wishes to know the probability that cyclists and motorcyclists are injured during a particular period in a city, he or she must take into account the fact that a cyclist and a motorcyclist might collide. (Both events can happen simultaneously.)<\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "The Addition Law",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "8",
+            "heading": "Dependent and Independent Events",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-35-3\/35-3-1-1-The-Addition-Law.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-35-3\/35-3-1-2-Mutually-Exclusive-or-Not-.xml"
+        },
+        {
+            "slot": "3",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-35-3\/35-3-1-3-Addition-Law-of-Probability.xml"
+        },
+        {
+            "slot": "4",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-35-3\/35-3-1-4-Balls-from-a-bag.xml"
+        },
+        {
+            "slot": "5",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-35-3\/35-3-1-5-Circuits-using-probability.xml"
+        },
+        {
+            "slot": "6",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-35-3\/35-3-1-6-Exercises-a).xml"
+        },
+        {
+            "slot": "7",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-35-3\/35-3-1-7-Exercises-b-+c.xml"
+        },
+        {
+            "slot": "8",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-35-3\/35-3-2-1-Conditional-probability---dependent-events.xml"
+        },
+        {
+            "slot": "9",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-35-3\/35-3-3-1-Independent-Events.xml"
+        },
+        {
+            "slot": "10",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-35-3\/35-3-3-2-Independent-or-Not-.xml"
+        },
+        {
+            "slot": "11",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-35-3\/35-3-3-3-Laws-of-Elementary-Probability.xml"
+        },
+        {
+            "slot": "12",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-35-3\/35-3-3-4-Exercise-on-Parallel-circuits.xml"
+        },
+        {
+            "slot": "13",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-35-3\/35-3-3-5-Exercise-1.xml"
+        },
+        {
+            "slot": "15",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-35-3\/35-3-3-7-Exercise-4.xml"
+        },
+        {
+            "slot": "14",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-35-3\/35-3-3-6-Exercise-2.xml"
+        },
+        {
+            "slot": "16",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-35-3\/35-3-3-8-Exercise-5.xml"
+        },
+        {
+            "slot": "17",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-35-3\/35-3-3-7-Exercise-6.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "1.00000"
+        }
+    ]
+}

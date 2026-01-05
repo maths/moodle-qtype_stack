@@ -1326,7 +1326,20 @@ final class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals('missing_stars | trigexp', $state->note);
         $this->assertEquals('s*i*n^2*(a*b)', $state->contentsmodified);
         $this->assertEquals('<span class="stacksyntaxexample">sin^2(ab)</span>', $state->contentsdisplayed);
-        $this->assertEquals('missing_stars | trigexp', $state->note);
+    }
+
+    public function test_validate_student_response_single_variable_vy(): void {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '6*v*y*(5*z-8*x*y)');
+        $el->set_parameter('insertStars', 7);
+        $state = $el->validate_student_response(['sans1' => '6vy(5z-8xy)'], $options, '6*v*y*(5*z-8*x*y)',
+            new stack_cas_security(false, '', '', ['ta']));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('missing_stars | function_stars', $state->note);
+        $this->assertEquals('6*v*y*(5*z-8*x*y)', $state->contentsmodified);
+        $this->assertEquals('\[ 6\cdot v\cdot y\cdot \left(5\cdot z-8\cdot x\cdot y\right) \]',
+            $state->contentsdisplayed);
+        $this->assertEquals('\( \left[ v , x , y , z \right]\) ', $state->lvars);
     }
 
     public function test_validate_student_response_functions_variable(): void {

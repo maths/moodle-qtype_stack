@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>20.3.2.1 The Laplace transform of a derivative</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h2>The Laplace transform of a derivative</h2>
+<p>Here we consider not a causal function \(f(t)\) directly but its derivatives \(\displaystyle{df\over {dt}}\), \(\displaystyle{d^2f\over {dt^2}}\), (which are also causal.) The Laplace transform of derivatives will be invaluable when we apply the Laplace transform to the solution of constant coefficient ordinary differential equations.</p>
+<p>If \({\cal L}\{f(t)\}\) is \(F(s)\) then we shall seek an expression for \(\displaystyle{\cal L}\{{df\over {dt}}\}\) in terms of the function \(F(s)\).</p>
+<p>Now, by the definition of the Laplace transform \[ {\cal L}\biggl\{{df\over {dt}}\biggr\}=\int_0^{\infty}\text{e}^{-st}{df\over {dt}}\,dt\] This integral can be simplified using integration by parts:</p>
+<p>\[\begin{eqnarray*}
+\int_0^{\infty}\text{e}^{-st}{df\over
+{dt}}\,dt&amp;=&amp;\biggl[\text{e}^{-st}f(t)\biggr]_0^{\infty}-\int_0^{\infty}(-s)\text{e}^{-st}f(t)\,dt\\
+&amp;=&amp;-f(0)+s\int_0^{\infty}\text{e}^{-st}f(t)\,dt
+\end{eqnarray*}\] (As usual, we assume that contributions arising from the upper limit, \(t=\infty\), are zero.) The integral on the right-hand side is precisely the Laplace transform of \(f(t)\) which we naturally replace by \(F(s)\). Thus \[ {\cal L}\biggl\{{df\over {dt}}\biggr\}=-f(0)+sF(s)\]</p>
+<p>As an example, we know that if \(f(t)=\sin t\ u(t)\) then \[{\cal L}\{f(t)\}={1\over {s^2+1}}= F(s)\] and so, according to the result just obtained,</p>
+<p>\[\begin{eqnarray*}
+{\cal L}\biggl\{
+\frac{df}{dt}
+\biggr\}={\cal L}\{\cos t\
+u(t)\}&amp;=&amp;-f(0)+sF(s)\\
+&amp;=&amp;0+s\biggl({1\over {s^2+1}}\biggr)\\
+&amp;=&amp;{s\over {s^2+1}}
+\end{eqnarray*}\] a result we know to be true.</p>
+<p>We can find the Laplace transform of the second derivative in a similar way to find:</p>
+<p>\[\displaystyle{\cal L}\biggl\{{d^2f\over {dt^2}}\biggr\}=-f'(0)-sf(0)+s^2F(s)\]
+(The reader might wish to derive this result.) Here \(f'(0)\) is the derivative of \(f(t)\) evaluated at \(t=0\).<p>
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p><center><strong>Laplace Transforms of Derivatives</strong></center></p>
+<p>If \({\cal L}\{f(t)\}=F(s)\) then\[\begin{eqnarray*}{\cal L}\biggl\{{df\over {dt}}\biggr\}&amp;=&amp;-f(0)+sF(s)\\
+{\cal L}\biggl\{{d^2f\over
+{dt^2}}\biggr\}&amp;=&amp;-f'(0)-sf(0)+s^2F(s)\end{eqnarray*}\]</p>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,128 @@
+{
+    "quiz": {
+        "name": "13_3 The Area Bounded by a Curve",
+        "intro": "<h3><span>The area bounded by a curve<\/span><br><\/h3>\n\n<p>One of the important applications of integration is to find the area bounded by a curve. Often such an area can have a physical significance like the work done by a motor, or the distance travelled by a vehicle. In this Section we explain how such an area is calculated.<\/p>",
+        "introformat": "1",
+        "questionsperpage": "0",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "CALCULATING THE AREA UNDER A CURVE",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "2",
+            "heading": "AREA BOUNDED BY A CURVE 1",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "9",
+            "heading": "AREA BOUNDED BY A CURVE 2",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-13-3\/13-3-1-1-Calculating-the-area-under-a-curve.xml"
+        },
+        {
+            "slot": "2",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-13-3\/13-3-2-1-Curve-above-the-x-axis.xml"
+        },
+        {
+            "slot": "6",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-13-3\/13-3-2-5-Area-under-a-curve.xml"
+        },
+        {
+            "slot": "7",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-13-3\/13-3-2-6-Area-under-a-curve.xml"
+        },
+        {
+            "slot": "8",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-13-3\/13-3-2-7-Area-under-a-curve.xml"
+        },
+        {
+            "slot": "9",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-13-3\/13-3-3-1-Curves-above-and-below-x-axis.xml"
+        },
+        {
+            "slot": "11",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-13-3\/13-3-3-3-Finding-areas.xml"
+        },
+        {
+            "slot": "12",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-13-3\/13-3-3-4-Finding-areas.xml"
+        },
+        {
+            "slot": "13",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-13-3\/13-3-3-5-Finding-areas.xml"
+        },
+        {
+            "slot": "3",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-13-3\/13-3-2-2-T-Area-Under-Sin(x).xml"
+        },
+        {
+            "slot": "4",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-13-3\/13-3-2-3-T-Area-Under-Exponential.xml"
+        },
+        {
+            "slot": "10",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-13-3\/13-3-3-2-T-Area-Under-Sin(2x).xml"
+        },
+        {
+            "slot": "5",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-13-3\/13-3-2-4-Curve-above-the-x-axis---example.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

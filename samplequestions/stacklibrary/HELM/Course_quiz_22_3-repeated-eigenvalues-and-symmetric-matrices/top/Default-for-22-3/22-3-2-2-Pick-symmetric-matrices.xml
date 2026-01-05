@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>22.3.2.2 Pick symmetric matrices</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>A matrix is called <strong>symmetric</strong> if is it symmetric across the main diagonal. In other words, transposing these matrices, i.e. interchanging their rows and columns, does not change them:
+\[A^T=A.\]</p>
+<p>Select exactly the symmetric matrices:</p>
+<p>[[input:ans_sym_list]] [[validation:ans_sym_list]]&nbsp;[[feedback:prt_sym_list]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>Let \(A = {@a1@}\). Then \(A^T = {@a1@} = A\), therefore \(A\) is symmetric.</p>
+
+<p> Let \(A = {@a2@}\). Then \(A^T = {@transpose(a2)@} \neq A\), therefore \(A\) is not symmetric. </p>
+
+<p>Let \(A = {@a3@}\). Then \(A^T = {@transpose(a3)@} = A\), therefore \(A\) is symmetric. </p>
+
+<p> Let \(A = {@a4@}\). Then \(A^T = {@transpose(a4)@} \neq A\), therefore \(A\) is not symmetric. </p>
+
+<p>Let \(A = {@a5@}\). Then \(A^T = {@transpose(a5)@} = A\), therefore \(A\) is symmetric. </p>
+
+<p> Let \(A = {@a6@}\). Then \(A^T = {@transpose(a6)@} \neq A\), therefore \(A\) is not symmetric. </p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020120600</text>
+    </stackversion>
+    <questionvariables>
+      <text>maxn : 9;
+a1 : matrixmap(lambda([ex],rand_with_step(-maxn,maxn,1)), zeromatrix(2,2));
+a1[2,1] : a1[1,2];  /* symmetric now */
+a2 : matrixmap(lambda([ex],rand_with_step(-maxn,maxn,1)), zeromatrix(2,2));
+a2[2,1] : rand_with_prohib(-maxn,maxn,[a2[1,2]]); /* make sure it's not symmetric */
+a3 : matrixmap(lambda([ex],rand_with_step(-maxn,maxn,1)), zeromatrix(3,3));
+a3[2,1] : a3[1,2]; a3[3,1] : a3[1,3]; a3[3,2] : a3[2,3];  /* symmetric now */
+a4 : matrixmap(lambda([ex],rand_with_step(-maxn,maxn,1)), zeromatrix(3,3));
+a4[3,2] : rand_with_prohib(-maxn,maxn,[a4[2,3]]); /* make sure it's not symmetric */
+v : rand_with_step(-maxn,maxn,1);
+/* a5 : genmatrix(lambda([i,j],v), 3, 3); */
+a5: zeromatrix(2,2);
+a6 : matrixmap(lambda([ex],rand_with_step(-maxn,maxn,1)), zeromatrix(2,2));
+a6[1,1] : a6[2,2]; a6[1,2] = rand_with_prohib(-maxn,maxn,[a6[2,1]]) /* make sure it's wrong symmetric */
+
+ta : random_permutation([ [a1,true], [a2,false], [a3,true], [a4,false], [a5,true], [a6,false] ]);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\({@ta@}, {@ta[1][1]@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans_sym_list</name>
+      <type>checkbox</type>
+      <tans>ta</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt_sym_list</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>Sets</answertest>
+        <sans>setify(ans_sym_list)</sans>
+        <tans>setify(mcq_correct(ta))</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1433076699</deployedseed>
+    <deployedseed>1058758573</deployedseed>
+    <deployedseed>901623094</deployedseed>
+    <deployedseed>1671088752</deployedseed>
+    <deployedseed>1484152529</deployedseed>
+    <deployedseed>526454197</deployedseed>
+    <deployedseed>494657264</deployedseed>
+    <deployedseed>426499238</deployedseed>
+    <deployedseed>759140100</deployedseed>
+    <deployedseed>1011563060</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans_sym_list</name>
+        <value>mcq_correct(ta)</value>
+      </testinput>
+      <expected>
+        <name>prt_sym_list</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans_sym_list</name>
+        <value>[matrix([0,0],[0,0])]</value>
+      </testinput>
+      <expected>
+        <name>prt_sym_list</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

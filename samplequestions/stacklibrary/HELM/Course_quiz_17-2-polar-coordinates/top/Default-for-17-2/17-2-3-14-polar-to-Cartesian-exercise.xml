@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>17.2.3.14 polar to Cartesian exercise</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>Find the polar form of the following curves given in Cartesian form:
+
+<ol class="HELM_parts">
+<li><p>\(y^2=1+2x\)</p>
+<p>\(r =\)[[input:ans1]] [[validation:ans1]][[feedback:prt1]]</p>
+</li>
+
+<li><p>\(2xy={@bb@}\)</p>
+<p>\(r^2 =\)[[input:ans2]] [[validation:ans2]][[feedback:prt2]]</p>
+</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p>(a) We aim to find the polar form of \(y^2=1+2x\). We know that \(x=r\cos\theta\) and \(y=r\sin\theta\), so we can solve as follows:
+\[
+\begin{aligned}
+y^2 &= 1+2x\\
+(r\sin\theta)^2 &= 1 + 2r\cos\theta\\
+r^2\sin^2\theta - 2r\cos\theta - 1 &= 0\\
+&\text{using the quadratic formula}\\
+r &= \frac{-(-2\cos\theta)\pm\sqrt{(-2\cos\theta)^2-4\sin^2\theta(-1)}}{2\sin^2\theta}\\
+&= \frac{2\cos\theta \pm \sqrt{4 - 4\sin^2\theta + 4\sin^2\theta}}{2\sin^2\theta}\\
+&= \frac{\cos\theta \pm 1}{\sin^2\theta}\\
+&\text{as we know that } r \geq 0\\
+&= \frac{\cos\theta+1}{\sin^2\theta}\\
+&= \frac{\cos\theta+1}{1-\cos^2\theta}\\
+&= \frac{1+\cos\theta}{(1-\cos\theta)(1+\cos\theta)} \\
+&= \frac{1}{1-cos\theta}
+\end{aligned}
+\]
+See below for a graph of this function:
+[[jsxgraph]]
+var board = JXG.JSXGraph.initBoard(divid, {
+            boundingbox: [-8, 8, 8, -8],
+            keepaspectratio: true,
+            showCopyright: false,
+            axis: true,
+            showNavigation: true,
+        });
+		
+		JXG.Options.text.useMathHax = true;
+		
+
+			
+		var curve = board.create('curve', [ function (theta) { return 1 / (1 -  Math.cos(theta)); },
+    [0, 0], 0, 2 * Math.PI],
+    {curveType: 'polar',
+    strokewidth: 2,
+    strokeColor: 'blue',
+    fixed:true});
+
+
+[[/jsxgraph]]
+</p>
+
+<p>(b)
+We aim to find the polar form of \(2xy={@bb@}\):
+\[
+\begin{aligned}
+2xy &= {@bb@} \\
+2(r\cos\theta)(r\sin\theta) &= {@bb@}\\
+r^2\sin2\theta &= {@bb@}\\
+r^2 &= \frac{{@bb@}}{\sin2\theta}
+\end{aligned}
+\]
+
+See below for the graph of this function:
+
+[[jsxgraph]]
+var board = JXG.JSXGraph.initBoard(divid, {
+            boundingbox: [-8, 8, 8, -8],
+            keepaspectratio: true,
+            showCopyright: false,
+            axis: true,
+            showNavigation: true,
+        });
+		
+		JXG.Options.text.useMathHax = true;
+		
+
+			
+		  var f, c;
+  f = (x, y) => 2 * x * y - {#bb#};
+  c = board.create('implicitcurve', [f], {
+      strokeWidth: 3,
+      strokeColor: JXG.palette.red,
+      strokeOpacity: 0.8
+  });
+
+
+[[/jsxgraph]]
+</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025073100</text>
+    </stackversion>
+    <questionvariables>
+      <text>bb: rand(5)+1;
+
+ta1:1/(1-cos(theta));
+ta2:bb/sin(theta*2)</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="html">
+      <text>(b) \(r^2 =\){@ta2@}</text>
+    </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>onum</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>ta2</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>250209514</deployedseed>
+    <deployedseed>2035575906</deployedseed>
+    <deployedseed>428072539</deployedseed>
+    <deployedseed>1880463659</deployedseed>
+    <deployedseed>766209322</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1+1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2+1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

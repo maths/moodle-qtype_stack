@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>7.2.2.1 Multiplying two 2x2 matrices</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Multiplying two \(2\times2\) matrices</h3>
+<p>If \(A\) and \(B\) are two matrices then the product \(AB\) is obtained by multiplying the rows of \(A\) with the columns of \(B\) in the manner described above. This will only be possible if the number of elements in the rows of \(A\) is the same as the number of elements in the columns of \(B\). In particular, we define the product of two \(2\times 2\) matrices \(A\) and \(B\) to be another \(2\times 2\) matrix \(C\) whose elements are calculated according to the following pattern: \[ \begin{array}{ccccc} \begin{bmatrix} a &amp; b \\ c &amp; d \end{bmatrix} &amp;\cdot &amp; \begin{bmatrix} w &amp; x \\ y &amp; z \end{bmatrix} &amp; = &amp; \begin{bmatrix} aw + by &amp; ax + bz \\ cw + dy &amp; cx + dz \end{bmatrix} \\ A &amp; \cdot &amp; B &amp; = &amp; C \end{array}\]</p>
+<p>Henceforth, rather than writing \(A \cdot B\), we omit the \(\cdot\). Thus we write \(AB\) for the matrix product. The rule for calculating the elements of the product \(C\) is described in the following Key Point.
+</p><div class="HELM_keypoint">
+<h4>Key Point</h4>
+<center><b>Matrix Product</b></center>
+<center><p>\(AB=C\)</p></center>
+<p></p><center>The element in the \(i^{\text{th}}\) row and \(j^{\text{th}}\) column of \(C\) is obtained</center><p></p>
+<p></p><center>by multiplying the \(i^{\text{th}}\) row of \(A\) with the \(j^{\text{th}}\) column of \(B\).</center><p></p>
+</div>
+We illustrate this construction for the abstract matrices \(A\) and \(B\) given above:
+\[ \begin{bmatrix} a &amp; b \\ c &amp; d \end{bmatrix} \begin{bmatrix} w &amp; x \\ y &amp; z\end{bmatrix} = \begin{bmatrix} \begin{bmatrix} a &amp; b\end{bmatrix} \begin{bmatrix} w \\ y \end{bmatrix} &amp; \begin{bmatrix} a &amp; b \end{bmatrix} \begin{bmatrix} x \\ z \end{bmatrix}\\  \\ \begin{bmatrix} c &amp; d \end{bmatrix} \begin{bmatrix} w \\ y\end{bmatrix} &amp; \begin{bmatrix} c &amp; d \end{bmatrix} \begin{bmatrix} x \\ z \end{bmatrix}\end{bmatrix} = \begin{bmatrix} aw+by &amp; ax+bz \\ cw+dy &amp; cx+d \end{bmatrix} \]<p></p>
+<p>For example,</p>
+<p>\[ \begin{bmatrix} 2 &amp; -1 \\ 3 &amp; -2 \end{bmatrix} \begin{bmatrix} 2 &amp; 4 \\ 6 &amp; 1 \end{bmatrix} = \begin{bmatrix} \begin{bmatrix} 2 &amp; -1 \end{bmatrix} \begin{bmatrix}2 \\ 6 \end{bmatrix} &amp; \begin{bmatrix} 2 &amp; -1\end{bmatrix} \begin{bmatrix} 4 \\ 1 \end{bmatrix} \\ \\ \begin{bmatrix} 3 &amp; -2\end{bmatrix} \begin{bmatrix}2 \\ 6\end{bmatrix} &amp; \begin{bmatrix} 3 &amp; -2 \end{bmatrix} \begin{bmatrix} 4 \\ 1 \end{bmatrix} \end{bmatrix} = \begin{bmatrix}-2 &amp; 7 \\ -6 &amp; 10 \end{bmatrix} \]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

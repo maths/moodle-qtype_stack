@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>20.2.2.1 The inverse Laplace transform</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h2>The inverse Laplace transform</h2>
+<p>The Laplace transform takes a causal function \(f(t)\) and transforms it into a function of \(s\), \(F(s)\): </p>
+<p>\(\qquad {\cal L}\{f(t)\}\equiv F(s)\)</p> The inverse Laplace transform operator is denoted by \({\cal L}^{-1}\) and involves recovering the original causal function \(f(t)\). That is,
+
+<p><br></p>
+<div class="HELM_keypoint">
+    <h4>Key Point</h4>
+    <center><strong>Inverse Laplace Transform</strong></center>
+    <p>\(\qquad{\cal L}^{-1}\{F(s)\} = f(t) \qquad\)where \(\qquad{\cal L}\{f(t)\} = F(s)\) </p>
+</div>
+<p><br></p>
+
+
+<p>For example, using standard transforms from Table 1:</p>
+<p>\(\qquad {\cal L}^{-1}\left\{{s\over s^2+4}\right\}=\cos2t\,.\,u(t)\) since \({\cal L}\{\cos 2t\,.\,u(t)\}={s\over s^2+4}\).\(\quad\) (Table 1, Rule 6)</p>
+<p>Also</p>
+<p>\(\qquad {\cal L}^{-1}\left\{{3\over s^2}\right\}=3t\,u(t)\) since \({\cal L}\{3t\,u(t)\}={3\over s^2}\).\(\quad\) (Table 1, Rule 3)</p>
+<p>Because the Laplace transform is a linear operator it follows that the inverse Laplace transform is also linear, so if \(c_1,\ c_2\) are constants:</p>
+
+<p><br></p>
+<div class="HELM_keypoint">
+    <h4>Key Point</h4>
+    <center><strong>Linearity Property of Inverse Laplace Transforms</strong>
+        <center>
+            <p>\(\qquad{\cal L}^{-1}\{c_1F(s)+c_2G(s)\} = c_1{\cal L}^{-1}\{F(s)\} + c_2{\cal L}^{-1}\{G(s)\}\) </p>
+        </center>
+    </center>
+</div>
+<p><br></p>
+
+
+<p>For example, to find the inverse Laplace transform of \({2\over s^4}-{6\over s^2+4}\) we have</p>
+<p>\[\begin{aligned} {\cal L}^{-1}\left\{{2\over s^4}-{6\over s^2+4}\right\}&amp;=\dfrac{2}{6}{\cal L}^{-1}\left\{{6\over s^4}\right\}-3{\cal L}^{-1}\left\{{2\over s^2+4}\right\}\\ &amp;={1\over 3}t^3u(t)-3\sin 2t\,.\, u(t)\text{ (from Table 1)} \end{aligned}\]
+</p> Note that the fractions have had to be manipulated slightly in order that the expressions match precisely with the expressions in Table 1.
+<br>
+<p>Although the inverse Laplace transform can be examined at a deeper mathematical level we shall be content with this simple-minded approach to finding inverse Laplace transforms by using the table of Laplace transforms. However, even this approach is not
+    always straightforward and considerable algebraic manipulation is often required before an inverse Laplace transform can be found. Next we consider two standard rearrangements which often occur.</p>
+<p></p>
+<br>
+<p><strong>Inverting through the use of partial fractions</strong></p>
+
+<p>The function </p>
+<p>\(\qquad F(s)={1\over (s-1)(s+2)}\)</p> does not appear in our table of transforms and so we cannot, by inspection, write down the inverse Laplace transform. However, by using partial fractions we see that
+<p>\(\qquad F(s)={1\over (s-1)(s+2)}={{1\over 3}\over s-1}-{{1\over 3}\over s+2}\)</p> and so, using the linearity property: \[\begin{aligned} {\cal L}^{-1}\left\{{1\over (s-1)(s+2)}\right\}&amp;={\cal L}^{-1}\left\{{{1\over 3}\over s-1}\right\}-{\cal L}^{-1}\left\{{{1\over
+3}\over s+2}\right\}\\ &amp;=\tfrac{1}{3}\text{e}^t-\tfrac{1}{3} \text{e}^{-2t} \text{(Table 1, Rule 4)} \end{aligned}\]]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

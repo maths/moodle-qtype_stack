@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>28.3.4.12 Spherical polar coordinates div and curl first exercise</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>For \(\underline{F} = {@aa@}r \sin\theta \hat{\underline{r}} + {@bb@}r \cos\phi \hat{\underline{\theta}} + {@bb@}r \sin\phi \hat{\underline{\phi}}\), find \(\underline{\nabla} \cdot \underline{F}\) and \(\underline{\nabla} \times \underline{F}\).</p>
+<p>In your answer, type \(\theta\), \(\phi\), \(\sin(x)\), \(cos(x)\), \(csc(x)\), and \(cot(x)\) as <code>theta</code>, <code>phi</code>, <code>sin(x)</code>, <code>cos(x)</code>, <code>csc(x)</code>, <code>cot(x)</code> respectively.</p>
+
+<p>\(\underline{\nabla} \cdot \underline{F} =\)[[input:ans1]] [[validation:ans1]][[feedback:prt1]]</p>
+<p>\(\underline{\nabla} \times \underline{F} =\)[[input:ans2]][[validation:ans2]]\(\hat{\underline{r}} +\)[[input:ans3]][[validation:ans3]]\(\hat{\underline{\theta}} +\)[[input:ans4]][[validation:ans4]]\(\hat{\underline{\phi}}\) [[feedback:prt2]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p>We know that \(\underline{F} = {@aa@}r \sin\theta \hat{\underline{r}} + {@bb@}r \cos\phi  + {@bb@}r \sin\phi \hat{\underline{\phi}}\), and aim to find \(\underline{\nabla} \cdot \underline{F}\) and \(\underline{\nabla} \times \underline{F}\).</p>
+
+<p> 
+\[\begin{aligned}
+\underline{\nabla} \cdot \underline{F} &= \frac{1}{r^2\sin\theta}\left[\frac{\partial}{\partial r}(r^2\sin\theta F_r) + \frac{\partial}{\partial \theta}(r\sin\theta F_\theta) + \frac{\partial}{\partial \phi}(r F_\phi)\right] \\
+&= \frac{1}{r^2\sin\theta}\left[\frac{\partial}{\partial r}({@aa@}r^3\sin^2\theta) + \frac{\partial}{\partial \theta}({@bb@}r^2\sin\theta \cos\phi) + \frac{\partial}{\partial \phi}({@bb@}r^2 \sin\phi)\right] \\
+&= \frac{1}{r^2\sin\theta}\left[{@3*aa@}r^2\sin^2\theta + {@bb@}r^2\cos\theta\cos\phi + {@bb@}r^2\cos\phi\right] \\
+&= {@3*aa@}\sin\theta + {@bb@}\cos\phi(\cot\theta+\csc\theta)\\
+\\
+\underline{\nabla} \times \underline{F} &= \frac{1}{r^2\sin\theta}\begin{vmatrix}
+\hat{\underline{r}} & r\hat{\underline{\theta}} & r\sin\theta\hat{\underline{\phi}} \\
+\frac{\partial}{\partial r} & \frac{\partial}{\partial \theta} & \frac{\partial}{\partial \phi}\\
+F_r & rF_\theta & r\sin\theta F_\phi
+\end{vmatrix}\\
+&= \frac{1}{r^2\sin\theta}\begin{vmatrix}
+\hat{\underline{r}} & r\hat{\underline{\theta}} & r\sin\theta\hat{\underline{\phi}} \\
+\frac{\partial}{\partial r} & \frac{\partial}{\partial \theta} & \frac{\partial}{\partial \phi}\\
+{@aa@} r \sin\theta & {@bb@}r^2\cos\phi & {@bb@}r^2\sin\phi\sin\theta
+\end{vmatrix}\\
+&= \frac{1}{r^2\sin\theta} \left[
+\hat{\underline{r}}\left(\frac{\partial}{\partial \theta}({@bb@}r^2\sin\phi\sin\theta) - \frac{\partial}{\partial \phi}({@bb@}r^2\cos\phi)\right)
+-r\hat{\underline{\theta}}\left(\frac{\partial}{\partial r}({@bb@}r^2\sin\phi\sin\theta) - \frac{\partial}{\partial \phi}({@aa@}r\sin\theta) \right)
++r\sin\theta\hat{\underline{\phi}}\left(\frac{\partial}{\partial r}({@bb@}r^2\cos\phi) - \frac{\partial}{\partial \theta}({@aa@}r\sin\theta) \right)
+\right] \\
+&=\frac{1}{r^2\sin\theta} \left[
+\hat{\underline{r}}\left({@bb@}r^2\sin\phi\cos\theta + {@bb@}r^2\sin\phi)\right)
+-\hat{\underline{\theta}}\left({@2*bb@}r^2\sin\phi\sin\theta \right)
++\hat{\underline{\phi}}\left({@2*bb@}r^2\sin\theta\cos\phi - {@aa@}r^2\sin\theta\cos\theta) \right)
+\right]\\
+&={@bb@}\sin\phi\frac{\cos\theta +1}{\sin\theta}\hat{\underline{r}}
+-{@2*bb@}\sin\theta\hat{\underline{\theta}}
++({@2*bb@}\cos\phi - {@aa@}\cos\theta)\hat{\underline{\phi}}\\
+&={@bb@}\sin\phi\cot\frac{\theta}{2}\hat{\underline{r}}
+-{@2*bb@}\sin\theta\hat{\underline{\theta}}
++({@2*bb@}\cos\phi - {@aa@}\cos\theta)\hat{\underline{\phi}}\\
+&\mbox{by half angle identity}
+\end{aligned}\]
+</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025073100</text>
+    </stackversion>
+    <questionvariables>
+      <text>aa:rand(6)+2;
+bb:rand(6)+2;
+
+ta1:3*aa*sin(theta) + bb*cos(phi)*(cot(theta)+csc(theta));
+ta2r:bb*sin(phi)*cot(theta/2);
+ta2theta:-2*bb*sin(theta);
+ta2phi:2*bb*cos(phi) - aa*cos(theta);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="html">
+      <text>\[\underline{F} = {@aa@}r \sin\theta \hat{\underline{r}} + {@bb@}r \cos\phi \hat{\underline{\theta}} + {@bb@}r \sin\phi \hat{\underline{\phi}}\]
+\[\underline{\nabla} \cdot \underline{F} ={@ta1@}\] 
+\[\underline{\nabla} \times \underline{F} ={@ta2r@}\hat{\underline{r}} +{ta2theta@}\hat{\underline{\theta}} +{@ta2phi@}\hat{\underline{\phi}}\]</text>
+    </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>25</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>ta2r</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>algebraic</type>
+      <tans>ta2theta</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans4</name>
+      <type>algebraic</type>
+      <tans>ta2phi</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>ta2r</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>ta2theta</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>prt2-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans4</sans>
+        <tans>ta2phi</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>735352224</deployedseed>
+    <deployedseed>350526285</deployedseed>
+    <deployedseed>1946939099</deployedseed>
+    <deployedseed>1324592977</deployedseed>
+    <deployedseed>1508005984</deployedseed>
+    <deployedseed>1249350165</deployedseed>
+    <deployedseed>2043618661</deployedseed>
+    <deployedseed>168491524</deployedseed>
+    <deployedseed>1324807999</deployedseed>
+    <deployedseed>554320156</deployedseed>
+    <deployedseed>1798284560</deployedseed>
+    <deployedseed>369972013</deployedseed>
+    <deployedseed>986951640</deployedseed>
+    <deployedseed>772715878</deployedseed>
+    <deployedseed>862436285</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2r</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta2theta</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>ta2phi</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1+5</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2r</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta2theta</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>ta2phi+2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt2-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

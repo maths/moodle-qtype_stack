@@ -1,0 +1,745 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>29.3.2.6 Gauss' Theorem Tetrahedron Exercise</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p> If \(S\) is the surface of the tetrahedron with vertices at \((0,0,0)\), \((1,0,0)\), \((0,1,0)\) and \((0,0,1)\), find the surface integral \(\displaystyle\int\!\! \int_S (x \underline{i} + y z\underline{j}) \cdot \underline{dS}\) both by using Gauss' Theorem, and by evaluating directly. </p>
+<p>[Hint 1 :- When evaluating directly, you will need to project the sloping face onto the \(xy\) plane and use the fact that \(\underline{\mathrm{d}S} = \frac{\text{Area}}{\text{Projected Area}} \cdot \underline{\hat{n}} \, \mathrm{d}x \, \mathrm{d}y\)] </p>
+<p> [Hint 2 :- When evaluating directly, you should find that the unit normal on the sloping face is in the form \(\underline{\hat{n}} = \frac{1}{\sqrt{p}}(\underline{i}+\underline{j}+\underline{k})\), where \(p\) is an integer that you should determine.]</p>
+
+<ol class="HELM_parts">
+<li><p> Find the surface integral by using Gauss' Theorem that is, find  \(\displaystyle\int\!\! \int\!\! \int_V {\underline \nabla} \cdot \underline{F} \; dV\) </p>
+<ol class="HELM_parts">
+<li> <p> First find \(\underline{\nabla} \cdot \underline{F}\) </p>
+<p> \(\underline{\nabla} \cdot \underline{F} =\)  [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</p></li>
+
+<li> <p> Evaluate the integral \(\displaystyle \int_{x={0}}^{x=l} \int_{y={0}}^{y=m} \int_{z=0}^{z=n} \underline{\nabla} \cdot \underline{F}\ \mathrm{d}z\ \mathrm{d}y\ \mathrm{d}x\), where \(l,m,n\) are the upper limits in \(x,y,z\) respectively, which you should find. </p>
+<p> [Hint: think about the equation of the sloped face of the tetrahedron]</p>
+<p> \(\displaystyle \int_{x={0}}^{x=l} \int_{y={0}}^{y=m} \int_{z=0}^{z=n} \underline{\nabla} \cdot \underline{F}\ \mathrm{d}z\ \mathrm{d}y\ \mathrm{d}x= \) [[input:ans2]] [[validation:ans2]] [[feedback:prt2]]</p></li>
+</ol>
+
+<li> <p>Now find the surface integral directly, by evaluating the surface integral over each side of the tetrahedron. You should first find \(\underline{\mathrm{d}S}\) in each case.</p>
+<ol class="HELM_parts">
+<li><p> For the face \(x=0\): Contribution to \(\displaystyle \iint_S \underline{F} \cdot \underline{\mathrm{d}S} =\) [[input:ans3]] [[validation:ans3]] [[feedback:prt3]] </p></li>
+
+<li><p> For the face \(y=0\): Contribution to \(\displaystyle \iint_S \underline{F} \cdot \underline{\mathrm{d}S} =\) [[input:ans4]] [[validation:ans4]] [[feedback:prt4]] </p></li>
+
+<li><p> For the face \(z=0\): Contribution to \(\displaystyle \iint_S \underline{F} \cdot \underline{\mathrm{d}S} =\) [[input:ans5]] [[validation:ans5]] [[feedback:prt5]] </p></li>
+
+<li><p> For the sloped face, find \(\underline{\mathrm{d}S}\), then choose the correct answer from the options below.</p>
+<p> 1. \(\underline{\mathrm{d}S} = \dfrac{1}{2}\left(\underline{i} + \underline{j} + \underline{k}\right) \, \mathrm{d}x \, \mathrm{d}y\), </p>
+<p> 2. \(\underline{\mathrm{d}S} = \dfrac{1}{\sqrt{3}}\left(\underline{i} + \underline{j} + \underline{k}\right) \, \mathrm{d}x \, \mathrm{d}y\), </p>
+<p> 3. \(\underline{\mathrm{d}S} = \left(\underline{i} + \underline{j} + \underline{k}\right) \, \mathrm{d}x \, \mathrm{d}y\)</p>
+<p>\(\underline{\mathrm{d}S} =\) [[input:ans6]] [[validation:ans6]] [[feedback:prt6]]. </p>
+<p> Hence find the contribution to \(\displaystyle \iint_S \underline{F} \cdot \underline{\mathrm{d}S}\) </p>
+<p> [Hint: remember to rewrite your integrand just in terms of \(x\) and \(y\).]</p>
+<p> Contribution to \(\displaystyle \iint_S \underline{F} \cdot \underline{\mathrm{d}S}=\) [[input:ans7]] [[validation:ans7]] [[feedback:prt7]] </p></li>
+</ol>
+</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p> We are asked to consider the surface \(S\) of the tetrahedron with vertices at \((0,0,0)\), \((1,0,0)\), \((0,1,0)\) and \((0,0,1)\), and to find the surface integral \(\displaystyle\int\!\! \int_S (x \underline{i} + y z\underline{j}) \cdot \underline{dS}\) both by using Gauss' Theorem, and by evaluating directly. </p>
+<p> We are given 2 hints:</p>
+<p>[Hint 1 :- When evaluating directly, you will need to project the sloping face onto the \(xy\) plane and use the fact that \(\underline{\mathrm{d}S} = \frac{\text{Area}}{\text{Projected Area}} \cdot \underline{\hat{n}} \, \mathrm{d}x \, \mathrm{d}y\)] </p>
+<p> [Hint 2 :- When evaluating directly, you should find that the unit normal on the sloping face is in the form \(\underline{\hat{n}} = \frac{1}{\sqrt{p}}(\underline{i}+\underline{j}+\underline{k})\), where \(p\) is an integer that you should determine.]</p>
+
+<ol class="HELM_parts">
+<li><p> We are asked to first find the surface integral by using Gauss' Theorem that is, to find  \(\displaystyle\int\!\! \int\!\! \int_V {\underline \nabla} \cdot \underline{F} \; dV\) </p>
+<ol class="HELM_parts">
+<li> <p> To do this, we are asked to first find \(\underline{\nabla} \cdot \underline{F}\) </p>
+<p> \(\underline{F} = x \underline{i} + y z\underline{j} \quad \), so</p>
+ <p>\(\underline{\nabla} \cdot \underline{F} = \dfrac{\partial}{\partial x} (x) +  \dfrac{\partial}{\partial y} (yz) = 1 + z.\)
+</li>
+
+<li> <p> We are then asked to evaluate the integral \(\displaystyle \int_{x={0}}^{x=l} \int_{y={0}}^{y=m} \int_{z=0}^{z=n} \underline{\nabla} \cdot \underline{F}\ \mathrm{d}z\ \mathrm{d}y\ \mathrm{d}x\), where \(l,m,n\) are the upper limits in \(x,y,z\) respectively, which we should find. </p>
+<p> We are given the hint: [think about the equation of the sloped face of the tetrahedron]</p>
+<p> We have the tetrahedron with vertices at \((0,0,0)\), \((1,0,0)\), \((0,1,0)\) and \((0,0,1)\), and so the sloped face has equation \(x + y + z = 1.\)
+<p> And so the volume of the tetrahedrom is given by the inequalities \(z \ge 0, \quad y \ge 0, \quad z \ge 0, \quad x+y+z \le 1,\)
+<p> Which leads to the following limits of integration:</p>
+<p> \(z: 0 \to 1-x-y, \quad y: 0 \to 1-x, \quad x: 0 \to 1.\)</p>
+<p> And so our integral becomes </p>
+<p> \(\begin{align}
+\displaystyle\int\!\! \int\!\! \int_V {\underline \nabla} \cdot \underline{F} \; dV &= \displaystyle \int_{x={0}}^{x=1} \int_{y={0}}^{y=1-x} \int_{z=0}^{z=1-x-y} \left(1-z\right) \, \mathrm{d}z\ \mathrm{d}y\ \mathrm{d}x \\
+&= \displaystyle \int_{x={0}}^{x=1} \int_{y={0}}^{y=1-x} \left[{@int1_indef1@}\right]_0^{1-x-y} \, \mathrm{d}y \, \mathrm{d}x \\
+&= \displaystyle \int_{x={0}}^{x=1} \int_{y={0}}^{y=1-x} \left({@int1_def1@}\right) \, \mathrm{d}y \, \mathrm{d}x \\
+&= \displaystyle \int_{x={0}}^{x=1} \left[{@int1_indef2@}\right]_0^{1-x} \, \mathrm{d}x \\
+&=  \displaystyle \int_{x={0}}^{x=1} \left({@int1_def2@}\right) \, \mathrm{d}x \\
+&= \displaystyle \left[{@int1_indef3@}\right]_0^1 \\
+&= {@ta2@}.
+\end{align}\)</p>
+</li>
+</ol>
+
+
+<li> <p> We are now asked to find the surface integral directly, by evaluating the surface integral over each side of the tetrahedron. We are also told that we should first find \(\underline{\mathrm{d}S}\) in each case. We remember that our tetrahedron is bounded by the inequalities \(z \ge 0, \quad y \ge 0, \quad z \ge 0, \quad x+y+z \le 1.\)
+</p>
+<ol class="HELM_parts">
+<li><p> For the face \(x=0\): We have \(\underline{\mathrm{d}S} = -\underline{i} \, \mathrm{d}y \, \mathrm{d}z\), since we are in the \(Oyz\) plane, and our unit normal vector must point outwards, away from our tetrahedron.</p>
+<p> So the contribution to \(\displaystyle \iint_S \underline{F} \cdot \underline{\mathrm{d}S}\) becomes:</p>
+<p> \(\begin{align}
+\displaystyle \iint_S
+ \left(x \underline{i} + y z\underline{j}\right) \cdot \left(-\underline{i} \, \mathrm{d}y \, \mathrm{d}z\right) &= \displaystyle \iint_S
+ \left(y z\underline{j}\right) \cdot \left(-\underline{i} \, \mathrm{d}y \, \mathrm{d}z\right), \quad \text{as} \, x=0, \\
+&= 0.
+\end{align}\)</p>
+</li>
+
+
+
+<li><p> For the face \(y=0\): We have \(\underline{\mathrm{d}S} = -\underline{j} \, \mathrm{d}x \, \mathrm{d}z\), since we are in the \(Oxz\) plane, and our unit normal vector must point outwards, away from our tetrahedron.</p>
+<p> So the contribution to \(\displaystyle \iint_S \underline{F} \cdot \underline{\mathrm{d}S}\) becomes:</p>
+<p> \(\begin{align}
+\displaystyle \iint_S
+ \left(x \underline{i} + y z\underline{j}\right) \cdot \left(-\underline{j} \, \mathrm{d}x \, \mathrm{d}z\right) &= \displaystyle \iint_S
+ \left(x\underline{i}\right) \cdot \left(-\underline{j} \, \mathrm{d}x \, \mathrm{d}z\right), \quad \text{as} \, y=0, \\
+&= 0.
+\end{align}\)</p></li>
+
+
+
+<li><p> For the face \(z=0\): We have \(\underline{\mathrm{d}S} = -\underline{k} \, \mathrm{d}x \, \mathrm{d}y\), since we are in the \(Oxy\) plane, and our unit normal vector must point outwards, away from our tetrahedron.</p>
+<p> So the contribution to \(\displaystyle \iint_S \underline{F} \cdot \underline{\mathrm{d}S}\) becomes:</p>
+<p> \(\begin{align}
+\displaystyle \iint_S
+ \left(x \underline{i} + y z\underline{j}\right) \cdot \left(-\underline{k} \, \mathrm{d}x \, \mathrm{d}y\right) &= \displaystyle \iint_S
+ \left(x\underline{i}\right) \cdot \left(-\underline{k} \, \mathrm{d}x \, \mathrm{d}y\right), \quad \text{as} \, z=0, \\
+&= 0.
+\end{align}\)</p>
+<p>So only the sloping face contributes.</p></li>
+
+
+<li><p> For the sloped face, we are asked to first find \(\underline{\mathrm{d}S}\)</p>
+<p> We are given the hints: </p>
+<p>[Hint 1 :- When evaluating directly, you will need to project the sloping face onto the \(xy\) plane and use the fact that \(\underline{\mathrm{d}S} = \frac{\text{Area}}{\text{Projected Area}} \cdot \underline{\hat{n}} \, \mathrm{d}x \, \mathrm{d}y\)] </p>
+<p> [Hint 2 :- When evaluating directly, you should find that the unit normal on the sloping face is in the form \(\underline{\hat{n}} = \frac{1}{\sqrt{p}}(\underline{i}+\underline{j}+\underline{k})\), where \(p\) is an integer that you should determine.]</p>
+<p> Using Hint 1 (or by remembering), we have \(\underline{\mathrm{d}S} = \frac{\text{Area}}{\text{Projected Area}} \cdot \underline{\hat{n}} \, \mathrm{d}x \, \mathrm{d}y\), so we find the area of our sloping triangular face using </p>
+<p> \(A = \dfrac{1}{2} ||\underline{u} \times \underline{v}||\) where \(\underline{u}, \underline{v}\) are 2 edge vectors of the sloping face, so</p>
+<p> \( \underline{u}: (0,1,0) - (1,0,0) = (-1,1,0)\)</p>
+<p> \(\underline{v}: (0,0,1) - (1,0,0) = (-1,0,1)\)</p>
+<p> So </p>
+<p> \(\begin{align}
+\underline{u} \times \underline{v} = \left| \begin{array}{ccc} \underline{i} & \underline{j} & \underline{k}\\
+\\
+-1 & 1 & 0 \\ 
+\\ 
+-1 & -0 & 1 \end{array} \right| &= \underline{i} \left| \begin{array}{cc} 1 & 0  \\
+0 & 1 \end{array}\right|  - \underline{j} \left| \begin{array}{cc} -1 & 0 \\
+-1 & 1  \end{array}\right|  + \underline{k} \left| \begin{array}{cc} -1 & 1  \\
+-1 & 0  \end{array}\right|  \\
+&=  \underline{i} \left(1-0\right) -  \underline{j} \left(-1-0\right) +  \underline{k} \left(0- (-1)\right) \\
+&= \underline{i} + \underline{j} + \underline{k} \end{align}\) </p>
+
+<p> And so \(||\underline{u} \times \underline{v}|| = \sqrt{1^1 + 1^2 + 1^2} = \sqrt{3}\), and so </p>
+<p> Area \(= \dfrac{1}{2} \times \sqrt{3} = \dfrac{\sqrt{3}}{2}\)</p>
+<p> This is the true area of our sloped face, we now need to find the area when we project it onto the \(xy\) plane.</p>
+<p> Our projected triangle, which we'll call D, has vertices \((1,0), (0,1), (0,0)\) and so: </p>
+<p> Projected Area \(= \dfrac{1}{2} \times \text{base} \times \text{height} = \dfrac{1}{2} \times 1 \times 1 = \dfrac{1}{2}.\)</p>
+<br>
+
+<p> We now find \(\underline{\hat{n}}\). We have already done most of the work above: </p>
+<p> \(\underline{u} \times \underline{v}\) gave us a vector normal to the sloped face, \(\underline{i} + \underline{j} + \underline{k}\), and we already found that its magnitude is \(\sqrt{3}\) so </p>
+<p> \(\underline{\hat{n}} = \dfrac{1}{\sqrt{3}} \left(\underline{i} + \underline{j} + \underline{k}\right)\).</p>
+<br>
+
+<p> So we now finally have </p>
+<p> \(\underline{\mathrm{d}S} = \dfrac{\dfrac{\sqrt{3}}{2}}{\dfrac{1}{2}} \cdot \dfrac{1}{\sqrt{3}} \left(\underline{i} + \underline{j} + \underline{k}\right) \, \mathrm{d}x \, \mathrm{d}y = \left(\underline{i} + \underline{j} + \underline{k}\right) \, \mathrm{d}x \, \mathrm{d}y\).</p>
+
+<br>
+<p> And now that we have \(\underline{\mathrm{d}S}\), we are asked to hence find the contribution to \(\displaystyle \iint_S \underline{F} \cdot \underline{\mathrm{d}S}\) from the sloping face</p>
+<p> We are given the hint: [Hint: remember to rewrite your integrand just in terms of \(x\) and \(y\).]</p>
+<p>\(\displaystyle \iint_S \underline{F} \cdot \underline{\mathrm{d}S} = \iint_D \left(x \underline{i} + yz \underline{j}\right) \cdot \left(\underline{i} + \underline{j} + \underline{k}\right) \, \mathrm{d}x \, \mathrm{d}y = \iint_D (x + yz) \, \mathrm{d}x \, \mathrm{d}y,\)  where D is just the projection onto the \(xy\) plane,</p>
+<p> And since \(x+y+z=1 \implies z=1-x-y\), writing in terms of just \(x\) and \(y\) we have: </p>
+<p>\(\displaystyle \iint_D \underline{F} \cdot \underline{\mathrm{d}S} = \iint_D (x + y - xy - y^2) \, \mathrm{d}x \, \mathrm{d}y\).</p>
+<p> We now find the limits of our region \(D\):</p>
+<p> \(D\) is defined by the inequalities \(x \ge 0, \quad y \ge 0, \quad z=1-x-y \ge 0 \implies x+y \le 1\), so we have \(y: 0 \to 1-x, \quad x: 0 \to 1.\) </p>
+<p> [Note that you could very easily have the order of integration the other way round, so long as you find the corresponding limits i.e. find \(x\) in terms of \(y\).]</p>
+<p> So our surface integral becomes </p>
+<p> \(\begin{align}
+\displaystyle \iint_S \underline{F} \cdot \underline{\mathrm{d}S} &= \int_{x=0}^1 \int_{y=0}^{1-x} (x + y - xy - y^2) \, \mathrm{d}y \, \mathrm{d}x \\
+&= \int_{x=0}^1 \left[{@int2_indef1@}\right]_0^{1-x} \, \mathrm{d}x \\
+&=\int_{x=0}^1 \left({@int2_def1@}\right) \, \mathrm{d}x \\
+&= \left[{@int2_indef2@}\right]_0^1 \\
+&= {@ta7@}. \end{align}\)</p>
+</li>
+
+
+
+</ol>
+</li>
+</ol>
+<p>Note that the sum of the 4 contributions in (b) \(\left(0+0+0+ \dfrac{5}{24} = \dfrac{5}{24}\right)\) is exactly equal to our calculated volume integral in (a), as Gauss' Theorem tells us.</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025073100</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[ta1: 1+z;
+int1_indef1: int(ta1,z);
+int1_def1: int(ta1,z,0,1-x-y);
+int1_indef2: int(int1_def1, y);
+int1_def2: int(int1_def1, y, 0, 1-x);
+int1_indef3: int(int1_def2,x);
+ta2: int(int1_def2, x, 0, 1);
+ta3:0;
+ta4:0;
+ta5:0;
+ta6:[["1.",false],["2.",false],["3.",true]];
+exp1: (x + y - x*y - y^2);
+int2_indef1: int(exp1,y);
+int2_def1: int(exp1,y,0,(1-x));
+int2_indef2: int(int2_def1,x);
+ta7: int(int2_def1,x,0,1);]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="html">
+      <text>Vertices: \((0,0,0)\), \((1,0,0)\), \((0,1,0)\) and \((0,0,1)\), Gauss' Theorem: {@ta7@}</text>
+    </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>7</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>ta2</tans>
+      <boxsize>7</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>algebraic</type>
+      <tans>ta3</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans4</name>
+      <type>algebraic</type>
+      <tans>ta4</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans5</name>
+      <type>algebraic</type>
+      <tans>ta5</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans6</name>
+      <type>dropdown</type>
+      <tans>ta6</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans7</name>
+      <type>algebraic</type>
+      <tans>ta7</tans>
+      <boxsize>7</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>ta3</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt4</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans4</sans>
+        <tans>ta4</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt4-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt4-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt5</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans5</sans>
+        <tans>ta5</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt5-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt5-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt6</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>[ans6]</sans>
+        <tans>mcq_correct(ta6)</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt6-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt6-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt7</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans7</sans>
+        <tans>ta7</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt7-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt7-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta3</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>ta4</value>
+      </testinput>
+      <testinput>
+        <name>ans5</name>
+        <value>ta5</value>
+      </testinput>
+      <testinput>
+        <name>ans6</name>
+        <value>first(mcq_correct(ta6))</value>
+      </testinput>
+      <testinput>
+        <name>ans7</name>
+        <value>ta7</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt4-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt5</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt5-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt6</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt6-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt7</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt7-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1+1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2+1</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta3+1</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>ta4+1</value>
+      </testinput>
+      <testinput>
+        <name>ans5</name>
+        <value>ta5+1</value>
+      </testinput>
+      <testinput>
+        <name>ans6</name>
+        <value>first(mcq_incorrect(ta6))</value>
+      </testinput>
+      <testinput>
+        <name>ans7</name>
+        <value>ta7+1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt3-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt4-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt5</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt5-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt6</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt6-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt7</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt7-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

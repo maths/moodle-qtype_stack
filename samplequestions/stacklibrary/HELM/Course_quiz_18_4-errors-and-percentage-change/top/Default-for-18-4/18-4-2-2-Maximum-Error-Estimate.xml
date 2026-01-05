@@ -1,0 +1,695 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>18.4.2.2 Maximum Error Estimate</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>Estimate the maximum error in \[f(x, y) = {@f@}\] at the point \(x={@x_coord@}, \, y={@y_coord@}\) if maximum errors \(\pm {@error_x@}\) and \(\pm {@error_y@}\) are made in \(x\) and \(y\) respectively.</p>
+<p><br></p>
+<p>First, find \(\dfrac{\partial f}{\partial x}\) and \(\dfrac{\partial f}{\partial y}\):</p>
+<p>\(\dfrac{\partial f}{\partial x} = \) [[input:ans3]] [[validation:ans3]]</p>
+<p>\(\dfrac{\partial f}{\partial y} = \) [[input:ans4]] [[validation:ans4]]</p>
+<p>[[feedback:prt3]]</p>
+<p>[[feedback:prt4]]</p>
+<p>Now for \(x = {@x_coord@}\) and \(y={@y_coord@}\), calculate the value of \(f(x,y)\):</p>
+<p>\(f({@x_coord@},{@y_coord@}) = \) [[input:ans5]] [[validation:ans5]]</p>
+<p>[[feedback:prt5]]</p>
+<p><br></p>
+<p>Now since the error in the measured value of \(x\) is \(\pm {@error_x@}\) and in \(y\) is \(\pm {@error_y@}\) we have \( |\delta x|_{\text{max}} = {@error_x@}, |\delta y|_{\text{max}}= {@error_y@} \).&nbsp;</p>
+<p>Write down an expression to approximate to \(|\delta f|_{\text{max}}\):
+</p>
+<p>\(|\delta f|_{\text{max}} \simeq \big|\)[[input:ans6]] [[validation:ans6]] \(\big| |\delta x|_{\text{max}} + \big|\)[[input:ans7]] [[validation:ans7]] \(\big| |\delta y|_{\text{max}}\)</p>
+<p>[[feedback:prt6]]</p>
+<p>[[feedback:prt7]]</p>
+<p><br></p>
+<p>Calculate \(|\delta f|_{\text{max}}\) at the point \(x = {@x_coord@}, y = {@y_coord@}\) and give bounds for \(f({@x_coord@}, {@y_coord@})\)</p>
+<p>\(|\delta f|_{\text{max}} \simeq\)[[input:ans8]] [[validation:ans8]] Keep 2 s.f.</p>
+<p>[[feedback:prt8]]</p>
+<p>Hence \(f({@x_coord@}, {@y_coord@})\) can be expressed as:</p>
+<p>[[input:ans9]] [[validation:ans9]] \(\leq f({@x_coord@}, {@y_coord@}) \leq\) [[input:ans10]] [[validation:ans10]]</p>
+<p>[[feedback:prt9]]</p>
+<p>[[feedback:prt10]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>Differentiating \(f(x,y)\) with respect to \(x\) and \(y\) we obtain \[\frac{\partial f}{\partial x}= {@f_x@} \quad \frac{\partial f}{\partial y} = {@f_y@}.\] Input the coordinates \(x={@x_coord@}\) and \(y={@y_coord@}\) into the formula for \(f(x,y)\) to obtain \(f({@x_coord@},{@y_coord@})={@f_eval@}\). </p>
+<p>Now, since the error in the measured value of \(x\) is \(\pm {@error_x@}\) and in \(y\) is \(\pm {@error_y@}\) we have \( |\delta x|_{\text{max}} = {@error_x@}, |\delta y|_{\text{max}}= {@error_y@} \). Therefore, the expression to approximate \(|\delta f|_{\text{max}}\) is \[ |\delta f|_{\text{max}} \simeq |\frac{\partial f}{\partial x}||\delta x|_{\text{max}}+|\frac{\partial f}{\partial y}||\delta y|_{\text{max}}=|{@f_x@}||\delta x|_{\text{max}}+|{@f_y@}||\delta y|_{\text{max}} \] </p>
+<p>We can then calculate \(|\delta f|_{\text{max}}\) at the point \(x={@x_coord@}, y={@y_coord@}\) and give bounds for \(f({@x_coord@},{@y_coord@})\):\[\begin{aligned} |\delta f|_{\text{max}} &amp; \simeq {@abs(f_x_eval)@}\times {@error_x@} + {@abs(f_y_eval)@} \times {@error_y@} \\ &amp; = {@abs(f_x_eval)*error_x@} + {@abs(f_y_eval)*error_y@} \\ &amp; = {@delta_f@} \end{aligned} \]</p>
+<p>Hence we quote \(f({@x_coord@}, {@y_coord@}) = {@f_eval@} \pm {@delta_f@}\) which can be expressed as \({@f_eval-delta_f@} \leq f({@x_coord@}, {@y_coord@}) \geq {@f_eval+delta_f@}\).</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020120600</text>
+    </stackversion>
+    <questionvariables>
+      <text>a: rand(3)+1;
+b: rand(3)+1;
+x_coord: rand([1,2,3]);
+y_coord: rand_with_prohib(1,3,[x_coord]);
+f: (a*x^2)+(y^2) + b*x*y;
+error_x: rand([0.01, 0.02, 0.03]);
+error_y: rand([0.04, 0.05, 0.06]);
+f_x: diff(f, x);
+f_y: diff(f, y);
+f_eval: ev( f, x:x_coord, y:y_coord);  /* evaluate f at point */
+f_x_eval: ev( f_x, x:x_coord, y:y_coord);  /* evaluate f_x at point */
+f_y_eval: ev( f_y, x:x_coord, y:y_coord);  /*evaluate f_y at point */
+delta_f: significantfigures((abs(f_x_eval)*error_x)+(abs(f_y_eval)*error_y),2);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\[ f_x= {@f_x@}, \, f_y= {@f_y@}, |\delta f|_{\text{max}}={@delta_f@}\]
+\[ {@f_eval-delta_f@} \leq f({@x_coord@}, {@y_coord@}) \geq {@f_eval+delta_f@} \]</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i> Your answer is partially correct.</span>]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans10</name>
+      <type>units</type>
+      <tans>f_eval+delta_f</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>algebraic</type>
+      <tans>f_x</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords>x,y</allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans4</name>
+      <type>algebraic</type>
+      <tans>f_y</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords>x,y</allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans5</name>
+      <type>units</type>
+      <tans>f_eval</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans6</name>
+      <type>algebraic</type>
+      <tans>f_x</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords>x,y</allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans7</name>
+      <type>algebraic</type>
+      <tans>f_y</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords>x,y</allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans8</name>
+      <type>units</type>
+      <tans>delta_f</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans9</name>
+      <type>units</type>
+      <tans>f_eval-delta_f</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt10</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans10</sans>
+        <tans>f_eval+delta_f</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt10-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt10-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>f_x</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt4</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans4</sans>
+        <tans>f_y</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt4-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt4-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt5</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans5</sans>
+        <tans>f_eval</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt5-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt5-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt6</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans6</sans>
+        <tans>f_x</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt6-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt6-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt7</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans7</sans>
+        <tans>f_y</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt7-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt7-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt8</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans8</sans>
+        <tans>delta_f</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt8-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt8-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt9</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans9</sans>
+        <tans>f_eval-delta_f</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt9-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt9-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1456944893</deployedseed>
+    <deployedseed>1431624842</deployedseed>
+    <deployedseed>1828387600</deployedseed>
+    <deployedseed>854186634</deployedseed>
+    <deployedseed>672727658</deployedseed>
+    <deployedseed>2054065211</deployedseed>
+    <deployedseed>1071192050</deployedseed>
+    <deployedseed>1398958443</deployedseed>
+    <deployedseed>1666759172</deployedseed>
+    <deployedseed>289765845</deployedseed>
+    <deployedseed>996347856</deployedseed>
+    <deployedseed>2044757537</deployedseed>
+    <deployedseed>1295910234</deployedseed>
+    <deployedseed>840139277</deployedseed>
+    <deployedseed>1638847897</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans10</name>
+        <value>ev(f_eval+delta_f,simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>f_x</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>f_y</value>
+      </testinput>
+      <testinput>
+        <name>ans5</name>
+        <value>f_eval</value>
+      </testinput>
+      <testinput>
+        <name>ans6</name>
+        <value>f_x</value>
+      </testinput>
+      <testinput>
+        <name>ans7</name>
+        <value>f_y</value>
+      </testinput>
+      <testinput>
+        <name>ans8</name>
+        <value>dispsf(delta_f,2)</value>
+      </testinput>
+      <testinput>
+        <name>ans9</name>
+        <value>ev(f_eval-delta_f,simp)</value>
+      </testinput>
+      <expected>
+        <name>prt10</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt10-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt4-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt5</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt5-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt6</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt6-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt7</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt7-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt8</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt8-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt9</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt9-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans10</name>
+        <value>ev(f_eval+delta_f+1,simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ev(f_x+1,simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>ev(f_y+1,simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans5</name>
+        <value>ev(f_eval+1,simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans6</name>
+        <value>ev(f_x+1,simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans7</name>
+        <value>ev(f_y+1,simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans8</name>
+        <value>dispsf(ev(delta_f+1,simp),2)</value>
+      </testinput>
+      <testinput>
+        <name>ans9</name>
+        <value>ev(f_eval-delta_f+1,simp)</value>
+      </testinput>
+      <expected>
+        <name>prt10</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt10-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt3-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt4-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt5</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt5-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt6</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt6-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt7</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt7-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt8</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt8-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt9</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt9-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

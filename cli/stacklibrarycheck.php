@@ -31,7 +31,7 @@ require_once(__DIR__ . '/../stack/utils.class.php');
 require_once($CFG->libdir . '/clilib.php');
 
 /** @var int the Maximum allowable length of a filename. */
-const MAX_FILENAME_LENGTH = 100;
+const MAX_FILENAME_LENGTH = 120;
 /** @var int the Maximum allowable length of a directory name. */
 const MAX_DIRNAME_LENGTH = 100;
 
@@ -60,7 +60,7 @@ function report($d) {
                     $a[] = [$fpath, 'L', 'Filename exceeds limit of ' . MAX_FILENAME_LENGTH . ' characters.'];
                 }
 
-                $badcharacters = '/[\/\\\?\%\'*:|"<> $!\`&]/'; // phpcs:ignore moodle.Strings.ForbiddenStrings.Found
+                $badcharacters = '/[\/\\\?\%\'*:|"<> $!\`&\t]/'; // phpcs:ignore moodle.Strings.ForbiddenStrings.Found
 
                 $matches = [];
                 // Check for permitted characters.
@@ -72,6 +72,9 @@ function report($d) {
                             switch ($badchar) {
                                 case " ":
                                     $invalidchars[$badchar] = "[SPACE]";
+                                    break;
+                                case "\t":
+                                    $invalidchars[$badchar] = "[TAB]";
                                     break;
                                 default:
                                     $invalidchars[$badchar] = $badchar;

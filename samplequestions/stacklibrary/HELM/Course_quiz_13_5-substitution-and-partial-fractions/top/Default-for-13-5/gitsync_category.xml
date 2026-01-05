@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category>
+      <text>top/Default for 13.5</text>
+    </category>
+    <info format="html">
+      <text>The default category for questions shared in context '13.5 Integration by Substitution and Using Partial Fractions'.</text>
+    </info>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>20.4.1.2 Capacitor Exercise</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p> The equation governing the build up of charge, \(q(t)\), on the capacitor of an RC circuit is \(\displaystyle{R{dq\over {dt}}+{1\over C}q=v_0}\).</p>
+<center><img src="@@PLUGINFILE@@/20-4-fig-14.1-circuit.svg" alt="Simple circuit diagram showing a resistor and capacitor in series." width="129" height="87" class="img-responsive atto_image_button_text-bottom"></center>
+<p>where \(v_0\) is the constant d.c. voltage. Initially, the circuit is relaxed and the circuit is then 'closed' at \(t=0\) and so \(q(0)=0\) is the initial condition for the charge.</p>
+
+<p>Use the Laplace transform method to solve the differential equation for \(q(t)\). Assume the forcing term \(v_0\) is causal.</p>
+
+<ol class="HELM_parts">
+<li>
+<p>Begin by finding an expression for \(Q(s)={\cal L}\{q(t)\}\):</p>
+<p>\(Q(s)=\) [[input:ans1]] [[validation:ans1]][[feedback:prt1]]</p>
+</li>
+<li>
+<p>Now expand the expression using partial fractions:</p>
+<p>\(Q(s)=\) [[input:ans2]] [[validation:ans2]][[feedback:prt2]]</p>
+</li>
+<li>
+<p>Now obtain \(q(t)\) by taking inverse Laplace transforms:</p>
+<p>\(q(t)=\) [[input:ans3]] [[validation:ans3]][[feedback:prt3]]</p>
+</li></ol>]]></text>
+<file name="20-4-fig-14.1-circuit.svg" path="/" encoding="base64">PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iOTdwdCIgaGVpZ2h0PSI2NXB0IiB2aWV3Qm94PSIwIDAgOTcgNjUiPjxjbGlwUGF0aCBpZD0iYSI+PHBhdGggdHJhbnNmb3JtPSJtYXRyaXgoMSAwIDAgLTEgMCA2NSkiIGQ9Ik0wIDBoOTd2NjVIMHoiLz48L2NsaXBQYXRoPjxnIGNsaXAtcGF0aD0idXJsKCNhKSI+PHBhdGggZD0iTTc4LjA1IDYzLjg3SDIxLjM4M1YxMC4yMDNoMzIuMzM0IiBmaWxsPSIjZmZmIi8+PHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwIiBkPSJNNzguMDUgNjMuODdIMjEuMzgzVjEwLjIwM2gzMi4zMzQiLz48cGF0aCBkPSJNMTQuODgzIDUyLjAzNmgxMi4zMzN2LTI3SDE0Ljg4M3oiIGZpbGw9IiNmZmYiLz48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIGQ9Ik0xNC44ODMgNTIuMDM2aDEyLjMzM3YtMjdIMTQuODgzeiIvPjxwYXRoIGQ9Ik02MC4yMTcgOS43MDNoMTh2MjQiIGZpbGw9IiNmZmYiLz48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIGQ9Ik02MC4yMTcgOS43MDNoMTh2MjRNNzguMDUgNDIuNTM2VjYzLjg3TTcyLjIyNyAzMy44OTFoMTEuMzM0TTcyLjQ4NyA0Mi4zOGgxMS4zMzRNNTQuMDUgMTguMDQ3Vi44OE01OS43NDggMTQuMDQ3di05Ii8+PHN5bWJvbCBpZD0iYiI+PHBhdGggZD0iTS4zMjEuNjM2Qy4zMy42NzMuMzM0LjY3NS4zNzMuNjc1aC4wNzJjLjA4NiAwIC4xNS0uMDI2LjE1LS4xMDRDLjU5NS41Mi41NjkuMzczLjM2OC4zNzNILjI1NWwuMDY2LjI2M00uNDYuMzYxYy4xMjQuMDI3LjIyMS4xMDcuMjIxLjE5MyAwIC4wNzgtLjA3OS4xNS0uMjE4LjE1SC4xOTJjLS4wMiAwLS4wMjkgMC0uMDI5LS4wMTkgMC0uMDEuMDA3LS4wMS4wMjYtLjAxLjA2IDAgLjA2LS4wMDguMDYtLjAxOSAwLS4wMDIgMC0uMDA4LS4wMDQtLjAyM0wuMTEuMDk1Qy4xMDEuMDYuMDk5LjA1LjAzLjA1LjAwNy4wNSAwIC4wNSAwIC4wMzFjMC0uMDEuMDExLS4wMS4wMTQtLjAxbC4wNTguMDAySC4xOUwuMjQ3LjAyMWMuMDA4IDAgLjAxOSAwIC4wMTkuMDE5IDAgLjAxLS4wMDkuMDEtLjAyNC4wMUMuMTgxLjA1LjE4MS4wNTguMTgxLjA2OGwuMDAyLjAxNi4wNjcuMjY5aC4xMkMuNDY1LjM1My40ODMuMjkzLjQ4My4yNkEuNDg0LjQ4NCAwIDAgMCAuNDY2LjE4Qy40NTUuMTM0LjQ1Mi4xMjMuNDUyLjEwNC40NTIuMDMzLjUxIDAgLjU3NyAwYy4wODEgMCAuMTE2LjA5OS4xMTYuMTEzIDAgLjAwNy0uMDA1LjAxLS4wMTEuMDFDLjY3NC4xMjMuNjcyLjExNy42Ny4xMDkuNjQ2LjAzOC42MDUuMDIuNTguMDIuNTU1LjAyLjUzOS4wMzEuNTM5LjA3NmMwIC4wMjQuMDEyLjExNS4wMTMuMTIuMDA1LjAzNy4wMDUuMDQxLjAwNS4wNDlDLjU1Ny4zMTguNDk4LjM0OS40Ni4zNjF6Ii8+PC9zeW1ib2w+PHVzZSB4bGluazpocmVmPSIjYiIgdHJhbnNmb3JtPSJtYXRyaXgoMTIgMCAwIC0xMiAxLjMxMiA0My4xMTcpIi8+PHN5bWJvbCBpZD0iYyI+PHBhdGggZD0iTS42OTcuNzE2Qy42OTcuNzI1LjY5LjcyNS42ODguNzI1Yy0uMDAyIDAtLjAwNiAwLS4wMTQtLjAxTC42MDUuNjMxQS4xOC4xOCAwIDAgMSAuNDQuNzI1Qy4yMjQuNzI1IDAgLjUwNiAwIC4yNzEgMCAuMTA0LjExNyAwIC4yNjMgMGMuMDggMCAuMTUuMDM0LjIwOC4wODMuMDg3LjA3My4xMTMuMTcuMTEzLjE3OEMuNTg0LjI3LjU3Ni4yNy41NzMuMjcuNTY0LjI3LjU2My4yNjQuNTYxLjI2QS4zMS4zMSAwIDAgMCAuMjguMDI5Yy0uMTA2IDAtLjE5OC4wNjgtLjE5OC4yMSAwIC4wMzIuMDEuMjA2LjEyMy4zMzcuMDU1LjA2NC4xNDkuMTIuMjQ0LjEyLjExIDAgLjE1OS0uMDkxLjE1OS0uMTkzQy42MDguNDc3LjYwNS40NTUuNjA1LjQ1MWMwLS4wMDkuMDEtLjAwOS4wMTMtLjAwOS4wMTEgMCAuMDEyLjAwMS4wMTYuMDE5bC4wNjMuMjU1eiIvPjwvc3ltYm9sPjx1c2UgeGxpbms6aHJlZj0iI2MiIHRyYW5zZm9ybT0ibWF0cml4KDEyIDAgMCAtMTIgODguMzQ4IDQyLjExNykiLz48L2c+PC9zdmc+</file>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<ol class="HELM_parts">
+<li><p>\(\displaystyle{Q(s)={v_0C\over {s(RCs+1)}}}\) since, taking the Laplace transform of each term in the differential equation: \[\begin{eqnarray*} R{\cal L}\{{dq\over {dt}}\}+{1\over C}{\cal L}\{q\}&amp;=&amp;{\cal L}\{v_0\}\qquad\qquad\qquad\qquad\qquad\qquad\\ \text{ i.e.}\qquad R[-q(0)+sQ(s)]+{1\over C}Q(s)&amp;=&amp;{v_0\over s} \end{eqnarray*} \] where, we emphasize, the Laplace transform of the constant term \(v_0\) is \(\dfrac{v_0}{s}\). Inserting \(q(0)=0\) we have, after some rearrangement, \[Q(s)={v_0C\over {s(RCs+1)}}.\]</p></li>
+<li><p>You should obtain \(\displaystyle{Q(s)=v_0C\left[{1\over s}-{RC\over {RCs+1}}\right]}\)</p></li>
+<li><p>\(q(t)=v_0C(1-\text{e}^{-t/RC})u(t)\) since \[ {\cal L}^{-1}\{{1\over s}\}=1\qquad \text{ and}\qquad {\cal L}^{-1}\{{RC\over {RCs+1}}\}={\cal L}^{-1}\{{1\over {s+ (1/RC)}}\}=\text{e}^{-t/RC}\]  The solution to this problem is illustrated in the following diagram.</p> <center><img src="@@PLUGINFILE@@/20-4-fig-14.2-charge_graph.svg" alt="A graph showing the charge in the capacitor, growing over time but capped above by v0C." width="564" height="145" class="img-responsive atto_image_button_text-bottom"></center></li>
+</ol>]]></text>
+<file name="20-4-fig-14.2-charge_graph.svg" path="/" encoding="base64">PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iNTY0IiBoZWlnaHQ9IjEwOXB0IiB2aWV3Qm94PSIwIDAgNDIzIDEwOSI+PGNsaXBQYXRoIGlkPSJhIj48cGF0aCB0cmFuc2Zvcm09Im1hdHJpeCgxIDAgMCAtMSAwIDEwOSkiIGQ9Ik0wIDBoNDIzdjEwOUgweiIvPjwvY2xpcFBhdGg+PGcgY2xpcC1wYXRoPSJ1cmwoI2EpIj48cGF0aCBzdHJva2Utd2lkdGg9Ii41IiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIGQ9Ik0xNDEuNjA4IDkxLjg0N2g2bS0zLTN2Nm0xNDQuNjY2LTUzLjgzMy43NS0uMDg0LjY2Ny0uMDgzaC43NWwuNzUtLjA4My42NjctLjA4NC43NS0uMDgzLjY2Ni0uMDgzLjc1LS4wODQuNzUtLjA4My42NjctLjA4M2guNzVsLjc1LS4wODQuNjY3LS4wODMgMS41LS4xNjcuNjY2LS4wODNoLjc1bC42NjctLjA4My43NS0uMDg0Ljc1LS4wODMuNjY3LS4wODNoLjc1bC43NS0uMDg0LjY2Ni0uMDgzLjc1LS4wODNoLjc1bC42NjctLjA4My43NS0uMDg0aC43NWwuNjY3LS4wODMuNzUtLjA4My42NjYtLjA4NGguNzVsLjc1LS4wODMuNjY3LS4wODNoLjc1bC43NS0uMDg0aC42NjdsLjc1LS4wODMuNzUtLjA4M2guNjY2bC43NS0uMDg0LjY2Ny0uMDgzaC43NWwuNzUtLjA4M2guNjY3bC43NS0uMDg0Ljc1LS4wODNoLjY2NmwuNzUtLjA4M2guNzVsLjY2Ny0uMDg0aC43NWwuNjY3LS4wODMuNzUtLjA4M2guNzVsLjY2Ni0uMDg0aC43NWwuNzUtLjA4M2guNjY3bC43NS0uMDgzaC43NWwuNjY3LS4wODRoLjc1bC43NS0uMDgzaC42NjZsLjc1LS4wODNoLjY2N2wuNzUtLjA4M2guNzVsLjY2Ny0uMDg0aC43NWwuNzUtLjA4M2gxLjQxN2wuNzUtLjA4M2guNjY2bC43NS0uMDg0aC42NjdsLjc1LS4wODNoMS40MTdsLjc1LS4wODNoLjc1bC42NjYtLjA4NGgxLjVsLjY2Ny0uMDgzaC43NWwuNjY3LS4wODNoMS41bC42NjYtLjA4NGguNzVsLjc1LS4wODNoMS40MTdsLjc1LS4wODNoLjY2N00yMTguMDI0IDU0LjM0N2wuNjY3LS4yNS43NS0uMTY3Ljc1LS4yNS42NjctLjE2Ni43NS0uMjUuNzUtLjE2Ny42NjYtLjE2Ny43NS0uMjUuNzUtLjE2Ni42NjctLjE2Ny43NS0uMjUuNjY3LS4xNjcuNzUtLjE2Ni43NS0uMTY3LjY2Ni0uMjUgMS41LS4zMzMuNjY3LS4xNjcgMS41LS4zMzMuNjY3LS4xNjcuNzUtLjE2Ny42NjYtLjE2Ni43NS0uMTY3Ljc1LS4xNjcuNjY3LS4xNjYgMS41LS4zMzQuNjY3LS4xNjYuNzUtLjE2Ny43NS0uMTY3LjY2Ni0uMTY2Ljc1LS4wODQuNjY3LS4xNjYuNzUtLjE2Ny43NS0uMTY3LjY2Ny0uMTY2Ljc1LS4wODQuNzUtLjE2Ni42NjYtLjE2Ny43NS0uMTY3Ljc1LS4wODMuNjY3LS4xNjcuNzUtLjE2Ni43NS0uMDg0LjY2Ny0uMTY2Ljc1LS4wODQuNjY2LS4xNjYuNzUtLjA4NC43NS0uMTY2LjY2Ny0uMTY3Ljc1LS4wODMuNzUtLjE2Ny42NjctLjA4My43NS0uMTY3Ljc1LS4wODMuNjY2LS4wODQuNzUtLjE2Ni42NjctLjA4NC43NS0uMTY2Ljc1LS4wODQuNjY3LS4wODMuNzUtLjE2Ny43NS0uMDgzLjY2Ni0uMDgzLjc1LS4xNjcuNzUtLjA4My42NjctLjA4NC43NS0uMTY2LjY2Ny0uMDg0Ljc1LS4wODMuNzUtLjA4My42NjctLjE2NyAxLjUtLjE2Ny42NjYtLjA4My43NS0uMDgzLjc1LS4xNjcuNjY3LS4wODMuNzUtLjA4NC42NjctLjA4My43NS0uMDgzLjc1LS4wODQuNjY2LS4wODMuNzUtLjA4My43NS0uMTY3LjY2Ny0uMDgzIDEuNS0uMTY3LjY2Ny0uMDgzLjc1LS4wODMuNzUtLjA4NC42NjYtLjA4My43NS0uMDgzLjY2Ny0uMDg0Ljc1LS4wODMuNzUtLjA4My42NjctLjA4NC43NS0uMDgzTTE0Ni43NzQgOTAuMDk3bC42NjctLjU4My43NS0uNS42NjYtLjU4NC43NS0uNTgzLjc1LS41LjY2Ny0uNTgzIDEuNS0xIC42NjctLjU4NC43NS0uNS43NS0uNS42NjYtLjUuNzUtLjUuNjY3LS41IDEuNS0xIC42NjctLjUuNzUtLjQxNy43NS0uNS42NjYtLjUuNzUtLjQxNi43NS0uNS42NjctLjQxNy43NS0uNS42NjctLjQxNyAxLjUtLjgzMy42NjYtLjUuNzUtLjQxNy43NS0uNDE2LjY2Ny0uNDE3IDEuNS0uODMzLjY2Ny0uNDE3Ljc1LS40MTYuNzUtLjMzNC42NjYtLjQxNi43NS0uNDE3LjY2Ny0uMzMzIDEuNS0uODM0LjY2Ny0uMzMzLjc1LS40MTcuNzUtLjMzMy42NjctLjMzMy43NS0uNDE3Ljc1LS4zMzMuNjY2LS4zMzQuNzUtLjMzMy42NjctLjQxNy43NS0uMzMzLjc1LS4zMzQuNjY3LS4zMzMuNzUtLjMzMy43NS0uMzM0LjY2Ni0uMzMzLjc1LS4zMzMuNzUtLjI1LjY2Ny0uMzM0Ljc1LS4zMzMuNjY3LS4zMzMuNzUtLjI1Ljc1LS4zMzQuNjY2LS4zMzMuNzUtLjI1Ljc1LS4zMzMuNjY3LS4yNS43NS0uMzM0Ljc1LS4yNS42NjctLjMzMy43NS0uMjUuNzUtLjI1LjY2Ni0uMzMzLjc1LS4yNS42NjctLjI1Ljc1LS4yNS43NS0uMzM0LjY2Ny0uMjQ5Ljc1LS4yNS43NS0uMjUuNjY2LS4yNS43NS0uMjUuNzUtLjI1LjY2Ny0uMjUuNzUtLjI1LjY2Ny0uMjUuNzUtLjI1Ljc1LS4yNS42NjYtLjE2Ny43NS0uMjUuNzUtLjI1LjY2Ny0uMjUuNzUtLjE2Ny43NS0uMjUuNjY3LS4yNS43NS0uMTY2LjY2Ni0uMjUuNzUtLjI1Ljc1LS4xNjdNLjc3NCA5MS4wMTRoNDAzIi8+PHBhdGggZD0ibTQwMy4yNjQgOTEuMDE0LTEuMDk1LTEuODAyLjA2Mi0uMDQxIDIuOTM3IDEuMTY3IDMuMDcxLjY3Ni0zLjA3MS42NzUtMi45MzcgMS4xNjctLjA2Mi0uMDMxIDEuMDk1LTEuODExIi8+PHBhdGggc3Ryb2tlLXdpZHRoPSIuNSIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwIiBkPSJNMTQzLjc3NCAxMDguMDE0di0xMDEiLz48cGF0aCBkPSJtMTQzLjc3NCA3LjUyNC0xLjgwMSAxLjA5NS0uMDQxLS4wNjIgMS4xNjctMi45MzcuNjc1LTMuMDcuNjc2IDMuMDcgMS4xNjcgMi45MzctLjAzMS4wNjItMS44MTItMS4wOTUiLz48cGF0aCBzdHJva2Utd2lkdGg9Ii41IiBzdHJva2UtZGFzaGFycmF5PSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIGQ9Ik0xNDMuNzc0IDMxLjAxNGgyNzMiLz48c3ltYm9sIGlkPSJiIj48cGF0aCBkPSJNLjQwMi42MjVhLjAwOS4wMDkgMCAwIDEtLjAwOS4wMDlDLjM4NS42MzQuMzQ2LjU5OC4zMjcuNTYzLjMwOS42MDguMjc4LjYzNS4yMzUuNjM1LjEyMi42MzUgMCAuNDg5IDAgLjM0MSAwIC4yNDIuMDU4LjE4NC4xMjYuMTg0Yy4wNTMgMCAuMDk3LjA0LjExOC4wNjNMLjI0NS4yNDYuMjA3LjA5Ni4xOTguMDZDLjE4OS4wMy4xNzQuMDMuMTI3LjAyOS4xMTYuMDI5LjEwNi4wMjkuMTA2LjAxLjEwNi4wMDMuMTEyIDAgLjExOSAwbC4wNDYuMDAyaC4xMDJMLjMxNCAwQy4zMiAwIC4zMzIgMCAuMzMyLjAxOWMwIC4wMS0uMDA4LjAxLS4wMjMuMDEtLjA0NyAwLS4wNS4wMDctLjA1LjAxNSAwIC4wMDUuMDAxLjAwNi4wMDQuMDE5bC4xMzkuNTYyTS4yNjEuMzEzQy4yNTYuMjk2LjI1Ni4yOTQuMjQyLjI3NS4yMi4yNDcuMTc2LjIwNC4xMjkuMjA0LjA4OC4yMDQuMDY1LjI0MS4wNjUuM2EuNzIuNzIgMCAwIDAgLjA1LjIwOWMuMDM0LjA3LjA4MS4xMDYuMTIuMTA2LjA2NiAwIC4wNzktLjA4Mi4wNzktLjA5QS4xMjQuMTI0IDAgMCAwIC4zMS41MDlMLjI2MS4zMTN6Ii8+PC9zeW1ib2w+PHVzZSB4bGluazpocmVmPSIjYiIgdHJhbnNmb3JtPSJtYXRyaXgoMTIgMCAwIC0xMiAxNDguMjQyIDEzLjM0MikiLz48c3ltYm9sIGlkPSJjIj48cGF0aCBkPSJNLjA3NyAwQS44MjMuODIzIDAgMCAwIC4wMy41NjVDLjA1LjYzMy4wODMuNy4xMjUuNzY3LjE1My44MS4xOTguODY4LjI2LjkzOGguMDY5QS45NS45NSAwIDAgMSAuMjA4Ljc2Ny44MjMuODIzIDAgMCAxIC4wODcuMzM0Qy4wODYuMjI3LjEwNC4xMTUuMTQyIDBILjA3N3oiLz48L3N5bWJvbD48dXNlIHhsaW5rOmhyZWY9IiNjIiB0cmFuc2Zvcm09Im1hdHJpeCgxMiAwIDAgLTEyIDE1My45OTggMTMuNTQpIi8+PHN5bWJvbCBpZD0iZCI+PHBhdGggZD0iTS4xNzkuNDEyaC4wOTJDLjI5LjQxMi4zLjQxMi4zLjQzLjMuNDQxLjI5NC40NDEuMjc0LjQ0MUguMTg2bC4wMzcuMTQ2Qy4yMjcuNjAxLjIyNy42MDMuMjI3LjYxYzAgLjAxNi0uMDEzLjAyNS0uMDI2LjAyNUMuMTkzLjYzNS4xNy42MzIuMTYyLjZMLjEyMy40NDFILjAyOUMuMDA5LjQ0MSAwIC40NDEgMCAuNDIyYzAtLjAxLjAwNy0uMDEuMDI2LS4wMWguMDg5TC4wNDkuMTQ4Qy4wNDEuMTEzLjAzOC4xMDMuMDM4LjA5LjAzOC4wNDMuMDcxIDAgLjEyNyAwYy4xMDEgMCAuMTU1LjE0Ni4xNTUuMTUzIDAgLjAwNi0uMDA0LjAwOS0uMDEuMDA5LS4wMDIgMC0uMDA2IDAtLjAwOC0uMDA0TC4yNTUuMTRDLjIzNC4wOS4xODguMDIuMTMuMDIuMS4wMi4wOTguMDQ1LjA5OC4wNjdjMCAuMDAxIDAgLjAyLjAwMy4wMzJsLjA3OC4zMTN6Ii8+PC9zeW1ib2w+PHVzZSB4bGluazpocmVmPSIjZCIgdHJhbnNmb3JtPSJtYXRyaXgoMTIgMCAwIC0xMiAxNTcuMjQ1IDExLjEzNCkiLz48c3ltYm9sIGlkPSJlIj48cGF0aCBkPSJNLjI1MS45MzhBLjgxOC44MTggMCAwIDAgLjI5Ny4zNzQuODIyLjgyMiAwIDAgMCAuMjAzLjE3MiAxLjU3NiAxLjU3NiAwIDAgMCAuMDcgMEgwYS45ODUuOTg1IDAgMCAxIC4xMi4xNzIuODI0LjgyNCAwIDAgMSAuMTIxLjQzM2MwIC4xMDctLjAxOC4yMTktLjA1NS4zMzNILjI1eiIvPjwvc3ltYm9sPjx1c2UgeGxpbms6aHJlZj0iI2UiIHRyYW5zZm9ybT0ibWF0cml4KDEyIDAgMCAtMTIgMTYwLjU4NSAxMy41NCkiLz48dXNlIHhsaW5rOmhyZWY9IiNkIiB0cmFuc2Zvcm09Im1hdHJpeCgxMiAwIDAgLTEyIDQxOC4wMzggOTUuMTM0KSIvPjxzeW1ib2wgaWQ9ImYiPjxwYXRoIGQ9Ik0uNDMuMzg0Qy40My40NDcuMzk4LjQ1MS4zOS40NTEuMzY2LjQ1MS4zNDQuNDI3LjM0NC40MDdjMC0uMDEyLjAwNy0uMDE5LjAxMS0uMDIzQS4xMTQuMTE0IDAgMCAwIC4zOTEuMjk2Qy4zOTEuMjU0LjMzMS4wMi4yMTEuMDIuMTUuMDIuMTM4LjA3MS4xMzguMTA4YzAgLjA1LjAyMy4xMi4wNS4xOTIuMDE2LjA0MS4wMi4wNTEuMDIuMDcxIDAgLjA0Mi0uMDMuMDgtLjA3OS4wOEMuMDM3LjQ1MSAwIC4zMDYgMCAuMjk4IDAgLjI5NC4wMDQuMjg5LjAxMS4yODljLjAwOSAwIC4wMS4wMDQuMDE0LjAxOC4wMjQuMDg2LjA2My4xMjQuMTAxLjEyNC4wMDkgMCAuMDI2IDAgLjAyNi0uMDMzQS4yNzUuMjc1IDAgMCAwIC4xMjYuMzA1Qy4wNzguMTc3LjA3OC4xNDYuMDc4LjEyMi4wNzguMS4wODEuMDU5LjExMi4wMzEuMTQ4IDAgLjE5OCAwIC4yMDcgMCAuMzczIDAgLjQzLjMyNy40My4zODR6Ii8+PC9zeW1ib2w+PHN5bWJvbCBpZD0iZyI+PHBhdGggZD0iTTAgMHoiLz48L3N5bWJvbD48dXNlIHhsaW5rOmhyZWY9IiNmIiB0cmFuc2Zvcm09Im1hdHJpeCgxMiAwIDAgLTEyIDEyMS4wOTggMzMuMTMzKSIvPjx1c2UgeGxpbms6aHJlZj0iI2ciIHRyYW5zZm9ybT0ibWF0cml4KDEyIDAgMCAtMTIgMTI2LjQ1IDMzLjAxMykiLz48dXNlIHhsaW5rOmhyZWY9IiNnIiB0cmFuc2Zvcm09Im1hdHJpeCgxMiAwIDAgLTEyIDEzMC40NDYgMzMuMDEzKSIvPjxzeW1ib2wgaWQ9ImgiPjxwYXRoIGQ9Ik0uMTY2LjAyNWMuMDYyIDAgLjExNi4wNjIuMTYxLjE4NmEuODcuODcgMCAwIDEgLjA2LjMwNGMwIC4wMzMtLjAwNC4wNi0uMDEyLjA4LS4wMTMuMDQtLjAzNy4wNi0uMDczLjA2Qy4yMzUuNjU0LjE3OS41ODEuMTMyLjQzN0EuOTQuOTQgMCAwIDEgLjA4LjE2NEMuMDguMTMzLjA4My4xMDcuMDkuMDg2Yy4wMTQtLjA0LjA0LS4wNi4wNzYtLjA2bS4xMzcuNjU3Qy4zNjYuNjgzLjQxMS42NTIuNDM4LjU4OUEuMzUuMzUgMCAwIDAgLjQ2NS40NDcuNTM4LjUzOCAwIDAgMCAuMzcxLjEzM0MuMzEuMDQ0LjI0IDAgLjE2MSAwYS4xNDMuMTQzIDAgMCAwLS4xMTQuMDU4LjI0OC4yNDggMCAwIDAtLjA0Ny4xNkMwIC4zMy4wMy40MzcuMDkyLjUzNGMuMDYzLjA5OS4xMzQuMTQ5LjIxMS4xNDl6Ii8+PC9zeW1ib2w+PHVzZSB4bGluazpocmVmPSIjaCIgdHJhbnNmb3JtPSJtYXRyaXgoNyAwIDAgLTcgMTI1LjU1MiAzNi43MDgpIi8+PHN5bWJvbCBpZD0iaSI+PHBhdGggZD0iTS42OTcuNzE2Qy42OTcuNzI1LjY5LjcyNS42ODguNzI1Yy0uMDAyIDAtLjAwNiAwLS4wMTQtLjAxTC42MDUuNjMxQS4xOC4xOCAwIDAgMSAuNDQuNzI1Qy4yMjQuNzI1IDAgLjUwNiAwIC4yNzEgMCAuMTA0LjExNyAwIC4yNjMgMGMuMDggMCAuMTUuMDM0LjIwOC4wODMuMDg3LjA3My4xMTMuMTcuMTEzLjE3OEMuNTg0LjI3LjU3Ni4yNy41NzMuMjcuNTY0LjI3LjU2My4yNjQuNTYxLjI2QS4zMS4zMSAwIDAgMCAuMjguMDI5Yy0uMTA2IDAtLjE5OC4wNjgtLjE5OC4yMSAwIC4wMzIuMDEuMjA2LjEyMy4zMzcuMDU1LjA2NC4xNDkuMTIuMjQ0LjEyLjExIDAgLjE1OS0uMDkxLjE1OS0uMTkzQy42MDguNDc3LjYwNS40NTUuNjA1LjQ1MWMwLS4wMDkuMDEtLjAwOS4wMTMtLjAwOS4wMTEgMCAuMDEyLjAwMS4wMTYuMDE5bC4wNjMuMjU1eiIvPjwvc3ltYm9sPjx1c2UgeGxpbms6aHJlZj0iI2kiIHRyYW5zZm9ybT0ibWF0cml4KDEyIDAgMCAtMTIgMTMxLjYgMzQuMjUyKSIvPjwvZz48L3N2Zz4=</file>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2023010400</text>
+    </stackversion>
+    <questionvariables>
+      <text>ta1: v_0*C/(s*(R*C*s + 1));
+ta1_v0: v0*C/(s*(R*C*s + 1));
+ta2: v_0*C*(1/s - R*C/(R*C*s + 1));
+ta2_v0: v0*C*(1/s - R*C/(R*C*s + 1));
+ta3: v_0*C*(1 - e^(-t/(R*C)))*u(t);
+ta3_v0: v0*C*(1 - e^(-t/(R*C)))*u(t);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text/>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>ta2</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>algebraic</type>
+      <tans>ta3</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1_v0</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>ta2_v0</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>ta3</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>ta3_v0</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta3</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-2-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-2-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-2-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1_v0</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2_v0</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta3_v0</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>(C*v)/(s*(C*R*s))</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>v_0*(1/s^2 - R*C/(R*C*s + 1))</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>C*(1-%e^-(t/(C*R)))</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-2-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-2-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt3-2-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>0</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>0</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>0</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-2-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-2-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt3-2-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

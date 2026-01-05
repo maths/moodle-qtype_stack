@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>18.1.1.4 Function of Three Variables</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>In a similar way we can define a function of three independent variables. Let these variables be \(x,y\) and \(u\) and the function \(f(x,y,u)\).</p>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Given \(f(x,y,u)=x^2+yu+2\), find \(f(0,1,0),\ f(-1,-1,2)\).</p>
+
+<h4 class="HELM_solution">Solution</h4>
+\(f(0,1,0)=0^2+1\times 0+2=2\), &nbsp;\( f(-1,-1,2)=1-2+2=1\)]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

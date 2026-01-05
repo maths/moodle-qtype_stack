@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>35.2.1.4 Everyday sample spaces</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4 class="HELM_example">Example</h4>
+<p> For the following list of experiments, list (if possible) a suitable sample space. If you cannot write out a suitable sample space, describe one in words. </p>
+<ol class="HELM_parts">
+<li> Test a light switch </li>
+<li> Count the daily traffic accidents in Loughborough involving cyclists </li>
+<li> Measure the tensile strength of small gauge steel wire </li>
+<li> Test the maximum current carrying capacity of household mains cabling </li>
+<li> Test the number of on-off switchings that a new type of fluorescent tube will cope with before failure </li>
+<li> Pressure test an underwater TV camera. </li>
+</ol>
+<h4 class="HELM_solution">Solution</h4>
+<p> Sample spaces might be </p>
+<ol class="HELM_parts">
+<li> \(\{\)works, fails\(\}\) </li>
+<li> \(\{0,1, 2, 3, \dots \}\), hopefully a small upper limit! </li>
+<li>\(\{\) Positive continuous range \((0, \infty)\)\(\}\) or \(\{\)Suitable bounded continuous interval depending on the wire or measuring device\(\}\) </li>
+<li> \(\{\) Positive continuous range \((0, \infty)\)\(\}\) or \(\{\)Suitable bounded&nbsp;continuous range depending on the type of cable\(\}\) </li>
+<li> \(\{0,1, 2, 3, \dots\}\), hopefully a high upper limit! </li>
+<li> \(\{\) Positive continuous range \((0, \infty)\)\(\}\) or \(\{\)Suitable bounded continuous interval\(\}\) </li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

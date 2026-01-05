@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>2.7.2.2 Study the graph of a rational function</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>Consider the rational function function \(R_2(t)=\dfrac{t^3-1}{2t+3}\), and its graph. The solid curve represents the rational function, while the dotted line is an asymptote.</p>
+<figure class="HELM_figure">
+<img src="@@PLUGINFILE@@/block8-fig3-1.svg" alt="2.7.2.2 R(t)" role="presentation" class="img-responsive atto_image_button_text-bottom" width="277" height="243">
+</figure>
+
+<ol class="HELM_parts">
+<li>What is the function value when \(t= 1\)?  [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</li>
+<li>What is the value of the denominator when \(t=−\dfrac{3}{2}\)?  [[input:ans2]] [[validation:ans2]] [[feedback:prt2]]</li>
+<li>What do you think happens to the graph of the function when \(t=−\dfrac{3}{2}\)?  [[input:ans3]] [[validation:ans3]] [[feedback:prt3]]</li>
+</ol>]]></text>
+<file name="block8-fig3-1.svg" path="/" encoding="base64">PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMjA4cHQiIGhlaWdodD0iMTgycHQiIHZpZXdCb3g9IjAgMCAyMDggMTgyIj48Y2xpcFBhdGggaWQ9ImEiPjxwYXRoIHRyYW5zZm9ybT0ibWF0cml4KDEgMCAwIC0xIDAgMTgyKSIgZD0iTTAgMGgyMDh2MTgySDB6Ii8+PC9jbGlwUGF0aD48ZyBjbGlwLXBhdGg9InVybCgjYSkiPjxwYXRoIHN0cm9rZS13aWR0aD0iMS4zIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIGQ9Ik0xNi45OTggOTMuNjc1aDIuMzRtLTEuMTctMS4xN3YyLjM0bTQxLjkyNS0xLjE3aDIuMzRtLTEuMTctMS4xN3YyLjM0bTg0Ljk4OS0xLjE3aDIuMzRtLTEuMTctMS4xN3YyLjM0bS0zOS43MzUgNzAuOTE5aDIuMzRtLTEuMTctMS4xN3YyLjM0bS0xLjE3LTM1LjQ5aDIuMzRtLTEuMTctMS4xN3YyLjM0bS0xLjE3LTY5LjgxMWgyLjM0bS0xLjE3LTEuMTd2Mi4zNCIvPjxwYXRoIHN0cm9rZS13aWR0aD0iLjUiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMCIgZD0iTTE3Ljg4NiA5My42ODZoMTc0LjA3MiIvPjxwYXRoIGQ9Ik0xOTIuOTMxIDkzLjY3NWwtMS43MDgtMi44MS4wOTUtLjA2NCA0LjU4MyAxLjgyIDQuNzkgMS4wNTQtNC43OSAxLjA1NC00LjU4MyAxLjgyLS4wOTUtLjA0OCAxLjcwOC0yLjgyNiIvPjxwYXRoIHN0cm9rZS13aWR0aD0iLjUiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMCIgZD0iTTEwOS4zNTcgMTY0LjgyN1YyNy41NDUiLz48cGF0aCBkPSJNMTA4Ljg1NyAyOC40ODNsLTIuODEgMS43MDgtLjA2NC0uMDk2IDEuODItNC41ODIgMS4wNTQtNC43OSAxLjA1NCA0Ljc5IDEuODIgNC41ODItLjA0Ny4wOTYtMi44MjctMS43MDgiLz48cGF0aCBzdHJva2UtbGluZWpvaW49InJvdW5kIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIGQ9Ik03OC44NzIgNjMuMzI1bC4wNjUuMDY1LjA5OC4wMzMuMDk3LjAzMi4wNjUuMDY1LjA5OC4wMzIuMDk3LjA2NS4wNjUuMDMzLjA5OC4wMzIuMDk3LjAzMy4wNjUuMDMyLjA5OC4wMzMuMDk3LjAzMy4wNjUuMDMyLjA5OC4wMzIuMDk3LjAzMy4wNjUuMDMyaC4wOThsLjA2NS4wMzNoLjA5N2wuMDk4LjAzMmguMTYzbC4wOTcuMDMzaC4zMjVsLjA5Ny0uMDMzaC4xNjNsLjA5Ny0uMDMyLjA5OC0uMDMzaC4wNjVsLjA5Ny0uMDMyLjA5OC0uMDMzLjA2NS0uMDMyLjA5Ny0uMDY1LjA5OC0uMDMzLjA2NS0uMDY1LjA5Ny0uMDMyLjA2NS0uMDY1LjA5OC0uMDY1LjA5Ny0uMDY1LjA2NS0uMDk3LjA5OC0uMDY1LjA5Ny0uMDk4LjA2NS0uMDk3TDgzIDYzbC4wOTctLjA5OC4wNjUtLjA5Ny4wOTgtLjEzLjA5Ny0uMTMuMDY1LS4xNjMuMDk4LS4xMy4wOTctLjE2Mi4wNjUtLjE2My4wOTgtLjE2Mi4wOTctLjE5NS4wNjUtLjE5NS4wOTgtLjIyOC4wNjUtLjIyNy4wOTctLjIyOC4wOTgtLjI2LjA2NS0uMjYuMDk3LS4yOTIuMDk4LS4zMjUuMDY1LS4zMjUuMDk3LS4zMjUuMDk4LS4zNTguMDY1LS4zOS4wOTctLjQyMi4wOTgtLjQ1NS4wNjUtLjQ1NS4wOTctLjUyLjA5OC0uNTUzLjA2NS0uNTg1LjA5Ny0uNjE3LjA5OC0uNjUuMDY1LS43MTUuMDk4LS43OC4wOTctLjg0NS4wNjUtLjkxLjA5Ny0uOTc1LjA2NS0xLjA3My4wOTgtMS4xNy4wOTctMS4yNjcuMDY2LTEuMzk4LjA5Ny0xLjU2LjA5Ny0xLjY5LjA2NS0xLjg4NS4wOTgtMi4xMTIuMDk3LTIuMzczLjA2NS0yLjY5Ny4wOTgtMy4wMjMuMDk3LTMuNTEuMDY1LTQuMDMuMDk4LTQuNzQ1LjA5OC01LjU5di0uNTUzTTcwLjMyNSA1My41NzVsLjE5NS4yNi4wNjUuMTMuMTk1LjI2LjA2NS4xMy4wOTcuMTMuMDY1LjEzLjA5OC4xMy4wOTcuMDk3LjA2NS4xMy4xOTUuMjYuMDY1LjEzLjA5OC4xMy4wOTcuMDk4LjA2NS4xMy4wOTguMTMuMDk3LjEzLjA2NS4wOTcuMDk4LjEzMS4wOTcuMTI5LjA2NS4wOTguMTk1LjI2LjA2NS4wOTguMDk4LjEzLjA2NS4xMy4wOTcuMDk3LjA5OC4xMy4wNjUuMDk4LjA5Ny4xMy4wOTguMDk3LjA2NS4xMy4xOTUuMTk1LjA2NS4xMy4wOTcuMDk4LjA5OC4xMy4wNjUuMDk3LjA5OC4wOTguMDk3LjEzLjA2NS4wOTcuMTk1LjE5NS4wNjUuMTMuMDk4LjA5OC4wOTcuMDk3LjA2NS4wOTguMDk4LjA5Ny4wNjUuMDk4LjA5Ny4wOTcuMDk4LjA5OC4wNjUuMDk3LjE5NS4xOTUuMDY1LjA5OC4wOTcuMDk3LjA5OC4wOTguMDY1LjA5Ny4wOTcuMDk4LjA5OC4wOTcuMDY1LjA5Ny4wOTcuMDk4LjA5OC4wNjUuMDY1LjA5Ny4wOTcuMDk4LjA5OC4wNjUuMDY1LjA5Ny4wOTcuMDk4LjA5OC4wNjUuMDY1LjA5OC4wOTcuMDk3LjA2NS4wNjUuMDk4LjA5OC4wOTcuMDY1LjE2My4xNjIuMDk3LjA2NS4wNjUuMDY1LjA5OC4wOTcuMDk3LjA2NS4wNjUuMDY1LjA5OC4wOTguMDk3LjA2NS4wNjUuMDY1LjA5OC4wNjUuMDk3LjA2NS4wNjUuMDY1LjA5OC4wNjUuMDk3LjA2NS4wNjUuMDY1LjA5OC4wNjUuMDY1LjAzMy4wOTcuMDY1LjA5OC4wNjQuMDY1LjA2Ni4wOTcuMDMyLjA5OC4wNjVNNjEuODEgMzguMzMybC4wNjUuMTk1LjA5Ny4xNjMuMDk4LjE2Mi4wNjUuMTk1LjA5Ny4xNjMuMDk4LjE2Mi4wNjUuMTk1LjE5NS4zMjUuMDY1LjE2My4wOTcuMTk1LjA5OC4xNjIuMDY1LjE2My4wOTcuMTYyLjA5OC4xOTUuMDY1LjE2My4wOTcuMTYyLjA2NS4xNjMuMDk4LjE2Mi4wOTcuMTYzLjA2NS4xNjIuMDk4LjE5NS4wOTcuMTYzLjA2NS4xNjIuMTk1LjMyNS4wNjUuMTYzLjE5NS4zMjUuMDY1LjE2Mi4xOTUuMzI1LjA2NS4xNjMuMTk1LjMyNS4wNjUuMTYyLjE5NS4zMjUuMDY1LjEzLjA5OC4xNjMuMDY1LjE2Mi4xOTUuMzI1LjA2NS4xNjMuMDk3LjEzLjA5OC4xNjIuMDY1LjE2My4xOTUuMzI1LjA2NS4xMy4xOTUuMzI1LjA2NS4xNjIuMDk3LjEzLjA5OC4xNjMuMDY1LjE2Mi4wOTcuMTMuMDk4LjE2My4wNjUuMTMuMDk3LjE2Mi4wNjUuMTYzLjA5OC4xMy4wOTcuMTYyLjA2NS4xMy4wOTguMTYzLjA5Ny4xMy4wNjUuMTYyLjA5OC4xMy4wOTcuMTYzLjA2NS4xMy4wOTguMTYyLjA5Ny4xMy4wNjUuMTYzLjA5OC4xMy4wOTcuMTYyLjA2NS4xMy4wOTguMTMuMDk3LjE2My4wNjUuMTMuMDk4LjEzLjA5Ny4xNjIuMDY1LjEzLjA5OC4xMy4wNjUuMTYzLjA5Ny4xMy4wOTguMTMuMDY1LjEzLjA5OC4xNjIuMDk3LjEzLjA2NS4xMy4xOTUuMjYuMDY1LjEzLjA5Ny4xNjMuMDk4LjEzLjA2NS4xMy4xOTUuMjYuMDY1LjEzTTUzLjI2MiAxOS4xOWwuMDk4LjE5NC4wOTcuMjI4LjA2NS4xOTUuMDk4LjIyNy4wOTcuMTk2LjA2NS4yMjcuMDk4LjE5NS4wNjUuMjI3LjA5Ny4xOTUuMDk4LjE5Ni4wNjUuMjI3LjA5Ny4xOTUuMDk4LjIyNy4wNjUuMTk2LjA5Ny4xOTUuMDk4LjIyNy4wNjUuMTk1LjA5Ny4xOTUuMDk4LjIyOC4wNjUuMTk0LjE5NS4zOTEuMDY1LjIyNy4xOTUuMzkuMDY1LjE5NS4wOTcuMjI4LjA5OC4xOTQuMDY1LjE5NS4wOTcuMTk2LjA2NS4yMjcuMTk1LjM5LjA2NS4xOTUuMDk4LjE5NS4wOTcuMTk1LjA2NS4xOTUuMDk4LjE5NS4wOTcuMjI4LjA2NS4xOTUuMTk1LjM5LjA2NS4xOTQuMTk1LjM5LjA2NS4xOTUuMTk1LjM5MS4wNjUuMTk0LjA5OC4xOTUuMDY1LjE5Ni4wOTcuMTk0LjA5OC4xNjMuMDY1LjE5NS4xOTUuMzkuMDY1LjE5NS4xOTUuMzkuMDY1LjE5NS4wOTcuMTYyLjA5OC4xOTUuMDY1LjE5NS4xOTUuMzkuMDY1LjE2My4xOTUuMzkuMDY1LjE5NS4wOTcuMTYyLjA5OC4xOTUuMDY1LjE5NS4wOTcuMTk1LjA2NS4xNjMuMTk1LjM5LjA2NS4xNjIuMDk4LjE5NS4wOTcuMTYzLjA2NS4xOTUuMDk4LjE5NS4wOTcuMTYyLjA2NS4xOTUuMDk4LjE2My4wOTcuMTk1LjA2NS4xNjIuMDk4LjE5NS4wOTcuMTYzLjA2NS4xOTUuMDk4LjE2Mi4wOTcuMTk1LjA2NS4xNjMuMDk4LjE5NS4wNjUuMTYyLjA5Ny4xOTUuMDk4LjE2My4wNjUuMTk1LjE5NS4zMjVNMTYwLjA3NSAzNi41NThsLjA5Ny0uMTk1LjA2NS0uMTk1LjA5OC0uMTk1LjA2NS0uMjI3LjE5NS0uMzkuMDY1LS4xOTUuMDk3LS4xOTUuMDk4LS4yMjguMDY1LS4xOTUuMDk3LS4xOTUuMDk4LS4yMjcuMDY1LS4xOTUuMDk3LS4xOTUuMDk4LS4yMjguMDY1LS4xOTUuMDk3LS4xOTUuMDk4LS4yMjcuMDY1LS4xOTUuMDk3LS4xOTUuMDk4LS4yMjguMDY1LS4xOTUuMDk3LS4xOTUuMDY1LS4yMjcuMDk4LS4xOTUuMDk3LS4yMjguMDY1LS4xOTUuMDk4LS4yMjcuMDk3LS4xOTUuMDY1LS4yMjguMDk4LS4xOTUuMDk3LS4yMjcuMDY1LS4xOTUuMDk4LS4yMjguMDk3LS4xOTUuMDY1LS4yMjcuMDk4LS4xOTUuMDk3LS4yMjguMDY1LS4xOTUuMTk1LS40NTUuMDY1LS4xOTUuMDk4LS4yMjcuMDk3LS4xOTUuMDY1LS4yMjguMDk4LS4yMjcuMDY1LS4xOTUuMTk1LS40NTUuMDY1LS4xOTUuMTk1LS40NTUuMDY1LS4yMjguMDk3LS4xOTUuMDk4LS4yMjcuMDY1LS4yMjguMDk3LS4yMjcuMDk4LS4xOTUuMDY1LS4yMjguMTk1LS40NTUuMDY1LS4xOTUuMTk1LS40NTUuMDY1LS4yMjcuMTk1LS40NTUuMDY1LS4yMjguMDk3LS4xOTUuMDY1LS4yMjcuMTk1LS40NTUuMDY1LS4yMjguMTk1LS40NTUuMDY1LS4yMjcuMTk1LS40NTYuMDY1LS4yMjcuMTk1LS40NTUuMDY1LS4yMjcuMTk1LS40NTUuMDY1LS4yMjguMTk1LS40NTUuMDY1LS4yMjguMDk4LS4yMjcuMDY1LS4yNi4xOTUtLjQ1NS4wNjUtLjIyOC4xOTUtLjQ1NS4wNjUtLjIyNy4wOTctLjI2LjA5OC0uMjI4di0uMDY1bS0xNi45OTggMzkuNTU0bC4xOTUtLjMyNS4wNjUtLjE5NS4xOTUtLjMyNS4wNjUtLjE2My4wOTgtLjE2Mi4wOTctLjE5NS4wNjUtLjE2My4wOTgtLjE2Mi4wOTctLjE2My4wNjUtLjE2Mi4wOTgtLjE5NS4wNjUtLjE2My4wOTctLjE2Mi4wOTgtLjE5NS4wNjUtLjE2My4wOTctLjE2Mi4wOTgtLjE5NS4wNjUtLjE2My4wOTctLjE2Mi4wOTctLjE5NS4wNjYtLjE2My4wOTctLjE2Mi4wOTgtLjE5NS4wNjUtLjE2My4wOTctLjE5NS4wOTgtLjE2Mi4wNjUtLjE2My4wOTctLjE5NS4wOTgtLjE2Mi4wNjUtLjE5NS4wOTctLjE2My4wOTgtLjE5NS4wNjUtLjE2Mi4wOTctLjE5NS4wNjUtLjE2My4wOTgtLjE5NS4wOTctLjE2Mi4wNjUtLjE5NS4wOTgtLjE2My4wOTctLjE5NS4wNjUtLjE5NS4wOTgtLjE2Mi4wOTctLjE5NS4wNjUtLjE2My4xOTUtLjM5LjA2NS0uMTYyLjE5NS0uMzkuMDY1LS4xNjMuMTk1LS4zOS4wNjUtLjE2Mi4wOTgtLjE5NS4wNjUtLjE5NS4wOTctLjE5NS4wOTgtLjE2My4wNjUtLjE5NS4xOTUtLjM5LjA2NS0uMTYyLjE5NS0uMzkuMDY1LS4xOTUuMDk3LS4xOTUuMDk4LS4xNjMuMDY1LS4xOTUuMTk1LS4zOS4wNjUtLjE5NS4xOTUtLjM5LjA2NS0uMTk1LjA5Ny0uMTk0LjA5OC0uMTk2LjA2NS0uMTYyLjA5Ny0uMTk1LjA2NS0uMTk1LjA5OC0uMTk1LjA5Ny0uMTk1LjA2NS0uMTk1LjE5NS0uMzkuMDY1LS4xOTUuMDk4LS4xOTUuMDk3LS4yMjguMDY1LS4xOTUuMTk1LS4zOS4wNjUtLjE5NC4xOTUtLjM5MS4wNjUtLjE5NS4xOTUtLjM5LjA2NS0uMjI3LjA5OC0uMTk1TTE0My4wMTIgNjkuNjExbC4wOTctLjEzLjA2NS0uMTMuMDk4LS4xMy4wNjUtLjEzLjA5Ny0uMTMuMDk4LS4xMy4wNjUtLjE2Mi4wOTctLjEzLjA5OC0uMTMuMDY1LS4xMy4wOTctLjEzLjA5OC0uMTYzLjA2NS0uMTMuMDk3LS4xMy4wOTgtLjEzLjA2NS0uMTYyLjE5NS0uMjYuMDY1LS4xNjMuMTk1LS4yNi4wNjUtLjEzLjA5Ny0uMTYyLjA5OC0uMTMuMDY1LS4xNjMuMDk3LS4xMy4wNjUtLjEzLjA5OC0uMTYyLjA5OC0uMTMuMDY1LS4xMy4wOTctLjE2My4wOTctLjEzLjA2NS0uMTYyLjA5OC0uMTMuMDk3LS4xNjMuMDY1LS4xMy4wOTgtLjE2Mi4wOTctLjEzLjA2NS0uMTYzLjA5OC0uMTMuMDk3LS4xNjIuMDY1LS4xMy4wOTgtLjE2My4wOTgtLjEzLjA2NS0uMTYyLjA5Ny0uMTYzLjA2NS0uMTMuMDk4LS4xNjIuMDk3LS4xMy4wNjUtLjE2My4wOTgtLjE2Mi4wOTctLjEzLjA2NS0uMTYzLjA5Ny0uMTYyLjA5OC0uMTMuMDY1LS4xNjMuMDk3LS4xNjIuMDk4LS4xMy4wNjUtLjE2My4wOTgtLjE2Mi4wOTctLjEzLjA2NS0uMTYzLjA5OC0uMTYyLjA5Ny0uMTYzLjA2NS0uMTMuMTk1LS4zMjUuMDY1LS4xNjIuMDk4LS4xNjMuMDY0LS4xNjIuMDk4LS4xMy4wOTctLjE2My4wNjUtLjE2Mi4xOTUtLjMyNS4wNjUtLjE2My4xOTUtLjMyNS4wNjUtLjEzLjE5NS0uMzI1LjA2NS0uMTYyLjE5NS0uMzI1LjA2NS0uMTYzLjE5NS0uMzI1LjA2NS0uMTYyLjA5OC0uMTYzLjA2NS0uMTYyLjE5NS0uMzI1LjA2NS0uMTYzLjA5Ny0uMTk1LjA5OC0uMTYyLjA2NS0uMTYzLjE5NS0uMzI1LjA2NS0uMTYybS0xNy4wNjMgMjYuNDIzbC4wOTgtLjA5OC4wOTctLjA5Ny4wNjUtLjA5OC4wOTgtLjA5Ny4wOTctLjA5OC4wNjUtLjA5Ny4wOTgtLjA5OC4wOTctLjEzLjA2NS0uMDk3LjE5NS0uMTk1LjA2NS0uMDk4LjA5OC0uMTMuMDY1LS4wOTcuMDk3LS4wOTguMDk4LS4wOTcuMDY1LS4xMy4xOTUtLjE5NS4wNjUtLjA5OC4wOTctLjEzLjA5OC0uMDk4LjA2NS0uMDk3LjA5Ny0uMTMuMDk4LS4wOTcuMDY1LS4wOTguMDk3LS4xMy4wOTgtLjA5Ny4wNjUtLjA5OC4wOTctLjEzLjA5OC0uMDk4LjA2NS0uMTI5LjE5NS0uMTk2LjA2NS0uMTI5LjA5Ny0uMDk4LjA2NS0uMTMuMDk4LS4wOTguMDk3LS4xMjkuMDY1LS4wOTguMDk4LS4xMy4wOTctLjA5Ny4wNjUtLjEzMS4wOTgtLjA5Ny4wOTctLjEzLjA2NS0uMDk3LjE5NS0uMjYuMDY1LS4wOTguMDk4LS4xMy4wOTctLjA5Ny4wNjUtLjEzMS4wOTgtLjEyOS4wOTctLjA5OC4wNjUtLjEzLjA5OC0uMTMuMDk3LS4wOTcuMDY1LS4xMzEuMDk4LS4xMjkuMDY1LS4wOTguMTk1LS4yNi4wNjUtLjA5OC4xOTUtLjI2LjA2NS0uMTMuMDk3LS4wOTcuMDk4LS4xMy4wNjUtLjEzLjA5Ny0uMTMuMDk4LS4xMy4wNjUtLjEzLjA5Ny0uMDk4LjA5OC0uMTMuMDY1LS4xMy4xOTUtLjI2LjA2NS0uMTMuMDk3LS4xMy4wNjUtLjA5Ny4xOTUtLjI2LjA2NS0uMTMuMTk1LS4yNi4wNjUtLjEzLjE5NS0uMjYuMDY1LS4xMy4xOTUtLjI2LjA2NS0uMTMuMTk1LS4yNi4wNjUtLjEzLjA5OC0uMTMuMDk3LS4xMy4wNjUtLjE2My4wOTgtLjEzTTEyNS45NDkgODkuNTM0bC4xNjMtLjE2Mi4wOTctLjA2NS4wNjUtLjA2NS4wOTgtLjA2NS4wOTctLjA2NS4xNjMtLjE2My4wOTctLjA2NS4wNjUtLjA2NS4wOTgtLjA2NS4wOTctLjA2NS4wNjUtLjA2NS4wOTgtLjA5Ny4wOTctLjA2NS4wNjUtLjA2NS4wOTgtLjA2NS4wOTctLjA5OC4wNjUtLjA2NS4wOTgtLjA2NS4xNjItLjE2Mi4wOTgtLjA2NS4xNjItLjE2My4wOTgtLjA2NS4wNjUtLjA5Ny4wOTctLjA2NS4wOTgtLjA2NS4wNjUtLjA5OC4wOTctLjA2NS4wOTgtLjA2NS4wNjUtLjA5OC4wOTctLjA2NC4xNjMtLjE2My4wOTctLjA5Ny4wOTgtLjA2NS4wNjUtLjA5OC4wOTctLjA2NS4wOTgtLjA5Ny4wNjUtLjA2NS4wOTctLjA5OC4wOTgtLjA2NS4wNjUtLjA5Ny4wOTctLjA2NS4wNjUtLjA5OC4wOTgtLjA2NS4wOTctLjA5Ny4wNjUtLjA2NS4xOTUtLjE5Ni4wNjUtLjA2NC4wOTgtLjA5OC4yNi0uMjYuMDk3LS4wOTcuMDY1LS4wNjUuMDk4LS4wOTguMjYtLjI2LjA5Ny0uMDk4LjA2NS0uMDY0LjA5OC0uMDk4LjA5Ny0uMDk3LjA2NS0uMDk4LjE2My0uMTYyLjA5Ny0uMDk4LjA5OC0uMDk3LjA2NS0uMDk4LjA5Ny0uMDk3LjA5OC0uMDY1LjA2NS0uMDk4LjA5Ny0uMDk3LjA5OC0uMDk4LjA2NS0uMDk3LjE5NS0uMTk1LjA2NS0uMDk4LjA5Ny0uMDY1LjA5OC0uMDk3LjA2NS0uMDk4LjA5Ny0uMDk3LjA5OC0uMDk4LjA2NS0uMDk3LjA5Ny0uMDk4LjA5OC0uMDk3LjA2NS0uMDk4LjA5Ny0uMDk3LjA2NS0uMDk4LjE5NS0uMTk1LjA2NS0uMDk3LjE5NS0uMTk1LjA2NS0uMTNtLTE3LjA2MiAxMy41MmwuMDk3LS4wMzMuMDk4LS4wMzIuMDY1LS4wMzMuMDk3LS4wNjUuMDk4LS4wMzIuMDY1LS4wMzMuMTk1LS4wNjUuMDY1LS4wNjUuMDk3LS4wMzIuMDk4LS4wMzMuMDY1LS4wMzIuMDk3LS4wNjUuMDY1LS4wMzMuMDk4LS4wMzIuMDk3LS4wMzMuMDY1LS4wNjUuMDk4LS4wMzIuMDk3LS4wMzMuMDY1LS4wNjUuMDk4LS4wMzIuMDk3LS4wMzMuMDY1LS4wNjUuMDk4LS4wMzIuMDk3LS4wMzMuMDY1LS4wNjUuMDk4LS4wMzIuMDk3LS4wNjUuMDY1LS4wMzMuMDk4LS4wMzIuMDk3LS4wNjUuMDY1LS4wMzMuMDk4LS4wNjUuMDk3LS4wMzIuMDY1LS4wNjUuMDk4LS4wMzMuMDY1LS4wNjUuMDk3LS4wMzIuMDk4LS4wNjUuMDY1LS4wMzMuMDk3LS4wNjUuMDk4LS4wMzIuMDY1LS4wNjUuMDk3LS4wMzMuMDk4LS4wNjUuMDY1LS4wMzIuMDk3LS4wNjUuMDk4LS4wNjUuMDY1LS4wMzMuMDk3LS4wNjUuMDk4LS4wMzIuMDY1LS4wNjUuMDk3LS4wNjUuMDk4LS4wMzMuMDY1LS4wNjUuMDk3LS4wNjUuMDk4LS4wMzIuMDY1LS4wNjUuMDk3LS4wNjUuMDY1LS4wMzMuMDk4LS4wNjUuMDk3LS4wNjUuMDY1LS4wNjUuMDk4LS4wMzIuMDk3LS4wNjUuMDY1LS4wNjUuMDk4LS4wNjUuMDk3LS4wMzMuMDY1LS4wNjUuMDk4LS4wNjUuMDk3LS4wNjUuMDY1LS4wNjUuMDk4LS4wMzIuMDk3LS4wNjUuMDY1LS4wNjUuMDk4LS4wNjUuMDk3LS4wNjUuMDY1LS4wNjUuMDk4LS4wNjUuMDY1LS4wNjUuMDk3LS4wMzMuMDk4LS4wNjUuMDY1LS4wNjUuMTk1LS4xMy4wNjUtLjA2NS4xOTUtLjEzLjA2NS0uMDY1LjA5Ny0uMDY1LjA5OC0uMDY1LjA2NS0uMDY1LjE5NS0uMTMuMDY1LS4wNjUuMDk3LS4wNjUuMDk4LS4wNjUuMDY1LS4wNjUuMDk3LS4wNjVNMTA4Ljg4NyA5Ny4wNzRoLjA5N2wuMDY1LS4wMzJoLjA5OGwuMDY1LS4wMzNoLjE5NWwuMDY1LS4wMzJoLjA5N2wuMDk4LS4wMzNoLjA2NWwuMDk3LS4wMzJoLjE2M2wuMDk3LS4wMzNoLjA5OGwuMDY1LS4wMzJoLjA5N2wuMDk4LS4wMzNoLjA2NWwuMDk3LS4wMzJoLjA5OGwuMDY1LS4wMzNoLjA5N2wuMDk4LS4wMzJoLjA2NWwuMDk3LS4wMzNoLjA2NWwuMDk4LS4wMzIuMDk3LS4wMzNoLjA2NWwuMDk4LS4wMzJoLjA5N2wuMDY1LS4wMzMuMDk4LS4wMzJoLjA5N2wuMDY1LS4wMzNoLjA5OGwuMDk3LS4wMzIuMDY1LS4wMzNoLjA5OGwuMDk3LS4wMzIuMDY1LS4wMzNoLjA5OGwuMDk3LS4wMzIuMDY1LS4wMzNoLjA5OGwuMDY1LS4wMzIuMDk3LS4wMzNoLjA5OGwuMDY1LS4wMzIuMDk3LS4wMzMuMDk4LS4wMzJoLjA2NWwuMDk3LS4wMzMuMDk4LS4wMzIuMDY1LS4wMzNoLjA5N2wuMDk4LS4wMzIuMDY1LS4wMzMuMDk3LS4wMzIuMDk4LS4wMzNoLjA2NWwuMDk3LS4wMzIuMDk4LS4wMzMuMDY1LS4wMzIuMDk3LS4wMzMuMDk4LS4wMzIuMDY1LS4wMzNoLjA5N2wuMDY1LS4wMzIuMDk4LS4wMzIuMDk3LS4wMzMuMDY1LS4wMzMuMDk4LS4wMzIuMDk3LS4wMzIuMDY1LS4wMzMuMDk4LS4wMzIuMDk3LS4wMzMuMDY1LS4wMzMuMDk4LS4wMzIuMDk3LS4wMzMuMDY1LS4wMzIuMDk4LS4wMzIuMDk3LS4wMzMuMDY1LS4wMzIuMDk4LS4wMzMuMDk3LS4wMzIuMDY1LS4wMzMuMDk4LS4wMzIuMDk3LS4wMzMuMDY1LS4wMzIuMDk4LS4wMzMuMDY1LS4wMzIuMDk3LS4wMzMuMDk4LS4wMzIuMDY1LS4wMzMuMDk3LS4wNjUuMDk4LS4wMzIuMDY1LS4wMzNtLTE3LjA2MyAzLjM0N2wuMDk3LS4wMzJoLjA5OGwuMDY1LS4wMzNoLjA5OGwuMDk3LS4wMzJoLjA2NWwuMDk4LS4wMzNoLjA5N2wuMDY1LS4wMzJoLjA5N2wuMDk4LS4wMzNoLjA2NWwuMDk3LS4wMzJoLjE2M2wuMDk4LS4wMzNoLjE2MmwuMDk4LS4wMzJoLjE2MmwuMDk4LS4wMzNoLjE2MmwuMDk4LS4wMzJoLjE2MmwuMDk3LS4wMzNoLjI2bC4wNjUtLjAzMmguMjZsLjA5OC0uMDMzaC4zMjVsLjA5Ny0uMDMyaC4yNmwuMDk4LS4wMzNoLjMyNWwuMDk3LS4wMzJoLjI2bC4wOTgtLjAzM2guMzI1bC4wOTctLjAzMmguMjZsLjA2NS0uMDMzaC4zNThsLjA5Ny0uMDMyaC4yNmwuMDY1LS4wMzNoLjI2bC4wOTgtLjAzMmguMTYybC4wOTgtLjAzM2guMjZsLjA2NS0uMDMyaC4xOTVsLjA2NS0uMDMzaC4xOTVsLjA2NS0uMDMyaC4xOTVsLjA2NS0uMDMzaC4xOTVsLjA2NS0uMDMyaC4xOTVsLjA2NS0uMDMzaC4wOTdNOTEuODI0IDEzOS41NTJsLjA5Ny0zLjUxLjA2NS0zLjA1NS4wOTgtMi42OTcuMDY1LTIuMzczLjA5Ny0yLjExMi4wOTgtMS45MTguMDY1LTEuNzIyLjA5Ny0xLjU2MS4wOTgtMS4zOTcuMDY1LTEuMy4wOTctMS4xNy4wOTgtMS4xMDUuMDY1LTEuMDA4LjA5Ny0uOTEuMDk4LS44NDUuMDY1LS44MTIuMDk3LS43NDguMDk4LS42ODIuMDY1LS42NS4xOTUtMS4xNy4wNjUtLjUyLjE5NS0uOTc1LjA2NS0uNDIzLjA5Ny0uNDIyLjA2NS0uMzkuMDk4LS4zOS4wOTctLjM1OC4wNjUtLjMyNS4wOTgtLjMyNS4wOTctLjI5Mi4wNjUtLjI5My4xOTUtLjUyLjA2NS0uMjYuMTk1LS40NTUuMDY1LS4xOTUuMDk4LS4yMjcuMDk3LS4xOTUuMDY1LS4xNjMuMDk4LS4xOTUuMDk3LS4xNjIuMDY1LS4xNjMuMDk4LS4xNjIuMDk3LS4xMy4wNjUtLjE2My4wOTgtLjEzLjA2NS0uMTMuMTk1LS4yNi4wNjUtLjA5Ny4wOTctLjEzLjA5OC0uMDk4LjA2NS0uMDk3LjA5Ny0uMDk4LjA5OC0uMDk3LjA2NS0uMDk4LjA5Ny0uMDY1LjA5OC0uMDk3LjA2NS0uMDY1LjA5Ny0uMDk4LjA5OC0uMDY1LjA2NS0uMDY1LjA5Ny0uMDY1LjA5OC0uMDY1LjA2NS0uMDY1LjA5Ny0uMDY1LjA2NS0uMDY1LjA5OC0uMDY1LjA5Ny0uMDY1LjA2NS0uMDMyLjA5OC0uMDY1LjA5Ny0uMDMzLjA2NS0uMDY1LjA5OC0uMDMyLjA5Ny0uMDMzLjA2NS0uMDY1LjA5OC0uMDMyLjA5Ny0uMDMzLjA2NS0uMDMyLjA5OC0uMDMzLjA5Ny0uMDY1LjA2NS0uMDMyLjE5NS0uMDY1LjA2NS0uMDMzaC4wOThsLjA5Ny0uMDMyLjA2NS0uMDMzLjA5OC0uMDMyLjA2NS0uMDMzaC4wOTdsLjA5OC0uMDMyLjA2NS0uMDMzLjA5Ny0uMDMyaC4wOThsLjA2NS0uMDMzbS04Ljk1MyA3Mi41NzVsLjAxNS0xLjY1OS4wNjUtOC4yNTUuMDk4LTYuNzYuMDk3LTUuNjIzLjA2NS00LjcxMi4wOTgtNC4wNjMiLz48cGF0aCBzdHJva2Utd2lkdGg9Ii41IiBzdHJva2UtZGFzaGFycmF5PSIzLjksMy45IiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIGQ9Ik04OS4wNDEuNjV2MTgwLjciLz48c3ltYm9sIGlkPSJiIj48cGF0aCBkPSJNLjU3OCAwYy4wMTQgMCAuMDMzIDAgLjAzMy4wMlMuNTkyLjA0LjU3OC4wNEguMDMzQy4wMTkuMDQgMCAuMDQgMCAuMDJTLjAxOSAwIC4wMzMgMGguNTQ1eiIvPjwvc3ltYm9sPjx1c2UgeGxpbms6aHJlZj0iI2IiIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSAxLjkwMyAxMDIuNzUpIi8+PHN5bWJvbCBpZD0iYyI+PHBhdGggZD0iTS4xOTcuNjQxYzAgLjAyMyAwIC4wMjQtLjAyLjAyNEMuMTUzLjYzOC4xMDMuNjAxIDAgLjYwMVYuNTcyYy4wMjMgMCAuMDczIDAgLjEyOC4wMjZWLjA3N0MuMTI4LjA0MS4xMjUuMDI5LjAzNy4wMjlILjAwNlYwQy4wMzMuMDAyLjEzLjAwMi4xNjMuMDAyUy4yOTIuMDAyLjMxOSAwdi4wMjlILjI4OEMuMi4wMjkuMTk3LjA0MS4xOTcuMDc3di41NjR6Ii8+PC9zeW1ib2w+PHN5bWJvbCBpZD0iZCI+PHBhdGggZD0iTS40MDcuMzQxYS41NDYuNTQ2IDAgMDEtLjA0MS4yNC4xNzkuMTc5IDAgMDEtLjMyOC0uMDA3QS41My41MyAwIDAxMCAuMzQxQzAgLjI0NC4wMDcuMTcxLjA0My4xYS4xNzguMTc4IDAgMDEuMTYtLjFDLjI5IDAgLjM0LjA1Mi4zNjkuMTFhLjU2LjU2IDAgMDEuMDM4LjIzMU0uMjAzLjAyQy4xNzEuMDIuMTA2LjAzOC4wODcuMTQ3LjA3Ni4yMDcuMDc2LjI4My4wNzYuMzUzYzAgLjA4MiAwIC4xNTYuMDE2LjIxNS4wMTcuMDY3LjA2OC4wOTguMTExLjA5OC4wMzggMCAuMDk2LS4wMjMuMTE1LS4xMDlDLjMzMS41LjMzMS40MjEuMzMxLjM1My4zMzEuMjg2LjMzMS4yMS4zMi4xNDkuMzAxLjAzOS4yMzguMDIuMjAzLjAyeiIvPjwvc3ltYm9sPjx1c2UgeGxpbms6aHJlZj0iI2MiIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSAxMS4yOTYgMTA1LjUpIi8+PHVzZSB4bGluazpocmVmPSIjZCIgdHJhbnNmb3JtPSJtYXRyaXgoMTEuOTU1IDAgMCAtMTEuOTU1IDE2LjU1NiAxMDUuNzUxKSIvPjx1c2UgeGxpbms6aHJlZj0iI2IiIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSA0Ny44MzkgMTAyLjk3KSIvPjxzeW1ib2wgaWQ9ImUiPjxwYXRoIGQ9Ik0uMDc5LjU5NEEuMjk2LjI5NiAwIDAxLjE2OC41NzljLjExMyAwIC4xODUuMDgzLjE4NS4wOTdDLjM1My42OC4zNTEuNjg1LjM0NS42ODVjLS4wMDIgMC0uMDA0IDAtLjAxMy0uMDA0YS4zMjkuMzI5IDAgMDAtLjEzLS4wMjdDLjEzNi42NTQuMDg5LjY3NC4wNy42ODJMLjA2LjY4NUMuMDUyLjY4NS4wNTIuNjc5LjA1Mi42NjNWLjM2NmMwLS4wMTggMC0uMDI0LjAxMi0uMDI0LjAwNSAwIC4wMDYuMDAxLjAxNi4wMTNBLjE1LjE1IDAgMDAuMjA1LjQyQy4yNTguNDIuMjg0LjM3MS4yOTIuMzU0QS4zMjcuMzI3IDAgMDAuMzEuMjI4Qy4zMS4xOS4zMS4xMzMuMjgyLjA4OEEuMTI0LjEyNCAwIDAwLjE3Ny4wMjdhLjE1NS4xNTUgMCAwMC0uMTQ5LjExOC4wNDUuMDQ1IDAgMDEuMDE2LS4wMDNjLjAxNyAwIC4wNDQuMDEuMDQ0LjA0NEMuMDg4LjIxNC4wNjkuMjMuMDQ0LjIzLjAyNi4yMyAwIC4yMjEgMCAuMTgyIDAgLjA5Ny4wNjggMCAuMTc5IDBjLjExMyAwIC4yMTIuMDk1LjIxMi4yMjJDLjM5MS4zNDEuMzExLjQ0LjIwNi40NEEuMTczLjE3MyAwIDAxLjA3OS4zODd2LjIwN3oiLz48L3N5bWJvbD48dXNlIHhsaW5rOmhyZWY9IiNlIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgNTkuMzg3IDEwNS45NykiLz48dXNlIHhsaW5rOmhyZWY9IiNlIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgMTQ1Ljg3NyAxMDUuNzUxKSIvPjx1c2UgeGxpbms6aHJlZj0iI2MiIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSAxODEuNDM4IDEwNSkiLz48dXNlIHhsaW5rOmhyZWY9IiNkIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgMTg2LjY5OSAxMDUuMjUxKSIvPjxzeW1ib2wgaWQ9ImYiPjxwYXRoIGQ9Ik0uMTc5LjQxMmguMDkyQy4yOS40MTIuMy40MTIuMy40My4zLjQ0MS4yOTQuNDQxLjI3NC40NDFILjE4NmwuMDM3LjE0NkMuMjI3LjYwMS4yMjcuNjAzLjIyNy42MWMwIC4wMTYtLjAxMy4wMjUtLjAyNi4wMjVDLjE5My42MzUuMTcuNjMyLjE2Mi42TC4xMjMuNDQxSC4wMjlDLjAwOS40NDEgMCAuNDQxIDAgLjQyMmMwLS4wMS4wMDctLjAxLjAyNi0uMDFoLjA4OUwuMDQ5LjE0OEMuMDQxLjExMy4wMzguMTAzLjAzOC4wOS4wMzguMDQzLjA3MSAwIC4xMjcgMGMuMTAxIDAgLjE1NS4xNDYuMTU1LjE1MyAwIC4wMDYtLjAwNC4wMDktLjAxLjAwOS0uMDAyIDAtLjAwNiAwLS4wMDgtLjAwNEwuMjU1LjE0Qy4yMzQuMDkuMTg4LjAyLjEzLjAyLjEuMDIuMDk4LjA0NS4wOTguMDY3YzAgLjAwMSAwIC4wMi4wMDMuMDMybC4wNzguMzEzeiIvPjwvc3ltYm9sPjx1c2UgeGxpbms6aHJlZj0iI2YiIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSAyMDMuOTk5IDEwMC4xOTYpIi8+PHVzZSB4bGluazpocmVmPSIjYiIgdHJhbnNmb3JtPSJtYXRyaXgoMTEuOTU1IDAgMCAtMTEuOTU1IDExNC4wODMgMTMyLjMzMykiLz48dXNlIHhsaW5rOmhyZWY9IiNjIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgMTIxLjQ3NyAxMzUuMDgzKSIvPjx1c2UgeGxpbms6aHJlZj0iI2QiIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSAxMjYuNzM3IDEzNS4zMzQpIi8+PHVzZSB4bGluazpocmVmPSIjYyIgdHJhbnNmb3JtPSJtYXRyaXgoMTEuOTU1IDAgMCAtMTEuOTU1IDExMy41NjMgNjYuNzAyKSIvPjx1c2UgeGxpbms6aHJlZj0iI2QiIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSAxMTguODIzIDY2Ljk1MykiLz48L2c+PC9zdmc+</file>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<ol class="HELM_parts">
+<li>If we substitute \(t=1\) in \({@R@}\), we have that \(t^3-1=1-1=0\), then \({@R=0@}\).</li>
+<li>If we substitute \(t=−\dfrac{3}{2}\) in the denominator of our rational function, we have \(2t+3=2*(-\dfrac{3}{2})+3=-3+3=0\).</li>
+<li>Note that we must exclude the value \(t=−\dfrac{3}{2}\) from the domain of this function because division by zero is not defined. At this point, as you can see, the graph shoots off towards very large positive values (we say it tends to positive infinity) if the point is approached from the left, and towards very large negative values (we say it tends to negative infinity) if the point is approached from the right. The dotted line in the graph of \(R_2(x)\) has equation \(t=−\dfrac{3}{2}\). It is approached by the curve as \(t\) approaches \(−\dfrac{3}{2}\) and is known as a <b>vertical asymptote</b>.</li>
+</ol>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020120600</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[var: t;
+R: (var^3-1)/(2*var+3);
+correct1: 0;
+correct2: 0;
+ta1:[["The value of the function tends to infinity", true], ["The value of the function tends to 0", false], ["The value of the function tends to another finite value", false]];]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text><![CDATA[<li>What is the function value when \(t= 1\)?  correct1.</li>
+<li>What is the value of the denominator when \(t=−\dfrac{3}{2}\)?  correct2.<br></li>
+<li>What do you think happens to the graph of the function when \(t=−\dfrac{3}{2}\)?  infinity.]]></text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>numerical</type>
+      <tans>correct1</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>numerical</type>
+      <tans>correct1</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>dropdown</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>EqualComAss</answertest>
+        <sans>ans1</sans>
+        <tans>correct1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>EqualComAss</answertest>
+        <sans>ans2</sans>
+        <tans>correct2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>[ans3]</sans>
+        <tans>mcq_correct(ta1)</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>correct1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>correct2</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value><![CDATA["The value of the function tends to infinity"]]></value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(correct1+1,simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ev(correct2+1,simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value><![CDATA["The value of the function tends to 0"]]></value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt3-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(correct1+2,simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ev(correct2+2,simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value><![CDATA["The value of the function tends to another finite value"]]></value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt3-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

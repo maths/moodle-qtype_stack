@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>36.1.5.9 Variance and standard deviation</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Variance and standard deviation</h4>
+<p>By far the most common measures of the spread of a sample are the sample <b>standard deviation</b> and the sample <b>variance</b>. The standard deviation is just the square root of the variance so we will describe them together.</p>
+<p>The idea of the variance is that it is the average <i>squared</i> deviation of an observation from the sample mean. The deviations are squared so that the negative deviations, of observations less than the mean, do not cancel out the positive deviations, of observations greater than the mean.</p>
+<p>Suppose that we have observations \( x_{1}, \ldots , x_{n}\). Then the <b>sample variance</b> is defined as follows.</p>
+<div class="HELM_keypoint">
+<h4>Key Point: Sample Variance</h4>
+\[s^2=\dfrac{\sum (x_{i}-\bar x)^2}{n-1},\]
+where \(s^2\) is the sample variance and \(\bar x\) is the mean of the data in the sample of size 
+\(n\). 
+</div>
+<br>
+<p>Notice that we divide by \(n-1\) rather than \(n\). This is because we are using the deviations \( x_{i}-\bar{x}\) from the sample mean, \( \bar{x}\), and these necessarily sum to zero:
+\[ \sum_{i=1}^{n} (x_{i} - \bar{x}) = \sum_{i=1}^{n} x_{i} - \sum_{i=1}^{n} x_{i} = 0. \]</p>
+<p>Therefore, if we knew the values of \( (x_{1}-\bar{x}), (x_{2}-\bar{x}), \ldots , (x_{n-1}-\bar{x})\), we would be able to work out the value of \( (x_{n}-\bar{x})\). We say that there are only \( n-1 \) <b>degrees of freedom</b>. As we shall see later, it also turns out that, when we want to use the sample variance to inform us about the value of the <i>population variance</i>, \( \sigma^{2}\), dividing by \(n-1\) instead of \(n\) is advantageous.</p>
+<p>The sample <b>standard deviation</b> is simply the square root of the sample variance. It is therefore the root mean square deviation of the observations from the sample mean.</p>
+<div class="HELM_keypoint">
+<h4>Key Point: Sample Standard Deviation</h4>
+\[ s= \sqrt{s^{2}} = \sqrt{\dfrac{\sum (x-\bar x)^2}{n-1}}.\]
+</div>
+<br>
+<p>The standard deviation is often preferred to the variance as a summary because the standard deviation is in the same units as the data. For example, if we have a sample of weights, in kg, then the standard deviation is also in kg, whereas the variance is in \({\rm kg}^{2}\).</p>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Consider the two data sets \(A\) and \(B\) given below.</p>
+<p>In each case the sample size is \(n=10\) and the sample mean is \(\bar{x}=7\) but the spreads are different.</p>
+<p>DATA SET \(A\):</p>
+<table class="HELM_table" style="text-align: center; width: 65%;">
+<thead>
+<tr style="border-bottom: 1px solid #000;">
+<th>\(x\)</th><th>\(x-\bar{x}\)</th><th>\((x-\bar{x})^2\)</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>4</td><td>-3</td><td>9</td></tr>
+<tr><td>5</td><td>-2</td><td>4</td></tr>
+<tr><td>5</td><td>-2</td><td>4</td></tr>
+<tr><td>6</td><td>-1</td><td>1</td></tr>
+<tr><td>7</td><td>0</td><td>0</td></tr>
+<tr><td>7</td><td>0</td><td>0</td></tr>
+<tr><td>8</td><td>1</td><td>1</td></tr>
+<tr><td>9</td><td>2</td><td>4</td></tr>
+<tr><td>9</td><td>2</td><td>4</td></tr>
+<tr style="border-bottom: 1px solid #000;"><td>10</td><td>3</td><td>9</td></tr>
+<tr><td></td><td></td><td>\(\sum(x-\bar{x})^2=36\)</td></tr>
+</tbody>
+</table>
+<br>
+<p>DATA SET \(B\):</p>
+<table class="HELM_table" style="text-align: center; width: 65%;">
+<thead>
+<tr style="border-bottom: 1px solid #000;">
+<th>\(x\)</th><th>\(x-\bar{x}\)</th><th>\((x-\bar{x})^2\)</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>1</td><td>-6</td><td>36</td></tr>
+<tr><td>3</td><td>-4</td><td>16</td></tr>
+<tr><td>3</td><td>-4</td><td>16</td></tr>
+<tr><td>5</td><td>-2</td><td>4</td></tr>
+<tr><td>7</td><td>0</td><td>0</td></tr>
+<tr><td>7</td><td>0</td><td>0</td></tr>
+<tr><td>9</td><td>2</td><td>4</td></tr>
+<tr><td>11</td><td>4</td><td>16</td></tr>
+<tr><td>11</td><td>4</td><td>16</td></tr>
+<tr style="border-bottom: 1px solid #000;"><td>13</td><td>6</td><td>36</td></tr>
+<tr><td></td><td></td><td>\(\sum(x-\bar{x})^2=144\)</td></tr>
+</tbody>
+</table>
+<br>
+<p>For Data Set \(A\), the sample variance is \(36/9 = 4\) and the sample standard deviation is \(\sqrt{4}= 2\).</p>
+<p>For Data Set \(B\), the sample variance is \(144/9 = 16\) and the sample standard deviation is \( \sqrt{16}= 4\).</p>
+<p>In Data Set \(B\) the deviations from the sample mean are exactly twice the size of those in Data Set \(A\) and consequently, the sample standard deviation is also twice as big.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

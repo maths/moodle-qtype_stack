@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>9.3.4.6 True or False</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p><p>The following vectors <span class="math inline">\({@p1@}\underline{i}+{@p2@}\underline{j}\)</span> and <span class="math inline">\({@q1@}\underline{i}-{@q2@}\underline{j}\)</span>&nbsp;perpendicular. True or False?</p><p>[[input:ans1]] [[validation:ans1]]</p><p>[[feedback:prt1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>If the scalar product of these two vectors is zero, then both vectors are perpendicular. Otherwise, they are not.</p>
+<p>In this case,</p>
+\[({@p1@}\underline{i} + {@p2@}\underline{j}) \cdot ({@q1@}\underline{i} + {@q2@}\underline{j}) = {@prod@} = {@prods@}.\]
+<p>Therefore, the two vectors are {@clas@}.</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020120600</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[p1: 2 + rand(2);
+p2: 2 + rand(2);
+q1: 2 + 2*rand(2);
+q2: 2 + rand(2);
+ta: is(p1*q1 - p2*q2 = 0);
+
+/* Needed for solution */
+simp: false;
+prod: p1 * q1 + p2 * q2;
+prods: ev(prod, simp);
+clas: if ta = true
+  then "perpendicular"
+  else "not perpendicular";]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>Is \( {@p1@}\underline{i}+{@p2@}\underline{j} \cdot  {@q1@}\underline{i}-{@q2@}\underline{j}  = 0\)? {@ta@}</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>boolean</type>
+      <tans>ta</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>PropLogic</answertest>
+        <sans>ans1</sans>
+        <tans>ta</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>857602432</deployedseed>
+    <deployedseed>1188613156</deployedseed>
+    <deployedseed>246979991</deployedseed>
+    <deployedseed>178036310</deployedseed>
+    <deployedseed>2015206763</deployedseed>
+    <deployedseed>1545416990</deployedseed>
+    <deployedseed>1057868805</deployedseed>
+    <deployedseed>1994237709</deployedseed>
+    <deployedseed>1073126526</deployedseed>
+    <deployedseed>1561753378</deployedseed>
+    <deployedseed>919952378</deployedseed>
+    <deployedseed>1900424729</deployedseed>
+    <deployedseed>870781741</deployedseed>
+    <deployedseed>698903587</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(not p1*q1 - p2*q2= 0,simp)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>HELM 33.2 E2 Elliptic PDE, Gauss-Seidel Iteration</text>
+    </name>
+    <questiontext format="markdown">
+      <text><![CDATA[**33.2 E2 Elliptic PDE, Gauss-Seidel Iteration**
+<p>Suppose that \( u = u(x, y) \) satisfies Laplace’s equation</p>
+
+<p>\[
+u_{xx} + u_{yy} = 0
+\]</p>
+
+<p>in the square region \( 0 < x, y < 1 \). Assuming a mesh size of \( h = \frac{1}{3} \), use the Gauss-Seidel iteration, with starting values \( u^0_{ij} = {@u0@} \), to perform two iterations. The boundary data are as given in the schematic below:</p>
+
+<p>\[
+\begin{array}{ll}
+   y\,\uparrow & \\
+   {@(lmxchar:"",u0d)@} & 
+      \begin{array}{c} \\ \\ \\  \rightarrow x 
+   \end{array}
+\end{array}
+\]</p>
+
+**First iteration** (3 d.p.)
+
+<table border="0">
+ <tbody>
+  <tr>
+   <td>\({@(lmxchar:"[",matrix([u12,u22],[u11,u21]))@}^{(1)}=\)</td>
+   <td>[[input:S_U1]]</td>
+   <td>[[validation:S_U1]]</td>
+  </tr>
+ </tbody>
+</table>
+<p>[[feedback:U1]]</p>
+
+**Second iteration** (3 d.p.)
+
+<table border="0">
+ <tbody>
+  <tr>
+   <td>\({@matrix([u12,u22],[u11,u21])@}^{(2)}=\)</td>
+   <td>[[input:S_U2]]</td>
+   <td>[[validation:S_U2]]</td>
+  </tr>
+ </tbody>
+</table>
+<p>[[feedback:U2]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="markdown">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2024072400</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[/* Define the grid size */
+h : 1/3;
+
+/* Define the boundary values and initial guess */
+g: rand([x+y, x-y, y-x, x*y^2,x^2*y^2,(1-x)*y, (1-x)*(1-y)]);
+ubd(x,y):= dispdp(ev(g),4); /* this can be used for display only */
+ub(x,y):= round(ev(g)*10000)/10000;
+u0:rand([0,1/2,1]);
+u0d : matrix(
+    [ubd(0,1)  , ubd(1/3,1), ubd(2/3,1), ubd(1,1)],
+    [ubd(0,2/3),    u12  ,    u22  ,   ubd(1,2/3)],
+    [ubd(0,1/3),    u11  ,    u21  ,   ubd(1,1/3)],
+    [ubd(0,0)  , ubd(1/3,0), ubd(2/3,0), ubd(1,0)]
+);
+u : matrix(
+    [ub(0,1)  , ub(1/3,1), ub(2/3,1), ub(1,1)],
+    [ub(0,2/3),    u0  ,    u0  ,   ub(1,2/3)],
+    [ub(0,1/3),    u0  ,    u0  ,   ub(1,1/3)],
+    [ub(0,0)  , ub(1/3,0), ub(2/3,0), ub(1,0)]
+);
+
+
+/* First Jacobi iteration */
+u[3,2]: 1/4 * (u[4,2] + u[2,2] + u[3,3] + u[3,1]);
+u[3,3]: 1/4 * (u[4,3] + u[2,3] + u[3,4] + u[3,2]);
+u[2,2]: 1/4 * (u[3,2] + u[1,2] + u[2,3] + u[2,1]);
+u[2,3]: 1/4 * (u[3,3] + u[1,3] + u[2,4] + u[2,2]);
+
+U1: float(submatrix(1,4,u,1,4));
+
+/* Second Jacobi iteration */
+u[3,2]: 1/4 * (u[4,2] + u[2,2] + u[3,3] + u[3,1]);
+u[3,3]: 1/4 * (u[4,3] + u[2,3] + u[3,4] + u[3,2]);
+u[2,2]: 1/4 * (u[3,2] + u[1,2] + u[2,3] + u[2,1]);
+u[2,3]: 1/4 * (u[3,3] + u[1,3] + u[2,4] + u[2,2]);
+
+U2: float(submatrix(1,4,u,1,4));
+
+stack_include("https://raw.githubusercontent.com/mkraska/meclib/main/Maxima/fb_value_EN.mac");
+
+toList(m):= args(transpose(m))[1];]]></text>
+    </questionvariables>
+    <specificfeedback format="markdown">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>{@'u_0=u0@}, {@g@}, {@U1@}, {@U2@}</text>
+    </questionnote>
+    <questiondescription format="markdown">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="markdown">
+      <text>Richtige Antwort, gut gemacht!</text>
+    </prtcorrect>
+    <prtpartiallycorrect format="markdown">
+      <text>Ihre Antwort ist teilweise korrekt.</text>
+    </prtpartiallycorrect>
+    <prtincorrect format="markdown">
+      <text>Falsche Antwort.</text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>S_U1</name>
+      <type>matrix</type>
+      <tans>U1</tans>
+      <boxsize>4</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>S_U2</name>
+      <type>matrix</type>
+      <tans>U2</tans>
+      <boxsize>4</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>U1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text>SA: float(round(S_U1*1000)/1000);
+TA: float(round(U1*1000)/1000);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>SA</sans>
+        <tans>TA</tans>
+        <testoptions>0.005</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>U1-1-T</trueanswernote>
+        <truefeedback format="markdown">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>U1-1-F</falseanswernote>
+        <falsefeedback format="markdown">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>U2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text>SA: float(round(S_U2*1000)/1000);
+TA: float(round(U2*1000)/1000);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>SA</sans>
+        <tans>TA</tans>
+        <testoptions>0.005</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>U2-1-T</trueanswernote>
+        <truefeedback format="markdown">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>U2-1-F</falseanswernote>
+        <falsefeedback format="markdown">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>579624181</deployedseed>
+    <deployedseed>1343186453</deployedseed>
+    <deployedseed>2076650385</deployedseed>
+    <deployedseed>1366787899</deployedseed>
+    <deployedseed>1910156339</deployedseed>
+    <deployedseed>336030133</deployedseed>
+    <deployedseed>1130909704</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Testfall, der annimmt, dass die Eingabe der Trainer/innen die volle Punktezahl erreicht.</description>
+      <testinput>
+        <name>S_U1</name>
+        <value>U1</value>
+      </testinput>
+      <testinput>
+        <name>S_U2</name>
+        <value>U2</value>
+      </testinput>
+      <expected>
+        <name>U1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>U1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>U2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>U2-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

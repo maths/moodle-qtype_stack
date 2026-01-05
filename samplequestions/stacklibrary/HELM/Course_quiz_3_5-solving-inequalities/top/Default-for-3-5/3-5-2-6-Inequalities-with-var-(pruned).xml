@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>3.5.2.6 Inequalities with var (pruned)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4 class="HELM_exercise">Exercise</h4>
+<p>In the following questions solve the given inequality algebraically:</p>
+<ol class="HELM_parts">
+<li>\({@seq4[1][1]@}\)   [[input:ans17]] [[validation:ans17]][[feedback:prt17]]
+</li><li>\({@seq4[2][1]@}\)   [[input:ans18]] [[validation:ans18]][[feedback:prt18]]
+</li><li>\({@seq4[3][1]@}\)  [[input:ans19]] [[validation:ans19]][[feedback:prt19]]
+
+</li></ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<ol class="HELM_parts">
+    <li>\({@seq4[1][1]@} \Rightarrow {@seq4[1][2]@} \)
+    </li>
+    <li>\({@seq4[2][1]@} \Rightarrow {@seq4[2][2]@} \)
+    </li>
+    <li>\({@seq4[3][1]@} \Rightarrow {@seq4[3][2]@} \)
+    </li>
+</ol>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021072200</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[var:x;
+rnd3:rand_with_step(1,9,1);
+rndd3:rand_with_step(-5,10,1);
+rnddd3:rand_with_step(-5,30,1);
+exp1:rnd3*var + rndd3>rnddd3;
+ta1:var>(rnddd3-rndd3)/rnd3;
+
+rnd3:rand_with_step(-5,-1,1);
+rndd3:rand_with_step(-5,10,1);
+rnddd3:rand_with_step(-5,30,1);
+exp2:rnd3*var + rndd3<=rnddd3;
+ta2:var>=(rnddd3-rndd3)/rnd3;
+
+rnd3:rand_with_step(5,9,1);
+rndd3:rand_with_step(-5,10,1);
+rnddd3:rand_with_step(-5,30,1);
+rand4:rand_with_step(1,4,1);
+exp3:rnd3*var + rndd3<=rand4*var+rnddd3;
+ta3:var<=(rnddd3-rndd3)/(rnd3-rand4);
+
+seq3:[[exp1,ta1],[exp2,ta2],[exp3,ta3]];
+seq4:rand_selection(seq3,3);]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\({@seq4[1][1]@}\) ans: \({@seq4[1][2]@}\); \({@seq4[2][1]@}\) ans: \({@seq4[2][2]@}\); \({@seq4[3][1]@}\) ans: \({@seq4[3][2]@}\);</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans17</name>
+      <type>algebraic</type>
+      <tans>seq4[1][2]</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans18</name>
+      <type>algebraic</type>
+      <tans>seq4[2][2]</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans19</name>
+      <type>algebraic</type>
+      <tans>seq4[3][2]</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt17</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans17</sans>
+        <tans>seq4[1][2]</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt17-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt17-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>The correct answer is \({@seq4[1][2]@}\).</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt18</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans18</sans>
+        <tans>seq4[2][2]</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt18-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt18-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>The correct answer is \({@seq4[2][2]@}\).</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt19</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans19</sans>
+        <tans>seq4[3][2]</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt19-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt19-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>The correct answer is \({@seq4[3][2]@}\).</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>2118508604</deployedseed>
+    <deployedseed>245286364</deployedseed>
+    <deployedseed>194946167</deployedseed>
+    <deployedseed>633604841</deployedseed>
+    <deployedseed>455203209</deployedseed>
+    <deployedseed>1603977918</deployedseed>
+    <deployedseed>908882511</deployedseed>
+    <deployedseed>1997850670</deployedseed>
+    <deployedseed>684822587</deployedseed>
+    <deployedseed>393784381</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans17</name>
+        <value>seq4[1][2]</value>
+      </testinput>
+      <testinput>
+        <name>ans18</name>
+        <value>seq4[2][2]</value>
+      </testinput>
+      <testinput>
+        <name>ans19</name>
+        <value>seq4[3][2]</value>
+      </testinput>
+      <expected>
+        <name>prt17</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt17-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt18</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt18-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt19</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt19-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

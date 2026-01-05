@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>36.1.3.3 Frequency tables/ Continuous data</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Continuous data</h4>
+<p>When we have continuous data it does not make sense to count how many times each value occurs. This is because, at least if we measured to a great enough precision, no two observations would be exactly the same. Therefore we need to form the observations into groups, called <b>classes</b>. We do this by dividing the range of possible values of the variable into a set of non-overlapping intervals called <b>class intervals</b>.</p>
+<p>The following data are the heights (to the nearest tenth of a centimetre) of 30 students studying statistics.</p>
+<table style="width:50%">
+<tbody><tr>
+<td>150.2</td> <td>167.2</td> <td>176.2</td>
+</tr>
+<tr>
+<td>160.1</td> <td>151.8</td> <td>166.3</td>
+</tr>
+<tr>
+<td>162.3</td> <td>167.4</td> <td>178.3</td>
+</tr>
+<tr>
+<td>181.2</td> <td>175.7</td> <td>161.1</td>
+</tr>
+<tr>
+<td>179.3</td> <td>168.9</td> <td>164.8</td>
+</tr>
+<tr>
+<td>165.0</td> <td>177.1</td> <td>183.2</td>
+</tr>
+<tr>
+<td>172.1</td> <td>180.2</td> <td>168.2</td>
+</tr>
+<tr>
+<td>173.8</td> <td>164.3</td> <td>176.8</td>
+</tr>
+<tr>
+<td>184.2</td> <td>170.9</td> <td>172.2</td>
+</tr>
+<tr>
+<td>168.5</td> <td>169.8</td> <td>176.7</td>
+</tr>
+</tbody></table>
+<p></p>
+<p>Notice first of all that all of the numbers lie in the range 150 cm. - 185 cm. This suggests that we try to organize the data into classes as shown below. This first attempt has deliberately taken <i>easy</i> class intervals which give a reasonable number of classes and span the numerical range covered by the data.</p>
+<table class="HELM_table" style="width:35%">
+<thead>
+<tr style="border-bottom: 1px solid #000;">
+<th>Class</th>
+<th>Class Interval</th>
+</tr>
+</thead>
+<tbody>
+<tr>	
+<td>\(1\)</td> <td>\(150 - 155\)</td>
+</tr>
+<tr>
+<td>\(2\)</td> <td>\(155 - 160\)</td>
+</tr>
+<tr>
+<td>\(3\)</td> <td>\(160 - 165\)</td>
+</tr><tr>
+<td>\(4\)</td> <td>\(165 - 170\)</td>
+</tr>
+<tr>
+<td>\(5\)</td> <td>\(170 - 175\)</td>
+</tr>
+<tr>
+<td>\(6\)</td> <td>\(175 - 180\)</td>
+</tr>
+<tr>
+<td>\(7\)</td> <td>\(180 - 185\)</td>
+</tr>
+</tbody>
+</table>
+<p></p>
+<p>The number of classes which we use will depend on the number of observations and the purpose of the frequency table.</p>
+<p>Our definition of the classes above is ambiguous. For example, to which class should the number 165 be allocated? Should it be in the class interval 160-165 or in the class interval 165-170?</p>
+<p>Rather than adopt an arbitrary convention such as always placing boundary values in the higher (or lower) class we usually define the class boundaries in such a way that such difficulties do not occur. Therefore, we define the classes in a way which resolves this ambiguity. For example, we can define the second class as \(155 \leq x &lt; 160\), where \(x\) is the value of the observation. Alternatively, we can simply write the class interval as \([155,160)\) where the square bracket indicates that the boundary value is included and the round bracket indicates that it is not. Our classes are now as follows.</p>
+<table class="HELM_table" style="width:35%">
+<thead>
+<tr style="border-bottom: 1px solid #000;">
+<th>Class</th>
+<th>Class Interval</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>\(1\)</td> <td>\([150,\ 155)\)</td>
+</tr>
+<tr>
+<td>\(2\)</td> <td>\([155,\ 160)\)</td>
+</tr>
+<tr>
+<td>\(3\)</td> <td>\([160,\ 165)\)</td>
+</tr>
+<tr>
+<td>\(4\)</td> <td>\([165,\ 170)\)</td>
+</tr>
+<tr>
+<td>\(5\)</td> <td>\([170,\ 175)\)</td>
+</tr>
+<tr>
+<td>\(6\)</td> <td>\([175,\ 180)\)</td>
+</tr>
+<tr>
+<td>\(7\)</td> <td>\([180,\ 185)\)</td>
+</tr>
+</tbody>
+</table>
+<p></p>
+<p>Notice that the need to consider observations which lie on a class boundary only arises because, in reality, we only record values to a limited number of decimal places. Another method which is sometimes suggested is to define the class boundaries to one more decimal place than the observations.</p>
+<p>When working by hand, the data can be organised into a frequency table using a <i>tally count</i>. To do a tally count, as you work through the data set, you make a mark, called a <i>tally mark</i>, next to the class to which an observation belongs and lightly mark or cross off the observation. When you have finished, the total number of tally marks should be equal to the number of observations.</p>
+<p>This process gives the tally marks and the corresponding frequencies as shown below.</p>
+<table class="HELM_table" style="width:70%">
+<thead>
+<tr style="border-bottom: 1px solid #000;">
+<th>Class Interval (cm)</th>
+<th>Tally</th>
+<th>Frequency</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>\([150,\ 155)\)</td> <td>| |</td> <td>\(2\)</td>
+</tr>
+<tr>
+<td>\([155,\ 160)\)</td> <td><br></td> <td>\(0\)</td>
+</tr>
+<tr>
+<td>\([160,\ 165)\)</td> <td>| | | | |</td> <td>\(5\)</td>
+</tr>
+<tr>
+<td>\([165,\ 170)\)</td> <td>| | | | |&nbsp; &nbsp; | | |</td> <td>\(8\)</td>
+</tr>
+<tr>
+<td>\([170,\ 175)\)</td> <td>| | | |</td> <td>\(4\)</td>
+</tr>
+<tr>
+<td>\([175,\ 180)\)</td> <td>| | | | |&nbsp; &nbsp;&nbsp;| |</td> <td>\(7\)</td>
+</tr>
+<tr>
+<td>\([180,\ 185)\)</td> <td>| | | |</td> <td>\(4\)</td>
+</tr>
+</tbody>
+</table>
+<p></p>
+<p>It is now easier to see some of the information contained in the original data set. For example, we now know that there are no observations in the class interval \([155, 160)\) and that the class interval \([165, 170)\) contains the most entries.</p>
+<p>Understanding the information contained in the original table is now rather easier but, as we shall see, diagrams make the situation easier to visualise.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

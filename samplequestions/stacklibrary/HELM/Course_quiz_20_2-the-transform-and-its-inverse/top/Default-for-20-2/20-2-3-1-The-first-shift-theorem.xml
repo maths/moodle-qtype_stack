@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>20.2.3.1 The first shift theorem</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h2> The first shift theorem</h2>
+
+<p>The first and second shift theorems enable an even wider range of Laplace transforms to be easily obtained than the transforms we have already found. They also enable a significantly wider range of inverse transforms to be found. Here we introduce the
+    first shift theorem. If \(f(t)\) is a causal function with Laplace transform \(F(s)\), i.e. \({\cal L}\{f(t)\}=F(s)\), then as we shall see, the Laplace transform of \(\text{e}^{-at}f(t)\), where \(a\) is a given constant, can easily be found in terms
+    of \(F(s)\).</p>
+<p>Using the definition of the Laplace transform: </p>
+<p>\[\begin{aligned} {\cal L}\{\text{e}^{-at}f(t)\}&amp;= \int_0^{\infty}\text{e}^{-st} \biggl[\text{e}^{-at}f(t)\biggr]\,dt\\ &amp;=\int_0^{\infty}\text{e}^{-(s+a)t}f(t)\,dt\end{aligned}\]
+</p>
+<p>But if
+</p>
+<p>\(\qquad F(s)={\cal L}\{f(t)\}=\int_0^{\infty}\text{e}^{-st}f(t)\,dt\) </p>then simply replacing ‘\(s\)’ by ‘\(s+a\)’ on both sides gives:
+<p>\(\qquad F(s+a)=\int_0^{\infty}\text{e}^{-(s+a)t}f(t)\,dt\)</p>
+That is, the parameter \(s\) is shifted to the value \(s+a\).
+<p>We have then the statement of the <strong>first shift theorem</strong>:</p>
+<br>
+
+<div class="HELM_keypoint">
+    <h4>Key Point</h4>
+
+    <center><strong>First Shift Theorem</strong></center>
+
+    <p>If \(\qquad{\cal L}\{f(t)\} = F(s) \qquad \)then \(\qquad {\cal L}\{\text{e}^{-at}f(t)\} = F(s+a)\) </p>
+</div>
+<p></p>
+
+
+
+<br>
+<p>For example, we already know (from Table 1) that
+</p>
+<p>\(\qquad {\cal L}\{t^3u(t)\}={6\over {s^4}}\)</p>
+and so, by the first shift theorem:
+<p>\(\qquad {\cal L}\{\text{e}^{-2t}t^3u(t)\}={6\over {(s+2)^4}}\)</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

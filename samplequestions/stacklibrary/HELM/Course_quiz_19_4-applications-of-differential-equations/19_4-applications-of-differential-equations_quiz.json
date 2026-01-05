@@ -1,0 +1,180 @@
+{
+    "quiz": {
+        "name": "19_4 Applications of Differential Equations",
+        "intro": "<p>The previous sections have introduced several techniques for solving commonly occurring first-order and second-order ordinary differential equations. In this Section we solve a number of these equations which model engineering systems.<\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Modelling with first-order equations",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "6",
+            "heading": "Modelling free mechanical oscillations",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "14",
+            "heading": "Modelling forced mechanical oscillations",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "17",
+            "heading": "Modelling forces on beams",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "19",
+            "heading": "Exercises",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-19-4\/19-4-1-1-Modelling-with-first-order-equations.xml"
+        },
+        {
+            "slot": "4",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-19-4\/19-4-1-4-Modelling-electrical-circuits.xml"
+        },
+        {
+            "slot": "6",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-19-4\/19-4-2-1-Modelling-free-mechanical-oscillations.xml"
+        },
+        {
+            "slot": "14",
+            "page": "7",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-19-4\/19-4-3-1-Modelling-forced-mechanical-oscillations.xml"
+        },
+        {
+            "slot": "17",
+            "page": "8",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-19-4\/19-4-4-1-Modelling-forces-on-beams.xml"
+        },
+        {
+            "slot": "18",
+            "page": "9",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-19-4\/19-4-4-2-Engineering-Example-4.xml"
+        },
+        {
+            "slot": "7",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-19-4\/19-4-2-2-Case-1-No-damping.xml"
+        },
+        {
+            "slot": "9",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-19-4\/19-4-2-4-Case-2-Light-damping.xml"
+        },
+        {
+            "slot": "12",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-19-4\/19-4-2-7-Case-3-Heavy-damping.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-4\/19-4-1-2-Law-of-cooling---integrating-factor.xml"
+        },
+        {
+            "slot": "3",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-19-4\/19-4-1-3-Integrating-factor.xml"
+        },
+        {
+            "slot": "5",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-19-4\/9-4-1-5-Task---model-of-sprerical-pill.xml"
+        },
+        {
+            "slot": "8",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-4\/19-4-2-3-Task,-Find-unique-solution.xml"
+        },
+        {
+            "slot": "10",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-4\/19-4-2-5-Task---Find-solution-for-x.xml"
+        },
+        {
+            "slot": "11",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-19-4\/19-4-2-6-Case-2---continued.xml"
+        },
+        {
+            "slot": "13",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-4\/19-4-2-8-Task---Find-lambda-solution-for-x.xml"
+        },
+        {
+            "slot": "15",
+            "page": "7",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-4\/19-4-3-2-Find-aux-eq-and-compl-function.xml"
+        },
+        {
+            "slot": "16",
+            "page": "7",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-19-4\/19-4-3-3-Modelling-continued.xml"
+        },
+        {
+            "slot": "19",
+            "page": "10",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-4\/19-4-5-1-Ex1-RC-circuit,-find-q.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

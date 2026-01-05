@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>8.2.2.1 Intro Non-unique solutions</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Non-unique solutions</h4><p>The key to obtaining a unique solution of the system <span class="math inline">\(AX=B\)</span> is to find <span class="math inline">\(A^{-1}\)</span>. What happens when <span class="math inline">\(A^{-1}\)</span> does not exist?<br></p>
+
+<p>Consider the system <span class="math display">\[\begin{matrix}
+2x_1 &amp; + &amp; 3x_2 &amp; = &amp; 5 &amp; \qquad(1) \\
+4x_1&amp; + &amp; 6x_2 &amp; = &amp; 10 &amp; \qquad (2) \\
+\end{matrix}\]</span> In matrix form this becomes <span class="math display">\[\left[\begin{matrix} 2&amp;3\\ 4&amp;6\end{matrix}\right]\left[\begin{matrix} x_1\\
+x_2\end{matrix}\right]=\left[\begin{matrix} 5\\ 10\end{matrix}\right].\]</span></p>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Identify the matrix <span class="math inline">\(A\)</span> and hence find <span class="math inline">\(A^{-1}\) if it exists</span>.</p>
+<h4 class="HELM_solution">Solution</h4>
+<p><span class="math display">\[A=\left[\begin{matrix} 2 &amp; 3\\ 4 &amp; 6 \end{matrix}\right]\]</span> and <span class="math inline">\(|A|=2\times 6-4 \times 3=0.\)</span> Hence <span class="math inline">\(A^{-1}\)</span> does not exist.</p>
+<hr>
+
+<p>Looking at the original system we see that Equation (2) is simply Equation (1) with all coefficients doubled. In effect we have only one equation for the two unknowns <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span>. The equations are <span><strong>consistent</strong></span> and have <span><strong>infinitely many solutions</strong></span>.</p>
+<p>If we let <span class="math inline">\(x_2\)</span> assume a <span><strong>particular</strong></span> value, <span class="math inline">\(t\)</span> say, then <span class="math inline">\(x_1\)</span> must take the value <span class="math inline">\(x_1=\dfrac{1}{2}(5-3t)\)</span>, i.e., the solution to the given equations is:</p>
+<p><span class="math display">\[x_2=t,\qquad x_1=\dfrac{1}{2}(5-3t)\]</span> where <span class="math inline">\(t\)</span> is called a parameter.</p>
+<p>For each value of <span class="math inline">\(t\)</span> there are unique values for <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span> which satisfy the original system of equations. For example, if <span class="math inline">\(t=1\)</span>, then <span class="math inline">\(x_2=1\)</span>, <span class="math inline">\(x_1=1\)</span>, if <span class="math inline">\(t=-3\)</span> then <span class="math inline">\(x_2=-3\)</span>, <span class="math inline">\(x_1=7\)</span> and so on.</p><p>We can think of the initial problem as finding a point of intersection of the lines given by the equations. Equation (2) is simply equation (1) multiplied by \(2\) and describes the same line. Every point on the line is a point of intersection.</p>
+<p><br></p><p>Now consider the system <span class="math display">\[\begin{matrix}
+    2x_1 &amp; + &amp; 3x_2 &amp; = &amp; 5 &amp; \qquad (3) \\
+    4x_1 &amp; + &amp; 6x_2 &amp; = &amp; 9 &amp; \qquad  (4)\\
+\end{matrix}\]</span> Since the left-hand sides are the same as those in the previous system then <span class="math inline">\(A\)</span> is the same and again <span class="math inline">\(A^{-1}\)</span> does not exist. There is <span><strong>no solution</strong></span> to the Equations (3) and (4).</p>
+<p>Indeed, if we double Equation (3) we obtain <span class="math display">\[4x_1+6x_2=10\]</span> which conflicts with Equation (4). There are thus no solutions to (3) and (4) and the equations are said to be <span><strong>inconsistent</strong></span>.</p><p>Thinking of the geometry, the problem is now to find the intersection of two different but parallel lines. Of course such parallel lines will never meet so there are no points of intersection.<br></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

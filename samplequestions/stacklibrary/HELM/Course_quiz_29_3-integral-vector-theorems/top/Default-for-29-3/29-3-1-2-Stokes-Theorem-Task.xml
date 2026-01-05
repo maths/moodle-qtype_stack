@@ -1,0 +1,694 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>29.3.1.2 Stokes' Theorem Task</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>Verify Stokes' theorem for the vector field \(\underline{F} = x^2 \underline{i} + {@aa@} x y \underline{j} + z\underline{k}\) and the triangle with vertices at \((0,0,0)\), \(({@bb@},0,0)\) and \(({@bb@},{@cc@},0)\).</p>
+<ol class="HELM_parts">
+<li> <p> First find the normal vector \(\underline{\mathrm{d}S}\) </p>
+<p> 1. \(\underline{\mathrm{d}S} = \mathrm{d}y \, \mathrm{d}z \, \underline{i}\), </p>
+<p> 2. \(\underline{\mathrm{d}S} = \mathrm{d}x \, \mathrm{d}y \, \underline{j}\), </p>
+<p> 3. \(\underline{\mathrm{d}S} = \mathrm{d}x \, \mathrm{d}y \, \underline{k}\)</p>
+<p> \(\underline{\mathrm{d}S} =\)  [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</p></li>
+
+<li> <p> Then find the vector \({\underline \nabla} \times \underline{F}\) </p>
+<p> 1.  \({\underline \nabla} \times \underline{F} = {@aa@}y\underline{k}\)</p>
+<p> 2.  \({\underline \nabla} \times \underline{F} = {@aa@}y\underline{i}\)</p>
+<p> 3.  \({\underline \nabla} \times \underline{F} = {@aa@}x\underline{j}\)</p>
+<p> 4.  \({\underline \nabla} \times \underline{F} = {@aa@}x^2\underline{k}\)</p>
+<p> 5.  \({\underline \nabla} \times \underline{F} = {@aa@}xy\underline{i}\)</p>
+<p> 6.  \({\underline \nabla} \times \underline{F} = {@aa@}x^2\underline{j}\)</p>
+<p> \({\underline \nabla} \times \underline{F} = \) [[input:ans2]] [[validation:ans2]] [[feedback:prt2]]</p></li>
+
+<li> <p> Now evaluate the double integral \(\int_{x=0}^{@bb@} \int_{y=0}^{\frac{{@cc@}}{{@bb@}}x} ({\underline \nabla} \times \underline{F}) \cdot \underline{\mathrm{d}S}\) </p>
+<p> Integral \(=\) [[input:ans3]] [[validation:ans3]] [[feedback:prt3]]</p></li>
+
+<li> <p> Finally find the integral \(\oint_C \underline{F} \cdot \underline{\mathrm{d}r}\) by splitting the curve into the 3 sides of the triangle: </p> 
+<ol class="HELM_parts">
+<li> <p> Contribution to  \(\oint_C \underline{F} \cdot \underline{\mathrm{d}r}\) along the line from \((0,0,0)\) to \(({@bb@},0,0) = \)  [[input:ans4]] [[validation:ans4]] [[feedback:prt4]]</p></li>
+<li> <p>  Contribution to  \(\oint_C \underline{F} \cdot \underline{\mathrm{d}r}\)  along the line from \(({@bb@},0,0)\) to \(({@bb@},{@cc@},0) = \)  [[input:ans5]] [[validation:ans5]] [[feedback:prt5]]</p></li>
+<li> <p>  Contribution to  \(\oint_C \underline{F} \cdot \underline{\mathrm{d}r}\)  along the line from \(({@bb@},{@cc@},0)\) to \((0,0,0) = \)  [[input:ans6]] [[validation:ans6]] [[feedback:prt6]]</p></li>
+</ol>
+<li> <p> Hence find the total line integral  \(\oint_C \underline{F} \cdot \underline{\mathrm{d}r}\) </p>
+<p>  \(\oint_C \underline{F} \cdot \underline{\mathrm{d}r} = \) [[input:ans7]] [[validation:ans7]] [[feedback:prt7]]</p></li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p>We are asked to verify Stokes' theorem for the vector field \(\underline{F} = x^2 \underline{i} + {@aa@} x y \underline{j} + z\underline{k}\) and the triangle with vertices at \((0,0,0)\), \(({@bb@},0,0)\) and \(({@bb@},{@cc@},0)\).</p>
+<ol class="HELM_parts">
+<li> <p> We are asked to first find the normal vector \(\underline{\mathrm{d}S}\) </p>
+<p> Since our triangle lies in the \(xy\) plane and therefore has unit normal vector \(\underline{k}\),  \(\underline{\mathrm{d}S} = \mathrm{d}x \, \mathrm{d}y \, \underline{k}\)\)</p></li>
+
+<li> <p> We are then asked to  find the vector \({\underline \nabla} \times \underline{F}\) </p>
+<p>  \(\begin{align}
+{\underline \nabla} \times \underline{F} = \left| \begin{array}{ccc} \underline{i} & \underline{j} & \underline{k}\\
+\\
+\dfrac{\partial}{\partial x} & \dfrac{\partial}{\partial y} & \dfrac{\partial}{\partial z} \\ 
+\\ 
+x^2 & {@aa@}xy & z \end{array} \right| &= \underline{i} \left| \begin{array}{cc} \dfrac{\partial}{\partial y} & \dfrac{\partial}{\partial z}  \\
+{@aa@}xy & z  \end{array}\right|  - \underline{j} \left| \begin{array}{cc} \dfrac{\partial}{\partial x} & \dfrac{\partial}{\partial z}  \\
+x^2 & z  \end{array}\right|  + \underline{k} \left| \begin{array}{cc} \dfrac{\partial}{\partial x} & \dfrac{\partial}{\partial y}  \\
+x^2 & {@aa@}xy  \end{array}\right|  \\
+&=  \underline{i} \left(0-0\right) -  \underline{j} \left(0-0\right) +  \underline{k} \left({@aa@}y - 0\right) \\
+&= {@aa@}y\underline{k} \end{align}\) </p></li>
+
+<li> <p> We are now asked to evaluate the double integral \(\int_{x=0}^{@bb@} \int_{y=0}^{\frac{{@cc@}}{{@bb@}}x} ({\underline \nabla} \times \underline{F}) \cdot \underline{\mathrm{d}S}\) </p>
+<p>\(\begin{align} 
+I &= \int_{x=0}^{@bb@} \int_{y=0}^{\frac{{@cc@}}{{@bb@}}x} ({\underline \nabla} \times \underline{F}) \cdot \underline{\mathrm{d}S} \\
+&= \int_{x=0}^{@bb@} \int_{y=0}^{\frac{{@cc@}}{{@bb@}}x}  {@aa@}y\underline{k} \cdot \mathrm{d}y \, \mathrm{d}x \, \underline{k} \\
+&= \int_{x=0}^{@bb@} \int_{y=0}^{\frac{{@cc@}}{{@bb@}}x} {@aa@}y \, \mathrm{d}y \, \mathrm{d}x \\
+&= \int_{x=0}^{@bb@} \left[{@coeff1*y^2@}\right]_{y=0}^{\frac{{@cc@}}{{@bb@}}x}  \, \mathrm{d}x \\
+&= \int_{x=0}^{@bb@} {@coeff2@} x^2 \, \mathrm{d}x \\
+&= \left[{@coeff3@}x^3\right]_{x=0}^{@bb@}  \\
+&= {@coeff3@}({@bb@})^3  \\
+&= {@ta3@}
+\end{align}\) </p></li>
+
+<li> <p> Finally we are asked to find the integral \(\oint_C \underline{F} \cdot \underline{\mathrm{d}r}\) by splitting the curve into the 3 sides of the triangle: </p> 
+<ol class="HELM_parts">
+<li> <p> Contribution to  \(\oint_C \underline{F} \cdot \underline{\mathrm{d}r}\) along the line from \((0,0,0)\) to \(({@bb@},0,0)\) </p>
+<p>\(\begin{align} I_1 
+&= \int_C (x^2 \underline{i} + {@aa@} x y \underline{j} + z\underline{k}) \cdot (\mathrm{d}x \underline{i} + \mathrm{d}y \underline{j}) \\
+&= \int_C (x^2 \mathrm{d}x + {@aa@}xy \mathrm{d}y)\end{align}\)</p>
+<p> Going along the line \(y=0 \implies \dfrac{\mathrm{d}y}{\mathrm{d}x} = 0 \implies \mathrm{d}y=0\), and we have \(x\) ranging from \(0\) to \({@bb@}\), so </p> 
+<p>\(\begin{align} I_1 
+&= \int_{x=0}^{@bb@} x^2 \, \mathrm{d}x \\
+&= \left[\dfrac{x^3}{3}\right]_0^{@bb@} \\
+&= \displaystyle {@ta4@} \end{align}\)
+</li>
+
+<li> <p>  Contribution to  \(\oint_C\underline{F} \cdot \underline{\mathrm{d}r}\)  along the line from \(({@bb@},0,0)\) to \(({@bb@},{@cc@},0)\) </p>
+<p> We again have </p>
+<p> \(I_2 = \int_C (x^2 \mathrm{d}x + {@aa@}xy \mathrm{d}y)\)</p>
+<p> Going along the line \(x={@bb@} \implies \dfrac{\mathrm{d}x}{\mathrm{d}y} = 0 \implies \mathrm{d}x=0\), and we have \(y\) ranging from \(0\) to \({@cc@}\), so </p> 
+<p>\(\begin{align} I_2
+&= \int_{y=0}^{@cc@} {@aa@}xy \, \mathrm{d}y \\
+&= \displaystyle \left[{@aa/2@} xy^2\right]_0^{@cc@} \quad \text{and} \, x={@bb@}, \, \text{so} \\
+&= \displaystyle \left[{@aa*bb/2@} y^2\right]_0^{@cc@} \\
+&= \displaystyle {@ta5@} \end{align}\)</p>
+</li>
+
+<li> <p>  Contribution to  \(\oint_C \underline{F} \cdot \underline{\mathrm{d}r}\)  along the line from \(({@bb@},{@cc@},0)\) to \((0,0,0)\)</p>
+<p> We again have </p>
+<p> \(I_3 = \int_C (x^2 \mathrm{d}x + {@aa@}xy \mathrm{d}y)\)</p>
+<p> Going along the line \(\displaystyle y={@cc/bb@}x \implies \dfrac{\mathrm{d}y}{\mathrm{d}x} = {@cc/bb@} \implies \mathrm{d}y={@cc/bb@}\mathrm{d}x\), and we have \(x\) ranging from \({@bb@}\) to \(0\), so </p> 
+<p>\(\begin{align} I_3
+&= \int_{x={@bb@}}^{0} x^2 \, \mathrm{d}x + {@aa@}x \left({@cc/bb@}x\right)\left({@cc/bb@}\mathrm{d}x\right) \\
+&= \displaystyle \int_{x={@bb@}}^{0} x^2 \, \mathrm{d}x + {@coeff4@}x^2 \, \mathrm{d}x \\
+&= \displaystyle {@coeff5@} \int_{x={@bb@}}^{0} x^2 \, \mathrm{d}x \\
+&=  \displaystyle {@coeff5@} \left[\dfrac{1}{3}x^3\right]_{@bb@}^0 \\
+&=  \displaystyle \left({@coeff5@}\right) \times \left(-\dfrac{1}{3}({@bb@})^3\right) \\
+&= \displaystyle {@ta6@} \end{align}\)</p>
+</li>
+</ol>
+
+
+<li> <p> We are asked to hence find the total line integral  \(\oint_C \underline{F} \cdot \underline{\mathrm{d}r}\) </p>
+<p> The total line integral is equal to the sum of each contribution over the 3 sides, so </p>
+<p>  \(\displaystyle \oint_C \underline{F} \cdot \underline{\mathrm{d}r} = {@ta4@} + {@ta5@} \, {@ta6@} = {@ta7@} \)</p>
+<p> Which, as Stokes' theorem tells us, is the same as our evaluated double integral \(\int_{x=0}^{@bb@} \int_{y=0}^{\frac{{@cc@}}{{@bb@}}x} ({\underline \nabla} \times \underline{F}) \cdot \underline{\mathrm{d}S}\) in part (c). </p></li>
+</ol>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025040100</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[aa: rand(3) + 2;
+bb: rand(3) + 2;
+cc: rand_with_prohib(1,2,[bb]);
+coeff1: aa/2;
+coeff2: simplify((aa*cc^2)/(2*bb^2));
+coeff3: simplify((aa*cc^2)/(6*bb^2));
+coeff4: simplify((aa*cc^2)/(bb^2));
+coeff5: simplify((aa*cc^2)/(bb^2) + 1);
+ta1: [["1.",false],["2.",false],["3.",true]];
+ta2: [["1.",true],["2.",false],["3.",false], ["4.",false],["5.",false], ["6.",false]];
+ta3: (aa*bb*cc^2)/6;
+ta4: bb^3/3;
+ta5: (aa*bb*cc^2)/2;
+ta6: simplify(-(bb*aa*cc^2)/3 - bb^3/3);
+ta7: (aa*bb*cc^2)/6;]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="html">
+      <text><![CDATA[<p> \(\underline{F} = x^2 \underline{i} + {@aa@} x y \underline{j} + z\underline{k}\), and vertices \((0,0,0)\), \(({@bb@},0,0)\) and \(({@bb@},{@cc@},0)\).</p>
+<p> Stokes' Theorem gives {@ta3@} </p>]]></text>
+    </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>dropdown</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>dropdown</type>
+      <tans>ta2</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>algebraic</type>
+      <tans>ta3</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans4</name>
+      <type>algebraic</type>
+      <tans>ta4</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans5</name>
+      <type>algebraic</type>
+      <tans>ta5</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans6</name>
+      <type>algebraic</type>
+      <tans>ta6</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans7</name>
+      <type>algebraic</type>
+      <tans>ta7</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>[ans1]</sans>
+        <tans>mcq_correct(ta1)</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>[ans2]</sans>
+        <tans>mcq_correct(ta2)</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>ta3</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt4</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans4</sans>
+        <tans>ta4</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt4-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt4-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt5</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans5</sans>
+        <tans>ta5</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt5-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt5-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt6</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans6</sans>
+        <tans>ta6</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt6-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt6-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt7</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans7</sans>
+        <tans>ta7</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt7-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt7-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1306807328</deployedseed>
+    <deployedseed>2113989414</deployedseed>
+    <deployedseed>617860824</deployedseed>
+    <deployedseed>1541314806</deployedseed>
+    <deployedseed>2093074725</deployedseed>
+    <deployedseed>348372487</deployedseed>
+    <deployedseed>1148416385</deployedseed>
+    <deployedseed>688493402</deployedseed>
+    <deployedseed>1879842806</deployedseed>
+    <deployedseed>251730426</deployedseed>
+    <deployedseed>1681232095</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>first(mcq_correct(ta1))</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>first(mcq_correct(ta2))</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta3</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>ta4</value>
+      </testinput>
+      <testinput>
+        <name>ans5</name>
+        <value>ta5</value>
+      </testinput>
+      <testinput>
+        <name>ans6</name>
+        <value>ta6</value>
+      </testinput>
+      <testinput>
+        <name>ans7</name>
+        <value>ta7</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt4-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt5</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt5-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt6</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt6-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt7</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt7-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>first(mcq_incorrect(ta1))</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>first(mcq_incorrect(ta2))</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta3+1</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>ta4+1</value>
+      </testinput>
+      <testinput>
+        <name>ans5</name>
+        <value>ta5+1</value>
+      </testinput>
+      <testinput>
+        <name>ans6</name>
+        <value>ta6+1</value>
+      </testinput>
+      <testinput>
+        <name>ans7</name>
+        <value>ta7+1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt3-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt4-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt5</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt5-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt6</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt6-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt7</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt7-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

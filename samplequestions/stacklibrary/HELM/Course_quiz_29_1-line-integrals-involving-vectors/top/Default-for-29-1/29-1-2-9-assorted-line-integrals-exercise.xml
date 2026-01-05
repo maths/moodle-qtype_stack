@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>29.1.2.9 assorted line integrals exercise</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+
+<p> Consider \(\displaystyle\int_C \underline{F} \cdot \underline{dr}\), where \(\underline{F} = {@aa@}x^2 y^2 \underline{i} + ({@bb@}x^3 y - {@cc@})\underline{j}\). Find the value of the line integral along each of the paths from \((0,0)\) to \((1,4)\).<p>
+
+<ol class="HELM_parts">
+<li><p>\(y = 4x\)</p>
+<p>\(\displaystyle\int_C \underline{F} \cdot \underline{dr} =\)[[input:ans1]] [[validation:ans1]][[feedback:prt1]]</p></li>
+
+<li><p>\(y = 4x^2\)</p>
+<p>\(\displaystyle\int_C \underline{F} \cdot \underline{dr} =\)[[input:ans2]] [[validation:ans2]][[feedback:prt2]]</p></li>
+
+<li><p>\(y = 4 x^{1/2}\)</p>
+<p>\(\displaystyle\int_C \underline{F} \cdot \underline{dr} =\)[[input:ans3]] [[validation:ans3]][[feedback:prt3]]</p></li>
+
+<li><p>\(y = 4x^3\)</p>
+<p>\(\displaystyle\int_C \underline{F} \cdot \underline{dr} =\)[[input:ans4]] [[validation:ans4]][[feedback:prt4]]</p></li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p>We know that  \(\underline{F} = {@aa@}x^2 y^2 \underline{i} + ({@bb@}x^3 y - {@cc@})\underline{j}\), and aim to find the value of the line integral along each of the paths from \((0,0)\) to \((1,4)\):</p>
+
+<p>(a) We know that \(y=4x\) and so aim to write the line integral in terms of \(x\). Parametrising \(\underline{r}\) in terms of \(x\) and then aiming to find \(\underline{F}\cdot\dfrac{\mathrm{d}\underline{r}}{\mathrm{d}x}\), we find:
+
+\[\begin{aligned}
+\underline{r} &= x\underline{i}+ (4x)\underline{j}\\
+\frac{\mathrm{d}\underline{r}}{\mathrm{d}x} &= \underline{i}+ 4\underline{j}\\
+\underline{F} &=  {@aa@}x^2 (4x)^2 \underline{i} + ({@bb@}x^3 (4x) - {@cc@})\underline{j}\\
+&= {@16*aa@}x^4 \underline{i} + ({@4*bb@}x^4 - {@cc@})\underline{j} \\
+\underline{F}\cdot\dfrac{\mathrm{d}\underline{r}}{\mathrm{d}x} &= {@16*aa@}x^4 + {@16*bb@}x^4 - {@4*cc@}\\
+&= {@16*aa + 16*bb@}x^4 - {@4*cc@}
+\end{aligned}\]</p>
+<p>Therefore, we may solve the line integral as follows:
+\[\begin{aligned}
+\int_C \underline{F} \cdot \underline{dr} &= \int^1_0 \underline{F}\cdot\dfrac{\mathrm{d}\underline{r}}{\mathrm{d}x}\ \\
+&= \int^1_0 {@16*aa + 16*bb@}x^4 - {@4*cc@}\ \mathrm{d}x \\
+&= \left[{@(16*aa + 16*bb)/5@}x^5 - {@4*cc@}x \right]^1_0\\
+&={@(16*aa + 16*bb)/5@}(1)^5 - {@4*cc@}(1) \\
+&= {@(16*aa + 16*bb)/5 - 4*cc@}
+\end{aligned}\]
+</p>
+
+<p>(b) \(C_2\) : We know that \(y\) follows the parabola \(y = 4x^2\), and so we rewrite the line integral in terms of \(x\) to solve.</p>
+<p>We again aim to write the line integral in terms of \(x\). Parametrising \(\underline{r}\) in terms of \(x\) and then aiming to find \(\underline{F}\cdot\dfrac{\mathrm{d}\underline{r}}{\mathrm{d}x}\), we find:
+
+\[\begin{aligned}
+\underline{r} &= x\underline{i}+ 4x^2\underline{j}\\
+\frac{\mathrm{d}\underline{r}}{\mathrm{d}x} &= \underline{i}+ 8x\underline{j}\\
+\underline{F} &= {@aa@}x^2 (4x^2)^2 \underline{i} + ({@bb@}x^3 (4x^2) - {@cc@})\underline{j}\\
+&= {@16*aa@}x^6 \underline{i} + ({@4*bb@}x^5 - {@cc@})\underline{j}\\
+\underline{F}\cdot\dfrac{\mathrm{d}\underline{r}}{\mathrm{d}x} &={@16*aa@}x^6 + {@32*bb@}x^6 - {@8*cc@}x\\
+&={@16*aa+32*bb@}x^6 - {@8*cc@}x.
+\end{aligned}\]</p>
+<p>Therefore, we may solve the line integral as follows:
+\[\begin{aligned}
+\int_{C_2} \underline{F} \cdot \underline{dr} &= \int^1_0 \underline{F}\cdot\dfrac{\mathrm{d}\underline{r}}{\mathrm{d}x}\ \mathrm{d}x \\
+&= \int^1_0 {@16*aa+32*bb@}x^6 - {@8*cc@}x\ \mathrm{d}x \\
+&= \left[{@(16*aa+32*bb)/7@}x^7 - {@4*cc@}x^2\right]^1_0\\
+&=  \left({@(16*aa+32*bb)/7@}(1)^7 - {@4*cc@}(1)^2\right) \\
+&= {@(16*aa+32*bb)/7- 4*cc@}
+\end{aligned}\]
+</p>
+
+<p>(C) \(C_3\) : We know that \(y\) follows the curve \(y = 4x^\frac{1}{2}\), and so we rewrite the line integral in terms of \(x\) to solve.</p>
+<p>We again aim to write the line integral in terms of \(x\). Parametrising \(\underline{r}\) in terms of \(x\) and then aiming to find \(\underline{F}\cdot\dfrac{\mathrm{d}\underline{r}}{\mathrm{d}x}\), we find:
+
+\[\begin{aligned}
+\underline{r} &= x\underline{i}+ 4x^\frac{1}{2}\underline{j}\\
+\frac{\mathrm{d}\underline{r}}{\mathrm{d}x} &= \underline{i}+ 2x^{-\frac{1}{2}}\underline{j}\\
+\underline{F} &= {@aa@}x^2 (4x^\frac{1}{2})^2 \underline{i} + ({@bb@}x^3 (4x^\frac{1}{2}) - {@cc@})\underline{j}\\
+&= {@16*aa@}x^3 \underline{i} + ({@4*bb@}x^\frac{7}{2} - {@cc@})\underline{j}\\
+\underline{F}\cdot\dfrac{\mathrm{d}\underline{r}}{\mathrm{d}x} &= {@16*aa@}x^3 + {@8*bb@}x^3 - {@2*cc@} x^{-\frac{1}{2}}\\
+&={@16*aa+8*bb@}x^3 - {@2*cc@}x^{-\frac{1}{2}}.
+\end{aligned}\]</p>
+<p>Therefore, we may solve the line integral as follows:
+\[\begin{aligned}
+\int_{C_2} \underline{F} \cdot \underline{dr} &= \int^1_0 \underline{F}\cdot\dfrac{\mathrm{d}\underline{r}}{\mathrm{d}x}\ \mathrm{d}x \\
+&= \int^1_0 {@16*aa+8*bb@}x^3 - {@2*cc@}x^{-\frac{1}{2}}\ \mathrm{d}x \\
+&= \left[{@4*aa+2*bb@}x^4 - {@4*cc@}x^{\frac{1}{2}}\right]^1_0\\
+&=  \left({@4*aa+2*bb@}(1)^4 - {@4*cc@}(1)^{\frac{1}{2}}\right) \\
+&= {@4*aa+2*bb - 4*cc@}
+\end{aligned}\]
+</p>
+
+<p>(D) \(C_4\) : We know that \(y\) follows the cubic \(y = 4x^3\), and so we rewrite the line integral in terms of \(x\) to solve.</p>
+<p>We again aim to write the line integral in terms of \(x\). Parametrising \(\underline{r}\) in terms of \(x\) and then aiming to find \(\underline{F}\cdot\dfrac{\mathrm{d}\underline{r}}{\mathrm{d}x}\), we find:
+
+\[\begin{aligned}
+\underline{r} &= x\underline{i}+ 4x^3\underline{j}\\
+\frac{\mathrm{d}\underline{r}}{\mathrm{d}x} &= \underline{i}+ 12x^2\underline{j}\\
+\underline{F} &= {@aa@}x^2 (4x^3)^2 \underline{i} + ({@bb@}x^3 (4x^3) - {@cc@})\underline{j}\\
+&= {@16*aa@}x^8 \underline{i} + ({@4*bb@}x^6 - {@cc@})\underline{j}\\
+\underline{F}\cdot\dfrac{\mathrm{d}\underline{r}}{\mathrm{d}x} &={@16*aa@}x^8 + {@48*bb@}x^8 - {@12*cc@}x^2\\
+&={@16*aa+48*bb@}x^8 - {@12*cc@}x^2.
+\end{aligned}\]</p>
+<p>Therefore, we may solve the line integral as follows:
+\[\begin{aligned}
+\int_{C_2} \underline{F} \cdot \underline{dr} &= \int^1_0 \underline{F}\cdot\dfrac{\mathrm{d}\underline{r}}{\mathrm{d}x}\ \mathrm{d}x \\
+&= \int^1_0 {@16*aa+48*bb@}x^8 - {@12*cc@}x^2\ \mathrm{d}x \\
+&= \left[{@(16*aa+48*bb)/9@}x^9 - {@4*cc@}x^3\right]^1_0\\
+&=  \left({@(16*aa+48*bb)/9@}(1)^9 - {@4*cc@}(1)^3\right) \\
+&= {@(16*aa+48*bb)/9- 4*cc@}
+\end{aligned}\]
+</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025073100</text>
+    </stackversion>
+    <questionvariables>
+      <text>aa:rand(6)+2;
+bb:rand(6)+2;
+cc:rand(6)+2;
+
+ta1:(16*aa+16*bb)/5-4*cc;
+ta2:(16*aa+32*bb)/7-4*cc;
+ta3:4*aa+2*bb-4*cc;
+ta4:(144*aa)/7+18*bb-4*cc;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="html">
+      <text>\(\underline{F} = {@aa@}x^2 y^2 \underline{i} + ({@bb@}x^3 y - {@cc@})\underline{j}\)</text>
+    </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>ta2</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>algebraic</type>
+      <tans>ta3</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans4</name>
+      <type>algebraic</type>
+      <tans>ta4</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>ta3</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt4</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans4</sans>
+        <tans>ta4</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt4-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt4-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1044859355</deployedseed>
+    <deployedseed>1599286101</deployedseed>
+    <deployedseed>109409179</deployedseed>
+    <deployedseed>572821185</deployedseed>
+    <deployedseed>864531063</deployedseed>
+    <deployedseed>1530661183</deployedseed>
+    <deployedseed>1428472420</deployedseed>
+    <deployedseed>689423892</deployedseed>
+    <deployedseed>1131639435</deployedseed>
+    <deployedseed>715266178</deployedseed>
+    <deployedseed>1382435702</deployedseed>
+    <deployedseed>975474654</deployedseed>
+    <deployedseed>55766793</deployedseed>
+    <deployedseed>190138535</deployedseed>
+    <deployedseed>707852390</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta3</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>ta4</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt4-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

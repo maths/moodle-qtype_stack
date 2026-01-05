@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>7.2.4.1 Multiplying two 3x3 matrices</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Multiplying two \(3\times3\) matrices</h3>
+<p>The definition of the product \(C=AB\) where \(A\) and \(B\) are two \(3\times 3\) matrices is as follows \[ C =\begin{bmatrix} a &amp; b &amp; c \\ d &amp; e &amp; f \\
+g &amp; h &amp; i \end{bmatrix} \begin{bmatrix} r &amp; s &amp; t \\ u &amp; v &amp; w \\
+x &amp; y &amp; z \end{bmatrix} = \begin{bmatrix} ar + bu + cx &amp; as + bv + cy &amp; at + bw + cz \\
+dr + eu + fx &amp; ds + ev + fy &amp; dt + ew + fz \\ gr + hu + ix &amp; gs + hv + iy &amp; gt + hw + iz \end{bmatrix} \]</p>
+<p>This looks a rather daunting amount of algebra but in fact the construction of the matrix on the right-hand side is straightforward if we follow the simple rule that the element in the \(i^{\rm th}\) row and \(j^{\rm th}\) column of \(C\) is obtained by multiplying the \(i^{\rm th}\) row of \(A\) with the \(j^{\rm th}\) column of \(B\).</p>
+<p>For example, to obtain the element in row 2, column 3 of \(C\) we take row 2 of \(A\): \(\begin{bmatrix} d &amp; e &amp; f \end{bmatrix}\) and multiply it with column 3 of \(B\) in the usual way to produce \(\begin{bmatrix}dt + ew + fz\end{bmatrix}\).</p>
+<p>By repeating this process we obtain every element of \(C\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

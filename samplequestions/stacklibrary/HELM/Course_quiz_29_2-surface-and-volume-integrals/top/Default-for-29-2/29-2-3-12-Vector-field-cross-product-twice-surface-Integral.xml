@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>29.2.3.12 Vector field cross product twice surface Integral</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>Evaluate the integral \(\iint_S (\underline{\nabla} \times \underline{F} ) \times \underline{\mathrm{d}S}\) where \(\underline{F} = {@aa@}xe^y\underline{i} + ze^y\underline{j}\) and \(S\) represents the unit square \(0 \leq x \leq 1\), \(0 \leq y \leq 1\).</p>
+
+<p>\(\displaystyle \int_S \underline{F} \times \underline{\mathrm{d}S} =\) [[input:ans1]][[validation:ans1]]\(\underline{i} +\) [[input:ans2]][[validation:ans2]] \(\underline{j} +\) [[input:ans3]][[validation:ans3]]\(\underline{k}\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p>We aim to Evaluate the integral \(\iint_S (\underline{\nabla} \times \underline{F} ) \times \underline{\mathrm{d}S}\) where \(\underline{F} = {@aa@}xe^y\underline{i} + ze^y\underline{j}\) and \(S\) represents the unit square \(0 \leq x \leq 1\), \(0 \leq y \leq 1\).</p>
+
+<p>We first aim to find the vector \(\underline{\mathrm{d}S}\). As the square is in the \(x-y\) plane, we know that \(\underline{\hat{n}} = \underline{k}\), so we have \(\underline{\mathrm{d}S} =\underline{k}\ \mathrm{d}x\mathrm{d}y\). We can then easily determine the outer bounds to be \(y=1\) as an upper bound, and \(y=0\) as a lower bound. The inner bounds are \(x=1\) and \(x=0\) for upper and lower bounds respectively. We will now calculate \(\displaystyle \int_S \underline{F} \times \underline{\mathrm{d}S}\):
+\[
+\begin{aligned}
+\iint_S (\underline{\nabla} \times \underline{F} ) \times \underline{\mathrm{d}S} &=\iint_S \begin{vmatrix}
+\underline{i} & \underline{j} & \underline{k} \\
+\frac{\partial}{\partial x} & \frac{\partial}{\partial y} & \frac{\partial}{\partial z} \\
+{@aa@}xe^y & ze^y & 0
+\end{vmatrix} \times \underline{\mathrm{d}S}\\
+&= \iint_S \left(\frac{\partial}{\partial y}(0) - \frac{\partial}{\partial z}(ze^y))\underline{i} - (\frac{\partial}{\partial x}(0)- \frac{\partial}{\partial z}({@aa@}xe^y))\underline{j} + (\frac{\partial}{\partial x}(ze^y) - \frac{\partial}{\partial y}({@aa@}xe^y))\underline{k}\right)  \times \underline{\mathrm{d}S}\\
+&= \iint_S (e^y\underline{i} -{@aa@}xe^y\underline{k}) \times \underline{\mathrm{d}S}\\
+&= \int^{y=1}_{y=0} \int^{x=1}_{x=0} \begin{vmatrix}
+\underline{i} & \underline{j} & \underline{k} \\
+e^y & 0 & -{@aa@}xe^y \\
+0 & 0 & 1
+\end{vmatrix}\ \mathrm{d}x\mathrm{d}y\\
+&= \int^{y=1}_{y=0} \int^{x=1}_{x=0}  ((0)(1)-(-{@aa@}xe^y)(0))\underline{i} - ((e^y)(1) - (-{@aa@}xe^y)(0))\underline{j} + ((e^y)(0)-(0)(0))\underline{k}\ \mathrm{d}x\mathrm{d}y\\
+&= \int^{y=1}_{y=0} \int^{x=1}_{x=0}  -e^y\underline{j}\ \mathrm{d}x\mathrm{d}y\\
+&= \int^{y=1}_{y=0} \left[{@First_int_indef@}\right]^{x=1}_{x=0}\ \mathrm{d}y\underline{j}\\
+&=\int^{y=1}_{y=0} {@First_int_def@}\ \mathrm{d}y\underline{j}\\
+&=\left[{@Second_int_indef@}\right]^{y=1}_{y=0}\underline{j}\\
+&= ({@Second_int_def@})\underline{j}
+\end{aligned}
+\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025073100</text>
+    </stackversion>
+    <questionvariables>
+      <text>aa:rand(6)+1;
+
+expression:-e^y;
+First_int_indef:integrate(expression, x);
+First_int_def:integrate(expression, x, 0, 1);
+Second_int_indef:integrate(First_int_def, y);
+Second_int_def:integrate(First_int_def, y, 0, 1);
+
+tai:0;
+taj:Second_int_def;
+tak:0;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="html">
+      <text>\(\underline{F} = {@aa@}xe^y\underline{i} + ze^y\underline{j}\) so \(\displaystyle \int_S \underline{F} \times \underline{\mathrm{d}S} = {@tai@} \underline{i} +({@taj@}) \underline{j} +{@tak@} \underline{k}\)</text>
+    </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>onum</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>tai</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>taj</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>algebraic</type>
+      <tans>tak</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>tai</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>3</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>taj</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>3</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>tak</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>3</falsenextnode>
+        <falseanswernote>prt1-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>3</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>-tai</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>4</truenextnode>
+        <trueanswernote>prt1-4-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-4-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>4</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>-taj</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>5</truenextnode>
+        <trueanswernote>prt1-5-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-5-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>5</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>-tak</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-6-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-6-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1680339949</deployedseed>
+    <deployedseed>1422206748</deployedseed>
+    <deployedseed>1956293313</deployedseed>
+    <deployedseed>183543109</deployedseed>
+    <deployedseed>615398061</deployedseed>
+    <deployedseed>377058148</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>tai</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>taj</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>tak</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description>fail</description>
+      <testinput>
+        <name>ans1</name>
+        <value>tai</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>taj</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>tak+1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt1-5-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>-tai</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>-taj</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>-tak</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-6-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

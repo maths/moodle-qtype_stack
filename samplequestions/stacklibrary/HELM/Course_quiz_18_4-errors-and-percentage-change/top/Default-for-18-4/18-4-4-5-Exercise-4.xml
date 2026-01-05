@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>18.4.4.5 Exercise 4</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>If \(\displaystyle{n=\frac{1}{2L}\sqrt{\frac{E}{d}}}\) and \(L, E\) and \(d\) can be measured correct to within \(1\)%, how accurate is the calculated value of \(n\)?
+</p>
+<p>The maximum percentage error in \(n\) is [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]%.</p>
+<p></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>We are given the funtcion \(\displaystyle{n=\frac{1}{2L}\sqrt{\frac{E}{d}}}\) and \(L, E, d\) are subject to percentage relative errors of \({@error_L@} \%\).</p>
+<p>First, find \(\dfrac{\partial n}{\partial L},\) \(\dfrac{\partial n}{\partial E}\) and \(\dfrac{\partial n}{\partial d}\)</p>
+<p>\(\dfrac{\partial n}{\partial L} = \displaystyle {@n_L@}\)</p>
+<p>\(\dfrac{\partial n}{\partial E} = \displaystyle {@n_E@}\)</p>
+<p>\(\dfrac{\partial n}{\partial d} = \displaystyle {@n_d@}\)<br></p>
+<p>Now we write down the expression of \( \delta n .\)</p>
+<p>\[ \begin{align} \left|\delta n \right|_{\text{max}} &amp; \simeq \left| \frac{\partial n}{\partial L} \right| \left| \delta L \right|+ \left| \frac{\partial n}{\partial E} \right| \left| \delta E \right| + \left| \frac{\partial n}{\partial d} \right| \left|
+    \delta d \right|&nbsp;\\ &amp; \simeq \left| {@n_L@} \right| \left| \delta L \right| + \left| {@n_E@} \right| \left| \delta E \right| + \left| {@n_d@} \right| \left| \delta d \right| \end{align}\]</p>
+<p>Hence we write down an expression for the percentage relative error in \(f\):</p>
+<p>\[ \begin{align} \dfrac{\delta n}{n} \times 100 &amp; \simeq \left| {@n_L@} \times 2L \sqrt{\frac{d}{E}} \, \delta L \times 100 \right| + \left| {@n_E@} \times 2L \sqrt{\frac{d}{E}} \, \delta E \times 100 \right| +&nbsp;\left| {@n_d@} \times 2L \sqrt{\frac{d}{E}}
+    \, \delta d \times 100 \right| \\ &amp; \simeq \left| {@n1@} \delta L \times 100 \right| + \left| {@n2@} \delta E \times 100 \right| +&nbsp;\left| {@n3@} \delta d \times 100 \right| \end{align}\]</p>
+<p>The percentage relative errors of \(L,E, d\) are \({@error_L@} \%\) so:</p>
+<p>\[ \frac{\delta L}{L} = {@error_L@}, \quad \frac{\delta E}{E} = {@error_E@}, \quad \frac{\delta d}{d} = {@error_d@} \]</p>Substituting them into the previous relation
+we find:<br>\[\dfrac{\delta v}{v} \times 100 \simeq&nbsp; {@error_L@} +\frac{{@error_E@}}{2} +&nbsp;\frac{{@error_d@}}{2} ={@ta1@} \%\]<br>
+<p></p>
+<p><span style="font-size: 0.9375rem;"><strong>Alterantive method:</strong></span></p>
+<p>Take logarithms of both sides \[\ln n = -\ln 2 - \ln L + \frac{1}{2} \ln E - \frac{1}{2} \ln d\]</p>
+<p>So \(\displaystyle \frac{\delta n}{n} = -\frac{\delta L}{L}+ \frac{\delta E}{2E} - \frac{\delta d}{2d}\)</p>
+<p>The maximum percentage error in \(n\) is therefore \[v=\left|\frac{\delta L}{L}\right|+\left|-\frac{\delta E}{2E}\right| + \left|-\frac{\delta d}{2d}\right|=&nbsp;{@error_L@} +\frac{{@error_E@}}{2} +&nbsp;\frac{{@error_d@}}{2} = {@ta1@} \% \]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020120600</text>
+    </stackversion>
+    <questionvariables>
+      <text>n: 1/(2*L)*sqrt(E/d);
+n_inv: 1/n;
+
+n_L: diff(n,L);
+n_E: diff(n,E);
+n_d: diff(n,d);
+
+n1: n_inv*n_L;
+n2: n_inv*n_E;
+n3: n_inv*n_d;
+
+error_L: 1;
+error_E: 1;
+error_d: 1;
+
+ta1: (error_L)+(error_E/2)+(error_d/2);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>{@a@}</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>numerical</type>
+      <tans>ta1</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(ta1+1,simp)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

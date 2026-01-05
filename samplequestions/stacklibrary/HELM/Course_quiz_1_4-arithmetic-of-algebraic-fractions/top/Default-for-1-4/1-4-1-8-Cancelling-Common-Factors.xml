@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>1.4.1.8 Cancelling Common Factors</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4 class="HELM_example">Example</h4>
+<p>Simplify \(\dfrac{6(4-8x)(x-2)}{1-2x}\)</p>
+
+<h4 class="HELM_solution">Solution</h4>
+<p>The factor \(4-8x\) can be factorised to \(4(1-2x)\). Thus</p>
+<p>\(\qquad \dfrac{6(4-8x)(x-2)}{1-2x} = \dfrac{(6)(4)(1-2x)(x-2)}{1-2x} = 24(x-2)\)</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

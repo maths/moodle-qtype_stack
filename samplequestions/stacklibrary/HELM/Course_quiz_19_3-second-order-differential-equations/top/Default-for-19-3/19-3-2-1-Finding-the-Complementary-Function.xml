@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>19.3.2.1 Finding the Complementary Function</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Finding the complementary function</h4>
+
+<p>To find the complementary function we must make use of the following property. If <span class="math inline">\(y_1(x)\)</span> and <span class="math inline">\(y_2(x)\)</span> are any two (linearly independent) solutions of a linear, homogeneous second
+    order differential equation then the general solution <span class="math inline">\(y_\text{cf}(x),\)</span> is <span class="math inline">\[ 
+y_\text{cf}(x)=Ay_1(x)+By_2(x)\]</span> where <span class="math inline">\(A,\ B\)</span> are constants. We see that the second order linear ordinary differential equation has two arbitrary constants in its <span><strong>general solution</strong></span>.
+    The functions <span class="math inline">\(y_1(x)\)</span> and <span class="math inline">\(y_2(x)\)</span> are <span><strong>linearly independent</strong></span> if one is not a multiple of the other.</p>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Verify that <span class="math inline">\(y_1=\text{e}^{4x}\)</span> and <span class="math inline">\(y_2=\text{e}^{2x}\)</span> both satisfy the constant coefficient linear homogeneous equation: <span class="math inline">\[
+{\mathrm{d}^2y\over \mathrm{d}x^2}-6{\mathrm{d}y\over \mathrm{d}x}+8y=0\]</span> Write down the general solution of this equation.</p>
+
+<h4 class="HELM_solution">Solution</h4>
+<p>When <span class="math inline">\(y_1=\text{e}^{4x}\)</span>, differentiation yields: <span class="math inline">\[ 
+{\mathrm{d}y_1\over \mathrm{d}x}=4\text{e}^{4x}
+\qquad\text{
+and}\qquad 
+{\mathrm{d}^2y_1\over \mathrm{d}x^2}=16\text{e}^{4x}\]</span> Substitution into the left-hand side of the ODE gives <span class="math inline">\(16\text{e}^{4x}-6(4\text{e}^{4x})+8\text{e}^{4x}\)</span>, which equals 0, so that <span class="math inline">\(y_1=\text{e}^{4x}\)</span>    is indeed a solution. Similarly if <span class="math inline">\(y_2=\text{e}^{2x},\)</span> then <span class="math inline">\[
+{\mathrm{d}y_2\over \mathrm{d}x}=2\text{e}^{2x}
+\qquad\text{and}\qquad 
+{\mathrm{d}^2y_2\over \mathrm{d}x^2}=4\text{e}^{2x}.\]</span> Substitution into the left-hand side of the ODE gives <span class="math inline">\(4\text{e}^{2x}-6(2\text{e}^{2x})+8\text{e}^{2x}\)</span>, which equals 0, so that <span class="math inline">\(y_2=\text{e}^{2x}\)</span>    is also a solution of equation the ODE. Now <span class="math inline">\(\text{e}^{2x}\)</span> and <span class="math inline">\(\text{e}^{4x}\)</span> are linearly independent functions, so, from the property stated above we have: <span class="math inline">\[
+y_\text{cf}(x)=A\text{e}^{4x}+B\text{e}^{2x}\]</span>is the general solution of the ODE.</p>
+
+<hr>
+
+<h4 class="HELM_example">Example</h4>
+<p>Find values of <span class="math inline">\(k\)</span> so that <span class="math inline">\(y=\text{e}^{kx}\)</span> is a solution of: <span class="math inline">\[
+{\mathrm{d}^2y\over \mathrm{d}x^2}-{\mathrm{d}y\over \mathrm{d}x}-6y=0\]</span> Hence state the general solution.</p>
+
+<h4 class="HELM_solution">Solution</h4>
+<p>As suggested we try a solution of the form <span class="math inline">\(y=\text{e}^{kx}\)</span>. Differentiating we find <span class="math inline">\[
+{\mathrm{d}y\over \mathrm{d}x}=k\text{e}^{kx}
+\qquad\text{and}\qquad
+{\mathrm{d}^2y\over \mathrm{d}x^2}=k^2\text{e}^{kx}.\]</span> Substitution into the given equation yields: <span class="math inline">\[ 
+k^2\text{e}^{kx}-k\text{e}^{kx}-6\text{e}^{kx}=0
+\qquad\text{ that is}\qquad 
+(k^2-k-6)\text{e}^{kx}=0\]</span> The only way this equation can be satisfied for all values of <span class="math inline">\(x\)</span> is if <span class="math inline">\[
+k^2-k-6=0\]</span> that is, <span class="math inline">\((k-3)(k+2)=0\)</span> so that <span class="math inline">\(k=3\)</span> or <span class="math inline">\(k=-2\)</span>. That is to say, if <span class="math inline">\(y=\text{e}^{kx}\)</span> is to
+    be a solution of the differential equation, <span class="math inline">\(k\)</span> must be either \(3\) or <span class="math inline">\(-2\)</span>. We therefore have found two solutions: <span class="math inline">\[ y_1(x)=\text{e}^{3x}\qquad \text{and}\qquad y_2(x)=\text{e}^{-2x}\]</span>    These are linearly independent and therefore the general solution is <span class="math inline">\[ 
+y_\text{cf}(x)=A\text{e}^{3x}+B\text{e}^{-2x}\]</span> The equation <span class="math inline">\(k^2-k-6=0\)</span> for determining <span class="math inline">\(k\)</span> is called the <strong>auxiliary equation</strong>.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

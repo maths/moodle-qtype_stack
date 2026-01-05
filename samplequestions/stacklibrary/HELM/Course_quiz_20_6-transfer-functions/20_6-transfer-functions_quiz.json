@@ -1,0 +1,60 @@
+{
+    "quiz": {
+        "name": "20_6 Transfer Functions",
+        "intro": "<p dir=\"ltr\" style=\"text-align: left;\">In this Section we introduce the concept of a transfer function and then use this to obtain a Laplace\ntransform model of a linear engineering system. (A linear engineering system is one modelled by a\nconstant coefficient ordinary differential equation.)\nWe shall also see how to obtain the impulse response of a linear system and hence to construct the\ngeneral response by use of the convolution theorem.<br><\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Transfer functions",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "3",
+            "heading": "Modelling linear systems by transfer functions",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-20-6\/20-6-1-1-Transfer-functions-and-linear-systems.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-20-6\/20-6-1-2-Transfer-Function-Exercise.xml"
+        },
+        {
+            "slot": "3",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-20-6\/20-6-2-1-Modelling-linear-systems-by-transfer-functions.xml"
+        },
+        {
+            "slot": "4",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-20-6\/20-6-2-2-Engineering-Example---System-response.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

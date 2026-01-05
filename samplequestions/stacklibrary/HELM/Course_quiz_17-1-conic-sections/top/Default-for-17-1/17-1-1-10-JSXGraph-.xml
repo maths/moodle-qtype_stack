@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>17.1.1.10 JSXGraph?</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text>The original question reads:
+
+Sketch the curve \(y^2 = 8x\), find the position of the focus and confirm its light-focusing property.
+
+Can we use JSXGraph here, or should we just generate a selection of graphs for students to pick from?</text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>9.2.1.4 Adding vectors with cartesian components (2D)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise<br></p>
+<p>Given that \(\underline{a} = {@a_vec@}\) and \(\underline{b} = {@b_vec@}\) find \(\underline{a}+\underline{b}.\)</p>
+<p>\(\underline{a}+\underline{b}=\) [[input:ans1]] [[validation:ans1]] \(\underline{i}\) \(+\) [[input:ans2]] [[validation:ans2]] \(\underline{j}\)</p>
+<p>[[feedback:r]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>Given that \(\underline{a} = {@a_vec@}\) and \(\underline{b} = {@b_vec@}\)<br></p><p>\[\begin{array}{rcl}\displaystyle \underline{a}+\underline{b}&amp;\displaystyle =&amp;\displaystyle \left({@a_x@} + ({@b_x@})\right)\underline{i} + \left({@a_y@} + ({@b_y@})\right)\underline{j},\\ &amp;\displaystyle =&amp;\displaystyle {@ab_vec@}. \end{array}\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021072200</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[stack_reset_vars(true);
+stackvectortex(ex):= block(sconcat("{\\underline{", tex1(first(args(ex))), "}}"));
+ordergreat(i,j);
+ijk_vec: matrix([i],[j]);
+a_sel:[2,3,4,5,6,7,8,9,10,11,12,13];
+magnitude: rand_selection(a_sel,4);
+
+a_x_magnitude:magnitude[1];
+ a_x_sign:2*rand(2)-1;
+ a_x:a_x_magnitude;
+ a_y_magnitude:magnitude[2];
+ a_y_sign:2*rand(2)-1;
+ a_y:a_y_sign*a_y_magnitude;
+a_mat:matrix([a_x],[a_y]);
+a_vec: texboldatoms(dotproduct(ijk_vec,a_mat));
+
+ b_x_magnitude:magnitude[3];
+ b_x_sign:2*rand(2)-1;
+ b_x:b_x_magnitude;
+ b_y_magnitude:magnitude[4];
+ b_y_sign:2*rand(2)-1;
+ b_y:b_y_magnitude*b_y_sign;
+b_mat:matrix([b_x],[b_y]);
+b_vec: texboldatoms(dotproduct(ijk_vec,b_mat));
+ 
+ a_x_plus_b_x: a_x+b_x;
+ a_y_plus_b_y: a_y + b_y;
+ab_mat:matrix([a_x_plus_b_x],[a_y_plus_b_y]);
+ab_vec: texboldatoms(dotproduct(ijk_vec,ab_mat));
+ r:[a_x_plus_b_x,a_y_plus_b_y];]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\(\underline{a} = {@a_vec@}\) and \(\underline{b} = {@b_vec@}\) so \(\underline{a}+\mathbf{b} = {@ab_vec@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>a_x_plus_b_x</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>+</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>a_y_plus_b_y</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>+</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>r</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>r_answer:[ans1,ans2];
+ a_minus_b:[a_x - b_x,a_y - b_y];
+ b_minus_a:[b_x - a_x,b_y - a_y];</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>CasEqual</answertest>
+        <sans>r_answer</sans>
+        <tans>r</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>VEC-ADD-TRUE </trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>VEC-ADD-FALSE</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>CasEqual</answertest>
+        <sans>r_answer</sans>
+        <tans>a_minus_b</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>A_MINUS_B</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Your answer is \(\mathbf{a} - \mathbf{b}\).</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>VEC-ADD-FALSE-1 </falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>CasEqual</answertest>
+        <sans>r_answer</sans>
+        <tans>b_minus_a</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>B_MINUS_A</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Your answer is \(\mathbf{b} - \mathbf{a}\).</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>VEC-ADD-FALSE-2</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1456377606</deployedseed>
+    <deployedseed>1189127482</deployedseed>
+    <deployedseed>1362806780</deployedseed>
+    <deployedseed>266097852</deployedseed>
+    <deployedseed>1468645259</deployedseed>
+    <deployedseed>1332568386</deployedseed>
+    <deployedseed>1745469263</deployedseed>
+    <deployedseed>1506809983</deployedseed>
+    <deployedseed>1128213702</deployedseed>
+    <deployedseed>1774798582</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>a_x_plus_b_x</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>a_y_plus_b_y</value>
+      </testinput>
+      <expected>
+        <name>r</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>VEC-ADD-TRUE </expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(a_x-b_x,simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ev(a_y-b_y,simp)</value>
+      </testinput>
+      <expected>
+        <name>r</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>A_MINUS_B</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(b_x-a_x,simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ev(b_y-a_y,simp)</value>
+      </testinput>
+      <expected>
+        <name>r</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>B_MINUS_A</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

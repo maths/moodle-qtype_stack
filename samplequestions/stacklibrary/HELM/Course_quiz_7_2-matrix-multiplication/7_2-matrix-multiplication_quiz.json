@@ -1,0 +1,244 @@
+{
+    "quiz": {
+        "name": "7_2 Matrix Multiplication",
+        "intro": "When we wish to multiply matrices together we have to ensure that the operation is possible - and this is not always so. Also, unlike number arithmetic and algebra, even when the product exists the order of multiplication may have an effect on the result. In this quiz we pick our way through the minefield of matrix multiplication.",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Matrix multiplication",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "4",
+            "heading": "Matrices don't commute",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "7",
+            "heading": "Important matrices",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "11",
+            "heading": "Multiplying 3x3 matrices",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "14",
+            "heading": "Non-square matrices",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "17",
+            "heading": "Rules of matrix manipulations",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "20",
+            "heading": "Application of matrices to networks",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "22",
+            "heading": "Exercises",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-7-2\/7-2-1-1-Multiplying-row-matrices-and-column-matrices-together.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-7-2\/7-2-2-1-Multiplying-two-2x2-matrices.xml"
+        },
+        {
+            "slot": "3",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-7-2\/7-2-2-2-Task-Find-the-product-AB.xml"
+        },
+        {
+            "slot": "4",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-7-2\/7-2-3-1-Some-surprising-results,-and-Task-1.xml"
+        },
+        {
+            "slot": "5",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-7-2\/7-2-3-2-Between-Task1-and-Task2.xml"
+        },
+        {
+            "slot": "6",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-7-2\/7-2-3-3-Task2-Multiplying-by-zero.xml"
+        },
+        {
+            "slot": "7",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-7-2\/7-2-3-4-Introducing-the-zero-matrix.xml"
+        },
+        {
+            "slot": "8",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-7-2\/7-2-3-5-Task3-AB=0.xml"
+        },
+        {
+            "slot": "9",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-7-2\/7-2-3-6-Task4-Multiplying-by-identity-matrix.xml"
+        },
+        {
+            "slot": "10",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-7-2\/7-2-3-7-Introducing-the-identity-matrix.xml"
+        },
+        {
+            "slot": "11",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-7-2\/7-2-4-1-Multiplying-two-3x3-matrices.xml"
+        },
+        {
+            "slot": "12",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-7-2\/7-2-4-2-Task-Find-the-product-AB.xml"
+        },
+        {
+            "slot": "13",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-7-2\/7-2-4-3-3x3-identity-and-zero-matrix.xml"
+        },
+        {
+            "slot": "14",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-7-2\/7-2-5-1-Multiplying-non-square-matrices-together.xml"
+        },
+        {
+            "slot": "15",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-7-2\/7-2-5-2-Non-square-multiplication-example.xml"
+        },
+        {
+            "slot": "16",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-7-2\/7-2-5-3-Task-Obtain-the-product-AB.xml"
+        },
+        {
+            "slot": "17",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-7-2\/7-2-6-1-The-rules-of-matrix-manipulation.xml"
+        },
+        {
+            "slot": "18",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-7-2\/7-2-6-2-Task-Which-of-the-matrix-products-are-defined.xml"
+        },
+        {
+            "slot": "19",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-7-2\/7-2-6-3-Algebra-of-matrices.xml"
+        },
+        {
+            "slot": "20",
+            "page": "7",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-7-2\/7-2-6-4-Application-of-matrices-to-networks-Example.xml"
+        },
+        {
+            "slot": "21",
+            "page": "8",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-7-2\/7-2-6-5-Communication-network-example.xml"
+        },
+        {
+            "slot": "22",
+            "page": "9",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-7-2\/7-2-7-2-Exercise-2.xml"
+        },
+        {
+            "slot": "23",
+            "page": "9",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-7-2\/7-2-7-3-Exercise-3.xml"
+        },
+        {
+            "slot": "24",
+            "page": "9",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-7-2\/7-2-7-4-Exercise-4.xml"
+        },
+        {
+            "slot": "25",
+            "page": "9",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-7-2\/7-2-7-5-Exercise-5.xml"
+        },
+        {
+            "slot": "26",
+            "page": "9",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-7-2\/7-2-7-6-Exercise-6.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

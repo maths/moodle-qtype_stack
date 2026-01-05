@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>5.2.2.6 Modelling with parabolas</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p><p><span>Note that the form of the parabola makes it inevitable that, as long as it is plotted over a sufficiently wide range, and apart from its vertex, there will&nbsp;<b>always be two values</b>&nbsp;on the curve for each value of one of the variables. Which of these values makes sense in a mathematical model will depend on the modelling context. In each of the contexts mentioned so far in this Section each context has determined the part of the parabola that is of interest.</span></p><p><span>Note also that there is a connection between the vertex on a parabola and the point where the gradient of that parabola is zero. In fact these points are the same!</span></p><br></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

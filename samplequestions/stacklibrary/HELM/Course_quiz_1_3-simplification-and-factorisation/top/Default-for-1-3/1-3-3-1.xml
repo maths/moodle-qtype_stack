@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>1.3.3.1</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3> 3. Removing brackets from expressions of the form \( (a+b)(c+d) \)</h3>
+
+Sometimes it is necessary to consider two bracketed terms multiplied together. In the expression
+\( (a + b)(c + d) \), by regarding the first bracket as a single term we can use the result given previously to write it as \( (a + b)c + (a + b)d \). Removing the brackets from each of these terms produces
+\( ac + bc + ad + bd \). More concisely:
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p>\[ (a + b)(c + d) = (a + b)c + (a + b)d = ac + bc + ad + bd. \].</p>
+</div>
+
+We see that each term in the first bracketed expression multiplies each term in the second bracketed
+expression.<p><br></p><p>&nbsp;
+
+</p><hr>
+<h4 class="HELM_example">Example</h4>
+<p> Remove the brackets from \( (3 + x)(2 + y) \).</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>We find \[ (3 + x)(2 + y) = (3 + x)(2) + (3 + x)y \]
+\[ = (3)(2) + (x)(2) + (3)(y) + (x)(y) = 6 + 2x + 3y + xy. \]</p>
+
+<h4 class="HELM_example">Example</h4>
+<p> Remove the brackets from \( (3x + 4)(x + 2) \) and simplify your result.</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>
+\[ (3x + 4)(x + 2) = (3x + 4)(x) + (3x + 4)(2) \]
+\[ = 3x2 + 4x + 6x + 8 = 3x2 + 10x + 8. \]</p>
+
+<h4 class="HELM_example">Example</h4>
+<p> Remove the brackets from \( (a + b)^2 \) and simplify your result.</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>When a quantity is squared it is multiplied by itself. Thus \[ (a + b)^2 = (a + b)(a + b) = (a + b)a + (a + b)b \] \[ = a^2 + ba + ab + b^2 = a^2 + 2ab + b^2. \]</p><br>
+
+<div class="HELM_keypoint">
+<h4>Key Point</h4><p>
+\[ (a + b)^2 = a^2 + 2ab + b^2 \]
+\[ (a - b)^2 = a^2 - 2ab + b^2 \]</p>
+</div>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p> Explain the distinction between \( (x + 3)(x + 2)\) and \( x + 3(x + 2). \)</p>
+<h4 class="HELM_solution">Solution</h4>
+<p style="">In the first expression removing the brackets we find
+\[ (x + 3)(x + 2) = x^2 + 3x + 2x + 6 \]
+\[ = x^2 + 5x + 6. \]
+
+In the second expression we have
+\[ x + 3(x + 2) = x + 3x + 6 = 4x + 6. \]
+Note that in the second expression the term \( (x + 2) \) is only multiplied by \(3\) and not by \(x\).</p>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p> Remove the brackets from \( (s^2 + 2s + 4)(s + 3) \).</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>Each term in the first bracket must multiply each term in the second. Working through all combinations systematically we have
+\[ (s^2 + 2s + 4)(s + 3) = (s^2 + 2s + 4)(s) + (s^2 + 2s + 4)(3) \]
+\[ = s^3 + 2s^2 + 4s + 3s^2 + 6s + 12 \]
+\[ = s^3 + 5s^2 + 10s + 12.\]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

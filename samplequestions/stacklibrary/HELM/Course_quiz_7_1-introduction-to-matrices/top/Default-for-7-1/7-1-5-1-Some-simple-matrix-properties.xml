@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>7.1.5.1 Some simple matrix properties</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Some simple matrix properties</h3>
+<p>Using the definition of matrix addition described above we can easily verify the following properties of matrix addition:</p>
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<h5 style="text-align:center;">Basic Properties of Matrices</h5>
+<p style="text-align: center; ">Let \(A,B\) and \(C\) be matrices of the same size and let \(k\) be a scalar (i.e., \(k\) is a real number).</p><p style="text-align: center; ">Matrix addition is <b>commutative</b>: \(A+B=B+A\)</p><p style="text-align: center; ">Matrix addition is <b>associative</b>: \(A+(B+C)=(A+B)+C\)</p><p style="text-align: center; ">The <b>distributive law</b>&nbsp;holds: \(k(A+B)=k\, A+k\, B\)</p><p></p><p></p>
+</div><p>These Key Point results follow from the fact that \(a_{ij}+b_{ij}=b_{ij}+a_{ij}\) etc.</p><p>We can also show that the transpose of a matrix satisfies the following simple properties:</p>
+<div class="HELM_keypoint">
+<h4>Key Point&nbsp;</h4>
+<h5 style="text-align:center;">Properties of Transposed Matrices</h5>
+<p><span>Let \(A\) and \(B\) be matrices of the same size.</span></p><p><span></span></p><p style="">\[(A+B)^T=A^T+B^T\]</p><p style="">\[(A-B)^T=A^T-B^T\]</p><p style="">\[(A^T)^T=A\]</p><p></p></div><p><br></p>
+<hr>
+<h4 class="HELM_example">Example</h4><p></p><p>Show that \((A^T)^T=A\) for the matrix</p><p>\(A=\left[\begin{array}{ccc}1&amp;2&amp;3\\ 4&amp;5&amp;6\end{array}\right]\).</p><p></p>
+<h4 class="HELM_solution">Solution</h4>
+<p></p><p>\(A^T=\left[\begin{array}{cc}1&amp;4\\ 2&amp;5\\ 3&amp;6\end{array}\right]\) so that<br></p><p></p><p>\((A^T)^T=\left[\begin{array}{ccc}1&amp;2&amp;3\\ 4&amp;5&amp;6\end{array}\right]=A\).</p><p></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

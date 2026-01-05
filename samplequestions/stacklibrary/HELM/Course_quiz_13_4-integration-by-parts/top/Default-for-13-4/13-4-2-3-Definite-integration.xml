@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>13.4.2.3 Definite integration</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<ol class="HELM_parts">
+
+    <p>Evaluate the following. Answers should be given as a decimal rounded to \(4\) d.p.</p>
+    <li>\({\displaystyle\int_{@l1@}^{@u1@} {@exp1@} \, \mathrm{d}x} = \) [[input:ans1]] [[validation:ans1]] [[feedback:prt1]] </li>
+    <li>\({\displaystyle\int_{@l2@}^{@u2@} {@exp2@} \, \mathrm{d}x} = \) [[input:ans2]] [[validation:ans2]] [[feedback:prt2]]</li>
+    <li>\({\displaystyle\int_{@l3@}^{@u3@} {@exp3@} \, \mathrm{d}t} = \) [[input:ans3]] [[validation:ans3]] [[feedback:prt3]]</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>[[facts:calc_int_methods_parts]]</p>
+<ol class="HELM_parts">
+    <li>
+        <p>First we find \(\displaystyle \frac{d}{dx}\left({@f1@}\right)\) and \(\displaystyle \int {@g1@} \, \mathrm{d}x\). \[\begin{aligned} \frac{d}{dx}\left({@f1@}\right) &amp;= {@df1@} \\ \int {@g1@}\,\mathrm{d}x &amp;= {@ig1@} \end{aligned}\]
+        </p>
+        <p>The formula then gives \[\begin{aligned} \int_{{@l1@}}^{{@u1@}} {@exp1@} \,\mathrm{d}x &amp;= \Bigg[\left({@f1@}\right) \cdot \left({@ig1@}\right)\Bigg]_{{@l1@}}^{{@u1@}} - \int_{{@l1@}}^{{@u1@}} \left({@df1@}\right) \cdot \left({@ig1@}\right)
+            \,\mathrm{d}x \\ &amp;= \Bigg[{@fig1@}\Bigg]_{{@l1@}}^{{@u1@}} - \Bigg[{@idfig1@}\Bigg]_{{@l1@}}^{{@u1@}} \\ &amp;= \left({@u12@} - \left({@u11@}\right)\right) - \left({@v12@} - \left({@v11@}\right)\right) \\ &amp;= {@ta1@}. \end{aligned}\]
+        </p>
+    </li>
+    <li>
+        <p>First we find \(\displaystyle \frac{d}{dx}\left({@f2@}\right)\) and \(\displaystyle \int {@g2@} \, \mathrm{d}x\). \[\begin{aligned} \frac{d}{dx}\left({@f2@}\right) &amp;= {@df2@} \\ \int {@g2@}\,\mathrm{d}x &amp;= {@ig2@} \end{aligned}\]
+        </p>
+        <p>The formula then gives \[\begin{aligned} \int_{{@l2@}}^{{@u2@}} {@exp2@} \,\mathrm{d}x &amp;= \Bigg[\left({@f2@}\right) \cdot \left({@ig2@}\right)\Bigg]_{{@l2@}}^{{@u2@}} - \int_{{@l2@}}^{{@u2@}} \left({@df2@}\right) \cdot \left({@ig2@}\right)
+            \,\mathrm{d}x \\ &amp;= \Bigg[{@fig2@}\Bigg]_{{@l2@}}^{{@u2@}} - \Bigg[{@idfig2@}\Bigg]_{{@l2@}}^{{@u2@}} \\ &amp;= \left({@u22@} - \left({@u21@}\right)\right) - \left({@v22@} - \left({@v21@}\right)\right) \\ &amp;= {@ta2@}. \end{aligned}\]
+        </p>
+    </li>
+    <li>
+        <p>First we find \(\displaystyle \frac{d}{dt}\left({@f3@}\right)\) and \(\displaystyle \int {@g3@} \, \mathrm{d}t\). \[\begin{aligned} \frac{d}{dt}\left({@f3@}\right) &amp;= {@df3@} \\ \int {@g3@}\,\mathrm{d}t &amp;= {@ig3@} \end{aligned}\]
+        </p>
+        <p>The formula then gives \[\begin{aligned} \int_{{@l3@}}^{{@u3@}} {@exp3@} \,\mathrm{d}t &amp;= \Bigg[\left({@f3@}\right) \cdot \left({@ig3@}\right)\Bigg]_{{@l3@}}^{{@u3@}} - \int_{{@l3@}}^{{@u3@}} \left({@df3@}\right) \cdot \left({@ig3@}\right)
+            \,\mathrm{d}t \\ &amp;= \Bigg[{@fig3@}\Bigg]_{{@l3@}}^{{@u3@}} - \Bigg[{@idfig3@}\Bigg]_{{@l3@}}^{{@u3@}} \\ &amp;= \left({@u32@} - \left({@u31@}\right)\right) - \left({@v32@} - \left({@v31@}\right)\right) \\ &amp;= {@ta3@}. \end{aligned}\]
+        </p>
+    </li>
+</ol>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020120600</text>
+    </stackversion>
+    <questionvariables>
+      <text>aa: rand([2, 4, 6, 8]); 
+bb: rand([3, 5, 7, 9]); 
+cc: rand(4)+1;
+
+f1: x;
+g1: cos(aa * x);
+exp1: f1 * g1;
+
+f2: x;
+g2: sin(aa * x);
+exp2: f2 * g2;
+
+f3: t;
+g3: e^(aa * t);
+exp3: f3 * g3;
+
+l1: 0;
+u1: 1;
+ta1: decimalplaces(float(int(exp1, x, l1, u1)),4);
+
+l2: 0;
+u2: pi/2; 
+ta2r: int(exp2, x, l2, u2);
+ta2: decimalplaces(float(int(exp2, x, l2, u2)),4); 
+
+l3: -1;
+u3: 1;
+ta3r: int(exp3, t, l3, u3);
+ta3: decimalplaces(float(int(exp3, t, l3, u3)),4);
+
+/* Needed for solution */
+df1: diff(f1, x);
+ig1: int(g1, x);
+fig1: f1 * ig1;
+idfig1: int(df1 * ig1, x);
+u11: subst(l1, x, fig1);
+u12: subst(u1, x, fig1);
+v11: subst(l1, x, idfig1);
+v12: subst(u1, x, idfig1);
+
+df2: diff(f2, x);
+ig2: int(g2, x);
+fig2: f2 * ig2;
+idfig2: int(df2 * ig2, x);
+u21: subst(l2, x, fig2);
+u22: subst(u2, x, fig2);
+v21: subst(l2, x, idfig2);
+v22: subst(u2, x, idfig2);
+
+df3: diff(f3, t);
+ig3: int(g3, t);
+fig3: f3 * ig3;
+idfig3: int(df3 * ig3, t);
+u31: subst(l3, t, fig3);
+u32: subst(u3, t, fig3);
+v31: subst(l3, t, idfig3);
+v32: subst(u3, t, idfig3);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\(\int_{@l1@}^{@u1@} {@exp1@} \, \mathrm{d}x = {@ta1@}, \quad \int_{@l2@}^{@u2@} {@exp2@} \, \mathrm{d}t = {@ta2@}, \quad \int_{@l3@}^{@u3@} {@exp3@} \, \mathrm{d}x= {@ta3@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>numerical</type>
+      <tans>ta1</tans>
+      <boxsize>7</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>mindp:4,maxdp:4</options>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>numerical</type>
+      <tans>ta2</tans>
+      <boxsize>7</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>/</forbidwords>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>mindp:4,maxdp:4</options>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>numerical</type>
+      <tans>ta3</tans>
+      <boxsize>7</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>mindp:4,maxdp:4</options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>0</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions>4</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions>4</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>ans3</sans>
+        <tans>ta3</tans>
+        <testoptions>4</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1651997333</deployedseed>
+    <deployedseed>26321727</deployedseed>
+    <deployedseed>1024763884</deployedseed>
+    <deployedseed>75244493</deployedseed>
+    <deployedseed>592131890</deployedseed>
+    <deployedseed>1657208556</deployedseed>
+    <deployedseed>1390433546</deployedseed>
+    <deployedseed>982601167</deployedseed>
+    <deployedseed>1394793454</deployedseed>
+    <deployedseed>1026384303</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>decimalplaces(ta1,4)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>decimalplaces(ta2, 4)</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>decimalplaces(ta3, 4)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1+1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2+1</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta3+1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt3-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

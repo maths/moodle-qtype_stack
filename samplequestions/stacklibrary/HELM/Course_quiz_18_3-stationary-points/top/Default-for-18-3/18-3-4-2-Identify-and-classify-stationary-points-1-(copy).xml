@@ -1,0 +1,664 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>18.3.4.2 Identify and classify stationary points 1 (copy)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>Find the stationary points for the function&nbsp;\(f(x,y) = {@exp@}\) .</p>
+<p> For each stationary point classify it as either a local minimum, a local maximum or a saddle point.
+</p>
+<ol class="HELM_parts">
+    <li>
+        <p>\(\dfrac{\partial f}{\partial x} = \dfrac{\partial f}{\partial y} = 0\) at \((x, y)\) = [[input:ans1]] [[validation:ans1]]</p>
+        <p>This point is a: [[input:ans2]] [[validation:ans2]]</p>
+        <p>[[feedback:prt1]]</p>
+    </li>
+
+    <li>
+        <p>\(\dfrac{\partial f}{\partial x} = \dfrac{\partial f}{\partial y} = 0\) at \((x, y)\) = [[input:ans3]] [[validation:ans3]]</p>
+        <p>This point is a: [[input:ans4]] [[validation:ans4]]</p>
+        <p>[[feedback:prt2]]</p>
+    </li>
+</ol>
+<p>[[feedback:prt3]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p></p>
+<p>We are asked to find the stationary points of the function \( f(x,y) = {@exp@}.\)</p>
+<p>First, find the partial derivatives of \(f(x,y):\)
+</p>\(f_x={@f_x@} \\ f_y={@f_y@}\)
+<p></p>
+<p>Now we solve the equations \(f_x = 0\) and \(f_y= 0:\)
+
+</p>
+<p>\(f_x = 0 \Rightarrow {@f_x@} = 0 \, \Rightarrow x= {@rhs(a[1])@} .\)</p>
+<p>\(f_y = 0 \Rightarrow {@f_y@} = 0 \, \Rightarrow y= {@rhs(b[1])@} \text{ or } y= {@rhs(b[2])@}.\)<br></p>
+<p>Hence the stationary points are \( ({@rhs(a[1])@}, {@rhs(b[1])@}) \) and \( ({@rhs(a[1])@}, {@rhs(b[2])@}) .\)</p>
+<p>Then we calculate \( f_{xx}, \, f_{yy}, \, f_{xy} \, \text{and} \, D:\)</p>
+<p>\( f_{xx} = {@f_xx@} \)</p>
+<p>\( f_{yy} = {@f_yy@} \)</p>
+<p>\( f_{xy} = {@f_xy@} \)</p>
+<p>\( D = f_{xx}f_{yy}- (f_{xy})^2 = {@D@} \)</p>
+<p></p>
+
+<p>Now complete the table below and determine the nature of the stationary points:</p>
+
+<table class="HELM_table">
+    <thead>
+        <tr>
+            <th> </th>
+            <th>Point</th>
+            <th>Point</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Derivatives</td>
+            <td>({@rhs(a[1])@}, {@rhs(b[1])@})</td>
+            <td>({@rhs(a[1])@}, {@rhs(b[2])@})</td>
+        </tr>
+        <tr>
+            <td>\(f_{xx}\)</td>
+            <td>{@f_xx@}</td>
+            <td>{@f_xx@}</td>
+        </tr>
+        <tr>
+            <td>\(f_{yy}\)</td>
+            <td>{@fyyval1@}</td>
+            <td>{@fyyval2@}</td>
+        </tr>
+        <tr>
+            <td>\(f_{xy}\)</td>
+            <td>{@f_xy@}</td>
+            <td>{@f_xy@}</td>
+        </tr>
+        <tr>
+            <td><em>\(D\)</em></td>
+            <td>\({@Dval1@}&gt;0\)</td>
+            <td>\({@Dval2@}&lt;0\)</td>
+        </tr>
+    </tbody>
+</table>
+<p></p>
+<p>Hence, \(({@rhs(a[1])@}, {@rhs(b[1])@})\) is a local minimum and \(({@rhs(a[1])@}, {@rhs(b[2])@})\) is a saddle point.</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021120900</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[/* This function has 1 local min and 1 saddle point and f_xy=0*/
+/* I start by defining f_x, f_y and use them to find f*/
+/* f_x= a*x, a>0 so that 1 point is (0,0) and f_xx>0 for local min*/
+/* f_y= b*y*(c-y) so that 2nd point is (0,c) */
+
+ordergreat(x,y);
+/*Define the partial derivatives of f*/
+a1: rand([10,12,14,16,18]);
+b1: rand([3,6]);
+c1: rand(3)+1;
+f_x: a1*x;
+f_y: b1*y*(c1-y);
+
+/*Define the function f */
+C: rand(10)+2
+exp: int(f_x,x)+expand(int(f_y,y))+C;
+
+partialx: diff(exp, x);
+partialy: diff(exp, y);
+a:solve(partialx = 0, x);
+b:solve(partialy = 0, y);
+/* From the way we set up the point we know that the stationery points are (0,0) and (0,c1) so there is no need to use the solve function to find them. In the following steps, where I evaluate the vallues of  fyy and D I use the defined values and not the ones found from solve. The combination of solve() and ev() BREAKS the question*/ 
+
+tacoords1:matrix([rhs(a[1]), rhs(b[1])]);
+ta1: [["local minimum", true], ["local maximum", false], ["saddle point", false]];
+tacoords2:matrix([rhs(a[1]), rhs(b[2])]);
+ta2: [["local minimum", false], ["local maximum", false], ["saddle point", true]];
+
+
+/* Calclulate second derivatives and D*/
+f_xx: diff(f_x,x);                              
+f_yy: expand(diff(f_y,y));
+f_xy: diff(f_y,x);
+D: f_xx*f_yy-(f_xy)^2;
+
+/* Evaluate second derivatives and D */
+fyyval1: ev( f_yy, y=0);
+fyyval2: ev( f_yy, y=c1);
+Dval1: ev(D, y=0);
+Dval2: ev(D, y=c1);]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\(f= {@exp@} \) so {{@tacoords1@} is local min, {@tacoords2@}, D= {@Dval2@} is saddle point</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>1</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>matrix</type>
+      <tans>tacoords1</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>dropdown</type>
+      <tans>ta1</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>matrix</type>
+      <tans>tacoords2</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans4</name>
+      <type>dropdown</type>
+      <tans>ta2</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>0</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>tacoords1</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.5000000</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>first(mcq_correct(ta1))</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.5000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p dir="ltr" style="text-align: left;">You found the correct stationary point, but not its correct nature.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>tacoords2</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.5000000</truescore>
+        <truepenalty/>
+        <truenextnode>3</truenextnode>
+        <trueanswernote>prt1-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>This is not a stationary point.</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>3</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>first(mcq_correct(ta2))</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.5000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-4-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-4-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p dir="ltr" style="text-align: left;">You found the correct stationary point, but not its correct nature.<br></p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>tacoords2</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.5000000</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans4</sans>
+        <tans>first(mcq_correct(ta2))</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.5000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p dir="ltr" style="text-align: left;">You found the correct stationary point, but not its correct nature.<br></p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>tacoords1</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.5000000</truescore>
+        <truepenalty/>
+        <truenextnode>3</truenextnode>
+        <trueanswernote>prt2-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p dir="ltr" style="text-align: left;">This is not a stationary point.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>3</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans4</sans>
+        <tans>first(mcq_correct(ta1))</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.5000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-4-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-4-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p dir="ltr" style="text-align: left;">You found the correct stationary point, but not its correct nature.<br></p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>Sets</answertest>
+        <sans>{ans1, ans3}</sans>
+        <tans>{tacoords1, tacoords2}</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p dir="ltr" style="text-align: left;">You found all the stationary points.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p dir="ltr" style="text-align: left;">You missed some stationary points.</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>357415299</deployedseed>
+    <deployedseed>1433685421</deployedseed>
+    <deployedseed>2117000949</deployedseed>
+    <deployedseed>497510805</deployedseed>
+    <deployedseed>298267838</deployedseed>
+    <deployedseed>142715539</deployedseed>
+    <deployedseed>561036617</deployedseed>
+    <deployedseed>1687028029</deployedseed>
+    <deployedseed>1091204563</deployedseed>
+    <deployedseed>133836227</deployedseed>
+    <deployedseed>1776521848</deployedseed>
+    <deployedseed>326268800</deployedseed>
+    <deployedseed>810452596</deployedseed>
+    <deployedseed>12392224</deployedseed>
+    <deployedseed>351984246</deployedseed>
+    <deployedseed>276383471</deployedseed>
+    <deployedseed>1177295064</deployedseed>
+    <deployedseed>3865425</deployedseed>
+    <deployedseed>868656451</deployedseed>
+    <deployedseed>1624713212</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>tacoords1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>first(mcq_correct(ta1))</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>tacoords2</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>first(mcq_correct(ta2))</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>tacoords2</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>first(mcq_correct(ta2))</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>tacoords1</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>first(mcq_correct(ta1))</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-4-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-4-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(tacoords1+matrix([1,1]), simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>first(mcq_incorrect(ta1))</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ev(tacoords2+matrix([1,1]), simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>first(mcq_incorrect(ta2))</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-3-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-3-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt3-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>tacoords1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>first(mcq_correct(ta1))</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>tacoords1</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>first(mcq_correct(ta1))</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-4-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt3-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

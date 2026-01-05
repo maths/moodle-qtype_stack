@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>10.2.3.3 Key Point-Multiplication and division</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>We see that in calculating the quotient that the moduli <span class="math inline">\(r\)</span> and <span class="math inline">\(t\)</span> <span><strong>divide</strong></span> whilst the arguments \(\text{arg}(z)=\theta\) and \(\text{arg}(w)=\phi\)<span class="math inline"></span> <span><strong>subtract</strong></span>.</p>
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p>If <span class="math inline">\(z=r(\cos\theta +i\sin\theta )\)</span> and <span class="math inline">\(w=t(\cos\phi
++i\sin\phi )\)</span> then <span class="math display">\[zw=rt(\cos (\theta +\phi)+i\sin (\theta + \phi ))\qquad 
+{z\over w}={r\over t}(\cos (\theta -\phi) +i\sin
+(\theta -\phi ))\]</span></p>
+</div>
+
+<p>We conclude that addition and subtraction are most easily carried out in Cartesian form whereas multiplication and division are most easily carried out in polar form.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

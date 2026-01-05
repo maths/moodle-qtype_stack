@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>3.4.1.7 Solve signal simultaneous</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>A quadratic function \(y=ax^2+bx+c\) is used in signal processing to approximate a more complicated
+signal. If this function must pass through the points with coordinates
+\((0,0)\), \(({@c1@},{@c2@})\) and \(({@c3@},{@c4@})\) write down the simultaneous equations satisfied by \(a\), \(b\) and \(c\). Solve
+these to find the quadratic function.</p>
+
+<p>\(y = \)&nbsp;[[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>The key to solving this problem is to notice that the curve passes through the point \((0, 0)\). This means that the value of \(c\) will <i>always</i> be \(0\).</p>
+<p>This means that we only have to solve two equations in two unknowns to find the values of \(a\) and \(b\).</p>
+<p>For the point \(({@c1@},{@c2@})\) we get the equation \( {@c2@} = {@a*c1^2+b*c1@}.\)</p>
+<p>For the point \(({@c3@},{@c4@})\) we get the equation \( {@c4@} = {@a*c3^2+b*c3@}.\)</p>
+<p>We solve these equation simultenueslyand find \(a= {@aa@}\) and \(b= {@bb@} .\)</p>
+<p>Hence, the quadratic equation is \[y = {@ta1@}.\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021072200</text>
+    </stackversion>
+    <questionvariables>
+      <text>c1: 1; 
+c2: rand_with_prohib(2,6,[c1]); 
+c3: rand(2)+4; 
+c4: rand_with_prohib(-10, 10, [-1,1,0,c3]);
+
+aa: (c2-((c1*c4)/c3))/((c1)^2-c1*c3) ;
+bb: (c4-aa*(c3)^2)/c3;
+
+ta1: aa*x^2 + bb*x;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:prt1]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\(a = {@aa@}, \, b= {@bb@}, \quad y={@ta1@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>14</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>766048322</deployedseed>
+    <deployedseed>1954971542</deployedseed>
+    <deployedseed>118296265</deployedseed>
+    <deployedseed>605781554</deployedseed>
+    <deployedseed>2139090936</deployedseed>
+    <deployedseed>1115938574</deployedseed>
+    <deployedseed>1970442648</deployedseed>
+    <deployedseed>1607126365</deployedseed>
+    <deployedseed>1982400299</deployedseed>
+    <deployedseed>1486892057</deployedseed>
+    <deployedseed>626056830</deployedseed>
+    <deployedseed>316865844</deployedseed>
+    <deployedseed>602469157</deployedseed>
+    <deployedseed>1800193054</deployedseed>
+    <deployedseed>792857661</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

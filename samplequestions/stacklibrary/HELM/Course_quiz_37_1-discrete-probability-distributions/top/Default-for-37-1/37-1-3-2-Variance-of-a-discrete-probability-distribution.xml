@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>37.1.3.2 Variance of a discrete probability distribution</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>The variance is usually written as <span class="math inline">\(\sigma^2\)</span>. For a frequency distribution it is: 
+<br> <span class="math inline">\[\displaystyle{\sigma^2=\frac{1}{N}\sum_{i=1}^n f_i(x_i-\mu)^2\qquad \text{where } \mu \text{ is the
+mean value}.}\]</span>&nbsp;<br>and can be expanded and ‘simplified’ to appear as: 
+<br><span class="math inline">\[\displaystyle{\sigma^2=\frac{1}{N}\sum_{i=1}^n
+f_ix_i^2-\mu^2.}\]</span>&nbsp;<br> This is often quoted in words:</p>
+<p><em>\(\qquad\)The variance is equal to the mean of the squares minus the square of the mean.</em></p>
+<p>We now extend the concept of variance to a random variable.</p>
+
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p>Let <span class="math inline">\(X\)</span> be a random variable with values <span class="math inline">\(x_1,x_2,\ldots , x_n\)</span>. The variance of <span class="math inline">\(X\)</span>, which is written <span class="math inline">\(\text{V}(X)\)</span> is defined by <span class="math display">\[\text{V}(X)=\sum_{i=1}^n p_i(x_i-\mu)^2\]</span> where <span class="math inline">\(\mu\equiv \text{E}(X)\)</span>. We note that <span class="math inline">\(\text{V}(X)\)</span> can be written in the alternative form <span class="math display">\[\text{V}(X)=\text{E}(X^2)-[\text{E}(X)]^2\]</span> The standard deviation <span class="math inline">\(\sigma\)</span> of a random variable is <span class="math inline">\(\sqrt{\text{V}(X)}\)</span>.</p>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

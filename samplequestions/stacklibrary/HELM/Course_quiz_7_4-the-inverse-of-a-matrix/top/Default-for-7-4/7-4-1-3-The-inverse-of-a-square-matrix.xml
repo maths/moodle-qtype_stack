@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>7.4.1.3 The inverse of a square matrix</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<ul>
+    <li><p>A matrix that has no inverse is said to be a <b>singular matrix</b>. A matrix which has an inverse is said to be <b>non-singular</b>.</p></li>
+    <li>
+        <p>If a matrix has an inverse then that inverse is unique.</p>
+        <p>Suppose \(B\) and \(C\) are both inverses of \(A\). Then, by definition of the inverse,</p>
+        <p style="text-align: center;">\(AB = BA = I\) &emsp; <b>and</b> &emsp; \(AC = CA = I\).</p>
+        <p>Consider the two ways of forming the product \(CAB\).</p>
+        <ol type="1">
+            <li>\(CAB = C(AB) = CI = C\).</li>
+            <li>\(CAB = (CA)B = IB = B\).</li>
+        </ol>
+        <p>Hence, \(B = C\) and the <b>inverse is unique</b>.</p>
+    </li>
+    <li>
+        <p>There is no such operation as division in matrix algebra.</p>
+        <p>We do not write \(\dfrac{B}{A}\) but rather \(A^{-1}B\) or \(BA^{-1}\), depending on the order required.</p>
+    </li>
+    <li>
+        <p>Assuming that the square matrix \(A\) has an inverse \(A^{-1}\) then the solution of the systems of equations \(AX = B\) is found by pre-multiplying both sides by \(A^{-1}\).</p>
+        <table style="margin: auto;">
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td style="text-align: right;">\(AX\)</td>
+                    <td style="text-align: center;">&ensp;\(=\)&ensp;</td>
+                    <td style="text-align: left;">\(B\),</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>pre-multiplying by \(A^{-1}\): &emsp;</td>
+                    <td style="text-align: right;">\(A^{-1}(AX)\)</td>
+                    <td style="text-align: center;">\(=\)</td>
+                    <td style="text-align: left;">\(A^{-1}B\),</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>using associativity:</td>
+                    <td style="text-align: right;">\((A^{-1}A)X\)</td>
+                    <td style="text-align: center;">\(=\)</td>
+                    <td style="text-align: left;">\(B\),</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>using \(A^{-1}A = \):</td>
+                    <td style="text-align: right;">\(IX\)</td>
+                    <td style="text-align: center;">\(=\)</td>
+                    <td style="text-align: left;">\(A^{-1}B\),</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>using property of \(I\):</td>
+                    <td style="text-align: right;">\(X\)</td>
+                    <td style="text-align: center;">\(=\)</td>
+                    <td style="text-align: left;">\(A^{-1}B\)</td>
+                    <td>&emsp; which is the solution we seek.</td>
+                </tr>
+            </tbody>
+        </table>
+    </li>
+</ul>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

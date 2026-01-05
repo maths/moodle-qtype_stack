@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>27.3.2.3 Example 2</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4 class="HELM_example">Example</h4>
+<p>Evaluate \(\displaystyle \displaystyle\int_0^1 \displaystyle\int_0^2 \displaystyle\int_0^3 8 x y z \;\mathrm{d}z\, \mathrm{d}y\, \mathrm{d}x\).<br>This represents an integral over the cuboid given by  \(0\le x \le<br>1\), \(0 \le y \le 2\), \(0 \le z \le 3\).</p>
+<p></p>
+<h4 class="HELM_solution">Solution</h4>
+<p>The inner integral is given by integrating the function with respect to \(z\) while keeping \(x\) and \(y\) constant. \[\int_0^3 8 x y z \;\mathrm{d}z = \bigg[4 x y z^2 \bigg]_0^3 = 4 x y \times 9 - 0 = 36 x y \] This result is now integrated with respect to \(y\) while keeping \(x\) constant: \[\int_0^2 36 x y \;\mathrm{d}y= \bigg[ 18 x y \bigg]_0^2 = 18 x \times 4 - 0 = 72 x. \] Finally, this result is integrated with respect to \(x\): \[\int_0^1 72 x \;\mathrm{d}x = \bigg[ 36 x^2 \bigg]_0^1 = 36 \times 1 - 0=36 \] Hence, \[\int_0^1 \displaystyle\int_0^2 \displaystyle\int_0^3 8 x y z \;\mathrm{d}z\ \mathrm{d}y\ \mathrm{d}x = 36\]</p>
+<hr>
+<p>More generally, the limits on the inner integral may be functions of the "intermediate" and "outer" variables and the limits on the intermediate integral may be functions of the "outer" variable.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

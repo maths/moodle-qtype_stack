@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>7.2.3.7 Introducing the identity matrix</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h4>The identity matrix</h4>
+<p>The matrix \(\begin{bmatrix}1 & 0 \\ 0 & 1\end{bmatrix}\) is called the <b>identity matrix</b> or <b>unit matrix</b> of order 2, and is usually denoted by the symbol \(I.\) (Strictly we should write \(I_{2},\) to indicate the size.) The matrix \(I\) plays the same role in matrix multiplication as the number \(1\) does in number multiplication.</p>
+<p> Hence, just as \[ a \times 1 = 1 \times a = a \qquad \text{ for any number } a, \] so \[ AI = IA = A \qquad \text{ for any matrix } A. \]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

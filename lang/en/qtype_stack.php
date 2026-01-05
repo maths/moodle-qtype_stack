@@ -690,8 +690,8 @@ $string['healthchecksampledisplaytex'] = '\[\sum_{n=1}^\infty \frac{1}{n^2} = \f
 $string['healthchecksampleinlinetex'] = '\(\sum_{n=1}^\infty \frac{1}{n^2} = \frac{\pi^2}{6}\).';
 $string['healthcheckmaximalocal'] = 'Contents of the maximalocal file';
 $string['healthcheckplots'] = 'Graph plotting';
-$string['healthcheckplotsintro'] = 'There should be two different plots.  If two identical plots are seen then this is an error in naming the plot files. If no errors are returned, but a plot is not displayed then one of the following may help.  (i) check read permissions on the two temporary directories. (ii) change the options used by GNUPlot to create the plot. Currently there is no web interface to these options.';
-$string['healthchecksampleplots'] = 'Two example plots below.  {@plot([x^4/(1+x^4),diff(x^4/(1+x^4),x)],[x,-3,3])@} {@plot([sin(x),x,x^2,x^3],[x,-3,3],[y,-3,3],grid2d)@}  A third, smaller, plot should be displayed below with traditional axes. {@plot([x,2*x^2-1,x*(4*x^2-3),8*x^4-8*x^2+1,x*(16*x^4-20*x^2+5),(2*x^2-1)*(16*x^4-16*x^2+1)],[x,-1,1],[y,-1.2,1.2],[box, false],[yx_ratio, 1],[axes, solid],[xtics, -3, 1, 3],[ytics, -3, 1, 3],[size,250,250])@}';
+$string['healthcheckplotsintro'] = 'Sample plots.';
+$string['healthchecksampleplots'] = 'Two example plots below.  {@plot([x^4/(1+x^4),diff(x^4/(1+x^4),x)],[x,-3,3])@} {@plot([sin(x),x,x^2,x^3],[x,-3,3],[y,-3,3],grid2d)@}  A third, smaller, plot should be displayed below with traditional axes. {@plot([x,2*x^2-1,x*(4*x^2-3),8*x^4-8*x^2+1,x*(16*x^4-20*x^2+5),(2*x^2-1)*(16*x^4-16*x^2+1)],[x,-1,1],[y,-1.2,1.2],[box, false],[yx_ratio, 1],[axes, solid],[xtics, -3, 1, 3],[ytics, -3, 1, 3],[size,250,250])@} Fourth is an implicit plot {@plot(2^2*x*y*(x^2-y^2)-x^2-y^2=0, [x,-4,4], [y,-4,4])@}';
 $string['healthcheckjsxgraph'] = 'JSXGraph binding and MathJax';
 $string['healthcheckjsxgraphintro'] = 'There should be a graph and an input below. Interacting with the graph should affect the input and vice versa. If not, then there are issues with JavaScript libraries or execution. The graph should also have a MathJax-rendered LaTeX formula visible. If not, then you might be blocking access to certain things and may need to tune firewalls, proxys, etc.; if you are running a closed install, try adjusting the remote addresses in <code>vle_specific.php</code>. The graph (if functioning) is based on <a href="https://jsxgraph.org/share/example/differential-equations">this example</a>.';
 $string['healthcheckjsxgraphsample'] = '<div class="formulation" style="width:36vw;margin:auto;">
@@ -1276,7 +1276,7 @@ $string['equiv_IMPLIES']                 = 'implies';
 $string['studentValidation_yourLastAnswer']     = 'Your last answer was interpreted as follows: {$a}';
 $string['studentValidation_listofvariables']    = 'The variables found in your answer were: {$a}';
 $string['studentValidation_listofunits']        = 'The units found in your answer were: {$a}';
-$string['studentValidation_invalidAnswer']      = 'This answer is invalid. ';
+$string['studentValidation_invalidAnswer']      = 'This answer is invalid.';
 $string['studentValidation_notes']              = '(This input is not assessed automatically by STACK.)';
 
 $string['Interval_notinterval']                 = 'An interval was expected, but instead we have {$a->m0}.';

@@ -230,7 +230,7 @@
                             "wrapperid": "fitem_smdi_1_additional_value",
                             "id": "smdi_1_additional_value",
                             "name": "smdi_1_additional_value",
-                            "iderror": "smdi_1_additional_value"
+                            "iderror": "smdi_1_additional_value_error"
                         }
                     },
                     "id": "1"
@@ -448,7 +448,7 @@
             <button class="btn btn-primary mb-1" type="button" id="stack-metadata-revert">
                 {{#str}} reverttosaved, qtype_stack {{/str}}
             </button>
-            <button class="btn btn-primary mb-1" type="button" id="stack-metadata-revert" onclick="document.querySelector('.stack-metadata .btn-close').click();">
+            <button class="btn btn-primary mb-1" type="button" id="stack-metadata-validate" onclick="document.querySelector('.stack-metadata .btn-close').click();">
                 {{#str}} validateandclose, qtype_stack {{/str}}
             </button>
         </div>
@@ -458,7 +458,7 @@
         {{#str}} metadataexplanation, qtype_stack {{/str}}
     </p>
     <div class="row">
-        <div class="col-md-2"><h5>{{#str}} JSONmetadata, qtype_stack {{/str}}<h5></div>
+        <div class="col-md-2"><h5>{{#str}} JSONmetadata, qtype_stack {{/str}}</h5></div>
         <div class="col-10">
             {{#json}}
                 {{< core_form/element-template-inline }}

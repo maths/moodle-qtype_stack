@@ -97,6 +97,7 @@ export default class extends BaseComponent {
                 wrapperid: 'fitem_smdi_' + id + '_' + tag,
                 id: 'smdi_' + id + '_' + tag,
                 name: 'smdi_' + id + '_' + tag,
+                iderror: 'smde_' + id + '_' + tag + '_error'
             }
         };
     }

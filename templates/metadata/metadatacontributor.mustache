@@ -92,5 +92,9 @@
             {{>qtype_stack/metadata/metadatayear}}
         {{/year}}
     </div>
-    <div class="col-1"><button id="smd_contributor_{{id}}_delete" name="smd_delete" type="button" class="btn btn-danger">{{#str}} delete {{/str}}</button></div>
+    <div class="col-1">
+        <button id="smd_contributor_{{id}}_delete" name="smd_delete" type="button" class="btn btn-danger">
+            {{#str}} delete {{/str}} <span class="sr-only">{{#str}} contributor, qtype_stack {{/str}}</span>
+        </button>
+    </div>
 </div>

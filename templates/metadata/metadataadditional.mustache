@@ -58,18 +58,18 @@
         {{/property}}
     </div>
     <div class="col-2 inputcol">
-        <label class="sr-only" for="{{element.id}}">
-            {{#str}} additionalmetadata, qtype_stack {{/str}} {{#str}} qualifier, qtype_stack {{/str}}
-        </label>
         {{#qualifier}}
+            <label class="sr-only" for="{{element.id}}">
+                {{#str}} additionalmetadata, qtype_stack {{/str}} {{#str}} qualifier, qtype_stack {{/str}}
+            </label>
             {{> core_form/element-text-inline }}
         {{/qualifier}}
     </div>
     <div class="col-4 inputcol">
-        <label class="sr-only" for="{{element.id}}">
-            {{#str}} additionalmetadata, qtype_stack {{/str}} {{#str}} value, qtype_stack {{/str}}
-        </label>
         {{#value}}
+            <label class="sr-only" for="{{element.id}}">
+                {{#str}} additionalmetadata, qtype_stack {{/str}} {{#str}} value, qtype_stack {{/str}}
+            </label>
             {{> core_form/element-text-inline }}
         {{/value}}
     </div>

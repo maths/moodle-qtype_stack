@@ -388,10 +388,38 @@
     {{#creator}}
         <div class="row">
             <div class="col-md-2"><h5>{{#str}} creator, qtype_stack {{/str}}</h5></div>
-            <div class="col-2 inputcol">{{#firstname}}{{> core_form/element-text-inline }}{{/firstname}}</div>
-            <div class="col-2 inputcol">{{#lastname}}{{> core_form/element-text-inline }}{{/lastname}}</div>
-            <div class="col-3 inputcol">{{#institution}}{{> core_form/element-text-inline }}{{/institution}}</div>
-            <div class="col-2 col-lg-1 inputcol">{{#year}}{{>qtype_stack/metadata/metadatayear}}{{/year}}</div>
+            <div class="col-2 inputcol">
+                {{#firstname}}
+                    <label class="sr-only" for="{{element.id}}">
+                        {{#str}} creator, qtype_stack {{/str}} {{#str}} firstname, qtype_stack {{/str}}
+                    </label>
+                    {{> core_form/element-text-inline }}
+                {{/firstname}}
+            </div>
+            <div class="col-2 inputcol">
+                {{#lastname}}
+                    <label class="sr-only" for="{{element.id}}">
+                        {{#str}} creator, qtype_stack {{/str}} {{#str}} lastname, qtype_stack {{/str}}
+                    </label>
+                    {{> core_form/element-text-inline }}
+                {{/lastname}}
+            </div>
+            <div class="col-3 inputcol">
+                {{#institution}}
+                    <label class="sr-only" for="{{element.id}}">
+                        {{#str}} creator, qtype_stack {{/str}} {{#str}} institution, qtype_stack {{/str}}
+                    </label>
+                    {{> core_form/element-text-inline }}
+                {{/institution}}
+            </div>
+            <div class="col-2 col-lg-1 inputcol">
+                {{#year}}
+                    <label class="sr-only" for="{{element.id}}">
+                        {{#str}} creator, qtype_stack {{/str}} {{#str}} year, qtype_stack {{/str}}
+                    </label>
+                    {{>qtype_stack/metadata/metadatayear}}
+                {{/year}}
+            </div>
         </div>
     {{/creator}}
     {{#contributor}}

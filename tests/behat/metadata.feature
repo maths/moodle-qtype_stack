@@ -75,11 +75,11 @@ Feature: Create and edit STACK metadata
     And I set the field "smdi_4_additional_qualifier" in the "#qtype-stack-metadata-content" "css_element" to "Things"
     And I set the field "smdi_4_additional_value" in the "#qtype-stack-metadata-content" "css_element" to "AAA"
     And I click on "Validate and close" "button"
-    And I check the hidden input "metadata" is '{"creator":{"firstName":"Edmund","lastName":"Farrow","institution":"UoE","year":"2025"},"contributor":[{"firstName":"Bob","lastName":"Smith","institution":"MIT","year":"2026"},{"firstName":"Teacher","lastName":"Lastname1","institution":"","year":"2026"}],"language":["en","fr"],"isPartOf":"HELM","license":"cc-nc-4.0","additional":[{"scope":"Added data","property":"Dog info","qualifier":"Breed","value":"Al$%&^"},{"scope":"Added data","property":"Cat info","qualifier":"Breed","value":"Tabby"},{"scope":"More data","property":"Question","qualifier":"Type","value":"MC"},{"scope":"More data","property":"More","qualifier":"Things","value":"AAA"}]}'
+    And I check the hidden input "metadata" is '{"creator":{"firstName":"Edmund","lastName":"Farrow","institution":"UoE","year":"2025"},"contributor":[{"firstName":"Bob","lastName":"Smith","institution":"MIT","year":"2026"},{"firstName":"Teacher","lastName":"Lastname1","institution":"","year":"XXXX"}],"language":["en","fr"],"isPartOf":"HELM","license":"cc-nc-4.0","additional":[{"scope":"Added data","property":"Dog info","qualifier":"Breed","value":"Al$%&^"},{"scope":"Added data","property":"Cat info","qualifier":"Breed","value":"Tabby"},{"scope":"More data","property":"Question","qualifier":"Type","value":"MC"},{"scope":"More data","property":"More","qualifier":"Things","value":"AAA"}]}'
     And I click on "View and edit full metadata" "button"
     And I set the field "smdi_3_additional_scope" in the "#qtype-stack-metadata-content" "css_element" to "Changed"
     And I click on "Validate and close" "button"
-    And I check the hidden input "metadata" is '{"creator":{"firstName":"Edmund","lastName":"Farrow","institution":"UoE","year":"2025"},"contributor":[{"firstName":"Bob","lastName":"Smith","institution":"MIT","year":"2026"},{"firstName":"Teacher","lastName":"Lastname1","institution":"","year":"2026"}],"language":["en","fr"],"isPartOf":"HELM","license":"cc-nc-4.0","additional":[{"scope":"Added data","property":"Dog info","qualifier":"Breed","value":"Al$%&^"},{"scope":"Added data","property":"Cat info","qualifier":"Breed","value":"Tabby"},{"scope":"Changed","property":"Question","qualifier":"Type","value":"MC"},{"scope":"Changed","property":"More","qualifier":"Things","value":"AAA"}]}'
+    And I check the hidden input "metadata" is '{"creator":{"firstName":"Edmund","lastName":"Farrow","institution":"UoE","year":"2025"},"contributor":[{"firstName":"Bob","lastName":"Smith","institution":"MIT","year":"2026"},{"firstName":"Teacher","lastName":"Lastname1","institution":"","year":"XXXX"}],"language":["en","fr"],"isPartOf":"HELM","license":"cc-nc-4.0","additional":[{"scope":"Added data","property":"Dog info","qualifier":"Breed","value":"Al$%&^"},{"scope":"Added data","property":"Cat info","qualifier":"Breed","value":"Tabby"},{"scope":"Changed","property":"Question","qualifier":"Type","value":"MC"},{"scope":"Changed","property":"More","qualifier":"Things","value":"AAA"}]}'
     And I click on "View and edit full metadata" "button"
     And I should see "STACK metadata is stored as a JSON object."
     And I click on "smd_contributor_1_delete" "button"
@@ -93,7 +93,7 @@ Feature: Create and edit STACK metadata
     And I wait until "smdi_3_language_value" "field" exists
     And I set the field "smdi_3_language_value" in the "#qtype-stack-metadata-content" "css_element" to "it"
     And I click on "Validate and close" "button"
-    And I check the hidden input "metadata" is '{"creator":{"firstName":"Edmund","lastName":"Farrow","institution":"UoE","year":"2025"},"contributor":[{"firstName":"Teacher","lastName":"Lastname1","institution":"","year":"2026"}],"language":["fr","it"],"isPartOf":"HELM","license":"cc-nc-4.0","additional":[{"scope":"Added data","property":"Dog info","qualifier":"Breed","value":"Al$%&^"},{"scope":"Changed","property":"Question","qualifier":"Type","value":"MC"},{"scope":"Changed","property":"More","qualifier":"Things","value":"AAA"}]}'
+    And I check the hidden input "metadata" is '{"creator":{"firstName":"Edmund","lastName":"Farrow","institution":"UoE","year":"2025"},"contributor":[{"firstName":"Teacher","lastName":"Lastname1","institution":"","year":"XXXX"}],"language":["fr","it"],"isPartOf":"HELM","license":"cc-nc-4.0","additional":[{"scope":"Added data","property":"Dog info","qualifier":"Breed","value":"Al$%&^"},{"scope":"Changed","property":"Question","qualifier":"Type","value":"MC"},{"scope":"Changed","property":"More","qualifier":"Things","value":"AAA"}]}'
     And I click on "View and edit full metadata" "button"
     And I should see "STACK metadata is stored as a JSON object."
     And I click on "smd_scope_1_delete" "button"
@@ -104,7 +104,7 @@ Feature: Create and edit STACK metadata
     And I should see "Required" in the "#smde_5_additional_property_error" "css_element"
     And I click on "smd_additional_5_delete" "button"
     And I click on "Validate and close" "button"
-    And I check the hidden input "metadata" is '{"creator":{"firstName":"Edmund","lastName":"Farrow","institution":"UoE","year":"2025"},"contributor":[{"firstName":"Teacher","lastName":"Lastname1","institution":"","year":"2026"}],"language":["fr","it"],"isPartOf":"HELM","license":"cc-nc-4.0","additional":[{"scope":"Changed","property":"Question","qualifier":"Type","value":"MC"},{"scope":"Changed","property":"More","qualifier":"Things","value":"AAA"}]}'
+    And I check the hidden input "metadata" is '{"creator":{"firstName":"Edmund","lastName":"Farrow","institution":"UoE","year":"2025"},"contributor":[{"firstName":"Teacher","lastName":"Lastname1","institution":"","year":"XXXX"}],"language":["fr","it"],"isPartOf":"HELM","license":"cc-nc-4.0","additional":[{"scope":"Changed","property":"Question","qualifier":"Type","value":"MC"},{"scope":"Changed","property":"More","qualifier":"Things","value":"AAA"}]}'
     And I click on "View and edit full metadata" "button"
     And I should see "STACK metadata is stored as a JSON object."
     And I set the field "id_metadata_json" to multiline:
@@ -212,6 +212,9 @@ Feature: Create and edit STACK metadata
     And I should not see "Lowell"
     And I click on "Validate and close" "button"
     And I check the hidden input "metadata" is '{"creator":{"firstName":"Bob","lastName":"Smith","institution":"MIT","year":"2024"},"contributor":[{"firstName":"Mike","lastName":"Jones","institution":"Bath","year":"2023"}],"language":["en"],"isPartOf":"Everything","license":"cc-nc-4.1","additional":[{"scope":"Added","property":"Cat","qualifier":"Breed","value":"Al$%&^"},{"scope":"Added","property":"Dog","qualifier":"Teeth","value":"50"},{"scope":"Added too","property":"Fish","qualifier":"Gills","value":"2"}]}'
+    And I click on "id_updatebutton"
+    And I should see "Version 2"
+    And I check the hidden input "metadata" is '{"creator":{"firstName":"Bob","lastName":"Smith","institution":"MIT","year":"2024"},"contributor":[{"firstName":"Mike","lastName":"Jones","institution":"Bath","year":"2023"}],"language":["en"],"isPartOf":"Everything","license":"cc-nc-4.1","additional":[{"scope":"Added","property":"Cat","qualifier":"Breed","value":"Al$%&^"},{"scope":"Added","property":"Dog","qualifier":"Teeth","value":"50"},{"scope":"Added too","property":"Fish","qualifier":"Gills","value":"2"}]}'
 
   @javascript
   Scenario: New question metadata
@@ -222,4 +225,5 @@ Feature: Create and edit STACK metadata
     And I click on "View and edit full metadata" "button"
     And I should see "STACK metadata is stored as a JSON object."
     And I click on "Validate and close" "button"
-    And I check the hidden input "metadata" is '{"creator":{"firstName":"Teacher","lastName":"Lastname1","institution":"","year":"2026"},"contributor":[],"language":["en"],"license":"unknown","isPartOf":"","additional":[]}'
+    And I check the hidden input "metadata" is '{"creator":{"firstName":"Teacher","lastName":"Lastname1","institution":"","year":"XXXX"},"contributor":[],"language":["en"],"license":"unknown","isPartOf":"","additional":[]}'
+

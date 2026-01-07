@@ -130,11 +130,13 @@ class behat_qtype_stack extends behat_base {
      * Check a hidden value
      *
      * @param string $name name of hidden field.
-     * @param string $value the response to give.
+     * @param string $value the expected value with current year replaced with XXXX.
      *
      * @Given /^I check the hidden input "(?P<name>[^"]*)" is '(?P<value>[^']*)'$/
      */
     public function i_check_hidden_value($name, $value) {
+        $year = date('Y');
+        $value = str_replace('XXXX', $year, $value);
         $js = <<<EOF
             return (function() {
                 let value = document.querySelector('[name="$name"]').value;

@@ -226,4 +226,3 @@ Feature: Create and edit STACK metadata
     And I should see "STACK metadata is stored as a JSON object."
     And I click on "Validate and close" "button"
     And I check the hidden input "metadata" is '{"creator":{"firstName":"Teacher","lastName":"Lastname1","institution":"","year":"XXXX"},"contributor":[],"language":["en"],"license":"unknown","isPartOf":"","additional":[]}'
-

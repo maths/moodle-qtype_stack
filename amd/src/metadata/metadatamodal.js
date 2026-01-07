@@ -25,6 +25,7 @@ import Modal from 'core/modal';
 import ModalRegistry from 'core/modal_registry';
 import ModalFactory from 'core/modal_factory';
 import {metadata} from 'qtype_stack/metadata/metadata';
+import container from 'qtype_stack/metadata/container';
 
 export class MetadataModal extends Modal {
     static TYPE = "qtype_stack/metadatamodal";
@@ -80,15 +81,20 @@ async function openModal() {
     if (!modal) {
         if (typeof MetadataModal.create === "function") {
             modal = await MetadataModal.create();
+            modal.show();
         } else {
             // Pre Moodle 4.3 code.
             modal = await ModalFactory.create({
                 type: MetadataModal.TYPE,
             });
+            modal.show();
+            // Why is this necessary? Mustache should do this anyway. Moodle bug?
+            container.init('#qtype-stack-metadata-main');
         }
         addListener = true;
+    } else {
+        modal.show();
     }
-    modal.show();
     if (addListener) {
         document.querySelector('#stackmetadata_cancel').addEventListener('click', closeModal);
     }

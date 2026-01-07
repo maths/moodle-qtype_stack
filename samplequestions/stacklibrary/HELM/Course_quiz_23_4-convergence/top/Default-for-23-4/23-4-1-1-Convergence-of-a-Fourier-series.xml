@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>23.4.1.1 Convergence of a Fourier series</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Convergence of a Fourier series</h4>
+We have now shown how to obtain a Fourier series for periodic functions. We have suggested that
+we would expect to be able to approximate such functions by using a few terms of the Fourier series.
+The detailed question of the <b>convergence</b> or otherwise of Fourier series has not been discussed.
+The reason for this is that the great majority of functions likely to be encountered in practice have
+Fourier series that do indeed converge and can therefore be safely used as approximations.
+<p></p>
+The precise conditions that have to be fulfilled for a Fourier series to converge are known as Dirichlet
+conditions after the French mathematician who investigated the matter. The three conditions are
+listed in the following Key Point.
+<p></p>
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p>The Dirichlet conditions for the convergence of a Fourier series of a periodic function \(f(t)\) are:</p>
+<p></p>
+1. \(f(t)\) must have only a finite number of finite discontinuities, within one period
+<p></p>
+2. \(f(t)\) must have a finite number of maxima and minima over one period
+<p></p>
+3. the integral \( \displaystyle{ \int _{-\frac{T}{2}}^{\frac{T}{2}} } \lvert f(t) \rvert dt \) must be finite
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

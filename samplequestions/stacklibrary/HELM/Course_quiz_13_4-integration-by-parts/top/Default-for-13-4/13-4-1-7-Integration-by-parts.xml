@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>13.4.1.7 Integration by parts</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>In some questions below it will be necessary to apply integration by parts more than once.</p>
+<p>Find:</p>
+<ol class="HELM_parts">
+    <li>\({\displaystyle\int \tan^{-1}(x) \, \mathrm{d}x} =\) [[input:ans6]] [[validation:ans6]] [[feedback:prt6]]</li>
+    <li>\({\displaystyle \int {@exp7@} \, \mathrm{d}x} =\) [[input:ans7]] [[validation:ans7]] [[feedback:prt7]]</li>
+    <li>\({\displaystyle \int {@exp8@} \, \mathrm{d}x} =\) [[input:ans8]] [[validation:ans8]] [[feedback:prt8]]</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>We apply integraton by parts: \[ \int u \frac{dv}{dx} \, \mathrm{d}x = uv - \int \frac{du}{dx} v \, \mathrm{d}x, \] or alternatively: \[\int f(x)g(x) \, \mathrm{d}x = f(x) \, \int g(x) \mathrm{d}x - \int \frac{df}{dx} \left\{\int g(x) \, \mathrm{d}x \right\}
+    \, \mathrm{d}x. \]
+</p>
+<ol class="HELM_parts">
+    <li>
+        <p>Writing \(\displaystyle{\int \tan^{-1}x \, \mathrm{d}x =\int 1 \cdot \tan^{-1}x \, \mathrm{d}x}\) we have \(f(x)=\tan^{-1}\) and \(g(x)=1\).</p>
+        <p>Hence:
+          \[\begin{aligned} \int \tan^{-1}(x) \, \mathrm{d}x &amp;=\tan^{-1}(x) \int 1 \, \mathrm{d}x -\int \left( \dfrac{d}{dx}\tan^{-1}(x)\right) \cdot\left(\int 1 \, \mathrm{d}x \right) \, \mathrm{d}x \\ &amp;= x\tan^{-1}(x)- \int \dfrac{x}{1+x^2} \, \mathrm{d}x
+            \\ &amp;= {@ta6@}. \end{aligned}\]
+      </p>
+    </li>
+    <li>
+        <p>We are given the integral \({\displaystyle\int {@exp7@} \, \mathrm{d}x}\).</p>
+        <p>We have \( f(x) = {@f7@}\) and \(g(x) = {@g7@}\).</p>
+        <p>Hence:
+          \[\begin{aligned} \int {@exp7@} \, \mathrm{d}x &amp;={@f7@} \int {@g7@} \, \mathrm{d}x -\int \left({@df7@} \cdot \int {@g7@} \, \mathrm{d}x \right) \, \mathrm{d}x \\ &amp;= {@f7* intg7@}- \int {@df7*intg7@} \, \mathrm{d}x \\ &amp;= {@ta7@}. \end{aligned}\]
+      </p>
+    </li>
+    <li>
+        <p>We are given the integral \(\displaystyle{\int {@exp8@} \, \mathrm{d}x}\).</p>
+        <p>We have \( f(x) = {@f8@}\) and \(g(x) = {@g8@}\).</p>
+        <p>Hence:
+          \[\begin{aligned} \int {@exp8@} \, \mathrm{d}x &amp;={@f8@} \int {@g8@} \, \mathrm{d}x -\int \left({@df8@} \cdot \int {@g8@} \, \mathrm{d}x \right) \, \mathrm{d}x \\ &amp;= {@f8*intg8@}- \int {@df8*intg8@} \, \mathrm{d}x. \end{aligned}\]
+      </p>
+      <p>We need to find \(\displaystyle \int {@df8*intg8@} \, \mathrm{d}x\) using integration by parts again. We get:
+        \[ \int {@df8*intg8@} \, \mathrm{d}x = {@int(df8*intg8,x)@}.\]
+      </p>
+      <p>Altogether we have:
+      	\[\int {@exp8@} \mathrm{d}x = {@ta8@}. \]
+      </p>
+    </li>
+</ol>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020120600</text>
+    </stackversion>
+    <questionvariables>
+      <text>bb: rand([3, 5, 7, 9]); 
+cc: rand(4)+1;
+
+exp6: atan(x); 
+
+exp7: -1*bb*x*cos(3*x); 
+f7: -1*bb*x;                         /* needed for worked solution */
+g7: cos(3*x);
+intg7: int(g7,x);
+df7: diff(f7,x);
+
+exp8: cc*x^2*e^(3*x);
+f8: cc*x^2;                         /* needed for worked solution */
+g8: e^(3*x);
+intg8: int(g8,x);
+df8: diff(f8,x);
+
+ta6: int(exp6, x) + c; 
+ta7: expand(int(exp7, x)) + c; 
+ta8: int(exp8, x) + c;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\( \tan^{-1}x \, \mathrm{d}x = {@ta6@}, \quad \int {@exp7@} \, \mathrm{d}x = {@ta7@} \quad \int {@exp8@} \, \mathrm{d}x = {@ta8@} \)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans6</name>
+      <type>algebraic</type>
+      <tans>ta6</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans7</name>
+      <type>algebraic</type>
+      <tans>ta7</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans8</name>
+      <type>algebraic</type>
+      <tans>ta8</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt6</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>Int</answertest>
+        <sans>ans6</sans>
+        <tans>ta6</tans>
+        <testoptions>x</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt6-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt6-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt7</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>Int</answertest>
+        <sans>ans7</sans>
+        <tans>ta7</tans>
+        <testoptions>x</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt7-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt7-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt8</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>Int</answertest>
+        <sans>ans8</sans>
+        <tans>ta8</tans>
+        <testoptions>x</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt8-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt8-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1651997333</deployedseed>
+    <deployedseed>26321727</deployedseed>
+    <deployedseed>1024763884</deployedseed>
+    <deployedseed>75244493</deployedseed>
+    <deployedseed>1657208556</deployedseed>
+    <deployedseed>1390433546</deployedseed>
+    <deployedseed>982601167</deployedseed>
+    <deployedseed>1394793454</deployedseed>
+    <deployedseed>891334864</deployedseed>
+    <deployedseed>1026384303</deployedseed>
+    <deployedseed>1991827125</deployedseed>
+    <deployedseed>2046808229</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans6</name>
+        <value>ta6</value>
+      </testinput>
+      <testinput>
+        <name>ans7</name>
+        <value>ta7</value>
+      </testinput>
+      <testinput>
+        <name>ans8</name>
+        <value>ta8</value>
+      </testinput>
+      <expected>
+        <name>prt6</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt6-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt7</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt7-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt8</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt8-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans6</name>
+        <value>2*ta6</value>
+      </testinput>
+      <testinput>
+        <name>ans7</name>
+        <value>2*ta7</value>
+      </testinput>
+      <testinput>
+        <name>ans8</name>
+        <value>2*ta8</value>
+      </testinput>
+      <expected>
+        <name>prt6</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt6-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt7</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt7-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt8</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt8-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

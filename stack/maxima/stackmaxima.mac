@@ -53,13 +53,13 @@ stack_reset(not_used) := block(
   /* Sets up randomization, using Maxima's internal random command. */
   stack_randseed(10000),
 
-  mminusbp120(true),
+  mminusbp134(true),
 
   /*Reload local settings*/
   STACK_SETUP(true),
 
   MAXIMA_VERSION_STR: ?\*autoconf\-version\*,
-  MAXIMA_VERSION: map(parse_string, tokens(?\*autoconf\-version\*, 'digitcharp)),
+  MAXIMA_VERSION: map('parse_string, tokens(?\*autoconf\-version\*, 'digitcharp)),
   /* We need the "if" statement below, because versions compiled from source give erroneous results. */
   MAXIMA_VERSION_NUM: float(MAXIMA_VERSION[2]+(if is(length(MAXIMA_VERSION)>2)
     then (if is(MAXIMA_VERSION[3]<10) then MAXIMA_VERSION[3]/10 else 0) else 0)),
@@ -120,6 +120,7 @@ stack_dispvalue(ex) := block(
       ex: make_displayscivalue(ex),
       ex: subst("*", stackunits, ex),
       ex: unary_minus_sort(ex),
+      ex: unary_minus_initial_sum(ex),
       ex: destackvector(ex)),
   return(string(ex))
 )$
@@ -142,7 +143,7 @@ box(ex) := ex;
 /* Although this works well in MAXIMA, |'s are not allowed in STACK */
 /* The heuristics to catch the various errors do not work, since | is symmetrical */
 matchfix("|", "|");
-"|"([a]) := apply(abs, a);
+"|"([a]) := apply('abs, a);
 
 /* Does not quite work yet ..... */
 /* load("noninteractive.mac"); */
@@ -164,12 +165,18 @@ load("geometry.mac");
 load("proof.mac");
 load("linearalgebra_core.mac");
 load("stackunits.mac");
-load("stacktex.lisp");
 load("stackstrings.mac");
 load("fboundp.mac");
 load("functs");
 
+/* Combined and processed maximasrc/ content. */
+load("maximasrccompiled.mac");
+
+/* Are we printing normal Maxima or plain atoms? */
+tex_plain_atoms:false$
+
 load("stacktex.lisp");
+mminusbp134(true);
 /* Ensure back compatability with versions before 5.41.0. */
 if is(MAXIMA_VERSION_NUM<40.1) then load("stacktex40.lisp");
 if is(MAXIMA_VERSION_NUM<44.0) then load("stack44.mac");
@@ -197,11 +204,11 @@ texput(theta, "\\theta");
    texput(".","\\circ ",infix);
 */
 
-int([ex]) := apply(integrate, ex); /* Allows integrate to be called with int().  Avoid alias to allow nouns to work. */
-alias(cosec,csc);                  /* Corresponds to current student expectations. */
-alias(cosech,csch);                /* Corresponds to current student expectations. */
+int([ex]) := apply('integrate, ex); /* Allows integrate to be called with int().  Avoid alias to allow nouns to work. */
+alias(cosec, csc);                  /* Corresponds to current student expectations. */
+alias(cosech, csch);                /* Corresponds to current student expectations. */
 
-alias(sgn,signum);                 /* Corresponds to current student expectations. */
+alias(sgn, signum);                 /* Corresponds to current student expectations. */
 texput(signum, "\\mathrm{sgn}");
 
 declare ("#", commutative);
@@ -245,14 +252,14 @@ multsgnonlyfornumbers(e) := block([arglist, resstr, a, lastisnum, isnum, multsgn
     arglist: args(e),
     a: pop(arglist),
     resstr: if ev(is(safe_op(a) = "-" or (real_numberp(a) and is(a<0)))=true, simp) then sconcat("\\left(", tex1(a), "\\right)")
-                else if (atom(a) or is(length(args(a))=1) or safe_op(a) = "^") then tex1(a)
+                else if (atom(a) or is(length(args(a))=1) or safe_op(a) = "^") or rational_numberp(a) then tex1(a)
                 else sconcat("\\left(", tex1(a), "\\right)"),
-    lastisnum: numberp(a),
+    lastisnum: real_numberp(a),
     for a in arglist do (
-        isnum: numberp(a),
+        isnum: real_numberp(a),
         multsgn: if ev(is(lastisnum and isnum)=true, simp) then tex1(multsgnonlyfornumberssym) else "\\,",
         str: if ev(is(safe_op(a) = "-" or (real_numberp(a) and is(a<0)))=true, simp) then sconcat("\\left(", tex1(a), "\\right)")
-                else if ev(is(atom(a) or is(length(args(a))=1) or safe_op(a) = "^")=true, simp) then tex1(a)
+                else if ev(is(atom(a) or is(length(args(a))=1) or safe_op(a) = "^")=true, simp) or rational_numberp(a) then tex1(a)
                 else sconcat("\\left(", tex1(a), "\\right)"),
         resstr: sconcat(resstr, multsgn, " ", str),
         lastisnum: isnum
@@ -405,7 +412,7 @@ rand(ex) := block(
   ex:ev(ex, simp),
   if (integerp(ex)) then return(random(ex)),
   if (floatnump(ex)) then return(random(ex)),
-  if (matrixp(ex)) then return(matrixmap(random, ex)),
+  if (matrixp(ex)) then return(matrixmap('random, ex)),
   if (listp(ex)) then return(randlist(ex))
 )$
 
@@ -530,7 +537,7 @@ multiselqn(corbase, numcor, wrongbase, numwrong):=block([ta1, ta2, ta, version],
   ta1: maplist(lambda([ex], [ex, true]), rand_selection(corbase, numcor)),
   ta2: maplist(lambda([ex], [ex, false]), rand_selection(wrongbase, numwrong)),
   ta: random_permutation(append(ta1, ta2)),
-  version: map(first, ta),
+  version: map('first, ta),
   return([ta, version])
 )$
 
@@ -557,7 +564,7 @@ multiselqnalpha([exs]):=block([corbase, numcor, wrongbase, numwrong, dispflag, t
   talab: ev(makelist(sconcat("(",ascii(96+i),")"), i, 1, length(ta3)), simp),
   ta:zip_with(lambda([ex1, ex2], [ex1, ex2[2], sconcat("<b>", ex1, "</b> ",
     if stringp(ex2[1]) then ex2[1] else stack_disp(ex2[1], dispflag))]), talab, ta3),
-  version: map(first, ta3),
+  version: map('first, ta3),
   return([ta, version])
 )$
 
@@ -575,7 +582,7 @@ multiselqndisplay(corbase, numcor, wrongbase, numwrong):=block([ta1, ta2, ta, ve
   ta1: maplist(lambda([ex], [first(ex), true, second(ex)]), rand_selection(corbase, numcor)),
   ta2: maplist(lambda([ex], [first(ex), false, second(ex)]), rand_selection(wrongbase, numwrong)),
   ta: random_permutation(append(ta1, ta2)),
-  version: map(first, ta),
+  version: map('first, ta),
   /*      */
   return([ta, version])
 )$
@@ -585,14 +592,14 @@ mcq_correct(ta):=block(
     if not(listp(ta)) then error("mcq_correct: first argument must be a list, but was passed: ", string(ta)),
     if not(all_listp(listp, ta)) then error("mcq_correct: all list elements must be lists, but was passed: ", string(ta)),
     if not(all_listp(lambda([ex], is(length(ex)>=2)), ta)) then error("mcq_correct: all list elements must be lists of length at least 2, but was passed: ", string(ta)),
-    maplist(first, sublist(ta, lambda([ex], second(ex))))
+    maplist('first, sublist(ta, lambda([ex], second(ex))))
 )$
 
 mcq_incorrect(ta):=block(
     if not(listp(ta)) then error("mcq_incorrect: first argument must be a list, but was passed: ", string(ta)),
     if not(all_listp(listp, ta)) then error("mcq_incorrect: all list elements must be lists, but was passed: ", string(ta)),
     if not(all_listp(lambda([ex], is(length(ex)>=2)), ta)) then error("mcq_incorrect: all list elements must be lists of length at least 2, but was passed: ", string(ta)),
-    maplist(first, sublist(ta, lambda([ex], not(second(ex)))))
+    maplist('first, sublist(ta, lambda([ex], not(second(ex)))))
 )$
 
 /* ********************************** */
@@ -650,11 +657,11 @@ _UNDO_ERR(err_list, reference) := block([%_tmp],
 /* Function to attach a note to the current statement. */
 _APPEND_NOTE(note) := if ev(stackmap_has_key(%NOTES, %stmt), simp)
  then
-  %NOTES:stackmap_set(%NOTES,%stmt,append(stackmap_get(%NOTES,%stmt),[note]))
+  %NOTES:stackmap_set(%NOTES, %stmt, append(stackmap_get(%NOTES, %stmt), [note]))
  else
-  %NOTES:stackmap_set(%NOTES,%stmt,[note])$
+  %NOTES:stackmap_set(%NOTES, %stmt, [note])$
 
-_RESET_NOTES() := %NOTES:stackmap_unset(%NOTES,%stmt)$
+_RESET_NOTES() := %NOTES:stackmap_unset(%NOTES, %stmt)$
 
 /* Function to attach a note to the current statement. */
 _APPEND_FEEDBACK(feedback) := if ev(stackmap_has_key(%FEEDBACK, %stmt), simp)
@@ -695,7 +702,7 @@ _CS2dv(_k,_v) := block([%_tmp, simp],
  %_tmp:[[_k, stack_dispvalue(_v)]],
  if listp(%_tmp) then _DVALUES:append(_DVALUES,%_tmp),
  0)$
-_CS2dvv(_k,_v) := (_CS2v(_k,_v),_CS2dv(_k,_v),0)$
+_CS2dvv(_k, _v) := (_CS2v(_k, _v), _CS2dv(_k, _v), 0)$
 
 _CS2out() := (
  _RESPONSE : stackmap_set(_RESPONSE, "timeout", false),
@@ -741,7 +748,7 @@ stack_disp(expr, exprm) := block([str:"", expru],
         if exprm = "d" then block(ld: "\\[", rd:"\\]"),
         mminusbp100(true),
         expstr: tex(expru, false),
-        mminusbp120(true),
+        mminusbp134(true),
         expstr: concat(ld, stack_disp_strip_dollars(expstr), rd)
     ),
     /* String display */
@@ -800,20 +807,20 @@ errcatch(compile(?texnumformat));
 /* Display: Subscripts, and strip singular + operators. */
 /* **************************************************** */
 
-stack_disp_sub_script(ex) := block([s],
+stack_disp_sub_script(ex) := block([_s],
  if taylorp(ex) then return(ex),
- if safe_setp(ex) then return(apply(set, maplist(stack_disp_sub_script, args(ex)))),
- if arrayp(ex) then return(arraymake(op(ex), maplist(stack_disp_sub_script, args(ex)))),
+ if safe_setp(ex) then return(apply('set, maplist('stack_disp_sub_script, args(ex)))),
+ if arrayp(ex) then return(arraymake(op(ex), maplist('stack_disp_sub_script, args(ex)))),
  /* Now deal with supscripts. */
- if not(atom(ex)) then return(apply(op(ex), maplist(stack_disp_sub_script, args(ex)))),
+ if not(atom(ex)) then return(apply(op(ex), maplist('stack_disp_sub_script, args(ex)))),
  if simp_numberp(ex) or stringp(ex) or ex or not(ex) then return(ex),
  /* Check for an explicit entry in the texput database for this atom. */
  if stringp(get_texword(ex)) then return(ex),
- s: string(ex),
- s: split(s, "_"),
+ _s: string(ex),
+ _s: split(_s, "_"),
  /* If we can't parse the string back, just use the string. */
- s: maplist(lambda([ex], block([parsed], parsed:errcatch(parse_string(ex)), if emptyp(parsed) then ex else first(parsed))), s),
- stack_disp_sub_script_helper(s)
+ _s: maplist(lambda([ex], block([_parsed], _parsed:errcatch(%_C(ex)), if emptyp(_parsed) then return(ex), _parsed:errcatch(parse_string(ex)), if emptyp(_parsed) then return(ex) else first(_parsed))), _s),
+ stack_disp_sub_script_helper(_s)
 )$
 
 stack_disp_sub_script_helper(l) := block(
@@ -830,7 +837,7 @@ stack_disp_sub_script_helper(l) := block(
 */
 stack_disp_comma_separate(ex):= block(
   if not(listp(ex)) then error("stack_disp_comma_separate: expects its argument to be a list"),
-  return(simplode(maplist(string, ex), ", "))
+  return(simplode(maplist('string, ex), ", "))
 )$
 
 /* ********************************** */
@@ -855,7 +862,7 @@ detexcolor(ex) := block([argsex],
   if op(ex) = texcolor then return(detexcolor(argsex[2])),
   if op(ex) = texcolorplain then return(detexcolor(argsex[2])),
   if op(ex) = "/" then return(detexcolor(argsex[1])/detexcolor(argsex[2])),
-  map(detexcolor, ex)
+  map('detexcolor, ex)
 )$
 
 /* We only display matrices with the following matching pairs of delimiters.
@@ -879,7 +886,7 @@ stack_matrix_disp(m):= block([ret, lp, rp, parens],
   parens: first(parens),
   lp: second(parens),
   rp: third(parens),
-  ret: maplist(lambda([ex], maplist(tex1, args(ex))), args(m)),
+  ret: maplist(lambda([ex], maplist('tex1, args(ex))), args(m)),
   ret: maplist(lambda([ex], simplode(ex, " & ")), ret),
   ret: simplode(ret, " \\\\ "),
   ret: sconcat("\\begin{array}{", stack_matrix_col(m), "} ", ret, " \\end{array}"),
@@ -892,9 +899,9 @@ stack_matrix_disp(m):= block([ret, lp, rp, parens],
 
 texput(matrix, stack_matrix_disp)$
 
-/* ********************************** */
-/* Display: Sort out the unary minus  */
-/* ********************************** */
+/* *********************************** */
+/* Display: Sort out the unary minus.  */
+/* *********************************** */
 
 /* To see an interesting example, see the following.
    simp:false;
@@ -922,9 +929,9 @@ unary_minus_traverse(ex) := block(
   /* We want atom here, not mapatom to catch a[4]. */
   if atom(ex) then return(ex),
   if op(ex) = "-" and (is(first(args(ex))=0) or is(first(args(ex))=0.0)) then return(ex),
-  if op(ex) = "-" and numberp(first(args(ex))) then return(ev(ex,simp)),
-  if arrayp(ex) then return(arraymake(op(ex), maplist(unary_minus_traverse, args(ex)))),
-  apply(op(ex), map(unary_minus_traverse, args(ex)) )
+  if op(ex) = "-" and numberp(first(args(ex))) then return(ev(ex, simp)),
+  if arrayp(ex) then return(arraymake(op(ex), maplist('unary_minus_traverse, args(ex)))),
+  apply(op(ex), map('unary_minus_traverse, args(ex)) )
 )$
 
 /* Pulls out "-" to the front of any expression in a sum of products which needs it. */
@@ -932,9 +939,9 @@ unary_minus_traverse(ex) := block(
 /* But            (-3)*7 is not.                                                     */
 unary_minus_pull(ex) := block([ex2],
   if atom(ex) then return(ex),
-  ex2: apply(op(ex), map(unary_minus_pull, args(ex))),
-  if arrayp(ex) then ex2:arraymake(op(ex), map(unary_minus_pull, args(ex))),
-  if op(ex) = "+" then ex2:apply("+", map(unary_minus_pull_helper, args(ex2))),
+  ex2: apply(op(ex), map('unary_minus_pull, args(ex))),
+  if arrayp(ex) then ex2:arraymake(op(ex), map('unary_minus_pull, args(ex))),
+  if op(ex) = "+" then ex2:apply("+", map('unary_minus_pull_helper, args(ex2))),
   if op(ex) = "*" then ex2:unary_minus_pull_helper(ex2),
   return(ex2)
 )$
@@ -957,13 +964,32 @@ unary_minus_pull_helper(ex) := block([fe],
   return(ex)
 )$
 
-
 /* Sorts out display of expressions in the case simp:false */
 unary_minus_sort(ex) := block([ex2],
   if simp or atom(ex) or taylorp(ex) or functionp(ex) then return(ex),
-  ex2: unary_minus_traverse(ex),
-  return(unary_minus_pull(ex2))
+  ex2:unary_minus_traverse(ex),
+  ex2:unary_minus_pull(ex2),
+  return(ex2)
 )$
+
+/* Removes redundent brackets in the string representation of an expression. */
+unary_minus_initial_sum(ex) := block([_ex1,_exr],
+  if atom(ex) then return(ex),
+  if not(is(op(ex) = "+")) then return(apply(op(ex), map(unary_minus_initial_sum, args(ex)))),
+  _exr:map(unary_minus_initial_sum, rest(args(ex))),
+  _ex1:unary_minus_initial_sum_helper(first(args(ex))),
+  return(apply("+", append([_ex1], _exr)))
+)$
+unary_minus_initial_sum_helper(ex) := block(
+  if atom(ex) then return(ex),
+  if not(is(safe_op(ex) = "-")) then return(unary_minus_initial_sum(ex)),
+  if numberp(first(ex)) then return(ev(ex,simp)),  /* Turns "-"8 back into -8. */
+  if not(is(safe_op(first(ex)) = "*")) then return(unary_minus_initial_sum(ex)),
+  if numberp(first(first(ex))) then return(apply("*", append([-first(first(ex))], rest(args(first(unary_minus_initial_sum(ex))))))),
+  unary_minus_initial_sum(ex)
+)$
+
+
 
 /* ********************************** */
 /* Generate feedback                  */
@@ -1023,8 +1049,8 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
         ex:ev(ex, lg=logbasesimp),
     lvs: listofvars(%_ce_rem(ex)),
     lvs: sublist(lvs, lambda([ex], not(ex = discrete or ex = parametric or ex = minus or ex = plus))),
-    if length(lvs)>1 then
-       error("Plot error: Can't create a plot with more than one variable, whereas you have: \\(",string(lvs),"\\)"),
+    if length(lvs)>2 then
+       error("Plot error: Can't create a plot with more than two variables, whereas you have: \\(",string(lvs),"\\)"),
     /*********************/
     /* Sort out alt-text */
     kill(alt),
@@ -1075,9 +1101,9 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
         ufn: concat("<div class='stack_plot'>", ufn, "</div>"),
     /* Sort out plot_options and preamble*/
     preamble: "",
-    if not(member(xlabel, maplist(first, ral))) then ral: append(ral, [[xlabel, ""]]),
-    if not(member(ylabel, maplist(first, ral))) then ral: append(ral, [[ylabel, ""]]),
-    if member(legend, maplist(first, ral)) then block([lv],
+    if not(member(xlabel, maplist('first, ral))) then ral: append(ral, [[xlabel, ""]]),
+    if not(member(ylabel, maplist('first, ral))) then ral: append(ral, [[ylabel, ""]]),
+    if member(legend, maplist('first, ral)) then block([lv],
             /* If we have [legend, true] then we should use the default legend */
             lv: sublist(ral, lambda([ex], (first(ex)=legend))),
             if second(first(lv))=true then ral:delete([legend, true], ral)
@@ -1089,7 +1115,7 @@ set output ", afn),
     /* Gnuplot only allows alpha-numeric characters in the plot name, so not even spaces!  This is a problem with the string function. */
     if PLOT_TERMINAL="svg" then preamble:concat("set terminal ", PLOT_TERMINAL, psize, " ", PLOT_TERM_OPT),
     /* Reduce margins around plots: this can be added in again with CSS if required, but can't be clipped later. */
-    if member(margin, maplist(first, ral)) then block([lv],
+    if member(margin, maplist('first, ral)) then block([lv],
             /* If we have [legend, true] then we should use the default legend */
             lv: first(sublist(ral, lambda([ex], listp(ex) and (first(ex)=margin)))),
             ral:delete(lv, ral),
@@ -1173,7 +1199,8 @@ ATAlgEquiv(SA,SB) := block([simp:true, ret, newret, SAN, SBN],
 
 /* An algebraic equivalence test which does not evaluate noun forms, but does other simplifications.
 */
-ATAlgEquivNouns(SA,SB) := block([simp:true, ret, newret, SAN, SBN],
+ATAlgEquivNouns(SA,SB) := block([simp:true, ret, newret, SAN, SBN, algebraic_equivalence_nounsp],
+    algebraic_equivalence_nounsp: false,
     /* Turn on simplification and error catch */
     if is(_EC(errcatch(SA:ev(SA, simp, rat)), "") = false) then
         return([false, false, StackAddNote("", "ATAlgEquivNouns_STACKERROR_SAns"), ""]),
@@ -1305,7 +1332,7 @@ ATAlgEquivfun(SA, SB) :=  block([SApoly, SBpoly, keepfloat, RawMark, FeedBack, A
 stack_noteq_single_solve(ex) := block(
    if atom(ex) then return(ex),
    if freeof("#", ex) then return(ex),
-   if not(safe_op(ex)="#") then return(apply(op(ex), map(stack_noteq_single_solve, args(ex)))),
+   if not(safe_op(ex)="#") then return(apply(op(ex), map('stack_noteq_single_solve, args(ex)))),
    /* Only attempt solving in single variables cases. */
    if length(listofvars(ex))=1 then return(apply("nounand", map(lambda([ex2], subst("#","=",ex2)), solve(first(ex)=second(ex))))),
    ex
@@ -1314,7 +1341,7 @@ stack_noteq_single_solve(ex) := block(
 stack_noteq_single_remove(ex) := block(
    if atom(ex) then return(ex),
    if freeof("#", ex) then return(ex),
-   if not(safe_op(ex)="#") then return(apply(op(ex), map(stack_noteq_single_remove, args(ex)))),
+   if not(safe_op(ex)="#") then return(apply(op(ex), map('stack_noteq_single_remove, args(ex)))),
    /* Only attempt solving in single variables cases. */
    if length(listofvars(ex))=1 then return((first(ex)<second(ex) nounor first(ex)>second(ex))),
    ex
@@ -1403,7 +1430,7 @@ stack_assignmentrev(ex) := block(
    This is needed in practice with systems of equations, as students may write [d=10, d=v*t] */
 stack_eval_assignments(ex) := block([asl, sl],
   if not(listp(ex)) then return(ex),
-  sl:maplist(stack_assignmentrev, ex),
+  sl:maplist('stack_assignmentrev, ex),
   asl:sublist(sl, stack_assignmentp),
   if not(emptyp(asl)) then block(
       sl:listify(setdifference(setify(sl), setify(asl))),
@@ -1767,7 +1794,7 @@ ATValidator(SA, SB, SO) := block([SAsimp, SOsimp, res],
     /* SB is ignored. */
     if (is(_EC(errcatch(SOsimp:ev(SO, simp, nouns)), "") = false)) then
         return([false,false,StackAddNote("","ATValidator_STACKERROR_Opt"),""]),
-
+    %_C(SO),
     if (is(_EC(errcatch(res:ev(apply(SO, [SA]))), "") = false)) then
         return(StackBasicReturn(false, false, "ATValidator_STACKERROR_ev")),
     if is(safe_op(res)=string(SO)) then
@@ -1874,12 +1901,12 @@ ATLevenshtein(SA, SB, SO) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsim
     /* Pre-process strings to upper case. */
     if (levupper=true) then block(
         SAsimp:supcase(SAsimp),
-        SBsimpmod:maplist(lambda([ex2], maplist(supcase, ex2)), SBsimpmod)
+        SBsimpmod:maplist(lambda([ex2], maplist('supcase, ex2)), SBsimpmod)
     ),
     /* Tidy whitespace. */
     if (levwhitespace=true) then block(
         SAsimp:ssquish(SAsimp),
-        SBsimpmod:maplist(lambda([ex2], maplist(ssquish, ex2)), SBsimpmod)
+        SBsimpmod:maplist(lambda([ex2], maplist('ssquish, ex2)), SBsimpmod)
     ),
 
     /* Find the closest allow string. */
@@ -2150,18 +2177,18 @@ ATSysEquiv(SA,SB):=block([keepfloat,Validity, RawMark, FeedBack, AnswerNote, SAA
         return(StackBasicReturn(false, false, "ATSysEquiv_SB_not_eq_list")),
 
     /* Turn our equations into expressions, and remove assignments. */
-    S1: ev(maplist(stack_eqnprepare, stack_eval_assignments(SA)), simp),
-    S2: ev(maplist(stack_eqnprepare, stack_eval_assignments(SB)), simp),
+    S1: ev(maplist('stack_eqnprepare, stack_eval_assignments(SA)), simp),
+    S2: ev(maplist('stack_eqnprepare, stack_eval_assignments(SB)), simp),
     /* Is S1 is empty?  This means we only had assignments in the answer,
        i.e. the answer was in a "solved" form, e.g. x=1. */
-    if emptyp(S1) and ev(equal(setify(maplist(stack_eqnprepare, SA)), setify(maplist(stack_eqnprepare, flatten(solve(S2,listofvars(S2)))))),simp) then
+    if emptyp(S1) and ev(equal(setify(maplist('stack_eqnprepare, SA)), setify(maplist('stack_eqnprepare, flatten(solve(S2,listofvars(S2)))))),simp) then
             return([true,true,StackAddNote("","ATSysEquiv_SA_Completely_solved"),""]),
     if emptyp(S1) then
             return([true,false,StackAddNote("","ATSysEquiv_SA_Not_completely_solved"),""]),
 
     /* Turn our equations into expressions, and keep assignments. */
-    S1: ev(maplist(stack_eqnprepare, SA), simp),
-    S2: ev(maplist(stack_eqnprepare, SB), simp),
+    S1: ev(maplist('stack_eqnprepare, SA), simp),
+    S2: ev(maplist('stack_eqnprepare, SB), simp),
 
     /* Is each expression a polynomial? */
     if not all_listp(polynomialpsimp, S1) then
@@ -2341,7 +2368,7 @@ irred_Q(p, v) := block([ret,deg,cl,ci],
   if ev(not(polynomialp(p, [v], lambda([ex], freeof(v, ex)))), simp) then return([false, StackAddFeedback("", "ATFacForm_notpoly")]),
   deg:ev(hipow(expand(p), v), simp),
   /* Now perform the general test. */
-  cl:ev(map(second, coeff_list_nz(expand(p), v)), simp),
+  cl:ev(map('second, coeff_list_nz(expand(p), v)), simp),
   /* Are all coefficients of p are integers?  (note, negative number don't count as integers here!)  */
   ci:all_listp(lambda([ex], integerp(ev(abs(ex), simp))), cl),
   /* General starting position. */
@@ -2893,14 +2920,14 @@ ATCompSquare(SA, SB, SO) := block([Validity,RawMark,FeedBack,AnswerNote,ret,wrt,
 
 /* This function substitutes an "integrationconstant" in ex for v.
    If v is a list, this substitutes as many integration constants as possible */
-subst_int_const(ex,v):=block([lv,li,ls],
+subst_int_const(ex, v):=block([lv,li,ls],
   lv:listofvars(ex),
-  li:sublist_indices(lv, lambda([ex],is(smismatch("integrationconstant",string(ex))>19) or is(smismatch("%c",string(ex))>2)) ),
+  li:sublist_indices(lv, lambda([ex], is(smismatch("integrationconstant", string(ex))>19) or is(smismatch("%c", string(ex))>2)) ),
   if emptyp(li) then return(ex),
   /* If we have only one variable v, then use this */
-  if not(listp(v)) then return(subst(lv[li[1]]=v,ex)),
-  ls:map(lambda([n],lv[n]),li),
-  subst(zip_with("=",ls,v),ex)
+  if not(listp(v)) then return(subst(lv[li[1]]=v, ex)),
+  ls:map(lambda([n], lv[n]), li),
+  subst(zip_with("=", ls, v), ex)
   )$
 
 /* This function strips off any trailing constant of integration from an expression, which is not a number */
@@ -3032,7 +3059,7 @@ Intfun(SA, SB, SBdisp, constint, acceptformal, var) := block([val,rawmk,ansnote,
     SB:strip_int_const(SB, var),
     /* This strips off any trailing constant of integration from the student's answer */
     SAa:strip_int_const(ev(SA, logexpand:super, simp), var),
-    if debug then print(["Striped off  constants of integration: ", SA, SB]),
+    if debug then print(["Striped off  constants of integration: ", SAa, SB]),
     /* If the teacher has not used logabs, then strip out any logabs from the student's answer. */
     /* Student consistency is a different issue. */
     SAConsistentLogs:ATInt_consistent_logabs_p(SA, var),
@@ -3043,7 +3070,7 @@ Intfun(SA, SB, SBdisp, constint, acceptformal, var) := block([val,rawmk,ansnote,
     /* Calculate derivatives */
     SAd:ev(diff(SA, var), simp),
     SBd:ev(diff(SB, var), simp),
-    if debug then print([SAa, SBd]),
+    if debug then print(["Expressions for comparison :", SAa, SBd]),
     if debug then print(["Derivatives : ", SAd, SBd]),
     if ev(algebraic_equivalence(SAd, SBd), simp) then block(
     /* Check for constant of integration - code copied from algebraic_equivalence. */
@@ -3147,7 +3174,7 @@ ATInt_logabs_to_STACKLA(ex):=block(
     else if safe_op(first(args(ex))) = "abs" then
         return(STACKLA(first(args(first(args(ex))))))
     ),
-  return(apply(op(ex),maplist(ATInt_logabs_to_STACKLA,args(ex))))
+  return(apply(op(ex), maplist('ATInt_logabs_to_STACKLA, args(ex))))
 )$
 
 /* Has the student been consistent in using log(abs(ex))?                     */
@@ -3170,7 +3197,7 @@ ATInt_consistent_logabs_p(ex, var):=block([helper],
 ATIntGetVar(ex):= block(
     if atom(ex) then return([]),
     if safe_op(ex)="int" then return([second(args(ex))]),
-    flatten(map(ATIntGetVar, args(ex)))
+    flatten(map('ATIntGetVar, args(ex)))
 );
 
 /********************************************************************/
@@ -3321,15 +3348,12 @@ ATDiff(sa, sb, so) :=
     old_simp:simp, simp:false, RawMark:false, FeedBack:"", AnswerNote:"",
     keepfloat:true,
 
-    SAA:errcatch(ev(sa, simp, nouns)),
+    SAA:errcatch(ev(sa, nouns, simp)),
     if (is(SAA=[STACKERROR]) or is(SAA=[])) then return([false,false,StackAddNote("","ATDiff_STACKERROR_SAns"),""]),
-    SBB:errcatch(ev(sb, simp, nouns)),
+    SBB:errcatch(ev(sb, nouns, simp)),
     if (is(SBB=[STACKERROR]) or is(SBB=[])) then return([false,false,StackAddNote("","ATDiff_STACKERROR_TAns"),""]),
-    SOO:errcatch(ev(so, simp, nouns)),
+    SOO:errcatch(ev(so, nouns, simp)),
     if (is(SOO=[STACKERROR]) or is(SOO=[])) then return([false,false,StackAddNote("","ATDiff_STACKERROR_Opt"),""]),
-
-    /* We always simplify the teacher's answer. */
-    sb:first(SBB),
 
     /* SA should be only an expression. */
     if expressionp(sa)=false then
@@ -3376,7 +3400,7 @@ Difffun(SA, SB, v) := block([val, rawmk, ansnote, fb, ret, lSAv, lSBv, mSAv, mSB
 ATDiffGetVar(ex):= block(
     if atom(ex) then return([]),
     if safe_op(ex)="diff" then return([second(args(ex))]),
-    flatten(map(ATDiffGetVar, args(ex)))
+    flatten(map('ATDiffGetVar, args(ex)))
 )$
 
 /* ****************************************************** */
@@ -3426,14 +3450,14 @@ truth_table(ex) := block([exs, vars, tab, tt],
     /* Store this variable to prevent 2^n re-evaluations of this function. */
     exs: noun_logic_remove(ex),
     tab: maplist(lambda([ex2], zip_with("=", vars, ex2)), truth_table_allvars(vars)),
-    tab: maplist(lambda([ex2], append(maplist(rhs, ex2), [ev(logic_simp(exs), ex2)])), tab),
+    tab: maplist(lambda([ex2], append(maplist('rhs, ex2), [ev(logic_simp(exs), ex2)])), tab),
     tab: append([append(vars, [ex])], tab),
-    apply(table, tab)
+    apply('table, tab)
 )$
 
 truth_table_allvars(l) := block(
    if emptyp(l) then return([[]]),
-   return(append( maplist(lambda([ex], append([false], ex)), truth_table_allvars(rest(l))),
+   return(append(maplist(lambda([ex], append([false], ex)), truth_table_allvars(rest(l))),
            maplist(lambda([ex], append([true], ex)), truth_table_allvars(rest(l)))))
 )$
 
@@ -3450,14 +3474,14 @@ table_tex(ex):= block([ret, astart],
     /* Make a header. */
     astart: ev(makelist("c", k, length(first(ex))), simp),
     astart: sconcat("\\begin{array}{", simplode(astart, "|"), "} "),
-    ret: matrixmap(table_bool_abbreviate_fn, apply(matrix, args(ex))),
+    ret: matrixmap('table_bool_abbreviate_fn, apply('matrix, args(ex))),
     ret: maplist(lambda([ex2], simplode(ex2, " & ")), args(ret)),
     rest:sconcat(astart, first(ret), "\\\\ \\hline ", simplode(rest(ret), " \\\\ "), "\\end{array} ")
 )$
 texput(table, table_tex)$
 
 table_zip_with(fn, T1, T2) := block(
-  apply(table, zip_with(lambda([ex1,ex2], zip_with(fn,ex1,ex2)), args(T1), args(T2)))
+  apply('table, zip_with(lambda([ex1,ex2], zip_with(fn,ex1,ex2)), args(T1), args(T2)))
 )$
 
 table_difference(T1, T2) := table_zip_with(lambda([ex1,ex2], if ex1=ex2 then ex1 else texcolor("red", ex1)), T1, T2)$
@@ -3486,7 +3510,7 @@ tree_rec(e) := block([treelist],
   /* Lots of opportunities/need for fine-tuning. */
 
   if is(safe_op(e)="int") then treelist:flatten(["<span class='op'>\\(\\int \\cdots \\mathrm{d}", stack_disp(second(e), ""), " \\)</span><ul><li>", tree_rec(first(e)), "</li></ul>"]),
-  if is(safe_op(e)="diff") then treelist:flatten(["<span class='op'>\\(", stack_disp(apply(noundiff, append([NULLNUM], rest(args(e)))), ""), " \\)</span><ul><li>", tree_rec(first(e)), "</li></ul>"]),
+  if is(safe_op(e)="diff") then treelist:flatten(["<span class='op'>\\(", stack_disp(apply('noundiff, append([NULLNUM], rest(args(e)))), ""), " \\)</span><ul><li>", tree_rec(first(e)), "</li></ul>"]),
   if is(safe_op(e)="sum" or safe_op(e)="'sum") then treelist:flatten(["<span class='op'>\\(\\sum_{", stack_disp(second(e), ""), "=", stack_disp(third(e), ""), "}^{", stack_disp(fourth(e), ""), "} \\cdots \\)</span><ul><li>", tree_rec(first(e)), "</li></ul>"]),
   if is(safe_op(e)="limit" or safe_op(e)="'limit") then treelist:flatten(["<span class='op'>\\(\\lim_{", stack_disp(second(e), ""), "\\rightarrow{", stack_disp(third(e), ""), "}} \\cdots \\)</span><ul><li>", tree_rec(first(e)), "</li></ul>"]),
   /* This example mirrors tex-gamma. */
@@ -3505,7 +3529,7 @@ tree_rec(e) := block([treelist],
         treelist:flatten(append(treelist, ["<ul>", map(lambda([ex], sconcat("<li>", tree_rec(ex) ,"</li>")), args(e)), "</ul>"]))
         ),
 
-  apply(sconcat, treelist)
+  apply('sconcat, treelist)
 )$
 
 
@@ -3523,4 +3547,4 @@ is_lang(code):=ev(is(%_STACK_LANG=code),simp=true)$
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2025121700$
+stackmaximaversion:2026010501$

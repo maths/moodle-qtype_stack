@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>9.5.4.6 Cartesian equation of a plane through a point</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>What is the Cartesian equation of the plane that contains the point \(\left ({@xzero@},{@yzero@},{@zzero@} \right )\) and is perpendicular to the vector \(\underline{n} = {@mone@} \, \underline{i}+{@ntwo@} \,\underline{ j} {@nthree@}\,\underline{k}\)?</p>
+<p>[[input:splane]] [[validation:splane]]</p><div><p></p>
+<p>[[feedback:prt1]]</p>
+Hint: The Cartesian equation of a plane is an equation of the form <br>\[Ax + By + Cz = D,\] where \(A\), \(B\), \(C\) and \(D\) are constants.</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>If \(\underline{r}= x\, \underline{i} + y\,\underline{ j} + z\, \underline{k}\) is the position vector of an arbitrary point in the plane and \(\displaystyle {\underline{r_0}}\) is the position vector of the point \(\left ( {@xzero@},{@yzero@},{@zzero@}\right )\) that is also in the plane, ie \(\underline{r_0} = {@xzero@}\,\underline{ i} + {@yzero@}\, \underline{ j} + {@zzero@}\, \underline{k}\), then the vector</p>
+
+\[ \underline{r} -\underline{r_0}= \left ({@xmxzero@}\right )\, \underline{ i}+ \left ({@ymyzero@} \right ) \,\underline{j} +\left ({@zmzzero@} \right )\, \underline{k}\]
+<p>lies in the plane and is perpendicular to \(\underline{n}\). </p>
+
+<p>Thus \( \left (\underline{r}-\underline{r_0} \right )\cdot \underline{n} = 0\), that is:</p>
+\[ \left ({@xmxzero@} \right )\left ({@mone@}\right ) + \left ({@ymyzero@} \right )\left ({@ntwo@}\right )+ \left ({@zmzzero@} \right )\left ({@nthree@}\right ) =0.\]
+
+<p>Expanding this out gives \[{@tplane@}.\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020120600</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[stackvectortex(ex):= block(sconcat("{ \\underline{", tex1(first(args(ex))), "}}"));
+lambda: 2+rand(7);
+mu: 2+rand(7);
+mone:lambda;
+ntwo:mu+lambda;
+nthree:-(lambda+1);
+xzero:1-mu;
+yzero:mu+lambda+2;
+zzero:lambda+2;
+xmxzero:x-xzero;
+ymyzero:y-yzero;
+zmzzero:z-zzero;
+tvectorn:matrix([mone],[ntwo],[nthree]);
+tpoint:matrix([xzero,yzero,zzero]);
+tplane:mone*x + ntwo*y+nthree*z=mone*xzero+ntwo*yzero+nthree*zzero;
+
+/*this question is identical to plane point perpendicular but has fewer question tests. It says it's in use in some quizzes so I didn't want to delete it */]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>point \(\left ({@xzero@},{@yzero@},{@zzero@} \right )\) and is perpendicular to the vector \(\underline{n} = {@mone@} \, \underline{i}+{@ntwo@} \,\underline{ j} {@nthree@}\,\underline{k}\)
+\[ {@tplane@}\]</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[Correct answer, well done.<br>]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text>Your answer is partially correct.</text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<div class="editor-indent" style="margin-left: 30px;"><br></div><br><span class="rangySelectionBoundary" style="line-height: 0;" id="selectionBoundary_1437740478501_9255851274093964">﻿</span><span class="rangySelectionBoundary" style="line-height: 0;" id="selectionBoundary_1437740478500_7610759551001749">﻿</span>]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>symi</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>splane</name>
+      <type>algebraic</type>
+      <tans>tplane</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>10.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>splanepointx:subst([x=xzero],splane);
+splanepointxy:subst([y=yzero],splanepointx);
+szzerosol:solve(splanepointxy,z);
+splanepointy:subst([y=yzero],splane);
+splanepointyz:subst([z=zzero],splanepointy);
+sxzerosol:solve(splanepointyz,x);
+splanepointz:subst([z=zzero],splane);
+splanepointzx:subst([x=xzero],splanepointz);
+syzerosol:solve(splanepointzx,y);
+szzero:if ((sxzerosol=all) and (syzerosol=all) and (szzerosol=all)) then 0 else if (szzerosol=all) then zzero else ev(z,szzerosol[1]);
+splanepointAy:subst([y=0],splane);
+splanepointAyz:subst([z=0],splanepointAy);
+spointAxsol:solve(splanepointAyz,x);
+spointAx:ev(x,spointAxsol[1]);
+spointA:matrix([spointAx],[0],[0]);
+splanepointBz:if (spointAx=0) then subst([z=1],splane) else subst([z=0],splane)  ;
+splanepointBzx:subst([x=0],splanepointBz);
+spointBysol:solve(splanepointBzx,y);
+spointBy:ev(y,spointBysol[1]);
+spointBx:0;
+spointBz:if (spointAx=0) then 1 else 0;
+spointB:matrix([spointBx],[spointBy],[spointBz]);
+splanepointCx:if (spointAx=0) then subst([x=1],splane) else subst([x=0],splane);
+splanepointCxy:subst([y=0],splanepointCx);
+spointCzsol:solve(splanepointCxy,z);
+spointCz:ev(z,spointCzsol[1]);
+spointCx:if (spointAx=0) then 1 else 0;
+spointCy:0;
+spointC:matrix([spointCx],[spointCy],[spointCz]);
+sAB:spointB-spointA;
+sAC:spointC-spointA;
+sABone:sAB[1,1];
+sABtwo:sAB[2,1];
+sABthree:sAB[3,1];
+sACone:sAC[1,1];
+sACtwo:sAC[2,1];
+sACthree:sAC[3,1];
+sABdotn:sAB.tvectorn;
+sACdotn:sAC.tvectorn;
+svecsdotn:abs(sABdotn)+abs(sACdotn)</text>
+      </feedbackvariables>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>szzero</sans>
+        <tans>zzero</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.5000000</truescore>
+        <truepenalty/>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text>The point \(\left ({@xzero@},{@yzero@},{@zzero@} \right )\) lies on the surface {@splane@} that you have entered.</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Substituting \(x={@xzero@}\), \(y={@yzero@}\) and \(z={@zzero@}\) into the plane {@splane@} that you have entered shows that these values of \(x\), \( y\) and \(z\) don't satisfy the equation of that plane (or you haven't entered the equation of a plane).</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>svecsdotn</sans>
+        <tans>0</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.5000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>The plane that you have entered is perpendicular to the vector \({\boldsymbol n} = {@mone@} \, {\boldsymbol i} +{@ntwo@} \,{\boldsymbol j} {@nthree@}\,{\boldsymbol k}\).</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>I am afraid that the plane that you have entered is not perpendicular to the vector \({\boldsymbol n} = {@mone@} \, {\boldsymbol i} +{@ntwo@} \,{\boldsymbol j} {@nthree@}\,{\boldsymbol k}\).</p>
+<p>To show that this is the case, choose 3 arbitrary points on the plane that you have entered, which don't lie in a straight line. To make things simple, if possible choose the points to be \( \left (x_A,0,0 \right ) \), \( \left (0,y_B,0 \right ) \) and \( \left (0,0,z_C \right ) \) and determine \(x_A\), \(y_B\) and \(z_C\) so that the \(x\), \(y\) and \(z\) coordinates of each point satisfy the equation of the plane. </p>
+<p>If the first point is \( \left (0,0,0 \right ) \) in order that the other points are different, if possible choose them to be \( \left (0,y_B,1 \right ) \) and \( \left (1,0,z_C \right ) \) and determine \(y_B\) and \(z_C\) so that the \(x\), \(y\) and \(z\) coordinates of each point satisfy the equation of the plane.</p>
+<p>(If you see strange variables in one or more of the following 3 points, it means that a point of that particular form does not exist on the plane that you have entered, or there are infinitely many such points. This means that one of the coordinate axes is parallel to the plane you have entered and so the perpendicular to the plane has no component in the direction of that coordinate axis, or you have not entered a plane. If this happens then I am afraid that the plane you have entered is not perpendicular to the vector \({\boldsymbol n} = {@mone@} \, {\boldsymbol i} +{@ntwo@} \,{\boldsymbol j} {@nthree@}\,{\boldsymbol k}\), but please ignore the rest of the feedback.)</p>
+<p>So, choose the following 3 points on the plane that you have entered:</p>
+<p>\[ A:\,\, \left ({@spointAx@},0,0 \right ), \quad B:\,\, \left ({@spointBx@},{@spointBy@},{@spointBz@} \right )\quad {\rm and }\quad C:\,\, \left ({@spointCx@},{@spointCy@},{@spointCz@}\right ).\]</p>
+<p>Let \(\overrightarrow{AB}\) be the vector joining the points \(A\) and \(B\), and let&nbsp;\(\overrightarrow{AC}\) be the vector joining the points \(A\) and \(C\).</p>
+<p>So \(\overrightarrow{AB}\) and \(\overrightarrow{AC}\) lie in the plane that you have entered and if this plane is perpendicular to the vector \({\boldsymbol n}\) then the dot product of \(\overrightarrow{AB}\) and \({\boldsymbol n}\) must be zero and the dot product of \(\overrightarrow{AC}\) and \({\boldsymbol n}\) must be zero. Now</p>
+<p>\[\overrightarrow{AB} = \overrightarrow{OB}-\overrightarrow{OA}={@spointB@}-{@spointA@}={@sAB@}.\]</p>
+<p>So</p>
+<p>\[\overrightarrow{AB}\cdot {\boldsymbol n}=({@sABone@})({@mone@}) + ({@sABtwo@})({@ntwo@})+({@sABthree@})({@nthree@})= {@sABdotn@}.\quad (1)\]</p>
+<p>Similarly</p>
+<p>\[\overrightarrow{AC} = \overrightarrow{OC}-\overrightarrow{OA}={@sAC@}.\]</p>
+<p>So</p>
+<p>\[\overrightarrow{AC}\cdot {\boldsymbol n}= \overrightarrow{OC}-\overrightarrow{OA}=({@sACone@})({@mone@}) + ({@sACtwo@})({@ntwo@})+({@sACthree@})({@nthree@})= {@sACdotn@}.\quad (2)\]</p>
+<p>From (1) and (2) the dot product of \(\overrightarrow{AB}\) and \({\boldsymbol n}\), and the dot product of \(\overrightarrow{AC}\) and \({\boldsymbol n}\) are not both zero, so the plane that you entered is not perpendicular to the vector \({\boldsymbol n}\).</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1616547892</deployedseed>
+    <deployedseed>1802688329</deployedseed>
+    <deployedseed>163433798</deployedseed>
+    <deployedseed>186915943</deployedseed>
+    <deployedseed>1159656132</deployedseed>
+    <deployedseed>150184898</deployedseed>
+    <deployedseed>1117107900</deployedseed>
+    <deployedseed>1035931830</deployedseed>
+    <deployedseed>445609447</deployedseed>
+    <deployedseed>822470147</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>splane</name>
+        <value>tplane</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>splane</name>
+        <value>0</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>splane</name>
+        <value>zzero</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

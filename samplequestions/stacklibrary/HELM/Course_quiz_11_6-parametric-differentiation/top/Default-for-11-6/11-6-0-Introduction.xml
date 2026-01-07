@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>11.6.0 Introduction</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Parametric Differentiation</h4>
+
+Sometimes the equation of a curve is not be given in Cartesian form \(y = f(x)\) but in parametric form:
+\(x = h(t)\), \(y = g(t)\). In this Section we see how to calculate the derivative \( \dfrac{dy}{dx}\) from a knowledge of the so-called parametric derivatives \( \dfrac{dx}{dt}\) and\( \dfrac{dy}{dt} \). We then extend this to the determination of the second derivative \( \dfrac{d^2y}{dx^2}\).
+<p></p>
+Parametric functions arise often in particle dynamics in which the parameter \(t\) represents the time
+and \((x(t), y(t))\) then represents the position of a particle as it varies with time.]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

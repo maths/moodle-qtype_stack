@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.5.1.3 afterTask1_(pg53)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Modulus</h4>
+<p>The <span><strong>modulus or magnitude sign</strong></span> is sometimes used with inequalities. For example <span class="math inline">\(|x|&lt;1\)</span> represents the set of all numbers whose actual size, irrespective of sign, is less than 1. This
+    means any value between <span class="math inline">\(-1\)</span> and 1. Thus <span class="math display">\[|x|&lt;1 \hbox{ implies } -1&lt;x&lt;1\]</span></p>
+<p>Similarly <span class="math inline">\(|x|&gt;4\)</span> means all numbers whose size, irrespective of sign, is greater than 4. This means any value greater than 4 or less than <span class="math inline">\(-4\)</span>. Thus <span class="math display">\[|x|&gt; 4 \hbox{ implies } x&gt; 4 \hbox{ or } x&lt; -4.\]</span></p>
+
+<p>In general, if <span class="math inline">\(k\)</span> is a positive number,</p>
+<div class="HELM_keypoint">
+    <h4>Key Point</h4>
+    <p><span class="math display">\[|x|&lt;k \hbox{ means } -k&lt;x&lt;k\]</span> <span class="math display">\[|x|&gt;k \hbox{ means } x&gt;k \hbox{ or } x&lt;-k\]</span></p>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

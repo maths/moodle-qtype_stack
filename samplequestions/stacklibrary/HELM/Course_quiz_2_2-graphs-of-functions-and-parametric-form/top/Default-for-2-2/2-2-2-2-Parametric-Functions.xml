@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>2.2.2.2 Parametric Functions</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>Consider the parametric function given by \[ x = {@x_curve@}, \quad y = {@y_curve@}.\]</p>
+<ol class="HELM_parts">
+
+<li><p>Obtain an explicit equation for \(y\) in terms of \(x\)</p><p> \(y =\) [[input:ans2]] [[validation:ans2]][[feedback:prt2]]</p></li>
+<li><p> Find the graph of the function</p><p></p><p>[[input:ans1]] [[validation:ans1]][[feedback:prt1]]<br></p>
+<p>Choose from the graphs below:</p><ul> </ul>
+<table>
+  <tbody><tr>
+    <td style="text-align: center;"><b>Graph A</b></td>
+    <td style="text-align: center;"><b>Graph B</b></td>
+  </tr>
+  <tr>
+    <td style="text-align: center;">{@thumbnailplot(funcstoplot[1],"Graph A")@}</td>
+    <td style="text-align: center;">{@thumbnailplot(funcstoplot[2],"Graph B")@}</td>
+  </tr><tr>
+    <td style="text-align: center;">&nbsp;</td>
+    <td style="text-align: center;">&nbsp;</td>
+  </tr><tr>
+    <td style="text-align: center;">&nbsp;<b>Graph C</b></td>
+    <td style="text-align: center;"><b>Graph D</b></td>
+  </tr><tr>
+    <td style="text-align: center;">&nbsp;{@thumbnailplot(funcstoplot[3],"Graph C")@}</td>
+    <td style="text-align: center;">{@thumbnailplot(funcstoplot[4],"Graph D")@}&nbsp;</td>
+  </tr>
+  
+  
+</tbody></table></li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<ol class="HELM_parts">
+<li>
+<p>We have the curves \( \, x = \displaystyle {@x_curve@}\) and  \(\, y = &nbsp;\displaystyle {@y_curve@}. \)</p><p>Since \( x = \displaystyle {@x_curve@}\) we may write \( t = \displaystyle {@t@}\).</p>
+<p>Substituting this into the expression for \(y\) gives \( y= \displaystyle {@ta2@}\).</p>
+</li>
+<li><p>Using the expression found, we can find some values of \(y\) at different values of \(x\). Using these values we can find the correct plot.</p></li>
+</ol>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021072200</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[a: rand(3)+3
+b: rand(4)+2
+c: rand_with_prohib(2,10,[a,b])
+n: rand([2,3])
+d: n*b
+x_curve: expand((1/a)*(1+b/t))
+y_curve: expand((1/a)*(1-b/t))
+t: b/(a*x-1)
+f:expand((1/a)*(2-a*x))
+f(x):= (1/a)*(2-a*x)
+ta2:f
+max: f(a/2);
+min: f(a/3);
+
+c_funcs: [f];
+w_funcs: [-f, f-max, -f+max];
+/* Choose functions to plot */
+funcs: append(c_funcs, rand_selection(w_funcs,3)) 
+/* permute the graphs but keep note of which ones are right! */
+reordering:random_permutation([1,2,3,4]);
+fntoletter:zip_with("[",reordering,[A,B,C,D]);
+/* apply the reordering to produce the shuffled list of options */
+funcstoplot: makelist(funcs[reordering[i]],i,1,4);
+corr:maplist(lambda([ex],assoc(ex,fntoletter)), [1,2,3,4]);
+ta1:maplist(lambda([ex],[ex, is(ex=assoc(1,fntoletter))]), [A,B,C,D]);
+thumbnailplot:lambda([ex1,ex2],plot(ex1,[x,-5,5],[y,-10, 10],[box, false],[yx_ratio, 0.7],[xtics, -5, 1, 5],[ytics, -10, 2, 10],[axes, solid],[size,240,240],[plottags,false],[alt,ex2]));]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\( x = {@x_curve@}, \quad y = {@y_curve@}\) so \( y= {@ta2@} \). The multiple-choice of graphs are {@funcstoplot@}</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>dropdown</type>
+      <tans>ta1</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>ta2</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>EqualComAss</answertest>
+        <sans>ans1</sans>
+        <tans>corr[1]</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Your answer is algebraically equivalent with the correct one but not fully simplified.&nbsp;</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>135891218</deployedseed>
+    <deployedseed>1730094230</deployedseed>
+    <deployedseed>1755904768</deployedseed>
+    <deployedseed>496268990</deployedseed>
+    <deployedseed>537821301</deployedseed>
+    <deployedseed>539379753</deployedseed>
+    <deployedseed>202414629</deployedseed>
+    <deployedseed>1974822879</deployedseed>
+    <deployedseed>1907408223</deployedseed>
+    <deployedseed>1319352268</deployedseed>
+    <deployedseed>87631084</deployedseed>
+    <deployedseed>1926987407</deployedseed>
+    <deployedseed>754019574</deployedseed>
+    <deployedseed>1553128498</deployedseed>
+    <deployedseed>143994485</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>corr[1]</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>corr[2]</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2+1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-2-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

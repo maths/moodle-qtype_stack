@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>27.3.4.6 moment of inertia example</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4 class="HELM_example">Example</h4>
+<br>
+Find the moment of inertia (about the \(x\)-axis) of the cube of side \(1\), mass \(M\) and density \(\rho\) shown below.
+
+[[jsxgraph  width="400px" height="300px"  ]]
+      const board = JXG.JSXGraph.initBoard('jxgbox', {
+            boundingbox: [-1.6, 1.8, 1.8, -1.6],
+            axis: false,
+            showNavigation: false
+        });
+
+        // Axes points
+        const X = board.create('point', [0, 1.7], {visible: false, fixed: true});        
+        const Y = board.create('point', [1.7, 0], {visible: false, fixed: true});
+        const Z = board.create('point', [-1.06, -1.06], {visible: false, fixed: true});       
+     
+
+
+        // Points
+        const O = board.create('point', [0, 0], {visible: false, fixed: true});
+        const A = board.create('point', [1, 0], {visible: false, fixed: true});
+        const B = board.create('point', [0, 1], {visible: false, fixed: true});
+        const C = board.create('point', [-0.5, -0.5], {visible: false, fixed: true});
+        const D = board.create('point', [1, 1], {visible: false, fixed: true});
+        const E = board.create('point', [0.5, 0.6], {visible: false, fixed: true});
+        const F = board.create('point', [-0.5, 0.6], {visible: false, fixed: true});
+        const G = board.create('point', [0.5,-0.5], {visible: false, fixed: true});
+        // Axes with labels
+        board.create('arrow', [O, X], {strokeColor: 'black', name: 'X', withLabel: false,fontSize: 12});
+        board.create('arrow', [O, Y], {strokeColor: 'black', name: 'Y', withLabel: false,fontSize: 12});
+        board.create('arrow', [O, Z], {strokeColor: 'black', name: 'Z', withLabel: false,fontSize: 12});    
+        // lines
+        board.create('line', [O, A], {straightFirst: false, straightLast: false});
+        board.create('line', [O, B], {straightFirst: false, straightLast: false});
+        board.create('line', [O, C], {straightFirst: false, straightLast: false});
+        board.create('line', [B, F], {straightFirst: false, straightLast: false});
+        board.create('line', [B, D], {straightFirst: false, straightLast: false});
+        board.create('line', [F, E], {straightFirst: false, straightLast: false});
+        board.create('line', [D, E], {straightFirst: false, straightLast: false});
+        board.create('line', [F, C], {straightFirst: false, straightLast: false});
+        board.create('line', [E, G], {straightFirst: false, straightLast: false});
+        board.create('line', [D, A], {straightFirst: false, straightLast: false});
+        board.create('line', [G, A], {straightFirst: false, straightLast: false});
+        board.create('line', [C, G], {straightFirst: false, straightLast: false});
+
+
+       
+        // Add other labels
+        board.create('text', [4.2, 0, '\\(x\\)'], {fontSize: 12,fixed: true});
+        board.create('text', [0, 4.2, '\\(y\\)'], {fontSize: 12,fixed: true});
+        board.create('text', [-3.2, -3.2, '\\(z\\)'], {fontSize: 12,fixed: true});
+        board.create('text', [0.1, 1.1, '\\(1\\)'], {fontSize: 12,fixed: true});
+        board.create('text', [1.1, 0.1, '\\(1\\)'], {fontSize: 12,fixed: true});
+        board.create('text', [-0.6, -0.7, '\\(1\\)'], {fontSize: 12,fixed: true});
+[[/jsxgraph]]
+<h4 class="HELM_solution">Solution</h4>
+For the cube,
+\[\displaystyle 
+\text{Mass = Volume} \times \text{Density} \quad\text{i.e.}\quad M =
+1^3 \times \rho = \rho
+\]
+The moment of inertia (about the \(x\)-axis) is given by
+\[\displaystyle 
+I_x = \rho \displaystyle\int_V  (y^2+z^2) \;\mathrm{d}x = \rho\displaystyle\int_0^1 \displaystyle\int_0^1
+\displaystyle\int_0^1 (y^2 + z^2) \;\mathrm{d}z \,\mathrm{d}y\,\mathrm{d}x
+\]
+This has been shown to equal \(\displaystyle  \frac{2}{3}\) previously. Thus \(\displaystyle 
+I_x = \frac{2}{3}\rho=\frac{2}{3}M\).<br>
+By applying symmetry, it can also be shown that the moments of
+inertia about the \(y\)- and \(z\)-axes are also equal to \(\displaystyle 
+\frac{2}{3}M\).]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025040100</text>
+    </stackversion>
+    <questionvariables>
+      <text>ta1:0;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="html">
+      <text>{@ta1@}</text>
+    </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+  </question>
+</quiz>

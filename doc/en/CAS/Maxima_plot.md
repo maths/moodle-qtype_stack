@@ -188,6 +188,8 @@ The following CASText gives representative examples of the plot2d features suppo
     {@plot(x^3,[x,-3,3], [alt,"What is this function?"])@}
     <h3>Multiple graphs, clips the \(y\) values</h3>
     {@plot([x^3,exp(x)],[x,-2,2],[y,-4,4])@}
+    <h3>Implicit plot</h3>
+    {@plot(2^2*x*y*(x^2-y^2)-x^2-y^2=0, [x,-4,4], [y,-4,4])@}
     <h3>With and without a grid</h3>
     {@plot([x^2/(1+x^2),2*x/(1+x^2)^2], [x, -2, 2], [y,-2.1,2.1], grid2d)@}
     {@plot([x^2/(1+x^2),2*x/(1+x^2)^2], [x, -2, 2], [y,-2.1,2.1])@}

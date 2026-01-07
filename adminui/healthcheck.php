@@ -26,9 +26,9 @@
 
 define('NO_OUTPUT_BUFFERING', true);
 
-require_once(__DIR__.'/../../../../config.php');
-require_once($CFG->dirroot .'/course/lib.php');
-require_once($CFG->libdir .'/filelib.php');
+require_once(__DIR__ . '/../../../../config.php');
+require_once($CFG->dirroot . '/course/lib.php');
+require_once($CFG->libdir . '/filelib.php');
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/../stack/cas/connector.healthcheck.class.php');
 
@@ -64,7 +64,7 @@ if (data_submitted() && optional_param('createmaximaimage', false, PARAM_BOOL)) 
     require_sesskey();
     echo $OUTPUT->heading(stack_string('healthautomaxopt'));
     stack_cas_connection_db_cache::clear_cache($DB);
-    list($ok, $errmsg) = stack_cas_configuration::create_auto_maxima_image();
+    [$ok, $errmsg] = stack_cas_configuration::create_auto_maxima_image();
     if ($ok) {
         \core\notification::success(stack_string('healthautomaxopt_succeeded'));
     } else {
@@ -98,7 +98,7 @@ foreach ($healthcheck->get_test_results() as $test) {
         $tl  .= html_writer::tag('td', ' ');
     }
     $tl  .= html_writer::tag('td', $test['summary']);
-    $tab .= html_writer::tag('tr', $tl)."\n";
+    $tab .= html_writer::tag('tr', $tl) . "\n";
 }
 echo html_writer::tag('table', $tab);
 if ($healthcheck->get_overall_result()) {
@@ -106,32 +106,42 @@ if ($healthcheck->get_overall_result()) {
 } else {
     echo html_writer::tag('p', stack_string('healthcheckfail'), ['class' => 'overallresult fail']);
 }
-echo html_writer::tag('p', get_string('healthcheckfaildocs', 'qtype_stack',
-    ['link' => (string) new moodle_url('/question/type/stack/doc/doc.php/Installation/Testing_installation.md')])
-    );
+echo html_writer::tag('p', get_string(
+    'healthcheckfaildocs',
+    'qtype_stack',
+    ['link' => (string) new moodle_url('/question/type/stack/doc/doc.php/Installation/Testing_installation.md')]
+));
 
 // State of the cache.
 if ('db' == $config->casresultscache) {
-    echo html_writer::tag('p', stack_string('healthcheckcachestatus',
-        stack_cas_connection_db_cache::entries_count($DB)));
+    echo html_writer::tag('p', stack_string(
+        'healthcheckcachestatus',
+        stack_cas_connection_db_cache::entries_count($DB)
+    ));
     echo $OUTPUT->single_button(
         new moodle_url($PAGE->url, ['clearcache' => 1, 'sesskey' => sesskey()]),
-        stack_string('clearthecache'));
+        stack_string('clearthecache')
+    );
 }
 
 echo $OUTPUT->single_button(
     new moodle_url($PAGE->url, ['createmaximaimage' => 1, 'sesskey' => sesskey()]),
-        stack_string('healthcheckcreateimage'));
+    stack_string('healthcheckcreateimage')
+);
 
 echo '<hr />';
 // LaTeX. This is an install requirement, rather than a CAS healtcheck.
 echo $OUTPUT->heading(stack_string('healthchecklatex'), 3);
-echo html_writer::tag('p', stack_string('healthcheckmathsdisplaymethod',
-    stack_maths::configured_output_name()));
+echo html_writer::tag('p', stack_string(
+    'healthcheckmathsdisplaymethod',
+    stack_maths::configured_output_name()
+));
 if ($config->mathsdisplay === 'mathjax') {
     $mathjaxurl = get_config('filter_mathjaxloader', 'httpsurl');
-    echo html_writer::tag('p', stack_string('healthcheckmathsmathjaxurl',
-        html_writer::tag('tt', $mathjaxurl)));
+    echo html_writer::tag('p', stack_string(
+        'healthcheckmathsmathjaxurl',
+        html_writer::tag('tt', $mathjaxurl)
+    ));
     // Check if we are using the CDN.
     if (strpos($mathjaxurl, 'cdn.') === false) {
         echo html_writer::tag('p', stack_string('testsuiteknownfail') . ' ' .
@@ -151,13 +161,15 @@ if ($config->mathsdisplay === 'mathjax') {
     echo html_writer::tag('p', stack_string('healthchecklatexmathjax'));
 } else {
     $settingsurl = new moodle_url('/admin/filters.php');
-    echo html_writer::tag('p', stack_string('healthcheckfilters',
-        ['filter' => stack_maths::configured_output_name(), 'url' => $settingsurl->out()]));
+    echo html_writer::tag('p', stack_string(
+        'healthcheckfilters',
+        ['filter' => stack_maths::configured_output_name(), 'url' => $settingsurl->out()]
+    ));
 }
 
 // Output details.
 foreach ($healthcheck->get_test_results() as $test) {
-    if ($test['details'] !== null) {
+    if (($test['details'] ?? null) !== null) {
         echo '<hr />';
         $heading = stack_string($test['tag']);
         if ($test['result'] === false) {

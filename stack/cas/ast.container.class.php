@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL')|| die();
+defined('MOODLE_INTERNAL') || die();
 
 /**
  * Ast container and related functions, which replace "cas strings".
@@ -34,11 +34,11 @@ require_once(__DIR__ . '/../maximaparser/utils.php');
 require_once(__DIR__ . '/../maximaparser/corrective_parser.php');
 require_once(__DIR__ . '/../maximaparser/MP_classes.php');
 
-
+// phpcs:disable PSR2.Classes.ClassDeclaration.ImplementsLine
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
-class stack_ast_container extends stack_ast_container_silent implements cas_latex_extractor,
-            cas_value_extractor, cas_display_value_extractor {
-
+class stack_ast_container extends stack_ast_container_silent
+                          implements cas_display_value_extractor, cas_latex_extractor, cas_value_extractor {
+    // phpcs:enable PSR2.Classes.ClassDeclaration.ImplementsLine
     /*
      * NOTES:
      *  1. this does provide means of fetching the results of evaluation if
@@ -117,24 +117,24 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
 
         $checkvars = $this->validationcontext['checkvars'];
 
-        $vcmd = 'stack_validate(['.$starredanswer.'], '.$lowestterms.','.$tans.','.$checkvars.')';
+        $vcmd = 'stack_validate([' . $starredanswer . '], ' . $lowestterms . ',' . $tans . ',' . $checkvars . ')';
         if ($validationmethod == 'typeless') {
-            $vcmd = 'stack_validate_typeless(['.$starredanswer.'], '.$lowestterms.','.$tans.','.
-                $checkvars.', false)';
+            $vcmd = 'stack_validate_typeless([' . $starredanswer . '], ' . $lowestterms . ',' . $tans . ',' .
+                $checkvars . ', false)';
         }
         if ($validationmethod == 'equiv') {
-            $vcmd = 'stack_validate_typeless(['.$starredanswer.'], '.$lowestterms.','.$tans.','.
-                $checkvars.', true)';
+            $vcmd = 'stack_validate_typeless([' . $starredanswer . '], ' . $lowestterms . ',' . $tans . ',' .
+                $checkvars . ', true)';
         }
         if ($validationmethod == 'units') {
             // Note, we don't pass in forbidfloats as this option is ignored by the units validation.
-            $vcmd = '(make_multsgn("space"),stack_validate_units(['.$starredanswer.'], ' .
-                    $lowestterms.', '.$tans.', "inline"))';
+            $vcmd = '(make_multsgn("space"),stack_validate_units([' . $starredanswer . '], ' .
+                    $lowestterms . ', ' . $tans . ', "inline"))';
         }
         if ($validationmethod == 'unitsnegpow') {
             // Note, we don't pass in forbidfloats as this option is ignored by the units validation.
-            $vcmd = '(make_multsgn("space"),stack_validate_units(['.$starredanswer.'], ' .
-                    $lowestterms.', '.$tans.', "negpow"))';
+            $vcmd = '(make_multsgn("space"),stack_validate_units([' . $starredanswer . '], ' .
+                    $lowestterms . ', ' . $tans . ', "negpow"))';
         }
         return $this->validationcontext['vname'] . ':' . $vcmd;
     }
@@ -186,10 +186,12 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function set_cas_validation_context($vname, $lowestterms, $tans, $validationmethod, $simp, $checkvars) {
 
-        if (!($validationmethod == 'checktype' || $validationmethod == 'typeless' || $validationmethod == 'units'
-                || $validationmethod == 'unitsnegpow' || $validationmethod == 'equiv')) {
+        if (
+            !($validationmethod == 'checktype' || $validationmethod == 'typeless' || $validationmethod == 'units'
+                || $validationmethod == 'unitsnegpow' || $validationmethod == 'equiv')
+        ) {
                     throw new stack_exception('stack_ast_container: validationmethod must one of "checktype", "typeless", ' .
-                        '"units" or "unitsnegpow" or "equiv", but received "'.$validationmethod.'".');
+                        '"units" or "unitsnegpow" or "equiv", but received "' . $validationmethod . '".');
         }
         $this->validationcontext = [
             'vname'            => $vname,
@@ -326,8 +328,10 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         if ($root instanceof MP_Statement) {
             $root = $root->statement;
         }
-        if ($root instanceof MP_Operation && $root->op === ':' &&
-                $root->lhs instanceof MP_Identifier) {
+        if (
+            $root instanceof MP_Operation && $root->op === ':' &&
+                $root->lhs instanceof MP_Identifier
+        ) {
             $root->lhs->value = $key;
             return true;
         }
@@ -364,27 +368,33 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         // Ensure depth with a group.
         $ast = new MP_Group([$this->get_commentles_primary_statement()]);
 
-        $seek = function($node) use (&$r) {
+        $seek = function ($node) use (&$r) {
             if ($node instanceof MP_Identifier && $node->value === 'simp') {
                 $r['simp-accessed'] = true;
-                if ($node->parentnode instanceof MP_Operation && ($node->parentnode->op === ':' ||
-                        $node->parentnode->op === '=') && $node->parentnode->lhs === $node) {
+                if (
+                    $node->parentnode instanceof MP_Operation && ($node->parentnode->op === ':' ||
+                        $node->parentnode->op === '=') && $node->parentnode->lhs === $node
+                ) {
                     $r['simp-modified'] = true;
                     $val = $node->parentnode->rhs;
                     if ($val instanceof MP_Boolean) {
                         $r['last-seen'] = $val->value;
                     }
                 }
-                if ($node->parentnode instanceof MP_FunctionCall && $node->parentnode->name instanceof MP_Atom &&
-                        $node->parentnode->name->value === 'ev') {
+                if (
+                    $node->parentnode instanceof MP_FunctionCall && $node->parentnode->name instanceof MP_Atom &&
+                        $node->parentnode->name->value === 'ev'
+                ) {
                     if (array_search($node, $node->parentnode->arguments, true) > 0) {
                         $r['last-seen'] = true;
                     }
                 }
-                if ($node->parentnode instanceof MP_Operation && $node->parentnode->op === ':' &&
+                if (
+                    $node->parentnode instanceof MP_Operation && $node->parentnode->op === ':' &&
                         $node->parentnode->lhs === $node && !($node->parentnode->parentnode instanceof MP_FunctionCall &&
                         $node->parentnode->parentnode->name instanceof MP_Atom &&
-                        $node->parentnode->parentnode->name->value === 'ev')) {
+                        $node->parentnode->parentnode->name->value === 'ev')
+                ) {
                     // Not perfect but should identify if a modification
                     // is not part of 'ev' definitions. Still false positives
                     // if done within an `ev` that holds `simp` itself.

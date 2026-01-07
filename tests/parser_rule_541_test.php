@@ -42,7 +42,6 @@ require_once(__DIR__ . '/../stack/cas/parsingrules/541_no_unknown_functions.filt
  * @covers \ast_filter_541_no_unknown_functions_auto_generated_test
  */
 final class parser_rule_541_test extends qtype_stack_testcase {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     public function test_no_functions_0(): void {
 

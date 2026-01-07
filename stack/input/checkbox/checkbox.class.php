@@ -29,7 +29,6 @@ require_once(__DIR__ . '/../dropdown/dropdown.class.php');
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_checkbox_input extends stack_dropdown_input {
-
     /**
      * ddltype must be one of 'select', 'checkbox' or 'radio'.
      */
@@ -60,7 +59,7 @@ class stack_checkbox_input extends stack_dropdown_input {
         if ($vals == [0 => '']) {
             return '';
         }
-        return '['.implode(',', $vals).']';
+        return '[' . implode(',', $vals) . ']';
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -78,16 +77,16 @@ class stack_checkbox_input extends stack_dropdown_input {
         foreach ($values as $key => $ansid) {
             $inputattributes = [
                 'type' => 'checkbox',
-                'name' => $fieldname.'_'.$key,
+                'name' => $fieldname . '_' . $key,
                 'value' => $key,
-                'id' => $fieldname.'_'.$key,
+                'id' => $fieldname . '_' . $key,
             ];
 
             // Metadata for JS users.
             $inputattributes['data-stack-input-type'] = 'checkbox';
 
             $labelattributes = [
-                'for' => $fieldname.'_'.$key,
+                'for' => $fieldname . '_' . $key,
             ];
             if (array_key_exists($key, $selected)) {
                 $inputattributes['checked'] = 'checked';
@@ -133,11 +132,11 @@ class stack_checkbox_input extends stack_dropdown_input {
         $expected = [];
         $expected[$this->name] = PARAM_RAW;
         foreach ($this->ddlvalues as $key => $val) {
-            $expected[$this->name.'_'.$key] = PARAM_RAW;
+            $expected[$this->name . '_' . $key] = PARAM_RAW;
         }
 
         if ($this->requires_validation()) {
-            $expected[$this->name.'_val'] = PARAM_RAW;
+            $expected[$this->name . '_val'] = PARAM_RAW;
         }
         return $expected;
     }
@@ -157,7 +156,7 @@ class stack_checkbox_input extends stack_dropdown_input {
         $response = [];
         foreach ($tc as $key => $val) {
             $ddlkey = $this->get_input_ddl_key($val);
-            $response[$this->name.'_'.$ddlkey] = $ddlkey;
+            $response[$this->name . '_' . $ddlkey] = $ddlkey;
         }
         // The name field is used by the question testing mechanism for the full answer.
         $response[$this->name] = $in;
@@ -189,13 +188,13 @@ class stack_checkbox_input extends stack_dropdown_input {
      */
     public function response_to_contents($response) {
         // Did the student chose the "Not answered" response?
-        if (array_key_exists($this->name.'_', $response)) {
+        if (array_key_exists($this->name . '_', $response)) {
             return [];
         }
         $contents = [];
         foreach ($this->ddlvalues as $key => $val) {
-            if (array_key_exists($this->name.'_'.$key, $response)) {
-                $contents[] = (int) $response[$this->name.'_'.$key];
+            if (array_key_exists($this->name . '_' . $key, $response)) {
+                $contents[] = (int) $response[$this->name . '_' . $key];
             }
         }
         if ($contents === [] && $this->get_extra_option('allowempty')) {

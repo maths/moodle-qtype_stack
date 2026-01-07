@@ -56,10 +56,19 @@ function qtype_stack_pluginfile($course, $cm, $context, $filearea, $args, $force
  * @param array $options additional options affecting the file serving
  * @return bool false if file not found, does not return if found - justsend the file
  */
-function qtype_stack_question_pluginfile($course, $context, $component,
-                    $filearea, $qubaid, $slot, $args, $forcedownload, array $options=[]) {
+function qtype_stack_question_pluginfile(
+    $course,
+    $context,
+    $component,
+    $filearea,
+    $qubaid,
+    $slot,
+    $args,
+    $forcedownload,
+    array $options = []
+) {
 
-    list($context, $course, $cm) = get_context_info_array($context->id);
+    [$context, $course, $cm] = get_context_info_array($context->id);
     require_login($course, false, $cm);
 
     $quba = question_engine::load_questions_usage_by_activity($qubaid);
@@ -82,3 +91,13 @@ function qtype_stack_question_pluginfile($course, $context, $component,
     send_stored_file($file, 0, 0, $forcedownload, $options);
 }
 
+/**
+ * Add checks on CAS connection and STACK maxima version to admin status report.
+ * @return array check results
+ */
+function qtype_stack_status_checks(): array {
+    global $CFG;
+    require_once($CFG->dirroot . '/question/type/stack/classes/check/casconnection_check.php');
+    require_once($CFG->dirroot . '/question/type/stack/classes/check/stack_version_check.php');
+    return [new \qtype_stack\check\casconnection_check(), new \qtype_stack\check\stack_version_check()];
+}

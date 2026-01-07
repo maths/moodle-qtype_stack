@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>35.2.1.1 Introductory Probability</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Introductory Probability</h3>
+<p>Probability as an informal idea is something you will have been familiar with for a long time. In conversation with friends, you must have used sentences such as 
+</p><ul>
+<li> ‘It might start raining soon’ </li>
+<li> ‘I might be lucky and pass all my examinations’ </li>
+<li> ‘It is very unlikely that my team will not win the Premiership this year’ </li>
+<li> ‘Getting a good degree will improve my chances of getting a good job’ </li>
+</ul>
+Essentially, when you are talking about whether some event is likely to happen, you are using the concept of probability. In reality, we need to agree on some terminology so that misunderstanding may be avoided. To start with there are four terms <span class="math inline">\(-\)</span> experiment, outcome, event and sample space <span class="math inline">\(-\)</span> that need formal definition. There will, of course, be others as you progress through this quiz.<p></p>
+<ol>
+<li><p><span><strong>Experiment:</strong></span> - an activity with an observable result, or set of results, for example</p>
+<ol type="a">
+<li><p>tossing a coin, the result being a Head or a Tail</p></li>
+<li><p>testing a component, the result being a defective or non-defective component</p></li>
+<li><p>maximum speed testing of standard production cars;</p></li>
+<li><p>testing to destruction armour plating intended for use on tanks.</p></li>
+</ol>
+<p>Some of the experiments outlined above have a very limited set of results (tossing a coin) while others (destruction testing) may give a widely variable set of results. Also it is worth noting that destruction testing is not appropriate for all products. Companies manufacturing trucks or explosives, for example, could not possibly test to destruction on a large scale - they would have little or nothing left to market!</p></li>
+<li><p><span><strong>Outcome</strong></span> - an outcome is simply an observable result of an experiment, for example</p>
+<ol type="a">
+<li><p>tossing a coin, the possible outcomes are Heads or Tails</p></li>
+<li><p>testing a component, the outcome being a defective or non-defective component</p></li>
+<li><p>maximum speed testing of standard production cars, the outcomes being a set of numbers representing the maximum speeds of a set of vehicles</p></li>
+<li><p>testing to destruction armour plating intended for use on tanks, the outcomes might be (for example) the numbers of direct hits sustained before destruction.</p></li>
+</ol></li>
+<li><p><span><strong>Event</strong></span> - this is just an outcome or set of outcomes to an experiment of interest to the experimenter.</p></li>
+<li><p><span><strong>Sample Space</strong></span> - a sample space is the set of all possible outcomes of an experiment.</p></li>
+</ol>
+<p>For example, if we throw a 6-sided die then the sample space is <span class="math inline">\(\{1,2,3,4, 5,6\}\)</span> and two possible events are</p>
+<ol type="a">
+<li> a score of 3 or more, represented by the set: \(\{3,4,5,6\}\)</li>
+<li> a score which is even, represented by the set: \(\{2,4,6\}\)</li>
+</ol>
+<p>Everyday examples include games of chance.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

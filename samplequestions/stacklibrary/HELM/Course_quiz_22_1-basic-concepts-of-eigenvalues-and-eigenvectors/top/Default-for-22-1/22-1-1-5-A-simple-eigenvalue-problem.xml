@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>22.1.1.5 A simple eigenvalue problem</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p></p><h3>A simple eigenvalue problem</h3><p>We shall be interested in simultaneous equations of the form:</p><p>\(\qquad A\underline{x}=\lambda \underline{x},\)</p><p>where&nbsp;\(A\)&nbsp;is an&nbsp;\(n\times n\)&nbsp;matrix,&nbsp;\(\underline{x}\)&nbsp;is an&nbsp;\(n\times 1\)&nbsp;column vector and&nbsp;\(\lambda\)&nbsp;is a scalar (a constant) and, in the first instance, we examine some simple examples to gain experience of solving problems of this type.</p>
+<p>We approach the following example by examining the equations. This should make the actions within the solution more transparent. In practice, we will work with the matrices directly which will give a much less cluttered solution.</p>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Consider the following system with \(n=2\):</p>
+\[\left\{\begin{alignedat}{2}
+2x &amp; {}+{} &amp; 3y &amp; = \lambda x \\
+3x &amp; {}+{} &amp; 2y &amp; = \lambda y
+\end{alignedat}\right.\]
+<p>so that</p>
+<p style="text-align: center;">\(A=\begin{bmatrix}2&amp;3\\ 3&amp;2\end{bmatrix}\) &emsp; and &emsp; \(\underline{x}=\begin{bmatrix}x\\ y\end{bmatrix}\).</p>
+<p>It appears that there are three unknowns&nbsp;\(x,y,\lambda\). The obvious questions to ask are: can we find&nbsp;\(x,y\)? what is&nbsp;\(\lambda\)?</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>To solve this problem we firstly re-arrange the equations (take all unknowns onto one side);</p>
+\begin{align}
+(2-\lambda)x + 3y &amp;= 0 \tag{1} \\
+3x + (2-\lambda)y &amp;= 0 \tag{2}
+\end{align}
+<p>Therefore, from equation \((2)\):</p>
+\[x = -\frac{(2-\lambda)}{3}y \tag{3}\]
+<p>Then when we substitute this into \((1)\)</p>
+<p style="text-align:center;">\(\displaystyle -\frac{(2-\lambda)^2}{3}y+3y = 0\) &emsp; which simplifies to \([-(2-\lambda)^2+9]y=0\).</p>
+<p>We conclude that either \(y=0\) or \(9=(2-\lambda)^2\). There are thus two cases to consider:</p>
+<h5>Case 1</h5>
+<p>If \(y=0\) then \(x=0\) (from \((3)\)) and we get the <b>trivial solution</b>. (We could have guessed this solution at the outset.)</p>
+<h5>Case 2</h5>
+<p>\(\qquad 9=(2-\lambda)^2\)</p>
+<p>which gives, on taking square roots:</p>
+<p style="text-align: center;">\(\pm 3 = 2-\lambda\) &emsp; giving &emsp; \(\lambda=2\pm 3\), &emsp; so &emsp; \(\lambda = 5\) &emsp; or &emsp; \(\lambda =1\).</p>
+<p>Now, from equation \((3)\), if \(\lambda=5\) then \(x=+y\) and if \(\lambda=-1\) then \(x=-y\).</p>
+
+<hr>
+<p>We have now completed the analysis. We have found values for \(\lambda\) but we also see that we cannot obtain unique values for \(x\) and \(y\): all we can find is the ratio between these quantities. This behaviour is typical, as we shall now see, of an eigenvalue problem.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

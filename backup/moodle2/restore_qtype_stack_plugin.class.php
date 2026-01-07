@@ -36,7 +36,6 @@ require_once($CFG->dirroot . '/question/type/stack/stack/utils.class.php');
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class restore_qtype_stack_plugin extends restore_qtype_plugin {
-
     /** @var string the name of the PRT we are currently restoring. */
     protected $currentprtname = null;
 
@@ -404,11 +403,16 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
      */
     public static function define_decode_contents() {
         return [
-            new restore_decode_content('qtype_stack_options',
-                    ['specificfeedback', 'prtcorrect', 'prtpartiallycorrect', 'prtincorrect'],
-                    'qtype_stack_options'),
-            new restore_decode_content('qtype_stack_prt_nodes', ['truefeedback', 'falsefeedback'],
-                    'qtype_stack_prt_nodes'),
+            new restore_decode_content(
+                'qtype_stack_options',
+                ['specificfeedback', 'prtcorrect', 'prtpartiallycorrect', 'prtincorrect'],
+                'qtype_stack_options'
+            ),
+            new restore_decode_content(
+                'qtype_stack_prt_nodes',
+                ['truefeedback', 'falsefeedback'],
+                'qtype_stack_prt_nodes'
+            ),
         ];
     }
 
@@ -419,20 +423,26 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
     protected function after_execute_question() {
         global $DB;
 
-        $prtswithoutfirstnode = $DB->get_records('qtype_stack_prts',
-                ['firstnodename' => -1], '', 'id, questionid, name');
+        $prtswithoutfirstnode = $DB->get_records(
+            'qtype_stack_prts',
+            ['firstnodename' => -1],
+            '',
+            'id, questionid, name'
+        );
 
         foreach ($prtswithoutfirstnode as $prt) {
-            $nodes = $DB->get_records('qtype_stack_prt_nodes',
-                    ['questionid' => $prt->questionid, 'prtname' => $prt->name], '',
-                    'nodename, description, truenextnode, falsenextnode');
+            $nodes = $DB->get_records(
+                'qtype_stack_prt_nodes',
+                ['questionid' => $prt->questionid, 'prtname' => $prt->name],
+                '',
+                'nodename, description, truenextnode, falsenextnode'
+            );
 
             // Find the root node of the PRT.
             // Otherwise, if an existing question is being edited, and this is an
             // existing PRT, base things on the existing question definition.
             $graph = new stack_abstract_graph();
             foreach ($nodes as $node) {
-
                 if ($node->truenextnode == -1) {
                     $left = null;
                 } else {
@@ -448,7 +458,7 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
             }
             try {
                 $graph->layout();
-            } catch (coding_exception $ce) {
+            } catch (stack_exception $ce) {
                 $question = $DB->get_record('question', ['id' => $prt->questionid]);
                 $this->step->log('The PRT named "' . $prt->name .
                         '" is malformed in question id ' . $prt->questionid .
@@ -461,9 +471,9 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
             if (count($roots) != 1 || $graph->get_broken_cycles()) {
                 $question = $DB->get_record('question', ['id' => $prt->questionid]);
                 if (count($roots) != 1) {
-                    $err = 'abnormal root count: '.count($roots).'(<>1)';
+                    $err = 'abnormal root count: ' . count($roots) . '(<>1)';
                 } else {
-                    $err = 'broken cycles: '.implode('.', $graph->get_broken_cycles());
+                    $err = 'broken cycles: ' . implode('.', $graph->get_broken_cycles());
                 }
                 $this->step->log('The PRT named "' . $prt->name .
                         '" is malformed in question id ' . $prt->questionid .
@@ -473,8 +483,12 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
             reset($roots);
             $firstnode = key($roots) - 1;
 
-            $DB->set_field('qtype_stack_prts', 'firstnodename', $firstnode,
-                    ['id' => $prt->id]);
+            $DB->set_field(
+                'qtype_stack_prts',
+                'firstnodename',
+                $firstnode,
+                ['id' => $prt->id]
+            );
         }
     }
 }

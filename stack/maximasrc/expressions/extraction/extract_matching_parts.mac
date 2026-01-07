@@ -1,0 +1,23 @@
+/**
+ * Given a predicate, returns a list of all the subtrees of the expression
+ * matching that predicate. Including subtrees inside previously matched
+ * subtrees.
+ * 
+ * Note this is largely the same as Maximas format packages `matching_parts`.
+ *
+ * @param[lamda/function] predicate, a single argument predicate function
+ * @param[expression] expression, an expression that may contain parts matching that predicate
+ * @return[list] the matching subtrees in arbitrary order, could be empty
+ */
+extract_matching_parts(predicate, expression) := block([out,sub_ex],
+    /* @ignore[rename=predicate] */
+	%_C(predicate),
+	out : if is(predicate(expression) = true) then [expression] else [],
+	if not atom(expression) then (
+		for sub_ex in args(expression) do out : append(out, extract_matching_parts(predicate, sub_ex))
+	),
+	return(out)
+)$
+
+s_test_case(simp) := is(setify(extract_matching_parts(integerp,1/4))={1,4})$
+s_test_case(simp) := is(extract_matching_parts(integerp,%pi/1.2)=[])$

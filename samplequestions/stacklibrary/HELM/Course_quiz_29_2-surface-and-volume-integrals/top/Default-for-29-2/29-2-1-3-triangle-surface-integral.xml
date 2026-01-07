@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>29.2.1.3 triangle surface integral</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>Evaluate the integral \(\iint _S {@aa*x*y@}\ \mathrm{d}S\) where \(S\) is the triangle with vertices at \((0, 0, {@4*bb@})\), \((0, {@2*bb@}, 0)\) and \(({@bb@}, 0, 0)\)</p>
+
+<p>\(\iint _S {@aa*x*y@}\ \mathrm{d}S =\) [[input:ans1]][[validation:ans1]]\(\underline{i} +\) [[input:ans2]][[validation:ans2]]\(\underline{j} +\) [[input:ans3]][[validation:ans3]]\(\underline{k}\)</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p>We aim to evaluate the integral \(\iint _S {@aa*x*y@}\ \mathrm{d}S\) where \(S\) is the triangle with vertices at \((0, 0, {@4*bb@})\), \((0, {@2*bb@}, 0)\) and \(({@bb@}, 0, 0)\).</p>
+
+<p>We first aim to find the vector \(\underline{\mathrm{d}S}\). We know from previously in this section that \(\underline{\mathrm{d}S}\) is an element of the surface with magnitude \(du\ dv\) and direction
+perpendicular to the surface. If we choose to vectors that lie in the triangle, say \(\underline{u} = 4\underline{k} - \underline{i}\) and \(\underline{u} = 2\underline{k} - \underline{j} \). Then taking their cross product we find:
+\[(4\underline{k} - \underline{i}) \times (2\underline{k} - \underline{j}) = 4\underline{i} + 2\underline{j} + \underline{k}.\]
+Dividing this vector by its magnitude gives the following unit normal vector:
+\[\underline{\hat{n}} = \frac{4\underline{i} + 2\underline{j} + \underline{k}}{\sqrt{4^2 + 2^2 + 1^2}} = \frac{4}{\sqrt{21}}\underline{i} + \frac{2}{\sqrt{21}}\underline{j} + \frac{1}{\sqrt{21}}\underline{k}.\]
+We now aim to calculate the area of the triangle and its projection. One method for doing this is to find the side lengths of the triangle, by Pythagoras, to be: \(a={@bb*sqrt(5)@}\), \(b={@2*bb*sqrt(5)@}\) and \({@bb*sqrt(17)@}\). Then, using Heron's formula for the area of a triangle, we find that:
+\[
+\begin{aligned}
+s&= \frac{1}{2}(a+b+c)\\
+&= {@(3*bb*sqrt(5) + bb*sqrt(17))/2@}\\
+A  &= \sqrt{s(s-1)(s-b)(s-c)}\\
+&={@bb^2*sqrt(21)@}
+\end{aligned}
+\]
+The area of S projected onto the \(x-y\) plane is \(\dfrac{1}{2}({@2*bb@})({@bb@}) = {@bb@}\), as this is just a right angle triangle. Finally we find \(\underline{\mathrm{d}S}\) to be:
+\[\begin{aligned}
+\underline{\mathrm{d}S} &= \frac{{@bb^2*sqrt(21)@}}{{@bb@}}\underline{\hat{n}}\ \mathrm{d}y\ \mathrm{d}x\\
+&= {@bb@}(4\underline{i} + 2\underline{j} + \underline{k})\ \mathrm{d}y\ \mathrm{d}x
+\end{aligned}\]</p>
+
+<p>Next, we aim to find the bounds of the double integral. Starting first with the bounds of the inner integral, it is clear that the lower bound must \(y=0\), as there are no points on the surface for which \(y<0\). The upper bound should be the equation of the line that passes through the points \((0, {@2*bb@}, 0)\) and \(({@bb@}, 0, 0)\). We find this equation to be \(y = {@2*bb@}-2x\). The bounds of the outer interval are then \(x=0\) and \(x={@bb@}\).</p>
+
+<p>(c) Finally we evaluate the double integral as follows:
+\[
+\begin{aligned}
+\iint _S {@aa*x*y@}\ \mathrm{d}S &= \int^{x={@bb@}}_{x=0} \int^{y={@2*bb@}-2x}_{y=0}({@bb@})(4\underline{i} + 2\underline{j} + \underline{k})\ \mathrm{d}y\ \mathrm{d}x\\
+&= {@bb@}(4\underline{i} + 2\underline{j} + \underline{k}) \int^{x={@bb@}}_{x=0} \left[{@First_int_indef@}\right]^{y={@2*bb@}-2x}_{y=0}\ \mathrm{d}x\\
+&= {@bb@}(4\underline{i} + 2\underline{j} + \underline{k}) \int^{x={@bb@}}_{x=0} {@First_int_def@}\ \mathrm{d}x\\
+&={@bb@}(4\underline{i} + 2\underline{j} + \underline{k})\left[{@Second_int_indef@}\right]^{x={@bb@}}_{x=0}\\
+&= {@bb*Second_int_def@}(4\underline{i} + 2\underline{j} + \underline{k})
+\end{aligned}
+\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025073100</text>
+    </stackversion>
+    <questionvariables>
+      <text>aa:rand(3)+1;
+bb:rand(3)+1;
+
+First_int_indef:integrate(aa*x*y, y);
+First_int_def:integrate(aa*x*y, y, 0, 2*bb-2*x);
+Second_int_indef:integrate(First_int_def, x);
+Second_int_def:integrate(First_int_def, x, 0, bb);
+
+tai:bb*Second_int_def*4;
+taj:bb*Second_int_def*2;
+tak:bb*Second_int_def;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="html">
+      <text>\(\iint _S {@aa*x*y@}\ \mathrm{d}S\), vertices at \((0, 0, {@4*bb@})\), \((0, {@2*bb@}, 0)\) and \(({@bb@}, 0, 0)\)</text>
+    </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>onum</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>tai</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>taj</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>algebraic</type>
+      <tans>tak</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>tai</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>3</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>taj</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>3</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>tak</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>3</falsenextnode>
+        <falseanswernote>prt1-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>3</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>-tai</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>4</truenextnode>
+        <trueanswernote>prt1-4-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-4-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>4</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>-taj</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>5</truenextnode>
+        <trueanswernote>prt1-5-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-5-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>5</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>-tak</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-6-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-6-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>391640392</deployedseed>
+    <deployedseed>1057454152</deployedseed>
+    <deployedseed>1379831696</deployedseed>
+    <deployedseed>1671311253</deployedseed>
+    <deployedseed>240873568</deployedseed>
+    <deployedseed>1273305535</deployedseed>
+    <deployedseed>382977732</deployedseed>
+    <deployedseed>1762515211</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>tai</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>taj</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>tak</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description>fail</description>
+      <testinput>
+        <name>ans1</name>
+        <value>tai+1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>taj+1</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>tak+1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt1-4-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

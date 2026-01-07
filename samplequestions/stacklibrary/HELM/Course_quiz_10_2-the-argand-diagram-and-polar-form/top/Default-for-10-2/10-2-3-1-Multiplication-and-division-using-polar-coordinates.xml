@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>10.2.3.1 Multiplication and division using polar coordinates</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Multiplication and Division of Complex Numbers in Polar form </h3>
+<p>Now we finally get to the true power of the polar form of a complex number. There is necessary effort in converting from cartesian form to polar form but then work makes multiplication and division much more convenient. To see why, let us consider two complex numbers in polar form: <span class="math inline">\[z=r(\cos\theta +i\sin \theta)\qquad w=t(\cos\phi +i\sin\phi ).\]</span> 
+
+Then the product <span class="math inline">\(zw\)</span> is calculated in the usual way <span class="math display">\[\begin{aligned}
+zw&amp;=[r\ (\cos\theta +i\sin \theta)][t\ (\cos\phi +i\sin\phi )]\\
+&amp;\equiv rt\ [\cos\theta\cos\phi -\sin\theta\sin\phi +i(\sin\theta\cos\phi
++\cos\theta\sin\phi)]\qquad\qquad\qquad\qquad\qquad\quad\\
+&amp;\equiv rt\ [\cos (\theta +\phi)+i\sin (\theta + \phi )]\end{aligned}\]</span> in which we have used the standard trigonometric identities <span class="math inline">\(
+\cos (\theta +\phi )\equiv \cos\theta\cos\phi -\sin\theta\sin\phi\qquad \sin
+(\theta + \phi )\equiv\sin\theta\cos\phi +\cos\theta\sin\phi.\)</span> We see that in calculating the product that the moduli <span class="math inline">\(r\)</span> and <span class="math inline">\(t\)</span> <span><em>multiply</em></span> together whilst the arguments \(\text{arg}(z)=\theta\) and \(\text{arg}(w)=\phi\) add together.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

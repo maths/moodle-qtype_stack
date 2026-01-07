@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>(not in quiz) 8.3.1.5 Remark about non-integers before Gaussian Elimination</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p> Although we have worked so far with integers this will not always be the case and fractions will enter the solution process. We must then take care and it is always wise to check that the equations balance using the calculated solution. </p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

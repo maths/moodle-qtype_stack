@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>38.2.1.2 Find the mean, standard deviation and cumulative distribution function</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p><p>A<span style="font-size: 0.9375rem;">&nbsp;protective coating applied to a conductor designed to work in corrosive conditions. The thickness of this coating, \(X\), follows a uniform distribution over the interval \([{@low_bound@}\mu\text{m},{@upp_bound@}\mu\text{m}]\).&nbsp; Find the expectation, standard deviation and the probability that the thickness of the coating is less than or equal to \( {@case@}\mu\text{m}\) thick.</span></p><p>\( \text{E}(X) = \) [[input:ans1]] \(\mu\text{m}\)[[validation:ans1]]&nbsp;[[feedback:prt1]]</p><p>\( \sigma(X) = \) [[input:ans2]] \(\mu\text{m}\) [[validation:ans2]]&nbsp;[[feedback:prt2]]</p><p>\( \text{P}(X\leq {@case@})=\) [[input:ans3]] [[validation:ans3]]&nbsp;[[feedback:prt3]]<br></p><p><strong>Syntax hint</strong>: To enter \(\sqrt{2}\) use \(\texttt{sqrt(2)}\)</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>Let the random variable \(X\) denote the thickness of the coating, then \(X \sim \text{Uniform}({@low_bound@}, {@upp_bound@})\) with probability density function:</p><p>\[f(x) = \left\{\begin{array}{ll}&nbsp;0, &amp; \text{if $x &lt; {@low_bound@}$},\\ \dfrac{1}{{@upp_bound-low_bound@}}, &amp; \text{if ${@low_bound@} \leq x\leq {@upp_bound@}$},\\&nbsp;0, &amp; \text{if $x &gt; {@upp_bound@}$}.\end{array}\right.\]</p><p><span style="font-size: 0.9375rem;">Using the formulae developed for the mean and variance gives:</span></p><p><span style="font-size: 0.9375rem;">\[\begin{align*} \text{E}(X) &amp;= \dfrac{{@low_bound@} + {@upp_bound@}}{2} = {@ta1@},\\ \text{V}(X) &amp;= \dfrac{({@upp_bound@} - {@low_bound@})^2}{12} = {@VX@}.\end{align*}\]</span></p><p><span style="font-size: 0.9375rem;">This means that the expected value for the thickness of the coating is \(\text{E}(X) = {@ta1@}\mu\text{m}\) and the standard deviation in the coating thickness is \(\sigma(X) = \sqrt{{@VX@}} = {@ta2@}\mu\text{m}\).</span></p><p>The cumulative distribution function for this uniform random variable is:</p><p></p><p>\[F(x) = \left\{\begin{array}{ll}&nbsp;0, &amp; \text{if $x &lt; {@low_bound@}$},\\ \dfrac{x-{@low_bound@}}{{@upp_bound-low_bound@}}, &amp; \text{if ${@low_bound@} \leq x\leq {@upp_bound@}$},\\ 1, &amp; \text{if $x &gt; {@upp_bound@}$}.\end{array}\right.\]</p>Therefore, the probability that the thickness of the coating is less than or equal to \({@case@}\mu\text{m}\) is:<br>\[\text{P}(X\leq {@case@}) = F({@case@}) =&nbsp;\dfrac{{@case@}-{@low_bound@}}{{@upp_bound-low_bound@}} = {@ta3@}.\]<br>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021072200</text>
+    </stackversion>
+    <questionvariables>
+      <text>low_bound: 10 + 10*rand(3);
+upp_bound: low_bound + 10  + 10*rand(3);
+case: rand_with_step(low_bound+5,upp_bound-5,5);
+ta1: (low_bound+upp_bound)/2;
+VX: (upp_bound-low_bound)^2/12;
+ta2: sqrt(VX);
+ta3: (case-low_bound)/(upp_bound - low_bound);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>range: \([{@low_bound@}, {@upp_bound@}]\), \(\text{E}(X) = {@ta1@}\), \(\sigma(X) = {@ta2@}\), \(F({@case@}) = {@ta3@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>numerical</type>
+      <tans>ta1</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>numerical</type>
+      <tans>ta2</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>numerical</type>
+      <tans>ta3</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>ta3</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>681223702</deployedseed>
+    <deployedseed>1733912433</deployedseed>
+    <deployedseed>1875462242</deployedseed>
+    <deployedseed>456252539</deployedseed>
+    <deployedseed>1323880811</deployedseed>
+    <deployedseed>852441822</deployedseed>
+    <deployedseed>165752966</deployedseed>
+    <deployedseed>1116761642</deployedseed>
+    <deployedseed>1196819032</deployedseed>
+    <deployedseed>461873695</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta3</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>low_bound+upp_bound</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>sqrt( ((upp_bound-low_bound)^2) )</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>case-low_bound</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt3-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

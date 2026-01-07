@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>6.3.2.1 Simplifying expressions involving logarithms</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Simplifying expressions involving logarithms</h3><p>To simplify an expression involving logarithms their laws, given in the previous Key Point, need to be used.</p>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Simplify: \(\log_{10}2-\log_{10}4+\log_{10}(4^2)+\log_{10}(\frac{10}{4})\)</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>The third term \(\log_{10}(4^2)\) simplifies to \(2\log_{10}4\) and the last term \(\log_{10}\left(\dfrac{10}{4}\right)=\log_{10}10-\log_{10}4=1-\log_{10}4\). So the given expression equals</p>
+<p>\[\log_{10}2-\log_{10}4+2\log_{10}4+1-\log_{10}4 = \log_{10}2+1.\]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

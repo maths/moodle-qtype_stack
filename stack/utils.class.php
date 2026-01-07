@@ -22,6 +22,7 @@ defined('MOODLE_INTERNAL') || die();
  * @package    qtype_stack
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * phpcs:disable PSR1.Classes.ClassDeclaration.MultipleClasses
  */
 
 /**
@@ -32,7 +33,6 @@ defined('MOODLE_INTERNAL') || die();
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 interface stack_debug_log {
-
     /**
      * Add description here.
      * @return string the contents of the log.
@@ -91,7 +91,6 @@ class stack_debug_log_base implements stack_debug_log {
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_debug_log_null implements stack_debug_log {
-
     /**
      * Add description here.
      * @return string the contents of the log.
@@ -191,7 +190,6 @@ class stack_utils {
             $char = $string[$i];
             if (strpos($lefts, $char) !== false) {
                 array_push($openstack, $char);
-
             } else if (($closerpos = strpos($rights, $char)) !== false) {
                 $opener = array_pop($openstack); // NULL if array is empty, which works.
                 if ($opener !== $lefts[$closerpos]) {
@@ -230,7 +228,6 @@ class stack_utils {
                 return ['', $start, -1];
             }
             $end += 1;
-
         } else {
             $length = strlen($string);
             $nesting = 1;
@@ -344,7 +341,7 @@ class stack_utils {
             } else {
                 // Found startchar, looking for end.
                 if ($char[$i] == $right) {
-                    // @codingStandardsIgnoreStart
+                    // phpcs:disable
                     if ($skipempty && $empty) {
                         // Do nothing.
                     } else if (!isset($replacements[$matches])) {
@@ -353,7 +350,7 @@ class stack_utils {
                         $result .= $replacements[$matches];
                         $matches++;
                     }
-                    // @codingStandardsIgnoreEnd
+                    // phpcs:enable
                     $searching = true;
                     $result .= $char[$i];
                 }
@@ -398,10 +395,10 @@ class stack_utils {
         if (!empty($patharray)) {
             $newpath = $patharray[0];
             for ($i = 1; $i < count($patharray); $i++) {
-                $newpath .= "/".$patharray[$i];
+                $newpath .= "/" . $patharray[$i];
             }
             if ($trailingslash == true) {
-                return $newpath.'/';
+                return $newpath . '/';
             } else {
                 return $newpath;
             }
@@ -563,14 +560,14 @@ class stack_utils {
                 $nesting[$startchar]++;
             } else if ($endchar !== false) {
                 $nesting[$endchar]--;
-            } else if ($list[$i] == ',' && $nesting[0] == 0 && $nesting[1] == 0 &&$nesting[2] == 0) {
+            } else if ($list[$i] == ',' && $nesting[0] == 0 && $nesting[1] == 0 && $nesting[2] == 0) {
                 // Otherwise, return element if all nestings are zero.
                 return substr($list, 0, $i);
             }
         }
 
         // End of list reached.
-        if ($nesting[0] == 0 && $nesting[1] == 0 &&$nesting[2] == 0) {
+        if ($nesting[0] == 0 && $nesting[1] == 0 && $nesting[2] == 0) {
             return $list;
         } else {
             return null;
@@ -620,8 +617,11 @@ class stack_utils {
         if (!$text) {
             return [];
         }
-        preg_match_all('~\[\[' . $type . ':(' . self::VALID_NAME_REGEX . ')\]\]~',
-                $text, $matches);
+        preg_match_all(
+            '~\[\[' . $type . ':(' . self::VALID_NAME_REGEX . ')\]\]~',
+            $text,
+            $matches
+        );
         return $matches[1];
     }
 
@@ -635,10 +635,16 @@ class stack_utils {
      * @return array of placeholdernames.
      */
     public static function extract_placeholders_sloppy($text, $type) {
-        preg_match_all('~\[\[' . $type . ':(' . self::VALID_NAME_REGEX . ')\]\]~',
-                $text, $matches1);
-        preg_match_all('~\[\[\s*' . $type . '\s*:(\s*' . self::VALID_NAME_REGEX . ')\s*\]\]~',
-                $text, $matches2);
+        preg_match_all(
+            '~\[\[' . $type . ':(' . self::VALID_NAME_REGEX . ')\]\]~',
+            $text,
+            $matches1
+        );
+        preg_match_all(
+            '~\[\[\s*' . $type . '\s*:(\s*' . self::VALID_NAME_REGEX . ')\s*\]\]~',
+            $text,
+            $matches2
+        );
 
         $ret = [];
         foreach ($matches2[1] as $key => $name) {
@@ -894,12 +900,12 @@ class stack_utils {
             $onum = 0;
             $oden = 1;
             foreach ($frac as $c) {
-                list($oden, $onum) = [$oden * $c + $onum, $oden];
+                [$oden, $onum] = [$oden * $c + $onum, $oden];
             }
             $diff = $n - $onum / $oden;
 
             // Subtract i from our working, and then take its reciprocal.
-            list($numx, $numc, $denx, $denc) = [$denx, $denc, $numx - $denx * $i, $numc - $denc * $i];
+            [$numx, $numc, $denx, $denc] = [$denx, $denc, $numx - $denx * $i, $numc - $denc * $i];
         }
         return [$nint * $oden + $onum, $oden];
     }
@@ -993,7 +999,6 @@ class stack_utils {
 
         preg_match_all($matchentireimagetags, $text, $imgtags);
         foreach ($imgtags[0] as $imgtag) {
-
             preg_match_all($matchkeyattributes, $imgtag, $attributes);
 
             $missingaltlocal = true;
@@ -1236,7 +1241,7 @@ class stack_utils {
      * additional safety measure to ensure we do not dehash other strings.
      */
     public static function validate_parsons_contents($contents) {
-        $strings = function($node) use (&$answernotes, &$errors) {
+        $strings = function ($node) use (&$answernotes, &$errors) {
             if ($node instanceof MP_String && self::validate_parsons_string($node->value)) {
                 $node->value = stack_utils::unhash_parsons_string($node->value);
             }

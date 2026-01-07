@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>HELM 30.5 E1a Jacobi Iteration</text>
+    </name>
+    <questiontext format="markdown">
+      <text><![CDATA[**30.5 E1a Jacobi Iteration**
+
+Consider the system
+
+\\\({@A@}\,{@sol@}={@rhs@}\\\) 
+
+Using the starting guess
+
+\\\(X^{(0)}={@X0@}\\\) 
+
+in an implementation of the Jacobi method. The first iteration is given here for proof of correct implementation.
+
+\\\(X^{(1)}={@X1@}\approx {@matrix([dispsf(X1[1,1],4)],[dispsf(X1[2,1],4)])@} \\\) 
+
+Perform the next two iterations (specify at least 3 s.f.):
+
+<table border="0">
+ <tbody>
+  <tr>
+   <td>\( X^{(2)} = \) </td>
+   <td>[[input:S_X2]] </td>
+   <td>\(\,\)</td>
+   <td>[[validation:S_X2]]</td>
+  </tr>
+ </tbody>
+</table>
+<p>[[feedback:X2]]</p>
+
+<table border="0">
+ <tbody>
+  <tr>
+   <td>\( X^{(3)} = \) </td>
+   <td>[[input:S_X3]] </td>
+   <td>\(\,\)</td>
+   <td>[[validation:S_X3]]</td>
+  </tr>
+ </tbody>
+</table>
+<p>[[feedback:X3]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="markdown">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2024012900</text>
+    </stackversion>
+    <questionvariables>
+      <text>m:5;
+
+A: matrix([rand_with_step(3,6,1),0], [0, rand_with_step(3,6,1)] );
+A[1,2]: rand_with_prohib(-2,2,[0]);
+A[2,1]: A[1,2];
+
+L: copymatrix(A); L[1,1]: 0; L[2,2]: 0; L[1,2]: 0;
+D: copymatrix(A); D[1,2]: 0; D[2,1]: 0;
+U: copymatrix(A); U[1,1]: 0; U[2,2]: 0; U[2,1]: 0;
+
+sol: matrix([rand_with_prohib(-5,5,[0])], [rand_with_prohib(-5,5,[0,1,-1])]);
+
+rhs: A.sol;
+
+X0: matrix([rand([-1,0,1])], [rand([-1,0,1])]);
+X1: invert(D).(rhs-(L+U).X0);
+X2: invert(D).(rhs-(L+U).X1);
+X3: invert(D).(rhs-(L+U).X2);
+
+
+
+
+
+toList(m):= args(transpose(m))[1];</text>
+    </questionvariables>
+    <specificfeedback format="markdown">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>{@A@}, {@rhs@}, {@X0@} {@float(X1)@} {@float(X2)@} {@float(X3)@} {@sol@}</text>
+    </questionnote>
+    <questiondescription format="markdown">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="markdown">
+      <text>Richtige Antwort, gut gemacht!</text>
+    </prtcorrect>
+    <prtpartiallycorrect format="markdown">
+      <text>Ihre Antwort ist teilweise korrekt.</text>
+    </prtpartiallycorrect>
+    <prtincorrect format="markdown">
+      <text>Falsche Antwort.</text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>S_X2</name>
+      <type>matrix</type>
+      <tans>float(X2)</tans>
+      <boxsize>4</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>S_X3</name>
+      <type>matrix</type>
+      <tans>float(X3)</tans>
+      <boxsize>4</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>X2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumRelative</answertest>
+        <sans>toList(S_X2)</sans>
+        <tans>toList(X2)</tans>
+        <testoptions>0.005</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>X2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>X2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>X3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumRelative</answertest>
+        <sans>toList(S_X3)</sans>
+        <tans>toList(X3)</tans>
+        <testoptions>0.005</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>X3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>X3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>97038521</deployedseed>
+    <deployedseed>1517836361</deployedseed>
+    <deployedseed>1662151632</deployedseed>
+    <deployedseed>1855979355</deployedseed>
+    <deployedseed>1379163910</deployedseed>
+    <deployedseed>325160686</deployedseed>
+    <deployedseed>1441994389</deployedseed>
+    <deployedseed>202610921</deployedseed>
+    <deployedseed>1151882138</deployedseed>
+    <deployedseed>784559441</deployedseed>
+    <deployedseed>241687863</deployedseed>
+    <deployedseed>1425548922</deployedseed>
+    <deployedseed>792135783</deployedseed>
+    <deployedseed>1030761934</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>S_X2</name>
+        <value>float(X2)</value>
+      </testinput>
+      <testinput>
+        <name>S_X3</name>
+        <value>float(X3)</value>
+      </testinput>
+      <expected>
+        <name>X2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>X2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>X3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>X3-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>S_X2</name>
+        <value>float(X2)</value>
+      </testinput>
+      <testinput>
+        <name>S_X3</name>
+        <value>float(X3)</value>
+      </testinput>
+      <expected>
+        <name>X2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>X2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>X3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>X3-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

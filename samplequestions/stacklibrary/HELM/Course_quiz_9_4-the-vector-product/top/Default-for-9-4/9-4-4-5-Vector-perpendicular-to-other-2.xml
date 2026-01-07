@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>9.4.4.5 Vector perpendicular to other 2</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p><p>Find a nonzero vector that is perpendicular to both of the vectors <span class="math inline">\(\underline{a}=-{@a1@}\underline{ i} +{@a2@}\underline{ j} -{@a3@}\underline{ k}\)</span> and <span class="math inline">\(\underline{b}={@b1@}\underline{ i} + {@b2@}\underline{ j} + {@b3@}\underline{ k}\)</span>.</p><p>[[input:ans1]]&nbsp;[[validation:ans1]] \(\underline{i}\) \(+\) [[input:ans2]] [[validation:ans2]] \(\underline{j}\) \(+\) [[input:ans3]]&nbsp;[[validation:ans3]] \(\underline{k}\)&nbsp;&nbsp;</p>
+<p>[[feedback:prt]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>As you could check in the definition of the vector product, \(\underline{a} \times \underline{b}\) is perpendicular
+    to both vectors \(\underline{a}\) and \(\underline{b}\), so we proceed to compute \(\underline{a} \times
+    \underline{b}\):</p>
+<p>\(\begin{aligned} \underline{ a}\times \underline{ b} &amp;= \left| \begin{matrix} \underline{i} &amp;
+    \underline{j} &amp; \underline{k} \\ -{@a1@} &amp; {@a2@} &amp; -{@a3@} \\ {@b1@} &amp; {@b2@} &amp; {@b3@} \\
+    \end{matrix} \right| \\ &amp; = \underline{i}(({@a2@})({@b3@})-(-{@a3@})({@b2@})) -
+    \underline{j}((-{@a1@})({@b3@})-(-{@a3@})({@b1@})) + \underline{k}((-{@a1@})({@b2@})-({@a2@})({@b1@})) \\ &amp; = {@ta[1]@}\underline{i}+{@ta[2]@}\underline{j} {@ta[3]@}\underline{k} \end{aligned}\).</p>
+<p>Any nonzero muliple of this vector is also a valid answer.</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021072200</text>
+    </stackversion>
+    <questionvariables>
+      <text>a1: 4;
+a2: 2 + rand(3);
+a3: 2;
+b1: 2;
+b2: 2 + rand(4);
+b3: 4;
+a: [-a1, a2, -a3];
+b: [b1, b2, b3];
+vecprod(a, b) := [a[2]*b[3] - a[3]*b[2], a[3]*b[1] - a[1]*b[3], a[1]*b[2] - a[2]*b[1]];
+ta: vecprod(a, b);
+
+test1: vecprod(a, b + [1,1,1]);
+test2: vecprod(a + [1,1,1], b);
+test3: ta + [3,0,0];
+test4: [0,0,0];</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\( (-{@a1@}\underline{ i} +{@a2@}\underline{ j} -{@a3@}\underline{ k}) \times ({@b1@}\underline{ i} +{@b2@}\underline{ j} +{@b3@}\underline{ k})
+= {@ta[1]@}\underline{i}+{@ta[2]@}\underline{j} {@ta[3]@}\underline{k} \)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>numerical</type>
+      <tans>ta[1]</tans>
+      <boxsize>3</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>numerical</type>
+      <tans>ta[2]</tans>
+      <boxsize>3</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>numerical</type>
+      <tans>ta[3]</tans>
+      <boxsize>3</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>v: [ans1, ans2, ans3];</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>v</sans>
+        <tans>[0,0,0]</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>You were asked for a nonzero vector.</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>v.a</sans>
+        <tans>0</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.5000000</truescore>
+        <truepenalty/>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>prt-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>prt-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>The vector you gave is not perpendicular to \(\underline{a}\). Their scalar product is \({@a.v@} \neq 0\).</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>v.b</sans>
+        <tans>0</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.5000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>The vector you gave is not perpendicular to \(\underline{b}\). Their scalar product is \({@b.v@} \neq 0\).</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>220076787</deployedseed>
+    <deployedseed>1994492857</deployedseed>
+    <deployedseed>1906166841</deployedseed>
+    <deployedseed>2107164085</deployedseed>
+    <deployedseed>770690300</deployedseed>
+    <deployedseed>61114503</deployedseed>
+    <deployedseed>1552107347</deployedseed>
+    <deployedseed>911270062</deployedseed>
+    <deployedseed>1113639132</deployedseed>
+    <deployedseed>1049202039</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta[1]</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta[2]</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta[3]</value>
+      </testinput>
+      <expected>
+        <name>prt</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>test1[1]</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>test1[2]</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>test1[3]</value>
+      </testinput>
+      <expected>
+        <name>prt</name>
+        <expectedscore>0.5000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>test2[1]</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>test2[2]</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>test2[3]</value>
+      </testinput>
+      <expected>
+        <name>prt</name>
+        <expectedscore>0.5000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>test3[1]</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>test3[2]</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>test3[3]</value>
+      </testinput>
+      <expected>
+        <name>prt</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>5</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>test4[1]</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>test4[2]</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>test4[3]</value>
+      </testinput>
+      <expected>
+        <name>prt</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

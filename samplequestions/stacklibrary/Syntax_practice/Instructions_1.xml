@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>Instructions_1</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>In STACK you often need to enter an answer which is an algebraic expression. You should type in your answers using the same syntax as that used in the symbolic mathematics package Maxima.</p>
+<p>The syntax is broadly similar to the syntax used for mathematical formulae in graphical calculators, general programming languages such as Maple, Java, C and Basic and in spreadsheet programs, so you will find it useful to master it.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

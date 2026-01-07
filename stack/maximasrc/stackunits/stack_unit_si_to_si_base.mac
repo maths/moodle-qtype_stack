@@ -1,0 +1,69 @@
+/**
+ * Converts units to SI-base units. Useful for comparison of values with 
+ * different units.
+ *
+ * @param[expression] expression, an expression with units mixed in or a `stackunits`-object.
+ * @return[expression] an expression with units mixed in or a 
+ *    `stackunits`-object, with all units converted to SI base units.
+ */
+stack_unit_si_to_si_base(expression) := block([simp, ui, pfi, ex, workex, exop],
+  /* @ignore[global=stack_unit_other_unit_code]
+     @ignore[global=stack_unit_other_unit_conversions]
+     @ignore[global=stack_unit_si_unit_code]
+     @ignore[global=stack_unit_si_prefix_code]
+     @ignore[global=stack_unit_si_prefix_multiplier]
+     @ignore[global=stack_unit_si_unit_conversions]
+     @ignore[global=NULLNUM]
+     @ignore[global=NULLUNITS]
+     @ignore[global=debug]
+     @ignore[global=displaysf]
+     @ignore[global=displaydp]
+  */
+  simp:false,
+  ex:stackunits_make(expression),
+  /* Remove intert dp/df display functions at this point. */
+  ex:ev(ex, displaydp=lambda([a,b],a),  displaysf=lambda([a,b],a)),  
+  workex:stack_units_units(ex),
+  if debug then (print("stack_unit_si_to_si_base: working with the following."), print(ex), print(workex)),
+  /* If we don't have units there is nothing to do. */
+  if is(workex=NULLUNITS) then return(expression),
+  exop:safe_op(expression),
+  simp:true,
+  for ui:1 thru length(stack_unit_other_unit_code) do
+    (
+    workex:subst(stack_unit_other_unit_conversions[ui], stack_unit_other_unit_code[ui], workex)
+    ),
+    for ui:1 thru length(stack_unit_si_unit_code) do (
+      for pfi:1 thru length(stack_unit_si_prefix_code) do
+      (
+        workex:subst(stack_unit_si_prefix_multiplier[pfi]*stack_unit_si_unit_code[ui], vconcat(stack_unit_si_prefix_code[pfi], stack_unit_si_unit_code[ui]), workex)
+      ),
+      workex:subst(stack_unit_si_unit_conversions[ui], stack_unit_si_unit_code[ui], workex)
+    ),
+    if debug then (print("stack_unit_si_to_si_base: after base conversion"), print(workex)),
+    workex:stackunits_make(workex),
+    if not(stack_units_nums(ex)=NULLNUM and stack_units_nums(workex)=NULLNUM) then
+        workex:stackunits(ev(stack_units_nums(ex)*stack_units_nums(workex), NULLNUM=1), stack_units_units(workex)),
+    simp:false,
+    if not(safe_op(expression) = "stackunits") then
+      workex:stackunits_to_product(workex),
+    return(workex)
+)$
+
+/**
+ * Converts units to SI-base units. Useful for comparison of values with 
+ * different units.
+ *
+ * *NOTE!* this is a legacy alias for `stack_unit_si_to_si_base`, which may be deprecated in future versions.
+ *
+ * @param[expression] expression, an expression with units mixed in or a singular `stackunits`-object.
+ * @return[expression] an expression with units mixed in or a 
+ *    `stackunits`-object, with all units converted to SI base units.
+ */
+backtosibase(expression) := stack_unit_si_to_si_base(expression)$
+
+
+s_test_case(simp) := is(stack_unit_si_to_si_base(2000*g)=2*kg)$
+s_test_case(simp) := is(stack_unit_si_to_si_base(stackunits(1000,g))=stackunits(1,kg))$
+s_test_case(simp) := is(backtosibase(2000*g)=2*kg)$
+

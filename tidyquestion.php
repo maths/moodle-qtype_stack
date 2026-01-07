@@ -23,7 +23,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(__DIR__.'/../../../config.php');
+require_once(__DIR__ . '/../../../config.php');
 require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/locallib.php');
 require_once(__DIR__ . '/tidyquestionform.php');
@@ -31,13 +31,14 @@ require_once(__DIR__ . '/vle_specific.php');
 
 // Get the parameters from the URL.
 $questionid = required_param('questionid', PARAM_INT);
+[$qversion, $questionid] = get_latest_question_version($questionid);
 
 // Load the necessary data.
 $questiondata = $DB->get_record('question', ['id' => $questionid], '*', MUST_EXIST);
 $question = question_bank::load_question($questionid);
 
 // Process any other URL parameters, and do require_login.
-list($context, $notused, $urlparams) = qtype_stack_setup_question_test_page($question);
+[$context, $notused, $urlparams] = qtype_stack_setup_question_test_page($question);
 
 // Check permissions.
 question_require_capability_on($questiondata, 'edit');
@@ -77,13 +78,17 @@ $question->setup_fake_feedback_and_input_validation();
 
 // Prepare the display options.
 $options = question_display_options();
+$editparams = $urlparams;
+unset($editparams['questionid']);
+unset($editparams['seed']);
+$editparams['id'] = $question->id;
+$questioneditlatesturl = new moodle_url('/question/type/stack/questioneditlatest.php', $editparams);
 
 // Create the form for renaming bits of the question.
-$form = new qtype_stack_tidy_question_form($PAGE->url, $question);
+$form = new qtype_stack_tidy_question_form($PAGE->url, ['question' => $question, 'editurl' => $questioneditlatesturl]);
 
 if ($form->is_cancelled()) {
     redirect($returnurl);
-
 } else if ($data = $form->get_data()) {
     $qtype = question_bank::get_qtype('stack');
     $transaction = $DB->start_delegated_transaction();
@@ -124,8 +129,20 @@ if ($form->is_cancelled()) {
 
 // Start output.
 echo $OUTPUT->header();
+$links = [];
+$qtype = new qtype_stack();
+$qtestlink = $qtype->get_question_test_url($question);
+$links[] = html_writer::link($qtestlink, '<i class="fa fa-wrench"></i> '
+                    . stack_string('runquestiontests'), ['class' => 'nav-link']);
+$qpreviewlink = qbank_previewquestion\helper::question_preview_url($questionid, null, null, null, null, $context);
+$links[] = html_writer::link($qpreviewlink, '<i class="fa fa-plus-circle"></i> '
+                    . stack_string('questionpreview'), ['class' => 'nav-link']);
+$links[] = html_writer::link($questioneditlatesturl, stack_string('editquestioninthequestionbank'), ['class' => 'nav-link']);
+echo html_writer::tag('nav', implode(' ', $links), ['class' => 'nav']);
 echo $OUTPUT->heading($title);
-
+if ($qversion !== null) {
+    echo html_writer::tag('p', stack_string('version') . ' ' . $qversion);
+}
 // Display the question.
 echo $OUTPUT->heading(stack_string('questionpreview'), 3);
 echo $quba->render_question($slot, $options);

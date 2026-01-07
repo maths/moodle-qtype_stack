@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>29.2.3.13 spherical polar coordinates surface Integral</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>Using spherical polar coordinates \((r, \theta, \phi)\), evaluate the integral \(\iint_S \underline{F} \cdot \underline{\mathrm{d}S}\) where \(\underline{F} = r \cos \theta\underline{\hat{r}}\) and \(S\) is the curved surface of the top half of the sphere \(r = a\).</p>
+
+<p>\(\displaystyle \int_S \underline{F} \cdot \underline{\mathrm{d}S} =\) [[input:ans1]][[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p>Using spherical polar coordinates \((r, \theta, \phi)\), we aim to evaluate the integral \(\iint_S \underline{F} \cdot \underline{\mathrm{d}S}\) where \(\underline{F} = r \cos \theta\underline{\hat{r}}\) and \(S\) is the curved surface of the top half of the sphere \(r = a\).</p>
+
+<p>First to calculate \(\underline{\mathrm{d}S}\), we know that \(r = a\), and so can parametrise in terms of just \(\mathrm{d}\theta\) and \(\mathrm{d}\phi\). We know that the unit normal for a sphere around the centre in polar coordinates is \(\underline{\hat{n}} = \underline{\hat{r}}\), so that gives us that \(\underline{\mathrm{d}S} =\underline{\hat{r}}\mathrm{d}\theta \mathrm{d}\phi\). Considering the bounds of the outer integral we observe that the upper bound can be \(\phi = 2\pi\) and the lower bound is \(\phi = 0\). For the inner integral the upper bound can be \(\theta = \frac{\pi}{2}\) and the lower bound is \(\theta = 0\). Bearing in mind that the Jacobian for spherical polar coordinates is \(J = r^2\sin\theta\) this gives us the following integral:
+\[
+\begin{aligned}
+\iint_S \underline{F} \cdot \underline{\mathrm{d}S} &= \int^{\phi = 2\pi}_{\phi = 0} \int^{\theta = \frac{\pi}{2}}_{\theta = 0}  a \cos \theta\underline{\hat{r}} \cdot \underline{\hat{r}}\ \mathrm{d}\theta\ \mathrm{d}\phi a^2\sin\theta\\
+&=\int^{\phi = 2\pi}_{\phi = 0} \int^{\theta = \frac{\pi}{2}}_{\theta = 0} \frac{1}{2}\sin(2\theta) a^3\ \mathrm{d}\theta\ \mathrm{d}\phi\\
+&= \int^{\phi = 2\pi}_{\phi = 0} \left[ -\frac{1}{4}\cos (2\theta) a^3 \right]^{\theta = \frac{\pi}{2}}_{\theta = 0}\ \mathrm{d}\phi\\
+&= \int^{\phi = 2\pi}_{\phi = 0} \frac{a^3}{2}\ \mathrm{d}\phi\\
+&= \left[ \frac{a^3}{2}\phi \right]^{\phi = 2\pi}_{\phi = 0}\\
+&= \pi a^3
+\end{aligned}
+\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025040100</text>
+    </stackversion>
+    <questionvariables>
+      <text>ta:pi*a^3;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="html">
+      <text/>
+    </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>onum</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>-ta</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ta</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description>fail</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ta+1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt1-2-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

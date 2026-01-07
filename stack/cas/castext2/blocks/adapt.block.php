@@ -30,7 +30,6 @@ require_once(__DIR__ . '/../block.interface.php');
  * This class adds in the adapt blocks to castext.
  */
 class stack_cas_castext2_adapt extends stack_cas_castext2_block {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
 
@@ -74,7 +73,7 @@ class stack_cas_castext2_adapt extends stack_cas_castext2_block {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function validate(&$errors=[], $options=[]): bool {
+    public function validate(&$errors = [], $options = []): bool {
         if (!array_key_exists('id', $this->params)) {
             $errors[] = new $options['errclass']('Adapt block requires a id parameter.', $options['context'] . '/' .
                 $this->position['start'] . '-' . $this->position['end']);

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>1.2.4.1 Negative indices</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Negative indices
+</h3>
+<p>Sometimes a number is raised to a negative power. This is interpreted as follows:</p>
+
+<div class="HELM_keypoint">
+<h4>Key Point <br></h4>
+<p><strong>Negative Powers</strong></p>
+<p>\(a^{-m} = \dfrac{1}{a^m}, \qquad a^m = \dfrac{1}{a^{-m}}\)</p>
+</div>
+
+<p>Thus a negative index can be used to indicate a reciprocal.</p>
+
+<hr>
+<h4 class="HELM_example">Example <br></h4>
+<p>Write each of the following expressions using a positive index and simplify if possible.</p>
+<ol class="HELM_parts_inline">
+<li>\(2^{-3}\)</li>
+<li>\(\dfrac{1}{4^{-3}}\)</li>
+<li>\(x^{-1}\)</li>
+ <li>\(x^{-2}\)</li>
+<li>\(10^{-1}\)</li>
+</ol>
+
+
+<h4 class="HELM_solution">Solution</h4>
+<ol class="HELM_parts">
+<li> \(2^{-3} = \dfrac{1}{2^3} = \dfrac{1}{8}\)</li>
+ <li> \(\dfrac{1}{4^{-3}} = 4^3 = 64\)</li>
+ <li>\(x^{-1}= \dfrac{1}{x^1}=\dfrac{1}{x}\)</li>
+ <li>\(x^{-2}= \dfrac{1}{x^2}\)</li>
+  <li>\(10^{-1}=\dfrac{1}{10^1}= \dfrac{1}{10} \) or \( 0.1\)</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

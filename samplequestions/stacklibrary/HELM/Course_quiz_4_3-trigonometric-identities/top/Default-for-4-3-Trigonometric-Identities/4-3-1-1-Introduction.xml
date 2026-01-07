@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>4.3.1.1 Introduction</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4> Trigonometric identities </h4>
+<p>An identity is a relation which is always true. To emphasise this the symbol ‘<span class="math inline">\(\equiv\)</span>’ is often used rather than ‘<span class="math inline">\(=\)</span>’. For example, <span class="math inline">\((x+1)^2\equiv x^2+2x+1\)</span> (always true) but <span class="math inline">\((x+1)^2=0\)</span> (only true for <span class="math inline">\(x=-1\)</span>).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

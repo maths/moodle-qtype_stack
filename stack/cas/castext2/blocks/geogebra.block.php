@@ -71,12 +71,18 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
         // The bits of code we construct. We could simply output these into
         // the same output variable as these are not coming in mixed but let's
         // keep the code clean.
-        $setcode = new MP_FunctionCall(new MP_Identifier('sconcat'),
-            [new MP_String("function initialgeogebraset(){};\n")]);
-        $remembercode = new MP_FunctionCall(new MP_Identifier('sconcat'),
-            [new MP_String("function rememberGeoGebraObjects(){};\n")]);
-        $watchcode = new MP_FunctionCall(new MP_Identifier('sconcat'),
-            [new MP_String("function watchGeoGebraObjects(){};\n")]);
+        $setcode = new MP_FunctionCall(
+            new MP_Identifier('sconcat'),
+            [new MP_String("function initialgeogebraset(){};\n")]
+        );
+        $remembercode = new MP_FunctionCall(
+            new MP_Identifier('sconcat'),
+            [new MP_String("function rememberGeoGebraObjects(){};\n")]
+        );
+        $watchcode = new MP_FunctionCall(
+            new MP_Identifier('sconcat'),
+            [new MP_String("function watchGeoGebraObjects(){};\n")]
+        );
 
         // Start by identifying the inputs we deal with.
         $inputmapping = [];
@@ -105,16 +111,18 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
                         // Points and values/angles are different.
                         if (ctype_upper(substr($geogebraname, 0, 1))) {
                             $watchcode->arguments[] = new MP_String(
-                                    "\n stack_geogebra.bind_point(watchvar" .
-                            $geogebraname . ",appletObject,\"" .
-                            $geogebraname .
-                            "\");");
+                                "\n stack_geogebra.bind_point(watchvar" .
+                                $geogebraname . ",appletObject,\"" .
+                                $geogebraname .
+                                "\");"
+                            );
                         } else {
                             $watchcode->arguments[] = new MP_String(
-                                    "\n stack_geogebra.bind_value(watchvar" .
-                            $geogebraname . ",appletObject,\"" .
-                            $geogebraname .
-                            "\");");
+                                "\n stack_geogebra.bind_value(watchvar" .
+                                $geogebraname . ",appletObject,\"" .
+                                $geogebraname .
+                                "\");"
+                            );
                         }
                         $inputmapping['watchvar' . $geogebraname] = $geogebraname;
                     } else if ($param === 'remember') {
@@ -122,17 +130,19 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
                         if (ctype_upper(substr($geogebraname, 0, 1))) {
                             $remembercode->arguments[] = new MP_String(
                                 "\n stack_geogebra.bind_point_to_remember_JSON(remembervar" .
-                            $geogebraname .
-                            ",appletObject,\"" .
-                            $geogebraname .
-                            "\");");
+                                $geogebraname .
+                                ",appletObject,\"" .
+                                $geogebraname .
+                                "\");"
+                            );
                         } else {
                             $remembercode->arguments[] = new MP_String(
                                 "\n stack_geogebra.bind_value_to_remember_JSON(remembervar" .
-                            $geogebraname .
-                            ",appletObject,\"" .
-                            $geogebraname .
-                            "\");");
+                                $geogebraname .
+                                ",appletObject,\"" .
+                                $geogebraname .
+                                "\");"
+                            );
                         }
                         $inputmapping['remembervar' . $geogebraname] = 'remember';
                     }
@@ -204,10 +214,14 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
                 // Note at this point the name has no suffixes. No know ones that is, or non typoed ones...
                 if (ctype_upper(substr($geogebraname, 0, 1))) {
                     // Assuming geogebraname is the (therefore uppercased) name of an object of type: point.
-                    $xcoord = new MP_FunctionCall(new MP_Identifier('string'),
-                        [new MP_Indexing(new MP_Identifier($geogebraname), [new MP_List ([new MP_Integer(1)])])]);
-                    $ycoord = new MP_FunctionCall(new MP_Identifier('string'),
-                        [new MP_Indexing(new MP_Identifier($geogebraname), [new MP_List ([new MP_Integer(2)])])]);
+                    $xcoord = new MP_FunctionCall(
+                        new MP_Identifier('string'),
+                        [new MP_Indexing(new MP_Identifier($geogebraname), [new MP_List([new MP_Integer(1)])])]
+                    );
+                    $ycoord = new MP_FunctionCall(
+                        new MP_Identifier('string'),
+                        [new MP_Indexing(new MP_Identifier($geogebraname), [new MP_List([new MP_Integer(2)])])]
+                    );
                     if ($setfixed) {
                         // Assuming point must not be interactable by the user.
                         // @codingStandardsIgnoreStart
@@ -216,7 +230,8 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
                         // Removing __fixed (7 characters).
                         $setcode->arguments[] = new MP_String(
                             "\n appletObject.evalCommand('" .
-                            $geogebraname . ' = Point({');
+                            $geogebraname . ' = Point({'
+                        );
                         $setcode->arguments[] = $xcoord;
                         $setcode->arguments[] = new MP_String(',');
                         $setcode->arguments[] = $ycoord;
@@ -258,8 +273,10 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
                     if ($setpreserve) {
                         $setcode->arguments[] = new MP_String("\n appletObject.evalCommand('SetValue(" .
                             $geogebraname . ',');
-                        $setcode->arguments[] = new MP_FunctionCall(new MP_Identifier('string'),
-                            [new MP_Identifier($geogebraname)]);
+                        $setcode->arguments[] = new MP_FunctionCall(
+                            new MP_Identifier('string'),
+                            [new MP_Identifier($geogebraname)]
+                        );
                         $setcode->arguments[] = new MP_String(")');\n");
                     } else if ($setnovalue) {
                         // Assuming value should not be set, useful when using __show/ __hide.
@@ -268,8 +285,10 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
                     } else {
                         $setcode->arguments[] = new MP_String("\n appletObject.evalCommand('" .
                             $geogebraname . ' = ');
-                        $setcode->arguments[] = new MP_FunctionCall(new MP_Identifier('string'),
-                            [new MP_Identifier($geogebraname)]);
+                        $setcode->arguments[] = new MP_FunctionCall(
+                            new MP_Identifier('string'),
+                            [new MP_Identifier($geogebraname)]
+                        );
                         $setcode->arguments[] = new MP_String("');\n");
                     }
                 }
@@ -281,13 +300,15 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
                     $setcode->arguments[] = new MP_String(
                         "\n appletObject.evalCommand('SetVisibleInView(" .
                         $geogebraname .
-                        ",1,true)');\n");
+                        ",1,true)');\n"
+                    );
                 } else if ($sethide) {
                     // Assuming: object should be hidden (use case: if object is shown by default).
                     $setcode->arguments[] = new MP_String(
                         "\n appletObject.evalCommand('SetVisibleInView(" .
                         $geogebraname .
-                        ",1,false)');\n");
+                        ",1,false)');\n"
+                    );
                 }
             }
             // Remember to close the function.
@@ -418,7 +439,8 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
             // in it we can still survive.
             $commonpostcode .=
                 "\napplet.setHTML5Codebase(" . json_encode(
-                $customgeogebrabaseurl) .
+                    $customgeogebrabaseurl
+                ) .
                 ');';
         }
 
@@ -463,8 +485,11 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function postprocess(array $params, castext2_processor $processor,
-        castext2_placeholder_holder $holder): string {
+    public function postprocess(
+        array $params,
+        castext2_processor $processor,
+        castext2_placeholder_holder $holder
+    ): string {
         return 'This is never happening! The logic goes to [[iframe]].';
     }
 

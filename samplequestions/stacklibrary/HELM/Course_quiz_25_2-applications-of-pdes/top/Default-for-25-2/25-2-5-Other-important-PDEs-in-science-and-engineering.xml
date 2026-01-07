@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>25.2.5 Other important PDEs in science and engineering</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Other important PDEs in science and engineering</h3>
+<ol>
+    <li><strong>Poisson’s equation</strong>
+        <p>\(\qquad \dfrac{\partial^2u}{\partial x^2}+\dfrac{\partial^2u}{\partial y^2}=f(x,y)\) \(\qquad\) (two-dimensional form)</p> where \(f(x,y)\) is a given function. This equation arises in electrostatics, elasticity theory and elsewhere.</li>
+    <li><strong>Helmholtz’s equation</strong>
+        <p>\(\qquad \dfrac{\partial^2u}{\partial x^2}+\dfrac{\partial^2u}{\partial y^2}+k^2u=0\) \(\qquad\) (two dimensional form)</p> which arises in wave theory.</li>
+    <li><strong>Schrödinger’s equation</strong>
+        <p>\(\qquad -\dfrac{h^2}{8\pi^2 m}\left(\dfrac{\partial^2\psi}{\partial x^2}+\dfrac{\partial^2\psi}{\partial y^2}+\dfrac{\partial^2\psi}{\partial z^2}\right)=E\psi\)</p> which arises in quantum mechanics. (\(h\) is Planck’s constant)
+    </li>
+    <li><strong>Transverse vibrations equation</strong>
+        <p>\(\qquad a^2\dfrac{\partial^4 u}{\partial x^4}+\dfrac{\partial^2u}{\partial t^2}=0\)</p> for a homogeneous rod, where \(u(x,t)\) is the displacement at time \(t\) of the cross section through \(x\).</li>
+</ol>
+<p>All the PDEs we have discussed are <strong>second order</strong> (because the highest order derivatives that arise are second order) apart from the last example which is <strong>fourth order</strong>.</p>
+<p></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

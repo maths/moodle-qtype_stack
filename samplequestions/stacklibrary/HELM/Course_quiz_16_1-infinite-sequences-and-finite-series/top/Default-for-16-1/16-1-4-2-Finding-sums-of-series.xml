@@ -1,0 +1,696 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>16.1.4.2 Finding sums of series</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>Find the sum of each of the following series: </p><br>
+
+
+<ol class="HELM_parts">
+    <li>
+        <p>\({@SA4@}\)</p><br>
+        <p>In this arithmetic series state the values of \(a,d,n\):</p>
+        <p>\(a = \) [[input:ans_aa]] [[validation:ans_aa]] [[feedback:prt_aa]]</p>
+        <p>\(d = \) [[input:ans_ad]] [[validation:ans_ad]] [[feedback:prt_ad]]</p>
+        <p>\(n = \) [[input:ans_an]] [[validation:ans_an]] [[feedback:prt_an]]</p>
+        <p>Now find the sum:</p>
+        <p>\({@SA4@} =\) [[input:ans_asum]] [[validation:ans_asum]] [[feedback:prt_asum]]</p>
+    </li>
+    <li>
+        <p>\(\displaystyle {@SC4@}\)</p><br>
+        <p>In this geometric series state the values of \(a,r,n\):</p>
+        <p>\(a = \) [[input:ans_ba]] [[validation:ans_ba]] [[feedback:prt_ba]]</p>
+        <p>\(r = \) [[input:ans_br]] [[validation:ans_br]] [[feedback:prt_br]]</p>
+        <p>\(n = \) [[input:ans_bn]] [[validation:ans_bn]] [[feedback:prt_bn]]</p>
+        <p>Now find the sum:</p>
+        <p>\(\displaystyle {@SC4@}=\) [[input:ans_bsum]] [[validation:ans_bsum]] [[feedback:prt_bsum]]</p>
+    </li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<ol class="HELM_parts">
+    <li>In an arithmetic series \(a\) is first term, \(d \) is the difference between terms, \(n\) is the number of terms and the sum \(A\) of the series is calculated as \[A = \frac{1}{2} n \left[2a+(n-1)d\right] .\]Then, we have \(a = {@aa@}\), \(d={@ad@}\),
+        \(n = {@an@}\) and \[A = {@asum(aa,ad,an)@} = {@ta1@}.\]</li>
+    <li>In an geometric series \(a\) is first term, \(r \) is the multiplication factor between terms, \(n\) is the number of terms and the sum \(G\) of the series is calculated as \[G = \frac{a(1-r^n)}{1-r}\] if \(r\neq 1\). Then, we have \(a = {@ba@}\),
+        \(r={@br@}\), \(n = {@bn@}\) and \[G = {@gsum(ba,br,bn)@} = {@ta3@}.\]</li>
+</ol>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020120600</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[/*Arithmetic and geometric series sums*/
+asum: lambda([a,d,n], n*(2*a+d*(n-1))/2);
+gsum: lambda([a,r,n], a*(1-r^n)/(1-r));
+
+/*Randomization constants*/
+[aa,ad,an]: rand([[1,1,100],[2,2,100],[3,3,100]]);
+[ba,br,bn]: rand([[1/2,1/3,6],[1/3,1/2,6]]);
+
+/*Series 1 - arithmetic*/
+an_a: aa+(n-1)*ad;    /*nth term of arithmetic progresion */
+n_1:4;                /*the terms I want to diplay */
+SA1:ev(makelist(k,k,1,n_1),simp);             /* create the sum of terms */
+SA2:maplist(lambda([ex],ev(an_a,n=ex)),SA1);
+SA3:append(ev(SA2,simp),["...",ev(an_a,n=an,simp)]);
+SA4:apply("+",SA3);
+ta1: ev(asum(aa,ad,an),simp);
+
+/*Series 3 - geometric*/
+an_c: ba*(br)^(n-1);          /*nth term of geogetric progresion */
+SC1:ev(makelist(k,k,1,bn),simp);             /* create the sum of terms */
+SC2:maplist(lambda([ex],ev(an_c,n=ex)),SC1);
+SC3:ev(SC2,simp);
+SC4:apply("+",SC3);
+ta3: ev(gsum(ba,br,bn),simp);]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>arithmetic: \(a = {@aa@}, d={@ad@}, n={@an@}, \, sum= {@ta1@} \); geometric: \(a = {@ba@}, r={@br@}, n={@bn@}, \, sum = {@ta2@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>0</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans_aa</name>
+      <type>numerical</type>
+      <tans>aa</tans>
+      <boxsize>3</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans_ad</name>
+      <type>numerical</type>
+      <tans>ad</tans>
+      <boxsize>3</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans_an</name>
+      <type>numerical</type>
+      <tans>an</tans>
+      <boxsize>3</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans_asum</name>
+      <type>numerical</type>
+      <tans>ta1</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans_ba</name>
+      <type>numerical</type>
+      <tans>ba</tans>
+      <boxsize>3</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans_bn</name>
+      <type>numerical</type>
+      <tans>bn</tans>
+      <boxsize>3</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans_br</name>
+      <type>numerical</type>
+      <tans>br</tans>
+      <boxsize>3</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans_bsum</name>
+      <type>numerical</type>
+      <tans>ta3</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt_aa</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>EqualComAss</answertest>
+        <sans>ans_aa</sans>
+        <tans>aa</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt_aa-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt_aa-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt_ad</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>EqualComAss</answertest>
+        <sans>ans_ad</sans>
+        <tans>ad</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt_ad-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt_ad-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt_an</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>EqualComAss</answertest>
+        <sans>ans_an</sans>
+        <tans>an</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt_an-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt_an-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt_asum</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>EqualComAss</answertest>
+        <sans>ans_asum</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt_asum-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt_asum-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt_ba</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>SingleFrac</answertest>
+        <sans>ans_ba</sans>
+        <tans>ba</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt_ba-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt_ba-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt_bn</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>SingleFrac</answertest>
+        <sans>ans_bn</sans>
+        <tans>bn</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt_bn-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt_bn-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt_br</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>SingleFrac</answertest>
+        <sans>ans_br</sans>
+        <tans>br</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt_br-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt_br-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt_bsum</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>SingleFrac</answertest>
+        <sans>ans_bsum</sans>
+        <tans>ta3</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt_bsum-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt_bsum-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1498304831</deployedseed>
+    <deployedseed>1044108462</deployedseed>
+    <deployedseed>574110500</deployedseed>
+    <deployedseed>1485554996</deployedseed>
+    <deployedseed>505868587</deployedseed>
+    <deployedseed>1725540648</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans_aa</name>
+        <value>aa</value>
+      </testinput>
+      <testinput>
+        <name>ans_ad</name>
+        <value>ad</value>
+      </testinput>
+      <testinput>
+        <name>ans_an</name>
+        <value>an</value>
+      </testinput>
+      <testinput>
+        <name>ans_asum</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans_ba</name>
+        <value>ba</value>
+      </testinput>
+      <testinput>
+        <name>ans_bn</name>
+        <value>bn</value>
+      </testinput>
+      <testinput>
+        <name>ans_br</name>
+        <value>br</value>
+      </testinput>
+      <testinput>
+        <name>ans_bsum</name>
+        <value>ta3</value>
+      </testinput>
+      <expected>
+        <name>prt_aa</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt_aa-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_ad</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt_ad-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_an</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt_an-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_asum</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt_asum-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_ba</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt_ba-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_bn</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt_bn-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_br</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt_br-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_bsum</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt_bsum-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans_aa</name>
+        <value>ev(aa+1,simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans_ad</name>
+        <value>ev(ad+1,simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans_an</name>
+        <value>ev(an+1,simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans_asum</name>
+        <value>ev(ta1+1,simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans_ba</name>
+        <value>ev(ba+1,simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans_bn</name>
+        <value>ev(bn+1,simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans_br</name>
+        <value>ev(br+1,simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans_bsum</name>
+        <value>ev(ta3+1,simp)</value>
+      </testinput>
+      <expected>
+        <name>prt_aa</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt_aa-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_ad</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt_ad-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_an</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt_an-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_asum</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt_asum-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_ba</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt_ba-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_bn</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt_bn-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_br</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt_br-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_bsum</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt_bsum-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

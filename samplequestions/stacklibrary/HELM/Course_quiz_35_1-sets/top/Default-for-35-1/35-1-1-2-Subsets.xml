@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>35.1.1.2 Subsets</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Subsets</h4><p>Sometimes one set is contained completely within another set.  For example, if \(X = \{2,3,4,5,6\} \hbox{ and } Y = \{2,3,6\}\), then all the elements of \(Y\) are also elements of \(X\).  We say that \(Y\) is a <b>subset</b> of \(X\) and write \(Y \subseteq X\).<br></p>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Given \(A = \{0,1,2,3\}\), \(B = \{0,1,2,3,4,5,6\}\) and \(C = \{0,1\}\), state which sets are subsets.</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>\(A\) is a subset of \(B\), that is \(A \subseteq B\).</p>
+<p>\(C\) is a subset of \(B\), that is \(C \subseteq B\).</p>
+<p>\(C\) is a subset of \(A\), that is \(C \subseteq A\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

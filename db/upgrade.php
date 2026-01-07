@@ -38,7 +38,6 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     $dbman = $DB->get_manager();
 
     if ($oldversion < 2012030300) {
-
         // Define table qtype_stack_cas_cache to be created.
         $table = new xmldb_table('qtype_stack_cas_cache');
 
@@ -64,7 +63,6 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2012030900) {
-
         // Define table qtype_stack to be created.
         $table = new xmldb_table('qtype_stack');
 
@@ -102,7 +100,6 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2012030901) {
-
         // Define table qtype_stack_inputs to be created.
         $table = new xmldb_table('qtype_stack_inputs');
 
@@ -138,7 +135,6 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2012030902) {
-
         // Define table qtype_stack_prts to be created.
         $table = new xmldb_table('qtype_stack_prts');
 
@@ -165,7 +161,6 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2012030903) {
-
         // Define table qtype_stack_prt_nodes to be created.
         $table = new xmldb_table('qtype_stack_prt_nodes');
 
@@ -196,8 +191,13 @@ function xmldb_qtype_stack_upgrade($oldversion) {
 
         // Adding keys to table qtype_stack_prt_nodes.
         $table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
-        $table->add_key('questionid-name', XMLDB_KEY_FOREIGN_UNIQUE, ['questionid', 'prtname'],
-                'qtype_stack_prts', ['questionid', 'name']);
+        $table->add_key(
+            'questionid-name',
+            XMLDB_KEY_FOREIGN_UNIQUE,
+            ['questionid', 'prtname'],
+            'qtype_stack_prts',
+            ['questionid', 'name']
+        );
 
         // Adding indexes to table qtype_stack_prt_nodes.
         $table->add_index('questionid-prtname-nodename', XMLDB_INDEX_UNIQUE, ['questionid', 'prtname', 'nodename']);
@@ -214,8 +214,13 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     if ($oldversion < 2012031301) {
         // Define key questionid-name (foreign) to be dropped form qtype_stack_prt_nodes.
         $table = new xmldb_table('qtype_stack_prt_nodes');
-        $key = new xmldb_key('questionid-name', XMLDB_KEY_FOREIGN_UNIQUE, ['questionid', 'prtname'],
-                'qtype_stack_prts', ['questionid', 'name']);
+        $key = new xmldb_key(
+            'questionid-name',
+            XMLDB_KEY_FOREIGN_UNIQUE,
+            ['questionid', 'prtname'],
+            'qtype_stack_prts',
+            ['questionid', 'name']
+        );
 
         // Launch drop key questionid-name.
         $dbman->drop_key($table, $key);
@@ -225,11 +230,15 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2012031302) {
-
         // Define key questionid-name (foreign) to be added to qtype_stack_prt_nodes.
         $table = new xmldb_table('qtype_stack_prt_nodes');
-        $key = new xmldb_key('questionid-name', XMLDB_KEY_FOREIGN, ['questionid', 'prtname'],
-                'qtype_stack_prts', ['questionid', 'name']);
+        $key = new xmldb_key(
+            'questionid-name',
+            XMLDB_KEY_FOREIGN,
+            ['questionid', 'prtname'],
+            'qtype_stack_prts',
+            ['questionid', 'name']
+        );
 
         // Launch add key questionid-name.
         $dbman->add_key($table, $key);
@@ -239,7 +248,6 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2012031600) {
-
         // Define field forbidwords to be added to qtype_stack_inputs.
         $table = new xmldb_table('qtype_stack_inputs');
         $field = new xmldb_field('forbidwords', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null, 'syntaxhint');
@@ -254,7 +262,6 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2012031601) {
-
         // Define field mustverify to be added to qtype_stack_inputs.
         $table = new xmldb_table('qtype_stack_inputs');
         $field = new xmldb_field('mustverify', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, '1', 'checkanswertype');
@@ -269,7 +276,6 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2012032200) {
-
         // Define table qtype_stack_qtests to be created.
         $table = new xmldb_table('qtype_stack_qtests');
 
@@ -293,7 +299,6 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2012032201) {
-
         // Define table qtype_stack_qtest_inputs to be created.
         $table = new xmldb_table('qtype_stack_qtest_inputs');
 
@@ -306,12 +311,20 @@ function xmldb_qtype_stack_upgrade($oldversion) {
 
         // Adding keys to table qtype_stack_qtest_inputs.
         $table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
-        $table->add_key('questionid-testcase', XMLDB_KEY_FOREIGN,
-                ['questionid', 'testcase'], 'qtype_stack_qtests', ['questionid', 'testcase']);
+        $table->add_key(
+            'questionid-testcase',
+            XMLDB_KEY_FOREIGN,
+            ['questionid', 'testcase'],
+            'qtype_stack_qtests',
+            ['questionid', 'testcase']
+        );
 
         // Adding indexes to table qtype_stack_qtest_inputs.
-        $table->add_index('questionid-testcase-inputname', XMLDB_INDEX_UNIQUE,
-                ['questionid', 'testcase', 'inputname']);
+        $table->add_index(
+            'questionid-testcase-inputname',
+            XMLDB_INDEX_UNIQUE,
+            ['questionid', 'testcase', 'inputname']
+        );
 
         // Conditionally launch create table for qtype_stack_qtest_inputs.
         if (!$dbman->table_exists($table)) {
@@ -323,7 +336,6 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2012032202) {
-
         // Define table qtype_stack_qtest_expected to be created.
         $table = new xmldb_table('qtype_stack_qtest_expected');
 
@@ -338,12 +350,20 @@ function xmldb_qtype_stack_upgrade($oldversion) {
 
         // Adding keys to table qtype_stack_qtest_expected.
         $table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
-        $table->add_key('questionid-testcase', XMLDB_KEY_FOREIGN,
-                ['questionid', 'testcase'], 'qtype_stack_qtests', ['questionid', 'testcase']);
+        $table->add_key(
+            'questionid-testcase',
+            XMLDB_KEY_FOREIGN,
+            ['questionid', 'testcase'],
+            'qtype_stack_qtests',
+            ['questionid', 'testcase']
+        );
 
         // Adding indexes to table qtype_stack_qtest_expected.
-        $table->add_index('questionid-testcase-prtname', XMLDB_INDEX_UNIQUE,
-                ['questionid', 'testcase', 'prtname']);
+        $table->add_index(
+            'questionid-testcase-prtname',
+            XMLDB_INDEX_UNIQUE,
+            ['questionid', 'testcase', 'prtname']
+        );
 
         // Conditionally launch create table for qtype_stack_qtest_expected.
         if (!$dbman->table_exists($table)) {
@@ -355,7 +375,6 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2012032300) {
-
         // Define table qtype_stack_deployed_seeds to be created.
         $table = new xmldb_table('qtype_stack_deployed_seeds');
 
@@ -381,7 +400,6 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2012033000) {
-
         // Define field variantsselectionseed to be added to qtype_stack.
         $table = new xmldb_table('qtype_stack');
         $field = new xmldb_field('variantsselectionseed', XMLDB_TYPE_CHAR, '255', null, null, null, null, 'complexno');
@@ -396,7 +414,6 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2012043000) {
-
         // Changing nullability of field expectedscore on table qtype_stack_qtest_expected to null.
         $table = new xmldb_table('qtype_stack_qtest_expected');
         $field = new xmldb_field('expectedscore', XMLDB_TYPE_NUMBER, '12, 7', null, null, null, null, 'prtname');
@@ -409,7 +426,6 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2012043001) {
-
         // Changing nullability of field expectedpenalty on table qtype_stack_qtest_expected to null.
         $table = new xmldb_table('qtype_stack_qtest_expected');
         $field = new xmldb_field('expectedpenalty', XMLDB_TYPE_NUMBER, '12, 7', null, null, null, null, 'expectedscore');
@@ -457,7 +473,6 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     // We want to change the index on hash from unique to non-unique, which seems
     // to involve dropping it and re-creating.
     if ($oldversion < 2012062100) {
-
         // Define index hash (not unique) to be dropped form qtype_stack_cas_cache.
         $table = new xmldb_table('qtype_stack_cas_cache');
         $index = new xmldb_index('hash', XMLDB_INDEX_UNIQUE, ['hash']);
@@ -472,7 +487,6 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2012062101) {
-
         // Define index hash (not unique) to be added to qtype_stack_cas_cache.
         $table = new xmldb_table('qtype_stack_cas_cache');
         $index = new xmldb_index('hash', XMLDB_INDEX_NOTUNIQUE, ['hash']);
@@ -487,7 +501,6 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2012062504) {
-
         // Changing precision of field sans on table qtype_stack_prt_nodes to (255).
         $table = new xmldb_table('qtype_stack_prt_nodes');
         $field = new xmldb_field('sans', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null, 'answertest');
@@ -514,7 +527,6 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2013030100) {
-
         // Define table qtype_stack to be renamed to qtype_stack_options.
         $table = new xmldb_table('qtype_stack');
 
@@ -526,7 +538,6 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2013030101) {
-
         // Define field inversetrig to be added to qtype_stack_options.
         $table = new xmldb_table('qtype_stack_options');
         $field = new xmldb_field('inversetrig', XMLDB_TYPE_CHAR, '8', null, XMLDB_NOTNULL, null, 'cos-1', 'complexno');
@@ -541,7 +552,6 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2013030102) {
-
         // Define field options to be added to qtype_stack_inputs.
         $table = new xmldb_table('qtype_stack_inputs');
         $field = new xmldb_field('options', XMLDB_TYPE_TEXT, null, null, null, null, null, 'showvalidation');
@@ -556,7 +566,6 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2013030103) {
-
         // Fill qtype_stack_inputs.options column with empty strings.
         $DB->set_field('qtype_stack_inputs', 'options', '');
 
@@ -565,7 +574,6 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2013030104) {
-
         // Changing nullability of field options on table qtype_stack_inputs to not null.
         $table = new xmldb_table('qtype_stack_inputs');
         $field = new xmldb_field('options', XMLDB_TYPE_TEXT, null, null, XMLDB_NOTNULL, null, null, 'showvalidation');
@@ -578,7 +586,6 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2013030800) {
-
         // Define field firstnodename to be added to qtype_stack_prts.
         $table = new xmldb_table('qtype_stack_prts');
         $field = new xmldb_field('firstnodename', XMLDB_TYPE_CHAR, '8', null, null, null, null, 'feedbackvariables');
@@ -606,7 +613,6 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2013030802) {
-
         // Changing nullability of field firstnodename on table qtype_stack_prts to not null.
         $table = new xmldb_table('qtype_stack_prts');
         $field = new xmldb_field('firstnodename', XMLDB_TYPE_CHAR, '8', null, XMLDB_NOTNULL, null, null, 'feedbackvariables');
@@ -619,7 +625,6 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2013091900) {
-
         // Define table qtype_stack_inputs to be created.
         $table = new xmldb_table('qtype_stack_inputs');
 
@@ -635,7 +640,6 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2014040501) {
-
         // Define field matrixparens to be added to qtype_stack_options.
         $table = new xmldb_table('qtype_stack_options');
         $field = new xmldb_field('matrixparens', XMLDB_TYPE_CHAR, '8', null, XMLDB_NOTNULL, null, '[', 'inversetrig');
@@ -650,46 +654,82 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2016012900) {
-
         // Convert approximate thirds for penalties in the question table.
-        $DB->set_field_select('question', 'penalty', '0.3333333',
-                'qtype = ? AND penalty BETWEEN ? AND ?', ['stack', '0.33', '0.34']);
-        $DB->set_field_select('question', 'penalty', '0.6666667',
-                'qtype = ? AND penalty BETWEEN ? AND ?', ['stack', '0.66', '0.67']);
+        $DB->set_field_select(
+            'question',
+            'penalty',
+            '0.3333333',
+            'qtype = ? AND penalty BETWEEN ? AND ?',
+            ['stack', '0.33', '0.34']
+        );
+        $DB->set_field_select(
+            'question',
+            'penalty',
+            '0.6666667',
+            'qtype = ? AND penalty BETWEEN ? AND ?',
+            ['stack', '0.66', '0.67']
+        );
 
         // Qtype stack savepoint reached.
         upgrade_plugin_savepoint(true, 2016012900, 'qtype', 'stack');
     }
 
     if ($oldversion < 2016012901) {
-
         // Convert approximate thirds for penalties in the qtype_stack_prt_nodes table.
-        $DB->set_field_select('qtype_stack_prt_nodes', 'truepenalty', '0.3333333',
-                'truepenalty BETWEEN ? AND ?', ['0.33', '0.34']);
-        $DB->set_field_select('qtype_stack_prt_nodes', 'truepenalty', '0.6666667',
-                'truepenalty BETWEEN ? AND ?', ['0.66', '0.67']);
-        $DB->set_field_select('qtype_stack_prt_nodes', 'falsepenalty', '0.3333333',
-                'falsepenalty BETWEEN ? AND ?', ['0.33', '0.34']);
-        $DB->set_field_select('qtype_stack_prt_nodes', 'falsepenalty', '0.6666667',
-                'falsepenalty BETWEEN ? AND ?', ['0.66', '0.67']);
+        $DB->set_field_select(
+            'qtype_stack_prt_nodes',
+            'truepenalty',
+            '0.3333333',
+            'truepenalty BETWEEN ? AND ?',
+            ['0.33', '0.34']
+        );
+        $DB->set_field_select(
+            'qtype_stack_prt_nodes',
+            'truepenalty',
+            '0.6666667',
+            'truepenalty BETWEEN ? AND ?',
+            ['0.66', '0.67']
+        );
+        $DB->set_field_select(
+            'qtype_stack_prt_nodes',
+            'falsepenalty',
+            '0.3333333',
+            'falsepenalty BETWEEN ? AND ?',
+            ['0.33', '0.34']
+        );
+        $DB->set_field_select(
+            'qtype_stack_prt_nodes',
+            'falsepenalty',
+            '0.6666667',
+            'falsepenalty BETWEEN ? AND ?',
+            ['0.66', '0.67']
+        );
 
         // Qtype stack savepoint reached.
         upgrade_plugin_savepoint(true, 2016012901, 'qtype', 'stack');
     }
 
     if ($oldversion < 2016012902) {
-
         // Convert approximate thirds for penalties in the qtype_stack_qtest_expected table.
-        $DB->set_field_select('qtype_stack_qtest_expected', 'expectedpenalty', '0.3333333',
-                'expectedpenalty BETWEEN ? AND ?', ['0.33', '0.34']);
-        $DB->set_field_select('qtype_stack_qtest_expected', 'expectedpenalty', '0.6666667',
-                'expectedpenalty BETWEEN ? AND ?', ['0.66', '0.67']);
+        $DB->set_field_select(
+            'qtype_stack_qtest_expected',
+            'expectedpenalty',
+            '0.3333333',
+            'expectedpenalty BETWEEN ? AND ?',
+            ['0.33', '0.34']
+        );
+        $DB->set_field_select(
+            'qtype_stack_qtest_expected',
+            'expectedpenalty',
+            '0.6666667',
+            'expectedpenalty BETWEEN ? AND ?',
+            ['0.66', '0.67']
+        );
 
         upgrade_plugin_savepoint(true, 2016012902, 'qtype', 'stack');
     }
 
     if ($oldversion < 2016082000) {
-
         // Define table qtype_stack_inputs to be created.
         $table = new xmldb_table('qtype_stack_inputs');
 
@@ -704,7 +744,6 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2017082300) {
-
         // Define field assumepositive to be added to qtype_stack_options.
         $table = new xmldb_table('qtype_stack_options');
         $field = new xmldb_field('assumereal', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, '0', 'assumepositive');
@@ -730,7 +769,6 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2018021900) {
-
         // Define field timemodified to be added to qtype_stack_qtests.
         $table = new xmldb_table('qtype_stack_qtests');
         $field = new xmldb_field('timemodified', XMLDB_TYPE_INTEGER, '10', null, null, null, null, 'testcase');
@@ -745,7 +783,6 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2018021901) {
-
         // Define table qtype_stack_qtest_results to be created.
         $table = new xmldb_table('qtype_stack_qtest_results');
 
@@ -759,8 +796,13 @@ function xmldb_qtype_stack_upgrade($oldversion) {
 
         // Adding keys to table qtype_stack_qtest_results.
         $table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
-        $table->add_key('questionid-testcase', XMLDB_KEY_FOREIGN, ['questionid', 'testcase'],
-                'qtype_stack_qtests', ['questionid', 'testcase']);
+        $table->add_key(
+            'questionid-testcase',
+            XMLDB_KEY_FOREIGN,
+            ['questionid', 'testcase'],
+            'qtype_stack_qtests',
+            ['questionid', 'testcase']
+        );
 
         // Adding indexes to table qtype_stack_qtest_results.
         $table->add_index('questionid-testcase-seed', XMLDB_INDEX_UNIQUE, ['questionid', 'testcase', 'seed']);
@@ -775,7 +817,6 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2018060102) {
-
         // Define field stackversion to be added to qtype_stack_options.
         $table = new xmldb_table('qtype_stack_options');
         $field = new xmldb_field('stackversion', XMLDB_TYPE_TEXT, 'small', null, null, null, null, 'questionid');
@@ -790,7 +831,6 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2018120500) {
-
         // Changing nullability of field stackversion on table qtype_stack_options to null.
         $table = new xmldb_table('qtype_stack_options');
         $field = new xmldb_field('stackversion', XMLDB_TYPE_TEXT, null, null, null, null, null, 'questionid');
@@ -814,7 +854,6 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2020041100) {
-
         $table = new xmldb_table('qtype_stack_options');
         $field = new xmldb_field('logicsymbol', XMLDB_TYPE_CHAR, '8', null, XMLDB_NOTNULL, null, 'lang', 'inversetrig');
 
@@ -827,7 +866,6 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2020041400) {
-
         $table = new xmldb_table('qtype_stack_prts');
         $field = new xmldb_field('feedbackstyle', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, '1', 'autosimplify');
 
@@ -853,7 +891,6 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2021010100) {
-
         $table = new xmldb_table('qtype_stack_options');
         $field = new xmldb_field('compiledcache', XMLDB_TYPE_TEXT, null, null, false, null, null);
 
@@ -866,7 +903,6 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2023042200) {
-
         // Define field description to be added to qtype_stack_prt_nodes.
         $table = new xmldb_table('qtype_stack_prt_nodes');
         $field = new xmldb_field('description', XMLDB_TYPE_CHAR, '255', null, null, null, '', 'nodename');
@@ -880,8 +916,16 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
-        $field = new xmldb_field('questiondescriptionformat', XMLDB_TYPE_INTEGER,
-            '2', null, XMLDB_NOTNULL, null, '0', 'questiondescription');
+        $field = new xmldb_field(
+            'questiondescriptionformat',
+            XMLDB_TYPE_INTEGER,
+            '2',
+            null,
+            XMLDB_NOTNULL,
+            null,
+            '0',
+            'questiondescription'
+        );
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
@@ -948,11 +992,18 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2024032401) {
-
         // Define question note format field to be added to qtype_stack_options.
         $table = new xmldb_table('qtype_stack_options');
-        $field = new xmldb_field('questionnoteformat', XMLDB_TYPE_INTEGER,
-            '2', null, XMLDB_NOTNULL, null, '0', 'questionnote');
+        $field = new xmldb_field(
+            'questionnoteformat',
+            XMLDB_TYPE_INTEGER,
+            '2',
+            null,
+            XMLDB_NOTNULL,
+            null,
+            '0',
+            'questionnote'
+        );
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
@@ -1007,8 +1058,13 @@ function xmldb_qtype_stack_upgrade($oldversion) {
 
     // This block of code is intentionally outside of an if statement. We want
     // this bit of code to run every time that qtype_stack is updated.
-    if (!preg_match('~stackmaximaversion:(\d{10})~',
-            file_get_contents($CFG->dirroot . '/question/type/stack/stack/maxima/stackmaxima.mac'), $matches)) {
+    if (
+        !preg_match(
+            '~stackmaximaversion:(\d{10})~',
+            file_get_contents($CFG->dirroot . '/question/type/stack/stack/maxima/stackmaxima.mac'),
+            $matches
+        )
+    ) {
                 throw new coding_exception('Maxima libraries version number not found in stackmaxima.mac.');
     }
     $latestversion = $matches[1];
@@ -1022,7 +1078,7 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         stack_cas_connection_db_cache::clear_cache($DB);
         if (!in_array(get_config('qtype_stack', 'platform'), ['server', 'server-proxy'])) {
             $pbar = new progress_bar('healthautomaxopt', 500, true);
-            list($ok, $message) = stack_cas_configuration::create_auto_maxima_image();
+            [$ok, $message] = stack_cas_configuration::create_auto_maxima_image();
             $pbar->update(500, 500, get_string('healthautomaxopt', 'qtype_stack', []));
             if (!$ok) {
                 echo html_writer::div($message, 'adminwarning');

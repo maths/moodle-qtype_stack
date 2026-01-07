@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>27.3.3.1</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3> Higher Order Integrals</h3>
+
+ <p>A function may be integrated over four or more variables. For example, the integral \(\qquad\displaystyle \displaystyle\int_{w=0}^1 \displaystyle\int_{x=0}^1 \displaystyle\int_{y=0}^1 \displaystyle\int_{z=0}^{1-x} (w+y) \;\mathrm{d}z \,\mathrm{d}y\,\mathrm{d}x \,\mathrm{d}w\) represents the function \(w+y\) being integrated over the variables \(w\), \(x\), \(y\) and \(z\). This is an example of a quadruple integral.</p> <p>The methods of evaluating quadruple integrals are very similar to those for double and triple integrals. Start the integration from the inside and gradually work outwards. Quintuple (five variable) and higher-order integrals also exist and the techniques are similar.</p> 
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Evaluate the quadruple integral \(\displaystyle \displaystyle\int_{w=0}^1 \displaystyle\int_{x=0}^1 \displaystyle\int_{y=0}^1 \displaystyle\int_{z=0}^{1-x} (w+y) \;\mathrm{d}z \,\mathrm{d}y\,\mathrm{d}x \,\mathrm{d}w\).</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>
+The first integral, with respect to \(z\) gives<p>
+\[\displaystyle \displaystyle\int_0^{1-x} (w+y) \;\mathrm{d}z =
+\bigg[ (w+y)z\bigg]_0^{1-x}=(w+y)(1-x)-0=(w+y)(1-x).\]
+The second integral, with respect to \(y\) gives
+\[\int_0^1 (w+y)(1-x) \;\mathrm{d}y= \left[
+\left(wy+\frac{1}{2}y^2\right)(1-x)\right]_0^1\]
+\[= \left(w + \frac{1}{2}\right)(1-x) - 0 = \left(w + \frac{1}{2}\right)(1-x).\] 
+The third integral, with respect to \(x\) gives \[\int_0^1 \left(w + \frac{1}{2}\right)(1-x) \;\mathrm{d}x = \left[ \left(w+ \frac{1}{2}\right)\left(x-\frac{x^2}{2}\right) \right]_0^1\] 
+\[=\left(w + \frac{1}{2}\right)\frac{1}{2} - 0= \frac{1}{2}\left(w + \frac{1}{2}\right) = \frac{1}{2}w+\frac{1}{4} .\]
+Finally, integrating with respect to \(w\) gives \[\int_0^1 \left(\frac{1}{2}w + \frac{1}{4}\right) \;\mathrm{d} w = \left[
+\frac{1}{4}w^2 + \frac{1}{4}w \right]_0^1 = \frac{1}{4} +
+\frac{1}{4} - 0 = \frac{1}{2}.\]]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

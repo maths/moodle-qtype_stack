@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>38.3.1.2 Car cooling systems</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p><p>
+Commonly, car cooling systems are controlled by electrically driven fans.&nbsp; Assuming that the lifetime \(T\) in hours of a particular make of fan can be modelled by an exponential distribution with \(\displaystyle{\lambda_1 = {@lambda1@}}\)&nbsp; find the proportion of fans which will give at least 10000 hours service.&nbsp;&nbsp;</p><p>\(\text{P}(T &gt; 10000) = \)&nbsp;[[input:ans1]]&nbsp;[[validation:ans1]] [[feedback:prt1]]</p><p><br></p><p>If the fan is redesigned so that its lifetime may be modelled by an exponential distribution with \(\displaystyle{\lambda_2 = {@lambda2@}}\). Would you expect more or fewer fans to give at least \(10000\) hours service?</p><p>[[input:ans2]] [[validation:ans2]] [[feedback:prt2]]<br></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[Let \(T\) be the random variable for the lifetime in hours of a cooling fan, then \(T \sim \text{Exp}(\lambda)\). Under the original design, the rate parameter is \(\lambda = \lambda_1 = {@lambda1@}\). The cumulative distribution function for this exponential distribution is \(F_T(t) = \text{P}(T \leq t) = 1 - e^{-\lambda_1 t}\). The probability that a fan will give at least 10000 hours of service is:<br>\[\begin{align*}\text{P}(T&gt;10000) &amp;= 1 - \text{P}(T \leq 10000)\\ &amp;= 1 - (1 - e^{{@lambda1@} 10000})\\ &amp;= e^{{@lambda1*10000@}}\\ &amp;= {@displaydp(ta1,4)@} ~~(\text{to 4 d.p.})\end{align*}\]<br><br>For the redesigned cooling fan, the new rate parameter is \(\lambda = \lambda_2 = {@lambda2@}\). The probability that this type of fan will give at least 10000 hours of service can be calculated using the above method using the new rate parameter, giving \(\text{P}(T&gt;10000) = {@significantfigures(float(prob2),3)@} ~~(\text{to 3 s.f.})\).<br><br>From comparing the two probabilities, we expect that \({\it fewer}\) of the redesigned cooling fans to give more than 10000 hours service.<br>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021072200</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[lambda1: (1+rand(5))/10000;
+lambda2: (10+5*rand(5))/10000;
+prob1: 1 - cdf_exp(10000, lambda1);
+prob2: 1 - cdf_exp(10000, lambda2);
+ta1: decimalplaces(float(prob1),4);
+
+/*List of answers for MCQ*/
+ta2: [["more", false],["fewer", true]];]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\(\lambda_1 = {@lambda1@}\), \(\lambda_2 = {@lambda2@}\), \(p_1 = {@displaydp(float(ta1),4)@}\), \(p_2 = {@significantfigures(float(prob2),3)@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>numerical</type>
+      <tans>dispdp(ta1,4)</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>to 4 d.p.</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>mindp:4, maxdp:4</options>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>checkbox</type>
+      <tans>ta2</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions>4</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>mcq_correct(ta2)</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>32374332</deployedseed>
+    <deployedseed>1862655546</deployedseed>
+    <deployedseed>840212001</deployedseed>
+    <deployedseed>1833538342</deployedseed>
+    <deployedseed>841867913</deployedseed>
+    <deployedseed>1770279504</deployedseed>
+    <deployedseed>122598515</deployedseed>
+    <deployedseed>666344171</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>dispdp(ta1,4)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>mcq_correct(ta2)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>dispdp(prob2,4)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value><![CDATA[["more"]]]></value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

@@ -22,7 +22,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_anstest {
-
     /**
      * The name of the answer test.
      * @var string
@@ -97,8 +96,13 @@ class stack_anstest {
      * @param  string $sanskey
      * @param  string $tanskey
      */
-    public function __construct(stack_ast_container $sans, stack_ast_container $tans, $options = null, $atoption = null,
-            $contextsession = []) {
+    public function __construct(
+        stack_ast_container $sans,
+        stack_ast_container $tans,
+        $options = null,
+        $atoption = null,
+        $contextsession = []
+    ) {
         $this->sanskey = $sans;
         $this->tanskey = $tans;
         $this->contextsession = $contextsession;
@@ -199,8 +203,10 @@ class stack_anstest {
     public function get_trace($includeresult) {
 
         if ($this->tanskey && $this->tanskey->get_valid()) {
-            $ta = $this->tanskey->ast_to_string(null,
-                ['logicnoun' => true, 'keyless' => true, 'checkinggroup' => true]);
+            $ta = $this->tanskey->ast_to_string(
+                null,
+                ['logicnoun' => true, 'keyless' => true, 'checkinggroup' => true]
+            );
             if ($this->tanskey->is_correctly_evaluated()) {
                 $ta = $this->tanskey->get_value();
             }
@@ -208,8 +214,10 @@ class stack_anstest {
             return '';
         }
         if ($this->sanskey && $this->sanskey->get_valid()) {
-            $sa = $this->sanskey->ast_to_string(null,
-                ['logicnoun' => true, 'keyless' => true, 'checkinggroup' => true]);
+            $sa = $this->sanskey->ast_to_string(
+                null,
+                ['logicnoun' => true, 'keyless' => true, 'checkinggroup' => true]
+            );
             if ($this->sanskey->is_correctly_evaluated()) {
                 $sa = $this->sanskey->get_value();
             }
@@ -219,28 +227,29 @@ class stack_anstest {
         $traceline = $this->get_casfunction() . '(' . $sa . ', ' . $ta;
         $atopt = '';
         if ($this->atoption && $this->atoption->get_valid()) {
-            $atopt = $this->atoption->ast_to_string(null,
-                ['logicnoun' => true, 'keyless' => true, 'checkinggroup' => true]);
+            $atopt = $this->atoption->ast_to_string(
+                null,
+                ['logicnoun' => true, 'keyless' => true, 'checkinggroup' => true]
+            );
         }
         if ($this->atoption && $this->atoption->is_correctly_evaluated()) {
             $atopt = $this->atoption->get_value();
         }
         if ($atopt != '') {
-            $traceline = $this->get_casfunction() . '(' . $sa . ', ' . $ta . ', '. $atopt;
+            $traceline = $this->get_casfunction() . '(' . $sa . ', ' . $ta . ', ' . $atopt;
         }
         if (stack_ans_test_controller::required_raw($this->atname)) {
             // This code is copied from the at_general_cas.class, rather than just using $sa above.
             $raw = stack_utils::php_string_to_maxima_string($this->sanskey->get_inputform(true, 1));
-            $traceline .= ', '. $raw;
+            $traceline .= ', ' . $raw;
         }
         $traceline .= ')';
         if ($includeresult) {
-            $traceline .= ' = ['.$this->atmark. ', "' . $this->atansnote .'"];';
+            $traceline .= ' = [' . $this->atmark . ', "' . $this->atansnote . '"];';
         } else {
             $traceline = trim($traceline) . ';';
         }
 
         return $traceline;
     }
-
 }

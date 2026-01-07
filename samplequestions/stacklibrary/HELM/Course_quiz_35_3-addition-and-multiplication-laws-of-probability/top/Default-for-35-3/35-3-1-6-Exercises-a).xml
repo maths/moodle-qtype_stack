@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>35.3.1.6 Exercises a)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p></p>
+<p>The following people are in a room: \({@aa@}\) are Spanish aged \(21\) and over, \({@bb@}\) are Spanish under \(21\), \({@cc@}\) are Italian aged \(21\) and over, and \({@dd@}\) are Italian under \(21\).</p> 
+<p>One person is chosen at random. The following events are defined:</p>
+<p></p>
+<p>\(A = \{\)the person is aged \(21\) and over\(\};\)<br>\(B = \{\)the person is under \(21\)\(\}\);<br>\(C = \{\)the person is Spanish\(\};\)<br>\(D =\{\) the person is Italian\(\}.\)</p>
+<p>Evaluate the following:</p>
+<ol class="HELM_parts">
+
+    <li>
+        <p>\(\text{P}(B \cup D)=\) [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</p>
+    </li>
+
+    <li>
+        <p>\(\text{P}(A' \cap&nbsp; C')=\) [[input:ans2]] [[validation:ans2]] [[feedback:prt2]]</p>
+    </li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>People in the room:</p>
+<p>\({@aa@}\) are Spanish aged \(21\) and over, \({@bb@}\) are Spanish under \(21\),</p>
+<p>\({@cc@}\) are Italian aged \(21\) and over, and \({@dd@}\) are Italian under \(21\).</p>
+<p>One person is chosen at random. The following events are defined:</p>
+<p>\(A = \{\)the person is aged \(21\) and over\(\};\)<br>\(B = \{\)the person is under \(21\)\(\}\);<br>\(C = \{\)the person is Spanish\(\};\)<br>\(D =\{\) the person is Italian\(\}.\)</p>
+<p><br></p>
+<ol class="HELM_parts">
+    <li>
+        <p>We know that \(\text{P}(B\cup&nbsp; D)=\text{P}(B)+\text{P}(D)-\text{P}(B\cap&nbsp; D)\)</p>
+        <p>We calculate: \(\text{P}(B)=\dfrac{{@bb@}+{@dd@}}{18},\ \ \text{P}(D)=\dfrac{{@cc@}+{@dd@}}{18},\ \ \text{P}(B\cap&nbsp; D)=\dfrac{@dd@}{18}\)</p>
+        <p>\[\therefore \quad \text{P}(B\cup&nbsp; D)=\text{P}(B)+\text{P}(D)-\text{P}(B\cap&nbsp; D)={@ta1@}.\]</p>
+    </li>
+
+    <li>
+        <p></p>
+      <p>\( A'=\{\text{people under}\ 21\}\)</p>
+      <p>\(C'=\{\text{people who are not Spanish (i.e. are Italian)}\}\)</p>
+        <p></p>
+        \[\therefore\qquad \text{P}(A'\cap C')={{@dd@}\over 18}={@ta2@}.\]</li>
+</ol>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021072200</text>
+    </stackversion>
+    <questionvariables>
+      <text>listcom:[5,4,6,3]
+aa:rand(listcom)
+lista:delete(aa,listcom)
+bb:rand(lista)
+listb:delete(bb,lista)
+cc:rand(listb)
+dd:delete(cc,listb)[1]
+ta1: (bb+ cc+dd)/18
+ta2: dd/18</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text><![CDATA[\[{@aa@} \, \text{Spanish} \, \geq 21, {@bb@} \, \text{Spanish} \, <21\]
+\[{@cc@} \, \text{Italian} \, \geq 21, {@dd@} \, \text{Italian} \, <21\]
+\[ \text{P}(B \cup D)= {@ta1@}, \quad \text{P}(A'\cap C') = {@ta2@} \]]]></text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>ta2</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>321537400</deployedseed>
+    <deployedseed>907435951</deployedseed>
+    <deployedseed>2074533822</deployedseed>
+    <deployedseed>1962647029</deployedseed>
+    <deployedseed>1865070243</deployedseed>
+    <deployedseed>1292037190</deployedseed>
+    <deployedseed>87958281</deployedseed>
+    <deployedseed>1219999660</deployedseed>
+    <deployedseed>1009290144</deployedseed>
+    <deployedseed>591787572</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1+1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2+2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

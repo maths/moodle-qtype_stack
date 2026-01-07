@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>11.4.2.1 Differentiating a quotient</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Differentiating a quotient</h4>
+
+In this Section we consider functions of the form \(y = \dfrac{f(x)}{g(x)}\). To find the derivative of such a function we make use of the following Key Point:
+
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p><b>Quotient Rule</b></p>
+<p></p>
+If \(y = \dfrac{f(x)}{g(x)}\), then \[ \dfrac{dy}{dx} = \dfrac{ g(x) \dfrac{df}{dx} - \dfrac{dg}{dx}f(x)}{[g(x)]^2}\] or \(y' = \dfrac{ gf' - g'f}{g^2}\).<p></p>
+In slightly more compact notation we have that if \(y = \dfrac{u}{v}\), then \[ \dfrac{dy}{dx} = \dfrac{ v \dfrac{du}{dx} - \dfrac{dv}{dx}u}{v^2}\] or \(y' = \dfrac{ vu' - v'u}{v^2}\).&nbsp;<p></p>
+These are two equivalent versions of the <b>quotient rule</b>.
+</div><p><br></p>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Find the derivative of \(y = \dfrac{\ln x}{x}\).</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>Here \(f(x) = \ln x\) and \(g(x) = x\)</p>
+\[ \therefore \dfrac{df}{dx} = \dfrac{1}{x} \text{  and  } \dfrac{dg}{dx} = 1 \]
+Hence \(\dfrac{dy}{dx} =\dfrac{x \left( \dfrac{1}{x} \right) - 1(\ln x) }{[x]^2} = \dfrac{1 - \ln x}{x^2}\)
+<hr>
+<p></p>
+Note that the product rule can also be used to differentiate this function by writing it in the form \(y = f(x)g(x) = (\ln x)(x^{-1})\).]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

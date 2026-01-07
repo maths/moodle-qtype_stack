@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>8.2.1.2 Example determinant and inverse matrix</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4 class="HELM_example">Example</h4>
+<p>Given the matrix <span class="math display">\[A=\left[\begin{array}{rr}2&amp;3\\ 1&amp;-2\end{array}\right]\]</span> find its determinant. What does this tell you about <span class="math inline">\(A^{-1}\)</span>?</p>
+<h4 class="HELM_solution">Solution</h4>
+<p><span class="math display">\[|A|=2\times (-2)-1\times 3=-7.\]</span> Since <span class="math inline">\(|A|\neq 0\)</span> then <span class="math inline">\(A^{-1}\)</span> exists. Therefore, we can now find <span class="math inline">\(A^{-1}\):</span></p>
+
+<p><span class="math display">\[A^{-1}=\dfrac{1}{(-7)}\left[\begin{array}{rr}-2&amp;-3\\
+-1&amp;2\end{array}\right]=\dfrac{1}{7}\left[\begin{array}{rr}2&amp;3\\ 1&amp;-2\end{array}\right]\]</span></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

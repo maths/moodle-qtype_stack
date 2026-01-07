@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>27.3.2.10 volume of prism task</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Find the volume of the solid prism shown in the diagram below. Check that when
+the order of integration is changed, the volume remains unaltered.<p>
+
+[[jsxgraph  width="400px" height="300px"  ]]
+      const board = JXG.JSXGraph.initBoard('jxgbox', {
+            boundingbox: [-5, 5, 5, -5],
+            axis: false,
+            showNavigation: false
+        });
+
+        // Axes points
+        const X = board.create('point', [0, 4], {visible: false, fixed: true});        
+        const Y = board.create('point', [4, 0], {visible: false, fixed: true});
+        const Z = board.create('point', [-3, -3], {visible: false, fixed: true});       
+     
+
+
+        // Back triangle
+        const O = board.create('point', [0, 0], {visible: false, fixed: true});
+        const A = board.create('point', [1.5, 0], {visible: false, fixed: true});
+        const B = board.create('point', [0, 2], {visible: false, fixed: true});
+
+
+        // Front triangle
+        const D = board.create('point', [-2, 0], {visible: false, fixed: true});
+        const E = board.create('point', [-2, -2], {visible: false, fixed: true});
+        const F = board.create('point', [-0.5, -2], {visible: false, fixed: true});
+        // Axes with labels
+        board.create('arrow', [O, X], {strokeColor: 'black', name: 'X', withLabel: false,fontSize: 12});
+        board.create('arrow', [O, Y], {strokeColor: 'black', name: 'Y', withLabel: false,fontSize: 12});
+        board.create('arrow', [O, Z], {strokeColor: 'black', name: 'Z', withLabel: false,fontSize: 12});    
+        // Create lines for the back triangle
+        board.create('line', [O, A], {straightFirst: false, straightLast: false});
+        board.create('line', [O, B], {straightFirst: false, straightLast: false});
+        board.create('line', [A, B], {straightFirst: false, straightLast: false});
+        // Create lines for the front triangle
+        board.create('line', [D, E], {straightFirst: false, straightLast: false});
+        board.create('line', [E, F], {straightFirst: false, straightLast: false});
+        board.create('line', [F, D], {straightFirst: false, straightLast: false});
+
+        // Create lines for the sides of the prism
+        board.create('line', [A, F], {straightFirst: false, straightLast: false});
+        board.create('line', [B, D], {straightFirst: false, straightLast: false});
+        board.create('line', [O, E], {straightFirst: false, straightLast: false});
+       
+        // Add other labels
+        board.create('text', [-1.2, -2.3, '\\(x = {#aa#}\\)'], {fontSize: 12,fixed: true});
+        board.create('text', [4.2, 0, '\\(x\\)'], {fontSize: 12,fixed: true});
+        board.create('text', [0, 4.2, '\\(y\\)'], {fontSize: 12,fixed: true});
+        board.create('text', [-3.2, -3.2, '\\(z\\)'], {fontSize: 12,fixed: true});
+        board.create('text', [1, 1, '\\(y + z = 1\\)'], {fontSize: 12,fixed: true});
+        board.create('text', [0.1, 2.1, '\\(1\\)'], {fontSize: 12,fixed: true});
+        board.create('text', [1.6, 0.2, '\\(1\\)'], {fontSize: 12,fixed: true});
+        board.create('text', [-2.4, -2.0, '\\({#aa#}\\)'], {fontSize: 12,fixed: true});
+[[/jsxgraph]]
+</p><p>Volume = [[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[The volume is given by the triple integral \(\displaystyle\int\int \int dV\). 
+Putting \(z\) on the outer integral, \(y\) on the intermediate integral
+and \(x\) on the inner integral, the limits on \(z\) are \(z=0\) to \(z=1\).
+For each value of \(z\), \(y\) varies from \(y=0\) (base) to \(y=1-z\)
+on the sloping face. For each combination of \(y\) and \(z\), \(x\) varies from
+\(x=0\) to \(x={@aa@}\). Thus, the volume is given by
+\begin{eqnarray*}
+V &=& \int \int \int dV = \int_{z=0}^1 \int_{y=0}^{1-z} \int_{x=0}^{@aa@}
+\;\mathrm{d}x \,\mathrm{d}y \,\mathrm{d}z \\
+&=& \int_{z=0}^1 \int_{y=0}^{1-z} \bigg[ x\bigg]_0^{@aa@} \;\mathrm{d}y \,\mathrm{d}z =
+\int_{z=0}^1 \int_{y=0}^{1-z} {@aa@} \;\mathrm{d}y \,\mathrm{d}z \\
+&=& \int_{z=0}^1 \bigg[ {@fbI12@}\bigg]_{y=0}^{1-z} \;\mathrm{d}z =
+\int_{z=0}^1 \left( {@I12@} \right)  \;\mathrm{d}z  \\
+&=& \bigg[{@fbI13@} \bigg]_0^1 = {@ta1@}
+\end{eqnarray*}
+Now, the three integrations can be carried out in a different order.
+For example, with \(x\) on the outer integral, \(z\) on the intermediate
+integral and \(y\) on the inner integral, the limits on \(x\) are \(x=0\)
+to \(x={@aa@}\); for each value of \(x\), \(z\) varies from \(z=0\) to \(z=1\) and
+for each combination of \(x\) and \(z\), \(y\) varies from \(y=0\) to
+\(y=1-z\). The volume is therefore given by
+\begin{eqnarray*}
+V &=& \int \int \int dV = \int_{x=0}^3 \int_{z=0}^{1}
+\int_{y=0}^{1-z}
+  \;\mathrm{d}y \,\mathrm{d}z \,\mathrm{d}x\qquad\qquad\qquad \\
+&=& \int_{x=0}^{@aa@} \int_{z=0}^{1} \bigg[ y \bigg]_{y=0}^{1-z} \;\mathrm{d}z
+\,\mathrm{d}x \\ &=& \int_{x=0}^{@aa@} \int_{z=0}^{1} \bigg[ 1-z \bigg] \;\mathrm{d}z \,\mathrm{d}x \\
+&=& \int_{x=0}^{@aa@} \left[ z-\frac{z^2}{2} \right]_{z=0}^{1} \;\mathrm{d}x \\ &=&
+\int_{x=0}^{@aa@} \left[ 1-\frac{1^2}{2} - 0 \right] \;\mathrm{d}x \\ &=& \int_{x=0}^{@aa@}
+\frac{1}{2} \;\mathrm{d}x \\
+&=& \left[ \frac{x}{2} \right]_{x=0}^{@aa@} =
+{@ta1@}
+\end{eqnarray*}
+There are in all six ways - (\(3!\)) -  to order the three
+integrations; each order gives the same answer of {@ta1@}.]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025040100</text>
+    </stackversion>
+    <questionvariables>
+      <text>aa: rand([1,2,3,4]);
+
+fbI11:integrate (1,x);
+I11:integrate (1,x,0,aa);
+fbI12: integrate (I11,y);
+I12: integrate (I11,y,0,1-z);
+fbI13: integrate (I12,z);
+I13: integrate (I12,z,0,1);
+ta1:I13;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="html">
+      <text>{@ta1@}</text>
+    </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1524915112</deployedseed>
+    <deployedseed>512502328</deployedseed>
+    <deployedseed>2145765290</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(ta1+1,simp)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <tags>
+      <tag><text>jsxgraph_solution</text>
+</tag>
+    </tags>
+  </question>
+</quiz>

@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>HELM 30.1 E3 Loss of precision</text>
+    </name>
+    <questiontext format="markdown">
+      <text>**30.1 E3 Loss of precision**
+
+The larger solution of the quadratic equation
+
+\\\(x^2 + {@p@} x + 1 = 0\\\)
+
+is \\\(x_1=−{@p/2@} +\sqrt{{@p^2/4-1@}}\approx{@dispdp(-p/2+sqrt(p^2/4-1),10)@}\\\) (10 d.p.). 
+
+Round the value 
+\\\(\sqrt{{@p^2/4-1@}}\\\) to {#rsf#} signiﬁcant ﬁgures:
+
+[[input:S_root]] [[validation:S_root]] [[feedback:root]]
+
+and then use this rounded value to calculate the larger solution 
+of the quadratic equation. 
+
+\\\(x_1\approx\\\) [[input:S_x1]] [[validation:S_x1]] [[feedback:x1]]
+
+How many accurate signiﬁcant ﬁgures does your answer have?
+
+[[input:S_sf]] [[validation:S_sf]] [[feedback:sf]]</text>
+    </questiontext>
+    <generalfeedback format="markdown">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2024012900</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[rsf: rand([4,5,6]);
+p: rand_with_step(50,200,2);
+
+root:significantfigures(sqrt(p^2/4-1),rsf);
+x1: -p/2+root;
+
+asf(a,b):= block(
+    if b = 0.0 or b=0 then return(0),
+    OMa: floor(float(log(abs(a))/log(10))),
+    OMb: floor(float(log(abs(b))/log(10))),
+    if OMa < 0 then 
+           OMa: -smismatch(string(abs(a)),"0.00000000000000000000000000")+2 else
+           OMa: slength(split(string(abs(a)),".")[1])-1,
+    if OMb < 0 then 
+           OMb: -smismatch(string(abs(b)),"0.00000000000000000000000000")+2 else
+           OMb: slength(split(string(abs(b)),".")[1])-1,
+    if OMa # OMb then return(0),
+    sna:string(float(abs(a)/10^(OMa+1))),
+    snb:string(float(abs(b)/10^(OMb+1))),
+    ad: smismatch(sna,snb)-3,
+    if round(a/10^(OMa+1)*10^(ad))#round(b/10^(OMb+1)*10^(ad)) then return(ad-1),
+    if round(a/10^(OMa+1)*10^(ad+1))=round(b/10^(OMb+1)*10^(ad+1)) and ad<(slength(snb)-2) 
+    then ad: ad+1,
+ad);  
+
+
+
+x0:float(-p/2+sqrt(p^2/4-1));x:float(x1);
+
+sf: asf(x0, x);]]></text>
+    </questionvariables>
+    <specificfeedback format="markdown">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>{@p@}, {@rsf@}, {@root@}, {@float(-p/2+sqrt(p^2/4-1))@} , {@x1@},  {@sf@}</text>
+    </questionnote>
+    <questiondescription format="markdown">
+      <text>The challenge is to determine the number of significant digits in the result. 
+
+
+
+failed test cases:
+
+0.00645470330891 , 0.0064, 1</text>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="markdown">
+      <text>Richtige Antwort, gut gemacht!</text>
+    </prtcorrect>
+    <prtpartiallycorrect format="markdown">
+      <text>Ihre Antwort ist teilweise korrekt.</text>
+    </prtpartiallycorrect>
+    <prtincorrect format="markdown">
+      <text>Falsche Antwort.</text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>S_root</name>
+      <type>numerical</type>
+      <tans>root</tans>
+      <boxsize>8</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>Number</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>S_sf</name>
+      <type>numerical</type>
+      <tans>sf</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>Number</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>intnum</options>
+    </input>
+    <input>
+      <name>S_x1</name>
+      <type>numerical</type>
+      <tans>x1</tans>
+      <boxsize>8</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>Number</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>root</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumSigFigs</answertest>
+        <sans>S_root</sans>
+        <tans>root</tans>
+        <testoptions>rsf</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>root-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>root-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>sf</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text>rfref: significantfigures(fref,S_sf);
+rfn: significantfigures(fn,S_sf);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumAbsolute</answertest>
+        <sans>S_sf</sans>
+        <tans>sf</tans>
+        <testoptions>0.1</testoptions>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>sf-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>sf-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>x1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumAbsolute</answertest>
+        <sans>S_x1</sans>
+        <tans>x1</tans>
+        <testoptions>0.00001</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>x1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>x1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>131217104</deployedseed>
+    <deployedseed>844300686</deployedseed>
+    <deployedseed>1258067187</deployedseed>
+    <deployedseed>1544534811</deployedseed>
+    <deployedseed>355579788</deployedseed>
+    <deployedseed>1514694284</deployedseed>
+    <deployedseed>1388348216</deployedseed>
+    <deployedseed>1022375444</deployedseed>
+    <deployedseed>1401936240</deployedseed>
+    <deployedseed>1383514840</deployedseed>
+    <deployedseed>1550313043</deployedseed>
+    <deployedseed>1699951669</deployedseed>
+    <deployedseed>1895463734</deployedseed>
+    <deployedseed>1529970030</deployedseed>
+    <deployedseed>864079542</deployedseed>
+    <deployedseed>1205958182</deployedseed>
+    <deployedseed>1051364321</deployedseed>
+    <deployedseed>642335731</deployedseed>
+    <deployedseed>574638545</deployedseed>
+    <deployedseed>115482924</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>S_root</name>
+        <value>dispsf(root,6)</value>
+      </testinput>
+      <testinput>
+        <name>S_sf</name>
+        <value>sf</value>
+      </testinput>
+      <testinput>
+        <name>S_x1</name>
+        <value>x1</value>
+      </testinput>
+      <expected>
+        <name>root</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>root-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>sf</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>sf-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>x1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>x1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

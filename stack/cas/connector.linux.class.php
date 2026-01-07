@@ -22,7 +22,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_cas_connection_linux extends stack_cas_connection_base {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function guess_maxima_command($path) {
         global $CFG;
@@ -45,7 +44,7 @@ class stack_cas_connection_linux extends stack_cas_connection_base {
         $maximaversion = stack_connection_helper::get_maximaversion();
         $maximacommand = 'maxima';
         if ('default' != $maximaversion) {
-            $maximacommand = 'maxima --use-version='.$maximaversion;
+            $maximacommand = 'maxima --use-version=' . $maximaversion;
         }
         return $maximacommand;
     }
@@ -69,7 +68,7 @@ class stack_cas_connection_linux extends stack_cas_connection_base {
             throw new stack_exception('stack_cas_connection: could not write to the CAS process.');
         }
         fwrite($pipes[0], $command);
-        fwrite($pipes[0], 'quit();'."\n\n");
+        fwrite($pipes[0], 'quit();' . "\n\n");
 
         $ret = '';
         // Read output from stdout.
@@ -81,7 +80,6 @@ class stack_cas_connection_linux extends stack_cas_connection_base {
         }
 
         while ($continue && !feof($pipes[1])) {
-
             $now = microtime(true);
 
             if (($now - $starttime) > $this->timeout) {
@@ -98,7 +96,6 @@ class stack_cas_connection_linux extends stack_cas_connection_base {
                 }
                 $ret .= $out;
             }
-
         }
 
         if ($continue) {
@@ -110,7 +107,6 @@ class stack_cas_connection_linux extends stack_cas_connection_base {
 
             $this->debug->log('Timings', "Start: {$starttime}, End: {$now}, Taken = " .
                     ($now - $starttime));
-
         } else {
             // Add sufficient closing ]'s to allow something to be un-parsed from the CAS.
             // WARNING: the string 'The CAS timed out' is used by the cache to search for a timeout occurrence.

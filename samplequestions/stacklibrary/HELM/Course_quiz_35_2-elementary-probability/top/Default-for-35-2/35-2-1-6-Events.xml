@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>35.2.1.6 Events</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4> Events </h4>
+<p> As we have already noted a collection of some or all of the outcomes of an experiment is called an <strong>event</strong>. So an event is a <strong>subset</strong> of the sample space. For example, if we throw a 6-sided die then the sample space is \(\{1, 2, 3, 4, 5, 6\}\) and two possible events are </p>
+<ul>
+<li> a score of 3 or more, represented by the set: \(\{3, 4, 5, 6\}\) </li>
+<li> a score which is even, represented by the set: \(\{2, 4, 6\}\). </li>
+</ul>
+<hr>
+<h4 class="HELM_example"> Example </h4>
+<p> Two coins are thrown. List the ordered outcomes for the event when just one Tail
+is obtained. </p>
+<h4 class="HELM_solution"> Solution </h4>
+<p> \(\{HT, TH\}\). Note that here the <strong>order does matter</strong>, i.e. \(TH\) is distinct from \(HT\). </p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

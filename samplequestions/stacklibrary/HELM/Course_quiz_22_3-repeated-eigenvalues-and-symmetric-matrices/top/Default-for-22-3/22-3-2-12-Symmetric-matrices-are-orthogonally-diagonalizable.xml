@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>22.3.2.12 Symmetric matrices are orthogonally diagonalizable</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>The following is the key result of this Section.</p>
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p><strong>Any</strong> symmetric matrix \(A\) can be diagonalized using an orthogonal modal matrix \(P\) via the transformation
+\[ P^TAP = D = \left[\begin{array}{cccc}\lambda_1 &amp; 0 &amp; \cdots &amp; 0\\ 0 &amp; \lambda_2 &amp; \cdots &amp; 0\\ \vdots &amp; \vdots &amp; \ddots &amp; \\ 0 &amp; 0 &amp; &amp; \lambda_n\end{array}\right]. \]
+It follows that any \(n\times n\) symmetric matrix <strong>must</strong> possess \(n\) mutually orthogonal eigenvectors <strong>even if some of the eigenvalues are repeated</strong>.</p>
+</div>
+<p>It should be clear to the reader that the above Key Point is a very powerful result for any applications that involve diagonalization of a symmetric matrix. Further, if we do need to find the inverse of \(P\), then this is a trivial process since \(P^{-1}=P^T\) (the previous Key Point).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

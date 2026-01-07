@@ -1,0 +1,558 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>22.2.4.5 2nd order diff exercises</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Matrix methods can be used to solve systems of <strong>second order</strong> differential equations such as might arise with coupled electrical or mechanical systems. For example the motion of two masses \(m_1\) and \(m_2\) vibrating on coupled springs, neglecting damping and spring masses, is governed by 
+\[\begin{aligned}
+m_1{\ddot
+y}_1&amp;=-k_1y_1+k_2(y_2-y_1)\\ 
+m_2{\ddot y}_2&amp;=-k_2(y_2-y_1)\end{aligned}\]
+where dots denote derivatives with respect to time. Write this system as a matrix equation \({\ddot{\underline{y}}}=A\underline{y}\) and use the decoupling method to find \(\underline{y}\).
+
+<ol class="HELM_parts"> 
+ <li>  \(m_1=m_2=1,\ k_1={@k_1a@},\ k_2={@k_2a@}\) with initial conditions \(y_1(0)={@y_1a@}, y_2(0)={@y_2a@},{\dot y_1}(0)={@yprime_1a@},{\dot
+y}_2(0)={@yprime_2a@}.\)
+<br>
+\(Y=\) [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]
+</li>
+
+<li>   \(m_1=m_2=1,\ k_1={@k_1b@},\ k_2={@k_2b@}\) with initial conditions \(y_1(0)={@y_1b@}, y_2(0)={@y_2b@},{\dot y_1}(0)={@yprime_1b@},{\dot
+y}_2(0)={@yprime_2b@}.\)
+<br>
+<br>\(\underline{y}=\) [[input:ans2]] [[validation:ans2]] [[feedback:prt2]]
+</li>
+
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[(a) First we convert the problem into matrix form: \(\ddot{\underline{y}}=A\underline{y}\) where \(A={@matrix([-k_1-k_2,k_2],[k_2,-k_2])@}={@matA@}\). We find the eigenvalues of \(A\) to be {@eval_a1@} and {@eval_a2@} with corresponding eigenvectors \({@evec_a1@}^T\) and \({@evec_a2@}^T\). Letting \(P={@p_a@}\) we substitute \(\underline{z}=P\underline{y}\) to get \(\ddot{\underline{z}}=D\underline{z}\) where \(D={@matD_a@}\). This can be solved by the method of decoupled equations for \(\underline{z}={@solz_1@}\). We then convert back to the original system with \(\underline{y}=P\underline{z}={@p_a@}{@solz_1@}={@sol1_gen@}\).
+<br> To find the specific solution, we solve for \(A,B,C,D\) in \(\underline{y}(0)={@inity_a@}\) and \(\dot{\underline{y}}(0)={@inity_prime_a@}\) to get \(A={@myA@},B={@myB@},C={@myC@},D={@myD@}\) and a specific solution of \(\underline{y}={@sol1@}\).
+
+(b) Similarly, we start by converting to matrix form: \(\ddot{\underline{y}}=A\underline{y}\) where \(A={@matB@}\). We find the eigenvalues of \(A\) to be {@eval_b1@} and {@eval_b2@} with corresponding eigenvectors \({@evec_b1@}^T\) and \({@evec_b2@}^T\). Letting \(P={@p_b@}\) we substitute \(\underline{z}=P\underline{y}\) to get \(\ddot{\underline{z}}=D\underline{z}\) where \(D={@matD_b@}\). This can be solved by the method of decoupled equations for \(\underline{z}={@solz_2@}\). We then convert back to the original system with \(\underline{y}=P\underline{z}={@p_b@}{@solz_2@}={@sol2_gen@}\).
+<br> To find the specific solution, we solve for \(A,B,C,D\) in \(\underline{y}(0)={@inity_b@}\) and \(\dot{\underline{y}}(0)={@inity_prime_b@}\) to get \(A={@myA2@},B={@myB2@},C={@myC2@},D={@myD2@}\) and a specific solution of \(\underline{y}={@sol2@}\).]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2024072400</text>
+    </stackversion>
+    <questionvariables>
+      <text>/*part (a)*/
+/*Set parameters*/
+m_1:1;
+m_2:1;
+
+/*We use only one matrix for question (a), as all the other matrices of this form with negative integer eigenvalues are more difficult than the given (a), and the HELM author likely intended for part (a) to be easier than part (b).*/
+k_1a:3
+k_2a:2
+
+/*I will find y_0, y'_0 later, s.t. they produce a nice result.*/
+
+/*Calculate eigenvalues and -vectors. By construction there are two distinct evals, both of which are negative.*/
+matA:matrix([-k_1a-k_2a,k_2a],[k_2a,-k_2a])
+evals_a:eigenvalues(matA)
+evecs_a:eigenvectors(matA)
+
+evec_a1:evecs_a[2][1][1]
+evec_a2:evecs_a[2][2][1]
+
+eval_a1:evals_a[1][1]
+eval_a2:evals_a[1][2]
+
+/*Modal matrix*/
+p_a:matrix([evec_a1[1],evec_a2[1]],[evec_a1[2],evec_a2[2]])
+matD_a:matrix([eval_a1,0],[0,eval_a2])
+
+/*Let Z=PY*/
+/*Solve the equation Z''=DZ*/
+omega_a1:sqrt(-eval_a1)
+omega_a2:sqrt(-eval_a2)
+solz_1:matrix([A*cos(omega_a1*t)+B*sin(omega_a1*t)],[C*cos(omega_a2*t)+D*sin(omega_a2*t)])
+/*Hence find the general solution for Y*/
+sol1_gen:p_a.solz_1
+
+
+/*Now we decide what we would like A,B,C,D to be, to give a nice solution.*/
+myA:0
+myB:rand_with_prohib(-2,2,[0])
+myC:rand_with_prohib(-2,2,[0])
+myD:0
+
+/*Substitute into general form for solution*/
+sol1:subst(D=myD,subst(C=myC,subst(B=myB,subst(A=myA,sol1_gen))))
+
+/*To find the initial values, find the derivative...*/
+sol1_prime:diff(sol1_gen,t)
+/*... and substitute t=0 into both*/
+sol1_subst:subst(t=0,sol1_gen)
+sol1_prime_subst:subst(t=0,sol1_prime)
+
+/*Then the initial values are found by substituting in myA,myB,...*/
+
+inity_a:subst(D=myD,subst(C=myC,subst(B=myB,subst(A=myA,sol1_subst))))
+y_1a:inity_a[1][1]
+y_2a:inity_a[2][1]
+
+inity_prime_a:subst(D=myD,subst(C=myC,subst(B=myB,subst(A=myA,sol1_prime_subst))))
+yprime_1a:inity_prime_a[1][1]
+yprime_2a:inity_prime_a[2][1]
+
+
+
+
+
+/*part (b)*/
+/*Set parameters*/
+m_1:1
+m_2:1
+
+/*For party (b) there are exactly 4 matrices of similar difficulty to the one given by HELM, with integer eigenvalues.*/
+k_1bs:[5,6,8,9]
+k_2bs:[6,4,3,6]
+index:rand(4)+1
+k_1b:k_1bs[index]
+k_2b:k_2bs[index]
+
+/*I will find y_0, y'_0 later, s.t. they produce a nice result.*/
+
+/*Calculate eigenvalues and -vectors. By construction there are two distinct evals, both of which are negative.*/
+matB:matrix([-k_1b-k_2b,k_2b],[k_2b,-k_2b])
+evals_b:eigenvalues(matB)
+evecs_b:eigenvectors(matB)
+
+evec_b1:evecs_b[2][1][1]
+evec_b2:evecs_b[2][2][1]
+
+eval_b1:evals_b[1][1]
+eval_b2:evals_b[1][2]
+
+/*Modal matrix*/
+p_b:matrix([evec_b1[1],evec_b2[1]],[evec_b1[2],evec_b2[2]])
+matD_b:matrix([eval_b1,0],[0,eval_b2])
+
+/*Let Z=PY*/
+/*Solve the equation Z''=DZ*/
+omega_b1:sqrt(-eval_b1)
+omega_b2:sqrt(-eval_b2)
+solz_2:matrix([A*cos(omega_b1*t)+B*sin(omega_b1*t)],[C*cos(omega_b2*t)+D*sin(omega_b2*t)])
+/*Hence find the general solution for Y*/
+sol2_gen:p_b.solz_2
+
+
+/*Now we decide what we would like A,B,C,D to be, to give a nice solution.*/
+myA2:0
+myB2:rand_with_prohib(-2,2,[0])
+myC2:0
+myD2:0
+
+/*Substitute into general form for solution*/
+sol2:subst(D=myD2,subst(C=myC2,subst(B=myB2,subst(A=myA2,sol2_gen))))
+
+/*To find the initial values, find the derivative...*/
+sol2_prime:diff(sol2_gen,t)
+/*... and substitute t=0 into both*/
+sol2_subst:subst(t=0,sol2_gen)
+sol2_prime_subst:subst(t=0,sol2_prime)
+
+/*Then the initial values are found by substituting in myA,myB,...*/
+
+inity_b:subst(D=myD2,subst(C=myC2,subst(B=myB2,subst(A=myA2,sol2_subst))))
+y_1b:inity_b[1][1]
+y_2b:inity_b[2][1]
+
+inity_prime_b:subst(D=myD2,subst(C=myC2,subst(B=myB2,subst(A=myA2,sol2_prime_subst))))
+yprime_1b:inity_prime_b[1][1]
+yprime_2b:inity_prime_b[2][1]</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text><![CDATA[(a)
+Question: \(k_1={@k_1a@}, k_2={@k_2a@},A= {@matA@}, Y_0={@inity_a@},\dot Y_0= {@inity_prime_a@}\)
+Solution: {@sol1@}
+<br>(b)
+Question: \(k_1={@k_1b@}, k_2={@k_2b@},A= {@matB@}, Y_0={@inity_b@},\dot Y_0= {@inity_prime_b@}\)
+Solution: {@sol2@}]]></text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>matrix</type>
+      <tans>sol1</tans>
+      <boxsize>20</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>matrix</type>
+      <tans>sol2</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>ans1_pprime:matrix([diff(diff(ans1[1,1],t),t)],[diff(diff(ans1[2,1],t),t)])
+ans1_prime_subst:subst(t=0,matrix([diff(ans1[1,1],t)],[diff(ans1[2,1],t)]))
+ans1_subst:subst(t=0,ans1)</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1_pprime</sans>
+        <tans>matA.ans1</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.5</truescore>
+        <truepenalty/>
+        <truenextnode>3</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[Your answer satisfies \(\ddot{\underline{y}}= {@matA@}\underline{y}\).<br>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[Your answer should satisfy \(\ddot{\underline{y}}= {@matA@}\underline{y}\). In your case,
+<br>\(\ddot{\underline{y}}={@ans1_pprime@}\),
+<br>\({@matA@}\underline{y}={@matA.ans1@}\).
+<br>Please try again.]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1_subst</sans>
+        <tans>inity_a</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.25</truescore>
+        <truepenalty/>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[Your answer satisfies \(\underline{y}(0)={@inity_a@}\).<br>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[Your answer does not satisfy \(\underline{y}(0)={@inity_a@}\).<br>
+In your case, \(\underline{y}(0)={@ans1_subst@}\)<br>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1_prime_subst</sans>
+        <tans>inity_prime_a</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.25</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[Your answer satisfies \(\dot{\underline{y}}(0)={@inity_prime_a@}\).<br>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[Your answer does not satisfy \(\dot{\underline{y}}(0)={@inity_prime_a@}\).<br>
+In your case, \(\dot{\underline{y}}(0)={@ans1_prime_subst@}\)<br>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>3</name>
+        <description/>
+        <answertest>SubstEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>sol1_gen</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-4-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[The general form of your answer is correct, but it looks like you forgot to use the initial conditions to find a specific solution. Your answer should satisfy \(\underline{y}(0)={@inity_a@}\) and \(\dot{\underline{y}}(0)={@inity_prime_a@}\). <br>Please try again.]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt1-4-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>ans2_pprime:matrix([diff(diff(ans2[1,1],t),t)],[diff(diff(ans2[2,1],t),t)])
+ans2_prime_subst:subst(t=0,matrix([diff(ans2[1,1],t)],[diff(ans2[2,1],t)]))
+ans2_subst:subst(t=0,ans2)</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2_pprime</sans>
+        <tans>matB.ans2</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.5</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[Your answer satisfies \(\ddot{\underline{y}}= {@matB@}\underline{y}\).<br>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[Your answer should satisfy \(\ddot{\underline{y}}= {@matB@}\underline{y}\). In your case,
+<br>\(\ddot{\underline{y}}={@ans2_pprime@}\),
+<br>\({@matB@}\underline{y}={@matB.ans2@}\).
+<br>Please try again.]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>SubstEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>sol2_gen</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[The general form of your answer is correct, but it looks like you forgot to use the initial conditions to find a specific solution. Your answer should satisfy \(\underline{y}(0)={@inity_b@}\) and \(\dot{\underline{y}}(0)={@inity_prime_b@}\). <br>Please try again.]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>prt2-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2_subst</sans>
+        <tans>inity_b</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.25</truescore>
+        <truepenalty/>
+        <truenextnode>3</truenextnode>
+        <trueanswernote>prt2-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[Your answer satisfies \({\underline{y}}(0)={@inity_b@}\).<br>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>3</falsenextnode>
+        <falseanswernote>prt2-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[Your answer does not satisfy \({\underline{y}}(0)={@inity_b@}\).<br>
+In your case, \({\underline{y}}(0)={@ans2_subst@}\)<br>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>3</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2_prime_subst</sans>
+        <tans>inity_prime_b</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.25</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-4-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[Your answer satisfies \(\dot{\underline{y}}(0)={@inity_prime_b@}\).<br>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-4-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[Your answer does not satisfy \(\dot{\underline{y}}(0)={@inity_prime_b@}\).<br>
+In your case, \(\dot{\underline{y}}(0)={@ans2_prime_subst@}\)<br>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1769835156</deployedseed>
+    <deployedseed>1104793136</deployedseed>
+    <deployedseed>1803841598</deployedseed>
+    <deployedseed>169999226</deployedseed>
+    <deployedseed>1792497907</deployedseed>
+    <deployedseed>1112758368</deployedseed>
+    <deployedseed>85146950</deployedseed>
+    <deployedseed>66704490</deployedseed>
+    <deployedseed>1358425586</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>sol1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>sol2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-3-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-4-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>sol1_gen</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>sol2_gen</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.5000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-4-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.5000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>matrix([0],[0])</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>matrix([0],[0])</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.5000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-3-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.7500000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-4-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

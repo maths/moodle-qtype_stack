@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>23.2.1.1 Introduction</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Introduction</h4>
+We recall first a simple trigonometric identity:
+\[ \cos 2t = -1 + 2\cos^2 t \hspace{1cm} \text{or equivalently} \hspace{1cm} \cos^2 t = \dfrac{1}{2} + \dfrac{1}{2} \cos 2t \hspace{2cm} (1) \]
+Equation 1 can be interpreted as a simple <b>finite</b> Fourier series representation of the periodic function
+\(f(t) = \cos^2 t\) which has period \(\pi\). We note that the Fourier series representation contains a constant
+term and a period \(\pi\) term.
+<p></p>
+A more complicated trigonometric identity is
+\[ \sin^4 t = \dfrac{3}{8} - \dfrac{1}{2}\cos 2t + \dfrac{1}{8} \cos 4t \hspace{3cm} (2)\]
+which again can be considered as a finite Fourier series representation. (Do not worry if you are unfamiliar with the result (2).) Note that the function \(f(t) = \sin^4 t\) (which has period \(\pi\)) is being written in terms of a constant function, a function of period \(\pi\) or frequency \(\dfrac{1}{\pi}\) (the "first harmonic") and a function of period \(\dfrac{\pi}{2}\) or frequency \( \dfrac{2}{\pi}\) (the "second harmonic").
+<p></p>
+The reason for the constant term in both \((1)\) and \((2)\) is that each of the functions \(\cos^2 t\) and \(\sin^4 t\) is non-negative and hence each must have a positive average value. Any sinusoid of the form \(\cos nt\) or \(\sin nt\) has, by symmetry, zero average value. Therefore, so would a Fourier series containing only such terms. A constant term can therefore be expected to arise in the Fourier series of a function
+which has a non-zero average value.]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

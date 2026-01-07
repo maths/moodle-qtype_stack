@@ -76,8 +76,9 @@ class external extends \external_api {
         require_once($CFG->dirroot . '/question/type/stack/stack/input/inputbase.class.php');
 
         $params = self::validate_parameters(
-                self::validate_input_parameters(),
-                ['qaid' => $qaid, 'name' => $name, 'input' => $input, 'lang' => $lang]);
+            self::validate_input_parameters(),
+            ['qaid' => $qaid, 'name' => $name, 'input' => $input, 'lang' => $lang]
+        );
         self::validate_context(\context_system::instance());
 
         $dm = new \question_engine_data_mapper();

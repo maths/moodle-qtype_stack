@@ -42,7 +42,6 @@ require_once(__DIR__ . '/../utils.php');
  * using past stored values.
  */
 class stack_cas_castext2_textdownload extends stack_cas_castext2_block {
-
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public static $countfiles = 1;
 
@@ -91,8 +90,11 @@ class stack_cas_castext2_textdownload extends stack_cas_castext2_block {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function postprocess(array $params, castext2_processor $processor,
-        castext2_placeholder_holder $holder): string {
+    public function postprocess(
+        array $params,
+        castext2_processor $processor,
+        castext2_placeholder_holder $holder
+    ): string {
         if (get_config('qtype_stack', 'stackapi')) {
             return "javascript:download('{$params[1]}', {$params[2]});";
         } else if (!isset($processor->qa) || !method_exists($processor->qa, 'get_database_id')) {
@@ -102,27 +104,33 @@ class stack_cas_castext2_textdownload extends stack_cas_castext2_block {
             // Note different systems serve out through different logic.
             if (count($params) > 3 && $params[3] === 'stateful') {
                 return (new moodle_url(
-                    '/question/type/stateful/textdownload.php', [
+                    '/question/type/stateful/textdownload.php',
+                    [
                         'qaid' => $processor->qa->get_database_id(),
                         'id' => $params[2], 'name' => $params[1],
-                    ]))->out(false);
+                    ]
+                ))->out(false);
             }
 
             // Simply form the URL for getting the content out.
             return (new moodle_url(
-                '/question/type/stack/textdownload.php', [
+                '/question/type/stack/textdownload.php',
+                [
                     'qaid' => $processor->qa->get_database_id(),
                     'id' => $params[2], 'name' => $params[1],
-                ]))->out(false);
+                ]
+            ))->out(false);
         }
     }
 
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function validate(&$errors=[], $options=[]): bool {
+    public function validate(&$errors = [], $options = []): bool {
         if (!array_key_exists('name', $this->params)) {
-            $errors[] = new $options['errclass']('The textdownload-block requires one to declare a name for the file.',
-                $options['context'] . '/' . $this->position['start'] . '-' . $this->position['end']);
+            $errors[] = new $options['errclass'](
+                'The textdownload-block requires one to declare a name for the file.',
+                $options['context'] . '/' . $this->position['start'] . '-' . $this->position['end']
+            );
             return false;
         }
 

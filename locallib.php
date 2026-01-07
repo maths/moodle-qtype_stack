@@ -19,6 +19,7 @@
  * @package    qtype_stack
  * @copyright  2024 University of Edinburgh.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ * phpcs:disable PSR1.Classes.ClassDeclaration.MultipleClasses
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -43,8 +44,11 @@ class stack_exception extends moodle_exception {
  * @return string HTML ready to output.
  */
 function stack_ouput_castext($castext) {
-    return format_text(stack_maths::process_display_castext($castext),
-            FORMAT_HTML, ['noclean' => true, 'allowid' => true]);
+    return format_text(
+        stack_maths::process_display_castext($castext),
+        FORMAT_HTML,
+        ['noclean' => true, 'allowid' => true]
+    );
 }
 
 /**
@@ -231,12 +235,10 @@ function qtype_stack_setup_question_test_page($question) {
         require_login($cm->course, false, $cm);
         $context = context_module::instance($cmid);
         $urlparams['cmid'] = $cmid;
-
     } else if ($courseid = optional_param('courseid', 0, PARAM_INT)) {
         require_login($courseid);
         $context = context_course::instance($courseid);
         $urlparams['courseid'] = $courseid;
-
     } else {
         $context = $question->get_context();
         if ($context->contextlevel == CONTEXT_MODULE) {
@@ -256,7 +258,6 @@ function qtype_stack_setup_question_test_page($question) {
  * and possibly elsewhere, e.g. API.
  */
 class stack_outofcontext_process {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct() {
     }
@@ -284,4 +285,24 @@ class stack_outofcontext_process {
     public function get_qt_field_name($varname) {
         return $varname;
     }
+}
+
+/**
+ * Get version number and question id of the latest version of a question.
+ * @param mixed $questionid
+ * @return array
+ */
+function get_latest_question_version($questionid) {
+    // We should always run tests on the latest version of the question.
+    // This means we can refresh/reload the page even if the question has been edited and saved in another window.
+    // When we click "edit question" button we automatically jump to the last version, and don't edit this version.
+    $params = ['questionid' => $questionid];
+    $query = 'SELECT qv.questionid, qv.version FROM {question_versions} qv
+                    WHERE qv.questionbankentryid = (SELECT questionbankentryid FROM {question_versions}
+                                    WHERE questionid = :questionid)
+                    ORDER BY qv.version ASC';
+    global $DB;
+    $result = $DB->get_records_sql($query, $params);
+    $result = end($result);
+    return [$result->version, $result->questionid];
 }

@@ -35,7 +35,6 @@ require_once(__DIR__ . '/../vle_specific.php');
 // Otherwise used as a store for meta-data related to the question-model.
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_potentialresponse_tree_lite {
-
     /** @var string Name of the PRT. */
     private $name;
 
@@ -173,8 +172,10 @@ class stack_potentialresponse_tree_lite {
     public function get_maxima_representation() {
         // Get the compiled one and work on it.
         $code = null;
-        if (is_array($this->question->get_cached('prt-definition')) &&
-            array_key_exists($this->name, $this->question->get_cached('prt-definition'))) {
+        if (
+            is_array($this->question->get_cached('prt-definition')) &&
+            array_key_exists($this->name, $this->question->get_cached('prt-definition'))
+        ) {
                 $code = $this->question->get_cached('prt-definition')[$this->name];
         }
         // The bulk tester will get called on questions which no longer work.
@@ -187,16 +188,20 @@ class stack_potentialresponse_tree_lite {
         $ast = maxima_parser_utils::parse($code);
         // Remove the feedback rendering parts, no need to see that CASText2.
         $clean = function ($node) {
-            if ($node instanceof MP_Operation && $node->op === ':'
-                && $node->lhs instanceof MP_Atom && $node->lhs->value === '%PRT_FEEDBACK') {
+            if (
+                $node instanceof MP_Operation && $node->op === ':'
+                && $node->lhs instanceof MP_Atom && $node->lhs->value === '%PRT_FEEDBACK'
+            ) {
                 if ($node->parentnode instanceof MP_Group) {
                     $i = array_search($node, $node->parentnode->items);
                     unset($node->parentnode->items[$i]);
                     return false;
-                } else if ($node->parentnode instanceof MP_FunctionCall
+                } else if (
+                    $node->parentnode instanceof MP_FunctionCall
                            && $node->parentnode->name instanceof MP_Atom
                            && $node->parentnode->name->value === 'errcatch'
-                           && $node->parentnode->parentnode->parentnode instanceof MP_Group) {
+                           && $node->parentnode->parentnode->parentnode instanceof MP_Group
+                ) {
                     // Using array_search here caused an infinite recursion.  No idea why!
                     foreach ($node->parentnode->parentnode->parentnode->items as $i => $item) {
                         if ($item === $node->parentnode->parentnode) {
@@ -204,8 +209,10 @@ class stack_potentialresponse_tree_lite {
                         }
                     }
                     return false;
-                } else if ($node->parentnode instanceof MP_If
-                           && $node->parentnode->parentnode instanceof MP_Group) {
+                } else if (
+                    $node->parentnode instanceof MP_If
+                           && $node->parentnode->parentnode instanceof MP_Group
+                ) {
                     $i = array_search($node->parentnode, $node->parentnode->parentnode->items);
                     unset($node->parentnode->parentnode->items[$i]);
                     return false;
@@ -278,7 +285,7 @@ class stack_potentialresponse_tree_lite {
         $visited = [];
 
         // Due to the old system we need to guess the firstnode if it is not defined.
-        if ($this->firstnode === null || $this->firstnode === '') {
+        if ($this->firstnode === null || $this->firstnode === '' || !array_key_exists($this->firstnode, $this->nodes)) {
             $this->firstnode = array_keys($this->nodes)[0];
         }
 
@@ -454,7 +461,7 @@ class stack_potentialresponse_tree_lite {
         }
 
         // Add in the bailout clause here.
-        $body .= 'if is(%stack_prt_stop_p=true) then return(["STACK_PRT_STOP!", "'. $this->name .'-bail"]),';
+        $body .= 'if is(%stack_prt_stop_p=true) then return(["STACK_PRT_STOP!", "' . $this->name . '-bail"]),';
 
         // Let's build the node precedence map, i.e. through which edges are nodes reachable.
         $precedence = [];
@@ -492,7 +499,7 @@ class stack_potentialresponse_tree_lite {
                 $first = false;
                 $body .= '(';
             } else {
-                $body .= 'if not emptyp(intersection(%_EXITS,{' . implode(',', $precedence[$node->nodename]) .'})) then (';
+                $body .= 'if not emptyp(intersection(%_EXITS,{' . implode(',', $precedence[$node->nodename]) . '})) then (';
             }
             [$nc, $usage, $ctincludes] = $this->compile_node($node, $usage, $defaultpenalty, $security, $path, $ct2options);
             if (count($ctincludes) > 0) {
@@ -512,8 +519,9 @@ class stack_potentialresponse_tree_lite {
         }
 
         // Finally round the score and return the relevant details.
-        $body .= '%PRT_SCORE:ev(float(round(max(min(%PRT_SCORE,1.0),0.0)*1000)/1000),simp),';
-        $body .= '%PRT_PENALTY:ev(float(round(max(min(%PRT_PENALTY,1.0),0.0)*1000)/1000),simp),';
+        // Protect max and min functions to avoid #1596.
+        $body .= '%PRT_SCORE:ev(\'float(\'round(\'max(\'min(%PRT_SCORE,1.0),0.0)*1000)/1000),nouns,simp),';
+        $body .= '%PRT_PENALTY:ev(\'float(\'round(\'max(\'min(%PRT_PENALTY,1.0),0.0)*1000)/1000),nouns,simp),';
         $body .= '[%PRT_PATH,%PRT_SCORE,%PRT_PENALTY,%PRT_FEEDBACK,%PRT_EXIT_NOTE]';
         $body .= ')'; // The first char.
 
@@ -607,9 +615,11 @@ class stack_potentialresponse_tree_lite {
             $at .= ',' . $node->tans;
         }
 
-        if (stack_ans_test_controller::required_atoptions($node->answertest) === true ||
+        if (
+            stack_ans_test_controller::required_atoptions($node->answertest) === true ||
                 (stack_ans_test_controller::required_atoptions($node->answertest) === 'optional' &&
-                trim($node->testoptions) !== '')) {
+                trim($node->testoptions) !== '')
+        ) {
             // Simplify these. Mainly the sigfigs as the test has a history of not doing it.
             $at .= ',ev(' . $node->testoptions . ',simp)';
         }
@@ -671,7 +681,7 @@ class stack_potentialresponse_tree_lite {
         // Now based on the results we update things. For the updates we need simp:true.
         $body .= 'simp:true,'; // Hold until score math done.
         $body .= '%PRT_PATH:append(%PRT_PATH,[%_TMP]),'; // Add the raw result to the path.
-        $body .= '%_EXITS:union(%_EXITS, {['. stack_utils::php_string_to_maxima_string($node->nodename) .
+        $body .= '%_EXITS:union(%_EXITS, {[' . stack_utils::php_string_to_maxima_string($node->nodename) .
             ',%_TMP[2]]}),'; // Which exit we took.
 
         if ($node->quiet == 0) {
@@ -738,14 +748,16 @@ class stack_potentialresponse_tree_lite {
 
         if ($node->truefeedback !== null && trim($node->truefeedback) !== '') {
             // Note the space separates any feedback from that generated by the prt node.
-            $feedback = ' ' . stack_castext_file_filter($node->truefeedback,
+            $feedback = ' ' . stack_castext_file_filter(
+                $node->truefeedback,
                 [
                     'field' => 'prtnodetruefeedback',
                     'prtnodeid' => $node->id,
                     'prtid' => $this->id, // For completeness sake.
                     'questionid' =>
                         $this->question !== null && property_exists($this->question, 'id') ? $this->question->id : null,
-                ]);
+                ]
+            );
             if (substr($body, -1) !== '(') {
                 // Depends on whether the score math was done.
                 $body .= ',';
@@ -834,14 +846,16 @@ class stack_potentialresponse_tree_lite {
 
         if ($node->falsefeedback !== null && trim($node->falsefeedback) !== '') {
             // Note the space separates any feedback from that generated by the prt node.
-            $feedback = ' ' . stack_castext_file_filter($node->falsefeedback,
+            $feedback = ' ' . stack_castext_file_filter(
+                $node->falsefeedback,
                 [
                     'field' => 'prtnodefalsefeedback',
                     'prtnodeid' => $node->id,
                     'prtid' => $this->id, // For completeness sake.
                     'questionid' => $this->question !==
                     null && property_exists($this->question, 'id') ? $this->question->id : null,
-                ]);
+                ]
+            );
             if (substr($body, -1) !== '(') { // Depends on whether the score math was done.
                 $body .= ',';
             }
@@ -888,7 +902,6 @@ class stack_potentialresponse_tree_lite {
     public function get_prt_graph($labels = false) {
         $graph = new stack_abstract_graph();
         foreach ($this->get_nodes_summary() as $key => $node) {
-
             if ($node->truenextnode == -1) {
                 $left = null;
             } else {
@@ -907,10 +920,22 @@ class stack_potentialresponse_tree_lite {
             if ($labels && array_key_exists($node->falseanswernote, $labels)) {
                 $rlabel = $labels[$node->falseanswernote];
             }
-            $graph->add_prt_node($key + 1, $node->description, $left, $right, $llabel, $rlabel,
-                '#fgroup_id_' . $this->name . 'node_' . $key);
-            $graph->add_prt_text($node->nodename + 1, $node->answertest, $node->quiet,
-                $node->trueanswernote, $node->falseanswernote);
+            $graph->add_prt_node(
+                $key + 1,
+                $node->description,
+                $left,
+                $right,
+                $llabel,
+                $rlabel,
+                '#fgroup_id_' . $this->name . 'node_' . $key
+            );
+            $graph->add_prt_text(
+                $node->nodename + 1,
+                $node->answertest,
+                $node->quiet,
+                $node->trueanswernote,
+                $node->falseanswernote
+            );
         }
 
         $graph->layout();
@@ -923,5 +948,4 @@ class stack_potentialresponse_tree_lite {
     public function get_trace() {
         return $this->trace;
     }
-
 }

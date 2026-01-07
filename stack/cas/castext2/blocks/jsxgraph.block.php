@@ -35,7 +35,6 @@ stack_cas_castext2_iframe::register_counter('///JSXGRAPH_COUNT///');
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
-
     /**
      * This is not something we want people to edit in general.
      */
@@ -44,6 +43,14 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
         'cdn' => [
             'css' => 'https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraph.min.css',
             'js' => 'https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js',
+        ],
+        'cdn-1.12.2' => [
+            'css' => 'https://cdn.jsdelivr.net/npm/jsxgraph@1.12.2/distrib/jsxgraph.min.css',
+            'js' => 'https://cdn.jsdelivr.net/npm/jsxgraph@1.12.2/distrib/jsxgraphcore.js',
+        ],
+        'cdn-1.12.0' => [
+            'css' => 'https://cdn.jsdelivr.net/npm/jsxgraph@1.12.0/distrib/jsxgraph.min.css',
+            'js' => 'https://cdn.jsdelivr.net/npm/jsxgraph@1.12.0/distrib/jsxgraphcore.js',
         ],
         'cdn-1.11.1' => [
             'css' => 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.11.1/jsxgraph.min.css',
@@ -102,8 +109,10 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
         // Figure out what scripts we serve.
         $css = self::$namedversions['local']['css'];
         $js = self::$namedversions['local']['js'];
-        if (isset($this->params['version']) &&
-            isset(self::$namedversions[$this->params['version']])) {
+        if (
+            isset($this->params['version']) &&
+            isset(self::$namedversions[$this->params['version']])
+        ) {
             $css = self::$namedversions[$this->params['version']]['css'];
             $js = self::$namedversions[$this->params['version']]['js'];
         }
@@ -225,8 +234,11 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function postprocess(array $params, castext2_processor $processor,
-        castext2_placeholder_holder $holder): string {
+    public function postprocess(
+        array $params,
+        castext2_processor $processor,
+        castext2_placeholder_holder $holder
+    ): string {
         return 'This is never happening! The logic goes to [[iframe]].';
     }
 
@@ -265,13 +277,17 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
         $heighttrim = $height;
 
         foreach ($validunits as $suffix) {
-            if (!$widthend && strlen($width) > strlen($suffix) &&
-                substr($width, -strlen($suffix)) === $suffix) {
+            if (
+                !$widthend && strlen($width) > strlen($suffix) &&
+                substr($width, -strlen($suffix)) === $suffix
+            ) {
                 $widthend  = true;
                 $widthtrim = substr($width, 0, -strlen($suffix));
             }
-            if (!$heightend && strlen($height) > strlen($suffix) &&
-                substr($height, -strlen($suffix)) === $suffix) {
+            if (
+                !$heightend && strlen($height) > strlen($suffix) &&
+                substr($height, -strlen($suffix)) === $suffix
+            ) {
                 $heightend  = true;
                 $heighttrim = substr($height, 0, -strlen($suffix));
             }
@@ -298,15 +314,19 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
             $err[] = stack_string('stackBlock_jsxgraph_height_num');
         }
 
-        if (array_key_exists('width', $this->params) &&
+        if (
+            array_key_exists('width', $this->params) &&
             array_key_exists('height', $this->params) &&
-            array_key_exists('aspect-ratio', $this->params)) {
+            array_key_exists('aspect-ratio', $this->params)
+        ) {
             $valid    = false;
             $err[] = stack_string('stackBlock_jsxgraph_overdefined_dimension');
         }
-        if (!(array_key_exists('width', $this->params) ||
+        if (
+            !(array_key_exists('width', $this->params) ||
             array_key_exists('height', $this->params)) &&
-            array_key_exists('aspect-ratio', $this->params)) {
+            array_key_exists('aspect-ratio', $this->params)
+        ) {
             $valid    = false;
             $err[] = stack_string('stackBlock_jsxgraph_underdefined_dimension');
         }
@@ -318,13 +338,17 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
 
         if (array_key_exists('style', $this->params)) {
             $stylename = $this->params['style'];
-            if (strpos($stylename, '..') !== false
+            if (
+                strpos($stylename, '..') !== false
                     || strpos($stylename, '/') !== false
-                    || strpos($stylename, '\\') !== false) {
+                    || strpos($stylename, '\\') !== false
+            ) {
                 $valid    = false;
                 $err[] = stack_string('stackBlock_jsxgraph_unknown_style', ['style' => $stylename]);
-            } else if (!file_exists($CFG->dirroot . '/question/type/stack/corsscripts/jsxgraphstyles/' .
-                    $stylename . '.css')) {
+            } else if (
+                !file_exists($CFG->dirroot . '/question/type/stack/corsscripts/jsxgraphstyles/' .
+                    $stylename . '.css')
+            ) {
                 $valid    = false;
                 $err[] = stack_string('stackBlock_jsxgraph_unknown_style', ['style' => $stylename]);
             }
@@ -335,12 +359,16 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
             if (substr($key, 0, 10) === 'input-ref-') {
                 $varname = substr($key, 10);
                 if (isset($options['inputs']) && !isset($options['inputs'][$varname])) {
-                    $err[] = stack_string('stackBlock_jsxgraph_input_missing',
-                        ['var' => $varname]);
+                    $err[] = stack_string(
+                        'stackBlock_jsxgraph_input_missing',
+                        ['var' => $varname]
+                    );
                 }
-            } else if ($key !== 'width' && $key !== 'height' && $key !== 'aspect-ratio' &&
+            } else if (
+                $key !== 'width' && $key !== 'height' && $key !== 'aspect-ratio' &&
                     $key !== 'version' && $key !== 'overridejs' && $key !== 'overridecss' &&
-                    $key !== 'style') {
+                    $key !== 'style'
+            ) {
                 $err[] = "Unknown parameter '$key' for jsxgraph-block.";
                 $valid    = false;
                 if ($valids === null) {

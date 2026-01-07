@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>1.3.4.1</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3> 4. Factorisation </h3>
+
+A number is said to be <b>factorised</b> when it is written as a product. For example, \(21\) can be factorised into \( 7 \times 3 \). We say that \(7\) and \(3\) are <b>factors</b> of \(21\).
+
+Algebraic expressions can also be factorised. Consider the expression \( 7(2x + 1) \). Removing the
+brackets we can rewrite this as
+\[ 7(2x + 1) = 7(2x) + (7)(1) = 14x + 7. \]
+Thus \(14x + 7\) is equivalent to \( 7(2x + 1) \). We see that \( 14x + 7 \) has factors \(7\) and \( (2x + 1) \). The factors \(7\) and \( (2x + 1) \) multiply together to give \( 14x + 7 \). The process of writing an expression as a product of its factors is called <b>factorisation</b>. When asked to factorise \( 14x + 7 \) we write
+\[ 14x + 7 = 7(2x + 1) \]
+and so we see that factorisation can be regarded as reversing the process of removing brackets.
+Always remember that the factors of an algebraic expression are <i>multiplied</i> together.
+
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Factorise the expression 4x + 20.</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>Both terms in the expression \(4x + 20\) are examined to see if they have any factors in common. Clearly \(20\) can be factorised as \( (4)(5) \) and so we can write
+\[ 4x + 20 = 4x + (4)(5) \]
+The factor \(4\) is common to both terms on the right; it is called a common factor, and is placed at the front and outside brackets to give
+\[ 4x + 20 = 4(x + 5). \]
+Note that the factorised form can be checked by removing the brackets again.
+
+</p><hr>
+<h4 class="HELM_example">Example</h4>
+<p> Factorise \( z^2 - 5z \). </p>
+<h4 class="HELM_solution">Solution</h4>
+<p>
+\[ (3x + 4)(x + 2) = (3x + 4)(x) + (3x + 4)(2) \]
+Note that since \( z^2 = z \times z \) we can write
+\[ z^2 - 5z = z(z) - 5z \]
+so that there is a common factor of \(z\). Hence
+\[ z^2 - 5z = z(z) - 5z = z(z - 5). \]
+</p><p></p>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p> Factorise \( 6x - 9y \).</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>By observation, we see that there is a common factor of 3. Thus 
+\[ 6x - 9y = 3(2x - 3y). \]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

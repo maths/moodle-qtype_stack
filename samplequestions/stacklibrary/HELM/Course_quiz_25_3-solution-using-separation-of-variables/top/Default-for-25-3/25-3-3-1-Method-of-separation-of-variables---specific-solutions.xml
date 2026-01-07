@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>25.3.3.1 Method of separation of variables - specific solutions</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Method of separation of variables - specific solutions</h3>
+
+<p>We shall now study some specific problems which can be fully solved by the separation of variables method.</p>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Solve the heat conduction equation
+</p>
+<p><span class="math inline">\(\qquad\displaystyle \dfrac{\partial^2u}{\partial
+  x^2}=\dfrac{1}{2}\dfrac{\partial u}{\partial t}\)</span></p>
+over &nbsp;&nbsp;&nbsp;<span class="math inline">\(0&lt;x&lt;3,\ \ \ t&gt;0\)</span> &nbsp;&nbsp;&nbsp;for the boundary conditions
+<p><span class="math inline">\(\qquad\displaystyle
+  u(0,t)=u(3,t)=0\)</span></p>
+and the initial condition
+<p><span class="math inline">\(\qquad\displaystyle u(x,0)=5\sin 4\pi
+x.\)</span></p>
+
+<h4 class="HELM_solution">Solution</h4>
+<p>Assuming \(u(x, t) = X(x)T(t)\) gives rise to the differential equations \((4)\) and \((5)\) with the parameter \(k = 2\):</p>
+<p> \(\qquad \displaystyle \frac{\mathrm{d}T}{\mathrm{d}t}=2KT\) \(\qquad\) \(\displaystyle \frac{\mathrm{d^2}X}{\mathrm{d}x^2}=KX\)</p>
+<hr>
+
+<p>The <span class="math inline">\(T\)</span> equation has general solution
+</p>
+<p><span class="math inline">\(\qquad\displaystyle
+  T=Ae^{2Kt}\)</span></p>
+which will increase exponentially with increasing
+<span class="math inline">\(t\)</span> if <span class="math inline">\(K\)</span> is positive and decrease with <span class="math inline">\(t\)</span> if <span class="math inline">\(K\)</span> is negative. In any physical problem the latter is the meaningful
+situation. To emphasise that <span class="math inline">\(K\)</span> is being taken as negative we put
+<p><span class="math inline">\(\qquad\displaystyle K=-\lambda^2\)</span></p>
+so
+<p><span class="math inline">\(\qquad\displaystyle T=Ae^{-2\lambda^2t}.\)</span></p>
+The <span class="math inline">\(X\)</span> equation then becomes
+<p><span class="math inline">\(\qquad\displaystyle
+  \dfrac{d^2X}{dx^2}=-\lambda^2X\)</span></p>
+which has solution
+<p><span class="math inline">\(\qquad\displaystyle X(x)=B\cos \lambda x+C\sin
+  \lambda x.\)</span></p>
+Hence
+
+<table width="100%">
+    <tbody>
+        <tr>
+            <td>\(\qquad \displaystyle u(x,t)=X(x)T(t)=(D\cos\lambda x+E\sin \lambda x)e^{-2\lambda^2t}\)
+            </td>
+            <td>\[(11)\]</td>
+        </tr>
+    </tbody>
+</table>
+
+<p>where <span class="math inline">\(D=AB\)</span> and <span class="math inline">\(E=AC\)</span>.</p>
+<p>(You should always try to keep the number of arbitrary constants down to an absolute minimum by multiplying them together in this way.)</p>
+<br>We now insert the initial and boundary conditions to obtain the constant <span class="math inline">\(D\)</span> and
+<span class="math inline">\(E\)</span> and also the separation constant <span class="math inline">\(\lambda\)</span>.
+<p>The initial condition <span class="math inline">\(u(0,t)=0\)</span> gives </p>
+<p><span class="math inline">\(\qquad\displaystyle (D\cos 0+E\sin
+0)e^{-2\lambda^2t}=0\)</span>\(\qquad\)for all <span class="math inline">\(t\)</span>.</p>
+<p>Since <span class="math inline">\(\sin 0=0\)</span> and <span class="math inline">\(\cos 0=1\)</span> this must imply that <span class="math inline">\(D=0\)</span>.</p>
+<p>The other initial condition <span class="math inline">\(u(3,t)=0\)</span> then gives
+</p>
+<p><span class="math inline">\(\qquad\displaystyle E\sin (3\lambda)
+e^{-2\lambda^2t}=0\qquad\)for all \(t.\)</span>
+</p>
+<p>We cannot deduce that the constant <span class="math inline">\(E\)</span> has to be zero because then the solution \((11)\) would be the trivial solution <span class="math inline">\(u\equiv 0\)</span>. The only sensible deduction is that
+</p>
+<p><span class="math inline">\(\qquad\sin 3\lambda =0\)</span> i.e. <span class="math inline">\(3\lambda=n\pi \qquad\)</span> (where <span class="math inline">\(n\)</span> is some integer).</p>
+<p>Hence solutions of the form \((11)\) satisfying the 2 boundary conditions have the form
+</p>
+<p><span class="math inline">\(\qquad\displaystyle
+u(x,t)=E_n\sin\left(\dfrac{n\pi
+  x}{3}\right)e^{-\frac{2n^2\pi^2t}{9}}\)</span> </p>
+where we have written
+<span class="math inline">\(E_n\)</span> for <span class="math inline">\(E\)</span> to allow for the possibility of a different value for the constant for each different value of <span class="math inline">\(n\)</span>.
+<br>We obtain the value of
+<span class="math inline">\(n\)</span> by using the initial condition <span class="math inline">\(u(x,0)=5\sin 4 \pi x\)</span> and forcing this solution to agree with it. That is,
+<p><span class="math inline">\(\qquad\displaystyle
+  u(x,0)=E_n\sin\left(\dfrac{n\pi x}{3}\right)=5\sin 4\pi x\)</span></p>
+so we must choose <span class="math inline">\(n=12\)</span> with <span class="math inline">\(E_{12}=5\)</span>.
+<p></p>
+<p>Hence, finally,
+</p>
+<p><span class="math inline">\(\qquad\displaystyle
+u(x,t)=5\sin\left(\dfrac{12\pi
+x}{3}\right)e^{-\frac{2}{9}(12)^2\pi^2t}=5\sin (4\pi x)\
+e^{-32\pi^2t}.\)</span></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>10.3.1.1 Series expansions</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Series expansions for exponential and trigonometric functions</h3>
+<p>We have, so far, considered two ways of representing a complex number: \[\qquad z=a+i b\qquad \text{Cartesian form}\]or \[\qquad z=r(\cos\theta +i\sin\theta)\qquad \text{polar form}\]In this quiz we introduce a third way of denoting a complex number: the <strong>exponential form</strong>.</p>
+
+<p>If <span class="math inline">\(x\)</span> is a real number then, as we shall verify in a later quiz, the exponential number <span class="math inline">\(e\)</span> raised to the power <span class="math inline">\(x\)</span> can be written as a series of powers of <span class="math inline">\(x\)</span>:\[\qquad e^x=1+x+{x^2\over {2!}}+{x^3\over {3!}}+{x^4\over {4!}}+\cdots\]in which <span class="math inline">\(n!=n(n-1)(n-2)\dots (3)(2)(1)\)</span> is the factorial of the integer <span class="math inline">\(n\)</span>. Although there are an infinite number of terms on the right-hand side, in any practical calculation we could only use a  finite number. For example if we choose <span class="math inline">\(x=1\)</span> (and taking only six terms) then\[\begin{aligned}
+e^1 &amp;\approx 1+1+{1\over {2!}}+{1\over {3!}}+{1\over {4!}}+{1\over {5!}}\\&amp;= 2+0.5+0.16666+0.04166+0.00833\\&amp;=2.71666\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\end{aligned}\] which is fairly close to the accurate value of <span class="math inline">\(e=2.71828\)</span> (to 5 d.p.)</p>
+
+<p>We ask you to accept that <span class="math inline">\(e^x\)</span>, for any real value of <span class="math inline">\(x\)</span>, is the <span> <strong>same as</strong></span> <span class="math inline">\(\displaystyle{1+x+{x^2\over {2!}}+{x^3\over {3!}}+\cdots }\)</span> and that if we wish to calculate <span class="math inline">\(e^x\)</span> for a <span><em>particular value</em></span> of <span class="math inline">\(x\)</span> we will only take a finite number of terms in the series. Obviously the more terms we take in any particular calculation the more accurate will be our calculation.</p>
+
+<p>As we shall also see later, similar series expansions exist for the trigonometric functions <span class="math inline">\(\sin x\)</span> and <span class="math inline">\(\cos x\)</span>: <span class="math inline">\[\qquad \sin x=x-{x^3\over {3!}}+{x^5\over {5!}}-{x^7\over
+{7!}}+\cdots\]</span><span class="math inline">\[\qquad \cos x=1-{x^2\over {2!}}+{x^4\over {4!}}-{x^6\over
+{6!}}+\cdots\]</span>in which <span class="math inline">\(x\)</span>
+is measured in radians.</p>
+
+<p>The observant reader will see that these two series for <span class="math inline">\(\sin x\)</span> and <span class="math inline">\(\cos x\)</span> are similar to the series for <span class="math inline">\(e^x\)</span>. Through the use of the symbol <span class="math inline">\(i\)</span> (where <span class="math inline">\(i^2=-1)\)</span> we will examine this close correspondence.</p>
+
+<p>In the series for <span class="math inline">\(e^x\)</span> replace <span class="math inline">\(x\)</span> on both left-hand and right-hand sides by <span class="math inline">\(i\theta\)</span> to give: <span class="math inline">\[\qquad e^{i\theta}=1+(i\theta)+{(i\theta)^2\over {2!}}+{(i\theta)^3\over
+{3!}}+{(i\theta)^4\over {4!}}+{(i\theta)^5\over {5!}}+\cdots\]</span>Then, as usual, replace every occurrence of <span class="math inline">\(i^2\)</span> by <span class="math inline">\(-1\)</span> to give <span class="math inline">\[\qquad e^{i\theta}=1+i\theta-{\theta^2\over {2!}}-i{\theta^3\over
+{3!}}+{\theta^4\over {4!}}+i{\theta^5\over {5!}}+\cdots\]</span></p><p>which, when re-organised into real and imaginary terms gives, finally: <span class="math display">\[\begin{aligned}
+e^{i\theta}&amp;=\left[1-{\theta^2\over {2!}}+{\theta^4\over
+{4!}}-\cdots \right]+i\left[
+\theta-{\theta^3\over
+{3!}}+{\theta^5\over {5!}}-\cdots \right]\\
+&amp;=\cos\theta +i\sin\theta.\end{aligned}\]</span></p>
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p>\(e^{i\theta} = \cos\theta+i\sin\theta\) .</p>
+</div>
+
+<hr>
+<h4 class="HELM_example">Example</h4><p> Find complex number expressions, in Cartesian form, for&nbsp;</p><p>
+</p><ol class="HELM_parts_inline">
+<li><span class="math inline">\({e^{i\pi /4}}\qquad\)&nbsp;</span></li>
+<li><span class="math inline">\(e^{-i}\qquad\)&nbsp;</span></li>
+<li><span class="math inline">\(e^{i\pi}\)</span></li><p></p>
+</ol>
+<h4 class="HELM_solution">Solution</h4>
+<p>We use the above Key Point:</p>
+<ol class="HELM_parts">
+<li> \(\displaystyle{e^{i\pi/4} = \cos\frac{\pi}{4} + i\sin\frac{\pi}{4} = \frac{1}{\sqrt{2}} + i\frac{1}{\sqrt{2}}}\)</li>
+<li> \(e^{-i} = \cos{(-1)} + i\sin{(-1)}&nbsp;\approx 0.540 - i(0.841)\). Don't forget: use <strong>radians</strong>.</li>
+<li> \(e^{i\pi} = \cos\pi + i\sin\pi = -1+i(0) = -1\) </li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

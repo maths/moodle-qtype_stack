@@ -39,12 +39,11 @@ require_once(__DIR__ . '/../stack/cas/keyval.class.php');
  * @covers \stack_connection_helper
  */
 final class connection_test extends qtype_stack_testcase {
-
     public function test_compute_true(): void {
 
         $connection = stack_connection_helper::make();
         $strin = 'cab:block([],print("[STACKSTART Locals= [ 0=[ error= ["), cte("p",errcatch(diff(x^n,x))),'
-                .' print("] ]"), return(true));';
+                . ' print("] ]"), return(true));';
         $return = $connection->compute($strin);
         $expected = [
             0 => [
@@ -59,7 +58,7 @@ final class connection_test extends qtype_stack_testcase {
 
         $connection = stack_connection_helper::make();
         $strin = 'cab:block([],print("[STACKSTART Locals= [ 0=[ error= ["), cte("p",errcatch(dispdp(1,3))),'
-        .' print("] ]"), return(true));';
+        . ' print("] ]"), return(true));';
         $return = $connection->compute($strin);
         $expected = [
             0 => [
@@ -74,7 +73,7 @@ final class connection_test extends qtype_stack_testcase {
 
         $connection = stack_connection_helper::make();
         $strin = 'cab:block([],print("[STACKSTART Locals= [ 0=[ error= ["), cte("p",errcatch(stackunits(dispsf(30,4),kg))),'
-        .' print("] ]"), return(true));';
+        . ' print("] ]"), return(true));';
         $return = $connection->compute($strin);
         $expected = [
             0 => [

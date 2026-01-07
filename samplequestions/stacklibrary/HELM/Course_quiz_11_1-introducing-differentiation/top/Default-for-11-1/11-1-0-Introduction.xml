@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>11.1.0 Introduction</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Introduction</h4>
+
+Differentiation is a technique which can be used for analysing the way in which functions change. In
+particular, it measures how rapidly a function is changing at any point. In engineering applications
+the function may, for example, represent the magnetic field strength of a motor, the voltage across
+a capacitor, the temperature of a chemical mix, and it is often important to know how quickly these
+quantities change.<p><br></p><p>In this Section we explain what is meant by the gradient of a curve and introduce differentiation as
+a method for finding the gradient at any point.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

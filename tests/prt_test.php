@@ -50,7 +50,6 @@ require_once(__DIR__ . '/fixtures/test_base.php');
  * @covers \stack_potentialresponse_tree_lite
  */
 final class prt_test extends qtype_stack_testcase {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     private function create_default_node() {
 
@@ -84,7 +83,7 @@ final class prt_test extends qtype_stack_testcase {
 
     public function test_single_node_prt(): void {
 
-        $newprt = new stdClass;
+        $newprt = new stdClass();
         $newprt->name = 'testprt';
         $newprt->id = '0';
         $newprt->value = 5;
@@ -212,7 +211,7 @@ final class prt_test extends qtype_stack_testcase {
 
     public function test_multi_node_prt(): void {
 
-        $newprt = new stdClass;
+        $newprt = new stdClass();
         $newprt->name = 'multiprt';
         $newprt->id = '0';
         $newprt->value = 5;
@@ -314,7 +313,7 @@ final class prt_test extends qtype_stack_testcase {
 
     public function test_runtime_score_error(): void {
 
-        $newprt = new stdClass;
+        $newprt = new stdClass();
         $newprt->name = 'testprt';
         $newprt->id = '0';
         $newprt->value = 5;
@@ -398,5 +397,158 @@ final class prt_test extends qtype_stack_testcase {
             'prt_testprt(sans);',
         ];
         $this->assertEquals($expected, $prtev->get_trace());
+    }
+
+    public function test_broken_first_node(): void {
+        // ISS1588 - firstnodename of '-1' caused Exception.
+        $newprt = new stdClass();
+        $newprt->name = 'testprt';
+        $newprt->id = '0';
+        $newprt->value = 5;
+        $newprt->feedbackstyle = 1;
+        $newprt->feedbackvariables = null;
+        $newprt->firstnodename = '-1';
+        $newprt->nodes = [];
+        $newprt->autosimplify = true;
+
+        $node = $this->create_default_node();
+        $node->id              = '0';
+        $node->sans            = 'sans';
+        $node->tans            = '(x+1)^3/3+c';
+        $node->answertest      = 'Int';
+        $node->testoptions     = 'x';
+        $node->truefeedback    = 'Yeah!';
+        $node->trueanswernote  = '1-0-1';
+        $node->falsefeedback   = 'Boo!';
+        $node->falseanswernote = '1-0-0';
+        $newprt->nodes[] = $node;
+
+        $prt = new stack_potentialresponse_tree_lite($newprt, 5);
+
+        $this->assertFalse($prt->is_formative());
+        $this->assertEquals(['Int' => true], $prt->get_answertests());
+        $expected = ['NULL' => 'NULL', '1-0-1' => '1-0-1', '1-0-0' => '1-0-0',
+            'testprt-bail' => 'testprt-bail',
+        ];
+        $this->assertEquals($expected, $prt->get_all_answer_notes());
+
+        // For $inputs we only need the names of the inputs, not the full inputs.
+        $inputs = ['sans' => true];
+        $boundvars = [];
+        $defaultpenalty = 0.1;
+        $security = new stack_cas_security();
+        $pathprefix = '/p/' . '0';
+        $sig = $prt->compile($inputs, $boundvars, $defaultpenalty, $security, $pathprefix, null);
+
+        // Test 1 - a correct answer.
+        $inputs = ['sans' => '(x+1)^3/3+c'];
+
+        $session = new stack_cas_session2([], new stack_options(), 123);
+        // Add preamble from PRTs as well.
+        if ($sig['be'] != '') {
+            $session->add_statement(new stack_secure_loader($sig['be'], 'preamble PRT: ' . $prt->get_name()));
+        }
+        if ($sig['cv'] != '') {
+            $session->add_statement(new stack_secure_loader($sig['cv'], 'contextvariables PRT: ' . $prt->get_name()));
+        }
+        // The prt definition itself.
+        $session->add_statement(new stack_secure_loader($sig['def'], 'definition PRT: ' . $prt->get_name()));
+        // Suppress simplification of raw inputs.
+        $session->add_statement(new stack_secure_loader('simp:false', 'input-simplification'));
+        $is = '_INPUT_STRING:["stack_map"';
+        foreach ($inputs as $key => $value) {
+            $session->add_statement(new stack_secure_loader($key . ':' . $value, 'input ' . $key));
+            $is .= ',[' . stack_utils::php_string_to_maxima_string($key) . ',';
+            if (strpos($value, 'ev(') === 0) { // Unpack the value if we have simp...
+                $is .= stack_utils::php_string_to_maxima_string(mb_substr($value, 3, -6)) . ']';
+            } else {
+                $is .= stack_utils::php_string_to_maxima_string($value) . ']';
+            }
+        }
+        $is .= ']';
+        $session->add_statement(new stack_secure_loader($is, 'input-strings'));
+        $prtev = new prt_evaluatable($sig['sig'], 1, new castext2_static_replacer([]), $prt->get_trace());
+        $session->add_statement(new stack_secure_loader('simp:false', 'prt-simplification'));
+        $session->add_statement($prtev);
+        $session->instantiate();
+
+        $this->assertEquals([], $prtev->get_errors(''));
+        $this->assertEquals(1, $prtev->get_score());
+        $expected = 'Yeah!';
+        $this->assertEquals($expected, $prtev->get_feedback());
+        $this->assertEquals(['ATInt_true.', '1-0-1'], $prtev->get_answernotes());
+        $expected = [
+            'ATInt(sans,(x+1)^3/3+c,ev(x,simp));', '/* ------------------- */',
+            'prt_testprt(sans);',
+        ];
+        $this->assertEquals($expected, $prtev->get_trace());
+
+        // Test 2 - an incorrect answer.
+        $inputs = ['sans' => '(x+1)^3/3'];
+
+        $session = new stack_cas_session2([], new stack_options(), 123);
+        // Add preamble from PRTs as well.
+        if ($sig['be'] != '') {
+            $session->add_statement(new stack_secure_loader($sig['be'], 'preamble PRT: ' . $prt->get_name()));
+        }
+        if ($sig['cv'] != '') {
+            $session->add_statement(new stack_secure_loader($sig['cv'], 'contextvariables PRT: ' . $prt->get_name()));
+        }
+        // The prt definition itself.
+        $session->add_statement(new stack_secure_loader($sig['def'], 'definition PRT: ' . $prt->get_name()));
+        // Suppress simplification of raw inputs.
+        $session->add_statement(new stack_secure_loader('simp:false', 'input-simplification'));
+        $is = '_INPUT_STRING:["stack_map"';
+        foreach ($inputs as $key => $value) {
+            $session->add_statement(new stack_secure_loader($key . ':' . $value, 'input ' . $key));
+            $is .= ',[' . stack_utils::php_string_to_maxima_string($key) . ',';
+            if (strpos($value, 'ev(') === 0) { // Unpack the value if we have simp...
+                $is .= stack_utils::php_string_to_maxima_string(mb_substr($value, 3, -6)) . ']';
+            } else {
+                $is .= stack_utils::php_string_to_maxima_string($value) . ']';
+            }
+        }
+        $is .= ']';
+        $session->add_statement(new stack_secure_loader($is, 'input-strings'));
+        $prtev = new prt_evaluatable($sig['sig'], 1, new castext2_static_replacer([]), $prt->get_trace());
+        $session->add_statement(new stack_secure_loader('simp:false', 'prt-simplification'));
+        $session->add_statement($prtev);
+        $session->instantiate();
+
+        $this->assertEquals(0, $prtev->get_score());
+        $expected = 'You need to add a constant of integration, otherwise this appears to be correct. ' .
+            'Boo!';
+        $this->assertEquals($expected, $prtev->get_feedback());
+        $this->assertEquals(['ATInt_const.', '1-0-0'], $prtev->get_answernotes());
+        $expected = [
+            'ATInt(sans,(x+1)^3/3+c,ev(x,simp));', '/* ------------------- */',
+            'prt_testprt(sans);',
+        ];
+        $this->assertEquals($expected, $prtev->get_trace());
+    }
+
+    public function test_no_nodes(): void {
+        // Basically just test nothing falls over immediately.
+        $newprt = new stdClass();
+        $newprt->name = 'testprt';
+        $newprt->id = '0';
+        $newprt->value = 5;
+        $newprt->feedbackstyle = 1;
+        $newprt->feedbackvariables = null;
+        $newprt->firstnodename = '-1';
+        $newprt->nodes = [];
+        $newprt->autosimplify = true;
+
+        $newprt->nodes = [];
+
+        $prt = new stack_potentialresponse_tree_lite($newprt, 5);
+
+        $this->assertFalse($prt->is_formative());
+        $this->assertEquals([], $prt->get_answertests());
+        $expected = [
+            'NULL' => 'NULL',
+            'testprt-bail' => 'testprt-bail',
+        ];
+        $this->assertEquals($expected, $prt->get_all_answer_notes());
     }
 }

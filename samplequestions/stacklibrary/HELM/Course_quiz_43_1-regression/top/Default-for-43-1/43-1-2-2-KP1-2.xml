@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text><![CDATA[43.1.2.2 KP1 & 2]]></text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3></h3>
+
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p><b> Least Squares Regression - \(y\) on \(x\)</b></p><p>
+
+The least squares regression line of \(y\) on \(x\) has the equation \(y = a + bx\), where 
+\[ b = \dfrac{ \dfrac{ \sum xy}{n} - \dfrac{ \sum x}{n}\dfrac{ \sum y}{n}&nbsp; }{ \dfrac{\sum x^2}{n} - \left( \dfrac{\sum x}{n} \right)^2 }, \] and \(a\) is given by the equation \(&nbsp;a = \bar{y} - b\bar{x}. \)</p>
+</div>
+
+It should be noted that the coefficients \(b\) and \(a\) obtained here will give us the regression line of \(y\) on \(x\). This line is used to predict \(y\) values given \(x\) values. If we need to predict the values of \(x\) from given values of \(y\) we need the regression line of \(x\) on \(y\). The two lines are not the same except in the (very) special case where all of the points lie exactly on a straight line. It is worth noting however, that the two lines cross at the point \( (\bar{x}, \bar{y})\). The regression line of \(x\) on \(y\) is given in the Key Point below.
+
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p><b> Least Squares Regression - \(x\) on \(y\)</b>&nbsp;</p><p>&nbsp;The regression line of \(x\) on \(y\) is 
+\[ x =  a' + b'y,\] 
+where 
+\[ b' = \dfrac{ \dfrac{ \sum xy}{n} - \dfrac{ \sum x}{n}\dfrac{ \sum y}{n}&nbsp; }{ \dfrac{\sum y^2}{n} - \left( \dfrac{\sum y}{n} \right)^2 }, \] and \(a'  = \bar{x} - b' \bar{y}. \)</p>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

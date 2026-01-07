@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="matching">
+    <name>
+      <text>28.2.6.23 scalar vector or undefined quantity exercise</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>Which of the following combinations of grad, div and curl
+can be formed? If a quantity can be formed, state whether it is a
+scalar or a vector.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html">
+      <text>Your answer is correct.</text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="html">
+      <text>Your answer is partially correct.</text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="html">
+      <text>Your answer is incorrect.</text>
+    </incorrectfeedback>
+    <shownumcorrect/>
+    <subquestion format="html">
+      <text>div (grad \(\phi\))</text>
+      <answer>
+        <text>Scalar</text>
+      </answer>
+    </subquestion>
+    <subquestion format="html">
+      <text>div (div \(\underline{A}\))</text>
+      <answer>
+        <text>Not defined</text>
+      </answer>
+    </subquestion>
+    <subquestion format="html">
+      <text>curl (curl \(\underline{F}\))</text>
+      <answer>
+        <text>Vector</text>
+      </answer>
+    </subquestion>
+    <subquestion format="html">
+      <text>div (curl \(\underline{F}\))</text>
+      <answer>
+        <text>Scalar</text>
+      </answer>
+    </subquestion>
+    <subquestion format="html">
+      <text>curl (grad \(\phi\))</text>
+      <answer>
+        <text>Vector</text>
+      </answer>
+    </subquestion>
+    <subquestion format="html">
+      <text>curl (div \(\underline{A}\))</text>
+      <answer>
+        <text>Not defined</text>
+      </answer>
+    </subquestion>
+    <subquestion format="html">
+      <text>div (\(\underline{A} \cdot \underline{B}\))</text>
+      <answer>
+        <text>Not defined</text>
+      </answer>
+    </subquestion>
+    <subquestion format="html">
+      <text>grad (\(\phi_1 \phi_2\))</text>
+      <answer>
+        <text>Vector</text>
+      </answer>
+    </subquestion>
+    <subquestion format="html">
+      <text>curl (div (\(\underline{A} \times\) grad \(\phi\)))</text>
+      <answer>
+        <text>Not defined</text>
+      </answer>
+    </subquestion>
+  </question>
+</quiz>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>20.6.1.1 Transfer functions and linear systems</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h2>Transfer functions and linear systems</h2>
+<p>Linear engineering systems are those that can be modelled by linear differential equations. We shall only consider those sytems that can be modelled by constant coefficient ordinary differential equations.
+</p>
+<p>Consider a system modelled by the second order differential equation.</p>
+\[ a \frac{\mathrm{d}^{2}y}{\mathrm{d}t^{2}}+b \frac{\mathrm{d}y}{\mathrm{d}t} + cy = f(t)\]
+<p>in which \(a, b, c\) are given constants and \(f(t)\) is a given function. In this context \(f(t)\) is often called the <strong>input signal</strong> or <strong>forcing function</strong> and the solution \(y(t)\) is often called the <strong>output signal</strong>.<br>
+We shall assume that the initial conditions are zero (in this case \(y(0) = 0, y'(0) = 0\)).</p>
+<p>Now, taking the Laplace transform of the differential equation, gives: \[(as^2 + bs + c)Y(s) = F(s)\] in which we have used \(y(0) = y'(0) = 0\) and where we have designated \( {\cal L}\{y(t)\} = Y (s)\) and \( {\cal L}\{f(t)\} = F(s).\)
+</p>
+<p>We define the <strong>transfer function</strong> of a system to be the ratio of the Laplace transform of the output signal to the Laplace transform of the input signal with the initial conditions as zero. The transfer function (a function of \(s\)), is denoted by \(H(s)\). In this case \[\qquad H(s) \equiv \dfrac{Y(s)}{F(s)} = \dfrac{1}{as^2 + bs + c}\]</p>
+<p> Now, in the special case in which the input signal is the delta function, \(f(t) = \delta(t)\), we have \(F(s) = 1\) and so, </p> \[H(s) = Y (s)\]
+<p>We call the solution to the differential equation in this special case the <strong>unit impulse response function</strong> and denote it by \(h(t)u(t)\) (we include the step function \(u(t)\) to emphasize its causality).</p>
+<p>So </p><p>\( \qquad h(t)u(t) = {\cal L}^{−1}\{H(s)\} \qquad\) when \(\qquad f(t) = \delta(t)\)</p>
+<p>Now, keeping this in mind and returning to the general case in which the input signal \(f(t)\) is not necessarily the impulse function \(\delta(t)\), we have:</p> \[Y(s) = H(s)F(s)\]
+<p>and so the solution for the output signal is, as usual, obtained by taking the inverse Laplace transform:</p>
+\[\begin{aligned} y(t) &amp;= {\cal L}^{−1}\{Y(s)\}= {\cal L}^{−1}\{H(s)F(s)\} \\&amp;= (h*f)(t) \end{aligned}\]
+<p>using the convolution theorem.</p>
+<br>
+<div class="HELM_keypoint">
+    <h4>Key Point</h4>
+    <p></p><center><strong>Linear System Solution</strong></center><p></p>
+    <p>The solution to a linear system, modelled by a constant coefficient ordinary differential equation, is given by the convolution of the unit impulse response function \(h(t)u(t)\) with the input function \(f(t)\).
+    </p>
+</div>
+<br>
+<p>This approach provides yet another method of solving a linear system the following example illustrates.</p>
+
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Find the impulse response function \(h(t)\) to a linear engineering system<br>
+modelled by the differential equation: \[{d^2y\over {dt^2}}+4y=\text{e}^{-t}\qquad
+y(0)=0\quad y'(0)=0\] and hence solve the system.</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>Here \[H(s)={1\over {s^2+4}}\qquad \bigl(={1\over {as^2+bs+c}}\quad \text{ with}\quad a=1,\ b=0,\ c=4\bigr)\] This is obtained by replacing the forcing function \(\text{e}^{-t}\) by the impulse function \(\delta (t)\) and then taking the Laplace transform. Using this: \[
+h(t)={\cal L}^{-1}\{H(s)\}={\cal L}^{-1}\{{1\over {s^2+4}}\} = \tfrac{1}{2}\sin2t.u(t)\] Then the output \(y(t)\) corresponding to the input \(\text{e}^{-t}\) is given by the convolution of \(\text{e}^{-t}\) and \(h(t)\). That is, \[\begin{eqnarray*}
+y(t)=(h*\text{e}^{-t})(t)&amp;=&amp;
+\int_0^t\tfrac{1}{2}\sin 2(t-x)\text{e}^{-x}\,dx\\
+&amp;=&amp; \tfrac{1}{10}\left[\sin 2t-2\cos 2t +2\text{e}^{-t}\right]\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad
+\end{eqnarray*}\] (Note: the last integral can be determined by integrating by parts (twice), or by use of a computer algebra system such as Matlab.)</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

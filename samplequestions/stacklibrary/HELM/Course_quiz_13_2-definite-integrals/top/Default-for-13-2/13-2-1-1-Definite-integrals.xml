@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>13.2.1.1 Definite integrals</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3><span>Definite integrals</span><br></h3>
+
+<p>We saw in the previous Section that \({\displaystyle\int{f(x)}\,\mathrm{d}x}=F(x)+c\) where \(F(x)\) is that function which, when differentiated, gives \(f(x)\). That is, \(\displaystyle{{{d F\over {d x}}=f(x)}}\).</p>
+<p>For example, \({\displaystyle\int\sin(3x)\,\mathrm{d}x}=-\dfrac{\cos(3x)}{3}+c\).</p>
+<p>Here, \(f(x)=\sin (3x)\) and \(F(x)=- \dfrac{1}{3}\cos (3x)\).<br> We now consider a definite integral which is simply an indefinite integral but with numbers written to the upper and lower right of the integral sign. The quantity \({\displaystyle\int_a^b
+    f(x)\,\mathrm{d}x}\) is called the definite integral of \(f(x)\) from \(a\) to \(b\). The numbers \(a\) and \(b\) are known as the <strong>lower limit</strong> and <strong>upper limit</strong> respectively of the integral. We <em>define</em> \({\displaystyle\int_a^bf(x)\,\mathrm{d}x}=F(b)-F(a)\)
+    so that a definite integral is usually a number. The <em>meaning</em> of a definite integral will be developed in later Sections. For the present we concentrate on the <em>process</em> of evaluating definite integrals.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

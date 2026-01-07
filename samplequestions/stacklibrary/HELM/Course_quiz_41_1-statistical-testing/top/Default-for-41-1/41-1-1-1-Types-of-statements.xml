@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>41.1.1.1 Types of statements</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Types of statements</h3>
+<p>Almost every time we read a magazine or newspaper we see claims made by manufacturers about their products. Such claims can take many forms, they may for example be subjective:</p>
+<p> &nbsp; &nbsp; ‘Luxcar, makers of the best luxury cars’</p>
+<p> &nbsp; &nbsp; ‘Burnol, the finest fuel you can buy’</p> 
+<p> &nbsp; &nbsp; ‘ConstructAll, designers of beautiful buildings’ </p>
+
+<p> Such claims do not need to be backed up by facts and figures, they are a matter of opinion. </p>
+<p> Many claims do contain information which is open to question and can be investigated statistically: </p>
+<p> &nbsp; &nbsp; ‘the expected life of these tyres is 20,000 miles’</p>
+<p> &nbsp; &nbsp; ‘on average, low energy light bulbs can be expected to last at least 8000 hours’</p>
+<p> &nbsp; &nbsp; ‘average bottle contents 330 ml.’</p>
+
+<p> The validity of claims which contain information of a numerical nature can often be investigated by taking random samples of the objects or quantities in question and investigating the likelihood that a statement or hypothesis concerning them is true.</p>
+
+<p> It should be noted that hypothesis testing can never prove that a statement is either true or false, it can only give a measure of the truth or otherwise of a given statement. Statements which are investigated statistically are normally called hypotheses and we usually try to establish a pair of hypotheses, called a <strong>null hypothesis</strong> and an <strong>alternative hypothesis</strong> and then investigate how the evidence that we have supports one hypothesis more than the other. For example, a demolition engineer might be interested in the burn rate of fuses connected to explosive devices and on the basis of experience hypothesize that the mean burn rate (say \(\mu\)) is 600 mm/sec.</p>
+<p> A colleague may disagree and claim that the mean burn rate is greater than 600 mm/sec.</p>
+
+<p> We can describe this situation by setting up the null hypothesis:</p>
+<p> \(\qquad \displaystyle H_0:\ \mu=600\)</p>
+<p> and test this against the alternative hypothesis:</p>
+<p> \(\qquad H_1:\ \mu&gt;600\)</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>23.6.3.1 Properties of the complex Fourier coefficients</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Properties of the complex Fourier coefficients</h4>
+
+Using properties of the trigonometric Fourier coefficients \(a_n\), \(b_n\) we can readily
+deduce the following results for the \(c_n\) coefficients:
+<p></p>
+1. \(c_0=\dfrac{a_0}{2}\) is always real
+<p></p>
+2a. Suppose the periodic function \(f(t)\) is even so that all \(b_n\) are zero. Then, since in the
+complex form the \(b_n\) arise as the imaginary part of \(c_n\), it follows that for \(f(t)\) even the
+coefficients \(c_n\) (\(n=\pm 1,\pm 2,\ldots\)) are wholly real.
+<p></p>
+2b. Suppose the periodic function \(f(t)\) is odd so that all \(a_n\) are zero Since, for an odd periodic function the Fourier coefficients \(a_n\) (which constitute the real part of \(c_n\)), then in this case the complex coefficients \(c_n\) are wholly imaginary.
+<p></p>
+3. Since
+\[ c_n=\dfrac{1}{T}\int_{-\frac{T}{2}}^\frac{T}{2}f(t) e^{-i n\omega_0t}dt \]
+then if \(f(t)\) is even,  \(c_n\) will be real, and we have two possible methods for evaluating
+\(c_n\):
+<p></p>
+a) Evaluate the integral above  <b>as it stands</b> i.e. over the full range \(\left(-\dfrac{T}{2},\ \dfrac{T}{2}\right)\). Note carefully that the second term in the integrand is
+neither an even nor an odd function so the integrand itself is
+\[ (\text{ even function})\times (\text{ neither even nor odd function})=\ \text{ neither even nor odd function.}\]
+Thus we <b>cannot</b> write
+\[ c_n=\frac{2}{T}\int_0^{T/2} f(t) e^{- i n\omega_0 t} \ dt\]
+<p></p>
+b)  Put \(e^{- i n\omega_0t}=\cos n\omega_0t- i\sin n\omega_0t\) so 
+\[
+\begin{eqnarray*}f(t) e^{- i n\omega_0t}=f(t)\cos n\omega_0 t- i f(t)\sin n\omega_0
+t&amp;=&amp;(\text{ even})(\text{ even})- i (\text{ even})(\text{ odd})
+\\
+&amp;=&amp;(\text{ even})-i (\text{ odd}).
+\end{eqnarray*}
+\]
+Hence  \[c_n=\dfrac{2}{T}\int_{0}^\frac{T}{2}f(t)\cos n\omega_0t\ dt=\dfrac{a_n}{2}.\]
+<p></p>
+4. If \(f(t+\dfrac{T}{2})=-f(t)\) then of course only <b>odd</b> harmonic coefficients \(c_n \left(n=\pm1,\pm 3,\pm 5,\ldots\right)\) will arise in the complex Fourier series just as  with trigonometric
+series.]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

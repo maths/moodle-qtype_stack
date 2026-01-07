@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>9.5.1.4 Direction ratios and cosines, Exercise</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>Points \(P\) and \(Q\) have position vectors \({@stackvector(a)@} ={@A1@}\), and \({@stackvector(b)@} = {@B1@}\) respectively. Find</p>
+<ol class="HELM_parts">
+ <li> <p> The direction ratio of \(\overrightarrow{PQ}\): [[input:dr1]] [[validation:dr1]] \(:\) [[input:dr2]]  [[validation:dr2]] [[feedback:DR]]</p> </li>
+<li> <p>The direction cosines of \(\overrightarrow{PQ}\), \((\ell,m)=\)[[input:dc]]. [[validation:dc]] [[feedback:DC]]</p></li> 
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>The vector \(\overrightarrow{PQ}\), where \(P\) and \(Q\) have position vectors \(\underline{a} = {@A1@}\) and \(\underline{b} = {@B1@}\) respectively, is given by</p>
+\[\overrightarrow{PQ} = \underline{b} - \underline{a} = {@R1@}.\]
+<ol class="HELM_parts">
+ <li><p> The direction ratios of \(\overrightarrow{PQ}\) are \(\displaystyle{@r1[1,1]@}: \displaystyle{@r1[2,1]@}\).</p></li>
+<li> <p> To find the direction cosines, we must first find the magnitude of the vector. In this case,</p>
+\[\lvert \overrightarrow{PQ} \rvert = \sqrt{({@r1[1][1]@})^2 + ({@r1[2][1]@})^2} = {@magr1@}.\]
+<p>Then, the direction cosines of \(\overrightarrow{PQ}\) are</p>
+\[(\ell,m) = \displaystyle{@tadc@}.\]
+</li></ol>]]></text>
+    </generalfeedback>
+    <defaultgrade>2</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020120600</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[stackvectortex(ex):= block(sconcat("{ \\underline{", tex1(first(args(ex))), "}}"));
+ordergreat(i,j,k);
+a1: matrix([7],[3]) - rand(matrix([7],[3]));
+b1: matrix([7],[8]) - rand(matrix([7],[2]));
+r1:  b1-a1;
+magr1: sqrt(dotproduct(r1,r1));
+u1: matrix([i],[j]);
+A1: texboldatoms(dotproduct(a1,u1)+0*k);
+B1: texboldatoms(dotproduct(b1,u1)+0*k);
+R1: texboldatoms(dotproduct(r1,u1));
+l1: (r1[1,1])/(magr1);
+m1: (r1[2,1])/(magr1);
+tadc: matrix([l1,m1]);]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>The direction ratios for the vector \(\underline{r} = {@R1@}\) are \({@r1[1,1]@}\,:\,{@r1[2,1]@}\), and its direction cosines are \(\ell = {@l1@}\) and \(m = {@m1@}\).</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<p>Correct answer, well done.</p>]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<p>Your answer is partially correct.</p>]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<p>Incorrect answer.</p>]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>symi</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>dc</name>
+      <type>matrix</type>
+      <tans>tadc</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>dr1</name>
+      <type>algebraic</type>
+      <tans>r1[1,1]</tans>
+      <boxsize>3</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>dr2</name>
+      <type>algebraic</type>
+      <tans>r1[2,1]</tans>
+      <boxsize>3</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>DC</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>dc1</sans>
+        <tans>l1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty>0</truepenalty>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>VEC-DC-X_COR</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<br>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>VEC-DC-X_INCOR</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your answer for the direction cosine in the \(x\)-direction appears to be incorrect.</p>
+<p>Remember the formula for calculating the direction cosine (draw a diagram if this helps!), and try again.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>dc2</sans>
+        <tans>m1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty>0</truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>VEC-DC-Y_COR</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>VEC-DC-Y_INCOR</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your answer for the direction cosine in the \(y\)-direction appears to be incorrect.</p>
+<p>Remember the formula for calculating the direction cosine (draw a diagram if this helps!), and try again.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>dc</sans>
+        <tans>tadc</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>VEC-DC-CORRECT</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>0</falsenextnode>
+        <falseanswernote>VEC-DC-Z_INCOR</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<br>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>DR</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>student_r: matrix([dr1],[dr2]);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>student_r</sans>
+        <tans>r1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>VEC-DR-TRUE</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>VEC-DR-FALSE</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Remember how we obtain the direction ratios for a three-dimensional vector from its expression in terms of \(\mathbf{i}\)&nbsp;and \(\mathbf{j}\) components, and try again.</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>405915637</deployedseed>
+    <deployedseed>1199752509</deployedseed>
+    <deployedseed>1931035035</deployedseed>
+    <deployedseed>111862704</deployedseed>
+    <deployedseed>866605738</deployedseed>
+    <deployedseed>1701042024</deployedseed>
+    <deployedseed>2044316482</deployedseed>
+    <deployedseed>1413350108</deployedseed>
+    <deployedseed>1309609691</deployedseed>
+    <deployedseed>870524120</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>dc</name>
+        <value>tadc</value>
+      </testinput>
+      <testinput>
+        <name>dr1</name>
+        <value>r1[1,1]</value>
+      </testinput>
+      <testinput>
+        <name>dr2</name>
+        <value>r1[2,1]</value>
+      </testinput>
+      <expected>
+        <name>DC</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>VEC-DC-CORRECT</expectedanswernote>
+      </expected>
+      <expected>
+        <name>DR</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>VEC-DR-TRUE</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>dc</name>
+        <value>ev(2*tadc,simp)</value>
+      </testinput>
+      <testinput>
+        <name>dr1</name>
+        <value>ev(r1[1,1]+1,simp)</value>
+      </testinput>
+      <testinput>
+        <name>dr2</name>
+        <value>ev(r1[2,1]+1,simp)</value>
+      </testinput>
+      <expected>
+        <name>DC</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>VEC-DC-X_INCOR</expectedanswernote>
+      </expected>
+      <expected>
+        <name>DR</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>VEC-DR-FALSE</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>dc</name>
+        <value>matrix([r1[1,1],r1[2,1]])</value>
+      </testinput>
+      <testinput>
+        <name>dr1</name>
+        <value>r1[1,1]</value>
+      </testinput>
+      <testinput>
+        <name>dr2</name>
+        <value>r1[2,1]</value>
+      </testinput>
+      <expected>
+        <name>DC</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>VEC-DC-X_INCOR</expectedanswernote>
+      </expected>
+      <expected>
+        <name>DR</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>VEC-DR-TRUE</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

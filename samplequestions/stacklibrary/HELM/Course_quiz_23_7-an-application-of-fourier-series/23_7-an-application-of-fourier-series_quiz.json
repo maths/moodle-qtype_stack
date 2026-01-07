@@ -1,0 +1,46 @@
+{
+    "quiz": {
+        "name": "23_7 An Application of Fourier Series",
+        "intro": "<p>In this Section we look at a typical application of Fourier series. The problem we study is that of a differential equation with a periodic (but non-sinusoidal) forcing function. The differential equation\nchosen models a lightly damped vibrating system.<\/p>\n",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "0.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Modelling vibration by differential equation",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "2",
+            "heading": "Applying Fourier series to solve a differential equation",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-23-7\/23-7-1-1-Modelling-vibration-by-differential-equation.xml"
+        },
+        {
+            "slot": "2",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-23-7\/23-7-2-1-Applying-Fourier-series-to-solve-a-differential-equation.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "1.00000"
+        }
+    ]
+}

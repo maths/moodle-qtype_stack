@@ -1,0 +1,803 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>29.3.3.4 Green's Identities Exercise</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>Verify Green's identity [1] for the functions \(u = x y z\), \(w = y^2\) and the unit cube \(0 \le x \le 1\), \(0 \le y \le 1\), \(0 \le z \le 1\).</p>
+<p> Remember that Green's Identity [1] is \(\displaystyle \, \int \int_S (u   {\underline \nabla} w) \cdot \underline{dS} =  \displaystyle\int\!\! \displaystyle\int\!\! \displaystyle\int_V \left\{ {\underline \nabla} u \cdot {\underline \nabla} w + u   {\underline \nabla}^2 w \right\} \mathrm{d}V \).</p>
+<ol class="HELM_parts">
+<li><p> First find \( {\underline \nabla} u \cdot {\underline \nabla} w + u   {\underline \nabla}^2 w \) </p>
+<p> \( {\underline \nabla} u \cdot {\underline \nabla} w + u   {\underline \nabla}^2 w  = \) [[input:ans1]] [[validation:ans1]] [[feedback:prt1]] </p></li>
+
+<li><p> Hence evaluate the volume integral \( \displaystyle\int\!\! \displaystyle\int\!\! \displaystyle\int_V \left\{ {\underline \nabla} u \cdot {\underline \nabla} w + u   {\underline \nabla}^2 w \right\} \mathrm{d}V \).</p>
+<p>\( \displaystyle\int\!\! \displaystyle\int\!\! \displaystyle\int_V \left\{ {\underline \nabla} u \cdot {\underline \nabla} w + u   {\underline \nabla}^2 w \right\} \mathrm{d}V  = \) [[input:ans2]] [[validation:ans2]] [[feedback:prt2]] </p></li>
+
+<li> <p> Now evaluate the surface integral by finding the contribution over each side of the unit cube. </p>
+<ol class="HELM_parts">
+<li> <p>On the face \(x=0\), Contribution to \(\displaystyle  \, \int \int_S (u   {\underline \nabla} w) \cdot \underline{dS} =\) [[input:ans3]] [[validation:ans3]] [[feedback:prt3]] </p></li>
+
+<li><p> On the face \(y=0\), Contribution to \(\displaystyle  \, \int \int_S (u   {\underline \nabla} w) \cdot \underline{dS} =\) [[input:ans4]] [[validation:ans4]] [[feedback:prt4]] </p></li>
+
+<li><p> On the face \(z=0\), Contribution to \(\displaystyle \, \int \int_S (u   {\underline \nabla} w) \cdot \underline{dS} =\) [[input:ans5]] [[validation:ans5]] [[feedback:prt5]] </p></li>
+
+<li><p> On the face \(x=1\), Contribution to \(\displaystyle  \, \int \int_S (u   {\underline \nabla} w) \cdot \underline{dS} =\) [[input:ans6]] [[validation:ans6]] [[feedback:prt6]] </p></li>
+
+<li><p> On the face \(y=1\), Contribution to \(\displaystyle  \, \int \int_S (u   {\underline \nabla} w) \cdot \underline{dS} =\) [[input:ans7]] [[validation:ans7]] [[feedback:prt7]] </p></li>
+
+<li><p> On the face \(z=1\), Contribution to \(\displaystyle  \, \int \int_S (u   {\underline \nabla} w) \cdot \underline{dS} =\) [[input:ans8]] [[validation:ans8]] [[feedback:prt8]] </p></li>
+</ol></li>
+
+<li><p> Hence find the total surface integral \(\displaystyle  \, \int \int_S (u   {\underline \nabla} w) \cdot \underline{dS}\)</p>
+<p> \(\displaystyle \int \int_S (u   {\underline \nabla} w) \cdot \underline{dS} = \) [[input:ans9]] [[validation:ans9]] [[feedback:prt9]] </p></li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p> We are asked to verify Green's identity [1] for the functions \(u = x y z\), \(w = y^2\) and the unit cube \(0 \le x \le 1\), \(0 \le y \le 1\), \(0 \le z \le 1\), remembering that Green's Identity [1] is \(\displaystyle \, \int \int_S (u   {\underline \nabla} w) \cdot \underline{dS} =  \displaystyle\int\!\! \displaystyle\int\!\! \displaystyle\int_V \left\{ {\underline \nabla} u \cdot {\underline \nabla} w + u   {\underline \nabla}^2 w \right\} \mathrm{d}V \).</p>
+<ol class="HELM_parts">
+<li><p> We are asked to first find \( {\underline \nabla} u \cdot {\underline \nabla} w + u   {\underline \nabla}^2 w \) </p>
+<p> \( {\underline \nabla} u = \dfrac{\partial u}{\partial x}\underline{i} +  \dfrac{\partial u}{\partial y}\underline{j} +  \dfrac{\partial u}{\partial z}\underline{k} = yz\underline{i} + xz\underline{j} + xy\underline{k}.\)</p>
+<p> \({\underline \nabla} w  = \dfrac{\partial w}{\partial x}\underline{i} +  \dfrac{\partial w}{\partial y}\underline{j} +  \dfrac{\partial w}{\partial z}\underline{k} = 2y\underline{j}.\)</p>
+<p> \({\underline \nabla}^2 w = \dfrac{\partial^2 w}{\partial x^2} +  \dfrac{\partial^2 w}{\partial y^2} +  \dfrac{\partial^2 w}{\partial z^2} = 0 + 2 + 0 = 2.\)  So </p><br>
+
+<p> \(\begin{align}
+{\underline \nabla} u \cdot {\underline \nabla} w + u   {\underline \nabla}^2 w  &= (yz\underline{i} + xz\underline{j} + xy\underline{k}) \cdot (2y\underline{j}) + (xyz\times2) \\
+&= 2xyz + 2xyz \\
+&= 4xyz. \end{align}\)  </p></li>
+
+<li><p> We are then asked to hence evaluate the volume integral \( \displaystyle\int\!\! \displaystyle\int\!\! \displaystyle\int_V \left\{ {\underline \nabla} u \cdot {\underline \nabla} w + u   {\underline \nabla}^2 w \right\} \mathrm{d}V \).</p>
+<p> Since we are integrating over the unit cube, we have </p>
+<p>\(\begin{align}
+\qquad  \displaystyle\int\!\! \displaystyle\int\!\! \displaystyle\int_V \left\{ {\underline \nabla} u \cdot {\underline \nabla} w + u   {\underline \nabla}^2 w \right\} \mathrm{d}V  &= \int_0^1 \int_0^1 \int_0^1 4xyz \, \mathrm{d}x \, \mathrm{d}y \, \mathrm{d}z \\
+&= \int_0^1 \int_0^1 \left[2x^2 yz\right]_0^1 \, \mathrm{d}y \, \mathrm{d}z \\
+&=  \int_0^1 \int_0^1 2yz \, \mathrm{d}y \, \mathrm{d}z \\
+&= \int_0^1 \left[y^2z\right]_0^1 \, \mathrm{d}z \\
+&= \int_0^1 z \, \mathrm{d}z \\
+&= \left[\dfrac{z^2}{2}\right]_0^1 \\
+&= \dfrac{1}{2}.
+\end{align}\)  </p></li>
+
+<li> <p> We are now asked to evaluate the surface integral by finding the contribution over each side of the unit cube.</p>
+<p> We have \(u   {\underline \nabla} w = xyz(2y\underline{j}) = 2xy^2z \underline{j}.\)</p>
+<ol class="HELM_parts">
+<li> <p>On the face \(x=0\):</p>
+<p> \(u   {\underline \nabla} w = 0\) and so \((u   {\underline \nabla} w) \cdot \underline{dS} = 0\) and so the contribution to the integral is \(0\).</p></li>
+
+<li><p> On the face \(y=0\):</p>
+<p> \(u   {\underline \nabla} w = 0\) and so \((u   {\underline \nabla} w) \cdot \underline{dS} = 0\) and so the contribution to the integral is \(0\).</p> </li>
+
+<li><p> On the face \(z=0\):</p>
+<p> \(u   {\underline \nabla} w = 0\) and so \((u   {\underline \nabla} w) \cdot \underline{dS} = 0\) and so the contribution to the integral is \(0\).</p> </li>
+
+<li><p> On the face \(x=1\): </p>
+<p> \(u   {\underline \nabla} w = 2y^2z\underline{j}\) and \(\underline{\mathrm{d}S} = \underline{i} \, \mathrm{d}y \, \mathrm{d}z\), so  \((u   {\underline \nabla} w) \cdot \underline{dS} = y^2z\underline{j} \cdot \underline{i} \, \mathrm{d}y \, \mathrm{d}z = 0\) and so the contribution to the integral is \(0\).</p> </li>
+
+<li><p> On the face \(y=1\):</p>
+<p> \(u   {\underline \nabla} w = 2xz \underline{j}\) and \( \underline{\mathrm{d}S} = \underline{j} \, \mathrm{d}x \, \mathrm{d}z,\) so \((u   {\underline \nabla} w) \cdot \underline{dS} = 2xz \, \mathrm{d}x \, \mathrm{d}z\) and so </p>
+<p>  \(\begin{align} 
+\text{Contribution} &= \int_{z=0}^1 \int_{x=0}^1 2xz \, \mathrm{d}x \, \mathrm{d}z \\
+&= \int_{z=0}^1 \left[x^2z\right]_{x=0}^1 \, \mathrm{d}z \\
+&= \int_0^1 z \, \mathrm{d}z \\
+&= \left[\dfrac{z^2}{2}\right]_0^1 \\
+&= \dfrac{1}{2}.
+\end{align}\) </p></li>
+
+<li><p> On the face \(z=1\):</p>
+<p> \(u   {\underline \nabla} w = 2xy^2\underline{j}\) and \(\underline{\mathrm{d}S} = \underline{k} \, \mathrm{d}x \, \mathrm{d}y\), so  \((u   {\underline \nabla} w) \cdot \underline{dS} = 2xy^2\underline{j} \cdot \underline{k} \, \mathrm{d}x \, \mathrm{d}y = 0\) and so the contribution to the integral is \(0\).</p></li>
+</ol></li>
+
+<li><p> Finally, we are asked to hence find the total surface integral \(\displaystyle  \, \int \int_S (u   {\underline \nabla} w) \cdot \underline{dS}\)</p>
+<p> We do this by summing the 6 contributions from each face of the unit cube:</p>
+<p> \(\displaystyle \int \int_S (u   {\underline \nabla} w) \cdot \underline{dS} = 0 + 0 + 0 + 0 + \dfrac{1}{2} + 0 = \dfrac{1}{2}. \) </p>
+<p> We notice that this is exactly the same answer as our volume integral gave us in part (b), hence verifying Green's first identity.</p></li>
+</ol>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025040100</text>
+    </stackversion>
+    <questionvariables>
+      <text>ta1: 4*x*y*z;
+ta2: 1/2;
+ta3: 0;
+ta4: 0;
+ta5: 0;
+ta6: 0;
+ta7: 1/2;
+ta8: 0;
+ta9: 1/2;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="html">
+      <text>{@ta1@}</text>
+    </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>8</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>ta2</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>algebraic</type>
+      <tans>ta3</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans4</name>
+      <type>algebraic</type>
+      <tans>ta4</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans5</name>
+      <type>algebraic</type>
+      <tans>ta5</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans6</name>
+      <type>algebraic</type>
+      <tans>ta6</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans7</name>
+      <type>algebraic</type>
+      <tans>ta7</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans8</name>
+      <type>algebraic</type>
+      <tans>ta8</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans9</name>
+      <type>algebraic</type>
+      <tans>ta9</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>ta3</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt4</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans4</sans>
+        <tans>ta4</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt4-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt4-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt5</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans5</sans>
+        <tans>ta5</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt5-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt5-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt6</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans6</sans>
+        <tans>ta6</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt6-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt6-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt7</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans7</sans>
+        <tans>ta7</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt7-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt7-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt8</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans8</sans>
+        <tans>ta8</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt8-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt8-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt9</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans9</sans>
+        <tans>ta9</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt9-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt9-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta3</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>ta4</value>
+      </testinput>
+      <testinput>
+        <name>ans5</name>
+        <value>ta5</value>
+      </testinput>
+      <testinput>
+        <name>ans6</name>
+        <value>ta6</value>
+      </testinput>
+      <testinput>
+        <name>ans7</name>
+        <value>ta7</value>
+      </testinput>
+      <testinput>
+        <name>ans8</name>
+        <value>ta8</value>
+      </testinput>
+      <testinput>
+        <name>ans9</name>
+        <value>ta9</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt4-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt5</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt5-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt6</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt6-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt7</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt7-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt8</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt8-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt9</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt9-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1+1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2+1</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta3+1</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>ta4+1</value>
+      </testinput>
+      <testinput>
+        <name>ans5</name>
+        <value>ta5+1</value>
+      </testinput>
+      <testinput>
+        <name>ans6</name>
+        <value>ta6+1</value>
+      </testinput>
+      <testinput>
+        <name>ans7</name>
+        <value>ta7+1</value>
+      </testinput>
+      <testinput>
+        <name>ans8</name>
+        <value>ta8+1</value>
+      </testinput>
+      <testinput>
+        <name>ans9</name>
+        <value>ta9+1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt3-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt4-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt5</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt5-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt6</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt6-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt7</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt7-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt8</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt8-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt9</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt9-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

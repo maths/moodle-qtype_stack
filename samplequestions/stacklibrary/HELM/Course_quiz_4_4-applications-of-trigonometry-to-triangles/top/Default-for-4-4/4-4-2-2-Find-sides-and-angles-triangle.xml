@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>4.4.2.2 Find sides and angles triangle</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+
+<p>Obtain the remaining sides and angles for the following right triangle where angle \( \hat{B} = {@thB@}^\circ \) and sides \(a = {@aa@}, \, c={@cc@}.\)</p>
+
+[[jsxgraph width='250px' height='200px']] 
+var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-1, 5, 11, -1], keepAspectRatio: true,showCopyright: false, showNavigation: false}); 
+var p = board.create('point', [6.5,3], {name: "A", fixed:true}); 
+var q = board.create('point',[10,0],{name:"C", fixed:true});
+var r = board.create('point', [0,0], {name: "B", fixed:true, label:{autoPosition: false, offset:[-15, 10]}});
+var poly1 = board.create('polygon',[p,q,r]);
+var angle1 = board.create('angle',["C", "B", "A"], {radius:1.2, name: '{#thB#} &deg', label:{autoPosition: false, offset:[-3, -8]}});
+board.create('text', [3, 2, {#cc#}]); 
+board.create('text', [5, -0.5, {#aa#}]); 
+[[/jsxgraph]]
+
+<p>\(b = \) [[input:ans1]] [[validation:ans1]] [[feedback:prt1]] Keep 2 decimal places.</p>
+<p>\( \hat{C} = \) [[input:ans2]] [[validation:ans2]] [[feedback:prt2]] Keep 1 decimal places.</p>
+<p>\( \hat{A} = \) [[input:ans3]] [[validation:ans3]] [[feedback:prt3]] Keep 1 decimal places.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[[[jsxgraph width='250px' height='200px']] 
+var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-1, 5, 11, -1], keepAspectRatio: true,showCopyright: false, showNavigation: false}); 
+var p = board.create('point', [6.5,3], {name: "A", fixed:true}); 
+var q = board.create('point',[10,0],{name:"C", fixed:true});
+var r = board.create('point', [0,0], {name: "B", fixed:true, label:{autoPosition: false, offset:[-15, 10]}});
+var poly1 = board.create('polygon',[p,q,r]);
+var angle1 = board.create('angle',["C", "B", "A"], {radius:1.2, name: '{#thB#} &deg', label:{autoPosition: false, offset:[-3, -8]}});
+board.create('text', [3, 2, {#cc#}]); 
+board.create('text', [5, -0.5, {#aa#}]); 
+[[/jsxgraph]]
+
+<p>In this case, since two sides and the included angle are given, we must use the Cosine rule.
+The appropriate form is</p>
+<p>\[ \begin{align} b^2 & = c^2+a^2 - 2ac \cos B \\ & = {@cc@}^2+{@aa@}^2-2 ({@cc@})({@aa@}) \cos {@thB@} \\ &= {@bsq@} \end{align}\]</p>
+<p>So \( \quad b= \sqrt({@bsq@}) = {@bb@}.\)</p>
+<p>Continuing we use the Cosine rule again to determine say angle \(C\) where \[ c^2 = a^2+b^2-2ab \cos C \Rightarrow\] \[ {@cc@}^2 = {@aa@}^2 +{@bb@}^2 - 2 ({@aa@})({@bb@}) \cos C \Rightarrow \] \[ \cos C = {@cos_C@}\] </p>
+<p>So \( \quad C = {@thC@}^\circ .\) (There is no other possibility for \(C\) between \(0^\circ\) and \(180^\circ\). Recall that the cosine of an angle between \(90^\circ\) and \(180^\circ\) is negative.)</p>
+<p>Finally, \( A = 180^\circ - ({@thB@}^\circ + {@thC@}^\circ) ={@thA@}^\circ .\) </p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025073100</text>
+    </stackversion>
+    <questionvariables>
+      <text>aa: rand([12,13,14]);
+cc: rand([9,10,11]);
+thB: rand([24,25,26,27,28]);
+
+bsq: decimalplaces(cc^2+aa^2-2*cc*aa*cos(thB*%pi/180), 4);
+bb: decimalplaces(sqrt(cc^2+aa^2-2*cc*aa*cos(thB*%pi/180)),2);
+cos_C: (aa^2+bb^2-cc^2)/(2*aa*bb);
+thC: decimalplaces(acos(cos_C)*180/%pi, 1);
+thA: decimalplaces(180-(thB+thC), 1);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\(\hat{B}= {@thB@}^\circ, \, c= {@cc@}, \, a= {@aa@}, \text{ so } \hat{A} = {@thA@}^\circ, \, \hat{C} = {@thC@}^\circ \, b= {@bb@} \)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>numerical</type>
+      <tans>bb</tans>
+      <boxsize>8</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>mindp:2, maxdp:2</options>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>numerical</type>
+      <tans>thC</tans>
+      <boxsize>8</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>mindp:1, maxdp:1</options>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>numerical</type>
+      <tans>thA</tans>
+      <boxsize>8</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>mindp:1, maxdp:1</options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>ans1</sans>
+        <tans>bb</tans>
+        <testoptions>2</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>ans2</sans>
+        <tans>thC</tans>
+        <testoptions>1</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>ans3</sans>
+        <tans>thA</tans>
+        <testoptions>1</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1263466063</deployedseed>
+    <deployedseed>1987499052</deployedseed>
+    <deployedseed>725646941</deployedseed>
+    <deployedseed>1085456176</deployedseed>
+    <deployedseed>2017573940</deployedseed>
+    <deployedseed>1226699582</deployedseed>
+    <deployedseed>716079148</deployedseed>
+    <deployedseed>1481509311</deployedseed>
+    <deployedseed>1370947733</deployedseed>
+    <deployedseed>2122805375</deployedseed>
+    <deployedseed>2059758444</deployedseed>
+    <deployedseed>39998767</deployedseed>
+    <deployedseed>909503291</deployedseed>
+    <deployedseed>478955952</deployedseed>
+    <deployedseed>967233272</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>dispdp(bb,2)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>thC</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>thA</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>dispdp(ev(bb+1,simp),2)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>dispdp(ev(thC+1,simp),1)</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>dispdp(ev(thA+1,simp),1)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt3-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <tags>
+      <tag><text>jsxgraph</text>
+</tag>
+    </tags>
+  </question>
+</quiz>

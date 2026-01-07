@@ -140,3 +140,34 @@ Allows disabling the submit button, do remember to re-enable it so that the stud
 
 Allows changing the text of the submit button.
 
+
+## Other STACK-JS libraries
+
+Note that while the above listing presents the functionality of the `stack_js`
+library, there are others that come with norm STACK distributions. 
+
+First and foremost among them is the `stack_jxg` library that is always
+automatically imported to `[[jsxgraph]]` blocks but can naturally also be
+importted elsewhere, e.g., larger IFRAME constructs with internal JSXGraphs
+mixed with other things. See [../JSXGraph/](documentation) on `[[jsxgraph]]`
+for more details about this library.
+
+Then there is the `stack_geogebra` library for similar activities with
+[../GeoGebra/](GeoGebra). Again automatically imported in `[[geogebra]]`
+blocks. This library is probably only sensible inside that block.
+
+[../Drag_and_drop/](Parsons-problems or the drag and drop) feature also 
+has its own tool library, `stack_sortable`. Again probaly only sensible
+inside the related block.
+
+`stack_css_utils` is first of the libraries independent of blocks. It does
+one thing and thign only. It writes local context CSS stylesheets into
+element level definitions. So that one can style thing inside an iframe with
+stylesheets and then transfer those things outside of the iframe with
+the styles inlined.
+
+`stack_mp_lite` is parser for a subset of the full STACK-Maxima syntax. It is
+meant for tasks where one needs to translate that Maxima style syntax to
+something else. It comes with predefined logic for translation to JS and
+JessieCode, but one can freely define new translations through the library.
+See and example (STACK_MP_LITE.md)[here].

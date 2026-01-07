@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>17.2.3.11 Polar curve creation</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>Let \(x=-d\) be the directrix for the 2 below conics, and \(e\) be their eccentricity. Drag the sliders on the graphs below to create the following curves (Note that the red dashed line is \(x=-d\)): </p>
+
+<p>\(r = \dfrac{1}{1-\cos\theta}\)</p>
+[[jsxgraph input-ref-ans1='ans1Ref']]
+var board = JXG.JSXGraph.initBoard(divid, {
+            boundingbox: [-8, 8, 8, -8],
+            keepaspectratio: true,
+            showCopyright: false,
+            axis: true,
+            showNavigation: true,
+        });
+		
+		JXG.Options.text.useMathHax = true;
+		
+		var e_first= board.create('slider',[[1, -3], [5, -3], [0.25, {#init_a#}, 2]], {name:'e', snapwidth: 0.25});
+		var de_first= board.create('slider',[[1, -4], [5, -4], [-4, {#init_b#}, 4]], {name:'d*e', snapwidth: 0.25});
+
+
+		var p1 = board.create('point', [
+    function() { return -de_first.Value()/e_first.Value(); },
+    -10
+], {visible: false});
+
+var p2 = board.create('point', [
+    function() { return -de_first.Value()/e_first.Value(); },
+    10
+], {visible: false});
+
+var direct= board.create('line', [p1, p2], {
+    straightFirst: false,
+    straightLast: false,
+    strokeColor: 'red',
+    dash: 2,
+    name: 'direct',
+    fixed: true,
+});
+			
+		var curve = board.create('curve', [ function (theta) { return de_first.Value() / (1 - e_first.Value() * Math.cos(theta)); },
+    [0, 0], 0, 2 * Math.PI],
+    {curveType: 'polar',
+    strokewidth: 2,
+    strokeColor: 'blue'});
+
+e_first.on('drag', function () { curve.updateCurve(); board.update(); });
+de_first.on('drag', function () { curve.updateCurve(); board.update(); });
+
+stack_jxg.bind_list_of(ans1Ref, [e_first, de_first]);
+
+[[/jsxgraph]]
+[[feedback:prt1]]
+
+<p style="display:none">[[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025073100</text>
+    </stackversion>
+    <questionvariables>
+      <text>/* This and the following 2 questions were 1 question that I slpit into 3 so that it's easier to check the graphs. I kept the question variables the same in all 3 of them*/
+
+rand2: (rand(8)+1)/2;
+ee3: (rand(4)+1)/4;
+dd3:rand_with_prohib(-2, 2, [0])
+multiple: rand(4)+1;
+init_a: rand_with_prohib(-1, 2, [0])/2 + 1;
+init_b: rand_with_prohib(-8, 8, [-2, 0])/2 + 1;
+init_c: rand_with_prohib(0, 8, [rand2*2])/2;
+init_d: rand_with_prohib(-4, 4, [0, dd3]);
+init_e: rand_with_prohib(0, 8, [ee3])/8;
+
+ta1:[1, 1];
+ta2: rand2;
+ta3:[ee3, dd3*ee3];</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="html">
+      <text>(b) \(r=e^{-a\theta}\implies\ a=\) {@ta2@}, (c) \([e, de] = {@ta3@}\)</text>
+    </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>onum</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumRelative</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions>0.02</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Incorrect graph, below is the correct graph with \(de = 1\) and \(e=1\):</p>
+[[jsxgraph]]
+var board = JXG.JSXGraph.initBoard(divid, {
+            boundingbox: [-8, 8, 8, -8],
+            keepaspectratio: true,
+            showCopyright: false,
+            axis: true,
+            showNavigation: true,
+        });
+		
+		JXG.Options.text.useMathHax = true;
+			
+		var curve = board.create('curve', [ function (theta) { return 1 / (1 - 1 * Math.cos(theta)); },
+    [0, 0], 0, 2 * Math.PI],
+    {curveType: 'polar',
+    strokewidth: 2,
+    strokeColor: 'blue'});
+
+[[/jsxgraph]]]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>377079858</deployedseed>
+    <deployedseed>1265524774</deployedseed>
+    <deployedseed>414813833</deployedseed>
+    <deployedseed>1912177840</deployedseed>
+    <deployedseed>1164615217</deployedseed>
+    <deployedseed>1316587714</deployedseed>
+    <deployedseed>802637214</deployedseed>
+    <deployedseed>1142871848</deployedseed>
+    <deployedseed>1080248430</deployedseed>
+    <deployedseed>1941904085</deployedseed>
+    <deployedseed>441294075</deployedseed>
+    <deployedseed>1834698379</deployedseed>
+    <deployedseed>318884773</deployedseed>
+    <deployedseed>657927865</deployedseed>
+    <deployedseed>1126322071</deployedseed>
+    <deployedseed>190638197</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(ta1+1,simp)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

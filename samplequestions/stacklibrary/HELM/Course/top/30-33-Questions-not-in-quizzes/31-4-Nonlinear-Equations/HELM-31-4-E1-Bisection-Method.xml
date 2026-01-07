@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>HELM 31.4 E1 Bisection Method</text>
+    </name>
+    <questiontext format="markdown">
+      <text>**31.4 E1 Bisection Method**
+
+The function 
+
+{@f(x)=fn@}
+
+has a single zero. Find two consecutive integers \\\(a\\\) and \\\(b\\\) which bracket the zero of \\\(f\\\).
+
+
+\\\(a, b=\\\) [[input:S_a]], [[input:S_b]] 
+
+[[validation:S_a]] [[validation:S_b]] 
+
+[[feedback:ab]]
+
+Perform one iteration of the bisection method. What is the new bracketing interval?
+
+\\\(a, b=\\\) [[input:S_a1]], [[input:S_b1]] 
+
+[[validation:S_a1]] [[validation:S_b1]] 
+
+[[feedback:ab1]]</text>
+    </questiontext>
+    <generalfeedback format="markdown">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2024012900</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[simp:false;
+[fn, a, b] : rand([ [x^3 + 2*x + 8, -2, 0],  [exp(x)-4, 1, 2 ],  [3-exp(x), 0, 10 ] ,  [-x^3 + 2*x + 8, -2, 10 ] ]);
+simp:true;
+x0: find_root(fn, x, a, b);
+a: floor(x0); b: ceiling(x0);
+m: (a+b)/2;
+if ev(fn,x=a)*ev(fn,x=m)>0 then (a1: m, b1: b) else (a1: a, b1: m);
+
+
+stack_include("https://raw.githubusercontent.com/mkraska/meclib/main/Maxima/fb_value_EN.mac");]]></text>
+    </questionvariables>
+    <specificfeedback format="markdown">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>{@fn@}, {@x0@}, {@a@}, {@b@}</text>
+    </questionnote>
+    <questiondescription format="markdown">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="markdown">
+      <text>Richtige Antwort, gut gemacht!</text>
+    </prtcorrect>
+    <prtpartiallycorrect format="markdown">
+      <text>Ihre Antwort ist teilweise korrekt.</text>
+    </prtpartiallycorrect>
+    <prtincorrect format="markdown">
+      <text>Falsche Antwort.</text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>S_a</name>
+      <type>algebraic</type>
+      <tans>a</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>integer</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>S_a1</name>
+      <type>numerical</type>
+      <tans>a1</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>number</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>S_b</name>
+      <type>algebraic</type>
+      <tans>b</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>integer</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>S_b1</name>
+      <type>numerical</type>
+      <tans>b1</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>number</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>ab</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text>fafb: ev(fn,x=S_a)*ev(fn,x=S_b);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>S_b-S_a</sans>
+        <tans>1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>ab-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>ab-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>The distance between \(a\) and \(b\) is not 1. It is {@'b-'a=S_b-S_a@}. Thus, \(a\) and \(b\) are not consecutive.</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>GT</answertest>
+        <sans>fafb</sans>
+        <tans>0</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>ab-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@'f('a)=dispsf(ev(fn,x=S_a),3)@} and {@'f('b)=dispsf(ev(fn,x=S_b),3)@} have the same sign. Thus the zero is not between \(a\) and \(b\).</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>ab-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>GT</answertest>
+        <sans>S_b</sans>
+        <tans>S_a</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>0</truenextnode>
+        <trueanswernote>ab-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>ab-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>\(b\) must be greater than \(a\).</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>ab1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text>fafb1: ev(fn,x=S_a1)*ev(fn,x=S_b1);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>member(S_a1,[S_a, (S_b+S_a)/2])</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>ab1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>ab1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>The left boundary of the interval must be either the midpoint or the left boundary of the previous interval.</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>member(S_b1,[S_b, (S_b+S_a)/2])</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>3</truenextnode>
+        <trueanswernote>ab1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>ab1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>The right boundary of the interval must be either the midpoint or the right boundary of the previous interval.</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>GT</answertest>
+        <sans>fafb1</sans>
+        <tans>0</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>ab1-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@'f('a)=dispsf(ev(fn,x=S_a1),3)@} and {@'f('b)=dispsf(ev(fn,x=S_b1),3)@} have the same sign. Thus the zero is not between \(a\) and \(b\).</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>ab1-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>3</name>
+        <description/>
+        <answertest>NumRelative</answertest>
+        <sans>S_b1-S_a1</sans>
+        <tans>(S_b-S_a)/2</tans>
+        <testoptions>0.005</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>ab1-4-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>ab1-4-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>The new interval must be half the size of the previous interval.</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1587513181</deployedseed>
+    <deployedseed>2004592882</deployedseed>
+    <deployedseed>527247886</deployedseed>
+    <deployedseed>1607512437</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>S_a</name>
+        <value>a</value>
+      </testinput>
+      <testinput>
+        <name>S_a1</name>
+        <value>a1</value>
+      </testinput>
+      <testinput>
+        <name>S_b</name>
+        <value>b</value>
+      </testinput>
+      <testinput>
+        <name>S_b1</name>
+        <value>b1</value>
+      </testinput>
+      <expected>
+        <name>ab</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>ab-2-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>ab1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>ab1-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>S_a</name>
+        <value>a</value>
+      </testinput>
+      <testinput>
+        <name>S_a1</name>
+        <value>a1</value>
+      </testinput>
+      <testinput>
+        <name>S_b</name>
+        <value>b</value>
+      </testinput>
+      <testinput>
+        <name>S_b1</name>
+        <value>b1</value>
+      </testinput>
+      <expected>
+        <name>ab</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>ab-2-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>ab1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>ab1-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>S_a</name>
+        <value>a</value>
+      </testinput>
+      <testinput>
+        <name>S_a1</name>
+        <value>a1</value>
+      </testinput>
+      <testinput>
+        <name>S_b</name>
+        <value>b</value>
+      </testinput>
+      <testinput>
+        <name>S_b1</name>
+        <value>b1</value>
+      </testinput>
+      <expected>
+        <name>ab</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>ab-2-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>ab1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>ab1-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

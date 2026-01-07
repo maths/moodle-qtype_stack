@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>18.4.4.4 Exercise 3</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>If \(\displaystyle{v=\sqrt{\frac{@a*x@}{@b*y@}}}\) find the maximum percentage error in \(v\) due to errors of \({@error_x@} \%\) in \(x\) and \({@error_y@} \% \) in \(y\).</p>
+<p>The maximum percentage error in \(v\) is [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]%.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>We are given the funtcion \(\displaystyle{v=\sqrt{\frac{@a*x@}{@b*y@}}}\) and \(x, y\) are subject to percentage relative errors of \({@error_x@} \%\) and \({@error_y@} \%\) respectively.</p>
+<p>First, find \(\dfrac{\partial v}{\partial x}\) and \(\dfrac{\partial x}{\partial y}.\)</p>
+<p>\(\dfrac{\partial v}{\partial x} = \displaystyle{ {@v_x@}}\)</p>
+<p>\(\dfrac{\partial v}{\partial y} = \displaystyle{ {@v_y@}}\)</p>
+<p>Now we write down the expression of \( \delta v .\)</p>
+<p>\[ \left|\delta v \right|_{\text{max}} \simeq \left| \frac{\partial v}{\partial x} \right| \left| \delta x \right|+ \left| \frac{\partial v}{\partial y} \right| \left| \delta y \right| \simeq \left| {@v_x@} \right| \left| \delta x \right| + \left| {@v_y@} \right| \left| \delta y \right| \]</p>
+<p>Hence we write down an expression for the percentage relative error in \(f\):</p>
+<p>\[ \begin{align} \dfrac{\delta v}{v} \times 100 &amp; \simeq \left| {@v_x@} \times \sqrt{\frac{@b*y@}{@a*x@}} \, \delta x \times 100 \right| + \left| {@v_y@} \times \sqrt{\frac{@b*y@}{@a*x@}} \, \delta y \times 100 \right| \\ &amp; \simeq \left| {@v1@}
+    \delta x \times 100 \right| + \left| {@v2@} \delta y \times 100 \right| \end{align}\]</p>
+<p>The percentage relative errors of \(x,y \) are \({@error_x@} \%\) and \({@error_y@} \%\) respectivelly so:</p>
+<p>\( \displaystyle \frac{\delta x}{x} = {@error_x@} \) and</p>
+<p>\( \displaystyle \frac{\delta y}{y} = {@error_y@} \)</p>Substituting them into the previous relation we find:<br>\[\dfrac{\delta v}{v} \times 100 \simeq \left| {@v1@} \delta x \times 100 \right| + \left| {@v2@} \delta y \times 100 \right| = \frac{{@error_x@}}{2}
++\frac{{@error_y@}}{2} ={@ta1@} \%\]<br>
+<p></p>
+<p><span style="font-size: 0.9375rem;"><strong>Alterantive method:</strong></span></p>
+<p><span style="font-size: 0.9375rem;">If we first take logarithms of both sides \[\ln v = \frac{1}{2}\ln {@a@} + \frac{1}{2} \ln x - \frac{1}{2} \ln {@b@} - \frac{1}{2} \ln y\]</span><br></p>
+<p>We can then apply the total derivative (implicitly) to obtain<br><br>\[\frac1v \mathrm{d}v= \frac{1}{2x}\mathrm{d}x-\frac{1}{2y}\mathrm{d}y\]<br><br>So \(\dfrac{\delta v}{v} \approx \dfrac{\delta x}{2x}- \dfrac{\delta y}{2y}\)</p>
+<p>The maximum percentage error in \(v\) is therefore \[v=\left|\frac{\delta x}{2x}\right|+\left|-\frac{\delta y}{2y}\right|= \frac{{@error_x@}}{2} +\frac{{@error_y@}}{2} = {@ta1@} \% \]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020120600</text>
+    </stackversion>
+    <questionvariables>
+      <text>a: rand([3,5,7]);
+b: rand([1,2,4]);
+v: sqrt(a*x/(b*y));
+v_inv: 1/v;
+
+v_x: diff(v,x);
+v_y: diff(v,y);
+v1: v_inv*v_x;
+v2: v_inv*v_y;
+error_x: rand([1,2,3]);
+error_y: rand_with_prohib(1,3,[error_x]);
+ta1: float((error_x/2)+(error_y/2));</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\( v = \sqrt{\frac{@a*x@}{@b*y@}}, \,  \delta x = {@error_x@} \%, \, \delta y = {@error_y@} \%\) max error = {@ta1@} %</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>numerical</type>
+      <tans>ta1</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>998779459</deployedseed>
+    <deployedseed>1727139862</deployedseed>
+    <deployedseed>1240948074</deployedseed>
+    <deployedseed>1460913519</deployedseed>
+    <deployedseed>440245290</deployedseed>
+    <deployedseed>469507666</deployedseed>
+    <deployedseed>1144525957</deployedseed>
+    <deployedseed>64977668</deployedseed>
+    <deployedseed>307050314</deployedseed>
+    <deployedseed>1039216</deployedseed>
+    <deployedseed>1171478081</deployedseed>
+    <deployedseed>1520381704</deployedseed>
+    <deployedseed>131759714</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(ta1+1,simp)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

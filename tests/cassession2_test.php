@@ -48,6 +48,30 @@ require_once(__DIR__ . '/../stack/cas/ast.container.class.php');
  * @covers \stack_cas_session2
  */
 final class cassession2_test extends qtype_stack_testcase {
+    public function test_stackmaximaversion(): void {
+
+        // This test ensures that we are not running against different
+        // version number of the STACK-Maxima scripts. For example,
+        // old image in a server setup or a cache layer somewhere.
+
+        $scriptversion = file_get_contents(__DIR__ . '/../stack/maxima/stackmaxima.mac');
+        $scriptversion = explode('stackmaximaversion:', $scriptversion);
+        $scriptversion = $scriptversion[count($scriptversion) - 1];
+        $scriptversion = explode('$', $scriptversion)[0];
+
+        $cs = stack_ast_container::make_from_teacher_source('stackmaximaversion', 'version-check');
+
+        $session = new stack_cas_session2([$cs]);
+
+        $session->get_valid();
+        $session->instantiate();
+
+        $this->assertEquals(
+            $scriptversion,
+            $cs->get_value(),
+            'To fix this: Check STACK-Maxima script versions, purge caches and/or regenerate images.'
+        );
+    }
 
     public function test_internal_config(): void {
 
@@ -72,8 +96,11 @@ final class cassession2_test extends qtype_stack_testcase {
         $casstrings = [];
 
         foreach ($strings as $string) {
-            $casstrings[] = stack_ast_container::make_from_teacher_source($string, 'test_get_valid()',
-                    new stack_cas_security());
+            $casstrings[] = stack_ast_container::make_from_teacher_source(
+                $string,
+                'test_get_valid()',
+                new stack_cas_security()
+            );
         }
 
         $session = new stack_cas_session2($casstrings);
@@ -88,8 +115,11 @@ final class cassession2_test extends qtype_stack_testcase {
         $casstrings = [];
 
         foreach ($strings as $string) {
-            $casstrings[] = stack_ast_container::make_from_teacher_source($string, 'test_get_valid_false()',
-                    new stack_cas_security());
+            $casstrings[] = stack_ast_container::make_from_teacher_source(
+                $string,
+                'test_get_valid_false()',
+                new stack_cas_security()
+            );
         }
 
         $session = new stack_cas_session2($casstrings);
@@ -108,8 +138,11 @@ final class cassession2_test extends qtype_stack_testcase {
         $casstrings = [];
 
         foreach ($strings as $string => $result) {
-            $casstrings[] = stack_ast_container::make_from_teacher_source($string,
-                    'test_instantiation_and_return_values()', new stack_cas_security());
+            $casstrings[] = stack_ast_container::make_from_teacher_source(
+                $string,
+                'test_instantiation_and_return_values()',
+                new stack_cas_security()
+            );
         }
 
         $session = new stack_cas_session2($casstrings);
@@ -183,8 +216,11 @@ final class cassession2_test extends qtype_stack_testcase {
     public function test_feedback(): void {
 
         $simpoff = stack_ast_container::make_from_teacher_source('simp:false', 'test_answernote()', new stack_cas_security());
-        $validation = stack_ast_container::make_from_teacher_source('stack_validate_typeless([2/4], true, 1/2, 0, true)',
-                'test_answernote()', new stack_cas_security());
+        $validation = stack_ast_container::make_from_teacher_source(
+            'stack_validate_typeless([2/4], true, 1/2, 0, true)',
+            'test_answernote()',
+            new stack_cas_security()
+        );
 
         $session = new stack_cas_session2([$simpoff, $validation]);
         $this->assertEquals('', $validation->get_answernote());
@@ -259,7 +295,6 @@ final class cassession2_test extends qtype_stack_testcase {
         // Note that the value is available as an AST and there is already
         // an unpacking function to pick it apart.
         $this->assertEquals('[true,false,"",""]', $result->get_value());
-
     }
 
     public function test_get_display(): void {
@@ -277,7 +312,6 @@ final class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('x^2', $s1[0]->get_display());
         $this->assertEquals('\frac{1}{1+x^2}', $s1[1]->get_display());
         $this->assertEquals('e^{\mathrm{i}\cdot \pi}', $s1[2]->get_display());
-
     }
 
     public function test_polarform_simp(): void {
@@ -465,7 +499,6 @@ final class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('x\times \left(y\times z\right)', $s1[2]->get_display());
         // Notice the associativity of Maxima suppresses the extra explicit brackets here.
         $this->assertEquals('x\times y\times z', $s1[3]->get_display());
-
     }
 
     public function test_multiplication_option_onum(): void {
@@ -484,7 +517,7 @@ final class cassession2_test extends qtype_stack_testcase {
         $at1->instantiate();
         $this->assertEquals('2\, x', $s1[0]->get_display());
         $this->assertEquals('2\times 3\, x', $s1[1]->get_display());
-        $this->assertEquals('3\, 5^2', $s1[2]->get_display());
+        $this->assertEquals('3\times 5^2', $s1[2]->get_display());
         $this->assertEquals('3\, x^2', $s1[3]->get_display());
         $this->assertEquals('x\, \left(-y\right)', $s1[4]->get_display());
         $this->assertEquals('3\times \left(-4\right)\, x\, \left(-y\right)', $s1[5]->get_display());
@@ -493,6 +526,7 @@ final class cassession2_test extends qtype_stack_testcase {
         $cs = [
             'texput(multsgnonlyfornumberssym, "\\\\cdot")',
             'a:9*x', 'b:5*7*x', 'c:3*5^2', 'd:3*x^2', 'z:3*(5/2)',
+            '3*(4/5)*x', '3*4/5*x', '3*(-4/5)*x', '7/6*x+3/4*y',
         ];
         foreach ($cs as $s) {
             $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
@@ -506,10 +540,13 @@ final class cassession2_test extends qtype_stack_testcase {
         $at1->instantiate();
         $this->assertEquals('9\, x', $s1[1]->get_display());
         $this->assertEquals('5\cdot 7\, x', $s1[2]->get_display());
-        $this->assertEquals('3\, 5^2', $s1[3]->get_display());
+        $this->assertEquals('3\cdot 5^2', $s1[3]->get_display());
         $this->assertEquals('3\, x^2', $s1[4]->get_display());
-        $this->assertEquals('3\, x^2', $s1[4]->get_display());
-        $this->assertEquals('3\, \left(\frac{5}{2}\right)', $s1[5]->get_display());
+        $this->assertEquals('3\cdot \frac{5}{2}', $s1[5]->get_display());
+        $this->assertEquals('3\cdot \frac{4}{5}\, x', $s1[6]->get_display());
+        $this->assertEquals('\left(\frac{3\cdot 4}{5}\right)\, x', $s1[7]->get_display());
+        $this->assertEquals('3\cdot \left(\frac{-4}{5}\right)\, x', $s1[8]->get_display());
+        $this->assertEquals('\frac{7}{6}\, x+\frac{3}{4}\, y', $s1[9]->get_display());
     }
 
     public function test_multiplication_option_space(): void {
@@ -782,18 +819,23 @@ final class cassession2_test extends qtype_stack_testcase {
 
         $this->assertEquals($s1[0]->get_value(), 'pi_25');
         $this->assertEquals($s1[0]->get_display(), '{\pi}_{25}');
+        $this->assertEquals($s1[0]->get_errors(), '');
 
         $this->assertEquals($s1[1]->get_value(), '1+x_3');
         $this->assertEquals($s1[1]->get_display(), '1+{x}_{3}');
+        $this->assertEquals($s1[1]->get_errors(), '');
 
         $this->assertEquals($s1[2]->get_value(), 'f(x):=x^3');
         $this->assertEquals($s1[2]->get_display(), 'f(x):=x^3');
+        $this->assertEquals($s1[2]->get_errors(), '');
 
         $this->assertEquals($s1[3]->get_value(), 'gamma_7^3');
         $this->assertEquals($s1[3]->get_display(), '{{\gamma}_{7}}^3');
+        $this->assertEquals($s1[3]->get_errors(), '');
 
         $this->assertEquals($s1[4]->get_value(), 'pi_4^5');
         $this->assertEquals($s1[4]->get_display(), '{{\pi}_{4}}^5');
+        $this->assertEquals($s1[4]->get_errors(), '');
     }
 
     public function test_matrix_eigenvalues(): void {
@@ -811,9 +853,10 @@ final class cassession2_test extends qtype_stack_testcase {
 
         $this->assertEquals('[1-sqrt(66),sqrt(66)+1,-2]', $s1[1]->get_value());
         $this->assertEquals('130', $s1[2]->get_value());
-        $this->assertEquals('\left(\begin{array}{ccc} 7 & 1 & 3 \\\\ 5 & -3 & 4 \\\\ 5 & 3 & -4 \end{array}\right)',
-                $s1[0]->get_display());
-
+        $this->assertEquals(
+            '\left(\begin{array}{ccc} 7 & 1 & 3 \\\\ 5 & -3 & 4 \\\\ 5 & 3 & -4 \end{array}\right)',
+            $s1[0]->get_display()
+        );
     }
 
     public function test_assignmatrixelements(): void {
@@ -870,8 +913,10 @@ final class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals([], $at1->get_errors(false));
 
         $this->assertEquals('if a > b then setelmx(0,m[k],m[j],A)', $s1[0]->get_value());
-        $this->assertEquals('\mathbf{if}\;a > b\;\mathbf{then}\;{\it setelmx}\left(0 , m_{k} , m_{j} , A\right)',
-                $s1[0]->get_display());
+        $this->assertEquals(
+            '\mathbf{if}\;a > b\;\mathbf{then}\;{\it setelmx}\left(0 , m_{k} , m_{j} , A\right)',
+            $s1[0]->get_display()
+        );
 
         // Confirm these expressions are unchanged by the CAS.
         $atsession = $at1->get_session();
@@ -1121,7 +1166,7 @@ final class cassession2_test extends qtype_stack_testcase {
 
         $i = 0;
         foreach ($cases as $case) {
-            $cmds[$i] = 'd'.$i.':' . $case[0];
+            $cmds[$i] = 'd' . $i . ':' . $case[0];
             $i++;
         }
 
@@ -1155,18 +1200,26 @@ final class cassession2_test extends qtype_stack_testcase {
         $at1 = new stack_cas_session2($s1, null, 0);
         $at1->instantiate();
         $this->assertEquals('[alpha,beta,delta,epsilon]', $s1[0]->get_value());
-        $this->assertEquals('\left[ \alpha , \beta , \delta , \varepsilon \right]',
-                $s1[0]->get_display());
+        $this->assertEquals(
+            '\left[ \alpha , \beta , \delta , \varepsilon \right]',
+            $s1[0]->get_display()
+        );
         $this->assertEquals('[zeta,eta,theta,iota,kappa]', $s1[1]->get_value());
-        $this->assertEquals('\left[ \zeta , \eta , \theta , \iota , \kappa \right]',
-                $s1[1]->get_display());
+        $this->assertEquals(
+            '\left[ \zeta , \eta , \theta , \iota , \kappa \right]',
+            $s1[1]->get_display()
+        );
         // Note here that pi is returned as the constant %pi.
         $this->assertEquals('[lambda,mu,nu,xi,omicron,%pi,rho]', $s1[2]->get_value());
-        $this->assertEquals('\left[ \lambda , \mu , \nu , \xi , o , \pi , \rho \right]',
-                $s1[2]->get_display());
+        $this->assertEquals(
+            '\left[ \lambda , \mu , \nu , \xi , o , \pi , \rho \right]',
+            $s1[2]->get_display()
+        );
         $this->assertEquals('[sigma,tau,upsilon,phi,psi,chi,omega]', $s1[3]->get_value());
-        $this->assertEquals('\left[ \sigma , \tau , \upsilon , \varphi , \psi , \chi , \omega \right]',
-                $s1[3]->get_display());
+        $this->assertEquals(
+            '\left[ \sigma , \tau , \upsilon , \varphi , \psi , \chi , \omega \right]',
+            $s1[3]->get_display()
+        );
     }
 
     public function test_greek_lower_gamma(): void {
@@ -1196,18 +1249,26 @@ final class cassession2_test extends qtype_stack_testcase {
         $at1 = new stack_cas_session2($s1, null, 0);
         $at1->instantiate();
         $this->assertEquals('[Alpha,Beta,Gamma,Delta,Epsilon]', $s1[0]->get_value());
-        $this->assertEquals('\left[ {\rm A} , {\rm B} , \Gamma , \Delta , {\rm E} \right]',
-                $s1[0]->get_display());
+        $this->assertEquals(
+            '\left[ {\rm A} , {\rm B} , \Gamma , \Delta , {\rm E} \right]',
+            $s1[0]->get_display()
+        );
         $this->assertEquals('[Zeta,Eta,Theta,Iota,Kappa]', $s1[1]->get_value());
-        $this->assertEquals('\left[ {\rm Z} , {\rm H} , \Theta , {\rm I} , {\rm K} \right]',
-                $s1[1]->get_display());
+        $this->assertEquals(
+            '\left[ {\rm Z} , {\rm H} , \Theta , {\rm I} , {\rm K} \right]',
+            $s1[1]->get_display()
+        );
         // Note here that pi is returned as the constant %pi.
         $this->assertEquals('[Lambda,Mu,Nu,Xi,Omicron,%pi,Rho]', $s1[2]->get_value());
-        $this->assertEquals('\left[ \Lambda , {\rm M} , {\rm N} , \Xi , {\rm O} , \pi , {\rm P} \right]',
-                $s1[2]->get_display());
+        $this->assertEquals(
+            '\left[ \Lambda , {\rm M} , {\rm N} , \Xi , {\rm O} , \pi , {\rm P} \right]',
+            $s1[2]->get_display()
+        );
         $this->assertEquals('[Sigma,Tau,Upsilon,Phi,Chi,Psi,Omega]', $s1[3]->get_value());
-        $this->assertEquals('\left[ \Sigma , {\rm T} , \Upsilon , \Phi , {\rm X} , \Psi , \Omega \right]',
-                $s1[3]->get_display());
+        $this->assertEquals(
+            '\left[ \Sigma , {\rm T} , \Upsilon , \Phi , {\rm X} , \Psi , \Omega \right]',
+            $s1[3]->get_display()
+        );
         $this->assertEquals('3', $s1[4]->get_value());
     }
 
@@ -1313,8 +1374,12 @@ final class cassession2_test extends qtype_stack_testcase {
         $tests = stack_numbers_test_data::get_raw_test_data();
         $s1 = [];
         foreach ($tests as $key => $test) {
-            $s1[] = stack_ast_container::make_from_teacher_source('p'.$key.':dispdp('.$test[0].', '.$test[3] .')',
-                '', new stack_cas_security(), []);
+            $s1[] = stack_ast_container::make_from_teacher_source(
+                'p' . $key . ':dispdp(' . $test[0] . ', ' . $test[3] . ')',
+                '',
+                new stack_cas_security(),
+                []
+            );
         }
 
         $options = new stack_options();
@@ -1325,7 +1390,7 @@ final class cassession2_test extends qtype_stack_testcase {
         $at1->instantiate();
 
         foreach ($tests as $key => $test) {
-            $cs = $at1->get_by_key('p'.$key);
+            $cs = $at1->get_by_key('p' . $key);
             if ($tests[$key][6] === '') {
                 // No errors.
                 $this->assertTrue($cs->get_valid());
@@ -1342,8 +1407,12 @@ final class cassession2_test extends qtype_stack_testcase {
         $tests = stack_numbers_test_data::get_raw_test_data_decimalplaces();
         $s1 = [];
         foreach ($tests as $key => $test) {
-            $s1[] = stack_ast_container::make_from_teacher_source('p'.$key.':decimalplaces('.$test[0].', '.$test[1] .')',
-                '', new stack_cas_security(), []);
+            $s1[] = stack_ast_container::make_from_teacher_source(
+                'p' . $key . ':decimalplaces(' . $test[0] . ', ' . $test[1] . ')',
+                '',
+                new stack_cas_security(),
+                []
+            );
         }
 
         $options = new stack_options();
@@ -1354,7 +1423,7 @@ final class cassession2_test extends qtype_stack_testcase {
         $at1->instantiate();
 
         foreach ($tests as $key => $test) {
-            $cs = $at1->get_by_key('p'.$key);
+            $cs = $at1->get_by_key('p' . $key);
             if ($tests[$key][3] === '') {
                 // No errors.
                 $this->assertTrue($cs->get_valid());
@@ -1391,8 +1460,12 @@ final class cassession2_test extends qtype_stack_testcase {
         ];
 
         foreach ($tests as $key => $c) {
-            $s1[] = stack_ast_container::make_from_teacher_source("p{$key}:dispdp({$c[0]},{$c[1]})",
-                '', new stack_cas_security(), []);
+            $s1[] = stack_ast_container::make_from_teacher_source(
+                "p{$key}:dispdp({$c[0]},{$c[1]})",
+                '',
+                new stack_cas_security(),
+                []
+            );
         }
 
         $options = new stack_options();
@@ -1400,7 +1473,7 @@ final class cassession2_test extends qtype_stack_testcase {
         $at1 = new stack_cas_session2($s1, $options, 0);
         $at1->instantiate();
         foreach ($tests as $key => $c) {
-            $cs = $at1->get_by_key('p'.$key);
+            $cs = $at1->get_by_key('p' . $key);
             $this->assertEquals($c[2], $cs->get_display());
             $this->assertEquals($c[4], $cs->get_dispvalue());
             $this->assertEquals($c[5], $cs->get_value());
@@ -1408,12 +1481,20 @@ final class cassession2_test extends qtype_stack_testcase {
 
         // Now check comma output as well.
         $s1 = [
-            stack_ast_container::make_from_teacher_source('stackfltsep:","', '',
-            new stack_cas_security(), []),
+            stack_ast_container::make_from_teacher_source(
+                'stackfltsep:","',
+                '',
+                new stack_cas_security(),
+                []
+            ),
         ];
         foreach ($tests as $key => $c) {
-            $s1[] = stack_ast_container::make_from_teacher_source("p{$key}:dispdp({$c[0]},{$c[1]})",
-            '', new stack_cas_security(), []);
+            $s1[] = stack_ast_container::make_from_teacher_source(
+                "p{$key}:dispdp({$c[0]},{$c[1]})",
+                '',
+                new stack_cas_security(),
+                []
+            );
         }
 
         $options = new stack_options();
@@ -1421,7 +1502,7 @@ final class cassession2_test extends qtype_stack_testcase {
         $at1 = new stack_cas_session2($s1, $options, 0);
         $at1->instantiate();
         foreach ($tests as $key => $c) {
-            $cs = $at1->get_by_key('p'.$key);
+            $cs = $at1->get_by_key('p' . $key);
             $this->assertEquals($c[3], $cs->get_display());
             $this->assertEquals($c[4], $cs->get_dispvalue());
             $this->assertEquals($c[5], $cs->get_value());
@@ -1430,8 +1511,12 @@ final class cassession2_test extends qtype_stack_testcase {
 
     public function test_dispdp_systematic(): void {
 
-        $cs = stack_ast_container::make_from_teacher_source("L:makelist(dispdp(10^-1+10^-k,k+1),k,12,20)",
-                '', new stack_cas_security(), []);
+        $cs = stack_ast_container::make_from_teacher_source(
+            "L:makelist(dispdp(10^-1+10^-k,k+1),k,12,20)",
+            '',
+            new stack_cas_security(),
+            []
+        );
         $s1[] = $cs;
 
         $options = new stack_options();
@@ -1440,17 +1525,17 @@ final class cassession2_test extends qtype_stack_testcase {
         $at1->instantiate();
         // The purpose of this test is to ilustrate how numerical precision runs out.
         // This is currently in the 16th decimal place, where we loose the 10^-k from the displayed output.
-        $this->assertEquals('\left[ 0.1000000000010 , 0.10000000000010 , 0.100000000000010 , 0.1000000000000010 , '.
-            '0.10000000000000010 , 0.100000000000000000 , 0.1000000000000000000 , 0.10000000000000000000 , '.
+        $this->assertEquals('\left[ 0.1000000000010 , 0.10000000000010 , 0.100000000000010 , 0.1000000000000010 , ' .
+            '0.10000000000000010 , 0.100000000000000000 , 0.1000000000000000000 , 0.10000000000000000000 , ' .
             '0.100000000000000000000 \right]', $s1[0]->get_display());
         // Even more worryingly, the "value" of the expression looses this at the 14th place.
         // This is because of the precision specified in the "string" routine of Maxima, which sends "values" from Maxima to PHP.
-        $expected = '[displaydp(.100000000001,13),displaydp(0.1,14),displaydp(0.1,15),displaydp(0.1,16),displaydp(0.1,17),'.
+        $expected = '[displaydp(.100000000001,13),displaydp(0.1,14),displaydp(0.1,15),displaydp(0.1,16),displaydp(0.1,17),' .
             'displaydp(0.1,18),displaydp(0.1,19),displaydp(0.1,20),displaydp(0.1,21)]';
         $expectval = '[0.1000000000010,0.10000000000010,0.100000000000010,0.1000000000000010,0.10000000000000010,' .
             '0.100000000000000000,0.1000000000000000000,0.10000000000000000000,0.100000000000000000000]';
         if ($this->adapt_to_new_maxima('5.32.2')) {
-            $expected = '[displaydp(0.100000000001,13),displaydp(0.1,14),displaydp(0.1,15),displaydp(0.1,16),'.
+            $expected = '[displaydp(0.100000000001,13),displaydp(0.1,14),displaydp(0.1,15),displaydp(0.1,16),' .
                 'displaydp(0.1,17),displaydp(0.1,18),displaydp(0.1,19),displaydp(0.1,20),displaydp(0.1,21)]';
             $expectval = '[0.1000000000010,0.10000000000010,0.100000000000010,0.1000000000000010,0.10000000000000010,' .
                 '0.100000000000000000,0.1000000000000000000,0.10000000000000000000,0.100000000000000000000]';
@@ -1463,26 +1548,30 @@ final class cassession2_test extends qtype_stack_testcase {
 
         $cs = stack_ast_container::make_from_teacher_source("fpprintprec:16", '', new stack_cas_security(), []);
         $s1[] = $cs;
-        $cs = stack_ast_container::make_from_teacher_source("L:makelist(dispdp(10^-1+10^-k,k+1),k,12,20)", '',
-            new stack_cas_security(), []);
+        $cs = stack_ast_container::make_from_teacher_source(
+            "L:makelist(dispdp(10^-1+10^-k,k+1),k,12,20)",
+            '',
+            new stack_cas_security(),
+            []
+        );
         $s1[] = $cs;
 
         $options = new stack_options();
         $options->set_option('simplify', true);
         $at1 = new stack_cas_session2($s1, $options, 0);
         $at1->instantiate();
-        $this->assertEquals('\left[ 0.1000000000010 , 0.10000000000010 , 0.100000000000010 , 0.1000000000000010 , '.
-            '0.10000000000000010 , 0.100000000000000000 , 0.1000000000000000000 , 0.10000000000000000000 , '.
+        $this->assertEquals('\left[ 0.1000000000010 , 0.10000000000010 , 0.100000000000010 , 0.1000000000000010 , ' .
+            '0.10000000000000010 , 0.100000000000000000 , 0.1000000000000000000 , 0.10000000000000000000 , ' .
             '0.100000000000000000000 \right]', $s1[1]->get_display());
         // Note the difference, having increased fpprintprec:16 which is the maximum value permitted in Maxima.
-        $expected = '[displaydp(0.100000000001,13),displaydp(0.1000000000001,14),displaydp(0.10000000000001,15),'.
-            'displaydp(0.100000000000001,16),displaydp(.1000000000000001,17),'.
+        $expected = '[displaydp(0.100000000001,13),displaydp(0.1000000000001,14),displaydp(0.10000000000001,15),' .
+            'displaydp(0.100000000000001,16),displaydp(.1000000000000001,17),' .
             'displaydp(0.1,18),displaydp(0.1,19),displaydp(0.1,20),displaydp(0.1,21)]';
         $expectval = '[0.1000000000010,0.10000000000010,0.100000000000010,0.1000000000000010,0.10000000000000010,' .
             '0.100000000000000000,0.1000000000000000000,0.10000000000000000000,0.100000000000000000000]';
         if ($this->adapt_to_new_maxima('5.32.2')) {
-            $expected = '[displaydp(0.100000000001,13),displaydp(0.1000000000001,14),displaydp(0.10000000000001,15),'.
-                'displaydp(0.100000000000001,16),displaydp(0.1000000000000001,17),'.
+            $expected = '[displaydp(0.100000000001,13),displaydp(0.1000000000001,14),displaydp(0.10000000000001,15),' .
+                'displaydp(0.100000000000001,16),displaydp(0.1000000000000001,17),' .
                 // We get more decimal places preserved here that the above test cases.
                 'displaydp(0.1,18),displaydp(0.1,19),displaydp(0.1,20),displaydp(0.1,21)]';
             $expectval = '[0.1000000000010,0.10000000000010,0.100000000000010,0.1000000000000010,0.10000000000000010,' .
@@ -1534,7 +1623,7 @@ final class cassession2_test extends qtype_stack_testcase {
         $at1->instantiate();
 
         foreach ($tests as $key => $c) {
-            $cs = $at1->get_by_key('p'.$key);
+            $cs = $at1->get_by_key('p' . $key);
             $this->assertEquals($c[2], $cs->get_display());
             $this->assertEquals($c[3], strtolower($cs->get_value()));
         }
@@ -1556,8 +1645,12 @@ final class cassession2_test extends qtype_stack_testcase {
         ];
 
         foreach ($tests as $key => $c) {
-            $s1[] = stack_ast_container::make_from_teacher_source("p".$key.':'.$c[0],
-                    '', new stack_cas_security(), []);
+            $s1[] = stack_ast_container::make_from_teacher_source(
+                "p" . $key . ':' . $c[0],
+                '',
+                new stack_cas_security(),
+                []
+            );
         }
 
         $options = new stack_options();
@@ -1580,8 +1673,12 @@ final class cassession2_test extends qtype_stack_testcase {
         ];
 
         foreach ($tests as $key => $c) {
-            $s1[] = stack_ast_container::make_from_teacher_source("p".$key.':'.$c[0],
-                    '', new stack_cas_security(), []);
+            $s1[] = stack_ast_container::make_from_teacher_source(
+                "p" . $key . ':' . $c[0],
+                '',
+                new stack_cas_security(),
+                []
+            );
         }
 
         $options = new stack_options();
@@ -1629,8 +1726,12 @@ final class cassession2_test extends qtype_stack_testcase {
 
         // Now check comma output as well.
         $s1 = [
-            stack_ast_container::make_from_teacher_source('stackfltsep:","', '',
-            new stack_cas_security(), []),
+            stack_ast_container::make_from_teacher_source(
+                'stackfltsep:","',
+                '',
+                new stack_cas_security(),
+                []
+            ),
         ];
         foreach ($tests as $key => $c) {
             $s = "p{$key}:significantfigures({$c[0]},{$c[1]})";
@@ -1782,7 +1883,7 @@ final class cassession2_test extends qtype_stack_testcase {
                 '1000.0', '1000.0', '1000.0', '1000{,}0',
             ],
             [
-                '-1000', '', '-1.0\cdot 10^3', '-1{,}0\cdot 10^3', '-(1.0*10^3)', '(-1.0)*10^3',
+                '-1000', '', '-1.0\cdot 10^3', '-1{,}0\cdot 10^3', '-(1.0*10^3)', '-1.0*10^3',
                 '-1000.0', '-1000.0', '-1000.0', '-1000{,}0',
             ],
             [
@@ -1800,15 +1901,15 @@ final class cassession2_test extends qtype_stack_testcase {
 
             // @codingStandardsIgnoreEnd
             [
-                '-0.00000001', '', '-1.0\cdot 10^ {- 8 }', '-1{,}0\cdot 10^ {- 8 }', '-(1.0*10^-8)', '(-1.0)*10^-8',
+                '-0.00000001', '', '-1.0\cdot 10^ {- 8 }', '-1{,}0\cdot 10^ {- 8 }', '-(1.0*10^-8)', '-1.0*10^-8',
                 '-1.0E-8', '-1.0E-8', '-1.0E-8', null,
             ],
             [
-                '-0.000000001', '', '-1.0\cdot 10^ {- 9 }', '-1{,}0\cdot 10^ {- 9 }', '-(1.0*10^-9)', '(-1.0)*10^-9',
+                '-0.000000001', '', '-1.0\cdot 10^ {- 9 }', '-1{,}0\cdot 10^ {- 9 }', '-(1.0*10^-9)', '-1.0*10^-9',
                 '-1.0E-9', '-1.0E-9', '-1.0E-9', null,
             ],
             [
-                '-0.000000000001', '', '-1.0\cdot 10^ {- 12 }', '-1{,}0\cdot 10^ {- 12 }', '-(1.0*10^-12)', '(-1.0)*10^-12',
+                '-0.000000000001', '', '-1.0\cdot 10^ {- 12 }', '-1{,}0\cdot 10^ {- 12 }', '-(1.0*10^-12)', '-1.0*10^-12',
                 '-1.0E-12', '-1.0E-12', '-1.0E-12', null,
             ],
         ];
@@ -1887,8 +1988,12 @@ final class cassession2_test extends qtype_stack_testcase {
 
         // Now check comma output as well.
         $s2 = [
-            stack_ast_container::make_from_teacher_source('stackfltsep:","', '',
-            new stack_cas_security(), []),
+            stack_ast_container::make_from_teacher_source(
+                'stackfltsep:","',
+                '',
+                new stack_cas_security(),
+                []
+            ),
         ];
         foreach ($tests as $key => $c) {
             $s = "p{$key}:scientific_notation({$c[0]},{$c[1]})";
@@ -2026,8 +2131,12 @@ final class cassession2_test extends qtype_stack_testcase {
         $s1 = [];
         $s1[] = stack_ast_container::make_from_teacher_source('p0:x=1 or x=2', '', new stack_cas_security(), []);
         $s1[] = stack_ast_container::make_from_student_source('p1:x=1 or x=2', '', new stack_cas_security(), []);
-        $s1[] = stack_ast_container::make_from_teacher_source('p2:noun_logic_remove(p1)',
-                '', new stack_cas_security(), []);
+        $s1[] = stack_ast_container::make_from_teacher_source(
+            'p2:noun_logic_remove(p1)',
+            '',
+            new stack_cas_security(),
+            []
+        );
         $s1[] = stack_ast_container::make_from_teacher_source('p3:ev(p2)', '', new stack_cas_security(), []);
 
         $options = new stack_options();
@@ -2064,7 +2173,7 @@ final class cassession2_test extends qtype_stack_testcase {
         $cases[] = ['1/sqrt(x-1)+1/sqrt(3-x)', 'realset(x,oo(1,3))', '{x \in {\left( 1,\, 3\right)}}'];
 
         foreach ($cases as $i => $case) {
-            $s = 'd'.$i.':natural_domain('.$case[0].')';
+            $s = 'd' . $i . ':natural_domain(' . $case[0] . ')';
             $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
         }
 
@@ -2109,7 +2218,7 @@ final class cassession2_test extends qtype_stack_testcase {
         ];
 
         foreach ($cases as $i => $case) {
-            $s = 'd'.$i.':'.$case[0];
+            $s = 'd' . $i . ':' . $case[0];
             $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
         }
 
@@ -2132,7 +2241,7 @@ final class cassession2_test extends qtype_stack_testcase {
         $cases[] = ['[a,b,sin(pi/7)]', '"a, b, sin(%pi/7)"', '\\text{a, b, sin(\\%pi/7)}'];
 
         foreach ($cases as $i => $case) {
-            $s = 'd'.$i.':stack_disp_comma_separate('.$case[0].')';
+            $s = 'd' . $i . ':stack_disp_comma_separate(' . $case[0] . ')';
             $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
         }
 
@@ -2155,7 +2264,7 @@ final class cassession2_test extends qtype_stack_testcase {
         $cases[] = ['sequenceify([a,b,c])', 'sequence(a,b,c)', 'a, b, c'];
 
         foreach ($cases as $i => $case) {
-            $s = 'd'.$i.':'.$case[0];
+            $s = 'd' . $i . ':' . $case[0];
             $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
         }
 
@@ -2265,8 +2374,12 @@ final class cassession2_test extends qtype_stack_testcase {
         ];
 
         foreach ($tests as $key => $c) {
-            $s1[] = stack_ast_container::make_from_teacher_source("p{$key}:{$c[0]}",
-                '', new stack_cas_security(), []);
+            $s1[] = stack_ast_container::make_from_teacher_source(
+                "p{$key}:{$c[0]}",
+                '',
+                new stack_cas_security(),
+                []
+            );
         }
 
         $options = new stack_options();
@@ -2274,7 +2387,7 @@ final class cassession2_test extends qtype_stack_testcase {
         $at1 = new stack_cas_session2($s1, $options, 0);
         $at1->instantiate();
         foreach ($tests as $key => $c) {
-            $cs = $at1->get_by_key('p'.$key);
+            $cs = $at1->get_by_key('p' . $key);
             $this->assertEquals($c[1], $cs->get_display());
             $this->assertEquals($c[2], $cs->get_dispvalue());
             $this->assertEquals($c[3], $cs->get_value());
@@ -2292,8 +2405,12 @@ final class cassession2_test extends qtype_stack_testcase {
         ];
 
         foreach ($tests as $key => $c) {
-            $s1[] = stack_ast_container::make_from_teacher_source($c,
-                    '', new stack_cas_security(), []);
+            $s1[] = stack_ast_container::make_from_teacher_source(
+                $c,
+                '',
+                new stack_cas_security(),
+                []
+            );
         }
 
         $options = new stack_options();
@@ -2311,8 +2428,12 @@ final class cassession2_test extends qtype_stack_testcase {
         $tests = ['p:quantile_gamma(0.5,26896/81,81/164)'];
 
         foreach ($tests as $key => $c) {
-            $s1[] = stack_ast_container::make_from_teacher_source($c,
-                    '', new stack_cas_security(), []);
+            $s1[] = stack_ast_container::make_from_teacher_source(
+                $c,
+                '',
+                new stack_cas_security(),
+                []
+            );
         }
 
         $options = new stack_options();
@@ -2333,8 +2454,12 @@ final class cassession2_test extends qtype_stack_testcase {
         $tests = ['f(x) := if x < 0 then (if x < 1 then 1 else 2) else 3;', 'v1:f(-5);', 'v2:f(4);'];
 
         foreach ($tests as $key => $c) {
-            $s1[] = stack_ast_container::make_from_teacher_source($c,
-                    '', new stack_cas_security(), []);
+            $s1[] = stack_ast_container::make_from_teacher_source(
+                $c,
+                '',
+                new stack_cas_security(),
+                []
+            );
         }
 
         $options = new stack_options();
@@ -2354,8 +2479,12 @@ final class cassession2_test extends qtype_stack_testcase {
         ];
 
         foreach ($tests as $key => $c) {
-            $s1[] = stack_ast_container::make_from_teacher_source($c,
-                    '', new stack_cas_security(), []);
+            $s1[] = stack_ast_container::make_from_teacher_source(
+                $c,
+                '',
+                new stack_cas_security(),
+                []
+            );
         }
 
         $options = new stack_options();
@@ -2380,8 +2509,12 @@ final class cassession2_test extends qtype_stack_testcase {
         ];
 
         foreach ($tests as $key => $c) {
-            $s1[] = stack_ast_container::make_from_teacher_source($c,
-                    '', new stack_cas_security(), []);
+            $s1[] = stack_ast_container::make_from_teacher_source(
+                $c,
+                '',
+                new stack_cas_security(),
+                []
+            );
         }
 
         $options = new stack_options();
@@ -2390,15 +2523,15 @@ final class cassession2_test extends qtype_stack_testcase {
         $at1->instantiate();
 
         $this->assertEquals('-(4*x^7)+3*x^5+(-2)*x^3+x', $s1[0]->get_value());
-        $this->assertEquals('-(4*x^7)+3*x^5-2*x^3+x', $s1[0]->get_dispvalue());
+        $this->assertEquals('-4*x^7+3*x^5-2*x^3+x', $s1[0]->get_dispvalue());
         $this->assertEquals('-4\cdot x^7+3\cdot x^5-2\cdot x^3+x', $s1[0]->get_display());
 
-        $this->assertEquals('(-a)/b', $s1[1]->get_value());
-        $this->assertEquals('(-a)/b', $s1[1]->get_dispvalue());
+        $this->assertEquals('-a/b', $s1[1]->get_value());
+        $this->assertEquals('-a/b', $s1[1]->get_dispvalue());
         $this->assertEquals('\frac{-a}{b}', $s1[1]->get_display());
 
-        $this->assertEquals('(-a)/b', $s1[2]->get_value());
-        $this->assertEquals('(-a)/b', $s1[2]->get_dispvalue());
+        $this->assertEquals('-a/b', $s1[2]->get_value());
+        $this->assertEquals('-a/b', $s1[2]->get_dispvalue());
         $this->assertEquals('\frac{-a}{b}', $s1[2]->get_display());
 
         $this->assertEquals('-(a/b)', $s1[3]->get_value());
@@ -2415,8 +2548,12 @@ final class cassession2_test extends qtype_stack_testcase {
         $tests = ['a*b+c*d+-A*B'];
 
         foreach ($tests as $key => $c) {
-            $s1[] = stack_ast_container::make_from_teacher_source($c,
-                    '', new stack_cas_security(), []);
+            $s1[] = stack_ast_container::make_from_teacher_source(
+                $c,
+                '',
+                new stack_cas_security(),
+                []
+            );
         }
 
         $expected = '([Root] ([Op: +] ([Op: *] ([Id] a), ([Id] b)), ' .
@@ -2430,8 +2567,10 @@ final class cassession2_test extends qtype_stack_testcase {
 
         $this->assertEquals('(a*b+c*d)#pm#A*B', $s1[0]->get_value());
         $this->assertEquals('(a*b+c*d)+-A*B', $s1[0]->get_dispvalue());
-        $this->assertEquals('{a\cdot b+c\cdot d \pm A\cdot B}',
-                $s1[0]->get_display());
+        $this->assertEquals(
+            '{a\cdot b+c\cdot d \pm A\cdot B}',
+            $s1[0]->get_display()
+        );
 
         // The evaluated form contains the +- operator.
         $expected = '([Op: #pm#] ([Group] ([Op: +] ([Op: *] ([Id] a), ([Id] b)), ' .
@@ -2444,8 +2583,12 @@ final class cassession2_test extends qtype_stack_testcase {
         $tests = ['ta:ev(taylor(10*cos(2*x),x,%pi/4,2),simp)'];
 
         foreach ($tests as $key => $c) {
-            $s1[] = stack_ast_container::make_from_teacher_source($c,
-                    '', new stack_cas_security(), []);
+            $s1[] = stack_ast_container::make_from_teacher_source(
+                $c,
+                '',
+                new stack_cas_security(),
+                []
+            );
         }
 
         $expected = '([Root] ([Op: :] ([Id] ta), ([FunctionCall: ([Id] block)] ([List] ([Id] %_sev_e), ' .
@@ -2463,11 +2606,13 @@ final class cassession2_test extends qtype_stack_testcase {
 
         $this->assertEquals('(20*%pi-80*x)/4', $s1[0]->get_value());
         $this->assertEquals('(20*%pi-80*x)/4', $s1[0]->get_dispvalue());
-        $this->assertEquals('\frac{20\cdot \pi-80\cdot x}{4}',
-                $s1[0]->get_display());
+        $this->assertEquals(
+            '\frac{20\cdot \pi-80\cdot x}{4}',
+            $s1[0]->get_display()
+        );
 
-        $expected = '([Op: /] ([Group] ([Op: *] ([Int] 20), ([Op: *] ([Op: -] ([Id] %pi), ([Int] 80)), ([Id] x)))), ' .
-            '([Int] 4))';
+        $expected = '([Op: /] ([Group] ([Op: -] ([Op: *] ([Int] 20), ([Id] %pi)), ([Op: *] ([Int] 80), ([Id] x)))), ' .
+                '([Int] 4))';
         $this->assertEquals($expected, $s1[0]->get_ast_test());
     }
 
@@ -2488,8 +2633,12 @@ final class cassession2_test extends qtype_stack_testcase {
 
         $s1 = [];
         foreach ($truetests as $key => $c) {
-            $s1[] = stack_ast_container::make_from_teacher_source('scientific_notationp(' . $c . ')',
-                    '', new stack_cas_security(), []);
+            $s1[] = stack_ast_container::make_from_teacher_source(
+                'scientific_notationp(' . $c . ')',
+                '',
+                new stack_cas_security(),
+                []
+            );
         }
 
         $options = new stack_options();
@@ -2520,8 +2669,12 @@ final class cassession2_test extends qtype_stack_testcase {
 
         $s1 = [];
         foreach ($truetests as $key => $c) {
-            $s1[] = stack_ast_container::make_from_teacher_source('scientific_notationp(' . $c . ')',
-                    '', new stack_cas_security(), []);
+            $s1[] = stack_ast_container::make_from_teacher_source(
+                'scientific_notationp(' . $c . ')',
+                '',
+                new stack_cas_security(),
+                []
+            );
         }
 
         $options = new stack_options();
@@ -2584,7 +2737,7 @@ final class cassession2_test extends qtype_stack_testcase {
         $t1 = [];
         $t1[] = ['simp:false', 'false'];
         $t1[] = ['l0:safe_op(2/3)', '"/"'];
-        $t1[] = ['l1:[1,-2,2/3,-4/3, 4/16, 9/3]', '[1,-2,2/3,(-4)/3,4/16,9/3]'];
+        $t1[] = ['l1:[1,-2,2/3,-4/3, 4/16, 9/3]', '[1,-2,2/3,-4/3,4/16,9/3]'];
         $t1[] = ['l2:map(rational_numberp, l1);', '[false,false,true,true,true,true]'];
         $t1[] = ['l3:get_safe_ops(a+b/c)', '{"+","/"}'];
 
@@ -2694,7 +2847,7 @@ final class cassession2_test extends qtype_stack_testcase {
 
         $qv = "f:ev(2*x,x=2);\n" .
             "ev(g:3*x,x=3);\n" .
-            "h:5*x,x=5;\n".
+            "h:5*x,x=5;\n" .
             "k:36;";
         $qv = new stack_cas_keyval($qv, null, 123);
         $this->assertTrue($qv->get_valid());
@@ -2756,11 +2909,18 @@ final class cassession2_test extends qtype_stack_testcase {
         $cases[] = ['%i * %pi', '\pi\,\mathrm{i}'];
         $cases[] = ['%i * 2*%pi', '2\cdot \pi\,\mathrm{i}'];
         $cases[] = ['%i * 2*%pi/3', '\frac{2\cdot \pi}{3}\,\mathrm{i}'];
+        $cases[] = ['-1/8+(sqrt(3)-36)/8*%i', '-\frac{1}{8}+\frac{\sqrt{3}-36}{8}\,\mathrm{i}'];
+        $cases[] = ['-(((4*sqrt(3)-9)*%i+4)/2)', '-2-\frac{4\cdot \sqrt{3}-9}{2}\,\mathrm{i}'];
+        $cases[] = ['((4*sqrt(3)-9)*%i+4)/2', '2+\frac{4\cdot \sqrt{3}-9}{2}\,\mathrm{i}'];
 
         $s1 = [];
         foreach ($cases as $k => $case) {
-            $s1[] = stack_ast_container::make_from_teacher_source('display_complex(' . $case[0] . ')',
-                '', new stack_cas_security(), []);
+            $s1[] = stack_ast_container::make_from_teacher_source(
+                'display_complex(' . $case[0] . ')',
+                '',
+                new stack_cas_security(),
+                []
+            );
         }
         $options = new stack_options();
         $options->set_option('simplify', false);
@@ -2824,8 +2984,12 @@ final class cassession2_test extends qtype_stack_testcase {
 
         $s1 = [];
         foreach ($cases as $k => $case) {
-            $s1[] = stack_ast_container::make_from_teacher_source('display_complex(' . $case[0] . ')',
-                '', new stack_cas_security(), []);
+            $s1[] = stack_ast_container::make_from_teacher_source(
+                'display_complex(' . $case[0] . ')',
+                '',
+                new stack_cas_security(),
+                []
+            );
         }
         $options = new stack_options();
         $options->set_option('simplify', false);
@@ -2844,15 +3008,21 @@ final class cassession2_test extends qtype_stack_testcase {
     public function test_parens_delect_display(): void {
 
         $cases = [];
-        $cases[] = ['disp_parens(a+b)+c', '\left( a+b \right)+c'];
-        $cases[] = ['int(disp_parens(x-2),x)', '\int {\left( x-2 \right)}{\;\mathrm{d}x}'];
+        $cases[] = ['disp_parens(a+b)+c', '\left( a+b \right)+c', '(a+b)+c'];
+        $cases[] = [
+            'int(disp_parens(x-2),x)',
+            '\int {\left( x-2 \right)}{\;\mathrm{d}x}',
+            '\'integrate((x-2),x)',
+        ];
         $cases[] = [
             'disp_parens(display_complex(1+%i))*x^2+disp_parens(display_complex(1-%i))',
             '\left( 1+\mathrm{i} \right)\cdot x^2+\left( 1-\mathrm{i} \right)',
+            // This case has subtle differences between SBCL and GCL which don't matter, but which break CI.
+            '',
         ];
-        $cases[] = ['disp_select(a+b)+c', '\color{red}{\underline{a+b}}+c'];
-        $cases[] = ['disp_select(a+b)^3', '{\color{red}{\underline{a+b}}}^3'];
-        $cases[] = ['remove_disp(disp_select(a+b)+c)', 'a+b+c'];
+        $cases[] = ['disp_select(a+b)+c', '\color{red}{\underline{a+b}}+c', 'disp_select(a+b)+c'];
+        $cases[] = ['disp_select(a+b)^3', '{\color{red}{\underline{a+b}}}^3', 'disp_select(a+b)^3'];
+        $cases[] = ['remove_disp(disp_select(a+b)+c)', 'a+b+c', '(a+b)+c'];
 
         $s1 = [];
         foreach ($cases as $k => $case) {
@@ -2868,6 +3038,9 @@ final class cassession2_test extends qtype_stack_testcase {
 
         foreach ($cases as $k => $case) {
             $this->assertEquals($case[1], $s1[$k]->get_display());
+            if ($case[2] !== '') {
+                $this->assertEquals($case[2], $s1[$k]->get_value());
+            }
         }
     }
 
@@ -3003,7 +3176,6 @@ final class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('9', $v3->get_value());
         $t1 = $session->get_by_key('t1');
         $this->assertEquals('[true,true,"",""]', $t1->get_value());
-
     }
 
     public function test_use_at(): void {
@@ -3136,25 +3308,88 @@ final class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('X^3-3*X^2+3*X-1', $p->get_value());
     }
 
-    public function test_stackmaximaversion(): void {
+    public function test_unary_minus_sort(): void {
+        $cases = [];
+        // Minus as an infix operator. Notice the difference between (-8)*y and -8*y.
+        $cases[] = ['y^3-2*y^2-8*y', 'y^3-2*y^2+(-8)*y', 'y^3-2\cdot y^2-8\cdot y'];
+        $cases[] = ['unary_minus_sort(y^3-2*y^2-8*y)', 'y^3-2*y^2-8*y', 'y^3-2\cdot y^2-8\cdot y'];
+        // Second example with minus as an infix.
+        $cases[] = ['a-(b-4*a);', 'a-(b-4*a)', 'a-\left(b-4\cdot a\right)'];
+        $cases[] = ['unary_minus_sort(a-(b-4*a))', 'a-(b-4*a)', 'a-\left(b-4\cdot a\right)'];
+        // Minus as a prefix unary operator.  In these cases the LaTeX is identical.
+        // However, the CAS expression has brackets in different places, (-4)*a, or -(4*a).
+        $cases[] = ['-4*a+b', '-4*a+b', '-4\cdot a+b'];
+        $cases[] = ['unary_minus_sort(-4*a+b)', '-(4*a)+b', '-4\cdot a+b'];
+        // Second compoud example.
+        $cases[] = ['a-(-4*a+b)', 'a-(-4*a+b)', 'a-\left(-4\cdot a+b\right)'];
+        $cases[] = ['unary_minus_sort(a-(-4*a+b))', 'a-(-(4*a)+b)', 'a-\left(-4\cdot a+b\right)'];
+        // Further test cases.
+        $cases[] = ['-1*a-2+y^3-2*y^2-8*y', '-1*a-2+y^3+(-2)*y^2+(-8)*y', '-1\cdot a-2+y^3-2\cdot y^2-8\cdot y'];
+        $cases[] = ['unary_minus_sort(-1*a-2+y^3-2*y^2-8*y)', '-(1*a)-2+y^3-2*y^2-8*y', '-1\cdot a-2+y^3-2\cdot y^2-8\cdot y'];
+        $cases[] = ['-3*a+2', '-3*a+2', '-3\cdot a+2'];
+        $cases[] = ['unary_minus_sort(-3*a+2)', '-(3*a)+2', '-3\cdot a+2'];
+        $cases[] = [
+            '4*s-(8*s-(-4*g-6+7*g))',
+            '4*s-(8*s-(-4*g-6+7*g))',
+            '4\cdot s-\left(8\cdot s-\left(-4\cdot g-6+7\cdot g\right)\right)',
+            ];
+        $cases[] = [
+            'unary_minus_sort(4*s-(8*s-(-4*g-6+7*g)))',
+            '4*s-(8*s-(-(4*g)-6+7*g))',
+            '4\cdot s-\left(8\cdot s-\left(-4\cdot g-6+7\cdot g\right)\right)',
+            ];
+        $cases[] = ['a-((-4)*a+b)', 'a-(-4*a+b)', 'a-\left(-4\cdot a+b\right)'];
+        $cases[] = ['unary_minus_sort(a-((-4)*a+b))', 'a-(-(4*a)+b)', 'a-\left(-4\cdot a+b\right)'];
+        $cases[] = [
+            '(a-((-4)*a+b-8*b-8*a))-8*a-8*b',
+            '(a-(-4*a+b+(-8)*b+(-8)*a))-8*a+(-8)*b',
+            'a-\left(-4\cdot a+b-8\cdot b-8\cdot a\right)-8\cdot a-8\cdot b',
+            ];
+        $cases[] = [
+            'unary_minus_sort((a-((-4)*a+b-8*b-8*a))-8*a-8*b)',
+            '(a-(-(4*a)+b-8*b-8*a))-8*a-8*b',
+            'a-\left(-4\cdot a+b-8\cdot b-8\cdot a\right)-8\cdot a-8\cdot b',
+            ];
+        $cases[] = [
+            '1-(2*k-(((-6*m)-2*k)+3))',
+            '1-(2*k-((-6*m-2*k)+3))',
+            '1-\left(2\cdot k-\left(-6\cdot m-2\cdot k+3\right)\right)',
+            ];
+        $cases[] = [
+            'unary_minus_sort(1-(2*k-(((-6*m)-2*k)+3)))',
+            '1-(2*k-((-(6*m)-2*k)+3))',
+            '1-\left(2\cdot k-\left(-6\cdot m-2\cdot k+3\right)\right)',
+            ];
+        $cases[] = [
+            '1-(2*k-((-6*m-2*k)+3))',
+            '1-(2*k-((-6*m-2*k)+3))',
+            '1-\left(2\cdot k-\left(-6\cdot m-2\cdot k+3\right)\right)',
+            ];
+        $cases[] = [
+            'unary_minus_sort(1-(2*k-((-6*m-2*k)+3)))',
+            '1-(2*k-((-(6*m)-2*k)+3))',
+            '1-\left(2\cdot k-\left(-6\cdot m-2\cdot k+3\right)\right)',
+            ];
 
-        // This test ensures that we are not running against different
-        // version number of the STACK-Maxima scripts. For example,
-        // old image in a server setup or a cache layer somewhere.
-
-        $scriptversion = file_get_contents(__DIR__ . '/../stack/maxima/stackmaxima.mac');
-        $scriptversion = explode('stackmaximaversion:', $scriptversion);
-        $scriptversion = $scriptversion[count($scriptversion) - 1];
-        $scriptversion = explode('$', $scriptversion)[0];
-
-        $cs = stack_ast_container::make_from_teacher_source('stackmaximaversion', 'version-check');
-
-        $session = new stack_cas_session2([$cs]);
-
-        $session->get_valid();
+        $s1 = [];
+        foreach ($cases as $key => $case) {
+            $s1[] = stack_ast_container::make_from_teacher_source(
+                'p' . $key . ':' . $case[0],
+                '',
+                new stack_cas_security(),
+                []
+            );
+        }
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $session = new stack_cas_session2($s1, $options, 0);
+        $this->assertTrue($session->get_valid());
         $session->instantiate();
-
-        $this->assertEquals($scriptversion, $cs->get_value(),
-            'To fix this: Check STACK-Maxima script versions, purge caches and/or regenerate images.');
+        $this->assertTrue($session->is_instantiated());
+        foreach ($cases as $key => $case) {
+            $p = $session->get_by_key('p' . $key);
+            $this->assertEquals($case[1], $p->get_value());
+            $this->assertEquals($case[2], $p->get_display());
+        }
     }
 }

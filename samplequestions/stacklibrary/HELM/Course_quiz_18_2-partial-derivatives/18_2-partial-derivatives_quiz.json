@@ -1,0 +1,161 @@
+{
+    "quiz": {
+        "name": "18_2 Partial Derivatives",
+        "intro": "<p >When a function of more than one independent input variable changes because of changes in one or more of the input variables, it is important to calculate the change in the function itself. This can be investigated by holding all but one of the variables constant and finding the rate of change of the function with respect to the one remaining variable. This process is called partial differentiation. In this Section we show how to carry out the process.<\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "First Partial Derivatives",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "10",
+            "heading": "Higher Partial Derivatives",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "5",
+            "heading": "Exercises",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "12",
+            "heading": "Exercises",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-18-2\/18-2-1-1-First-partial-derivatives---x-derivative.xml"
+        },
+        {
+            "slot": "10",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-18-2\/18-2-2-1-Second-partial-derivatives.xml"
+        },
+        {
+            "slot": "17",
+            "page": "7",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-18-2\/18-2-2-7-Partial-derivatives.xml"
+        },
+        {
+            "slot": "11",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-18-2\/18-2-3-1-Engineering-example.xml"
+        },
+        {
+            "slot": "5",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-18-2\/18-2-1-5-Evaluate-partial-derivatives-1.xml"
+        },
+        {
+            "slot": "6",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-18-2\/18-2-1-6-Evaluate-partial-derivatives-2.xml"
+        },
+        {
+            "slot": "7",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-18-2\/18-2-1-7-Evaluate-partial-derivatives-3.xml"
+        },
+        {
+            "slot": "8",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-18-2\/18-2-1-8-Evaluate-partial-derivatives-4.xml"
+        },
+        {
+            "slot": "9",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-18-2\/18-2-1-9-Find-partial-derivatives.xml"
+        },
+        {
+            "slot": "12",
+            "page": "7",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-18-2\/18-2-2-2-Evaluate-second-partial-derivatives-1.xml"
+        },
+        {
+            "slot": "13",
+            "page": "7",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-18-2\/18-2-2-3-Evaluate-second-partial-derivatives-2.xml"
+        },
+        {
+            "slot": "14",
+            "page": "7",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-18-2\/18-2-2-4-Evaluate-second-partial-derivatives-3.xml"
+        },
+        {
+            "slot": "15",
+            "page": "7",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-18-2\/18-2-2-5-Evaluate-second-partial-derivatives-4.xml"
+        },
+        {
+            "slot": "16",
+            "page": "7",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-18-2\/18-2-2-6-Find-second-partial-derivatives.xml"
+        },
+        {
+            "slot": "2",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-18-2\/18-2-1-2-First-partial-derivatives---y-derivative.xml"
+        },
+        {
+            "slot": "4",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-18-2\/18-2-1-4-First-partial-derivatives---functions-of-several-var.xml"
+        },
+        {
+            "slot": "3",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-18-2\/18-2-1-3-Task-Evaluate-partial-derivatives.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

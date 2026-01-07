@@ -1,0 +1,621 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>27.4.2.4 Task Transformation</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>This Task concerns using a transformation to evaluate \(\displaystyle \int\!\!\int (x^2+y^2)\;\mathrm{d}x\,\mathrm{d}y\).
+<ol class="HELM_parts">
+<li>
+Given the transformations \(u={@aa*x@}+y\), \(v={@bb*x@}-y\) express \(x\) and \(y\) in terms of \(u\) and \(v\) to find the inverse transformations: <br>
+\(x=\)&nbsp;[[input:ans1]] [[validation:ans1]][[feedback:prt1]]
+<br>
+\(y=\)&nbsp;[[input:ans2]] [[validation:ans2]][[feedback:prt2]] </li>
+<li>
+ Find the Jacobian \(J(u,v)\) for the transformation in part (a).<br>
+\(|J| =\)&nbsp;[[input:ans3]] [[validation:ans3]] [[feedback:prt3]]
+</li>
+<li>
+Express the integral \(\displaystyle I=\displaystyle\int\!\!\displaystyle\int\left( x^2+y^2\right)\;\mathrm{d}x\,\mathrm{d}y\) in terms of \(u\) and \(v\), using the transformations introduced in (a) and the Jacobian found in (b): <br>
+\(I=\displaystyle\int\int\)[[input:ans4]]  \(\;\mathrm{d}u\,\mathrm{d}v\)[[validation:ans4]][[feedback:prt4]]
+</li>
+<li> Find the limits on \(u\) and \(v\) for the rectangle with vertices \((x,y)=({@p1x@},{@p1y@}),\ ({@p2x@},{@p2y@}),\ ({@p3x@},{@p3y@}),\ ({@p4x@},{@p4y@})\):<br>
+Bounds of \(u\) (as a list): [[input:ans5]] [[validation:ans5]][[feedback:prt5]] <br>
+Bounds of \(v\) (as a list): [[input:ans6]] [[validation:ans6]] [[feedback:prt6]]
+
+</li>
+<li>
+ Finally evaluate \(I\).<br>\(I=\)&nbsp;[[input:ans7]] [[validation:ans7]] [[feedback:prt7]]
+
+</li>
+</ol>
+</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<ol class="HELM_parts">
+<li>
+\begin{align*}
+ u &= {@aa*x@} + y \\
+v &= {@bb*x@} -  y \\
+\end{align*}
+Add equations (1) and (2) to get \(\displaystyle  u + v = {@(aa+bb)*x@}\).<br>
+Subtract equation (2) from equation (1) to get
+\(\displaystyle  {@bb*u@} - {@aa*v@} = {@(aa+bb)*y@}  \).<br>
+So
+\[x = {@ta1@}, \quad y = {@ta2@}\]
+
+</li>
+
+<li>
+Evaluating the partial derivatives, \(\dfrac{\partial x}{\partial
+u} = \dfrac{1}{{@(aa+bb)@}}\),  \(\dfrac{\partial x}{\partial v} =
+\dfrac{1}{{@(aa+bb)@}}\),  \(\dfrac{\partial y}{\partial u} = \dfrac{{@bb@}}{{@(aa+bb)@}}\)  and 
+\(\dfrac{\partial y}{\partial v} = -\dfrac{{@aa@}}{{@(aa+bb)@}}\) so the Jacobian
+\(\left| \begin{array}{cc} \dfrac{\partial x}{\partial u} &
+\dfrac{\partial x}{\partial v} \\\\ \dfrac{\partial y}{\partial u} &
+\dfrac{\partial y}{\partial v}
+\end{array} \right| = \left|
+\begin{array}{cc} \dfrac{1}{{@(aa+bb)@}} & \dfrac{1}{{@(aa+bb)@}} \\\\ \dfrac{1}{{@(bb)@}} & -\dfrac{1}{{@(aa)@}}
+\end{array} \right| =  \displaystyle{@ta3@} \)
+</li>
+<li>
+On letting \(x = \dfrac{1}{2}(u+v)\), \(y =
+\frac{1}{2}(u-v)\) and \(\;\mathrm{d}x\,\mathrm{d}y = \left| J \right|\;\mathrm{d}u\,\mathrm{d}v =
+\frac{1}{2}\;\mathrm{d}u\,\mathrm{d}v\), the integral \(\displaystyle\int\!\!\int \left(x^2 +
+y^2\right)\;\;\mathrm{d}x\,\mathrm{d}y\) becomes \begin{eqnarray*} I &=& \int\!\!\int  \left(
+\frac{1}{4}(u+v)^2 + \frac{1}{4}(u-v)^2 \right) \times
+\frac{1}{2}\;\mathrm{d}u\,\mathrm{d}v\\
+&=& \int\!\!\int  \frac{1}{2}\left(u^2 + v^2\right)  \times
+\frac{1}{2}\;\mathrm{d}u\,\mathrm{d}v \\
+&=& \int\!\!\int  \frac{1}{4}\left(u^2 + v^2\right) \;\mathrm{d}u\,\mathrm{d}v
+\end{eqnarray*}
+</li>
+
+
+<li>
+For \(({@p1x@},{@p1y@})\), \(u = {@p1u@}\) and \(v = {@p1v@}\) <br>
+For \(({@p2x@},{@p2y@})\), \(u = {@p2u@}\) and \(v = {@p2v@}\) <br>
+For \(({@p3x@},{@p3y@})\), \(u = {@p3u@}\) and \(v = {@p3v@}\) <br>
+For \(({@p4x@},{@p4y@})\), \(u = {@p4u@}\) and \(v = {@p4v@}\) <br>
+Thus, the limits on \(u\) are
+\(u={@umin@}\) to \(u={@umax@}\) while the limits on \(v\) are \(v={@vmin@}\) to \(v={@vmax@}\).
+</li>
+
+<li>
+The
+integral is
+\begin{eqnarray*}
+I &=& \int_{v={@vmin@}}^{@vmax@} \int_{u={@umin@}}^{@umin@} \frac{1}{4}\left(u^2 + v^2\right)
+ \;\mathrm{d}u\,\mathrm{d}v \\
+ &=& \frac{1}{4} \int_{v={@vmin@}}^{@vmax@} \left[{@fbI11@}\right] _{u={@umin@}}^{@umin@}
+ \;\mathrm{d}u\,\mathrm{d}v = \int_{v=-6}^0 \left[{@I11@}\right] \;\mathrm{d}v \\
+ &=& \left[{@fbI12@} \right]_{{@umin@}}^{@umax@} 
+={@ta7@}
+\end{eqnarray*}
+</li>
+</ol>]]></text>
+    </generalfeedback>
+    <defaultgrade>10</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025073100</text>
+    </stackversion>
+    <questionvariables>
+      <text>simp:true
+aa: 1;
+bb: 1;
+
+
+
+
+lis: solve([u = aa*x + y, v = bb*x - y], [x, y]);
+
+ta1:rhs(lis[1][1]);
+ta2:rhs(lis[1][2]);
+
+dxdu:1/(aa+bb);
+dxdv:1/(aa+bb);
+dydu:bb/(aa+bb);
+dydv:-aa/(aa+bb);
+
+ta3: dxdu*dydv-dxdv*dydu;
+ta4: 1/4*(u^2+v^2)
+
+cc:1+rand(1);
+dd:1+rand(5);
+ee:1+rand(5);
+
+p1x:dd*cc;
+p1y:ee*cc;
+p2x:(2+dd)*cc;
+p2y:(2+ee)*cc;
+p3x:(-1+dd)*cc;
+p3y:(5+ee)*cc;
+p4x:(-3+dd)*cc;
+p4y:(3+ee)*cc;
+
+
+p1u:p1x+p1y;
+p1v:p1x-p1y;
+p2u:p2x+p2y;
+p2v:p2x-p2y;
+p3u:p3x+p3y;
+p3v:p3x-p3y;
+p4u:p4x+p4y;
+p4v:p4x-p4y;
+
+umin: p1u; umax: p3u;
+vmin: p3v; vmax: p1v;
+
+ta5: [umin,umax];
+ta6: [vmin,vmax];
+
+fbI11:integrate (ta4,u);
+I11:integrate (ta4,u,umin,umax);
+fbI12: integrate (I11,v);
+I12: integrate (I11,v,vmin,vmax);
+ta7:I12</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="html">
+      <text>\(u={@aa*x@}+y\), \(v={@bb*y@}-y\)  \(\implies\)[{@ta1@},{@ta2@}]
+ rectangle with vertices \((x,y)=({@p1x@},{@p1y@}),\ ({@p2x@},{@p2y@}),\ ({@p3x@},{@p3y@}),\ ({@p4x@},{@p4y@})\)</text>
+    </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>7</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>ta2</tans>
+      <boxsize>7</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>algebraic</type>
+      <tans>ta3</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans4</name>
+      <type>algebraic</type>
+      <tans>ta4</tans>
+      <boxsize>7</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans5</name>
+      <type>algebraic</type>
+      <tans>ta5</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>[u_min,u_max]</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans6</name>
+      <type>algebraic</type>
+      <tans>ta6</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>[v_min,v_max]</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans7</name>
+      <type>algebraic</type>
+      <tans>ta7</tans>
+      <boxsize>3</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>ta3</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt4</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans4</sans>
+        <tans>ta4</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt4-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt4-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt5</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans5</sans>
+        <tans>ta5</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt5-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt5-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt6</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans6</sans>
+        <tans>ta6</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt6-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt6-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt7</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>cfbI11:integrate (ans4,u);
+cI11:integrate (ans4,u,ans5[1],ans5[2]);
+cfbI12: integrate (cI11,v);
+cI12: integrate (cI11,v,ans6[1],ans6[2]);
+ca7:cI12</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans7</sans>
+        <tans>ta7</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt7-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt7-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans7</sans>
+        <tans>ca7</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt7-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text>Your answer is correct based on your previoius incorrect calculations</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt7-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1352201560</deployedseed>
+    <deployedseed>129320493</deployedseed>
+    <deployedseed>1343481452</deployedseed>
+    <deployedseed>66945464</deployedseed>
+    <deployedseed>1851783090</deployedseed>
+    <deployedseed>1934173859</deployedseed>
+    <deployedseed>2014367364</deployedseed>
+    <deployedseed>839052121</deployedseed>
+    <deployedseed>1236635397</deployedseed>
+    <deployedseed>1104602686</deployedseed>
+    <deployedseed>257224124</deployedseed>
+    <deployedseed>1929366641</deployedseed>
+    <deployedseed>1555985983</deployedseed>
+    <deployedseed>736881201</deployedseed>
+    <deployedseed>1750363065</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>5.2.3.1 Parabolas and optimisation</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p></p><h4>Parabolas and optimisation</h4>Because the vertex may represent a highest or lowest point, a quadratic function may be the appropriate type of function to choose in a modelling problem where a maximum or a minimum is involved (optimisation problems for example). Consider the problem of working out the selling price for the product of a cottage industry that would maximise the profit, given certain details of costs and assumptions about market behaviour. A possible function relating profit (£\(M)\) to selling price (£\(P)\), is&nbsp;<p></p><p>\(\qquad M = -10P^2 +320P - 2420\qquad (12\le P \le 20).\)</p><p>Note that this is a quadratic function. By comparing this function with the form \(y = ax^2 + bx + c\) it is possible to decide whether the corresponding parabola that would result from graphing \(M\) against \(P\), would open upwards or downwards. Here \(M\) corresponds to \(y\) and \(P\) to \(x\). The coefficient corresponding to \(a\) in the general form is \(-10\). This is negative, so the resulting parabola will open downwards. In other words it will have a <b>highest point</b>&nbsp;or <b>maximum</b> for some value of \(P\). This is comforting in the context of an optimisation problem! We can go further in specifying the resulting parabola by reference to the other general form: \(y - C = A(x - B)^2.\) If we multiply out the bracket on the right hand side we get&nbsp;</p><p>\(\qquad y - C = Ax^2 - 2ABx + AB^2\)&nbsp;</p><p>or&nbsp;</p><p>\(\qquad y = Ax^2 - 2ABx + AB^2 + C.\)<br></p><p>Comparing this general form with the function relating profit and price for the cottage industry:<br></p><p>\(\qquad y = Ax^2 - 2ABx + AB^2 + C\)&nbsp;</p><p>\(\qquad\qquad\downarrow\qquad\quad\downarrow\qquad\qquad\downarrow\qquad\)&nbsp;</p><p>\(M = -10P^2 +\ \ 320P\quad - 2420\)&nbsp;<br></p><p>Using the equivalances suggested by the arrows, we see that<br></p><p>\(\qquad A = -10,\) \(\qquad 2AB = -320\) \(\qquad AB^2 + C = -2420.\)<br></p><p>These are three equations for three unknowns. Putting \(A = -10\) in the second equation gives \(B = 16.\) Putting \(A = -10\) and \(B = 16\) in the third equation gives<br></p><p>\(\qquad -2560 + C = -2420,\)<br></p><p>and so<br></p><p>\(\qquad C = 140.\)<br></p><p>This means that the equation for \(M\) may also be written in the form<br></p><p>\(\qquad M - 140 = -10(P - 16)^2,\)<br></p><p>corresponding to the general form \(y - C = A(x - B)^2\). In the general form, \(C\) corresponds to the value of \(y\) at the vertex of the parabola. Since \(y\) in the general form corresponds to \(M\) in the current modelling context, we deduce that \(M = 140\) at the highest point on the parabola. \(B\) represents the value of \(x\) at the lowest or highest point of the general parabola. Here \(x\) corresponds to \(P\), so we deduce thet \(P = 16\) at the vertex of the parabola corresponding to the function relating profit and price. These deductions mean that a maximum profit of £\(140\) is obtained when the selling price is £\(16\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

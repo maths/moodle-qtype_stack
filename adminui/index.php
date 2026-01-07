@@ -33,22 +33,46 @@ require_capability('qtype/stack:usediagnostictools', context_system::instance())
 
 // Useful links.
 $links = [
-    get_string('stackDoc_docs_desc', 'qtype_stack',
-            ['link' => (string) new moodle_url('/question/type/stack/doc/doc.php/')]),
-    get_string('chat_desc', 'qtype_stack',
-            ['link' => (string) new moodle_url('/question/type/stack/adminui/caschat.php')]),
-    get_string('bulktestindexintro_desc', 'qtype_stack',
-        ['link' => (string) new moodle_url('/question/type/stack/adminui/bulktestindex.php')]),
-    get_string('todo_desc', 'qtype_stack',
-        ['link' => (string) new moodle_url('/question/type/stack/adminui/todo.php')]),
-    get_string('dependenciesintro_desc', 'qtype_stack',
-        ['link' => (string) new moodle_url('/question/type/stack/adminui/dependencies.php')]),
-    get_string('stackInstall_replace_dollars_desc', 'qtype_stack',
-        ['link' => (string) new moodle_url('/question/type/stack/adminui/replacedollarsindex.php')]),
-    get_string('stackInstall_testsuite_title_desc', 'qtype_stack',
-            ['link' => (string) new moodle_url('/question/type/stack/adminui/answertests.php')]),
-    get_string('stackInstall_input_title_desc', 'qtype_stack',
-            ['link' => (string) new moodle_url('/question/type/stack/adminui/studentinputs.php')]),
+    get_string(
+        'stackDoc_docs_desc',
+        'qtype_stack',
+        ['link' => (string) new moodle_url('/question/type/stack/doc/doc.php/')]
+    ),
+    get_string(
+        'chat_desc',
+        'qtype_stack',
+        ['link' => (string) new moodle_url('/question/type/stack/adminui/caschat.php')]
+    ),
+    get_string(
+        'bulktestindexintro_desc',
+        'qtype_stack',
+        ['link' => (string) new moodle_url('/question/type/stack/adminui/bulktestindex.php')]
+    ),
+    get_string(
+        'todo_desc',
+        'qtype_stack',
+        ['link' => (string) new moodle_url('/question/type/stack/adminui/todo.php')]
+    ),
+    get_string(
+        'dependenciesintro_desc',
+        'qtype_stack',
+        ['link' => (string) new moodle_url('/question/type/stack/adminui/dependencies.php')]
+    ),
+    get_string(
+        'stackInstall_replace_dollars_desc',
+        'qtype_stack',
+        ['link' => (string) new moodle_url('/question/type/stack/adminui/replacedollarsindex.php')]
+    ),
+    get_string(
+        'stackInstall_testsuite_title_desc',
+        'qtype_stack',
+        ['link' => (string) new moodle_url('/question/type/stack/adminui/answertests.php')]
+    ),
+    get_string(
+        'stackInstall_input_title_desc',
+        'qtype_stack',
+        ['link' => (string) new moodle_url('/question/type/stack/adminui/studentinputs.php')]
+    ),
 ];
 
 // Set up the page object.

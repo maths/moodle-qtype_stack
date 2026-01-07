@@ -27,8 +27,10 @@ define('CLI_SCRIPT', true);
 require(__DIR__ . '/../../../../config.php');
 require_once($CFG->libdir . '/clilib.php');
 
-list($options, $unrecognized) = cli_get_params(['help' => false],
-    ['h' => 'help']);
+[$options, $unrecognized] = cli_get_params(
+    ['help' => false],
+    ['h' => 'help']
+);
 if ($unrecognized) {
     $unrecognized = implode("\n  ", $unrecognized);
     cli_error(get_string('cliunknowoption', 'admin', $unrecognized));

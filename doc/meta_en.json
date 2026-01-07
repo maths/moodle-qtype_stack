@@ -774,11 +774,6 @@
         "description":"How to tidy up PRT node names with STACK's tidy tool."
         },
         {
-        "file":"UpgradeDefaults.md",
-        "title":"Upgrading Question Details - STACK Documentation",
-        "description":"Information on upgrading question defaults. This may be necessary if you have recently upgraded from an old version of STACK."
-        },
-        {
         "file":"Authoring_workflow.md",
         "title":"Workflow - STACK Documentation",
         "description":"Suggestions for effective question authoring workflow, especially when working collaboratively."
@@ -788,12 +783,17 @@
         {
         "file":"index.md",
         "title":"STACK question library - STACK Documentation",
-        "description":"Reference documentation on the libraries in STACK for representing ordinary differential equations."
+        "description":"Reference documentation on the STACK question library."
         },
         {
         "file":"Algebra_refresher.md",
         "title":"Algebra refresher question library - STACK Documentation",
-        "description":"Reference documentation on the libraries in STACK for representing ordinary differential equations."
+        "description":"Reference documentation on the Algebra Refresher STACK question library."
+        },
+        {
+        "file":"HELM.md",
+        "title":"HELM question library - STACK Documentation",
+        "description":"Reference documentation on the HELM STACK question library."
         }
         ]
         }

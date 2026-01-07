@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>3.3.9.6 Factorise quartic given two factors same modulus (NOT IN QUIZ)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>Given that two of the roots of {@eqn@} have the same modulus but different sign, solve the equation:</p>
+<p>\( {@eqn@} = ( x + \) [[input:ans1]] [[validation:ans1]] \() ( x + \)&nbsp;[[input:ans2]] [[validation:ans2]] \() ( x + \)&nbsp;[[input:ans3]] [[validation:ans3]] \( )&nbsp;( x + \)&nbsp;[[input:ans4]] [[validation:ans4]] \( ) \).</p>
+<p>List the factors in non-decreasing order in terms of the constant term in the linear factor, repeating roots if appropriate.</p>
+<p><i>Hint: let two of the roots be \(\alpha\) and \(-\alpha\) and use the technique of equating coefficients.</i></p>
+
+
+<p>[[feedback:prt1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p></p><p>We know that both \(a\) and \(-a\) are roots, and that the leading coefficient is \(1\) so we can write the polynomial as \( (x - a) (x + a) (x^2 + bx + c)\).&nbsp;</p><p>Expanding this gives&nbsp;</p><p>\[ {@eqn@}= {@ratsimp((x - a) *(x + a) *(x^2 + b*x + c))@} .\]</p><p>By equating coefficients we find from the cubic term \(b={@aa + bb + cc + dd@}\) and then this information and the linear term gives \(a^2={@(aa)^2@}\). We can then use the constant (or quadratic) term to find \(c\). From here we solve the quadratic&nbsp; \(x^2+bx+c=0\) to determine the unknown roots. In total we have&nbsp;</p><p>\[{@eqn@}={@eqn1@}.\]</p><br><p></p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020120600</text>
+    </stackversion>
+    <questionvariables>
+      <text>aa: rand([-2,-1]);
+bb: rand([3,4]);
+cc: rand(3)+1;
+dd: -aa;
+
+simp:true;
+factor: x + dd;
+eqn1: (x + dd)*(x + cc)*(x + bb)*(x + aa);
+eqn: x^4 + (aa + bb + cc + dd)*x^3 + (aa*bb + aa*cc + aa*dd + bb*cc + bb*dd + cc*dd)*x^2 + (aa*bb*cc + aa*bb*dd + aa*cc*dd + bb*cc*dd)*x + aa*bb*cc*dd;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\[ {@eqn@}=0, \, [{@aa@},{@bb@},{@cc@}]\]</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>numerical</type>
+      <tans>aa</tans>
+      <boxsize>3</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>numerical</type>
+      <tans>bb</tans>
+      <boxsize>3</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>numerical</type>
+      <tans>cc</tans>
+      <boxsize>3</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans4</name>
+      <type>numerical</type>
+      <tans>dd</tans>
+      <boxsize>3</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>SetSA: {ans1,ans2,ans3};
+SetTA: {aa,bb,cc};</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>SetSA</sans>
+        <tans>SetTA</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1889209757</deployedseed>
+    <deployedseed>1130534163</deployedseed>
+    <deployedseed>2088408326</deployedseed>
+    <deployedseed>103823467</deployedseed>
+    <deployedseed>120781737</deployedseed>
+    <deployedseed>296039197</deployedseed>
+    <deployedseed>552065841</deployedseed>
+    <deployedseed>1338029625</deployedseed>
+    <deployedseed>290192321</deployedseed>
+    <deployedseed>1519350359</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>aa</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>bb</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>cc</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>dd</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>aa</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>aa</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>aa</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>aa</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

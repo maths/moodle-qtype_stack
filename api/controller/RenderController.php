@@ -15,7 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This script handles the various deploy/undeploy actions from questiontestrun.php.
+ * This script handles rendering a question and inputs.
  *
  * @package    qtype_stack
  * @copyright  2023 RWTH Aachen
@@ -105,14 +105,16 @@ class RenderController {
             $correctresponse = (isset($correctresponse)) ? $correctresponse : $question->get_ta_for_input($name);
             $apiinput->samplesolution = $input->get_api_solution($correctresponse);
             $apiinput->samplesolutionrender = $input->get_api_solution_render(
-                $question->get_ta_render_for_input($name), $question->get_ta_for_input($name));
+                $question->get_ta_render_for_input($name),
+                $question->get_ta_for_input($name)
+            );
 
             $apiinput->validationtype = $input->get_parameter('showValidation', 1);
             $apiinput->configuration = $input->render_api_data($question->get_ta_for_input($name));
 
             if (array_key_exists('options', $apiinput->configuration)) {
                 foreach ($apiinput->configuration['options'] as $key => &$option) {
-                    StackPlotReplacer::replace_plots($plots, $option, "input-".$name."-".$key, $storeprefix);
+                    StackPlotReplacer::replace_plots($plots, $option, "input-" . $name . "-" . $key, $storeprefix);
                 }
             }
 
@@ -123,7 +125,7 @@ class RenderController {
                 $fieldname = $data['renderInputs'] . $name;
                 $state = $question->get_input_state($name, []);
                 $render = $input->render($state, $fieldname, $data['readOnly'], $tavalue);
-                StackPlotReplacer::replace_plots($plots, $render, "answer-".$name, $storeprefix);
+                StackPlotReplacer::replace_plots($plots, $render, "answer-" . $name, $storeprefix);
             }
 
             $inputs[$name]->render = $render;

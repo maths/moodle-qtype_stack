@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>41.1.2.2 Types of errors</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Types of errors</h3>
+<p>Since we cannot be 100% sure that a hypothesis is true or false it is possible that: </p>
+    <ol>
+      <li> a correct hypothesis will be rejected; </li>
+      <li> a false hypothesis will be accepted. </li>
+    </ol></p>
+
+<p>Rejecting a correct hypothesis is called a Type I error and accepting a false hypothesis is called a Type II error.</p>
+<p> By working in a logical manner and developing a set of rules or guide-lines, it is possible to minimise the occurrence of such errors.</p>
+<p> This will introduce you to the basic ideas of hypothesis testing in a non-mathematical way by using a problem solving approach to highlight the concepts as they are needed.</p>
+<p> Once you have learned how to apply the basic ideas, you will be capable of applying hypothesis testing to a very wide range of practical problems and learning about methods of hypothesis testing which are not covered in this Workbook.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

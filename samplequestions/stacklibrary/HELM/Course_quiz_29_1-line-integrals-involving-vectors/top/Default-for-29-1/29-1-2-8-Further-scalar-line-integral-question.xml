@@ -1,0 +1,701 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>29.1.2.8 Further scalar line integral question</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>Evaluate \(\displaystyle\int_C \underline{F} \cdot \underline{dr}\), where \(\underline{F} = (x-y)\underline{i} + (x+y)\underline{j}\) along each of the following paths</p>
+
+<ol class="HELM_parts">
+<li><p>\(C_1\) : from \(({@aa@},{@aa^2@})\) to \(({@bb@},{@bb^2@})\) along the straight line \(y = {@gradient*x+intercept@}\):</p>
+<p>\(\displaystyle\int_{C_1} \underline{F} \cdot \underline{dr}=\)[[input:ans1]] [[validation:ans1]][[feedback:prt1]]</p>
+</li>
+
+<li><p>\(C_2\) : from \(({@aa@},{@aa^2@})\) to \(({@bb@},{@bb^2@})\) along the parabola \(y = x^2\):</p>
+<p>\(\displaystyle\int_{C_2} \underline{F} \cdot \underline{dr}=\)[[input:ans2]] [[validation:ans2]][[feedback:prt2]]</p></li>
+
+<li><p>\(C_3\) : along the straight line \(x={@aa@}\) from \(({@aa@},{@aa^2@})\) to \(({@aa@},{@bb^2@})\) then along the straight line \(y={@bb^2@}\) from \(({@aa@},{@bb^2@})\) to \(({@bb@},{@bb^2@})\).</p>
+<p>\(\displaystyle\int_{C_3} \underline{F} \cdot \underline{dr}=\)[[input:ans3]] [[validation:ans3]][[feedback:prt3]]</p></li>
+</ol>
+
+<p>For the function \(\underline{F}\) and the above paths, deduce \(\displaystyle\oint \underline{F} \cdot \underline{dr}\) for the closed paths</p>
+
+<ol class="HELM_parts" style='counter-reset: helm-parts 3'>
+<li>For: \(C_1\) followed by the reverse of \(C_2\), \(\displaystyle\oint \underline{F} \cdot \underline{dr} =\)[[input:ans4]] [[validation:ans4]][[feedback:prt4]]</li>
+<li>For: \(C_2\) followed by the reverse of \(C_3\)), \(\displaystyle\oint \underline{F} \cdot \underline{dr} =\)[[input:ans5]] [[validation:ans5]][[feedback:prt5]]</li>
+<li>For: \(C_3\) followed by the reverse of \(C_1\)), \(\displaystyle\oint \underline{F} \cdot \underline{dr} =\)[[input:ans6]] [[validation:ans6]][[feedback:prt6]]</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p>We know that \(\underline{F} = (x-y)\underline{i} + (x+y)\underline{j}\), and aim to evaluate \(\displaystyle\int_C \underline{F} \cdot \underline{dr}\) along the following three paths:</p>
+
+<p>(a) \(C_1\) : from \(({@aa@},{@aa^2@})\) to \(({@bb@},{@bb^2@})\) along the straight line \(y = {@gradient*x+intercept@}\).</p>
+<p>We aim to write the line integral in terms of \(x\). Parametrising \(\underline{r}\) in terms of \(x\) and then aiming to find \(\underline{F}\cdot\dfrac{\mathrm{d}\underline{r}}{\mathrm{d}x}\), we find:
+
+\[\begin{aligned}
+\underline{r} &= x\underline{i}+ ({@yy@})\underline{j}\\
+\frac{\mathrm{d}\underline{r}}{\mathrm{d}x} &= \underline{i}+ {@gradient@}\underline{j}\\
+\underline{F} &= ({@x-yy@})\underline{i}+ ({@x+yy@})\underline{j}\\
+\underline{F}\cdot\dfrac{\mathrm{d}\underline{r}}{\mathrm{d}x} &= {@ev(x-yy + gradient*(x+yy),simp)@} \\
+&={@(gradient^2+1)*x+ intercept*(gradient-1)@}.
+\end{aligned}\]</p>
+<p>Therefore, we may solve the line integral as follows:
+\[\begin{aligned}
+\int_{C_1} \underline{F} \cdot \underline{dr} &= \int^{@bb@}_{@aa@} \underline{F}\cdot\dfrac{\mathrm{d}\underline{r}}{\mathrm{d}x}\ \mathrm{d}x \\
+&= \int^{@bb@}_{@aa@} {@(gradient^2+1)*x+ intercept*(gradient-1)@}\ \mathrm{d}x \\
+&= \left[{@(gradient^2+1)/2@}x^2 +{@intercept*(gradient-1)@}x\right]^{@bb@}_{@aa@}\\
+&= \left({@(gradient^2+1)/2@}({@bb@})^2 +{@intercept*(gradient-1)@}({@bb@})\right)
+- \left({@(gradient^2+1)/2@}({@aa@})^2 +{@intercept*(gradient-1)@}({@aa@})\right) \\
+&= \left({@((gradient^2+1)/2)*(bb^2) +intercept*(gradient-1)*bb@}\right)
+- \left({@((gradient^2+1)/2)*(aa^2) +intercept*(gradient-1)*aa@}\right) \\
+&={@((gradient^2+1)/2)*(bb^2) +intercept*(gradient-1)*bb - (((gradient^2+1)/2)*(aa^2) +intercept*(gradient-1)*aa)@}
+\end{aligned}\]
+</p>
+
+<p>(b) \(C_2\) : from \(({@aa@},{@aa^2@})\) to \(({@bb@},{@bb^2@})\) along the parabola \(y = x^2\).</p>
+<p>We again aim to write the line integral in terms of \(x\). Parametrising \(\underline{r}\) in terms of \(x\) and then aiming to find \(\underline{F}\cdot\dfrac{\mathrm{d}\underline{r}}{\mathrm{d}x}\), we find:
+
+\[\begin{aligned}
+\underline{r} &= x\underline{i}+ x^2\underline{j}\\
+\frac{\mathrm{d}\underline{r}}{\mathrm{d}x} &= \underline{i}+ 2x\underline{j}\\
+\underline{F} &= (x-x^2)\underline{i}+ (x+x^2)\underline{j}\\
+\underline{F}\cdot\dfrac{\mathrm{d}\underline{r}}{\mathrm{d}x} &= (x-x^2) + 2x(x+x^2)\\
+&=x + x^2 + 2x^3
+\end{aligned}\].</p>
+<p>Therefore, we may solve the line integral as follows:
+\[\begin{aligned}
+\int_{C_2} \underline{F} \cdot \underline{dr} &= \int^{@bb@}_{@aa@} \underline{F}\cdot\dfrac{\mathrm{d}\underline{r}}{\mathrm{d}x}\ \mathrm{d}x \\
+&= \int^{@bb@}_{@aa@} x + x^2 + 2x^3\ \mathrm{d}x \\
+&= \left[\frac{x^2}{2} + \frac{x^3}{3} + \frac{x^4}{2}\right]^{@bb@}_{@aa@}\\
+&=  \left(\frac{({@bb@})^2}{2} + \frac{({@bb@})^3}{3} + \frac{({@bb@})^4}{2}\right)
+- \left(\frac{({@aa@})^2}{2} + \frac{({@aa@})^3}{3} + \frac{({@aa@})^4}{2}\right) \\
+&= \left({@(bb^2)/2 + (bb^3)/3 + (bb^4)/2@}\right)
+- \left({@(aa^2)/2 + (aa^3)/3 + (aa^4)/2@}\right) \\
+&={@(bb^2)/2 + (bb^3)/3 + (bb^4)/2 - ((aa^2)/2 + (aa^3)/3 + (aa^4)/2)@}
+\end{aligned}\]
+</p>
+
+<p>(c) \(C_3\) : along the straight line \(x={@aa@}\) from \(({@aa@},{@aa^2@})\) to \(({@aa@},{@bb^2@})\) then along the straight line \(y={@bb^2@}\) from \(({@aa@},{@bb^2@})\) to \(({@bb@},{@bb^2@})\).</p>
+<p>We again aim to write the line integral as the sum of two separate line integrals, one in terms of \(x\) and the other in terms of \(y\). Parametrising \(\underline{r_1}\) in terms of \(y\) and then aiming to find \(\underline{F}\cdot\dfrac{\mathrm{d}\underline{r_1}}{\mathrm{d}x}\), we find:
+\[\begin{aligned}
+\underline{r} &= {@aa@}\underline{i}+ y\underline{j}\\
+\frac{\mathrm{d}\underline{r_1}}{\mathrm{d}y} &= \underline{j}\\
+\underline{F} &= ({@aa@}-y)\underline{i}+ ({@aa@}+y)\underline{j}\\
+\underline{F}\cdot\dfrac{\mathrm{d}\underline{r_1}}{\mathrm{d}y} &= {@aa@}+y\\
+\end{aligned}\]</p>
+<p>Now parametrising \(\underline{r_2}\) in terms of \(x\) and then aiming to find \(\underline{F}\cdot\dfrac{\mathrm{d}\underline{r_2}}{\mathrm{d}x}\), we find:
+\[\begin{aligned}
+\underline{r} &= x\underline{i}+ {@bb^2@}\underline{j}\\
+\frac{\mathrm{d}\underline{r_2}}{\mathrm{d}x} &= \underline{i}\\
+\underline{F} &= (x-{@bb^2@})\underline{i}+ (x+{@bb^2@})\underline{j}\\
+\underline{F}\cdot\dfrac{\mathrm{d}\underline{r_2}}{\mathrm{d}x} &= x-{@bb^2@}\\
+\end{aligned}\]</p>
+<p>Therefore, we may solve the line integral as follows:
+\[\begin{aligned}
+\int_{C_3} \underline{F} \cdot \underline{dr} &= \int^{@bb^2@}_{@aa^2@} \underline{F} \cdot \dfrac{\mathrm{d}\underline{r_1}}{\mathrm{d}y}\ \mathrm{d}y +  \int^{@bb@}_{@aa@} \underline{F} \cdot \dfrac{\mathrm{d}\underline{r_2}}{\mathrm{d}x}\ \mathrm{d}x\\
+&= \int^{@bb^2@}_{@aa^2@} {@aa@}+y\ \mathrm{d}y +  \int^{@bb@}_{@aa@} x-{@bb^2@}\ \mathrm{d}x \\
+&= \left[{@aa@}y+\frac{y^2}{2}\right]^{@bb^2@}_{@aa^2@} + \left[\frac{x^2}{2}-{@bb^2@}x\right]^{@bb@}_{@aa@}\\
+&= \left[ \left({@aa@}({@bb^2@})+\frac{({@bb^2@})^2}{2}\right) 
+- \left({@aa@}({@aa^2@})+\frac{({@aa^2@})^2}{2}\right) \right]
++\left[\left(\frac{({@bb@})^2}{2}-{@bb^2@}({@bb@})\right)
+-\left(\frac{({@aa@})^2}{2}-{@bb^2@}({@aa@})\right)\right]\\
+&=\left[ {@aa*(bb^2)+(bb^4)/2 - (aa*(aa^2)+(aa^4)/2)@} \right] + \left[{@(bb^2)/2-bb^3 -((aa^2)/2-bb^2*aa)@}\right] \\
+&= {@aa*(bb^2)+(bb^4)/2 - (aa*(aa^2)+(aa^4)/2) + (bb^2)/2-bb^3 -((aa^2)/2-bb^2*aa)@}
+\end{aligned}\]
+</p>
+
+<hr>
+<p>Using our answers from the previous part, we find:</p>
+<p>
+(d) \(\displaystyle\oint \underline{F} \cdot \underline{dr} ={@ta1@}-{@ta2@} = {@ta4@}\)
+</p>
+<p>
+(e) \(\displaystyle\oint \underline{F} \cdot \underline{dr} ={@ta2@}-{@ta3@} = {@ta5@}\)
+</p>
+<p>
+(f) \(\displaystyle\oint \underline{F} \cdot \underline{dr} ={@ta3@}-{@ta1@} = {@ta6@}\)
+</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025073100</text>
+    </stackversion>
+    <questionvariables>
+      <text>aa:rand(3)+1;
+bb:rand(2)+1+aa;
+
+gradient:(aa^2-bb^2)/(aa-bb);
+intercept:aa^2-gradient*aa;
+yy:gradient*x+intercept;
+
+ta1:((gradient^2+1)/2)*(bb^2) +intercept*(gradient-1)*bb - (((gradient^2+1)/2)*(aa^2) +intercept*(gradient-1)*aa);
+ta2:(bb^2)/2 + (bb^3)/3 + (bb^4)/2 - ((aa^2)/2 + (aa^3)/3 + (aa^4)/2);
+ta3:aa*(bb^2)+(bb^4)/2 - (aa*(aa^2)+(aa^4)/2) + (bb^2)/2-bb^3 -((aa^2)/2-bb^2*aa);
+ta4:ta1-ta2;
+ta5:ta2-ta3;
+ta6:ta3-ta1;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="html">
+      <text><![CDATA[\[\underline{F} = (x-y)\underline{i} + (x+y)\underline{j} \] 
+\[ C_1: ({@aa@},{@aa^2@}) ->({@bb@},{@bb^2@}), line \, y = {@gradient*x+intercept@} \quad \int_{C_3} \underline{F} \cdot \underline{dr}= {@ta1@}\]
+\[C_2: ({@aa@},{@aa^2@}) ->({@bb@},{@bb^2@}), y=x^2 quad \int_{C_3} \underline{F} \cdot \underline{dr}= {@ta2@}\]
+\[C_3: \int_{C_3} \underline{F} \cdot \underline{dr}={@ta3@}\]]]></text>
+    </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>onum</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>ta2</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>algebraic</type>
+      <tans>ta3</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans4</name>
+      <type>algebraic</type>
+      <tans>ta4</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans5</name>
+      <type>algebraic</type>
+      <tans>ta5</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans6</name>
+      <type>algebraic</type>
+      <tans>ta6</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>ta3</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt4</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans4</sans>
+        <tans>ta4</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt4-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt4-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans4</sans>
+        <tans>ans1-ans2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt4-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text>Follow-through mark</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt4-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt5</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans5</sans>
+        <tans>ta5</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt5-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt5-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans5</sans>
+        <tans>ans2-ans3</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt5-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text>Follow-through mark</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt5-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt6</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans6</sans>
+        <tans>ta6</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt6-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt6-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans6</sans>
+        <tans>ans3-ans1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt6-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text>Follow-through mark</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt6-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1003590105</deployedseed>
+    <deployedseed>740763995</deployedseed>
+    <deployedseed>1492033922</deployedseed>
+    <deployedseed>20840286</deployedseed>
+    <deployedseed>227718766</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta3</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1+1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2+1</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta3+1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt3-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description>Follow-through test</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1+5</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2+5</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta3+8</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>ans1-ans2</value>
+      </testinput>
+      <testinput>
+        <name>ans5</name>
+        <value>ans2-ans3</value>
+      </testinput>
+      <testinput>
+        <name>ans6</name>
+        <value>ans3-ans1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt3-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt4-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt5</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt5-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt6</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt6-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

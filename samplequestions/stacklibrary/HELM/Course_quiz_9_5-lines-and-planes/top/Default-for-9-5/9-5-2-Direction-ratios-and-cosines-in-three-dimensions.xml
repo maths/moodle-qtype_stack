@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>9.5.2 Direction ratios and cosines in three dimensions</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3><p><p>Direction ratios and cosines in three dimensions</p></p><br></h3>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

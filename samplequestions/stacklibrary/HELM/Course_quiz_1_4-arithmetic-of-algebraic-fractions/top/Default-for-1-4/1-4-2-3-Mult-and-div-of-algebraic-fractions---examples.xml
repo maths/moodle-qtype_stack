@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>1.4.2.3 Mult and div of algebraic fractions - examples</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Simplify: \( \dfrac{\dfrac{2x}{y}}{\dfrac{3x}{2y}}\)</p>
+
+<h4 class="HELM_solution">Solution</h4>
+<p>We can write the fraction as \(\dfrac{2x}{y} \div \dfrac{3x}{2y}.\)</p>
+<p>Inverting the second fraction and multiplying we find:</p>
+<p>\[\dfrac{2x}{y} \times \dfrac{2y}{3x} = \dfrac{4xy}{3xy} = \dfrac{4}{3}\]</p>
+
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Simplify: \[ \dfrac{4x+2}{x^2+4x+3} \times \dfrac{x+3}{7x+5} \]</p>
+
+<h4 class="HELM_solution">Solution</h4>
+<p>Factorising the numerator and denominator we find</p>
+<p>\[\dfrac{4x+2}{x^2+4x+3} \times \dfrac{x+3}{7x+5} = \dfrac{2(2x+1)}{(x+1)(x+3)} \times \dfrac{x+3}{7x+5}\]</p><p>\[ = \dfrac{2(2x+1)(x+3)}{(x+1)(x+3)(7x+5)}\] </p>
+<p> \[= \dfrac{2(2x+1)}{(x+1)(7x+5)}\]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

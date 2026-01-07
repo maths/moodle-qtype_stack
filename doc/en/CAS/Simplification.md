@@ -308,6 +308,17 @@ So you can't use `ATComAss` here, and guarantee that all random variants will wo
 
 What we really want is for the functions `sqrt` and `+` to appear precisely once in the student's answer, or that the answer is a sum of two things.
 
+When surds appear in equations and sets we might need to force some kinds of simplification.  For example, when we try to establish that this set (the student's answer)
+\[ {\left \{x=-\frac{\sqrt{19}}{2\cdot \sqrt{3}}-\frac{1}{2} , x=\frac{\sqrt{19}}{2\cdot \sqrt{3}}-\frac{1}{2} \right \}} \]
+is equivalent to
+\[ {\left \{x=\frac{-\sqrt{57}-3}{6} , x=\frac{\sqrt{57}-3}{6} \right \}} \]
+
+If we were dealing with two *numbers*, then Maxima has no problem in establishing that 
+\[ \frac{-\sqrt{57}-3}{6}-\frac{\sqrt{19}}{2\cdot \sqrt{3}}-\frac{1}{2} = 0\]
+On the maxima command line try `p:(-3 + sqrt(9 + 48))/6+1/2 - sqrt(1/4 + 4/3);` then `radcan(p)`.  Within the AlgEquiv test `radcan` is applied automatically to _numbers_ within an expression, and this returns zero.
+
+The problem with _sets_ is that we don't have the difference between two numbers.  We're trying to write all numbers in an unambiguous form, and then comepare the representation.  This (subtle) difference is the problem.  Instead of looking at equivalence with zero, we need to contol the form of surds explicitly.
+
 ### Control of surds ###
 
 See also the Maxima documentation on `radexpand`.  For example
@@ -318,6 +329,21 @@ See also the Maxima documentation on `radexpand`.  For example
     sqrt((2*x+10)/10);
 
 The first of these does not pull out a numerical denominator.  The second does.
+
+Similarly, consider the output from these two examples.
+
+    p1:(-3 + sqrt(9 + 48))/6;
+    radcan(p1);
+    trigrat(p1);
+    radcan(trigrat(p1));
+
+    p2:-1/2 + sqrt(1/4 + 4/3);
+    radcan(p2);
+    trigrat(p2);
+    radcan(trigrat(p2));
+
+Why don't we always apply `trigrat` to expressions?  Without knowing something about the expression, we might "expand" out the terms which causes a practical failure of the test due to timeout.  E.g. `expand((x+y)^(2^100))` is never going to execute.  Similarly, `trigrat` causes some (trig) expressions to expand, see below.
+
 
 ### Trig simplification ###
 

@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>13.3.2.5 Area under a curve</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>In each question you should check that the required area lies entirely above the horizontal axis.</p><br>
+<ol class="HELM_parts">
+<li><p>Find the area under the curve \(y={@exp1@}\) and above the x-axis between \(x = {@l1@}\) and \(x = {@u1@}\). [[input:ans1]] [[validation:ans1]] [[feedback:prt1]] </p></li>
+
+<li><p>Find the area bounded by the curve \(y={@exp2@}\) and the x-axis between \(x = {@l2@}\) and \(x = {@u2@}\). [[input:ans2]] [[validation:ans2]] [[feedback:prt2]] </p></li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>Since the required area lies entirely above the horizontal axis for each question, the area under the curve \(y\) between \(x = a\) and \(x = b\) is \(\displaystyle\int_{a}^{b} y(x) \, \mathrm{d}x\).</p><br>
+<ol class="HELM_parts">
+    <li>
+        <p>\(\displaystyle \int_{@l1@}^{@u1@}{@exp1@}\, \mathrm{d}x = \left[ {@int(exp1,x)@} \right]_{@l1@}^{@u1@} = {@ta1@}\).</p>
+        <p>A sketch of the graph is shown below.</p>
+        <p style="text-align: center;"></p>
+        <div style="margin-left:4em;margin-right:auto;">[[jsxgraph width='300px' height='350px']] 
+JXG.Options.axis.ticks.insertTicks = false; /*don't insert extra ticks between major ticks*/ 
+JXG.Options.axis.ticks.majorHeight = 10; 
+JXG.Options.axis.ticks.minorHeight = 0; /*if minor ticks needed adjust height*/
+JXG.Options.text.fontSize = 16; 
+JXG.Options.axis.ticks.ticksDistance=1000; 
+var board = JXG.JSXGraph.initBoard(divid, {boundingbox: {#BB1#}, axis: false, showCopyright:false, showNavigation:false}); 
+var f = board.jc.snippet('{#exp1#}', true, 'x', true); 
+var ff = board.create('functiongraph',[f,{#ev(-l1)#},{#ev(u1+0.5)#}]); 
+var i1 = board.create('integral', [{#[l1,u1]#}, ff], {fillColor:'#003399',fillOpacity:0.15}); 
+i1.curveLeft.setAttribute({visible:false}); /* hide the gliders */ 
+i1.curveRight.setAttribute({visible:false});
+i1.label.setAttribute({visible:false}); /*hide the integral calculation*/ 
+var xaxis = board.create('axis', [[0,0],[1,0]], {name:'x', withLabel: true, label: {position: 'rt', offset: [-10, 10] /* (in pixels)*/}}); 
+board.create('ticks', [xaxis, {#[l1,u1]#}],{strokeColor:'#003399', majorHeight:15, drawLabels: true, label: { offset: [0, -5],anchorX: 'middle', anchorY: 'top' }}); 
+var yaxis = board.create('axis', [[0, 0], [0, 1]], {name:'y', withLabel: true, label: {position: 'rt', offset: [-20, 0] }}); 
+/*yaxis.removeAllTicks();*/
+board.create('ticks', [yaxis, {#[a,b]#}],{strokeColor:'#003399', majorHeight:15, drawLabels: true, label: { offset: [-10, 0],anchorX: 'right', anchorY: 'middle' }}); 
+[[/jsxgraph]]
+</div>
+<p></p>
+    </li>
+
+    <li>
+        <p>\(\displaystyle \int_{@l2@}^{@u2@}{@exp2@}\, \mathrm{d}x =\left[ {@int(exp2,x)@} \right]_{@l2@}^{@u2@} = {@ta2@}\).</p>
+        <p>A sketch of the graph is shown below.</p>
+       <p style="text-align: center;"></p>
+        <div style="margin-left:4em;margin-right:auto;">[[jsxgraph width='300px' height='350px']]
+JXG.Options.axis.ticks.insertTicks = false; /*don't insert extra ticks between major ticks*/ 
+JXG.Options.axis.ticks.majorHeight = 10; 
+JXG.Options.axis.ticks.minorHeight = 0; /*if minor ticks needed adjust height*/
+JXG.Options.text.fontSize = 16; 
+JXG.Options.axis.ticks.ticksDistance=1000; 
+var board = JXG.JSXGraph.initBoard(divid, {boundingbox: {#BB2#}, axis: false, showCopyright:false, showNavigation:false}); 
+var f = board.jc.snippet('{#exp2#}', true, 'x', true); 
+var ff = board.create('functiongraph',[f,{#ev(-u2)#},{#ev(u2+0.2)#}]); 
+var i1 = board.create('integral', [{#[l2,u2]#}, ff], {fillColor:'#003399',fillOpacity:0.15}); 
+i1.curveLeft.setAttribute({visible:false}); /* hide the gliders */ 
+i1.curveRight.setAttribute({visible:false});
+i1.label.setAttribute({visible:false}); /*hide the integral calculation*/ 
+var xaxis = board.create('axis', [[0,0],[1,0]], {name:'x', withLabel: true, label: {position: 'rt', offset: [-10, 10] /* (in pixels)*/}}); 
+board.create('ticks', [xaxis, {#[l2,u2]#}],{strokeColor:'#003399', majorHeight:15, drawLabels: true, label: { offset: [0, -5],anchorX: 'middle', anchorY: 'top' }}); 
+var yaxis = board.create('axis', [[0, 0], [0, 1]], {name:'y', withLabel: true, label: {position: 'rt', offset: [-20, 0] }}); 
+/*yaxis.removeAllTicks();*/
+board.create('ticks', [yaxis, {#d#}],{strokeColor:'#003399', majorHeight:15, drawLabels: true, label: { offset: [-10, 0],anchorX: 'right', anchorY: 'middle' }}); 
+[[/jsxgraph]] 
+</div>
+<p></p>
+    </li>
+</ol>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020120600</text>
+    </stackversion>
+    <questionvariables>
+      <text>aa: rand(7)+3;
+bb: rand_with_prohib(1,4,[aa]);
+
+exp1: aa*x^2;      /* function 1 */
+exp2: bb*x^3;     /* function 2 */
+
+l1: rand(2)+1               /* limits of function 1, lower limit*/
+u1: l1+1+rand(3);        /* upper limit*/
+ta1:  int(exp1, x, l1, u1);
+
+l2:0;                             /* limits of function 2, lower limit*/
+u2: rand(3)+2;             /* upper limit*/    
+ta2: int(exp2, x, l2, u2); 
+
+
+/*jsxgraph settings */ 
+BB1: [-l1, aa*(u1+1)^2, u1+2, -(1/6)*aa*(u1+1)^2]     /* boundingbox:[left, top, right, bottom]*/ 
+a: ev(exp1, x=l1);    /* y axis ticks*/
+b: ev(exp1, x=u1);
+
+BB2: [-u2, bb*(u2+0.2)^3, u2+2, -(1/6)*bb*(u2+0.2)^3]     /* boundingbox:[left, top, right, bottom]*/ 
+c: ev(exp2, x=l2);    /* y axis ticks*/
+d: ev(exp2, x=u2);
+
+
+/*Maxima plots - are not used in this question, we used JSX Graphs instead*/
+plot1: plot([ exp1,  line(l1,0,l1, aa*u1^2), line(u1,0,u1, aa*u1^2)], [x,-(u1+1), u1+1],[y,-2, aa*u1^2],[box, false],[yx_ratio, 1],[axes, solid]);
+
+plot2: plot(exp2, [x, l2-1,u2+1], [y, bb*(l2)^3-1, bb*(u2)^3+1], [box, false], [axes,solid]);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\(\int_{@l1@}^{@u1@}{@exp1@}\, dx = {@ta1@}, \quad \int_{@l2@}^{@u2@}{@exp2@}\, dx = {@ta2@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>numerical</type>
+      <tans>ta1</tans>
+      <boxsize>7</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>numerical</type>
+      <tans>ta2</tans>
+      <boxsize>7</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>0</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions>x</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions>x</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>410665205</deployedseed>
+    <deployedseed>1949538438</deployedseed>
+    <deployedseed>1435280459</deployedseed>
+    <deployedseed>380881416</deployedseed>
+    <deployedseed>519126488</deployedseed>
+    <deployedseed>15221045</deployedseed>
+    <deployedseed>371681635</deployedseed>
+    <deployedseed>1264883766</deployedseed>
+    <deployedseed>178555434</deployedseed>
+    <deployedseed>1392726723</deployedseed>
+    <deployedseed>1815695887</deployedseed>
+    <deployedseed>1558156812</deployedseed>
+    <deployedseed>786067897</deployedseed>
+    <deployedseed>1608365034</deployedseed>
+    <deployedseed>1040733650</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(ta1+1,simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ev(ta2+1,simp)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

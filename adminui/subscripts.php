@@ -26,11 +26,11 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(__DIR__.'/../../../../config.php');
-require_once($CFG->dirroot .'/course/lib.php');
+require_once(__DIR__ . '/../../../../config.php');
+require_once($CFG->dirroot . '/course/lib.php');
 require_once($CFG->libdir . '/questionlib.php');
-require_once($CFG->libdir .'/filelib.php');
-require_once($CFG->libdir .'/tablelib.php');
+require_once($CFG->libdir . '/filelib.php');
+require_once($CFG->libdir . '/tablelib.php');
 
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/../stack/options.class.php');
@@ -52,7 +52,7 @@ $PAGE->set_title($title);
 echo $OUTPUT->header();
 echo $OUTPUT->heading($title);
 
-echo html_writer::tag('p', "This is a temporary page to run subscript examples. ".
+echo html_writer::tag('p', "This is a temporary page to run subscript examples. " .
         "These will eventually become part of the unit tests only.");
 
 // Set up the results table.
@@ -65,8 +65,11 @@ $columns = [
     'tex'           => 'Expected TeX',
     'tex-display'   => 'CAS TeX',
     'display'       => 'Display',
+    'plain-tex'     => 'Plain atom TeX',
+    'plain-display' => 'Plain atom display',
     'errors'        => 'Errors',
     'notes'         => 'Notes',
+
 ];
 
 $table = new flexible_table('stack_answertests');
@@ -89,7 +92,7 @@ foreach ($testdata as $data) {
     $note = '';
     if ($test->notes != '') {
         $notes[$ni] = $test->notes;
-        $note = '('.$ni.')';
+        $note = '(' . $ni . ')';
         $ni++;
     }
 
@@ -115,17 +118,27 @@ foreach ($testdata as $data) {
             $class = 'fail';
             $outcome .= 'Display. ';
         }
+        $ptarget = $test->tex;
+        if ($test->texplain != '!') {
+            $ptarget = $test->texplain;
+        }
+        if ($test->plaindisplay != $ptarget) {
+            $class = 'fail';
+            $outcome .= 'Plain atoms. ';
+        }
     }
 
     $row = [
         'outcome'       => $outcome,
-        'expression'    => format_text('\('.$test->tex.'\)'),
-        'rawinput'      => '<pre>'.$test->rawinput.'</pre>',
-        'maxima'        => '<pre>'.$vtarget.'</pre>',
-        'value'         => '<pre>'.$test->value.'</pre>',
-        'tex'           => '<pre>'.$dtarget.'</pre>',
-        'tex-display'   => '<pre>'.$test->display.'</pre>',
-        'display'       => format_text('\('.$test->display.'\)'),
+        'expression'    => format_text('\(' . $test->tex . '\)'),
+        'rawinput'      => '<pre>' . $test->rawinput . '</pre>',
+        'maxima'        => '<pre>' . $vtarget . '</pre>',
+        'value'         => '<pre>' . $test->value . '</pre>',
+        'tex'           => '<pre>' . $dtarget . '</pre>',
+        'tex-display'   => '<pre>' . $test->display . '</pre>',
+        'display'       => format_text('\(' . $test->display . '\)'),
+        'plain-tex'     => '<pre>' . $test->plaindisplay . '</pre>',
+        'plain-display' => format_text('\(' . $test->plaindisplay . '\)'),
         'errors'        => $test->errors,
         'notes'         => $note,
     ];
@@ -139,10 +152,9 @@ $table->finish_output();
 
 echo "<ol>";
 foreach ($notes as $note) {
-    echo "<li>". $note . "</li>";
+    echo "<li>" . $note . "</li>";
 }
 echo "</ol>";
 
 // Finish output.
 echo $OUTPUT->footer();
-

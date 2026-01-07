@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>HELM 31.3 E2 Differentiation of Data Sets</text>
+    </name>
+    <questiontext format="markdown">
+      <text>**31.3 E2 Differentiation of Data Sets**
+
+The distance \\\(x\\\), measured in metres, of a downhill skier from a ﬁxed point is measured at
+intervals of \\\( {@dt@}\,\rm{s}\\\). The data gathered are
+
+{@td@}
+
+Use a central diﬀerence to approximate the skier’s velocity \\\(v\\\) and acceleration \\\(a\\\) at the times indicated below. 
+Give your answers to 1 decimal place.
+
+Velocity in \\\(\rm m/s\\\) at \\\({@'t=t[2]@}\,\rm{s}\\\), \\\({@t[4]@}\,\rm{s}\\\) and \\\({@t[6]@}\,\rm{s}\\\)
+
+[[input:S_vv]] [[validation:S_vv]] [[feedback:vv]]
+
+Acceleration in \\\(\rm m/s^2\\\) at \\\({@'t=t[2]@}\,\rm{s}\\\), \\\({@t[4]@}\,\rm{s}\\\) and \\\({@t[6]@}\,\rm{s}\\\)
+
+[[input:S_av]] [[validation:S_av]] [[feedback:av]]</text>
+    </questiontext>
+    <generalfeedback format="markdown">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2024012900</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[dt: rand([0.2, 0.25]);
+
+
+dx: [rand_with_step(3,5,0.2), 
+     rand_with_step(4,6,0.2), 
+     rand_with_step(5,7,0.2), 
+     rand_with_step(6,8,0.2), 
+     rand_with_step(7,9,0.2), 
+     rand_with_step(8,10,0.2)]*0.5;
+
+t: makelist(i*dt,i,1,length(dx)+1); 
+x: makelist(0,i,1,length(dx)+1);
+for i:1 thru length(dx) do x[i+1]: x[i] +dx[i];  
+/* td: apply(table,append( ["t (\\rm{s})", "x (\\rm{m})"], makelist([t[i],x[i]],i,1,length(x))));*/
+td: apply(table, append( [['t, 'x]], makelist([t[i],x[i]],i,1,length(x))));
+stack_include("https://raw.githubusercontent.com/mkraska/meclib/main/Maxima/fb_value_EN.mac");
+
+v(i):=(x[i+1]-x[i-1])/(2*dt);
+a(i):=(x[i+1]-2*x[i]+x[i-1])/dt^2;
+vv: transpose(matrix([v(2), v(4), v(6)]));
+av: transpose(matrix([a(2), a(4), a(6)]));
+
+toList(m):= args(transpose(m))[1];]]></text>
+    </questionvariables>
+    <specificfeedback format="markdown">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>{@vv@}, {@av@}</text>
+    </questionnote>
+    <questiondescription format="markdown">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="markdown">
+      <text>Richtige Antwort, gut gemacht!</text>
+    </prtcorrect>
+    <prtpartiallycorrect format="markdown">
+      <text>Ihre Antwort ist teilweise korrekt.</text>
+    </prtpartiallycorrect>
+    <prtincorrect format="markdown">
+      <text>Falsche Antwort.</text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>S_av</name>
+      <type>matrix</type>
+      <tans>av</tans>
+      <boxsize>4</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>S_vv</name>
+      <type>matrix</type>
+      <tans>vv</tans>
+      <boxsize>4</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>av</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumAbsolute</answertest>
+        <sans>toList(S_av)</sans>
+        <tans>toList(av)</tans>
+        <testoptions>0.05</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>av-1-T</trueanswernote>
+        <truefeedback format="markdown">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>av-1-F</falseanswernote>
+        <falsefeedback format="markdown">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>vv</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumAbsolute</answertest>
+        <sans>toList(S_vv)</sans>
+        <tans>toList(vv)</tans>
+        <testoptions>0.05</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>vv-1-T</trueanswernote>
+        <truefeedback format="markdown">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>vv-1-F</falseanswernote>
+        <falsefeedback format="markdown">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>579624181</deployedseed>
+    <deployedseed>1343186453</deployedseed>
+    <deployedseed>1134831928</deployedseed>
+    <deployedseed>2076650385</deployedseed>
+    <deployedseed>1366787899</deployedseed>
+    <deployedseed>1910156339</deployedseed>
+    <deployedseed>336030133</deployedseed>
+    <deployedseed>487474868</deployedseed>
+    <deployedseed>1130909704</deployedseed>
+    <deployedseed>624011609</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>S_av</name>
+        <value>av</value>
+      </testinput>
+      <testinput>
+        <name>S_vv</name>
+        <value>vv</value>
+      </testinput>
+      <expected>
+        <name>av</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>av-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>vv</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>vv-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>S_av</name>
+        <value>av</value>
+      </testinput>
+      <testinput>
+        <name>S_vv</name>
+        <value>vv</value>
+      </testinput>
+      <expected>
+        <name>av</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>av-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>vv</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>vv-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>S_av</name>
+        <value>av</value>
+      </testinput>
+      <testinput>
+        <name>S_vv</name>
+        <value>vv</value>
+      </testinput>
+      <expected>
+        <name>av</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>av-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>vv</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>vv-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>(not in quiz) 37.2.3.14 A company buys mass-produced articles from a supplier</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p><p>A company buys mass-produced articles from a supplier. Each article has a probability \(p\) of being defective, independently of other articles. If the articles are manufactured correctly then \(p={@p_def_no_cheap@}.\) However, a cheaper method of manufacture can be used and this results in \(p={@p_def_cheap@}.\)</p>
+<ol class="HELM_parts">
+
+<li><p>Find the probability of observing exactly {@n_def_in_batch@} defectives in a sample of twenty articles given that \(p={@p_def_no_cheap@}\) [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</p></li>
+
+<li><p>Find the probability of observing exactly {@n_def_in_batch@} defectives in a sample of twenty articles given that \(p={@p_def_cheap@}\) [[input:ans2]] [[validation:ans2]] [[feedback:prt2]]</p></li>
+
+<li><p>The articles are made in large batches. Unfortunately, batches made by both methods are stored together and are indistinguishable until tested, although all of the articles in any one batch will be made by the same method. Suppose that a batch delivered to the company has a probability of {@p_batch_no_cheap@} of being made by the correct method. Find the conditional probability that such a batch is correctly manufactured given that, in a sample of twenty articles from the batch, there are exactly {@n_def_in_batch@} defectives. [[input:ans3]] [[validation:ans3]] [[feedback:prt3]]</p></li>
+
+</ol>
+<p><b>Note</b>: please round your answers up to 5 decimal places</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<h4 class="HELM_solution">Solution</h4>
+<p>Let \(Y\) be the number of defective articles found in a sample of twenty articles. Let \(D\) denote the event that the batch is not correctly manufactured (using the cheaper method of manufacture) and let \(\bar{D}\) denote the event ``not \( D\)'' (the batch is correctly manufactured)</p>
+<ol class="HELM_parts">
+  <li>\(\text{P} (Y={@n_def_in_batch@}) = \left( \begin{array}{c} 20 \\&nbsp;{@n_def_in_batch@} \end{array} \right) \times {@p_def_no_cheap@}^{{@n_def_in_batch@}} \times {@1 - p_def_no_cheap@}^{{@20 - n_def_in_batch@}} = {@decimalplaces(ta_1,5)@}\)</li>
+  <li>\(\text{P} (Y={@n_def_in_batch@}) = \left( \begin{array}{c} 20 \\&nbsp;{@n_def_in_batch@} \end{array} \right) \times {@p_def_cheap@}^{{@n_def_in_batch@}} \times {@1 - p_def_cheap@}^{{@20 - n_def_in_batch@}} = {@decimalplaces(ta_2,5)@}\)</li>
+  <li>\(\begin{aligned}
+\text{P}(\bar{D} \mid Y={@n_def_in_batch@}) &amp; = \dfrac{ \text{P}(\bar{D})\times  \text{P}(Y={@n_def_in_batch@} \mid \bar{D})}{ \text{P}(\bar{D})\times \text{P}(Y={@n_def_in_batch@} \mid \bar{D}) +  \text{P}(D)\times \text{P}(Y={@n_def_in_batch@} \mid D)}&nbsp;&nbsp;\\ &amp; = \dfrac{ {@p_batch_no_cheap@} \times \left( \begin{array}{c} 20 \\ {@n_def_in_batch@} \end{array} \right) \times {@p_def_no_cheap@}^{{@n_def_in_batch@}} \times {@1 - p_def_no_cheap@}^{{@20 - n_def_in_batch@}}}{ {@p_batch_no_cheap@} \times \left( \begin{array}{c} 20 \\ {@n_def_in_batch@} \end{array} \right) \times {@p_def_no_cheap@}^{{@n_def_in_batch@}} \times {@1 - p_def_no_cheap@}^{{@20 - n_def_in_batch@}} + {@1 - p_batch_no_cheap@} \times \left( \begin{array}{c} 20 \\ {@n_def_in_batch@} \end{array} \right) \times {@p_def_cheap@}^{{@n_def_in_batch@}} \times {@1 - p_def_cheap@}^{{@20 - n_def_in_batch@}}} \\&nbsp; &amp; =&nbsp; \dfrac{{@decimalplaces(numerator,5)@}}{{@decimalplaces(denomin_1,5)@} + {@decimalplaces(denomin_2,5)@}} = {@ta_3@}.\end{aligned}\)</li></ol>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020070100</text>
+    </stackversion>
+    <questionvariables>
+      <text>p_def_no_cheap: 0.03 + 0.01*rand(4);
+p_def_cheap: 0.1 +0.1*rand(2);
+p_batch_no_cheap: 0.6 + 0.1*rand(3);
+n_def_in_batch: 2 + rand(3);
+
+ta_1: (factorial(20)/(factorial(n_def_in_batch)*factorial(20-n_def_in_batch)))*(p_def_no_cheap^n_def_in_batch)*((1 - p_def_no_cheap)^(20 - n_def_in_batch))
+ta_1: decimalplaces(ta_1,5);
+
+ta_2: (factorial(20)/(factorial(n_def_in_batch)*factorial(20-n_def_in_batch)))*(p_def_cheap^n_def_in_batch)*((1 - p_def_cheap)^(20 - n_def_in_batch));
+ta_2: decimalplaces(ta_2,5);
+
+numerator: p_batch_no_cheap*ta_1;
+denomin_1: numerator;
+denomin_2: (1-p_batch_no_cheap)*ta_2;
+ta_3: decimalplaces(numerator/(denomin_1 + denomin_2),5);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>a) \(\text{P} (Y={@n_def_in_batch@}) = {@ta_1@} \), b) \(\text{P} (Y={@n_def_in_batch@}) = {@ta_2@} \), c) \(\text{P}(\bar{D} \mid Y={@n_def_in_batch@}) = {@ta_3@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>numerical</type>
+      <tans>ta_1</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>maxdp:5</options>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>numerical</type>
+      <tans>ta_2</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>maxdp:5</options>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>numerical</type>
+      <tans>ta_3</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>maxdp:5</options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumAbsolute</answertest>
+        <sans>ans1</sans>
+        <tans>ta_1</tans>
+        <testoptions>0.00002</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumAbsolute</answertest>
+        <sans>ans2</sans>
+        <tans>ta_2</tans>
+        <testoptions>0.00002</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumAbsolute</answertest>
+        <sans>ans3</sans>
+        <tans>ta_3</tans>
+        <testoptions>0.00002</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1781545857</deployedseed>
+    <deployedseed>1611569518</deployedseed>
+    <deployedseed>1215158590</deployedseed>
+    <deployedseed>1578227124</deployedseed>
+    <deployedseed>1063864433</deployedseed>
+    <deployedseed>648036158</deployedseed>
+    <deployedseed>1802794397</deployedseed>
+    <deployedseed>1911099282</deployedseed>
+    <deployedseed>983987323</deployedseed>
+    <deployedseed>855675211</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta_1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta_2</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta_3</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>2</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>10</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

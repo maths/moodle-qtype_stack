@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>11.7.0 Introduction implicit differentiation</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Introduction </h4>
+
+This Section introduces implicit differentiation which is used to differentiate functions expressed in implicit form (where the variables are found together). Examples are \(x^3 + xy + y^2 = 1\), and \( \dfrac{x^2}{a^2} + \dfrac{y^2}{b^2} = 1 \) which represents an ellipse.]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

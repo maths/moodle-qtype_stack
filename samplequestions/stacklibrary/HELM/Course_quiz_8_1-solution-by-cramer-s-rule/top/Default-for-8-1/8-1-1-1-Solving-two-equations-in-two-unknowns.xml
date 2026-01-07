@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>8.1.1.1 Solving two equations in two unknowns</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Solving two equations in two unknowns</h4><p><br></p>
+<p>If we have one linear equation&nbsp;</p>
+<p><span class="math inline">\(\qquad ax=b\)</span></p>
+<p>in which the unknown is <span class="math inline">\(x\)</span> and <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> are constants then there are just three possibilities:</p>
+<ul>
+    <li>
+        <p><span class="math inline">\(a\neq 0\)</span> then <span class="math inline">\(x=\dfrac{b}{a}= a^{-1}b\)</span>. In this case the equation <span class="math inline">\(ax=b\)</span> has a <span><strong>unique solution</strong></span> for <span class="math inline">\(x\)</span>.</p>
+    </li>
+    <li>
+        <p><span class="math inline">\(a=0\)</span>, <span class="math inline">\(b=0\)</span> then the equation <span class="math inline">\(ax=b\)</span> becomes <span class="math inline">\(0=0\)</span> and any value of <span class="math inline">\(x\)</span>            will do. In this case the equation <span class="math inline">\(ax=b\)</span> has <span><strong>infinitely many solutions</strong></span>.</p>
+    </li>
+    <li>
+        <p><span class="math inline">\(a=0\)</span> and <span class="math inline">\(b\neq 0\)</span> then <span class="math inline">\(ax=b\)</span> becomes <span class="math inline">\(0=b\)</span> which is a contradiction. In this case the equation
+            <span class="math inline">\(ax=b\)</span> has <span><strong>no solution</strong></span> for <span class="math inline">\(x\)</span>.</p>
+    </li>
+</ul>
+<p>What happens if we have more than one equation and more than one unknown? We shall find that the solutions to such systems can be characterised in a manner similar to that occurring for a single equation; that is, a system may have a unique solution,
+    an infinity of solutions or no solution at all.</p>
+<p>In this Section we examine a method, known as Cramer’s rule and employing determinants, for solving systems of linear equations.</p>
+<p>Consider the equations&nbsp;</p>
+<p><span class="math inline">(1) \(\qquad ax+by=e\)</span></p>
+<p><span class="math inline">(2) \(\qquad cx+dy=f\)</span></p>
+<p>where <span class="math inline">\(a,b,c,d,e,f\)</span> are given numbers. The variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are unknowns we wish to find. The pairs of values of <span class="math inline">\(x\)</span>    and <span class="math inline">\(y\)</span> which <span><strong>simultaneously</strong></span> satisfy both equations are called solutions. Simple algebra will eliminate the variable <span class="math inline">\(y\)</span> between these equations. We
+    multiply equation (1) by <span class="math inline">\(d\)</span>, equation (2) by <span class="math inline">\(b\)</span> and subtract:</p>
+<p><span class="math inline">\(\qquad \text{first,}\quad  (1)\times d\qquad\qquad\qquad ad x+bd y=ed\qquad\qquad\qquad
+\)</span></p>
+<p><span class="math inline">\(\qquad \text{then},\quad  (2)\times b\qquad\qquad\qquad bc x+bd y=bf\qquad\qquad\qquad \)</span></p>
+<p>(we multiplied in this way to make the coefficients of <span class="math inline">\(y\)</span> equal.)</p>
+<p>Now subtract to obtain&nbsp;</p>
+<p><span class="math inline">(3) \(\qquad (ad-bc)x=ed-bf\)</span></p>
+<p><span class="math inline"><br></span></p>
+
+<p class="HELM_exercise">Task: <span style="font-weight: normal;">Starting with equations (1) and (2) above, eliminate \(x\).</span></p>
+
+<p><br></p>
+<p> Eliminating \(x\) using a similar method to the one above for eliminating \(y\), we obtain</p>
+<p>(4) \(\qquad&nbsp; (ad-bc)y=af-ec\)</p>
+
+<p>Dividing equations (3) and (4) by <span class="math inline">\(ad-bc\)</span> we obtain the solutions&nbsp;</p>
+<p><span class="math inline">(5) \(\qquad x=\dfrac{ed-bf}{ad-bc}\ ,\ \ \ y=\dfrac{af-ec}{ad-bc}\)</span></p>
+<p>There is of course one proviso: if <span class="math inline">\(ad-bc=0\)</span> then neither <span class="math inline">\(x\)</span> nor <span class="math inline">\(y\)</span> has a defined value.</p>
+<p>If we choose to express these solutions in terms of determinants we have the formulation for the solution of simultaneous equations known as <span><strong>Cramer’s rule</strong></span>.&nbsp;</p>
+<p>If we define <span class="math inline">\(\Delta\)</span> as the determinant <span class="math inline">\(\left|\begin{array}{cc}a&amp;b\\ c&amp;d\end{array}\right|\)</span> and provided <span class="math inline">\(\Delta\neq 0\)</span> then the <span><strong>unique</strong></span>    solution of the equations&nbsp;</p>
+<p><span class="math inline">\(\qquad ax+by=e\)</span></p>
+<p><span class="math inline">\(\qquad cx+dy=f\)</span></p>
+<p>is by (5) given by&nbsp;</p>
+<p><span class="math inline">\(\qquad x=\dfrac{\Delta_x}{\Delta},\ \ y=\dfrac{\Delta_y}{\Delta}\quad\text{where}\quad
+\Delta_x=\left|\begin{array}{cc}e&amp;b\\ f&amp;d\end{array}\right|,\ \
+\Delta_y=\left|\begin{array}{cc}a&amp;e\\ c&amp;f\end{array}\right|.\)</span></p>
+<p>Now <span class="math inline">\(\Delta\)</span> is the determinant of coefficients on the left-hand sides of the equations. In the expression <span class="math inline">\(\Delta_x\)</span> the coefficients of <span class="math inline">\(x\)</span> (i.e.
+    <span class="math inline">\(\left(\begin{array}{c}a\\
+c\end{array}\right)\)</span> which is column 1 of <span class="math inline">\(\Delta\)</span>) are replaced by the terms on the right-hand sides of the equations (i.e. by <span class="math inline">\(\left(\begin{array}{c}e\\
+f\end{array}\right)\)</span>). Similarly in <span class="math inline">\(\Delta_y\)</span> the coefficients of <span class="math inline">\(y\)</span> (column 2 of <span class="math inline">\(\Delta\)</span>) are replaced by the terms on the right-hand
+    sides of the equations.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

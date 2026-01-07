@@ -1986,6 +1986,14 @@
   "disp": {
       "function": "?"
   },
+  "disp_parens": {
+      "function": "s",
+      "nounfunctionfor": ""
+  },
+  "disp_select": {
+      "function": "s",
+      "nounfunctionfor": ""
+  },
   "dispJordan": {
       "function": "s"
   },
@@ -7368,6 +7376,9 @@
   "stack_validate_simpnum": {
       "function": "s"
   },
+  "stackbasen": {
+      "function": "s"
+  },
   "stackeq": {
       "function": "s",
       "prefixinputform": "="
@@ -7808,6 +7819,10 @@
   "tex_display": {
       "function": "?"
   },
+  "tex_plain_atoms": {
+      "variable": "t",
+      "contextvariable": "true"
+  },
   "texput": {
       "function": "?",
       "contextvariable": "true",
@@ -8113,7 +8128,7 @@
       "function": "f"
   },
   "unicode": {
-      "function": "?",
+      "function": "t",
       "built-in": true
   },
   "unicode_to_utf8": {

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>28.1.2.6 Unknown scalar in vector calculus equation</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>If \(\underline{r} = \sin({@2*bb@}t)\underline{i} + \cos({@2*bb@}t)\underline{j} + {@bb * t^2@}\underline{k}\) and \((1+t^2) |\underline{\ddot{r}}|^2 = c|\underline{\dot{r}}|^2\), find the value of \(c\).</p>
+<p>\(c=\)[[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>
+We know that \(\underline{r} = \sin({@2*bb@}t)\underline{i} + \cos({@2*bb@}t)\underline{j} + {@bb * t^2@}\underline{k}\), and \((1+t^2) |\underline{\ddot{r}}|^2 = c|\underline{\dot{r}}|^2\). We now aim to find \(c\), which can be done by finding \(|\underline{\ddot{r}}|\) and \(|\underline{\dot{r}}|\) in terms of \(t\) and solving algebraically as follows:
+\[
+\begin{aligned} 
+\underline{\dot{r}} & = {@2*bb@}\cos({@2*bb@} t)\underline{i} - {@2*bb@} \sin({@2*bb@} t)\underline{j} + {@2*bb@} t \underline{k},\\
+|\underline{\dot{r}}| & = {@4*bb^2@}\cos^2({@2*bb@}t) + {@4*bb^2@}\sin^2({@2*bb@}t) + {@4*bb^2@}t^2 = {@4*bb^2@} (1+t^2),\\
+\mbox{ and }\\
+\underline{\ddot{r}} & = -{@4*bb^2@}\sin({@2*bb@}t)\underline{i} - {@4*bb^2@}\cos({@2*bb@}t)\underline{j} + {@2*bb@} \underline{k},\\
+|\underline{\ddot{r}}| & = {@16*bb^2@}\cos^2({@2*bb@}t) + {@16*bb^2@}\sin^2({@2*bb@}t) + {@4*bb^2@} = {@20*bb^2@}
+\end{aligned}
+\]
+Therefore
+\[ {@20*bb^2@}(1+t^2) = {@4*bb^2@}c(1+t^2) \implies c={@ta1@}.\]
+</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025040100</text>
+    </stackversion>
+    <questionvariables>
+      <text>bb:rand(3)+1;
+ta1:5;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:prt1]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="html">
+      <text><![CDATA[<p>\(\underline{r} = \sin({@2*bb@}t)\underline{i} + \cos({@2*bb@}t)\underline{j} + {@bb* t^2@}\underline{k}\)</p>]]></text>
+    </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<p><i class="fa fa-check"></i> Correct answer, well done.</p>]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<p><i class="fa fa-adjust"></i> Your answer is partially correct.</p>]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<p><i class="fa fa-times"></i> Incorrect answer.</p>]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1611118321</deployedseed>
+    <deployedseed>175341263</deployedseed>
+    <deployedseed>665158639</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1+1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

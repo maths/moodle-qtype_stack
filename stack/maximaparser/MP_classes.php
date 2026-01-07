@@ -48,16 +48,20 @@
  * 'decimal'                 If null then '.' else use the string value.
  * 'listsep'                 If null then ', ' else use the string value.
  * 'flattree'                Used for debugging of the internals.  Does not print checking groups by design.
+ * 'nosemicolon'             Do not produce statement separators.
+ * 'statementsep'            By default ';', '$' would also make sense.
+ * 'reverstackbasen'         Unwraps 'stackbasen("X",_,_) -> X'
  */
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once(__DIR__ . '/lexer.base.class.php');
 require_once(__DIR__ . '/../cas/cassecurity.class.php');
 require_once(__DIR__ . '/../cas/parsingrules/996_call_modification.filter.php');
 
 // @codingStandardsIgnoreStart
 // We ignore coding in this file, because the library is used outside Moodle.
-class MP_Node {
+class MP_Node implements JsonSerializable {
     public $parentnode  = null;
     public $position    = null;
     // Parsers that comments within the statements may place them here.
@@ -389,6 +393,82 @@ class MP_Node {
         }
         return false;
    }
+
+    /**
+    * Parser specific convenience. 
+    */
+   public function set_position_from_parser_token(stack_maxima_lexer_token $token) {
+        $this->position['start'] = $token->startchar;
+        $this->position['end'] = $token->endchar;
+        $this->position['start-line'] = $token->startline;
+        $this->position['end-line'] = $token->endline;
+        $this->position['start-column'] = $token->startcolumn;
+        $this->position['end-column'] = $token->endcolumn;
+   }
+
+   /**
+    * Parser specific convenience. 
+    */
+   public function set_position_from_parser_tokens(stack_maxima_lexer_token $start, stack_maxima_lexer_token $end) {
+        $this->position['start'] = $start->startchar;
+        $this->position['end'] = $end->endchar;
+        $this->position['start-line'] = $start->startline;
+        $this->position['end-line'] = $end->endline;
+        $this->position['start-column'] = $start->startcolumn;
+        $this->position['end-column'] = $end->endcolumn;
+   }
+
+   /**
+    * Parser specific convenience. 
+    */
+   public function set_position_from_token_node(stack_maxima_lexer_token $start, MP_Node $end) {
+        $this->position['start'] = $start->startchar;
+        $this->position['end'] = $end->position['end'];
+        $this->position['start-line'] = $start->startline;
+        $this->position['end-line'] = $end->position['end-line'];
+        $this->position['start-column'] = $start->startcolumn;
+        $this->position['end-column'] = $end->position['end-column'];
+   }
+
+   /**
+    * Parser specific convenience. 
+    */
+   public function set_position_from_node_token(MP_Node $start, stack_maxima_lexer_token $end) {
+        $this->position['start'] = $start->position['start'];
+        $this->position['end'] = $end->endchar;
+        $this->position['start-line'] = $start->position['start-line'];
+        $this->position['end-line'] = $end->endline;
+        $this->position['start-column'] = $start->position['start-column'];
+        $this->position['end-column'] = $end->endcolumn;
+   }
+
+   /**
+    * Parser specific convenience. 
+    */
+   public function set_position_from_node(MP_Node $node) {
+        $this->position['start'] = $node->position['start'];
+        $this->position['end'] = $node->position['end'];
+        $this->position['start-line'] = $node->position['start-line'];
+        $this->position['end-line'] = $node->position['end-line'];
+        $this->position['start-column'] = $node->position['start-column'];
+        $this->position['end-column'] = $node->position['end-column'];
+   }
+
+   /**
+    * Parser specific convenience. 
+    */
+   public function set_position_from_nodes(MP_Node $start, MP_Node $end) {
+        $this->position['start'] = $start->position['start'];
+        $this->position['end'] = $end->position['end'];
+        $this->position['start-line'] = $start->position['start-line'];
+        $this->position['end-line'] = $end->position['end-line'];
+        $this->position['start-column'] = $start->position['start-column'];
+        $this->position['end-column'] = $end->position['end-column'];
+   }
+
+   public function jsonSerialize(): mixed {
+        return ['type' => get_class($this), 'children' => $this->getChildren()];
+   }
 }
 
 class MP_Operation extends MP_Node {
@@ -650,6 +730,10 @@ class MP_Atom extends MP_Node {
             return $indent . $this->value;
         }
         return '' . $op;
+    }
+    
+    public function jsonSerialize(): mixed {
+        return ['type' => get_class($this), 'value' => $this->value];
     }
 }
 
@@ -1069,6 +1153,13 @@ class MP_FunctionCall extends MP_Node {
         $sep = ',';
         if ($params !== null && isset($params['listsep'])) {
             $sep = $params['listsep'];
+        }
+
+        if ($params !== null && isset($params['reverstackbasen']) &&
+            $params['reverstackbasen'] && $n === 'stackbasen') {
+            // Reverts filter 115, for cases where one wants to show
+            // the original.
+            return $this->arguments[0]->value;
         }
 
         if ($params !== null && isset($params['dealias'])) {
@@ -1982,6 +2073,9 @@ class MP_EvaluationFlag extends MP_Node {
     }
 
     public function toString($params = null): string {
+        if (isset($params['listsep'])) {
+            return $params['listsep'] . $this->name->toString($params) . '=' . $this->value->toString($params);
+        }
         return ',' . $this->name->toString($params) . '=' . $this->value->toString($params);
     }
 
@@ -1997,11 +2091,13 @@ class MP_EvaluationFlag extends MP_Node {
 class MP_Statement extends MP_Node {
     public $statement = null;
     public $flags     = null;
+    public $internalcomments = null;
 
     public function __construct($statement, $flags) {
         parent::__construct();
         $this->statement = $statement;
         $this->flags     = $flags;
+        $this->internalcomments = [];
     }
 
     public function __clone() {
@@ -2014,10 +2110,17 @@ class MP_Statement extends MP_Node {
         }
         $this->statement = clone $this->statement;
         $this->statement->parentnode = $this;
+        if ($this->internalcomments !== null && count($this->internalcomments) > 0) {
+            $i = 0;
+            for ($i = 0; $i < count($this->internalcomments); $i++) {
+                $this->internalcomments[$i] = clone $this->internalcomments[$i];
+                $this->internalcomments[$i]->parentnode = $this;
+            }
+        }
     }
 
     public function getChildren() {
-        return array_merge([$this->statement], $this->flags);
+        return array_merge(array_merge([$this->statement], $this->flags), $this->internalcomments);
     }
 
     public function remap_position_data(int $offset=0) {
@@ -2140,6 +2243,11 @@ class MP_Let extends MP_Node {
     }
 }
 
+/**
+ * Note that when parsing with comment collection on, the Root will
+ * have some comments. Only the comments that are not within statements
+ * will be among the items. Others will be in statements->internalcomments.
+ */
 class MP_Root extends MP_Node {
     public $items = null;
 
@@ -2192,10 +2300,13 @@ class MP_Root extends MP_Node {
 
         foreach ($this->items as $item) {
             $r .= $item->toString($params);
-        }
-
-        if (!isset($params['nosemicolon'])) {
-            $r .= ";\n";
+            if (!isset($params['nosemicolon']) ||  $params['nosemicolon'] === false) {
+                if (isset($params['statementsep'])) {
+                    $r .= $params['statementsep'] . "\n";
+                } else {
+                    $r .= ";\n";
+                }
+            }
         }
 
         return $r;

@@ -15,7 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This script handles the various deploy/undeploy actions from questiontestrun.php.
+ * This script handles validation of answers.
  *
  * @package    qtype_stack
  * @copyright  2023 RWTH Aachen
@@ -76,5 +76,4 @@ class ValidationController {
         $response->getBody()->write(json_encode($validationresponse));
         return $response->withHeader('Content-Type', 'application/json');
     }
-
 }

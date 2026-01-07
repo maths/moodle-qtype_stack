@@ -18,14 +18,11 @@ to specify the remote database.  Then run the command line script (perhaps using
 When you upgrade to a new version of STACK, it would be reassuring to know beforehand
 whether there is any change in behaviour in STACK which will affect your existing questions.
 
-After you have done the upgrade, it is easy to run the question tests in bulk, using the
-link on the STACK plugin admin screen. However, with a bit of hackery, it is possible to
-run the code from the new STACK release (with a few modifications) on your development server,
-but have it open a read-only connection to your live database, in order to load the questions
-and their corresponding tests.
+After you have done the upgrade, it is easy to run the question tests in bulk, using the link on the STACK plugin admin screen. 
 
-The following patch is provided as-is. It will probably require tinkering with to work in any
-given situation.
+It is possible to run the code from the new STACK release (with a few modifications) on your development server, but have it open a read-only connection to your live database, in order to load the questions and their corresponding tests.
+
+The following patch is provided as-is. It will probably require tinkering with to work in any given situation.
 
 ```
 diff --git a/bulktest.php b/bulktest.php
@@ -141,9 +138,7 @@ index 40ef26e..d8ba3e1 100644
                  global $DB;
 ```
 
-As an example of the kind of tinkering that might be required, and the time I devised this patch,
-the new version of STACK had a database change, which had not yet been applied to our live database.
-Therefore, I had to tweak the question loading code as follows:
+As an example of the kind of tinkering that might be required, and the time I devised this patch, the new version of STACK had a database change, which had not yet been applied to our live database. Therefore, I had to tweak the question loading code as follows:
 
 ```
 diff --git a/questiontype.php b/questiontype.php

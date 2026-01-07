@@ -1,0 +1,107 @@
+{
+    "quiz": {
+        "name": "11_3 Higher Derivatives",
+        "intro": "<p>The derivative, \\( \\dfrac{dy}{dx}\\), is more expressly called the first derivative of \\(y\\). By differentiating the first derivative, we obtain the second derivative; by differentiating the second derivative we obtain the third derivative and so on. These second and subsequent derivatives are known as higher derivatives. Second derivatives in particular occur frequently in engineering contexts.<\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "The derivative of a derivative",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "2",
+            "heading": "Notation and exercises",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "8",
+            "heading": "Evaluating higher derivatives",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-11-3\/11-3-1-Derivative-of-a-derivative.xml"
+        },
+        {
+            "slot": "2",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-11-3\/11-3-2-Notation-for-derivatives.xml"
+        },
+        {
+            "slot": "3",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-11-3\/11-3-2-y-y-.xml"
+        },
+        {
+            "slot": "4",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-11-3\/11-3-2b-exercise-y-y-.xml"
+        },
+        {
+            "slot": "5",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-11-3\/11-3-2c-exercise-y-y-.xml"
+        },
+        {
+            "slot": "6",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-11-3\/11-3-2d-exercise-y-y-.xml"
+        },
+        {
+            "slot": "7",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-11-3\/11-3-2e-exercise-y-y-.xml"
+        },
+        {
+            "slot": "8",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-11-3\/11-3-2f-ex-evaluating-y-y-.xml"
+        },
+        {
+            "slot": "9",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-11-3\/11-3-2g-exercise-evaluating-y-y-.xml"
+        },
+        {
+            "slot": "10",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-11-3\/11-3-2i-exercise-evaluating-y-y-.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

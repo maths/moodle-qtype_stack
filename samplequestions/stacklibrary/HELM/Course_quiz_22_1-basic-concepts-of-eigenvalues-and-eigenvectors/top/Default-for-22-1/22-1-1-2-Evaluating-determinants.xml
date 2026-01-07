@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>22.1.1.2 Evaluating determinants</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<span lang="en" class="multilang">Compute the determinants of
+\[
+\mathrm{A}=\begin{bmatrix}{@a@}&amp;{@a@}&amp;{@c@}\\ {@a@}&amp;{@b@}&amp;{@a@}\\ {@a@}&amp;{@b@}&amp;{@c@}\\ \end{bmatrix}
+\ \text{ and } \
+\mathrm{B}=\begin{bmatrix}{@a@}&amp;0&amp;0&amp;{@c@}\\ {@c@}&amp;0&amp;0&amp;{@a@}\\ {@a@}&amp;0&amp;{@c@}&amp;0\\ 0&amp;{@c@}&amp;{@a@}&amp;{@b@}\\ \end{bmatrix} .
+\]
+</span>
+<span lang="fi" hidden="" class="multilang">Laske matriisien
+\[
+\mathrm{A}=\begin{bmatrix}{@a@}&amp;{@a@}&amp;{@c@}\\ {@a@}&amp;{@b@}&amp;{@a@}\\ {@a@}&amp;{@b@}&amp;{@c@}\\ \end{bmatrix}
+\ \text{ ja } \
+\mathrm{B}=\begin{bmatrix}{@a@}&amp;0&amp;0&amp;{@c@}\\ {@c@}&amp;0&amp;0&amp;{@a@}\\ {@a@}&amp;0&amp;{@c@}&amp;0\\ 0&amp;{@c@}&amp;{@a@}&amp;{@b@}\\ \end{bmatrix}
+\]
+determinantit.</span>
+
+<p>\(\operatorname{det}(\mathrm{A})=\) [[input:SAns1]] [[validation:SAns1]]</p>
+[[feedback:detA]]
+<p>\(\operatorname{det}(\mathrm{B})=\) [[input:SAns2]] [[validation:SAns2]]</p>
+[[feedback:detB]]]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<span lang="en" class="multilang">Determinants can be calculated for example by reducing the matrix to an upper triangle matrix or developing the determinant with respect to some row or column. Let's compute \(\det(\mathrm{A})\) by developing it with respect to the first row:
+\begin{eqnarray}
+\det(\mathrm{A})&amp;=&amp;{@a@}\left| \begin{matrix}{@b@} &amp; {@a@} \\ {@b@} &amp; {@c@} \\
+\end{matrix}\right| -{@a@} \left| \begin{matrix}{@a@} &amp; {@a@} \\ {@a@} &amp; {@c@} \\ \end{matrix}\right| +({@c@}) \left| \begin{matrix}{@a@} &amp; {@b@} \\ {@a@} &amp; {@b@} \\ \end{matrix}\right| \nonumber \\
+&amp;=&amp; {@a@}({@b@}\cdot ({@c@})-{@a@}\cdot {@b@})-{@a@}({@a@}\cdot ({@c@})-{@a@}^2)+({@c@})({@a@}\cdot {@b@}-{@a@}\cdot {@b@})\nonumber \\
+&amp;=&amp; {@TAns1@}. \nonumber
+\end{eqnarray}
+
+The column of \(\mathrm{B}\) with the most zeros is the second column, so let's develop the determinant with respect to that:
+\[
+\det(\mathrm{B}) = ({@c@})\left| \begin{matrix} {@a@}&amp;0&amp;{@c@}\\ {@c@}&amp;0&amp;{@a@}\\ {@a@}&amp;{@c@}&amp;0\\ \end{matrix}\right| .
+\]
+Here the \(3\times 3\)-determinant reduces to a \(2\times 2\)-determinant when developed with respect to the second column:
+\[
+\det(\mathrm{B})=({@c@})\cdot (-({@c@}))\left| \begin{matrix} {@a@}&amp;{@c@}\\ {@c@}&amp;{@a@}\\ \end{matrix}\right| = -{@d@}^2({@a@}^2-({@c@})^2)={@TAns2@}.
+\]</span>
+
+<span lang="fi" hidden="" class="multilang"><br><div style="font-weight:bold">Mallivastaus:</div>
+Determinantti voidaan laskea joko muuntamalla se yläkolmiomuotoon tai kehittämällä sopivan rivin tai sarakkeen mukaan. Lasketaan \(\det(\mathrm{A})\) kehittämällä 1. rivin mukaan:
+\begin{eqnarray}
+\det(\mathrm{A})&amp;=&amp;{@a@}\left| \begin{matrix}{@b@} &amp; {@a@} \\ {@b@} &amp; {@c@} \\
+\end{matrix}\right| -{@a@} \left| \begin{matrix}{@a@} &amp; {@a@} \\ {@a@} &amp; {@c@} \\ \end{matrix}\right| +({@c@}) \left| \begin{matrix}{@a@} &amp; {@b@} \\ {@a@} &amp; {@b@} \\ \end{matrix}\right| \nonumber \\
+&amp;=&amp; {@a@}({@b@}\cdot ({@c@})-{@a@}\cdot {@b@})-{@a@}({@a@}\cdot ({@c@})-{@a@}^2)+({@c@})({@a@}\cdot {@b@}-{@a@}\cdot {@b@})\nonumber \\
+&amp;=&amp; {@TAns1@}. \nonumber
+\end{eqnarray}
+
+Matriisissa \(\mathrm{B}\) on paljon nollia, eniten niitä on 2. sarakkeessa, joten kehitetään determinantti sen mukaan:
+\[
+\det(\mathrm{B}) = ({@c@})\left| \begin{matrix} {@a@}&amp;0&amp;{@c@}\\ {@c@}&amp;0&amp;{@a@}\\ {@a@}&amp;{@c@}&amp;0\\ \end{matrix}\right| .
+\]
+Tässä \(3\times 3\)-determinantti kannattaa kehittää 2. sarakkeen mukaan, jolloin saadaan
+\[
+\det(\mathrm{B})=({@c@})\cdot (-({@c@}))\left| \begin{matrix} {@a@}&amp;{@c@}\\ {@c@}&amp;{@a@}\\ \end{matrix}\right| = -{@d@}^2({@a@}^2-({@c@})^2)={@TAns2@}.
+\]</span>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020120600</text>
+    </stackversion>
+    <questionvariables>
+      <text>a : rand([1,3,5])
+b : rand([2,4,6])
+d : rand([2,4])
+c : -d
+TAns1 : b*a*c-a^2*b-a^2*c+a^3
+TAns2 : -a^2*c^2+c^4</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>det(A)={@TAns1@}, det(B)={@TAns2@}</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span lang="en" class="multilang">Your answer is correct!</span><span lang="fi" hidden="" class="multilang">Vastauksesi on oikein!</span>]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span lang="en" class="multilang">Your answer is partially correct. Keep trying!</span><span lang="fi" hidden="" class="multilang">Vastauksesi on osittain oikein. Jatka yrittämistä!</span>]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span lang="en" class="multilang">Your answer is incorrect.</span><span lang="fi" hidden="" class="multilang">Vastauksesi on väärin.</span>]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>SAns1</name>
+      <type>algebraic</type>
+      <tans>TAns1</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>[[basic-matrix]],[[basic-algebra]]</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>SAns2</name>
+      <type>algebraic</type>
+      <tans>TAns2</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>[[basic-matrix]],[[basic-algebra]]</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>detA</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>SAns1</sans>
+        <tans>TAns1</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>detA-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>detA-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>detB</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>SAns2</sans>
+        <tans>TAns2</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>detB-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>detB-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1734624408</deployedseed>
+    <deployedseed>461796495</deployedseed>
+    <deployedseed>720053171</deployedseed>
+    <deployedseed>187592802</deployedseed>
+    <deployedseed>1869102650</deployedseed>
+    <deployedseed>142393368</deployedseed>
+    <deployedseed>2053584684</deployedseed>
+    <deployedseed>1827697411</deployedseed>
+    <deployedseed>220258874</deployedseed>
+    <deployedseed>1946823857</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>SAns1</name>
+        <value>TAns1</value>
+      </testinput>
+      <testinput>
+        <name>SAns2</name>
+        <value>TAns2</value>
+      </testinput>
+      <expected>
+        <name>detA</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>detA-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>detB</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>detB-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>SAns1</name>
+        <value>TAns1+1</value>
+      </testinput>
+      <testinput>
+        <name>SAns2</name>
+        <value>TAns2+1</value>
+      </testinput>
+      <expected>
+        <name>detA</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>detA-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>detB</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>detB-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <tags>
+      <tag><text>FI</text>
+</tag>
+      <tag><text>aalto</text>
+</tag>
+      <tag><text>matrix algebra</text>
+</tag>
+      <tag><text>Abacus</text>
+</tag>
+      <tag><text>Ojala</text>
+</tag>
+      <tag><text>matriisi</text>
+</tag>
+      <tag><text>3x3</text>
+</tag>
+      <tag><text>determinantti</text>
+</tag>
+      <tag><text>4x4</text>
+</tag>
+    </tags>
+  </question>
+</quiz>

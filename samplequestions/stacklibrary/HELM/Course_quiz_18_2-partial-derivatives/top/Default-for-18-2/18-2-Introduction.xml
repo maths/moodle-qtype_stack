@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>18.2 Introduction</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3><span>Partial Derivatives</span><br></h3>
+
+<p>When a function of more than one independent input variable changes because of changes in one or more of the input variables, it is important to calculate the change in the function itself. This can be investigated by holding all but one of the variables constant and finding the rate of change of the function with respect to the one remaining variable. This process is called partial differentiation. In this Section we show how to carry out the process.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

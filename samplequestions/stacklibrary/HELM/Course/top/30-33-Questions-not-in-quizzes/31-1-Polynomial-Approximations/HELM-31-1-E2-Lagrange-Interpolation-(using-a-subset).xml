@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>HELM 31.1 E2 Lagrange Interpolation (using a subset)</text>
+    </name>
+    <questiontext format="markdown">
+      <text>**31.1 E2 Lagrange Interpolation**
+
+Estimate \\\(f({@xp@})\\\) to an appropriate accuracy from the table of values below by means of an appropriate quadratic interpolating polynomial.
+
+{@T@}
+
+\\\(f({@xp@})=\\\) [[input:S_iv]] [[validation:S_iv]] [[feedback:iv]]</text>
+    </questiontext>
+    <generalfeedback format="markdown">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025073100</text>
+    </stackversion>
+    <questionvariables>
+      <text>Xdata:[1,3.5,4,6];
+Fdata:[512+rand_with_step(0.1,0.9,0.1), 
+       342+rand_with_step(0.1,0.9,0.1), 
+       295+rand_with_step(0.1,0.9,0.1),
+       99+rand_with_step(0.1,0.9,0.1)];
+xp: rand([4.5,5,5.5]);
+
+T:table([x,f(x)],
+        [Xdata[1],Fdata[1]] , [Xdata[2],Fdata[2] ], 
+        [Xdata[3],Fdata[3] ], [Xdata[4],Fdata[4] ]);
+/* general definitions for interpolation */
+L(X,x,j):= product(if j#k then (x-X[k])/(X[j]-X[k]) else 1, k,1,length(X));
+Lagrange(X,Y,x):=sum(Y[j]*L(X,x,j),j,1,length(X));
+
+iv: Lagrange(lastn(Xdata,3),lastn(Fdata,3),xp);
+iv3: Lagrange(Xdata,Fdata,xp);</text>
+    </questionvariables>
+    <specificfeedback format="markdown">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\[{@Fdata@}, {@'x_p=xp@}, {@iv@}, {@iv3@}\]</text>
+    </questionnote>
+    <questiondescription format="markdown">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="markdown">
+      <text>Richtige Antwort, gut gemacht!</text>
+    </prtcorrect>
+    <prtpartiallycorrect format="markdown">
+      <text>Ihre Antwort ist teilweise korrekt.</text>
+    </prtpartiallycorrect>
+    <prtincorrect format="markdown">
+      <text>Falsche Antwort.</text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>S_iv</name>
+      <type>numerical</type>
+      <tans>iv</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>Number</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>iv</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumRelative</answertest>
+        <sans>S_iv</sans>
+        <tans>iv</tans>
+        <testoptions>0.005</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>iv-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>iv-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description>Was a cubic polynom used?</description>
+        <answertest>NumRelative</answertest>
+        <sans>S_iv</sans>
+        <tans>iv3</tans>
+        <testoptions>0.005</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>iv-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text>Did you use a cubic interpolating polynomial? A quadratic one was requested. This requires usage of an appropriate subset of the data points.</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>iv-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description>right number of sig figs?</description>
+        <answertest>NumSigFigs</answertest>
+        <sans>S_iv</sans>
+        <tans>iv</tans>
+        <testoptions>3</testoptions>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>iv-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.5</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>iv-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>The result can't have more significant digits than the data for \(f(x)\).</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1837850763</deployedseed>
+    <deployedseed>1360987997</deployedseed>
+    <deployedseed>881116365</deployedseed>
+    <deployedseed>1873797421</deployedseed>
+    <deployedseed>1306717382</deployedseed>
+    <deployedseed>1331501704</deployedseed>
+    <deployedseed>1437189680</deployedseed>
+    <deployedseed>1130573008</deployedseed>
+    <deployedseed>1747671282</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>S_iv</name>
+        <value>dispsf(iv,3)</value>
+      </testinput>
+      <expected>
+        <name>iv</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>iv-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

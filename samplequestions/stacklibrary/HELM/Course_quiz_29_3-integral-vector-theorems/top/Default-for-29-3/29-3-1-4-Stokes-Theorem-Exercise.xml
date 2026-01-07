@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>29.3.1.4 Stokes' Theorem Exercise</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p> Consider the vector field \(\underline{F} = 2x \underline{i} + (y^2-z)\underline{j} + x z \underline{k}\) and the contour around the rectangle with vertices at \((0,-2,0)\),\((2,-2,0)\), \((2,0,1)\) and \((0,0,1)\).</p> Using Stokes' theorem, evaluate either the surface integral or the line integral. [Remember that if evaluated correctly, they will both give the same answer.]</p>
+<p> \(I =\) [[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p> Stokes' Theorem tells us that for any vector field \(\underline{F}\) and a contour \(C\) which bounds an area \(S\),</p>
+<p>\(\qquad\displaystyle \displaystyle\int\!\! \displaystyle\int_S ({\underline \nabla} \times \underline{F}) \cdot \underline{dS} = \displaystyle\oint_C \underline{F} \cdot \underline{dr}\) </p>
+
+<p> You may choose to evaluate this integral either using the surface integral or the line integral side of Stokes' Theorem. </p>
+<p> We give the solution for the <strong>surface integral </strong> method first:</p>
+
+<p> We have \(\quad\displaystyle \displaystyle\int\!\! \displaystyle\int_S ({\underline \nabla} \times \underline{F}) \cdot \underline{dS}\), so we first find the curl \({\underline \nabla} \times \underline{F}\):</p>
+<p> \(\begin{align}
+{\underline \nabla} \times \underline{F} = \left| \begin{array}{ccc} \underline{i} & \underline{j} & \underline{k}\\
+\\
+\dfrac{\partial}{\partial x} & \dfrac{\partial}{\partial y} & \dfrac{\partial}{\partial z} \\ 
+\\ 
+2x & (y^2 - z) & xz \end{array} \right| &= \underline{i} \left| \begin{array}{cc} \dfrac{\partial}{\partial y} & \dfrac{\partial}{\partial z}  \\
+(y^2-z) & xz  \end{array}\right|  - \underline{j} \left| \begin{array}{cc} \dfrac{\partial}{\partial x} & \dfrac{\partial}{\partial z}  \\
+2x & xz  \end{array}\right|  + \underline{k} \left| \begin{array}{cc} \dfrac{\partial}{\partial x} & \dfrac{\partial}{\partial y}  \\
+2x & (y^2-z)  \end{array}\right|  \\
+&=  \underline{i} \left(0-(-1)\right) -  \underline{j} \left(z-0\right) +  \underline{k} \left(0 - 0\right) \\
+&= \underline{i} - z \underline{j} \end{align}\) </p></li>
+
+<p> Next, we aim to find the vector \(\underline{\mathrm{d}S} = \underline{\hat{n}} \, \mathrm{d}u \, \mathrm{d}v\) and if we project our rectangle onto the \(xy\) plane, then this becomes  \(\underline{\mathrm{d}S} =  \dfrac{\text{Area}}{\text{Projected Area}} \, \underline{\hat{n}} \, \mathrm{d}x \, \mathrm{d}y \) </p>
+
+<p> So we first find \(\underline{n}\) by finding the cross product of \(2\) vectors in the plane:</p>
+<p> \(\underline{a}: (0,-2,0) - (2,-2,0) = (-2,0,0) \) </p>
+<p> \(\underline{b}: (0,-2,0)-(2,0,1) = (-2,-2,-1)\) </p>
+<p> \(\begin{align}
+\underline{n} = \underline{a} \times \underline{b} = \left| \begin{array}{ccc} \underline{i} & \underline{j} & \underline{k}\\
+\\
+-2 & 0 & 0 \\ 
+\\ 
+-2 & -2 & -1 \end{array} \right| &= \underline{i} \left| \begin{array}{cc} 0 & 0  \\
+-2 & -2  \end{array}\right|  - \underline{j} \left| \begin{array}{cc} -2 & 0  \\
+-2 & -1  \end{array}\right|  + \underline{k} \left| \begin{array}{cc} -2 & 0 \\
+-2 & -2  \end{array}\right|  \\
+&=  \underline{i} \left(0-0\right) -  \underline{j} \left(2-0\right) +  \underline{k} \left(4 - 0\right) \\
+&= -2\underline{j} + 4\underline{k} \end{align}\) </p><br>
+
+<p> And so \(\underline{\hat{n}} = \dfrac{-2\underline{j} + 4\underline{k}}{\sqrt{2^2 + (-4)^2}} = \dfrac{-2\underline{j} + 4\underline{k}}{2\sqrt{5}} = -\dfrac{\underline{j}}{\sqrt{5}} + \dfrac{2\underline{k}}{\sqrt{5}}.\)</p>
+
+<p> Our rectangle has area \(2\sqrt{5}\) (computed above, as the magnitude of the cross product is both the rectangle's area and the length of the normal vector), and if we project this rectangle onto the \(xy\) plane, then it has coordinates \((0,-2), (2,-2), (2,0), (0,0)\) and so has projected area \(2 \times 2 = 4\).<p>
+
+<p> So \(\underline{\mathrm{d}S} =  \dfrac{\text{Area}}{\text{Projected Area}} \, \underline{\hat{n}} \, \mathrm{d}x \, \mathrm{d}y = \dfrac{2\sqrt{5}}{4} \left(-\dfrac{\underline{j}}{\sqrt{5}} + \dfrac{2\underline{k}}{\sqrt{5}}\right) \, \mathrm{d}x \, \mathrm{d}y = \left(-\dfrac{1}{2} \underline{j} + \underline{k}\right) \,  \mathrm{d}x \, \mathrm{d}y. \) </p><br>
+
+<p> We now have \(\quad\displaystyle \displaystyle\int\!\! \displaystyle\int_S ({\underline \nabla} \times \underline{F}) \cdot \underline{dS} = \int_{-2}^0 \int_0^2 \left(\underline{i} - z \underline{j}\right) \cdot \left(-\dfrac{1}{2} \underline{j} + \underline{k}\right) \,  \mathrm{d}x \, \mathrm{d}y =  \int_{-2}^0 \int_0^2 \dfrac{z}{2} \,  \mathrm{d}x \, \mathrm{d}y, \) </p>
+<p> And as we are integrating with respect to \(x\) and \(y\), we rewrite \(z\) in terms of \(x\) and \(y\) by finding the equation of the plane:</p>
+<p> Using the normal vector \((0,-2,4)\) and a point in the plane \((0,-2,0)\), we get the plane equation to be \(0(x-0) - 2(y+2) + 4(z-0) = 0 \implies z= \dfrac{y}{2} + 1\)
+
+<p> So we now finally have
+ \(\begin{align}
+\qquad\displaystyle \displaystyle\int\!\! \displaystyle\int_S ({\underline \nabla} \times \underline{F}) \cdot \underline{dS} &=  \int_{-2}^0 \int_0^2 \dfrac{z}{2} \,  \mathrm{d}x \, \mathrm{d}y \\
+&= \int_{-2}^0 \int_0^2 \left(\dfrac{y}{4} + \dfrac{1}{2} \right) \,  \mathrm{d}x \, \mathrm{d}y \\
+&= \int_{-2}^0 \left[ x \left(\dfrac{y}{4} + \dfrac{1}{2} \right)\right]_0^2  \, \mathrm{d}y \\
+&=  \int_{-2}^0 \left(\dfrac{y}{2} + 1\right) \, \mathrm{d}y \\
+&= \left[\dfrac{y^2}{4} + y \right]_{-2}^{0} \\
+&= 1. \end{align}\)</p>
+
+<p> The surface integral method is very long here (largely since our rectangle does not lie in any of the one of the three coordinate planes \(( Oxy, Oxz, Oyz)\), and since we have a rectangle, the line integral is simpler.</p> <br>
+<p>We now show the <strong> line integral</strong> solution. </p>
+
+<p> We are aiming to find the line integral \(\displaystyle \oint_C \underline{F} \cdot \underline{\mathrm{d}r}\) which we do by considering the contribution of each of the \(4\) sides of the rectangle separately. </p>
+<p> We have </p>
+<p>  \(\qquad \underline{F} = 2x \underline{i} + (y^2-z)\underline{j} + x z \underline{k} \, \, \)  and \(\, \underline{\mathrm{d}r} = \mathrm{d}x\underline{i} + \mathrm{d}y\underline{j} + \mathrm{d}z\underline{k}, \quad \) and so </p>
+<p> \(\qquad \underline{F} \cdot \underline{\mathrm{d}r} = 2x\, \mathrm{d}x + (y^2-z)\, \mathrm{d}y + xz \, \mathrm{d}z\).</p>
+
+<p> We now consider the contribution of each side to \(\displaystyle \oint_C \underline{F} \cdot \underline{\mathrm{d}r}\): </p>
+<p> Edge 1: \((0,-2,0) \to (2,-2,0)\) </p>
+<p> \(y=-2,z=0 \implies \mathrm{d}y=0, \mathrm{d}z=0,\) and since \(x: 0 \to 2\), we have</p>
+<p> \(\begin{align}
+\text{Contribution} &= \int_0^2 2x \mathrm{d}x \\
+&= \left[x^2\right]_0^2 \\
+&= 4. \end{align}\).</p><br>
+
+<p> Edge 2: \((2,-2,0) \to (2,0,1)\) </p>
+<p> \(x=2 \implies \mathrm{d}x=0,\) with \(z: 0 \to 1\) and \(y: -2 \to 0.\) We also have \(z=\dfrac{y}{2} + 1 \implies \mathrm{d}z = \dfrac{1}{2}\mathrm{d}y\) (Note: this equation of the plane was calculated previously in the surface integral calculation, if you did not do the surface integral then you would need to find the equation of the plane here.)</p>
+<p> \(\begin{align}
+\text{Contribution} &= \int_{y=-2}^0 \left(y^2 - z\right) \mathrm{d}y +  \int_{y=-2}^0 xz \mathrm{d}z \\
+&= \int_{y=-2}^0 \left(y^2 - z\right) \mathrm{d}y + 2z \times \dfrac{1}{2} \mathrm{d}y \\
+&= \int_{y=-2}^0 y^2 \mathrm{d}y \\
+&= \left[\dfrac{y^3}{3}\right]_{-2}^0 \\
+&= \dfrac{8}{3} \end{align}\).</p><br>
+
+<p> Edge 3: \((2,0,1) \to (0,0,1)\) </p>
+<p> \(y=0,z=1 \implies \mathrm{d}y=0, \mathrm{d}z=0,\) and since \(x: 2 \to 0\), we have</p>
+<p> \(\begin{align}
+\text{Contribution} &= \int_2^0 2x \mathrm{d}x \\
+&= \left[x^2\right]_2^0 \\
+&= -4. \end{align}\).</p><br>
+
+<p> Edge 4: \((0,0,1) \to (0,-2,0)\) </p>
+<p> \(x=0 \implies \mathrm{d}x=0,\) with \(y: 0 \to -2.\) And again, \(z=\dfrac{y}{2}\), so we have
+<p> \(\begin{align}
+\text{Contribution} &= \int_{y=0}^{-2} \left(y^2 - z\right) \mathrm{d}y \\
+&= \int_{y=0}^{-2}  \left(y^2 - \dfrac{y}{2} -1 \right) \mathrm{d}y \\
+&= \left[\dfrac{y^3}{3} - \dfrac{y^2}{4} - y\right]_{0}^{-2} \\
+&= -\dfrac{5}{3}. \end{align}\).</p><br>
+
+<p> Therefore since our total line integral is the sum of the 4 contributions, we have </p>
+<p> \(\qquad \displaystyle \oint_C \underline{F} \cdot \underline{\mathrm{d}r} = 4 + \dfrac{8}{3} - 4 -\dfrac{5}{3} = 1.\)</p>
+<p> This is the same answer as the surface integral, as Stokes' Theorem tells us.</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025040100</text>
+    </stackversion>
+    <questionvariables>
+      <text>ta1:1;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="html">
+      <text>Both integrals evaluate to give {@ta1@}</text>
+    </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1+1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

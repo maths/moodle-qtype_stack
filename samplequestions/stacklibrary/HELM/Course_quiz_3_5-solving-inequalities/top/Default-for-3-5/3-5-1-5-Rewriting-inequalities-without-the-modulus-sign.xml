@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>3.5.1.5 Rewriting inequalities without the modulus sign</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>In the following questions rewrite each of the statements without using a modulus sign:</p>
+ <br> <i>Write each answer of the form "\(a \le x\le b\)" as a logical sequence of inequalities, such as "\( x\ge a\) and/or \(x &lt; b\)", where by "and" you mean both statements are true, and by "or" you mean at least one statement is true. You can write \(\le\) as "&lt;=" and \(\ge\) as "&gt;=".</i><br><br>
+<ol class="HELM_parts">
+<li>\({@seq4[1][1]@}\)   [[input:ans1]] [[validation:ans1]][[feedback:prt1]]
+</li><li>\({@seq4[2][1]@}\)   [[input:ans2]] [[validation:ans2]][[feedback:prt2]]
+</li><li>\({@seq4[3][1]@}\)   [[input:ans3]] [[validation:ans3]][[feedback:prt3]]
+</li><li>\({@seq4[4][1]@}\)   [[input:ans4]] [[validation:ans4]][[feedback:prt4]]
+</li><li>\({@seq4[5][1]@}\)   [[input:ans5]] [[validation:ans5]][[feedback:prt5]]
+</li></ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<ul>
+    <li>The modulus of \(x\) is defined as \[|x|=\begin{cases} x &amp; \text{if } x&gt;0 \\ -x &amp; \text{if } x&lt;0 \end{cases}, \]
+        <p></p> Therefore, if \(|x|&gt;0\) then \(x&gt;0\) <i><b>or</b></i>&nbsp;\(x&lt;0\) - clearly both cases cannot occur at the same time.
+        <p></p> Similarly, if \(|x|&lt;0\) then \(x&gt;0\)&nbsp;<i><b>or</b></i>&nbsp;\(x&lt;0\).
+        <p></p>
+    </li>
+    <li>The modulus of \(x\) minus an arbitrary constant \(a\) is defined as \[ |x-a| = \begin{cases} x-a &amp; \text{if } x&gt;a \\ a-x &amp; \text{if } x&lt;a \\ 0 &amp; \text{if } x=a \end{cases}, \]
+        <p></p> Therefore, if \(|x-a|&lt;b\), then \(x-a&lt;b\) <b><i>and</i></b> \(a-x&lt;b\).
+        <p></p>
+    </li>
+    <li>The modulus of \(x\) plus an arbitrary constant \(a\) is defined as \[ |x+a| = \begin{cases} x+a &amp; \text{if } x+a&gt;0 \\ -x-a &amp; \text{if } x+a&lt;0 \\ 0 &amp; \text{if } x=-a \end{cases}, \]
+        <p></p>Therefore, if \(|x+a|&lt;b\), then \(x+a&lt;b\) <b><i>and</i></b> \(-x-a&lt;b\).</li>
+</ul>
+<p></p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021072200</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[var:x;
+rnd0:rand(9)+1;
+rnd1:rand_with_step(1,10,1);
+exp1:abs(var)<rnd1;
+ta1:-rnd1<var and var<rnd1
+
+rnd2:rand_with_step(0.5,9.5,1);
+exp2:abs(var) <= rnd2;
+ta2:-rnd2<=var and var<=rnd2;
+
+rnd3:rand_with_step(1,9,1);
+exp3:abs(var - rnd0)< rnd3;
+ta31:-rnd3<var - rnd0
+ta32:var- rnd0<rnd3
+ta3:ta31 and ta32;
+
+rnd4:rand_with_step(1,9,1);
+exp4:abs(var + a)< rnd4;
+ta4:-rnd4<var + a and var+ a<rnd4;
+
+
+exp5:|var|>0;
+ta5:x >0 or x<0;
+
+seq1:[exp1,exp2,exp3,exp4,exp5];
+seq2:rand_selection(seq1,5);
+seq3:[[exp1,ta1],[exp2,ta2],[exp3,ta3],[exp4,ta4],[exp5,ta5]];
+seq4:rand_selection(seq3,5);]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\({@seq4[1][1]@}\) ans: \({@seq4[1][2]@}\); \({@seq4[2][1]@}\) ans: \({@seq4[2][2]@}\), \({@seq4[3][1]@}\) and: \({@seq4[3][2]@}\), \({@seq4[4][1]@}\) ans: \({@seq4[4][2]@}\), \({@seq4[5][1]@}\) ans: \({@seq4[5][2]@}\);</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>seq4[1][2]</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>seq4[2][2]</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>algebraic</type>
+      <tans>seq4[3][2]</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans4</name>
+      <type>algebraic</type>
+      <tans>seq4[4][2]</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans5</name>
+      <type>algebraic</type>
+      <tans>seq4[5][2]</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>seq4[1][2]</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>The correct answer is \({@seq4[1][2]@}\).</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>seq4[2][2]</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>The correct answer is \({@seq4[2][2]@}\).</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>seq4[3][2]</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>The correct answer is \({@seq4[3][2]@}\).</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt4</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans4</sans>
+        <tans>seq4[4][2]</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt4-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt4-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>The correct answer is \({@seq4[4][2]@}\).</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt5</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans5</sans>
+        <tans>seq4[5][2]</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt5-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt5-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>The correct answer is \({@seq4[5][2]@}\).</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1529736972</deployedseed>
+    <deployedseed>246279819</deployedseed>
+    <deployedseed>1047116323</deployedseed>
+    <deployedseed>348936089</deployedseed>
+    <deployedseed>934250042</deployedseed>
+    <deployedseed>784277760</deployedseed>
+    <deployedseed>237367547</deployedseed>
+    <deployedseed>908485673</deployedseed>
+    <deployedseed>983152728</deployedseed>
+    <deployedseed>597105003</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>seq4[1][2]</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>seq4[2][2]</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>seq4[3][2]</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>seq4[4][2]</value>
+      </testinput>
+      <testinput>
+        <name>ans5</name>
+        <value>seq4[5][2]</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt4-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt5</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt5-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

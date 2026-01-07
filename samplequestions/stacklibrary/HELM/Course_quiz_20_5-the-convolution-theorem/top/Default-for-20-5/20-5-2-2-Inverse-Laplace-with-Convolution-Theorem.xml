@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>20.5.2.2 Inverse Laplace with Convolution Theorem</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h4 class="HELM_example">Example</h4>
+<p>Use the convolution theorem to find the inverse transform of \(\displaystyle{H(s)={s\over  {(s-1)(s^2+1)}}}\).</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>Begin by choosing two functions of \(s\), that is, \(F(s)\) and \(G(s)\):</p>
+<p>Although there are many possibilities it would seem sensible to choose \[
+F(s)={{1\over {s-1}}}\qquad \text{and} \qquad G(s)={{s\over {s^2+1}}}\] since, by inspection, we can write down their inverse Laplace transforms: \[\qquad\displaystyle f(t)={\cal L}^{-1}\{F(s)\}=\text{e}^tu(t)\qquad\text{ and}\qquad g(t)={\cal L}^{-1}\{G(s)\}=\cos t.u(t)\]</p>
+<p>Now construct the convolution integral:</p>
+<p>\[\begin{eqnarray*}
+h(t)&amp;=&amp;{\cal L}^{-1}\{H(s)\}\\&amp;=&amp;{\cal
+L}^{-1}\{F(s)G(s)\}\\&amp;=&amp;\int_0^tf(t-x)g(x)\,dx=\int_0^t\text{e}^{t-x}u(t-x)\cos
+x.u(x)\,dx\qquad\qquad\qquad\qquad\qquad\qquad
+\end{eqnarray*}\]</p>
+<p>Now complete the evaluation of the integral, treating the cases \(t&lt;0\) and \(t\ge 0\) separately:</p>
+<p>You should find \(h(t)={1\over 2}(\sin t-\cos t +\text{e}^t)u(t)\) since \(h(t)=0\) if \(t&lt;0\) and \[\begin{eqnarray*} h(t)&amp;=&amp;\int_0^t\text{e}^{t-x}\cos x\,dx\qquad \text{ if}\quad t\ge 0\\&amp;=&amp;\biggl[\text{e}^{t-x}\sin x\biggr]_0^t-\int_0^t(-1)\text{e}^{t-x}\sin x\,dx\qquad \text{(integrating by parts)}\qquad\qquad\qquad\qquad \\ &amp;=&amp;\sin t+\biggl[- \text{e}^{t-x}\cos x \biggr]_0^t-\int_0^t(-\text{e}^{t-x})(-\cos x)\,dx\\&amp;=&amp;\sin t-\cos t +\text{e}^t-h(t)\\\text{ or}\qquad 2h(t)&amp;=&amp;\sin
+t-\cos t+\text{e}^t\qquad t\ge 0 \end{eqnarray*}\] Finally \(h(t)={1\over 2}(\sin t-\cos
+t+\text{e}^t)u(t)\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>36.1.5.8 Measures of spread</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Measures of spread</h4>
+<p>As well as summarising the <b>location</b> of the distribution of values in a sample using, for example, the mean, we usually also need to describe how close to this central value or far away from it the individual observations tend to be. We need to summarise the <b>spread</b> of the data.</p>
+<p>The two data sets below have the same mean of \(7\) but clearly have different spreads about the mean.</p>
+<ul>
+<li>Data set \(A\): \(5, 6, 7, 8, 9\)</li>
+<li>Data set \(B\): \(1, 2, 7, 12, 13\)</li>
+</ul>
+<p>There are several ways in which one can measure the spread of a distribution about a mean, for example</p>
+<ul>
+<li>The <b>range</b> - the difference between the greatest and least values;</li>
+<li>The <b>inter-quartile range</b> or <b>IQR</b> - the difference between the upper and lower quartiles.</li>
+</ul>
+<p>Each of these measures has advantages and problems associated with it.</p>
+<table class="HELM_table" style="text-align: center; width: 100%;">
+<thead>
+<tr style="border-bottom: 1px solid #000;"><th>Measure of Spread</th><th>Advantages</th><th>
+Disadvantages</th></tr>
+</thead>
+<tbody>
+<tr style="border-bottom: 1px solid #000;"><td>Range</td><td>Easy to calculate.</td><td>Depends on two extreme values and does not take into account any intermediate values.
+</td></tr><tr><td>Inter-Quartile Range</td><td>Is not as susceptible to the influence of extreme values.</td><td>Measures only the central \(50\%\) of a distribution.</td></tr>
+</tbody>
+</table>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

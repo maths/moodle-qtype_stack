@@ -1,0 +1,53 @@
+{
+    "quiz": {
+        "name": "41_2 Tests Concerning a Single Sample",
+        "intro": "<p>This Section introduces you to the basic ideas of hypothesis testing in a non-mathematical way by using a problem solving approach to highlight the concepts as they are needed. We only consider situations involving a single sample.<\/p>\r\n<p>In Section 41.3 we will introduce you to situations involving two samples and while the basic ideas will follow through, their practical application is a little more complex than that met in this Workbook. However, once you have learned how to apply the basic ideas of hypothesis testing covered in this Workbook, you should be capable of applying hypothesis testing to a very wide range of practical problems and learning about methods of hypothesis testing which are not covered here.<\/p>",
+        "introformat": "0",
+        "questionsperpage": "1",
+        "grade": "0.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Tests of proportion",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "2",
+            "heading": "Tests for population means",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-41-2\/41-2-1-1-Tests-of-proportion.xml"
+        },
+        {
+            "slot": "2",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-41-2\/41-2-2-2-Tests-for-population-means.xml"
+        },
+        {
+            "slot": "3",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-41-2\/41-2-2-3-General-Comments.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "0.00000"
+        }
+    ]
+}

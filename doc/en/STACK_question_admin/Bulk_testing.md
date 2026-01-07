@@ -6,7 +6,7 @@ You can bulk test all question tests on all variants of all STACK questions by u
 
 To make use of the bulk test users require the capability `qtype/stack:usediagnostictools` via Moodle's capability system.
 
-The bulktest index page lists all Moodle contexts which contain STACK questions.  You can bulk-test by context.
+The bulk-test index page lists all Moodle contexts which contain STACK questions.  You can bulk-test by context.
 
 Bulk testing does the following.
 
@@ -18,7 +18,7 @@ Bulk testing does the following.
   * No deployed variants
   * Missing general feedback (worked solution)
 
-A report is genereated with links to the question dashboard for each question.
+A report is generated with links to the question dashboard for each question.
 
 ## Bulk test all STACK questions
 
@@ -45,7 +45,7 @@ The `[[todo]]` blocks are added for broken questions, problems with upgrade, run
 
 These `[[todo]]` blocks are only added once, but it does change the DB entry for each question.  Use with care.
 
-Any teacher with moodle capability `moodle/question:editall` for a given context can find all questions with any `[[todo]]` blocks from STACK's "adminui" page. 
+Any teacher with Moodle capability `moodle/question:editall` for a given context can find all questions with any `[[todo]]` blocks from STACK's "adminui" page. 
 
     [...]/question/type/stack/adminui/index.php
 

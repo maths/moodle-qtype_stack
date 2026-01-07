@@ -23,6 +23,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/filter.interface.php');
+require_once(__DIR__ . '/../castext2/utils.php');
 
 /**
  * AST filter that compiles inline CASText2.
@@ -30,7 +31,6 @@ require_once(__DIR__ . '/filter.interface.php');
  * even manually written CASText2.
  */
 class stack_ast_filter_601_castext implements stack_cas_astfilter_parametric {
-
     // What do we mark as the context of the CASText.
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $context = 'unknown';
@@ -52,7 +52,7 @@ class stack_ast_filter_601_castext implements stack_cas_astfilter_parametric {
         $ctx = $this->context;
         $errclass = $this->errclass;
 
-        $process = function($node) use (&$errors, $ctx, $errclass) {
+        $process = function ($node) use (&$errors, $ctx, $errclass) {
             if ($node instanceof MP_FunctionCall) {
                 if ($node->name instanceof MP_Identifier && $node->name->value === 'castext') {
                     if (count($node->arguments) == 1 && !($node->arguments[0] instanceof MP_String)) {
@@ -60,8 +60,10 @@ class stack_ast_filter_601_castext implements stack_cas_astfilter_parametric {
                             'Only works with one direct raw string. And possibly a format descriptor.', $ctx);
                         $node->position['invalid'] = true;
                         return true;
-                    } else if (count($node->arguments) == 2 && (!($node->arguments[0] instanceof MP_String) ||
-                            !($node->arguments[1] instanceof MP_Identifier))) {
+                    } else if (
+                        count($node->arguments) == 2 && (!($node->arguments[0] instanceof MP_String) ||
+                            !($node->arguments[1] instanceof MP_Identifier))
+                    ) {
                         $errors[] = new $errclass('castext()-compiler, wrong argument. ' .
                             'Only works with one direct raw string. And possibly a format descriptor.', $ctx);
                         $node->position['invalid'] = true;
@@ -77,8 +79,11 @@ class stack_ast_filter_601_castext implements stack_cas_astfilter_parametric {
                     if (count($node->arguments) == 2 && strtolower($node->arguments[1]->value) === 'md') {
                         $format = castext2_parser_utils::MDFORMAT;
                     }
-                    $compiled = castext2_parser_utils::compile($node->arguments[0]->value,
-                        $format, ['errclass' => $errclass, 'context' => $ctx]);
+                    $compiled = castext2_parser_utils::compile(
+                        $node->arguments[0]->value,
+                        $format,
+                        ['errclass' => $errclass, 'context' => $ctx]
+                    );
                     if ($compiled instanceof MP_Root) {
                         $compiled = $compiled->items[0];
                     }
@@ -98,7 +103,6 @@ class stack_ast_filter_601_castext implements stack_cas_astfilter_parametric {
                 if ($node->items[0] instanceof MP_String && $node->items[0]->value === '%root') {
                     $node->position['castext'] = true;
                 }
-
             } else if (isset($node->parentnode->position['castext'])) {
                 $node->position['castext'] = true;
             }

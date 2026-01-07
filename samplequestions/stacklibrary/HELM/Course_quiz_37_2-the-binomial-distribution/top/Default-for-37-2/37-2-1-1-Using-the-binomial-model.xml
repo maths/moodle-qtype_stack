@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>37.2.1.1 Using the binomial model</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p><p>Using the binomial model, and assuming that a success occurs with probability \(\dfrac{1}{{@den_prob@}}\) in each trial, find the probability that in {@num_trials@} trials there are&nbsp;<br></p>
+<ol class="HELM_parts_inline">
+<li>0 successes</li>
+<li>{@num_succ@} successes</li>
+<li>{@num_fail@} failures.</li>
+</ol>
+<p>Let \(X\) be the number of successes in {@num_trials@} independent trials. <b>Note:</b> Please round your answer to the nearest 2 decimal places.</p>
+<ol class="HELM_parts">
+
+<li><p>\(\text{P} (X=0)=\) [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</p></li>
+
+<li><p>\(\text{P} (X={@num_succ@})=\) [[input:ans2]] [[validation:ans2]] [[feedback:prt2]]</p></li>
+
+<li><p>\(\text{P} (X={@num_trials - num_fail@})=\) [[input:ans3]] [[validation:ans3]] [[feedback:prt3]]</p></li>
+
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<b>SOLUTION:</b><p><br></p><p>In each case \( p=\dfrac{1}{{@den_prob@}} \) and \( q=1-p=\dfrac{{@den_prob - 1@}}{{@den_prob@}}\).</p><p><br></p>
+<ol class="HELM_parts">
+
+<li><p>Here \(r=0\) and</p><p>\(\text{P}(X=0) = q^{@num_trials@} = \left( \dfrac{{@den_prob - 1@}}{{@den_prob@}} \right)^{@num_trials@} = \dfrac{{@(den_prob - 1)^num_trials@}}{{@den_prob^num_trials@}} \approx {@ta_1@}  \)</p></li>
+
+<li><p>Here \(r={@num_succ@}\) and \(\text{P} (X={@num_succ@})= ^{@num_trials@}C_{@num_succ@}p^{@num_succ@}q^{@num_trials - num_succ@} = \dfrac{{@num_trials@}!}{{@num_succ@}!({@num_trials@}-{@num_succ@})!} \times \left(&nbsp;\dfrac{1}{{@den_prob@}} \right)^{@num_succ@} \times&nbsp;\left(&nbsp;\dfrac{{@den_prob - 1@}}{{@den_prob@}}&nbsp;\right)^{@num_trials - num_succ@} \approx {@ta_2@}&nbsp;\)&nbsp;</p></li>
+
+<li><p>Here \(r={@num_trials - num_fail@}\) and \(\text{P} (X={@num_trials - num_fail@})= ^{@num_trials@}C_{@num_trials - num_fail@}p^{@num_trials - num_fail@}q^{@num_fail@} = \dfrac{{@num_trials@}!}{{@num_trials - num_fail@}!({@num_trials@}-{@num_trials - num_fail@})!} \times \left(&nbsp;\dfrac{1}{{@den_prob@}}&nbsp;\right)^{@num_trials - num_fail@} \times&nbsp;\left(&nbsp;\dfrac{{@den_prob - 1@}}{{@den_prob@}}&nbsp;\right)^{@num_fail@} \approx {@ta_3@}&nbsp;\)</p></li>
+
+</ol>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021072200</text>
+    </stackversion>
+    <questionvariables>
+      <text>den_prob: 2+rand(4)
+num_trials: 5+rand(3)
+num_succ: 2+rand(2)
+num_fail: 1+rand(2)
+
+ta_1: decimalplaces(float(pdf_binomial(0, num_trials, 1/den_prob)),2);
+ta_2: decimalplaces(float(pdf_binomial(num_succ, num_trials, 1/den_prob)),2);
+ta_3: decimalplaces(float(pdf_binomial(num_trials-num_fail, num_trials, 1/den_prob)),2);
+
+/*OLD CODE!!!*/
+/*ta_1: decimalplaces(((den_prob - 1)/den_prob)^num_trials,2)
+ta_2_prev: ((factorial(num_trials))/((factorial(num_succ))*(factorial(num_trials - num_succ)))) * (1/den_prob)^num_succ * ((den_prob-1)/den_prob)^(num_trials-num_succ)
+ta_2: decimalplaces(ta_2_prev,2)
+ta_3_prev: ((factorial(num_trials))/((factorial(num_trials - num_fail))*(factorial(num_fail)))) * (1/den_prob)^(num_trials - num_fail) * ((den_prob-1)/den_prob)^num_fail
+ta_3: decimalplaces(ta_3_prev,2)*/</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\(\text{P}(X=0) \approx {@ta_1@} \); 
+
+\(\text{P}(X={@num_succ@}) \approx {@ta_2@} \); 
+
+\(\text{P}(X={@num_trials - num_fail@}) \approx {@ta_3@} \).</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>numerical</type>
+      <tans>ta_1</tans>
+      <boxsize>8</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>to 2 d.p.</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>maxdp:2, mindp:2</options>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>numerical</type>
+      <tans>ta_2</tans>
+      <boxsize>8</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>to 2 d.p.</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>maxdp:2, mindp:2</options>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>numerical</type>
+      <tans>ta_3</tans>
+      <boxsize>8</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>to 2 d.p.</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>maxdp:2, mindp:2</options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumAbsolute</answertest>
+        <sans>ans1</sans>
+        <tans>ta_1</tans>
+        <testoptions>0.02</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumAbsolute</answertest>
+        <sans>ans2</sans>
+        <tans>ta_2</tans>
+        <testoptions>0.02</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumAbsolute</answertest>
+        <sans>ans3</sans>
+        <tans>ta_3</tans>
+        <testoptions>0.02</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>2116375538</deployedseed>
+    <deployedseed>24502109</deployedseed>
+    <deployedseed>2102477643</deployedseed>
+    <deployedseed>1462909454</deployedseed>
+    <deployedseed>176919361</deployedseed>
+    <deployedseed>676258214</deployedseed>
+    <deployedseed>1935742544</deployedseed>
+    <deployedseed>1872162743</deployedseed>
+    <deployedseed>312919739</deployedseed>
+    <deployedseed>1878818314</deployedseed>
+    <deployedseed>1358675327</deployedseed>
+    <deployedseed>364380927</deployedseed>
+    <deployedseed>1078190243</deployedseed>
+    <deployedseed>254408695</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>dispdp(ta_1,2)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>dispdp(ta_2,2)</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>dispdp(ta_3,2)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>dispdp(ev(ta_1+1,simp),2)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>dispdp(1.00,2)</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>dispdp(ev(ta_3+1,simp),2)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>6.3.1.4 Laws of logarithms</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Laws of logarithms</h4><p>From the previous exercise (see feedback), we see that the index law \(a^na^m=a^{n+m}\) has an equivalent logarithm law \(\log_a(bc)=\log_ab+\log_ac\). In words: <b>"The log of a product is the sum of logs." </b></p>
+<p>Indeed this property is one of the major advantages of using logarithms.They transform a product of numbers (a relatively difficult operation) to a sum of numbers (a relatively
+easy operation).</p>
+<p>Each index law has an equivalent logarithm law, true for any base, listed in the
+following Key Point:</p>
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<table style="width:100%">
+<thead>
+<tr>
+<th>The laws of logarithms</th>
+<th>The laws of indices</th>
+</tr>
+</thead>
+<tbody>
+<tr><td></td><td></td></tr>
+<tr>
+<td>\(\log_a(AB) = \log_aA + \log_aB\)</td> <td>\(a^{A}a^B = a^{A+B} \)</td>
+</tr>
+<tr>
+<td>\(\log_a \left( \dfrac{A}{B} \right) = \log_aA - \log_aB \)</td> <td>\(\dfrac{a^A}{a^B} = a^{A-B}\)</td>
+</tr>
+<tr>
+<td>\(\log_a(A^k) = k\log_aA\)</td> <td>\((a^A)^k = a^{kA}\)</td>
+</tr>
+<tr>
+<td>\(\log_a(a^A) = A\)</td> <td>\(a^{\log_aA} = A\)</td>
+</tr>
+<tr> 
+<td> \(\log_aa = 1\)</td> <td>\(a^1 = a\)</td>
+</tr>
+<tr>
+<td>\(\log_a1 = 0\) </td> <td> \(a^0 = 1\)</td>
+</tr>
+</tbody>
+</table>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

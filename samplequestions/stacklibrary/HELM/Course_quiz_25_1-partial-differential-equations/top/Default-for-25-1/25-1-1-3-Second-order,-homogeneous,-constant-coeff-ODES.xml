@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>25.1.1.3 Second order, homogeneous, constant coeff ODES</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[We shall also need to be familiar with solutions to second order, homogeneous, constant coefficient ODEs, summarised in the Key Point below.
+
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p> A second order ODE of the form
+<table width="100%">
+<tr><td>\[a\dfrac{\mathrm{d}^2y}{\mathrm{d}x^2}+b\dfrac{\mathrm{d}y}{\mathrm{d}x}+cy=0\]</td><td>\((1)\)</td></tr>
+</table>
+where \(a,b,c\) are constants, has an auxiliary equation
+<table width="100%">
+<tr><td>\[am^2+bm+c=0\]</td><td >\((2)\)</td></tr>
+</table>
+obtained by inserting the trial solution \(y=e^{mx}\) in \((1)\).
+</p>
+<p>The general solution of \((1)\) then depends on the solutions (or roots) of the quadratic equation \((2)\).</p>
+<ol type="a">
+<li><p>If \((2)\) has real, distinct roots \(m=m_1\) and \(m=m_2\) then \[y=Ae^{m_1x}+Be^{m_2x}\]</p></li>
+<li><p>If \((2)\) has a repeated root \(m=m_1\) then \[y=(A+Bx)e^{m_1x}\]</p></li>
+<li><p>If \((2)\) has complex roots (which will be a conjugate pair) \(m=\alpha\pm j \beta\) then \[ y=e^{\alpha x}(A\cos \beta x+B\sin \beta x)\]</p></li>
+</ol>
+<p> Note that in each of these cases (a) to (c) the general solution is a linear combination of two particular solutions:
+<ul>
+<li>For (a) they are \(e^{m_1x}\) and \(e^{m_2x}\).</li>
+<li>For (b) they are \(e^{m_1x}\) and \(xe^{m_1x}\).</li>
+<li>For (c) they are \(e^{\alpha x}\cos\beta x\) and \(e^{\alpha x}\sin \beta x\).</li>
+</ul>
+</p>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

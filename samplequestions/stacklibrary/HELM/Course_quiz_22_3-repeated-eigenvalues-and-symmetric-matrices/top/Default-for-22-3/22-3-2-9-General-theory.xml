@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>22.3.2.9 General theory</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>General theory</h4>
+<p>The following proof that eigenvectors corresponding to distinct eigenvalues of a symmetric matrix are orthogonal is straightforward and you are encouraged to follow it through.</p>
+<p>Let \(A\) be a symmetric \(n\times n\) matrix and let \(\lambda_1,\lambda_2\) be two distinct eigenvalues of \(A\) i.e. \(\lambda_1\neq \lambda_2\) with associated eigenvectors \(X,\ Y\) respectively. We have seen that \(\lambda_1\) and \(\lambda_2\) must be real since \(A\) is symmetric. Then
+\[ AX=\lambda_1X\qquad AY=\lambda_2 Y \tag{1}\]
+Transposing the first of the above equations gives
+\[ X^TA^T=\lambda_1X^T \tag{2}\]
+(Remember that for any two matrices the transpose of a product is the product of the transposes <strong>in reverse order</strong>.)</p>
+<p>We now multiply both sides of (2) on the right by \(Y\) (as well as putting \(A^T=A\), since \(A\) is symmetric) to give:
+\[ X^TAY=\lambda_1X^TY \tag{3}\]
+But, using the second eigenvalue equation of (1), equation (3) becomes
+\[ X^T\lambda_2Y=\lambda_1X^TY\]
+or, since \(\lambda_2\) is just a number,
+\[ \lambda_2X^TY=\lambda_1 X^TY.\]
+Taking all terms to the same side and factorising gives
+\[ (\lambda_2-\lambda_1)X^TY=\mathbf{0}\]
+from which, since by assumption \(\lambda_1\neq \lambda_2\), we obtain the result
+\[ X^TY=\mathbf{0}\]
+and the orthogonality has been proved.</p>
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p>The eigenvectors associated with distinct eigenvalues of a symmetric matrix are <strong>mutually orthogonal</strong>.</p>
+</div>
+<p>The reader familiar with the algebra of vectors will recall that for two vectors whose Cartesian forms are
+\[\underline{a}=a_x\underline{i}+a_y\underline{j}+a_z\underline{k}\qquad \underline{b}=b_x\underline{i}+b_y\underline{j}+b_z\underline{k}\]
+the scalar (or dot) product is
+\[ \underline{a}\cdot\underline{b}=a_xb_x+a_yb_y+a_zb_z.\]
+Furthermore, if \(\underline{a}\) and \(\underline{b}\) are mutually perpendicular then \(\underline{a}\cdot \underline{b}=0\). (The word ‘orthogonal’ is sometimes used instead of perpendicular in the case.) Our result, that two column vectors are orthogonal if \(X^TY=\mathbf{0}\), may thus be considered as a generalisation of the 3-dimensional result \(\underline{a}\cdot\underline{b}=0\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -29,7 +29,6 @@ require_once(__DIR__ . '/../../stack/cas/cassession2.class.php');
  * This script tests CAS functions in noun_simp.mac and verifies the results.
  */
 class stack_noun_simp_test_data {
-
     /**
      * String, as typed into the question variables or sandbox.
      */
@@ -60,14 +59,14 @@ class stack_noun_simp_test_data {
             ['a nounadd b', 'a+b']],
         ['a nounadd -b',
             // Note simp:true does add brackets.
-            ['a nounadd -b', 'a+\left(-b\right)'],
+            ['a nounadd (-b)', 'a+\left(-b\right)'],
             // But the TeX does not print a+-b here.
-            ['a nounadd -b', 'a-b']],
+            ['a nounadd (-b)', 'a-b']],
         ['-a nounadd a nounadd -b',
             // Note simp:true does add brackets.
-            ['-a nounadd a nounadd -b', '-a+a+\left(-b\right)'],
+            ['-a nounadd a nounadd (-b)', '-a+a+\left(-b\right)'],
             // But the TeX does not print a+-b here.
-            ['-a nounadd a nounadd -b', '-a+a-b']],
+            ['-a nounadd a nounadd (-b)', '-a+a-b']],
         ['a nounmul b',
             ['a nounmul b', 'a\cdot b'],
             ['a nounmul b', 'a\cdot b']],
@@ -112,8 +111,8 @@ class stack_noun_simp_test_data {
 
     /**
      * Create an individual test.
-     * @array $data Raw data line.
-     * @string $simpvalue Value of Maxima simp variable to use with test.
+     * @param array $data Raw data line.
+     * @param string $simpvalue Value of Maxima simp variable to use with test.
      */
     public static function test_from_raw($data, $simpvalue) {
         $test = new stdClass();
@@ -133,8 +132,8 @@ class stack_noun_simp_test_data {
     }
 
     /**
-    * Actually run the test.
-    */
+     * Actually run the test.
+     */
     public static function run_test($test) {
 
         $cs = stack_ast_container::make_from_teacher_source($test->rawstring, '', new stack_cas_security(), []);

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>9.5.3.5 Cartesian form</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p></p><h3><p>Cartesian form<br></p></h3><p>On occasions it is useful to convert the vector form of the equation of a straight line into Cartesian form. </p><p></p><p>Suppose we write <span class="math inline">\(\underline{ a}=\begin{bmatrix}a_1 \\ a_2 \\ a_3
+\end{bmatrix},\;
+\underline{ b}=\begin{bmatrix}b_1 \\ b_2 \\ b_3 \end{bmatrix},\;
+\underline{ r} = \begin{bmatrix}x \\ y \\ z \end{bmatrix}\)</span> then <span class="math inline">\(\underline{ r} = \underline{ a} + t(\underline{ b}-\underline{ a})\)</span> implies <span class="math inline">\(\;
+\begin{bmatrix}x \\ y \\ z \end{bmatrix} = \begin{bmatrix}a_1 \\ a_2 \\ a_3 \end{bmatrix}
++t\begin{bmatrix} b_1-a_1 \\ b_2-a_2 \\ b_3-a_3\end{bmatrix} 
+= \begin{bmatrix}a_1 + t(b_1-a_1) \\
+a_2 + t(b_2-a_2) \\
+a_3 + t(b_3-a_3) 
+\end{bmatrix}\)</span></p><p> Equating the individual components we find  </p><p><span class="math inline">\(x = a_1 + t(b_1-a_1), \;\hbox{ or equivalently }
+t=\dfrac{x-a_1}{b_1-a_1}\)</span> </p><p><span class="math inline">\(y = a_2 + t(b_2-a_2), \;\hbox{ or equivalently }
+t=\dfrac{y-a_2}{b_2-a_2}\)</span></p><p> <span class="math inline">\(z = a_3 + t(b_3-a_3), \;\hbox{ or equivalently }
+t=\dfrac{z-a_3}{b_3-a_3}\)</span></p><p> Each expression on the right is equal to <span class="math inline">\(t\)</span> and so we can write <span class="math inline">\(\dfrac{x-a_1}{b_1-a_1} = \dfrac{y-a_2}{b_2-a_2}=\dfrac{z-a_3}{b_3-a_3}.\)</span> This gives the <strong>Cartesian form</strong> of the equations of the straight line which passes through the points with coordinates <span class="math inline">\((a_1,a_2,a_3)\)</span> and <span class="math inline">\((b_1,b_2,b_3)\)</span>.</p>
+
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p>The <strong>Cartesian form</strong> of the equation of the straight line which passes through the points with coordinates <span class="math inline">\((a_1,a_2,a_3)\)</span> and <span class="math inline">\((b_1,b_2,b_3)\)</span> is <span class="math display">\[\frac{x-a_1}{b_1-a_1} = \frac{y-a_2}{b_2-a_2}=\frac{z-a_3}{b_3-a_3}.\]</span></p>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

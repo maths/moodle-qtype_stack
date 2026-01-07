@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>7.2.4.3 3x3 identity and zero matrix</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>The \(3\times 3\) unit matrix is: \[ I = \begin{bmatrix} 1 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 1 \end{bmatrix} \]  and as in the \(2\times 2\) case this has the property that \( AI = IA = A \) for all matrices \(A\).<br></p>
+<p>The \(3\times 3\) zero matrix is \[ \underline{0} = \begin{bmatrix} 0 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 \end{bmatrix} \]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

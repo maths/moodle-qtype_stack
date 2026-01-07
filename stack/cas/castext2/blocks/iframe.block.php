@@ -42,7 +42,6 @@ use api\util\StackIframeHolder;
  * that allow targetted content within this block.
  */
 class stack_cas_castext2_iframe extends stack_cas_castext2_block {
-
     // All frames need unique (at request level) identifiers,
     // we use running numbering.
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
@@ -94,8 +93,11 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function postprocess(array $params, castext2_processor $processor,
-        castext2_placeholder_holder $holder): string {
+    public function postprocess(
+        array $params,
+        castext2_processor $processor,
+        castext2_placeholder_holder $holder
+    ): string {
         global $PAGE;
 
         if (count($params) < 3) {
@@ -189,11 +191,17 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
 
         // Ensure plots get their full URL at this point.
         if (get_config('qtype_stack', 'stackapi')) {
-            $code = str_replace('!ploturl!',
-            '/plots/', $code);
+            $code = str_replace(
+                '!ploturl!',
+                '/plots/',
+                $code
+            );
         } else {
-            $code = str_replace('!ploturl!',
-            moodle_url::make_file_url('/question/type/stack/plot.php', '/'), $code);
+            $code = str_replace(
+                '!ploturl!',
+                moodle_url::make_file_url('/question/type/stack/plot.php', '/'),
+                $code
+            );
         }
         // Unpack held things if they happen to exist inside the IFRAME.
         // That content would never go through the processing that that logic
@@ -216,7 +224,7 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
         } else {
             $PAGE->requires->js_amd_inline(
                 'require(["qtype_stack/stackjsvle"], '
-                . 'function(stackjsvle,){stackjsvle.create_iframe(' . implode(',', $args). ');});'
+                . 'function(stackjsvle,){stackjsvle.create_iframe(' . implode(',', $args) . ');});'
             );
         }
 
@@ -227,7 +235,7 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function validate(&$errors=[], $options=[]): bool {
+    public function validate(&$errors = [], $options = []): bool {
         // Basically, check that the dimensions have units we know.
         // Also that the references make sense.
         $valid  = true;
@@ -252,13 +260,17 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
         $heighttrim = $height;
 
         foreach ($validunits as $suffix) {
-            if (!$widthend && strlen($width) > strlen($suffix) &&
-                substr($width, -strlen($suffix)) === $suffix) {
+            if (
+                !$widthend && strlen($width) > strlen($suffix) &&
+                substr($width, -strlen($suffix)) === $suffix
+            ) {
                 $widthend  = true;
                 $widthtrim = substr($width, 0, -strlen($suffix));
             }
-            if (!$heightend && strlen($height) > strlen($suffix) &&
-                substr($height, -strlen($suffix)) === $suffix) {
+            if (
+                !$heightend && strlen($height) > strlen($suffix) &&
+                substr($height, -strlen($suffix)) === $suffix
+            ) {
                 $heightend  = true;
                 $heighttrim = substr($height, 0, -strlen($suffix));
             }
@@ -285,15 +297,19 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
             $err[] = stack_string('stackBlock_iframe_height_num');
         }
 
-        if (array_key_exists('width', $this->params) &&
+        if (
+            array_key_exists('width', $this->params) &&
             array_key_exists('height', $this->params) &&
-            array_key_exists('aspect-ratio', $this->params)) {
+            array_key_exists('aspect-ratio', $this->params)
+        ) {
             $valid    = false;
             $err[] = stack_string('stackBlock_iframe_overdefined_dimension');
         }
-        if (!(array_key_exists('width', $this->params) ||
+        if (
+            !(array_key_exists('width', $this->params) ||
             array_key_exists('height', $this->params)) &&
-            array_key_exists('aspect-ratio', $this->params)) {
+            array_key_exists('aspect-ratio', $this->params)
+        ) {
             $valid    = false;
             $err[] = stack_string('stackBlock_iframe_underdefined_dimension');
         }

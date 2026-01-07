@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>28.2.1.7 Angle between curves by normal vector</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>Find vectors normal to \(\phi_1 = y − x^2\) and \(\phi_2 = x + y − {@aa@}\). Hence find the angle \(\theta\) in degrees between the curves \(y = x^2\) and \(y = {@aa@} − x\) at their point of intersection in the first quadrant, to 3 significant figures.</p>
+<p> \(\theta=\)[[input:ans1]]\({\,}^o\) [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p> We are given the curves \(y = x^2\) and \(y = {@aa@} − x\).</p> 
+<p>We have \(\underline{\nabla} \phi_1 = -2x\underline{i} + \underline{j}\) and \(\underline{\nabla} \phi_2 = \underline{i} + \underline{j}\), which are both vectors normal to their respective scalar fields.</p>
+<p>The point of intersection between the two curves in the question can be found via a simple substitution of \(y = {@aa@} -x\) into \(y = x^2\), which gives \[{@aa@} - x = x^2 \implies x^2 + x - {@aa@} = 0.\]</p>
+<p>Using the quadratic formula, and only considering the positive root as we are looking for the intersection in the first quadrant:
+\[x = \dfrac{-1 + \sqrt{(-1)^2 - 4(1)( -{@aa@} ) }}{2(1)} = {@intersection@}.\]</p>
+
+<p>Now consider the contour lines when \(\phi_1 = \phi_2 = 0\), then we have contour lines \(y=x^2\) and \(y={@aa@} - x\), and so for \(x = {@intersection@}\), we have perpendicular vectors \(\underline{u}_1 = {@(intersection)*(-2)@}\underline{i} + \underline{j}\) and \(\underline{u}_2 = \underline{i} + \underline{j}.\)</p>
+<p>We know that the angle between the two curves is equal to the angle between their perpendicular vectors, which we can find by using the the dot product:
+\[\dfrac{\underline{u}_1 \cdot \underline{u}_2}{|\underline{u}_1||\underline{u}_2|} = {@dot_prod/(abs_u_1*abs_u_2)@} = \cos(\theta)\]
+where \(\theta\) is the angle between the two vectors.</p>
+<p>Finally we get that \(\theta = {@ta1f@}\) or \(\theta = {@ta2f@}\), depending on whether you find the acute or obtuse angle.</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025073100</text>
+    </stackversion>
+    <questionvariables>
+      <text>aa:rand(4)+1;
+intersection:(-1+sqrt(1+4*aa))/2;
+dot_prod:(-2*intersection)+1;
+abs_u_1:sqrt(intersection^2+1);
+abs_u_2:sqrt(2);
+cos_theta: dot_prod/(abs_u_1*abs_u_2);
+
+ta1:ev(acos(((intersection)*(-2)+1)/(sqrt(((intersection)*(-2))^2+1)*sqrt(2))) *180/%pi, simp);
+ta2:ev(180 - acos(((intersection)*(-2)+1)/(sqrt(((intersection)*(-2))^2+1)*sqrt(2))) *180/%pi, simp);
+
+/*here is how you calculate the floating point number, and display it (dispsd) to 3 SFs. */
+taf1:dispsf(float(ta1),3);
+taf2:dispsf(float(ta2),3);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="html">
+      <text>\[\phi_1 = y − x^2 \mbox{ and } \phi_2 = x + y − {@aa@}. \mbox{ Answer: } {@taf1@}^o \mbox{ or } {@taf2@}\]</text>
+    </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>numerical</type>
+      <tans>taf1</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>minsf:3,maxsf:4</options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumSigFigs</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions>3</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>NumSigFigs</answertest>
+        <sans>ans1</sans>
+        <tans>ta2</tans>
+        <testoptions>3</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>300024518</deployedseed>
+    <deployedseed>1680622314</deployedseed>
+    <deployedseed>656466882</deployedseed>
+    <deployedseed>1978202240</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>taf1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(taf1+1,simp)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt1-2-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(ta2+0.5,simp)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt1-2-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description>Uses the floating point version.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>taf1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

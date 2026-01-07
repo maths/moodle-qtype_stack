@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>7.3.4.2 Exercise 2 (NOT IN QUIZ)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+
+<p>Using any of the properties of determinants to minimise the arithmetic, evaluate the determinants of the following matrices:
+\[A = {@matrixa@}, \qquad B={@matrixb@}\]
+</p><ol class="HELM_parts">
+
+<li>
+<div>\(\det(A)=\) [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</div>
+</li>
+<li>
+<div>\(\det(B)=\) [[input:ans2]] [[validation:ans2]] [[feedback:prt2]]</div>
+</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<ol class="HELM_parts">
+<li>Use Property 4 to take out common factors in the rows and the columns of \(A\):
+\[\det(A)=720\det{@reducedAA@}\]
+Note that the first entry in column 3 is a \(1\). This is very useful: use Property 5 to simplify the matrix by adding/subtracting an appropriate multiple of column 3 from columns 1 and 2:
+\[\det(A)=720\det{@veryreducedAA@}\]
+The value of this determinant is most easily found by expanding along the top row. Since two of the entries are \(0\) and the third is \(1\), and the sign associated to the \(1\) is \(+\), the value is just the determinant of \({@relevantminor@}\), which is {@DD@}.<p>Therefore the determinant of \(A\) is \({@DD@}\cdot720={@ta1@}.\)
+</p></li><li>The determinant of \(B\) is \(0\) because row 4 is \(2\) times row 1.<p></p></li></ol>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021072200</text>
+    </stackversion>
+    <questionvariables>
+      <text>aa: rand([-5, -4, -3, -2, 2, 3, 4, 5]);
+bb: rand([-5, -4, -3, -2, 2, 3, 4, 5]);
+cc: rand([-3, -2, 2, 3]);
+dd: rand([-5, -4, -3, -2, 2, 3, 4, 5]);
+ee: rand([-5, -4, -3, -2, 2, 3, 4, 5]);
+ff: rand([-3, -2, 2, 3]);
+gg: rand([-3, -2, 2, 3]);
+hh: rand([-3, -2, 2, 3]);
+
+matrixa: matrix([6*gg, 9*hh, 12], [4*(aa+gg*cc), 6*(bb+hh*cc), 8*cc], [10*(dd+gg*ff), 15*(ee+hh*ff), 20*ff]);
+matrixa: ev(matrixa,simp);
+
+BBent11: ev(rand_with_step(-5,5,1),simp);
+BBent12: ev(rand_with_step(-5,5,1),simp);
+BBent13: ev(rand_with_step(-5,5,1),simp);
+BBent14: ev(rand_with_step(-5,5,1),simp);
+matrixb: matrix([BBent11, BBent12, BBent13, BBent14], [rand_with_step(-5,5,1), rand_with_step(-5,5,1), rand_with_step(-5,5,1), rand_with_step(-5,5,1)], [rand_with_step(-5,5,1), rand_with_step(-5,5,1), rand_with_step(-5,5,1), rand_with_step(-5,5,1)], [2*BBent11, 2*BBent12, 2*BBent13, 2*BBent14])
+
+AA: matrixa;
+reducedAA: matrix([gg, hh, 1], [aa+gg*cc, bb+hh*cc, cc], [dd+gg*ff, ee+hh*ff, ff]);
+veryreducedAA: matrix([0,0,1],[aa,bb,cc],[dd,ee,ff]);
+relevantminor: matrix([aa,bb],[dd,ee]);
+
+ta1: ev(determinant(matrixa),simp);
+ta2: ev(determinant(matrixb),simp);
+
+simp: false;
+CC: determinant(relevantminor);
+DD: ev(CC,simp);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\( A = {@AA@}, detA= {@ta1@}, \, B={@matrixb@}, detB={@ta2@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>4</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>determinant</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>ta2</tans>
+      <boxsize>4</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>determinant</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>CasEqual</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>CasEqual</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>815348399</deployedseed>
+    <deployedseed>807206414</deployedseed>
+    <deployedseed>1359982381</deployedseed>
+    <deployedseed>415533922</deployedseed>
+    <deployedseed>1666427994</deployedseed>
+    <deployedseed>1519906486</deployedseed>
+    <deployedseed>1881655594</deployedseed>
+    <deployedseed>1203042910</deployedseed>
+    <deployedseed>240042115</deployedseed>
+    <deployedseed>770303117</deployedseed>
+    <deployedseed>736720263</deployedseed>
+    <deployedseed>101230784</deployedseed>
+    <deployedseed>1543056679</deployedseed>
+    <deployedseed>53117613</deployedseed>
+    <deployedseed>938344926</deployedseed>
+    <deployedseed>1208117384</deployedseed>
+    <deployedseed>283144539</deployedseed>
+    <deployedseed>392739448</deployedseed>
+    <deployedseed>1733957553</deployedseed>
+    <deployedseed>250556807</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1+1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2+1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

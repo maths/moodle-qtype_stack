@@ -29,7 +29,7 @@
 
 define('NO_OUTPUT_BUFFERING', true);
 
-require_once(__DIR__.'/../../../../config.php');
+require_once(__DIR__ . '/../../../../config.php');
 
 require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/../locallib.php');
@@ -77,7 +77,7 @@ echo $OUTPUT->heading($title);
 core\session\manager::write_close();
 
 foreach ($categories as $key => $category) {
-    list($categoryid) = explode(',', $key);
+    [$categoryid] = explode(',', $key);
     echo $OUTPUT->heading($category, 3);
 
     $questionids = $bulktester->stack_questions_in_category($categoryid);
@@ -155,16 +155,18 @@ foreach ($categories as $key => $category) {
 
 if (!$anychanges) {
     echo html_writer::tag('p', stack_string('replacedollarsnoproblems'));
-
 } else if ($confirm) {
     echo html_writer::tag('p', get_string('changessaved'));
-
 } else {
-    echo $OUTPUT->single_button(new moodle_url('/question/type/stack/adminui/replacedollars.php',
-            ['contextid' => $context->id, 'confirm' => 1, 'preview' => $preview]), get_string('savechanges'));
+    echo $OUTPUT->single_button(new moodle_url(
+        '/question/type/stack/adminui/replacedollars.php',
+        ['contextid' => $context->id, 'confirm' => 1, 'preview' => $preview]
+    ), get_string('savechanges'));
 }
-echo html_writer::tag('p', html_writer::link(new moodle_url('/question/type/stack/adminui/replacedollarsindex.php'),
-        get_string('back')));
+echo html_writer::tag('p', html_writer::link(
+    new moodle_url('/question/type/stack/adminui/replacedollarsindex.php'),
+    get_string('back')
+));
 
 echo $OUTPUT->footer();
 
@@ -217,8 +219,11 @@ class qtype_stack_dollar_fixer {
         echo html_writer::tag('p', stack_string('replacedollarsin', $field));
         if ($this->preview) {
             $markedup = stack_maths::replace_dollars($question->{$field}, true);
-            echo html_writer::tag('pre', str_replace($this->search, $this->replace,
-                    s($markedup)), ['class' => 'questiontext']);
+            echo html_writer::tag('pre', str_replace(
+                $this->search,
+                $this->replace,
+                s($markedup)
+            ), ['class' => 'questiontext']);
             echo html_writer::tag('div', stack_ouput_castext($newtext), ['class' => 'questiontext']);
         }
 

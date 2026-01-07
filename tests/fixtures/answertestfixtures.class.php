@@ -107,6 +107,11 @@ class stack_answertest_test_data {
         ['AlgEquiv', '', '452', '4.52*10^2', 0, '', ''],
         ['AlgEquiv', '', '5.1e-2', '51/1000', 1, '', ''],
         ['AlgEquiv', '', '0.333333333333333', '1/3', 0, '', ''],
+        // Floats are evil: see issue #1581.
+        ['AlgEquiv', '', '0.99999999', '1', 0, '', ''],
+        ['AlgEquiv', '', '0.99999999', '99999999/10^8', 1, '', ''],
+        ['AlgEquiv', '', '0.99999999', '99999998/99999999', 1, '', ''],
+        ['AlgEquiv', '', '99999999/10^8', '99999998/99999999', 0, '', ''],
         ['AlgEquiv', '', '(0.5+x)*2', '2*x+1', 1, '', ''],
         ['AlgEquiv', '', '0.333333333333333*x^2', 'x^2/3', 0, '', ''],
         ['AlgEquiv', '', '0.1*(2.0*s^2+6.0*s-25.0)/s', '(2*s^2+6*s-25)/(10*s)', 1, '', ''],
@@ -150,6 +155,7 @@ class stack_answertest_test_data {
         ['AlgEquiv', '', 'x^(1/2)', 'sqrt(x)', 1, '', 'Powers and roots'],
         ['AlgEquiv', '', 'x', 'sqrt(x^2)', 0, '', ''],
         ['AlgEquiv', '', '\'root(x)', 'x^(1/2)', 1, '', ''],
+        ['AlgEquiv', '', '\'root(x)', 'sqrt(x)', 1, '', ''],
         ['AlgEquiv', '', '\'root(x,m)', 'x^(1/m)', 1, '', ''],
         ['AlgEquiv', '', 'x', '\'root(x^2)', 0, '', ''],
         ['AlgEquiv', '', 'abs(x)', 'sqrt(x^2)', 1, '', ''],
@@ -182,6 +188,7 @@ class stack_answertest_test_data {
         ['AlgEquiv', '', '(2*pi)/(k/m)^(1/2)', '(2*pi)/(k/m)^(1/2)', 1, '', ''],
         ['AlgEquiv', '', '(2*pi)*(m/k)^(1/2)', '(2*pi)/(k/m)^(1/2)', 1, '', ''],
         ['AlgEquiv', '', 'sqrt(2*x/10+1)', 'sqrt((2*x+10)/10)', 1, '', ''],
+        ['AlgEquiv', '', '\'root(2*x/10+1)', 'sqrt((2*x+10)/10)', 1, '', ''],
         ['AlgEquiv', '', '((x+3)^2*(x+3))^(1/3)', '((x+3)*(x^2+6*x+9))^(1/3)', 1, '', ''],
         ['AlgEquiv', '', '((x+3)^2*(x+3))^(1/3)', '((x+3)*(x^2+6*x+9))^(1/3)', 1, '', 'Need to factor internally.'],
 
@@ -658,6 +665,17 @@ class stack_answertest_test_data {
             'AlgEquiv', '', 'sqrt(2)*sqrt(3)+2*(sqrt(2/3))*x-(2/3)*(sqrt(2/3))*x^2+(4/9)*(sqrt(2/3))*x^3',
             '4*sqrt(6)*x^3/27-(2*sqrt(6)*x^2)/9+(2*sqrt(6)*x)/3+sqrt(6)', 1, '', '',
         ],
+        ['AlgEquiv', '', 'x = -1/2 + sqrt(1/4 + 4/3)', 'x = (-3 + sqrt(9 + 48))/6', 1, 'ATEquation_sides', ''],
+        [
+            'AlgEquiv', '', '{x = -1/2 + sqrt(1/4 + 4/3), x = (-1/2 - sqrt(1/4 + 4/3))}',
+            '{x = (-3 + sqrt(9 + 48))/6, x = (-3 - sqrt(9 + 48))/6}', 0, 'ATSet_wrongentries.', '',
+        ],
+        // Not, to establish equivalence of sets of equations we need to manually pre-process.
+        [
+            'AlgEquiv', '', 'radcan(trigrat({x = -1/2 + sqrt(1/4 + 4/3), x = (-1/2 - sqrt(1/4 + 4/3))}))',
+            'radcan(trigrat({x = (-3 + sqrt(9 + 48))/6, x = (-3 - sqrt(9 + 48))/6}))', 1, '', '',
+        ],
+
         ['AlgEquiv', '', '(n+1)*n!', '(n+1)!', 1, '', 'Factorials and binomials'],
         ['AlgEquiv', '', 'n/n!', '1/(n-1)!', 1, '', ''],
         ['AlgEquiv', '', 'n/n!', '1/(n+1)!', 0, '', ''],
@@ -893,6 +911,8 @@ class stack_answertest_test_data {
         ['EqualComAss', '', '1/0', '0', -1, 'ATEqualComAss_STACKERROR_SAns.', ''],
         ['EqualComAss', '', '0', '1/0', -1, 'ATEqualComAss_STACKERROR_TAns.', ''],
         ['EqualComAss', '', '2/4', '1/2', 0, 'ATEqualComAss (AlgEquiv-true).', 'Numbers'],
+        ['EqualComAss', '', '0.75', '3/4', 0, 'ATEqualComAss (AlgEquiv-true).', ''],
+        ['EqualComAss', '', 'num_ensure_rational(0.75)', '3/4', 1, '', ''],
         ['EqualComAss', '', '3^2', '8', 0, 'ATEqualComAss (AlgEquiv-false).', ''],
         ['EqualComAss', '', '3^2', '9', 0, 'ATEqualComAss (AlgEquiv-true).', ''],
         ['EqualComAss', '', 'cos(0)', '1', 0, 'ATEqualComAss (AlgEquiv-true).', ''],
@@ -963,6 +983,7 @@ class stack_answertest_test_data {
         ['EqualComAss', '', '(a+b)/1', '(b+a)/1', 1, '', ''],
         ['EqualComAss', '', '1*x', 'x', 0, 'ATEqualComAss (AlgEquiv-true).', 'No simplicifcation here'],
         ['EqualComAss', '', '23+0*x', '23', 0, 'ATEqualComAss (AlgEquiv-true).', ''],
+        ['EqualComAss', '', 'num_ensure_rational(7/6*x-0.75*y)', '(7/6)*x-3/4*y', 1, '', ''],
         ['EqualComAss', '', 'x+0', 'x', 0, 'ATEqualComAss (AlgEquiv-true).', ''],
         ['EqualComAss', '', 'x^1', 'x', 0, 'ATEqualComAss (AlgEquiv-true).', ''],
         ['EqualComAss', '', '(1/2)*(a+b)', '(a+b)/2', 0, 'ATEqualComAss (AlgEquiv-true).', ''],
@@ -1311,6 +1332,13 @@ class stack_answertest_test_data {
         // Including ID_TRANS has oneDiv which turns 1/1->1 which is an integer, before ratAdd gets a look.
         ['EqualComAssRules', '[ID_TRANS,NEG_TRANS,ratAdd]', '1/2+1/-1', '-1/2', 0, '', ''],
         ['EqualComAssRules', '[ID_TRANS,NEG_TRANS,ratAdd]', '1/2-1/1', '-1/2', 0, '', ''],
+        ['EqualComAssRules', '[oneDiv]', 'x=1', '1=x', 1, '', 'Equations'],
+        ['EqualComAssRules', '[noncomEq]', 'x=1', '1=x', 0, '', ''],
+        [
+            'EqualComAssRules', '[zeroAdd]', '20*a+15*b+8*c+4*d-17',
+            'a*20+b*15+c*8+d*4=-17', 0, 'ATEqualComAssRules ATAlgEquiv_SA_not_equation.', '',
+        ],
+        ['EqualComAssRules', '[zeroAdd]', '20*a+15*b+8*c+4*d=-17', 'a*20+b*15+c*8+d*4=-17', 1, '', ''],
 
         ['CasEqual', '', '1/0', 'x^2-2*x+1', -1, 'ATCASEqual_STACKERROR_SAns.', ''],
         ['CasEqual', '', 'x', '1/0', -1, 'ATCASEqual_STACKERROR_TAns.', ''],
@@ -1618,13 +1646,13 @@ class stack_answertest_test_data {
         ['PropLogic', '', '(a and b and c) xor (a and b) xor (a and c) xor a xor true', '(a implies b) or c', 1, '', ''],
 
         ['Equiv', '', 'x', '[x^2=4,x=2 or x=-2]', -1, 'ATEquiv_SA_not_list.', ''],
-        ['Equiv', '', '[x^2=4,x=2 or x=-2]', 'x',  -1, 'ATEquiv_SB_not_list.', ''],
+        ['Equiv', '', '[x^2=4,x=2 or x=-2]', 'x', -1, 'ATEquiv_SB_not_list.', ''],
         [
             'Equiv', '', '[1/0]', '[x^2=4,x=2 or x=-2]', -1,
             'ATEquiv_STACKERROR_SAns.', '',
         ],
         [
-            'Equiv', '', '[x^2=4,x=2 or x=-2]', '[1/0]',  -1,
+            'Equiv', '', '[x^2=4,x=2 or x=-2]', '[1/0]', -1,
             'ATEquiv_STACKERROR_TAns.', '',
         ],
         ['Equiv', '', '[x^2=4,x=2 or x=-2]', '[x^2=4,x=2 or x=-2]', 1, '(EMPTYCHAR,EQUIVCHAR)', ''],
@@ -1642,13 +1670,13 @@ class stack_answertest_test_data {
         ['Equiv', '', '[x^2-6*x+9=0,x=3]', '[x^2-6*x+9=0,x=3]', 1, '(EMPTYCHAR,SAMEROOTS)', ''],
 
         ['EquivFirst', '', 'x', '[x^2=4,x=2 or x=-2]', -1, 'ATEquivFirst_SA_not_list.', ''],
-        ['EquivFirst', '', '[x^2=4,x=2 or x=-2]', 'x',  -1, 'ATEquivFirst_SB_not_list.', ''],
+        ['EquivFirst', '', '[x^2=4,x=2 or x=-2]', 'x', -1, 'ATEquivFirst_SB_not_list.', ''],
         [
             'EquivFirst', '', '[1/0]', '[x^2=4,x=2 or x=-2]', -1,
             'ATEquivFirst_STACKERROR_SAns.', '',
         ],
         [
-            'EquivFirst', '', '[x^2=4,x=2 or x=-2]', '[1/0]',  -1,
+            'EquivFirst', '', '[x^2=4,x=2 or x=-2]', '[1/0]', -1,
             'ATEquivFirst_STACKERROR_TAns.', '',
         ],
         ['EquivFirst', '', '[x^2=4,x=2 or x=-2]', '[x^2=4,x=2 or x=-2]', 1, '(EMPTYCHAR,EQUIVCHAR)', ''],
@@ -1836,6 +1864,9 @@ class stack_answertest_test_data {
         ['Diff', 'x', 'e^x+2', 'e^x', 0, 'ATDiff_int.', ''],
         ['Diff', 'x', 'n*x^n', 'n*x^(n-1)', -1, 'ATDiff_STACKERROR_SAns.', ''],
         ['Diff', 'x', 'n*x^n', '(assume(n>0), n*x^(n-1))', 0, '', ''],
+        ['Diff', 'x', '3*x/root(3*x^2+2)', '3*x/sqrt(3*x^2+2)', 1, 'ATDiff_true.', ''],
+        ['Diff', 'x', '3*x/\'root(3*x^2+2)', '3*x/sqrt(3*x^2+2)', 1, 'ATDiff_true.', ''],
+        ['Diff', 'x', '\'root(2*x/10+1)', 'sqrt((2*x+10)/10)', 1, 'ATDiff_true.', ''],
 
         ['Int', '', '1/0', '1', -1, 'STACKERROR_OPTION.', ''],
         ['Int', 'x', '1/0', '1', -1, 'ATInt_STACKERROR_SAns.', ''],
@@ -2056,6 +2087,7 @@ class stack_answertest_test_data {
             'Int', 'x', '2/3*sqrt(3)*(atan(sin(x)/(sqrt(3)*(cos(x)+1)))-(atan(sin(x)/(cos(x)+1))))+x/sqrt(3)',
             '2*atan(sin(x)/(sqrt(3)*(cos(x)+1)))/sqrt(3)', -3, 'ATInt_const.', 'Stoutemyer (currently fails)',
         ],
+        ['Int', 'x', '3*x/\'root(3*x^2+2)+c', '3*x/sqrt(3*x^2+2)', 1, 'ATInt_true.', ''],
 
         // This list is based on the test cases for ATInt.
         ['Antidiff', '', '1/0', '1', -1, 'STACKERROR_OPTION.', ''],
@@ -3282,6 +3314,10 @@ class stack_answertest_test_data {
         foreach ($rawdata as $data) {
             $tests[] = self::test_from_raw($data);
         }
+        if (defined('QTYPE_STACK_TEST_CONFIG_CI_LIGHT')) {
+            // Must return something non-empty.
+            return [$tests[1]];
+        }
         return $tests;
     }
 
@@ -3314,7 +3350,7 @@ class stack_answertest_test_data {
             $feedback = $anst->get_at_feedback();
             $ansnote  = $anst->get_at_answernote();
         } else {
-            $feedback = 'AT'.$test->name.'('.$test->studentanswer.','.$test->teacheranswer.');';
+            $feedback = 'AT' . $test->name . '(' . $test->studentanswer . ',' . $test->teacheranswer . ');';
             $result   = true; // This actually executes the answer test in the CAS.
             $errors   = '';
             $rawmark  = 0;

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>6.3.1.1 Logarithms</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Logarithms</h3>
+<p>Logarithms reverse the process of raising a base '\(a\)' to a power '\(n\)'. </p>
+<p>As with all exponentials, the base should be a positive number. If \(b=a^n\) then we write \(\log_ab=n\). </p>
+<p>Of course, the reverse statement is equivalent: If \(\log_ab=n\), then \(b=a^n\). </p>
+<p>The expression \(log_ab=n\) is read: “The log to base \(a\) of the number \(b\) is equal to \(n\)".</p>
+<p>The term “log" is short for the word <b>logarithm</b>.</p>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Determine the log equivalents of</p>
+<ol class="HELM_parts_inline">
+<p></p><li>\(16 = 2^4\)</li>
+<li>\(16 = 4^2\)</li>
+<li>\(1000 = 10^3\)</li><p></p>
+<p></p><li>\(134.896=10^{2.13}\)</li>
+<li>\(8.414867=e^{2.13}\)</li><p></p>
+</ol>
+<h4 class="HELM_solution">Solution</h4>
+<ol class="HELM_parts">
+<li> Since \(16=2^4\), \(\log_216=4\).</li>
+<li> Since \(16=4^2\), \(\log_416=2\).</li>
+<li> Since \(1000=10^3\), \(\log_{10}1000=3\).</li>
+<li> Since \(134.896=10^{2.13}\), \(\log_{10}134.896=2.13\).</li>
+<li> Since \(8.414867=e^{2.13}\), \(\log_e8.414867=2.13\).</li>
+</ol>
+<h5><b>Summary:</b></h5>
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p>If \(b=a^n\), then \(log_ab=n\).</p>
+<p>If \(\log_ab=n\), then \(b=a^n\).</p>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

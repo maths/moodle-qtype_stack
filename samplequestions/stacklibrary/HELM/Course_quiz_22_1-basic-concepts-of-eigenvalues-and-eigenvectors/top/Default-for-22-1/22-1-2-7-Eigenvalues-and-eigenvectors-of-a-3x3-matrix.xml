@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>22.1.2.7 Eigenvalues and eigenvectors of a 3x3 matrix</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>Let \(\textbf{A}\) be the following matrix: \(\textbf{A} = {@A@}\).</p>
+<p>What are the eigenvalues of \(\textbf{A}\)? Input your answer, as a set (e.g. <code>{7,3,5/4}</code>), in
+    the box below:</p>
+<p>The eigenvalues of \(\textbf{A}\) are [[input:ans1]] [[validation:ans1]]</p>
+[[feedback:prt1]]
+<p>Find any eigenvector of \(\textbf{A}\). Input your answer, using column vector notation, in the boxes below:</p>
+<p>An eigenvector of \(\textbf{A}\) is [[input:ans2]] [[validation:ans2]]</p>
+[[feedback:prt2]]]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>Our matrix \(\textbf{A}\) is given to be \(\textbf{A} = {@A@}\).</p>
+<p>The eigenvalues \(\lambda_i\) (\(i = 1,\ldots, n\)) of \(\textbf{A}\) are the roots of the characteristic polynomial \(\chi\,(\lambda)\), which is calculated below:</p>
+<p>\[\begin{array}{rcl} \chi\,(\lambda) &amp; = &amp; \textrm{det}\,\left({{@A@} - \lambda\,{@ident(3)@}}\right)\\ &amp; = &amp; \textrm{det}\,\left({@A_m_l_I@}\right)\\ &amp; = &amp; \cdots\\ &amp; = &amp; {@charpol@}.\end{array}\]</p>
+<p>Upon factorisation and solution of the characteristic equation \({@charpol@} = 0\), we arrive at the set of eigenvalues of \(\textbf{A}\), which is {@ta1@}.</p>
+<p>From the set of eigenvalues, we select any one eigenvalue \(\lambda\). Finding the kernel of {@A_m_l_I@} (i.e. the set of things which, when {@A_m_l_I@} is applied to them, gives the zero vector as its result) gives us a basis in the \(\lambda\)-eigenspace.</p>
+<p>Any eigenvector in the&nbsp;\(\lambda\)-eigenspace (which, therefore, is an example of an eigenvector of \(\textbf{A}\)) may be found by taking some linear combination of the relevant basis vectors. Whichever vector \(\textbf{v}\) you have chosen in this way will, by definition, satisfy the eigenvalue equation:</p>
+<p>\[\textbf{A}\,\textbf{v} = \lambda\,\textbf{v}.\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021072200</text>
+    </stackversion>
+    <questionvariables>
+      <text>/*A is the matrix which we work with throughout the question. */
+A:matrix([10,-2,4],[-20,4,-10],[-30,6,-13]);
+
+/*For the general feedback, it will be useful to have variable names for certain items. These are given below, and only used in general feedback. */
+A_m_l_I: A - lambda*ident(3);
+charpol: ev(expand(charpoly(A,lambda)),simp);
+
+/* We ignore multiplicity of eigenvalues, and turn it into a set. */
+ta1:setify(first(eigenvalues(A)))
+/* Just take the first thing which looks like an eigen vector. */
+v1:first(first(second(eigenvectors(A))));
+v2:transpose(matrix(v1));
+
+/* Could also have, for example, the eigenvectors corresponding to the second or third eigenvales of A. */
+w1:first(second(second(eigenvectors(A))));
+w2:transpose(matrix(w1));
+x1:first(third(second(eigenvectors(A))));
+x2:transpose(matrix(x1));</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>The eigenvalues of the matrix \(\textbf{A} = {@A@}\) are {@ta1@}. An example of an eigenvector which could be given as an answer is {@v2@}.</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<p>Correct answer, well done.</p>]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<p>Your answer is partially correct.</p>]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<p>Incorrect answer.</p>]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>matrix</type>
+      <tans>v2</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>LINALG-EVALUES-TRUE</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>LINALG-EVALUES-FALSE</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>You have not entered the correct set of eigenvalues for this question. Remember that the eigenvalues are the roots of the characteristic polynomial; recall how to generate and solve the characteristic polynomial, and try again.</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>/* This code tests if two vectors are linearly independent */
+/* We want to establish the linear dependence of ans2 and A.ans2 */
+/* The last row of the matrix is a dummy row.                                    */
+C:matrix(first(transpose(ans2)),first(transpose(A.ans2)),[a,b,c])</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>determinant(C)</sans>
+        <tans>0</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>LINALG-SATISFIES_EVALUE_EQ</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>LINALG-EVECT-FALSE</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>You have not entered a correct eigenvector here.</p>
+<p>Your answer should satisfy the eigenvalue equation:&nbsp;\({@texboldatoms(M)@} {@texboldatoms(x)@} = \lambda {@texboldatoms(x)@}\), where \(\lambda\) is some real number. &nbsp;In fact, what you have actually entered satisfies</p>
+<p>\[{@A@} {@ans2@} = {@A.ans2@} \neq \lambda {@ans2@} \textrm{ for any real } \lambda.\]</p>
+<p>Remember how we can use any eigenvalue of our matrix to construct any number of eigenvectors, and try this part of the question again.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>CasEqual</answertest>
+        <sans>ans2</sans>
+        <tans>zeromatrix(first(matrix_size(ans2)),second(matrix_size(ans2)))</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>LINALG-USED_ZERO_VECTOR</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Eigenvectors cannot be the zero vector.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>+</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>LINALG-NONZERO_CORRECT_EVECT_GIVEN</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>v2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>LINALG-EVALUES-TRUE</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>LINALG-NONZERO_CORRECT_EVECT_GIVEN</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>{0}</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>matrix([1],[2],[3])</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>LINALG-EVALUES-FALSE</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>LINALG-EVECT-FALSE</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>{0}</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>matrix([0],[0],[0])</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>LINALG-EVALUES-FALSE</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>LINALG-USED_ZERO_VECTOR</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ans1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>w2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>LINALG-EVALUES-TRUE</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>LINALG-NONZERO_CORRECT_EVECT_GIVEN</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>5</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ans1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>x2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>LINALG-EVALUES-TRUE</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>LINALG-NONZERO_CORRECT_EVECT_GIVEN</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

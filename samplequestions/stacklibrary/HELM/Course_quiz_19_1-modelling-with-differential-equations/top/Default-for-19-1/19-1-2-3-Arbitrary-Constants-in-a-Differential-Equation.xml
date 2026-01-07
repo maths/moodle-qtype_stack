@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>19.1.2.3 Arbitrary Constants in a Differential Equation</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>We have seen that an expression including one arbitrary constant required one differentiation to obtain a differential equation which eliminated the arbitrary constant. Where two constants were present, two differentiations were required. Is the converse true? For example, would a differential equation involving <span class="math inline">\(\dfrac{d^2y}{dx^2}\)</span> as the only derivative have a general solution with one arbitrary constant and would a differential equation which had <span class="math inline">\(\dfrac{d^2y}{dx^2}\)</span> as the highest derivative produce a general solution with two arbitrary constants? The answer is, usually, yes.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

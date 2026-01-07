@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>20.4.1.3 Second Order Example</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h4 class="HELM_example">Example</h4>
+<p>Solve the second-order initial-value problem:
+\[{d^2y\over {dt^2}}+2{dy\over {dt}}+2y=\text{e}^{-t}\qquad y(0)=0,\ \ \ y'(0)=0 \] using the Laplace transform method.</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>As usual we shall assume the forcing function is causal (i.e. is really \(\text{e}^{-t}u(t)\).) Taking the Laplace transform of each term: \[ {\cal L}\{{d^2y\over {dt^2}}\}+2{\cal L}\{{dy\over {dt}}\}+2{\cal L}\{y\}={\cal L}\{\text{e}^{-t}\}\] that is, \[[-y'(0)-sy(0)+s^2Y(s)]+2[-y(0)+sY(s)]+2Y(s)={1\over {s+1}}\]</p>
+<p>Inserting the initial conditions and rearranging: \[ Y(s)[s^2+2s+2]={1\over {s+1}}\qquad\text{ i.e.}\qquad Y(s)={1\over {(s+1)(s^2+2s+2)}} \] Then, using partial fractions: \[ {1\over {(s+1)(s^2+2s+2)}}\equiv {1\over {s+1}}-{(s+1)\over {s^2+2s+2}}\equiv{1\over {s+1}}-{(s+1)\over {(s+1)^2+1}}\] where we have completed the square in the second term of the right-hand side. We can now take the inverse Laplace transform: \[\begin{eqnarray*} y(t)={\cal L}^{-1}\{Y(s)\}&=&{\cal L}^{-1}\{{1\over {s+1}}\}-{\cal L}^{-1}\{{s+1\over {(s+1)^2+1}}\}\\&=&(\text{e}^{-t}-\text{e}^{-t}\cos t)u(t) \\
+&=&e^{-t}(1-\cos t)u(t) \end{eqnarray*}\] which is the solution to the initial value problem.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

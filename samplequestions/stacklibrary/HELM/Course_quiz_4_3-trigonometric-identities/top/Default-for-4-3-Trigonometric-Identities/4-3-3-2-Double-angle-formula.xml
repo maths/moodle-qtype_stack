@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>4.3.3.2 Double angle formula</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Double angle formulae</h4>
+<p>If we put \(B=A\) in the identity \(\sin (A+B)\equiv\sin A\cos B+\cos A\sin B\) we obtain<br></p>
+
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+\[\sin 2A\equiv\sin A\cos A+\cos A\sin A\]
+<p>so</p>
+\[\sin 2A\equiv 2\sin A\cos A\]
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

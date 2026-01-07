@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>10.1.2.13 Dividing one complex number by another</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4 class="HELM_example">Example </h4>
+<p>Find <span class="math inline">\(\displaystyle{{{z\over w}}}\)</span> if <span class="math inline">\(z=2-3i\)</span> and <span class="math inline">\(w=2+i\)</span>.</p>
+
+<h4 class="HELM_solution">Solution</h4>
+<p><span class="math display">\[\begin{aligned}
+{z\over w}={2-3i\over {2+i}}
+&amp;={(2-3i)\times (2-i)\over
+{(2+i)\times (2-i)}}\qquad \text{rationalising}\\&amp;={4-3+i(-6-2)\over
+{4+1}}\qquad \text{multiplying out}\qquad\qquad\qquad\qquad\qquad\qquad\\
+&amp;={1\over 5}-{8\over 5}i\qquad 
+\text{dividing through}\end{aligned}\]</span></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

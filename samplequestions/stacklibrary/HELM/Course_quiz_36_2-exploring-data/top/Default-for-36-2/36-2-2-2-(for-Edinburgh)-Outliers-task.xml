@@ -1,0 +1,639 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>36.2.2.2 (for Edinburgh) Outliers: task</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p><br>
+
+<p></p><p>Consider the data set given below:</p><p></p><table><thead><tr><th scope="col"><span style="font-weight: normal;">{@L[12]@}&nbsp;&nbsp;&nbsp; </span><br></th><th scope="col"><span style="font-weight: normal;">{@L[9]@}&nbsp;&nbsp;&nbsp; </span><br></th><th scope="col"><span style="font-weight: normal;">{@L[19]@}&nbsp;&nbsp;&nbsp; </span><br></th><th scope="col"><span style="font-weight: normal;">{@L[2]@}&nbsp;&nbsp;&nbsp; </span><br></th><th scope="col"><span style="font-weight: normal;">{@L[22]@}&nbsp;&nbsp;&nbsp; </span><br></th><th scope="col"><span style="font-weight: normal;">{@L[15]@}&nbsp;&nbsp;&nbsp; </span><br></th><th scope="col"><span style="font-weight: normal;">{@L[11]@}&nbsp;&nbsp;&nbsp; </span><br></th><th scope="col"><span style="font-weight: normal;">{@L[21]@}&nbsp;&nbsp;&nbsp; </span><br></th><th scope="col"><span style="font-weight: normal;">{@L[25]@}&nbsp;&nbsp;&nbsp; </span><br></th><th scope="col"><span style="font-weight: normal;">{@L[17]@}</span><br></th></tr><tr><td>{@L[7]@}<br></td><td>{@L[18]@}&nbsp;&nbsp; <br></td><td>{@L[13]@}<br></td><td>{@L[4]@}<br></td><td>{@L[3]@}<br></td><td>{@L[14]@}<br></td><td>{@L[28]@}<br></td><td>{@L[6]@}<br></td><td>{@L[30]@}<br></td><td>{@L[26]@}<br></td></tr><tr><td>{@L[29]@}<br></td><td>{@L[8]@}<br></td><td>{@L[27]@}<br></td><td>{@L[1]@}<br></td><td>{@L[23]@}<br></td><td>{@L[20]@}<br></td><td>{@L[5]@}<br></td><td>{@L[24]@}<br></td><td>{@L[16]@}<br></td><td>{@L[10]@}</td></tr></thead></table><br>
+<br>
+
+<ol class="HELM_parts">
+<li>Write the five-number summary of our data set in the table below (it is convenient to place the items in the data set in rank order to find the five-number summary). Write the results with two decimal points. <br><br><br>
+<center>
+<table frame="void" rules="all" style="width:50%" border="1">
+<tbody>
+<tr class="header"><th style="text-align: center;">Lowest Value</th><td style="text-align: center;">[[input:ans1]] [[validation:ans1]][[feedback:prt1]]</td></tr>
+<tr class="header"><th style="text-align: center;">Lower Quartile</th><td style="text-align: center;">[[input:ans2]] [[validation:ans2]][[feedback:prt2]]</td></tr>
+<tr class="header"><th style="text-align: center;">Median</th><td style="text-align: center;">[[input:ans4]] [[validation:ans4]][[feedback:prt4]]</td></tr>
+<tr class="header"><th style="text-align: center;">Upper Quartile</th><td style="text-align: center;">[[input:ans6]] [[validation:ans6]][[feedback:prt6]]</td></tr>
+<tr class="header"><th style="text-align: center;">Highest Value</th><td style="text-align: center;">[[input:ans8]] [[validation:ans8]][[feedback:prt8]]</td></tr>
+<tr class="header"><th style="text-align: center;">Inter-Quartile Range</th><td style="text-align: center;">[[input:ans5]] [[validation:ans5]][[feedback:prt5]]</td></tr>
+</tbody>
+</table>
+</center><br>
+</li>
+<br>
+<li>Draw the box-and-whisker diagram for the data. Does it tell you that the data set is symmetrical?&nbsp;&nbsp; [[input:ans9]] [[validation:ans9]][[feedback:prt9]]</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<ol class="HELM_parts">
+    <li>
+        <p> The lowest value is {@ta1@}.</p>
+        <p>The lower quartile has rank position \(8\) and its value is {@ta2@}.</p>
+        <p>The median is between rank positions \(15\) and \(16\) and its value is \(\dfrac{{@L[15]@}+{@L[16]@}}{2} = {@ta4@}\).</p>
+        <p>The upper quartile has rank position \(23\) and its value is {@ta6@}.</p>
+        <p>The maximum is {@ta8@}.</p>
+        <p>The inter-quartile range is {@ta5@}.</p>
+    </li>
+
+    <li>
+        <p>The boxplot below indicates that the distribution is not symmetrical. For example, you would expect the median value to appear midway between the quartiles for a symmetrical distribution, but it is notably closer to the lower quartile.</p>
+        <p>{@plot([CenterLine, upboxLine, loboxLine, vertLine], [x,140,200],[y,0,2], [color,blue,blue,blue,blue])@}</p>
+    </li></ol>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2024072400</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[/*
+L:[rand([146.1, 146.2]), rand([146.3,146.4,146.7]), rand([147.1,147.2,147.5]),rand([148.4,148.5,148.7]), rand([151.1,151.3,151.7]), rand([154.6, 154.7]), rand([154.8,154.9,155.0]), rand([155.3,155.5, 155.7]), rand([160.1,160.2,160.4]), rand([161.7,161.8,161.9]), 161.8, rand([163.0, 163.1]), rand([163.2,163.3,163.4]),rand([164.4,164.5,164.6]),rand([164.7,164.8,164.9]), rand([165.4,165.6,165.8]), rand([167.8,167.9,168.2]), rand([172.3,172.4,172.5]), rand([172.7,172.8,172.9]),rand([174.7,174.8,174.9]),rand([176.2,176.3,176.4]), rand([177.3,177.4,177.6]), rand([177.7,177.8,177.9]), rand([178.1,178.2,178.3]),rand([178.4,178.5,178.6]), rand([178.7,178.8,178.9]), rand([182.2,182.3,182.4]), rand([187.1,187.2,187.3]), rand([188.2,188.3,188.4]),rand([189.4,189.5,189.7])];*/
+
+lo: rand([146.1, 146.2]);
+hi: rand([189.4,189.5,189.7])
+L: sort(random_beta(2, 10, 30));
+L: lo + (hi-lo)*(L-L[1])/(L[30]-L[1]);
+L: decimalplaces(float(L),1);
+
+ta1:decimalplaces(float(L[1]),2);
+ta2:decimalplaces(float(L[8]),2);
+ta4:decimalplaces(float((L[15]+L[16])/2),2);
+ta5:decimalplaces(float(L[23]-L[8]),2);
+ta6:decimalplaces(float(L[23]),2);
+ta8:decimalplaces(float(L[30]),2);
+ta9:[["Not symmetrical", true], ["Symmetrical", false]];
+
+
+/*for boxplot in solutions*/
+mx: L[30]
+qu: L[23]
+mn: L[1]
+ql: L[8]
+CenterLine: if x>mx then 5000 else if (x<qu and x>ql) then 5000 else if x<mn then 5000 else 1;
+qu: L[23]
+ql: L[8]
+upboxLine: if x>qu then 5000 else if x<ql then 5000 else 1+0.5*min(1,2*5*(x-ql)-1);
+qu: L[23]
+ql: L[8]
+loboxLine: if x>(qu+1/5) then 5000 else if x<ql then 5000 else 1+0.5*max(-1,2*5*(x-qu)-1);
+med: (L[15]+L[16])/2
+vertLine: if x<med-3 then 5000 else if x>med+3 then 5000 else 1+0.5*max(-1,min(1,2*5*(x-med)-1));]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text><![CDATA[\(min = {@ta1@}, Q_l = {@ta2@}, med = {@ta4@}, Q_u ={@ta6@}, max = {@ta8@}, IQR ={@ta5@}\). Tests - upper whisker at max: \({@displaydp(float(ta6+1.5*ta5),3)@}>{@ta8@}\)?, Skewed box: \({@displaydp(float((ta4-ta2)*1.5),3)@}<{@displaydp(float(ta6-ta4),3)@}?\)]]></text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>numerical</type>
+      <tans>dispdp(ta1,2)</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>maxdp:2, mindp:2</options>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>numerical</type>
+      <tans>dispdp(ta2,2)</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>maxdp:2, mindp:2</options>
+    </input>
+    <input>
+      <name>ans4</name>
+      <type>numerical</type>
+      <tans>dispdp(ta4,2)</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>maxdp:2, mindp:2</options>
+    </input>
+    <input>
+      <name>ans5</name>
+      <type>numerical</type>
+      <tans>dispdp(ta5,2)</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>maxdp:2, mindp:2</options>
+    </input>
+    <input>
+      <name>ans6</name>
+      <type>numerical</type>
+      <tans>dispdp(ta6,2)</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>maxdp:2, mindp:2</options>
+    </input>
+    <input>
+      <name>ans8</name>
+      <type>numerical</type>
+      <tans>dispdp(ta8,2)</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>maxdp:2, mindp:2</options>
+    </input>
+    <input>
+      <name>ans9</name>
+      <type>dropdown</type>
+      <tans>ta9</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions>2</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions>2</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt4</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>ans4</sans>
+        <tans>ta4</tans>
+        <testoptions>2</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt4-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt4-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt5</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>ans5</sans>
+        <tans>ta5</tans>
+        <testoptions>2</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt5-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt5-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt6</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>ans6</sans>
+        <tans>ta6</tans>
+        <testoptions>2</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt6-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt6-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt8</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>ans8</sans>
+        <tans>ta8</tans>
+        <testoptions>2</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt8-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt8-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt9</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>[ans9]</sans>
+        <tans>mcq_correct(ta9)</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt9-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt9-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1785441644</deployedseed>
+    <deployedseed>1640373051</deployedseed>
+    <deployedseed>791966230</deployedseed>
+    <deployedseed>575311284</deployedseed>
+    <deployedseed>446475988</deployedseed>
+    <deployedseed>936895129</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>dispdp(ta1,2)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>dispdp(ta2,2)</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>dispdp(ta4,2)</value>
+      </testinput>
+      <testinput>
+        <name>ans5</name>
+        <value>dispdp(ta5,2)</value>
+      </testinput>
+      <testinput>
+        <name>ans6</name>
+        <value>dispdp(ta6,2)</value>
+      </testinput>
+      <testinput>
+        <name>ans8</name>
+        <value>dispdp(ta8,2)</value>
+      </testinput>
+      <testinput>
+        <name>ans9</name>
+        <value><![CDATA["Not symmetrical"]]></value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt4-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt5</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt5-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt6</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt6-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt8</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt8-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt9</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt9-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>dispdp(ta1,3)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>dispdp(ta2,3)</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>dispdp(ev(ta4+1,simp),2)</value>
+      </testinput>
+      <testinput>
+        <name>ans5</name>
+        <value>dispdp(ev(ta5+1,simp),2)</value>
+      </testinput>
+      <testinput>
+        <name>ans6</name>
+        <value>dispdp(ev(ta6+1,simp),2)</value>
+      </testinput>
+      <testinput>
+        <name>ans8</name>
+        <value>dispdp(ev(ta8+1,simp),2)</value>
+      </testinput>
+      <testinput>
+        <name>ans9</name>
+        <value>first(mcq_incorrect(ta9))</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore/>
+        <expectedpenalty/>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore/>
+        <expectedpenalty/>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt4-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt5</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt5-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt6</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt6-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt8</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt8-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt9</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt9-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

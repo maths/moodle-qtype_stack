@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>16.1.1.4 General sequence</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Convergence or divergence of sequences</h4><p>A general infinite sequence is denoted by \[ a_1,\ a_2,\ \ldots,\ a_n,\ldots\]in which \(a_1\) is the first term, \(a_2\) is the second term and \(a_n\) is the \(n^{th}\) term in the sequence. For example, in the harmonic sequence \[ a_1=1,\ \ a_2=\dfrac{1}{2},\ldots , a_n=\dfrac{1}{n}\]whilst for the alternating harmonic sequence the \(n^{th}\) term is: \[a_n=\dfrac{(-1)^{n+1}}{n}\]in which \((-1)^n=+1\) if \(n\) is an even number and \((-1)^n=-1\) if \(n\) is an odd number.</p><br>
+
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p>The sequence \(a_1,a_2,\ldots ,a_n, \ldots\) is said to be <b>convergent</b> if the limit of \(a_n\) as \(n\) increases can be found. (Mathematically we say that \(\displaystyle \lim_{n \to \infty} a_n\) exists.)</p>
+<p>If the sequence is not convergent it is said to be <b>divergent</b>.</p>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

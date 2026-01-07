@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>6.2.3.1 Related hyperbolic functions</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Related Hyperbolic Functions</h3><p>Given the trigonometric functions <span class="math inline">\(\cos x,\sin x\)</span> related functions can be defined; <span class="math inline">\(\tan x, \sec x, \rm cosec\) \(x\)</span> through the relations: <span class="math inline">\(\tan x \equiv\dfrac{\sin x}{\cos x}\qquad \sec x\equiv\dfrac{1}{\cos x}\qquad{\rm cosec}\ x\equiv\dfrac{1}{\sin
+x}\qquad\cot x\equiv\dfrac{\cos x}{\sin x}\).</span></p><p>In an analogous way, given <span class="math inline">\(\cosh x\)</span> and <span class="math inline">\(\sinh x\)</span> we can introduce hyperbolic functions.&nbsp;These functions are defined in the following Key Point.</p>
+<div class="HELM_keypoint">
+<h4>Key Point: Further hyperbolic functions</h4>
+<p style="text-align: center;">\(\tanh x \equiv \dfrac{\sinh x}{\cosh x}\)</p>
+<p style="text-align: center;">\(\rm sech\) \(x \equiv \dfrac{1}{\cosh x}\)</p>
+<p style="text-align: center;">\(\rm cosech\) \(x \equiv \dfrac{1}{\sinh x}\)</p>
+<p style="text-align: center;">\(\coth x \equiv \dfrac{\cosh x}{\sinh x}\)</p>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

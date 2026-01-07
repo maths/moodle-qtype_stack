@@ -275,7 +275,8 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addElement('button', 'metadatamodal', stack_string('editmetadata'));
         $metadataobj = json_decode($this->question->options->metadata ?? '');
         if ($metadataobj) {
-            $metadatasummary = stack_string('creator') . ': ' . ($metadataobj->creator->firstName ?? '') . ' ' . ($metadataobj->creator->lastName ?? '');
+            $metadatasummary = stack_string('creator') . ': ' .
+                ($metadataobj->creator->firstName ?? '') . ' ' . ($metadataobj->creator->lastName ?? '');
             if (isset($metadataobj->contributor) && count($metadataobj->contributor)) {
                 $contribsummary = '';
                 foreach ($metadataobj->contributor as $contrib) {
@@ -291,8 +292,17 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->insertElementBefore($metadatatext, 'metadatamodal');
         $datalib = new \stdClass();
         $datalib->licenses = explode(',', $CFG->licenses ?? '');
-        $datalib->licenses = array_map(function($license) { return ['value' => $license, 'text' => get_string($license, 'license')];}, $datalib->licenses);
-        $datalib->languages = [$PAGE->cm->lang ?? '', $PAGE->course->lang ?? '', $SESSION->lang ?? '', $USER->lang ?? '', $CFG->lang ?? '', 'en'];
+        $datalib->licenses = array_map(function ($license) {
+            return ['value' => $license, 'text' => get_string($license, 'license')];
+        }, $datalib->licenses);
+        $datalib->languages = [
+            $PAGE->cm->lang ?? '',
+            $PAGE->course->lang ?? '',
+            $SESSION->lang ?? '',
+            $USER->lang ?? '',
+            $CFG->lang ?? '',
+            'en',
+        ];
         $datalib->user = new stdClass();
         $datalib->user->firstname = $USER->firstname ?? '';
         $datalib->user->lastname = $USER->lastname ?? '';

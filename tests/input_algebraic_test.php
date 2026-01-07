@@ -1341,8 +1341,10 @@ final class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('missing_stars | function_stars', $state->note);
         $this->assertEquals('6*v*y*(5*z-8*x*y)', $state->contentsmodified);
-        $this->assertEquals('\[ 6\cdot v\cdot y\cdot \left(5\cdot z-8\cdot x\cdot y\right) \]',
-            $state->contentsdisplayed);
+        $this->assertEquals(
+            '\[ 6\cdot v\cdot y\cdot \left(5\cdot z-8\cdot x\cdot y\right) \]',
+            $state->contentsdisplayed
+        );
         $this->assertEquals('\( \left[ v , x , y , z \right]\) ', $state->lvars);
     }
 

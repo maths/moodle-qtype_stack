@@ -58,7 +58,7 @@ class backup_qtype_stack_plugin extends backup_qtype_plugin {
                     'scientificnotation',
                     'multiplicationsign', 'sqrtsign',
                     'complexno', 'inversetrig', 'logicsymbol', 'matrixparens', 'variantsselectionseed', 'isbroken',
-                    'metadata'
+                    'metadata',
             ]
         );
 

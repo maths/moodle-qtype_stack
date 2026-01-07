@@ -1290,11 +1290,11 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
     width: 98%;
 }
 .stack-metadata .inputcol {
-    padding-left: 0px;
-    padding-right: 0px;
+    padding-left: 0;
+    padding-right: 0;
 }
 .stack-metadata .scope {
-    padding: 20px 10px 0px 10px;
+    padding: 20px 10px 0 10px;
 }
 .stack-metadata .btn-danger {
     background-color: pink;

@@ -8905,6 +8905,8 @@ final class qtype_stack_test_helper extends question_test_helper {
             1 => ['text' => '<p>Hint 2<br></p>', 'format' => '1', 'itemid' => '0'],
         ];
         $formform->qtype = 'stack';
+        $formform->isbroken = 0;
+        $formform->metadata = '';
 
         return $formform;
     }

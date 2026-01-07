@@ -212,7 +212,7 @@ Feature: Create and edit STACK metadata
     And I should not see "Lowell"
     And I click on "Validate and close" "button"
     And I check the hidden input "metadata" is '{"creator":{"firstName":"Bob","lastName":"Smith","institution":"MIT","year":"2024"},"contributor":[{"firstName":"Mike","lastName":"Jones","institution":"Bath","year":"2023"}],"language":["en"],"isPartOf":"Everything","license":"cc-nc-4.1","additional":[{"scope":"Added","property":"Cat","qualifier":"Breed","value":"Al$%&^"},{"scope":"Added","property":"Dog","qualifier":"Teeth","value":"50"},{"scope":"Added too","property":"Fish","qualifier":"Gills","value":"2"}]}'
-    And I click on "id_updatebutton"
+    And I press "id_updatebutton"
     And I should see "Version 2"
     And I check the hidden input "metadata" is '{"creator":{"firstName":"Bob","lastName":"Smith","institution":"MIT","year":"2024"},"contributor":[{"firstName":"Mike","lastName":"Jones","institution":"Bath","year":"2023"}],"language":["en"],"isPartOf":"Everything","license":"cc-nc-4.1","additional":[{"scope":"Added","property":"Cat","qualifier":"Breed","value":"Al$%&^"},{"scope":"Added","property":"Dog","qualifier":"Teeth","value":"50"},{"scope":"Added too","property":"Fish","qualifier":"Gills","value":"2"}]}'
 

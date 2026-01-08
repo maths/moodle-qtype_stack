@@ -213,7 +213,11 @@ Feature: Create and edit STACK metadata
     And I click on "Validate and close" "button"
     And I check the hidden input "metadata" is '{"creator":{"firstName":"Bob","lastName":"Smith","institution":"MIT","year":"2024"},"contributor":[{"firstName":"Mike","lastName":"Jones","institution":"Bath","year":"2023"}],"language":["en"],"isPartOf":"Everything","license":"cc-nc-4.1","additional":[{"scope":"Added","property":"Cat","qualifier":"Breed","value":"Al$%&^"},{"scope":"Added","property":"Dog","qualifier":"Teeth","value":"50"},{"scope":"Added too","property":"Fish","qualifier":"Gills","value":"2"}]}'
     And I press "id_updatebutton"
-    And I should see "Version 2"
+    Given the site is running Moodle version 4.6 or lower
+    Then I should see "Version 2"
+    And I check the hidden input "metadata" is '{"creator":{"firstName":"Bob","lastName":"Smith","institution":"MIT","year":"2024"},"contributor":[{"firstName":"Mike","lastName":"Jones","institution":"Bath","year":"2023"}],"language":["en"],"isPartOf":"Everything","license":"cc-nc-4.1","additional":[{"scope":"Added","property":"Cat","qualifier":"Breed","value":"Al$%&^"},{"scope":"Added","property":"Dog","qualifier":"Teeth","value":"50"},{"scope":"Added too","property":"Fish","qualifier":"Gills","value":"2"}]}'
+    Given the site is running Moodle version 5.0 or higher
+    Then I should see "v2 (latest)"
     And I check the hidden input "metadata" is '{"creator":{"firstName":"Bob","lastName":"Smith","institution":"MIT","year":"2024"},"contributor":[{"firstName":"Mike","lastName":"Jones","institution":"Bath","year":"2023"}],"language":["en"],"isPartOf":"Everything","license":"cc-nc-4.1","additional":[{"scope":"Added","property":"Cat","qualifier":"Breed","value":"Al$%&^"},{"scope":"Added","property":"Dog","qualifier":"Teeth","value":"50"},{"scope":"Added too","property":"Fish","qualifier":"Gills","value":"2"}]}'
 
   @javascript

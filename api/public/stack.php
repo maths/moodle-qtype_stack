@@ -125,23 +125,26 @@ require_login();
             <span style="display: flex; align-items: center; font-size: 20px">
               <span style="display: flex; align-items: center;">
                 <img src="logo_large.png" style="height: 50px;">
-                <span style="font-size: 50px;"><b>STACK </b></span>
+                <span style="font-size: 50px;"><b>STACK</b></span>
               </span>
               &nbsp;| Online assessment
             </span>
           </a>
         </div>
+        <a href="/sample.php" class="nav-link">
+          <h2>API Demonstration</h2>
+        </a>
         Choose a STACK sample file:
         <?php
         $files = stack_question_library::get_file_list('../../samplequestions/stacklibrary/*');
         function render_directory($dirdetails) {
             echo '<div style="margin-left: 30px;">';
             foreach ($dirdetails as $file) {
-                if (!$file->isdirectory) {
+                if (!$file->isdirectory && pathinfo($file->path, PATHINFO_EXTENSION) === 'xml') {
                     echo '<button class="btn btn-link library-file-link" type="button" onclick="getQuestionFile(\'cors.php?name='
                         . $file->path . '&question=true\')">' .
                         $file->label . '</button><br>';
-                } else {
+                } else if ($file->isdirectory) {
                     echo '<button class="btn btn-link" type="button" data-toggle="collapse" ' .
                       'data-target="#' . $file->divid . '" aria-expanded="false" aria-controls="' . $file->divid . '">' .
                       $file->label . '</button><br><div class="collapse" id="' . $file->divid . '">';

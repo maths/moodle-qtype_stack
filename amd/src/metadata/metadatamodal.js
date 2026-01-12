@@ -22,8 +22,6 @@
  */
 
 import Modal from 'core/modal';
-import ModalRegistry from 'core/modal_registry';
-import ModalFactory from 'core/modal_factory';
 import {metadata} from 'qtype_stack/metadata/metadata';
 import container from 'qtype_stack/metadata/container';
 
@@ -53,7 +51,7 @@ export class MetadataModal extends Modal {
 
 let registered = false;
 if (!registered) {
-    ModalRegistry.register(MetadataModal.TYPE, MetadataModal, MetadataModal.TEMPLATE);
+    registerModal();
     registered = true;
 }
 
@@ -73,6 +71,16 @@ function closeModal() {
 }
 
 /**
+ * Register the modal in old versions of Moodle.
+ */
+async function registerModal() {
+    if (typeof MetadataModal.create !== "function") {
+        const ModalRegistry = await import('core/modal_registry');
+        ModalRegistry.register(MetadataModal.TYPE, MetadataModal, MetadataModal.TEMPLATE);
+    }
+}
+
+/**
  * Open the metadata modal.
  * Only create modal and add listener once.
  */
@@ -84,6 +92,7 @@ async function openModal() {
             modal.show();
         } else {
             // Pre Moodle 4.3 code.
+            const ModalFactory = await import ('core/modal_factory');
             modal = await ModalFactory.create({
                 type: MetadataModal.TYPE,
             });

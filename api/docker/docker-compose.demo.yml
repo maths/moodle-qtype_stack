@@ -1,4 +1,4 @@
-version: "4.0"
+# This is for building the University of Edinburgh STACK demo site only.
 services:
   maxima:
     image: mathinstitut/goemaxima:2026010500-latest
@@ -14,15 +14,14 @@ services:
       GOEMAXIMA_QUEUE_LEN: 32
     read_only: true
   stack:
-    # Location of published STACK API image goes here.
-    image: stackmaths/stackapi:2026010500-latest
+    build:
+      context: ./../../
+      dockerfile: ./api/docker/DockerfileDemo
+      target: production
     restart: unless-stopped
     volumes:
-      - stackfooter.html:/srv/stack/api/public/stackfooter.html
-      - /etc/letsencrypt/live/stack-api.maths.ed.ac.uk/cert.pem:/etc/letsencrypt/live/stack-api.maths.ed.ac.uk/cert.pem
-      - /etc/letsencrypt/live/stack-api.maths.ed.ac.uk/fullchain.pem:/etc/letsencrypt/live/stack-api.maths.ed.ac.uk/fullchain.pem
-      - /etc/letsencrypt/live/stack-api.maths.ed.ac.uk/privkey.pem:/etc/letsencrypt/live/stack-api.maths.ed.ac.uk/privkey.pem
-      - /etc/letsencrypt/live/stack-api.maths.ed.ac.uk/privkey.pem:/etc/letsencrypt/live/stack-api.maths.ed.ac.uk/privkey.pem
+      - ./files/stackfooter.html:/srv/stack/api/public/stackfooter.html
+      - ./files/letsencrypt:/etc/letsencrypt/live/stack-api.maths.ed.ac.uk
     ports:
       - '80:80'
       - '443:443'

@@ -63,21 +63,17 @@ class stack_abstract_graph_node_clump {
         // First we adjust the x position to ensure:
         // 1. it is no too close ($minspacing) to another node at the same depth.
         // 2. the position is an integer.
-        list($leftneighbour, $rightneighbour) = $this->find_neighbour_positions($node->depth, $roughx);
+        [$leftneighbour, $rightneighbour] = $this->find_neighbour_positions($node->depth, $roughx);
 
         if (is_null($leftneighbour) && is_null($rightneighbour)) {
             $x = round($roughx);
-
         } else if (is_null($rightneighbour)) {
             $x = max(round($roughx), $leftneighbour + $minspacing);
-
         } else if (is_null($leftneighbour)) {
             $x = min(round($roughx), $rightneighbour - $minspacing);
-
         } else if ($rightneighbour - $leftneighbour < 2 * $minspacing) {
             // Not enough space.
             $x = ($leftneighbour + $rightneighbour) / 2;
-
         } else {
             // Plenty of space.
             $x = min(round($roughx), $leftneighbour + $minspacing);

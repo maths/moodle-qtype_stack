@@ -48,7 +48,6 @@ require_once(__DIR__ . '/../stack/cas/ast.container.class.php');
  * @covers \stack_cas_session2
  */
 final class cas_noun_simp_test extends qtype_stack_testcase {
-
     public function test_basic_1(): void {
         $cs = stack_ast_container::make_from_teacher_source('a nounadd (b nounmul c)', 'version-check');
 
@@ -58,10 +57,14 @@ final class cas_noun_simp_test extends qtype_stack_testcase {
         $session->instantiate();
 
         // Note, we don't need brackets here.
-        $this->assertEquals($cs->get_value(),
-            'a nounadd b nounmul c');
-        $this->assertEquals($cs->get_display(),
-            'a+b\cdot c');
+        $this->assertEquals(
+            $cs->get_value(),
+            'a nounadd b nounmul c'
+        );
+        $this->assertEquals(
+            $cs->get_display(),
+            'a+b\cdot c'
+        );
     }
 
     /**

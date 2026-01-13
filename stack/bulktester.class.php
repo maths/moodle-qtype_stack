@@ -29,7 +29,6 @@ require_once(__DIR__ . '/../../../engine/bank.php');
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_bulk_tester {
-
     /**
      * Get all the courses and their contexts from the database.
      *
@@ -125,7 +124,7 @@ class stack_bulk_tester {
             $qcparams['search' . $i] = '%\\[\\[todo%';
         }
         return $DB->get_records_sql_menu("
-                SELECT q.id, q.name AS id2
+                SELECT q.id, q.name AS id2, qso.isbroken
                 FROM {question} q
                 JOIN {question_versions} qv ON qv.questionid = q.id
                 JOIN {question_bank_entries} qbe ON qbe.id = qv.questionbankentryid
@@ -145,6 +144,7 @@ class stack_bulk_tester {
                             OR {$qnotelike}
                             OR {$specificfeedbacklike}
                             OR {$qdescriptionlike}
+                            OR qso.isbroken = 1
                         )", $qcparams);
     }
 
@@ -160,8 +160,8 @@ class stack_bulk_tester {
     public function get_categories_for_context($contextid) {
         global $DB;
 
-        return $DB->get_records_sql("
-                SELECT qc.id, qc.parent, qc.name as name,
+        return $DB->get_records_sql(
+            "SELECT qc.id, qc.parent, qc.name as name,
                        (SELECT count(1)
                         FROM {question} q
                         JOIN {question_versions} qv ON qv.questionid = q.id
@@ -170,7 +170,8 @@ class stack_bulk_tester {
                 FROM {question_categories} qc
                 WHERE qc.contextid = :contextid
                 ORDER BY qc.name",
-            ['contextid' => $contextid]);
+            ['contextid' => $contextid]
+        );
     }
 
     /**
@@ -240,8 +241,14 @@ class stack_bulk_tester {
      *              bool true if all the tests passed, else false.
      *              array of messages relating to the questions with failures.
      */
-    public function run_all_tests_for_context(context $context, $categoryid = null, $outputmode = 'web', $qidstart = null,
-            $skippreviouspasses = false, $addtodo = false) {
+    public function run_all_tests_for_context(
+        context $context,
+        $categoryid = null,
+        $outputmode = 'web',
+        $qidstart = null,
+        $skippreviouspasses = false,
+        $addtodo = false
+    ) {
         global $DB, $OUTPUT;
 
         // Load the necessary data.
@@ -261,6 +268,7 @@ class stack_bulk_tester {
         $nogeneralfeedback = [];
         $nodeployedseeds = [];
         $failingupgrade = [];
+        $failingvalidation = [];
 
         $readytostart = true;
         if ($qidstart) {
@@ -290,7 +298,7 @@ class stack_bulk_tester {
                 $readytostart = true;
                 $qids = array_keys($questionids);
                 $offset = array_search($qidstart, $qids) + 0;
-                $questionids = array_slice ($questionids, $offset, null, true);
+                $questionids = array_slice($questionids, $offset, null, true);
             }
             if (!$readytostart) {
                 continue;
@@ -312,8 +320,10 @@ class stack_bulk_tester {
 
                 if ($outputmode == 'web') {
                     $questionname = format_string($name);
-                    $questionnamelink = html_writer::link(new moodle_url($questiontestsurl,
-                        ['questionid' => $questionid]), $name);
+                    $questionnamelink = html_writer::link(new moodle_url(
+                        $questiontestsurl,
+                        ['questionid' => $questionid]
+                    ), $name);
                 } else {
                     $questionname = $questionid . ': ' . format_string($name);
                     $questionnamelink = $questionname;
@@ -340,23 +350,31 @@ class stack_bulk_tester {
                     continue;
                 }
 
-                $questionproblems = [];
+                $validationproblems = $question->validate_for_bulk($context);
+                $questionproblems = ($validationproblems) ? [$validationproblems] : [];
+                if (!empty($questionproblems)) {
+                    $failingvalidation[$questionid] = $questionnamelink . ' ' . $validationproblems;
+                }
+                if ($addtodo && !empty($questionproblems)) {
+                    $this->update_descriptions_todo($questionid, $timenow . ',validation', $questionproblems);
+                    $question->get_cached('questiondescription');
+                }
                 if (trim($question->generalfeedback) === '') {
                     $nogeneralfeedback[] = $questionnamelink;
                     if ($outputmode == 'web') {
-                        $questionproblems[$questionid] = html_writer::tag('li', stack_string('bulktestnogeneralfeedback'));
+                        $questionproblems[] = html_writer::tag('li', stack_string('bulktestnogeneralfeedback'));
                     } else {
-                        $questionproblems[$questionid] = stack_string('bulktestnogeneralfeedback');
+                        $questionproblems[] = stack_string('bulktestnogeneralfeedback');
                     }
                 }
 
                 if (empty($question->deployedseeds)) {
                     if ($question->has_random_variants()) {
-                        $nodeployedseeds[] = $questionnamelink;;
+                        $nodeployedseeds[] = $questionnamelink;
                         if ($outputmode == 'web') {
-                            $questionproblems[$questionid] = html_writer::tag('li', stack_string('bulktestnodeployedseeds'));
+                            $questionproblems[] = html_writer::tag('li', stack_string('bulktestnodeployedseeds'));
                         } else {
-                            $questionproblems[$questionid] = stack_string('bulktestnodeployedseeds');
+                            $questionproblems[] = stack_string('bulktestnodeployedseeds');
                         }
                         if ($addtodo) {
                             $this->update_descriptions_todo($questionid, $timenow . ',no_seeds', '');
@@ -373,9 +391,9 @@ class stack_bulk_tester {
                         $question->get_cached('questiondescription');
                     }
                     if ($outputmode == 'web') {
-                        $questionproblems[$questionid] = html_writer::tag('li', stack_string('bulktestnotests'));
+                        $questionproblems[] = html_writer::tag('li', stack_string('bulktestnotests'));
                     } else {
-                        $questionproblems[$questionid] = stack_string('bulktestnotests');
+                        $questionproblems[] = stack_string('bulktestnotests');
                     }
                 }
 
@@ -387,42 +405,8 @@ class stack_bulk_tester {
                 }
 
                 $previewurl = new moodle_url($questiontestsurl, ['questionid' => $questionid]);
-                if (empty($question->deployedseeds)) {
-                    if ($outputmode == 'cli') {
-                        echo '.';
-                        $qdotoutput += 1;
-                        if ($qdotoutput > 50) {
-                            echo "\n";
-                            $qdotoutput = 0;
-                        }
-                    }
-                    $this->qtype_stack_seed_cache($question, 0);
-                    $questionnamelink = $questionname;
-                    if ($outputmode == 'web') {
-                        $questionnamelink = html_writer::link($previewurl, $questionname);
-                        echo $OUTPUT->heading($questionnamelink, 4);
-                    }
-                    // Make sure the bulk tester is able to continue.
-                    try {
-                        list($ok, $message) = $this->qtype_stack_test_question($context, $questionid, $tests, $outputmode);
-                    } catch (stack_exception $e) {
-                        $ok = false;
-                        $message = stack_string('errors') . ' : ' . $e;
-                    }
-                    if (!$ok) {
-                        if ($addtodo) {
-                            $this->update_descriptions_todo($questionid, $timenow . ',question_tests', $message);
-                            $question->get_cached('questiondescription');
-                        }
-                        $allpassed = false;
-                        $failingtests[] = $questionnamelink . ': ' . $message;
-                    }
-                } else {
-                    if ($outputmode == 'web') {
-                        echo $OUTPUT->heading(format_string($name), 4);
-                    }
-                    foreach ($question->deployedseeds as $seed) {
-                        $ok = true;
+                if (!$question->isbroken) {
+                    if (empty($question->deployedseeds)) {
                         if ($outputmode == 'cli') {
                             echo '.';
                             $qdotoutput += 1;
@@ -431,30 +415,20 @@ class stack_bulk_tester {
                                 $qdotoutput = 0;
                             }
                         }
-                        $previewurl->param('seed', $seed);
+                        $this->qtype_stack_seed_cache($question, 0);
+                        $questionnamelink = $questionname;
                         if ($outputmode == 'web') {
-                            $questionnamelink = html_writer::link($previewurl, stack_string('seedx', $seed));
-                        } else {
-                            $questionnamelink = stack_string('seedx', $seed);
+                            $questionnamelink = html_writer::link($previewurl, $questionname);
+                            if (empty($questionproblems)) {
+                                echo $OUTPUT->heading($questionnamelink, 4);
+                            }
                         }
-                        if ($outputmode == 'web') {
-                            echo $OUTPUT->heading($questionnamelink, 4);
-                        }
+                        // Make sure the bulk tester is able to continue.
                         try {
-                            $this->qtype_stack_seed_cache($question, $seed);
+                            [$ok, $message] = $this->qtype_stack_test_question($context, $questionid, $tests, $outputmode);
                         } catch (stack_exception $e) {
                             $ok = false;
                             $message = stack_string('errors') . ' : ' . $e;
-                        }
-                        // Make sure the bulk tester is able to continue.
-                        if ($ok) {
-                            try {
-                                list($ok, $message) = $this->qtype_stack_test_question($context, $questionid, $tests,
-                                        $outputmode, $seed);
-                            } catch (stack_exception $e) {
-                                $ok = false;
-                                $message = stack_string('errors') . ' : ' . $e;
-                            }
                         }
                         if (!$ok) {
                             if ($addtodo) {
@@ -462,8 +436,61 @@ class stack_bulk_tester {
                                 $question->get_cached('questiondescription');
                             }
                             $allpassed = false;
-                            $failingtests[] = $context->get_context_name(false, true) .
-                                    ' ' . $questionname . ' ' . $questionnamelink . ': ' . $message;
+                            $failingtests[] = $questionnamelink . ': ' . $message;
+                        }
+                    } else {
+                        if ($outputmode == 'web' && empty($questionproblems)) {
+                            echo $OUTPUT->heading(format_string($name), 4);
+                        }
+                        foreach ($question->deployedseeds as $seed) {
+                            $ok = true;
+                            if ($outputmode == 'cli') {
+                                echo '.';
+                                $qdotoutput += 1;
+                                if ($qdotoutput > 50) {
+                                    echo "\n";
+                                    $qdotoutput = 0;
+                                }
+                            }
+                            $previewurl->param('seed', $seed);
+                            if ($outputmode == 'web') {
+                                $questionnamelink = html_writer::link($previewurl, stack_string('seedx', $seed));
+                            } else {
+                                $questionnamelink = stack_string('seedx', $seed);
+                            }
+                            if ($outputmode == 'web') {
+                                echo $OUTPUT->heading($questionnamelink, 4);
+                            }
+                            try {
+                                $this->qtype_stack_seed_cache($question, $seed);
+                            } catch (stack_exception $e) {
+                                $ok = false;
+                                $message = stack_string('errors') . ' : ' . $e;
+                            }
+                            // Make sure the bulk tester is able to continue.
+                            if ($ok) {
+                                try {
+                                    [$ok, $message] = $this->qtype_stack_test_question(
+                                        $context,
+                                        $questionid,
+                                        $tests,
+                                        $outputmode,
+                                        $seed
+                                    );
+                                } catch (stack_exception $e) {
+                                    $ok = false;
+                                    $message = stack_string('errors') . ' : ' . $e;
+                                }
+                            }
+                            if (!$ok) {
+                                if ($addtodo) {
+                                    $this->update_descriptions_todo($questionid, $timenow . ',question_tests', $message);
+                                    $question->get_cached('questiondescription');
+                                }
+                                $allpassed = false;
+                                $failingtests[] = $context->get_context_name(false, true) .
+                                        ' ' . $questionname . ' ' . $questionnamelink . ': ' . $message;
+                            }
                         }
                     }
                 }
@@ -476,6 +503,7 @@ class stack_bulk_tester {
             'nogeneralfeedback' => $nogeneralfeedback,
             'nodeployedseeds'   => $nodeployedseeds,
             'failingupgrades'   => $failingupgrade,
+            'failingvalidation' => $failingvalidation,
         ];
         return [$allpassed, $failing];
     }
@@ -580,7 +608,7 @@ class stack_bulk_tester {
             $flag = '* ';
         }
         if (!$quiet && $outputmode == 'web') {
-            echo html_writer::tag('p', $flag.$message, ['class' => $class]);
+            echo html_writer::tag('p', $flag . $message, ['class' => $class]);
         }
 
         flush(); // Force output to prevent timeouts and to make progress clear.
@@ -650,11 +678,17 @@ class stack_bulk_tester {
         global $OUTPUT;
         echo $OUTPUT->heading(stack_string('overallresult'), 2);
         if ($allpassed) {
-            echo html_writer::tag('p', stack_string('stackInstall_testsuite_pass'),
-                    ['class' => 'overallresult pass']);
+            echo html_writer::tag(
+                'p',
+                stack_string('stackInstall_testsuite_pass'),
+                ['class' => 'overallresult pass']
+            );
         } else {
-            echo html_writer::tag('p', stack_string('stackInstall_testsuite_fail'),
-                    ['class' => 'overallresult fail']);
+            echo html_writer::tag(
+                'p',
+                stack_string('stackInstall_testsuite_fail'),
+                ['class' => 'overallresult fail']
+            );
         }
 
         foreach ($failing as $key => $failarray) {
@@ -668,8 +702,10 @@ class stack_bulk_tester {
             }
         }
 
-        echo html_writer::tag('p', html_writer::link(new moodle_url('/question/type/stack/adminui/bulktestindex.php'),
-                get_string('back')));
+        echo html_writer::tag('p', html_writer::link(
+            new moodle_url('/question/type/stack/adminui/bulktestindex.php'),
+            get_string('back')
+        ));
     }
 
     /**
@@ -703,7 +739,13 @@ class stack_bulk_tester {
             // the test case will fail, and the user can confirm the failing behaviour if they really intended this.
             // Normally we'd want a failing test case with the teacher's answer not getting full marks!
             $qtest->add_expected_result($prtname, new stack_potentialresponse_tree_state(
-                1, true, 1, 0, '', $answernote));
+                1,
+                true,
+                1,
+                0,
+                '',
+                $answernote
+            ));
         }
 
         return $qtest;
@@ -714,14 +756,21 @@ class stack_bulk_tester {
      */
     private function update_descriptions_todo($questionid, $tags, $message) {
         global $DB;
-        $description = $DB->get_field('qtype_stack_options', 'questiondescription',
-            ['questionid' => $questionid]);
+        $description = $DB->get_field(
+            'qtype_stack_options',
+            'questiondescription',
+            ['questionid' => $questionid]
+        );
         // Do not update the description if we already have a todo with an bulktest tag unresolved.
         // This prevents build-up with multiple runs.
         if (substr_count($description, '[[todo tags="bulktest') === 0) {
             $message = '[[todo tags="bulktest-' . $tags . '"]]' . $message . '[[/todo]]';
-            $DB->set_field('qtype_stack_options', 'questiondescription', $description . $message,
-                ['questionid' => $questionid]);
+            $DB->set_field(
+                'qtype_stack_options',
+                'questiondescription',
+                $description . $message,
+                ['questionid' => $questionid]
+            );
             $DB->set_field('qtype_stack_options', 'compiledcache', null, ['questionid' => $questionid]);
             // Invalidate the question definition cache.
             stack_clear_vle_question_cache($questionid);

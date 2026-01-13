@@ -39,6 +39,9 @@ Other options for the platform are `linux` and `linux-optimised`.
     define('QTYPE_STACK_TEST_CONFIG_CASDEBUGGING',    '0');
     define('QTYPE_STACK_TEST_CONFIG_PLOTCOMMAND',     '');
 
+    /* If this constant is defined we omit answer test and student input tests from the CI. */
+    define('QTYPE_STACK_TEST_CONFIG_CI_LIGHT',        '1');
+
     define('QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE', 'db');
     define('QTYPE_STACK_TEST_CONFIG_CASPREPARSE', 'true');
 

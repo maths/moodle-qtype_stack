@@ -24,6 +24,7 @@
 
 namespace qtype_stack;
 
+use qformat_xml;
 use qtype_stack;
 use qtype_stack_walkthrough_test_base;
 use stack_potentialresponse_tree_state;
@@ -34,7 +35,6 @@ use question_check_specified_fields_expectation;
 use context_system;
 use stdClass;
 use function stack_utils\get_config;
-use qformat_xml;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -51,7 +51,6 @@ require_once(__DIR__ . '/../questiontype.php');
  * @covers \qtype_stack
  */
 final class questiontype_test extends qtype_stack_walkthrough_test_base {
-
     /** @var qtype_stack */
     private $qtype;
 
@@ -67,8 +66,10 @@ final class questiontype_test extends qtype_stack_walkthrough_test_base {
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     public function assert_same_xml($expectedxml, $xml) {
-        $this->assertEquals(str_replace("\r\n", "\n", $expectedxml),
-                str_replace("\r\n", "\n", $xml));
+        $this->assertEquals(
+            str_replace("\r\n", "\n", $expectedxml),
+            str_replace("\r\n", "\n", $xml)
+        );
     }
 
     public function test_name(): void {
@@ -172,19 +173,37 @@ final class questiontype_test extends qtype_stack_walkthrough_test_base {
         $testcases = [];
         $qtest = new stack_question_test('', ['ans1' => 'x^3']);
         $qtest->add_expected_result('odd', new stack_potentialresponse_tree_state(
-                1, true, 1, 0, '', ['odd-1-T']));
+            1,
+            true,
+            1,
+            0,
+            '',
+            ['odd-1-T']
+        ));
         $testcases[] = $qtest;
 
         $qtest = new stack_question_test('', ['ans1' => 'x^2']);
         $qtest->add_expected_result('odd', new stack_potentialresponse_tree_state(
-                1, true, 0, 0.4, '', ['odd-1-F']));
+            1,
+            true,
+            0,
+            0.4,
+            '',
+            ['odd-1-F']
+        ));
         $testcases[] = $qtest;
 
         // This unit test runs a question test, with an input name as
         // the expected answer, which should work.
         $qtest = new stack_question_test('', ['ans2' => 'ans2']);
         $qtest->add_expected_result('even', new stack_potentialresponse_tree_state(
-                1, true, 1, 0, '', ['even-1-T']));
+            1,
+            true,
+            1,
+            0,
+            '',
+            ['even-1-T']
+        ));
 
         foreach ($testcases as $testcase) {
             $result = $testcase->test_question($questionid, $seed, context_system::instance());
@@ -451,7 +470,11 @@ final class questiontype_test extends qtype_stack_walkthrough_test_base {
 
         $importer = new qformat_xml();
         $q = $importer->try_importing_using_qtypes(
-                $xmldata['question'], null, null, 'stack');
+            $xmldata['question'],
+            null,
+            null,
+            'stack'
+        );
 
         $expectedq = new stdClass();
         $expectedq->qtype                 = 'stack';
@@ -473,15 +496,15 @@ final class questiontype_test extends qtype_stack_walkthrough_test_base {
         $expectedq->prtcorrect            = [
             'text' => '<p>Correct answer, well done.</p>',
             'format' => FORMAT_HTML, 'files' => [],
-        ];;
+        ];
         $expectedq->prtpartiallycorrect   = [
             'text' => '<p>Your answer is partially correct.</p>',
             'format' => FORMAT_HTML, 'files' => [],
-        ];;
+        ];
         $expectedq->prtincorrect          = [
             'text' => '<p>Incorrect answer.</p>',
             'format' => FORMAT_HTML, 'files' => [],
-        ];;
+        ];
         $expectedq->decimals              = '.';
         $expectedq->scientificnotation    = '*10';
         $expectedq->multiplicationsign    = 'dot';
@@ -534,7 +557,13 @@ final class questiontype_test extends qtype_stack_walkthrough_test_base {
 
         $qtest = new stack_question_test('', ['ans1' => '2'], 1);
         $qtest->add_expected_result('firsttree', new stack_potentialresponse_tree_state(
-                        1, true, 1, 0, '', ['firsttree-1-T']));
+            1,
+            true,
+            1,
+            0,
+            '',
+            ['firsttree-1-T']
+        ));
         $expectedq->testcases[1] = $qtest;
 
         $this->assertEquals($expectedq->deployedseeds, $q->deployedseeds); // Redundant, but gives better fail messages.
@@ -546,16 +575,20 @@ final class questiontype_test extends qtype_stack_walkthrough_test_base {
 
         $qtype = new qtype_stack();
 
-        $this->assertEquals(['ans123' => [1, 0]],
-                $qtype->get_input_names_from_question_text('[[input:ans123]]'));
+        $this->assertEquals(
+            ['ans123' => [1, 0]],
+            $qtype->get_input_names_from_question_text('[[input:ans123]]')
+        );
     }
 
     public function test_get_input_names_from_question_text_validation_only(): void {
 
         $qtype = new qtype_stack();
 
-        $this->assertEquals(['ans123' => [0, 1]],
-                $qtype->get_input_names_from_question_text('[Blah] [[validation:ans123]] [Blah]'));
+        $this->assertEquals(
+            ['ans123' => [0, 1]],
+            $qtype->get_input_names_from_question_text('[Blah] [[validation:ans123]] [Blah]')
+        );
     }
 
     public function test_get_input_names_from_question_text_invalid(): void {
@@ -577,8 +610,10 @@ final class questiontype_test extends qtype_stack_walkthrough_test_base {
 
         $qtype = new qtype_stack();
 
-        $this->assertEquals(['prt123' => 1],
-                $qtype->get_prt_names_from_question('[[feedback:prt123]]', ''));
+        $this->assertEquals(
+            ['prt123' => 1],
+            $qtype->get_prt_names_from_question('[[feedback:prt123]]', '')
+        );
     }
 
     public function test_get_prt_names_from_question_feedback(): void {
@@ -586,7 +621,9 @@ final class questiontype_test extends qtype_stack_walkthrough_test_base {
         $qtype = new qtype_stack();
 
         $this->assertEquals(['prt123' => 1], $qtype->get_prt_names_from_question(
-                'What is $1 + 1$? [[input:ans1]]', '[[feedback:prt123]]'));
+            'What is $1 + 1$? [[input:ans1]]',
+            '[[feedback:prt123]]'
+        ));
     }
 
     public function test_get_prt_names_from_question_both(): void {
@@ -594,7 +631,9 @@ final class questiontype_test extends qtype_stack_walkthrough_test_base {
         $qtype = new qtype_stack();
 
         $this->assertEquals(['prt1' => 1, 'prt2' => 1], $qtype->get_prt_names_from_question(
-                '[Blah] [[feedback:prt1]] [Blah]', '[Blah] [[feedback:prt2]] [Blah]'));
+            '[Blah] [[feedback:prt1]] [Blah]',
+            '[Blah] [[feedback:prt2]] [Blah]'
+        ));
     }
 
     public function test_get_prt_names_from_question_invalid(): void {
@@ -608,15 +647,19 @@ final class questiontype_test extends qtype_stack_walkthrough_test_base {
 
         $qtype = new qtype_stack();
 
-        $this->assertEquals(['prt1' => 2],
-                $qtype->get_prt_names_from_question('[[feedback:prt1]] [[feedback:prt1]]', ''));
+        $this->assertEquals(
+            ['prt1' => 2],
+            $qtype->get_prt_names_from_question('[[feedback:prt1]] [[feedback:prt1]]', '')
+        );
     }
 
     public function test_get_prt_names_from_question_duplicate_split(): void {
 
         $qtype = new qtype_stack();
 
-        $this->assertEquals(['prt1' => 2], $qtype->get_prt_names_from_question('[[feedback:prt1]]',
-                '[[feedback:prt1]]'));
+        $this->assertEquals(['prt1' => 2], $qtype->get_prt_names_from_question(
+            '[[feedback:prt1]]',
+            '[[feedback:prt1]]'
+        ));
     }
 }

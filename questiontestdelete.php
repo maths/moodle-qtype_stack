@@ -22,7 +22,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(__DIR__.'/../../../config.php');
+require_once(__DIR__ . '/../../../config.php');
 
 require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/locallib.php');
@@ -37,11 +37,15 @@ $testcase = required_param('testcase', PARAM_INT);
 // Load the necessary data.
 $questiondata = $DB->get_record('question', ['id' => $questionid], '*', MUST_EXIST);
 $question = question_bank::load_question($questionid);
-$DB->get_record('qtype_stack_qtests', ['questionid' => $question->id, 'testcase' => $testcase],
-        '*', MUST_EXIST); // Just to verify that the record exists.
+$DB->get_record(
+    'qtype_stack_qtests',
+    ['questionid' => $question->id, 'testcase' => $testcase],
+    '*',
+    MUST_EXIST
+); // Just to verify that the record exists.
 
 // Process any other URL parameters, and do require_login.
-list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($question);
+[$context, $seed, $urlparams] = qtype_stack_setup_question_test_page($question);
 
 // Check permissions.
 question_require_capability_on($questiondata, 'edit');
@@ -50,8 +54,10 @@ question_require_capability_on($questiondata, 'edit');
 $backurl = new moodle_url('/question/type/stack/questiontestrun.php', $urlparams);
 $urlparams['testcase'] = $testcase;
 $PAGE->set_url('/question/type/stack/questiontestdelete.php', $urlparams);
-$title = stack_string('deletetestcase',
-        ['no' => $testcase, 'question' => format_string($question->name)]);
+$title = stack_string(
+    'deletetestcase',
+    ['no' => $testcase, 'question' => format_string($question->name)]
+);
 
 require_login();
 
@@ -67,8 +73,13 @@ $PAGE->set_heading($title);
 $PAGE->set_pagelayout('popup');
 echo $OUTPUT->header();
 
-echo $OUTPUT->confirm(stack_string('deletetestcaseareyousure',
-        ['no' => $testcase, 'question' => format_string($question->name)]),
-        new moodle_url($PAGE->url, ['sesskey' => sesskey()]), $backurl);
+echo $OUTPUT->confirm(
+    stack_string(
+        'deletetestcaseareyousure',
+        ['no' => $testcase, 'question' => format_string($question->name)]
+    ),
+    new moodle_url($PAGE->url, ['sesskey' => sesskey()]),
+    $backurl
+);
 
 echo $OUTPUT->footer();

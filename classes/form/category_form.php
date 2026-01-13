@@ -31,8 +31,12 @@ class category_form extends moodleform {
     public function definition() {
         $mform = $this->_form;
         $mform->disable_form_change_checker();
-        $mform->addElement('questioncategory', 'category', '',
-            ['contexts' => $this->_customdata['qcontext']]);
+        $mform->addElement(
+            'questioncategory',
+            'category',
+            '',
+            ['contexts' => $this->_customdata['qcontext']]
+        );
     }
 
     // Custom validation should be added here.

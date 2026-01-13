@@ -24,7 +24,7 @@
 
 define('NO_OUTPUT_BUFFERING', true);
 
-require_once(__DIR__.'/../../../config.php');
+require_once(__DIR__ . '/../../../config.php');
 
 require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/locallib.php');
@@ -38,7 +38,7 @@ $questiondata = $DB->get_record('question', ['id' => $questionid], '*', MUST_EXI
 $question = question_bank::load_question($questionid);
 
 // Process any other URL parameters, and do require_login.
-list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($question);
+[$context, $seed, $urlparams] = qtype_stack_setup_question_test_page($question);
 $PAGE->set_context($context);
 
 // Check permissions.
@@ -85,9 +85,10 @@ $deploysystematic = optional_param('deploysystematic', null, PARAM_INT);
 $deploysystematicfrom = optional_param('deploysystematicfrom', null, PARAM_INT);
 $deploysystematicto = optional_param('deploysystematicto', null, PARAM_INT);
 $usefromtofeature = false;
-if (!is_null($deployfromlist) || !is_null($deploysystematic) || (!is_null($deploysystematicfrom) &&
-    !is_null($deploysystematicto))) {
-
+if (
+    !is_null($deployfromlist) || !is_null($deploysystematic) || (!is_null($deploysystematicfrom) &&
+    !is_null($deploysystematicto))
+) {
     // Check data integrity.
     $dataproblem = false;
 
@@ -173,7 +174,6 @@ core_php_time_limit::raise($maxtime); // Prevent PHP timeouts.
 gc_collect_cycles(); // Because PHP's default memory management is rubbish.
 
 if (!is_null($deploy)) {
-
     if (0 == $deploy) {
         $nexturl->param('deployfeedbackerr', stack_string('deploymanyerror', ['err' => $deploytxt]));
         redirect($nexturl);

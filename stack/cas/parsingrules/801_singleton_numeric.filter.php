@@ -34,7 +34,6 @@ require_once(__DIR__ . '/../../maximaparser/utils.php');
  * the conversion happens.
  */
 class stack_ast_filter_801_singleton_numeric implements stack_cas_astfilter_parametric {
-
     // These two control the aceptable raw data types as well as
     // the mantissa allowed in the third option.
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
@@ -125,9 +124,11 @@ class stack_ast_filter_801_singleton_numeric implements stack_cas_astfilter_para
         }
 
         $usage = maxima_parser_utils::variable_usage_finder($ast);
-        if ((isset($usage['read']) && count($usage['read']) > 0) ||
+        if (
+            (isset($usage['read']) && count($usage['read']) > 0) ||
             (isset($usage['write']) && count($usage['write']) > 0) ||
-            (isset($usage['calls']) && count($usage['calls']) > 0)) {
+            (isset($usage['calls']) && count($usage['calls']) > 0)
+        ) {
             $node->position['invalid'] = true;
             $answernotes[] = 'Illegal_form';
             $errors[] = stack_string('Illegal_singleton_power', ['forms' => $this->acceptable_forms()]);
@@ -144,9 +145,11 @@ class stack_ast_filter_801_singleton_numeric implements stack_cas_astfilter_para
                 $m = '1';
                 if ($node->rhs instanceof MP_Integer) {
                     $p = $node->rhs->value;
-                } else if (($node->rhs instanceof MP_PrefixOp) &&
+                } else if (
+                    ($node->rhs instanceof MP_PrefixOp) &&
                         ($node->rhs->op === '-' || $node->rhs->op === '+') &&
-                        ($node->rhs->rhs instanceof MP_Integer)) {
+                        ($node->rhs->rhs instanceof MP_Integer)
+                ) {
                     $p = $node->rhs->rhs->value;
                     if ($node->rhs->op === '-') {
                         $p = -$p;
@@ -169,9 +172,11 @@ class stack_ast_filter_801_singleton_numeric implements stack_cas_astfilter_para
             if ($node->rhs->lhs instanceof MP_Integer && $node->rhs->lhs->value === 10) {
                 if ($node->rhs->rhs instanceof MP_Integer) {
                     $p = $node->rhs->rhs->value;
-                } else if ($node->rhs->rhs instanceof MP_PrefixOp &&
+                } else if (
+                    $node->rhs->rhs instanceof MP_PrefixOp &&
                     ($node->rhs->rhs->op === '-' || $node->rhs->rhs->op === '+') &&
-                    $node->rhs->rhs->rhs instanceof MP_Integer) {
+                    $node->rhs->rhs->rhs instanceof MP_Integer
+                ) {
                     $p = $node->rhs->rhs->rhs->value;
                     if ($node->rhs->rhs->op === '-') {
                         $p = -$p;

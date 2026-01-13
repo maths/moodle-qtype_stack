@@ -34,7 +34,6 @@ require_once(__DIR__ . '/../lang/multilang.php');
  * @covers \stack_multilang
  */
 final class multilang_test extends qtype_stack_testcase {
-
     public function test_get_languages(): void {
 
         $enfi = '<span lang="en" class="multilang"><p>Let \[ A = {@mat1@} \quad \textrm{and} \quad B = {@mat2@}. \] '
@@ -148,4 +147,3 @@ final class multilang_test extends qtype_stack_testcase {
         $this->assertEquals($enfi, $ml->consolidate_languages($enfi));
     }
 }
-

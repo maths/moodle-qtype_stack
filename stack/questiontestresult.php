@@ -190,8 +190,10 @@ class stack_question_test_result {
 
             $state->testoutcome = true;
             $reason = [];
-            if (is_null($state->expectedscore) != is_null($state->score) ||
-                    abs($state->expectedscore - $state->score) > 10E-6) {
+            if (
+                is_null($state->expectedscore) != is_null($state->score) ||
+                    abs($state->expectedscore - $state->score) > 10E-6
+            ) {
                 $state->testoutcome = false;
                 $reason[] = stack_string('score');
             }
@@ -201,10 +203,14 @@ class stack_question_test_result {
                 $penalty = $this->questionpenalty;
             }
             // If we have a "NULL" expected answer note, or we bailed, we just ignore what happens to penalties here.
-            if ('NULL' !== $state->expectedanswernote &&
-                $prtname . '-bail' !== $state->expectedanswernote) {
-                if (is_null($state->penalty) ||
-                        abs($penalty - $state->penalty) > 10E-6) {
+            if (
+                'NULL' !== $state->expectedanswernote &&
+                $prtname . '-bail' !== $state->expectedanswernote
+            ) {
+                if (
+                    is_null($state->penalty) ||
+                        abs($penalty - $state->penalty) > 10E-6
+                ) {
                     $state->testoutcome = false;
                     $reason[] = stack_string('penalty');
                 }
@@ -216,7 +222,7 @@ class stack_question_test_result {
             if (empty($reason)) {
                 $state->reason = '';
             } else {
-                $state->reason = ' ('.implode(', ', $reason).')';
+                $state->reason = ' (' . implode(', ', $reason) . ')';
             }
 
             $states[$prtname] = $state;
@@ -278,7 +284,6 @@ class stack_question_test_result {
                     'inputstatus' => stack_string('inputstatusname' . $inputstate->status),
                     'errors' => $inputstate->errors,
                 ];
-
             }
 
             foreach ($this->get_prt_states() as $prtname => $state) {
@@ -312,8 +317,10 @@ class stack_question_test_result {
             $outcome = html_writer::tag('span', stack_string('testsuitefail'), ['class' => 'fail']);
         }
         if ($key !== null) {
-            $html .= html_writer::tag('h3', stack_string('testcasexresult',
-                ['no' => $key, 'result' => $outcome]));
+            $html .= html_writer::tag('h3', stack_string(
+                'testcasexresult',
+                ['no' => $key, 'result' => $outcome]
+            ));
         }
 
         if (trim($this->testcase->description) !== '') {
@@ -375,7 +382,6 @@ class stack_question_test_result {
         $debuginfo = '';
         $inputsneeded = $question->get_cached('required');
         foreach ($this->get_prt_states() as $prtname => $state) {
-
             $prtinputs = [];
             // If we delete a PRT we'll end up with a non-existent prt name here.
             if ($inputsneeded != null && array_key_exists($prtname, $inputsneeded)) {
@@ -391,7 +397,7 @@ class stack_question_test_result {
                 $passedcol = stack_string('testsuitepass');
             } else {
                 $prtstable->rowclasses[] = 'fail';
-                $passedcol = stack_string('testsuitefail').$state->reason;
+                $passedcol = stack_string('testsuitefail') . $state->reason;
             }
 
             // Sort out excessive decimal places from the DB.

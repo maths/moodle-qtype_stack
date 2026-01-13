@@ -29,7 +29,6 @@ require_once(__DIR__ . '/../../ast.container.class.php');
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_cas_castext2_castext extends stack_cas_castext2_block {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
         // The purpose of this block is to inject a section of CASText
@@ -48,14 +47,17 @@ class stack_cas_castext2_castext extends stack_cas_castext2_block {
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function validate_extract_attributes(): array {
         $r = [
-            stack_ast_container_silent::make_from_teacher_source($this->params['evaluated'],
-            'ct2:castext', new stack_cas_security()),
+            stack_ast_container_silent::make_from_teacher_source(
+                $this->params['evaluated'],
+                'ct2:castext',
+                new stack_cas_security()
+            ),
         ];
         return $r;
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function validate(&$errors=[], $options = []): bool {
+    public function validate(&$errors = [], $options = []): bool {
         if (!array_key_exists('evaluated', $this->params)) {
             $errors[] = new $options['errclass']('The castext block must be empty and needs to have the "evaluated" ' .
                 'attribute providing the castext-fragment.', $options['context'] . '/' . $this->position['start'] .

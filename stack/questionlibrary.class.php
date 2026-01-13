@@ -106,13 +106,17 @@ class stack_question_library {
             // ISS1436 - As far as I can tell, only equiv input is using $tavalue
             // and that's expecting a string not an array.
             $render = $input->render($state, $fieldname, false, $tavalue);
-            StackPlotReplacer::replace_plots($plots, $render, "answer-".$name, $storeprefix);
-            $questiontext = str_replace("[[input:{$name}]]",
+            StackPlotReplacer::replace_plots($plots, $render, "answer-" . $name, $storeprefix);
+            $questiontext = str_replace(
+                "[[input:{$name}]]",
                 $render,
-                $questiontext);
-            $questiontext = str_replace("[[validation:{$name}]]",
+                $questiontext
+            );
+            $questiontext = str_replace(
+                "[[validation:{$name}]]",
                 '',
-                $questiontext);
+                $questiontext
+            );
         }
 
         foreach ($plots as $original => $new) {
@@ -150,7 +154,7 @@ class stack_question_library {
                 if (
                     (pathinfo($path, PATHINFO_EXTENSION) === 'xml' && strrpos($path, 'gitsync_category') === false)
                     || (pathinfo($path, PATHINFO_EXTENSION) === 'json' && strrpos($path, '_quiz.json') !== false)
-                 ) {
+                ) {
                     $childless = new StdClass();
                     // Get the path relative to the samplequestions folder.
                     $pathfromsq = str_replace('samplequestions/', '', $path);
@@ -169,8 +173,10 @@ class stack_question_library {
                         $topquizzes = [];
                         $topfolders = [];
                         foreach ($topchildren as $topchild) {
-                            if (isset($topchild->path) && pathinfo($topchild->path, PATHINFO_EXTENSION) === 'json'
-                                    && strrpos($topchild->path, '_quiz.json') !== false) {
+                            if (
+                                isset($topchild->path) && pathinfo($topchild->path, PATHINFO_EXTENSION) === 'json'
+                                    && strrpos($topchild->path, '_quiz.json') !== false
+                            ) {
                                 $topquizzes[] = $topchild;
                             } else if ($topchild->isdirectory) {
                                 $topfolders[] = $topchild;

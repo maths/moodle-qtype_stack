@@ -32,7 +32,7 @@ class stack_cas_castext2_special_raw extends stack_cas_castext2_block {
     public $content;
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function __construct($params, $children=[], $mathmode=false, $value='') {
+    public function __construct($params, $children = [], $mathmode = false, $value = '') {
         parent::__construct($params, $children, $mathmode);
         $this->content = $value;
     }

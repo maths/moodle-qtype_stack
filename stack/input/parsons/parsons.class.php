@@ -28,7 +28,6 @@ require_once(__DIR__ . '/../../utils.class.php');
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_parsons_input extends stack_json_input {
-
     /**
      * If new functionality is added to the Parson's block that require new answer functions then they should be added to
      * the following two functions.
@@ -102,7 +101,7 @@ class stack_parsons_input extends stack_json_input {
     private static function detect_grouping_model_answer_type($in) {
         $decode = json_decode($in);
         if (!is_array($decode) || count($decode) !== 3) {
-            return stack_string('inputtypeparsons_incorrect_model_ans');;
+            return stack_string('inputtypeparsons_incorrect_model_ans');
         }
         $third = $decode[2];
         if (gettype($third) === "integer") {
@@ -125,7 +124,7 @@ class stack_parsons_input extends stack_json_input {
     private static function detect_grid_model_answer_type($in) {
         $decode = json_decode($in);
         if (!is_array($decode) || count($decode) === 3) {
-            return stack_string('inputtypeparsons_incorrect_model_ans');;
+            return stack_string('inputtypeparsons_incorrect_model_ans');
         }
         $third = $decode[2];
         $fourth = $decode[3];

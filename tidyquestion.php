@@ -23,7 +23,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(__DIR__.'/../../../config.php');
+require_once(__DIR__ . '/../../../config.php');
 require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/locallib.php');
 require_once(__DIR__ . '/tidyquestionform.php');
@@ -31,14 +31,14 @@ require_once(__DIR__ . '/vle_specific.php');
 
 // Get the parameters from the URL.
 $questionid = required_param('questionid', PARAM_INT);
-list($qversion, $questionid) = get_latest_question_version($questionid);
+[$qversion, $questionid] = get_latest_question_version($questionid);
 
 // Load the necessary data.
 $questiondata = $DB->get_record('question', ['id' => $questionid], '*', MUST_EXIST);
 $question = question_bank::load_question($questionid);
 
 // Process any other URL parameters, and do require_login.
-list($context, $notused, $urlparams) = qtype_stack_setup_question_test_page($question);
+[$context, $notused, $urlparams] = qtype_stack_setup_question_test_page($question);
 
 // Check permissions.
 question_require_capability_on($questiondata, 'edit');
@@ -89,7 +89,6 @@ $form = new qtype_stack_tidy_question_form($PAGE->url, ['question' => $question,
 
 if ($form->is_cancelled()) {
     redirect($returnurl);
-
 } else if ($data = $form->get_data()) {
     $qtype = question_bank::get_qtype('stack');
     $transaction = $DB->start_delegated_transaction();

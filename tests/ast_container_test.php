@@ -42,7 +42,6 @@ require_once(__DIR__ . '/fixtures/test_base.php');
  * @covers \stack_ast_container
  */
 final class ast_container_test extends qtype_stack_testcase {
-
     public function test_types(): void {
 
         $matrix = stack_ast_container::make_from_teacher_source('foo:matrix([1,2],[3,4])', 'type test', new stack_cas_security());
@@ -109,7 +108,8 @@ final class ast_container_test extends qtype_stack_testcase {
     public function test_get_valid(): void {
 
         $cases = [
-            ['', false, true],
+            // This first case is a change in parser2.  Teachers cannot have an empty string anymore.
+            ['', false, false],
             ['1', true, true],
             ['a b', true, false],
             ['%pi', true, true], // Only %pi %e, %i, %gamma, %phi.
@@ -169,7 +169,7 @@ final class ast_container_test extends qtype_stack_testcase {
 
     public function test_validation_alias(): void {
 
-        $casstring = stack_ast_container::make_from_student_source(json_decode('"\u03C0"').'*r^2', '', new stack_cas_security());
+        $casstring = stack_ast_container::make_from_student_source(json_decode('"\u03C0"') . '*r^2', '', new stack_cas_security());
         $casstring->get_valid();
         $this->assertEquals($casstring->get_evaluationform(), '%pi*r^2');
         $this->assertEquals('', $casstring->get_errors());
@@ -179,23 +179,28 @@ final class ast_container_test extends qtype_stack_testcase {
     public function test_validation_unicode(): void {
 
         // Note the error with the * in this expression.
-        $casstring = stack_ast_container::make_from_student_source(json_decode('"\u212F"').'*^x', '', new stack_cas_security());
+        $casstring = stack_ast_container::make_from_student_source(json_decode('"\u212F"') . '*^x', '', new stack_cas_security());
         $casstring->get_valid();
-        $this->assertEquals('Expected "#pm#", "%not ", "\'", "\'\'", "(", "+", "+-", "-", "? ", "?", "?? ", "[", "do", ' .
-            '"for", "from", "if", "in", "next", "not ", "not", "nounnot ", "nounnot", "nounsub ", "step", "thru", "unless", ' .
-            '"while", "{", "|", boolean, float, identifier, integer, string or whitespace but "^" found.',
-            $casstring->get_errors());
+        $this->assertEquals(
+            'Expected "(", "[", "{", "|", "ATOM", "PREFIX_OP", received "^".',
+            $casstring->get_errors()
+        );
         $this->assertEquals('ParseError', $casstring->get_answernote());
     }
 
     public function test_validation_error(): void {
 
         // Consider A union B.
-        $casstring = stack_ast_container::make_from_student_source('A ' . json_decode('"\u222A"') . ' B', '',
-                new stack_cas_security());
+        $casstring = stack_ast_container::make_from_student_source(
+            'A ' . json_decode('"\u222A"') . ' B',
+            '',
+            new stack_cas_security()
+        );
         $casstring->get_valid();
-        $this->assertEquals(stack_string('stackCas_forbiddenChar', ['char' => json_decode('"\u222A"')]),
-                $casstring->get_errors());
+        $this->assertEquals(
+            stack_string('stackCas_forbiddenChar', ['char' => json_decode('"\u222A"')]),
+            $casstring->get_errors()
+        );
         $this->assertEquals('forbiddenChar', $casstring->get_answernote());
     }
 
@@ -203,8 +208,10 @@ final class ast_container_test extends qtype_stack_testcase {
 
         $casstring = stack_ast_container::make_from_student_source('2/*x', '', new stack_cas_security());
         $casstring->get_valid();
-        $this->assertEquals('Unknown operator: <span class="stacksyntaxexample">/*</span>.',
-                $casstring->get_errors());
+        $this->assertEquals(
+            'Unknown operator: <span class="stacksyntaxexample">/*</span>.',
+            $casstring->get_errors()
+        );
         $this->assertEquals('spuriousop', $casstring->get_answernote());
     }
 
@@ -212,8 +219,10 @@ final class ast_container_test extends qtype_stack_testcase {
 
         $casstring = stack_ast_container::make_from_student_source('x==2*x', '', new stack_cas_security());
         $casstring->get_valid();
-        $this->assertEquals('Unknown operator: <span class="stacksyntaxexample">==</span>.',
-                $casstring->get_errors());
+        $this->assertEquals(
+            'Unknown operator: <span class="stacksyntaxexample">==</span>.',
+            $casstring->get_errors()
+        );
         $this->assertEquals('spuriousop', $casstring->get_answernote());
     }
 
@@ -222,14 +231,18 @@ final class ast_container_test extends qtype_stack_testcase {
         $s = 'system("rm *")';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
         $this->assertFalse($at1->get_valid());
-        $this->assertEquals('Forbidden function: <span class="stacksyntaxexample">system</span>.',
-                $at1->get_errors());
+        $this->assertEquals(
+            'Forbidden function: <span class="stacksyntaxexample">system</span>.',
+            $at1->get_errors()
+        );
         $this->assertEquals('forbiddenFunction', $at1->get_answernote());
 
         $at2 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
         $this->assertFalse($at2->get_valid());
-        $this->assertEquals('Forbidden function: <span class="stacksyntaxexample">system</span>.',
-                $at2->get_errors());
+        $this->assertEquals(
+            'Forbidden function: <span class="stacksyntaxexample">system</span>.',
+            $at2->get_errors()
+        );
         $this->assertEquals('forbiddenFunction', $at1->get_answernote());
     }
 
@@ -254,8 +267,10 @@ final class ast_container_test extends qtype_stack_testcase {
         $s = 'setelmx(2,1,1,C)';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
         $this->assertFalse($at1->get_valid());
-        $this->assertEquals('Forbidden function: <span class="stacksyntaxexample">setelmx</span>.',
-                $at1->get_errors());
+        $this->assertEquals(
+            'Forbidden function: <span class="stacksyntaxexample">setelmx</span>.',
+            $at1->get_errors()
+        );
 
         $at2 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
         $this->assertTrue($at2->get_valid());
@@ -359,9 +374,10 @@ final class ast_container_test extends qtype_stack_testcase {
         $at1 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
         $this->assertFalse($at1->get_valid());
 
+        // In parser2 this changed: we now correctly insert *s.
         $s = 'a:"hello"5';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
-        $this->assertFalse($at1->get_valid());
+        $this->assertTrue($at1->get_valid());
 
         $s = 'a:"hello"*5';
         $at1 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
@@ -402,7 +418,10 @@ final class ast_container_test extends qtype_stack_testcase {
 
         $s = 'a:"hello';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
-        $this->assertEquals('You are missing a quotation sign <code>"</code>. ', $at1->get_errors());
+        $this->assertEquals(
+            'Forbidden variable or constant: <span class="stacksyntaxexample">hello</span>.',
+            $at1->get_errors()
+        );
     }
 
     public function test_system_execution(): void {
@@ -411,21 +430,27 @@ final class ast_container_test extends qtype_stack_testcase {
         $s = 'a:eval_string("system(\\"rm /tmp/test\\")")';
         $at1 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
         $this->assertFalse($at1->get_valid());
-        $this->assertEquals('Forbidden function: <span class="stacksyntaxexample">eval_string</span>.',
-                $at1->get_errors());
+        $this->assertEquals(
+            'Forbidden function: <span class="stacksyntaxexample">eval_string</span>.',
+            $at1->get_errors()
+        );
 
         $s = 'a:eval_string("system(rm /tmp/test)")';
         $at1 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
         $this->assertFalse($at1->get_valid());
-        $this->assertEquals('Forbidden function: <span class="stacksyntaxexample">eval_string</span>.',
-                $at1->get_errors());
+        $this->assertEquals(
+            'Forbidden function: <span class="stacksyntaxexample">eval_string</span>.',
+            $at1->get_errors()
+        );
 
         // The second requires a bit more, parse but do the eval later.
         $s = 'a:ev(parse_string("system(\\"rm /tmp/test\\")"),eval)';
         $at1 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
         $this->assertFalse($at1->get_valid());
-        $this->assertEquals('Forbidden function: <span class="stacksyntaxexample">parse_string</span>.',
-                $at1->get_errors());
+        $this->assertEquals(
+            'Forbidden function: <span class="stacksyntaxexample">parse_string</span>.',
+            $at1->get_errors()
+        );
 
         // Then things get tricky, one needs to write the thing out and eval when reading in.
         // Luckilly, appendfile, save, writefile, and stringout commands would require manual eval.
@@ -433,51 +458,67 @@ final class ast_container_test extends qtype_stack_testcase {
         $s = 'a:appendfile("/tmp/test")';
         $at1 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
         $this->assertFalse($at1->get_valid());
-        $this->assertEquals('Forbidden function: <span class="stacksyntaxexample">appendfile</span>.',
-                $at1->get_errors());
+        $this->assertEquals(
+            'Forbidden function: <span class="stacksyntaxexample">appendfile</span>.',
+            $at1->get_errors()
+        );
 
         $s = 'a:writefile("/tmp/test")';
         $at1 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
         $this->assertFalse($at1->get_valid());
-        $this->assertEquals('Forbidden function: <span class="stacksyntaxexample">writefile</span>.',
-                $at1->get_errors());
+        $this->assertEquals(
+            'Forbidden function: <span class="stacksyntaxexample">writefile</span>.',
+            $at1->get_errors()
+        );
 
         $s = 'a:save("/tmp/test")';
         $at1 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
         $this->assertFalse($at1->get_valid());
-        $this->assertEquals('Forbidden function: <span class="stacksyntaxexample">save</span>.',
-                $at1->get_errors());
+        $this->assertEquals(
+            'Forbidden function: <span class="stacksyntaxexample">save</span>.',
+            $at1->get_errors()
+        );
 
         $s = 'a:stringout("/tmp/test", "system(\\"rm /tmp/test\\");")';
         $at1 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
         $this->assertFalse($at1->get_valid());
-        $this->assertEquals('Forbidden function: <span class="stacksyntaxexample">stringout</span>.',
-                $at1->get_errors());
+        $this->assertEquals(
+            'Forbidden function: <span class="stacksyntaxexample">stringout</span>.',
+            $at1->get_errors()
+        );
 
         // The corresponding read commands load, loadfile, batch, and batchload are all bad.
         $s = 'a:load("/tmp/test")';
         $at1 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
         $this->assertFalse($at1->get_valid());
-        $this->assertEquals('Forbidden function: <span class="stacksyntaxexample">load</span>.',
-                $at1->get_errors());
+        $this->assertEquals(
+            'Forbidden function: <span class="stacksyntaxexample">load</span>.',
+            $at1->get_errors()
+        );
 
         $s = 'a:loadfile("/tmp/test")';
         $at1 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
         $this->assertFalse($at1->get_valid());
-        $this->assertEquals('Forbidden function: <span class="stacksyntaxexample">loadfile</span>.',
-                $at1->get_errors());
+        $this->assertEquals(
+            'Forbidden function: <span class="stacksyntaxexample">loadfile</span>.',
+            $at1->get_errors()
+        );
 
         $s = 'a:batch("/tmp/test")';
         $at1 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
         $this->assertFalse($at1->get_valid());
-        $this->assertEquals('Forbidden function: <span class="stacksyntaxexample">batch</span>.',
-                $at1->get_errors());
+        $this->assertEquals(
+            'Forbidden function: <span class="stacksyntaxexample">batch</span>.',
+            $at1->get_errors()
+        );
 
         $s = 'a:batchload("/tmp/test")';
         $at1 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
         $this->assertFalse($at1->get_valid());
-        $this->assertEquals('Forbidden function: <span class="stacksyntaxexample">batchload</span>.',
-                $at1->get_errors());
+        $this->assertEquals(
+            'Forbidden function: <span class="stacksyntaxexample">batchload</span>.',
+            $at1->get_errors()
+        );
 
         // Naturally, lower level functions can allow you to actually edit or generate files to execute.
         // The opena, openw, and openr and their binary versions could do even more harm.
@@ -485,60 +526,78 @@ final class ast_container_test extends qtype_stack_testcase {
         $s = 'a:opena("/tmp/test")';
         $at1 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
         $this->assertFalse($at1->get_valid());
-        $this->assertEquals('Forbidden function: <span class="stacksyntaxexample">opena</span>.',
-                $at1->get_errors());
+        $this->assertEquals(
+            'Forbidden function: <span class="stacksyntaxexample">opena</span>.',
+            $at1->get_errors()
+        );
 
         $s = 'a:openw("/tmp/test")';
         $at1 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
         $this->assertFalse($at1->get_valid());
-        $this->assertEquals('Forbidden function: <span class="stacksyntaxexample">openw</span>.',
-                $at1->get_errors());
+        $this->assertEquals(
+            'Forbidden function: <span class="stacksyntaxexample">openw</span>.',
+            $at1->get_errors()
+        );
 
         $s = 'a:openr("/tmp/test")';
         $at1 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
         $this->assertFalse($at1->get_valid());
-        $this->assertEquals('Forbidden function: <span class="stacksyntaxexample">openr</span>.',
-                $at1->get_errors());
+        $this->assertEquals(
+            'Forbidden function: <span class="stacksyntaxexample">openr</span>.',
+            $at1->get_errors()
+        );
 
         $s = 'a:opena_binary("/tmp/test")';
         $at1 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
         $this->assertFalse($at1->get_valid());
-        $this->assertEquals('Forbidden function: <span class="stacksyntaxexample">opena_binary</span>.',
-                $at1->get_errors());
+        $this->assertEquals(
+            'Forbidden function: <span class="stacksyntaxexample">opena_binary</span>.',
+            $at1->get_errors()
+        );
 
         $s = 'a:openw_binary("/tmp/test")';
         $at1 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
         $this->assertFalse($at1->get_valid());
-        $this->assertEquals('Forbidden function: <span class="stacksyntaxexample">openw_binary</span>.',
-                $at1->get_errors());
+        $this->assertEquals(
+            'Forbidden function: <span class="stacksyntaxexample">openw_binary</span>.',
+            $at1->get_errors()
+        );
 
         $s = 'a:openr_binary("/tmp/test")';
         $at1 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
         $this->assertFalse($at1->get_valid());
-        $this->assertEquals('Forbidden function: <span class="stacksyntaxexample">openr_binary</span>.',
-                $at1->get_errors());
+        $this->assertEquals(
+            'Forbidden function: <span class="stacksyntaxexample">openr_binary</span>.',
+            $at1->get_errors()
+        );
 
         // And lets not forget being able to output file contents.
         $s = 'a:printfile("/tmp/test")';
         $at1 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
         $this->assertFalse($at1->get_valid());
-        $this->assertEquals('Forbidden function: <span class="stacksyntaxexample">printfile</span>.',
-                $at1->get_errors());
+        $this->assertEquals(
+            'Forbidden function: <span class="stacksyntaxexample">printfile</span>.',
+            $at1->get_errors()
+        );
 
         // And then there is the possibility of using lisp level functions.
         $s = ':lisp (with-open-file (stream "/tmp/test" :direction :output) (format stream "system(\\"rm /tmp/test\\")"))';
         $at1 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
         $this->assertFalse($at1->get_valid());
-        $this->assertEquals('The expression <span class="stacksyntaxexample">lisp</span> is forbidden.',
-                $at1->get_errors());
+        $this->assertEquals(
+            'The expression <span class="stacksyntaxexample">lisp</span> is forbidden.',
+            $at1->get_errors()
+        );
 
         // That last goes wrong due to "strings" not being usable in the lisp way.
         // Assuming those are in variables we can try this.
         $s = ':lisp (with-open-file (stream a :direction :output) (format stream b))';
         $at1 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
         $this->assertFalse($at1->get_valid());
-        $this->assertEquals('The expression <span class="stacksyntaxexample">lisp</span> is forbidden.',
-                $at1->get_errors());
+        $this->assertEquals(
+            'The expression <span class="stacksyntaxexample">lisp</span> is forbidden.',
+            $at1->get_errors()
+        );
     }
 
     public function test_scientific_1(): void {
@@ -626,9 +685,11 @@ final class ast_container_test extends qtype_stack_testcase {
         $this->assertFalse($at1->get_valid());
         $this->assertEquals('unknownVariableCase', $at1->get_answernote());
         // Note the capital D in the feedback here.  We suggest a capital Delta.
-        $this->assertEquals('Input is case sensitive: <span class="stacksyntaxexample">DELTA</span> '.
+        $this->assertEquals(
+            'Input is case sensitive: <span class="stacksyntaxexample">DELTA</span> ' .
                 'is an unknown variable. Did you mean <span class="stacksyntaxexample">Delta, delta</span>?',
-                $at1->get_errors());
+            $at1->get_errors()
+        );
     }
 
     public function test_unencapsulated_commas_1(): void {
@@ -781,7 +842,6 @@ final class ast_container_test extends qtype_stack_testcase {
             $this->assertEquals($r['decimalplaces'], $t[3]);
             $this->assertEquals($r['fltfmt'], $t[4]);
         }
-
     }
 
     public function test_decimal_digits_utils(): void {
@@ -844,9 +904,11 @@ final class ast_container_test extends qtype_stack_testcase {
             "(%_C(noundiff),noundiff(y,x))+y = 0,nounnot false,nounnot(false)]";
         $this->assertEquals($s, $at1->get_evaluationform());
         // The subtle change of spaces after commas and equals signs shows the parser is re-displaying the expression.
-        $this->assertEquals("['sum(k^2,k,1,n),'product(k^2,k,1,n),a nounand b,noundiff(y,x)+y = 0," .
+        $this->assertEquals(
+            "['sum(k^2,k,1,n),'product(k^2,k,1,n),a nounand b,noundiff(y,x)+y = 0," .
                 "nounnot false,nounnot(false)]",
-                $at1->get_inputform());
+            $at1->get_inputform()
+        );
 
         $at1->set_nounify(0);
         // Remove all nouns when evaluating.
@@ -855,8 +917,10 @@ final class ast_container_test extends qtype_stack_testcase {
                 "diff(y,x))+y = 0,not false,not(false)]";
         $this->assertEquals($s, $at1->get_evaluationform());
         // Get input form also removes noun forms.
-        $this->assertEquals("[sum(k^2,k,1,n),product(k^2,k,1,n),a and b,diff(y,x)+y = 0,not false,not(false)]",
-            $at1->get_inputform(true, 0));
+        $this->assertEquals(
+            "[sum(k^2,k,1,n),product(k^2,k,1,n),a and b,diff(y,x)+y = 0,not false,not(false)]",
+            $at1->get_inputform(true, 0)
+        );
 
         // This example has only one noun on the product.
         // Sum will get protected by %_C in the evaluation form, but product will not.
@@ -869,33 +933,41 @@ final class ast_container_test extends qtype_stack_testcase {
         $s = "[(%_C(sum),sum(k^2,k,1,n)),'product(k^2,k,1,n),a and b,(%_C(diff),diff(y,x))+y = 0," .
                 "not false,not(false)]";
         $this->assertEquals($s, $at1->get_evaluationform());
-        $this->assertEquals("[sum(k^2,k,1,n),'product(k^2,k,1,n),a and b,diff(y,x)+y = 0,not false,not(false)]",
-                $at1->get_inputform());
+        $this->assertEquals(
+            "[sum(k^2,k,1,n),'product(k^2,k,1,n),a and b,diff(y,x)+y = 0,not false,not(false)]",
+            $at1->get_inputform()
+        );
 
         $at1->set_nounify(0);
         $s = "[(%_C(sum),sum(k^2,k,1,n)),product(k^2,k,1,n),a and b,(%_C(diff),diff(y,x))+y = 0," .
                 "not false,not(false)]";
         $this->assertEquals($s, $at1->get_evaluationform());
-        $this->assertEquals("[sum(k^2,k,1,n),product(k^2,k,1,n),a and b,diff(y,x)+y = 0,not false,not(false)]",
-                $at1->get_inputform(true, 0));
+        $this->assertEquals(
+            "[sum(k^2,k,1,n),product(k^2,k,1,n),a and b,diff(y,x)+y = 0,not false,not(false)]",
+            $at1->get_inputform(true, 0)
+        );
 
         $at1->set_nounify(1);
         // We don't add apostophies where they don't exist.
         $s = "[(%_C(sum),sum(k^2,k,1,n)),'product(k^2,k,1,n),a nounand b,(%_C(diff)," .
                 "noundiff(y,x))+y = 0,nounnot false,nounnot(false)]";
         $this->assertEquals($s, $at1->get_evaluationform());
-        $this->assertEquals("[sum(k^2,k,1,n),'product(k^2,k,1,n),a nounand b,noundiff(y,x)+y = 0," .
+        $this->assertEquals(
+            "[sum(k^2,k,1,n),'product(k^2,k,1,n),a nounand b,noundiff(y,x)+y = 0," .
             "nounnot false,nounnot(false)]",
-            $at1->get_inputform(true, 1));
+            $at1->get_inputform(true, 1)
+        );
 
         $at1->set_nounify(2);
         // We only add apostophies to logic nouns.
         $s = "[(%_C(sum),sum(k^2,k,1,n)),'product(k^2,k,1,n),a nounand b,(%_C(diff)," .
                 "diff(y,x))+y = 0,nounnot false,nounnot(false)]";
         $this->assertEquals($s, $at1->get_evaluationform());
-        $this->assertEquals("[sum(k^2,k,1,n),'product(k^2,k,1,n),a nounand b,diff(y,x)+y = 0," .
+        $this->assertEquals(
+            "[sum(k^2,k,1,n),'product(k^2,k,1,n),a nounand b,diff(y,x)+y = 0," .
             "nounnot false,nounnot(false)]",
-            $at1->get_inputform(true, 2));
+            $at1->get_inputform(true, 2)
+        );
     }
 
     public function test_stacklet(): void {
@@ -992,8 +1064,10 @@ final class ast_container_test extends qtype_stack_testcase {
         $expected = '([FunctionCall: ([Id] matrix)] ([List] ([Set] ([Int] 1), ([Int] 2)), ([List] ([Id] a), ([Id] b))))';
         $this->assertEquals($expected, $at1->ast_to_string(null, ['flattree' => true]));
         $this->assertTrue($at1->get_valid());
-        $this->assertEquals("{1,2} [a,b]", $at1->ast_to_string(null,
-            ['inputform' => true, 'varmatrix' => true]));
+        $this->assertEquals("{1,2} [a,b]", $at1->ast_to_string(
+            null,
+            ['inputform' => true, 'varmatrix' => true]
+        ));
 
         // This is a crazy example because the rows are different lengths.  So what?
         $s = 'matrix([matrix([a,b])],[a,b])';
@@ -1003,8 +1077,10 @@ final class ast_container_test extends qtype_stack_testcase {
         $this->assertEquals($expected, $at1->ast_to_string(null, ['flattree' => true]));
         $this->assertTrue($at1->get_valid());
         // This is to record the behaviour only.  It isn't a sensible example.
-        $this->assertEquals("matrix([a,b])\na b", $at1->ast_to_string(null,
-            ['inputform' => true, 'varmatrix' => true]));
+        $this->assertEquals("matrix([a,b])\na b", $at1->ast_to_string(
+            null,
+            ['inputform' => true, 'varmatrix' => true]
+        ));
     }
 
     public function test_ntuple(): void {
@@ -1055,7 +1131,6 @@ final class ast_container_test extends qtype_stack_testcase {
         $this->assertEquals('(%_C(ntuple),ntuple((%_C(ntuple),ntuple(x,y)),a))', $at1->get_evaluationform());
         $this->assertEquals('ntuple(ntuple(x,y),a)', $at1->get_inputform());
         $this->assertEquals('((x,y),a)', $at1->get_inputform(true, 0, true));
-
     }
 
     public function test_identify_simplification_modifications(): void {
@@ -1084,7 +1159,6 @@ final class ast_container_test extends qtype_stack_testcase {
         $this->assertTrue($t3['simp-modified'], "b");
         $this->assertTrue($t3['out-of-ev-write'], "c");
         $this->assertEquals($t3['last-seen'], false);
-
     }
 
     public function test_teacher_answer_decimals(): void {

@@ -127,7 +127,7 @@ class GradingController {
                 \stack_maths::process_display_castext($overallfeedback),
                 $language
             );
-            StackPlotReplacer::replace_plots($plots, $gradingresponse->prts[$index], "prt-".$index, $storeprefix);
+            StackPlotReplacer::replace_plots($plots, $gradingresponse->prts[$index], "prt-" . $index, $storeprefix);
         }
 
         $weights = $question->get_parts_and_weights();
@@ -177,7 +177,8 @@ class GradingController {
         }
 
         if ($question->$field) {
-            return \html_writer::tag('div',
+            return \html_writer::tag(
+                'div',
                 \stack_maths::process_display_castext(
                     $question->$field->apply_placeholder_holder($question->$field->get_rendered($question->castextprocessor))
                 ),
@@ -187,5 +188,4 @@ class GradingController {
 
         return '';
     }
-
 }

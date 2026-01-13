@@ -46,7 +46,7 @@ $docsroot = $CFG->dirroot . '/question/type/stack/doc/' . current_language();
 
 // Default to English when docs are missing.
 $docsrooten = $CFG->dirroot . '/question/type/stack/doc/en';
-if (!file_exists($docsroot.'/index.md')) {
+if (!file_exists($docsroot . '/index.md')) {
     $docsroot = $CFG->dirroot . '/question/type/stack/doc/en';
 }
 
@@ -76,14 +76,12 @@ $lastseg = $segs[count($segs) - 1];
 if ($uri == '/') {
     // The docs front page at .../doc.php/.
     $linkurls = [];
-    $sitemapurl = '<a href = "' . $docsurl . '/Site_map' .'">'
+    $sitemapurl = '<a href = "' . $docsurl . '/Site_map' . '">'
         . stack_string('stackDoc_siteMap') . '</a>';
-
 } else if ('/Site_map' == $uri) {
     $linkurls = [
         $docsurl               => stack_string('stackDoc_home'),
     ];
-
 } else {
     $linkurls = [
         $docsurl               => stack_string('stackDoc_home'),
@@ -145,7 +143,7 @@ if ($uri == '/') {
     asort($libs);
     $libs = implode(', ', $libs);
     $vstr = $settings->version . ' (' . $libs . ')';
-    $body .= '<br/>'.stack_string('stackDoc_version', $vstr);
+    $body .= '<br/>' . stack_string('stackDoc_version', $vstr);
 }
 
 $webpix  = $CFG->wwwroot . '/question/type/stack/pix/logo-sm.png';

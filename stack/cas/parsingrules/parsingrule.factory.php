@@ -21,7 +21,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 
-defined('MOODLE_INTERNAL')|| die();
+defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/filter.interface.php');
 require_once(__DIR__ . '/pipeline.class.php');
@@ -43,6 +43,7 @@ require_once(__DIR__ . '/103_no_lists.filter.php');
 require_once(__DIR__ . '/104_no_sets.filter.php');
 require_once(__DIR__ . '/105_no_grouppings.filter.php');
 require_once(__DIR__ . '/106_no_control_flow.filter.php');
+require_once(__DIR__ . '/115_lexer_post_process_stackbasen.filter.php');
 require_once(__DIR__ . '/120_no_arc.filter.php');
 require_once(__DIR__ . '/150_replace_unicode_letters.filter.php');
 require_once(__DIR__ . '/180_char_based_superscripts.filter.php');
@@ -64,6 +65,7 @@ require_once(__DIR__ . '/505_no_evaluation_groups.filter.php');
 require_once(__DIR__ . '/520_no_equality_with_logic.filter.php');
 require_once(__DIR__ . '/541_no_unknown_functions.filter.php');
 require_once(__DIR__ . '/542_no_functions_at_all.filter.php');
+require_once(__DIR__ . '/545_wrong_decimal_separator_validation.filter.php');
 require_once(__DIR__ . '/601_castext.filter.php');
 require_once(__DIR__ . '/602_castext_simplifier.filter.php');
 require_once(__DIR__ . '/610_castext_static_string_extractor.filter.php');
@@ -90,7 +92,6 @@ require_once(__DIR__ . '/999_strict.filter.php');
  * declared by hardcoding here. In the build function.
  */
 class stack_parsing_rule_factory {
-
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private static $singletons = [];
 
@@ -133,6 +134,8 @@ class stack_parsing_rule_factory {
                 return new stack_ast_filter_105_no_grouppings();
             case '106_no_control_flow':
                 return new stack_ast_filter_106_no_control_flow();
+            case '115_lexer_post_process_stackbasen':
+                return new stack_ast_filter_115_lexer_post_process_stackbasen();
             case '120_no_arc':
                 return new stack_ast_filter_120_no_arc();
             case '150_replace_unicode_letters':
@@ -175,6 +178,8 @@ class stack_parsing_rule_factory {
                 return new stack_ast_filter_541_no_unknown_functions();
             case '542_no_functions_at_all':
                 return new stack_ast_filter_542_no_functions_at_all();
+            case '545_wrong_decimal_separator_validation':
+                return new stack_ast_filter_545_wrong_decimal_separator_validation();
             case '601_castext':
                 return new stack_ast_filter_601_castext();
             case '602_castext_simplifier':
@@ -191,7 +196,7 @@ class stack_parsing_rule_factory {
                 return new stack_ast_filter_802_singleton_units();
             case '901_remove_comments':
                 return new stack_ast_filter_901_remove_comments();
-            case '908_parsons_decode_state_for_display' :
+            case '908_parsons_decode_state_for_display':
                 return new stack_ast_filter_908_parsons_decode_state_for_display();
             case '909_parsons_get_final_submission':
                 return new stack_ast_filter_909_parsons_get_final_submission();
@@ -213,6 +218,8 @@ class stack_parsing_rule_factory {
                 return new stack_ast_filter_998_security();
             case '999_strict':
                 return new stack_ast_filter_999_strict();
+            default:
+                throw new stack_exception('stack_ast_filter: unknown filter ' . $name);
         }
     }
 
@@ -220,7 +227,8 @@ class stack_parsing_rule_factory {
     public static function get_by_common_name(string $name): stack_cas_astfilter {
         if (empty(self::$singletons)) {
             // If the static set has not been initialised do so.
-            foreach ([
+            foreach (
+                [
                 '001_fix_call_of_a_group_or_function', '002_log_candy',
                 '003_no_dot_dot', '005_i_is_never_a_function',
                 '022_trig_replace_synonyms',
@@ -232,6 +240,7 @@ class stack_parsing_rule_factory {
                 '101_no_floats', '102_no_strings',
                 '103_no_lists', '104_no_sets',
                 '105_no_grouppings', '106_no_control_flow',
+                '115_lexer_post_process_stackbasen',
                 '120_no_arc',
                 '150_replace_unicode_letters',
                 '180_char_based_superscripts',
@@ -251,6 +260,7 @@ class stack_parsing_rule_factory {
                 '505_no_evaluation_groups',
                 '520_no_equality_with_logic',
                 '541_no_unknown_functions', '542_no_functions_at_all',
+                '545_wrong_decimal_separator_validation',
                 '601_castext', '602_castext_simplifier', '680_gcl_sconcat',
                 '610_castext_static_string_extractor',
                 '650_string_protect_slash',
@@ -264,7 +274,8 @@ class stack_parsing_rule_factory {
                 '995_ev_modification', '996_call_modification',
                 '997_string_security',
                 '998_security', '999_strict',
-            ] as $name) {
+                ] as $name
+            ) {
                 self::$singletons[$name] = self::build_from_name($name);
             }
         }
@@ -272,7 +283,11 @@ class stack_parsing_rule_factory {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public static function get_filter_pipeline(array $activefilters, array $settings, bool $includecore=true): stack_cas_astfilter {
+    public static function get_filter_pipeline(
+        array $activefilters,
+        array $settings,
+        bool $includecore = true
+    ): stack_cas_astfilter {
         $tobeincluded = [];
         if ($includecore === true) {
             if (empty(self::$singletons)) {

@@ -105,7 +105,9 @@ class RenderController {
             $correctresponse = (isset($correctresponse)) ? $correctresponse : $question->get_ta_for_input($name);
             $apiinput->samplesolution = $input->get_api_solution($correctresponse);
             $apiinput->samplesolutionrender = $input->get_api_solution_render(
-                $question->get_ta_render_for_input($name), $question->get_ta_for_input($name));
+                $question->get_ta_render_for_input($name),
+                $question->get_ta_for_input($name)
+            );
 
             StackPlotReplacer::replace_plots($plots, $apiinput->samplesolutionrender, "solrender", $storeprefix);
             $apiinput->validationtype = $input->get_parameter('showValidation', 1);
@@ -113,7 +115,7 @@ class RenderController {
 
             if (array_key_exists('options', $apiinput->configuration)) {
                 foreach ($apiinput->configuration['options'] as $key => &$option) {
-                    StackPlotReplacer::replace_plots($plots, $option, "input-".$name."-".$key, $storeprefix);
+                    StackPlotReplacer::replace_plots($plots, $option, "input-" . $name . "-" . $key, $storeprefix);
                 }
             }
 
@@ -124,7 +126,7 @@ class RenderController {
                 $fieldname = $data['renderInputs'] . $name;
                 $state = $question->get_input_state($name, []);
                 $render = $input->render($state, $fieldname, $data['readOnly'], $tavalue);
-                StackPlotReplacer::replace_plots($plots, $render, "answer-".$name, $storeprefix);
+                StackPlotReplacer::replace_plots($plots, $render, "answer-" . $name, $storeprefix);
             }
 
             $inputs[$name]->render = $render;

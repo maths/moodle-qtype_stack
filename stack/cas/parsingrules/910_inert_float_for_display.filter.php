@@ -41,16 +41,17 @@ require_once(__DIR__ . '/../../utils.class.php');
  * sense. This is for representation.
  */
 class stack_ast_filter_910_inert_float_for_display implements stack_cas_astfilter {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
-        $floats = function($node) use (&$answernotes, &$errors) {
+        $floats = function ($node) use (&$answernotes, &$errors) {
             if ($node instanceof MP_Float) {
                 $raw = strtolower($node->raw);
-                if ($node->parentnode instanceof MP_FunctionCall &&
+                if (
+                    $node->parentnode instanceof MP_FunctionCall &&
                         $node->parentnode->name instanceof MP_Identifier &&
                         ($node->parentnode->name->value === 'dispdp' ||
-                        $node->parentnode->name->value === 'displaysci')) {
+                        $node->parentnode->name->value === 'displaysci')
+                ) {
                     // Don't break things just fixed.
                     return true;
                 }

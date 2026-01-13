@@ -89,15 +89,15 @@ class stack_subscripts_test_data {
         ['a_b_c', 'a_b_c', '!', '{{a}_{b}}_{c}', '!', '!'],
         // The underscore can appear within atoms, but it cannot be used as an operator here.
         // We might later create a student input context in which the underscore is an operator.
-        // In core Maxima we can't because this used in too many function names.
-        ['(a_b)_c', 'invalid', '', '', '!', '!', 'Test associativity'],
+        // In core Maxima we can't because this is used in too many function names.
+        // Interesting change of behaviour below with parser 2.
+        ['(a_b)_c', 'a_b*_c', '_c*a_b', '{a}_{b}\,c', '{a}_{b}\,c', '!', 'Test associativity'],
         ['a_(b_c)', 'a_(b_c)', '!', '{\it a\_}\left({b}_{c}\right)', '!', '!'],
         // Array-notation.
         ['v[0]', 'v[0]', '!', 'v_{0}', '!', '!'],
         // By default, Maxima drops the leading zeros when it creates subscripts.
         ['a[theta]', 'a[theta]', '!', 'a_{\theta}', '!', '!'],
         ['v[1,2]', 'v[1,2]', '!', 'v_{1,2}', '!', '!'],
-        //        ['a[theta]', 'a[theta]', '!', 'a_{\theta}', '!', '!'],//repetition
         ['theta[1]', 'theta[1]', '!', '\theta_{1}', '!', '!'],
         ['theta[a]', 'theta[a]', '!', '\theta_{a}', '!', '!'],
         ['theta[n,m]', 'theta[n,m]', '!', '\theta_{n,m}', '!', '!'],
@@ -172,9 +172,9 @@ class stack_subscripts_test_data {
         $sec = new stack_cas_security();
 
         $cs = [];
-        $cs[] = 'p:'.$test->rawinput;
+        $cs[] = 'p:' . $test->rawinput;
         $cs[] = 'tex_plain_atoms:true';
-        $cs[] = 'q:'.$test->rawinput;
+        $cs[] = 'q:' . $test->rawinput;
         foreach ($cs as $s) {
             $cs = stack_ast_container::make_from_student_source($s, 'subscripts_fixtures', $sec);
             $cs->get_valid();

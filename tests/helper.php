@@ -47,41 +47,41 @@ final class qtype_stack_test_helper extends question_test_helper {
             'test8', // 1 input, 1 PRT with 3 nodes. Roots of unity. Input has a syntax hint.
             'test9', // 2 inputs, 1 PRT, randomised, worked solution with CAS & plot. Make function continuous.
             'test_boolean', // 2 inputs, 1 PRT, randomised, worked solution with CAS & plot. Make function continuous.
-            'divide',       // One input, one PRT, tests 1 / ans1 - useful for testing CAS errors like divide by 0.
-            'numsigfigs',   // One input, one PRT, tests 1 / ans1 - uses the NumSigFigs test.
-            'numsigfigszeros',  // One input, one PRT, tests 1 / ans1 - uses the NumSigFigs test with trailing zeros.
-            'numdpsfeedbackvars',   // Two numerical inputs, one PRT, uses ATNumDPs and feedback variables (illustrates problem).
-            '1input2prts',  // Contrived example with one input, 2 prts, all feedback in the specific feedback area.
-            'information',  // Neither inputs nor PRTs.
+            'divide', // One input, one PRT, tests 1 / ans1 - useful for testing CAS errors like divide by 0.
+            'numsigfigs', // One input, one PRT, tests 1 / ans1 - uses the NumSigFigs test.
+            'numsigfigszeros', // One input, one PRT, tests 1 / ans1 - uses the NumSigFigs test with trailing zeros.
+            'numdpsfeedbackvars', // Two numerical inputs, one PRT, uses ATNumDPs and feedback variables (illustrates problem).
+            '1input2prts', // Contrived example with one input, 2 prts, all feedback in the specific feedback area.
+            'information', // Neither inputs nor PRTs.
             'variable_grade', // Variables in grade.
-            'survey',       // Inputs, but no PRTs.
-            'single_char_vars',   // Tests the insertion of * symbols between letter names.
-            'runtime_prt_err',    // This generates an error in the PRT at runtime.  With and without guard clause.
-            'runtime_ses_err',    // This generates an invalid session.
-            'runtime_cas_err',    // This generates a 1/0 in the CAS at run time.
-            'units',              // This question has units inputs, and a numerical test.
-            'unitsoptions',       // This question has units inputs, and a numerical test with the accuracy in a variable.
-            'unitsmulti',         // This question has units inputs, and an algebraic input.
-            'equiv_quad',         // This question uses equivalence reasoning to solve a quadratic equation.
+            'survey', // Inputs, but no PRTs.
+            'single_char_vars', // Tests the insertion of * symbols between letter names.
+            'runtime_prt_err', // This generates an error in the PRT at runtime.  With and without guard clause.
+            'runtime_ses_err', // This generates an invalid session.
+            'runtime_cas_err', // This generates a 1/0 in the CAS at run time.
+            'units', // This question has units inputs, and a numerical test.
+            'unitsoptions', // This question has units inputs, and a numerical test with the accuracy in a variable.
+            'unitsmulti', // This question has units inputs, and an algebraic input.
+            'equiv_quad', // This question uses equivalence reasoning to solve a quadratic equation.
             'checkbox_all_empty', // Creates a checkbox input with none checked as the correct answer: edge case.
-            'checkbox_union',     // Creates a checkbox input with %union functions: noun edge case.
+            'checkbox_union', // Creates a checkbox input with %union functions: noun edge case.
             'checkbox_noun_diff', // Creates a checkbox input with noun  diff ('diff) functions.
-            'addrow',             // This question has addrows, in an older version.
-            'mul',                // This question has mul in the options which is no longer permitted.
-            'contextvars',        // This question makes use of the context variables.
-            'stringsloppy',       // Uses the StringSloppy answer test, and string input.
-            'sregexp',            // Uses the SRegExp answer test, and string input.
-            'feedbackstyle',      // Test the various feedbackstyle options.
-            'multilang',          // Check for mismatching languages.
-            'lang_blocks',        // Check for mismatching languages using STACK's [[lang...]] block mechanism.
-            'block_locals',       // Make sure local variables within a block are still permitted student input.
-            'validator',          // Test teacher-defined input validators and language.
-            'validator_seed',     // Test validators have access to the random seed.
-            'feedback',           // Test teacher-defined input feedback and complex numbers.
-            'ordergreat',         // Test the ordergreat function at the question level, e.g. keyvals.
-            'exdowncase',         // Test the ordergreat function with exdowncase.
-            'bailout',            // Test the ability to bail out of a PRT using %stack_prt_stop_p.
-            'adaptblock',         // Test the adapt blocks.
+            'addrow', // This question has addrows, in an older version.
+            'mul', // This question has mul in the options which is no longer permitted.
+            'contextvars', // This question makes use of the context variables.
+            'stringsloppy', // Uses the StringSloppy answer test, and string input.
+            'sregexp', // Uses the SRegExp answer test, and string input.
+            'feedbackstyle', // Test the various feedbackstyle options.
+            'multilang', // Check for mismatching languages.
+            'lang_blocks', // Check for mismatching languages using STACK's [[lang...]] block mechanism.
+            'block_locals', // Make sure local variables within a block are still permitted student input.
+            'validator', // Test teacher-defined input validators and language.
+            'validator_seed', // Test validators have access to the random seed.
+            'feedback', // Test teacher-defined input feedback and complex numbers.
+            'ordergreat', // Test the ordergreat function at the question level, e.g. keyvals.
+            'exdowncase', // Test the ordergreat function with exdowncase.
+            'bailout', // Test the ability to bail out of a PRT using %stack_prt_stop_p.
+            'adaptblock', // Test the adapt blocks.
             // Test questions for all the various input types.
             'algebraic_input',
             'algebraic_input_right',
@@ -136,7 +136,8 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->questiondescriptionformat = FORMAT_HTML;
         $q->penalty = 0.1; // The default.
 
-        $q->prtcorrect = self::DEFAULT_CORRECT_FEEDBACK;;
+        $q->prtcorrect = self::DEFAULT_CORRECT_FEEDBACK;
+        ;
         $q->prtcorrectformat = FORMAT_HTML;
         $q->prtpartiallycorrect = self::DEFAULT_PARTIALLYCORRECT_FEEDBACK;
         $q->prtpartiallycorrectformat = FORMAT_HTML;
@@ -175,11 +176,16 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.3; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', '2', null, ['boxWidth' => 5]);
+            'algebraic',
+            'ans1',
+            '2',
+            null,
+            ['boxWidth' => 5]
+        );
 
         $q->options->set_option('simplify', false);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -189,7 +195,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -246,8 +252,12 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.25; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                        'algebraic', 'ans1', 'ta+c', null,
-                ['boxWidth' => 20, 'forbidWords' => 'int, [[BASIC-ALGEBRA]]', 'allowWords' => 'popup, boo, Sin']);
+            'algebraic',
+            'ans1',
+            'ta+c',
+            null,
+            ['boxWidth' => 20, 'forbidWords' => 'int, [[BASIC-ALGEBRA]]', 'allowWords' => 'popup, boo, Sin']
+        );
 
         // By making the input to the answer test differ from ans1 in a trivial way, we use the "value" of this variable
         // and not the raw student input.  This is to make sure the student's answer is evaluated in the context of
@@ -396,9 +406,19 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->specificfeedback = '[[feedback:PotResTree_1]]';
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                    'algebraic', 'ans1', '5', null, ['boxWidth' => 3]);
+            'algebraic',
+            'ans1',
+            '5',
+            null,
+            ['boxWidth' => 3]
+        );
         $q->inputs['ans2'] = stack_input_factory::make(
-                    'algebraic', 'ans2', '6', null, ['boxWidth' => 3]);
+            'algebraic',
+            'ans2',
+            '6',
+            null,
+            ['boxWidth' => 3]
+        );
 
         $prt = json_decode('{"name":"PotResTree_1","id":"0","value":1,"feedbackstyle":1,"autosimplify":true,
             "feedbackvariables":"",
@@ -448,16 +468,31 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.4;
 
         $options = new stack_options();
-        $q->inputs['ans1'] = stack_input_factory::make('algebraic', 'ans1', 'x^3', $options,
-                        ['boxWidth' => 15, 'lowestTerms' => false, 'sameType' => false]);
-        $q->inputs['ans2'] = stack_input_factory::make('algebraic', 'ans2', 'x^4', $options,
-                        ['boxWidth' => 15, 'lowestTerms' => false, 'sameType' => false]);
-        $q->inputs['ans3'] = stack_input_factory::make('algebraic', 'ans3', '0', $options,
-                        ['boxWidth' => 15, 'lowestTerms' => false, 'sameType' => false]);
+        $q->inputs['ans1'] = stack_input_factory::make(
+            'algebraic',
+            'ans1',
+            'x^3',
+            $options,
+            ['boxWidth' => 15, 'lowestTerms' => false, 'sameType' => false]
+        );
+        $q->inputs['ans2'] = stack_input_factory::make(
+            'algebraic',
+            'ans2',
+            'x^4',
+            $options,
+            ['boxWidth' => 15, 'lowestTerms' => false, 'sameType' => false]
+        );
+        $q->inputs['ans3'] = stack_input_factory::make(
+            'algebraic',
+            'ans3',
+            '0',
+            $options,
+            ['boxWidth' => 15, 'lowestTerms' => false, 'sameType' => false]
+        );
         $q->inputs['ans4'] = stack_input_factory::make('boolean', 'ans4', 'true', $options);
         $q->prts = [];
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'odd';
         $prt->id                = 0;
         $prt->value             = 0.25;
@@ -467,7 +502,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -494,7 +529,7 @@ final class qtype_stack_test_helper extends question_test_helper {
 
         $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'even';
         $prt->id                = 1;
         $prt->value             = 0.25;
@@ -504,7 +539,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -531,7 +566,7 @@ final class qtype_stack_test_helper extends question_test_helper {
 
         $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'oddeven';
         $prt->id                = 2;
         $prt->value             = 0.25;
@@ -541,7 +576,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -565,7 +600,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $newnode->falseanswernote     = 'oddeven-0-0';
         $newnode->falsenextnode       = '1';
         $prt->nodes[] = $newnode;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '1';
         $newnode->nodename            = '1';
         $newnode->description         = 'Descript of node 1';
@@ -592,7 +627,7 @@ final class qtype_stack_test_helper extends question_test_helper {
 
         $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'unique';
         $prt->id                = 3;
         $prt->value             = 0.25;
@@ -602,7 +637,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -667,19 +702,37 @@ final class qtype_stack_test_helper extends question_test_helper {
                                   [[feedback:unique]]</p>';
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                        'algebraic', 'ans1', 'x^3', null, ['boxWidth' => 15]);
+            'algebraic',
+            'ans1',
+            'x^3',
+            null,
+            ['boxWidth' => 15]
+        );
         $q->inputs['ans2'] = stack_input_factory::make(
-                        'algebraic', 'ans2', 'x^4', null, ['boxWidth' => 15]);
+            'algebraic',
+            'ans2',
+            'x^4',
+            null,
+            ['boxWidth' => 15]
+        );
         $q->inputs['ans3'] = stack_input_factory::make(
-                        'algebraic', 'ans3', '0', null, ['boxWidth' => 15]);
+            'algebraic',
+            'ans3',
+            '0',
+            null,
+            ['boxWidth' => 15]
+        );
         $q->inputs['ans4'] = stack_input_factory::make(
-                        'boolean',   'ans4', 'true');
+            'boolean',
+            'ans4',
+            'true'
+        );
 
         $q->penalty = 0.1;
 
         $q->prts = [];
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'odd';
         $prt->id                = 0;
         $prt->value             = 0.25;
@@ -689,7 +742,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -716,7 +769,7 @@ final class qtype_stack_test_helper extends question_test_helper {
 
         $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'even';
         $prt->id                = 1;
         $prt->value             = 0.25;
@@ -726,7 +779,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -753,7 +806,7 @@ final class qtype_stack_test_helper extends question_test_helper {
 
         $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'oddeven';
         $prt->id                = 2;
         $prt->value             = 0.25;
@@ -763,7 +816,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -787,7 +840,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $newnode->trueanswernote      = 'oddeven-0-1';
         $newnode->truenextnode        = '1';
         $prt->nodes[] = $newnode;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '1';
         $newnode->nodename            = '1';
         $newnode->description         = '';
@@ -814,7 +867,7 @@ final class qtype_stack_test_helper extends question_test_helper {
 
         $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'unique';
         $prt->id                = 3;
         $prt->value             = 0.25;
@@ -824,7 +877,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -880,9 +933,14 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->qtype = question_bank::get_qtype('stack');
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                        'algebraic', 'ans1', 'x^2', null, ['boxWidth' => 15]);
+            'algebraic',
+            'ans1',
+            'x^2',
+            null,
+            ['boxWidth' => 15]
+        );
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'plots';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -891,7 +949,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->firstnodename     = '0';
         $prt->nodes             = [];
         $prt->autosimplify      = true;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -942,7 +1000,7 @@ final class qtype_stack_test_helper extends question_test_helper {
 
         $q->options->set_option('simplify', true);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -951,7 +1009,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->firstnodename     = '0';
         $prt->nodes             = [];
         $prt->autosimplify      = true;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -1001,14 +1059,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->questionnote = '{@ta@}';
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                        'algebraic', 'ans1', 'ta', null,
-                        ['boxWidth' => 20, 'syntaxHint' => '{?,?,...,?}']);
+            'algebraic',
+            'ans1',
+            'ta',
+            null,
+            ['boxWidth' => 20, 'syntaxHint' => '{?,?,...,?}']
+        );
 
         $feedbackvars = 'a1 : listify(ans1);' .
                         'a1 : maplist(lambda([x],x^n-p^n),a1);' .
                         'a1 : setify(a1)';
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'ans';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -1017,7 +1079,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->firstnodename     = '0';
         $prt->nodes             = [];
         $prt->autosimplify      = true;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -1041,7 +1103,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $newnode->trueanswernote      = 'ans-0-T';
         $newnode->truenextnode        = '-1';
         $prt->nodes[] = $newnode;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '1';
         $newnode->nodename            = '1';
         $newnode->description         = '';
@@ -1066,7 +1128,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $newnode->trueanswernote      = 'ans-1-T';
         $newnode->truenextnode        = '-1';
         $prt->nodes[] = $newnode;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '2';
         $newnode->nodename            = '2';
         $newnode->description         = '';
@@ -1144,11 +1206,21 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->questionnote = '\[ a_1={@ta1@},\ a_2={@ta2@}.\]';
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                                    'algebraic', 'ans1', 'ta1', null, ['boxWidth' => 4]);
+            'algebraic',
+            'ans1',
+            'ta1',
+            null,
+            ['boxWidth' => 4]
+        );
         $q->inputs['ans2'] = stack_input_factory::make(
-                                    'algebraic', 'ans2', 'ta2', null, ['boxWidth' => 4]);
+            'algebraic',
+            'ans2',
+            'ta2',
+            null,
+            ['boxWidth' => 4]
+        );
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'prt1';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -1157,7 +1229,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->firstnodename     = '0';
         $prt->nodes             = [];
         $prt->autosimplify      = true;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -1203,9 +1275,14 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.3333333;
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', '1/2', null, ['boxWidth' => 5]);
+            'algebraic',
+            'ans1',
+            '1/2',
+            null,
+            ['boxWidth' => 5]
+        );
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'prt1';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -1216,7 +1293,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->firstnodename     = '0';
         $prt->nodes             = [];
         $prt->autosimplify      = true;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -1262,11 +1339,16 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.1;
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', '3.14', null, ['boxWidth' => 5, 'forbidFloats' => false]);
+            'algebraic',
+            'ans1',
+            '3.14',
+            null,
+            ['boxWidth' => 5, 'forbidFloats' => false]
+        );
 
         $q->options->set_option('simplify', false);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -1275,7 +1357,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->firstnodename     = '0';
         $prt->nodes             = [];
         $prt->autosimplify      = false;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -1321,11 +1403,16 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.2;
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'numerical', 'ans1', '0.040', null, ['boxWidth' => 5, 'forbidFloats' => false]);
+            'numerical',
+            'ans1',
+            '0.040',
+            null,
+            ['boxWidth' => 5, 'forbidFloats' => false]
+        );
 
         $q->options->set_option('simplify', false);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -1334,7 +1421,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->firstnodename     = '0';
         $prt->nodes             = [];
         $prt->autosimplify      = false;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -1380,14 +1467,24 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.3;
 
         $q->inputs['ans1'] = stack_input_factory::make(
-            'numerical', 'ans1', '0.356', null, ['boxWidth' => 5]);
+            'numerical',
+            'ans1',
+            '0.356',
+            null,
+            ['boxWidth' => 5]
+        );
         $q->inputs['ans2'] = stack_input_factory::make(
-            'numerical', 'ans2', '3.14', null, ['boxWidth' => 5]);
+            'numerical',
+            'ans2',
+            '3.14',
+            null,
+            ['boxWidth' => 5]
+        );
 
         $feedbackvars = new stack_cas_keyval('sa:min(ans1,ans2);', null, null);
 
         // Check if the smallest of the two random numbers is within 3dps of pi.
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'prt1';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -1396,7 +1493,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->firstnodename     = '0';
         $prt->nodes             = [];
         $prt->autosimplify      = true;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -1442,11 +1539,16 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.2; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'units', 'ans1', '9.81*m/s^2', null, ['boxWidth' => 5, 'forbidFloats' => false]);
+            'units',
+            'ans1',
+            '9.81*m/s^2',
+            null,
+            ['boxWidth' => 5, 'forbidFloats' => false]
+        );
 
         $q->options->set_option('simplify', false);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -1456,7 +1558,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -1503,11 +1605,16 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.2; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'units', 'ans1', '9.81*m/s^2', null, ['boxWidth' => 5, 'forbidFloats' => false]);
+            'units',
+            'ans1',
+            '9.81*m/s^2',
+            null,
+            ['boxWidth' => 5, 'forbidFloats' => false]
+        );
 
         $q->options->set_option('simplify', false);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -1517,7 +1624,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -1565,13 +1672,23 @@ final class qtype_stack_test_helper extends question_test_helper {
 
         // This example illsutrated the extra "nounits" option.
         $q->inputs['ans1'] = stack_input_factory::make(
-            'algebraic', 'ans1', 'A*k', null, ['boxWidth' => 5, 'options' => 'nounits']);
+            'algebraic',
+            'ans1',
+            'A*k',
+            null,
+            ['boxWidth' => 5, 'options' => 'nounits']
+        );
         $q->inputs['ans2'] = stack_input_factory::make(
-            'units', 'ans2', '0.0061/s', null, ['boxWidth' => 5, 'forbidFloats' => false]);
+            'units',
+            'ans2',
+            '0.0061/s',
+            null,
+            ['boxWidth' => 5, 'forbidFloats' => false]
+        );
 
         $q->options->set_option('simplify', false);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -1581,7 +1698,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -1628,11 +1745,16 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.2; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'equiv', 'ans1', 'ta', null, ['boxWidth' => 20, 'forbidFloats' => false]);
+            'equiv',
+            'ans1',
+            'ta',
+            null,
+            ['boxWidth' => 20, 'forbidFloats' => false]
+        );
 
         $q->options->set_option('simplify', false);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -1642,7 +1764,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = false;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -1690,9 +1812,14 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.25;
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                        'algebraic', 'ans1', '6', null, ['boxWidth' => 15]);
+            'algebraic',
+            'ans1',
+            '6',
+            null,
+            ['boxWidth' => 15]
+        );
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'prt1';
         $prt->id                = 0;
         $prt->value             = 0.2;
@@ -1701,7 +1828,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->firstnodename     = '0';
         $prt->nodes             = [];
         $prt->autosimplify      = true;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -1727,7 +1854,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes[] = $newnode;
         $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'prt2';
         $prt->id                = 1;
         $prt->value             = 0.8;
@@ -1736,7 +1863,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->firstnodename     = '0';
         $prt->nodes             = [];
         $prt->autosimplify      = true;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -1895,7 +2022,13 @@ final class qtype_stack_test_helper extends question_test_helper {
 
         $qtest = new stack_question_test('Basic test of question', ['ans1' => '2']);
         $qtest->add_expected_result('firsttree', new stack_potentialresponse_tree_state(
-                1, true, 1, 0, '', ['firsttree-1-T']));
+            1,
+            true,
+            1,
+            0,
+            '',
+            ['firsttree-1-T']
+        ));
         $qdata->testcases[1] = $qtest;
 
         return $qdata;
@@ -1918,7 +2051,12 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->defaultmark = 0;
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', '2', null, ['boxWidth' => 15, 'sameType' => false]);
+            'algebraic',
+            'ans1',
+            '2',
+            null,
+            ['boxWidth' => 15, 'sameType' => false]
+        );
 
         return $q;
     }
@@ -1940,11 +2078,16 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.3; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                    'algebraic', 'ans1', '2', null, ['boxWidth' => 5, 'insertStars' => 2]);
+            'algebraic',
+            'ans1',
+            '2',
+            null,
+            ['boxWidth' => 5, 'insertStars' => 2]
+        );
 
         $q->options->set_option('simplify', false);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -1953,7 +2096,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->firstnodename     = '0';
         $prt->nodes             = [];
         $prt->autosimplify      = false;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -1996,12 +2139,17 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->questionnote = '';
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', '[x+y=1,x-y=1]', null, ['boxWidth' => 25]);
+            'algebraic',
+            'ans1',
+            '[x+y=1,x-y=1]',
+            null,
+            ['boxWidth' => 25]
+        );
 
         // This will generate a runtime error in the feedback variables.
         $feedbackvars = new stack_cas_keyval('');
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'Result';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -2010,7 +2158,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->firstnodename     = '0';
         $prt->nodes             = [];
         $prt->autosimplify      = true;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -2034,7 +2182,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $newnode->trueanswernote      = 'Result-0-T';
         $newnode->truenextnode        = '1';
         $prt->nodes[] = $newnode;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '1';
         $newnode->nodename            = '1';
         $newnode->description         = '';
@@ -2058,7 +2206,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $newnode->trueanswernote      = 'Result-1-T';
         $newnode->truenextnode        = '-2';
         $prt->nodes[] = $newnode;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '2';
         $newnode->nodename            = '2';
         $newnode->description         = '';
@@ -2102,9 +2250,14 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->questionnote = '';
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', 'ta', null, ['boxWidth' => 25]);
+            'algebraic',
+            'ans1',
+            'ta',
+            null,
+            ['boxWidth' => 25]
+        );
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'Result';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -2113,7 +2266,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->firstnodename     = '0';
         $prt->nodes             = [];
         $prt->autosimplify      = true;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -2156,9 +2309,14 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->questionnote = '';
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', 'ta', null, ['boxWidth' => 25]);
+            'algebraic',
+            'ans1',
+            'ta',
+            null,
+            ['boxWidth' => 25]
+        );
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'Result';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -2167,7 +2325,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->firstnodename     = '0';
         $prt->nodes             = [];
         $prt->autosimplify      = true;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -2306,7 +2464,13 @@ final class qtype_stack_test_helper extends question_test_helper {
 
         $qtest = new stack_question_test('Basic test of question', ['ans1' => '2']);
         $qtest->add_expected_result('firsttree', new stack_potentialresponse_tree_state(
-                1, true, 1, 0, '', ['firsttree-1-T']));
+            1,
+            true,
+            1,
+            0,
+            '',
+            ['firsttree-1-T']
+        ));
         $qdata->testcases[1] = $qtest;
 
         return $qdata;
@@ -3128,11 +3292,16 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.3; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'checkbox', 'ans1', '[[x^2+1<0,false],[A,false,"Generalizations are false"],[clcr(a,b), false]]', null, null);
+            'checkbox',
+            'ans1',
+            '[[x^2+1<0,false],[A,false,"Generalizations are false"],[clcr(a,b), false]]',
+            null,
+            null
+        );
 
         $q->options->set_option('simplify', false);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -3142,7 +3311,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = false;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -3189,11 +3358,16 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.3; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-            'checkbox', 'ans1', 'ta', null, null);
+            'checkbox',
+            'ans1',
+            'ta',
+            null,
+            null
+        );
 
         $q->options->set_option('simplify', false);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -3203,7 +3377,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = false;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -3250,11 +3424,16 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.3; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-            'checkbox', 'ans1', 'ta', null, null);
+            'checkbox',
+            'ans1',
+            'ta',
+            null,
+            null
+        );
 
         $q->options->set_option('simplify', false);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -3264,7 +3443,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = false;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -3312,11 +3491,16 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.3; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', '2', null, ['boxWidth' => 5]);
+            'algebraic',
+            'ans1',
+            '2',
+            null,
+            ['boxWidth' => 5]
+        );
 
         $q->options->set_option('simplify', false);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -3327,7 +3511,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = false;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -3373,11 +3557,16 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.5; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'units', 'ans1', 'stackunits(9.81,m*s^-2)', null, ['boxWidth' => 5, 'options' => 'mul']);
+            'units',
+            'ans1',
+            'stackunits(9.81,m*s^-2)',
+            null,
+            ['boxWidth' => 5, 'options' => 'mul']
+        );
 
         $q->options->set_option('simplify', false);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -3387,7 +3576,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -3434,11 +3623,16 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.4; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'string', 'ans1', 'ta1', null, ['boxWidth' => 25]);
+            'string',
+            'ans1',
+            'ta1',
+            null,
+            ['boxWidth' => 25]
+        );
 
         $q->options->set_option('simplify', false);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -3448,7 +3642,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = false;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -3472,7 +3666,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $newnode->trueanswernote      = 'firsttree-1-T';
         $newnode->truenextnode        = '-1';
         $prt->nodes[] = $newnode;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '1';
         $newnode->nodename            = '1';
         $newnode->description         = '';
@@ -3520,11 +3714,16 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.4; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'string', 'ans1', 'ta', null, ['boxWidth' => 25]);
+            'string',
+            'ans1',
+            'ta',
+            null,
+            ['boxWidth' => 25]
+        );
 
         $q->options->set_option('simplify', false);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -3534,7 +3733,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = false;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -3585,13 +3784,23 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.4; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', 'x^3', null, ['boxWidth' => 10, 'showValidation' => 3]);
+            'algebraic',
+            'ans1',
+            'x^3',
+            null,
+            ['boxWidth' => 10, 'showValidation' => 3]
+        );
         $q->inputs['ans2'] = stack_input_factory::make(
-                'algebraic', 'ans2', 'sin(x)', null, ['boxWidth' => 10, 'showValidation' => 3]);
+            'algebraic',
+            'ans2',
+            'sin(x)',
+            null,
+            ['boxWidth' => 10, 'showValidation' => 3]
+        );
 
         $q->options->set_option('simplify', true);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'prt1';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -3602,7 +3811,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -3628,7 +3837,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes[] = $newnode;
         $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'prt2';
         $prt->id                = 1;
         $prt->value             = 1;
@@ -3639,7 +3848,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -3665,7 +3874,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes[] = $newnode;
         $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'prt3';
         $prt->id                = 2;
         $prt->value             = 1;
@@ -3676,7 +3885,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -3725,11 +3934,16 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.35; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', 'blob', null, ['boxWidth' => 5, 'allowWords' => 'blob,vec,tup']);
+            'algebraic',
+            'ans1',
+            'blob',
+            null,
+            ['boxWidth' => 5, 'allowWords' => 'blob,vec,tup']
+        );
 
         $q->options->set_option('simplify', true);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -3739,7 +3953,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -3763,7 +3977,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $newnode->trueanswernote      = 'firsttree-1-T';
         $newnode->truenextnode        = '-1';
         $prt->nodes[] = $newnode;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '1';
         $newnode->nodename            = '1';
         $newnode->description         = 'Description of node 1';
@@ -3818,15 +4032,19 @@ final class qtype_stack_test_helper extends question_test_helper {
 
         // Also test the castext syntax hint for matrix question.
         $q->inputs['ans1'] = stack_input_factory::make(
-            'matrix', 'ans1', 'ta', new stack_options(),
+            'matrix',
+            'ans1',
+            'ta',
+            new stack_options(),
             ['boxWidth' => 5,
              'allowWords' => 'blob',
              'syntaxHint' => '{#zeromatrix(2,2)#}',
-            ]);
+            ]
+        );
 
         $q->options->set_option('simplify', false);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -3836,7 +4054,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -3860,7 +4078,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $newnode->trueanswernote      = 'firsttree-1-T';
         $newnode->truenextnode        = '-1';
         $prt->nodes[] = $newnode;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '1';
         $newnode->nodename            = '1';
         $newnode->description         = 'Description of node 1';
@@ -3909,16 +4127,20 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.35; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-            'algebraic', 'ans1', 'ta2', new stack_options(),
+            'algebraic',
+            'ans1',
+            'ta2',
+            new stack_options(),
             ['boxWidth' => 5,
              'allowWords' => '',
              'syntaxHint' => "[[lang code='en']]An expression, e.g. {#ex1#}[[/lang]]" .
                              "[[lang code='da']]Et udtryk, f.eks. {#ex1#[[/lang]]",
-            ]);
+            ]
+        );
 
         $q->options->set_option('simplify', true);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'prt1';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -3928,7 +4150,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -3980,10 +4202,14 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.25; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', 'p^2+p+1', null,
-                ['boxWidth' => 20, 'forbidWords' => '', 'allowWords' => '']);
+            'algebraic',
+            'ans1',
+            'p^2+p+1',
+            null,
+            ['boxWidth' => 20, 'forbidWords' => '', 'allowWords' => '']
+        );
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -3993,7 +4219,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -4049,13 +4275,17 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.25; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-            'algebraic', 'ans1', 'ta', null,
+            'algebraic',
+            'ans1',
+            'ta',
+            null,
             [
                 'boxWidth' => 20, 'forbidWords' => '', 'allowWords' => 'foo',
                 'options' => 'validator:myvalidityidea',
-            ]);
+            ]
+        );
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -4065,7 +4295,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -4115,13 +4345,17 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.25; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-            'algebraic', 'ans1', 'ta', null,
+            'algebraic',
+            'ans1',
+            'ta',
+            null,
             [
                 'boxWidth' => 20, 'forbidWords' => '', 'allowWords' => 'foo',
                 'options' => 'validator:validator_returnta',
-            ]);
+            ]
+        );
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -4131,7 +4365,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -4188,18 +4422,21 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->questionnote = '{@ta@}';
 
         $q->inputs['ans1'] = stack_input_factory::make(
-            'algebraic', 'ans1', 'ta', null,
+            'algebraic',
+            'ans1',
+            'ta',
+            null,
             [
                 'boxWidth' => 20, 'syntaxHint' => '{@sh@}',
                 'options' => 'feedback:feedback_fn',
             ]
-            );
+        );
 
             $feedbackvars = 'a1 : listify(ans1);' .
                 'a1 : maplist(lambda([x],x^n-p^n),a1);' .
                 'a1 : setify(a1)';
 
-            $prt = new stdClass;
+            $prt = new stdClass();
             $prt->name              = 'ans';
             $prt->id                = 0;
             $prt->value             = 1;
@@ -4208,7 +4445,7 @@ final class qtype_stack_test_helper extends question_test_helper {
             $prt->firstnodename     = '0';
             $prt->nodes             = [];
             $prt->autosimplify      = true;
-            $newnode = new stdClass;
+            $newnode = new stdClass();
             $newnode->id                  = '0';
             $newnode->nodename            = '0';
             $newnode->description         = '';
@@ -4232,7 +4469,7 @@ final class qtype_stack_test_helper extends question_test_helper {
             $newnode->trueanswernote      = 'ans-0-T';
             $newnode->truenextnode        = '-1';
             $prt->nodes[] = $newnode;
-            $newnode = new stdClass;
+            $newnode = new stdClass();
             $newnode->id                  = '1';
             $newnode->nodename            = '1';
             $newnode->description         = '';
@@ -4257,7 +4494,7 @@ final class qtype_stack_test_helper extends question_test_helper {
             $newnode->trueanswernote      = 'ans-1-T';
             $newnode->truenextnode        = '-1';
             $prt->nodes[] = $newnode;
-            $newnode = new stdClass;
+            $newnode = new stdClass();
             $newnode->id                  = '2';
             $newnode->nodename            = '2';
             $newnode->description         = '';
@@ -4306,15 +4543,19 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.25; // Non-zero and not the default.
 
         $q->inputs['ansq'] = stack_input_factory::make(
-            'algebraic', 'ansq', 'ta', null,
+            'algebraic',
+            'ansq',
+            'ta',
+            null,
             [
                 'boxWidth' => 20, 'forbidWords' => '',
-            ]);
+            ]
+        );
 
         // By setting simp:true (the default) we check the re-ordering really happens.
         $q->options->set_option('simplify', true);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -4324,7 +4565,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = false;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -4371,15 +4612,19 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.25; // Non-zero and not the default.
 
         $q->inputs['ansq'] = stack_input_factory::make(
-            'algebraic', 'ansq', 'veq', null,
+            'algebraic',
+            'ansq',
+            'veq',
+            null,
             [
                 'boxWidth' => 20, 'forbidWords' => '',
-            ]);
+            ]
+        );
 
         // By setting simp:true (the default) we check the re-ordering really happens.
         $q->options->set_option('simplify', true);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -4389,7 +4634,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = 'Use CasEqual as the test';
@@ -4413,7 +4658,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $newnode->trueanswernote      = 'firsttree-0-1';
         $newnode->truenextnode        = '1';
         $prt->nodes[] = $newnode;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '1';
         $newnode->nodename            = '1';
         $newnode->description         = 'Use AlgEquiv as the test';
@@ -4460,15 +4705,19 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.25; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-            'algebraic', 'ans1', '3', null,
+            'algebraic',
+            'ans1',
+            '3',
+            null,
             [
                 'boxWidth' => 20, 'forbidWords' => '',
-            ]);
+            ]
+        );
 
         // By setting simp:true (the default) we check the re-ordering really happens.
         $q->options->set_option('simplify', true);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -4479,7 +4728,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = 'Use the test ability to bail out';
@@ -4532,12 +4781,16 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.25; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-            'algebraic', 'ans1', 'false', null,
+            'algebraic',
+            'ans1',
+            'false',
+            null,
             [
                 'boxWidth' => 20, 'forbidWords' => '',
-            ]);
+            ]
+        );
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'prt1';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -4547,7 +4800,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = 'Use the test adapt blocks';

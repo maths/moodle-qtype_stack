@@ -30,7 +30,6 @@ require_once(__DIR__ . '/../../stack/cas/cassession2.class.php');
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_inputvalidation_test_data {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
     const RAWSTRING     = 0;
     // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
@@ -110,8 +109,8 @@ class stack_inputvalidation_test_data {
         ['3E2', 'php_true', 'displaysci(3,0,2)', 'cas_true', '3 \times 10^{2}', '', ""],
         ['3e2', 'php_true', 'displaysci(3,0,2)', 'cas_true', '3 \times 10^{2}', '', ""],
         ['3e-2', 'php_true', 'displaysci(3,0,-2)', 'cas_true', '3 \times 10^{-2}', '', ""],
-        ['52%', 'php_false', '52%', '', '', 'finalChar', ""],
-        ['5.20%', 'php_false', '5.20%', '', '', 'finalChar', ""],
+        ['52%', 'php_false', '52%', '', '', 'spuriousop', ""],
+        ['5.20%', 'php_false', '5.20%', '', '', 'spuriousop', ""],
         ['3.67x10^2', 'php_true', 'dispdp(3.67,2)*x10^2', 'cas_true', '3.67\cdot x_{10}^2', 'missing_stars', ""],
         ['3.67*x 10^2', 'php_false', 'dispdp(3.67,2)*x*10^2', 'cas_true', '', 'spaces', ""],
         ['1+i', 'php_true', '1+i', 'cas_true', '1+\mathrm{i}', '', ""],
@@ -162,8 +161,8 @@ class stack_inputvalidation_test_data {
             'a/(a(x+1)+2)', 'php_true', 'a/(a*(x+1)+2)', 'cas_true', '\frac{a}{a\cdot \left(x+1\right)+2}',
             'missing_stars | Variable_function', "",
         ],
-        ["f''(x)", 'php_false', '' , '', '', 'apostrophe', "Apostrophies again..."],
-        ["''diff(f,x)", 'php_false', '' , '', '', 'Illegal_extraevaluation', ""],
+        ["f''(x)", 'php_false', '', '', '', 'apostrophe', "Apostrophies again..."],
+        ["''diff(f,x)", 'php_false', '', '', '', 'apostrophe', ""],
         [
             'dosomething(x,y,z)', 'php_false', '', '', '', 'forbiddenFunction',
             "Students have a restricted list of function names.  Teachers are less restricted.",
@@ -231,12 +230,13 @@ class stack_inputvalidation_test_data {
         ['((x,y)/2,a)', 'php_false', 'ntuple((x,y)/2,a)', 'cas_true', '', 'Illegal_groups', ""],
         ['(x,y)+3', 'php_false', 'ntuple(x,y)+3', 'cas_true', '', 'Illegal_groups', ""],
         ['f((x,y),2)', 'php_true', 'f(ntuple(x,y),2)', 'cas_true', 'f\left(\left(x, y\right) , 2\right)', '', ""],
+        // The two below changed in parser2.
         [
-            '0..1', 'php_false', '', '', '', 'spuriousop',
+            '0..1', 'php_true', 'dispdp(0.,0)*dispdp(.1,1)', 'cas_true', '0\cdot 0.1', 'missing_stars',
             "Ranges and logical operations are currently not supported by Maxima or STACK
         - this is on our wish list. It will result in the ability to deal with systems of inequalities, e.g. \(x<1\ and\ x>-4\).",
         ],
-        ['0.1..1.2', 'php_false', '', '', '', 'spuriousop', ""],
+        ['0.1..1.2', 'php_false', 'dispdp(0.,0)*dispdp(.1,1)', 'cas_true', '', 'missing_stars | spuriousop', ""],
         ['not x', 'php_true', 'not x', 'cas_true', '{\rm not}\left( x \right)', '', ""],
         ['x and y', 'php_true', 'x and y', 'cas_true', 'x\,{\text{ and }}\, y', '', ""],
         ['true and false', 'php_true', 'true and false', 'cas_true', '\mathbf{True}\,{\text{ and }}\, \mathbf{False}', '', ""],
@@ -306,7 +306,7 @@ class stack_inputvalidation_test_data {
         ['y*', 'php_false', 'y*', '', '', 'finalChar', ""],
         ['x^', 'php_flase', 'x^', '', '', 'finalChar', ""],
         ['x.', 'php_flase', 'x.', '', '', 'finalChar', ""],
-        ['x and', 'php_false', '', '', '', 'spaces', ""],
+        ['x and', 'php_false', '', '', '', 'spaces | ParseError', ""],
         ['!', 'php_false', '!', 'badpostfixop', '', 'badpostfixop', ""],
         [
             'sin', 'php_false', 'sin', 'cas_true', '', 'forbiddenVariable',
@@ -337,7 +337,7 @@ class stack_inputvalidation_test_data {
         ['(()x)', 'php_false', '(()*x)', 'cas_false', '', 'missing_stars | emptyParens', ""],
         ['()x', 'php_false', '()*x', 'cas_false', '', 'missing_stars | emptyParens', ""],
         ['x()', 'php_false', 'x*()', 'cas_false', '', 'emptyParens', ""],
-        ['([x)]', 'php_false', '([x)]', '', '', 'ParseError', ""],
+        ['([x)]', 'php_false', '([x)]', '', '', 'prematureRightBracket', ""],
         ['(', 'php_false', '', '', '', 'missingRightBracket', "Brackets"],
         [')', 'php_false', '', '', '', 'missingLeftBracket', ""],
         ['[', 'php_false', '', '', '', 'missingRightBracket', ""],
@@ -776,6 +776,11 @@ class stack_inputvalidation_test_data {
             2 => [null, 'php_false', '', '', '', 'forbiddenCharDecimal', ""],
         ],
         [
+            0 => '2,78e-3',
+            1 => [null, 'php_false', '', '', '', 'unencapsulated_comma', ""],
+            2 => [null, 'php_true', 'displaysci(2.78,2,-3)', 'cas_true', '2.78 \times 10^{-3}', '', ""],
+        ],
+        [
             0 => '1,23',
             1 => [null, 'php_false', '', '', '', 'unencapsulated_comma', ""],
             2 => [null, 'php_true', 'dispdp(1.23,2)', 'cas_true', '1.23', '', ""],
@@ -799,7 +804,7 @@ class stack_inputvalidation_test_data {
         // With strict interpretation both the following are invalid.
         [
             0 => '1.2+2,3*x',
-            1 => [null, 'php_false', '', '', '', 'unencapsulated_comma', ""],
+            1 => [null, 'php_false', '1 . 2+dispdp(2.3,1)*x', 'cas_true', '', 'unencapsulated_comma', ""],
             2 => [null, 'php_false', '', '', '', 'forbiddenCharDecimal', ""],
         ],
         [
@@ -814,7 +819,7 @@ class stack_inputvalidation_test_data {
         ],
         [
             0 => '{1;23}',
-            1 => [null, 'php_false', '', '', '', 'forbiddenChar_parserError', ""],
+            1 => [null, 'php_false', '', '', '', 'ParseError', ""],
             2 => [null, 'php_true', '{1,23}', 'cas_true', '\left \{1 , 23 \right \}', '', ""],
         ],
         [
@@ -824,12 +829,12 @@ class stack_inputvalidation_test_data {
         ],
         [
             0 => '{1,2;3}',
-            1 => [null, 'php_false', '', '', '', 'forbiddenChar_parserError', ""],
+            1 => [null, 'php_false', '', '', '', 'ParseError', ""],
             2 => [null, 'php_true', '{dispdp(1.2,1),3}', 'cas_true', '\left \{1.2 , 3 \right \}', '', ""],
         ],
         [
             0 => '{1,2;3;4.1}',
-            1 => [null, 'php_false', '', '', '', 'forbiddenChar_parserError', ""],
+            1 => [null, 'php_false', '', '', '', 'ParseError', ""],
             2 => [null, 'php_false', '', '', '', 'forbiddenCharDecimal', ""],
         ],
     ];
@@ -907,6 +912,10 @@ class stack_inputvalidation_test_data {
         foreach (self::$rawdataunits as $data) {
             $tests[] = self::test_from_raw($data, 'units');
         }
+        if (defined('QTYPE_STACK_TEST_CONFIG_CI_LIGHT')) {
+            // Must return something non-empty.
+            return [$tests[1]];
+        }
         return $tests;
     }
 
@@ -946,8 +955,15 @@ class stack_inputvalidation_test_data {
 
         $secrules = new stack_cas_security();
         $secrules->set_allowedwords('dispdp,displaysci');
-        $cs = stack_ast_container::make_from_student_source($test->rawstring, '', $secrules,
-            $filterstoapply, [], 'Root', $test->decimals);
+        $cs = stack_ast_container::make_from_student_source(
+            $test->rawstring,
+            '',
+            $secrules,
+            $filterstoapply,
+            [],
+            'Root',
+            $test->decimals
+        );
         $cs->set_cas_validation_context('ans1', true, '', $test->validationmethod, false, 0, '.');
 
         $phpvalid     = $cs->get_valid();
@@ -963,12 +979,12 @@ class stack_inputvalidation_test_data {
 
         if ($phpvalid != $expected) {
             $passed = false;
-            $errors .= ' '.stack_string('phpvalidatemismatch');
+            $errors .= ' ' . stack_string('phpvalidatemismatch');
         }
         if ($phpvalid && $phpcasstring != $test->phpcasstring) {
             $passed = false;
             $errors .= ' ' . stack_maxima_format_casstring($phpcasstring) .
-                    ' \(\neq \) '.stack_maxima_format_casstring($test->phpcasstring);
+                    ' \(\neq \) ' . stack_maxima_format_casstring($test->phpcasstring);
         }
 
         $casvalid = '';
@@ -997,7 +1013,7 @@ class stack_inputvalidation_test_data {
 
             if ($casexpected != $casvalid) {
                 $passed = false;
-                $caserrors .= ' '.stack_string('casvalidatemismatch');
+                $caserrors .= ' ' . stack_string('casvalidatemismatch');
             }
             $casdisplay = '';
             if ($cs->is_correctly_evaluated()) {
@@ -1013,8 +1029,8 @@ class stack_inputvalidation_test_data {
         $answernote = $cs->get_answernote();
         if ($answernote != $test->ansnotes) {
             $passed = false;
-            $errors .= ' '.stack_string('ansnotemismatch');
-            $errors .= html_writer::tag('pre', s($test->ansnotes)).html_writer::tag('pre', s($answernote));
+            $errors .= ' ' . stack_string('ansnotemismatch');
+            $errors .= html_writer::tag('pre', s($test->ansnotes)) . html_writer::tag('pre', s($answernote));
         }
 
         $test->passed     = $passed;

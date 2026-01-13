@@ -64,7 +64,7 @@ class stack_cas_healthcheck {
         $this->tests[] = $test;
 
         // Check if the current options for library packages are permitted (maximalibraries).
-        list($result, $message, $livetestcases) = stack_cas_configuration::validate_maximalibraries();
+        [$result, $message, $livetestcases] = stack_cas_configuration::validate_maximalibraries();
         // The livetestcases are used below, once we have a live maxima or image ready to test.
         if (!$result) {
             $this->ishealthy = false;
@@ -102,8 +102,8 @@ class stack_cas_healthcheck {
                     $test['result'] = null;
                     $test['summary'] = stack_string('healthcheckproxysettings');
                     $this->tests[] = $test;
-                    break;
                 }
+                break;
             default:
                 // Server-proxy/optimised.
                 // TO-DO: add in any specific tests for these setups?
@@ -116,14 +116,17 @@ class stack_cas_healthcheck {
             $test['tag'] = 'healthcheckmaximalocal';
             $test['result'] = null;
             $test['summary'] = null;
-            $test['details'] = html_writer::tag('textarea', stack_cas_configuration::generate_maximalocal_contents(),
-                ['readonly' => 'readonly', 'wrap' => 'virtual', 'rows' => '32', 'cols' => '100']);
+            $test['details'] = html_writer::tag(
+                'textarea',
+                stack_cas_configuration::generate_maximalocal_contents(),
+                ['readonly' => 'readonly', 'wrap' => 'virtual', 'rows' => '32', 'cols' => '100']
+            );
             $this->tests[] = $test;
         }
 
         // Test an *uncached* call to the CAS.  I.e. a genuine call to the process.
         if ($this->ishealthy) {
-            list($message, $genuinedebug, $result) = stack_connection_helper::stackmaxima_genuine_connect();
+            [$message, $genuinedebug, $result] = stack_connection_helper::stackmaxima_genuine_connect();
             $this->ishealthy = $result;
 
             $test = [];
@@ -139,24 +142,45 @@ class stack_cas_healthcheck {
         if ($this->ishealthy) {
             // Intentionally use get_string for the sample CAS and plots, so we don't render
             // the maths too soon.
-            $this->output_cas_text('healthcheckconnect',
-                stack_string('healthcheckconnectintro'), get_string('healthchecksamplecas', 'qtype_stack'));
-            $this->output_cas_text('healthcheckconnectunicode',
-                stack_string('healthcheckconnectintro'), get_string('healthchecksamplecasunicode', 'qtype_stack'));
-            $this->output_cas_text('healthcheckplots',
-                stack_string('healthcheckplotsintro'), get_string('healthchecksampleplots', 'qtype_stack'));
-            $this->output_cas_text('healthcheckjsxgraph',
-                stack_string('healthcheckjsxgraphintro'), get_string('healthcheckjsxgraphsample', 'qtype_stack'), true);
-            $this->output_cas_text('healthcheckparsons',
-                stack_string('healthcheckparsonsintro'), get_string('healthcheckparsonssample', 'qtype_stack'), true);
-            $this->output_cas_text('healthcheckgeogebra',
-                stack_string('healthcheckgeogebraintro'), get_string('healthcheckgeogebrasample', 'qtype_stack'), true);
+            $this->output_cas_text(
+                'healthcheckconnect',
+                stack_string('healthcheckconnectintro'),
+                get_string('healthchecksamplecas', 'qtype_stack')
+            );
+            $this->output_cas_text(
+                'healthcheckconnectunicode',
+                stack_string('healthcheckconnectintro'),
+                get_string('healthchecksamplecasunicode', 'qtype_stack')
+            );
+            $this->output_cas_text(
+                'healthcheckplots',
+                stack_string('healthcheckplotsintro'),
+                get_string('healthchecksampleplots', 'qtype_stack')
+            );
+            $this->output_cas_text(
+                'healthcheckjsxgraph',
+                stack_string('healthcheckjsxgraphintro'),
+                get_string('healthcheckjsxgraphsample', 'qtype_stack'),
+                true
+            );
+            $this->output_cas_text(
+                'healthcheckparsons',
+                stack_string('healthcheckparsonsintro'),
+                get_string('healthcheckparsonssample', 'qtype_stack'),
+                true
+            );
+            $this->output_cas_text(
+                'healthcheckgeogebra',
+                stack_string('healthcheckgeogebraintro'),
+                get_string('healthcheckgeogebrasample', 'qtype_stack'),
+                true
+            );
         }
 
         // If we have a linux machine, and we are testing the raw connection then we should
         // attempt to automatically create an optimized maxima image on the system.
         if ($this->ishealthy && $config->platform === 'linux') {
-            list($message, $debug, $result, $commandline, $rawcommand)
+            [$message, $debug, $result, $commandline, $rawcommand]
                 = stack_connection_helper::stackmaxima_auto_maxima_optimise($genuinedebug);
             $test = [];
             $test['tag'] = 'healthautomaxopt';
@@ -168,7 +192,7 @@ class stack_cas_healthcheck {
         }
 
         if ($this->ishealthy) {
-            list($message, $details, $result) = stack_connection_helper::stackmaxima_version_healthcheck();
+            [$message, $details, $result] = stack_connection_helper::stackmaxima_version_healthcheck();
             $test = [];
             $test['tag'] = 'healthchecksstackmaximaversion';
             $test['result'] = $result;
@@ -242,7 +266,7 @@ class stack_cas_healthcheck {
      *
      * $hideraw is for those cases where we do not wish to show the raw CASText.
      */
-    private function output_cas_text($title, $intro, $castext, $hideraw=false) {
+    private function output_cas_text($title, $intro, $castext, $hideraw = false) {
         $ct = castext2_evaluatable::make_from_source($castext, 'healthcheck');
         $session = new stack_cas_session2([$ct]);
         $session->instantiate();

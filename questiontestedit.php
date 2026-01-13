@@ -22,7 +22,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(__DIR__.'/../../../config.php');
+require_once(__DIR__ . '/../../../config.php');
 
 require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/vle_specific.php');
@@ -47,15 +47,17 @@ if ($testcase || $confirmthistestcase) {
 }
 
 // Process any other URL parameters, and do require_login.
-list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($question);
+[$context, $seed, $urlparams] = qtype_stack_setup_question_test_page($question);
 
 // Check permissions.
 question_require_capability_on($questiondata, 'edit');
 
 // Work out whether we are adding or editing.
 if (!is_null($testcase)) {
-    $title = stack_string('editingtestcase',
-            ['no' => $testcase, 'question' => format_string($question->name)]);
+    $title = stack_string(
+        'editingtestcase',
+        ['no' => $testcase, 'question' => format_string($question->name)]
+    );
     $submitlabel = get_string('savechanges');
 } else {
     $title = stack_string('addingatestcase', format_string($question->name));
@@ -88,8 +90,10 @@ $PAGE->set_pagelayout('popup');
 require_login();
 
 // Create the editing form.
-$mform = new qtype_stack_question_test_form($PAGE->url,
-        ['submitlabel' => $submitlabel, 'question' => $question]);
+$mform = new qtype_stack_question_test_form(
+    $PAGE->url,
+    ['submitlabel' => $submitlabel, 'question' => $question]
+);
 
 // Send current data to the form.
 if ($testcase) {
@@ -135,7 +139,13 @@ if ($mform->is_cancelled()) {
         $answernotes = $result->get_answernotes();
         $answernote = [end($answernotes)];
         $qtest->add_expected_result($prtname, new stack_potentialresponse_tree_state(
-            1, true, $result->get_score(), $result->get_penalty(), '', $answernote));
+            1,
+            true,
+            $result->get_score(),
+            $result->get_penalty(),
+            '',
+            $answernote
+        ));
     }
     question_bank::get_qtype('stack')->save_question_test($questionid, $qtest, $testcase);
     redirect($backurl);
@@ -149,8 +159,13 @@ if ($mform->is_cancelled()) {
 
     foreach ($question->prts as $prtname => $notused) {
         $qtest->add_expected_result($prtname, new stack_potentialresponse_tree_state(
-                1, true, $data->{$prtname . 'score'}, $data->{$prtname . 'penalty'},
-                '', [$data->{$prtname . 'answernote'}]));
+            1,
+            true,
+            $data->{$prtname . 'score'},
+            $data->{$prtname . 'penalty'},
+            '',
+            [$data->{$prtname . 'answernote'}]
+        ));
     }
     question_bank::get_qtype('stack')->save_question_test($questionid, $qtest, $testcase);
     redirect($backurl);

@@ -45,7 +45,6 @@ stack_cas_castext2_iframe::register_counter('///JAVASCRIPT_COUNT///');
  * Uses the same input-references declaration logic as [[jsxgraph]].
  */
 class stack_cas_castext2_javascript extends stack_cas_castext2_block {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
         $r = new MP_List([new MP_String('iframe')]);
@@ -120,8 +119,11 @@ class stack_cas_castext2_javascript extends stack_cas_castext2_block {
 
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function postprocess(array $params, castext2_processor $processor,
-        castext2_placeholder_holder $holder): string {
+    public function postprocess(
+        array $params,
+        castext2_processor $processor,
+        castext2_placeholder_holder $holder
+    ): string {
         return 'This is never happening! The logic goes to [[iframe]].';
     }
 
@@ -142,8 +144,10 @@ class stack_cas_castext2_javascript extends stack_cas_castext2_block {
             if (substr($key, 0, 10) === 'input-ref-') {
                 $varname = substr($key, 10);
                 if (isset($options['inputs']) && !isset($options['inputs'][$varname])) {
-                    $err[] = stack_string('stackBlock_javascript_input_missing',
-                        ['var' => $varname]);
+                    $err[] = stack_string(
+                        'stackBlock_javascript_input_missing',
+                        ['var' => $varname]
+                    );
                 }
             }
         }

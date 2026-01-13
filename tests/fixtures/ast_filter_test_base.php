@@ -42,7 +42,6 @@ require_once(__DIR__ . '/../../stack/cas/cassecurity.class.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 abstract class qtype_stack_ast_testcase extends basic_testcase {
-
     /**
      * @var stack_cas_astfilter The filter being tested.
      */
@@ -62,24 +61,37 @@ abstract class qtype_stack_ast_testcase extends basic_testcase {
      * @param bool $valid
      * @param bool $errors
      */
-    public function expect(string $input, string $result, $notes=[],
-                           $valid=true, $errors=false) {
+    public function expect(
+        string $input,
+        string $result,
+        $notes = [],
+        $valid = true,
+        $errors = false
+    ) {
         // We currently ignore these but let's collect them.
         $parsererrors = [];
         $parsernotes = [];
 
         // Parse it, remember that these tests only act on parseable strings.
-        $ast = maxima_corrective_parser::parse($input, $parsererrors, $parsernotes,
-                                               [
+        $ast = maxima_corrective_parser::parse(
+            $input,
+            $parsererrors,
+            $parsernotes,
+            [
                                                    'startRule' => 'Root',
                                                    'letToken' => stack_string('equiv_LET'),
-                                               ]);
+            ]
+        );
 
         $filtererrors = [];
         $filternotes = [];
 
-        $filtered = $this->filter->filter($ast, $filtererrors,
-                                          $filternotes, $this->security);
+        $filtered = $this->filter->filter(
+            $ast,
+            $filtererrors,
+            $filternotes,
+            $this->security
+        );
 
         // What notes we expect there to be.
         foreach ($notes as $key => $value) {
@@ -111,7 +123,7 @@ abstract class qtype_stack_ast_testcase extends basic_testcase {
      */
     public function assert_marked_invalid($ast) {
         $hasinvalid = false;
-        $findinvalid = function($node) use(&$hasinvalid) {
+        $findinvalid = function ($node) use (&$hasinvalid) {
             if (isset($node->position['invalid']) && $node->position['invalid'] === true) {
                 $hasinvalid = true;
                 return false;
@@ -129,7 +141,7 @@ abstract class qtype_stack_ast_testcase extends basic_testcase {
      */
     public function assert_not_marked_invalid($ast) {
         $hasinvalid = false;
-        $findinvalid = function($node) use(&$hasinvalid) {
+        $findinvalid = function ($node) use (&$hasinvalid) {
             if (isset($node->position['invalid']) && $node->position['invalid'] === true) {
                 $hasinvalid = true;
                 return false;

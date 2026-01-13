@@ -38,15 +38,20 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
  * @covers \stack_notes_input
  */
 final class input_notes_test extends qtype_stack_testcase {
-
     public function test_render_blank(): void {
 
         $el = stack_input_factory::make('notes', 'ans1', '');
         $el->adapt_to_model_answer('Hello world');
-        $this->assertEquals('<textarea name="ans1" id="ans1" rows="3" cols="50" data-stack-input-type="notes"></textarea>' .
+        $this->assertEquals(
+            '<textarea name="ans1" id="ans1" rows="3" cols="50" data-stack-input-type="notes"></textarea>' .
                 '<div class="clearfix"></div>',
-                $el->render(new stack_input_state(stack_input::BLANK, [], '', '', '', '', ''),
-                        'ans1', false, null));
+            $el->render(
+                new stack_input_state(stack_input::BLANK, [], '', '', '', '', ''),
+                'ans1',
+                false,
+                null
+            )
+        );
     }
 
     public function test_validate_student_response_1(): void {
@@ -101,8 +106,12 @@ final class input_notes_test extends qtype_stack_testcase {
               '$$</span></p><p class="stackinputnotice">(This input is not assessed automatically by STACK.)' .
               '</p></div></span></div>';
         // We don't require intervals to have real numbers in them.
-        $state = $el->validate_student_response(['sans1' => $sa], $options, '%union({3,4,5})',
-                new stack_cas_security(false, '', '', ['ta']));
+        $state = $el->validate_student_response(
+            ['sans1' => $sa],
+            $options,
+            '%union({3,4,5})',
+            new stack_cas_security(false, '', '', ['ta'])
+        );
         $this->assertEquals($state->status, stack_input::INVALID);
         $this->assertEquals('', $state->note);
         $this->assertEquals('', $state->errors);
@@ -116,8 +125,12 @@ final class input_notes_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('notes', 'state', 'Euler');
         $el->set_parameter('options', 'hideanswer');
-        $state = $el->validate_student_response(['state' => 'Blah Blah Blah'], $options, 'Euler',
-                new stack_cas_security());
+        $state = $el->validate_student_response(
+            ['state' => 'Blah Blah Blah'],
+            $options,
+            'Euler',
+            new stack_cas_security()
+        );
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('', $state->contentsmodified);
         $this->assertEquals('<span class="stacksyntaxexample">true</span>', $state->contentsdisplayed);

@@ -29,7 +29,6 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class backup_qtype_stack_plugin extends backup_qtype_plugin {
-
     /**
      * Add description here.
      * @return backup_plugin_element the qtype information to attach to question element.
@@ -46,8 +45,10 @@ class backup_qtype_stack_plugin extends backup_qtype_plugin {
         $plugin->add_child($pluginwrapper);
 
         // Now create the necessary elements.
-        $stackoptions = new backup_nested_element('stackoptions', ['id'],
-                [
+        $stackoptions = new backup_nested_element(
+            'stackoptions',
+            ['id'],
+            [
                     'stackversion', 'questionvariables', 'specificfeedback', 'specificfeedbackformat',
                     'questiondescription', 'questiondescriptionformat',
                     'questionnote', 'questionnoteformat', 'questionsimplify', 'assumepositive', 'assumereal',
@@ -57,43 +58,59 @@ class backup_qtype_stack_plugin extends backup_qtype_plugin {
                     'scientificnotation',
                     'multiplicationsign', 'sqrtsign',
                     'complexno', 'inversetrig', 'logicsymbol', 'matrixparens', 'variantsselectionseed', 'isbroken',
-                ]);
+            ]
+        );
 
         $stackinputs = new backup_nested_element('stackinputs');
-        $stackinput = new backup_nested_element('stackinput', ['id'],
-                [
+        $stackinput = new backup_nested_element(
+            'stackinput',
+            ['id'],
+            [
                     'name', 'type', 'tans', 'boxsize', 'strictsyntax', 'insertstars',
                     'syntaxhint', 'syntaxattribute', 'forbidwords', 'allowwords', 'forbidfloat', 'requirelowestterms',
                     'checkanswertype', 'mustverify', 'showvalidation', 'options',
-                ]);
+            ]
+        );
 
         $stackprts = new backup_nested_element('stackprts');
         // ISS1422 - Change firstnode to firstnodename to match DB. Looks like the field was added later and there's
         // code to fill it in on restore if it isn't in the backup file... which it never has been.
-        $stackprt = new backup_nested_element('stackprt', ['id'],
-                ['name', 'value', 'autosimplify', 'feedbackstyle', 'feedbackvariables', 'firstnodename']);
+        $stackprt = new backup_nested_element(
+            'stackprt',
+            ['id'],
+            ['name', 'value', 'autosimplify', 'feedbackstyle', 'feedbackvariables', 'firstnodename']
+        );
 
         // ISS1422 - Add description. Presumably should be here.
         $stackprtnodes = new backup_nested_element('stackprtnodes');
-        $stackprtnode = new backup_nested_element('stackprtnode', ['id'],
-                [
+        $stackprtnode = new backup_nested_element(
+            'stackprtnode',
+            ['id'],
+            [
                     'nodename', 'description', 'answertest', 'sans', 'tans', 'testoptions', 'quiet',
                     'truescoremode', 'truescore', 'truepenalty', 'truenextnode',
                     'trueanswernote', 'truefeedback', 'truefeedbackformat',
                     'falsescoremode', 'falsescore', 'falsepenalty', 'falsenextnode',
                     'falseanswernote', 'falsefeedback', 'falsefeedbackformat',
-                ]);
+            ]
+        );
 
         $stackqtests = new backup_nested_element('stackqtests');
         $stackqtest = new backup_nested_element('stackqtest', ['id'], ['testcase', 'description', 'timemodified']);
 
         $stackqtestinputs = new backup_nested_element('stackqtestinputs');
-        $stackqtestinput = new backup_nested_element('stackqtestinput', ['id'],
-                ['inputname', 'value']);
+        $stackqtestinput = new backup_nested_element(
+            'stackqtestinput',
+            ['id'],
+            ['inputname', 'value']
+        );
 
         $stackqtestexpecteds = new backup_nested_element('stackqtestexpecteds');
-        $stackqtestexpected = new backup_nested_element('stackqtestexpected', ['id'],
-                ['prtname', 'expectedscore', 'expectedpenalty', 'expectedanswernote']);
+        $stackqtestexpected = new backup_nested_element(
+            'stackqtestexpected',
+            ['id'],
+            ['prtname', 'expectedscore', 'expectedpenalty', 'expectedanswernote']
+        );
 
         // Note, we intentionally don't backup stack_qtest_results. That is derived data.
 
@@ -125,18 +142,26 @@ class backup_qtype_stack_plugin extends backup_qtype_plugin {
         $stackoptions->set_source_table('qtype_stack_options', ['questionid' => backup::VAR_PARENTID]);
         $stackinput->set_source_table('qtype_stack_inputs', ['questionid' => backup::VAR_PARENTID]);
         $stackprt->set_source_table('qtype_stack_prts', ['questionid' => backup::VAR_PARENTID]);
-        $stackprtnode->set_source_table('qtype_stack_prt_nodes',
-                ['questionid' => '../../../../../../../id', 'prtname' => '../../name']);
+        $stackprtnode->set_source_table(
+            'qtype_stack_prt_nodes',
+            ['questionid' => '../../../../../../../id', 'prtname' => '../../name']
+        );
         $stackqtest->set_source_sql(
-                'SELECT * FROM {qtype_stack_qtests} WHERE questionid = ? ORDER BY testcase',
-                [backup::VAR_PARENTID]);
-        $stackqtestinput->set_source_table('qtype_stack_qtest_inputs',
-                ['questionid' => '../../../../../../../id', 'testcase' => '../../testcase']);
-        $stackqtestexpected->set_source_table('qtype_stack_qtest_expected',
-                ['questionid' => '../../../../../../../id', 'testcase' => '../../testcase']);
+            'SELECT * FROM {qtype_stack_qtests} WHERE questionid = ? ORDER BY testcase',
+            [backup::VAR_PARENTID]
+        );
+        $stackqtestinput->set_source_table(
+            'qtype_stack_qtest_inputs',
+            ['questionid' => '../../../../../../../id', 'testcase' => '../../testcase']
+        );
+        $stackqtestexpected->set_source_table(
+            'qtype_stack_qtest_expected',
+            ['questionid' => '../../../../../../../id', 'testcase' => '../../testcase']
+        );
         $stackdeployedseed->set_source_sql(
-                'SELECT * FROM {qtype_stack_deployed_seeds} WHERE questionid = ? ORDER BY id',
-                [backup::VAR_PARENTID]);
+            'SELECT * FROM {qtype_stack_deployed_seeds} WHERE questionid = ? ORDER BY id',
+            [backup::VAR_PARENTID]
+        );
 
         return $plugin;
     }

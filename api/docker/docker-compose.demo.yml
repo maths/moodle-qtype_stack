@@ -1,0 +1,28 @@
+version: "4.0"
+services:
+  maxima:
+    image: mathinstitut/goemaxima:2026010500-latest
+    tmpfs:
+      - "/tmp"
+    restart: unless-stopped
+    cap_add:
+      - SETGID
+      - SETUID
+    cap_drop:
+      - ALL
+    environment:
+      GOEMAXIMA_QUEUE_LEN: 32
+    read_only: true
+  stack:
+    # Location of published STACK API image goes here.
+    image: stackmaths/stackapi:2026010500-latest
+    restart: unless-stopped
+    volumes:
+      - stackfooter.html:/srv/stack/api/public/stackfooter.html
+      - /etc/letsencrypt/live/stack-api.maths.ed.ac.uk/cert.pem:/etc/letsencrypt/live/stack-api.maths.ed.ac.uk/cert.pem
+      - /etc/letsencrypt/live/stack-api.maths.ed.ac.uk/fullchain.pem:/etc/letsencrypt/live/stack-api.maths.ed.ac.uk/fullchain.pem
+      - /etc/letsencrypt/live/stack-api.maths.ed.ac.uk/privkey.pem:/etc/letsencrypt/live/stack-api.maths.ed.ac.uk/privkey.pem
+      - /etc/letsencrypt/live/stack-api.maths.ed.ac.uk/privkey.pem:/etc/letsencrypt/live/stack-api.maths.ed.ac.uk/privkey.pem
+    ports:
+      - '80:80'
+      - '443:443'

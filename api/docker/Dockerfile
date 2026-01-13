@@ -58,3 +58,12 @@ FROM base as production
 COPY /api/docker/files/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 RUN docker-php-ext-install opcache && \
     docker-php-ext-enable opcache
+
+# Required for building the Edinburgh demo server
+#RUN a2enmod ssl
+#COPY ./api/docker/files/000-default-ssl.conf /etc/apache2/sites-available/000-default-ssl.conf
+#RUN apt install python3 python3-dev python3-venv libaugeas-dev gcc && \
+#    python3 -m venv /opt/certbot/ && \
+#    /opt/certbot/bin/pip install --upgrade pip && \
+#    /opt/certbot/bin/pip install certbot certbot-apache && \
+#    echo "0 0,12 * * * root /opt/certbot/bin/python -c 'import random; import time; time.sleep(random.random() * 3600)' && sudo certbot renew -q" | sudo tee -a /etc/crontab > /dev/null

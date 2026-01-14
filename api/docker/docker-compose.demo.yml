@@ -21,7 +21,8 @@ services:
     restart: unless-stopped
     volumes:
       - ./files/stackfooter.html:/srv/stack/api/public/stackfooter.html
-      - ./files/letsencrypt:/etc/letsencrypt/live/stack-api.maths.ed.ac.uk
+      - ./files/letsencrypt:/etc/letsencrypt
+      - ./files/sites:/etc/apache2/sites-enabled
     ports:
       - '80:80'
       - '443:443'

@@ -101,14 +101,12 @@ require_login();
         holder.appendChild(selectQuestion);
         let firstquestion = null
         for (const question of xmlDoc.getElementsByTagName("question")) {
-          if (question.getAttribute('type').toLowerCase() === 'stack') {
-            firstquestion = (firstquestion) ? firstquestion : question.outerHTML;
-            const option = document.createElement("option");
-            option.value = question.outerHTML;
-            option.text = question.getElementsByTagName("name")[0].getElementsByTagName("text")[0].innerHTML;
+          firstquestion = (firstquestion) ? firstquestion : question.outerHTML;
+          const option = document.createElement("option");
+          option.value = question.outerHTML;
+          option.text = question.getElementsByTagName("name")[0].getElementsByTagName("text")[0].innerHTML;
 
-            selectQuestion.appendChild(option);
-          }
+          selectQuestion.appendChild(option);
         }
         setQuestion(firstquestion);
       }

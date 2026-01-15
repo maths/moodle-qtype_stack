@@ -693,6 +693,14 @@ if (trim($question->questiondescription) !== '') {
         ['class' => 'outcome generalfeedback']
     ), ['class' => 'que']);
 }
+echo $OUTPUT->heading(stack_string('JSONmetadata'), 3);
+if ($question->metadata !== null) {
+    echo html_writer::tag('div', html_writer::tag(
+        'pre',
+        json_encode(json_decode($question->metadata), JSON_PRETTY_PRINT),
+        ['class' => 'outcome generalfeedback']
+        ), ['class' => 'que']);
+}
 
 echo "\n";
 if ($question->stackversion == null) {

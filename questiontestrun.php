@@ -134,6 +134,11 @@ if ($canedit) {
     );
 }
 $links[] = html_writer::link(
+    $questionxmllink,
+    stack_string('editxml'),
+    ['class' => 'nav-link']
+    );
+$links[] = html_writer::link(
     $questionbanklink,
     stack_string('seethisquestioninthequestionbank'),
     ['class' => 'nav-link']
@@ -155,11 +160,6 @@ $links[] = html_writer::link(
 $links[] = html_writer::link(
     $todolink,
     stack_string('seetodolist'),
-    ['class' => 'nav-link']
-);
-$links[] = html_writer::link(
-    $questionxmllink,
-    stack_string('editxml'),
     ['class' => 'nav-link']
 );
 echo html_writer::tag('nav', implode(' ', $links), ['class' => 'nav']);

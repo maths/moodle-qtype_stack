@@ -234,6 +234,7 @@ class qtype_stack extends question_type {
         $options->matrixparens              = $fromform->matrixparens;
         $options->variantsselectionseed     = $fromform->variantsselectionseed;
         $options->isbroken                  = !empty($fromform->isbroken) ? 1 : 0;
+        $options->metadata                  = $fromform->metadata;
 
         // We will not have the values for this.
         $options->compiledcache             = '{}';
@@ -606,6 +607,7 @@ class qtype_stack extends question_type {
         $question->variantsselectionseed     = $questiondata->options->variantsselectionseed;
         $question->compiledcache             = $questiondata->options->compiledcache;
         $question->isbroken                  = $questiondata->options->isbroken;
+        $question->metadata                  = $questiondata->options->metadata;
 
         // Parse the cache in advance.
         if (is_string($question->compiledcache)) {
@@ -1647,6 +1649,7 @@ class qtype_stack extends question_type {
         $output .= "    <logicsymbol>{$options->logicsymbol}</logicsymbol>\n";
         $output .= "    <matrixparens>{$options->matrixparens}</matrixparens>\n";
         $output .= "    <isbroken>{$options->isbroken}</isbroken>\n";
+        $output .= "    <metadata>{$options->metadata}</metadata>\n";
         $output .= "    <variantsselectionseed>{$format->xml_escape($options->variantsselectionseed)}</variantsselectionseed>\n";
 
         foreach ($questiondata->inputs as $input) {
@@ -1791,6 +1794,7 @@ class qtype_stack extends question_type {
         $fromform->assumepositive        = $format->getpath($xml, ['#', 'assumepositive', 0, '#'], 0);
         $fromform->assumereal            = $format->getpath($xml, ['#', 'assumereal', 0, '#'], 0);
         $fromform->isbroken              = $format->getpath($xml, ['#', 'isbroken', 0, '#'], 0);
+        $fromform->metadata              = $format->getpath($xml, ['#', 'metadata', 0, '#'], '');
         $fformat = $fromform->questiontextformat;
         if (isset($fromform->prtcorrectformat)) {
             $fformat = $fromform->prtcorrectformat;

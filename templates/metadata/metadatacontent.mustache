@@ -1,0 +1,533 @@
+{{!
+    This file is part of Stack - http://stack.maths.ed.ac.uk/
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template qtype_stack/metadata/metadatacontent
+
+
+    Example context (json):
+    {
+    "creator": {
+        "firstname": {
+            "required": false,
+            "element": {
+                "value": "Edmund",
+                "wrapperid": "fitem_smdi_0_creator_firstName",
+                "id": "smdi_0_creator_firstName",
+                "name": "smdi_0_creator_firstName",
+                "iderror": "smde_0_creator_firstName_error"
+            }
+        },
+        "lastname": {
+            "required": true,
+            "element": {
+                "value": "Farrow",
+                "wrapperid": "fitem_smdi_0_creator_lastName",
+                "id": "smdi_0_creator_lastName",
+                "name": "smdi_0_creator_lastName",
+                "iderror": "smde_0_creator_lastName_error"
+            }
+        },
+        "institution": {
+            "required": false,
+            "element": {
+                "value": "UoE",
+                "wrapperid": "fitem_smdi_0_creator_institution",
+                "id": "smdi_0_creator_institution",
+                "name": "smdi_0_creator_institution",
+                "iderror": "smde_0_creator_institution_error"
+            }
+        },
+        "year": {
+            "required": false,
+            "element": {
+                "value": "2025",
+                "wrapperid": "fitem_smdi_0_creator_year",
+                "id": "smdi_0_creator_year",
+                "name": "smdi_0_creator_year",
+                "iderror": "smde_0_creator_year_error"
+            }
+        }
+    },
+    "contributor": [
+        {
+            "firstname": {
+                "required": false,
+                "element": {
+                    "value": "a",
+                    "wrapperid": "fitem_smdi_1_contributor_firstName",
+                    "id": "smdi_1_contributor_firstName",
+                    "name": "smdi_1_contributor_firstName",
+                    "iderror": "smde_1_contributor_firstName_error"
+                }
+            },
+            "lastname": {
+                "required": true,
+                "element": {
+                    "value": "b",
+                    "wrapperid": "fitem_smdi_1_contributor_lastName",
+                    "id": "smdi_1_contributor_lastName",
+                    "name": "smdi_1_contributor_lastName",
+                    "iderror": "smde_1_contributor_lastName_error"
+                }
+            },
+            "institution": {
+                "required": false,
+                "element": {
+                    "value": "c",
+                    "wrapperid": "fitem_smdi_1_contributor_institution",
+                    "id": "smdi_1_contributor_institution",
+                    "name": "smdi_1_contributor_institution",
+                    "iderror": "smde_1_contributor_institution_error"
+                }
+            },
+            "year": {
+                "required": false,
+                "element": {
+                    "value": "2025",
+                    "wrapperid": "fitem_smdi_1_contributor_year",
+                    "id": "smdi_1_contributor_year",
+                    "name": "smdi_1_contributor_year",
+                    "iderror": "smde_1_contributor_year_error"
+                }
+            },
+            "id": "1"
+        }
+    ],
+    "language": [
+        {
+            "id": "1",
+            "lang": {
+                "required": true,
+                "element": {
+                    "value": "en",
+                    "wrapperid": "fitem_smdi_1_language_value",
+                    "id": "smdi_1_language_value",
+                    "name": "smdi_1_language_value",
+                    "iderror": "smde_1_language_value_error"
+                }
+            }
+        },
+        {
+            "id": "2",
+            "lang": {
+                "required": true,
+                "element": {
+                    "value": "fr",
+                    "wrapperid": "fitem_smdi_2_language_value",
+                    "id": "smdi_2_language_value",
+                    "name": "smdi_2_language_value",
+                    "iderror": "smde_2_language_value_error"
+                }
+            }
+        }
+    ],
+    "license": {
+        "required": true,
+        "element": {
+            "value": "public",
+            "wrapperid": "fitem_smdi_0_license_value",
+            "id": "smdi_0_license_value",
+            "name": "smdi_0_license_value",
+            "options": [
+                {
+                    "value": "unknown",
+                    "text": "Licence not specified"
+                },
+                {
+                    "value": "allrightsreserved",
+                    "text": "All rights reserved"
+                },
+                {
+                    "value": "public",
+                    "text": "Public domain",
+                    "selected": true
+                },
+                {
+                    "value": "cc-4.0",
+                    "text": "Creative Commons - 4.0 International"
+                },
+                {
+                    "value": "cc-nc-4.0",
+                    "text": "Creative Commons - NonCommercial 4.0 International"
+                },
+                {
+                    "value": "cc-nd-4.0",
+                    "text": "Creative Commons - NoDerivatives 4.0 International"
+                },
+                {
+                    "value": "cc-nc-nd-4.0",
+                    "text": "Creative Commons - NonCommercial-NoDerivatives 4.0 International"
+                },
+                {
+                    "value": "cc-nc-sa-4.0",
+                    "text": "Creative Commons - NonCommercial-ShareAlike 4.0 International"
+                },
+                {
+                    "value": "cc-sa-4.0",
+                    "text": "Creative Commons - ShareAlike 4.0 International"
+                }
+            ],
+            "tags": "[]",
+            "ajax": "",
+            "placeholder": "Type or select license",
+            "noselectionstring": "",
+            "showsuggestions": "true",
+            "casesensitive": "false",
+            "iderror": "smde_0_license_value_error"
+        }
+    },
+    "isPartOf": {
+        "required": false,
+        "element": {
+            "value": "HELM",
+            "wrapperid": "fitem_smdi_0_isPartOf_value",
+            "id": "smdi_0_isPartOf_value",
+            "name": "smdi_0_isPartOf_value",
+            "iderror": "smde_0_isPartOf_value_error"
+        }
+    },
+    "scope": [
+        {
+            "name": "d",
+            "firstProp": "1",
+            "properties": [
+                {
+                    "property": {
+                        "required": true,
+                        "element": {
+                            "value": "e",
+                            "wrapperid": "fitem_smdi_1_additional_property",
+                            "id": "smdi_1_additional_property",
+                            "name": "smdi_1_additional_property",
+                            "iderror": "smde_1_additional_property_error"
+                        }
+                    },
+                    "qualifier": {
+                        "required": false,
+                        "element": {
+                            "value": "f",
+                            "wrapperid": "fitem_smdi_1_additional_qualifier",
+                            "id": "smdi_1_additional_qualifier",
+                            "name": "smdi_1_additional_qualifier",
+                            "iderror": "smde_1_additional_qualifier_error"
+                        }
+                    },
+                    "value": {
+                        "required": false,
+                        "element": {
+                            "value": "g",
+                            "wrapperid": "fitem_smdi_1_additional_value",
+                            "id": "smdi_1_additional_value",
+                            "name": "smdi_1_additional_value",
+                            "iderror": "smde_1_additional_value_error"
+                        }
+                    },
+                    "id": "1"
+                },
+                {
+                    "property": {
+                        "required": true,
+                        "element": {
+                            "value": "h",
+                            "wrapperid": "fitem_smdi_2_additional_property",
+                            "id": "smdi_2_additional_property",
+                            "name": "smdi_2_additional_property",
+                            "iderror": "smde_2_additional_property_error"
+                        }
+                    },
+                    "qualifier": {
+                        "required": false,
+                        "element": {
+                            "value": "i",
+                            "wrapperid": "fitem_smdi_2_additional_qualifier",
+                            "id": "smdi_2_additional_qualifier",
+                            "name": "smdi_2_additional_qualifier",
+                            "iderror": "smde_2_additional_qualifier_error"
+                        }
+                    },
+                    "value": {
+                        "required": false,
+                        "element": {
+                            "value": "j",
+                            "wrapperid": "fitem_smdi_2_additional_value",
+                            "id": "smdi_2_additional_value",
+                            "name": "smdi_2_additional_value",
+                            "iderror": "smde_2_additional_value_error"
+                        }
+                    },
+                    "id": "2"
+                },
+                {
+                    "property": {
+                        "required": true,
+                        "element": {
+                            "value": "k",
+                            "wrapperid": "fitem_smdi_3_additional_property",
+                            "id": "smdi_3_additional_property",
+                            "name": "smdi_3_additional_property",
+                            "iderror": "smde_3_additional_property_error"
+                        }
+                    },
+                    "qualifier": {
+                        "required": false,
+                        "element": {
+                            "value": "l",
+                            "wrapperid": "fitem_smdi_3_additional_qualifier",
+                            "id": "smdi_3_additional_qualifier",
+                            "name": "smdi_3_additional_qualifier",
+                            "iderror": "smde_3_additional_qualifier_error"
+                        }
+                    },
+                    "value": {
+                        "required": false,
+                        "element": {
+                            "value": "m",
+                            "wrapperid": "fitem_smdi_3_additional_value",
+                            "id": "smdi_3_additional_value",
+                            "name": "smdi_3_additional_value",
+                            "iderror": "smde_3_additional_value_error"
+                        }
+                    },
+                    "id": "3"
+                }
+            ],
+            "input": {
+                "required": true,
+                "element": {
+                    "value": "d",
+                    "wrapperid": "fitem_smdi_1_additional_scope",
+                    "id": "smdi_1_additional_scope",
+                    "name": "smdi_1_additional_scope",
+                    "iderror": "smde_1_additional_scope_error"
+                }
+            }
+        },
+        {
+            "name": "n",
+            "firstProp": "4",
+            "properties": [
+                {
+                    "property": {
+                        "required": true,
+                        "element": {
+                            "value": "o",
+                            "wrapperid": "fitem_smdi_4_additional_property",
+                            "id": "smdi_4_additional_property",
+                            "name": "smdi_4_additional_property",
+                            "iderror": "smde_4_additional_property_error"
+                        }
+                    },
+                    "qualifier": {
+                        "required": false,
+                        "element": {
+                            "value": "p",
+                            "wrapperid": "fitem_smdi_4_additional_qualifier",
+                            "id": "smdi_4_additional_qualifier",
+                            "name": "smdi_4_additional_qualifier",
+                            "iderror": "smde_4_additional_qualifier_error"
+                        }
+                    },
+                    "value": {
+                        "required": false,
+                        "element": {
+                            "value": "q",
+                            "wrapperid": "fitem_smdi_4_additional_value",
+                            "id": "smdi_4_additional_value",
+                            "name": "smdi_4_additional_value",
+                            "iderror": "smde_4_additional_value_error"
+                        }
+                    },
+                    "id": "4"
+                }
+            ],
+            "input": {
+                "required": true,
+                "element": {
+                    "value": "n",
+                    "wrapperid": "fitem_smdi_4_additional_scope",
+                    "id": "smdi_4_additional_scope",
+                    "name": "smdi_4_additional_scope",
+                    "iderror": "smde_4_additional_scope_error"
+                }
+            }
+        }
+    ],
+    "json": {
+        "required": true,
+        "element": {
+            "value": "{\n    \"creator\": {\n        \"firstName\": \"Edmund\",\n   ... ... ...    }",
+            "attributes": "rows=\"10\"",
+            "wrapperid": "fitem_metadata_json",
+            "id": "id_metadata_json",
+            "name": "metadata_json",
+            "iderror": "metadata_json_error"
+        }
+    }
+}
+
+}}
+<form class="mform" data-boost-form-errors-enhanced="1" id="qtype-stack-metadata-content">
+    <div class="row d-none d-md-flex">
+        <div class="col-2"></div>
+        <div class="col-2"><h6>{{#str}} firstname, qtype_stack {{/str}}</h6></div>
+        <div class="col-2"><h6>{{#str}} lastname, qtype_stack {{/str}}</h6></div>
+        <div class="col-3"><h6>{{#str}} institution, qtype_stack {{/str}}</h6></div>
+        <div class="col-1"><h6>{{#str}} year, qtype_stack {{/str}}</h6></div>
+    </div>
+    {{#creator}}
+        <div class="row">
+            <div class="col-md-2"><h5>{{#str}} creator, qtype_stack {{/str}}</h5></div>
+            <div class="col-2 inputcol">
+                {{#firstname}}
+                    <label class="sr-only" for="{{element.id}}">
+                        {{#str}} creator, qtype_stack {{/str}} {{#str}} firstname, qtype_stack {{/str}}
+                    </label>
+                    {{> core_form/element-text-inline }}
+                {{/firstname}}
+            </div>
+            <div class="col-2 inputcol">
+                {{#lastname}}
+                    <label class="sr-only" for="{{element.id}}">
+                        {{#str}} creator, qtype_stack {{/str}} {{#str}} lastname, qtype_stack {{/str}}
+                    </label>
+                    {{> core_form/element-text-inline }}
+                {{/lastname}}
+            </div>
+            <div class="col-3 inputcol">
+                {{#institution}}
+                    <label class="sr-only" for="{{element.id}}">
+                        {{#str}} creator, qtype_stack {{/str}} {{#str}} institution, qtype_stack {{/str}}
+                    </label>
+                    {{> core_form/element-text-inline }}
+                {{/institution}}
+            </div>
+            <div class="col-2 col-lg-1 inputcol">
+                {{#year}}
+                    <label class="sr-only" for="{{element.id}}">
+                        {{#str}} creator, qtype_stack {{/str}} {{#str}} year, qtype_stack {{/str}}
+                    </label>
+                    {{>qtype_stack/metadata/metadatayear}}
+                {{/year}}
+            </div>
+        </div>
+    {{/creator}}
+    {{#contributor}}
+        {{>qtype_stack/metadata/metadatacontributor}}
+    {{/contributor}}
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-10">
+            <button class="btn btn-secondary mb-1" type="button" name="smd_add" id="smd_contributor_0_add">
+                {{#str}} addcontributor, qtype_stack {{/str}}
+            </button>
+            <button class="btn btn-secondary mb-1" type="button" id="stack-metadata-make-contributor">
+                {{#str}} makemecontributor, qtype_stack {{/str}}
+            </button>
+            <button class="btn btn-secondary mb-1" type="button" id="stack-metadata-make-creator">
+                {{#str}} makemecreator, qtype_stack {{/str}}
+            </button>
+        </div>
+    </div>
+    <br>
+    {{#language}}
+        {{>qtype_stack/metadata/metadatalanguage}}
+    {{/language}}
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-10"><button type="button" class="btn btn-secondary" name="smd_add" id="smd_language_0_add">{{#str}} addlanguage, qtype_stack {{/str}}</button></div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-2"><h5>{{#str}} ispartof, qtype_stack {{/str}}</h5></div>
+        <div class="col-2 inputcol">
+            {{#isPartOf}}
+                <label class="sr-only" for="{{element.id}}">
+                    {{#str}} ispartof, qtype_stack {{/str}}
+                </label>
+                {{> core_form/element-text-inline}}
+            {{/isPartOf}}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2"><h5>{{#str}} license {{/str}}</h5></div>
+        <div class="col-6 inputcol">
+            {{#license}}
+                <label class="sr-only" for="{{element.id}}">
+                    {{#str}} license {{/str}}
+                </label>
+                {{> core_form/element-autocomplete-inline}}
+            {{/license}}
+        </div>
+    </div>
+    <h5>{{#str}} additionalmetadata, qtype_stack {{/str}}:</h5>
+    {{#scope}}
+        {{>qtype_stack/metadata/metadatascope}}
+    {{/scope}}
+    <div class="row" style="padding-top: 10px">
+        <div class="col-md-2"></div>
+        <div class="col-10"><button type="button" class="btn btn-secondary" name="smd_add" id="smd_scope_0_add">{{#str}} addscope, qtype_stack {{/str}}</button></div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-10">
+            <button class="btn btn-primary mb-1" type="button" id="stack-metadata-update">
+                {{#str}} updateJSON, qtype_stack {{/str}}
+            </button>
+            <button class="btn btn-primary mb-1" type="button" id="stack-metadata-update-inputs">
+                {{#str}} updateinputs, qtype_stack {{/str}}
+            </button>
+            <button class="btn btn-primary mb-1" type="button" id="stack-metadata-revert">
+                {{#str}} reverttosaved, qtype_stack {{/str}}
+            </button>
+            <button class="btn btn-primary mb-1" type="button" id="stack-metadata-validate" onclick="document.querySelector('.stack-metadata .btn-close, .stack-metadata .close').click();">
+                {{#str}} validateandclose, qtype_stack {{/str}}
+            </button>
+        </div>
+    </div>
+    <br>
+    <p>
+        {{#str}} metadataexplanation, qtype_stack {{/str}}
+    </p>
+    <div class="row">
+        <div class="col-md-2"><h5>{{#str}} JSONmetadata, qtype_stack {{/str}}</h5></div>
+        <div class="col-10">
+            {{#json}}
+                <label class="sr-only" for="{{element.id}}">
+                    {{#str}} JSONmetadata, qtype_stack {{/str}}
+                </label>
+                {{< core_form/element-template-inline }}
+                    {{$element}}
+                        <textarea
+                            id="{{element.id}}"
+                            name="{{element.name}}"
+                            class="form-control {{#error}}is-invalid{{/error}}"
+                            {{#error}}
+                                autofocus aria-describedby="{{element.iderror}}"
+                            {{/error}}
+                            {{#required}}
+                                aria-required="true"
+                            {{/required}}
+                            {{{element.attributes}}}
+                        >{{element.value}}</textarea>
+                    {{/element}}
+                {{/ core_form/element-template-inline }}
+            {{/json}}
+        </div>
+    </div>
+</form>
+{{#js}}
+require(['qtype_stack/metadata/metadatacontent'], function(component) {
+    component.init('#qtype-stack-metadata-content');
+});
+{{/js}}

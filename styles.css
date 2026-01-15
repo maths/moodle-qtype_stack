@@ -1286,3 +1286,18 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
 .que .comment {
     color: #44331b;
 }
+.stack-metadata input {
+    width: 98%;
+}
+.stack-metadata .inputcol {
+    padding-left: 0;
+    padding-right: 0;
+}
+.stack-metadata .scope {
+    padding: 20px 10px 0 10px;
+}
+.stack-metadata .btn-danger {
+    background-color: pink;
+    border-color: pink;
+    color: black;
+}

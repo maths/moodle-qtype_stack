@@ -1,0 +1,100 @@
+{{!
+    This file is part of Stack - http://stack.maths.ed.ac.uk/
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template qtype_stack/metadata/metadatacontributor
+    Example context (json):
+        {
+            "firstname": {
+                "required": false,
+                "element": {
+                    "value": "a",
+                    "wrapperid": "fitem_smdi_1_contributor_firstName",
+                    "id": "smdi_1_contributor_firstName",
+                    "name": "smdi_1_contributor_firstName",
+                    "iderror": "smde_1_contributor_firstName_error"
+                }
+            },
+            "lastname": {
+                "required": true,
+                "element": {
+                    "value": "b",
+                    "wrapperid": "fitem_smdi_1_contributor_lastName",
+                    "id": "smdi_1_contributor_lastName",
+                    "name": "smdi_1_contributor_lastName",
+                    "iderror": "smde_1_contributor_lastName_error"
+                }
+            },
+            "institution": {
+                "required": false,
+                "element": {
+                    "value": "c",
+                    "wrapperid": "fitem_smdi_1_contributor_institution",
+                    "id": "smdi_1_contributor_institution",
+                    "name": "smdi_1_contributor_institution",
+                    "iderror": "smde_1_contributor_institution_error"
+                }
+            },
+            "year": {
+                "required": false,
+                "element": {
+                    "value": "2025",
+                    "wrapperid": "fitem_smdi_1_contributor_year",
+                    "id": "smdi_1_contributor_year",
+                    "name": "smdi_1_contributor_year",
+                    "iderror": "smde_1_contributor_year_error"
+                }
+            },
+            "id": "1"
+        }
+}}
+<div class="row" id="qtype-stack-metadata-contributor-{{{id}}}">
+    <div class="col-md-2"><h5>{{#str}} contributor, qtype_stack {{/str}}</h5></div>
+    <div class="col-2 inputcol">
+        {{#firstname}}
+            <label class="sr-only" for="{{element.id}}">
+                {{#str}} contributor, qtype_stack {{/str}} {{#str}} firstname, qtype_stack {{/str}}
+            </label>
+            {{> core_form/element-text-inline }}
+        {{/firstname}}
+    </div>
+    <div class="col-2 inputcol">
+        {{#lastname}}
+            <label class="sr-only" for="{{element.id}}">
+                {{#str}} contributor, qtype_stack {{/str}} {{#str}} lastname, qtype_stack {{/str}}
+            </label>
+            {{> core_form/element-text-inline }}
+        {{/lastname}}
+    </div>
+    <div class="col-3 inputcol">
+        {{#institution}}
+            <label class="sr-only" for="{{element.id}}">
+                {{#str}} contributor, qtype_stack {{/str}} {{#str}} institution, qtype_stack {{/str}}
+            </label>
+            {{> core_form/element-text-inline }}
+        {{/institution}}
+    </div>
+    <div class="col-2 col-lg-1 inputcol">
+        {{#year}}
+            <label class="sr-only" for="{{element.id}}">
+                {{#str}} contributor, qtype_stack {{/str}} {{#str}} year, qtype_stack {{/str}}
+            </label>
+            {{>qtype_stack/metadata/metadatayear}}
+        {{/year}}
+    </div>
+    <div class="col-1">
+        <button id="smd_contributor_{{id}}_delete" name="smd_delete" type="button" class="btn btn-danger">
+            {{#str}} delete {{/str}} <span class="sr-only">{{#str}} contributor, qtype_stack {{/str}}</span>
+        </button>
+    </div>
+</div>

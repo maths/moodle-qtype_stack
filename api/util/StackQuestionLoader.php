@@ -206,6 +206,8 @@ class StackQuestionLoader {
         $question->compiledcache             = [];
         $question->isbroken = (array) $xmldata->question->isbroken ? self::parseboolean($xmldata->question->isbroken) :
             self::get_default('question', 'isbroken', 0);
+        $question->metadata     =
+            (string) $xmldata->question->metadata ? (string) $xmldata->question->metadata : '';
         $question->options = new \stack_options();
         $question->options->set_option(
             'multiplicationsign',

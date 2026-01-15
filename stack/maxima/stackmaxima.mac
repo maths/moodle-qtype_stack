@@ -230,7 +230,7 @@ make_complexJ(OPT_COMPLEXJ) := block(
 
 /* Choose the symbol for the multiplication sign. */
 make_multsgn(OPT_MULTSGN) := block(
-    if ev(not(elementp(OPT_MULTSGN, {"cross", "dot", "onum", "none", "space"})), simp) 
+    if ev(not(elementp(OPT_MULTSGN, {"cross", "dot", "onum", "none", "space"})), simp)
         then error("make_multsgn received un-supported option: ", OPT_MULTSGN),
     if OPT_MULTSGN = "cross" then (texput("*", "\\times ", nary),
                                    texput("nounmul", "\\times ", nary)),
@@ -983,8 +983,8 @@ unary_minus_initial_sum(ex) := block([_ex1,_exr],
 unary_minus_initial_sum_helper(ex) := block(
   if atom(ex) then return(ex),
   if not(is(safe_op(ex) = "-")) then return(unary_minus_initial_sum(ex)),
-  if numberp(first(ex)) then return(ev(ex,simp)),  /* Turns "-"8 back into -8. */  
-  if not(is(safe_op(first(ex)) = "*")) then return(unary_minus_initial_sum(ex)),  
+  if numberp(first(ex)) then return(ev(ex,simp)),  /* Turns "-"8 back into -8. */
+  if not(is(safe_op(first(ex)) = "*")) then return(unary_minus_initial_sum(ex)),
   if numberp(first(first(ex))) then return(apply("*", append([-first(first(ex))], rest(args(first(unary_minus_initial_sum(ex))))))),
   unary_minus_initial_sum(ex)
 )$
@@ -1254,7 +1254,7 @@ ATAlgEquivfun(SA, SB) :=  block([SApoly, SBpoly, keepfloat, RawMark, FeedBack, A
     /* Are we dealing with lists? */
     if listp(SB) then
       if listp(SA)#true then
-          if is(stackfltsep=".") then 
+          if is(stackfltsep=".") then
             return(StackBasicReturn(false, false, "ATAlgEquiv_SA_not_list"))
           else
             return([false, false, StackAddNote("", "ATAlgEquiv_SA_not_list"), StackAddFeedback("", "ATAlgEquiv_SA_not_list_semi")])
@@ -1263,7 +1263,7 @@ ATAlgEquivfun(SA, SB) :=  block([SApoly, SBpoly, keepfloat, RawMark, FeedBack, A
     /* Are we dealing with sets? */
     if safe_setp(SB) then
       if safe_setp(SA)=false then
-          if is(stackfltsep=".") then 
+          if is(stackfltsep=".") then
             return(StackBasicReturn(false, false, "ATAlgEquiv_SA_not_set"))
           else
             return([false, false, StackAddNote("", "ATAlgEquiv_SA_not_set"), StackAddFeedback("", "ATAlgEquiv_SA_not_set_semi")])
@@ -1682,7 +1682,7 @@ ATSets(SA, SB) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsimp],
     if not(safe_setp(SB)) then
         return(StackBasicReturn(false, false, "ATSets_SB_not_set")),
     if not(safe_setp(SA)) then
-          if is(stackfltsep=".") then 
+          if is(stackfltsep=".") then
             return(StackBasicReturn(false, false, "ATSets_SA_not_set"))
           else
             return([false, false, StackAddNote("", "ATSets_SA_not_set"), StackAddFeedback("", "ATSets_SA_not_set_semi")]),
@@ -3547,4 +3547,4 @@ is_lang(code):=ev(is(%_STACK_LANG=code),simp=true)$
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2026010501$
+stackmaximaversion:2026010700$

@@ -64,13 +64,13 @@ class stack_abstract_graph_node {
      * @var float. Used during the layout algorithm. See
      * {@link stack_abstract_graph::compute_heuristic_xs()}.
      */
-    public float $heuristic_sum;
+    public float $heuristicsum;
 
     /**
      * @var float. Used during the layout algorithm. See
      * {@link stack_abstract_graph::compute_heuristic_xs()}.
      */
-    public float $heuristic_count;
+    public float $heuristiccount;
 
     /**
      * Constructor.

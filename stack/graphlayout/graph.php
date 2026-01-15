@@ -182,11 +182,11 @@ class stack_abstract_graph {
             $this->compute_heuristic_xs($root, 1 << $maxdepth, 1 << $maxdepth, $visited);
         }
         foreach ($this->nodes as $node) {
-            if ($node->heuristic_count > 0) {
-                $node->x = $node->heuristic_sum / $node->heuristic_count;
+            if ($node->heuristiccount > 0) {
+                $node->x = $node->heuristicsum / $node->heuristiccount;
             }
 
-            unset($node->heuristic_sum, $node->heuristic_count);
+            unset($node->heuristicsum, $node->heuristiccount);
         }
         foreach ($this->nodesbydepth as $depth => $nodes) {
             uasort($this->nodesbydepth[$depth], ['stack_abstract_graph', 'compare_node_x_coords']);
@@ -323,21 +323,21 @@ class stack_abstract_graph {
      * @param int $x heuristic x-position to give that node.
      * @param float $dx the gap that should be left between the two child nodes.
      */
-     protected function compute_heuristic_xs(stack_abstract_graph_node $node, $x, $dx, &$visited) {
-        $nodeId = spl_object_hash($node);
+    protected function compute_heuristic_xs(stack_abstract_graph_node $node, $x, $dx, &$visited) {
+        $nodeid = spl_object_hash($node);
 
-        if (isset($visited[$nodeId])) {
+        if (isset($visited[$nodeid])) {
             return;
         }
-        $visited[$nodeId] = true;
+        $visited[$nodeid] = true;
 
-        if (!isset($node->heuristic_sum)) {
-            $node->heuristic_sum = 0;
-            $node->heuristic_count = 0;
+        if (!isset($node->heuristicsum)) {
+            $node->heuristicsum = 0;
+            $node->heuristiccount = 0;
         }
 
-        $node->heuristic_sum += $x;
-        $node->heuristic_count++;
+        $node->heuristicsum += $x;
+        $node->heuristiccount++;
 
         $dx /= 2;
         if ($node->left) {

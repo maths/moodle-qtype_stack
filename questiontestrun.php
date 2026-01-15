@@ -91,6 +91,7 @@ $exportparams = $urlparams;
 $exportparams['id'] = $question->id;
 
 $questionbanklinkedit = new moodle_url('/question/type/stack/questioneditlatest.php', $editparams);
+$questionxmllink = new moodle_url('/question/type/stack/questionxmledit.php', $editparams);
 $questionbanklink = new moodle_url('/question/edit.php', $qbankparams);
 $exportquestionlink = new moodle_url('/question/bank/exporttoxml/exportone.php', $exportparams);
 $exportquestionlink->param('sesskey', sesskey());
@@ -134,6 +135,11 @@ if ($canedit) {
         ['class' => 'nav-link']
     );
 }
+$links[] = html_writer::link(
+    $questionxmllink,
+    stack_string('editxml'),
+    ['class' => 'nav-link']
+    );
 $links[] = html_writer::link(
     $questionbanklink,
     stack_string('seethisquestioninthequestionbank'),

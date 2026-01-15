@@ -1015,6 +1015,7 @@ $string['stackBlock_unknown_sortable_option'] = 'Unknown Sortable options found,
 $string['stackBlock_overwritten_sortable_option'] = 'Unchangeable Sortable options found, the following are being ignored: ';
 $string['stackBlock_parsons_unknown_transpose_value'] = 'Transpose must be one of \'true\' or \'false\'.';
 $string['stackBlock_parsons_underdefined_grid'] = 'When defining \'rows\' for a Parson\'s block one must also define \'columns\'.';
+$string['stackBlock_parsons_unknown_style'] = 'Unknown Parson\'s block style: <code>{$a->style}</code>.';
 $string['stackBlock_proof_mode_index'] = 'The use of \'index\' is not supported when using the Parson\'s block for proof assessment.';
 $string['stackBlock_proof_incorrect_header_length'] = 'Headers should be an array containing a single header; use \'available_header\' to update the header for the available list.';
 

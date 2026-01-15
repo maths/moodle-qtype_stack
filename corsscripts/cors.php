@@ -31,8 +31,10 @@
 $scriptname = urldecode($_GET['name']);
 
 if (strpos($scriptname, '..') !== false
-    || strpos($scriptname, '/') !== false
-    || strpos($scriptname, '\\') !== false) {
+    || strpos($scriptname, '\\') !== false
+    || substr_count($scriptname, '/') > 1
+    || (substr_count($scriptname, '/') === 1 &&
+    strpos($scriptname, 'parsonsstyles/') === false && strpos($scriptname, 'jsxgraphstyles/') === false)) {
     die("No such script here.");
 }
 

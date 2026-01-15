@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>19.3.4.3 Particular integral example</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4 class="HELM_example">Example</h4>
+<p>Obtain a particular integral of the equation</p>
+\[\frac{\mathrm{d}^2y}{\mathrm{d}x^2} - 6\frac{\mathrm{d}y}{\mathrm{d}x} + 8y = x.\]
+<h4 class="HELM_solution">Solution</h4>
+<p>In the example before and the last question, we found that a fruitful approach for a first order ODE was to assume a solution in the same form as that on the right-hand side. Suppose we assume a solution \(y(x) = \alpha x\) and proceed to determine \(\alpha\). This appreach will actually fail, but let us see why.If \(y(x) = \alpha x\) then</p>
+\[\frac{\mathrm{d}y}{\mathrm{d}x} = \alpha \qquad \text{and} \qquad \frac{\mathrm{d}^2y}{\mathrm{d}x^2} = 0.\]
+<p>Substitution into the differential equation yields</p>
+\[0 - 6\alpha + 8\alpha x = \alpha.\]
+<p>Comparing coefficients of \(x\):</p>
+\[8\alpha x = x \qquad \text{so} \qquad \alpha = \frac{1}{8}\]
+<p>Comparing constants:</p>
+\[-6\alpha = 0 \qquad \text{so} \qquad \alpha = 0\]
+<p>We have a contradiction! Clearly a particular integral of the form \(\alpha x\) is not possible. The problem arises because differentiation of the term \(\alpha x\) produces constant terms which are unbalanced on the right-hand side. So, we try a solution of the form \(y(x) = \alpha x + \beta\) with \(\alpha\), \(\beta\) constants. This is consistent with the recommendation in the table shown before. Proceeding as before</p>
+\[\frac{\mathrm{d}y}{\mathrm{d}x} = \alpha \qquad \text{and} \qquad \frac{\mathrm{d}^2y}{\mathrm{d}x^2} = 0.\]
+<p>Substitution in the differential equation now gives</p>
+\[0 - 6\alpha + 8(\alpha x + \beta) = x.\]
+<p>Equating coefficients of \(x\) and then equating constant terms we find:</p>
+\[8\alpha = 1 \qquad \text{and} \qquad -6\alpha + 8\beta = 0\]
+<p>From which we get \(\displaystyle \alpha = \frac{1}{8}\) and then \(\displaystyle \beta = \frac{3}{32}\).</p>
+<p>The required particular integral is \(\displaystyle y_\text{p}(x) = \frac{1}{8}x + \frac{3}{32}\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

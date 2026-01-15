@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>1.5.2.10 Substitution</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise <br></p>
+<p>If \(\eta = \dfrac{4Q_{p}}{\pi d^{2}Ln}\), find \(\eta\) if:</p><p>\(Q_p = {@dispdp(a1,4)@} \text{, } d = {@dispdp(float(a2),3)@} \text{, } L = {@dispdp(float(a3),3)@} \text{ and } R = {@dispdp(float(a4),3)@}.\)</p>
+<p>(Give your answer as a decimal to three decimal places, note that trailing zeroes are required i.e. \(2.3\) must be written as \(2.300\).)</p>
+<br>
+<p>\(P =\) [[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>In this example we have \( Q_p = {@dispdp(float(a1),4)@} \text{, } d = {@dispdp(float(a2),3)@} \text{, } L = {@dispdp(float(a3),3)@} \text{ and } R = {@dispdp(float(a4),3)@}\). Substituting these values into the formula we find:</p>
+<p>\[\begin{align} \eta &amp; = \dfrac{4Q_{p}}{\pi d^{2}Ln} = \dfrac{4\cdot{@dispdp(float(a1),4)@}}{\pi \cdot{@dispdp(float(a2),3)@}^2\cdot{@dispdp(float(a3),3)@}\cdot{@dispdp(float(a4),3)@}} \\ &amp; = \dfrac{4 \cdot {@dispdp(float(a1),4)@}}{\pi\cdot{@dispdp(float(a2^2),3)@} \cdot {@dispdp(float(a3),3)@}\cdot{@dispdp(float(a4),3)@}}
+    = \dfrac{{@dispdp(float(4*a1),4)@}}{\pi \cdot{@dispdp(float((a2^2)*a3*a4),3)@}} \\ &amp; = {@float(ev(eqs,w=a1,x=a2,y=a3,z=a4))@} \\ &amp; = {@ta@}_{\text{ 3.d.p}} \end{align}\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021072200</text>
+    </stackversion>
+    <questionvariables>
+      <text>eqs: (4*w)/(%pi*(x^2)*y*z);
+a1: rand([3/10000,5/10000]);
+a2: rand([1/20,1/40]);
+a3:rand([1/10, 1/5]);
+a4:2;
+ta: dispdp(float(ev(eqs,w=a1,x=a2,y=a3,z=a4)),3);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\(\dfrac{4\cdot{@dispdp(float(a1),4)@}}{\pi \cdot{@dispdp(float(a2),3)@}^2\cdot{@dispdp(float(a3),3)@}\cdot{@dispdp(float(a4),3)@}} = {@ta@}\) 3.d.p</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>numerical</type>
+      <tans>ta</tans>
+      <boxsize>6</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>/</forbidwords>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>mindp:3</options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>NumAbsolute</answertest>
+        <sans>ans1</sans>
+        <tans>ta</tans>
+        <testoptions>0.011</testoptions>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>ans1</sans>
+        <tans>ta</tans>
+        <testoptions>3</testoptions>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>Your final answer is almost correct, you may have made a mistake when rounding to three decimal places.</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>78268699</deployedseed>
+    <deployedseed>1405018131</deployedseed>
+    <deployedseed>157136628</deployedseed>
+    <deployedseed>1740770086</deployedseed>
+    <deployedseed>1808451652</deployedseed>
+    <deployedseed>201055404</deployedseed>
+    <deployedseed>489847723</deployedseed>
+    <deployedseed>514530918</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>dispdp(float(ev(eqs,w=a1,x=a2,y=a3,z=a4)),2)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore/>
+        <expectedpenalty/>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>dispdp(float(ev(eqs+0.1,w=a1,x=a2,y=a3,z=a4)),3)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-2-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>dispdp(float(ev(eqs+0.01,w=a1,x=a2,y=a3,z=a4)),3)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

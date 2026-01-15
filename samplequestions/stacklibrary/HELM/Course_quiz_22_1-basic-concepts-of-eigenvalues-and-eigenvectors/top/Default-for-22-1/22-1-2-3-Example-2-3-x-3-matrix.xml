@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>22.1.2.3 Example 2: 3 x 3 matrix</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4 class="HELM_example">Example</h4>
+<p>Find the eigenvalues and eigenvectors of the \(3\times 3\) matrix</p>
+\[A=\begin{bmatrix} 2&amp;-1&amp;0\\ -1&amp;2&amp;-1\\ 0&amp;-1&amp;2\end{bmatrix}\]
+<h4 class="HELM_solution">Solution</h4>
+<p>The eigenvalues and eigenvectors are found by solving the eigenvalue problem</p>
+\[A\underline{x}=\lambda \underline{x} \qquad \underline{x}=\begin{bmatrix} x\\ y\\ z\end{bmatrix}\]
+<p>Proceeding as in the previous example:</p>
+<p style="text-align: center;">\((A-\lambda I)\underline{x}=\underline{0}\) &emsp; and non-trivial solutions for \(\underline{x}\) will exist if \(\det(A-\lambda I)=0.\)</p>
+<p>That is,</p>
+\[\det\left\{\begin{bmatrix} 2&amp;-1&amp;0\\ -1&amp;2&amp;-1\\
+0&amp;-1&amp;2\end{bmatrix} -\lambda\begin{bmatrix} 1&amp;0&amp;0\\ 0&amp;1&amp;0\\
+0&amp;0&amp;1\end{bmatrix}\right\}=0\]
+<p>i.e.,</p>
+\[\begin{vmatrix} 2-\lambda&amp;-1&amp;0\\ -1&amp;2-\lambda&amp;-1\\
+0&amp;-1&amp;2-\lambda\end{vmatrix}=0\]
+<p>Expanding this determinant we find:</p>
+\[(2-\lambda)\begin{vmatrix} 2-\lambda&amp;-1\\
+-1&amp;2-\lambda\end{vmatrix} + \begin{vmatrix} -1&amp;-1\\
+0&amp;2-\lambda\end{vmatrix} = 0\]
+<p>that is,</p>
+\[(2-\lambda)\left\{(2-\lambda)^2-1\right\}-(2-\lambda)=0\]
+<p>Taking out the common factor <span class="math inline">\((2-\lambda)\)</span>:</p>
+\[(2-\lambda)\left\{4-4\lambda+\lambda^2-1-1\right\}\]
+<p>which gives:</p>
+\[(2-\lambda)\left[\lambda^2-4\lambda+2\right]=0.\]
+<p>This is easily solved to give \(\lambda =2\) or \(\lambda = \dfrac{4\pm
+\sqrt{16-8}}{2} = 2\pm \sqrt{2}\).</p>
+<p>So (typically) we have found three possible values of <span class="math inline">\(\lambda\)</span> for this <span class="math inline">\(3\times 3\)</span> matrix <span class="math inline">\(A\)</span>.</p>
+<p>To each value of <span class="math inline">\(\lambda\)</span> there corresponds an eigenvector.</p>
+
+<p><strong>Case 1:</strong> \(\lambda = 2 - \sqrt{2}\) (lowest eigenvalue)</p>
+<p>Then <span class="math inline">\(A\underline{x}=(2-\sqrt{2})\underline{x}\)</span> implies</p>
+\[\left\{\begin{alignedat}{3}
+2x &amp; {}-{} &amp; y &amp; &amp; &amp; = (2 - \sqrt{2})x \\
+-x &amp; {}+{} &amp; 2y &amp; {}-{} &amp; z &amp; = (2 - \sqrt{2})y \\
+&amp; &amp; -y &amp; {}+{} &amp; 2z &amp; = (2 - \sqrt{2})z
+\end{alignedat}\right.\]
+<p>Simplifying,</p>
+\begin{alignat}{3}
+\sqrt{2}x &amp; {}-{} &amp; y &amp; &amp; &amp; = 0 \tag{a} \\
+-x &amp; {}+{} &amp; \sqrt{2}y &amp; {}-{} &amp; z &amp; = 0 \tag{b} \\
+&amp; &amp; -y &amp; {}+{} &amp; \sqrt{2}z &amp;= 0 \tag{c}
+\end{alignat}
+<p>We conclude the following:</p>
+\[\text{(c)} \implies y = \sqrt{2}z \qquad \text{(a)} \implies y = \sqrt{2}x\]
+<p>These two relations give \(x=z\), then \(\text{(b)} \implies -x+2x-x=0\).</p>
+<p>The last equation gives us no information; it simply states that <span class="math inline">\(0=0\)</span>.</p>
+<p>Therefore, \(\underline{x}=\begin{bmatrix} x\\ \sqrt{2}x\\ x\end{bmatrix}) for any <span class="math inline">\(x\neq 0\)</span> (otherwise we would have the trivial solution). So the eigenvectors corresponding to eigenvalue <span class="math inline">\(\lambda =2-\sqrt{2}\)</span> are all proportional to <span class="math inline">\(\begin{bmatrix} 1\\ \sqrt{2}\\ 1\end{bmatrix}\)</span>.</p>
+<p>In normalised form we have an eigenvector <span class="math inline">\(\dfrac{1}{2}\left[\begin{array}{c}1\\\sqrt{2}\\ 1\end{array}\right].\)
+
+<p><strong>Case 2:</strong> \(\lambda = 2\)</p>
+<p>Here \(A\underline{x}=2\underline{x}\) implies</p>
+\[\left[\begin{array}{rrr}2&amp;-1&amp;0\\ -1&amp;2&amp;-1\\
+0&amp;-1&amp;2\end{array}\right]\left[\begin{array}{c}x\\ y\\
+z\end{array}\right]=2\left[\begin{array}{c} x\\ y\\ z\end{array}\right]\]
+<p>i.e.,</p>
+\[\left\{\begin{alignedat}{3}
+2x &amp; {}-{} &amp; y &amp; &amp; &amp; = 2x \\
+-x &amp; {}+{} &amp; 2y &amp; {}-{} &amp; z &amp; = 2y \\
+&amp; &amp; -y &amp; {}+{} &amp; 2z &amp; = 2z
+\end{alignedat}\right.\]
+<p>After simplifying the equations become:</p>
+\begin{alignat}{3}
+&amp; &amp; -y &amp; &amp; &amp;= 0 \tag{a} \\
+-x &amp; &amp; &amp; {}-{} &amp; z &amp;= 0 \tag{b} \\
+&amp; &amp; -y &amp; &amp; &amp; = 0 \tag{c}
+\end{alignat}
+<p>\(\text{(a)}\) and \(\text{(c)}\) imply \(y=0\), while \(\text{(b)}\) implies \(x=-z\).</p>
+<p>Therefore, the eigenvectors have the form <span class="math inline">\(\left[\begin{array}{r}x\\0\\-x\end{array}\right]\)</span> for any <span class="math inline">\(x\ne 0\)</span>.</p>
+<p>That is, eigenvectors corresponding to <span class="math inline">\(\lambda=2\)</span> are all proportional to <span class="math inline">\(\left[\begin{array}{r}1\\0\\-1\end{array}\right]\)</span>.</p>
+<p>In normalised form we have an eigenvector \(\dfrac{1}{\sqrt{2}}\left[\begin{array}{r}1\\0\\-1\end{array}\right]\).</p>
+
+<p><strong>Case 3:</strong> \(\lambda = 2 + \sqrt{2}\) (largest eigenvalue)</p>
+<p>Proceeding along similar lines to cases 1 and 2 above we find that the eigenvectors corresponding to <span class="math inline">\(\lambda=2+\sqrt{2}\)</span> are each proportional to <span class="math inline">\(\left[\begin{array}{c}1\\-\sqrt{2}\\ 1\end{array}\right]\)</span> with normalised eigenvector <span class="math inline">\(\dfrac{1}{2}\left[\begin{array}{c}1\\ -\sqrt{2}\\ 1\end{array}\right]\).</span></p>
+
+<p>In conclusion, the matrix <span class="math inline">\(A
+%=\left[\begin{array}{rrr}2&amp;-1&amp;0\\ -1&amp;2&amp;-1\\
+%0&amp;-1&amp;2\end{array}\right]\)</span> has three distinct eigenvalues:</p>
+\[\lambda_1=2-\sqrt{2},\qquad
+\lambda_2=2\qquad
+\lambda_3=2+\sqrt{2}\]
+<p>and three corresponding normalised eigenvectors:</p>
+\[\underline{x}_1=\dfrac{1}{2}\left[\begin{array}{c}1\\
+\sqrt{2}\\ 1\end{array}\right],\qquad
+\underline{x}_2=\dfrac{1}{\sqrt{2}}\left[\begin{array}{r}1\\ 0\\-1\end{array}\right],\qquad
+\underline{x}_3=\dfrac{1}{2}\left[\begin{array}{c}1\\-\sqrt{2}\\ 1\end{array}\right]\]
+<p>Note that even when normalised we have a choice of vector, namely \(\underline{v}\) and \(-\underline{v}\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

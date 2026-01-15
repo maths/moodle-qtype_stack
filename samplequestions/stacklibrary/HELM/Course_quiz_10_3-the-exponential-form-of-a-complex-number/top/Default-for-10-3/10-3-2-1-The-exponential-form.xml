@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>10.3.2.1 The exponential form</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>The exponential form</h3>
+<p>Since <span class="math inline">\(z=r(\cos\theta +i\sin\theta )\)</span> and since <span class="math inline">\(e^{i\theta}=\cos\theta
++i\sin\theta\)</span> we therefore obtain another way in which to denote a complex number: <span class="math inline">\(z=re^{i\theta}\)</span>, called the <strong>exponential form</strong>.</p><p><br></p>
+<div class="HELM_keypoint">
+<h4><span style="font-family: inherit;">Key Point</span><br></h4>
+<p>The exponential form of a complex number is \[z = re^{i\theta}\quad\text{in which}\quad r=|z|\quad\text{and}\quad\theta=\text{arg}(z)\] so \[z=re^{i\theta}=r(\cos\theta + i\sin\theta)\]</p>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

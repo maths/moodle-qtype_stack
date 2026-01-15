@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.2.4.1 Solution by Formula</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Solution by formula</h3>
+<p>When it is difficult to factorise a quadratic equation, it may be possible to solve it using a formula which is used to calculate the roots. The formula is obtained by completing the square in the general quadratic \(ax^2+bx+c=0\). We proceed by removing the coefficient of \(a\):</p><p>\[ax^2+bx+c= a\left(x^2+\frac{b}{a}x+\frac{c}{a}\right)=a\left(\left(x+\frac{b}{2a}\right)^2+\frac{c}{a}-\frac{b^2} {4a^2}\right).\]</p><p>Thus the solution of \(ax^2+bx+c=0\) is the same as the solution to</p><p>\[\left(x+\frac{b}{2a}\right)^2+\frac{c}{a}-\frac{b^2}{4a^2}=0.\]</p><p>So, solving:</p><p>\[\left(x+\dfrac{b}{2a}\right)^2=-\dfrac{c}{a}+\dfrac{b^2}{4a^2}\qquad\text{which leads to}\qquad x=-\dfrac{b}{2a}\pm\sqrt{ -\dfrac{c}{a}+\dfrac{b^2}{4a^2}}.\]</p><p>Simplifying this expression further we obtain the important result:</p>
+<p>A generalisation of the third law of indices states:</p>
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p style="text-align: center;"><b>Quadratic Formula</b><br></p><p style="text-align: center;"><span></span></p><p style="">If \(ax^2+bx+c=0,\ \ a\ne 0\) then the two solutions (roots) are&nbsp;</p><p style="">\[x= {-b- \sqrt{b^2-4ac}\over 2a}\qquad\text{and}\qquad x= {-b+ \sqrt{b^2-4ac}\over 2a}.\]</p><p></p>
+</div>
+<p>To apply the formula to a specific quadratic equation it is necessary to identify carefully the values of \(a\), \(b\) and \(c\), paying particular attention to the signs of these numbers. Substitution of these values into the formula then gives the desired solutions. Note that if the quantity \(b^2-4ac\) (called the&nbsp;<b>discriminant</b>) is a positive number we can take its square root and the formula will produce two values known as <b>distinct real roots</b>. If \(b^2-4ac=0\) there will be one value only known as a <b>repeated root</b>&nbsp;or <b>double root</b>. The value of this root is \(x=-\dfrac{b}{2a}\). Finally, if \(b^2-4ac\) is negative we say the equation possesses <b>complex roots</b>. These require special treatment.</p>
+<p>A generalisation of the third law of indices states:</p>
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p></p><p>When finding roots of the quadratic equation \(ax^2+bx+c=0\) first calculate the discriminant&nbsp;</p><p style="text-align: center;">\(b^2-4ac.\)</p><p></p><ul><li>If \(b^2-4ac&gt;0\)&nbsp; the quadratic has two real distinct roots.</li><li>If \(b^2-4ac=0\) the quadratic has two real and equal roots.</li><li>If \(b^2-4ac&lt;0\) the quadratic has no real roots. There are two complex roots.</li></ul><p></p><p></p>
+</div>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p></p><p>Compare each given equation with the standard form \(ax^2+bx+c=0\) and identify \(a\), \(b\) and \(c\). Calculate \(b^2-4ac\) in each case and use this information to state the nature of the roots.</p> <p></p>
+<ol class="HELM_parts_inline">
+<p></p><li>\(3x^2+2x-7=0\)</li> <li>\(3x^2+2x+7=0\)</li><p></p>
+<p></p><li>\(3x^2-2x+7=0\)</li> <li>\(x^2+x+2=0\)</li><p></p>
+<p></p><li>\(-x^2+3x-{1\over 2}=0\)</li>&nbsp;<li>\(5x^2-3=0\)</li><p></p>
+<p></p><li>\(x^2-2x+1=0\)</li><li>\(2p^2-4p=0\)</li><p></p>
+<p></p><li>\(-p^2+4p-4=0\)</li><p></p>
+</ol>
+
+<h4 class="HELM_solution">Solution</h4>
+<ol class="HELM_parts">
+  <li><p>\(a=3\), \(b=2\), \(c=-7\). So \(b^2-4ac=(2)^2-4(3)(-7)=88\). The roots are real and distinct.</p></li>
+  <li>\(a=3\), \(b=2\),\(c=7\). So \(b^2-4ac=(2)^2-4(3)(7)=-80\). The roots are complex.</li>
+  <li><p>\(a=3\), \(b=-2\), \(c=7\). So \(b^2-4ac=(-2)^2-4(3)(7)=-80\). The roots are complex.</p></li>
+  <li><p>\(a=1\), \(b=1\), \(c=2\). So \(b^2-4ac=1^2-4(1)(2)=-7\). The roots are complex.</p></li>
+  <li><p>\(a=-1\), \(b=3\), \(c=-{1\over 2}\). So \(b^2-4ac=3^2-4(-1)(-{1\over 2})=7\). The roots are real and distinct.</p></li>
+<li><p>\(a=5\), \(b=0\), \(c=-3\). So \(b^2-4ac=0-4(5)(-3)=60\). The roots are real and distinct.</p></li>
+<li><p>\(a=1\), \(b=-2\), \(c=1\). So \(b^2-4ac=(-2)^2-4(1)(1)=0\). The roots are real and equal.</p></li>
+<li><p></p><p>\(a=2, b=-4, c=0\). So \(b^2-4ac=(-4)^2-4(2)(0)=16\). The roots are real and distinct.</p></li>
+<li><p></p><p>\(a=-1, b=4, c=-4\). So \(b^2-4ac=(-4)^2-4(-1)(-4)=0\). The roots are real and equal.</p><p></p></li>
+</ol>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p></p><p>Solve the quadratic equation \(2x^2+3x-6=0\) using the formula.</p><p></p>
+<h4 class="HELM_solution">Solution</h4>
+<p></p><p>We compare the given equation with the standard form \(ax^2+bx+c=0\) in order to identify \(a\), \(b\) and \(c\). We see that here \(a=2\), \(b=3\) and \(c=-6\). Note particularly the sign of \(c\). Substituting these values into the formula we find</p><p>\[x =&nbsp; \frac{-b\pm \sqrt{b^2-4ac}}{ 2a} = \frac{-3 \pm \sqrt{3^2 - 4(2)(-6)}}{(2)(2)}=\frac{-3 \pm \sqrt{9+48}}{4} = \frac{-3 \pm 7.5498}{4} .\]</p><p>Hence, to 4 d.p., the two roots are \(x=1.1375\), if the positive sign is taken and \(x=-2.6375\) if the negative sign is taken. However, it is often sufficient to leave the solution in the so-called&nbsp;<b>surd form&nbsp;</b>\(x=\dfrac{-3\pm\sqrt{57}}{4}\), which is exact.</p><p></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

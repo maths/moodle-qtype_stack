@@ -1,0 +1,119 @@
+{
+    "quiz": {
+        "name": "20_3 Further Laplace Transforms",
+        "intro": "<p>In this Section we introduce the second shift theorem which simplifies the determination of Laplace and inverse Laplace transforms in some complicated cases. <\/p>\n<p>Then we obtain the Laplace transform of derivatives of causal functions. This will allow us, in the next Section, to apply the Laplace transform in the solution of ordinary differential equations.<\/p>\n<p>Finally, we introduce the delta function and obtain its Laplace transform. The delta function is often needed to model the effect on a system of a forcing function which acts for a very short time.<\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Second Shift Theorem",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "3",
+            "heading": "Laplace transform of a Derivative",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "5",
+            "heading": "Exercises",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "8",
+            "heading": "The Delta Function",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-20-3\/20-3-1-1-The-second-shift-theorem.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-20-3\/20-3-1-2-Inverse-Laplace-Transform-Exercise.xml"
+        },
+        {
+            "slot": "3",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-20-3\/20-3-2-1-The-Laplace-transform-of-a-derivative.xml"
+        },
+        {
+            "slot": "4",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-20-3\/20-3-2-2-Example-Laplace-with-Derivatives.xml"
+        },
+        {
+            "slot": "5",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-20-3\/20-3-3-1-Basic-Laplace-Transform-Exercises.xml"
+        },
+        {
+            "slot": "6",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-20-3\/20-3-3-2-Diff-Eq-Exercises.xml"
+        },
+        {
+            "slot": "7",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-20-3\/20-3-3-3-Inverse-Laplace-Transform-Exercises.xml"
+        },
+        {
+            "slot": "8",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-20-3\/20-3-4-1-The-delta-function.xml"
+        },
+        {
+            "slot": "9",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-20-3\/20-3-4-2-Delta-Functions-Exercise.xml"
+        },
+        {
+            "slot": "10",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-20-3\/20-3-4-3-Delta-Function-Integral.xml"
+        },
+        {
+            "slot": "11",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-20-3\/20-3-5-1-The-Laplace-transform-of-the-delta-function.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

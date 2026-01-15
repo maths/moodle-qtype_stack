@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>20.3.5.1 The Laplace transform of the delta function</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h2>The Laplace transform of the delta function</h2>
+<p>Here we consider \({\cal L}\{\delta(t-d)\}\). From the definition of the Laplace transform:
+\[ {\cal L}\{\delta (t-d)\}=\int_0^{\infty}\text{e}^{-st}\delta (t-d)\,dt=\text{e}^{-sd} \]
+by the sifting property of the delta function. Thus
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p><center><strong>Laplace Transform of the Delta Function</strong></center></p>
+<p>\[{\cal L}\{\delta (t-d)\}=\text{e}^{-sd}\quad \text{ and,  putting  } \ d=0,\quad {\cal L}\{\delta (t)\}=\text{e}^0=1\]</p>
+</div>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Find the Laplace transform of \(3\delta (t-3).\)</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>\(3e^{-3s}\)</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

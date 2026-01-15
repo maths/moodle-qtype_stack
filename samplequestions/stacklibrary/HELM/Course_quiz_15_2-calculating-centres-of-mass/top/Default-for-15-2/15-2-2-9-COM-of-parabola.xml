@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>15.2.2.9 COM of parabola</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>Find the centre of mass of a lamina bounded by \(y^2 = {@aa@}x\), for \(0\leq x \leq {@ub@}\).</p>
+<p><br></p>
+<ol class="HELM_parts">
+
+<li> \(\bar{x} =\) [[input:ans1]] [[validation:ans1]][[feedback:prt1]]</li>
+  <li> \(\bar{y} =\) [[input:ans2]] [[validation:ans2]][[feedback:prt2]]</li></ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[We can follow the approach above, noting that the region is bounded by \(x=0\), \(x={@ub@}\), \(y=\sqrt{{@aa@}x}\) and&nbsp;\(y=-\sqrt{{@aa@}x}\).Hence&nbsp;<br><br>\[ \bar{x} = \frac{\int_0^{@ub@} 2x \sqrt{{@aa@}x}&nbsp;&nbsp;\mathrm{d}x}{\int_0^{@ub@}
+2\sqrt{{@aa@}x} \mathrm{d}x} = \frac{&nbsp; {@integrate(2*x*sqrt(aa*x),x,0,ub)@}&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;}{&nbsp; &nbsp;{@integrate(2*sqrt(aa*x),x,0,ub)@}} ={@xbar@}. \]<br><br>Then either by symmetry or the formula we can see that \(\bar{y}=0\).<br><br>Alternatively
+we can work with respect to \(y\). First we compute the total mass of the lamina taking vertical strips. Rearranging the equation gives \(y_{max} = \sqrt{{@aa@}\times{@ub@}}= {@ymax@}\), \(y_{min} = -{@ymax@}\). The total mass is then given by: <br>\[
+mass = \rho \int_{-{@ymax@}}^{{@ymax@}} ({@ub@} - \frac{y^2}{{@aa@}})dy = 2\rho\times{@ub@}\times{@ymax@} - \frac{2\rho}{3\times{@aa@}}\times\frac{{@ymax@}^3}{{@aa@}} = {@tma@}\rho\]
+<br><br>Similarly we compute the total moment to be:<br>\[ \begin{align*} moment &amp;= \rho\int_{-{@ymax@}}^{{@ymax@}} x({@ub@} - \frac{y^2}{{@aa@}})dy\\ &amp;= \rho\int_{-{@ymax@}}^{{@ymax@}}&nbsp; \left(\frac{y^2}{{@2*aa@}}+\frac{{@ub@}}{2}\right)&nbsp;
+\left({@ub@} - \frac{y^2}{{@aa@}}\right)dy\\ &amp;=&nbsp; {@integrate((y^2/(2*aa)+ub/2)*(ub-y^2/aa),y,-ymax,ymax)@}\rho \end{align*} \]
+<br><br>Taking the ratio gives<br>\[\bar{x}= {@ratsimp(integrate((y^2/(2*aa)+ub/2)*(ub-y^2/aa),y,-ymax,ymax)/integrate((ub-y^2/aa),y,-ymax,ymax))@} \]<span style="font-size: 0.9375rem;"><br>By symmetry, \(\bar{y} = 0\).</span><br>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021120900</text>
+    </stackversion>
+    <questionvariables>
+      <text>aa : 4+rand(5);
+ub : 6+rand(3);
+ymax : sqrt(aa*ub);
+xa : ub/5;
+tma : 4*ub*ymax/3;
+tmo : 4*ub^2*ymax/15;
+ta : [xa,0]
+xbar:ratsimp(integrate(2*x*sqrt(aa*x),x,0,ub)/integrate(2*sqrt(aa*x),x,0,ub));</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\(y^2 = {@aa@}x, \quad 0\leq x \leq {@ub@}, \quad [\bar{x},\bar{y}] = {@ta@} \)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>xbar</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>0</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>xbar</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>0</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>864256112</deployedseed>
+    <deployedseed>404237047</deployedseed>
+    <deployedseed>718589070</deployedseed>
+    <deployedseed>899716666</deployedseed>
+    <deployedseed>118427640</deployedseed>
+    <deployedseed>1650302161</deployedseed>
+    <deployedseed>470850147</deployedseed>
+    <deployedseed>1274786439</deployedseed>
+    <deployedseed>1881216890</deployedseed>
+    <deployedseed>1026811605</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>xbar</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>0</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(xbar+1,simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

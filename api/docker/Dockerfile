@@ -25,7 +25,7 @@ ENV APACHE_DOCUMENT_ROOT /srv/stack/api/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
-COPY ./api/docker/files/000-default.conf /etc/apache2/sites-available/000-default.conf
+COPY ./api/docker/files/sites/000-default.conf /etc/apache2/sites-available/000-default.conf
 
 #Create directories for stack
 RUN mkdir -p /var/data/api && \

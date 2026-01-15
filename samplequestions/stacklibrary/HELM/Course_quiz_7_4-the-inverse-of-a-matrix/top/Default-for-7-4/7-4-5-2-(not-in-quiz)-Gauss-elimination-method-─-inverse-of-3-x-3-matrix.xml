@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>7.4.5.2 (not in quiz): Gauss elimination method ─ inverse of 3 x 3 matrix</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p></p>
+<p>Use the Gauss elimination method to find the inverse of the following matrices</p>
+<p>\[\bf A = {@A@},\] \[\bf B = {@B@}.\]</p>
+<div>(a) \(\bf A^{-1}=\) [[input:ans1]] [[validation:ans1]][[feedback:prt1]]</div>
+<p><br></p>
+<div>(b) \(\bf B^{-1}=\) [[input:ans2]] [[validation:ans2]][[feedback:prt2]]</div>
+<p></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p></p><p><b>FEEDBACK</b></p><p>We can find the inverse of matrix \(\bf A\) using the Gaussian elimination method.<br></p><p>We do this by reducing the matrix \(\bf A\) to the identity matrix \(\bf I\).&nbsp;There is no unique procedure for this but here is one example.</p><p>We first place \(\bf A\) and \(\bf I\) adjacent to each other.<br></p><p></p><p>{@A@} {@I@}.</p><p>We now proceed by changing the columns of \(\bf A\) left to right to reduce \(\bf A\) to the form {@upper@},</p><p>where \(n\) can be any number. This form is called upper triangular.<br></p><p>First we swap row 1 and row 2.</p><p>\[{@A@} {@I@} R1 \leftrightarrow R2 \longrightarrow {@matrixa@} {@I2@}. \]</p><p>Now we subtract {@a[2,1]@} times row 1 from row 2 and {@a[3,1]@} times row 1 from row 3.</p><p>\[{@matrixa@} {@I2@} R2 - {@a[2,1]@} R1, R3 - {@a[3,1]@} R1 \longrightarrow&nbsp;{@matrixb@} {@I3@}.\]<br></p><p>Then we divide row 2 by {@b[2,2]@} and subtract {@b[3,2]@} times row 2 from row 3.</p><p>\[{@matrixb@} {@I3@} R2/{@b[2,2]@}, R3 - {@b[3,2]@} R2 \longrightarrow {@matrixc@} {@I4@}.\]<br></p><p>Finally we divide row 3 by {@c[3,3]@}.</p>\[{@matrixc@} {@I4@} R3/{@c[3,3]@} \longrightarrow {@matrixd@} {@I5@}.\]<p></p><p>We would usually proceed by changing the columns of \(\bf A\) right to left to reduce \(\bf A\) to the form {@I@}. However, for this question we already obtained zeros above the main diagonal after we swapped row 1 and row 2.<br></p><p>So we have,</p><p>\[\bf A^{-1} = {@I5@}.\]</p><p><br></p><p>The method can be used to determine \(\bf B^{-1}\) similarly, which gives \( B^{-1} = {@ta2@}.\)</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021072200</text>
+    </stackversion>
+    <questionvariables>
+      <text>A:matrix([rand(9)+2,rand(9)+1,0],[1,0,0],[rand(9)+1,rand(9)+1,rand(9)+1]);
+ta1:invert(A);
+
+B:matrix([rand_with_prohib(-1,1,[0]),rand_with_prohib(-1,1,[0]),rand_with_prohib(-1,1,[0])],[0,rand_with_prohib(-1,1,[0]),rand_with_prohib(-1,1,[0])],[0,0,rand_with_prohib(-1,1,[0])]);
+ta2:invert(B);
+
+
+/* Gaussian Elimination method*/
+/* Swap R1 and R2 */
+a[1,1]:A[2,1]; a[1,2]:A[2,2]; a[1,3]:A[2,3];
+a[2,1]:A[1,1]; a[2,2]:A[1,2]; a[2,3]:A[1,3]; 
+a[3,1]:A[3,1]; a[3,2]:A[3,2]; a[3,3]:A[3,3];
+matrixa: genmatrix(a,3,3);
+/* R2-a21*R1, R3-a31*R1*/
+b:copy(matrixa);
+S1: for nj:1 thru 3 do b[2,nj]:b[2,nj]-a[2,1]*b[1,nj];
+S2: for nj:1 thru 3 do b[3,nj]:b[3,nj]-a[3,1]*b[1,nj];
+matrixb: ev(b,simp);
+/* R2/b22, R3-b32*R2 */
+c:copy(matrixb)
+S3: for nj:1 thru 3 do c[2,nj]:c[2,nj]/b[2,2];
+S4: for nj:1 thru 3 do c[3,nj]:c[3,nj]-b[3,2]*c[2,nj];
+matrixc: ev(c,simp);
+/* R3/c33 */
+d:copy(matrixc)
+S5: for nj:1 thru 3 do d[3,nj]:d[3,nj]/c[3,3];
+matrixd: ev(d,simp);
+
+I:ident(3);
+/* Swap R1 and R2 */
+I2:matrix([0,1,0],[1,0,0],[0,0,1])
+/* R2-a21*R1, R3-a31*R1*/
+I3:copy(I2);
+T1: for nj:1 thru 3 do I3[2,nj]:I3[2,nj]-a[2,1]*I3[1,nj];
+T2: for nj:1 thru 3 do I3[3,nj]:I3[3,nj]-a[3,1]*I3[1,nj];
+I3:ev(I3,simp);
+/* R2/b22, R3-b32*R2 */
+I4:copy(I3)
+T3: for nj:1 thru 3 do I4[2,nj]:I4[2,nj]/b[2,2];
+T4: for nj:1 thru 3 do I4[3,nj]:I4[3,nj]-b[3,2]*I4[2,nj];
+I4:ev(I4,simp);
+/* R3/c33 */
+I5:copy(I4)
+T5: for nj:1 thru 3 do I5[3,nj]:I5[3,nj]/c[3,3];
+I5:ev(I5,simp);
+
+upper: matrix([1,n,n],[0,1,n],[0,0,n]);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\[\bf A = {@A@}, B = {@B@}\] 
+\[A^{-1} = {@ta1@}, B^{-1} = {@ta2@}\]</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text>Correct answer, well done.</text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text>Your answer is partially correct.</text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text>Incorrect answer.</text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>matrix</type>
+      <tans>ta1</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>matrix</type>
+      <tans>ta2</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>wronganswer1:ev(-A,simp);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>wronganswer1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>It appears you have given the matrix \(\bf -A\)! This is not the inverse matrix. Please try again!<br></p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>wronganswer2:ev(-B,simp);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>wronganswer2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>It appears you have given the matrix \(\bf -B\)! This is not the inverse matrix. Please try again!<br></p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>2064231801</deployedseed>
+    <deployedseed>177426508</deployedseed>
+    <deployedseed>1566321368</deployedseed>
+    <deployedseed>1530852070</deployedseed>
+    <deployedseed>1936890616</deployedseed>
+    <deployedseed>1221466336</deployedseed>
+    <deployedseed>761763446</deployedseed>
+    <deployedseed>368480703</deployedseed>
+    <deployedseed>678245693</deployedseed>
+    <deployedseed>371043483</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(-A,simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ev(-B,simp)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta2</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-2-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-2-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

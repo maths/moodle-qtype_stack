@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>19.2.4.1 Solving exact equations</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Solving exact equations</h4>
+<p>As we have seen, the differential equation
+\( \dfrac{\mathrm{d}}{\mathrm{d}x}(yx)=3x^2\) has solution \(y=x^2+C/x \). In the solution, \(x^2\) is called the <strong>definite part</strong> and
+\(C/x\) is called the <strong> indefinite part</strong> (containing the arbitrary constant of integration). If we take the definite part of this solution, i.e. \(y_\text{d}=x^2\), then 
+\[ \dfrac{\mathrm{d}}{\mathrm{d}x}(y_\text{d}\cdot x)=\dfrac{\mathrm{d}}{\mathrm{d}x}(x^2\cdot x)=\dfrac{\mathrm{d}}{\mathrm{d}x}(x^3)=3x^2.\]
+  Hence \(y_\text{d}=x^2\) is <em>a</em> solution of the differential equation.</p>
+<p>
+Now if we take the indefinite part of the solution i.e. \(y_\text{i}=C/x\)  then 
+\[ \dfrac{\mathrm{d}}{\mathrm{d}x}(y_\text{i}\cdot x)=\dfrac{\mathrm{d}}{\mathrm{d}x}\left({C\over x}\cdot x\right)=\dfrac{\mathrm{d}}{ \mathrm{d}x}(C)=0.\]
+It is always the case that the general solution of an exact equation is in two parts: a definite part \(y_\text{d}(x)\)which is <em>a</em> solution of the differential equation and an indefinite part \(y_\text{i}(x)\) which satisfies a simpler version of the differential equation in which the right-hand side is zero.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>43.2.08 The calculation of Spearman’s R</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>The calculation of Spearman’s \(R\)</h3>
+<p>The following worked example illustrates the procedure.</p>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>A production engineer is asked to grade, on the basis of 12 criteria \(A\) to \(L\), a junior colleague who has applied for promotion. In order to try to ensure that he treats the colleague fairly, the engineer repeats his gradings after a few days. On the basis of the results below, can you conclude that the results are consistent? The gradings are percentages.</p>
+<p>&nbsp;</p>
+<table style="height: 267px;" border="1" width="345">
+<tbody>
+<tr>
+<td style="width: 62px; text-align: center;">Criterion</td>
+<td style="width: 62px; text-align: center;">First Grading \( (X) \)</td>
+<td style="width: 62px; text-align: center;">\(R_X\)</td>
+<td style="width: 62px; text-align: center;">Second Grading \( (Y) \)</td>
+<td style="width: 63px; text-align: center;">\( R_Y \)</td>
+</tr>
+<tr>
+<td style="width: 62px; text-align: center;">\(A\)</td>
+<td style="width: 62px; text-align: center;">\(55\)</td>
+<td style="width: 62px; text-align: center;">\(8\)</td>
+<td style="width: 62px; text-align: center;">\(75\)</td>
+<td style="width: 63px; text-align: center;">\(7\)</td>
+</tr>
+<tr>
+<td style="width: 62px; text-align: center;">\(B\)</td>
+<td style="width: 62px; text-align: center;">\(53\)</td>
+<td style="width: 62px; text-align: center;">\(9\)</td>
+<td style="width: 62px; text-align: center;">\(80\)</td>
+<td style="width: 63px; text-align: center;">\(6\)</td>
+</tr>
+<tr>
+<td style="width: 62px; text-align: center;">\(C\)</td>
+<td style="width: 62px; text-align: center;">\(78\)</td>
+<td style="width: 62px; text-align: center;">\(3\)</td>
+<td style="width: 62px; text-align: center;">\(89\)</td>
+<td style="width: 63px; text-align: center;">\(4\)</td>
+</tr>
+<tr>
+<td style="width: 62px; text-align: center;">\(D\)</td>
+<td style="width: 62px; text-align: center;">\(50\)</td>
+<td style="width: 62px; text-align: center;">\(10\)</td>
+<td style="width: 62px; text-align: center;">\(63\)</td>
+<td style="width: 63px; text-align: center;">\(11\)</td>
+</tr>
+<tr>
+<td style="width: 62px; text-align: center;">\(E\)</td>
+<td style="width: 62px; text-align: center;">\(48\)</td>
+<td style="width: 62px; text-align: center;">\(11\)</td>
+<td style="width: 62px; text-align: center;">\(67\)</td>
+<td style="width: 63px; text-align: center;">\(10\)</td>
+</tr>
+<tr>
+<td style="width: 62px; text-align: center;">\(F\)</td>
+<td style="width: 62px; text-align: center;">\(61\)</td>
+<td style="width: 62px; text-align: center;">\(7\)</td>
+<td style="width: 62px; text-align: center;">\(69\)</td>
+<td style="width: 63px; text-align: center;">\(9\)</td>
+</tr>
+<tr>
+<td style="width: 62px; text-align: center;">\(G\)</td>
+<td style="width: 62px; text-align: center;">\(66\)</td>
+<td style="width: 62px; text-align: center;">\(6\)</td>
+<td style="width: 62px; text-align: center;">\(73\)</td>
+<td style="width: 63px; text-align: center;">\(8\)</td>
+</tr>
+<tr>
+<td style="width: 62px; text-align: center;">\(H\)</td>
+<td style="width: 62px; text-align: center;">\(76\)</td>
+<td style="width: 62px; text-align: center;">\(4\)</td>
+<td style="width: 62px; text-align: center;">\(93\)</td>
+<td style="width: 63px; text-align: center;">\(2\)</td>
+</tr>
+<tr>
+<td style="width: 62px; text-align: center;">\(I\)</td>
+<td style="width: 62px; text-align: center;">\(85\)</td>
+<td style="width: 62px; text-align: center;">\(2\)</td>
+<td style="width: 62px; text-align: center;">\(87\)</td>
+<td style="width: 63px; text-align: center;">\(5\)</td>
+</tr>
+<tr>
+<td style="width: 62px; text-align: center;">\(J\)</td>
+<td style="width: 62px; text-align: center;">\(90\)</td>
+<td style="width: 62px; text-align: center;">\(1\)</td>
+<td style="width: 62px; text-align: center;">\(95\)</td>
+<td style="width: 63px; text-align: center;">\(1\)</td>
+</tr>
+<tr>
+<td style="width: 62px; text-align: center;">\(K\)</td>
+<td style="width: 62px; text-align: center;">\(69\)</td>
+<td style="width: 62px; text-align: center;">\(5\)</td>
+<td style="width: 62px; text-align: center;">\(92\)</td>
+<td style="width: 63px; text-align: center;">\(3\)</td>
+</tr>
+<tr>
+<td style="width: 62px; text-align: center;">\(L\)</td>
+<td style="width: 62px; text-align: center;">\(45\)</td>
+<td style="width: 62px; text-align: center;">\(12\)</td>
+<td style="width: 62px; text-align: center;">\(59\)</td>
+<td style="width: 63px; text-align: center;">\(12\)</td>
+</tr>
+<tr>
+<td style="width: 62px; text-align: center;">&nbsp;</td>
+<td style="width: 62px; text-align: center;">&nbsp;</td>
+<td style="width: 62px; text-align: center;">&nbsp;</td>
+<td style="width: 62px; text-align: center;">&nbsp;</td>
+<td style="width: 63px; text-align: center;">&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<h4 class="HELM_solution">Solution</h4>
+<p>&nbsp;</p>
+<table border="1" width="345">
+<tbody>
+<tr>
+<td style="text-align: center;">Criterion</td>
+<td style="text-align: center;">\( R_X \)</td>
+<td style="text-align: center;">\(R_Y\)</td>
+<td style="text-align: center;">\(D = R_X - R_Y\)</td>
+<td style="text-align: center;">\(D^2\)</td>
+</tr>
+<tr>
+<td style="text-align: center;">\(A\)</td>
+<td style="text-align: center;">\(8\)</td>
+<td style="text-align: center;">\(7\)</td>
+<td style="text-align: center;">\(1\)</td>
+<td style="text-align: center;">\(1\)</td>
+</tr>
+<tr>
+<td style="text-align: center;">\(B\)</td>
+<td style="text-align: center;">\(9\)</td>
+<td style="text-align: center;">\(6\)</td>
+<td style="text-align: center;">\(3\)</td>
+<td style="text-align: center;">\(9\)</td>
+</tr>
+<tr>
+<td style="text-align: center;">\(C\)</td>
+<td style="text-align: center;">\(3\)</td>
+<td style="text-align: center;">\(4\)</td>
+<td style="text-align: center;">\(-1\)</td>
+<td style="text-align: center;">\(1\)</td>
+</tr>
+<tr>
+<td style="text-align: center;">\(D\)</td>
+<td style="text-align: center;">\(10\)</td>
+<td style="text-align: center;">\(11\)</td>
+<td style="text-align: center;">\(-1\)</td>
+<td style="text-align: center;">\(1\)</td>
+</tr>
+<tr>
+<td style="text-align: center;">\(E\)</td>
+<td style="text-align: center;">\(11\)</td>
+<td style="text-align: center;">\(10\)</td>
+<td style="text-align: center;">\(1\)</td>
+<td style="text-align: center;">\(1\)</td>
+</tr>
+<tr>
+<td style="text-align: center;">\(F\)</td>
+<td style="text-align: center;">\(7\)</td>
+<td style="text-align: center;">\(9\)</td>
+<td style="text-align: center;">\(-2\)</td>
+<td style="text-align: center;">\(4\)</td>
+</tr>
+<tr>
+<td style="text-align: center;">\(G\)</td>
+<td style="text-align: center;">\(6\)</td>
+<td style="text-align: center;">\(8\)</td>
+<td style="text-align: center;">\(-2\)</td>
+<td style="text-align: center;">\(4\)</td>
+</tr>
+<tr>
+<td style="text-align: center;">\(H\)</td>
+<td style="text-align: center;">\(4\)</td>
+<td style="text-align: center;">\(2\)</td>
+<td style="text-align: center;">\(2\)</td>
+<td style="text-align: center;">\(4\)</td>
+</tr>
+<tr>
+<td style="text-align: center;">\(I\)</td>
+<td style="text-align: center;">\(2\)</td>
+<td style="text-align: center;">\(5\)</td>
+<td style="text-align: center;">\(-3\)</td>
+<td style="text-align: center;">\(9\)</td>
+</tr>
+<tr>
+<td style="text-align: center;">\(J\)</td>
+<td style="text-align: center;">\(1\)</td>
+<td style="text-align: center;">\(1\)</td>
+<td style="text-align: center;">\(0\)</td>
+<td style="text-align: center;">\(0\)</td>
+</tr>
+<tr>
+<td style="text-align: center;">\(K\)</td>
+<td style="text-align: center;">\(5\)</td>
+<td style="text-align: center;">\(3\)</td>
+<td style="text-align: center;">\(2\)</td>
+<td style="text-align: center;">\(4\)</td>
+</tr>
+<tr>
+<td style="text-align: center;">\(L\)</td>
+<td style="text-align: center;">\(12\)</td>
+<td style="text-align: center;">\(12\)</td>
+<td style="text-align: center;">\(0\)</td>
+<td style="text-align: center;">\(0\)</td>
+</tr>
+<tr>
+<td style="text-align: center;">&nbsp;</td>
+<td style="text-align: center;">&nbsp;</td>
+<td style="text-align: center;">&nbsp;</td>
+<td style="text-align: center;">&nbsp;</td>
+<td style="text-align: center;">\( \sum D^2 = 38 \)</td>
+</tr>
+</tbody>
+</table>
+<p>Substituting in the formula for \(R\) gives the value \[ R = 1 - \dfrac{6 \times 38}{12 \times 143} = 0.87 \]</p>
+<hr>
+<p>Note that we have not made any attempt to interpret the meaning of this figure of \(0.87\). Methods for doing this are discussed next.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

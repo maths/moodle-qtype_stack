@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>9.3.4.2 Angle between vectors</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p><p>Find the angle between <span class="math inline">\(\underline{p}={@p_i@}\underline{i}+\underline{j}\)</span> and <span class="math inline">\(\underline{q}={@q_i@}\underline{i}+{@q_j@}\underline{j}\)</span>.</p>
+
+<p></p><p>(Express your answer in degrees and round your answer up to one decimal place)</p><p>[[input:ans1]]\(^\circ\) (degrees) [[validation:ans1]]</p><p>[[feedback:prt1]]<br></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>First, we compute the modulus of <span class="math inline">\(\underline{ p}\) and \(\underline{ q}\):&nbsp;</span>&nbsp;<span class="math inline">\[|\underline{p}| = \sqrt{{@p_i@}^2+1^2}=\sqrt{{@p_i^2 +1@}}, \quad (|\underline{q}| =&nbsp;\sqrt{{@q_i@}^2+{@q_j@}^2}=\sqrt{{@q_i^2 +q_j^2@}}.\]</span></p><p>Then, we compute \( \underline{p}\cdot \underline{q} = ({@p_i@})(1)+({@q_i@})({@q_j@})={@p_i + q_i*q_j@}\).</p><p>Substituting these values for <span class="math inline">\({\underline p}\cdot {\underline q},|\underline{p}|\)</span> and <span class="math inline">\(|\underline{q}|\)</span> into the formula for the scalar product we have:</p><p>\[\underline{p}\cdot\underline{q}=|\underline{p}|\,|\underline{q}| \cos\theta \Rightarrow {@p_i + q_i*q_j@} =&nbsp;\sqrt{{@p_i^2 +1@}} \sqrt{{@q_i^2 +q_j^2@}} \cos \theta&nbsp;\]</p><p>which is equivalent to&nbsp;<span style="font-size: calc(0.90375rem + 0.045vw);">\( \cos \theta = \dfrac{{@p_i + q_i*q_j@}}{\sqrt{{@(p_i^2 +1)*(q_i^2 +q_j^2)@}}}. \)</span></p><p>Finally we find that that:</p><p>\[ \theta = \cos^{-1} \left(&nbsp;\dfrac{{@p_i + q_i*q_j@}}{\sqrt{{@(p_i^2 +1)*(q_i^2 +q_j^2)@}}} \right) = {@ta@}^\circ.\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021072200</text>
+    </stackversion>
+    <questionvariables>
+      <text>p_i: 2 + rand(3);
+q_i: 2 + rand(3);
+q_j: 2 + rand(3);
+argCos: (p_i*q_i + q_j)/sqrt((p_i^2 + 1)*(q_i^2 + q_j^2));
+invCos: float(acos(argCos));
+ta: 0.1*round(10*float((invCos*180)/%pi));</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\(\underline{p}={@p_i@}\underline{i}+\underline{j}\) and \(\underline{q}={@q_i@}\underline{i}+{@q_j@}\underline{j}\) gives \( \cos^{-1}({@argCos@}) = {@ta@} \)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>numerical</type>
+      <tans>ta</tans>
+      <boxsize>4</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>maxdp:1</options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumAbsolute</answertest>
+        <sans>ans1</sans>
+        <tans>ta</tans>
+        <testoptions>0.1</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1989586588</deployedseed>
+    <deployedseed>1481200002</deployedseed>
+    <deployedseed>1287532503</deployedseed>
+    <deployedseed>2081181873</deployedseed>
+    <deployedseed>948781937</deployedseed>
+    <deployedseed>1204638561</deployedseed>
+    <deployedseed>1954085855</deployedseed>
+    <deployedseed>136808990</deployedseed>
+    <deployedseed>1311418604</deployedseed>
+    <deployedseed>1266980429</deployedseed>
+    <deployedseed>778500485</deployedseed>
+    <deployedseed>1275287729</deployedseed>
+    <deployedseed>948888582</deployedseed>
+    <deployedseed>75671813</deployedseed>
+    <deployedseed>1686910617</deployedseed>
+    <deployedseed>752210618</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>52</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.4.1.4 Introduction infinite solutions</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3><span>Equations with an infinite number of solutions</span><br></h3>
+
+<p>Some pairs of simultaneous equations can possess an innite number of solutions. Consider the
+following example.</p> 
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Solve the equations.</p>
+<p>\(2x + y = 8\) &nbsp; (11)</p> 
+<p>\(4x + 2y = 16\) &nbsp; (12)</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>If  Equation (11) is multiplied by 2  we find both equations are identical:</p>
+<p>\(4x + 2y   = 16\).</p>
+<p>This means that one of them is redundant and we need only consider the single equation&lt;\p&gt; 
+</p><p>\(2x + y = 8\)</p>
+
+<p>There are infinitely many pairs of values of \(x\) and \(y\) which satisfy this equation. For example, if \(x=0\) then \(y=8\), if \(x=1\) then \(y=6\), and if \(x=-3\) then \(y=14\). We could continue like this producing more and more solutions. Suppose we choose a value, say \(\lambda\), for \(x\). We can then write</p>
+
+<p>\(2\lambda + y = 8\) so that \(y= 8-2\lambda\)</p>
+
+<p>The solution is therefore \(x=\lambda\), \(y=8-2\lambda\) <strong>for
+any value of \(\lambda\) whatsoever</strong>. There are an <strong>infinite</strong> number
+of such solutions.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

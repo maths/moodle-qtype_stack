@@ -7,7 +7,7 @@
     </name>
     <questiontext format="moodle_auto_format">
       <text><![CDATA[<p>Drag the items to match up the functions with their derivatives. </p>
-[[parsons input="ans1" columns="3" rows="2" item-height="230" item-width="230"]]
+[[parsons input="ans1" columns="3" rows="2" item-height="200" item-width="200"]]
 {
     "steps" : {#match_encode(steps)#},
     "headers" : {#headers#},
@@ -38,12 +38,12 @@ wa: [
 
 /*options to drag from, can be changed*/
 steps: [
-  ["f", plot(x^2,[x,-1,1], [size, 200, 200])],
-  ["g", plot(x^3,[x,-1,1], [size, 200, 200])],
-  ["dfdx", plot(2*x,[x,-1,1], [size, 200, 200])],
-  ["dgdx", plot(3*x^2,[x,-1,1], [size, 200, 200])],
-  ["df2d2x", plot(2,[x,-1,1], [size, 200, 200])],
-  ["dg2d2x", plot(6*x,[x,-1,1], [size, 200, 200])]
+  ["f", plot(x^2,[x,-1,1], [size, 190, 190])],
+  ["g", plot(x^3,[x,-1,1], [size, 190, 190])],
+  ["dfdx", plot(2*x,[x,-1,1], [size, 190, 190])],
+  ["dgdx", plot(3*x^2,[x,-1,1], [size, 190, 190])],
+  ["df2d2x", plot(2,[x,-1,1], [size, 190, 190])],
+  ["dg2d2x", plot(6*x,[x,-1,1], [size, 190, 190])]
 ];
 
 /*create random order*/

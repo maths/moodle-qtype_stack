@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>27.1.4.4 Integration Over Rectangular Areas Exercise</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>Evaluate the following double integral.</p>
+<p>\(I=\displaystyle\int_{@aa@}^{@bb@}\displaystyle\int_{@cc@}^{@dd@}\left( x^{2}+y^{2}\right) \, \mathrm{d}x\mathrm{d}y\) </p>
+<p>\(I=\) [[input:ans1]] [[validation:ans1]]</p>
+<p>If your answer is not an integer, leave it in rational form e.g. <code>23/5</code>.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p> The integration takes place over the rectangle shown below. </p>
+[[jsxgraph]]
+        var board = JXG.JSXGraph.initBoard(divid, {
+            boundingbox: [{#xmin#}, {#ymax#}, {#xmax#}, {#ymin#}],
+            keepaspectratio: true,
+            axis: true,
+            showCopyright: false,
+			showNavigation: false,
+			grid: false
+		});
+		
+		// Hide tick labels and ticks on x-axis but label it
+		board.defaultAxes.x.setAttribute({
+		  ticks: {
+			drawLabels: false, // hide numbers
+			majorHeight: 0,
+			minorHeight: 0
+		  },
+		  name: 'x',
+		  withLabel: true,
+		  label: {
+			position: 'rt',
+			offset: [1, -10]
+		  }
+		});
+
+		// Hide tick labels and ticks on y-axis but label it
+		board.defaultAxes.y.setAttribute({
+		  ticks: {
+			drawLabels: false,
+			majorHeight: 0,
+			minorHeight: 0
+		  },
+		  name: 'y',
+		  withLabel: true,
+		  label: {
+			position: 'rt',
+			offset: [-15, 0]
+		  }
+		});
+		
+		
+		// points
+		var bl = board.create('point', [{#cc#},{#aa#}], {fixed: true, withLabel:false, visible: true, showInfobox: false, size: 3, face: 'o', fillColor: 'black', strokeColor: 'black'});
+		var br = board.create('point', [{#dd#},{#aa#}], {fixed: true, withLabel:false, visible: true, showInfobox: false, size: 3, face: 'o', fillColor: 'black', strokeColor: 'black'})
+		var tr = board.create('point', [{#dd#},{#bb#}], {fixed: true, withLabel:false, visible: true, showInfobox: false, size: 3, face: 'o', fillColor: 'black', strokeColor: 'black'});
+		var tl = board.create('point', [{#cc#},{#bb#}], {fixed: true, withLabel:false, visible: true, showInfobox: false, size: 3, face: 'o', fillColor: 'black', strokeColor: 'black'});
+		var rectangle = board.create('polygon', [bl, br, tr, tl],{name:"Rectangle",withLabel:false, color: 'white'});
+		
+		// Set all edges (borders) to dark blue
+		rectangle.borders.forEach(line => {
+			line.setAttribute({strokeColor: 'darkblue'});
+		});
+		
+		// Label coordinates dynamically
+		[bl, br, tr, tl].forEach((pt) => {
+			board.create('text', [
+				() => pt.X() + 0.1,
+				() => pt.Y() + 0.1,
+				() => `(${pt.X()}, ${pt.Y()})`
+			], {
+				fontSize: 12,
+				fixed: true,
+				highlight: false
+			});
+		});
+[[/jsxgraph]]
+
+<p> We have <br>
+\(\qquad \displaystyle\int_{@aa@}^{@bb@}\displaystyle \int_{@cc@}^{@dd@}\left( x^{2}+y^{2}\right) \, \mathrm{d}x \mathrm{d}y\) </p>
+<p> Computing the inner integral, we get <br>
+\(\qquad \displaystyle \int_{@cc@}^{@dd@}\left( x^{2}+y^{2}\right) \, \mathrm{d}x\) </p>
+<p>\(\qquad \displaystyle = \left[\dfrac{x^3}{3} + xy^2\right]_{@cc@}^{@dd@} \) </p>
+<p>\(\qquad \displaystyle = {@(dd)^3/3 + (dd)*y^2@} - ({@(cc)^3/3 + cc*y^2@}) \) </p>
+<p>\(\qquad \displaystyle = {@(dd)^3/3 + (dd)*y^2 - ((cc)^3/3 + cc*y^2)@} \) </p>
+
+<p> This can then be put into the outer integral to give <br>
+\(\qquad \displaystyle \int_{@aa@}^{@bb@} \left({@ff@}\right) \, \mathrm{d}y\) </p>
+<p>\(\qquad \displaystyle = \left[{@ee*y - gg*y@} + \dfrac{{@y^3*(dd-cc)@}}{3} \right]_{@aa@}^{@bb@} \) </p>
+<p>\(\qquad \displaystyle = {@ev(ee*bb - gg*bb,simp) + ev(bb^3*(dd-cc)/3,simp), simp=false@} - ({@ev(ee*aa - gg*aa, simp) + ev(aa^3*(dd-cc)/3,simp), simp=false@})\) </p>
+<p> \(\qquad \displaystyle = {@ta1@}\) </p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025073100</text>
+    </stackversion>
+    <questionvariables>
+      <text>/* limits of integration*/
+aa: rand_with_step(-4,0,1);
+bb: rand_with_prohib(0,4,[aa]);
+cc: rand_with_step(-4,0,1);
+dd: rand_with_prohib(0,4,[cc]);
+
+/* Bounding box points*/
+ymax: bb + 1;
+ymin: aa - 1;
+xmax: dd + 1;
+xmin: cc - 1;
+
+ee: ev((dd)^3/3, simp);
+ff: ev((dd)^3/3 + (dd)*y^2 - ((cc)^3/3 + cc*y^2), simp);
+gg: ev((cc)^3/3, simp);
+
+exp: x^2 + y^2;
+inn: int(exp, x, cc, dd);
+ta1: int(inn, y, aa, bb);
+
+/*For worked solution*/
+out_int: fullratsimp(int(inn,y));
+out_int1: subst(y= bb, out_int);
+out_int2: subst(y= aa, out_int);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="html">
+      <text><![CDATA[<p>\[I=\int_{@aa@}^{@bb@}\displaystyle\int_{@cc@}^{@dd@}\left( x^{2}+y^{2}\right) \,\mathrm{d}x \mathrm{d}y = {@ev(ta1, simp)@}\]</p>]]></text>
+    </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>828386300</deployedseed>
+    <deployedseed>1647128963</deployedseed>
+    <deployedseed>129005158</deployedseed>
+    <deployedseed>1611784140</deployedseed>
+    <deployedseed>108912533</deployedseed>
+    <deployedseed>866057877</deployedseed>
+    <deployedseed>1665763502</deployedseed>
+    <deployedseed>1699700104</deployedseed>
+    <deployedseed>1453416759</deployedseed>
+    <deployedseed>1219831805</deployedseed>
+    <deployedseed>1715176157</deployedseed>
+    <deployedseed>1437443777</deployedseed>
+    <deployedseed>1651599378</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(ta1 +1, simp)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <tags>
+      <tag><text>jsxgraph_solution</text>
+</tag>
+    </tags>
+  </question>
+</quiz>

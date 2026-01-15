@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="gapselect">
+    <name>
+      <text>2.5.1.7 Exercises on the properties of straight lines</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise </p>
+<p>Given the general expression of the straight line \(y=ax+b\), select the role associated with each term.</p>
+<ol class="HELM_parts">
+<li>\(x\) is the [[3]],</li>
+<li>\(y\) is the [[2]],</li>
+<li>\(a\) is the [[4]],</li>
+<li>\(b\) is the [[1]].<br></li>
+</ol>
+<br>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <shuffleanswers>0</shuffleanswers>
+    <correctfeedback format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </incorrectfeedback>
+    <shownumcorrect/>
+    <selectoption>
+      <text>vertical intercept</text>
+      <group>1</group>
+    </selectoption>
+    <selectoption>
+      <text>dependent variable</text>
+      <group>1</group>
+    </selectoption>
+    <selectoption>
+      <text>independent variable</text>
+      <group>1</group>
+    </selectoption>
+    <selectoption>
+      <text>gradient</text>
+      <group>1</group>
+    </selectoption>
+  </question>
+</quiz>

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>19.2.9.5 First Order DE Ex4</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>Solve the equation</p>
+\[\frac{\mathrm{d}y}{\mathrm{d}t} + \cot t \cdot y = \sin t.\]
+<p>\(y = \) [[input:ans1]] [[validation:ans1]] \(\displaystyle + \frac{C}{\sin t}\) [[feedback:prt1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>This is a linear differential equation that is already in standard form.
+    Note that here \(f(t) = \cot t\) and \(g(t) = \sin t\).
+</p>
+\[\frac{\mathrm{d}y}{\mathrm{d}t} + \cot t \cdot y = \sin t.\]
+<p>We use the key point to find the integrating factor:</p>
+\[\begin{aligned}
+    \text{I.F.} &amp;= \exp \left[ \int \cot t \,\mathrm{d}t \right] \\
+                &amp;= \exp \left[ \int \frac{\cos t}{\sin t} \,\mathrm{d}t \right] \\
+                &amp;= \exp [ \ln (\sin t) ] \\
+                &amp;= \sin t
+\end{aligned}\]
+<p>Next we transform the equation into exact form by multiplying both sides with the
+    integrating factor. It becomes:
+</p>
+\[\sin t \cdot \frac{\mathrm{d}y}{\mathrm{d}t} + \cos t \cdot y = \sin^2 t\]
+<p>Note that the left-hand side is the derivative of \(\sin t \cdot y\) with respect to \(t\).
+    Our equation then becomes:
+</p>
+\[\frac{\mathrm{d}}{\mathrm{d}t} \left( \sin t \cdot y \right) = \sin^2 t\]
+<p>Therefore, we can find an expression for \(\sin t \cdot y\) by integrating the right-hand side.
+    The result is:
+</p>
+\[\begin{aligned}
+    \sin t \cdot y &amp;= \int \sin^2 t \,\mathrm{d}t \\
+                   &amp;= \int (1 - \cos^2 t) \,\mathrm{d}t \\
+                   &amp;= \int \left(1 - \frac{1 + \cos(2t)}{2}\right) \,\mathrm{d}t \\
+                   &amp;= \int \left(\frac{1}{2} - \frac{\cos(2t)}{2}\right) \,\mathrm{d}t \\
+                   &amp;= \frac{t}{2} - \frac{\sin(2t)}{4} + C
+\end{aligned}\]
+<p>Which then gives the following general solution:</p>
+\[y = \frac{t}{2\sin t} - \frac{\sin(2t)}{4\sin t} + \frac{C}{\sin t}\]]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020120600</text>
+    </stackversion>
+    <questionvariables>
+      <text>ta: t / (2 * sin(t)) - sin(2 * t) / (4 * sin(t))</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\(y' \cot t \cdot y = \sin t \implies y = {@ta@} + \frac{C}{\sin t}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1637073094</deployedseed>
+    <deployedseed>321574568</deployedseed>
+    <deployedseed>257950607</deployedseed>
+    <deployedseed>54555136</deployedseed>
+    <deployedseed>2109550951</deployedseed>
+    <deployedseed>1567919944</deployedseed>
+    <deployedseed>1910671046</deployedseed>
+    <deployedseed>1468801973</deployedseed>
+    <deployedseed>1907207895</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta+1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

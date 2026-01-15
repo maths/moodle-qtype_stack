@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>4.1.1.5</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Values of \(\sin\theta,\, \cos\theta\) and \(\tan\theta\) can of course be obtained by calculator.  When entering the angle in degrees ( e.g. \(30^\circ\)) the calculator must be in degree mode.  (Typically this is ensured by pressing the DRG  button until 'DEG' is shown on the display).  The keystrokes for \(\sin 30^\circ\) are usually simply \(\fbox{sin} \quad \fbox{30}\) or, on some calculators, \(\fbox{30} \quad \fbox{sin}\) perhaps followed by \(\fbox{=}.\)</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

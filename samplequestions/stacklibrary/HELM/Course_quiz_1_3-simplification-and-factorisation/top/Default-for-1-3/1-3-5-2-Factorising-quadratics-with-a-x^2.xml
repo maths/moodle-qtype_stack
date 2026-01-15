@@ -1,0 +1,719 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>1.3.5.2 Factorising quadratics with a*x^2</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>Factorise:<br></p>
+
+<ol class="HELM_parts">
+
+<li><p> \( {@a1@}x^2 + {@a1+1@}x + 1 =\) [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</p></li>
+
+<li><p> \( {@b1@}x^2 + {@b1*2@}x +{@b1@} =\) [[input:ans2]] [[validation:ans2]] [[feedback:prt2]]</p></li>
+
+<li><p> \( {@3@}x^2 + {@3*(c1-c2)@}x - {@3*c1*c2@} =\) [[input:ans3]] [[validation:ans3]] [[feedback:prt3]]</p></li>
+
+<li><p> \( {@d1@}x^2 - {@d1-1@}x - 1=\) [[input:ans4]] [[validation:ans4]] [[feedback:prt4]]</p></li>
+
+<li><p> \( {@e1^2@}x^2&nbsp; - 1=\) [[input:ans5]] [[validation:ans5]] [[feedback:prt5]]</p></li>
+
+<li><p> \( {@f6@}=\) [[input:ans6]] [[validation:ans6]] [[feedback:prt6]]</p></li>
+
+<li><p> \( {@-g2@}x^2 + {@g1-g2@}x + {@g1@}=\) [[input:ans7]] [[validation:ans7]] [[feedback:prt7]]</p></li>
+
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<ol class="HELM_parts">
+    <li>
+        <p>First note the coefficient of \(x^2\) in this case is \({@a1@}\). Multiply the whole expression by this number and rearrange as follows:&nbsp;</p><p>\[ {@a1@}({@a1@}x^2 + {@a1+1@}x + 1) = {@a1@}({@a1@}x^2) + {@a1@}({@a1+1@})x + {@a1@}(1) = ({@a1@}x)^2 +&nbsp;{@a1+1@}({@a1@}x)&nbsp; + {@a1@}. \]&nbsp;</p><p>We now introduce a new variable \(z\) such that \(z = {@a1@}x\). Thus we can write&nbsp;</p><p>\[ ({@a1@}x)^2 +&nbsp;{@a1+1@}({@a1@}x)&nbsp; + {@a1@} \text{ as } z^2 +&nbsp;{@a1+1@}z + {@a1@}. \]&nbsp;</p><p>This can be factorised to give \( (z + {@a1@})(z + 1)\). Returning to the original variable by replacing \(z\) by \({@a1@}x\) we find</p><p>&nbsp;\[ {@a1@}({@a1@}x^2 + {@a1+1@}x + 1) = ({@a1@}x + {@a1@})({@a1@}x + 1) \]&nbsp;</p><p>A factor of \({@a1@}\) can be extracted from the first bracket on the right so that&nbsp;</p><p>\[ {@a1@}({@a1@}x^2 + {@a1+1@}x + 1)&nbsp; = {@a1@}(x + 1)({@a1@}x + 1), \]&nbsp;</p><p>so that&nbsp;</p><p>\[ {@a1@}x^2 + {@a1+1@}x + 1 = ({@a1@}x + 1)(x + 1). \]</p><p></p>
+    </li>
+    <li>
+        <p><span style="font-size: 0.9375rem;">First note the coefficient of \(x^2\) in this case is \({@b1@}\). Multiply the whole expression by this number and rearrange as follows:&nbsp;</span></p><p>\[ {@b1@}({@b1@}x^2 + {@b1*2@}x + {@b1@}) = {@b1@}({@b1@}x^2) + {@b1@}({@2*b1@})x + {@b1@}({@b1@}) = ({@b1@}x)^2 +&nbsp;{@2*b1@}({@b1@}x)&nbsp; + {@b1*b1@}. \]&nbsp;</p><p>We now introduce a new variable \(z\) such that \(z = {@b1@}x\). Thus we can write&nbsp;</p><p>\[ ({@b1@}x)^2 +&nbsp;{@2*b1@}({@b1@}x)&nbsp; + {@b1*b1@}. \text{ as } z^2 +&nbsp;{@2*b1@}z + {@b1*b1@}. \]&nbsp;</p><p>This can be factorised to give \( (z + {@b1@})(z + {@b1@})\). Returning to the original variable by replacing \(z\) by \({@b1@}x\) we find</p><p>&nbsp;\[ {@b1@}({@b1@}x^2 + {@b1*2@}x + {@b1@}) = ({@b1@}x + {@b1@})({@b1@}x + {@b1@}) \]&nbsp;</p><p>A factor of \({@b1@}\) can be extracted from both of the brackets on the right so that&nbsp;</p><p>\[ {@b1@}({@b1@}x^2 + {@b1*2@}x + {@b1@})&nbsp; = {@b1@}^2(x + 1)(x + 1), \]&nbsp;</p><p>so that&nbsp;</p><p>\[ {@b1@}x^2 + {@b1*2@}x + {@b1@} = {@b1@}(x + 1)(x + 1). \]</p><br><p></p>
+    </li>
+    <li>
+        <p><span style="font-size: 0.9375rem;">First note the coefficient of \(x^2\) in this case is \({@c@}\). Multiply the whole expression by this number and rearrange as follows:&nbsp;</span></p><p>\[ {@c@}(3x^2 + {@3*(c1-c2)@}x - {@3*c1*c2@}) = {@c@}({@c@}x^2) + {@c@}({@3*(c1 - c2)@})x - {@c@}({@3*c1*c2@}) = ({@c@}x)^2 + {@3*(c1 - c2)@} ({@c@}x)&nbsp; - {@c*3*c1*c2@}. \]&nbsp;</p><p>We now introduce a new variable \(z\) such that \(z = {@c@}x\). Thus we can write&nbsp;</p><p>\[ ({@c@}x)^2 + {@3*(c1 - c2)@} ({@c@}x)&nbsp; - {@c*3*c1*c2@} \text{ as } z^2 +{@3*(c1 - c2)@} z - {@c*3*c1*c2@}. \]&nbsp;</p><p>This can be factorised to give \( (z + {@3*c1@})(z - {@3*c2@})\). Returning to the original variable by replacing \(z\) by \({@c@}x\) we find</p><p>&nbsp;\[ {@c@}(3x^2 + {@3*(c1-c2)@}x - {@3*c1*c2@}) = &nbsp;({@c@}x + {@3*c1@})({@c@}x - {@3*c2@}) \]&nbsp;</p><p>A factor of \({@c@}\) can be extracted from both brackets on the right so that&nbsp;</p><p>\[ {@c@}(3x^2 + {@3*(c1-c2)@}x - {@3*c1*c2@})&nbsp; = {@c^2@} (x + {@c1@})(x - {@c2@}), \]&nbsp;</p><p>so that&nbsp;</p><p>\[ 3x^2 + {@3*(c1-c2)@}x - {@3*c1*c2@} = &nbsp;{@c@} (x + {@c1@})(x - {@c2@}). \]</p><br><p></p>
+    </li>
+    <li>
+        <p><span style="font-size: 0.9375rem;">First note the coefficient of \(x^2\) in this case is \({@d1@}\). Multiply the whole expression by this number and rearrange as follows:&nbsp;</span></p><p>\[ {@d1@}({@d1@}x^2 - {@d1-1@}x -1) = {@d1@}({@d1@}x^2) - {@d1@}({@(d1 - 1)@})x - {@d1@}(1) = ({@d1@}x)^2 - {@d1 - 1 @} ({@d1@}x)&nbsp; - {@d1@}. \]&nbsp;</p><p>We now introduce a new variable \(z\) such that \(z = {@d1@}x\). Thus we can write&nbsp;</p><p>\[ ({@d1@}x)^2 - {@d1 - 1 @} ({@d1@}x)&nbsp; - {@d1@}. \text{ as } z^2 -{@d1 - 1 @} z - {@d1@}. \]&nbsp;</p><p>This can be factorised to give \( (z - {@d1@})(z + 1)\). Returning to the original variable by replacing \(z\) by \({@d1@}x\) we find</p><p>&nbsp;\[ {@d1@}({@d1@}x^2 - {@d1-1@}x -1) = ({@d1@}x - {@d1@})({@d1@}x + 1) \]&nbsp;</p><p>A factor of \({@d1@}\) can be extracted from the first bracket on the right so that&nbsp;</p><p>\[ {@d1@}({@d1@}x^2 - {@d1-1@}x -1)&nbsp; = {@d1@}(x - 1)({@d1@}x + 1), \]&nbsp;</p><p>so that&nbsp;</p><p>\[ {@d1@}x^2 - {@d1-1@}x -1 = (x - 1)({@d1@}x + 1). \]</p><br><p></p>
+    </li>
+    <li>
+        <p><span style="font-size: 0.9375rem;"></span></p><p>First note the coefficient of \(x^2\); in this case is \({@e1^2@}\). Multiply the whole expression by this number and rearrange as follows:&nbsp;</p><p>\[ {@e1^2@}({@e1^2@}x^2&nbsp; -1) = {@e1^2@}({@e1^2@}x^2) - {@e1^2@}(1) = ({@e1^2@}x)^2&nbsp; &nbsp;- {@e1^2@}. \]&nbsp;</p><p>We now introduce a new variable \(z\) such that \(z = {@e1^2@}x\) Thus we can write&nbsp;</p><p>\[ &nbsp;({@e1^2@}x)^2&nbsp; &nbsp;- {@e1^2@} \text{ as } z^2 - {@e1^2@}. \]&nbsp;</p><p>This can be factorised to give \( (z + {@e1@})(z - {@e1@})\). Returning to the original variable by replacing \(z\) by \({@e1^2@}x\) we find</p><p>&nbsp;\[ {@e1^2@}({@e1^2@}x^2&nbsp; -1) = ({@e1^2@}x + {@e1@})({@e1^2@}x - {@e1@}) \]&nbsp;</p><p>A factor of \({@e1@}\) can be extracted from both of the brackets on the right so that&nbsp;</p><p>\[ {@e1^2@}({@e1^2@}x^2&nbsp; -1)&nbsp; = {@e1^2@}({@e1@}x + 1)({@e1@}x - 1), \]&nbsp;</p><p>so that&nbsp;</p><p>\[ {@e1^2@}x^2&nbsp; -1 = ({@e1@}x + 1)({@e1@}x - 1). \]</p><br><p></p>
+    </li><li><p></p><p>First note the coefficient of \(x^2\); in this case is \(-1\). Multiply the whole expression by this number and rearrange as follows:&nbsp;</p><p>\[ -1(-x^2 + 1) = -1(-x^2)&nbsp; -1(1) = x^2 - 1. \]&nbsp;</p><p>This can be factorised to give \( (x + 1)(x - 1)\).&nbsp;</p><p>Thus,</p><p>&nbsp;\[ -(-x^2 + 1) =&nbsp;(x + 1)(x - 1) \]&nbsp;</p><p>A factor of \(-1\) can be extracted from the second bracket on the right so that&nbsp;</p><p>\[ -(-x^2 + 1)&nbsp; =&nbsp; -(x + 1)(1 - x), \]&nbsp;</p><p>so that&nbsp;</p><p>\[ -x^2 + 1 = (x + 1)(1 - x). \]</p><br><br><p></p></li><li><p></p><p>First note the coefficient of \(x^2\) in this case is \(-{@g2@}\). Multiply the whole expression by this number and rearrange as follows:&nbsp;</p><p>\[ -{@g2@}(-{@g2@}x^2 + {@g1-g2@}x + {@g1@}) = -{@g2@}(-{@g2@}x^2) - {@g2@}({@g1-g2@})x - {@g2@}({@g1@}) = ({@g2@}x)^2 -&nbsp;{@g1-g2@}({@g2@}x) -&nbsp; {@g2*g1@}. \]&nbsp;</p><p>We now introduce a new variable \(z\) such that \(z = {@g2@}x\). Thus we can write&nbsp;</p><p>\[ &nbsp;({@g2@}x)^2 -&nbsp;{@g1-g2@}({@g2@}x) - {@g2*g1@} \text{ as } z^2 -&nbsp;{@g1-g2@}z - {@g2*g1@}. \]&nbsp;</p><p>This can be factorised to give \( (z - {@g1@})(z + {@g2@})\). Returning to the original variable by replacing \(z\) by \({@g2@}x\) we find</p><p>&nbsp;\[ -{@g2@}(-{@g2@}x^2 + {@g1-g2@}x + {@g1@}) = ({@g2@}x - {@g1@})({@g2@}x + {@g2@}) \]&nbsp;</p><p>A factor of \({@g2@}\) can be extracted from the second bracket, and a factor of \(-1\) from the first bracket on the right so that&nbsp;</p><p>\[ -{@g2@}(-{@g2@}x^2 + {@g1-g2@}x + {@g1@})&nbsp; = -{@g2@} (-{@g2@}x + {@g1@})(x + 1), \]&nbsp;</p><p>so that&nbsp;</p><p>\[ (-{@g2@}x^2 + {@g1-g2@}x + {@g1@}) =({@g1@} - {@g2@}x)(x + 1). \]</p><br><br><p></p></li></ol><p><br></p><ol class="HELM_parts"><br>&nbsp;</ol>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021072200</text>
+    </stackversion>
+    <questionvariables>
+      <text>a1: rand(2)+2;
+ta1: (a1*x + 1)*(x + 1)
+F1:a1*x^2 + (a1+1)*x + 1;
+
+b1: rand(2)+2;
+ta2: b1*(x+1)^2;
+f2:b1*x^2 + b1*2*x +b1;
+
+c:3;
+c1: rand([2,3]);
+c2:c1-1;
+ta3: 3*(x+c1)*(x - c2);
+f3: 3*x^2 + 3*(c1-c2)*x - 3*c1*c2;
+
+d1: rand([3,4,5]);
+ta4: (d1*x + 1)*(x-1);
+f4:d1*x^2 - (d1-1)*x -1;
+
+e1: rand([3,4,5]);
+ta5: (e1*x - 1)*(e1*x + 1);
+f5:e1^2*x^2  -1;
+
+f1: 1;
+ta6: (x+ 1)*(1 - x);
+f6:-x^2 + 1;
+
+
+g1:rand([3,5]);
+g2:2;
+ta7:(x + 1)*(g1 - g2*x)
+f7:-g2*x^2 +(g1-g2)*x + g1;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\({@ta1@}, {@ta2@}, {@ta3@}, {@ta4@} , {@ta5@}, {@ta7@}               \)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>ta2</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>algebraic</type>
+      <tans>ta3</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans4</name>
+      <type>algebraic</type>
+      <tans>ta4</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans5</name>
+      <type>algebraic</type>
+      <tans>ta5</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans6</name>
+      <type>algebraic</type>
+      <tans>ta6</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans7</name>
+      <type>algebraic</type>
+      <tans>ta7</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>FacForm</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions>x</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p></p><div title="Page 2">
+			<div>
+				<div>
+					<div>
+						<p></p></div></div></div></div><p></p>First note the coefficient of \(x^2\) in this case is \({@a1@}\). Multiply the whole expression by this number and rearrange as follows:&nbsp;<p>\[ {@a1@}({@a1@}x^2 + {@a1+1@}x + 1) = {@a1@}({@a1@}x^2) + {@a1@}({@a1+1@})x + {@a1@}(1) = ({@a1@}x)^2 +&nbsp;{@a1+1@}({@a1@}x)&nbsp; + {@a1@}. \]&nbsp;</p><p>We now introduce a new variable \(z\) such that \(z = {@a1@}x\). Thus we can write&nbsp;</p><p>\[ ({@a1@}x)^2 +&nbsp;{@a1+1@}({@a1@}x)&nbsp; + {@a1@} \text{ as } z^2 +&nbsp;{@a1+1@}z + {@a1@}. \]&nbsp;</p><p>This can be factorised to give \( (z + {@a1@})(z + 1)\). Returning to the original variable by replacing \(z\) by \({@a1@}x\) we find</p><p>&nbsp;\[ {@a1@}({@a1@}x^2 + {@a1+1@}x + 1) = ({@a1@}x + {@a1@})({@a1@}x + 1) \]&nbsp;</p><p>A factor of \({@a1@}\) can be extracted from the first bracket on the right so that&nbsp;</p><p>\[ {@a1@}({@a1@}x^2 + {@a1+1@}x + 1)&nbsp; = {@a1@}(x + 1)({@a1@}x + 1), \]&nbsp;</p><p>so that&nbsp;</p><p>\[ {@a1@}x^2 + {@a1+1@}x + 1 = ({@a1@}x + 1)(x + 1). \]</p><p></p><p></p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>FacForm</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions>x</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p></p><p></p><p></p>First note the coefficient of \(x^2\) in this case is \({@b1@}\). Multiply the whole expression by this number and rearrange as follows:&nbsp;<p>\[ {@b1@}({@b1@}x^2 + {@b1*2@}x + {@b1@}) = {@b1@}({@b1@}x^2) + {@b1@}({@2*b1@})x + {@b1@}({@b1@}) = ({@b1@}x)^2 +&nbsp;{@2*b1@}({@b1@}x)&nbsp; + {@b1*b1@}. \]&nbsp;</p><p>We now introduce a new variable \(z\) such that \(z = {@b1@}x\). Thus we can write&nbsp;</p><p>\[ ({@b1@}x)^2 +&nbsp;{@2*b1@}({@b1@}x)&nbsp; + {@b1*b1@}. \text{ as } z^2 +&nbsp;{@2*b1@}z + {@b1*b1@}. \]&nbsp;</p><p>This can be factorised to give \( (z + {@b1@})(z + {@b1@})\). Returning to the original variable by replacing \(z\) by \({@b1@}x\) we find</p><p>&nbsp;\[ {@b1@}({@b1@}x^2 + {@b1*2@}x + {@b1@}) = ({@b1@}x + {@b1@})({@b1@}x + {@b1@}) \]&nbsp;</p><p>A factor of \({@b1@}\) can be extracted from both of the brackets on the right so that&nbsp;</p><p>\[ {@b1@}({@b1@}x^2 + {@b1*2@}x + {@b1@})&nbsp; = {@b1@}^2(x + 1)(x + 1), \]&nbsp;</p><p>so that&nbsp;</p><p>\[ {@b1@}x^2 + {@b1*2@}x + {@b1@} = {@b1@}(x + 1)(x + 1). \]</p><br><p></p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>FacForm</answertest>
+        <sans>ans3</sans>
+        <tans>ta3</tans>
+        <testoptions>x</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p></p><p></p><p></p>First note the coefficient of \(x^2\) in this case is \({@c@}\). Multiply the whole expression by this number and rearrange as follows:&nbsp;<p>\[ {@c@}(3x^2 + {@3*(c1-c2)@}x - {@3*c1*c2@}) = {@c@}({@c@}x^2) + {@c@}({@3*(c1 - c2)@})x - {@c@}({@3*c1*c2@}) = ({@c@}x)^2 + {@3*(c1 - c2)@} ({@c@}x)&nbsp; - {@c*3*c1*c2@}. \]&nbsp;</p><p>We now introduce a new variable \(z\) such that \(z = {@c@}x\). Thus we can write&nbsp;</p><p>\[ ({@c@}x)^2 + {@3*(c1 - c2)@} ({@c@}x)&nbsp; - {@c*3*c1*c2@} \text{ as } z^2 +{@3*(c1 - c2)@} z - {@c*3*c1*c2@}. \]&nbsp;</p><p>This can be factorised to give \( (z + {@3*c1@})(z - {@3*c2@})\). Returning to the original variable by replacing \(z\) by \({@c@}x\) we find</p><p>&nbsp;\[ {@c@}(3x^2 + {@3*(c1-c2)@}x - {@3*c1*c2@}) = &nbsp;({@c@}x + {@3*c1@})({@c@}x - {@3*c2@}) \]&nbsp;</p><p>A factor of \({@c@}\) can be extracted from both brackets on the right so that&nbsp;</p><p>\[ {@c@}(3x^2 + {@3*(c1-c2)@}x - {@3*c1*c2@})&nbsp; = {@c^2@} (x + {@c1@})(x - {@c2@}), \]&nbsp;</p><p>so that&nbsp;</p><p>\[ 3x^2 + {@3*(c1-c2)@}x - {@3*c1*c2@} = &nbsp;{@c@} (x + {@c1@})(x - {@c2@}). \]</p><br><p></p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt4</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>FacForm</answertest>
+        <sans>ans4</sans>
+        <tans>ta4</tans>
+        <testoptions>x</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt4-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt4-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p></p><p></p><p></p>First note the coefficient of \(x^2\) in this case is \({@d1@}\). Multiply the whole expression by this number and rearrange as follows:&nbsp;<p>\[ {@d1@}({@d1@}x^2 - {@d1-1@}x -1) = {@d1@}({@d1@}x^2) - {@d1@}({@(d1 - 1)@})x - {@d1@}(1) = ({@d1@}x)^2 - {@d1 - 1 @} ({@d1@}x)&nbsp; - {@d1@}. \]&nbsp;</p><p>We now introduce a new variable \(z\) such that \(z = {@d1@}x\). Thus we can write&nbsp;</p><p>\[ ({@d1@}x)^2 - {@d1 - 1 @} ({@d1@}x)&nbsp; - {@d1@}. \text{ as } z^2 -{@d1 - 1 @} z - {@d1@}. \]&nbsp;</p><p>This can be factorised to give \( (z - {@d1@})(z + 1)\). Returning to the original variable by replacing \(z\) by \({@d1@}x\) we find</p><p>&nbsp;\[ {@d1@}({@d1@}x^2 - {@d1-1@}x -1) = ({@d1@}x - {@d1@})({@d1@}x + 1) \]&nbsp;</p><p>A factor of \({@d1@}\) can be extracted from the first bracket on the right so that&nbsp;</p><p>\[ {@d1@}({@d1@}x^2 - {@d1-1@}x -1)&nbsp; = {@d1@}(x - 1)({@d1@}x + 1), \]&nbsp;</p><p>so that&nbsp;</p><p>\[ {@d1@}x^2 - {@d1-1@}x -1 = (x - 1)({@d1@}x + 1). \]</p><br><br><p></p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt5</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>FacForm</answertest>
+        <sans>ans5</sans>
+        <tans>ta5</tans>
+        <testoptions>x</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt5-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt5-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>First note the coefficient of \(x^2\); in this case is \({@e1^2@}\). Multiply the whole expression by this number and rearrange as follows:&nbsp;</p><p>\[ {@e1^2@}({@e1^2@}x^2&nbsp; -1) = {@e1^2@}({@e1^2@}x^2) - {@e1^2@}(1) = ({@e1^2@}x)^2&nbsp; &nbsp;- {@e1^2@}. \]&nbsp;</p><p>We now introduce a new variable \(z\) such that \(z = {@e1^2@}x\) Thus we can write&nbsp;</p><p>\[ &nbsp;({@e1^2@}x)^2&nbsp; &nbsp;- {@e1^2@} \text{ as } z^2 - {@e1^2@}. \]&nbsp;</p><p>This can be factorised to give \( (z + {@e1@})(z - {@e1@})\). Returning to the original variable by replacing \(z\) by \({@e1^2@}x\) we find</p><p>&nbsp;\[ {@e1^2@}({@e1^2@}x^2&nbsp; -1) = ({@e1^2@}x + {@e1@})({@e1^2@}x - {@e1@}) \]&nbsp;</p><p>A factor of \({@e1@}\) can be extracted from both of the brackets on the right so that&nbsp;</p><p>\[ {@e1^2@}({@e1^2@}x^2&nbsp; -1)&nbsp; = {@e1^2@}({@e1@}x + 1)({@e1@}x - 1), \]&nbsp;</p><p>so that&nbsp;</p><p>\[ {@e1^2@}x^2&nbsp; -1 = ({@e1@}x + 1)({@e1@}x - 1). \]</p><br><br><p></p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt6</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>FacForm</answertest>
+        <sans>ans6</sans>
+        <tans>ta6</tans>
+        <testoptions>x</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt6-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt6-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>First note the coefficient of \(x^2\); in this case is \(-1\). Multiply the whole expression by this number and rearrange as follows:&nbsp;</p><p>\[ -1(-x^2 + 1) = -1(-x^2)&nbsp; -1(1) = x^2 - 1. \]&nbsp;</p><p>This can be factorised to give \( (x + 1)(x - 1)\).&nbsp;</p><p>Thus,</p><p>&nbsp;\[ -(-x^2 + 1) =&nbsp;(x + 1)(x - 1) \]&nbsp;</p><p>A factor of \(-1\) can be extracted from the second bracket on the right so that&nbsp;</p><p>\[ -(-x^2 + 1)&nbsp; =&nbsp; -(x + 1)(1 - x), \]&nbsp;</p><p>so that&nbsp;</p><p>\[ -x^2 + 1 = (x + 1)(1 - x). \]</p><br><br><p></p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt7</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>FacForm</answertest>
+        <sans>ans7</sans>
+        <tans>ta7</tans>
+        <testoptions>x</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt7-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt7-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>First note the coefficient of \(x^2\) in this case is \(-{@g2@}\). Multiply the whole expression by this number and rearrange as follows:&nbsp;</p><p>\[ -{@g2@}(-{@g2@}x^2 + {@g1-g2@}x + {@g1@}) = -{@g2@}(-{@g2@}x^2) - {@g2@}({@g1-g2@})x - {@g2@}({@g1@}) = ({@g2@}x)^2 -&nbsp;{@g1-g2@}({@g2@}x) -&nbsp; {@g2*g1@}. \]&nbsp;</p><p>We now introduce a new variable \(z\) such that \(z = {@g2@}x\). Thus we can write&nbsp;</p><p>\[ &nbsp;({@g2@}x)^2 -&nbsp;{@g1-g2@}({@g2@}x) - {@g2*g1@} \text{ as } z^2 -&nbsp;{@g1-g2@}z - {@g2*g1@}. \]&nbsp;</p><p>This can be factorised to give \( (z - {@g1@})(z + {@g2@})\). Returning to the original variable by replacing \(z\) by \({@g2@}x\) we find</p><p>&nbsp;\[ -{@g2@}(-{@g2@}x^2 + {@g1-g2@}x + {@g1@}) = ({@g2@}x - {@g1@})({@g2@}x + {@g2@}) \]&nbsp;</p><p>A factor of \({@g2@}\) can be extracted from the second bracket, and a factor of \(-1\) from the first bracket on the right so that&nbsp;</p><p>\[ -{@g2@}(-{@g2@}x^2 + {@g1-g2@}x + {@g1@})&nbsp; = -{@g2@} (-{@g2@}x + {@g1@})(x + 1), \]&nbsp;</p><p>so that&nbsp;</p><p>\[ (-{@g2@}x^2 + {@g1-g2@}x + {@g1@}) =({@g1@} - {@g2@}x)(x + 1). \]</p><br><p></p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1367944414</deployedseed>
+    <deployedseed>1002137893</deployedseed>
+    <deployedseed>716075757</deployedseed>
+    <deployedseed>691043803</deployedseed>
+    <deployedseed>330576999</deployedseed>
+    <deployedseed>1361018523</deployedseed>
+    <deployedseed>631003966</deployedseed>
+    <deployedseed>1477573876</deployedseed>
+    <deployedseed>839699653</deployedseed>
+    <deployedseed>23443338</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta3</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>ta4</value>
+      </testinput>
+      <testinput>
+        <name>ans5</name>
+        <value>ta5</value>
+      </testinput>
+      <testinput>
+        <name>ans6</name>
+        <value>ta6</value>
+      </testinput>
+      <testinput>
+        <name>ans7</name>
+        <value>ta7</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt4-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt5</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt5-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt6</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt6-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt7</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt7-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1+1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2+2</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta3+1</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>ta4+1</value>
+      </testinput>
+      <testinput>
+        <name>ans5</name>
+        <value>ta5+1</value>
+      </testinput>
+      <testinput>
+        <name>ans6</name>
+        <value>ta6+1</value>
+      </testinput>
+      <testinput>
+        <name>ans7</name>
+        <value>ta7+1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt3-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt4-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt5</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt5-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt6</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt6-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt7</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt7-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>F1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>f2</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>f3</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>f4</value>
+      </testinput>
+      <testinput>
+        <name>ans5</name>
+        <value>f6</value>
+      </testinput>
+      <testinput>
+        <name>ans6</name>
+        <value>f6</value>
+      </testinput>
+      <testinput>
+        <name>ans7</name>
+        <value>f7</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt3-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt4-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt5</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt5-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt6</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt6-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt7</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt7-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

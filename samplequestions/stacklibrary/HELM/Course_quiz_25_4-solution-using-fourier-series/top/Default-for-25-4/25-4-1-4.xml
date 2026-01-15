@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>25.4.1.4</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4 class="HELM_example">Example</h4>
+<p>Write down the solutions for \(X\), for \(Y\) and hence the product solution \(u(x,y)=X(x)Y(y)\):</p>
+<h4 class="HELM_solution">Solution</h4>
+
+<table width="80%">
+    <tbody>
+        <tr>
+            <td>\(X=A\cos \lambda x +B\sin \lambda x\)</td>
+            <td>\(Y=Ce^{\lambda y}+D e^{-\lambda y}\)</td>
+        </tr>
+    </tbody>
+</table>
+
+so
+
+<table width="100%">
+    <tbody>
+        <tr>
+            <td>\(\qquad u=(A\cos \lambda x +B\sin \lambda x)(Ce^{\lambda y}+D e^{-\lambda y})\)</td>
+            <td>\[(4)\]</td>
+        </tr>
+    </tbody>
+</table>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

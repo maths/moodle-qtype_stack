@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>6.1.4.1 Exponential decay</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>As we have noted, the behaviour of \(e^x\) as \(x\rightarrow\infty\) is called exponential growth. In a similar manner we characterise the behaviour of the function \(e^{-x}\) as \(x\rightarrow\infty\) as <b>exponential decay</b>. The graphs of \(e^x\) and \(e^{-x}\) are shown in Figure 3. <br></p><p>FIGURE 3 \(y=\e^x\) and \(y=\e^{-x}\)</p><p> Exponential growth is very rapid and similarly exponential decay is also very rapid. In fact \(e^{-x}\) tends to zero so quickly as \(x\rightarrow\infty\) that, no matter how large the constant \(K\) is, \[ \quad x^K\e^{-x}\rightarrow 0\quad \text{as}\quad x\rightarrow\infty \]&nbsp; The next Task investigates this.<br></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

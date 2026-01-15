@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>6.1.1.1 Exponents revisited</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3><b>Exponents revisited</b></h3><p>Recall the meaning fo the expression&nbsp; \(a^p\) where \(a\) is a positive number. We remind the reader that `\(a\)' is called the<b> base</b> and `\(p\)' is called the <b>exponent</b> (or power or index). There are various cases to consider:</p><p>If \(m,n\) are positive integers</p><ul><li>\(a^n=a\times a\times\dots\times a\).<br></li></ul><ul><li>\(a^{1/n}\) means the \(n^{th}\) root of \(a\). That is, \(a^{1/n}\) is that positive number which satisfies \[\qquad (a^{1/n})\times (a^{1/n})\times\dots\times (a^{1/n})=a,\]where there are \(n\) terms on the left hand side.<br></li></ul><ul><li>\(a^{m/n}=(a^{1/n})\times (a^{1/n})\times\dots\times(a^{1/n}),\) where there are \(m\) terms.</li><li>\(a^{-n}=\dfrac{1}{a^n}\).</li></ul><p>For convenience we again list the basic laws of exponents:</p><p><br></p><p></p><p><br></p>
+
+<div class="HELM_keypoint">
+<h4>Key Point <br></h4>
+<p><span class="math inline">\(a^ma^n=a^{m+n},\qquad\qquad \dfrac{a^m}{a^n}=a^{m-n},\qquad\qquad (a^m)^n=a^{mn},\)</span>
+</p>
+
+<p> <span class="math inline">\(\qquad \qquad a^1=a \qquad  \text{ and }\qquad \text{ if } a\neq 0 \qquad a^0=1.\)
+</span><span class="math inline"><br></span><span class="math inline"><span></span></span></p></div><p>
+
+</p><hr>
+<h4 class="HELM_example">Example <br></h4>
+<p><span>Simplify the expression</span> \(\dfrac{p^{n-2}p^m}{p^3p^{2m}}.\)<span class="math inline"></span><span class="math inline"></span></p>
+<h4 class="HELM_solution">Solution</h4><p>First we simplify the numerator: \[\qquad p^{n-2}p^m=p^{n-2+m}.&nbsp; \] Next we simplify the denominator: \[\qquad p^3p^{2m}=p^{3+2m}.&nbsp; \] Now we combine them and simplify: \[\qquad \dfrac{p^{n-2}p^m}{p^3p^{2m}}=\dfrac{p^{n-2+m}}{p^{3+2m}}=p^{n-2+m}p^{-3-2m} =p^{n-2+m-3-2m} =p^{n-m-5}.&nbsp; \]<br></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,109 @@
+{
+    "quiz": {
+        "name": "23_3 Even and Odd Functions",
+        "intro": "In this Section we examine how to obtain Fourier series of periodic functions which are either <i>even<\/i>\nor <i>odd<\/i>. We show that the Fourier series for such functions is considerably easier to obtain as, if the\nsignal is <i>even<\/i> only cosines are involved whereas if the signal is<i> odd<\/i> then only sines are involved. We\nalso show that if a signal reverses after half a period then the Fourier series will only contain odd\nharmonics.",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Even and odd functions",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "8",
+            "heading": "Fourier series implications",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-23-3\/23-3-1-1-Even-and-odd-functions.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-23-3\/23-3-1-2-Task_1a-period-E,O,-or-N.xml"
+        },
+        {
+            "slot": "3",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-23-3\/23-3-1-3-Task_1b-period-E,O,-or-N.xml"
+        },
+        {
+            "slot": "4",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-23-3\/23-3-1-4-Even-and-odd-functions-(copy).xml"
+        },
+        {
+            "slot": "5",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-23-3\/23-3-1-5-Task_2a.xml"
+        },
+        {
+            "slot": "6",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-23-3\/23-3-1-6-Task_2b.xml"
+        },
+        {
+            "slot": "7",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-23-3\/23-3-1c-key-point.xml"
+        },
+        {
+            "slot": "8",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-23-3\/23-3-2-1-Fourier-series-implications.xml"
+        },
+        {
+            "slot": "9",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-23-3\/23-3-2-2-Fourier-series-implications---examples.xml"
+        },
+        {
+            "slot": "10",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-23-3\/23-3-2-3-terms-in-F-Series.xml"
+        },
+        {
+            "slot": "11",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-23-3\/23-3-2-4-Confirm-Fourier-series-result.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>19.2.1.1 Separating the variables in first order ODEs</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Separating the variables in first order ODEs</h4>
+<p>In this Section we consider differential equations which can be written in the form \[\dfrac{\mathrm{d}y}{\mathrm{d}x}=f(x)g(y). \] Note that the right-hand side is a product of a function of \(x\), and a function of \(y\).
+    Examples of such equations are \[ \dfrac{\mathrm{d}y}{\mathrm{d}x}= x^2,y^3,\quad \dfrac{\mathrm{d}y}{\mathrm{d}x}=y^2x \quad \text{and} \quad \dfrac{\mathrm{d}y}{\mathrm{d}x} =yx. \] Not all first order equations can be written in this form. For example, it is not possible to rewrite the equation \[\dfrac{\mathrm{d}y}{\mathrm{d}x} = x^2+y^3\] in the form \[\dfrac{\mathrm{d}y}{\mathrm{d}x}=f(x)g(y).\]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

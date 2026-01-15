@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>HELM 31.4 E3 Newton-Raphson</text>
+    </name>
+    <questiontext format="markdown">
+      <text><![CDATA[**31.4 E3 Newton-Raphson**
+
+It is often necessary to ﬁnd the zeros of polynomials as part of an analysis of transfer functions.
+The function
+
+\\\[ {@'f('x)=f(x)@}\\\]
+
+<p>{@plot(f(x), [x,-2,2], [y,-10,10], [xlabel,"x"], [ylabel,"f(x)"])@}</p>
+
+has a single zero near {@'x0 = x0@}. Use this value of \\\(x_0\\\) in an implementation of the Newton-Raphson
+method performing two iterations. (Work to at least 6 decimal place accuracy.)
+
+\\\(f'(x)=\\\) [[input:S_df]] [[validation:S_df]] [[feedback:df]]
+
+
+\\\(x^{(1)}=\\\) [[input:S_x1]], [[validation:S_x1]] [[feedback:x1]]
+
+\\\(x^{(2)}=\\\) [[input:S_x2]], [[validation:S_x2]] [[feedback:x2]]]]></text>
+    </questiontext>
+    <generalfeedback format="markdown">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2024072400</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[a: rand([2,3,4]);
+b:rand([2,3,4,5,6]);
+f(x):=x^3+a*x-b;
+df(x):=at(diff(f(xx),xx),xx=x);
+sol: find_root(f(x),x,-10,10);
+x0: round(sol);
+x1: float(x0-f(x0)/df(x0));
+x2: float(x1-f(x1)/df(x1));
+
+
+stack_include("https://raw.githubusercontent.com/mkraska/meclib/main/Maxima/fb_value_EN.mac");]]></text>
+    </questionvariables>
+    <specificfeedback format="markdown">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>{@sol@}, {@x0@}, {@a@}, {@b@}</text>
+    </questionnote>
+    <questiondescription format="markdown">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="markdown">
+      <text>Richtige Antwort, gut gemacht!</text>
+    </prtcorrect>
+    <prtpartiallycorrect format="markdown">
+      <text>Ihre Antwort ist teilweise korrekt.</text>
+    </prtpartiallycorrect>
+    <prtincorrect format="markdown">
+      <text>Falsche Antwort.</text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>S_df</name>
+      <type>algebraic</type>
+      <tans>df(x)</tans>
+      <boxsize>20</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>3</insertstars>
+      <syntaxhint>Expression</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>S_x1</name>
+      <type>numerical</type>
+      <tans>x1</tans>
+      <boxsize>8</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>6 s.f.</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>S_x2</name>
+      <type>numerical</type>
+      <tans>x2</tans>
+      <boxsize>8</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>6 s.f.</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>df</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>Diff</answertest>
+        <sans>S_df</sans>
+        <tans>df(x)</tans>
+        <testoptions>x</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>df-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>df-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>{@fb_vars(S_df, df(x), [])@}</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>x1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumRelative</answertest>
+        <sans>S_x1</sans>
+        <tans>x1</tans>
+        <testoptions>0.000005</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>x1-1-T</trueanswernote>
+        <truefeedback format="markdown">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>x1-1-F</falseanswernote>
+        <falsefeedback format="markdown">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>x2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumRelative</answertest>
+        <sans>S_x2</sans>
+        <tans>x2</tans>
+        <testoptions>0.000005</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>x2-1-T</trueanswernote>
+        <truefeedback format="markdown">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>x2-1-F</falseanswernote>
+        <falsefeedback format="markdown">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1587513181</deployedseed>
+    <deployedseed>2004592882</deployedseed>
+    <deployedseed>527247886</deployedseed>
+    <deployedseed>1607512437</deployedseed>
+    <deployedseed>1254559170</deployedseed>
+    <deployedseed>1583871126</deployedseed>
+    <deployedseed>285150100</deployedseed>
+    <deployedseed>1950489385</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>S_df</name>
+        <value>df(x)</value>
+      </testinput>
+      <testinput>
+        <name>S_x1</name>
+        <value>x1</value>
+      </testinput>
+      <testinput>
+        <name>S_x2</name>
+        <value>x2</value>
+      </testinput>
+      <expected>
+        <name>df</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>df-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>x1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>x1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>x2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>x2-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>S_df</name>
+        <value>df(x)</value>
+      </testinput>
+      <testinput>
+        <name>S_x1</name>
+        <value>x1</value>
+      </testinput>
+      <testinput>
+        <name>S_x2</name>
+        <value>x2</value>
+      </testinput>
+      <expected>
+        <name>df</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>df-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>x1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>x1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>x2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>x2-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>S_df</name>
+        <value>df(x)</value>
+      </testinput>
+      <testinput>
+        <name>S_x1</name>
+        <value>x1</value>
+      </testinput>
+      <testinput>
+        <name>S_x2</name>
+        <value>x2</value>
+      </testinput>
+      <expected>
+        <name>df</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>df-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>x1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>x1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>x2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>x2-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

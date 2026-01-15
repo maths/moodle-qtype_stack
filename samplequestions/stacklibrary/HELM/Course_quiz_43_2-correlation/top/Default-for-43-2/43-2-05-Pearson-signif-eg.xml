@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>43.2.05 Pearson signif eg</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4 class="HELM_example">Example</h4>
+<p>Test the significance of the value of \(r\) obtained from the previous example concerning electric
+motor torque values. Use the \(5\%\) level of  significance. 
+</p><h4 class="HELM_solution">Solution</h4>
+<p></p>
+The sample size is \(7\) so we have \(5\) degrees of freedom. The value of \(r_{test}\) is given by
+\[ r_{test} = \dfrac{r \sqrt{n-2}}{\sqrt{1-r^2}} = \dfrac{0.46 \times \sqrt{7-2}}{\sqrt{1 - 0.46^2}} = 1.158. \]<p></p>
+From Table 2, the critical value for a two-sided test at the \(5\%\) level of  significance is \(2.571\). In
+this case, since \(1.158 &lt; 2.571\) we cannot reject the null hypothesis at the \(5\%\) level of significance and conclude that for the motor under investigation, there is no evidence of a relationship between torque produced and current used.]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>5.2.1.1 Quadratic functions</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p></p>
+<h4>Quadratic functions and parabolas</h4>
+<p>Graphs of \(y\) against \(x\) resulting from quadratic functions are called <b>parabolas</b>. These take the general form: \(y=ax^2+bx+c\). The coefficients \(a, b\) and \(c\) influence the shape, form and position of the graph of the associated parabola.
+    They are the <b>parameters</b> of the parabola. In particular the magnitude of \(a\) determines how wide the parabola opens (large \(a\) implies a narrow parabola, small \(a\) implies a wide parabola) and the sign of \(a\) determines whether the parabola
+    has a lowest point (minimum) or a highest point (maximum). Negative \(a\) implies a parabola with a highest point. The most useful form of the equation for determining the graphical appearance of a parabola is \(y - C = A(x - B)^2\). To see the relation
+    between this form and the general form simply expand:</p>
+<p>\(\qquad y=Ax^2-2ABx+AB^2+C\)</p>
+<p>so, comparing with \(y=ax^2+bx+c\) we have:</p>
+<p>\(\qquad a\equiv A,\quad b\equiv -2AB\quad c\equiv AB^2+C\)</p>
+<p>We deduce that the relation between the two sets of constants \(A,B,C\) and \(a, b, c\) is:</p>
+<p>\(\qquad A=a\qquad B=-\frac{b}{2a}\quad \text{and}\quad C=c-\frac{b^2}{4a}\)</p>
+<p>This new form for the parabola enables the coordinates of the highest or lowest point, known as the <b>vertex</b> to be written down immediately. The coordinates of the vertex are given by \((B,C)\). Changing the value of \(B\) shifts the vertex, and
+    hence the whole parabola, up or down. Changing the value of \(C\) shifts the vertex, and hence the whole parabola, to left or right.</p>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Assume the variation of an object’s location with time is represented by a quadratic function:</p>
+<p>\[\qquad s = \dfrac {t^2} {9}\qquad (0\le t \le 30)\]</p>
+<p>Compare this function with the general form \(y - C = A(x - B)^2\). </p>
+<ol class="HELM_parts">
+    <li>What variables correspond to \(y\) and \(x\) in this case?</li>
+    <p></p>
+    <li>What are the values of \(C, A\) and \(B\)?</li>
+</ol>
+
+<h4 class="HELM_solution">Solution</h4>
+<ol class="HELM_parts">
+    <li>\(s\) corresponds to \(y\), and \(t\) corresponds to \(x\)</li>
+    <li>\(C=0\), \(A=\dfrac{1}{9}\) and \(B=0\)</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

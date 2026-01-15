@@ -1,0 +1,540 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>8.3.3.4 3x3 linear system infinite solutions Gauss Elimination</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+
+<p>Consider the following linear system of equations: <span class="math display">\[\begin{matrix}
+    {@eqq1@} \\
+    {@eqq2@} \\
+    {@eqq3@} \\
+\end{matrix}\]</span>
+
+</p>
+<p> You might need to think carefully about this system </p>
+
+<ol class="HELM_parts">
+
+    <li>Construct the augmented matrix. </li>
+
+    <div>\([A|B]=\) [[input:ans1]] [[validation:ans1]]</div>
+    <div><br></div>
+
+    <li>Triangularise the augmented matrix by means of row operations. Express your answer as matrix \(T\). </li>
+
+    <div>\(T=\) [[input:ans2]] [[validation:ans2]]</div>
+
+    <li> Apply back-substitution to obtain the solution to the system. </li>
+
+    <div>\(X=\) [[input:ans3]] [[validation:ans3]].</div>
+
+</ol>
+[[feedback:prt1]]]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<ol class="HELM_parts">
+  
+  <li>
+<p> The augmented matrix is \[ [A|B] = {@matAugmented@}. \] </p>
+  </li>
+  
+  <li>
+<p> To triangularize the augmented matrix, we begin from the augmented matrix \( [A|B] \). Since \( a_{11} = {@matAugmented[1][1]@} \neq 0 \), we can replace row 2 by row 2 - \( \frac{{@matAugmented[2][1]@}}{{@matAugmented[1][1]@}} \times \) (row 1) and
+    row 3 by row 3 - \( \frac{{@matAugmented[3][1]@}}{{@matAugmented[1][1]@}} \times \) (row 1). In other words, \[ [A|B] = {@matAugmented@} \begin{matrix} \\ R2 - \frac{{@matAugmented[2][1]@}}{{@matAugmented[1][1]@}} \times R1 \\ R3 - \frac{{@matAugmented[3][1]@}}{{@matAugmented[1][1]@}}
+    \times R1 \\ \end{matrix} \Rightarrow {@matGauss1@}. \] By continuing this process, we get the triangularization \( T \) of \( [A|B] \): \[T = {@matT@} \]. </p>
+  </li>
+  
+  <li>
+<p> The third row of the matrix is a zero row, so we are left with an undetermined system of equations. Therefore, there are infinitely many solutions. Set \(z = t \) in the second equation \({@eqTrian2@} \) to obtain \[ {@eqTrian2BackSubst@} \] from
+    which we deduce \(y = {@ySol@} \). Plugging in the obtained values of \( y \) and \( z \) in the first equation \( {@eqTrian1@} \) we obtain \[ {@eqTrian1BackSubst@} \] from which we deduce \(x = {@xSol@} \). Summarizing, \[ x = {@xSol@}, \qquad y
+    = {@ySol@}, \qquad z = t. \]
+</p>
+  </li>
+</ol>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020120600</text>
+    </stackversion>
+    <questionvariables>
+      <text>/* Set an order in the variables */
+ordergreat(x, y, z, t);
+/* Set an order in the variables */
+/* Generate non-zero random numbers. They will be the coefficients of the first and second equations */
+/* For display purposes, a1, a2 are positive, b1, b2 any, c1, c2 negative */
+a1 : 1;
+b1 : rand(3) * 2 - 1  ;
+c1 : rand(6)  - 6;
+d1 : rand(6) * 2 - 5
+a2 : rand(3) + 1;
+b2 : a2 * b1 / a1 + 1  ;
+c2 : rand(6)  - 6;
+d2 : rand(6) * 2 - 5
+/* Generate a positive random number different than 0, 1. It will be the coefficient by which we multiply the third equation*/
+/* For display purposes, it is positive */
+kk : rand(3) + 1;
+/* Define linearly dependent equation */
+a3 : a1 + kk * a2;
+b3 : b1 + kk * b2;
+c3 : c1 + kk * c2;
+d3 : d1 + kk * d2;
+
+
+matA : matrix([a1, b1, c1], [a2, b2, c2], [a3, b3, c3]);
+vecB : matrix([d1], [d2], [d3]);
+matAugmented : matrix([a1, b1, c1, d1], [a2, b2, c2, d2], [a3, b3, c3, d3]);
+vecX : matrix([x], [y], [z]);
+eqq : matA . vecX;
+eqq1 : eqq[1][1] = d1;
+eqq2 : eqq[2][1] = d2;
+eqq3 : eqq[3][1] = d3;
+
+/* Compute the triangularisation of the augmented matrix*/
+matT : triangularize(matAugmented);
+
+/* Determine solution to the system */
+eq1 : a1 * x + b1 * y + c1 * t = d1;
+eq2 : a2 * x + b2 * y + c2 * t = d2;
+eq3: a3 * x + b3 * y + c3 * t = d3;
+solSystem : algsys([eq1, eq2, eq3], [x, y]);
+xx1 : rhs(solSystem[1][1]);
+xx2 : rhs(solSystem[1][2]);
+xx3 : t;
+XX : matrix([xx1], [xx2], [xx3]);
+
+/* Create matGauss1, which is matAugmented after the first step of Gaussian Elimination (for the WORKED SOLUTION) */
+matGauss1 : matrix(matAugmented[1], matAugmented[2], matAugmented[3]);
+matGauss1[2] :  matGauss1[2] - (matGauss1[2][1]/ matGauss1[1][1]) * matGauss1[1];
+matGauss1[3] :  matGauss1[3] - (matGauss1[3][1]/ matGauss1[1][1]) * matGauss1[1];
+
+/* Solve the linear system using back-substitution (for the WORKED SOLUTION)*/
+matAtrian : submatrix(matT, 4);
+vecBtrian : submatrix(matT, 1, 2, 3);
+eqTrian : matAtrian . vecX;
+eqTrian1 : eqTrian[1][1] = vecBtrian[1][1];
+eqTrian2 : eqTrian[2][1] = vecBtrian[2][1];
+eqTrian3 : eqTrian[3][1] = vecBtrian[3][1];
+zSol : t;
+eqTrian2BackSubst : ev(eqTrian2, z = zSol);
+ySol : xx2;
+eqTrian1BackSubst : ev(eqTrian1, y = ySol, z = zSol);
+xSol : xx1;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\[\begin{matrix} {@eq1@} \\ {@eq2@} \\ {@eq3@} \\ \end{matrix}\]
+\[ [A|B]= {@matAugmented@}, \quad T = {@matT@}, \quad X = {@XX@} \]</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>matrix</type>
+      <tans>matAugmented</tans>
+      <boxsize>4</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>matrix</type>
+      <tans>matT</tans>
+      <boxsize>4</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>matrix</type>
+      <tans>XX</tans>
+      <boxsize>4</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>/* Check that ans2 is an upper triangular matrix (i) which is Gauss equivalent to the augmented matrix ans1 (ii) given in (a) */
+
+/* (i) Check that the triangularized input matrix ans2 is in fact an upper triangular matrix */
+vecZero : matrix([0, 0, 0]);
+/* vecLTinputs contains the lower diagonal entries of ans2. We check if they are all 0, so that the matrix entered is upper triangular */
+vecLTinputs : matrix([ans2[2][1], ans2[3][1], ans2[3][2]]); 
+
+/* (ii) Check that ans2 is Gauss equivalent to ans1, by checking that they have the same solutions */
+
+/* Create submatrices matAans1, matAans2, vecBans1, vecBans2 from students answers ans1, ans2*/ 
+matAans1 : submatrix(ans1, 4);
+matAans2 : submatrix(ans2, 4);
+Bans2: submatrix(ans2, 1, 2, 3);
+vecBans1: submatrix(ans1, 1, 2, 3);
+vecBans2 : submatrix(ans2, 1, 2, 3);
+
+/* Check that matrices ans1 and ans2 give rise to systems with a 1-d space of solutions (by Cramer's rule)*/
+expRanks : matrix([2, 2, 2, 2]);
+actualRanks : matrix([rank(matAans1), rank(ans1), rank(matAans2), rank(ans2)]);
+
+/* Compute solution from ans1 */
+vecXaux : matrix([x], [y], [t], [-1]);
+eqAns1 : ans1 . vecXaux;
+eq1Ans1 : eqAns1[1][1] = 0;
+eq2Ans1 : eqAns1[2][1] = 0;
+eq3Ans1 : eqAns1[3][1] = 0;
+/* Solve the linear system */
+ta2_aux : algsys([eq1Ans1, eq2Ans1, eq3Ans1], [x, y]);
+XXans1 : matrix([rhs(ta2_aux[1][1])], [rhs(ta2_aux[1][2])], [t]);
+/* Compute solution from ans2 */
+eqAns2 : ans2 . vecXaux;
+eq1Ans2 : eqAns2[1][1] = 0;
+eq2Ans2 : eqAns2[2][1] = 0;
+eq3Ans2 : eqAns2[3][1] = 0;
+/* Solve the linear system */
+sa2_aux : algsys([eq1Ans2, eq2Ans2, eq3Ans2], [x, y]);
+XXans2 : matrix([rhs(sa2_aux[1][1])], [rhs(sa2_aux[1][2])], [t]);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>matAugmented</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.2000000</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>(a) Augmented matrix introduced correctly.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p> (a) Careful, augmented matrix has not been introduced correctly. </p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>vecLTinputs</sans>
+        <tans>vecZero</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>9</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p> (b), (c) The triangularisation didn't result in an upper triangular matrix. This also means that it is not possible to do back-substitution. </p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>5</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>matAans2 . ans3</sans>
+        <tans>vecBans2</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.1500000</truescore>
+        <truepenalty/>
+        <truenextnode>6</truenextnode>
+        <trueanswernote>prt1-6-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-6-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p> (c) There is an error in the back-substitution. Your answer doesn't satisfy the equations 
+\[ {@Aans2@} {@ans3@} = {@Aans2 . ans3@} \neq {@Bans2@} \] </p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>6</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>length(listofvars(ans3))</sans>
+        <tans>1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.1500000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-7-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p> (c) Back-substitution done correctly. You've identified all the solutions.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>+</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-7-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p> (c) Back-substitution partially correct. You've identified a right answer, but there are more. What form does the triangular matrix have? </p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>7</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>matAans1 . XXans2</sans>
+        <tans>vecBans1</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>8</truenextnode>
+        <trueanswernote>prt1-8-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>5</falsenextnode>
+        <falseanswernote>prt1-8-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>(b) The triangularized matrix and the augmented matrix are not Gauss equivalent.</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>8</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>matAans2 . XXans1</sans>
+        <tans>vecBans2</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.5000000</truescore>
+        <truepenalty/>
+        <truenextnode>5</truenextnode>
+        <trueanswernote>prt1-9-T</trueanswernote>
+        <truefeedback format="html">
+          <text>(b) Triangularization done correctly.</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>5</falsenextnode>
+        <falseanswernote>prt1-9-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>(b) The triangularized matrix and the augmented matrix are not Gauss equivalent.</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>9</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>actualRanks</sans>
+        <tans>expRanks</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>7</truenextnode>
+        <trueanswernote>prt1-10-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-10-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p> (b), (c) There is an error in the triangulation that changed the difficulty of the problem. Unfortunately, this means that no more marks can be awarded. Check the entries of the augmented matrix and the triangular matrix. </p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1542897318</deployedseed>
+    <deployedseed>585038878</deployedseed>
+    <deployedseed>241379904</deployedseed>
+    <deployedseed>723253439</deployedseed>
+    <deployedseed>1870599680</deployedseed>
+    <deployedseed>745357891</deployedseed>
+    <deployedseed>1700604987</deployedseed>
+    <deployedseed>844382662</deployedseed>
+    <deployedseed>1341659191</deployedseed>
+    <deployedseed>1849157885</deployedseed>
+    <deployedseed>119469381</deployedseed>
+    <deployedseed>1845731925</deployedseed>
+    <deployedseed>1683994828</deployedseed>
+    <deployedseed>1065218918</deployedseed>
+    <deployedseed>2002514780</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>matAugmented</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>matT</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>XX</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-7-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>matT</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>matT</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>XX</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.8000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-7-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>matAugmented</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>matT</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>matrix([0], [0], [0])</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.7000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-6-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(2*matAugmented,simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ev(2*matAugmented,simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ev(2*XX,simp)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-2-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

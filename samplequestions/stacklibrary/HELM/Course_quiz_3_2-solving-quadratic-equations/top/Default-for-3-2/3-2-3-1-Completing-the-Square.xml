@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.2.3.1 Completing the Square</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Completing the square</h3>
+<p>The technique known as completing the square can be used to solve quadratic equations although it is applicable in many other circumstances too so it is well worth studying.</p>
+<p>Observe that the quadratic \(x^2+c=0\), is more easily solved than \(x^2+bx+c=0\). The method of completing the square involves rewriting the equation so that the variable \(x\) appears only in the square term. That is, we can write \( (x+d)^2+e=0\) for
+    suitable numbers \(d,e\). This form is not just easier to solve, it reveals more information about the graph of \(y=x^2+ax+c\), and will be used to simplify expressions appearing in later material such as in calculus.<br></p>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<ol class="HELM_parts_inline">
+    <p></p>
+    <li>Show that \((x+3)^2=x^2+6x+9\).</li>
+    <p></p>
+    <p></p>
+    <li>Hence show that \(x^2+6x\) can be written as \((x+3)^2 - 9\).</li>
+    <p></p>
+</ol>
+<h4 class="HELM_solution">Solution</h4>
+<ol class="HELM_parts">
+    <li>Removing the brackets we find \[(x+3)^2= (x+3)(x+3) = x^2 +3x+3x + 9 = x^2 +6x + 9.\]</li>
+    <li> By subtracting \(9\) from both sides of the previous equation it follows that \[(x+3)^2-9 = x^2+6x.\]</li>
+</ol>
+&nbsp;
+<hr>
+<h4 class="HELM_example">Example</h4>
+<ol class="HELM_parts_inline">
+    <p></p>
+    <li>Show that \((x-4)^2= x^2-8x+16\).</li>
+    <p></p>
+    <p></p>
+    <li>Hence show that \(x^2-8x\) can be written as \((x-4)^2-16\).</li>
+    <p></p>
+</ol>
+
+<h4 class="HELM_solution">Solution</h4>
+<ol class="HELM_parts">
+    <li>Removing the brackets we find \[(x-4)^2= (x-4)(x-4) = x^2-4x-4x+16 = x^2-8x+16.\]</li>
+    <li>Subtracting \(16\) from both sides we can write \[(x-4)^2-16 = x^2-8x.\]</li>
+</ol>
+
+We shall now generalise the results of the previous two examples. Noting that&nbsp;
+<p>\[(x+k)^2=x^2+2kx+k^2\]</p>
+<p>we can write</p>
+<p>\[ x^2+2kx = (x+k)^2 - k^2.\]</p>
+<p>Note that the constant term in the brackets on the right-hand side is always half the coefficient of \(x\) on the left. This process is called&nbsp;<b>completing the square</b>.</p>
+<hr>
+<div class="HELM_keypoint">
+    <h4>Key Point</h4>
+    <p><b>Completing the Square</b></p>
+    <p><span></span></p>
+    <p style="">\[\qquad \hbox{The expression}\quad x^2+2kx \quad\hbox{is equivalent to}\quad (x+k)^2 -k^2.\]</p>
+    <p></p>
+</div>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p></p>
+<p>Complete the square for the expression \(x^2+16x\).</p>
+<p></p>
+<h4 class="HELM_solution">Solution</h4>
+<p></p>
+<p>Comparing \(x^2+16x\) with the general form \(x^2+2kx\) we see that \(k=8\). Hence</p>\[x^2+16x = (x+8)^2 - 8^2 = (x+8)^2-64\]
+<p>Note that the constant term in the brackets on the right, that is \(8\), is half the coefficient of \(x\) on the left, which is \(16\).</p>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p></p>
+<p>Complete the square for the expression \(5x^2+4x\).</p>
+<p></p>
+<h4 class="HELM_solution">Solution</h4>
+<p></p>
+<p>Consider \(5x^2+4x\). First of all the coefficient \(5\) is removed outside a bracket as follows</p>
+<p>\[ 5x^2+4x = 5\left(x^2+{4\over 5}x\right).\]</p>
+<p>We can now complete the square for the quadratic expression in the brackets:</p>
+<p>\[ x^2+{4\over 5}x = \left(x+{2\over 5}\right)^2 - \left({2\over 5}\right)^2 = \left(x+{2\over 5}\right)^2-{4\over25}.\]&nbsp;</p>
+<p>Finally, multiplying both sides by \(5\) we find</p>
+<p>\[ 5x^2 + 4x = 5\left(\left(x+{2\over 5}\right)^2- {4\over 25}\right).\]</p>
+
+<p>Completing the square can be used to solve quadratic equations as shown in the following examples.</p>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Solve the equation \(x^2+6x+2=0\) by completing the square.</p>
+<h4 class="HELM_solution">Solution</h4>
+<p></p>
+<p>First of all just consider \(x^2+6x\), and note that we can write this as \[x^2+6x = (x+3)^2 - 9.\]</p>
+<p>Then the quadratic equation can be written as</p>
+<p>\[x^2+6x+2= (x+3)^2-9 + 2&nbsp; =0\]</p>
+<p>that is</p>
+<p>\[ (x+3)^2 = 7.\]</p>
+<p>Taking the square root of both sides gives</p>
+<p>\[x+3 = \pm \sqrt 7\]</p>
+<p>so \(x = -3 \pm \sqrt 7\). The two solutions are \(x=-3+\sqrt{7}=-0.3542\) and \(x=-3-\sqrt{7}=-5.6458\), to 4 d.p.</p>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Solve the equation \(x^2-8x+5=0\).</p>
+<h4 class="HELM_solution">Solution</h4>
+<p></p>
+<p>First consider \(x^2-8x\) which we can write as</p>
+<p>\[x^2-8x&nbsp; = (x-4)^2 -16\]</p>
+<p>so that the equation becomes</p>
+<p>\[x^2-8x+5 = (x-4)^2-16 + 5 = 0.\]</p>
+<p>i.e \[(x-4)^2 = 11 \text{ implies } x-4 = \pm\sqrt{11} \text{ and hence } x= 4 \pm \sqrt{11}.\]</p>
+<p>So \(x=7.3166\) or \(x= 0.6834\) (to 4 d.p.).</p>
+<p></p>
+<p></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

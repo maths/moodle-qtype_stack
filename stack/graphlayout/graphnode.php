@@ -61,10 +61,16 @@ class stack_abstract_graph_node {
     public $x = 0;
 
     /**
-     * @var array of float. Used during the layout algorithm. See
+     * @var float. Used during the layout algorithm. See
      * {@link stack_abstract_graph::compute_heuristic_xs()}.
      */
-    public $heuristicxs = null;
+    public float $heuristic_sum;
+
+    /**
+     * @var float. Used during the layout algorithm. See
+     * {@link stack_abstract_graph::compute_heuristic_xs()}.
+     */
+    public float $heuristic_count;
 
     /**
      * Constructor.

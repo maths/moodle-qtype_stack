@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>22.3.2.8 Eigvecs of 3x3 symmetric are orthogonal</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>Consider the matrix \[A={@a@},\] which is, we emphasize,&nbsp;<strong>symmetric</strong>. Its eigenvalues are \({@eigvals[1]@}, {@eigvals[2]@}, {@eigvals[3]@}\), and the eigenvectors are, respectively,
+\[X={@eigvecs[1]@},\qquad Y={@eigvecs[2]@},\qquad Z={@eigvecs[3]@}\] (or, as usual, any non-zero multiple of them).</p>
+<p>Compute the following quantities:</p>
+<div>\(X^TY=\) [[input:ans_xy]] [[validation:ans_xy]]</div><div>&nbsp;[[feedback:prt_xy]]</div><div><br></div> 
+<div>\(Y^TZ=\) [[input:ans_yz]] [[validation:ans_yz]]</div><div>&nbsp;[[feedback:prt_yz]]</div><div><br></div> 
+<div>\(Z^TX=\) [[input:ans_zx]] [[validation:ans_zx]]&nbsp;</div><div>[[feedback:prt_zx]]</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>
+    \[X^TY = {@transpose(eigvecs[1])@}{@eigvecs[2]@} = {@(simp:false,make_multsgn("cross"),xy_comp1)@} = {@xy_comp2@} = \mathbf{0}\] \[Y^TZ = {@transpose(eigvecs[2])@}{@eigvecs[3]@} = {@yz_comp1@} = {@yz_comp2@} = \mathbf{0}\] \[Z^TX = {@transpose(eigvecs[3])@}{@eigvecs[1]@}
+    = {@zx_comp1@} = {@zx_comp2@} = \mathbf{0}\] Thus the three eigenvectors \(X,Y,Z\) are <strong>mutually orthogonal</strong>.
+</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>3</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020120600</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[/* static list of 0,±1-valued 3x3 symmetric matrices with 1 integer eigenvalue */
+permmats:[matrix([1,0,0],[0,1,0],[0,0,1]),matrix([1,0,0],[0,0,1],[0,1,0]),matrix([0,0,1],[1,0,0],[0,1,0]),matrix([0,0,1],[0,1,0],[1,0,0]),matrix([0,1,0],[0,0,1],[1,0,0]),matrix([0,1,0],[1,0,0],[0,0,1])];
+use_mats:[matrix([-2,-2,-2],[-2,-2,0],[-2,0,-2]),matrix([-2,-2,-2],[-2,-2,1],[-2,1,0]),matrix([-2,-2,-2],[-2,-1,-1],[-2,-1,1]),matrix([-2,-2,-2],[-2,-1,2],[-2,2,1]),matrix([-2,-2,-2],[-2,0,2],[-2,2,0]),matrix([-2,-2,-2],[-2,1,-1],[-2,-1,2]),matrix([-2,-2,-2],[-2,1,1],[-2,1,1]),matrix([-2,-2,-1],[-2,-2,-1],[-1,-1,-2]),matrix([-2,-2,-1],[-2,-2,-1],[-1,-1,0]),matrix([-2,-2,-1],[-2,-2,0],[-1,0,-2]),matrix([-2,-2,-1],[-2,-2,1],[-1,1,-2]),matrix([-2,-2,-1],[-2,-2,1],[-1,1,0]),matrix([-2,-2,-1],[-2,-2,1],[-1,1,2]),matrix([-2,-2,-1],[-2,-2,2],[-1,2,0]),matrix([-2,-2,-1],[-2,-1,-2],[-1,-2,2]),matrix([-2,-2,-1],[-2,-1,0],[-1,0,0]),matrix([-2,-2,-1],[-2,0,-2],[-1,-2,0]),matrix([-2,-2,-1],[-2,0,-1],[-1,-1,1]),matrix([-2,-2,-1],[-2,0,0],[-1,0,0]),matrix([-2,-2,-1],[-2,1,-2],[-1,-2,-2]),matrix([-2,-2,-1],[-2,1,-2],[-1,-2,2]),matrix([-2,-2,-1],[-2,1,2],[-1,2,2]),matrix([-2,-2,-1],[-2,2,1],[-1,1,-2]),matrix([-2,-2,-1],[-2,2,1],[-1,1,-1]),matrix([-2,-2,0],[-2,-1,-1],[0,-1,1]),matrix([-2,-2,0],[-2,0,-2],[0,-2,2]),matrix([-2,-2,0],[-2,2,2],[0,2,-2]),matrix([-2,-2,1],[-2,-2,1],[1,1,0]),matrix([-2,-2,1],[-2,-2,1],[1,1,2]),matrix([-2,-2,1],[-2,0,1],[1,1,1]),matrix([-2,-2,1],[-2,0,2],[1,2,1]),matrix([-2,-2,1],[-2,1,-2],[1,-2,2]),matrix([-2,-2,1],[-2,1,2],[1,2,-2]),matrix([-2,-2,1],[-2,2,-1],[1,-1,-1]),matrix([-2,-2,1],[-2,2,1],[1,1,2]),matrix([-2,-2,2],[-2,-1,1],[2,1,1]),matrix([-2,-2,2],[-2,1,-1],[2,-1,1]),matrix([-2,-2,2],[-2,1,1],[2,1,-1]),matrix([-2,-1,-1],[-1,-2,-1],[-1,-1,1]),matrix([-2,-1,-1],[-1,-2,1],[-1,1,-1]),matrix([-2,-1,-1],[-1,-1,1],[-1,1,2]),matrix([-2,-1,-1],[-1,0,2],[-1,2,0]),matrix([-2,-1,-1],[-1,1,-1],[-1,-1,2]),matrix([-2,-1,-1],[-1,1,1],[-1,1,2]),matrix([-2,-1,-1],[-1,2,0],[-1,0,2]),matrix([-2,-1,0],[-1,-2,2],[0,2,-2]),matrix([-2,-1,0],[-1,-1,1],[0,1,0]),matrix([-2,-1,0],[-1,0,2],[0,2,-1]),matrix([-2,-1,0],[-1,0,2],[0,2,1]),matrix([-2,-1,1],[-1,-2,2],[1,2,-2]),matrix([-2,-1,1],[-1,-1,-1],[1,-1,-2]),matrix([-2,-1,1],[-1,-1,-1],[1,-1,-1]),matrix([-2,-1,1],[-1,-1,-1],[1,-1,2]),matrix([-2,-1,1],[-1,0,2],[1,2,0]),matrix([-2,-1,1],[-1,2,-2],[1,-2,2]),matrix([-2,-1,1],[-1,2,-1],[1,-1,1]),matrix([-2,-1,2],[-1,-2,2],[2,2,1]),matrix([-2,-1,2],[-1,0,-1],[2,-1,-2]),matrix([-2,-1,2],[-1,0,0],[2,0,-1]),matrix([-2,-1,2],[-1,0,1],[2,1,-2]),matrix([-2,0,1],[0,-2,1],[1,1,0]),matrix([-2,0,1],[0,-2,2],[1,2,-2])];
+
+/* take a random ↑, and ?shuffle row/cols, ?multiply by -1 */
+p:rand(permmats);
+a:rand([-1,1])*p.rand(use_mats).transpose(p)+rand([-3,-2,-1,0,1,2,3])*ident(3);
+
+/* get eigendata */
+ee:eigenvectors(a);
+eigvals:ee[1][1];
+clear_denoms_list_getdenom(l):=block([varr],denom(ratsimp(l.makelist(varr[i],i,1,length(l)))));
+clear_denoms_list(l):=clear_denoms_list_getdenom(l)*l;
+eigvecs_raw:map(clear_denoms_list,lreduce(append,ee[2]));
+eigvecs:map(lambda([l],simplify(transpose(matrix(l)))),eigvecs_raw);
+
+/* helpers: assumes v1 and v2 are lists of the same length */
+/* should be used when simp:false; */
+dotprod_comp1(v1,v2):=matrix([ lreduce("+",map("*",v1,v2)) ]);
+dotprod_comp2(v1,v2):=matrix([ lreduce("+",ev(map("*",v1,v2),simp,ratsimp)) ]);
+
+/* preparation for printing the solution */
+simp:false;
+xy_comp1:dotprod_comp1(eigvecs_raw[1],eigvecs_raw[2]);
+yz_comp1:dotprod_comp1(eigvecs_raw[2],eigvecs_raw[3]);
+zx_comp1:dotprod_comp1(eigvecs_raw[3],eigvecs_raw[1]);
+xy_comp2:dotprod_comp2(eigvecs_raw[1],eigvecs_raw[2]);
+yz_comp2:dotprod_comp2(eigvecs_raw[2],eigvecs_raw[3]);
+zx_comp2:dotprod_comp2(eigvecs_raw[3],eigvecs_raw[1]);
+simp:true;]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\(A = {@a@}, \qquad X={@eigvecs[1]@},\qquad Y={@eigvecs[2]@},\qquad Z={@eigvecs[3]@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans_xy</name>
+      <type>matrix</type>
+      <tans>matrix([0])</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans_yz</name>
+      <type>matrix</type>
+      <tans>matrix([0])</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans_zx</name>
+      <type>matrix</type>
+      <tans>matrix([0])</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt_xy</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans_xy</sans>
+        <tans>matrix([0])</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt_xy-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt_xy-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt_yz</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans_yz</sans>
+        <tans>matrix([0])</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt_yz-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt_yz-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt_zx</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans_zx</sans>
+        <tans>matrix([0])</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt_zx-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt_zx-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>427759454</deployedseed>
+    <deployedseed>1007272107</deployedseed>
+    <deployedseed>999811432</deployedseed>
+    <deployedseed>305992961</deployedseed>
+    <deployedseed>1090852261</deployedseed>
+    <deployedseed>1687171120</deployedseed>
+    <deployedseed>515563664</deployedseed>
+    <deployedseed>1016999248</deployedseed>
+    <deployedseed>1116772872</deployedseed>
+    <deployedseed>5576100</deployedseed>
+    <deployedseed>1472800365</deployedseed>
+    <deployedseed>1059181732</deployedseed>
+    <deployedseed>2120664713</deployedseed>
+    <deployedseed>1329437341</deployedseed>
+    <deployedseed>1211455186</deployedseed>
+    <deployedseed>727339453</deployedseed>
+    <deployedseed>561221400</deployedseed>
+    <deployedseed>1914790856</deployedseed>
+    <deployedseed>582147990</deployedseed>
+    <deployedseed>739025649</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans_xy</name>
+        <value>matrix([0])</value>
+      </testinput>
+      <testinput>
+        <name>ans_yz</name>
+        <value>matrix([0])</value>
+      </testinput>
+      <testinput>
+        <name>ans_zx</name>
+        <value>matrix([0])</value>
+      </testinput>
+      <expected>
+        <name>prt_xy</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt_xy-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_yz</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt_yz-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_zx</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt_zx-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans_xy</name>
+        <value>matrix([-1])</value>
+      </testinput>
+      <testinput>
+        <name>ans_yz</name>
+        <value>matrix([1])</value>
+      </testinput>
+      <testinput>
+        <name>ans_zx</name>
+        <value>matrix([1])</value>
+      </testinput>
+      <expected>
+        <name>prt_xy</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt_xy-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_yz</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt_yz-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt_zx</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt_zx-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>19.2.5.2 Solve an exact equation</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4 class="HELM_example">Example</h4>
+<p> Solve the equation \[ x^3 \dfrac{\mathrm{d}y}{\mathrm{d}x}+3x^2y=x\]</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>Comparing this equation with the form in the Key Point before we see that \(f(x)=x^3\) and \(g(x)=x\). Hence the equation can be written \[ \dfrac{\mathrm{d}}{\mathrm{d}x}(yx^3)=x,\] which has solution \[yx^3=\int x\, \mathrm{d}x=\dfrac{1}{2}x^2+C.\]Therefore \[ y=\dfrac{1}{2x}+\dfrac{C}{x^3}.\]
+    </p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

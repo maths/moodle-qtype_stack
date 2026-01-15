@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>12.3.4.2 Exercise 2</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>Obtain an estimate of the point of intersection of the curves \(y = {@f1@}\) and \(y = {@f2@}\).</p>
+<figure class="HELM_figure">
+    [[jsxgraph]]
+    const brd = JXG.JSXGraph.initBoard(divid, {boundingbox: [-1, 3, 5, -3], axis: true, showCopyright: false});
+    const f1 = brd.jc.snippet('{#f1#}', true, 'x', true);
+    brd.create('functiongraph', [f1]);
+    const f2 = brd.jc.snippet('{#f2#}', true, 'x', true);
+    brd.create('functiongraph', [f2], {strokeColor: 'red'});
+    [[/jsxgraph]]
+</figure>
+<p>Use one iteration of the Newton–Raphson method with \(x_0 = {@x0@}\) to find your estimate.</p>
+<p>Give it here to \(2\) d.p.</p>
+<p>[[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>In order to find the point of intersection of the curves \(y = {@f1@}\) and \(y = {@f2@}\), we must find a root of the function \(f(x) = {@f1@} - {@f2@}\).</p>
+<p>First we find the derivative of \(f\), which is given by</p>
+\[f'(x) = {@df@}.\]
+<p>Next, we apply the formula:</p>
+\[x_{1} = x_0 - \frac{f(x_0)}{f'(x_0)}\]
+<p>With \(x_0 = {@x0@}\), we get</p>
+\[x_1 = {@x0@} - \frac{{@decimalplaces(subst(x0, x, f), 4)@}}{{@decimalplaces(subst(x0, x, df), 4)@}} = {@ta1@}, \quad \text{to 2 d.p.}\]
+<p>We can visualise the process in the following graph.</p>
+[[jsxgraph]]
+const brd = JXG.JSXGraph.initBoard(divid, {boundingbox: [0.5, 2, 3, -2], axis: true, showCopyright: false});
+const f = brd.jc.snippet('{#f#}', true, 'x', true);
+const plot = brd.create('functiongraph', [f]);
+const x0 = brd.create('point', [{#x0#}, 0], {name: 'x_0', fixed: true});
+const y0 = brd.create('point', [function() {return x0.X();}, function() {return f(x0.X());}],
+    {withLabel: false, size: 2, strokeColor: 'none'});
+const auxl0 = brd.create('line', [x0, y0], {dash: 2, strokeColor: 'red', straightFirst: false, straightLast: false});
+const x1 = brd.create('point', [{#float(x1)#}, 0], {name: 'x_1', fixed: true, strokeColor: 'green', fillColor: 'green'});
+const l1 = brd.create('line', [y0, x1], {strokeColor: 'green'});
+[[/jsxgraph]]]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021120900</text>
+    </stackversion>
+    <questionvariables>
+      <text>x0: rand([1, 2]);
+if x0 = 1
+    then a: 1
+    else a: rand([2, 3]);
+f1: x - a;
+f2: cos(x);
+f: f1 - f2;
+
+df: diff(f, x);
+x1: x0 - ev(f, x=x0) / ev(df, x=x0);
+ta1: decimalplaces(float(x1), 2);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\(y = {@f1@}, \quad y = {@f2@}, \quad x_0 = {@x0@}, \quad x_1 = {@x1@} = {@ta1@}\)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>numerical</type>
+      <tans>dispdp(ta1,2)</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>maxdp:2,mindp:2</options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions>2</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1719523336</deployedseed>
+    <deployedseed>1176552915</deployedseed>
+    <deployedseed>624791610</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>dispdp(ta1,2)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>dispdp(1+ta1,2)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

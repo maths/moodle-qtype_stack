@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>7.1.2.4 Equality of Matrices</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Equality of matrices</h4>
+<p>As we noted earlier, the terms in a matrix are called the <b>elements</b> or <b>entries</b> of the matrix. </p><p>\[\text{The elements of the matrix}\quad A=\left[\begin{array}{ll}\hfill1&amp;\hfill 2\\ \hfill -1 &amp;\hfill -4\end{array}\right]\quad \text{are}\quad1,2,-1,-4.\]</p><p>We say two matrices \(A\), \(B\) are&nbsp;<b>equal</b>&nbsp;to each other if and only if \(A\) and \(B\) have the same number of rows and the same number of columns and if each element of \(A\) is equal to the corresponding element of \(B\). When this is the case we write \(A=B\). For example if the following two matrices are equal:</p><p>\[A=\left[\begin{array}{ll}\hfill 1&amp;\hfill \alpha \\ \hfill -1&amp;\hfill -\beta\end{array}\right]\qquad&nbsp; B=\left[\begin{array}{ll}\hfill 1&amp;\hfill 2\\ \hfill -1&amp;\hfill -4\end{array}\right]\]&nbsp;</p><p>then we can conclude that \(\alpha=2\) and \(\beta =4\).</p><h4>The unit matrix</h4><p>The&nbsp;<b>unit matrix</b>&nbsp;or the&nbsp;<b>identity matrix</b>, denoted by \(I_n\) (or, often, simply \(I\)), is the diagonal matrix of order \(n\) in which all diagonal elements are \(1\). Hence, for example, \(I_2=\left[\begin{array}{cc}1&amp;0\\ 0&amp;1\end{array}\right]\) and \(I_3=\left[\begin{array}{ccc}1&amp;0&amp;0\\ 0&amp;1&amp;0\\ 0&amp;0&amp;1\end{array}\right]\).</p><h4>The zero matrix</h4><p>The&nbsp;<b>zero matrix</b>&nbsp;or&nbsp;<b>null matrix</b>&nbsp;is the matrix all of whose elements are zero.&nbsp; There is a zero matrix for every size.&nbsp; For example the \(2\times 3\) and \(2\times 2\) cases are:</p><p>\[\left[\begin{array}{ccc}0&amp;0&amp;0\\ 0&amp;0&amp;0\end{array}\right],\ \left[\begin{array}{cc}0&amp;0\\ 0&amp;0\end{array}\right].\]</p><p>&nbsp;Zero matrices, of whatever size, are denoted by \({\underline 0}\) with the size often inferred from the context.</p><h4>The transpose of a matrix</h4><p>The <b>transpose</b>&nbsp;of a matrix \(A\) is a matrix where the rows of \(A\) become the columns of the new matrix and the columns of \(A\) become its rows.&nbsp; For example</p><p>\[ A=\left[\begin{array}{ccc}1&amp;2&amp;3\\ 4&amp;5&amp;6\end{array}\right]\ \ \text{becomes}\ \left[\begin{array}{cc}1&amp;4\\ 2&amp;5\\ 3&amp;6\end{array}\right]\]</p><p>The resulting matrix is called the <b>transposed matrix</b>&nbsp;of \(A\) and denoted \(A^T\).&nbsp; In the previous example it is clear that \(A^T\) is not equal to \(A\) since the matrices are of different sizes.&nbsp; If \(A\) is square \(n\times n\) then \(A^T\) will also be \(n\times n\).</p><p></p><p><br>
+
+</p><hr>
+<h4 class="HELM_example">Example</h4><p>Find the transpose of the matrix&nbsp; \(B=\left[\begin{array}{ccc}1&amp;2&amp;3\\ 4&amp;5&amp;6\\ 7&amp;8&amp;9\end{array}\right].\)</p>
+<h4 class="HELM_solution">Solution</h4>
+<p></p><p>Interchanging rows with columns we find \[\qquad B^T=\left[\begin{array}{ccc}1&amp;4&amp;7\\ 2&amp;5&amp;8\\ 3&amp;6&amp;9\end{array}\right].\]</p><p>Both matrices are \(3\times 3\) but \(B\) and \(B^T\) are clearly different.</p>
+<hr>
+<p>When the transpose of a matrix is equal to the original matrix i.e. \(A^T=A\), then we say that the matrix \(A\) is <b>symmetric</b>. (This is because it has symmetry about the leading diagonal.)</p><p>In the previous example \(B\) is <b>not</b>&nbsp;symmetric.</p><p></p><br><p></p><p></p>
+<hr>
+<h4 class="HELM_example">Example</h4><p>Show that the matrix \(C=\left[\begin{array}{rrr}1&amp;-2&amp;3\\ -2&amp;4&amp;-5\\ 3&amp;-5&amp;6\end{array}\right]\) is symmetric.</p>
+<h4 class="HELM_solution">Solution</h4>
+<p></p><p>Taking the transpose of \(C\):</p><p>\[C^T=\left[\begin{array}{rrr}1&amp;-2&amp;3\\ -2&amp;4&amp;-5\\ 3&amp;-5&amp;6\end{array}\right].\]</p><p>Clearly \(C^T=C\) and so \(C\) is a symmetric matrix.&nbsp; Notice how the leading diagonal acts as a "mirror'' with the entries on the diagonal remaining fixed in place and, for example, \(c_{12}=-2\) and \(c_{21}=-2\) reflecting through the diagonal.&nbsp;</p><p>In general \(c_{ij}=c_{ji}\) for a symmetric matrix.</p><p></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

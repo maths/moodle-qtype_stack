@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>HELM 33.1 E1 BVP</text>
+    </name>
+    <questiontext format="markdown">
+      <text><![CDATA[**33.1 E1 1D Boundary Value Problem**
+
+<p>
+  Let \( y = y(x) \) be a solution to the boundary value problem
+</p>
+<p>
+  \(\displaystyle {@p*'diff(y,x,2) + q*'diff(y,x) + r*y(x) = s@} \quad 0 < x < {@L@} \)
+</p>
+<p>
+  \( y(0) = {@y0@} \), \( y(0.75) = {@y3@} \)
+</p>
+<p>
+  Using a mesh width of \( h = {@h@} \) obtain a central difference approximation to the differential
+  equation and hence find \( y_1 \approx y({@h@}) \) and \( y_2 \approx y({@2*h@}) \).
+</p>
+
+\\\(y_1=\\\) [[input:S_u1]] [[validation:S_u1]] [[feedback:u1]]
+
+\\\(y_2=\\\) [[input:S_u2]] [[validation:S_u2]] [[feedback:u2]]]]></text>
+    </questiontext>
+    <generalfeedback format="markdown">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2024072400</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[/* Define parameters */
+L: 0.75;
+h: 0.25;
+y0: rand_with_step(-2,2,1);
+y3: rand_with_step(-2,2,1);
+
+/* Define the coefficients of the ODE */
+p: rand_with_step(1,3,1);
+q: rand_with_step(-3,-1,1);
+r: rand_with_step(2,4,1);
+s: rand_with_step(5,7,1);
+
+/* Define the equations using central difference approximations */
+eq1: (p*(y2 - 2*y1 + y0)/h^2) + (q*(y2 - y0)/(2*h)) + r*y1 = s;
+eq2: (p*(y3 - 2*y2 + y1)/h^2) + (q*(y3 - y1)/(2*h)) + r*y2 = s;
+
+/* Solve the system of equations */
+[y1,y2]: float(ev([y1,y2],linsolve([eq1, eq2], [y1, y2])));
+
+stack_include("https://raw.githubusercontent.com/mkraska/meclib/main/Maxima/fb_value_EN.mac");
+
+toList(m):= args(transpose(m))[1];]]></text>
+    </questionvariables>
+    <specificfeedback format="markdown">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>{@'p(x)=p@}, {@'q(x)=q@}, {@'r(x)=r@}, {@'s(x)=s@}, {@'y=[y0,y1,y2,y3]@}</text>
+    </questionnote>
+    <questiondescription format="markdown">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="markdown">
+      <text>Richtige Antwort, gut gemacht!</text>
+    </prtcorrect>
+    <prtpartiallycorrect format="markdown">
+      <text>Ihre Antwort ist teilweise korrekt.</text>
+    </prtpartiallycorrect>
+    <prtincorrect format="markdown">
+      <text>Falsche Antwort.</text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>S_u1</name>
+      <type>numerical</type>
+      <tans>dispdp(y1,4)</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>4 d.p.</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>S_u2</name>
+      <type>numerical</type>
+      <tans>dispdp(y2,4)</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>4 d.p.</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>u1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>S_u1</sans>
+        <tans>y1</tans>
+        <testoptions>4</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>u1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>u1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>{@fb_unit(S_u1,y1,0.0001)@}</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>u2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>S_u2</sans>
+        <tans>y2</tans>
+        <testoptions>4</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>u2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>u2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>{@fb_unit(S_u2,y2,0.0001)@}</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>579624181</deployedseed>
+    <deployedseed>1343186453</deployedseed>
+    <deployedseed>1134831928</deployedseed>
+    <deployedseed>2076650385</deployedseed>
+    <deployedseed>1366787899</deployedseed>
+    <deployedseed>1910156339</deployedseed>
+    <deployedseed>336030133</deployedseed>
+    <deployedseed>487474868</deployedseed>
+    <deployedseed>1130909704</deployedseed>
+    <deployedseed>624011609</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Testfall, der annimmt, dass die Eingabe der Trainer/innen die volle Punktezahl erreicht.</description>
+      <testinput>
+        <name>S_u1</name>
+        <value>dispdp(y1,4)</value>
+      </testinput>
+      <testinput>
+        <name>S_u2</name>
+        <value>dispdp(y2,4)</value>
+      </testinput>
+      <expected>
+        <name>u1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>u1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>u2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>u2-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

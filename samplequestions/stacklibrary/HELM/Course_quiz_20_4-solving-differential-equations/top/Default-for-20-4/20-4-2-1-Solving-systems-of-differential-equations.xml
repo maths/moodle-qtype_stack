@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>20.4.2.1 Solving systems of differential equations</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h2>Solving systems of differential equations</h2>
+<p>The Laplace transform method is also well suited to solving systems of differential equations. A simple example will illustrate the technique.</p>
+<p>Let \(x(t), \ y(t)\) be two independent functions which satisfy the coupled differential equations</p>
+<p>\[\begin{eqnarray*}
+ {dx\over {dt}}+y&=&\text{e}^{-t} \\ {dy\over{dt}}-x&=&3\text{e}^{-t} \\ x(0)&=&0, \quad
+y(0)=1\end{eqnarray*}\] Now, using a traditional approach, we could try to eliminate one of the unknown functions from this system: for example, from the first: \[\displaystyle {dy\over {dt}}=-\text{e}^{-t}-{d^2x\over {dt^2}} \text{ (taking the derivative and rearranging)}\] This can then be substituted in the second equation: \(\displaystyle{{dy\over
+{dt}}-x=3\text{e}^{-t}}\), to give: \[\displaystyle -{d^2x\over {dt^2}}-x=4\text{e}^{-t}\] which can then be solved in the normal way (either using the complementary function/particular integral approach or else the Laplace transform approach.) However, this approach is not workable if we have large numbers of first order differential equations to deal with. Let us instead use the Laplace transform directly.</p>
+<p>If we use the notation that \[\displaystyle {\cal L}\{x(t)\}=X(s) \qquad \text{ and} \qquad {\cal L}\{y(t)\}=Y(s)\] then, by taking the Laplace transform of every term in the given differential equations, we obtain: \[\begin{eqnarray*}
+ -x(0)+sX(s)+Y(s)&=&{1\over {s+1}}\\-y(0)+sY(s)-X(s)&=&{3\over
+{s+1}}
+\end{eqnarray*}\] which, using the initial conditions and rearranging gives \[\begin{eqnarray*}
+ sX(s)+Y(s)&=&{1\over {s+1}}\\-X(s)+sY(s)&=&{s+4\over
+{s+1}}\quad
+\end{eqnarray*}\]</p>
+
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p><center>Taking the Laplace transform converts a system of differential equations into <br>a system of algebraic simultaneous equations.</center></p>
+</div>
+<br>
+
+<p>We can solve these algebraic equations (in \(X(s)\) and \(Y(s)\)) using a variety of techniques (inverse matrix; Cramer’s determinant method etc.) Here we will use Cramer’s method. \[\begin{eqnarray*}
+ X(s)={ {\left|
+\begin{matrix}
+    \frac{1}{s+1}&1\\ 
+    \frac{s+4}{s+1}&s
+\end{matrix}
+\right|}
+\over {
+\left|
+\begin{matrix}
+     s&1\\
+     -1&s
+\end{matrix}
+\right| }} &=&
+\displaystyle{{\displaystyle{s\over{s+1}}-
+\displaystyle{{s+4\over {s+1}}}\over {s^2+1}}}\\ &=&{-4\over {(s^2+1)(s+1)}}={2(s-1)\over {s^2+1}}-{2\over
+{s+1}}\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad
+\end{eqnarray*}\] and \[\begin{eqnarray*}
+ Y(s)={ {\left|
+\begin{matrix}
+  s & \frac{1}{s+1}\\
+ -1& \frac{s+4}{s+1}
+\end{matrix}
+\right|}
+\over {
+\left|
+\begin{matrix}
+  s&1\\
+  -1&s
+\end{matrix}
+\right| }}&=&{\displaystyle{{s(s+4)\over {s+1}}}+\displaystyle{{1\over {s+1}}}\over {s^2+1}}\\&=&{s^2+4s+1\over {(s^2+1)(s+1)}}=-{1\over
+{s+1}}+{2(s+1)\over {s^2+1}}\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad
+\end{eqnarray*}\]</p>
+<p>The last lines in each case having been obtained using partial fractions. We can now invert \(X(s),\ Y(s)\) to find \(x(t),\ y(t)\): \[\begin{eqnarray*}
+ x(t)={\cal L}^{-1}\{X(s)\}&=&2{\cal L}^{-1}\{{s\over {s^2+1}}\}-2{\cal L}^{-1}\{{1\over {s^2+1}}\}-2{\cal
+L}^{-1}\{{1\over {s+1}}\}\qquad\qquad\qquad\qquad\qquad\qquad\\&=&(2\cos t-2\sin t-2\text{e}^{-t})u(t)
+\\ y(t)={\cal L}^{-1}\{Y(s)\}&=&-{\cal L}^{-1}\{{1\over {s+1}}\}+2{\cal L}^{-1}\{{s\over {s^2+1}}\}+2{\cal L}^{-1}\{{1\over
+{s^2+1}}\}\\&=&(-\text{e}^{-t}+2\cos t+2\sin t)u(t)
+\end{eqnarray*}\] (Note that once the solution for \(x(t)\) is found the solution for \(y(t)\) may be easier to obtain by substituting in the differential equation: \(\displaystyle{y=\text{e}^{-t}-{dx\over {dt}}}\) rather than using Laplace transforms.)</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

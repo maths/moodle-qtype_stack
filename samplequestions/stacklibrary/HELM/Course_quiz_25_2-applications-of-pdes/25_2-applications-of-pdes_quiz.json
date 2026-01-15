@@ -1,0 +1,105 @@
+{
+    "quiz": {
+        "name": "25_2 Applications of PDEs",
+        "intro": "<p dir=\"ltr\">In this Section we discuss briefly some of the most important PDEs that arise in various branches\nof science and engineering. We shall see that some equations can be used to describe a variety of\ndifferent situations.<br><\/p><p><br><\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "0.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Wave Equation",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "3",
+            "heading": "Heat conduction equation",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "5",
+            "heading": "Transmission line equations and Laplace's",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "9",
+            "heading": "Other important PDEs",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-25-2\/25-2-1-1-Wave-Equation.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-25-2\/25-2-1-2-Wave-Equation.xml"
+        },
+        {
+            "slot": "3",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-25-2\/25-2-2-1-Heat-conduction-equation.xml"
+        },
+        {
+            "slot": "4",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-25-2\/25-2-2-2-Heat-conduction-equation.xml"
+        },
+        {
+            "slot": "5",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-25-2\/25-2-3-1-Transmission-line-equations.xml"
+        },
+        {
+            "slot": "8",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-25-2\/25-2-4-Laplace\u2019s-equation.xml"
+        },
+        {
+            "slot": "9",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-25-2\/25-2-5-Other-important-PDEs-in-science-and-engineering.xml"
+        },
+        {
+            "slot": "6",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-25-2\/25-2-3-2-Transmission-line-equations.xml"
+        },
+        {
+            "slot": "7",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-25-2\/25-2-3-3-Transmission-line-equations.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "1.00000"
+        }
+    ]
+}

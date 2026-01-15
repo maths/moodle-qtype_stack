@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>29.3.2.1 Gauss’ Theorem</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h4>Gauss’ Theorem</h4>
+
+<p>This is sometimes known as the <strong>divergence theorem</strong> and is similar in form to Stokes’ theorem but equates a surface integral to a volume integral. Gauss’ theorem states that for a volume \(V\), bounded by a closed surface \(S\), any ‘well-behaved’ vector field \(\underline{F}\) satisfies</p> <p>\(\qquad\displaystyle \displaystyle\int\!\! \displaystyle\int_S \underline{F} \cdot \underline{dS} = \displaystyle\int\!\! \displaystyle\int\!\! \displaystyle\int_V {\underline \nabla} \cdot \underline{F} \; dV\)<br> Notes:</p>
+<ol>
+<li>\(\underline{dS}\) is a unit normal pointing outwards from the interior of the volume \(V\).</li>
+<li> Both sides of the equation are scalars. </li> <li> The theorem is often a useful way of calculating a surface integral over a surface composed of several distinct parts (e.g. a cube). </li>
+<li>\({\underline \nabla} \cdot \underline{F}\) is a scalar field representing the divergence of the vector field \(\underline{F}\) and may, alternatively, be written as div \(\underline{F}\).</li>
+<li> Gauss’ theorem can be justified in a manner similar to that used for Stokes’ theorem (i.e. by proving it for a small volume element, then summing up the volume elements and allowing the internal surface contributions to cancel.) </li>
+</ol> 
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p><b>Gauss' Theorem</b>
+\(\qquad\displaystyle   \displaystyle\int\!\! \displaystyle\int_S \underline{F} \cdot \underline{dS} =  \displaystyle \int \displaystyle \int \displaystyle\int_V {\underline \nabla} \cdot \underline{F}   \mathrm{d}V \)
+The closed surface integral of the scalar product of a vector function with the unit normal (or flux of a vector function through a surface) is equal to the integral of the divergence of that vector function over the corresponding volume.</p>
+</div>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Verify Gauss’ theorem for the unit cube \(0 \le x \le 1\), \(0 \le y \le 1\), \(0 \le z \le 1\) and the function \(\underline{F} = x \underline{i} + z \underline{j}\)</p>
+<p>Note: The volume integral needed just one triple integral, but the surface integral required six double integrals. Reducing the number of integrals is often the motivation for using Gauss’ theorem.</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>To find \( \displaystyle\int\!\! \displaystyle\int_S \underline{F} \cdot \underline{dS}\), the integral must be evaluated for all six faces of the cube and the results summed. </p>
+
+<p> On the face \(x = 0\), \(\underline{F} = z \underline{j}\) and \(\underline{dS} = - \underline{i} \;\mathrm{d}y \mathrm{d}z\) so \(\underline{F} \cdot \underline{dS} = 0\) and </p>
+<p> \(\qquad \displaystyle\int\!\! \displaystyle\int_S \underline{F} \cdot \underline{dS} =  \displaystyle\int_0^1  \displaystyle\int_0^1 0 \;\mathrm{d}y \mathrm{d}z = 0 \) </p>
+
+<p>On the face \(x = 1\), \(\underline{F} = \underline{i} + z \underline{j}\) and \(\underline{dS} = \underline{i} \;\mathrm{d}y \mathrm{d}z\) so \(\underline{F} \cdot \underline{dS} = 1 \;\mathrm{d}y \mathrm{d}z\) and  </p>
+<p> \(\qquad \displaystyle\int\!\! \displaystyle\int_S \underline{F} \cdot \underline{dS} =  \displaystyle\int_0^1  \displaystyle\int_0^1 1 \;\mathrm{d}y \mathrm{d}z = 1\) </p>
+
+<p> On the face \(y = 0\), \(\underline{F} = x \underline{i} + z \underline{j}\) and \(\underline{dS} = -\underline{j} \;\mathrm{d}x \mathrm{d}z\) so \(\underline{F} \cdot \underline{dS} = - z \;\mathrm{d}x \mathrm{d}z\) and  </p>
+<p>\(\qquad \displaystyle\int\!\! \displaystyle\int_S \underline{F} \cdot \underline{dS} = - \displaystyle\int_0^1  \displaystyle\int_0^1 z \;\mathrm{d}x \mathrm{d}z = -\frac{1}{2}\) </p>
+
+<p> On the face \(y = 1\), \(\underline{F} = x \underline{i} + z \underline{j}\) and \(\underline{dS} = \underline{j} \;\mathrm{d}x \mathrm{d}z\) so \(\underline{F} \cdot \underline{dS} =  z \;\mathrm{d}x \mathrm{d}z\) and  </p>
+<p> \(\qquad \displaystyle\int\!\! \displaystyle\int_S \underline{F} \cdot \underline{dS} =  \displaystyle\int_0^1  \displaystyle\int_0^1 z \;\mathrm{d}x \mathrm{d}z = \frac{1}{2}\)</p>
+
+<p> On the face \(z = 0\), \(\underline{F} = x \underline{i} \) and \(\underline{dS} = -\underline{k} \;\mathrm{d}y \mathrm{d}z\) so \(\underline{F} \cdot \underline{dS} = 0 \;\mathrm{d}x \mathrm{d}y\) and  </p>
+<p>\(\qquad \displaystyle\int\!\! \displaystyle\int_S \underline{F} \cdot \underline{dS} =  \displaystyle\int_0^1  \displaystyle\int_0^1 0 \;\mathrm{d}x \mathrm{d}y = 0\) </p>
+ 
+<p> On the face \(z = 1\), \(\underline{F} = x \underline{i} + \underline{j} \) and \(\underline{dS} = \underline{k} \;\mathrm{d}y \mathrm{d}z\) so \(\underline{F} \cdot \underline{dS} = 0 \;\mathrm{d}x \mathrm{d}y\) and  </p>
+<p> \(\qquad \displaystyle\int\!\! \displaystyle\int_S \underline{F} \cdot \underline{dS} =  \displaystyle\int_0^1  \displaystyle\int_0^1 0 \;\mathrm{d}x \mathrm{d}y = 0\) </p>
+<p> Thus, summing over all six faces, \( \displaystyle\int\!\! \displaystyle\int_S \underline{F} \cdot \underline{dS} = 0 + 1 - \frac{1}{2} + \frac{1}{2} + 0 + 0 = 1.\) 
+
+To find \( \displaystyle\int\!\! \displaystyle\int\!\! \displaystyle\int_V {\underline \nabla} \cdot \underline{F}\;   dV\) note that \({\underline \nabla} \cdot \underline{F} = \dfrac{\partial}{\partial x}x 
++\dfrac{\partial}{\partial y}z = 1 + 0 = 1\).
+So \( \displaystyle\int\!\! \displaystyle\int\!\! \displaystyle\int_V {\underline \nabla} \cdot \underline{F}\;   dV =  \displaystyle\int_0^1 
+ \displaystyle\int_0^1  \displaystyle\int_0^1 1  \;\mathrm{d}x  \mathrm{d}y  \mathrm{d}z = 1\). 
+So \( \displaystyle\int\!\! \displaystyle\int_S \underline{F} \cdot \underline{dS} =  
+\displaystyle\int\!\! \displaystyle\int\!\! \displaystyle\int_V {\underline \nabla} \cdot \underline{F}\;   dV = 1\) hence verifying Gauss' theorem.</p>
+<hr>
+<p> Note: The volume integral needed just one triple integral, but the surface integral required six double integrals. Reducing the number of integrals is often the motivation for using Gauss’ theorem. </p>
+
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Use Gauss’ theorem to evaluate the surface integral \(\displaystyle\int\!\! \displaystyle\int_S \underline{F} \cdot \underline{dS}\) where \(\underline{F}\) is the vector field \(x^2 y \underline{i} + 2 x y \underline{j} + z^3 \underline{k}\) and \(S\) is the surface of the unit cube \(0 \le x \le 1\), \(0 \le y \le 1\), \(0 \le z \le 1\).</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>Note that to carry out the surface integral directly will involve, as in previous examples, the evaluation of six double integrals. However, by Gauss' theorem, the same result comes from the volume integral \( \displaystyle\int\!\! \displaystyle\int\!\! \displaystyle\int_V {\underline \nabla} \cdot  \underline{F} \;  dV.  \quad\)  As \({\underline \nabla} \cdot \underline{F} = 2 x y + 2 x  + 3 z^2\), we have the triple integral 
+\begin{eqnarray*} 
+&&  \displaystyle\int_0^1  \displaystyle\int_0^1  \displaystyle\int_0^1 (2 x y + 2 x + 3 z^2)  \;\mathrm{d}x  \mathrm{d}y  \mathrm{d}z 
+\\ &=&  \displaystyle\int_0^1  \displaystyle\int_0^1 \left[ \phantom{\dfrac{1}{1}}\!\!\! x^2 y + x^2 + 3 x z^2 \right]_{x=0}^1  \mathrm{d}y 
+ \mathrm{d}z =  \displaystyle\int_0^1  \displaystyle\int_0^1 ( y + 1 + 3  z^2 )  \mathrm{d}y  \mathrm{d}z \\ 
+&=&  \displaystyle\int_0^1 \left[ \frac{1}{2}y^2 + y + 3 y z^2 \right]_{y=0}^1 
+ \mathrm{d}z =  \displaystyle\int_0^1  ( \frac{1}{2} + 1 + 3  z^2 )   \mathrm{d}z =  \displaystyle\int_0^1  ( 
+\frac{3}{2}  + 3  z^2 )   \mathrm{d}z\qquad\qquad\qquad\qquad \\ 
+&=& \left[ \frac{3}{2}z + z^3 \right]_0^1 = \frac{5}{2} 
+\end{eqnarray*} </p>
+<hr>
+
+<p> The six double integrals would also sum to \(\dfrac{5}{2}\) but this approach would require much more effort.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

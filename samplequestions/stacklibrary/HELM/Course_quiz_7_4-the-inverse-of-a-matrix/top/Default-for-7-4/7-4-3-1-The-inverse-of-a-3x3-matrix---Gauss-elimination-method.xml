@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>7.4.3.1 The inverse of a 3x3 matrix - Gauss elimination method</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>The inverse of a \(3\times 3\) matrix &ndash; Gauss elimination method</h3>
+<p>It is true, in general, that if the determinant of a matrix is zero then that matrix has no inverse. If the
+    determinant is non-zero then the matrix has a (unique) inverse. In this Section and the next we look at two ways of
+    finding the inverse of a <span class="math inline">\(3\times
+        3\)</span> matrix; larger matrices can be inverted by the same methods - the process is more tedious and takes
+    longer. The <span class="math inline">\(2\times 2\)</span> case could be handled similarly but as we have seen we
+    have a simple formula to use.</p>
+<p>The method we now describe for finding the inverse of a matrix has many similarities to a technique used to obtain
+    solutions of simultaneous equations. This method involves operating on the rows of a matrix in order to reduce it to
+    a unit matrix.</p>
+<p>The row operations we shall use are</p>
+<ol type="i">
+    <li>
+        <p>interchanging two rows</p>
+    </li>
+    <li>
+        <p>multiplying a row by a constant factor</p>
+    </li>
+    <li>
+        <p>adding a multiple of one row to another.</p>
+    </li>
+</ol>
+<p>Note that in (ii) and (iii) the multiple could be negative or fractional, or both.&nbsp;</p>
+<p>The Gauss elimination method is outlined in the following Key Point:</p>
+
+<div class="HELM_keypoint">
+    <h4>Key Point</h4>
+    <h5 style="text-align: center;">Matrix Inverse &ndash; Gauss Elimination Method</h5>
+    <p>We use the result, quoted without proof, that:</p>
+    <p style="text-align: center;">if a sequence of row operations applied to a square matrix \(A\) reduces</p>
+    <p style="text-align: center;">it to the identity matrix \(I\) of the same size then the same sequence of</p>
+    <p style="text-align: center;">operations applied to \(I\) reduces it to \(A^{-1}\).<br></p>
+    <p>Three points to note:</p>
+    <ul>
+        <li>If it is impossible to reduce \(A\) to \(I\) then \(A^{-1}\) does not exist. This will become evident by the appearance of a row of zeros.</li>
+        <p></p>
+        <li style="text-align: left;">There is no unique procedure for reducing \(A\) to \(I\) and it is experience which leads to selection of the optimum route.</li>
+        <li style="text-align: left;">It is more efficient to do the two reductions, \(A\) to \(I\) and \(I\) to \(A^{-1}\), simultaneously.</li>
+    </ul>
+</div>
+
+<p>Suppose we wish to find the inverse of the matrix</p>
+\[A = \begin{bmatrix} 1 & 3 & 3 \\ 1 & 4 & 3 \\ 2 & 7 & 7 \end{bmatrix}\]
+<p>We first place \(A\) and \(I\) adjacent to each other.</p>
+\[
+\begin{bmatrix} 1 & 3 & 3 \\ 1 & 4 & 3 \\ 2 & 7 & 7 \end{bmatrix} \quad
+\begin{bmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{bmatrix}
+\]
+
+<h5>Phase 1</h5>
+<p>We now proceed by changing the columns of \(A\) <em>left to right</em> to reduce \(A\) to the form</p>
+\[\begin{bmatrix} 1 & * & * \\ 0 & 1 & * \\ 0 & 0 & 1 \end{bmatrix},\]
+<p>where \(*\) can be any number. This form is called <b>upper triangular</b>.</p>
+<p>First we subtract row 1 from row 2 and twice row 1 from row 3. ‘Row’ refers to both matrices.</p>
+\[
+\begin{bmatrix} 1 & 3 & 3 \\ 1 & 4 & 3 \\ 2 & 7 & 7 \end{bmatrix} \quad
+\begin{bmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{bmatrix}
+\quad \xrightarrow[R3 - 2R1]{R2 - R1} \quad
+\begin{bmatrix} 1 & 3 & 3 \\ 0 & 1 & 0 \\ 0 & 1 & 1 \end{bmatrix} \quad
+\begin{bmatrix} 1 & 0 & 0 \\ -1 & 1 & 0 \\ -2 & 0 & 1 \end{bmatrix}
+\]
+<p>Now we subtract row 2 from row 3.</p>
+\[
+\begin{bmatrix} 1 & 3 & 3 \\ 0 & 1 & 0 \\ 0 & 1 & 1 \end{bmatrix} \quad
+\begin{bmatrix} 1 & 0 & 0 \\ -1 & 1 & 0 \\ -2 & 0 & 1 \end{bmatrix}
+\quad \xrightarrow{R3 - R2} \quad
+\begin{bmatrix} 1 & 3 & 3 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{bmatrix} \quad
+\begin{bmatrix} 1 & 0 & 0 \\ -1 & 1 & 0 \\ -1 & -1 & 1 \end{bmatrix}
+\]
+
+<h5>Phase 2</h5>
+<p>This consists of continuing the row operations to reduce the elements above the leading diagonal to zero.</p>
+<p>We proceed <em>right to left</em>. We subtract 3 times row 3 from row 1 (the elements in row 2 column 3 is already zero).</p>
+\[
+\begin{bmatrix} 1 & 3 & 3 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{bmatrix} \quad
+\begin{bmatrix} 1 & 0 & 0 \\ -1 & 1 & 0 \\ -1 & -1 & 1 \end{bmatrix}
+\quad \xrightarrow{R1 - 3R3} \quad
+\begin{bmatrix} 1 & 3 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{bmatrix} \quad
+\begin{bmatrix} 4 & 3 & -3 \\ -1 & 1 & 0 \\ -1 & -1 & 1 \end{bmatrix}
+\]
+<p>Finally we subtract 3 times row 2 from row 1.</p>
+\[
+\begin{bmatrix} 1 & 3 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{bmatrix} \quad
+\begin{bmatrix} 4 & 3 & -3 \\ -1 & 1 & 0 \\ -1 & -1 & 1 \end{bmatrix}
+\quad \xrightarrow{R1 - 3R2} \quad
+\begin{bmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{bmatrix} \quad
+\begin{bmatrix} 7 & 0 & -3 \\ -1 & 1 & 0 \\ -1 & -1 & 1 \end{bmatrix}
+\]
+<p>Then we have</p>
+\[A^{-1} = \begin{bmatrix} 7 & 0 & -3 \\ -1 & 1 & 0 \\ -1 & -1 & 1 \end{bmatrix}\]
+<p>(This can be verified by showing that \(AA^{-1} - I\) or \(A^{-1}A = I\).)</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

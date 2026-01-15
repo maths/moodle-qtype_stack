@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>13.4.1.9 Integration by parts</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>In some questions below it will be necessary to apply integration by parts more than once.</p><p>Find:</p>
+<ol class="HELM_parts">
+<li>\({\displaystyle\int t e^{-st} \, \mathrm{d}t}\) where \(s\) is a constant: [[input:ans11]] [[validation:ans11]] [[feedback:prt11]]</li>
+<li>\({\displaystyle\int t^2 e^{-st} \, \mathrm{d}t}\) where \(s\) is a constant: [[input:ans12]] [[validation:ans12]] [[feedback:prt12]]</li></ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>We apply integraton by parts:
+  \[ \int u \frac{dv}{dx} \, \mathrm{d}x = uv - \int \frac{du}{dx} v \, \mathrm{d}x, \]
+or alternatively:
+  \[\int f(x)g(x) \, \mathrm{d}x = f(x) \, \int g(x) \mathrm{d}x - \int \frac{df}{dx} \left\{\int g(x) \, \mathrm{d}x \right\} \, \mathrm{d}x. \]
+</p>
+<ol class="HELM_parts">
+    <li>
+        <p> We are given the integral \({\displaystyle\int {@exp11@} \, \mathrm{d}t}\).</p>
+        <p>We have \( f(x) = {@f11@}\) and \(g(x) = {@g11@}\).</p>
+        <p>Hence:
+          \[\begin{aligned} \int {@exp11@} \, \mathrm{d}t &amp;={@f11@} \int {@g11@} \, \mathrm{d}t-\int \left({@df11@} \cdot \int {@g11@} \, \mathrm{d}t \right) \, \mathrm{d}t \\ &amp;= {@f11* intg11@}- \int {@df11*intg11@} \, \mathrm{d}t \\ &amp;= {@ta11@}. \end{aligned}\]
+      </p>
+    </li>
+    <li>
+        <p>We are given the integral \({\displaystyle\int {@exp12@} \, \mathrm{d}t}\).</p>
+        <p>We have \( f(x) = {@f12@}\) and \(g(x) = {@g12@}\).</p>
+        <p>Hence:
+          \[\begin{aligned} \int {@exp12@} \, \mathrm{d}t &amp;={@f12@} \int {@g12@} \, \mathrm{d}t-\int \left({@df12@} \cdot \int {@g12@} \, \mathrm{d}t \right) \, \mathrm{d}t \\ &amp;= {@f12* intg12@}- \int {@df12*intg12@} \, \mathrm{d}t. \end{aligned}\]
+      </p>
+        <p>We now need to find \(\displaystyle \int {@df12*intg12@} \, \mathrm{d}t \) using integration by parts again. We get:
+          \[\displaystyle {\int {@df12*intg12@} \, \mathrm{d}t= {@int(df12*intg12,t)@}}.\]
+      </p>
+        <p>Altogether we have:
+          \[\displaystyle{\int {@exp12@} \, \mathrm{d}t= {@ta12@}}.\]</p>
+    </li>
+</ol>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020120600</text>
+    </stackversion>
+    <questionvariables>
+      <text>exp11: t*e^(-s*t); 
+f11: t;                         /* needed for worked solution */
+g11: e^(-s*t);
+intg11: int(g11,t);
+df11: diff(f11,t);
+
+exp12: t^2*e^(-s*t);
+f12: t^2;                         /* needed for worked solution */
+g12: e^(-s*t);
+intg12: int(g12,t);
+df12: diff(f12,t);
+
+ta11: int(exp11, t) + c; 
+ta12: int(exp12, t) + c;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text/>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans11</name>
+      <type>algebraic</type>
+      <tans>ta11</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans12</name>
+      <type>algebraic</type>
+      <tans>ta12</tans>
+      <boxsize>25</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt11</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>Int</answertest>
+        <sans>ans11</sans>
+        <tans>ta11</tans>
+        <testoptions>t</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt11-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt11-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt12</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>Int</answertest>
+        <sans>ans12</sans>
+        <tans>ta12</tans>
+        <testoptions>t</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt12-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt12-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans11</name>
+        <value>ta11</value>
+      </testinput>
+      <testinput>
+        <name>ans12</name>
+        <value>ta12</value>
+      </testinput>
+      <expected>
+        <name>prt11</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt11-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt12</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt12-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans11</name>
+        <value>2*ta11</value>
+      </testinput>
+      <testinput>
+        <name>ans12</name>
+        <value>2*ta12</value>
+      </testinput>
+      <expected>
+        <name>prt11</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt11-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt12</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt12-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

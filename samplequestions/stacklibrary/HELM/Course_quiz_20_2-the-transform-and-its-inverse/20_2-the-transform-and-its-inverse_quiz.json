@@ -1,0 +1,152 @@
+{
+    "quiz": {
+        "name": "20_2 The Transform and its Inverse",
+        "intro": "In this Section we formally introduce the Laplace transform. The transform is only applied to causal functions which were introduced in Section 20.1. We find the Laplace transform of many commonly occurring \u2018signals\u2019and produce a table of standard Laplace transforms.\nWe also consider the inverse Laplace transform. To begin with, the inverse Laplace transform is obtained \u2018by inspection\u2019 using a table of transforms. This approach is developed by employing\ntechniques such as partial fractions and completing the square introduced in 3.6.",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "The transform and its Inverse",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "10",
+            "heading": "The first shift theorem",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "8",
+            "heading": "The inverse Laplace transform",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "7",
+            "heading": "Exercises",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "15",
+            "heading": "Exercises",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-20-2\/20-2-1-1-The-Transform-and-its-Inverse.xml"
+        },
+        {
+            "slot": "3",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-20-2\/20-2-1-3-The-Transform-and-its-Inverse.xml"
+        },
+        {
+            "slot": "8",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-20-2\/20-2-2-1-The-inverse-Laplace-transform.xml"
+        },
+        {
+            "slot": "4",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-20-2\/20-2-1-4-The-linearity-property-of-the-Laplace-transformation.xml"
+        },
+        {
+            "slot": "7",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-20-2\/20-2-1-7-The-linearity-property-of-the-Laplace-transformation.xml"
+        },
+        {
+            "slot": "10",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-20-2\/20-2-3-1-The-first-shift-theorem.xml"
+        },
+        {
+            "slot": "9",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-20-2\/20-2-2-2.xml"
+        },
+        {
+            "slot": "11",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-20-2\/20-2-3-2-The-first-shift-theorem.xml"
+        },
+        {
+            "slot": "12",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-20-2\/20-2-3-3-The-first-shift-theorem.xml"
+        },
+        {
+            "slot": "14",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-20-2\/20-2-3-5-The-first-shift-theorem.xml"
+        },
+        {
+            "slot": "15",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-20-2\/20-2-3-6-The-first-shift-theorem.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-20-2\/20-2-1-2-The-Transform-and-its-Inverse.xml"
+        },
+        {
+            "slot": "5",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-20-2\/20-2-1-5-The-linearity-property-of-the-Laplace-transformation.xml"
+        },
+        {
+            "slot": "6",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-20-2\/20-2-1-6-The-linearity-property-of-the-Laplace-transformation.xml"
+        },
+        {
+            "slot": "13",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-20-2\/20-2-3-4-The-first-shift-theorem.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

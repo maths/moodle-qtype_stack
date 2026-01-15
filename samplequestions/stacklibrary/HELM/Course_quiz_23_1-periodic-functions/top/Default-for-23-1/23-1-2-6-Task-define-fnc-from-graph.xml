@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>23.1.2.6 Task define fnc from graph</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+Write down an analytic definition for the following periodic function by finding the functions specified below.
+<p><br></p>
+<p></p>
+<p style="text-align: center;"><img src="@@PLUGINFILE@@/23-1-fig-task.svg" alt="function to be defined" width="469" height="131" class="img-responsive atto_image_button_text-bottom"></p> \[ \begin{align} f(t) = \begin{cases}
+f_1(t) &amp;0 &lt; t &lt; t_1 \\ f_2(t) &amp;t_1 &lt; t &lt; 5 \end{cases} \end{align} \]
+<p>where</p>
+<p>\( f_1(t) =\) [[input:ans1]][[validation:ans1]][[feedback:prt1]]
+</p>
+<p></p>
+\( f_2(t) =\) [[input:ans2]][[validation:ans2]][[feedback:prt2]]
+<p></p>
+\( t_1 =\) [[input:ans3]][[validation:ans3]][[feedback:prt3]]
+<p></p>]]></text>
+<file name="23-1-fig-task.svg" path="/" encoding="base64">PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMzUycHQiIGhlaWdodD0iOThwdCIgdmlld0JveD0iMCAwIDM1MiA5OCI+PGNsaXBQYXRoIGlkPSJhIj48cGF0aCB0cmFuc2Zvcm09Im1hdHJpeCgxIDAgMCAtMSAwIDk4KSIgZD0iTTAgMGgzNTJ2OThIMHoiLz48L2NsaXBQYXRoPjxnIGNsaXAtcGF0aD0idXJsKCNhKSI+PHBhdGggZD0iTTMyMy4yNDggNjQuOTcybC0xLjU5NS0xLjk4OS4wODktLjA0NSA0LjI4IDEuMjg4IDQuNDc1Ljc0Ni00LjQ3NS43NDUtNC4yOCAxLjI4OC0uMDg5LS4wMzMgMS41OTUtMiIgZmlsbD0iIzIzMWYyMCIvPjxwYXRoIHN0cm9rZS13aWR0aD0iLjUiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzIzMWYyMCIgZD0iTTIwLjEzMiA2NC45NzJoMzAzLjExNk0xMjcuOTc5IDkyLjYwN1Y2Ljk4MiIvPjxwYXRoIGQ9Ik0xMjguMjkxIDYuOTE0bC0xLjk4OCAxLjMzLS4wNDYtLjA3NSAxLjI4OC0zLjU2Ny43NDYtMy43MjguNzQ2IDMuNzI4IDEuMjg4IDMuNTY3LS4wMzQuMDc1LTItMS4zMyIgZmlsbD0iIzIzMWYyMCIvPjxzeW1ib2wgaWQ9ImIiPjxwYXRoIGQ9Ik0uMTc5LjQxMmguMDkyQy4yOS40MTIuMy40MTIuMy40My4zLjQ0MS4yOTQuNDQxLjI3NC40NDFILjE4NmwuMDM3LjE0NkMuMjI3LjYwMS4yMjcuNjAzLjIyNy42MWMwIC4wMTYtLjAxMy4wMjUtLjAyNi4wMjVDLjE5My42MzUuMTcuNjMyLjE2Mi42TC4xMjMuNDQxSC4wMjlDLjAwOS40NDEgMCAuNDQxIDAgLjQyMmMwLS4wMS4wMDctLjAxLjAyNi0uMDFoLjA4OUwuMDQ5LjE0OEMuMDQxLjExMy4wMzguMTAzLjAzOC4wOS4wMzguMDQzLjA3MSAwIC4xMjcgMGMuMTAxIDAgLjE1NS4xNDYuMTU1LjE1MyAwIC4wMDYtLjAwNC4wMDktLjAxLjAwOS0uMDAyIDAtLjAwNiAwLS4wMDgtLjAwNEwuMjU1LjE0Qy4yMzQuMDkuMTg4LjAyLjEzLjAyLjEuMDIuMDk4LjA0NS4wOTguMDY3YzAgLjAwMSAwIC4wMi4wMDMuMDMybC4wNzguMzEzeiIvPjwvc3ltYm9sPjx1c2UgeGxpbms6aHJlZj0iI2IiIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSAzMjYuNzM2IDc2LjE4MSkiIGZpbGw9IiMyMzFmMjAiLz48c3ltYm9sIGlkPSJjIj48cGF0aCBkPSJNLjM5NS42MDZjLjAyIDAgLjAyOCAwIC4wMjguMDE5IDAgLjAxLS4wMDguMDEtLjAyNi4wMUguMzE2Yy4wMTkuMTAzLjAzMy4xNzQuMDQxLjIwNi4wMDYuMDI0LjAyNy4wNDcuMDUzLjA0N0EuMDg1LjA4NSAwIDAwLjQ2Mi44N0MuNDIzLjg2Ni40MTEuODM3LjQxMS44Mi40MTEuOC40MjYuNzg4LjQ0NS43ODhjLjAyIDAgLjA1LjAxNy4wNS4wNTUgMCAuMDQyLS4wNDIuMDY1LS4wODYuMDY1Qy4zNjYuOTA4LjMyNC44NzYuMzA0LjgzN0EuNjkuNjkgMCAwMS4yNTMuNjM1SC4xODZjLS4wMTkgMC0uMDI5IDAtLjAyOS0uMDE4IDAtLjAxMS4wMDYtLjAxMS4wMjYtLjAxMWguMDY0Qy4yMjkuNTEzLjE4OC4yODcuMTY1LjE4LjE0OC4wOTMuMTMzLjAyLjA4My4wMi4wOC4wMi4wNTEuMDIuMDMzLjAzOWMuMDUxLjAwNC4wNTEuMDQ4LjA1MS4wNDlDLjA4NC4xMDguMDY5LjEyLjA1LjEyQS4wNTIuMDUyIDAgMDEwIC4wNjVDMCAuMDIyLjA0NCAwIC4wODMgMGMuMTAyIDAgLjE0NC4xODMuMTU1LjIzM0MuMjU2LjMxLjMwNS41NzYuMzEuNjA2aC4wODV6Ii8+PC9zeW1ib2w+PHVzZSB4bGluazpocmVmPSIjYyIgdHJhbnNmb3JtPSJtYXRyaXgoMTEuOTU1IDAgMCAtMTEuOTU1IDEzNC4yNTcgMTEuNSkiIGZpbGw9IiMyMzFmMjAiLz48c3ltYm9sIGlkPSJkIj48cGF0aCBkPSJNLjIyNy4wMDhjMCAuMDAzIDAgLjAwNS0uMDE3LjAyMkMuMTEuMTMxLjA1NC4yOTYuMDU0LjVjMCAuMTk0LjA0Ny4zNjEuMTYzLjQ3OS4wMS4wMDkuMDEuMDExLjAxLjAxNCAwIC4wMDYtLjAwNS4wMDgtLjAwOS4wMDhhLjQyLjQyIDAgMDEtLjE0NC0uMTdBLjcxMy43MTMgMCAwMTAgLjVDMCAuNDExLjAxNC4yOTIuMDY2LjE4NUEuNDI2LjQyNiAwIDAxLjIxOCAwYy4wMDQgMCAuMDA5LjAwMi4wMDkuMDA4eiIvPjwvc3ltYm9sPjx1c2UgeGxpbms6aHJlZj0iI2QiIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSAxNDEuODY2IDEyLjA2MykiIGZpbGw9IiMyMzFmMjAiLz48dXNlIHhsaW5rOmhyZWY9IiNiIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgMTQ1LjUxIDkuMTgyKSIgZmlsbD0iIzIzMWYyMCIvPjxzeW1ib2wgaWQ9ImUiPjxwYXRoIGQ9Ik0uMjI3LjVjMCAuMDc2LS4wMS4yLS4wNjYuMzE2YS40MjYuNDI2IDAgMDEtLjE1Mi4xODVDLjAwNSAxLjAwMSAwIC45OTkgMCAuOTkzIDAgLjk5IDAgLjk4OC4wMTcuOTcxLjExNy44Ny4xNzMuNzA1LjE3My41MDEuMTczLjMwNy4xMjYuMTQuMDEuMDIyIDAgLjAxMyAwIC4wMTEgMCAuMDA4IDAgLjAwMi4wMDUgMCAuMDA5IDBhLjQyLjQyIDAgMDEuMTQ0LjE3LjcyLjcyIDAgMDEuMDc0LjMzeiIvPjwvc3ltYm9sPjx1c2UgeGxpbms6aHJlZj0iI2UiIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSAxNTAuMTMyIDEyLjA2MykiIGZpbGw9IiMyMzFmMjAiLz48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiMyMzFmMjAiIGQ9Ik0xMjcuOTczIDIxLjA2Mmw2NyA2N2g1MiIvPjxzeW1ib2wgaWQ9ImYiPjxwYXRoIGQ9Ik0uMzkxLjE2OEguMzY5Qy4zNjYuMTUxLjM1OC4wOTYuMzQ4LjA4LjM0MS4wNzEuMjg0LjA3MS4yNTQuMDcxSC4wNjljLjAyNy4wMjMuMDg4LjA4Ny4xMTQuMTExLjE1Mi4xNC4yMDguMTkyLjIwOC4yOTFDLjM5MS41ODguMy42NjUuMTg0LjY2NUEuMTg1LjE4NSAwIDAxMCAuNDhDMCAuNDI5LjA0NC40MjkuMDQ3LjQyOWMuMDIxIDAgLjA0Ny4wMTUuMDQ3LjA0N2EuMDQ1LjA0NSAwIDAxLS4wNDcuMDQ3TC4wMzMuNTIyQy4wNTIuNTkuMTA2LjYzNi4xNzEuNjM2LjI1Ni42MzYuMzA4LjU2NS4zMDguNDczLjMwOC4zODguMjU5LjMxNC4yMDIuMjVMMCAuMDI0VjBoLjM2NWwuMDI2LjE2OHoiLz48L3N5bWJvbD48dXNlIHhsaW5rOmhyZWY9IiNmIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgMTY2LjU1OSA3NC41NjEpIiBmaWxsPSIjMjMxZjIwIi8+PGNsaXBQYXRoIGlkPSJnIj48cGF0aCB0cmFuc2Zvcm09Im1hdHJpeCgxIDAgMCAtMSAwIDk4KSIgZD0iTS4wNiAwaDM1MS45MTN2OTcuOTA1SC4wNnoiLz48L2NsaXBQYXRoPjxnIGNsaXAtcGF0aD0idXJsKCNnKSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjMxZjIwIj48cGF0aCBzdHJva2Utd2lkdGg9Ii41IiBzdHJva2UtZGFzaGFycmF5PSIzLDMsMywzLDMsMywzLDMsMywzIiBkPSJNMjQ2Ljk3MyA4OC4wNjJ2LTY3Ii8+PHBhdGggZD0iTTI0Ni45NzMgMjEuMDYybDY3IDY3aDM4bS0yMjQtNjd2NjdoLTUybC02Ny02NyIvPjwvZz48cGF0aCBzdHJva2Utd2lkdGg9Ii41IiBzdHJva2UtZGFzaGFycmF5PSIzLDMsMywzLDMsMywzLDMsMywzIiBmaWxsPSJub25lIiBzdHJva2U9IiMyMzFmMjAiIGQ9Ik04Ljk3MyAyMS4wNjJ2MjMuNSIvPjxzeW1ib2wgaWQ9ImgiPjxwYXRoIGQ9Ik0uNTc4IDBjLjAxNCAwIC4wMzMgMCAuMDMzLjAyUy41OTIuMDQuNTc4LjA0SC4wMzNDLjAxOS4wNCAwIC4wNCAwIC4wMlMuMDE5IDAgLjAzMyAwaC41NDV6Ii8+PC9zeW1ib2w+PHVzZSB4bGluazpocmVmPSIjaCIgdHJhbnNmb3JtPSJtYXRyaXgoMTEuOTU1IDAgMCAtMTEuOTU1IDExMS4xNTUgODMuNzczKSIgZmlsbD0iIzIzMWYyMCIvPjxzeW1ib2wgaWQ9ImkiPjxwYXRoIGQ9Ik0uMTk3LjY0MWMwIC4wMjMgMCAuMDI0LS4wMi4wMjRDLjE1My42MzguMTAzLjYwMSAwIC42MDFWLjU3MmMuMDIzIDAgLjA3MyAwIC4xMjguMDI2Vi4wNzdDLjEyOC4wNDEuMTI1LjAyOS4wMzcuMDI5SC4wMDZWMEMuMDMzLjAwMi4xMy4wMDIuMTYzLjAwMlMuMjkyLjAwMi4zMTkgMHYuMDI5SC4yODhDLjIuMDI5LjE5Ny4wNDEuMTk3LjA3N3YuNTY0eiIvPjwvc3ltYm9sPjx1c2UgeGxpbms6aHJlZj0iI2kiIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSAxMjAuMjA2IDg2LjAyMykiIGZpbGw9IiMyMzFmMjAiLz48dXNlIHhsaW5rOmhyZWY9IiNoIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgLjk5MiA3My42ODIpIiBmaWxsPSIjMjMxZjIwIi8+PHN5bWJvbCBpZD0iaiI+PHBhdGggZD0iTS4wNzkuNTk0QS4yOTYuMjk2IDAgMDEuMTY4LjU3OWMuMTEzIDAgLjE4NS4wODMuMTg1LjA5N0MuMzUzLjY4LjM1MS42ODUuMzQ1LjY4NWMtLjAwMiAwLS4wMDQgMC0uMDEzLS4wMDRhLjMyOS4zMjkgMCAwMC0uMTMtLjAyN0MuMTM2LjY1NC4wODkuNjc0LjA3LjY4MkwuMDYuNjg1Qy4wNTIuNjg1LjA1Mi42NzkuMDUyLjY2M1YuMzY2YzAtLjAxOCAwLS4wMjQuMDEyLS4wMjQuMDA1IDAgLjAwNi4wMDEuMDE2LjAxM0EuMTUuMTUgMCAwMC4yMDUuNDJDLjI1OC40Mi4yODQuMzcxLjI5Mi4zNTRBLjMyNy4zMjcgMCAwMC4zMS4yMjhDLjMxLjE5LjMxLjEzMy4yODIuMDg4QS4xMjQuMTI0IDAgMDAuMTc3LjAyN2EuMTU1LjE1NSAwIDAwLS4xNDkuMTE4LjA0NS4wNDUgMCAwMS4wMTYtLjAwM2MuMDE3IDAgLjA0NC4wMS4wNDQuMDQ0Qy4wODguMjE0LjA2OS4yMy4wNDQuMjMuMDI2LjIzIDAgLjIyMSAwIC4xODIgMCAuMDk3LjA2OCAwIC4xNzkgMGMuMTEzIDAgLjIxMi4wOTUuMjEyLjIyMkMuMzkxLjM0MS4zMTEuNDQuMjA2LjQ0QS4xNzMuMTczIDAgMDEuMDc5LjM4N3YuMjA3eiIvPjwvc3ltYm9sPjx1c2UgeGxpbms6aHJlZj0iI2oiIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSAxMC4wNDEgNzYuNjgzKSIgZmlsbD0iIzIzMWYyMCIvPjx1c2UgeGxpbms6aHJlZj0iI2oiIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSAyNDguNTU5IDc0LjMxMikiIGZpbGw9IiMyMzFmMjAiLz48dXNlIHhsaW5rOmhyZWY9IiNmIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgMTIwLjEzIDI1LjM0NykiIGZpbGw9IiMyMzFmMjAiLz48c3ltYm9sIGlkPSJrIj48cGF0aCBkPSJNLjE0My4zOEMuMTI2LjM3OS4xMjIuMzc4LjEyMi4zNjljMC0uMDEuMDA1LS4wMS4wMjMtLjAxaC4wNDZjLjA4NSAwIC4xMjMtLjA3LjEyMy0uMTY2Qy4zMTQuMDYyLjI0Ni4wMjcuMTk3LjAyNy4xNDkuMDI3LjA2Ny4wNS4wMzguMTE2LjA3LjExMS4wOTkuMTI5LjA5OS4xNjVBLjA0Ny4wNDcgMCAwMS4wNS4yMTRDLjAyNi4yMTQgMCAuMiAwIC4xNjIgMCAuMDczLjA4OSAwIC4yIDBjLjExOSAwIC4yMDcuMDkxLjIwNy4xOTIgMCAuMDkyLS4wNzQuMTY0LS4xNy4xODFBLjE4OC4xODggMCAwMS4zOC41NDlDLjM4LjYyOC4yOTguNjg2LjIwMS42ODYuMTAxLjY4Ni4wMjcuNjI1LjAyNy41NTJjMC0uMDQuMDMxLS4wNDguMDQ2LS4wNDguMDIxIDAgLjA0NS4wMTUuMDQ1LjA0NSAwIC4wMzItLjAyNC4wNDYtLjA0Ni4wNDZMLjA2MS41OTRjLjAzOC4wNjguMTMyLjA2OC4xMzcuMDY4LjAzMyAwIC4wOTgtLjAxNS4wOTgtLjExM0EuMjI2LjIyNiAwIDAwLjI2NC40MzFDLjIzNC4zODcuMi4zODQuMTczLjM4M0wuMTQzLjM4eiIvPjwvc3ltYm9sPjx1c2UgeGxpbms6aHJlZj0iI2siIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSAxOTIuNzggNjEuOTU1KSIgZmlsbD0iIzIzMWYyMCIvPjx1c2UgeGxpbms6aHJlZj0iI2giIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSA2NS4zMjYgNTcuNDU0KSIgZmlsbD0iIzIzMWYyMCIvPjx1c2UgeGxpbms6aHJlZj0iI2YiIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSA3NC4zNzUgNjAuMjA0KSIgZmlsbD0iIzIzMWYyMCIvPjx1c2UgeGxpbms6aHJlZj0iI2giIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSAzOS4zMjYgNzMuNDU1KSIgZmlsbD0iIzIzMWYyMCIvPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzIzMWYyMCIgZD0iTTE5NC43MjMgNjUuODEydjRNNzUuMjIzIDYxLjMxMnY0Ii8+PHVzZSB4bGluazpocmVmPSIjayIgdHJhbnNmb3JtPSJtYXRyaXgoMTEuOTU1IDAgMCAtMTEuOTU1IDQ4LjI4IDc2LjQ1NykiIGZpbGw9IiMyMzFmMjAiLz48L2c+PC9zdmc+</file>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p style="text-align: center;"><img src="@@PLUGINFILE@@/23-1-fig-task.svg" alt="function to be defined" width="469" height="131" class="img-responsive atto_image_button_text-bottom"></p>
+<p>Here we can define the function using \(0 &lt; t&lt; 5 \) as the “basic period”:</p>
+<p>The correct function is \[ \begin{align} f(t) = \begin{cases} 2-t &amp;0 &lt; t &lt; 3 \\ -1 &amp;3 &lt; t &lt; 5 \end{cases} \end{align} \] Thus \[ f_1(t) = 2-t\] \[f_2(t) = -1\] and \[t_1 = 3\]</p>]]></text>
+<file name="23-1-fig-task.svg" path="/" encoding="base64">PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMzUycHQiIGhlaWdodD0iOThwdCIgdmlld0JveD0iMCAwIDM1MiA5OCI+PGNsaXBQYXRoIGlkPSJhIj48cGF0aCB0cmFuc2Zvcm09Im1hdHJpeCgxIDAgMCAtMSAwIDk4KSIgZD0iTTAgMGgzNTJ2OThIMHoiLz48L2NsaXBQYXRoPjxnIGNsaXAtcGF0aD0idXJsKCNhKSI+PHBhdGggZD0iTTMyMy4yNDggNjQuOTcybC0xLjU5NS0xLjk4OS4wODktLjA0NSA0LjI4IDEuMjg4IDQuNDc1Ljc0Ni00LjQ3NS43NDUtNC4yOCAxLjI4OC0uMDg5LS4wMzMgMS41OTUtMiIgZmlsbD0iIzIzMWYyMCIvPjxwYXRoIHN0cm9rZS13aWR0aD0iLjUiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzIzMWYyMCIgZD0iTTIwLjEzMiA2NC45NzJoMzAzLjExNk0xMjcuOTc5IDkyLjYwN1Y2Ljk4MiIvPjxwYXRoIGQ9Ik0xMjguMjkxIDYuOTE0bC0xLjk4OCAxLjMzLS4wNDYtLjA3NSAxLjI4OC0zLjU2Ny43NDYtMy43MjguNzQ2IDMuNzI4IDEuMjg4IDMuNTY3LS4wMzQuMDc1LTItMS4zMyIgZmlsbD0iIzIzMWYyMCIvPjxzeW1ib2wgaWQ9ImIiPjxwYXRoIGQ9Ik0uMTc5LjQxMmguMDkyQy4yOS40MTIuMy40MTIuMy40My4zLjQ0MS4yOTQuNDQxLjI3NC40NDFILjE4NmwuMDM3LjE0NkMuMjI3LjYwMS4yMjcuNjAzLjIyNy42MWMwIC4wMTYtLjAxMy4wMjUtLjAyNi4wMjVDLjE5My42MzUuMTcuNjMyLjE2Mi42TC4xMjMuNDQxSC4wMjlDLjAwOS40NDEgMCAuNDQxIDAgLjQyMmMwLS4wMS4wMDctLjAxLjAyNi0uMDFoLjA4OUwuMDQ5LjE0OEMuMDQxLjExMy4wMzguMTAzLjAzOC4wOS4wMzguMDQzLjA3MSAwIC4xMjcgMGMuMTAxIDAgLjE1NS4xNDYuMTU1LjE1MyAwIC4wMDYtLjAwNC4wMDktLjAxLjAwOS0uMDAyIDAtLjAwNiAwLS4wMDgtLjAwNEwuMjU1LjE0Qy4yMzQuMDkuMTg4LjAyLjEzLjAyLjEuMDIuMDk4LjA0NS4wOTguMDY3YzAgLjAwMSAwIC4wMi4wMDMuMDMybC4wNzguMzEzeiIvPjwvc3ltYm9sPjx1c2UgeGxpbms6aHJlZj0iI2IiIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSAzMjYuNzM2IDc2LjE4MSkiIGZpbGw9IiMyMzFmMjAiLz48c3ltYm9sIGlkPSJjIj48cGF0aCBkPSJNLjM5NS42MDZjLjAyIDAgLjAyOCAwIC4wMjguMDE5IDAgLjAxLS4wMDguMDEtLjAyNi4wMUguMzE2Yy4wMTkuMTAzLjAzMy4xNzQuMDQxLjIwNi4wMDYuMDI0LjAyNy4wNDcuMDUzLjA0N0EuMDg1LjA4NSAwIDAwLjQ2Mi44N0MuNDIzLjg2Ni40MTEuODM3LjQxMS44Mi40MTEuOC40MjYuNzg4LjQ0NS43ODhjLjAyIDAgLjA1LjAxNy4wNS4wNTUgMCAuMDQyLS4wNDIuMDY1LS4wODYuMDY1Qy4zNjYuOTA4LjMyNC44NzYuMzA0LjgzN0EuNjkuNjkgMCAwMS4yNTMuNjM1SC4xODZjLS4wMTkgMC0uMDI5IDAtLjAyOS0uMDE4IDAtLjAxMS4wMDYtLjAxMS4wMjYtLjAxMWguMDY0Qy4yMjkuNTEzLjE4OC4yODcuMTY1LjE4LjE0OC4wOTMuMTMzLjAyLjA4My4wMi4wOC4wMi4wNTEuMDIuMDMzLjAzOWMuMDUxLjAwNC4wNTEuMDQ4LjA1MS4wNDlDLjA4NC4xMDguMDY5LjEyLjA1LjEyQS4wNTIuMDUyIDAgMDEwIC4wNjVDMCAuMDIyLjA0NCAwIC4wODMgMGMuMTAyIDAgLjE0NC4xODMuMTU1LjIzM0MuMjU2LjMxLjMwNS41NzYuMzEuNjA2aC4wODV6Ii8+PC9zeW1ib2w+PHVzZSB4bGluazpocmVmPSIjYyIgdHJhbnNmb3JtPSJtYXRyaXgoMTEuOTU1IDAgMCAtMTEuOTU1IDEzNC4yNTcgMTEuNSkiIGZpbGw9IiMyMzFmMjAiLz48c3ltYm9sIGlkPSJkIj48cGF0aCBkPSJNLjIyNy4wMDhjMCAuMDAzIDAgLjAwNS0uMDE3LjAyMkMuMTEuMTMxLjA1NC4yOTYuMDU0LjVjMCAuMTk0LjA0Ny4zNjEuMTYzLjQ3OS4wMS4wMDkuMDEuMDExLjAxLjAxNCAwIC4wMDYtLjAwNS4wMDgtLjAwOS4wMDhhLjQyLjQyIDAgMDEtLjE0NC0uMTdBLjcxMy43MTMgMCAwMTAgLjVDMCAuNDExLjAxNC4yOTIuMDY2LjE4NUEuNDI2LjQyNiAwIDAxLjIxOCAwYy4wMDQgMCAuMDA5LjAwMi4wMDkuMDA4eiIvPjwvc3ltYm9sPjx1c2UgeGxpbms6aHJlZj0iI2QiIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSAxNDEuODY2IDEyLjA2MykiIGZpbGw9IiMyMzFmMjAiLz48dXNlIHhsaW5rOmhyZWY9IiNiIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgMTQ1LjUxIDkuMTgyKSIgZmlsbD0iIzIzMWYyMCIvPjxzeW1ib2wgaWQ9ImUiPjxwYXRoIGQ9Ik0uMjI3LjVjMCAuMDc2LS4wMS4yLS4wNjYuMzE2YS40MjYuNDI2IDAgMDEtLjE1Mi4xODVDLjAwNSAxLjAwMSAwIC45OTkgMCAuOTkzIDAgLjk5IDAgLjk4OC4wMTcuOTcxLjExNy44Ny4xNzMuNzA1LjE3My41MDEuMTczLjMwNy4xMjYuMTQuMDEuMDIyIDAgLjAxMyAwIC4wMTEgMCAuMDA4IDAgLjAwMi4wMDUgMCAuMDA5IDBhLjQyLjQyIDAgMDEuMTQ0LjE3LjcyLjcyIDAgMDEuMDc0LjMzeiIvPjwvc3ltYm9sPjx1c2UgeGxpbms6aHJlZj0iI2UiIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSAxNTAuMTMyIDEyLjA2MykiIGZpbGw9IiMyMzFmMjAiLz48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiMyMzFmMjAiIGQ9Ik0xMjcuOTczIDIxLjA2Mmw2NyA2N2g1MiIvPjxzeW1ib2wgaWQ9ImYiPjxwYXRoIGQ9Ik0uMzkxLjE2OEguMzY5Qy4zNjYuMTUxLjM1OC4wOTYuMzQ4LjA4LjM0MS4wNzEuMjg0LjA3MS4yNTQuMDcxSC4wNjljLjAyNy4wMjMuMDg4LjA4Ny4xMTQuMTExLjE1Mi4xNC4yMDguMTkyLjIwOC4yOTFDLjM5MS41ODguMy42NjUuMTg0LjY2NUEuMTg1LjE4NSAwIDAxMCAuNDhDMCAuNDI5LjA0NC40MjkuMDQ3LjQyOWMuMDIxIDAgLjA0Ny4wMTUuMDQ3LjA0N2EuMDQ1LjA0NSAwIDAxLS4wNDcuMDQ3TC4wMzMuNTIyQy4wNTIuNTkuMTA2LjYzNi4xNzEuNjM2LjI1Ni42MzYuMzA4LjU2NS4zMDguNDczLjMwOC4zODguMjU5LjMxNC4yMDIuMjVMMCAuMDI0VjBoLjM2NWwuMDI2LjE2OHoiLz48L3N5bWJvbD48dXNlIHhsaW5rOmhyZWY9IiNmIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgMTY2LjU1OSA3NC41NjEpIiBmaWxsPSIjMjMxZjIwIi8+PGNsaXBQYXRoIGlkPSJnIj48cGF0aCB0cmFuc2Zvcm09Im1hdHJpeCgxIDAgMCAtMSAwIDk4KSIgZD0iTS4wNiAwaDM1MS45MTN2OTcuOTA1SC4wNnoiLz48L2NsaXBQYXRoPjxnIGNsaXAtcGF0aD0idXJsKCNnKSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjMxZjIwIj48cGF0aCBzdHJva2Utd2lkdGg9Ii41IiBzdHJva2UtZGFzaGFycmF5PSIzLDMsMywzLDMsMywzLDMsMywzIiBkPSJNMjQ2Ljk3MyA4OC4wNjJ2LTY3Ii8+PHBhdGggZD0iTTI0Ni45NzMgMjEuMDYybDY3IDY3aDM4bS0yMjQtNjd2NjdoLTUybC02Ny02NyIvPjwvZz48cGF0aCBzdHJva2Utd2lkdGg9Ii41IiBzdHJva2UtZGFzaGFycmF5PSIzLDMsMywzLDMsMywzLDMsMywzIiBmaWxsPSJub25lIiBzdHJva2U9IiMyMzFmMjAiIGQ9Ik04Ljk3MyAyMS4wNjJ2MjMuNSIvPjxzeW1ib2wgaWQ9ImgiPjxwYXRoIGQ9Ik0uNTc4IDBjLjAxNCAwIC4wMzMgMCAuMDMzLjAyUy41OTIuMDQuNTc4LjA0SC4wMzNDLjAxOS4wNCAwIC4wNCAwIC4wMlMuMDE5IDAgLjAzMyAwaC41NDV6Ii8+PC9zeW1ib2w+PHVzZSB4bGluazpocmVmPSIjaCIgdHJhbnNmb3JtPSJtYXRyaXgoMTEuOTU1IDAgMCAtMTEuOTU1IDExMS4xNTUgODMuNzczKSIgZmlsbD0iIzIzMWYyMCIvPjxzeW1ib2wgaWQ9ImkiPjxwYXRoIGQ9Ik0uMTk3LjY0MWMwIC4wMjMgMCAuMDI0LS4wMi4wMjRDLjE1My42MzguMTAzLjYwMSAwIC42MDFWLjU3MmMuMDIzIDAgLjA3MyAwIC4xMjguMDI2Vi4wNzdDLjEyOC4wNDEuMTI1LjAyOS4wMzcuMDI5SC4wMDZWMEMuMDMzLjAwMi4xMy4wMDIuMTYzLjAwMlMuMjkyLjAwMi4zMTkgMHYuMDI5SC4yODhDLjIuMDI5LjE5Ny4wNDEuMTk3LjA3N3YuNTY0eiIvPjwvc3ltYm9sPjx1c2UgeGxpbms6aHJlZj0iI2kiIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSAxMjAuMjA2IDg2LjAyMykiIGZpbGw9IiMyMzFmMjAiLz48dXNlIHhsaW5rOmhyZWY9IiNoIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgLjk5MiA3My42ODIpIiBmaWxsPSIjMjMxZjIwIi8+PHN5bWJvbCBpZD0iaiI+PHBhdGggZD0iTS4wNzkuNTk0QS4yOTYuMjk2IDAgMDEuMTY4LjU3OWMuMTEzIDAgLjE4NS4wODMuMTg1LjA5N0MuMzUzLjY4LjM1MS42ODUuMzQ1LjY4NWMtLjAwMiAwLS4wMDQgMC0uMDEzLS4wMDRhLjMyOS4zMjkgMCAwMC0uMTMtLjAyN0MuMTM2LjY1NC4wODkuNjc0LjA3LjY4MkwuMDYuNjg1Qy4wNTIuNjg1LjA1Mi42NzkuMDUyLjY2M1YuMzY2YzAtLjAxOCAwLS4wMjQuMDEyLS4wMjQuMDA1IDAgLjAwNi4wMDEuMDE2LjAxM0EuMTUuMTUgMCAwMC4yMDUuNDJDLjI1OC40Mi4yODQuMzcxLjI5Mi4zNTRBLjMyNy4zMjcgMCAwMC4zMS4yMjhDLjMxLjE5LjMxLjEzMy4yODIuMDg4QS4xMjQuMTI0IDAgMDAuMTc3LjAyN2EuMTU1LjE1NSAwIDAwLS4xNDkuMTE4LjA0NS4wNDUgMCAwMS4wMTYtLjAwM2MuMDE3IDAgLjA0NC4wMS4wNDQuMDQ0Qy4wODguMjE0LjA2OS4yMy4wNDQuMjMuMDI2LjIzIDAgLjIyMSAwIC4xODIgMCAuMDk3LjA2OCAwIC4xNzkgMGMuMTEzIDAgLjIxMi4wOTUuMjEyLjIyMkMuMzkxLjM0MS4zMTEuNDQuMjA2LjQ0QS4xNzMuMTczIDAgMDEuMDc5LjM4N3YuMjA3eiIvPjwvc3ltYm9sPjx1c2UgeGxpbms6aHJlZj0iI2oiIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSAxMC4wNDEgNzYuNjgzKSIgZmlsbD0iIzIzMWYyMCIvPjx1c2UgeGxpbms6aHJlZj0iI2oiIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSAyNDguNTU5IDc0LjMxMikiIGZpbGw9IiMyMzFmMjAiLz48dXNlIHhsaW5rOmhyZWY9IiNmIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgMTIwLjEzIDI1LjM0NykiIGZpbGw9IiMyMzFmMjAiLz48c3ltYm9sIGlkPSJrIj48cGF0aCBkPSJNLjE0My4zOEMuMTI2LjM3OS4xMjIuMzc4LjEyMi4zNjljMC0uMDEuMDA1LS4wMS4wMjMtLjAxaC4wNDZjLjA4NSAwIC4xMjMtLjA3LjEyMy0uMTY2Qy4zMTQuMDYyLjI0Ni4wMjcuMTk3LjAyNy4xNDkuMDI3LjA2Ny4wNS4wMzguMTE2LjA3LjExMS4wOTkuMTI5LjA5OS4xNjVBLjA0Ny4wNDcgMCAwMS4wNS4yMTRDLjAyNi4yMTQgMCAuMiAwIC4xNjIgMCAuMDczLjA4OSAwIC4yIDBjLjExOSAwIC4yMDcuMDkxLjIwNy4xOTIgMCAuMDkyLS4wNzQuMTY0LS4xNy4xODFBLjE4OC4xODggMCAwMS4zOC41NDlDLjM4LjYyOC4yOTguNjg2LjIwMS42ODYuMTAxLjY4Ni4wMjcuNjI1LjAyNy41NTJjMC0uMDQuMDMxLS4wNDguMDQ2LS4wNDguMDIxIDAgLjA0NS4wMTUuMDQ1LjA0NSAwIC4wMzItLjAyNC4wNDYtLjA0Ni4wNDZMLjA2MS41OTRjLjAzOC4wNjguMTMyLjA2OC4xMzcuMDY4LjAzMyAwIC4wOTgtLjAxNS4wOTgtLjExM0EuMjI2LjIyNiAwIDAwLjI2NC40MzFDLjIzNC4zODcuMi4zODQuMTczLjM4M0wuMTQzLjM4eiIvPjwvc3ltYm9sPjx1c2UgeGxpbms6aHJlZj0iI2siIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSAxOTIuNzggNjEuOTU1KSIgZmlsbD0iIzIzMWYyMCIvPjx1c2UgeGxpbms6aHJlZj0iI2giIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSA2NS4zMjYgNTcuNDU0KSIgZmlsbD0iIzIzMWYyMCIvPjx1c2UgeGxpbms6aHJlZj0iI2YiIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSA3NC4zNzUgNjAuMjA0KSIgZmlsbD0iIzIzMWYyMCIvPjx1c2UgeGxpbms6aHJlZj0iI2giIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSAzOS4zMjYgNzMuNDU1KSIgZmlsbD0iIzIzMWYyMCIvPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzIzMWYyMCIgZD0iTTE5NC43MjMgNjUuODEydjRNNzUuMjIzIDYxLjMxMnY0Ii8+PHVzZSB4bGluazpocmVmPSIjayIgdHJhbnNmb3JtPSJtYXRyaXgoMTEuOTU1IDAgMCAtMTEuOTU1IDQ4LjI4IDc2LjQ1NykiIGZpbGw9IiMyMzFmMjAiLz48L2c+PC9zdmc+</file>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021120900</text>
+    </stackversion>
+    <questionvariables>
+      <text>ta1:2-t
+ta2:-1
+ta3:3</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text/>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>ta2</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>numerical</type>
+      <tans>ta3</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>ta3</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta3</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

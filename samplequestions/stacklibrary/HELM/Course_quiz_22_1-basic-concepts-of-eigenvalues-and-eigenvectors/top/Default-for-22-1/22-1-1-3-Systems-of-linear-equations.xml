@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>22.1.1.3 Systems of linear equations</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Systems of linear equations</h3><p>We first recall some basic results in linear (matrix) algebra. Consider a system of <span class="math inline">\(n\)</span> equations in <span class="math inline">\(n\)</span> unknowns <span class="math inline">\(x_1,x_2,\dots , x_n\)</span>:&nbsp;</p><p><span class="math inline">\(\qquad \begin{matrix}c_{11}x_1&amp;+&amp;c_{12}x_2&amp;+&amp;\dots &amp;+&amp;c_{1n}x_n&amp;=&amp;k_1\\
+c_{21}x_1&amp;+&amp;c_{22}x_2&amp;+&amp;\dots &amp;+&amp;c_{2n}x_n&amp;=&amp;k_2\\
+\vdots&amp;+&amp;\vdots&amp;+&amp;\dots &amp;+&amp;\vdots&amp;=&amp;\vdots\\
+c_{n1}x_1&amp;+&amp;c_{n2}x_2&amp;+&amp;\dots &amp;+&amp;c_{nn}x_n&amp;=&amp;k_n\end{matrix}\)</span></p><p>We can write such a system in matrix form:&nbsp;</p><p><span class="math inline">\(\qquad \left[\begin{matrix}c_{11}&amp;c_{12}&amp;\dots &amp;c_{1n}\\
+c_{21}&amp;c_{22}&amp;\dots &amp;c_{2n}\\
+\vdots&amp;\vdots&amp;\ddots &amp;\vdots\\
+c_{n1}&amp;c_{n2}&amp;\dots &amp;c_{nn}\end{matrix}\right]
+\left[\begin{matrix}x_1\\
+x_2\\
+\vdots\\
+x_n\end{matrix}\right]=
+\left[\begin{matrix}k_1\\
+k_2\\
+\vdots\\
+k_n\end{matrix}\right],\)</span></p><p><span class="math inline">or equivalently, \(C\underline{x}=\underline{k}\).</span></p><p>We see that <span class="math inline">\(C\)</span> is an <span class="math inline">\(n\times n\)</span> matrix (called the coefficient matrix), <span class="math inline">\(\underline{x}=[x_1,
+x_2,\dots ,x_n]^T\)</span> is the <span class="math inline">\(n\times 1\)</span> column vector of unknowns and <span class="math inline">\(\underline{k}=[k_1,k_2,\dots ,k_n]^T\)</span> is an <span class="math inline">\(n\times
+1\)</span> column vector of given constants.</p><p>The zero vector will be denoted by <span class="math inline">\({\underline 0}\)</span>.</p><p>If <span class="math inline">\(\underline{k}\ne {\underline 0}\)</span> the system is called <span><strong>inhomogeneous.</strong></span>&nbsp;</p><p>If <span class="math inline">\(\underline{k}={\underline 0}\)</span> the system is called <span><strong>homogeneous</strong></span>.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

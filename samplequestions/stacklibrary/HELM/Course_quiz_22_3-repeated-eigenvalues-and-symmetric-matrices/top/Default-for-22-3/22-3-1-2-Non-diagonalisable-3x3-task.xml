@@ -1,0 +1,653 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>22.3.1.2 Non-diagonalisable 3x3 task</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>Let \(A = {@a@}\).</p>
+<ol class="HELM_parts"><li>The eigenvalues of \(A\) (repeated according to multiplicities) are <div>[[input:anseigenvalues]] [[validation:anseigenvalues]].&nbsp;[[feedback:eigenvalues]]</div></li>
+<li>Find the eigenvectors of \(A\).<br>Enter the eigenvectors as <i>columns</i> into the following matrix.<br>If there are fewer than three independent eigenvectors then fill the rest of the columns by zeroes: <div>[[input:anseigenvectors]] [[validation:anseigenvectors]]&nbsp;[[feedback:eigenvectors]]</div></li>
+<li>Can \(A\) be diagonalized? [[input:ansdiagonalisable]] [[validation:ansdiagonalisable]]&nbsp;[[feedback:diagonalisability]]</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<ol class="HELM_parts">
+    <li>
+        <p>The characteristic equation of \(A\) is \(\det( A-\lambda I ) = {@(lmxchar:"|",a-lambda*ident(3))@} = 0\), i.e. \(0 = {@(lmxchar:saved_lmxchar, p)@} = {@factor(p)@}\) which gives \(\lambda={@eigenvalues[1][1]@}\), \(\lambda={@eigenvalues[1][2]@}\),
+            \(\lambda={@eigenvalues[1][3]@}\).
+        </p>
+    </li>
+    <li>
+        <p>For \(\lambda={@eigenvalues[1][1]@}\) the associated eigenvectors satisfy \[{@a@}{@pcovect([x,y,z])@} = {@pcovect(eigenvalues[1][1]*[x,y,z])@}.\] The general solution is \(x={@eigenvectors[1,1]*alpha@}\), \(y={@eigenvectors[2,1]*alpha@}\) and \(z={@eigenvectors[3,1]*alpha@}\),
+            where \(\alpha\) is arbitrary. Thus an eigenvector is \(X={@alpha*col(eigenvectors,1)@}\), where \(\alpha\) is arbitrary, \(\alpha\neq0\).</p>
+        <p>For the repeated eigenvalue \(\lambda={@eigenvalues[1][3]@}\) we must solve \(AY = {@eigenvalues[1][3]@}Y\) for the eigenvector \(Y\): \[{@a@}{@pcovect([x,y,z])@} = {@pcovect(eigenvalues[1][3]*[x,y,z])@}.\] The general solution of this system is
+            \(x={@eigenvectors[1,2]*beta@}\), \(y={@eigenvectors[2,2]*beta@}\) and \(z={@eigenvectors[3,2]*beta@}\), where \(\beta\) is arbitrary, so the eigenvectors are of the form \(Y=\beta{@col(eigenvectors,2)@}\), where \(\beta\neq0\) is arbitrary.</p>
+        <p>\(X\) and \(Y\) are certainly linearly independent (as we would expect since they correspond to distinct eigenvalues). However, there is only one independent eigenvector of the form \(Y\) corresponding to the repeated eigenvalue \({@eigenvalues[1][3]@}\).
+        </p>
+    </li>
+    <li>
+        <p>The conclusion is that since \(A\) is \(3\times 3\) and we can only obtain <b>two</b> linearly independent eigenvectors, \(A\) <b>cannot be diagonalized</b>.
+        </p>
+    </li>
+</ol>]]></text>
+    </generalfeedback>
+    <defaultgrade>3</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021072200</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[/* random SL(3,Z) matrix using LU decomposition */
+lucoeffs:[-2,-1,0,1,2]; /* numbers allowed for L U */
+l:ident(3); 
+l[2,1]:rand(lucoeffs); 
+l[3,1]:rand(lucoeffs); 
+l[3,2]:rand(lucoeffs);
+u:ident(3); 
+u[1,2]:rand(lucoeffs); 
+u[1,3]:rand(lucoeffs); 
+u[2,3]:rand(lucoeffs);
+slmat: l . u;
+/* The (generalised) eigenvectors are the columns of this matrix */
+
+/* How large do we allow the eigenvalues to be */
+control:3;
+/* Jordan normal form matrix, 2 eigenvalues, one repeated */
+diagmat:zeromatrix(3,3);
+diagmat[1,1]:rand_with_prohib(-control,control,[0]);
+diagmat[2,2]:rand_with_prohib(-control,control,[0,diagmat[1,1]]);
+diagmat[3,3]:diagmat[2,2];
+/* non-diagonalisable */
+diagmat[2,3]:1;
+
+/* the main matrix */
+a: slmat . diagmat . invert(slmat);
+
+/* characteristic polynomial */
+p: simplify(charpoly(a,lambda));
+p_factored: factor(p);
+
+/* eigenvalues */
+eigenvalues : matrix([ diagmat[1,1], diagmat[2,2], diagmat[3,3] ]);
+
+
+
+/* eigenvectors model answer */
+eigenvectors : copy(slmat);
+eigenvectors[1,3]:0; eigenvectors[2,3]:0; eigenvectors[3,3]:0;
+
+/* diagonalisability MCQ */
+diagonalisable_ta: [["Yes", false], ["No", true]];
+
+/* save original lmxchar (matrix bracket type) for temporary changes */
+saved_lmxchar:lmxchar;
+
+pcovect(l) := transpose(matrix(l));]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\(A = {@a@}, \qquad \lambda={@eigenvalues[1][1]@}\), \(\lambda={@eigenvalues[1][2]@}\), \(\lambda={@eigenvalues[1][3]@}, \qquad \text{eigenvectors} \; = {@eigenvectors@}   \)</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ansdiagonalisable</name>
+      <type>dropdown</type>
+      <tans>diagonalisable_ta</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>anseigenvalues</name>
+      <type>matrix</type>
+      <tans>eigenvalues</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>anseigenvectors</name>
+      <type>matrix</type>
+      <tans>eigenvectors</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>diagonalisability</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>String</answertest>
+        <sans>ansdiagonalisable</sans>
+        <tans><![CDATA["No"]]></tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>diagonalisability-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>diagonalisability-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[The matrix \(A\) can <b>not</b> be diagonalised.<br>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>eigenvalues</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>/* how many times was the first eigenvalue listed in the student's answer? */
+first_multiplicity : lsum(if i=eigenvalues[1][1] then 1 else 0, i, anseigenvalues[1]);
+/* the same for the second eigenvalue */
+second_multiplicity : lsum(if i=eigenvalues[1][3] then 1 else 0, i, anseigenvalues[1]);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>CasEqual</answertest>
+        <sans>first_multiplicity</sans>
+        <tans>0</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>eigenvalues-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>You didn't find \({@eigenvalues[1][1]@}\) as an eigenvalue of \(A\).</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.4000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>eigenvalues-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>CasEqual</answertest>
+        <sans>first_multiplicity</sans>
+        <tans>1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.1000000</truescore>
+        <truepenalty/>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>eigenvalues-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>eigenvalues-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>✘ The multiplicity of the eigenvalue \({@eigenvalues[1][1]@}\) is \(1\) and not \({@first_multiplicity@}\).</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>second_multiplicity</sans>
+        <tans>0</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>eigenvalues-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>You didn't find \({@eigenvalues[1][3]@}\) as an eigenvalue of \(A\).</p>]]></text>
+        </truefeedback>
+        <falsescoremode>+</falsescoremode>
+        <falsescore>0.4000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>3</falsenextnode>
+        <falseanswernote>eigenvalues-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>3</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>second_multiplicity</sans>
+        <tans>2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.1000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>eigenvalues-4-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>eigenvalues-4-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>✘ The multiplicity of the eigenvalue \({@eigenvalues[1][3]@}\) is \(2\) and not \({@second_multiplicity@}\).</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>eigenvectors</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text><![CDATA[/* extract non-zero columns from the student's answer */
+zz : zeromatrix(3,1);
+ans_vects : delete(zz, [ col(anseigenvectors,1), col(anseigenvectors,2), col(anseigenvectors,3) ] );
+
+/* which ones are eigenvectors for which eigenvalue? */
+first_eigvects : sublist(ans_vects, lambda([v], is(zz=((a-eigenvalues[1][1]*ident(3)) . v))));
+second_eigvects : sublist(ans_vects, lambda([v], is(zz=((a-eigenvalues[1][3]*ident(3)) . v))));
+not_eigvects : sublist(ans_vects, lambda([v],not(is(member(v,first_eigvects) or member(v,second_eigvects)))));
+
+/* are they linearly independent (if we have at least some non-zero vectors)? */
+are_indep : is(length(ans_vects) > 0) and is(rank(anseigenvectors) = length(ans_vects));]]></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>CasEqual</answertest>
+        <sans>not_eigvects</sans>
+        <tans>[]</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.1000000</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>eigenvectors-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>+</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>eigenvectors-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>These non-zero vectors from your answer are not eigenvectors: \({@not_eigvects@}\).</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>CasEqual</answertest>
+        <sans>first_eigvects</sans>
+        <tans>[]</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>eigenvectors-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>You are missing eigenvector(s) for the eigenvalue \({@eigenvalues[1][1]@}\).</p>]]></text>
+        </truefeedback>
+        <falsescoremode>+</falsescoremode>
+        <falsescore>0.4000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>eigenvectors-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>second_eigvects</sans>
+        <tans>[]</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>3</truenextnode>
+        <trueanswernote>eigenvectors-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>You are missing eigenvector(s) for the eigenvalue \({@eigenvalues[1][3]@}\).</p>]]></text>
+        </truefeedback>
+        <falsescoremode>+</falsescoremode>
+        <falsescore>0.4000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>3</falsenextnode>
+        <falseanswernote>eigenvectors-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>3</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>are_indep</sans>
+        <tans>true</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.1000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>eigenvectors-4-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>+</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>eigenvectors-4-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>The non-zero vectors from your answer are not linearly independent.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>4</name>
+        <description/>
+        <answertest>CasEqual</answertest>
+        <sans>ans_vects</sans>
+        <tans>[]</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>eigenvectors-5-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>No non-zero vectors were supplied.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>0</falsenextnode>
+        <falseanswernote>eigenvectors-5-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1264376391</deployedseed>
+    <deployedseed>1998088285</deployedseed>
+    <deployedseed>1805372345</deployedseed>
+    <deployedseed>1980813774</deployedseed>
+    <deployedseed>96136408</deployedseed>
+    <deployedseed>613577876</deployedseed>
+    <deployedseed>1108015710</deployedseed>
+    <deployedseed>952127798</deployedseed>
+    <deployedseed>739897234</deployedseed>
+    <deployedseed>2047475822</deployedseed>
+    <deployedseed>613645545</deployedseed>
+    <deployedseed>116255339</deployedseed>
+    <deployedseed>1406621992</deployedseed>
+    <deployedseed>629881932</deployedseed>
+    <deployedseed>700778549</deployedseed>
+    <deployedseed>309450127</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ansdiagonalisable</name>
+        <value><![CDATA["No"]]></value>
+      </testinput>
+      <testinput>
+        <name>anseigenvalues</name>
+        <value>eigenvalues</value>
+      </testinput>
+      <testinput>
+        <name>anseigenvectors</name>
+        <value>eigenvectors</value>
+      </testinput>
+      <expected>
+        <name>diagonalisability</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>diagonalisability-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>eigenvalues</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>eigenvalues-4-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>eigenvectors</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>eigenvectors-4-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ansdiagonalisable</name>
+        <value><![CDATA["Yes"]]></value>
+      </testinput>
+      <testinput>
+        <name>anseigenvalues</name>
+        <value>matrix([0,0,0])</value>
+      </testinput>
+      <testinput>
+        <name>anseigenvectors</name>
+        <value>matrix([0,0,0],[0,0,0],[0,0,0])</value>
+      </testinput>
+      <expected>
+        <name>diagonalisability</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>diagonalisability-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>eigenvalues</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>eigenvalues-3-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>eigenvectors</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>eigenvectors-5-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ansdiagonalisable</name>
+        <value><![CDATA["No"]]></value>
+      </testinput>
+      <testinput>
+        <name>anseigenvalues</name>
+        <value>matrix([diagmat[1,1],0,0])</value>
+      </testinput>
+      <testinput>
+        <name>anseigenvectors</name>
+        <value>addcol(col(eigenvectors,1),zeromatrix(3,1),zeromatrix(3,1))</value>
+      </testinput>
+      <expected>
+        <name>diagonalisability</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>diagonalisability-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>eigenvalues</name>
+        <expectedscore>0.5000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>eigenvalues-3-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>eigenvectors</name>
+        <expectedscore>0.6000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>eigenvectors-4-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description/>
+      <testinput>
+        <name>ansdiagonalisable</name>
+        <value><![CDATA["Yes"]]></value>
+      </testinput>
+      <testinput>
+        <name>anseigenvalues</name>
+        <value>matrix([diagmat[3,3],0,0])</value>
+      </testinput>
+      <testinput>
+        <name>anseigenvectors</name>
+        <value>addcol(col(slmat,1),col(slmat,1),col(slmat,2))</value>
+      </testinput>
+      <expected>
+        <name>diagonalisability</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>diagonalisability-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>eigenvalues</name>
+        <expectedscore>0.4000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>eigenvalues-4-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>eigenvectors</name>
+        <expectedscore>0.9000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>eigenvectors-4-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>5</testcase>
+      <description/>
+      <testinput>
+        <name>ansdiagonalisable</name>
+        <value><![CDATA["No"]]></value>
+      </testinput>
+      <testinput>
+        <name>anseigenvalues</name>
+        <value>matrix([diagmat[1,1],diagmat[1,1],0])</value>
+      </testinput>
+      <testinput>
+        <name>anseigenvectors</name>
+        <value>ev(addcol(col(slmat,1)+col(slmat,2),col(slmat,2),col(slmat,3)),simp)</value>
+      </testinput>
+      <expected>
+        <name>diagonalisability</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>diagonalisability-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>eigenvalues</name>
+        <expectedscore>0.4000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>eigenvalues-3-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>eigenvectors</name>
+        <expectedscore>0.5000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>eigenvectors-4-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

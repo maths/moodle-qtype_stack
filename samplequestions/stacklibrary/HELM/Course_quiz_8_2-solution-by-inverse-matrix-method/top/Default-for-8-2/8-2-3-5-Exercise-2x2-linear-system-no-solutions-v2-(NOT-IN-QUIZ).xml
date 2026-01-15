@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>8.2.3.5 Exercise 2x2 linear system no solutions v2 (NOT IN QUIZ)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>Consider the following linear system of equations: <span class="math display"><span>\[\begin{matrix}
+    \displaystyle{{@eqq1@}} \\
+    \displaystyle{{@eqq2@}} \\
+\end{matrix}\]</span></span>
+
+</p>
+<ol class="HELM_parts">
+
+    <li>
+        <p> Consider the matrix form <span class="math inline">\(AX = B\)</span> of the system and identify <span class="math inline">\(A\)</span></p>
+    </li>
+
+    <div>\(A=\) [[input:ans1]] [[validation:ans1]]</div>
+    <div><br></div>
+
+    <li>
+        <p>Find the determinant of <span class="math inline">\(A\)</span>: </p>
+        <p><span class="math inline">\(|A| =\)</span> [[input:ans2]] [[validation:ans2]]</p>
+    </li>
+
+    <li>
+        <p>Determine if the system has no solution, a unique solution, or infinitely many solutions.</p>
+    </li>
+    <p>[[input:ans3]] [[validation:ans3]]</p>
+
+    <li>
+        <p>If it has a unique solution or infinitely many solutions, these are:</p>
+    </li>
+
+    <p>\(x =\) [[input:ans4]] [[validation:ans4]] </p>
+
+    <p>\(y =\) [[input:ans5]] [[validation:ans5]] </p>
+
+    <p> Give all the solutions if there is more than one. If there are no solutions, fill the gaps for \(x \) and \(y \) with the word <b>null</b>. </p>
+
+</ol>
+[[feedback:prt1]]]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<ol class="HELM_parts">
+  <li>
+<p> In matrix form \(AX = B\), the matrix \(A \) is \[ A = {@AA@}.\]</p>
+  </li>
+  
+  <li>
+<p> \( \det A = {@determinant(AA)@} \). </p>
+  </li>
+  
+  <li>
+<p> Since the determinant of \(A \) is \( 0 \), we already know that the system has either no solution or infinitely many solutions. Note that if we multiply the first equation by \({@kk@} \) we obtain \[ {@kk@} \cdot ({@lhs(eqq1)@}) = {@kk@} \cdot ({@rhs(eqq1)@})
+    \Leftrightarrow {@expand(kk * lhs(eqq1))@} = {@expand(kk * rhs(eqq1))@} \] which is in conflict with the second equation. Therefore, the system is incompatible, i.e., there are no solutions.</p>
+  </li>
+  
+  <li>
+<p> We have already found that there are no solutions to this system. As indicated in the question, you should enter the word <b>null</b> in both \(x \) and \(y \) as an answer to this part.</p></li>
+</ol>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020120600</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[/* Set an order in the variables */
+ordergreat(x, y);
+/* Generate non-zero random numbers. They will be the coefficients of the first equation */
+aa : rand(6) * 2 - 5 ;
+bb : rand(6) - 5/3  ;
+cc : rand(6) * 2 - 5  ;
+/* Generate a random number different than 0, 1. It will be the coefficient by which we multiply the second equation*/
+kk : rand(4) * 3 - 4;
+/* Define equations */
+eqq1 : aa * x + bb * y = cc;
+eqq2: kk * aa * x + kk * bb * y = kk * cc + 1;
+
+AA : matrix([aa, bb], [kk * aa, kk * bb]);
+BB : matrix([cc], [kk * cc]);
+detAA : determinant(AA);
+
+/* Variables for dropdown list */
+ta3:[["No solution",true],["One unique solution",false],["Infinitely many solutions",false]];
+ta3:random_permutation(ta3);
+ta3c: "No solution";
+
+/* Determine solution to the system */
+xx1 : null
+xx2 : null;
+XX : matrix([xx1], [xx2]);
+
+nullMat : matrix([null], [null]);]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\[\begin{matrix} {@eqq1@} \\ {@eqq2@} \\ \end{matrix}\]
+\( A = {@AA@}, \quad |A| = {@detAA@},\) {@ta3c@}, {@XX@}</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>matrix</type>
+      <tans>AA</tans>
+      <boxsize>4</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>detAA</tans>
+      <boxsize>4</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>dropdown</type>
+      <tans>ta3</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans4</name>
+      <type>algebraic</type>
+      <tans>xx1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans5</name>
+      <type>algebraic</type>
+      <tans>xx2</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>/* Create the vector containing the answers */
+vecAns : matrix([ans4], [ans5]);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>AA</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.2000000</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>(a) Matrix <span class="math inline">\(A\)</span> correctly identified. </p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p> (a) Be careful, matrix <span class="math inline">\(A\)</span> was not introduced correctly. Unfortunately, this error changed the difficulty of the problem and no more points can be awarded.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>detAA</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.2000000</truescore>
+        <truepenalty/>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p> (b) Determinant of <span class="math inline">\(A\)</span> correctly computed. </p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p> (b) Be careful, the determinant of <span class="math inline">\(A\)</span> was not computed correctly. Unfortunately, this error changed the difficulty of the problem and no more points can be awarded.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>ta3c</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.4000000</truescore>
+        <truepenalty/>
+        <truenextnode>3</truenextnode>
+        <trueanswernote>prt1-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p> (c) The dimension of the solution space was identified correctly. </p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>(c) The dimension of the solution space was not identified correctly. What happens if we multiply the first equation by \( {@kk@} \)? Unfortunately, this error changed the difficulty of the problem and no more points can be awarded.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>3</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>vecAns</sans>
+        <tans>nullMat</tans>
+        <testoptions/>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.2000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-4-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-4-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p> (d) Careful, as indicated in the question, if you think there is no solution, please fill in the entries for \( x \) and \( y \) with the word <b>null</b></p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>689382573</deployedseed>
+    <deployedseed>1615849022</deployedseed>
+    <deployedseed>1102083610</deployedseed>
+    <deployedseed>130283413</deployedseed>
+    <deployedseed>89433266</deployedseed>
+    <deployedseed>415263351</deployedseed>
+    <deployedseed>731712767</deployedseed>
+    <deployedseed>1034417340</deployedseed>
+    <deployedseed>1470136244</deployedseed>
+    <deployedseed>1836744793</deployedseed>
+    <deployedseed>1836708768</deployedseed>
+    <deployedseed>141706004</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>AA</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>detAA</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta3c</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>xx1</value>
+      </testinput>
+      <testinput>
+        <name>ans5</name>
+        <value>xx2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-4-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(2*AA,simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ev(detAA+100,simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value><![CDATA["Infinitely many solutions"]]></value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>1</value>
+      </testinput>
+      <testinput>
+        <name>ans5</name>
+        <value>1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

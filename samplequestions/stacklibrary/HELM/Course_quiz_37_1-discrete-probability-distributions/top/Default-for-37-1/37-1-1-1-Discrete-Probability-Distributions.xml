@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>37.1.1.1 Discrete Probability Distributions</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h4> Discrete probability distributions </h4>
+<p>In order to get a good understanding of discrete distributions it is advisable to familiarise yourself with two related topics: permutations and combinations. Essentially we shall be using this area of mathematics as a calculating device which will enable us to deal sensibly with situations where <i> choice </i> leads to the use of very large numbers of possibilities. We shall use combinations to express and manipulate these numbers in a compact and efficient way.</p>
+
+<h5> Permutations and Combinations </h5>
+<p> If we define the probability that an event <span class="math inline">\(A\)</span> occurs by using the definition:
+\[\text{P}(A)=\frac{\text{The number of equally likely experimental outcomes favourable to }A}{\text{The total number of equally likely outcomes forming the sample space}}=\frac{a}{n}\]
+then we can only find <span class="math inline">\(\text{P}(A)\)</span> provided that we can find both <span class="math inline">\(a\)</span> and <span class="math inline">\(n\)</span>. In practice, these numbers can be very large and difficult if not impossible to find by a simple counting process. Permutations and combinations help us to calculate probabilities in cases where counting is simply not a realistic possibility. Before discussing permutations, we will look briefly at the idea and notation of a factorial.</p>
+
+<h5> Factorials </h5>
+<p>The <span><strong>factorial</strong></span> of an integer <span class="math inline">\(n\)</span> commonly called ‘factorial <span class="math inline">\(n\)</span>’ and written <span class="math inline">\(n!\)</span> is defined as follows: </p>
+<br>\(\qquad 
+n!=n\times (n-1)\times (n-2)\times\dots\times 3\times 2\times 1\qquad\qquad n\ge 1\)
+<p>Simple examples are: 
+<br>\(\qquad 3!=3\times 2\times 1 = 6\)
+<br>\(\qquad 5!=5\times 4\times 3\times 2\times 1=120\)
+<br>\(\qquad 8!=8\times 7\times 6\times 5\times 4\times 3\times 2\times 1=40320\)
+<p>As you can see, factorial notation enables us to express large numbers in a very compact format. You will see that this characteristic is very useful when we discuss the topic of permutations. A further point is that the definition above falls down when <span class="math inline">\(n=0\)</span> and we define
+<br> <span class="math inline">\(\qquad 0!=1\)</span></p>
+
+<h5> Permutations </h5>
+<p>A <span><strong>permutation</strong></span> of a set of distinct objects places the objects <span><strong>in order</strong></span>. For example the set of three numbers <span class="math inline">\(\{ 1, 2, 3\}\)</span> can be placed in the following orders:
+\[\qquad 1,2,3\quad 1,3,2\quad 2,1,3\quad 2,3,1\quad 3,2,1\quad 3,1,2\]
+Note that we can choose the first item in 3 ways, the second in 2 ways and the third in 1 way. This gives us <span class="math inline">\(3\times 2\times 1 = 3!=6\)</span> distinct orders. We say that the set <span class="math inline">\(\{ 1,2,3\}\)</span> has the distinct permutations 
+\[\qquad 1,2,3\quad 1,3,2\quad 2,1,3\quad 2,3,1\quad 3,2,1\quad 3,1,2\]]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

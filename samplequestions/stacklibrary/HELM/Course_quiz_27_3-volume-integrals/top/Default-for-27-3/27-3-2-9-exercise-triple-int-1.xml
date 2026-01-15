@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>27.3.2.9 exercise triple int 1</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>Evaluate the following triple integrals:
+<ol  class="HELM_parts">
+<li>\( \displaystyle\int_0^{@aa@} \displaystyle\int_0^x \displaystyle\int_0^{x+z}
+(x+y+z) \;\mathrm{d}y\,\mathrm{d}z \,\mathrm{d}x\)  = [[input:ans1]] [[validation:ans1]][[feedback:prt1]]</li>
+<li>\(\displaystyle \displaystyle\int_{@bb@}^{@dd@}\displaystyle\int_{-1}^{@cc@}\displaystyle\int_{x/2-2}^{2-x/2} (x+y) \;\mathrm{d}z \,\mathrm{d}y\,\mathrm{d}x\) = [[input:ans2]] [[validation:ans2]][[feedback:prt2]]</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<ol class="HELM_parts">
+<li>
+<p>\(\begin{align} \displaystyle\int_0^{@aa@} \int_0^x \displaystyle\int_0^{x+z} (x+y+z) \,\mathrm{d}y\,\mathrm{d}z \,\mathrm{d}x &= \displaystyle\int_0^{@aa@} \displaystyle\int_0^x \displaystyle\Bigg[{@fbI11@}\Bigg]_0^{x+z}\,\mathrm{d}z \,\mathrm{d}x
+\\ &= \displaystyle\int_0^{@aa@} \displaystyle\int_0^x \displaystyle{@I11@}\,\mathrm{d}z \,\mathrm{d}x 
+\\ &= \displaystyle\int_0^{@aa@} \Bigg[{@fbI12@}\Bigg]_0^x\,\mathrm{d}x
+\\ &=  \displaystyle\int_0^{@aa@} {@I12@}\,\mathrm{d}x = \Bigg[{@fbI13@}\Bigg]_0^{@aa@} = \displaystyle {@ta1@} 
+\end{align}\)</p>
+</li>
+
+<li>
+<p>\(\begin{align} \displaystyle \displaystyle\int_{@bb@}^{@dd@}\displaystyle\int_{-1}^{@cc@}\displaystyle\int_{x/2-2}^{2-x/2} (x+y) \;\mathrm{d}z \,\mathrm{d}y\,\mathrm{d}x &= \displaystyle \displaystyle\int_{@bb@}^{@dd@}\displaystyle\int_{-1}^{@cc@} \Bigg[{@fbI21@}\Bigg]_{x/2-2}^{2-x/2}\,\mathrm{d}y\,\mathrm{d}x
+\\ &= \displaystyle \displaystyle\int_{@bb@}^{@dd@}\displaystyle\int_{-1}^{@cc@}{@I21@} \,\mathrm{d}y\,\mathrm{d}x
+\\ &= \displaystyle \displaystyle\int_{@bb@}^{@dd@}\Bigg[{@fbI22@}\Bigg]_{-1}^{@cc@} \,\mathrm{d}y\,\mathrm{d}x
+\\ &= \displaystyle \displaystyle\int_{@bb@}^{@dd@}{@I22@}\,\mathrm{d}x
+\\ &= \Bigg[{@fbI23@}\Bigg]_{@bb@}^{@dd@} = {@ta2@}
+\end{align}\)</p>
+</li>
+</ol>]]></text>
+    </generalfeedback>
+    <defaultgrade>4</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025073100</text>
+    </stackversion>
+    <questionvariables>
+      <text>aa:rand([1,2,4]);
+bb:rand(2);
+cc:1+rand(5);
+dd: bb+1+rand(2)
+
+fbI11:integrate (x+y+z,y);
+I11:integrate (x+y+z,y,0,x+z);
+fbI12: integrate (I11,z);
+I12: integrate (I11,z,0,x);
+fbI13: integrate (I12,x);
+I13: integrate (I12,x,0,aa);
+ta1:I13;
+
+fbI21: integrate (x+y,z);
+I21: integrate (x+y,z,x/2-2,2-x/2);
+fbI22: integrate (I21,y);
+I22: integrate (I21,y,-1,cc);
+fbI23: integrate (I22,x);
+I23: integrate (I22,x,bb,dd);
+ta2:I23;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="html">
+      <text><![CDATA[\( \displaystyle\int_0^{@aa@} \int_0^x \int_0^{x+z} (x+y+z) \;\mathrm{d}y\,\mathrm{d}z \,\mathrm{d}x  = {@ta1@} \)<br>
+
+\(\displaystyle \int_{@bb@}^{@dd@} \int_{-1}^{@cc@} \int_{x/2-2}^{2-x/2} (x+y) \;\mathrm{d}z \,\mathrm{d}y\,\mathrm{d}x = {@ta2@} \)]]></text>
+    </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>ta2</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1322851597</deployedseed>
+    <deployedseed>358851522</deployedseed>
+    <deployedseed>828778921</deployedseed>
+    <deployedseed>1537121389</deployedseed>
+    <deployedseed>1310532835</deployedseed>
+    <deployedseed>215182766</deployedseed>
+    <deployedseed>466202074</deployedseed>
+    <deployedseed>797728863</deployedseed>
+    <deployedseed>2031601608</deployedseed>
+    <deployedseed>195669773</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(ta1+1,simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ev(ta2+1,simp)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

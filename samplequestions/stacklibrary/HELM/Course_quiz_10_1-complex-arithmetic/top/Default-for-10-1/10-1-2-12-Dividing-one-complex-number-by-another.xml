@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>10.1.2.12 Dividing one complex number by another</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Dividing complex numbers </h3>
+
+<p>Here we consider the operation of dividing one complex number <span class="math inline">\(z=a+i b\)</span> by another, <span class="math inline">\(w=c+i d\)</span>: <span class="math inline">\[\qquad
+{z\over w}={a+i b\over {c+i d}}\]</span> We wish to simplify the right-hand side into the standard form of a complex number : <span class="math display">\[\text{(Real part)}\ +i\ \text{(Imaginary part)}\]</span> or the equivalent: <span class="math display">\[\text{(Real part)}\ +\ \text{(Imaginary part)}\ i\]</span> To do this we multiply ‘top and bottom’ by the complex conjugate of the bottom (the denominator), that is, by <span class="math inline">\(c-i d\)</span> (this is called <span><strong>rationalising</strong></span>): <span class="math inline">\[\qquad
+{z\over w}={a+i b\over {c+i d}}={a+i b\over {c+i d}}\times {c-i d\over
+{c-i d}}\]</span> and then carry out the multiplication, top and bottom: <span class="math display">\[\begin{aligned}
+{z\over w}&amp;={(ac+bd)+i(bc-ad)\over {c^2+d^2}}\\
+&amp;=\left({ac+bd\over
+{c^2+d^2}}\right)+i\left({bc-ad\over
+{c^2+d^2}}\right)\qquad\end{aligned}\]</span> which is now in the required form. The reason for rationalising is to get a real number in the denominator since a complex number divided by a real number is easy to evaluate.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>6.4.2.4 Solving quadratics involving exponentials</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<br>
+<h4 class="HELM_example">Example</h4><p>Find \(x\) if \(10^x-5+6(10^{-x})=0\).</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>We first simplify this expression by multiplying through by \(10^x\) (to eliminate the
+term \(10^{-x}\)):
+\[10^x(10^x)-10^x(5)+10^x(6(10^{-x}))=0,\]
+or
+\[(10^{x})^2-5(10^x)+6=0\qquad\text{since}\qquad 10^x(10^{-x})=10^0=1.\]</p>
+<p> We realise that this expression is a <b>quadratic equation</b>. Let us  put
+\(y=10^x\) to give
+\[y^2-5y+6=0.\]</p>
+Now, we can factorise to give
+\[(y-3)(y-2)=0 \qquad \text{so that}\qquad y=3\quad\text{or}\quad y=2.\]<p></p>
+<p>For each of these values of \(y\) we obtain a separate value for \(x\) since \(y=10^x\). <br></p><p><br></p><p><b>Case 1</b> If \(y=3\) then \(3=10^x\) implying \(x=\log_{10} 3=0.4771212\).</p><p><br></p><p><b>Case 2</b> If \(y=2\) then \(2=10^x\) implying \(x=\log_{10} 2=0.3010300\). <br></p><p><br></p><p>We conclude that the equation \(10^x-5+6(10^{-x})=0\) has two possible solutions for \(x\): either \(x=\log_{10} 3\) or \(x=\log_{10} 2\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

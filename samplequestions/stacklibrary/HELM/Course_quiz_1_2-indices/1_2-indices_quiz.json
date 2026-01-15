@@ -1,0 +1,255 @@
+{
+    "quiz": {
+        "name": "1_2 Indices",
+        "intro": "<p>Indices, or powers, provide a convenient notation when we need to&nbsp; multiply a number by itself several times. <br><br>In\n this worksheet we explain how indices are written, and state the rules \nwhich are used for manipulating them.&nbsp; Expressions built up using \nnon-negative whole number powers of a variable - known as polynomials - \noccur frequently in engineering mathematics. We introduce some common \npolynomials in this Section.&nbsp;&nbsp; &nbsp;<br><br>Finally, scientific notation is \nused to express very large or very small numbers concisely. This \nrequires use of indices. We explain how to use scientific notation \ntowards the end of the Section.&nbsp;<br><\/p>",
+        "introformat": "1",
+        "questionsperpage": "0",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "INDEX NOTATION",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "7",
+            "heading": "LAWS OF INDICES",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "13",
+            "heading": "POLYNOMIAL EXPRESSIONS",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "17",
+            "heading": "NEGATIVE INDICES",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "21",
+            "heading": "FRACTIONAL INDICES",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "27",
+            "heading": "SCIENTIFIC NOTATION",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-1-2\/1-2-1-1-Introduction.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-2\/1-2-1-2-Evaluate-without-calc.xml"
+        },
+        {
+            "slot": "3",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-2\/1-2-1-3-Evaluate-with-calc.xml"
+        },
+        {
+            "slot": "4",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-1-2\/1-2-1-4-BODMAS.xml"
+        },
+        {
+            "slot": "5",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-2\/1-2-1-5-Write-index-notation.xml"
+        },
+        {
+            "slot": "6",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-2\/1-2-1-6-Evaluate-without-calc.xml"
+        },
+        {
+            "slot": "7",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-1-2\/1-2-2-1-Laws-of-indices.xml"
+        },
+        {
+            "slot": "8",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-2\/1-2-2-2-Write-single-index.xml"
+        },
+        {
+            "slot": "9",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-1-2\/1-2-2-3-Laws-of-indices-cont.xml"
+        },
+        {
+            "slot": "10",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-2\/1-2-2-4-Remove-brackets.xml"
+        },
+        {
+            "slot": "11",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-2\/1-2-2-5-Simplify-indices.xml"
+        },
+        {
+            "slot": "12",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-2\/1-2-2-6-Simplify-indices.xml"
+        },
+        {
+            "slot": "13",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-1-2\/1-2-3-1-Polynomial-expressions.xml"
+        },
+        {
+            "slot": "14",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-2\/1-2-3-2-Which-are-polynomials.xml"
+        },
+        {
+            "slot": "15",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-2\/1-2-3-3-Linear-quadratic-constant.xml"
+        },
+        {
+            "slot": "16",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-2\/1-2-3-4-Which-are-polynomials.xml"
+        },
+        {
+            "slot": "17",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-1-2\/1-2-4-1-Negative-indices.xml"
+        },
+        {
+            "slot": "18",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-2\/1-2-4-2-Simplify-indices.xml"
+        },
+        {
+            "slot": "19",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-2\/1-2-4-3-Write-fractions-and-decimals.xml"
+        },
+        {
+            "slot": "20",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-2\/1-2-4-4-Simplify-indices.xml"
+        },
+        {
+            "slot": "21",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-1-2\/1-2-5-1-Fractional-indices.xml"
+        },
+        {
+            "slot": "22",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-2\/1-2-5-2-Evaluate-with-calc.xml"
+        },
+        {
+            "slot": "23",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-2\/1-2-5-3-Evaluate-with-calc.xml"
+        },
+        {
+            "slot": "24",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-1-2\/1-2-5-4-Fractional-indices-continued.xml"
+        },
+        {
+            "slot": "25",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-2\/1-2-5-5-Simplify-indices.xml"
+        },
+        {
+            "slot": "26",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-2\/1-2-5-6-Simplify-indices.xml"
+        },
+        {
+            "slot": "27",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-1-2\/1-2-6-1-Scientific-notation.xml"
+        },
+        {
+            "slot": "28",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-2\/1-2-6-2-Give-scientific-notation.xml"
+        },
+        {
+            "slot": "29",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-2\/1-2-6-3-Simplify.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "1.00000"
+        }
+    ]
+}

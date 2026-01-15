@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>27.1.3 'Inner' and 'Outer' Integrals</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>'Inner' and 'Outer' Integrals</h3>
+<p>A typical double integral may be expressed as <br>
+\(\qquad\displaystyle I=\displaystyle\int_{x=a}^{x=b}\hspace{0.25cm}\left[ \displaystyle\int_{y=c}^{y=d}f\left( x,y\right) \;dy \right] \;dx\) <br>
+where the part in the centre i.e. <br>
+\(\qquad\displaystyle \displaystyle\int_{y=c}^{y=d}f\left( x,y\right) \;dy\) <br>
+(known as the inner integral) is the integral of a function of \(x\) and \(y\) with respect to \(y.\) As the integration takes place with respect to \(y\), the variable \(x\) may be regarded as a fixed quantity (a constant) but for every different value of \(x\), the inner integral will take a different value. Thus, the inner integral will be a function of \(x\) e.g. \(g\left( x\right) =\displaystyle \int_{y=c}^{y=d}f\left( x,y\right) \;dy\).</p>
+<p>This inner integral, being a function of \(x\), once evaluated, can take its place within the outer integral i.e. \(I= \displaystyle \int_{x=a}^{x=b}g\left( x\right) \;dx\) which can then be integrated with respect to \(x\) to give the value of the double integral.</p>
+<p>The limits on the outer integral will be constants; the limits on the inner integral may be constants (in which case the integration takes place over a rectangular area) or may be functions of the variable used for the outer integral (in this case \(x\)). In this latter case, the integration takes place over a non-rectangular area (this is covered in a future section). For now, the examples quoted will include the name of the relevant variable in the limits; this can be omitted once more familiarity has been gained with the concept. It will be assumed that the limits on the inner integral apply to the variable used to integrate the inner integral and the limits on the outer integral apply to the variable used to integrate this outer integral.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

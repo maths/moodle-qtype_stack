@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>23.1.1.1 Introduction</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Introduction</h4>
+You have met in earlier Mathematics courses the concept of representing a function by an infinite series of simpler functions such as polynomials. For example, the Maclaurin series representing \(e^x\)
+has the form
+\[ e^x = 1 + x + \dfrac{x^2}{2!} + \dfrac{x^3}{3!} + \dots \]
+or, in the more concise sigma notation,
+\[ e^x = \sum_{n=0}^{\infty} \dfrac{x^n}{n!} \]
+(remembering that \(0!\) is defined as \(1\)).
+<p></p>
+The basic idea is that for those values of \(x\) for which the series converges we may approximate the
+function by using only the first few terms of the infinite series.
+<p></p>
+Fourier series are also usually infinite series but involve sine and cosine functions (or their complex
+exponential equivalents) rather than polynomials. They are widely used for approximating <b>periodic
+functions</b>. Such approximations are of considerable use in science and engineering. For example,
+elementary a.c. theory provides techniques for analyzing electrical circuits when the currents and
+voltages present are assumed to be sinusoidal. Fourier series enable us to extend such techniques
+to the situation where the functions (or signals) involved are periodic but not actually sinusoidal. Fourier series sometimes have to be used when solving partial differential equations.]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>4.3.3.7 Sum of sines and cosines</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4> Sum of two sines and sum of two cosines </h4>
+
+<p>Here we obtain results that are widely used in areas of science and engineering such as vibration theory, wave theory and electric circuit theory.</p>
+<p>We return to the identities angle addition formulae:</p>
+\[\begin{aligned}
+\sin(A+B ) &amp;\equiv \sin A\cos B+\cos A\sin B\\
+\sin (A-B) &amp;\equiv \sin A\cos B-\cos A\sin B
+\end{aligned}\]
+
+<p>Adding these identities gives</p>
+\[\sin(A+B)+\sin(A-B)\equiv 2\sin A\cos B.\]
+<p>Subtracting the identities produces</p>
+\[\sin (A+B)-\sin(A-B)\equiv 2\cos A\sin B\]
+
+<p>It is now convenient to let <span class="math inline">\(C=A+B\) </span>and<span class="math inline"> \(D=A-B\)</span> so that</p>
+\[A=\dfrac{C+D}{2} \qquad \text{and} \qquad B=\dfrac{C-D}{2}\]
+<p>The above then becomes:</p>
+\[\sin C+\sin D\equiv 2\sin\left(\dfrac{C+D}{2}\right)\cos \left(\dfrac{C-D}{2}\right) \]
+<p>Similarly:</p>
+\[\sin C-\sin D\equiv 2\cos\left(\dfrac{C+D}{2}\right)\sin \left(\dfrac{C-D}{2}\right) \]]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

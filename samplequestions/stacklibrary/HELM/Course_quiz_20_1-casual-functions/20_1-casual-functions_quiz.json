@@ -1,0 +1,100 @@
+{
+    "quiz": {
+        "name": "20_1 Casual Functions",
+        "intro": "<p>The Laplace transformation is a technique employed primarily to solve constant coefficient ordinary differential equations. It is also used in modelling engineering systems. In this section we look at those functions to which the Laplace transformation\n    is normally applied; so-called <strong>causal<\/strong> or <strong>one-sided functions<\/strong>. These are functions \\(f(t)\\) of a single variable \\(t\\) such that \\(f(t)=0\\) if \\(t&lt;0.\\) In particular we consider the simplest causal function: the\n    unit step function (often called the Heaviside function) \\(u(t)\\):<\/p>\n<p>\\(\\qquad u(t)= \\begin{cases} 1&amp; \\text{if}\\quad t\\ge 0\\\\ 0&amp; \\text{if}\\quad t&lt;0 \\end{cases}\\)<\/p>\n<p>We then use this function to show how signals (functions of time \\(t\\)) may be 'switched on' and 'switched off'.<\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Transforms and causal functions",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "5",
+            "heading": "Properties of causal functions",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "7",
+            "heading": "Exercises",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-20-1\/20-1-1-1-Transforms-and-causal-functions.xml"
+        },
+        {
+            "slot": "4",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-20-1\/20-1-1-4-Casual-Functions.xml"
+        },
+        {
+            "slot": "5",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-20-1\/20-1-2-1-Properties-of-causal-functions.xml"
+        },
+        {
+            "slot": "3",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-20-1\/20-1-1-3-Key-point.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-20-1\/20-1-1-2-First-Laplace-Transform.xml"
+        },
+        {
+            "slot": "6",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-20-1\/20-1-2-2-Calculus-with-casual-function.xml"
+        },
+        {
+            "slot": "7",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-20-1\/20-1-3-1-Derivative-of-Casual-Function.xml"
+        },
+        {
+            "slot": "8",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-20-1\/20-1-3-2-Area-Under-the-Curve-of-Casual-Function.xml"
+        },
+        {
+            "slot": "9",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-20-1\/20-1-3-3-Area-Under-Casual-Function-(again).xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

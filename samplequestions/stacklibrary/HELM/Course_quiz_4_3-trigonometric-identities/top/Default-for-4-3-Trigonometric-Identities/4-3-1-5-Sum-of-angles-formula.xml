@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>4.3.1.5 Sum of angles formula</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Sum of angles identity</h4>
+<p>This Key Point introduces two further important identities.</p>
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+\[\begin{aligned}
+\sin (A+B) &amp;\equiv \sin A\cos B+\cos A\sin B \qquad \qquad (1) \\
+\cos(A+B) &amp;\equiv \cos A\cos B-\sin A\sin B \qquad \qquad (2)
+\end{aligned}\]
+</div>
+
+<p>Note carefully the addition sign in \((1)\) but the subtraction sign in \((2)\). Further identities can readily be obtained from \((1)\) and \((2)\).</p>
+
+<p>Dividing \((1)\) by \((2)\) we obtain</p>
+\[\tan(A+B)\equiv \dfrac{\sin(A+B)}{\cos(A+B)}\equiv \dfrac{\sin A\cos B+\cos A\sin B}{\cos A\cos B-\sin A\sin B}\]
+<p>Dividing every term by \(\cos A\ \cos B\) we obtain:</p>
+\[\tan (A+B)\equiv \dfrac{\tan A+\tan B}{1-\tan A\tan B}\]
+<p>Replacing \(B\) by \(-B\) in \((1)\) and \((2)\) and remembering that \(\cos (-B)\equiv \cos B\) and \(\sin(-B)\equiv -\sin B\) we find</p>
+\[\begin{aligned}
+\sin(A-B) &amp;\equiv \sin A\cos B-\cos A\sin B \\
+\cos (A-B) &amp;\equiv \cos A\cos B+\sin A\sin B.
+\end{aligned}\]]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

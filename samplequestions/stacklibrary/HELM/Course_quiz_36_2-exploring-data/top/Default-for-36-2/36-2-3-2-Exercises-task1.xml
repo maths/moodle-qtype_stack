@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>36.2.3.2 Exercises: task1</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+
+<p>The following data give the lifetimes in hours of \(50\) electric lamps.</p><p></p><table><thead><tr><th scope="col"><span><span style="font-weight: normal;">{@L[1]@}</span> &nbsp;&nbsp; &nbsp; &nbsp; </span><br></th><th scope="col"><span style="font-weight: normal;"><span><span>{@L[2]@}</span></span></span>&nbsp; &nbsp;&nbsp; <br></th><th scope="col"><span style="font-weight: normal;"><span><span>{@L[3]@}</span></span></span> &nbsp;&nbsp; <br></th><th scope="col"><span style="font-weight: normal;"><span><span>{@L[4]@}</span></span></span> &nbsp;&nbsp; <br></th><th scope="col"><span style="font-weight: normal;"><span><span>{@L[5]@}</span></span></span> &nbsp;&nbsp; <br></th><th scope="col"><span style="font-weight: normal;"><span><span>{@L[6]@}</span></span></span> &nbsp;&nbsp; <br></th><th scope="col"><span style="font-weight: normal;"><span><span>{@L[7]@}</span></span></span> &nbsp;&nbsp; <br></th><th scope="col"><span style="font-weight: normal;"></span><span style="font-weight: normal;"><span><span>{@L[8]@}</span></span></span> &nbsp;&nbsp; <br></th><th scope="col"><span style="font-weight: normal;"><span><span>{@L[9]@}</span></span></span> &nbsp;&nbsp; <br></th><th scope="col"><span style="font-weight: normal;"></span><span style="font-weight: normal;"><span><span>{@L[10]@}</span></span></span> &nbsp;&nbsp; <br></th></tr><tr><td><span><span>{@L[11]@}</span></span>&nbsp; &nbsp;&nbsp; <br></td><td><span><span>{@L[12]@}</span></span> &nbsp;&nbsp;&nbsp; <br></td><td><span><span>{@L[13]@}</span></span> &nbsp;&nbsp; <br></td><td><span><span>{@L[14]@}</span></span> &nbsp;&nbsp; <br></td><td><span><span>{@L[15]@}</span></span>&nbsp;&nbsp; <br></td><td><span><span>{@L[16]@}</span></span> &nbsp;&nbsp; <br></td><td><span><span>{@L[17]@}</span></span> &nbsp;&nbsp; <br></td><td><span><span>{@L[18]@}</span></span> &nbsp;&nbsp; <br></td><td><span><span>{@L[19]@}</span></span> &nbsp;&nbsp; <br></td><td><span><span>{@L[20]@}</span></span> &nbsp;&nbsp; <br></td></tr><tr><td><span><span>{@L[21]@}</span></span> &nbsp; &nbsp;&nbsp; <br></td><td><span><span>{@L[22]@}</span></span>&nbsp; &nbsp;&nbsp; <br></td><td><span><span>{@L[23]@}</span></span> &nbsp;&nbsp; <br></td><td><span><span>{@L[24]@}</span></span> &nbsp;&nbsp; <br></td><td><span><span>{@L[25]@}</span></span> &nbsp;&nbsp; <br></td><td><span><span>{@L[26]@}</span></span> &nbsp;&nbsp; <br></td><td><span><span>{@L[27]@}</span></span> &nbsp;&nbsp; <br></td><td><span><span>{@L[28]@}</span></span> &nbsp;&nbsp; <br></td><td><span><span>{@L[29]@}</span></span> &nbsp;&nbsp; <br></td><td><span><span>{@L[30]@}</span></span> &nbsp;&nbsp; <br></td></tr><tr><td><span><span>{@L[31]@}</span></span>&nbsp; &nbsp; &nbsp; <br></td><td><span><span>{@L[32]@}</span></span> &nbsp;&nbsp;&nbsp; <br></td><td><span><span>{@L[33]@}</span></span> &nbsp;&nbsp; <br></td><td><span><span>{@L[34]@}</span></span> &nbsp;&nbsp; <br></td><td><span><span>{@L[35]@}</span></span>&nbsp;&nbsp; <br></td><td><span><span>{@L[36]@}</span></span> &nbsp;&nbsp; <br></td><td><span><span>{@L[37]@}</span></span> &nbsp;&nbsp; <br></td><td><span><span>{@L[38]@}</span></span> &nbsp;&nbsp; <br></td><td><span><span>{@L[39]@}</span></span> &nbsp;&nbsp; <br></td><td><span><span>{@L[40]@}</span></span>&nbsp;&nbsp;&nbsp; <br></td></tr><tr><td><span><span>{@L[41]@}</span></span>&nbsp;&nbsp; &nbsp; &nbsp; <br></td><td><span><span>{@L[42]@}</span></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br></td><td><span><span>{@L[43]@}</span></span>&nbsp;&nbsp;&nbsp; <br></td><td><span><span>{@L[44]@}</span></span>&nbsp;&nbsp;&nbsp;&nbsp; <br></td><td><span><span>{@L[45]@}</span></span>&nbsp;&nbsp;&nbsp;&nbsp; <br></td><td><span><span>{@L[46]@}</span></span>&nbsp;&nbsp;&nbsp;&nbsp; <br></td><td><span><span>{@L[47]@}</span></span>&nbsp;&nbsp;&nbsp;&nbsp; <br></td><td><span><span>{@L[48]@}</span></span>&nbsp;&nbsp;&nbsp;&nbsp; <br></td><td><span><span>{@L[49]@}</span></span>&nbsp;&nbsp;&nbsp; <br></td><td><span><span>{@L[50]@}</span></span>&nbsp;&nbsp;&nbsp;&nbsp; <br></td></tr></thead></table><p></p><p><br></p>
+<br>
+
+<ol class="HELM_parts">
+<li>What is the mean lifetime of these data? &nbsp; Write the result in the box (Round up each answer and enter 2 decimal places. If the answer has less than 2 decimal places, then enter zero(s) at the end) &nbsp;  [[input:ans1]] [[validation:ans1]][[feedback:prt1]]</li>
+<br>
+<li><p>Does the mean lifetime give a good indication of the expected lifetime of a lamp?</p>
+<p> [[input:ans2]] [[validation:ans2]][[feedback:prt2]]</p>
+</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<ol class="HELM_parts">
+<li>The mean lifetime is given by the usual formula. So the mean lifetime is {@ta1@}.</li>
+<li>Yes. The mean lifetime gives a reasonable indication of what can be expected since the distribution is fairly symmetrical.</li>
+</ol>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2024072400</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[L:[rand([1337,1340,1338,1339]),rand([1437,1439,1441]),rand([1214,1217,1218,1215]),rand([1300,1305,1303,1304]),rand([1124,1128,1125,1126]),rand([1065,1068,1066]),1470,1488,rand([1103,1107,1105,1108]),rand([978,980,981,982]),rand([1177,1180,1178,1181]),rand([1287,1290,1288,1286]),1045,947,rand([969,972,971]),1339,rand([1594,1599,1595,1596]),812,1277,1032,1167,974,rand([1131,1135,1134,1133]),rand([974,978,975,976]),1727,rand([1378,1381,1379,1377]),1395,rand([1330,1335,1331,1332]),1672,rand([1604,1609,1605,1607]),1493,1521,rand([1235,1238,1236,1239]),1682,rand([1136,1139,1137,1135]),1229,rand([803,801,805,802]),1166,rand([1494,1497,1495,1493]),1733,978,rand([1110,1117,1112,1115]),1055,rand([1438,1441,1440,1439]),1436,rand([1424,1427,1425,1426]),766,1283,829,rand([1652,1657,1653,1654])];
+ta1: decimalplaces(float(mean(L)),2);
+ta2:[["No",false], ["Yes",true]];]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\[ {@L@}\] \[{@ta1@}\]</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>numerical</type>
+      <tans>ta1</tans>
+      <boxsize>7</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint>to 2 d.p.</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>maxdp:2, mindp:2</options>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>dropdown</type>
+      <tans>ta2</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions>2</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>[ans2]</sans>
+        <tans>mcq_correct(ta2)</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>145703904</deployedseed>
+    <deployedseed>886134643</deployedseed>
+    <deployedseed>600866883</deployedseed>
+    <deployedseed>658942974</deployedseed>
+    <deployedseed>1451347081</deployedseed>
+    <deployedseed>1856154025</deployedseed>
+    <deployedseed>472556764</deployedseed>
+    <deployedseed>1676897013</deployedseed>
+    <deployedseed>958581044</deployedseed>
+    <deployedseed>720192807</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>dispdp(ta1,2)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value><![CDATA["Yes"]]></value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>dispdp(ev(ta1+1,simp),2)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>first(mcq_incorrect(ta2))</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

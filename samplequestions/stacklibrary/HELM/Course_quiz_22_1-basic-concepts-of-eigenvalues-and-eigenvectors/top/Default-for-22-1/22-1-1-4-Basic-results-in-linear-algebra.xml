@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>22.1.1.4 Basic results in linear algebra</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Important results in linear algebra</h3><p>Consider the system of equations <span class="math inline">\(C\underline{x}=\underline{k}\)</span>.&nbsp;</p><p>We are concerned with the nature of the solutions (if any) of this system. We shall see that this system only exhibits three solution types:</p><p><span class="math inline">\(\bullet\)</span>&nbsp;&nbsp;The system is consistent and has a unique solution for <span class="math inline">\(\underline{x}\)</span></p><p><span class="math inline">\(\bullet\)</span>&nbsp;&nbsp;The system is consistent and has an infinite number of solutions for <span class="math inline">\(\underline{x}\)</span></p><p><span class="math inline">\(\bullet\)</span>&nbsp;&nbsp;The system is inconsistent and has no solution for <span class="math inline">\(\underline{x}\)</span><br></p>
+<p>There are two basic cases to consider:</p>
+<p style="text-align:center;">\(\det(C)\ne 0\) &emsp; or &emsp; \(\det(C)=0\)</p>
+<br>
+<p><strong>Case 1</strong>: \(\det(C)\ne 0\)</p>
+<p>In this case <span class="math inline">\(C^{-1}\)</span> exists and the <span><strong>unique</strong></span> solution to <span class="math inline">\(C\underline{x}=\underline{k}\)</span> is</p><p><span class="math inline">\(\qquad \underline{x}=C^{-1}\underline{k}\)</span></p>
+<br>
+<p><strong>Case 2</strong>: \(\det(C)=0\)</p>
+<p>In this case \(C^{-1}\) does not exist.</p>
+<ol type="a">
+<li>If \(\underline{k}\ne{\underline 0}\) the system \(C\underline{x}=\underline{k}\) either has <strong>no solutions</strong> or has <strong>an infinite number of solutions</strong>. We can use Gaussian elimination to determine which case it is. If we have no solutions then the reduced augmented matrix will have a row which is zero in all but the rightmost position; otherwise we have infinitely many solutions.</li>
+<li>If \(\underline{k}={\underline 0}\) the system <span class="math inline">\(C\underline{x}={\underline 0}\)</span> has an <strong>infinite number of solutions.</strong></li>
+</ol>
+<p>We note that a homogeneous system</p>
+\[C\underline{x}={\underline 0}\]
+<p>has a unique solution \(\underline{x}={\underline 0}\) if \(\det(C)\ne 0\) (this is called the <strong>trivial solution</strong>) or an infinite number of solutions if \(\det(C)=0\).</p>
+
+<hr>
+<h4 class="HELM_example">Example</h4> 
+<p><strong>(Case 1)</strong> Solve the inhomogeneous system of equations</p>
+\[\left\{\begin{alignedat}{2}
+x_1 &amp; {}+{} &amp; x_2 &amp; = 1 \\
+2x_1 &amp; {}+{} &amp; x_2 &amp; = 2
+\end{alignedat}\right.\]
+<p>which can be expressed as \(C\underline{x}=\underline{k}\) where</p>
+\[C=\begin{bmatrix}1&amp;1\\ 2&amp;1\end{bmatrix} \qquad \underline{x}=\begin{bmatrix} x_1\\ x_2\end{bmatrix} \qquad
+\underline{k}=\begin{bmatrix} 1\\ 2\end{bmatrix}\]
+<h4 class="HELM_solution">Solution</h4>
+<p>Here det\((C)=-1\neq 0\). </p><p>The system of equations has the <strong>unique solution:</strong>&nbsp;\(\underline{x}=\left[\begin{array}{c} x_1\\ x_2\end{array}\right]=\left[\begin{array}{c} 1\\ 0 \end{array}\right] \).</p>
+<hr>
+
+<h4 class="HELM_example">Example</h4> 
+<p><strong>(Case 2.a)</strong> Examine the following inhomogeneous system for solutions</p>
+\[\left\{\begin{alignedat}{2}
+x_1 &amp; {}+{} &amp; 2x_2 &amp; = 1 \\
+3x_1 &amp; {}+{} &amp; 6x_2 &amp; = 0
+\end{alignedat}\right.\]
+<h4 class="HELM_solution">Solution</h4>
+<p>Here \(\det(C)=\begin{vmatrix}1&amp;2\\3&amp;6\end{vmatrix}=0\). In this case there are no solutions.</p>
+<p>To see this we see the first equation of the system states \(x_1+2x_2=1\) whereas the second equation (after dividing through by 3) states \(x_1+2x_2=0\), a contradiction.</p>
+<hr>
+
+<h4 class="HELM_example">Example</h4> 
+<p><strong>(Case 2.b)</strong> Solve the homogeneous system</p><p>
+\[\left\{\begin{alignedat}{2}
+x_1 &amp; {}+{} &amp; x_2 &amp; = 0 \\
+2x_1 &amp; {}+{} &amp; 2x_2 &amp; = 0
+\end{alignedat}\right.\]
+<h4 class="HELM_solution">Solution</h4>
+<p>Here \(\det(C)=\begin{vmatrix}1&amp;1\\2&amp;2\end{vmatrix}=0\). The solutions are <strong>any</strong> pair of numbers \(\{x_1,x_2\}\) such that \(x_1=-x_2\), i.e. \(\underline{x} = \begin{bmatrix}\alpha\\-\alpha\end{bmatrix}\), where \(\alpha\) is an arbitrary element of \(\mathbb{R}\). There are an <strong>infinite number of solutions</strong>.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

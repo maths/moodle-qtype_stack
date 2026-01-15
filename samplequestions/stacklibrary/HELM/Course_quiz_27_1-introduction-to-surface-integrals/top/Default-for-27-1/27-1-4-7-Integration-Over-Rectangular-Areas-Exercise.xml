@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>27.1.4.7 Integration Over Rectangular Areas Exercise</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>Evaluate the following double integral, which requires integration by substitution. </p>
+<p> \(\displaystyle I=\displaystyle \int_{0}^{@aa@} \displaystyle \int_{0}^{@bb@}5z^{2}w\left( w^{2}-1\right) ^{4}\, \mathrm{d}w \mathrm{d}z\) </p>
+<p> \(I=\) [[input:ans1]] [[validation:ans1]]</p>
+<p>If your answer is not an integer, leave it in rational form e.g. <code>23/5</code>.<br></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p> The integration takes place over the rectangle shown below. </p>
+[[jsxgraph]]
+        var board = JXG.JSXGraph.initBoard(divid, {
+            boundingbox: [-1, {#wmax#}, {#zmax#}, -1],
+            keepaspectratio: true,
+            axis: true,
+            showCopyright: false,
+			showNavigation: false,
+			grid: false
+		});
+		
+		// Hide tick labels and ticks on x-axis but label it
+		board.defaultAxes.x.setAttribute({
+		  ticks: {
+			drawLabels: false, // hide numbers
+			majorHeight: 0,
+			minorHeight: 0
+		  },
+		  name: 'z',
+		  withLabel: true,
+		  label: {
+			position: 'rt',
+			offset: [1, -10]
+		  }
+		});
+
+		// Hide tick labels and ticks on y-axis but label it
+		board.defaultAxes.y.setAttribute({
+		  ticks: {
+			drawLabels: false,
+			majorHeight: 0,
+			minorHeight: 0
+		  },
+		  name: 'w',
+		  withLabel: true,
+		  label: {
+			position: 'rt',
+			offset: [-15, 0]
+		  }
+		});
+		
+		
+		// points
+		var bl = board.create('point', [0,0], {fixed: true, withLabel:false, visible: true, showInfobox: false, size: 3, face: 'o', fillColor: 'black', strokeColor: 'black'});
+		var br = board.create('point', [{#aa#},0], {fixed: true, withLabel:false, visible: true, showInfobox: false, size: 3, face: 'o', fillColor: 'black', strokeColor: 'black'})
+		var tr = board.create('point', [{#aa#},{#bb#}], {fixed: true, withLabel:false, visible: true, showInfobox: false, size: 3, face: 'o', fillColor: 'black', strokeColor: 'black'});
+		var tl = board.create('point', [0,{#bb#}], {fixed: true, withLabel:false, visible: true, showInfobox: false, size: 3, face: 'o', fillColor: 'black', strokeColor: 'black'});
+		var rectangle = board.create('polygon', [bl, br, tr, tl],{name:"Rectangle",withLabel:false, color: 'white'});
+		
+		// Set all edges (borders) to dark blue
+		rectangle.borders.forEach(line => {
+			line.setAttribute({strokeColor: 'darkblue'});
+		});
+		
+		// Label coordinates dynamically
+		[bl, br, tr, tl].forEach((pt) => {
+			board.create('text', [
+				() => pt.X() + 0.1,
+				() => pt.Y() + 0.1,
+				() => `(${pt.X()}, ${pt.Y()})`
+			], {
+				fontSize: 12,
+				fixed: true,
+				highlight: false
+			});
+		});
+[[/jsxgraph]]
+
+<p> We have </p>
+<p>\(\qquad \displaystyle I=\displaystyle \int_{0}^{@aa@} \displaystyle \int_{0}^{@bb@}5z^{2}w\left( w^{2}-1\right) ^{4}\, \mathrm{d}w \mathrm{d}z\) </p>
+
+<p> Notice that, since \(5z^2\) is a constant under \(\mathrm{d}w\), it can be factored out of the integrand, and we can then rewrite the double integral as </p>
+<p> \(\qquad \displaystyle I=\displaystyle \int_{0}^{@aa@} 5z^{2} \displaystyle \int_{0}^{@bb@}w\left( w^{2}-1\right) ^{4}\, \mathrm{d}w \mathrm{d}z.\) </p>
+<p> (This change is covered in more detail in the next section; the question may also be done without factoring out \(5z^2\) from the integrand.)
+
+</p><p> We can now consider the inner integral, </p>
+<p>\(\qquad \displaystyle \int_{0}^{@bb@}w\left( w^{2}-1\right) ^{4}\, \mathrm{d}w \) </p>
+<p> which can be evaluated by means of the substitution \(u = w^2 - 1.\) </p>
+
+<p> If \(u = w^2 -1\), then \(\frac{\mathrm{d}u}{\mathrm{d}w} = 2u\), and \(\mathrm{d}w = \frac{1}{2u}\mathrm{d}u.\) </p>
+<p> And for the limits, if \(w=0\) then \(u=-1\), and if \(w={@bb@}\) then \(u={@cc@}.\)
+</p><p> So the inner integral becomes </p>
+<p> \(\qquad \displaystyle \int_{-1}^{@cc@} \dfrac{u^4}{2} \, \mathrm{d}u\) </p>
+<p> \(\qquad \displaystyle = \left[\dfrac{u^5}{10}\right]_{-1}^{@cc@} \) </p>
+<p> \(\qquad \displaystyle = \dfrac{{@cc^5@}}{10} - (\dfrac{-1}{10}) \) </p>
+<p> \(\qquad \displaystyle = {@dd@} \) </p>
+
+<p> And so the double integral becomes </p>
+<p> \(\qquad \displaystyle I = \displaystyle \int_{0}^{@aa@} 5z^{2}{@dd@} \, \mathrm{d}z\) </p>
+<p> \(\qquad \displaystyle = \displaystyle \int_{0}^{@aa@} {@5*z^2*dd@} \, \mathrm{d}z\) </p>
+<p> \(\qquad \displaystyle = \left[{@5*z^3*dd/3@}\right]_{0}^{@aa@} \) </p>
+<p> \(\qquad \displaystyle = {@5*aa^3*dd/3@} - {@5*0^3*dd/3@} \) </p><p>
+</p><p> \(\qquad \displaystyle = {@(5*(aa)^3*(dd))/3@} \) </p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025073100</text>
+    </stackversion>
+    <questionvariables>
+      <text>aa: rand(4) + 1;
+bb: rand(2) + 1;
+zmax: aa + 1;
+wmax: bb + 1;
+cc: (bb)^2 - 1;
+dd: (cc)^5/10 + 1/10;
+exp: 5(z)^2*w*(w^2 - 1)^4;
+inn: int(exp, w, 0, bb);
+ta1: 5*(aa)^3*(dd)/3</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="html">
+      <text><![CDATA[<p>\[I=\int_{0}^{@aa@}\int_{0}^{@bb@}\left( 5z^{2}w\left( w^{2}-1\right) ^{4} \right) \,\mathrm{d}w \mathrm{d}z = {@ev(ta1, simp)@}\]</p>]]></text>
+    </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>495950177</deployedseed>
+    <deployedseed>358473372</deployedseed>
+    <deployedseed>349388862</deployedseed>
+    <deployedseed>669752765</deployedseed>
+    <deployedseed>1137528853</deployedseed>
+    <deployedseed>1279780704</deployedseed>
+    <deployedseed>630984731</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(ta + 1, simp)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <tags>
+      <tag><text>jsxgraph_solution</text>
+</tag>
+    </tags>
+  </question>
+</quiz>

@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>13.3.3.5 Finding areas</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p><ol class="HELM_parts"> 
+
+<li> Find the area bounded by \(y= e^x\), the \(y\)-axis and the line \(x=2\). [[input:ans5]] [[validation:ans5]] [[feedback:prt5]]</li>
+
+<li> Find the area enclosed between \(y=x(x-{@aa@})(x-{@bb@})\) and the \(x\)-axis.[[input:ans6]] [[validation:ans6]] [[feedback:prt6]] </li>
+
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<ol class="HELM_parts">
+
+    <li>
+        <p>The curve \(y= e^x\), the \(y\)-axis and the line \(x=2\) intersect at \(x=0,2\).This area is above the \(x\) axis hence the area is \[\displaystyle\int_0^2 e^x \, \mathrm{d}x = {@ta5@}.\]</p>
+        <p>A sketch of the curve \(y = {@exp5@}\) between \(x=0\) an \(x=2\) is shown below.</p>
+       <p style="text-align: center;"></p>
+       <div style="margin-left:4em;margin-right:auto;">[[jsxgraph width='300px' height='250px']] 
+JXG.Options.axis.ticks.insertTicks = false; /*don't insert extra ticks between major ticks*/ 
+JXG.Options.axis.ticks.majorHeight =40; 
+JXG.Options.text.fontSize=16; 
+JXG.Options.axis.ticks.ticksDistance=10;
+var board = JXG.JSXGraph.initBoard(divid, {boundingbox: {#BB1#}, axis:false, showCopyright:false, showNavigation:false}); 
+var f = board.jc.snippet('{#exp6#}', true, 'x', true); 
+var ff = board.create('functiongraph',[function(x) {return Math.exp(x);}]);
+var i1 = board.create('integral',[{#[a,b]#},ff], {fillColor:'#003399',fillOpacity:0.15}); 
+i1.curveLeft.setAttribute({visible:false}); /* hide the gliders */ 
+i1.curveRight.setAttribute({visible:false}); 
+i1.label.setAttribute({visible:false});/*hide the integral calculation*/ 
+var xaxis = board.create('axis', [[0,0],[1,0]], {name:'x', withLabel: true, label: {position: 'rt', offset: [-5, 15] /* (in pixels)*/}}); board.create('ticks', [xaxis, {#[l1,u1]#}], {strokeColor: '#003399', majorHeight:15, drawLabels: true, label: { offset: [0, -5],anchorX: 'middle', anchorY: 'top' }}); 
+yaxis = board.create('axis', [[0, 0], [0, 1]], {name:'y', withLabel: true, label: {position: 'rt', offset: [-20, 0] }});
+[[/jsxgraph]] 
+</div>
+<p></p>
+    </li>
+
+    <li><p> The curve \(y={@exp6@}\) and the \(x\) axis intersect at \(x = 0,{@aa@},{@bb@}\). Between \(0\) and {@aa@}, the area under the curve is above the \(x\) axis and between {@aa@} and {@bb@} , it is below the \(x\) axis. Hence the area is: \[\displaystyle\int_{@l2@}^{@aa@}
+        x(x-{@aa@})(x-{@bb@}) \, \mathrm{d}x - \displaystyle\int_{@aa@}^{@bb@} x(x-{@aa@})(x-{@bb@}) \, \mathrm{d}x =\] \[\displaystyle\int_{@l2@}^{@aa@} ({@expand(exp6)@}) \, \mathrm{d}x - \displaystyle\int_{@aa@}^{@bb@}({@expand(exp6)@}) \, \mathrm{d}x
+        =\] \[ \left[{@int(exp6,x)@} \right]_{@l2@}^{@aa@} -\left[{@int(exp6,x)@}\right]_{@aa@}^{@bb@} = {@ta6@} .\]</p>
+      <p>A sketch of the graph is shown below.</p>
+      <p>{@plot3@}</p>
+  </li>
+
+</ol>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020120600</text>
+    </stackversion>
+    <questionvariables>
+      <text>exp5: e^x;
+l1: 0;
+u1: 2;
+ta5: int(exp5, x, 0, 2); 
+
+/* polynomial function*/
+aa: rand(3)+1;
+bb: aa+1+rand(2);
+exp6: x*(x-aa)*(x-bb);
+l2:0;
+u2:aa;
+ta6: int(exp6, x, l2, aa)+ abs(int(exp6, x, aa, bb));
+
+/*jsxgraph settings */
+[a,b]: [l1,u1];            /* matrix of limits for jsx graph*/
+BB1: [-1,e^(u1+0.2),u1+1, -(1/6)*e^(u1+0.2)]     /* boundingbox:[left, top, right, bottom]*/
+
+
+/*Maxima Plots*/
+plot1: plot(exp5, [x,-0.3,2.3], [y, %e^(0)-2, %e^(2)+2], [box, false], [axes,solid]);
+
+f1: diff(exp6,x);
+f2: solve(f1);
+coeff1: decimalplaces(rhs(f2[1]),3);
+coeff2: decimalplaces(rhs(f2[2]),3);
+plot2: plot(exp6, [x,l2-1,bb+1], [y,-10,10], [box, false], [axes,solid]);
+plot3: plot(exp6, [x,l2-1,bb+1], [y, coeff2*(coeff2-aa)*(coeff2-bb), coeff1*(coeff1-aa)*(coeff1-bb)], [box, false], [axes,solid]);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\[\displaystyle\int_0^2 e^x \, \mathrm{d}x = {@ta5@}, \quad \displaystyle\int_{@l2@}^{@aa@} {@exp6@} \, \mathrm{d}x - \displaystyle\int_{@aa@}^{@bb@} {@exp6@} \, \mathrm{d}x = {@ta6@} \]</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans5</name>
+      <type>numerical</type>
+      <tans>ta5</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans6</name>
+      <type>numerical</type>
+      <tans>ta6</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt5</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans5</sans>
+        <tans>ta5</tans>
+        <testoptions>x</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt5-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt5-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt6</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans6</sans>
+        <tans>ta6</tans>
+        <testoptions>x</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt6-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt6-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1105264819</deployedseed>
+    <deployedseed>656909115</deployedseed>
+    <deployedseed>23685187</deployedseed>
+    <deployedseed>1916694119</deployedseed>
+    <deployedseed>178271408</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans5</name>
+        <value>ta5</value>
+      </testinput>
+      <testinput>
+        <name>ans6</name>
+        <value>ta6</value>
+      </testinput>
+      <expected>
+        <name>prt5</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt5-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt6</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt6-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans5</name>
+        <value>ev(ta5+1,simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans6</name>
+        <value>ev(ta6+1,simp)</value>
+      </testinput>
+      <expected>
+        <name>prt5</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt5-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt6</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt6-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <hint format="html">
+      <text><![CDATA[<p>If you are unsure of the limits of integration draw a diagram.</p>]]></text>
+    </hint>
+  </question>
+</quiz>

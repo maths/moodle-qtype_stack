@@ -1,0 +1,482 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>35.2.3.4 Testing propeller shafts</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4 class="HELM_exercise"> Exercise </h4>
+<p> Propeller shafts for marine applications are inspected to ensure that they satisfy both diameter
+requirements and surface finish requirements. The results of {@enn@} inspections are as follows. </p>
+<p> From the inspections it was found that: </p>
+<ul>
+<li> \({@gg@}\) shafts satisfy <strong>both</strong> diamater and surface finish requirements; </li>
+<li> \({@gp@}\) shafts satisfy diameter requirements, <strong>but not</strong> surface finish requirements; </li>
+<li> \({@pg@}\) shafts <strong>do not</strong> satisfy diameter requirements, but do satisfy surface finish requirements; </li>
+<li> \({@pp@}\) shafts satisfy <strong>neither</strong> diameter or surface finish requirements. </li>
+</ul>
+<p> A shaft is selected at random. Let \(D\) be the event that it satsifies diameter requirements, and \(F\) the event that it satisfies surface finish requirements. Find the probability that:</p>
+<ol class="HELM_parts">
+<li> the shaft satisfies surface finish requirements, i.e. \(\text{P}(F)\); </li>
+<li> the shaft satisfies <strong>both</strong> diameter and surface finish requirements, i.e. \(\text{P}(D\cap F)\); </li>
+<li> the shaft satisfies <strong>either</strong> diameter or surface finish requirements, i.e. \(\text{P}(D\cup F)\); </li>
+<li> the shaft satisfies <strong>neither</strong> diameter or surface finish requirements, i.e. \(\text{P}(D'\cap F')\). </li>
+</ol>
+<p> Give all probabilities as fractions, not decimals: </p>
+<ol class="HELM_parts">
+<li> \(\text{P}(F)=\quad\)[[input:ans1]][[validation:ans1]][[feedback:prt1]] </li>
+<li> \(\text{P}(D\cap F)=\quad\)[[input:ans2]][[validation:ans2]][[feedback:prt2]] </li>
+<li> \(\text{P}(D\cup F)=\quad\)[[input:ans3]][[validation:ans3]][[feedback:prt3]] </li>
+<li> \(\text{P}(D'\cap F')=\quad\)[[input:ans4]][[validation:ans4]][[feedback:prt4]] </li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<ol class="HELM_parts">
+    <li> There are \({@gg@} + {@pg@} = {@gg+pg@}\) shafts that satisfy the surface finish conditions so that \(\text{P}(F) = \dfrac{{@gg@} + {@pg@}}{@enn@} = \displaystyle {@ta1@}.\)</li>
+    <li> There are \({@gg@}\) shafts that satisfy both requirements, therefore \(\text{P}(D\cap F) = \dfrac{@gg@}{@enn@} =\displaystyle {@ta2@}.\)</li>
+    <li> There are \({@gg@} + {@pg@} + {@gp@} = {@gg+pg+gp@}\) shafts that satisfy either requirement, therefore \(\text{P}(D\cup F) = \dfrac{{@gg@} + {@pg@} + {@gp@}}{@enn@} = \displaystyle {@ta3@}. \)</li>
+    <li> There are \({@pp@}\) shafts that do not satisfy either requirement so that \(\text{P}(D'\cap F') = \dfrac{@pp@}{@enn@} = \displaystyle {@ta4@}. \)</li>
+</ol>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021072200</text>
+    </stackversion>
+    <questionvariables>
+      <text>gg: 200 + rand(50);
+gp: 50 + rand(50);
+pg: 50 + rand(50);
+pp: 20 + rand(30);
+enn: gg + gp + pg + pp;
+ta1: (gg + pg) / enn;
+ta2: gg / enn;
+ta3: (gg + gp + pg) / enn;
+ta4: pp / enn;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\[ (gg,gp,pg,pp) = ({@gg@},{@gp@},{@pg@},{@pp@}) \]
+\[ \text{P}\{(F,D\cap F,D\cup F,D'\cap F')\} = \left({@ta1@},{@ta2@},{@ta3@},{@ta4@}\right) \]</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color: green; --darkreader-inline-color:#72ff72;" data-darkreader-inline-color=""><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color: orange; --darkreader-inline-color:#ffae1a;" data-darkreader-inline-color=""><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color: red; --darkreader-inline-color:#ff1a1a;" data-darkreader-inline-color=""><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>ta2</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>algebraic</type>
+      <tans>ta3</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans4</name>
+      <type>algebraic</type>
+      <tans>ta4</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>ta3</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt4</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans4</sans>
+        <tans>ta4</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt4-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt4-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1258840276</deployedseed>
+    <deployedseed>1420015065</deployedseed>
+    <deployedseed>2969921</deployedseed>
+    <deployedseed>1859708759</deployedseed>
+    <deployedseed>1697117790</deployedseed>
+    <deployedseed>1904331457</deployedseed>
+    <deployedseed>1340410182</deployedseed>
+    <deployedseed>1222927702</deployedseed>
+    <deployedseed>1365174230</deployedseed>
+    <deployedseed>489292851</deployedseed>
+    <deployedseed>1278803042</deployedseed>
+    <deployedseed>1413559890</deployedseed>
+    <deployedseed>1424779046</deployedseed>
+    <deployedseed>1973290555</deployedseed>
+    <deployedseed>1226914438</deployedseed>
+    <deployedseed>893817487</deployedseed>
+    <deployedseed>1295452946</deployedseed>
+    <deployedseed>1882092149</deployedseed>
+    <deployedseed>227913555</deployedseed>
+    <deployedseed>1669522210</deployedseed>
+    <deployedseed>1299023203</deployedseed>
+    <deployedseed>281100558</deployedseed>
+    <deployedseed>1174560889</deployedseed>
+    <deployedseed>1763190218</deployedseed>
+    <deployedseed>1401488763</deployedseed>
+    <deployedseed>208060703</deployedseed>
+    <deployedseed>770049273</deployedseed>
+    <deployedseed>1703590103</deployedseed>
+    <deployedseed>1757913487</deployedseed>
+    <deployedseed>423131852</deployedseed>
+    <deployedseed>529005044</deployedseed>
+    <deployedseed>1617827412</deployedseed>
+    <deployedseed>2070604395</deployedseed>
+    <deployedseed>1185343265</deployedseed>
+    <deployedseed>544420205</deployedseed>
+    <deployedseed>1310062339</deployedseed>
+    <deployedseed>861186194</deployedseed>
+    <deployedseed>1215078828</deployedseed>
+    <deployedseed>865200059</deployedseed>
+    <deployedseed>1164762689</deployedseed>
+    <deployedseed>1733704198</deployedseed>
+    <deployedseed>1648172183</deployedseed>
+    <deployedseed>1359098859</deployedseed>
+    <deployedseed>172312052</deployedseed>
+    <deployedseed>1218695057</deployedseed>
+    <deployedseed>601054556</deployedseed>
+    <deployedseed>1478616733</deployedseed>
+    <deployedseed>1088550128</deployedseed>
+    <deployedseed>1722879414</deployedseed>
+    <deployedseed>1945473310</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta3</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>ta4</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt4-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>1</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>1</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt3-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt4-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(ta1+1,simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ev(ta2+1,simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ev(ta3+1,simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>ev(ta4+1,simp)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt3-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt4-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

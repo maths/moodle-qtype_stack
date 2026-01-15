@@ -1,0 +1,72 @@
+{
+    "quiz": {
+        "name": "10_4 De Moivre\u2019s Theorem",
+        "intro": "<p>In this Section we introduce De Moivre\u2019s theorem and examine some of its consequences. We shall see that one of its uses is in obtaining relationships between trigonometric functions of multiple angles (like <span class=\"math inline\">\\(\\sin\r\n3x,\\)<\/span> <span class=\"math inline\">\\(\\cos 7x\\)<\/span>) and powers of trigonometric functions (like <span class=\"math inline\">\\(\\sin ^2x\\)<\/span>, <span class=\"math inline\">\\(\\cos^4x\\)<\/span>). Another important use of De Moivre\u2019s theorem is in obtaining complex roots of polynomial equations. In this application we re-examine our definition of the argument arg<span class=\"math inline\">\\((z)\\)<\/span> of a complex number.<\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "De Moivre's Theorem",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "2",
+            "heading": "De Moivre's theorem and root finding",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "5",
+            "heading": "Exercises",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-10-4\/10-4-1-1-De-Moivre\u2019s-theorem.xml"
+        },
+        {
+            "slot": "2",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-10-4\/10-4-2-1-Finding-the-roots-of-complex-numbers.xml"
+        },
+        {
+            "slot": "3",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-10-4\/10-4-2-2-Root-finding.xml"
+        },
+        {
+            "slot": "4",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-10-4\/10-4-2-3-Roots-of-a-complex-number.xml"
+        },
+        {
+            "slot": "5",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-10-4\/10-4-3-1-Complex-roots-of-a-simple-quartic.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

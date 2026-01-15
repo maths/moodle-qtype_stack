@@ -8,6 +8,7 @@ STACK is the world-leading open-source (GPL) automatic assessment system for mat
 * STACK has a wide variety of input types, including line by line working  and interaction with mathematical diagrams.
 * STACK has support for multipart questions.
 * STACK has support for scientific units, significant figures and libraries of chemical data.
+* STACK is distributed with a [question library](STACK_question_admin/Library/index.md) of over 4200 tested questions, including templates, examples (linked to the docs) and comprehensive question banks for engineering mathematics.
 
 This is the official user documentation for STACK.
 

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>13.3.2.3 T Area Under Exponential</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>Find the area under \(f(x)={@f1@}\) from \(x={@a1@}\) to \(x={@b1@}\) given that the exponential function \({@f1@}\) is always positive. Give your answer in its <strong>exact</strong>&nbsp;form.</p>
+<p>Area \(=\) [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<h4 class="HELM_solution"></h4>
+
+<p>The following graph shows the graph of the function&nbsp;\(f(x)={@f1@}\) and the area we want to find.&nbsp;</p>
+<p>[[jsxgraph width='300px' height='250px']] JXG.Options.axis.ticks.insertTicks = false; /*don't insert extra ticks between major ticks*/ JXG.Options.axis.ticks.majorHeight =40; JXG.Options.text.fontSize=16; JXG.Options.axis.ticks.ticksDistance=1000000000;
+    var board = JXG.JSXGraph.initBoard(divid, {boundingbox: {#BB#}, axis:true, showCopyright:false, showNavigation:false}); var f = board.jc.snippet('{#f1#}', true, 'x', true); var ff = board.create('functiongraph',[function(x) {var n={#n1#}; return Math.exp(n*x);}]);
+    var i1 = board.create('integral',[{#[a,b]#},ff], {fillColor:'#003399',fillOpacity:0.15}); i1.curveLeft.setAttribute({visible:false}); /* hide the gliders */ i1.curveRight.setAttribute({visible:false}); i1.label.setAttribute({visible:false});/*hide
+    the integral calculation*/ var xaxis = board.create('axis', [[0,0],[1,0]], {name:'x', withLabel: true, label: {position: 'rt', offset: [-5, 15] /* (in pixels)*/}}); board.create('ticks', [xaxis, {#[a1,b1]#}], {strokeColor: '#003399', majorHeight:15,
+    drawLabels: true, label: { offset: [0, -5],anchorX: 'middle', anchorY: 'top' }}); yaxis = board.create('axis', [[0, 0], [0, 1]], {name:'y', withLabel: true, label: {position: 'rt', offset: [-20, 0] }}); [[/jsxgraph]]
+</p>
+<p></p>
+<p>Area =\({\displaystyle\int_1^3 {@f1@}\ \mathrm{d}x}\) = \(\bigg[\displaystyle {@int(f1,x)@}\bigg]_1^3={@ta1@}\).</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2020120600</text>
+    </stackversion>
+    <questionvariables>
+      <text>/* Find area under curve */
+n1: 2 + rand(5);
+f1: %e^(n1*x);         /* function*/
+a1:1;                       /* lower limit*/
+b1: 3;                     /*upper limit*/
+
+ta1: int(f1,x,a1,b1);
+
+/*jsxgraph settings */
+[a,b]: [a1,b1];            /* matrix of limits for jsx graph*/
+BB: [-1,e^(n1*(b1+0.1)),b1+1, -(1/6)*e^(n1*(b1+0.1))]     /* boundingbox:[left, top, right, bottom]*/</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>\[ \int_1^3 {@f1@} dx = {@ta1@}   \]</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords>[[BASIC-CALCULUS]]</forbidwords>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1628442132</deployedseed>
+    <deployedseed>1226792845</deployedseed>
+    <deployedseed>81352782</deployedseed>
+    <deployedseed>467881398</deployedseed>
+    <deployedseed>1547950832</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>2*ta1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <tags>
+      <tag><text>jsxgraph</text>
+</tag>
+      <tag><text>js</text>
+</tag>
+    </tags>
+  </question>
+</quiz>

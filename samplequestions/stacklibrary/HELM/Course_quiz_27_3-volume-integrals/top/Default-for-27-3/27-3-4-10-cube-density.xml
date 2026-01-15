@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>27.3.4.10 cube density</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>A cube of side {#aa#} is made of laminated material so that, with the
+origin at one corner, the density of the material is \(kx\).
+<ol class="HELM_parts">
+<li>Find the mass \(M\) of the cube: [[input:ans1]] [[validation:ans1]][[feedback:prt1]]</li>
+<li>Find the position of the centre of mass of the cube (input as list): [[input:ans2]] [[validation:ans2]][[feedback:prt2]]</li>
+<li>Finally find the moments of inertia about the \(x\)-, \(y\)- and \(z\)-axes (input as list in terms of M): [[input:ans3]] [[validation:ans3]][[feedback:prt3]]</li>
+</ol>
+
+</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[integrations over the cube are of the form \(\displaystyle\int_{x=0}^{@aa@} 
+\int_{y=0}^{@aa@}  \int_{z=0}^{@aa@}  \mathrm{d}V.\)
+<ol class="HELM_parts">
+<li>The 
+The mass \(M\) is given by
+\begin{align*}
+M &= \int_{x=0}^{@aa@}  \int_{y=0}^{@aa@}  \int_{z=0}^{@aa@} \rho \;\mathrm{d}z \,\mathrm{d}y \,\mathrm{d}x\\ 
+&=\int_{x=0}^{@aa@}  \int_{y=0}^{@aa@}  \int_{z=0}^{@aa@}  k x \;\mathrm{d}z \,\mathrm{d}y \,\mathrm{d}x \\
+&= \int_{x=0}^{@aa@}  \int_{y=0}^{@aa@}  {@I11@}  \;\mathrm{d}y \,\mathrm{d}x = \int_{x=0}^{@aa@} 
+  {@I12@}   \;\mathrm{d}x= \bigg[  {@fbI13@}  \bigg]_0^{@aa@}  =
+{@ta1@}
+  \end{align*}
+</li>
+
+<li>The \(x\)-coordinate of the centre of mass will be given by
+\(\dfrac{\displaystyle\int \rho x \;\mathrm{d}V}{M}\) where the numerator is given by
+\begin{align*}
+\int\rho xdV &= \int_{x=0}^{@aa@} \int_{y=0}^{@aa@} \int_{z=0}^{@aa@} \rho x \;\mathrm{d}z \,\mathrm{d}y \,\mathrm{d}x =
+\int_{x=0}^{@aa@} \int_{y=0}^{@aa@} \int_{z=0}^{@aa@}  k x^2 \;\mathrm{d}z \,\mathrm{d}y \,\mathrm{d}x \\
+&= \int_{x=0}^{@aa@} \int_{y=0}^{@aa@} {@I2x1@}  \;\mathrm{d}y \,\mathrm{d}x = \int_{x=0}^{@aa@}
+  {@I2x2@}  \;\mathrm{d}x = \left[ {@fbI2x3@} \right]_0^{@aa@} =
+{@I2x3@}
+  \end{align*}
+So \(\overline{x} ={@I2x3@}\div{@ta1@} = {@ta2x@}\). 
+The \(y\)-coordinate of the centre of mass is given by \(\dfrac{\displaystyle\int
+\rho y \;\mathrm{d}V}{M}\) where the numerator is given by
+\begin{align*}
+\int\rho y\mathrm{d}V &= \int_{x=0}^{@aa@} \int_{y=0}^{@aa@} \int_{z=0}^{@aa@} \rho y \;\mathrm{d}z \,\mathrm{d}y \,\mathrm{d}x =
+\int_{x=0}^{@aa@} \int_{y=0}^{@aa@} \int_{z=0}^{@aa@} kyx \;\mathrm{d}z \,\mathrm{d}y \,\mathrm{d}x \\
+&= \int_{x=0}^{@aa@} \int_{y=0}^{@aa@} {@I2y1@} \;\mathrm{d}y \,\mathrm{d}x = \int_{x=0}^{@aa@}
+  {@I2y2@}  \;\mathrm{d}x = \bigg[ {@fbI2y3@} \bigg]_0^{@aa@} =
+{@I2y3@}
+  \end{align*}
+So \(\overline{y} = {@I2y3@}\div{@ta1@} = 1\). <br>
+By symmetry (the density depends only on \(x\)), \(\overline{z} =
+\overline{y} = {@ta2y@}\). The coordinates of the centre of mass are
+(\({@ta2x@},{@ta2y@},{@ta2z@}\)).
+</li>
+
+
+<li>Finally find the moments of inertia about the \(x\)-, \(y\)- and \(z\)-axes:<br>
+The moment of inertia about the \(x\)-axis is given by \(I_x = \int_V
+\rho \left(y^2 + z^2 \right) \;\mathrm{d}V\). 
+In this case,
+\begin{align*}
+I_x &= \int_{x=0}^{@aa@} \int_{y=0}^{@aa@} \int_{z=0}^{@aa@} k x (y^2 + z^2) \;\mathrm{d}z
+\,\mathrm{d}y \,\mathrm{d}x \\
+&= \int_{x=0}^{@aa@} \int_{y=0}^{@aa@} \left[ {@fbI3x1@} \right]_{z=0}^{@aa@} \;\mathrm{d}y \,\mathrm{d}x = \int_{x=0}^{@aa@} \int_{y=0}^{@aa@} {@I3x1@}  \;\mathrm{d}y \,\mathrm{d}x \\
+&=  \int_{x=0}^{@aa@} \left[ {@fbI3x2@} \right]_{y=0}^{@aa@}\;\mathrm{d}x = \int_{x=0}^{@aa@}  {@I3x2@} \;\mathrm{d}x \\
+&= \left[{@fbI3x3@} \right]_0^2 = {@I3x3@} ={@ta3x@}
+\end{align*} where the last step involves substituting that the
+mass \(M = 8k\).
+Similarly, the moment of inertia about the \(y\)-axis is given by \(I_y
+= \int_V \rho \left(x^2 + z^2 \right) \;\mathrm{d}V\) i.e. <br>
+\begin{align*}
+I_y &= \int_{x=0}^{@aa@} \int_{y=0}^{@aa@} \int_{z=0}^{@aa@} k x (x^2 + z^2) \;\mathrm{d}z
+\,\mathrm{d}y \,\mathrm{d}x \\
+& =  \int_{x=0}^{@aa@}  \int_{y=0}^{@aa@}  \left[ {@fbI3y1@} \right]_{z=0}^{@aa@}  \;\mathrm{d}y \,\mathrm{d}x \\ 
+&= \int_{x=0}^{@aa@}
+\int_{y=0}^{@aa@} \left( {@I3y1@} \right) \;\mathrm{d}y \,\mathrm{d}x =
+\int_{x=0}^{@aa@}  \left( {@I3y2@} \right)  \;\mathrm{d}x \\
+&=  \left[ {@fbI3y3@} \right]_{x=0}^{@aa@}  = {@I3y3@} =  {@ta3y@}
+\end{align*}
+By symmetry, \(I_z = I_y = {@ta3y@}\).
+</li>
+</ol>]]></text>
+    </generalfeedback>
+    <defaultgrade>3</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025040100</text>
+    </stackversion>
+    <questionvariables>
+      <text>aa: 1+rand(3)
+bb:aa;
+cc:aa;
+
+fbI11: integrate(k*x,z);
+I11: integrate(k*x,z,0,aa);
+fbI12: integrate (I11,y);
+I12: integrate (I11,y,0,aa);
+fbI13: integrate (I12,x);
+I13: integrate (I12,x,0,aa);
+ta1: I13;
+
+fbI2x1: integrate(k*x^2,z);
+I2x1: integrate(k*x^2,z,0,aa);
+fbI2x2: integrate (I2x1,y);
+I2x2: integrate (I2x1,y,0,aa);
+fbI2x3: integrate (I2x2,x);
+I2x3: integrate (I2x2,x,0,aa);
+ta2x: I2x3/ta1;
+
+fbI2y1: integrate(k*x*y,z);
+I2y1: integrate(k*x*y,z,0,aa);
+fbI2y2: integrate (I2y1,y);
+I2y2: integrate (I2y1,y,0,aa);
+fbI2y3: integrate (I2y2,x);
+I2y3: integrate (I2y2,x,0,aa);
+ta2y: I2y3/ta1;
+ta2z:ta2y;
+ta2:[ta2x,ta2y,ta2z]
+
+fbI3x1:integrate (k*x*(y^2+z^2),z);
+I3x1:integrate (k*x*(y^2+z^2),z,0,aa);
+fbI3x2: integrate (I3x1,y);
+I3x2: integrate (I3x1,y,0,aa);
+fbI3x3: integrate (I3x2,x);
+I3x3: integrate (I3x2,x,0,aa);
+
+fbI3y1:integrate (k*x*(x^2+z^2),z);
+I3y1:integrate (k*x*(x^2+z^2),z,0,aa);
+fbI3y2: integrate (I3y1,y);
+I3y2: integrate (I3y1,y,0,aa);
+fbI3y3: integrate (I3y2,x);
+I3y3: integrate (I3y2,x,0,aa);
+
+
+
+ta3x: I3x3/I13*M
+ta3y: I3y3/I13*M
+ta3z: ta3y
+ta3:[ta3x,ta3y,ta3z]</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="html">
+      <text>aa={@aa@}\(\implies\)M={@ta1@}, CoM = {@ta2@}, MoI= {@ta3@}</text>
+    </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>ta2</tans>
+      <boxsize>7</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>algebraic</type>
+      <tans>ta3</tans>
+      <boxsize>14</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>ta3</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1086825569</deployedseed>
+    <deployedseed>1204603328</deployedseed>
+    <deployedseed>750775463</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta3</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description/>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(ta1+1,simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ev(ta2+1,simp)</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ev(ta3+1,simp)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty/>
+        <expectedanswernote>prt3-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

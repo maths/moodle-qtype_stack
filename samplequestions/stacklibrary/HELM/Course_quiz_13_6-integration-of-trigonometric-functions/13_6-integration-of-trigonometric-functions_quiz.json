@@ -1,0 +1,166 @@
+{
+    "quiz": {
+        "name": "13_6 Integration of Trigonometric Functions",
+        "intro": "<p>Integrals involving trigonometric functions are commonplace in mathematics. This is<br>especially true when modelling waves and alternating current circuits. When the root-mean-square (rms) value<br>of a waveform, or signal is to be calculated, you will often find this results in an integral of the form \\({\\displaystyle\\int\\sin^2t\\mathrm{d}t}\\). In this Section you will learn how such integrals can be evaluated.<br><\/p>",
+        "introformat": "1",
+        "questionsperpage": "0",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "INTEGRATION OF TRIGONOMETRIC FUNCTIONS",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "7",
+            "heading": "ORTHOGONALITY RELATIONS",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "9",
+            "heading": "REDUCTION FORMULAE",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "14",
+            "heading": "HARDER TRIGONOMETRIC INTEGRALS",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "15",
+            "heading": "Exercises",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-13-6\/13-6-1-1-Integration-of-trigonometric-functions.xml"
+        },
+        {
+            "slot": "6",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-13-6\/13-6-1-6-Engineering-example.xml"
+        },
+        {
+            "slot": "15",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-13-6\/13-6-5-1-Identities.xml"
+        },
+        {
+            "slot": "16",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-13-6\/13-6-5-2-Identities.xml"
+        },
+        {
+            "slot": "17",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-13-6\/13-6-5-3-Identities.xml"
+        },
+        {
+            "slot": "7",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-13-6\/13-6-2-1-Orthogonality-relations.xml"
+        },
+        {
+            "slot": "8",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-13-6\/13-6-2-2-Mean-square-value.xml"
+        },
+        {
+            "slot": "11",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-13-6\/13-6-3-3-Reduction-formulae.xml"
+        },
+        {
+            "slot": "13",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-13-6\/13-6-3-5-Power-of-an-antenna.xml"
+        },
+        {
+            "slot": "14",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-13-6\/13-6-4-1-Harder-trigonometric-integrals.xml"
+        },
+        {
+            "slot": "3",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-13-6\/16-6-1-3-Simple-trigonometric-integrals-key-point.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-13-6\/13-6-1-2-T-Easy-trigonometric-integrals.xml"
+        },
+        {
+            "slot": "4",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-13-6\/13-6-1-4-T-Integrate-after-trigonometric-indentity.xml"
+        },
+        {
+            "slot": "5",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-13-6\/13-6-1-5-T-Integrate-after-trigonometric-indentity.xml"
+        },
+        {
+            "slot": "10",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-13-6\/13-6-3-2-T-Integrals-represented-by-I_n.xml"
+        },
+        {
+            "slot": "12",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-13-6\/13-6-3-4-T-Wallis-s-formula.xml"
+        },
+        {
+            "slot": "9",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-13-6\/13-6-3-1-Reduction-formulae-introduction.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

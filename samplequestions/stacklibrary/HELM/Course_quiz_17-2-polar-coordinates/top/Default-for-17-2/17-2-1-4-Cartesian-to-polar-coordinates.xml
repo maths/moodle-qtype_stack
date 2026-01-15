@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="stack">
+    <name>
+      <text>17.2.1.4 Cartesian to polar coordinates</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>The Cartesian coordinates of \(P\), \(Q\) are \(({@rand_x_P@}, {@rand_y_P@})\) and \(({@rand_x_Q@} ,{@rand_y_Q@})\). What are their equivalent polar coordinates? Please leave your answers in exact form, you may write \(\arctan(x)\) as <code>atan(x)</code> and \(\sqrt{x}\) as <code>sqrt(x)</code>. </p>
+
+<p>For \(P\): \((r, \theta) = (\)[[input:ans1]]\(,\) [[input:ans2]]\()\) [[validation:ans1]] [[validation:ans2]]</p>[[feedback:prt1]]
+
+<p>For \(Q\): \((r, \theta) = (\)[[input:ans3]]\(,\) [[input:ans4]]\()\) [[validation:ans3]] [[validation:ans4]]</p>[[feedback:prt2]]]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p>From the key point, we know that \(r = +\sqrt{x^2+y^2}\) and \(\theta = \arctan\dfrac{y}{x}\). Substituting in the values from the question, we get that the Cartesian coordinates \(\left({@rand_x_P@},\ {@rand_y_P@}\right)\) correspond to the Polar coordinates \(\left(+\sqrt{({@rand_x_P@})^2 + ({@rand_y_P@})^2},\ \arctan\left(\dfrac{{@rand_y_P@}}{{@rand_x_P@}}\right)\right) = \left({@taPr@}, {@taPtheta@}\right)\), and the Cartesian coordinates\(\left({@rand_x_Q@},\ {@rand_y_Q@}\right)\) correspond to the Polar coordinates \(\left(+\sqrt{({@rand_x_Q@})^2 + ({@rand_y_Q@})^2},\ \arctan\left(\dfrac{{@rand_y_Q@}}{{@rand_x_Q@}}\right)\right) = \left({@taQr@}, {@taQtheta@}\right)\). See the graph below for a visual representation of this (Note if the text is stacked on top of one another, they can be dragged apart using the mouse):</p>
+
+[[jsxgraph]]
+		
+		var P_coord = [{#rand_x_P#}, {#rand_y_P#}]
+		var Q_coord = [{#rand_x_Q#}, {#rand_y_Q#}]
+		var Max_lengthx = Math.max(Math.abs(P_coord[0]), Math.abs(Q_coord[0]))
+                var Max_lengthy = Math.max(Math.abs(P_coord[1]), Math.abs(Q_coord[1]))
+        var board = JXG.JSXGraph.initBoard(divid, { 
+            boundingbox: [-Max_lengthx-2, Max_lengthy+2, Max_lengthx+2, -Max_lengthy-2],
+            keepaspectratio: true,
+            showCopyright: false,
+            axis: true,
+            showNavigation: true,
+        });
+		
+		JXG.Options.text.useMathJax = true;
+		
+		var P = board.create('point',P_coord, {name:'P',size:3, fixed:true});
+		var Q = board.create('point',Q_coord, {name:'Q',size:3, fixed:true});
+
+               var display_ang_P = (s => s.raw)`{@taPtheta@}`[0]
+               var display_ang_Q = (s => s.raw)`{@taQtheta@}`[0]
+               var display_len_P =  (s => s.raw)`{@taPr@}`[0]
+               var display_len_Q =  (s => s.raw)`{@taQr@}`[0]
+               
+		
+		var l1 = board.create('line', [P, [0, 0]], {straightFirst:false, straightLast:false ,firstArrow:true, name:'\\(r =\\)' + display_len_P, id: 'mag1', withLabel: true, color:'red', label:{anchorX: 'middle', anchorY: 'middle', position: '0.1fr left', distance: 1.2, offset:[20, 20], color: 'red'}});
+		var l2 = board.create('line', [Q, [0, 0]], {straightFirst:false, straightLast:false ,firstArrow:true, name:'\\(r =\\)' + display_len_Q, id: 'mag2', withLabel: true, color:'blue', label:{anchorX: 'middle', anchorY: 'middle',position: '0.1fr left', distance: 1.2, color:'blue', offset:[20, 20]}});
+
+		
+		var a = board.create('angle', [[1,0], [0, 0], P_coord ], {radius: 1, color:'red', withLabel: false, fixed: true});
+
+		var t1_loc_x = 2*Math.cos(JXG.Math.Geometry.rad([1,0], [0, 0], P_coord)/2) [[comment]]places the text at the mid point of the angle, and out by 1 unit[[/comment]]
+
+		var t1_loc_y = 2*Math.sin(JXG.Math.Geometry.rad([1,0], [0, 0], P_coord)/2)
+		var t1 = board.create('text', [t1_loc_x, t1_loc_y,'\\(\\theta =\\)' + display_ang_Q], {color:'red', useMathJax: true});
+		
+		var b = board.create('angle', [[1,0], [0, 0], Q_coord ], {radius: 0.75, color:'blue', withLabel: false, fixed: true});
+
+		var t2_loc_x = 1.75*Math.cos(JXG.Math.Geometry.rad([1,0], [0, 0], Q_coord)/2)
+		var t2_loc_y = 1.75*Math.sin(JXG.Math.Geometry.rad([1,0], [0, 0], Q_coord)/2)
+
+		var t2 = board.create('text', [t2_loc_x, t2_loc_y,'\\(\\theta =\\)' + display_ang_P], {color:'blue', useMathJax: true});
+
+[[/jsxgraph]]]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2025073100</text>
+    </stackversion>
+    <questionvariables>
+      <text>rand_x_P:rand_with_prohib(-5, 5, [0]);
+rand_y_P:rand_with_prohib(-5, 5, [0]);
+rand_x_Q:rand_with_prohib(-5, 5, [0, rand_x_P]);
+rand_y_Q:rand_with_prohib(-5, 5, [0, rand_y_P]);
+
+taPr:sqrt(rand_x_P^2 + rand_y_P^2);
+taPtheta:atan(rand_y_P/rand_x_P);
+taQr:sqrt(rand_x_Q^2 + rand_y_Q^2);
+taQtheta:atan(rand_y_Q/rand_x_Q);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text/>
+    </specificfeedback>
+    <questionnote format="html">
+      <text>\(P\): \(({@rand_x_P@}, {@rand_y_P@}) = ({@taPr@}, {@taPtheta@} )\), 
+Q: \(({@rand_x_Q@} ,{@rand_y_Q@}) = ({@taQr@}, {@taQtheta@})\)</text>
+    </questionnote>
+    <questiondescription format="html">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>taPr</tans>
+      <boxsize>7</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>taPtheta</tans>
+      <boxsize>7</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>algebraic</type>
+      <tans>taQr</tans>
+      <boxsize>7</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans4</name>
+      <type>algebraic</type>
+      <tans>taQtheta</tans>
+      <boxsize>7</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>taPr</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>taPtheta</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>taQr</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty/>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description/>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans4</sans>
+        <tans>taQtheta</tans>
+        <testoptions/>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text/>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text/>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>108181622</deployedseed>
+    <deployedseed>1554077271</deployedseed>
+    <deployedseed>181522218</deployedseed>
+    <deployedseed>625590611</deployedseed>
+    <deployedseed>1098060895</deployedseed>
+    <deployedseed>1353800273</deployedseed>
+    <deployedseed>1733926039</deployedseed>
+    <deployedseed>284291538</deployedseed>
+    <deployedseed>1805949682</deployedseed>
+    <deployedseed>1855342605</deployedseed>
+    <deployedseed>1641606320</deployedseed>
+    <deployedseed>1926430235</deployedseed>
+    <deployedseed>1479025394</deployedseed>
+    <deployedseed>258153225</deployedseed>
+    <deployedseed>1880529397</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>taPr</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>taPtheta</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>taQr</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>taQtheta</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

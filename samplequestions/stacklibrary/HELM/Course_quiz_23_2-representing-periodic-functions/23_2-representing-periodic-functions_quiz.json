@@ -1,0 +1,204 @@
+{
+    "quiz": {
+        "name": "23_2 Representing Periodic Functions",
+        "intro": "In this Section we show how a periodic function can be expressed as a series of sines and cosines.\nWe begin by obtaining some standard integrals involving sinusoids. We then <b>assume<\/b> that if \\(f(t)\\) is a periodic function, of period \\(2\\pi\\), then the Fourier series expansion takes the form:\n\\[ f(t) = \\dfrac{a_0}{2} + \\sum_{n=1}^\\infty (a_n \\cos nt + b_n \\sin nt)\\]\nOur main purpose here is to show how the constants in this expansion, \\(a_n\\) (for \\(n = 0, 1, 2, 3, \\dots\\)) and\n\\(b_n\\) (for \\(n = 1, 2, 3, \\dots\\)), may be determined for any given function \\(f(t)\\).",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Introduction",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "2",
+            "heading": "Functions of period 2pi",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "3",
+            "heading": "Orthogonality",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "10",
+            "heading": "Calculation of Fourier coefficients",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "12",
+            "heading": "Examples of Fourier series",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "15",
+            "heading": "Fourier series for functions of general period",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "19",
+            "heading": "Exercises",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-23-2\/23-2-1-1-Introduction.xml"
+        },
+        {
+            "slot": "2",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-23-2\/23-2-2-1-Functions-of-period-2-pi.xml"
+        },
+        {
+            "slot": "4",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-23-2\/23-2-2-3-int-sin-nt-cos-nt.xml"
+        },
+        {
+            "slot": "5",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-23-2\/23-2-2-4-Orthogonality-properties-of-sinusoids-p2.xml"
+        },
+        {
+            "slot": "6",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-23-2\/23-2-2-5-int-sin-nt-cos-nt.xml"
+        },
+        {
+            "slot": "7",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-23-2\/23-2-2-6-Orthogonality-Relation.xml"
+        },
+        {
+            "slot": "8",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-23-2\/23-2-2-7-int-sin-nt-sin-mt-(copy).xml"
+        },
+        {
+            "slot": "9",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-23-2\/23-2-2-8-Orthogonality-Relation-2.xml"
+        },
+        {
+            "slot": "10",
+            "page": "7",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-23-2\/23-2-3-1-Calculation-of-Fourier-coefficients.xml"
+        },
+        {
+            "slot": "11",
+            "page": "7",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-23-2\/23-2-3-2-Calculation-of-Fourier-coefficients---part-2.xml"
+        },
+        {
+            "slot": "12",
+            "page": "8",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-23-2\/23-2-4-1-Examples-of-Fourier-series.xml"
+        },
+        {
+            "slot": "13",
+            "page": "8",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-23-2\/23-2-4-2-FS-of-square-wave.xml"
+        },
+        {
+            "slot": "14",
+            "page": "8",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-23-2\/23-2-4-3-Examples-of-Fourier-series.xml"
+        },
+        {
+            "slot": "15",
+            "page": "9",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-23-2\/23-2-5-1-Fourier-series-for-functions-of-general-period.xml"
+        },
+        {
+            "slot": "16",
+            "page": "9",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-23-2\/23-2-5-2-FS-coeff-example.xml"
+        },
+        {
+            "slot": "17",
+            "page": "10",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-23-2\/23-2-5-3-FS-saw-tooth-example.xml"
+        },
+        {
+            "slot": "18",
+            "page": "10",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-23-2\/23-2-5-4-FS-task.xml"
+        },
+        {
+            "slot": "3",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-23-2\/23-2-2-2-Orthogonality-properties-of-sinusoids.xml"
+        },
+        {
+            "slot": "19",
+            "page": "11",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-23-2\/23-2-6-1-fs-ex1-(new-question-version).xml"
+        },
+        {
+            "slot": "20",
+            "page": "11",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-23-2\/23-2-6-2-fs-ex2-(new-question-version).xml"
+        },
+        {
+            "slot": "21",
+            "page": "11",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-23-2\/23-2-6-3-fs-ex4-(new-question-version).xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

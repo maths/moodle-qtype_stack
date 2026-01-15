@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>20.5.1.2 Example Convolution</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h4 class="HELM_example">Example</h4>
+<p>Find the convolution of \(f(t)=t.u(t)\) and \(g(t)=\sin t.u(t)\).</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>Here \(f(t-x)=(t-x)u(t-x)\) and \(g(x)=\sin x.u(x)\) and so \[(f*g)(t)=\int_0^t(t-x)\sin x \,dx\] We need to integrate by parts. We find, remembering again that \(t\) is a constant in the integration process, \[\begin{eqnarray*}
+\int_0^t(t-x)\sin x\,dx&amp;=&amp;\biggl [-(t-x)\cos
+x\biggr ]_0^t-\int_0^t(-1)(-\cos x)\,dx\qquad\qquad\qquad\qquad\\
+&amp;=&amp;\left[0+t\right]-\int_0^t\cos x\,dx\\&amp;=&amp;t-\biggl[\sin
+x\biggr ]_0^t=t-\sin t
+\end{eqnarray*}\] so that <br> \(\qquad\displaystyle (f*g)(t)=t-\sin t\quad\) or, equivalently, in this case \(\quad (t*\sin t)(t)=t-\sin t\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

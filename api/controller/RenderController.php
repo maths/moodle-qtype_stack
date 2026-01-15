@@ -109,6 +109,7 @@ class RenderController {
                 $question->get_ta_for_input($name)
             );
 
+            StackPlotReplacer::replace_plots($plots, $apiinput->samplesolutionrender, "solrender", $storeprefix);
             $apiinput->validationtype = $input->get_parameter('showValidation', 1);
             $apiinput->configuration = $input->render_api_data($question->get_ta_for_input($name));
 

@@ -7,10 +7,19 @@ We use the [github issue tracker](https://github.com/maths/moodle-qtype_stack/is
 
 ## Version 4.12.0
 
-Note, this version of STACK requires PHP 8.1 or newer.  PHP 7.4 will not work, and we no longer support Moodle 4.1.
+Important release notes:
+
+* STACK 4.12.0 requires PHP 8.1 or newer.  PHP 7.4 will not work.
+* We no longer support Moodle 4.1.
+* We now require the plugin [import as new version](https://github.com/maths/moodle-qbank_importasversion/).
+
+Changes and new features.
 
 1. Add in new parser (parser2): major re-engineering of the Maxima code.
 2. Add in support for number bases.
+3. Validation of XML imports. XML files that fail validation will be marked as broken but still imported where possible.
+4. Editing of question XML within STACK from link in STACK dashboard. STACK now requires the importasversion plugin to make this possible.
+5. Much code tidying to comply with updated to Moodle Code Checker.
 
 Issues with [github milestone 4.12.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.12.0) include
 

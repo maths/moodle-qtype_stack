@@ -662,4 +662,121 @@ final class questiontype_test extends qtype_stack_walkthrough_test_base {
             '[[feedback:prt1]]'
         ));
     }
+
+    public function test_import_xml_empty_fragment(): void {
+        $xml = '<question type="stack">
+                  <name>
+                    <text>Default</text>
+                  </name>
+                </question>';
+        if (class_exists('\core\xml_parser') && method_exists('\core\xml_parser', 'parse')) {
+            $parser = new \core\xml_parser();
+            $xmldata = $parser->parse($xml);
+        } else {
+            $xmldata = xmlize($xml);
+        }
+
+        $importer = new qformat_xml();
+        $question = $importer->try_importing_using_qtypes($xmldata['question'], null, null, 'stack');
+        $this->assertEquals('Default', $question->name);
+        $this->assertEquals(
+            '<p>Default question</p><p>[[input:ans1]] [[validation:ans1]]</p>',
+            $question->questiontext
+        );
+        $this->assertEquals(FORMAT_HTML, $question->questiontextformat);
+        $this->assertEquals(
+            '',
+            $question->generalfeedback
+        );
+        $this->assertEquals(FORMAT_HTML, $question->generalfeedbackformat);
+        $this->assertEquals(
+            '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            $question->prtcorrect['text']
+        );
+        $this->assertEquals(FORMAT_HTML, $question->prtpartiallycorrect['format']);
+        $this->assertEquals(
+            '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.',
+            $question->prtpartiallycorrect['text']
+        );
+        $this->assertEquals(FORMAT_HTML, $question->prtincorrect['format']);
+        $this->assertEquals(
+            '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            $question->prtincorrect['text']
+        );
+        $this->assertEquals(FORMAT_HTML, $question->prtcorrect['format']);
+        $this->assertEquals(1, $question->defaultmark);
+        $this->assertEquals(0.1, $question->penalty);
+        $this->assertEquals(0, $question->hidden);
+        $this->assertEquals(
+            \get_config('qtype_stack', 'stackversion'),
+            $question->stackversion
+        );
+        $this->assertEquals(
+            'ta1:1;',
+            $question->questionvariables
+        );
+        $this->assertEquals(
+            '[[feedback:prt1]]',
+            $question->specificfeedback['text']
+        );
+        $this->assertEquals(FORMAT_HTML, $question->specificfeedback['format']);
+        $this->assertEquals(
+            '{@ta1@}',
+            $question->questionnote['text']
+        );
+        $this->assertEquals(FORMAT_HTML, $question->questionnote['format']);
+        $this->assertEquals(
+            '',
+            $question->questiondescription['text']
+        );
+        $this->assertEquals(FORMAT_HTML, $question->questiondescription['format']);
+
+        $this->assertEquals(\get_config('qtype_stack', 'decimals'), $question->decimals);
+        $this->assertEquals(\get_config('qtype_stack', 'scientificnotation'), $question->scientificnotation);
+        $this->assertEquals(\get_config('qtype_stack', 'assumepositive'), $question->assumepositive);
+        $this->assertEquals(\get_config('qtype_stack', 'assumereal'), $question->assumereal);
+        $this->assertEquals(\get_config('qtype_stack', 'multiplicationsign'), $question->multiplicationsign);
+        $this->assertEquals(\get_config('qtype_stack', 'sqrtsign'), $question->sqrtsign);
+        $this->assertEquals(\get_config('qtype_stack', 'complexno'), $question->complexno);
+        $this->assertEquals(\get_config('qtype_stack', 'logicsymbol'), $question->logicsymbol);
+        $this->assertEquals(\get_config('qtype_stack', 'inversetrig'), $question->inversetrig);
+        $this->assertEquals(\get_config('qtype_stack', 'matrixparens'), $question->matrixparens);
+        $this->assertEquals(\get_config('qtype_stack', 'questionsimplify'), $question->questionsimplify);
+        $this->assertEquals(0, $question->isbroken);
+
+        $this->assertEquals(1, $question->prt1value);
+        $this->assertEquals(1, $question->prt1autosimplify);
+        $this->assertEquals(1, $question->prt1feedbackstyle);
+        $this->assertEquals('', $question->prt1feedbackvariables);
+
+        $this->assertEquals('', $question->prt1description[0]);
+        $this->assertEquals('AlgEquiv', $question->prt1answertest[0]);
+        $this->assertEquals('ans1', $question->prt1sans[0]);
+        $this->assertEquals('ta1', $question->prt1tans[0]);
+        $this->assertEquals(0, $question->prt1quiet[0]);
+        $this->assertEquals('', $question->prt1testoptions[0]);
+        $this->assertEquals('-1', $question->prt1truenextnode[0]);
+        $this->assertEquals('prt1-1-T', $question->prt1trueanswernote[0]);
+        $this->assertEquals(1, $question->prt1truescore[0]);
+        $this->assertEquals('', $question->prt1truepenalty[0]);
+        $this->assertEquals('=', $question->prt1truescoremode[0]);
+        $this->assertEquals('', $question->prt1truefeedback[0]['text']);
+        $this->assertEquals(FORMAT_HTML, $question->prt1truefeedback[0]['format']);
+        $this->assertEquals('=', $question->prt1truescoremode[0]);
+        $this->assertEquals('-1', $question->prt1falsenextnode[0]);
+        $this->assertEquals('prt1-1-F', $question->prt1falseanswernote[0]);
+        $this->assertEquals(0, $question->prt1falsescore[0]);
+        $this->assertEquals('=', $question->prt1falsescoremode[0]);
+        $this->assertEquals('', $question->prt1falsepenalty[0]);
+        $this->assertEquals('', $question->prt1falsefeedback[0]['text']);
+        $this->assertEquals(FORMAT_HTML, $question->prt1falsefeedback[0]['format']);
+        $this->assertEquals(\get_config('qtype_stack', 'inputmustverify'), $question->ans1mustverify);
+        $this->assertEquals(\get_config('qtype_stack', 'inputshowvalidation'), $question->ans1showvalidation);
+        $this->assertEquals(\get_config('qtype_stack', 'inputinsertstars'), $question->ans1insertstars);
+        $this->assertEquals(\get_config('qtype_stack', 'inputforbidfloat'), $question->ans1forbidfloat);
+        $this->assertEquals(\get_config('qtype_stack', 'inputrequirelowestterms'), $question->ans1requirelowestterms);
+        $this->assertEquals(\get_config('qtype_stack', 'inputcheckanswertype'), $question->ans1checkanswertype);
+        $this->assertEquals(\get_config('qtype_stack', 'inputforbidwords'), $question->ans1forbidwords);
+        $this->assertEquals(\get_config('qtype_stack', 'inputboxsize'), $question->ans1boxsize);
+    }
 }

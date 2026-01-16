@@ -178,11 +178,15 @@ class stack_abstract_graph {
         reset($this->nodesbydepth);
         $maxdepth = key($this->nodesbydepth);
         foreach ($this->roots as $root) {
-            $this->compute_heuristic_xs($root, 1 << $maxdepth, 1 << $maxdepth);
+            $visited = [];
+            $this->compute_heuristic_xs($root, 1 << $maxdepth, 1 << $maxdepth, $visited);
         }
         foreach ($this->nodes as $node) {
-            $node->x = array_sum($node->heuristicxs) / count($node->heuristicxs);
-            $node->heuristicxs = null;
+            if ($node->heuristiccount > 0) {
+                $node->x = $node->heuristicsum / $node->heuristiccount;
+            }
+
+            unset($node->heuristicsum, $node->heuristiccount);
         }
         foreach ($this->nodesbydepth as $depth => $nodes) {
             uasort($this->nodesbydepth[$depth], ['stack_abstract_graph', 'compare_node_x_coords']);
@@ -319,16 +323,31 @@ class stack_abstract_graph {
      * @param int $x heuristic x-position to give that node.
      * @param float $dx the gap that should be left between the two child nodes.
      */
-    protected function compute_heuristic_xs(stack_abstract_graph_node $node, $x, $dx) {
-        $node->heuristicxs[] = $x;
+    protected function compute_heuristic_xs(stack_abstract_graph_node $node, $x, $dx, &$visited) {
+        $nodeid = spl_object_hash($node);
+
+        if (isset($visited[$nodeid])) {
+            return;
+        }
+        $visited[$nodeid] = true;
+
+        if (!isset($node->heuristicsum)) {
+            $node->heuristicsum = 0;
+            $node->heuristiccount = 0;
+        }
+
+        $node->heuristicsum += $x;
+        $node->heuristiccount++;
+
         $dx /= 2;
         if ($node->left) {
-            $this->compute_heuristic_xs($this->get($node->left), $x - $dx, $dx);
+            $this->compute_heuristic_xs($this->get($node->left), $x - $dx, $dx, $visited);
         }
         if ($node->right) {
-            $this->compute_heuristic_xs($this->get($node->right), $x + $dx, $dx);
+            $this->compute_heuristic_xs($this->get($node->right), $x + $dx, $dx, $visited);
         }
     }
+
 
     /**
      * Return the clump containing a given node.

@@ -5,8 +5,8 @@ Feature: Test analysis response page
   I need to open the analysis reposnse page
 
   Background:
-    Given the site is running Moodle version 5.1 or lower
     Given I set up STACK using the PHPUnit configuration
+    Given the site is running Moodle version 5.2 or higher
     Given the following "users" exist:
       | username |
       | teacher  |
@@ -26,14 +26,13 @@ Feature: Test analysis response page
       | Test questions   | stack  | Test question 1                          | algebraic_input        |
       | Test questions   | stack  | Test question 2                          | algebraic_input        |
       | Test questions   | stack  | Test question 3                          | algebraic_input        |
-      | Test questions   | random | Random (Test questions)                  |                        |
     And the following "activities" exist:
       | activity   | name   | course | idnumber |
       | quiz       | Quiz 1 | C1     | quiz1    |
       | quiz       | Quiz 2 | C1     | quiz2    |
     And quiz "Quiz 1" contains the following questions:
-      | question                | page |
-      | Random (Test questions) | 1    |
+      | question                | page | randomcategory |
+      | Random (Test questions) | 1    | Test questions |
     And quiz "Quiz 2" contains the following questions:
       | question                | page |
       | Test question 3         | 1    |

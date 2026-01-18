@@ -44,6 +44,7 @@ Unless you want to discuss something confidential with the developers, please do
 * Is JSXGraph up to date? Check if the commit message for `corsscripts/jsxgraphcore.min.js` states the same version number as [jsxgraph.org](https://jsxgraph.org/).
 * If needed re-build the minified Javascript (e.g. `npx grunt --root=question/type/stack`).
 * Check version of JSXGraph.
+* Update any non-English langauge packs with a static copy of the latest version (for use by the API).
 * Ensure that `db/upgrade.php` has no additions that are dated older than the last release but were not present in the last release.
 
 ### Check API

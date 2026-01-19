@@ -92,7 +92,7 @@ class GradingController {
                 $gradingresponse->isgradable = false;
 
                 $response->getBody()->write(json_encode($gradingresponse));
-                return $response->withHeader('Content-Type', 'application/json');
+                return $response->withHeader('Content-Type', 'application/json')->withHeader('Access-Control-Allow-Origin', '*');
             }
 
             $feedbackstyle = $prt->get_feedbackstyle();
@@ -154,7 +154,7 @@ class GradingController {
         $gradingresponse->responsesummary = $question->summarise_response($data['answers']);
         $gradingresponse->iframes = StackIframeHolder::$iframes;
         $response->getBody()->write(json_encode($gradingresponse));
-        return $response->withHeader('Content-Type', 'application/json');
+        return $response->withHeader('Content-Type', 'application/json')->withHeader('Access-Control-Allow-Origin', '*');
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

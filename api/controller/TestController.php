@@ -77,7 +77,7 @@ class TestController {
         if ($testresponse->israndomvariants && !$testresponse->isdeployedseeds) {
             $testresponse->results = [];
             $response->getBody()->write(json_encode($testresponse));
-            return $response->withHeader('Content-Type', 'application/json');
+            return $response->withHeader('Content-Type', 'application/json')->withHeader('Access-Control-Allow-Origin', '*');
         } else {
             StackSeedHelper::initialize_seed($question, $data["seed"]);
             $question->initialise_question_from_seed();
@@ -99,7 +99,7 @@ class TestController {
                 $upgradeerrors . $validationerrors;
             $testresponse->results = [];
             $response->getBody()->write(json_encode($testresponse));
-            return $response->withHeader('Content-Type', 'application/json');
+            return $response->withHeader('Content-Type', 'application/json')->withHeader('Access-Control-Allow-Origin', '*');
         }
 
         // Create test results for each deployed seed. If no random variants, then use 'noseed' as
@@ -132,7 +132,7 @@ class TestController {
             }
         }
         $response->getBody()->write(json_encode($testresponse));
-        return $response->withHeader('Content-Type', 'application/json');
+        return $response->withHeader('Content-Type', 'application/json')->withHeader('Access-Control-Allow-Origin', '*');
     }
 
     /**

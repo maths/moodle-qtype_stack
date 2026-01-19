@@ -1,5 +1,5 @@
 @qtype @qtype_stack
-Feature: Test analysis response page
+Feature: Test analysis response page in Moodle ≥ 5.2.
   As a teacher
   In order to analyse student responses
   I need to open the analysis reposnse page

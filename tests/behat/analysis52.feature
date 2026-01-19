@@ -38,7 +38,7 @@ Feature: Test analysis response page
       | Test question 3         | 1    |
 
   @javascript
-  Scenario: Analyse a question
+  Scenario: Analyse a question in Moodle ≥ 5.2.
     And I am on the "Quiz 2" "mod_quiz > View" page logged in as "student"
     And I press "Attempt quiz"
     And I set the input "ans1" to "a*b" in the STACK question
@@ -55,7 +55,7 @@ Feature: Test analysis response page
     And I should see "## prt1: 1 (100.00%); # = 1 | prt1-1-T"
 
   @javascript
-  Scenario: Check random questions appear in analysis
+  Scenario: Check random questions appear in analysis in Moodle ≥ 5.2.
     Given I log in as "teacher"
     And I am on the "Quiz 1" "mod_quiz > Responses report" page
     When I am on the "C1 > Test question 1" "qtype_stack > analysis" page logged in as "teacher"

@@ -78,7 +78,7 @@ class DownloadController {
         if (!$ses->get_valid()) {
             header('HTTP/1.0 500 Internal Server Error');
             header('Content-Type: text/plain;charset=UTF-8');
-            header('Access-Control-Allow-Headers: *');
+            header('Access-Control-Allow-Origin: *');
             echo 'Unknown issue related to the generation of this data.';
             die();
         }
@@ -100,7 +100,7 @@ class DownloadController {
     public function set_headers($name) {
         header('HTTP/1.0 200 OK');
         header("Content-Disposition: attachment; filename=\"$name\"");
-        header('Access-Control-Allow-Headers: *');
+        header('Access-Control-Allow-Origin: *');
         if (strripos($name, '.csv') === strlen($name) - 4) {
             header('Content-Type: text/csv;charset=UTF-8');
         } else {

@@ -143,6 +143,6 @@ class RenderController {
         $renderresponse->isinteractive = $question->is_interactive();
 
         $response->getBody()->write(json_encode($renderresponse));
-        return $response->withHeader('Content-Type', 'application/json')->withHeader('Access-Control-Allow-Origin', '*');
+        return $response->withHeader('Content-Type', 'application/json');
     }
 }

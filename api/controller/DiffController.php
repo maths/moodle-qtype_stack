@@ -44,6 +44,6 @@ class DiffController {
         $diffresponse->diff = $diff;
 
         $response->getBody()->write(json_encode($diffresponse));
-        return $response->withHeader('Content-Type', 'application/json')->withHeader('Access-Control-Allow-Origin', '*');
+        return $response->withHeader('Content-Type', 'application/json');
     }
 }

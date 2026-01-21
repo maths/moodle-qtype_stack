@@ -105,3 +105,6 @@ $CFG->libdir = $CFG->dirroot . '/emulation/libdir';
 
 // MathJax URL.
 $CFG->httpsurl = 'https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js?config=TeX-AMS-MML_HTMLorMML';
+
+// URL of your site making requests to the API. Leave as wildcard to allow browser requests from anywhere.
+$CFG->corsorigin = '*';

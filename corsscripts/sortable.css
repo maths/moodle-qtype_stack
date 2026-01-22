@@ -56,14 +56,15 @@ button {
 
 .usedList > .header {
     height: auto;
-    width: max(100%, 150px);
     background-color: inherit; text-align: center; border-bottom: thick solid;
     padding: 10px 10px 20px 10px;
     display: inline-block;
 }
 
 .usedList > .index {
+    height: auto;
     background-color: inherit; text-align: left; border-right: thick solid; display: inline-block;
+    padding: 10px 10px 20px 10px;
     margin-right: 12px;
 }
 
@@ -79,7 +80,7 @@ button {
     min-height: 50px;
     height: auto;
     background-color: inherit; text-align: left; border-right: thick solid rgb(196, 131, 10);
-    padding: 10px;
+    padding: 10px 10px 20px 10px;
     margin: 6px;
 }
 

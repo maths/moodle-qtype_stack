@@ -387,6 +387,7 @@ export const stack_sortable = class stack_sortable {
         if (this.override_item_height) {this.item_height_width["style"] += `height:${item_height}px;`}
         if (this.override_item_width) {this.item_height_width["style"] += `width:${item_width}px;`}
         this.item_height_width = (this.item_height_width["style"] === "") ? {} : this.item_height_width;
+        this.item_width = item_width;
         this.container_height_width = (Object.keys(this.item_height_width).length !== 0) ?
             {"style" : this.item_height_width["style"]} : {};
         this.state = this._generate_state(this.steps, inputId, Number(this.columns), Number(this.rows));
@@ -467,14 +468,15 @@ export const stack_sortable = class stack_sortable {
      * @returns {void}
      */
     add_headers(headers, available_header) {
+        const header_width = (this.item_width) ? {'style': `width:${this.item_width}px;`} : {};
         for (const [i, value] of headers.entries()) {
             var parentEl = document.getElementById(`usedList_${i}`);
-            var header = this._create_header(value, `usedHeader_${i}`, this.item_height_width);
+            var header = this._create_header(value, `usedHeader_${i}`, header_width);
             parentEl.insertBefore(header, parentEl.firstChild);
         }
         var parentEl = document.getElementById("availableList");
         parentEl.insertBefore(
-            this._create_header(available_header, "availableHeader", this.item_height_width), parentEl.firstChild);
+            this._create_header(available_header, "availableHeader", header_width), parentEl.firstChild);
     }
 
     /**
@@ -625,14 +627,16 @@ export const stack_sortable = class stack_sortable {
     resize_grid_items() {
             const maxHeight = this._resize_compute_max_height('.grid-item:not(.header), .grid-item-rigid:not(.header)');
             const maxHeaderHeight = this._resize_compute_max_height('.grid-item.header, .grid-item-rigid.header');
-            const maxWidth = this._resize_compute_max_width('.grid-item, .grid-item-rigid');
+            const maxWidth = this._resize_compute_max_width('.grid-item:not(.index), .grid-item-rigid:not(.index)');
+            const maxIndexWidth = this._resize_compute_max_width('.grid-item.index, .grid-item-rigid.index');
 
             // Resize the heights for both grid-item and grid-item-rigid
             this._resize_heights('.grid-item:not(.header), .grid-item-rigid:not(.header)', maxHeight);
             this._resize_heights('.grid-item.header, .grid-item-rigid.header', maxHeaderHeight);
 
             // Additionally resize the width of grid-item-rigid
-            this._resize_widths('.grid-item-rigid', maxWidth);
+            this._resize_widths('.grid-item-rigid:not(.index)', maxWidth);
+            this._resize_widths('.grid-item-rigid.index', maxIndexWidth);
             this._resize_grid_container_heights(maxHeight);
             this._resize_grid_container_widths(maxWidth);
             if (!this.isResizeSet) {
@@ -706,7 +710,7 @@ export const stack_sortable = class stack_sortable {
         usedLists.forEach((el) => {if (this._is_empty(el)) {
             el.classList.add('empty');
             // We need to auto-resize the height again in this case.
-            this._resize_set_height(el, this._resize_compute_max_height('.grid-item, .grid-item-rigid') + 12);
+            this._resize_set_height(el, this._resize_compute_max_height('.grid-item:not(.header), .grid-item-rigid:not(.header)') + 12);
         }})
     }
 
@@ -1138,7 +1142,7 @@ export const stack_sortable = class stack_sortable {
      * @returns {void}
      */
     _resize_set_height(el, height) {
-        el.style.height = (this.override_item_height) ? this.item_height_width['style']['height'] : `${height}px`;
+        el.style.height = (this.override_item_height && !el.classList.contains('header')) ? this.item_height_width['style']['height'] : `${height}px`;
     }
 
     /**
@@ -1189,7 +1193,7 @@ export const stack_sortable = class stack_sortable {
         if (this.rows !== "" && this.columns !== "") {
             for (const [i, value] of this.state[0][0].used.entries())
                 for (const [j, _] of value.entries()) {
-                    this._resize_set_height(this.used[i][j], height + 12);
+                    this._resize_set_height(this.used[i][j], height);
             }
         }
     }

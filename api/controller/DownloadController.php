@@ -27,7 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../../stack/cas/castext2/castext2_evaluatable.class.php');
 require_once(__DIR__ . '/../../stack/cas/castext2/castext2_static_replacer.class.php');
-require_once('../config.php');
+
 use api\util\StackQuestionLoader;
 use api\util\StackSeedHelper;
 use Psr\Http\Message\ResponseInterface as Response;

@@ -143,7 +143,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         }
 
         if (isset($this->params['style'])) {
-            $css = 'cors://parsonsstyles/' . $this->params['style'] . '.css';
+            $css = 'cors://parsonsstyles/' . $this->params['style'] . '.min.css';
         }
 
         $r->items[] = new MP_String(json_encode($xpars));
@@ -567,7 +567,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
                     $valid    = false;
                     $err[] = stack_string('stackBlock_parsons_unknown_style', ['style' => $stylename]);
                 } else if (!file_exists($CFG->dirroot . '/question/type/stack/corsscripts/parsonsstyles/' .
-                        $stylename . '.css')) {
+                        $stylename . '.min.css')) {
                     $valid    = false;
                     $err[] = stack_string('stackBlock_parsons_unknown_style', ['style' => $stylename]);
                 }

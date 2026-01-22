@@ -34,8 +34,8 @@ export const SUPPORTED_CALLBACK_FUNCTIONS = [
  * 2. It validates the structure of the Parson's JSON using `_validate_parsons_JSON`.
  * 3. If the Parsons JSON is of depth two with a valid set of top-level keys it separates them.
  * 4. If `steps` is a Maxima string (after separation), it converts it to an object.
- * 
- * NB: there is a rare case in which this causes issues: if the author happens to only use a subset of 
+ *
+ * NB: there is a rare case in which this causes issues: if the author happens to only use a subset of
  * ["steps", "options", "headers", "available_header", "index"] as the keys inside their `steps` Question variable.
  * This will cause improper validation in the call of `_validate_parsons_JSON` but it will also cause
  * functional issues in the question because we will extract the values of those keys from the object.
@@ -125,11 +125,11 @@ function _stackstring_objectify(stackjson_array_string) {
  * 2. If the JSON has depth 2, the top-level keys should be a subset of
  *    `["steps", "options", "headers", "index", "available_header"]`, and must contain `"steps"`.
  *    The value for "steps" should be a valid flat JSON. Options are not validated here.
- * 
- * NB: The separation of depth 1 and depth 2 cases only really works when raw JSON are written by the author. 
- * This does not work in cases where they are pulled through from Maxima variables using `{# ... #}`. This is 
+ *
+ * NB: The separation of depth 1 and depth 2 cases only really works when raw JSON are written by the author.
+ * This does not work in cases where they are pulled through from Maxima variables using `{# ... #}`. This is
  * because we check JSON depth by checking if any of the values is an object, and in the Maxima case, this isn't true as the
- * item causing "depth 2" is now a string containing a two-dimensional array. Not clear how to circumvent this, 
+ * item causing "depth 2" is now a string containing a two-dimensional array. Not clear how to circumvent this,
  * it just means there's a gap in validation currently but does not break any functionality.
  *
  * @param {Object} steps - The Parson's JSON to be validated.
@@ -221,7 +221,7 @@ function _validate_flat_steps(steps) {
         steps = _stackstring_objectify(steps);
     }
 
-    // Check whether all numeric keys are passed. Since keys in Maxima arrays are hashed, this only invalidates 
+    // Check whether all numeric keys are passed. Since keys in Maxima arrays are hashed, this only invalidates
     // the case where JSON's are authored with numeric keys directly inside the parson's block.
     // Numeric keys are a problem because they are ordered by JS objects
     if (Object.keys(steps).every((key) => !isNaN(parseInt(key)))) {
@@ -304,7 +304,7 @@ export function get_iframe_height() {
  * @method generate_used - Generates the used list based on the current state.
  * @method update_state - Updates the state based on changes in the used and available lists.
  * @method update_grid_empty_css - Updates the CSS styling of grid-items.
- * @method resize_grid_items - Auto-resizes the height and widths of elements with grid-item and grid-item-rigids. 
+ * @method resize_grid_items - Auto-resizes the height and widths of elements with grid-item and grid-item-rigids.
  * @method validate_options - Validates the sortable user options.
  *
  * @example
@@ -615,7 +615,7 @@ export const stack_sortable = class stack_sortable {
      * Only resizes widths if in "row" orientation, where we have to fix widths with the grid-item-rigid class.
      * Otherwise widths are already automatically resized.
      * Avoids affecting proof mode by virtue of that mode avoiding grid-item classes entirely.
-     * 
+     *
      * If `item_height` parameter has been passed, then heights will not be autoresized.
      * Likewise, if `item_width` parameter has been passed, then widths will not be autoresized.
      *
@@ -623,16 +623,42 @@ export const stack_sortable = class stack_sortable {
      * @returns {void}
      */
     resize_grid_items() {
-            const maxHeight = this._resize_compute_max_height('.grid-item, .grid-item-rigid');
+            const maxHeight = this._resize_compute_max_height('.grid-item:not(.header), .grid-item-rigid:not(.header)');
+            const maxHeaderHeight = this._resize_compute_max_height('.grid-item.header, .grid-item-rigid.header');
             const maxWidth = this._resize_compute_max_width('.grid-item, .grid-item-rigid');
 
             // Resize the heights for both grid-item and grid-item-rigid
-            this._resize_heights('.grid-item, .grid-item-rigid', maxHeight);
+            this._resize_heights('.grid-item:not(.header), .grid-item-rigid:not(.header)', maxHeight);
+            this._resize_heights('.grid-item.header, .grid-item-rigid.header', maxHeaderHeight);
 
             // Additionally resize the width of grid-item-rigid
             this._resize_widths('.grid-item-rigid', maxWidth);
             this._resize_grid_container_heights(maxHeight);
             this._resize_grid_container_widths(maxWidth);
+            if (!this.isResizeSet) {
+                window.addEventListener("resize", () => this.redraw_grid_items());
+                this.isResizeSet = true;
+            }
+    }
+
+    /**
+     * Redraws the grid. Called when window is resized.
+     *
+     * @method
+     * @returns {void}
+     */
+    redraw_grid_items() {
+        // CSS resizing of grid-items
+        // --------------------------
+        // Reset heights and widths of grid items.
+        if (!this.override_item_width) {
+            document.querySelectorAll('.grid-item, .grid-item-rigid').forEach((item) => item.style.width = '');
+        }
+        if (!this.override_item_width) {
+            document.querySelectorAll('.grid-item, .grid-item-rigid').forEach((item) => item.style.height = '');
+        }
+        // Then update the CSS accordingly.
+        this.resize_grid_items();
     }
 
     /**
@@ -660,7 +686,7 @@ export const stack_sortable = class stack_sortable {
      * Updates empty class elements according as whether they are no longer empty or become empty.
      * This is not used by proof or grouping mode because the lists are never empty (they contain headers).
      * This only affects the case in grid mode, where there are empty placeholders.
-     * This should be passed to `onSort` option of sortables so that every time an element is dragged, 
+     * This should be passed to `onSort` option of sortables so that every time an element is dragged,
      * the CSS updates accordingly.
      *
      * @method
@@ -679,7 +705,7 @@ export const stack_sortable = class stack_sortable {
         const usedLists = document.querySelectorAll('.usedList');
         usedLists.forEach((el) => {if (this._is_empty(el)) {
             el.classList.add('empty');
-            // We need to auto-resize the height again in this case. 
+            // We need to auto-resize the height again in this case.
             this._resize_set_height(el, this._resize_compute_max_height('.grid-item, .grid-item-rigid') + 12);
         }})
     }
@@ -1043,7 +1069,7 @@ export const stack_sortable = class stack_sortable {
 
     /**
      * Gets the current second elapsed since the start of the Unix epoch (1st January, 1970, 00:00 GMT)
-     * 
+     *
      * @returns {number} Number of elapsed seconds
      */
     _get_current_seconds() {
@@ -1083,7 +1109,7 @@ export const stack_sortable = class stack_sortable {
 
     /**
      * Computes the maximum height of all items as specified by the CSS selector.
-     * 
+     *
      * @method
      * @returns {void}
      */
@@ -1094,7 +1120,7 @@ export const stack_sortable = class stack_sortable {
 
     /**
      * Computes the maximum width of all items as specified by the CSS selector.
-     * 
+     *
      * @method
      * @returns {void}
      */
@@ -1105,7 +1131,7 @@ export const stack_sortable = class stack_sortable {
 
     /**
      * Resizes the height of an element in `px`.
-     * 
+     *
      * If `item_height` parameter has been passed, then height will be overriden by the value in that parameter.
      *
      * @method
@@ -1117,7 +1143,7 @@ export const stack_sortable = class stack_sortable {
 
     /**
      * Resizes the width of an element in `px`.
-     * 
+     *
      * If `item_width` parameter has been passed, then width will be overriden by the value in that parameter.
      *
      * @method
@@ -1129,7 +1155,7 @@ export const stack_sortable = class stack_sortable {
 
     /**
      * Resizes the heights of items specified by the CSS selector.
-     * 
+     *
      * If `item_height` parameter has been passed, then heights will be overriden by the value in that parameter.
      *
      * @method
@@ -1141,7 +1167,7 @@ export const stack_sortable = class stack_sortable {
 
     /**
      * Resizes the widths of items specified by the CSS selector.
-     * 
+     *
      * If `item_width` parameter has been passed, then widths will be overriden by the value in that parameter.
      *
      * @method
@@ -1153,7 +1179,7 @@ export const stack_sortable = class stack_sortable {
 
     /**
      * Resizes the heights of all containers containing placeholder lists in grid mode. Adds some extra to account for margin.
-     * 
+     *
      * If `item_height` parameter has been passed, then the heights will be overriden by the value in that parameter.
      *
      * @method
@@ -1161,7 +1187,7 @@ export const stack_sortable = class stack_sortable {
      */
     _resize_grid_container_heights(height) {
         if (this.rows !== "" && this.columns !== "") {
-            for (const [i, value] of this.state[0][0].used.entries()) 
+            for (const [i, value] of this.state[0][0].used.entries())
                 for (const [j, _] of value.entries()) {
                     this._resize_set_height(this.used[i][j], height + 12);
             }
@@ -1170,7 +1196,7 @@ export const stack_sortable = class stack_sortable {
 
     /**
      * Resizes the widths of all containers containing placeholder lists in grid mode. Adds some extra to account for margin.
-     * 
+     *
      * If `item_width` parameter has been passed, then the widths will be overriden by the value in that parameter.
      *
      * @method
@@ -1178,7 +1204,7 @@ export const stack_sortable = class stack_sortable {
      */
     _resize_grid_container_widths(width) {
         if (this.rows !== "" && this.columns !== "") {
-            for (const [i, value] of this.state[0][0].used.entries()) 
+            for (const [i, value] of this.state[0][0].used.entries())
                 for (const [j, _] of value.entries()) {
                     // Adjust the width if in horizontal orientation.
                     if (this.orientation === "row") {

@@ -101,7 +101,7 @@ class DownloadController {
         global $CFG;
         header('HTTP/1.0 200 OK');
         header("Content-Disposition: attachment; filename=\"{$name}\"");
-        header('Access-Control-Allow-Origin: {$CFG->corsorigin}');
+        header("Access-Control-Allow-Origin: {$CFG->corsorigin}");
         if (strripos($name, '.csv') === strlen($name) - 4) {
             header('Content-Type: text/csv;charset=UTF-8');
         } else {

@@ -43,7 +43,7 @@ button {
 }
 
 #availableList:empty {
-    height:50px; background-color:lightpink;
+    height:auto; background-color:lightpink;
 }
 
 #availableList > .sortable-chosen {
@@ -77,7 +77,7 @@ button {
 }
 
 #availableList > .index {
-    min-height: 50px;
+    min-height: auto;
     height: auto;
     background-color: inherit; text-align: left; border-right: thick solid rgb(196, 131, 10);
     padding: 10px 10px 20px 10px;
@@ -85,7 +85,7 @@ button {
 }
 
 .grid-item {
-    height: 50px;
+    height: auto;
     background-color: #fff;
     border: solid 1px rgb(0,0,0,0.2);
     padding: 10px;
@@ -95,7 +95,7 @@ button {
 }
 
 .grid-item-rigid {
-    height: 50px;
+    height: auto;
     width: 150px;
     background-color: #fff;
     border: solid 1px rgb(0,0,0,0.2);
@@ -110,7 +110,7 @@ button {
 }
 
 .usedList.empty {
-    height: 50px;
+    height: auto;
     background-color: floralwhite; border: 1px solid rgb(155, 199, 206);
     padding: 10px;
     margin: 6px;

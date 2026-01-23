@@ -51,7 +51,7 @@ button {
 }
 
 #availableList:empty {
-    height:50px; background-color:lightpink;
+    height:auto; background-color:lightpink;
 }
 
 #availableList > .sortable-chosen {
@@ -72,7 +72,7 @@ button {
 .usedList > .index {
     height: auto;
     background-color: inherit; text-align: left; border-right: thick solid; display: inline-block;
-    padding: 10px 20px 10px 10px;
+    padding: var(--stack-parsons-narrow-y-padding) 20px var(--stack-parsons-narrow-y-padding) 10px;
     margin-right: 12px;
 }
 
@@ -85,15 +85,14 @@ button {
 }
 
 #availableList > .index {
-    min-height: 50px;
     height: auto;
     background-color: inherit; text-align: left; border-right: thick solid rgb(196, 131, 10);
-    padding: 10px 20px 10px 10px;
+    padding: var(--stack-parsons-narrow-y-padding) 20px var(--stack-parsons-narrow-y-padding) 10px;
     margin: 6px;
 }
 
 .grid-item {
-    height: 20px;
+    height: auto;
     background-color: #fff;
     border: solid 1px rgb(0,0,0,0.2);
     padding: 10px;
@@ -103,7 +102,7 @@ button {
 }
 
 .grid-item-rigid {
-    height: 20px;
+    height: auto;
     width: 150px;
     background-color: #fff;
     border: solid 1px rgb(0,0,0,0.2);
@@ -118,9 +117,9 @@ button {
 }
 
 .usedList.empty {
-    height: 20px;
+    height: auto;
     background-color: floralwhite; border: 1px solid rgb(155, 199, 206);
-    padding: 10px;
+    padding: var(--stack-parsons-narrow-y-padding) 10px var(--stack-parsons-narrow-y-padding) 10px;
     margin: 6px;
     text-align: center;
     display: flex;

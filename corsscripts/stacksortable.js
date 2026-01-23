@@ -628,7 +628,6 @@ export const stack_sortable = class stack_sortable {
             const maxHeight = this._resize_compute_max_height('.grid-item:not(.header), .grid-item-rigid:not(.header)');
             const maxHeaderHeight = this._resize_compute_max_height('.grid-item.header, .grid-item-rigid.header');
             const maxWidth = this._resize_compute_max_width('.grid-item:not(.index), .grid-item-rigid:not(.index)');
-            const maxIndexWidth = this._resize_compute_max_width('.grid-item.index, .grid-item-rigid.index');
 
             // Resize the heights for both grid-item and grid-item-rigid
             this._resize_heights('.grid-item:not(.header), .grid-item-rigid:not(.header)', maxHeight);
@@ -636,7 +635,6 @@ export const stack_sortable = class stack_sortable {
 
             // Additionally resize the width of grid-item-rigid
             this._resize_widths('.grid-item-rigid:not(.index)', maxWidth);
-            this._resize_widths('.grid-item-rigid.index', maxIndexWidth);
             this._resize_grid_container_heights(maxHeight);
             this._resize_grid_container_widths(maxWidth);
             if (!this.isResizeSet) {
@@ -657,9 +655,13 @@ export const stack_sortable = class stack_sortable {
         // Reset heights and widths of grid items.
         if (!this.override_item_width) {
             document.querySelectorAll('.grid-item, .grid-item-rigid, .empty').forEach((item) => item.style.width = '');
+        } else {
+            document.querySelectorAll('.index .header').forEach((item) => item.style.width = '');
         }
         if (!this.override_item_width) {
             document.querySelectorAll('.grid-item, .grid-item-rigid, .empty').forEach((item) => item.style.height = '');
+        } else {
+            document.querySelectorAll('.index, .header').forEach((item) => item.style.height = '');
         }
         // Then update the CSS accordingly.
         this.resize_grid_items();
@@ -1039,9 +1041,13 @@ export const stack_sortable = class stack_sortable {
         // Reset heights and widths of grid items.
         if (!this.override_item_width) {
             document.querySelectorAll('.grid-item, .grid-item-rigid, .empty').forEach((item) => item.style.width = '');
+        } else {
+            document.querySelectorAll('.index .header').forEach((item) => item.style.width = '');
         }
         if (!this.override_item_width) {
             document.querySelectorAll('.grid-item, .grid-item-rigid, .empty').forEach((item) => item.style.height = '');
+        } else {
+            document.querySelectorAll('.index, .header').forEach((item) => item.style.height = '');
         }
         // Then update the CSS accordingly.
         this.resize_grid_items();
@@ -1142,7 +1148,7 @@ export const stack_sortable = class stack_sortable {
      * @returns {void}
      */
     _resize_set_height(el, height) {
-        el.style.height = (this.override_item_height && !el.classList.contains('header')) ? this.item_height_width['style']['height'] : `${height}px`;
+        el.style.height = (this.override_item_height && !el.classList.contains('header') && !el.classList.contains('index')) ? this.item_height_width['style']['height'] : `${height}px`;
     }
 
     /**
@@ -1154,7 +1160,7 @@ export const stack_sortable = class stack_sortable {
      * @returns {void}
      */
     _resize_set_width(el, width) {
-        el.style.width = (this.override_item_width) ? this.item_height_width['style']['width'] : `${width}px`;
+        el.style.width = (this.override_item_width && !el.classList.contains('empty')) ? this.item_height_width['style']['width'] : `${width}px`;
     }
 
     /**

@@ -656,10 +656,10 @@ export const stack_sortable = class stack_sortable {
         // --------------------------
         // Reset heights and widths of grid items.
         if (!this.override_item_width) {
-            document.querySelectorAll('.grid-item, .grid-item-rigid').forEach((item) => item.style.width = '');
+            document.querySelectorAll('.grid-item, .grid-item-rigid, .empty').forEach((item) => item.style.width = '');
         }
         if (!this.override_item_width) {
-            document.querySelectorAll('.grid-item, .grid-item-rigid').forEach((item) => item.style.height = '');
+            document.querySelectorAll('.grid-item, .grid-item-rigid, .empty').forEach((item) => item.style.height = '');
         }
         // Then update the CSS accordingly.
         this.resize_grid_items();
@@ -1038,10 +1038,10 @@ export const stack_sortable = class stack_sortable {
         // --------------------------
         // Reset heights and widths of grid items.
         if (!this.override_item_width) {
-            document.querySelectorAll('.grid-item, .grid-item-rigid').forEach((item) => item.style.width = '');
+            document.querySelectorAll('.grid-item, .grid-item-rigid, .empty').forEach((item) => item.style.width = '');
         }
         if (!this.override_item_width) {
-            document.querySelectorAll('.grid-item, .grid-item-rigid').forEach((item) => item.style.height = '');
+            document.querySelectorAll('.grid-item, .grid-item-rigid, .empty').forEach((item) => item.style.height = '');
         }
         // Then update the CSS accordingly.
         this.resize_grid_items();
@@ -1193,7 +1193,7 @@ export const stack_sortable = class stack_sortable {
         if (this.rows !== "" && this.columns !== "") {
             for (const [i, value] of this.state[0][0].used.entries())
                 for (const [j, _] of value.entries()) {
-                    this._resize_set_height(this.used[i][j], height);
+                    this._resize_set_height(this.used[i][j], height + 12);
             }
         }
     }

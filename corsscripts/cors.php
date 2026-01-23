@@ -30,11 +30,8 @@
 
 $scriptname = urldecode($_GET['name']);
 
-if (strpos($scriptname, '..') !== false
-    || strpos($scriptname, '\\') !== false
-    || substr_count($scriptname, '/') > 1
-    || (substr_count($scriptname, '/') === 1 &&
-    strpos($scriptname, 'parsonsstyles/') === false && strpos($scriptname, 'jsxgraphstyles/') === false)) {
+// ISS1633 Only allow files from this directory and below.
+if (!str_starts_with(realpath($scriptname), __DIR__)) {
     die("No such script here.");
 }
 

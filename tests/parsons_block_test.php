@@ -235,7 +235,7 @@ final class parsons_block_test extends qtype_stack_testcase {
      */
     public function test_parsons_overdefined_dimensions_1(): void {
 
-        $raw = '[[parsons height="500px" width="100%" aspect-ratio="1"]]{' .
+        $raw = '[[parsons height="500px" width="100%" aspect-ratio="1" style="compact"]]{' .
             '"1":"Assume that \\(n\\) is odd.",' .
             '"2":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).", ' .
             '"3":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]", ' .
@@ -315,7 +315,7 @@ final class parsons_block_test extends qtype_stack_testcase {
         $invalidparameters = ['bad_param', 'HEIGHT', 'Height', 'override-css'];
         $validparameters = [
             'width', 'height', 'aspect-ratio', 'version', 'overridecss',
-            'overridejs', 'input', 'clone', 'columns', 'rows', 'transpose', 'item-height', 'item-width', 'log',
+            'overridejs', 'input', 'clone', 'columns', 'rows', 'transpose', 'item-height', 'item-width', 'log', 'style',
         ];
 
         foreach ($invalidparameters as $param) {
@@ -335,5 +335,23 @@ final class parsons_block_test extends qtype_stack_testcase {
                 $at1->get_errors()
             );
         }
+    }
+
+    /**
+     * Check error messages on unknown Parson style.
+     * @covers \qtype_stack\stack_cas_castext2_parsons
+     */
+    public function test_parsons_validate_stylename(): void {
+        $raw = '[[parsons height="500px" width="100%" style="bad"]]{' .
+            '"1":"Assume that \\(n\\) is odd.",' .
+            '"2":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).", ' .
+            '"3":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]", ' .
+            '"4":"Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).", ' .
+            '} [[/parsons]]';
+        
+        $at1 = castext2_evaluatable::make_from_source($raw, 'test-case');
+        $session = new stack_cas_session2([$at1]);
+        $this->assertFalse($at1->get_valid());
+        $this->assertEquals(stack_string('stackBlock_parsons_unknown_style', ['style' => 'bad']), $at1->get_errors());
     }
 }

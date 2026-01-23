@@ -2,6 +2,11 @@
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
 @import url("../styles.css");
 
+:root {
+    --stack-parsons-narrow-x-padding: 5px;
+    --stack-parsons-narrow-y-padding: 2px;
+}
+
 body {
     background-color:inherit;
 }
@@ -19,10 +24,12 @@ button {
     background-color:rgb(176, 221, 228); border-left: thick solid rgb(155, 199, 206);
     float: left;
     flex-shrink: 1;
+    padding: var(--stack-parsons-narrow-y-padding) var(--stack-parsons-narrow-x-padding);
 }
 
 .usedList.col-rigid > li[data-id] {
     margin-left: 0;
+    padding: var(--stack-parsons-narrow-y-padding) var(--stack-parsons-narrow-x-padding);
 }
 
 .row {
@@ -40,6 +47,7 @@ button {
 #availableList > li {
     background-color:rgb(243, 189, 88);
     float: left;
+    padding: var(--stack-parsons-narrow-y-padding) var(--stack-parsons-narrow-x-padding);
 }
 
 #availableList:empty {
@@ -64,7 +72,7 @@ button {
 .usedList > .index {
     height: auto;
     background-color: inherit; text-align: left; border-right: thick solid; display: inline-block;
-    padding: 10px 10px 20px 10px;
+    padding: var(--stack-parsons-narrow-y-padding) 20px var(--stack-parsons-narrow-y-padding) 10px;
     margin-right: 12px;
 }
 
@@ -77,10 +85,9 @@ button {
 }
 
 #availableList > .index {
-    min-height: auto;
     height: auto;
     background-color: inherit; text-align: left; border-right: thick solid rgb(196, 131, 10);
-    padding: 10px 10px 20px 10px;
+    padding: var(--stack-parsons-narrow-y-padding) 20px var(--stack-parsons-narrow-y-padding) 10px;
     margin: 6px;
 }
 
@@ -112,7 +119,7 @@ button {
 .usedList.empty {
     height: auto;
     background-color: floralwhite; border: 1px solid rgb(155, 199, 206);
-    padding: 10px;
+    padding: var(--stack-parsons-narrow-y-padding) 10px var(--stack-parsons-narrow-y-padding) 10px;
     margin: 6px;
     text-align: center;
     display: flex;
@@ -175,6 +182,7 @@ button {
     text-align: left;
     flex: 1;
     box-shadow: 0px 0px 0px 2px rgb(167, 89, 89) inset;
+    padding: var(--stack-parsons-narrow-y-padding) var(--stack-parsons-narrow-x-padding);
 }
 
 .sortable-warning {

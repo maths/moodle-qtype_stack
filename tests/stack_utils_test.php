@@ -173,6 +173,23 @@ final class stack_utils_test extends qtype_stack_testcase {
         $strin = '[[1,2,3], {x^2,x^3}]';
         $a = [['1', '2', '3'], ' {x^2,x^3}'];
         $this->assertEquals($a, stack_utils::list_to_array($strin, true));
+
+        // Ignore strings within lists, especially those with commas.
+        $strin = '["Hello world", a, "Hello, world!"]';
+        $a = ['"Hello world"', ' a', ' "Hello, world!"'];
+        $this->assertEquals($a, stack_utils::list_to_array($strin, false));
+
+        $strin = '["Annoying things: [a,b)","{","Very annoying: \\" this one."]';
+        $a = ['"Annoying things: [a,b)"', '"{"', '"Very annoying: \\" this one."'];
+        $this->assertEquals($a, stack_utils::list_to_array($strin, false));
+
+        $strin = '[   "Annoying things: [a,b)" ,"{","Very annoying: \\" this one."   ,C]';
+        $a = ['   "Annoying things: [a,b)" ', '"{"', '"Very annoying: \\" this one."   ', 'C'];
+        $this->assertEquals($a, stack_utils::list_to_array($strin, false));
+
+        $strin = '[[],["","A"],A,"\""]';
+        $a = [[],['""','"A"'],'A','"\""'];
+        $this->assertEquals($a, stack_utils::list_to_array($strin, true));
     }
 
     public function test_decompose_rename_operation_identity(): void {

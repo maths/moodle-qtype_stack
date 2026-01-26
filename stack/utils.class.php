@@ -547,6 +547,21 @@ class stack_utils {
         if ($list == '') {
             return null;
         }
+        // Do we have a string, which might contain commas, protected quotes and random brackets?
+        if (substr(trim($list), 0, 1) === '"') {
+            $startchar = strpos($list, '"'); // Start of the string.
+            $foundend = false;
+            for ($i = $startchar + 1; $i < strlen($list); $i++) {
+                if ($list[$i] == '"' && $list[$i - 1] != '\\') {
+                    $foundend = true;
+                }
+                if ($foundend && $list[$i] == ',') {
+                    return substr($list, 0, $i);
+                }
+            }
+            // We started a string, but never ended with a comma.
+            return $list;
+        }
         // Delimited by next comma at same degree of nesting.
         $startdelimiter = "[({";
         $enddelimiter   = "])}";

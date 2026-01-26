@@ -24,12 +24,37 @@
 
 defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../../lang/multilang.php');
+require_once(__DIR__ . '/Language.php');
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Function
 function current_language() {
-    $supportedlanguages = ['en', 'de'];
-
-    return locale_lookup($supportedlanguages, $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? 'en', true, 'en');
+    global $CFG;
+    $requestedlanguage = $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? 'en';
+    $requestedlanguageparent = explode('_', $requestedlanguage)[0];
+    $supportedlanguages = $CFG->supportedlanguages ?? ['en', 'de'];
+    if (in_array('*', $supportedlanguages)) {
+        if (is_file(__DIR__ . "/../../lang/{$requestedlanguageparent}/qtype_stack.php")) {
+            if (is_file(__DIR__ . "/../../lang/{$requestedlanguage}/qtype_stack.php")) {
+                return $requestedlanguage;
+            } else {
+                $success = install_language_safe($requestedlanguage);
+                return ($success) ? $requestedlanguage : $requestedlanguageparent;
+            }
+        } else {
+            $success = install_language_safe($requestedlanguageparent);
+            if ($success) {
+                if ($requestedlanguage !== $requestedlanguageparent) {
+                    $success = install_language_safe($requestedlanguage);
+                    return ($success) ? $requestedlanguage : $requestedlanguageparent;
+                } else {
+                    return $requestedlanguage;
+                }
+            } else {
+                return 'en';
+            }
+        }
+    }
+    return locale_lookup($supportedlanguages, $requestedlanguage, true, 'en');
 }
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Function

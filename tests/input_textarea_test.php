@@ -376,6 +376,34 @@ final class input_textarea_test extends qtype_stack_testcase {
             $el->render($state, 'sans1', false, null)
         );
     }
+
+    public function test_validate_student_response_decimals(): void {
+        $options = new stack_options();
+        $options->set_option('decimals', ',');
+        $el = stack_input_factory::make('textArea', 'sans1', '[x=3.14,"Not sure"]', $options);
+        $el->set_parameter('forbidFloats', false);
+        $state = $el->validate_student_response(
+            ['sans1' => "x=3,14\n\"It looks like Pi, to be honest.\""],
+            $options,
+            '[x=3.14,"Not sure"]',
+            new stack_cas_security()
+        );
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals(
+            '<textarea name="sans1" id="sans1" autocapitalize="none" spellcheck="false" ' .
+            'class="maxima-list" rows="5" cols="38" data-stack-input-type="textarea" data-stack-input-decimal-separator="," ' .
+            'data-stack-input-list-separator=";">' . "x=3,14\n" .
+            "&quot;It looks like Pi, to be honest.&quot;</textarea>",
+            $el->render($state, 'sans1', false, null)
+        );
+        // This test really confirms the teacher's answer value (which uses .s) gets converted to ,s as decimals.
+        $this->assertEquals(
+            'The answer <span class="filter_mathjaxloader_equation"><span class="nolink">\( Some LaTeX \)</span></span>,' .
+            ' which can be typed as <br/><code>x = 3,14</code><br/><code>"Not sure"</code>, would be correct.',
+            $el->get_teacher_answer_display('[x=3.14,"Not sure"]', 'Some LaTeX')
+        );
+    }
 }
 
 /**

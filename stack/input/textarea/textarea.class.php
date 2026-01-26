@@ -183,7 +183,11 @@ class stack_textarea_input extends stack_input {
      * @return string
      */
     protected function maxima_to_raw_input($in) {
-        $values = stack_utils::list_to_array($in, false);
+        $delim = ',';
+        if ($this->options->get_option('decimals') === ',') {
+            $delim = ';';
+        }
+        $values = stack_utils::list_to_array($in, false, $delim);
         foreach ($values as $key => $val) {
             if (trim($val) != '') {
                 $cs = stack_ast_container::make_from_teacher_source($val);

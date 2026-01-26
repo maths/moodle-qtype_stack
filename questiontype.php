@@ -2870,10 +2870,12 @@ class qtype_stack extends question_type {
         );
 
         $atname = $fromform[$prtname . 'answertest'][$nodekey];
-        if (stack_ans_test_controller::required_atoptions($atname)) {
-            $opt = trim($fromform[$prtname . 'testoptions'][$nodekey]);
-
-            if ('' === trim($opt) && stack_ans_test_controller::required_atoptions($atname) === true) {
+        $opt = trim($fromform[$prtname . 'testoptions'][$nodekey]);
+        if (
+            stack_ans_test_controller::required_atoptions($atname) === true ||
+            (stack_ans_test_controller::required_atoptions($atname) === 'optional' && $opt !== '')
+        ) {
+            if ('' === $opt && stack_ans_test_controller::required_atoptions($atname) === true) {
                 $errors[$nodegroup][] = stack_string('testoptionsrequired');
             } else if (strlen($opt) > 255) {
                 $errors[$nodegroup][] = stack_string(

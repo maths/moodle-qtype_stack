@@ -2870,7 +2870,11 @@ class qtype_stack extends question_type {
         );
 
         $atname = $fromform[$prtname . 'answertest'][$nodekey];
-        $opt = trim($fromform[$prtname . 'testoptions'][$nodekey]);
+        $opt = '';
+        if (array_key_exists($nodekey, $fromform[$prtname . 'testoptions'])) {
+            $opt = trim($fromform[$prtname . 'testoptions'][$nodekey]);
+        }
+
         if (
             stack_ans_test_controller::required_atoptions($atname) === true ||
             (stack_ans_test_controller::required_atoptions($atname) === 'optional' && $opt !== '')

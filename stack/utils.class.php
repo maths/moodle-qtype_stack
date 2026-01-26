@@ -543,7 +543,7 @@ class stack_utils {
      * Strict checking on nesting.
      * Helper for list_to_array_workhorse()
      */
-    private static function next_element($list) {
+    private static function next_element($list, $delim) {
         if ($list == '') {
             return null;
         }
@@ -555,7 +555,7 @@ class stack_utils {
                 if ($list[$i] == '"' && $list[$i - 1] != '\\') {
                     $foundend = true;
                 }
-                if ($foundend && $list[$i] == ',') {
+                if ($foundend && $list[$i] == $delim) {
                     return substr($list, 0, $i);
                 }
             }
@@ -575,7 +575,7 @@ class stack_utils {
                 $nesting[$startchar]++;
             } else if ($endchar !== false) {
                 $nesting[$endchar]--;
-            } else if ($list[$i] == ',' && $nesting[0] == 0 && $nesting[1] == 0 && $nesting[2] == 0) {
+            } else if ($list[$i] == $delim && $nesting[0] == 0 && $nesting[1] == 0 && $nesting[2] == 0) {
                 // Otherwise, return element if all nestings are zero.
                 return substr($list, 0, $i);
             }
@@ -590,15 +590,15 @@ class stack_utils {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    private static function list_to_array_workhorse($list, $rec = true) {
+    private static function list_to_array_workhorse($list, $rec = true, $delim = ',') {
         $array = [];
         $list = trim($list);
         $list = substr($list, 1, strlen($list) - 2); // Trims outermost [] only.
-        $e = self::next_element($list);
+        $e = self::next_element($list, $delim);
         while ($e !== null) {
             if ($e[0] == '[') {
                 if ($rec) {
-                    $array[] = self::list_to_array_workhorse($e, $rec);
+                    $array[] = self::list_to_array_workhorse($e, $rec, $delim);
                 } else {
                     $array[] = $e;
                 }
@@ -606,7 +606,7 @@ class stack_utils {
                 $array[] = $e;
             }
             $list = substr($list, strlen($e) + 1);
-            $e = self::next_element($list);
+            $e = self::next_element($list, $delim);
         }
         return $array;
     }
@@ -615,8 +615,8 @@ class stack_utils {
      * Converts a list structure into an array.
      * Handles nested lists, sets and functions with help from next_element().
      */
-    public static function list_to_array($string, $rec = true) {
-        return self::list_to_array_workhorse($string, $rec);
+    public static function list_to_array($string, $rec = true, $delim = ',') {
+        return self::list_to_array_workhorse($string, $rec, $delim);
     }
 
     /**

@@ -2871,7 +2871,7 @@ class qtype_stack extends question_type {
 
         $atname = $fromform[$prtname . 'answertest'][$nodekey];
         $opt = '';
-        if (array_key_exists($nodekey, $fromform[$prtname . 'testoptions'])) {
+        if (array_key_exists($prtname . 'testoptions', $fromform)) {
             $opt = trim($fromform[$prtname . 'testoptions'][$nodekey]);
         }
 

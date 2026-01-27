@@ -57,4 +57,6 @@ FROM base as production
 #Enable opcache extension in production
 COPY /api/docker/files/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 RUN docker-php-ext-install opcache && \
-    docker-php-ext-enable opcache
+    docker-php-ext-enable opcache && \
+    php /srv/stack/api/docker/files/installlanguages.php && \
+    chmod -R 777 /srv/stack/lang

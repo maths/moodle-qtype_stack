@@ -30,9 +30,9 @@ require_once(__DIR__ . '/Language.php');
 function current_language() {
     global $CFG;
     $requestedlanguage = $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? 'en';
-    $requestedlanguageparent = explode('_', $requestedlanguage)[0];
+    $requestedlanguageparent = get_parent_language($requestedlanguage);
     $supportedlanguages = $CFG->supportedlanguages ?? ['en', 'de'];
-    if (in_array('*', $supportedlanguages)) {
+    if (!in_array($requestedlanguage, $supportedlanguages) && in_array('*', $supportedlanguages)) {
         if (is_file(__DIR__ . "/../../lang/{$requestedlanguageparent}/qtype_stack.php")) {
             if (is_file(__DIR__ . "/../../lang/{$requestedlanguage}/qtype_stack.php")) {
                 return $requestedlanguage;
@@ -63,16 +63,23 @@ function get_string($identifier, $component, $a = null) {
 
     static $string = [];
     switch ($userlanguage) {
-        case 'de':
+        case 'en':
             if (empty($string)) {
                 // Load en values as defaults.
                 include(__DIR__ . '/../../lang/en/qtype_stack.php');
-                include(__DIR__ . '/../../lang/de/qtype_stack.php');
             }
             break;
         default:
             if (empty($string)) {
+                $parentlanguage = get_parent_language($userlanguage);
+                // Load en values as defaults.
                 include(__DIR__ . '/../../lang/en/qtype_stack.php');
+                if ($userlanguage !== $parentlanguage && is_file(__DIR__ . "/../../lang/{$parentlanguage}/qtype_stack.php")) {
+                    include(__DIR__ . "/../../lang/{$parentlanguage}/qtype_stack.php");
+                }
+                if (is_file(__DIR__ . "/../../lang/{$userlanguage}/qtype_stack.php")) {
+                    include(__DIR__ . "/../../lang/{$userlanguage}/qtype_stack.php");
+                }
             }
             break;
     }

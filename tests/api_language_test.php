@@ -24,12 +24,30 @@
 
 namespace qtype_stack;
 
-defined('MOODLE_INTERNAL') || die();
-require_once(__DIR__ . '../../api/emulation/Localization.php');
-use qtype_stack_testcase;
+use ApiLanguage;
 
-function install_language_safe($lang) {
-    return true;
+defined('MOODLE_INTERNAL') || die();
+require_once(__DIR__ . '../../api/emulation/Language.php');
+
+/**
+ * Allows mocking
+ * phpcs:disable PSR1.Classes.ClassDeclaration.MultipleClasses
+ */
+class fake_api_language extends ApiLanguage {
+    /**
+     * Override so ignored during testing
+     *
+     * @param string $requestedlanguage
+     * @return bool
+     */
+    public static function install_language_safe($requestedlanguage) {
+        switch ($requestedlanguage) {
+            case 'es_mx':
+                return false;
+            default:
+                return true;
+        }
+    }
 }
 
 /**
@@ -37,10 +55,56 @@ function install_language_safe($lang) {
  * @group qtype_stack
  * @covers \qtype_stack
  */
-final class api_language_test extends qtype_stack_testcase {
-    public function test_lang(): void {
-        $x = current_language();
-        
+final class api_language_test extends \advanced_testcase {
+    /** @var apilanguage mocked apilanguage */
+    public ApiLanguage $apilanguage;
+    public function setUp(): void {
+        parent::setUp();
+        $this->resetAfterTest();
     }
 
+    public function test_lang(): void {
+
+        // No setting. German.
+        $language = fake_api_language::api_current_language('de');
+        $this->assertEquals('de', $language);
+
+        // No setting. English.
+        $language = fake_api_language::api_current_language('en');
+        $this->assertEquals('en', $language);
+
+        // No setting. Other.
+        $language = fake_api_language::api_current_language('pt');
+        $this->assertEquals('en', $language);
+
+        // No wildcard.
+        \set_config('supportedlanguages', 'en,de', 'qtype_stack');
+        $language = fake_api_language::api_current_language('en_us');
+        $this->assertEquals('en', $language);
+
+        // Wildcard. Basic language.
+        \set_config('supportedlanguages', 'en,de,*', 'qtype_stack');
+        $language = fake_api_language::api_current_language('pt');
+        $this->assertEquals('pt', $language);
+
+        // Wildcard. Region.
+        \set_config('supportedlanguages', 'en,de,*', 'qtype_stack');
+        $language = fake_api_language::api_current_language('pt_br');
+        $this->assertEquals('pt_br', $language);
+
+        //Wildcard. Variant.
+        \set_config('supportedlanguages', 'en,de,*', 'qtype_stack');
+        $language = fake_api_language::api_current_language('pt_br_wp');
+        $this->assertEquals('pt_br_wp', $language);
+
+        //Wildcard. Variant. Region missing.
+        \set_config('supportedlanguages', 'en,de,*', 'qtype_stack');
+        $language = fake_api_language::api_current_language('es_mx_wp');
+        $this->assertEquals('es_mx_wp', $language);
+
+        //Variant. Region only.
+        \set_config('supportedlanguages', 'en,de,pt_br', 'qtype_stack');
+        $language = fake_api_language::api_current_language('pt_br_wp');
+        $this->assertEquals('pt_br', $language);
+    }
 }

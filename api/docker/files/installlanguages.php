@@ -4,12 +4,16 @@ require_once(__DIR__ . '/../../emulation/Language.php');
 require_once(__DIR__ . '/../../config.php');
 
 global $CFG;
-foreach ($CFG->supportedlanguages as $lang) {
-    if ($lang !== '*') {
-        install_language($lang);
-        $parent = get_parent_language($lang);
-        if ($parent !== $lang && !in_array($parent, $CFG->supportedlanguages)) {
-            install_language($parent);
+foreach ($CFG->supportedlanguages as $variant) {
+    if ($variant !== '*') {
+        install_language($variant);
+        $region = get_parent_language($variant);
+        if ($region !== $variant && !in_array($region, $CFG->supportedlanguages)) {
+            install_language($region);
+        }
+        $language = get_parent_language($region);
+        if ($language !== $region && !in_array($language, $CFG->supportedlanguages)) {
+            install_language($language);
         }
     }
 }

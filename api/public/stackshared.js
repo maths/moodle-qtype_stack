@@ -71,6 +71,7 @@ function send() {
     const url = serverUrl + 'render';
     http.open("POST", url, true);
     http.setRequestHeader('Content-Type', 'application/json');
+    http.setRequestHeader('Accept-Language', 'pt_br_wp');
     http.onreadystatechange = function () {
         if (http.readyState == 4) {
             try {
@@ -207,6 +208,7 @@ function validate(element) {
     // Remove API prefix and subanswer id.
     const answerName = element.name.slice(15).split('_', 1)[0];
     http.setRequestHeader('Content-Type', 'application/json');
+    http.setRequestHeader('Accept-Language', 'de');
     http.onreadystatechange = function () {
         if (http.readyState == 4) {
             try {

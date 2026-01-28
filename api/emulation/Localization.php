@@ -15,7 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This script handles the various deploy/undeploy actions from questiontestrun.php.
+ * Localisation emulation for STACK API.
  *
  * @package    qtype_stack
  * @copyright  2023 RWTH Aachen
@@ -26,38 +26,12 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../../lang/multilang.php');
 require_once(__DIR__ . '/Language.php');
 
+use ApiLanguage;
+
 // phpcs:ignore moodle.Commenting.MissingDocblock.Function
 function current_language() {
-    global $CFG;
     $requestheader = ($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : 'en';
-    $locale = locale_parse($requestheader);
-    $languages = [];
-    $requestedlanguage = strtolower($locale['language']) ?? 'en';
-    $languages[] = $requestedlanguage;
-    $requestedregion = null;
-    if (!empty($locale['region'])) {
-        $requestedregion = $requestedlanguage . '_' . strtolower($locale['region']);
-        $languages[] = $requestedregion;
-    }
-    if (!empty($locale['variant0']) && $requestedregion) {
-        $languages[] = $requestedregion . '_' . strtolower($locale['variant0']);
-    }
-    $supportedlanguages = $CFG->supportedlanguages ?? ['en', 'de'];
-
-    if (in_array('*', $supportedlanguages)) {
-        $current_lang = 'en';
-        foreach($languages as $lang) {
-            if (!in_array($lang, $supportedlanguages) && !is_file(__DIR__ . "/../../lang/{$lang}/qtype_stack.php")) {
-                $success = install_language_safe($lang);
-                $current_lang = ($success) ? $lang : $current_lang;
-            } else {
-                $current_lang = $lang;
-            }
-        }
-        return $current_lang;
-    }
-
-    return locale_lookup($supportedlanguages, $requestedlanguage, true, 'en');
+    return ApiLanguage::api_current_language($requestheader);
 }
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -75,8 +49,8 @@ function get_string($identifier, $component, $a = null) {
         default:
             if (empty($string)) {
                 $variant = $userlanguage;
-                $region = get_parent_language($variant);
-                $language = get_parent_language($region);
+                $region = ApiLanguage::get_next_parent_language($variant);
+                $language = ApiLanguage::get_next_parent_language($region);
                 // Load en values as defaults.
                 include(__DIR__ . '/../../lang/en/qtype_stack.php');
                 if ($language !== 'en' && is_file(__DIR__ . "/../../lang/{$language}/qtype_stack.php")) {

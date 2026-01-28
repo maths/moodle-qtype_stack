@@ -29,31 +29,34 @@ require_once(__DIR__ . '/Language.php');
 // phpcs:ignore moodle.Commenting.MissingDocblock.Function
 function current_language() {
     global $CFG;
-    $requestedlanguage = $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? 'en';
-    $requestedlanguageparent = get_parent_language($requestedlanguage);
+    $requestheader = ($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : 'en';
+    $locale = locale_parse($requestheader);
+    $languages = [];
+    $requestedlanguage = strtolower($locale['language']) ?? 'en';
+    $languages[] = $requestedlanguage;
+    $requestedregion = null;
+    if (!empty($locale['region'])) {
+        $requestedregion = $requestedlanguage . '_' . strtolower($locale['region']);
+        $languages[] = $requestedregion;
+    }
+    if (!empty($locale['variant0']) && $requestedregion) {
+        $languages[] = $requestedregion . '_' . strtolower($locale['variant0']);
+    }
     $supportedlanguages = $CFG->supportedlanguages ?? ['en', 'de'];
-    if (!in_array($requestedlanguage, $supportedlanguages) && in_array('*', $supportedlanguages)) {
-        if (is_file(__DIR__ . "/../../lang/{$requestedlanguageparent}/qtype_stack.php")) {
-            if (is_file(__DIR__ . "/../../lang/{$requestedlanguage}/qtype_stack.php")) {
-                return $requestedlanguage;
+
+    if (in_array('*', $supportedlanguages)) {
+        $current_lang = 'en';
+        foreach($languages as $lang) {
+            if (!in_array($lang, $supportedlanguages) && !is_file(__DIR__ . "/../../lang/{$lang}/qtype_stack.php")) {
+                $success = install_language_safe($lang);
+                $current_lang = ($success) ? $lang : $current_lang;
             } else {
-                $success = install_language_safe($requestedlanguage);
-                return ($success) ? $requestedlanguage : $requestedlanguageparent;
-            }
-        } else {
-            $success = install_language_safe($requestedlanguageparent);
-            if ($success) {
-                if ($requestedlanguage !== $requestedlanguageparent) {
-                    $success = install_language_safe($requestedlanguage);
-                    return ($success) ? $requestedlanguage : $requestedlanguageparent;
-                } else {
-                    return $requestedlanguage;
-                }
-            } else {
-                return 'en';
+                $current_lang = $lang;
             }
         }
+        return $current_lang;
     }
+
     return locale_lookup($supportedlanguages, $requestedlanguage, true, 'en');
 }
 
@@ -71,14 +74,19 @@ function get_string($identifier, $component, $a = null) {
             break;
         default:
             if (empty($string)) {
-                $parentlanguage = get_parent_language($userlanguage);
+                $variant = $userlanguage;
+                $region = get_parent_language($variant);
+                $language = get_parent_language($region);
                 // Load en values as defaults.
                 include(__DIR__ . '/../../lang/en/qtype_stack.php');
-                if ($userlanguage !== $parentlanguage && is_file(__DIR__ . "/../../lang/{$parentlanguage}/qtype_stack.php")) {
-                    include(__DIR__ . "/../../lang/{$parentlanguage}/qtype_stack.php");
+                if ($language !== 'en' && is_file(__DIR__ . "/../../lang/{$language}/qtype_stack.php")) {
+                    include(__DIR__ . "/../../lang/{$language}/qtype_stack.php");
                 }
-                if (is_file(__DIR__ . "/../../lang/{$userlanguage}/qtype_stack.php")) {
-                    include(__DIR__ . "/../../lang/{$userlanguage}/qtype_stack.php");
+                if ($region !== $language && is_file(__DIR__ . "/../../lang/{$region}/qtype_stack.php")) {
+                    include(__DIR__ . "/../../lang/{$region}/qtype_stack.php");
+                }
+                if ($variant !== $region && is_file(__DIR__ . "/../../lang/{$variant}/qtype_stack.php")) {
+                    include(__DIR__ . "/../../lang/{$variant}/qtype_stack.php");
                 }
             }
             break;

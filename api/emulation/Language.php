@@ -25,6 +25,10 @@
 defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../../lang/multilang.php');
 
+/**
+ * Language pack functions for STACK API.
+ *
+ */
 class ApiLanguage {
     /**
      * Install a Moodle language pack in the API.
@@ -44,11 +48,15 @@ class ApiLanguage {
         $sourcefile = null;
 
         try {
-            if (str_contains($requestedlanguage, '\\') || str_contains($requestedlanguage, '/') || str_contains($requestedlanguage, '..')) {
+            if (
+                str_contains($requestedlanguage, '\\') ||
+                str_contains($requestedlanguage, '/') ||
+                str_contains($requestedlanguage, '..')
+            ) {
                 throw new Exception("Dubious requested language {$requestedlanguage}");
             }
 
-            // Create temporary directory
+            // Create temporary directory.
             if (!mkdir($tempdir)) {
                 throw new Exception("Failed to make directory {$tempdir}");
             }
@@ -56,7 +64,11 @@ class ApiLanguage {
             $curlsession = curl_init();
             curl_setopt($curlsession, CURLOPT_URL, $downloadurl);
             curl_setopt($curlsession, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($curlsession,CURLOPT_USERAGENT,'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13');
+            curl_setopt(
+                $curlsession,
+                CURLOPT_USERAGENT,
+                'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13'
+            );
 
             $zipcontent = curl_exec($curlsession);
             $httpcode = curl_getinfo($curlsession, CURLINFO_HTTP_CODE);
@@ -73,12 +85,12 @@ class ApiLanguage {
                     throw new Exception("Failed to download language pack from {$downloadurl}", $httpcode);
                 }
 
-                // Save the zip file
+                // Save the zip file.
                 if (file_put_contents($zipfile, $zipcontent) === false) {
                     throw new Exception("Failed to save zip file to {$zipfile}");
                 }
 
-                // Extract the zip file
+                // Extract the zip file.
                 $zip = new ZipArchive();
                 if ($zip->open($zipfile) !== true) {
                     throw new Exception("Failed to open zip file: {$zipfile}");
@@ -87,7 +99,7 @@ class ApiLanguage {
                     throw new Exception("Failed to extract zip file: {$zipfile}");
                 }
                 $zip->close();
-                // Check if source file exists
+                // Check if source file exists.
                 $sourcefile = $tempdir . '/' . $requestedlanguage . '/qtype_stack.php';
                 if (!file_exists($sourcefile)) {
                     $sourcefile = sys_get_temp_dir() . '/qtype_stack.php';
@@ -98,17 +110,17 @@ class ApiLanguage {
                 }
             }
 
-            // Create destination directory if it doesn't exist
+            // Create destination directory if it doesn't exist.
             if (!is_dir($destinationdir)) {
                 if (!mkdir($destinationdir)) {
                     throw new Exception("Failed to create destination directory: {$destinationdir}");
                 }
             }
 
-            // Copy the file to destination
-            $destinationFile = $destinationdir . '/qtype_stack.php';
-            if (!copy($sourcefile, $destinationFile)) {
-                throw new Exception("Failed to copy file from {$sourcefile} to {$destinationFile}");
+            // Copy the file to destination.
+            $destinationfile = $destinationdir . '/qtype_stack.php';
+            if (!copy($sourcefile, $destinationfile)) {
+                throw new Exception("Failed to copy file from {$sourcefile} to {$destinationfile}");
             }
         } finally {
             if (is_dir($tempdir)) {
@@ -162,9 +174,9 @@ class ApiLanguage {
      * @param mixed $lang
      */
     public static function get_next_parent_language($lang) {
-        $lastPos = strrpos($lang, '_');
-        if ($lastPos !== false) {
-            return substr($lang, 0, $lastPos);
+        $lastpos = strrpos($lang, '_');
+        if ($lastpos !== false) {
+            return substr($lang, 0, $lastpos);
         }
         return $lang;
     }
@@ -191,16 +203,16 @@ class ApiLanguage {
         $supportedlanguages = explode(',', $supportedlanguages);
 
         if (in_array('*', $supportedlanguages)) {
-            $current_lang = 'en';
-            foreach($languages as $lang) {
+            $currentlang = 'en';
+            foreach ($languages as $lang) {
                 if (!in_array($lang, $supportedlanguages) && !is_file(__DIR__ . "/../../lang/{$lang}/qtype_stack.php")) {
                     $success = static::install_language_safe($lang);
-                    $current_lang = ($success) ? $lang : $current_lang;
+                    $currentlang = ($success) ? $lang : $currentlang;
                 } else {
-                    $current_lang = $lang;
+                    $currentlang = $lang;
                 }
             }
-            return $current_lang;
+            return $currentlang;
         }
 
         $languages = array_reverse($languages);

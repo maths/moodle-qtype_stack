@@ -27,9 +27,9 @@ require_once(__DIR__ . '/../../config.php');
 require_once(__DIR__ . '/../../emulation/Language.php');
 
 global $CFG;
-$supportlanguages = explode(',', $CFG->supportedlanguages);
+$supportedlanguages = explode(',', $CFG->supportedlanguages);
 foreach ($supportedlanguages as $variant) {
-    if ($variant !== '*') {
+    if (!in_array($variant, ['*', 'en'])) {
         ApiLanguage::install_language($variant);
         $region = ApiLanguage::get_next_parent_language($variant);
         if ($region !== $variant && !in_array($region, $supportedlanguages)) {

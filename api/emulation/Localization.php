@@ -26,17 +26,16 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../../lang/multilang.php');
 require_once(__DIR__ . '/Language.php');
 
-use ApiLanguage;
-
 // phpcs:ignore moodle.Commenting.MissingDocblock.Function
 function current_language() {
     $requestheader = ($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : 'en';
-    return ApiLanguage::api_current_language($requestheader);
+    static $language = ApiLanguage::api_current_language($requestheader);
+    return $language;
 }
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Function
 function get_string($identifier, $component, $a = null) {
-    $userlanguage = current_language();
+    static $userlanguage = current_language();
 
     static $string = [];
     switch ($userlanguage) {

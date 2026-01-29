@@ -21,14 +21,6 @@
  * @copyright  2026 University of Edinburgh
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
-
-defined('MOODLE_INTERNAL') || die();
-require_once(__DIR__ . '/../../lang/multilang.php');
-
-/**
- * Language pack functions for STACK API.
- *
- */
 class ApiLanguage {
     /**
      * Install a Moodle language pack in the API.

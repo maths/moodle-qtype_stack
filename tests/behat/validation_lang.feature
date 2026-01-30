@@ -54,4 +54,3 @@ Feature: Test validation language is correct.
     And I set the input "ans1" to "a*(" in the STACK question
     And I wait until "Tu respuesta fue interpretado como" "text" exists
     And I wait until "Esta respuesta es invalida. Olvidaste un paréntesis derecho" "text" exists
-

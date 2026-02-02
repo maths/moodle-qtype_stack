@@ -248,7 +248,7 @@ class stack_textarea_input extends stack_input {
             $fb = $cs->get_feedback();
             if ($cs->is_correctly_evaluated() && $fb == '') {
                 // The zero element of the array defines the display style: 0 = align center, 1 = red frame.
-                // ISS1629 - Use textstyle for comapct validation.
+                // ISS1629 - Use textstyle for compact validation.
                 $row[] = [
                     0,
                     '\(' .

@@ -137,7 +137,8 @@ if ($mform->is_cancelled()) {
         $result = $question->get_prt_result($prtname, $response, false);
         // For testing purposes we just take the last note.
         $answernotes = $result->get_answernotes();
-        $answernote = [end($answernotes)];
+        // ISS1657 - Handle case when PRT does not fire.
+        $answernote = ($answernotes) ? [end($answernotes)] : ['NULL'];
         $qtest->add_expected_result($prtname, new stack_potentialresponse_tree_state(
             1,
             true,

@@ -280,7 +280,7 @@ final class input_textarea_test extends qtype_stack_testcase {
         // This is now empty.
         $this->assertEquals('', $state->errors);
         $this->assertEquals('missing_stars | missingRightBracket', $state->note);
-        $this->assertEquals('\(\displaystyle x^2=-7\cdot x \) <br/>' .
+        $this->assertEquals('\(\textstyle x^2=-7\cdot x \) <br/>' .
                 '<span class="stacksyntaxexample">[a=1,b=2</span> ' .
                 'You have a missing right bracket <span class="stacksyntaxexample">]</span> ' .
                 'in the expression: <span class="stacksyntaxexample">[a=1,b=2</span>. <br/>', $state->contentsdisplayed);

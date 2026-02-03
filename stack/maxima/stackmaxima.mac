@@ -1048,7 +1048,7 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
     if not(freeof(lg, ex)) then
         ex:ev(ex, lg=logbasesimp),
     lvs: listofvars(%_ce_rem(ex)),
-    lvs: sublist(lvs, lambda([ex], not(ex = discrete or ex = parametric or ex = minus or ex = plus))),
+    lvs: sublist(lvs, lambda([ex], not(ex = discrete or ex = parametric or ex = contour or ex = minus or ex = plus))),
     if length(lvs)>2 then
        error("Plot error: Can't create a plot with more than two variables, whereas you have: \\(",string(lvs),"\\)"),
     /*********************/
@@ -1078,7 +1078,8 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
     /**********************************************************/
     /* Remove from option list ral any non-permitted options. */
     kill(y),
-    permitted_options: [y, xlabel, ylabel, label, legend, color, style, point_type, nticks, logx, logy, axes, box, plot_realpart, yx_ratio, xtics, ytics, ztics, adapt_depth, margin],
+    kill(t),
+    permitted_options: [x, y, t, xlabel, ylabel, label, legend, contour, levels, color, style, point_type, nticks, logx, logy, axes, box, plot_realpart, yx_ratio, xtics, ytics, ztics, adapt_depth, plotepsilon, xy_scale, same_xy, yx_ratio, sample, margin],
     /* In the case the list of variables is empty we need to add in "x" so the constant functions can be plotted. */
     if not(emptyp(lvs)) then permitted_options:append([first(lvs)], permitted_options)
     else  permitted_options:append([x], permitted_options),

@@ -81,6 +81,10 @@ class external extends \external_api {
         );
         self::validate_context(\context_system::instance());
 
+        if ($lang !== null && $lang !== '') {
+            $prevlang = force_current_language($lang);
+        }
+
         $dm = new \question_engine_data_mapper();
         $qa = $dm->load_question_attempt($params['qaid']);
         $question = $qa->get_question();
@@ -88,6 +92,10 @@ class external extends \external_api {
 
         $input = $question->inputs[$name];
         $state = $question->get_input_state($params['name'], $params['input'], true);
+
+        if ($lang !== null && $lang !== '') {
+            force_current_language($prevlang);
+        }
 
         return [
             'input'   => $params['input'],

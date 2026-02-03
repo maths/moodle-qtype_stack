@@ -30,9 +30,8 @@
 
 $scriptname = urldecode($_GET['name']);
 
-if (strpos($scriptname, '..') !== false
-    || strpos($scriptname, '/') !== false
-    || strpos($scriptname, '\\') !== false) {
+// ISS1633 Only allow files from this directory and below.
+if (!str_starts_with(realpath($scriptname), __DIR__)) {
     die("No such script here.");
 }
 

@@ -43,10 +43,22 @@ $app = AppFactory::create();
 
 $app->addBodyParsingMiddleware();
 
+$app->add(function ($request, $handler) {
+    global $CFG;
+    $response = $handler->handle($request);
+    return $response
+            ->withHeader('Access-Control-Allow-Origin', $CFG->corsorigin)
+            ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
+            ->withHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+});
+
 $errormiddleware = $app->addErrorMiddleware(false, true, true);
 $errorhandler = $errormiddleware->getDefaultErrorHandler();
 $errorhandler->forceContentType("application/json");
 $errorhandler->registerErrorRenderer('application/json', ErrorRenderer::class);
+$app->options('/{routes:.+}', function ($request, $response, $args) {
+    return $response;
+});
 $app->post('/render', RenderController::class);
 $app->post('/diff', DiffController::class);
 $app->post('/test', TestController::class);
@@ -54,4 +66,6 @@ $app->post('/grade', GradingController::class);
 $app->post('/validate', ValidationController::class);
 $app->post('/download', DownloadController::class);
 $app->redirect('/{page}', '/sample.php', 301);
+$app->redirect('/', 'sample.php', 301);
+
 $app->run();

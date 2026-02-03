@@ -30,6 +30,7 @@ const SAMPLEDISPLAY = 'SAMPLE';
 // Set API server here with trailing slash e.g. 'https://stack-api.maths.ed.ac.uk/'.
 // Leave as is if page is on the same server e.g. for STACK API demo.
 const serverUrl = '/';
+const requestLanguage = 'en';
 let displayType = FULLDISPLAY;
 
 // Get the different input elements by tag and return object with values.
@@ -71,6 +72,7 @@ function send() {
     const url = serverUrl + 'render';
     http.open("POST", url, true);
     http.setRequestHeader('Content-Type', 'application/json');
+    http.setRequestHeader('Accept-Language', requestLanguage);
     http.onreadystatechange = function () {
         if (http.readyState == 4) {
             try {
@@ -207,6 +209,7 @@ function validate(element) {
     // Remove API prefix and subanswer id.
     const answerName = element.name.slice(15).split('_', 1)[0];
     http.setRequestHeader('Content-Type', 'application/json');
+    http.setRequestHeader('Accept-Language', requestLanguage);
     http.onreadystatechange = function () {
         if (http.readyState == 4) {
             try {
@@ -253,6 +256,7 @@ function answer() {
     }
 
     http.setRequestHeader('Content-Type', 'application/json');
+    http.setRequestHeader('Accept-Language', requestLanguage);
     http.onreadystatechange = function () {
         if (http.readyState == 4) {
             try {
@@ -391,6 +395,7 @@ function download(filename, fileid) {
     const url = serverUrl + 'download';
     http.open("POST", url, true);
     http.setRequestHeader('Content-Type', 'application/json');
+    http.setRequestHeader('Accept-Language', requestLanguage);
     http.onreadystatechange = function() {
         if(http.readyState == 4) {
         try {
@@ -423,6 +428,7 @@ function diff() {
     const url = serverUrl + 'diff';
     http.open("POST", url, true);
     http.setRequestHeader('Content-Type', 'application/json');
+    http.setRequestHeader('Accept-Language', requestLanguage);
     http.onreadystatechange = function() {
         if(http.readyState == 4) {
             try {

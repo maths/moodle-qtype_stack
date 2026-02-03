@@ -108,3 +108,11 @@ $CFG->httpsurl = 'https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.j
 
 // URL of your site making requests to the API. Leave as wildcard to allow browser requests from anywhere.
 $CFG->corsorigin = '*';
+
+// Languages the API supports. These STACK language packs will be downloaded from Moodle on Docker production build.
+// Language will default to English. An attempt will be made to install parent languages as well,
+// so if you put 'pt_br_wp' there will be fallback to 'pt_br' and 'pt' before English. If you include '*', the API will
+// attempt to download language packs when needed. If they don't exist, empty /lang/[lang]/qtype_stack.php files will be
+// created. If a language pack later becomes available, you will need to delete the empty file or restart your container
+// to download it.
+$CFG->supportedlanguages = 'en,de';

@@ -15,7 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This script handles the various deploy/undeploy actions from questiontestrun.php.
+ * Localisation emulation for STACK API.
  *
  * @package    qtype_stack
  * @copyright  2023 RWTH Aachen
@@ -24,30 +24,43 @@
 
 defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../../lang/multilang.php');
+require_once(__DIR__ . '/Language.php');
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Function
 function current_language() {
-    $supportedlanguages = ['en', 'de'];
-
-    return locale_lookup($supportedlanguages, $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? 'en', true, 'en');
+    $requestheader = ($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : 'en';
+    static $language = ApiLanguage::api_current_language($requestheader);
+    return $language;
 }
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Function
 function get_string($identifier, $component, $a = null) {
-    $userlanguage = current_language();
+    static $userlanguage = current_language();
 
     static $string = [];
     switch ($userlanguage) {
-        case 'de':
+        case 'en':
             if (empty($string)) {
                 // Load en values as defaults.
                 include(__DIR__ . '/../../lang/en/qtype_stack.php');
-                include(__DIR__ . '/../../lang/de/qtype_stack.php');
             }
             break;
         default:
             if (empty($string)) {
+                $variant = $userlanguage;
+                $region = ApiLanguage::get_next_parent_language($variant);
+                $language = ApiLanguage::get_next_parent_language($region);
+                // Load en values as defaults.
                 include(__DIR__ . '/../../lang/en/qtype_stack.php');
+                if ($language !== 'en' && is_file(__DIR__ . "/../../lang/{$language}/qtype_stack.php")) {
+                    include(__DIR__ . "/../../lang/{$language}/qtype_stack.php");
+                }
+                if ($region !== $language && is_file(__DIR__ . "/../../lang/{$region}/qtype_stack.php")) {
+                    include(__DIR__ . "/../../lang/{$region}/qtype_stack.php");
+                }
+                if ($variant !== $region && is_file(__DIR__ . "/../../lang/{$variant}/qtype_stack.php")) {
+                    include(__DIR__ . "/../../lang/{$variant}/qtype_stack.php");
+                }
             }
             break;
     }

@@ -155,17 +155,17 @@ If, for any reason, you don't want all three checks, then you can filter the lis
 
 ````
 sa:parsons_decode(ans1);
-saprob: proof_dag_check(sa, tdag);
+saprob: proof_assessment_dag(sa, tdag);
 saprob:sublist(saprob, lambda([ex], op(ex)=proof_step_must));
 ````
 
 To use this in a potential response tree, check if `saprob` is empty.  If not, you can display feedback based on the properties described above using the following in the feedback.
 
 ````
-{@proof_dag_problem_display(saprob, poof_steps)@}
+{@proof_dag_problem_display(saprob, proof_steps)@}
 ````
 
-An example question illustrating these features is given in the sample questions library under `Topics/Parsons-DAG.xml`.
+An example question illustrating these features is given in the sample questions library under `Doc-Examples/Specialist-Tools-Docs/ParsonsProof/Parsons-4-DAG-Proof.xml`.
 
 ## 3. General tools in `builder.mac` to provide bespoke feedback
 
@@ -173,6 +173,6 @@ The last option is to encode specific dependencies, with feedback for each.  The
 
 You can load the optional library `builder.mac` to use tools to manage bespoke feedback.
 
-An example question is given in the stacklibrary `Doc-Examples\Parsons-3-builder.xml`
+An example question is given in the stacklibrary `Doc-Examples/Specialist-Tools-Docs/ParsonsProof/Parsons-3-builder.xml`
 
 This example combines both the automatic feedback in Section 1 where the proof is defined as a tree (a list in our example), with the bespoke feedback for many of the steps.

@@ -164,6 +164,11 @@ $links[] = html_writer::link(
     stack_string('seetodolist'),
     ['class' => 'nav-link']
 );
+$links[] = html_writer::link(
+    new moodle_url('/question/type/stack/questionbulktest.php', $urlparams),
+    stack_string('bulktestquiz'),
+    ['class' => 'nav-link']
+);
 echo html_writer::tag('nav', implode(' ', $links), ['class' => 'nav']);
 
 flush();

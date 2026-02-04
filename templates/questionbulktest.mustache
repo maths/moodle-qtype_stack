@@ -1,0 +1,88 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template qtype_stack/questionreportquestion
+
+    Template purpose and description.
+
+    Classes required for JS:
+    * none
+
+    Data attributes required for JS:
+    * none
+
+    Context variables required for this template:
+    * none
+
+    Example context (json):
+    {
+    "question": {
+        "name": "Question name",
+        "text": "Text",
+        "version": "2"
+    },
+    "general": {
+        "testquestionlink": "DashboardURL",
+        "previewquestionlink": "PreviewURL",
+        "editquestionlink": "EditURL"
+    }
+  }
+}}
+
+<div class="qtype_stack_question_report">
+    <!-- Dashboard and preview links -->
+
+  <ul class="nav">
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" href="{{{general.testquestionlink}}}"><i class="fa fa-wrench"></i> {{#str}} runquestiontests, qtype_stack {{/str}}</a>
+    </li>
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" href="{{{general.previewquestionlink}}}"><i class="fa fa-plus-circle"></i> {{#str}}questionpreview, qtype_stack {{/str}}</a>
+    </li>
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" href="{{{general.editquestionlink}}}">{{#str}} editquestioninthequestionbank, qtype_stack {{/str}}</a>
+    </li>
+  </ul>
+  <h2>{{#str}} bulktestquiz, qtype_stack {{/str}}</h2>
+
+  <h2>{{question.name}}</h2>
+  <p>{{#str}} version, qtype_stack {{/str}} {{question.version}}<p>
+
+  <!-- Warn if variants not deployed -->
+  {{^question.deployedseeds}}
+    {{#hasvariants}}
+      <p>{{#str}} questionnotdeployedyet, qtype_stack {{/str}}</p>
+    {{/hasvariants}}
+  {{/question.deployedseeds}}
+
+  <!-- Choose quiz to analyze the results from -->
+  <p>
+    <span>
+      {{#str}} bulktestquiznotes, qtype_stack {{/str}}:
+    </span>
+  </p>
+  <p>
+    {{#str}} bulktestquizselect, qtype_stack {{/str}}:
+    <span data-id='qa-loading' hidden>
+      {{#pix}}y/loading, core, {{#str}}loading, tool_lp{{/str}}{{/pix}}
+    </span>
+  </p>
+  {{#quizzes}}
+    <a onClick="document.querySelector('[data-id=\'qa-loading\']').removeAttribute('hidden');" href={{{url}}}>{{coursename}} - {{name}}</a>
+  {{/quizzes}}
+
+</div>

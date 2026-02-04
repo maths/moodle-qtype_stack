@@ -219,7 +219,7 @@ END;
         make_upload_directory('stack/plots');
         make_upload_directory('stack/tmp');
 
-        if (!file_put_contents(self::maximalocal_location(), self::generate_maximalocal_contents())) {
+        if (!@file_put_contents(self::maximalocal_location(), self::generate_maximalocal_contents())) {
             throw new stack_exception('Failed to write Maxima configuration file.');
         }
     }

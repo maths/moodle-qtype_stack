@@ -94,8 +94,8 @@ class stack_cas_connection_server_proxy extends stack_cas_connection_base {
         // Did we get files?
         if (strpos(curl_getinfo($request, CURLINFO_CONTENT_TYPE), "text/plain") === false) {
             // We have to save the zip file on local disk before opening.
-            $ziptemp = tempnam($CFG->dataroot . '/stack/tmp/', 'zip');
-            file_put_contents($ziptemp, $ret);
+            $ziptemp = @tempnam($CFG->dataroot . '/stack/tmp/', 'zip');
+            @file_put_contents($ziptemp, $ret);
 
             // Loop over the contents of the zip.
             $zip = new ZipArchive();
@@ -110,7 +110,7 @@ class stack_cas_connection_server_proxy extends stack_cas_connection_base {
                 } else {
                     // Otherwise this is a plot.
                     $filename = $CFG->dataroot . "/stack/plots/" . $filenameinzip;
-                    file_put_contents($filename, $zip->getFromIndex($i));
+                    @file_put_contents($filename, $zip->getFromIndex($i));
                 }
             }
 

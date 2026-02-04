@@ -203,8 +203,8 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         // JS script.
         $r->items[] = new MP_String('<script type="module">');
 
-        $importcode = "\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n";
-        $importcode .= "import {Sortable} from '" . stack_cors_link('sortablecore.min.js') . "';\n";
+        $importcode = "\nimport stack_js from '" . stack_cors_link('stackjsiframe.min.js') . "';\n";
+        $importcode .= "import Sortable from '" . stack_cors_link('sortablecore.min.js') . "';\n";
         $importcode .= "import {preprocess_steps,
                                 stack_sortable,
                                 get_iframe_height,

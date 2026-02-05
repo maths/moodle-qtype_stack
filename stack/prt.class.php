@@ -948,4 +948,22 @@ class stack_potentialresponse_tree_lite {
     public function get_trace() {
         return $this->trace;
     }
+
+    public function is_simplify(): bool {
+        return $this->simplify;
+    }
+
+    public function get_nodes() {
+        return $this->nodes;
+    }
+
+    public function set_nodes($nodes): void
+    {
+        $this->nodes = $nodes;
+    }
+
+    public function get_first_node(): string
+    {
+        return $this->firstnode;
+    }
 }

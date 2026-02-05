@@ -92,17 +92,17 @@ final class api_language_test extends \advanced_testcase {
         $language = fake_api_language::api_current_language('pt_br');
         $this->assertEquals('pt_br', $language);
 
-        //Wildcard. Variant.
+        // Wildcard. Variant.
         \set_config('supportedlanguages', 'en,de,*', 'qtype_stack');
         $language = fake_api_language::api_current_language('pt_br_wp');
         $this->assertEquals('pt_br_wp', $language);
 
-        //Wildcard. Variant. Region missing.
+        // Wildcard. Variant. Region missing.
         \set_config('supportedlanguages', 'en,de,*', 'qtype_stack');
         $language = fake_api_language::api_current_language('es_mx_wp');
         $this->assertEquals('es_mx_wp', $language);
 
-        //Variant. Region only.
+        // Variant. Region only.
         \set_config('supportedlanguages', 'en,de,pt_br', 'qtype_stack');
         $language = fake_api_language::api_current_language('pt_br_wp');
         $this->assertEquals('pt_br', $language);

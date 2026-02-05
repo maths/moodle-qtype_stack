@@ -561,16 +561,18 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
 
         if (array_key_exists('style', $this->params)) {
             $stylename = $this->params['style'];
-            if (strpos($stylename, '..') !== false
+            if (
+                strpos($stylename, '..') !== false
                 || strpos($stylename, '/') !== false
-                || strpos($stylename, '\\') !== false) {
-                    $valid    = false;
-                    $err[] = stack_string('stackBlock_parsons_unknown_style', ['style' => $stylename]);
-                } else if (!file_exists($CFG->dirroot . '/question/type/stack/corsscripts/parsonsstyles/' .
-                        $stylename . '.min.css')) {
-                    $valid    = false;
-                    $err[] = stack_string('stackBlock_parsons_unknown_style', ['style' => $stylename]);
-                }
+                || strpos($stylename, '\\') !== false
+            ) {
+                $valid    = false;
+                $err[] = stack_string('stackBlock_parsons_unknown_style', ['style' => $stylename]);
+            } else if (!file_exists($CFG->dirroot . '/question/type/stack/corsscripts/parsonsstyles/' .
+                    $stylename . '.min.css')) {
+                $valid    = false;
+                $err[] = stack_string('stackBlock_parsons_unknown_style', ['style' => $stylename]);
+            }
         }
 
         // Check that only valid parameters are passed to block header.

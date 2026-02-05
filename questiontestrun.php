@@ -139,7 +139,7 @@ $links[] = html_writer::link(
     $questionxmllink,
     stack_string('editxml'),
     ['class' => 'nav-link']
-    );
+);
 $links[] = html_writer::link(
     $questionbanklink,
     stack_string('seethisquestioninthequestionbank'),

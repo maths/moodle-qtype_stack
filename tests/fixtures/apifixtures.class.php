@@ -1519,7 +1519,7 @@ class stack_api_test_data {
               <testcase>2</testcase>
               <testinput>
                 <name>ans1</name>
-                <value></value>
+                <value>2</value>
               </testinput>
               <expected>
                 <name>prt1</name>

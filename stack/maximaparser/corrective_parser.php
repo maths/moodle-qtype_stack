@@ -117,7 +117,12 @@ class maxima_corrective_parser {
 
         // Check for invalid chars at this point as they may prove to be difficult to
         // handle latter, also strings are safe already.
+        // Option C: Allow only the most common superscripts: ², ³, ¹
+        // These are 2-byte UTF-8 characters and work without UTF-8mb4 requirement.
+        $superscript = ['²' => '2', '³' => '3', '¹' => '1'];
+
         $allowedcharsregex = '~[^' . preg_quote(
+            implode('', array_keys($superscript)) .
             // @codingStandardsIgnoreStart
             // We do really want a backtick here.
             '0123456789,./\%#&{}[]()$@!"\'?`^~*_+qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM:;=><|: -', '~'

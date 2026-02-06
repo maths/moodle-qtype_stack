@@ -38,10 +38,18 @@ class stack_ast_filter_180_char_based_superscripts implements stack_cas_astfilte
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
         if (self::$ssmap === null) {
-            self::$ssmap = json_decode(file_get_contents(__DIR__ . '/../../maximaparser/unicode/superscript-stack.json'), true);
+            // Option C: Allow only the most common superscripts: ², ³, ¹
+            // These are 2-byte UTF-8 characters and work without UTF-8mb4 requirement.
+            self::$ssmap = ['²' => '2', '³' => '3', '¹' => '1'];
         }
 
-        $process = function($node) use (&$errors, &$answernotes) {
+        // Loop until no more changes are made.
+        // This ensures all superscripts are converted, even in expressions like x²+x².
+        $changed = true;
+        while ($changed) {
+            $changed = false;
+
+            $process = function($node) use (&$errors, &$answernotes, &$changed) {
             if ($node instanceof MP_Identifier && !(isset($node->position['invalid']) && $node->position['invalid'])) {
                 // Iterate over the name to detect when we move from normal to superscript.
                 $norm = true;
@@ -109,6 +117,7 @@ class stack_ast_filter_180_char_based_superscripts implements stack_cas_astfilte
 
                     if (count($parts) === 1) {
                         $node->parentnode->replace($node, $parts[0]);
+                        $changed = true;
                     } else {
                         if (array_search('missing_stars', $answernotes) === false) {
                             $answernotes[] = 'missing_stars';
@@ -120,6 +129,7 @@ class stack_ast_filter_180_char_based_superscripts implements stack_cas_astfilte
                             $a->position['insertstars'] = true;
                         }
                         $node->parentnode->replace($node, $a);
+                        $changed = true;
                     }
                     return false;
                 }
@@ -127,7 +137,8 @@ class stack_ast_filter_180_char_based_superscripts implements stack_cas_astfilte
             return true;
         };
 
-        $ast->callbackRecurse($process);
+            $ast->callbackRecurse($process);
+        }
         return $ast;
     }
 }

@@ -157,8 +157,10 @@ class stack_cas_healthcheck {
                 stack_string('healthcheckplotsintro'),
                 get_string('healthchecksampleplots', 'qtype_stack')
             );
-            if ($this->config->maximaversion === 'default'
-                || version_compare($this->config->maximaversion, '5.46.0') >= 0) {
+            if (
+                $this->config->maximaversion === 'default'
+                || version_compare($this->config->maximaversion, '5.46.0') >= 0
+            ) {
                 $this->output_cas_text(
                     'healthcheckplots',
                     '',

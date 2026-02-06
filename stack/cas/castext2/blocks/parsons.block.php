@@ -203,8 +203,8 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         // JS script.
         $r->items[] = new MP_String('<script type="module">');
 
-        $importcode = "\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n";
-        $importcode .= "import {Sortable} from '" . stack_cors_link('sortablecore.min.js') . "';\n";
+        $importcode = "\nimport stack_js from '" . stack_cors_link('stackjsiframe.min.js') . "';\n";
+        $importcode .= "import Sortable from '" . stack_cors_link('sortablecore.min.js') . "';\n";
         $importcode .= "import {preprocess_steps,
                                 stack_sortable,
                                 get_iframe_height,
@@ -561,16 +561,18 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
 
         if (array_key_exists('style', $this->params)) {
             $stylename = $this->params['style'];
-            if (strpos($stylename, '..') !== false
+            if (
+                strpos($stylename, '..') !== false
                 || strpos($stylename, '/') !== false
-                || strpos($stylename, '\\') !== false) {
-                    $valid    = false;
-                    $err[] = stack_string('stackBlock_parsons_unknown_style', ['style' => $stylename]);
-                } else if (!file_exists($CFG->dirroot . '/question/type/stack/corsscripts/parsonsstyles/' .
-                        $stylename . '.min.css')) {
-                    $valid    = false;
-                    $err[] = stack_string('stackBlock_parsons_unknown_style', ['style' => $stylename]);
-                }
+                || strpos($stylename, '\\') !== false
+            ) {
+                $valid    = false;
+                $err[] = stack_string('stackBlock_parsons_unknown_style', ['style' => $stylename]);
+            } else if (!file_exists($CFG->dirroot . '/question/type/stack/corsscripts/parsonsstyles/' .
+                    $stylename . '.min.css')) {
+                $valid    = false;
+                $err[] = stack_string('stackBlock_parsons_unknown_style', ['style' => $stylename]);
+            }
         }
 
         // Check that only valid parameters are passed to block header.

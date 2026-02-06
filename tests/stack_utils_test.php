@@ -188,7 +188,7 @@ final class stack_utils_test extends qtype_stack_testcase {
         $this->assertEquals($a, stack_utils::list_to_array($strin, false));
 
         $strin = '[[],["","A"],A,"\""]';
-        $a = [[],['""','"A"'],'A','"\""'];
+        $a = [[], ['""', '"A"'], 'A', '"\""'];
         $this->assertEquals($a, stack_utils::list_to_array($strin, true));
     }
 

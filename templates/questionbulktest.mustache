@@ -72,7 +72,7 @@
   <!-- Choose quiz to analyze the results from -->
   <p>
     <span>
-      {{#str}} bulktestquiznotes, qtype_stack {{/str}}:
+      {{#str}} bulktestquiznotes, qtype_stack {{/str}}
     </span>
   </p>
   <p>
@@ -81,8 +81,12 @@
       {{#pix}}y/loading, core, {{#str}}loading, tool_lp{{/str}}{{/pix}}
     </span>
   </p>
+  <ul>
   {{#quizzes}}
-    <a onClick="document.querySelector('[data-id=\'qa-loading\']').removeAttribute('hidden');" href={{{url}}}>{{coursename}} - {{name}}</a>
+    <li>
+      <a onClick="document.querySelector('[data-id=\'qa-loading\']').removeAttribute('hidden');" href={{{url}}}>{{coursename}} - {{name}}</a>
+    </li>
   {{/quizzes}}
+  </ul>
 
 </div>

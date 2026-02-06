@@ -50,8 +50,8 @@ $canedit = question_has_capability_on($questiondata, 'edit');
 
 // Initialise $PAGE.
 $PAGE->set_context($context);
-$PAGE->set_url('/question/type/stack/questiontestreport.php', $urlparams);
-$title = stack_string('basicquestionreport');
+$PAGE->set_url('/question/type/stack/questionbulktest.php', $urlparams);
+$title = stack_string('bulktestquiz');
 $PAGE->set_title($title);
 $PAGE->set_heading($title);
 

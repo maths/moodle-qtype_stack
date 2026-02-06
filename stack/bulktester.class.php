@@ -110,9 +110,10 @@ class stack_bulk_tester {
      * quiz. Each row in the returned list of rows has an id, name and version number.
      */
     public function stack_questions_in_quiz($contextid) {
+        require_once(__DIR__ . '/questionreport.class.php');
         global $DB;
         $qcparams['contextid'] = $contextid;
-        return $DB->get_records_sql_menu(
+        $questions =  $DB->get_records_sql_menu(
                 "SELECT q.id, q.name AS id2
                 FROM {quiz_slots} qs
                 JOIN {question_references} qr ON qr.itemid = qs.id
@@ -124,6 +125,52 @@ class stack_bulk_tester {
                 AND qv.version = (SELECT MAX(version) 
                                     FROM {question_versions}
                                     WHERE questionbankentryid = qr.questionbankentryid)", $qcparams);
+
+        // Find all the random questions for the quiz's context.
+        $randomreferences = $DB->get_records_sql(
+                "SELECT qr.filtercondition
+                FROM {question_set_references} qr
+                WHERE qr.usingcontextid = :contextid", $qcparams);
+
+        $ids = [];
+        $randomloader = new stack_random_question_loader(new qubaid_list([]));
+
+        // Get the question id selections for each random question.
+        foreach ($randomreferences as $randomref) {
+            $currentids = [];
+            $filter = json_decode($randomref->filtercondition, true);
+            if (isset($filter['filter'])) {
+                $filter = $filter['filter'];
+                $currentids = $randomloader->get_filtered_question_ids($filter);
+            } else if ($filter['questioncategoryid']) {
+                // This is for Moodle 4.0, 4.1.
+                $currentids = $randomloader->get_question_ids(
+                    $filter['questioncategoryid'],
+                    $filter['includingsubcategories'],
+                    (isset($filter['tags'])) ? $filter['tags'] : []
+                );
+            }
+            foreach ($currentids as $id) {
+                // Avoid repeats from other random questions or the non-random questions.
+                if (!in_array($id, $ids) && !isset($questions[$id])) {
+                    $ids[] = $id;
+                }
+            }
+        }
+
+        if ($ids) {
+            // We only have ids for random selection. Need to fetch names as well.
+            list($dsql, $dparam) = $DB->get_in_or_equal($ids, SQL_PARAMS_NAMED);
+            $randomquestions = $DB->get_records_sql_menu(
+                    "SELECT q.id, q.name AS id2
+                    FROM {question} q
+                    WHERE q.qtype = 'stack'
+                    AND q.id {$dsql}", $dparam);
+
+            $questions = $questions + $randomquestions;
+        }
+
+        return $questions;
     }
 
     /**

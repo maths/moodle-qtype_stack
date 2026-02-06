@@ -79,49 +79,50 @@ class GradingController {
         $storeprefix = uniqid();
         $gradingresponse = new StackGradingResponse();
         $gradingresponse->isgradable = true;
-
+                    
+        if (!$question->is_gradable_response($data['answers'])) {
+            $gradingresponse->isgradable = false;
+            $response->getBody()->write(json_encode($gradingresponse));
+            return $response->withHeader('Content-Type', 'application/json');
+        }
+        
         $scores = [];
         foreach ($question->prts as $index => $prt) {
             $result = $question->get_prt_result($index, $data['answers'], true);
-
-            // If not all inputs required for the prt have been filled out,
-            // or the prt evaluation caused an error, we abort the grading,
-            // and indicate that this input state is not gradable.
-            if ($result->get_errors() || !$question->has_necessary_prt_inputs($prt, $data['answers'], true)) {
-                $gradingresponse = new StackGradingResponse();
-                $gradingresponse->isgradable = false;
-
-                $response->getBody()->write(json_encode($gradingresponse));
-                return $response->withHeader('Content-Type', 'application/json');
-            }
-
-            $feedbackstyle = $prt->get_feedbackstyle();
-
-            $feedback = $result->apply_placeholder_holder($result->get_feedback());
-            $standardfeedback = $this->standard_prt_feedback($question, $result, $feedbackstyle);
-
-            switch ($feedbackstyle) {
-                // Formative.
-                case 0:
-                    $overallfeedback = $feedback;
-                    break;
-                // Standard.
-                case 1:
-                case 2:
-                    $overallfeedback = $standardfeedback . $feedback;
-                    break;
-                // Compact.
-                // Symbolic.
-                case 3:
-                    $overallfeedback = $standardfeedback;
-                    break;
-                // Invalid.
-                default:
-                    $overallfeedback = "Invalid Feedback style";
-                    break;
-            }
-
             $scores[$index] = $result->get_score();
+
+            $errors = $result->get_errors();
+            if ($errors) {
+                $overallfeedback = $errors;
+            } else if (!$question->has_necessary_prt_inputs($prt, $data['answers'], true)) {
+                continue;
+            } else {
+                $feedbackstyle = $prt->get_feedbackstyle();
+
+                $feedback = $result->apply_placeholder_holder($result->get_feedback());
+                $standardfeedback = $this->standard_prt_feedback($question, $result, $feedbackstyle);
+
+                switch ($feedbackstyle) {
+                    // Formative.
+                    case 0:
+                        $overallfeedback = $feedback;
+                        break;
+                    // Standard.
+                    case 1:
+                    case 2:
+                        $overallfeedback = $standardfeedback . $feedback;
+                        break;
+                    // Compact.
+                    // Symbolic.
+                    case 3:
+                        $overallfeedback = $standardfeedback;
+                        break;
+                    // Invalid.
+                    default:
+                        $overallfeedback = "Invalid Feedback style";
+                        break;
+                }
+            }
 
             $gradingresponse->prts[$index] = $translate->filter(
                 \stack_maths::process_display_castext($overallfeedback),

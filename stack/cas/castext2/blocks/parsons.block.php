@@ -568,8 +568,10 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             ) {
                 $valid    = false;
                 $err[] = stack_string('stackBlock_parsons_unknown_style', ['style' => $stylename]);
-            } else if (!file_exists($CFG->dirroot . '/question/type/stack/corsscripts/parsonsstyles/' .
-                    $stylename . '.min.css')) {
+            } else if (
+                    !file_exists($CFG->dirroot . '/question/type/stack/corsscripts/parsonsstyles/' .
+                    $stylename . '.min.css')
+                ) {
                 $valid    = false;
                 $err[] = stack_string('stackBlock_parsons_unknown_style', ['style' => $stylename]);
             }

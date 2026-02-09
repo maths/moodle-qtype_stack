@@ -3197,20 +3197,16 @@ final class input_algebraic_test extends qtype_stack_testcase {
         $el->set_parameter('insertStars', 2);
         $state = $el->validate_student_response(
             ['sans1' => 'x²'],
-            $options,
-            'x^2',
+            $options, 'x^2',
             new stack_cas_security()
         );
-        $this->assertEquals(stack_input::INVALID, $state->status);
-        // The rest needs to be updated once we know what the expected result is.
-        $this->assertEquals('forbiddenChar', $state->note);
-        $this->assertEquals(
-            'CAS commands may not contain the following characters: ².',
-            $state->errors
-        );
-        $this->assertEquals('', $state->contentsmodified);
-        $this->assertEquals('<span class="stacksyntaxexample">x&sup2;</span>', $state->contentsdisplayed);
-        $this->assertEquals('', $state->lvars);
+        // Unicode superscripts are now converted to exponents by Filter 180.
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('superscriptchars', $state->note);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('x^2', $state->contentsmodified);
+        $this->assertEquals('\[ x^{2} \]', $state->contentsdisplayed);
+        $this->assertEquals('x', $state->lvars);
     }
 
     public function test_validate_student_response_km(): void {

@@ -1043,6 +1043,10 @@ abstract class stack_input {
             $filterstoapply[] = '115_lexer_post_process_stackbasen';
         }
 
+        // Filter 180 MUST run BEFORE Filter 150!
+        // Filter 180: Intelligently converts Unicode superscripts to exponents (x² → x^2)
+        // Filter 150: Simple replacement of remaining Unicode letters (α → alpha, × → *)
+        $filterstoapply[] = '180_char_based_superscripts';
         $filterstoapply[] = '150_replace_unicode_letters';
 
         if (get_class($this) === 'stack_units_input' || get_class($this) === 'stack_numerical_input') {

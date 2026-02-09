@@ -2182,7 +2182,8 @@ class stack_api_test_data {
         'multipleprts_some' => '{"ans1": "x^3", "ans2": "*", "ans1_val": "x^3", "ans2_val": "*", "ans3": "", "ans4": "true"}',
         'matrices_correct' => '{"ans1_sub_0_0": "35", "ans1_sub_0_1": "30", "ans1_sub_1_0": "28", "ans1_sub_1_1": "24", ' .
           '"ans1_val": "matrix([35,30],[28,24])"}',
-        'multiple_mixed' => '{"ans1": "3", "ans2": "1", "ans3": "0", "ans4": "0", "ans2_val": "1", "ans3_val": "0", "ans4_val": "0"}',
+        'multiple_mixed' => '{"ans1": "3", "ans2": "1", "ans3": "0", "ans4": "0", ' .
+          '"ans2_val": "1", "ans3_val": "0", "ans4_val": "0"}',
         'empty' => '{"ans1": "1", "ans1_val": "1"}',
     ];
 

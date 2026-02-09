@@ -627,6 +627,9 @@ $string['reloadsavedXML'] = '<i class="fa fa-rotate-left"></i> Reload saved vers
 $string['seetodolist'] = '<i class="fa fa-exclamation-triangle"></i> Find <tt>[[todo]]</tt> blocks';
 $string['seetodolist_desc'] = 'The purpose of this page is to find all questions containing <tt>[[todo]]</tt> blocks and to group them by any tags. Questions that have been marked as broken will also be found and displayed.';
 $string['seetodolist_help'] = 'Clicking on the question name takes you to the dashboard.  You can also preview the question.';
+$string['bulktestquiz'] = '<i class="fa fa-certificate"></i> Bulk test quiz';
+$string['bulktestquiznotes'] = 'Bulk test the latest version of all the questions in a quiz containing this question.';
+$string['bulktestquizselect'] = 'Select a quiz';
 
 $string['basicquestionreport'] = '<i class="fa fa-bar-chart"></i> Analyze responses';
 $string['basicquestionreport_help'] = 'Generates a very basic report on attempts at this question on the server. Useful for deciding which PRT test can be added to improve feedback in the light of what the student actually does.  (Most questions are only used in one place)';

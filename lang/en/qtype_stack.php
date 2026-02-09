@@ -1651,7 +1651,7 @@ $string['calc_chain_rule_fact'] = 'The following rule allows one to find the der
 Assume we have a function \(f(g(x))\), then defining \(u=g(x)\), the derivative with respect to \(x\) is given by:
 \[\frac{\mathrm{d}f(g(x))}{\mathrm{d}x} = \frac{\mathrm{d}g(x)}{\mathrm{d}x}\cdot\frac{\mathrm{d}f(u)}{\mathrm{d}u}.\]
 Alternatively, we can write:
-\[\frac{\mathrm{d}f(x)}{\mathrm{d}x} = f\'(g(x))\cdot g\'(x).\]
+\[\frac{\mathrm{d}f(g(x))}{\mathrm{d}x} = f\'(g(x))\cdot g\'(x).\]
 ';
 
 $string['calc_rules_name'] = 'Calculus rules';

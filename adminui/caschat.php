@@ -226,7 +226,7 @@ if ($questionid) {
         $questionxmllink,
         stack_string('editxml'),
         ['class' => 'nav-link']
-        );
+    );
     echo html_writer::tag('nav', implode(' ', $links), ['class' => 'nav']);
 }
 echo $OUTPUT->heading($title);

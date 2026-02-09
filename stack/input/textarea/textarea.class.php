@@ -254,7 +254,7 @@ class stack_textarea_input extends stack_input {
                     '\(' .
                     ($this->get_parameter('showValidation', 1) == 3 ? '\textstyle ' : '\displaystyle ') .
                     $ilines[$index]->get_display() .
-                    ' \)'
+                    ' \)',
                     ];
                 if ($errors[$index]) {
                     $row[] = [1, stack_maxima_translate($errors[$index])];

@@ -75,7 +75,7 @@ class stack_equiv_input extends stack_input {
             }
             // Put the first line of the value of the teacher's answer in the input.
             if (trim($this->parameters['syntaxHint']) == 'firstline') {
-                // The teacher's answer, $tavalue, always uses commas here. 
+                // The teacher's answer, $tavalue, always uses commas here.
                 $values = stack_utils::list_to_array($tavalue, false);
                 if (array_key_exists(0, $values) && !is_null($values[0])) {
                     $cs = stack_ast_container::make_from_teacher_source($values[0]);
@@ -585,7 +585,7 @@ class stack_equiv_input extends stack_input {
      * @param string $lang language of the question.
      * @return string HTML for the validation results for this input.
      */
-    public function render_validation(stack_input_state $state, $fieldname, $lang) {
+    public function render_validation(stack_input_state $state, $fieldname, $lang = null) {
         if ($lang !== null && $lang !== '') {
             $prevlang = force_current_language($lang);
         }

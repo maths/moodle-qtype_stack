@@ -357,7 +357,7 @@ node1:is(sa2evrank=ta2evrank)</text>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt2-1-F</falseanswernote>
         <falsefeedback format="html">
-          <text>Part(a) is a hint to find an example of A.</text>
+          <text>The previous part is a hint of how to find an example of a matrix \(A\).</text>
         </falsefeedback>
       </node>
     </prt>
@@ -416,8 +416,8 @@ node1:is(sa2evrank=ta2evrank)</text>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt3-2-F</falseanswernote>
         <falsefeedback format="html">
-          <text>Your answer should satisfy \( Ax =\lambda_1 x\), where \(\lambda_1={@a1@}\) but 
-\[ {@A@} {@ans3@} = {@A.ans3@} \neq  {@a1*ans3@}. \]</text>
+          <text>Your answer should satisfy \( Ax =\lambda_1 x\), where \(\lambda_1={@a1@}\) and your matrix \(A={@ans2@}\) but 
+\[ {@ans2@} {@ans3@} = {@ans2.ans3@} \neq  {@a1*ans3@}. \]</text>
         </falsefeedback>
       </node>
     </prt>
@@ -476,8 +476,8 @@ node1:is(sa2evrank=ta2evrank)</text>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt4-2-F</falseanswernote>
         <falsefeedback format="html">
-          <text>Your answer should satisfy \( Ax =\lambda_2 x\), where \(\lambda_2={@a2@}\) but 
-\[ {@A@} {@ans4@} = {@A.ans4@} \neq {@a2*ans4@}.\]</text>
+          <text>Your answer should satisfy \( Ax =\lambda_2 x\), where \(\lambda_2={@a2@}\) and your matrix \(A={@ans2@}\) but 
+\[ {@ans2@} {@ans4@} = {@ans2.ans4@} \neq  {@a2*ans4@}. \]</text>
         </falsefeedback>
       </node>
     </prt>

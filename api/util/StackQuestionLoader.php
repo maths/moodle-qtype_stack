@@ -296,10 +296,13 @@ class StackQuestionLoader {
         }
 
         if (empty($inputmap) && $question->defaultmark) {
-            $defaultinput = new \SimpleXMLElement('<input></input>');
-            $defaultinput->addChild('name', self::get_default('input', 'name', 'ans1'));
-            $defaultinput->addChild('tans', self::get_default('input', 'tans', 'ta1'));
-            $inputmap[self::get_default('input', 'name', 'ans1')] = $defaultinput;
+            preg_match_all("/\[\[input:([^\]]*)\]\]/", $question->questiontext, $namedinputs);
+            foreach ($namedinputs as $namedinput) {
+                $defaultinput = new \SimpleXMLElement('<input></input>');
+                $defaultinput->addChild('name', $namedinput);
+                $defaultinput->addChild('tans', self::get_default('input', 'tans', 'ta1'));
+                $inputmap[$namedinput] = $defaultinput;
+            }
         }
 
         $requiredparams = \stack_input_factory::get_parameters_used();
@@ -373,15 +376,18 @@ class StackQuestionLoader {
         }
 
         if (empty($prtmap) && $question->defaultmark) {
-            $defaultprt = new \SimpleXMLElement('<prt></prt>');
-            $defaultprt->addChild('name', self::get_default('prt', 'name', 'prt1'));
-            $defaultnode = $defaultprt->addChild('node');
-            $defaultnode->addChild('name', self::get_default('node', 'name', '0'));
-            $defaultnode->addChild('sans', self::get_default('node', 'sans', 'ans1'));
-            $defaultnode->addChild('tans', self::get_default('node', 'tans', 'ta1'));
-            $defaultnode->addChild('trueanswernote', self::get_default('node', 'trueanswernote', 'prt1-1-T'));
-            $defaultnode->addChild('falseanswernote', self::get_default('node', 'falseanswernote', 'prt1-1-F'));
-            $prtmap[self::get_default('prt', 'name', 'prt1')] = $defaultprt;
+            preg_match_all("/\[\[prt:([^\]]*)\]\]/", $question->questiontext . $question->specificfeedback, $namedprts);
+            foreach ($namedprts as $namedprt) {
+                $defaultprt = new \SimpleXMLElement('<prt></prt>');
+                $defaultprt->addChild('name', $namedprt);
+                $defaultnode = $defaultprt->addChild('node');
+                $defaultnode->addChild('name', self::get_default('node', 'name', '0'));
+                $defaultnode->addChild('sans', self::get_default('node', 'sans', 'ans1'));
+                $defaultnode->addChild('tans', self::get_default('node', 'tans', 'ta1'));
+                $defaultnode->addChild('trueanswernote', self::get_default('node', 'trueanswernote', 'prt1-1-T'));
+                $defaultnode->addChild('falseanswernote', self::get_default('node', 'falseanswernote', 'prt1-1-F'));
+                $prtmap[$namedprt] = $defaultprt;
+            }
         }
 
         foreach ($prtmap as $prtdata) {

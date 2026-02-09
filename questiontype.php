@@ -1876,9 +1876,12 @@ class qtype_stack extends question_type {
             }
         } else {
             if ($fromform->defaultmark) {
-                $defaultinput = [];
-                $defaultinput['#'] = ['name' => [0 => ['#' => 'ans1']], 'tans' => [0 => ['#' => 'ta1']]];
-                $this->import_xml_input($defaultinput, $fromform, $format);
+                preg_match_all("/\[\[input:([^\]]*)\]\]/", $fromform->questiontext, $namedinputs);
+                foreach ($namedinputs as $namedinput) {
+                    $defaultinput = [];
+                    $defaultinput['#'] = ['name' => [0 => ['#' => $namedinput]], 'tans' => [0 => ['#' => 'ta1']]];
+                    $this->import_xml_input($defaultinput, $fromform, $format);
+                }
             }
         }
 
@@ -1888,16 +1891,19 @@ class qtype_stack extends question_type {
             }
         } else {
             if ($fromform->defaultmark) {
-                $defaultnode = [
-                    'name' => [0 => ['#' => 0]],
-                    'sans' => [0 => ['#' => 'ans1']],
-                    'tans' => [0 => ['#' => 'ta1']],
-                    'trueanswernote' => [0 => ['#' => 'prt1-1-T']],
-                    'falseanswernote' => [0 => ['#' => 'prt1-1-F']],
-                ];
-                $defaultprt = [];
-                $defaultprt['#'] = ['name' => [0 => ['#' => 'prt1']], 'node' => [['#' => $defaultnode]]];
-                $this->import_xml_prt($defaultprt, $fromform, $format);
+                preg_match_all("/\[\[prt:([^\]]*)\]\]/", $fromform->questiontext . $fromform->specificfeedback, $namedprts);
+                foreach ($namedprts as $namedprt) {
+                    $defaultnode = [
+                        'name' => [0 => ['#' => 0]],
+                        'sans' => [0 => ['#' => 'ans1']],
+                        'tans' => [0 => ['#' => 'ta1']],
+                        'trueanswernote' => [0 => ['#' => 'prt1-1-T']],
+                        'falseanswernote' => [0 => ['#' => 'prt1-1-F']],
+                    ];
+                    $defaultprt = [];
+                    $defaultprt['#'] = ['name' => [0 => ['#' => $namedprt]], 'node' => [['#' => $defaultnode]]];
+                    $this->import_xml_prt($defaultprt, $fromform, $format);
+                }
             }
         }
 

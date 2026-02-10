@@ -295,13 +295,16 @@ class StackQuestionLoader {
             $inputmap[(string) $input->name] = $input;
         }
 
-        if (empty($inputmap) && $question->defaultmark) {
-            preg_match_all("/\[\[input:([^\]]*)\]\]/", $question->questiontext, $namedinputs);
-            foreach ($namedinputs as $namedinput) {
+        if (empty($inputmap)) {
+            $inputname = self::get_default('input', 'name', 'ans1');
+            if (preg_match("/\[\[input:{$inputname}\]\]/", $question->questiontext)) {
                 $defaultinput = new \SimpleXMLElement('<input></input>');
-                $defaultinput->addChild('name', $namedinput);
+                $defaultinput->addChild('name', $inputname);
                 $defaultinput->addChild('tans', self::get_default('input', 'tans', 'ta1'));
-                $inputmap[$namedinput] = $defaultinput;
+                $inputmap[$inputname] = $defaultinput;
+            } else {
+                // We've not got any inputs. Set default mark to 0.
+                $question->defaultmark = 0;
             }
         }
 
@@ -375,18 +378,18 @@ class StackQuestionLoader {
             $prtmap[(string) $prt->name] = $prt;
         }
 
-        if (empty($prtmap) && $question->defaultmark) {
-            preg_match_all("/\[\[prt:([^\]]*)\]\]/", $question->questiontext . $question->specificfeedback, $namedprts);
-            foreach ($namedprts as $namedprt) {
+        if (empty($prtmap)) {
+            $prtname = self::get_default('prt', 'name', 'prt1');
+            if (preg_match("/\[\[feedback:{$prtname}\]\]/", $question->questiontext . $question->specificfeedback)) {
                 $defaultprt = new \SimpleXMLElement('<prt></prt>');
-                $defaultprt->addChild('name', $namedprt);
+                $defaultprt->addChild('name', $prtname);
                 $defaultnode = $defaultprt->addChild('node');
                 $defaultnode->addChild('name', self::get_default('node', 'name', '0'));
                 $defaultnode->addChild('sans', self::get_default('node', 'sans', 'ans1'));
                 $defaultnode->addChild('tans', self::get_default('node', 'tans', 'ta1'));
                 $defaultnode->addChild('trueanswernote', self::get_default('node', 'trueanswernote', 'prt1-1-T'));
                 $defaultnode->addChild('falseanswernote', self::get_default('node', 'falseanswernote', 'prt1-1-F'));
-                $prtmap[$namedprt] = $defaultprt;
+                $prtmap[$prtname] = $defaultprt;
             }
         }
 

@@ -32,7 +32,7 @@ In each node two expressions are compared using a specified [answer tests](Answe
 
 ## Outcomes  ##
 
-The outcomes are
+The outcomes of running a potential response tree are
 
 1. The raw score
 2. The penalty for this attempt

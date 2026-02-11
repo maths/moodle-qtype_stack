@@ -58,12 +58,34 @@ To place another potential response tree in the question just choose a sensible 
 * PRTs are created and deleted by adding appropriate tags to the question text.  Therefore, beware if you delete the tags as this will also delete the PRT from the question, which may result in lost work.
 * Some sites use a database which is not case sensitive (!), so please ensure tags differ by more than case sensitivity.  E.g. avoid `[[input:ans_m]]` and `[[input:ans_M]]` in questions.  Similarly with feedback tags.  Because most databases are case sensitive we do not check for this issue.
 
-## General feedback/Worked solution {#general_feedback}
+## Specific feedback {#Specific_feedback}
 
-General feedback (called "worked solution" in previous versions) is shown to the student after they have attempted the question. Unlike feedback, which depends on the response the student gave, the same general feedback text is shown to all students.
+Moodle questions have a "specific feedback" field, and corresponding quiz settings for whether and when to show this to students. In STACK this is typically where the feedback tags from the potential response trees (PRT), i.e. the feedback algorithms, are placed.
 
-The general feedback may depend on any question variables, but may _not_ depend on any of the inputs.
-While this design decision is restrictive, it is a deliberate separation of feedback which should be done via potential response trees, from a model solution to this problem which can be written before a question is deployed.
+The specific feedback may depend on any question variables and PRTs, but may _not_ depend directly on any of the inputs.
+
+## General feedback/Worked solution {#General_feedback}
+
+General feedback (typically called "worked solution" in mathematics contexts) is shown to the student after they have attempted the question. Unlike feedback, which depends on the response the student gave, the same general feedback text is shown to all students.
+
+The general feedback may depend on any question variables, but may _not_ depend on any of the inputs and may _not_ contain PRT tags. While this design decision is restrictive, it is a deliberate separation of feedback which should be done via potential response trees, from a model solution to this problem which can be written before a question is deployed.
+
+## Question description {#Question_description}
+
+The question description field can be used by the teacher for any purpose they choose.  This field is only shown on the dashboard page, and is not visible to students.
+
+This field can be used for various purposes.
+
+1. Extra "worked solution", or related mathematics, to help tutors.
+2. Educational rationale, or design descussion.
+3. Requests to colleagues for help improving the question, so that notes about the question remain within the question itself.
+4. An audit trail in bespoke multi-author workflows.  Workflows might include designer, technical author, reviewer, etc.  The tags in `[[todo]]` blocks can help alert the next person in this workflow to questions needing attention.
+
+Note, the bulk tester has an option to add `[[todo]]` blocks to this field indicating potential problems.  See the [authoring workflow](../STACK_question_admin/Authoring_workflow.md) for more details.
+
+This is CASText, and so can contain variable values etc.  The dashboard shows both the generated text (with variable values) and the raw description field (so `[[todo]]` blocks remain, and are not stripped out).
+
+
 
 ## CASText and currency {#currency}
 
@@ -73,7 +95,7 @@ If you are using dollars for currency then you must protect them with a backslas
 
 ## Facts and hints ##
 
-STACK has an in-built formula sheet which is used for facts and hints".  Standard text can be added using the [fact sheet](../Authoring/Question_blocks/Fact_sheets.md)
+STACK has an in-built formula sheet which is used for facts and hints.  Standard text can be added using the [fact sheet](../Authoring/Question_blocks/Fact_sheets.md)
 
 ## Reference materials ##
 

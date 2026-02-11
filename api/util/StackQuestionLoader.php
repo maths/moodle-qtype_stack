@@ -138,10 +138,16 @@ class StackQuestionLoader {
         $question->questionnoteformat        =
             isset($xmldata->question->questionnote['format']) ? (string) $xmldata->question->questionnote['format'] :
             self::get_default('question', 'questionnoteformat', 'html');
-        $question->specificfeedback          =
-                isset($xmldata->question->specificfeedback->text) ?
-                (string) $xmldata->question->specificfeedback->text :
-                self::get_default('question', 'specificfeedback', '[[feedback:prt1]]');
+        if (isset($xmldata->question->specificfeedback->text)) {
+            $question->specificfeedback = (string) $xmldata->question->specificfeedback->text;
+        } else {
+            $inputname = self::get_default('input', 'name', 'ans1');
+            if (preg_match("/\[\[input:{$inputname}\]\]/", $question->questiontext)) {
+                $question->specificfeedback = self::get_default('question', 'specificfeedback', '[[feedback:prt1]]');
+            } else {
+                $question->specificfeedback = '';
+            }
+        }
         $question->specificfeedbackformat    =
                 isset($xmldata->question->specificfeedback['format']) ?
                 (string) $xmldata->question->specificfeedback['format'] :

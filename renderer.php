@@ -66,6 +66,21 @@ class qtype_stack_renderer extends qtype_renderer {
         $originalfeedbackplaceholders = array_unique(stack_utils::extract_placeholders($questiontext, 'feedback'));
         sort($originalfeedbackplaceholders);
 
+        // Salt input and prt names for moodle glossary auto-link filter protection.
+        foreach ($question->inputs as $name => $input) {
+            $questiontext = str_replace(
+                "[[input:{$name}]]",
+                "[[pnMNEYMWDx:{$name}]]",
+                $questiontext
+            );
+        }
+        foreach ($question->prts as $index => $prt) {
+            $questiontext = str_replace(
+                "[[feedback:{$index}]]",
+                "[[GDBBdLBJLg:{$index}]]",
+                $questiontext
+            );
+        }
         // Now format the questiontext.
         $questiontext = $question->format_text(
             stack_maths::process_display_castext($questiontext, $this),
@@ -75,6 +90,21 @@ class qtype_stack_renderer extends qtype_renderer {
             'questiontext',
             $question->id
         );
+        // Restore inputnames.
+        foreach ($question->inputs as $name => $input) {
+            $questiontext = str_replace(
+                "[[pnMNEYMWDx:{$name}]]",
+                "[[input:{$name}]]",
+                $questiontext
+            );
+        }
+        foreach ($question->prts as $index => $prt) {
+            $questiontext = str_replace(
+                "[[GDBBdLBJLg:{$index}]]",
+                "[[feedback:{$index}]]",
+                $questiontext
+            );
+        }
         // Replace the secured bits.
         $questiontext = $question->questiontextinstantiated->apply_placeholder_holder($questiontext);
 
@@ -92,7 +122,7 @@ class qtype_stack_renderer extends qtype_renderer {
             $formatedinputplaceholders !== $originalinputplaceholders ||
                 $formatedfeedbackplaceholders !== $originalfeedbackplaceholders
         ) {
-            throw new coding_exception('Inconsistent placeholders. Possibly due to multi-lang filtter not being active.');
+            throw new coding_exception('Inconsistent placeholders. Possibly due to multi-lang filter not being active.');
         }
 
         foreach ($question->inputs as $name => $input) {

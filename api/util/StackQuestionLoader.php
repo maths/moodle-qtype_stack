@@ -779,10 +779,11 @@ class StackQuestionLoader {
             self::get_default('question', 'specificfeedback', '[[feedback:prt1]]')
         );
         $isrequesteddefaultprt = isset($plaindata['question']['questiontext']) &&
-            isset($plaindata['question']['specificfeedback']) && preg_match(
-            "/\[\[feedback:{" . self::get_default('prt', 'name', 'prt1') . "}\]\]/",
-            $plaindata['question']['questiontext'] . $plaindata['question']['specificfeedback']
-        );
+            isset($plaindata['question']['specificfeedback']) &&
+            preg_match(
+                "/\[\[feedback:{" . self::get_default('prt', 'name', 'prt1') . "}\]\]/",
+                $plaindata['question']['questiontext'] . $plaindata['question']['specificfeedback']
+            );
         if (!empty($plaindata['question']['input'])) {
             $diffinputs = [];
             foreach ($plaindata['question']['input'] as $input) {
@@ -790,8 +791,8 @@ class StackQuestionLoader {
                 $diffinputs[] = $diffinput;
             }
             $diff['input'] = $diffinputs;
-        // We need to create an input if questiontext contains [[input:ansnamedefault]] or
-        // questiontext doesn't exist and default contains [[input:ansnamedefault]].
+            // We need to create an input if questiontext contains [[input:ansnamedefault]] or
+            // questiontext doesn't exist and default contains [[input:ansnamedefault]].
         } else if ((!$isquestiontext && $isdefaultinput) || $isrequesteddefaultinput) {
             $diff['input'] = [['name' => self::get_default('input', 'name', 'ans1'),
                 'type' => self::get_default('input', 'type', 'algebraic'),
@@ -846,8 +847,8 @@ class StackQuestionLoader {
                 $diffprts[] = $diffprt;
             }
             $diff['prt'] = $diffprts;
-        // We need to create a PRT if questiontext contains [[input:ansnamedefault]] or
-        // questiontext doesn't exist and default contains [[input:ansnamedefault]].
+            // We need to create a PRT if questiontext contains [[input:ansnamedefault]] or
+            // questiontext doesn't exist and default contains [[input:ansnamedefault]].
         } else if (
             ((!$isfeedback && $isdefaultprt) || $isrequesteddefaultprt) &&
             ((!$isquestiontext && $isdefaultinput) || $isrequesteddefaultinput)

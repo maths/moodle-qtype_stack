@@ -33,10 +33,10 @@ class stack_api_test_data {
             </quiz>',
         'emptygrade' =>
            '<quiz>
-                  <question type="stack">
-                      <defaultgrade>2</defaultgrade>
-                  </question>
-              </quiz>',
+                <question type="stack">
+                    <defaultgrade>2</defaultgrade>
+                </question>
+            </quiz>',
         'noinputblankspecific' =>
            '<quiz>
                 <question type="stack">

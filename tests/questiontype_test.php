@@ -780,7 +780,7 @@ final class questiontype_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals(\get_config('qtype_stack', 'inputboxsize'), $question->ans1boxsize);
     }
 
-        public function test_import_xml_default_emptygrade(): void {
+    public function test_import_xml_default_emptygrade(): void {
         $xml = '<question type="stack">
                     <name>
                         <text>Default</text>

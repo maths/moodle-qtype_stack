@@ -111,7 +111,8 @@ foreach ($contexts as $contextid => $numstackquestions) {
             'cli',
             (int) $options['id'],
             false,
-            (bool) $options['addtags']
+            (bool) $options['addtags'],
+            false
         );
     } else {
         [$passed, $failing] = $bulktester->run_all_tests_for_context(
@@ -120,7 +121,8 @@ foreach ($contexts as $contextid => $numstackquestions) {
             'cli',
             false,
             false,
-            (bool) $options['addtags']
+            (bool) $options['addtags'],
+            false
         );
     }
 

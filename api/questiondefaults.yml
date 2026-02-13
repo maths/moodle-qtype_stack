@@ -87,7 +87,7 @@ qtest:
   description:
 testinput:
   name: 'ans1'
-  value: 'ta1'
+  value: ''
 expected:
   name: 'prt1'
   expectedscore:

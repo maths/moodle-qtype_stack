@@ -509,7 +509,7 @@ class StackQuestionLoader {
                     $testiname = isset($testinput->name) ? (string) $testinput->name :
                         self::get_default('testinput', 'name', 'ans1');
                     $testivalue = (array) $testinput->value ? (string) $testinput->value :
-                        self::get_default('testinput', 'value', 'ta1');
+                        self::get_default('testinput', 'value', '');
                     $testinputs[$testiname] = $testivalue;
                 }
                 $testdescription = isset($test->description) ? (string) $test->description :

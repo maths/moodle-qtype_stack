@@ -269,8 +269,9 @@ function answer() {
                     document.getElementById('errors').innerText = '';
                 }
                 if (!json.isgradable) {
+                    // Should we display this or nothing (like Moodle)?
                     document.getElementById('stackapi_validity').innerText
-                        = ' Please enter valid answers for all parts of the question.';
+                        = ' Please supply additional valid answers.';
                     return;
                 }
                 renameIframeHolders();
@@ -307,7 +308,7 @@ function answer() {
                     const elements = document.getElementsByName(`${feedbackPrefix + name}`);
                     if (elements.length > 0) {
                         const element = elements[0];
-                        if (json.scores[name] !== undefined) {
+                        if (json.scores[name] !== undefined && json.scoreweights[name]) {
                             fb = fb + `<div>Marks for this submission:
                 ${(json.scores[name] * json.scoreweights[name] * json.scoreweights.total).toFixed(2)}
                 / ${(json.scoreweights[name] * json.scoreweights.total).toFixed(2)}.</div>`;

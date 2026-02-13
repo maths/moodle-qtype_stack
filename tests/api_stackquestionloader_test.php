@@ -421,11 +421,12 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         $yaml = file_get_contents(__DIR__ . '/fixtures/questionyml.yml');
         $diff = StackQuestionLoader::detect_differences($yaml);
         $diffarray = Yaml::parse($diff);
-        $this->assertEquals(10, count($diffarray));
+        $this->assertEquals(11, count($diffarray));
         $expected = [
             'name' => 'Test question',
             'questiontext' => "<p>Question</p><p>[[input:ans1]] [[validation:ans1]]</p>\n    " .
             "<p>[[input:ans2]] [[validation:ans2]]</p>\n",
+            'stackversion' => '2025042500',
             'questionvariables' => 'ta1:1;ta2:2;',
             'questionsimplify' => '1',
             'prtcorrect' => '<p><i class="fa fa-check"></i> Correct answer*, well done.</p>',
@@ -521,7 +522,7 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
             ],
         ];
         $expectedstring = "name: 'Test question'\nquestiontext: |\n  <p>Question</p><p>[[input:ans1]] [[validation:ans1]]</p>" .
-            "\n      <p>[[input:ans2]] [[validation:ans2]]</p>\nquestionvariables: 'ta1:1;ta2:2;'" .
+            "\n      <p>[[input:ans2]] [[validation:ans2]]</p>\nstackversion: '2025042500'\nquestionvariables: 'ta1:1;ta2:2;'" .
             "\nquestionsimplify: '1'\nprtcorrect: '<p>" .
             "<i class=\"fa fa-check\"></i> Correct answer*, well done.</p>'\nmultiplicationsign: cross\ninput:\n  - " .
             "name: ans1\n    type: algebraic\n    tans: ta1\n    boxsize: '25'\n    forbidfloat: '1'\n    " .
@@ -546,7 +547,7 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         StackQuestionLoader::$defaults = Yaml::parseFile(__DIR__ . '/fixtures/questiondefaultssugar.yml');
         $diff = StackQuestionLoader::detect_differences($yaml);
         $diffarray = Yaml::parse($diff);
-        $this->assertEquals(10, count($diffarray));
+        $this->assertEquals(11, count($diffarray));
         $expected['prt'][0]['node'][0] = [
                             'name' => '0',
                             'answertest' => 'ATAlgEquiv(ans1,ta1)',
@@ -596,7 +597,7 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
                         ],
                 ],
         ];
-        $diff = StackQuestionLoader::detect_differences($blankxml, null);
+        $diff = StackQuestionLoader::detect_differences($blankxml);
         $diffarray = Yaml::parse($diff);
         $this->assertEquals(4, count($diffarray));
         $this->assertEqualsCanonicalizing($expected, $diffarray);
@@ -615,31 +616,42 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         $this->assertEqualsCanonicalizing($expected, $diffarray);
         set_config('stackapi', false, 'qtype_stack');
 
-        // Test the difference detection with an info XML question.
-        $infoxml = '<quiz><question type="stack"><defaultgrade>0</defaultgrade></question></quiz>';
+        // Empty question with default grade.
+        $xml = stack_api_test_data::get_question_string('emptygrade');
         $expected = [
             'name' => 'Default',
+            'defaultgrade' => '2',
             'questionsimplify' => '1',
-            'defaultgrade' => '0',
-            'input' => [],
-            'prt' => [],
+            'input' => [
+                [
+                    'name' => 'ans1',
+                    'type' => 'algebraic',
+                    'tans' => 'ta1',
+                    'forbidfloat' => '1',
+                    'requirelowestterms' => '0',
+                    'checkanswertype' => '0',
+                    'mustverify' => '1',
+                    'showvalidation' => '1',
+                ],
+            ],
+            'prt' => [
+                        [
+                            'name' => 'prt1',
+                            'autosimplify' => '1',
+                            'feedbackstyle' => '1',
+                            'node' => [
+                                [
+                                    'name' => '0',
+                                    'answertest' => 'AlgEquiv',
+                                    'sans' => 'ans1',
+                                    'tans' => 'ta1',
+                                    'quiet' => '0',
+                                ],
+                            ],
+                        ],
+                ],
         ];
-        $diff = StackQuestionLoader::detect_differences($infoxml, null);
-        $diffarray = Yaml::parse($diff);
-        $this->assertEquals(5, count($diffarray));
-
-        $this->assertEqualsCanonicalizing($expected, $diffarray);
-
-        // Test the difference detection with an info XML question.
-        $infoxml = '<quiz><question type="stack"><defaultgrade>0</defaultgrade></question></quiz>';
-        $expected = [
-            'name' => 'Default',
-            'defaultgrade' => '0',
-            'questionsimplify' => '1',
-            'input' => [],
-            'prt' => [],
-        ];
-        $diff = StackQuestionLoader::detect_differences($infoxml);
+        $diff = StackQuestionLoader::detect_differences($xml);
         $diffarray = Yaml::parse($diff);
         $this->assertEquals(5, count($diffarray));
         $this->assertEqualsCanonicalizing($expected, $diffarray);
@@ -647,9 +659,73 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         // Check results when using answertest summary in defaults.
         set_config('stackapi', true, 'qtype_stack');
         StackQuestionLoader::$defaults = Yaml::parseFile(__DIR__ . '/fixtures/questiondefaultssugar.yml');
-        $diff = StackQuestionLoader::detect_differences($infoxml);
+        $diff = StackQuestionLoader::detect_differences($xml);
         $diffarray = Yaml::parse($diff);
         $this->assertEquals(5, count($diffarray));
+        $expected['prt'][0]['node'][0] = [
+                    'name' => '0',
+                    'answertest' => 'ATAlgEquiv(ans1,ta1)',
+                    'quiet' => '0',
+        ];
+        $this->assertEqualsCanonicalizing($expected, $diffarray);
+
+        // No inputs, blank specific feedback.
+        $xml = stack_api_test_data::get_question_string('noinputblankspecific');
+        $expected = [
+            'name' => 'Default',
+            'questiontext' => 'Question wording',
+            'defaultgrade' => '0',
+            'specificfeedback' => '',
+            'questionsimplify' => '1',
+            'input' => [],
+            'prt' => [],
+        ];
+        $diff = StackQuestionLoader::detect_differences($xml);
+        $diffarray = Yaml::parse($diff);
+        $this->assertEquals(7, count($diffarray));
+        $this->assertEqualsCanonicalizing($expected, $diffarray);
+        set_config('stackapi', false, 'qtype_stack');
+
+        // Input, blank specific feedback.
+        $xml = stack_api_test_data::get_question_string('inputblankspecific');
+        $expected = [
+            'name' => 'Default',
+            'questiontext' => 'Question wording [[input:ans1]] [[validation:ans1]]',
+            'defaultgrade' => '2',
+            'specificfeedback' => '',
+            'questionsimplify' => '1',
+            'input' => [
+                [
+                    'name' => 'ans1',
+                    'type' => 'algebraic',
+                    'tans' => 'ta1',
+                    'forbidfloat' => '1',
+                    'requirelowestterms' => '0',
+                    'checkanswertype' => '0',
+                    'mustverify' => '1',
+                    'showvalidation' => '1',
+                ],
+            ],
+            'prt' => [],
+        ];
+        $diff = StackQuestionLoader::detect_differences($xml);
+        $diffarray = Yaml::parse($diff);
+        $this->assertEquals(7, count($diffarray));
+        $this->assertEqualsCanonicalizing($expected, $diffarray);
+
+        // No input, no specific feedback.
+        $xml = stack_api_test_data::get_question_string('noinputnospecific');
+        $expected = [
+            'name' => 'Default',
+            'questiontext' => 'Question wording',
+            'defaultgrade' => '0',
+            'questionsimplify' => '1',
+            'input' => [],
+            'prt' => [],
+        ];
+        $diff = StackQuestionLoader::detect_differences($xml);
+        $diffarray = Yaml::parse($diff);
+        $this->assertEquals(7, count($diffarray));
         $this->assertEqualsCanonicalizing($expected, $diffarray);
         set_config('stackapi', false, 'qtype_stack');
     }
@@ -707,5 +783,83 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
             'qux',
         ];
         $this->assertEquals($expected, StackQuestionLoader::split_answertest($input));
+    }
+
+    public function test_question_loader_default_emptygrade(): void {
+        $xml = stack_api_test_data::get_question_string('emptygrade');
+        $question = StackQuestionLoader::loadXML($xml)['question'];
+        $this->assertEquals(
+            '<p>Default question</p><p>[[input:ans1]] [[validation:ans1]]</p>',
+            $question->questiontext
+        );
+        $this->assertEquals(2, $question->defaultmark);
+        $this->assertEquals(
+            '[[feedback:prt1]]',
+            $question->specificfeedback
+        );
+
+        $this->assertEquals(1, count($question->prts));
+        $nodesummary = $question->prts['prt1']->get_nodes_summary()[0];
+        $this->assertEquals('ATAlgEquiv(ans1,ta1)', $nodesummary->answertest);
+        $this->assertEquals(1, count($question->inputs));
+        $this->assertEquals(
+            $question->inputs['ans1']->get_parameter('showValidation'),
+            get_config('qtype_stack', 'inputshowvalidation')
+        );
+    }
+
+    public function test_question_loader_default_noinputblankspecific(): void {
+        $xml = stack_api_test_data::get_question_string('noinputblankspecific');
+        $question = StackQuestionLoader::loadXML($xml)['question'];
+        $this->assertEquals(
+            'Question wording',
+            $question->questiontext
+        );
+        $this->assertEquals(0, $question->defaultmark);
+        $this->assertEquals(
+            '',
+            $question->specificfeedback
+        );
+
+        $this->assertEquals(0, count($question->prts));
+        $this->assertEquals(0, count($question->inputs));
+    }
+
+    public function test_question_loader_default_inputblankspecific(): void {
+        $xml = stack_api_test_data::get_question_string('inputblankspecific');
+        $question = StackQuestionLoader::loadXML($xml)['question'];
+        $this->assertEquals(
+            'Question wording [[input:ans1]] [[validation:ans1]]',
+            $question->questiontext
+        );
+        $this->assertEquals(2, $question->defaultmark);
+        $this->assertEquals(
+            '',
+            $question->specificfeedback
+        );
+
+        $this->assertEquals(0, count($question->prts));
+        $this->assertEquals(1, count($question->inputs));
+        $this->assertEquals(
+            $question->inputs['ans1']->get_parameter('showValidation'),
+            get_config('qtype_stack', 'inputshowvalidation')
+        );
+    }
+
+    public function test_question_loader_default_noinputnospecific(): void {
+        $xml = stack_api_test_data::get_question_string('noinputnospecific');
+        $question = StackQuestionLoader::loadXML($xml)['question'];
+        $this->assertEquals(
+            'Question wording',
+            $question->questiontext
+        );
+        $this->assertEquals(0, $question->defaultmark);
+        $this->assertEquals(
+            '',
+            $question->specificfeedback
+        );
+
+        $this->assertEquals(0, count($question->prts));
+        $this->assertEquals(0, count($question->inputs));
     }
 }

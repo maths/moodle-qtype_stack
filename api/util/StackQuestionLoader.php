@@ -141,7 +141,7 @@ class StackQuestionLoader {
         if (isset($xmldata->question->specificfeedback->text)) {
             $question->specificfeedback = (string) $xmldata->question->specificfeedback->text;
         } else {
-            if (preg_match("/\[\[input:{" . self::get_default('input', 'name', 'ans1') . "}\]\]/", $question->questiontext)) {
+            if (preg_match("/\[\[input:" . self::get_default('input', 'name', 'ans1') . "\]\]/", $question->questiontext)) {
                 $question->specificfeedback = self::get_default('question', 'specificfeedback', '[[feedback:prt1]]');
             } else {
                 $question->specificfeedback = '';
@@ -766,19 +766,20 @@ class StackQuestionLoader {
 
         $isquestiontext = isset($plaindata['question']['questiontext']);
         $isdefaultinput = preg_match(
-            "/\[\[input:" . self::get_default('input', 'name', 'ans1') . "\]\]/", 
+            "/\[\[input:" . self::get_default('input', 'name', 'ans1') . "\]\]/",
             self::get_default('question', 'questiontext', '<p>Default question</p><p>[[input:ans1]] [[validation:ans1]]</p>')
         );
-        $isrequesteddefaultinput = preg_match(
-            "/\[\[input:" . self::get_default('input', 'name', 'ans1') . "\]\]/", 
+        $isrequesteddefaultinput = isset($plaindata['question']['questiontext']) && preg_match(
+            "/\[\[input:" . self::get_default('input', 'name', 'ans1') . "\]\]/",
             $plaindata['question']['questiontext']
         );
         $isfeedback = isset($plaindata['question']['specificfeedback']);
         $isdefaultprt = preg_match(
-            "/\[\[feedback:" . self::get_default('prt', 'name', 'prt1') . "\]\]/", 
+            "/\[\[feedback:" . self::get_default('prt', 'name', 'prt1') . "\]\]/",
             self::get_default('question', 'specificfeedback', '[[feedback:prt1]]')
         );
-        $isrequesteddefaultprt = preg_match(
+        $isrequesteddefaultprt = isset($plaindata['question']['questiontext']) &&
+            isset($plaindata['question']['specificfeedback']) && preg_match(
             "/\[\[feedback:{" . self::get_default('prt', 'name', 'prt1') . "}\]\]/",
             $plaindata['question']['questiontext'] . $plaindata['question']['specificfeedback']
         );
@@ -848,14 +849,14 @@ class StackQuestionLoader {
         // We need to create a PRT if questiontext contains [[input:ansnamedefault]] or
         // questiontext doesn't exist and default contains [[input:ansnamedefault]].
         } else if (
-            ((!$isfeedback && $isdefaultprt) || $isrequesteddefaultprt) && 
+            ((!$isfeedback && $isdefaultprt) || $isrequesteddefaultprt) &&
             ((!$isquestiontext && $isdefaultinput) || $isrequesteddefaultinput)
         ) {
             $prtnode = ['name' => self::get_default('node', 'name', '0'),
                     'answertest' => self::get_default('node', 'answertest', 'AlgEquiv'), ];
             if (substr($prtnode['answertest'], 0, 2) !== 'AT') {
-                $prtnode['sans'] = self::get_default('node', 'sans', 'sans');
-                $prtnode['tans'] = self::get_default('node', 'tans', 'tans');
+                $prtnode['sans'] = self::get_default('node', 'sans', 'ans1');
+                $prtnode['tans'] = self::get_default('node', 'tans', 'ta1');
             }
             $prtnode['quiet'] = self::get_default('node', 'quiet', '0');
             $diff['prt'] = [['name' => self::get_default('prt', 'name', 'prt1'),

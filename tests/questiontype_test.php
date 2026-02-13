@@ -779,4 +779,139 @@ final class questiontype_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals(\get_config('qtype_stack', 'inputforbidwords'), $question->ans1forbidwords);
         $this->assertEquals(\get_config('qtype_stack', 'inputboxsize'), $question->ans1boxsize);
     }
+
+        public function test_import_xml_default_emptygrade(): void {
+        $xml = '<question type="stack">
+                    <name>
+                        <text>Default</text>
+                    </name>
+                    <defaultgrade>2</defaultgrade>
+                </question>';
+        if (class_exists('\core\xml_parser') && method_exists('\core\xml_parser', 'parse')) {
+            $parser = new \core\xml_parser();
+            $xmldata = $parser->parse($xml);
+        } else {
+            $xmldata = xmlize($xml);
+        }
+
+        $importer = new qformat_xml();
+        $question = $importer->try_importing_using_qtypes($xmldata['question'], null, null, 'stack');
+        $this->assertEquals(
+            '<p>Default question</p><p>[[input:ans1]] [[validation:ans1]]</p>',
+            $question->questiontext
+        );
+        $this->assertEquals(2, $question->defaultmark);
+        $this->assertEquals(
+            '[[feedback:prt1]]',
+            $question->specificfeedback['text']
+        );
+
+        $this->assertEquals('AlgEquiv', $question->prt1answertest[0]);
+        $this->assertEquals('algebraic', $question->ans1type);
+    }
+
+    public function test_import_xml_default_noinputblankspecific(): void {
+        $xml = '<question type="stack">
+                    <name>
+                        <text>Default</text>
+                    </name>
+                    <questiontext>
+                        <text>Question wording</text>
+                    </questiontext>
+                    <specificfeedback format="html">
+                        <text></text>
+                    </specificfeedback>
+                    <defaultgrade>2</defaultgrade>
+                </question>';
+        if (class_exists('\core\xml_parser') && method_exists('\core\xml_parser', 'parse')) {
+            $parser = new \core\xml_parser();
+            $xmldata = $parser->parse($xml);
+        } else {
+            $xmldata = xmlize($xml);
+        }
+
+        $importer = new qformat_xml();
+        $question = $importer->try_importing_using_qtypes($xmldata['question'], null, null, 'stack');
+        $this->assertEquals(
+            'Question wording',
+            $question->questiontext
+        );
+        $this->assertEquals(0, $question->defaultmark);
+        $this->assertEquals(
+            '',
+            $question->specificfeedback['text']
+        );
+
+        $this->assertEquals(null, $question->prt1answertest[0] ?? null);
+        $this->assertEquals(null, $question->ans1type ?? null);
+    }
+
+    public function test_import_xml_default_inputblankspecific(): void {
+        $xml = '<question type="stack">
+                    <name>
+                        <text>Default</text>
+                    </name>
+                    <questiontext>
+                        <text>Question wording [[input:ans1]] [[validation:ans1]]</text>
+                    </questiontext>
+                    <specificfeedback format="html">
+                        <text></text>
+                    </specificfeedback>
+                    <defaultgrade>2</defaultgrade>
+                </question>';
+        if (class_exists('\core\xml_parser') && method_exists('\core\xml_parser', 'parse')) {
+            $parser = new \core\xml_parser();
+            $xmldata = $parser->parse($xml);
+        } else {
+            $xmldata = xmlize($xml);
+        }
+
+        $importer = new qformat_xml();
+        $question = $importer->try_importing_using_qtypes($xmldata['question'], null, null, 'stack');
+        $this->assertEquals(
+            'Question wording [[input:ans1]] [[validation:ans1]]',
+            $question->questiontext
+        );
+        $this->assertEquals(2, $question->defaultmark);
+        $this->assertEquals(
+            '',
+            $question->specificfeedback['text']
+        );
+
+        $this->assertEquals(null, $question->prt1answertest[0] ?? null);
+        $this->assertEquals('algebraic', $question->ans1type);
+    }
+
+    public function test_import_xml_default_noinputnospecific(): void {
+        $xml = '<question type="stack">
+                    <name>
+                        <text>Default</text>
+                    </name>
+                    <questiontext>
+                        <text>Question wording</text>
+                    </questiontext>
+                    <defaultgrade>2</defaultgrade>
+                </question>';
+        if (class_exists('\core\xml_parser') && method_exists('\core\xml_parser', 'parse')) {
+            $parser = new \core\xml_parser();
+            $xmldata = $parser->parse($xml);
+        } else {
+            $xmldata = xmlize($xml);
+        }
+
+        $importer = new qformat_xml();
+        $question = $importer->try_importing_using_qtypes($xmldata['question'], null, null, 'stack');
+        $this->assertEquals(
+            'Question wording',
+            $question->questiontext
+        );
+        $this->assertEquals(0, $question->defaultmark);
+        $this->assertEquals(
+            '',
+            $question->specificfeedback['text']
+        );
+
+        $this->assertEquals(null, $question->prt1answertest[0] ?? null);
+        $this->assertEquals(null, $question->ans1type ?? null);
+    }
 }

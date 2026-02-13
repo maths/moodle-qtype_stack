@@ -38,6 +38,7 @@ use api\util\StackQuestionLoader;
 use api\util\StackSeedHelper;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Slim\Http as Uri;
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class RenderController {
@@ -45,7 +46,6 @@ class RenderController {
     public function __invoke(Request $request, Response $response, array $args): Response {
         // TO-DO: Validate.
         $data = $request->getParsedBody();
-
         $question = StackQuestionLoader::loadxml($data["questionDefinition"])['question'];
 
         StackSeedHelper::initialize_seed($question, $data["seed"]);
@@ -142,7 +142,58 @@ class RenderController {
         $renderresponse->iframes = StackIframeHolder::$iframes;
         $renderresponse->isinteractive = $question->is_interactive();
 
+        if ($data['fullRender']) {
+            // Request for full rendering. We replace placeholders with input renders and basic feedback and validation divs.
+            // Iframes are rendered but will still need to be registered on the front end.
+            $uri = $request->getUri();
+            $baseurl = $uri->getScheme() . '://' . $uri->getHost();
+            $port = $uri->getPort();
+            if ($port && !in_array($port, [80, 443], true)) {
+                $baseurl .= ':' . $port;
+            }
+
+            [$validationprefix, $feedbackprefix] = explode(',', $data['fullRender']);
+            $validationprefix = trim($validationprefix);
+            $feedbackprefix = trim($feedbackprefix);
+            preg_match_all('/\[\[input:([^\]]*)\]\]/', $renderresponse->questionrender, $inputtags);
+            foreach ($inputtags[1] as $tag) {
+                $renderresponse->questionrender = str_replace("[[input:{$tag}]]", $renderresponse->questioninputs->$tag->render, $renderresponse->questionrender);
+                $renderresponse->questionrender = str_replace("[[validation:{$tag}]]", "<span name='{$validationprefix}{$tag}'></span>", $renderresponse->questionrender);
+            }
+            foreach ($renderresponse->iframes as $iframe) {
+                $iframe[1] = str_replace('<head>', "<head><base href=\"{$baseurl}\" />", $iframe[1]);
+                $renderediframe = "<iframe id=\"{$iframe[0]}\" style=\"width: 100%; height: 100%; border: 0;" . ($iframe[4] === 'false' ? ' overflow: hidden;' : '') . "\" scrolling=\"" . ($iframe[4] === 'false' ? 'no' : 'yes') . "\" title=\"{$iframe[4]}\" referrerpolicy=\"no-referrer\" " . (!$iframe[5] ? 'allow-scripts allow-downloads ' : '') . "srcdoc=\"" . htmlentities($iframe[1]) . "\"></iframe>";
+                $renderresponse->questionrender = str_replace("id=\"{$iframe[2]}\"></div>", "id=\"{$iframe[2]}\">{$renderediframe}</div>", $renderresponse->questionrender);
+                $renderresponse->questionsamplesolutiontext = str_replace("id=\"{$iframe[2]}\"></div>", "id=\"{$iframe[2]}\">{$renderediframe}</div>", $renderresponse->questionsamplesolutiontext);
+            }
+            foreach ($renderresponse->questionassets as $name => $file) {
+                $renderresponse->questionrender = str_replace($name, "{$baseurl}/plots/{$file}", $renderresponse->questionrender);
+                $renderresponse->questionsamplesolutiontext = str_replace($name, "{$baseurl}/plots/{$file}", $renderresponse->questionsamplesolutiontext);
+                foreach ($renderresponse->questioninputs as $input) {
+                    $input->samplesolutionrender = str_replace($name, "{$baseurl}/plots/{$file}", $input->samplesolutionrender);
+                }
+            }
+            $renderresponse->questionrender = $this->replace_feedback_tags($renderresponse->questionrender, $feedbackprefix);
+            $renderresponse->questionsamplesolutiontext  = $this->replace_feedback_tags($renderresponse->questionsamplesolutiontext, $feedbackprefix);
+        }
+
         $response->getBody()->write(json_encode($renderresponse));
         return $response->withHeader('Content-Type', 'application/json');
+    }
+
+    /**
+     * Replace [[feedback:????]] placeholder with an HTML div.
+     *
+     * @param string $text text to search for placeholders
+     * @param string $feedbackprefix prefix for feedback name attributes
+     * @return string
+     */
+    public function replace_feedback_tags($text, $feedbackprefix) {
+        $result = $text;
+        preg_match_all('/\[\[feedback:([^\]]*)\]\]/', $text, $feedbacktags);
+        foreach ($feedbacktags[1] as $tag) {
+            $result = str_replace("[[feedback:{$tag}]]", "<div name='{$feedbackprefix}{$tag}'></div>", $result);
+        }
+        return $result;
     }
 }

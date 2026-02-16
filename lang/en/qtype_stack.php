@@ -649,6 +649,9 @@ $string['importwillfail'] = 'This question cannot be saved or imported in its cu
 $string['noroots'] = 'The graph of this PRT has no roots. Does it have nodes?';
 $string['structuralproblem'] = 'The PRT structure is malformed.';
 $string['missingnextnode'] = 'The PRT structure is malformed. {$a->type} next node for PRT {$a->prt} node {$a->node} is invalid. It has been set to stop.';
+$string['multipleinputs'] = 'Multiple inputs have the same name: {$a}.';
+$string['multipleprts'] = 'Multiple prts have the same name: {$a}.';
+$string['multiplenodes'] = 'Multiple nodes have the name: {$a->node} in PRT: {$a->prt}.';
 
 // Equiv input specific string.
 $string['equivnocomments'] = 'You are not permitted to use comments in this input type.  Please just work line by line.';

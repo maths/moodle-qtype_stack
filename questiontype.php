@@ -175,7 +175,7 @@ class qtype_stack extends question_type {
                 break;
         }
 
-        if ($fromform->structuralerror ?? false) {
+        if (!empty($fromform->structuralerror)) {
             if ($throwexceptions) {
                 throw new stack_exception($fromform->validationerrors);
             }
@@ -1967,7 +1967,7 @@ class qtype_stack extends question_type {
             foreach ($errors as $key => $error) {
                 $errortext .= $key . ': ' . $error . ' <br />';
             }
-            if (isset($errors['structuralerror']) || $fromform->structuralerror === true) {
+            if (isset($errors['structuralerror']) || !empty($fromform->structuralerror)) {
                 // Graph creation failed. If we import this question
                 // we won't be able to open it in the edit form.
                 $errortext .= stack_string('importwillfail');

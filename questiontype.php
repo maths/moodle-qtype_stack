@@ -2148,7 +2148,7 @@ class qtype_stack extends question_type {
         if (isset($xml['#']['testinput'])) {
             foreach ($xml['#']['testinput'] as $inputxml) {
                 $name  = $format->getpath($inputxml, ['#', 'name', 0, '#'], 'ans1');
-                $value = $format->getpath($inputxml, ['#', 'value', 0, '#'], 'ta1');
+                $value = $format->getpath($inputxml, ['#', 'value', 0, '#'], '');
                 $inputs[$name] = $value;
             }
         }

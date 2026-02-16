@@ -499,6 +499,7 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
                     'testinput' => [
                         [
                             'name' => 'ans1',
+                            'value' => 'ta1',
                         ],
                         [
                             'name' => 'ans2',
@@ -535,7 +536,8 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
             "value: '1.0000001'\n    autosimplify: '1'\n    feedbackstyle: '1'\n    node:\n      - name: '0'\n        " .
             "answertest: AlgEquiv\n        sans: ans2\n        tans: ta2\n        quiet: '0'\n        falsescore: '1'\n" .
             "deployedseed:\n  - '1'\n  - '2'\n  - '3'\nqtest:\n  - testcase: '1'\n    description: 'A test'\n    " .
-            "testinput:\n      - name: ans1\n      - name: ans2\n        value: ta2\n    expected:\n      - name: prt1" .
+            "testinput:\n      - name: ans1\n        value: ta1\n      - name: ans2\n" .
+            "        value: ta2\n    expected:\n      - name: prt1" .
             "\n        expectedscore: '1.0000000'\n        expectedpenalty: '0.0000000'\n      " .
             "- name: prt2\n        expectedscore: '1.0000000'\n        expectedpenalty:" .
             " '0.0000000'\n        expectedanswernote: 2-0-T\n";
@@ -725,7 +727,7 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         ];
         $diff = StackQuestionLoader::detect_differences($xml);
         $diffarray = Yaml::parse($diff);
-        $this->assertEquals(7, count($diffarray));
+        $this->assertEquals(6, count($diffarray));
         $this->assertEqualsCanonicalizing($expected, $diffarray);
         set_config('stackapi', false, 'qtype_stack');
     }

@@ -141,7 +141,7 @@ class RenderController {
         $renderresponse->iframes = StackIframeHolder::$iframes;
         $renderresponse->isinteractive = $question->is_interactive();
 
-        if ($data['fullRender']) {
+        if (!empty($data['fullRender'])) {
             // Request for full rendering. We replace placeholders with input renders and basic feedback and validation divs.
             // Iframes are rendered but will still need to be registered on the front end.
             $uri = $request->getUri();

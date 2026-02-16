@@ -175,7 +175,7 @@ class qtype_stack extends question_type {
                 break;
         }
 
-        if ($fromform->structuralerror) {
+        if ($fromform->structuralerror ?? false) {
             if ($throwexceptions) {
                 throw new stack_exception($fromform->validationerrors);
             }

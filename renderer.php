@@ -70,14 +70,19 @@ class qtype_stack_renderer extends qtype_renderer {
         foreach ($question->inputs as $name => $input) {
             $questiontext = str_replace(
                 "[[input:{$name}]]",
-                "[[pnMNEYMWDx:{$name}]]",
+                "<span class=\"nolink\">[[InMNEYMWDx:{$name}]]</span>",
+                $questiontext
+            );
+            $questiontext = str_replace(
+                "[[validation:{$name}]]",
+                "<span class=\"nolink\">[[VnMNEYMWDx:{$name}]]</span>",
                 $questiontext
             );
         }
         foreach ($question->prts as $index => $prt) {
             $questiontext = str_replace(
                 "[[feedback:{$index}]]",
-                "[[GDBBdLBJLg:{$index}]]",
+                "<span class=\"nolink\">[[GDBBdLBJLg:{$index}]]</span>",
                 $questiontext
             );
         }
@@ -93,14 +98,19 @@ class qtype_stack_renderer extends qtype_renderer {
         // Restore inputnames.
         foreach ($question->inputs as $name => $input) {
             $questiontext = str_replace(
-                "[[pnMNEYMWDx:{$name}]]",
+                "<span class=\"nolink\">[[InMNEYMWDx:{$name}]]</span>",
                 "[[input:{$name}]]",
+                $questiontext
+            );
+            $questiontext = str_replace(
+                "<span class=\"nolink\">[[VnMNEYMWDx:{$name}]]</span>",
+                "[[validation:{$name}]]",
                 $questiontext
             );
         }
         foreach ($question->prts as $index => $prt) {
             $questiontext = str_replace(
-                "[[GDBBdLBJLg:{$index}]]",
+                "<span class=\"nolink\">[[GDBBdLBJLg:{$index}]]</span>",
                 "[[feedback:{$index}]]",
                 $questiontext
             );

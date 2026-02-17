@@ -177,7 +177,7 @@ final class api_controller_test extends qtype_stack_testcase {
 
     public function test_full_render(): void {
 
-        $this->requestdata['fullRender'] = 'stackapi_val_,stackapi_fb_';
+        $this->requestdata['fullRender'] = ['stackapi_val_', 'stackapi_fb_'];
         $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('iframes');
         $rc = new RenderController();
         $rc->__invoke($this->request, $this->response, []);

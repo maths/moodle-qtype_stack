@@ -151,7 +151,7 @@ class RenderController {
                 $baseurl .= ':' . $port;
             }
 
-            [$validationprefix, $feedbackprefix] = explode(',', $data['fullRender']);
+            [$validationprefix, $feedbackprefix] = $data['fullRender'];
             $validationprefix = trim($validationprefix);
             $feedbackprefix = trim($feedbackprefix);
             preg_match_all('/\[\[input:([^\]]*)\]\]/', $renderresponse->questionrender, $inputtags);

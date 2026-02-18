@@ -369,7 +369,7 @@ final class questiontype_test extends qtype_stack_walkthrough_test_base {
       <text></text>
     </questionvariables>
     <specificfeedback format="html">
-      <text>[[feedback:firsttree]]</text>
+      <text>[[feedback:firsttree]][[feedback:secondtree]]</text>
     </specificfeedback>
     <questionnote format="html">
       <text></text>
@@ -397,6 +397,24 @@ final class questiontype_test extends qtype_stack_walkthrough_test_base {
     <variantsselectionseed></variantsselectionseed>
     <input>
       <name>ans1</name>
+      <type>algebraic</type>
+      <tans>2</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>ans2</name>
       <type>algebraic</type>
       <tans>2</tans>
       <boxsize>5</boxsize>
@@ -445,6 +463,62 @@ final class questiontype_test extends qtype_stack_walkthrough_test_base {
         </falsefeedback>
       </node>
     </prt>
+    <prt>
+      <name>secondtree</name>
+      <value>1</value>
+      <autosimplify>1</autosimplify>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>EqualComAss</answertest>
+        <sans>ans2</sans>
+        <tans>2</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty>0</truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>secondtree-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty>0</falsepenalty>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>secondtree-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <answertest>EqualComAss</answertest>
+        <sans>ans2</sans>
+        <tans>2</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty>0</truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>secondtree-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty>0</falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>secondtree-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
     <deployedseed>12345</deployedseed>
     <qtest>
       <testcase>1</testcase>
@@ -479,7 +553,8 @@ final class questiontype_test extends qtype_stack_walkthrough_test_base {
         $expectedq = new stdClass();
         $expectedq->qtype                 = 'stack';
         $expectedq->name                  = 'test-0';
-        $expectedq->questiontext          = 'What is $1+1$? [[input:ans1]] [[validation:ans1]]';
+        $expectedq->questiontext
+            = 'What is $1+1$? [[input:ans1]] [[validation:ans1]]';
         $expectedq->questiontextformat    = FORMAT_HTML;
         $expectedq->generalfeedback       = '';
         $expectedq->generalfeedbackformat = FORMAT_HTML;
@@ -488,7 +563,10 @@ final class questiontype_test extends qtype_stack_walkthrough_test_base {
         $expectedq->penalty               = 0.3333333;
 
         $expectedq->questionvariables     = '';
-        $expectedq->specificfeedback      = ['text' => '[[feedback:firsttree]]', 'format' => FORMAT_HTML, 'files' => []];
+        $expectedq->specificfeedback      = ['text' => '[[feedback:firsttree]][[feedback:secondtree]]',
+            'format' => FORMAT_HTML,
+            'files' => [],
+        ];
         $expectedq->questionnote          = ['text' => '', 'format' => FORMAT_HTML, 'files' => []];
         $expectedq->questionsimplify      = 1;
         $expectedq->assumepositive        = 0;
@@ -531,6 +609,22 @@ final class questiontype_test extends qtype_stack_walkthrough_test_base {
         $expectedq->ans1showvalidation     = 1;
         $expectedq->ans1options            = '';
 
+        $expectedq->ans2type               = 'algebraic';
+        $expectedq->ans2modelans           = 2;
+        $expectedq->ans2boxsize            = 5;
+        $expectedq->ans2strictsyntax       = 1;
+        $expectedq->ans2insertstars        = 0;
+        $expectedq->ans2syntaxhint         = '';
+        $expectedq->ans2syntaxattribute    = 0;
+        $expectedq->ans2forbidwords        = '';
+        $expectedq->ans2allowwords         = '';
+        $expectedq->ans2forbidfloat        = 1;
+        $expectedq->ans2requirelowestterms = 0;
+        $expectedq->ans2checkanswertype    = 0;
+        $expectedq->ans2mustverify         = 1;
+        $expectedq->ans2showvalidation     = 1;
+        $expectedq->ans2options            = '';
+
         $expectedq->firsttreevalue              = 1;
         $expectedq->firsttreeautosimplify       = 1;
         $expectedq->firsttreefeedbackstyle      = 1;
@@ -553,6 +647,46 @@ final class questiontype_test extends qtype_stack_walkthrough_test_base {
         $expectedq->firsttreefalseanswernote[0] = 'firsttree-1-F';
         $expectedq->firsttreefalsefeedback[0]   = ['text' => '', 'format' => FORMAT_HTML, 'files' => []];
 
+        $expectedq->secondtreevalue              = 1;
+        $expectedq->secondtreeautosimplify       = 1;
+        $expectedq->secondtreefeedbackstyle      = 1;
+        $expectedq->secondtreefeedbackvariables  = '';
+        $expectedq->secondtreeanswertest[0]      = 'EqualComAss';
+        $expectedq->secondtreesans[0]            = 'ans2';
+        $expectedq->secondtreetans[0]            = '2';
+        $expectedq->secondtreetestoptions[0]     = '';
+        $expectedq->secondtreequiet[0]           = 0;
+        $expectedq->secondtreetruescoremode[0]   = '=';
+        $expectedq->secondtreetruescore[0]       = 1;
+        $expectedq->secondtreetruepenalty[0]     = 0;
+        $expectedq->secondtreetruenextnode[0]    = -1;
+        $expectedq->secondtreetrueanswernote[0]  = 'secondtree-1-T';
+        $expectedq->secondtreetruefeedback[0]    = ['text' => '', 'format' => FORMAT_HTML, 'files' => []];
+        $expectedq->secondtreefalsescoremode[0]  = '=';
+        $expectedq->secondtreefalsescore[0]      = 0;
+        $expectedq->secondtreefalsepenalty[0]    = 0;
+        $expectedq->secondtreefalsenextnode[0]   = 1;
+        $expectedq->secondtreefalseanswernote[0] = 'secondtree-1-F';
+        $expectedq->secondtreefalsefeedback[0]   = ['text' => '', 'format' => FORMAT_HTML, 'files' => []];
+
+        $expectedq->secondtreeanswertest[1]      = 'EqualComAss';
+        $expectedq->secondtreesans[1]            = 'ans2';
+        $expectedq->secondtreetans[1]            = '2';
+        $expectedq->secondtreetestoptions[1]     = '';
+        $expectedq->secondtreequiet[1]           = 0;
+        $expectedq->secondtreetruescoremode[1]   = '=';
+        $expectedq->secondtreetruescore[1]       = 1;
+        $expectedq->secondtreetruepenalty[1]     = 0;
+        $expectedq->secondtreetruenextnode[1]    = -1;
+        $expectedq->secondtreetrueanswernote[1]  = 'secondtree-2-T';
+        $expectedq->secondtreetruefeedback[1]    = ['text' => '', 'format' => FORMAT_HTML, 'files' => []];
+        $expectedq->secondtreefalsescoremode[1]  = '=';
+        $expectedq->secondtreefalsescore[1]      = 0;
+        $expectedq->secondtreefalsepenalty[1]    = 0;
+        $expectedq->secondtreefalsenextnode[1]   = -1;
+        $expectedq->secondtreefalseanswernote[1] = 'secondtree-2-F';
+        $expectedq->secondtreefalsefeedback[1]   = ['text' => '', 'format' => FORMAT_HTML, 'files' => []];
+
         $expectedq->deployedseeds = ['12345'];
 
         $qtest = new stack_question_test('', ['ans1' => '2'], 1);
@@ -569,6 +703,57 @@ final class questiontype_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals($expectedq->deployedseeds, $q->deployedseeds); // Redundant, but gives better fail messages.
         $this->assertEquals($expectedq->testcases, $q->testcases); // Redundant, but gives better fail messages.
         $this->assert(new question_check_specified_fields_expectation($expectedq), $q);
+
+        $this->assertEquals(null, $q->structuralerror ?? null);
+        $this->assertEquals(null, $q->validationerrors ?? null);
+
+        $xmldata['question']['#']['input'][1]['#']['name'][0]['#'] = 'ans1';
+        $q = $importer->try_importing_using_qtypes(
+            $xmldata['question'],
+            null,
+            null,
+            'stack'
+        );
+
+        $this->assertEquals(true, $q->structuralerror);
+        $this->assertEquals(
+            'ans1input: Multiple inputs have the same name: ans1.' .
+            ' <br />This question cannot be saved or imported in its current state.',
+            $q->validationerrors
+        );
+
+        $xmldata['question']['#']['input'][1]['#']['name'][0]['#'] = 'ans2';
+        $xmldata['question']['#']['prt'][1]['#']['name'][0]['#'] = 'firsttree';
+        $q = $importer->try_importing_using_qtypes(
+            $xmldata['question'],
+            null,
+            null,
+            'stack'
+        );
+
+        $this->assertEquals(true, $q->structuralerror);
+        $this->assertEquals(
+            'firsttreeprt: Multiple prts have the same name: firsttree. <br />' .
+            'secondtreevalue: This PRT must be set up before the question can be saved. ' .
+            '<br />This question cannot be saved or imported in its current state.',
+            $q->validationerrors
+        );
+
+        $xmldata['question']['#']['prt'][1]['#']['name'][0]['#'] = 'secondtree';
+        $xmldata['question']['#']['prt'][1]['#']['node'][1]['#']['name'][0]['#'] = '0';
+        $q = $importer->try_importing_using_qtypes(
+            $xmldata['question'],
+            null,
+            null,
+            'stack'
+        );
+
+        $this->assertEquals(true, $q->structuralerror);
+        $this->assertEquals(
+            '0node: Multiple nodes have the name: 0 in PRT: secondtree. <br />' .
+            'This question cannot be saved or imported in its current state.',
+            $q->validationerrors
+        );
     }
 
     public function test_get_input_names_from_question_text_input_only(): void {

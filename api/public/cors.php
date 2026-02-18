@@ -36,13 +36,14 @@ if (isset($_GET['question'])) {
     $is_question = false;
 }
 
-if (strpos($scriptname, '..') !== false
-    || strpos($scriptname, '/') !== false
-    || strpos($scriptname, '\\') !== false) {
-        // Give a special exception for sample questions.
-        if (!($is_question && file_exists('../../samplequestions/' . $scriptname))) {
-            die("No such script here.");
-        }
+$scriptname = urldecode($_GET['name']);
+
+// ISS1633 Only allow files from this directory and below.
+if (!str_starts_with(realpath($scriptname), __DIR__)) {
+    // Give a special exception for sample questions.
+    if (!($is_question && file_exists('../../samplequestions/' . $scriptname))) {
+        die("No such script here.");
+    }
 }
 
 if (file_exists('../../corsscripts/' . $scriptname) || $scriptname === 'styles.css'

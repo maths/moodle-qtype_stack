@@ -115,7 +115,18 @@ class library_render extends \external_api {
                             && strrpos($params['filepath'], '_quiz.json') !== false) ? true : false;
         if (!$result && !$isquiz) {
             // Get contents of file and run through API question loader to render.
-            $qcontents = file_get_contents($CFG->dirroot . '/question/type/stack/samplequestions/' . $params['filepath']);
+            if (str_starts_with($params['filepath'], 'sitelibrary/')) {
+                $requestedfile = $CFG->dataroot . '/stack/' . $params['filepath'];
+            } else {
+                $requestedfile = $CFG->dirroot . '/question/type/stack/samplequestions/' . $params['filepath'];
+            }
+            if (
+                !str_starts_with(realpath($requestedfile), "{$CFG->dataroot}/stack/sitelibrary") &&
+                !str_starts_with(realpath($requestedfile), "{$CFG->dirroot}/question/type/stack/samplequestions/")
+            ) {
+                throw new \Exception('Dubious file request.');
+            }
+            $qcontents = file_get_contents($requestedfile);
             try {
                 $question = StackQuestionLoader::loadxml($qcontents)['question'];
                 $render = static::call_question_render($question);

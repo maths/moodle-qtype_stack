@@ -87,10 +87,27 @@ $PAGE->requires->js_amd_inline(
 
 // Get list of files.
 $cache = cache::make('qtype_stack', 'librarycache');
+
+// Make sure we're only listing contents of STACK library or site library.
+$location = optional_param('location', '', PARAM_RAW);
+$cacheid = 'library_file_list';
+if (str_starts_with($location, 'sitelibrary')) {
+    $cacheid = 'sitelibrary_' . explode('/', $location)[1] . '_file_list';
+    $location = "{$CFG->dataroot}/stack/{$location}";
+    if (!str_starts_with(realpath($location), "{$CFG->dataroot}/stack/sitelibrary")) {
+        $location = __DIR__ . '/samplequestions/stacklibrary/*';
+        $cacheid = 'library_file_list';
+    } else {
+        $location .= '/*';
+    }
+} else {
+    $location = __DIR__ . '/samplequestions/stacklibrary/*';
+}
+
 $files = $cache->get('library_file_list');
 if (!$files) {
-    $files = stack_question_library::get_file_list('samplequestions/stacklibrary/*');
-    $cache->set('library_file_list', $files);
+    $files = stack_question_library::get_file_list($location);
+    $cache->set($cacheid, $files);
 }
 
 $mform = new category_form(null, ['qcontext' => $contexts]);

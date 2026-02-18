@@ -404,8 +404,8 @@ $settings->add(new admin_setting_configtextarea(
     'qtype_stack/prtcorrect',
     get_string('prtcorrectfeedback', 'qtype_stack'),
     '',
-    get_string('symbolicprtcorrectfeedback', 'qtype_stack') . ' ' .
-    get_string('defaultprtcorrectfeedback', 'qtype_stack'),
+    '[[commonstring key="symbolicprtcorrectfeedback"/]] ' .
+    '[[commonstring key="defaultprtcorrectfeedback"/]]',
     PARAM_RAW,
     60,
     3
@@ -415,8 +415,8 @@ $settings->add(new admin_setting_configtextarea(
     'qtype_stack/prtpartiallycorrect',
     get_string('prtpartiallycorrectfeedback', 'qtype_stack'),
     '',
-    get_string('symbolicprtpartiallycorrectfeedback', 'qtype_stack') . ' ' .
-    get_string('defaultprtpartiallycorrectfeedback', 'qtype_stack'),
+    '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+    '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
     PARAM_RAW,
     60,
     3
@@ -426,8 +426,8 @@ $settings->add(new admin_setting_configtextarea(
     'qtype_stack/prtincorrect',
     get_string('prtincorrectfeedback', 'qtype_stack'),
     '',
-    get_string('symbolicprtincorrectfeedback', 'qtype_stack') . ' ' .
-    get_string('defaultprtincorrectfeedback', 'qtype_stack'),
+    '[[commonstring key="symbolicprtincorrectfeedback"/]] ' .
+    '[[commonstring key="defaultprtincorrectfeedback"/]]',
     PARAM_RAW,
     60,
     3

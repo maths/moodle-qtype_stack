@@ -67,6 +67,8 @@ can also be used. (See [Diff Route](#diff-route).) Any non-empty YAML will do e.
 - `seed`: Seed to choose a question variant. Must be contained in the list of deployed variants. If  
   no seed is provided, the first deployed variant is used.
 - `renderInputs`: String. Response will include HTML renders of the inputs if value other than ''. The input divs will have the value added as a prefix to their name attribute.
+- `fullRender`: Array consisting of a string prefix for validation divs and a string prefix for feedback divs e.g. `['validationprefix','feedbackprefix']` (`renderInputs` must also be set.) Response `questionrender` and `questionsamplesolutiontext` will be the full HTML render of the question with the inputs inserted in the correct place, full plot URLs, placeholders replaced with HTML and iframes included. Iframes will still need to be registered on the front
+end to be displayed properly. (`stackjsvle.js->register_iframe()` using the first array entry for each iframe in the response as the iframeid.)
 - `readOnly`: boolean. Determines whether rendered inputs are read only.
 
 The response is again a JSON document, with the following fields:

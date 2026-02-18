@@ -1819,7 +1819,17 @@ class qtype_stack extends question_type {
         if (isset($fromform->specificfeedbackformat)) {
             $fformat = $fromform->specificfeedbackformat;
         }
-        $fromform->specificfeedback      = $this->import_xml_text($xml, 'specificfeedback', $format, $fformat, '[[feedback:prt1]]');
+
+        $fromform->specificfeedback = $this->import_xml_text($xml, 'specificfeedback', $format, $fformat, 'default_placeholder');
+        // We need a temporary placeholder to differentiate user-supplied blank feedback (which we leave) from absent
+        // feedback (which we may need to replace).
+        if ($fromform->specificfeedback['text'] === 'default_placeholder') {
+            if (preg_match("/\[\[input:ans1\]\]/", $fromform->questiontext)) {
+                $fromform->specificfeedback['text'] = '[[feedback:prt1]]';
+            } else {
+                $fromform->specificfeedback['text'] = '';
+            }
+        }
         $fformat = FORMAT_HTML;
         if (isset($fromform->questionnoteformat)) {
             $fformat = $fromform->questionnoteformat;
@@ -1893,10 +1903,13 @@ class qtype_stack extends question_type {
                 }
             }
         } else {
-            if ($fromform->defaultmark) {
+            if (preg_match("/\[\[input:ans1\]\]/", $fromform->questiontext)) {
                 $defaultinput = [];
                 $defaultinput['#'] = ['name' => [0 => ['#' => 'ans1']], 'tans' => [0 => ['#' => 'ta1']]];
                 $this->import_xml_input($defaultinput, $fromform, $format);
+            } else {
+                // We've not got any inputs. Set default mark to 0.
+                $fromform->defaultmark = 0;
             }
         }
 
@@ -1914,7 +1927,7 @@ class qtype_stack extends question_type {
                 }
             }
         } else {
-            if ($fromform->defaultmark) {
+            if (preg_match("/\[\[feedback:prt1\]\]/", $fromform->questiontext . $fromform->specificfeedback['text'])) {
                 $defaultnode = [
                     'name' => [0 => ['#' => 0]],
                     'sans' => [0 => ['#' => 'ans1']],
@@ -2177,7 +2190,7 @@ class qtype_stack extends question_type {
         if (isset($xml['#']['testinput'])) {
             foreach ($xml['#']['testinput'] as $inputxml) {
                 $name  = $format->getpath($inputxml, ['#', 'name', 0, '#'], 'ans1');
-                $value = $format->getpath($inputxml, ['#', 'value', 0, '#'], 'ta1');
+                $value = $format->getpath($inputxml, ['#', 'value', 0, '#'], '');
                 $inputs[$name] = $value;
             }
         }

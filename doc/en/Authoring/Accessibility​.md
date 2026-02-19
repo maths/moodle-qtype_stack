@@ -10,6 +10,7 @@ Authoring accessible STACK questions is simpler than writing accessible material
 However, this is not the whole picture. Colleagues must still consider accessibility when authoring questions.
 
 Please consider/check the following key points:
+
 * Images:
   * If inserting a screenshot, consider if you could format the information  you wish to communicate using HTML, e.g. code snippets and mathematical equations.
   * Add meaningful alternative text to all non-text objects, in particular images. This can be done using `<img src="/path/to.img.jpg" alt="Alt text">` in HTML, or `![Alt text](/path/to/img.jpg)` in markdown.
@@ -25,3 +26,4 @@ Please consider/check the following key points:
   * Consider users may be using keyboard navigation, be careful with interactive assesseed tasks requiring the user to click on the board to add points. Add an `add point` button.
   
 Detailed guidance on digital accessibility is given by the WCAG 2.1 Accessibility Guidelines.
+

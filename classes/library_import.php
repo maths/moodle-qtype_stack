@@ -107,12 +107,26 @@ class library_import extends \external_api {
         $loadingquiz = false;
         $categories = [];
 
+        if (str_starts_with($params['filepath'], 'sitelibrary/')) {
+            $requestedfile = $CFG->dataroot . '/stack/' . $params['filepath'];
+            $basedir = $CFG->dataroot . '/stack/';
+        } else {
+            $requestedfile = $CFG->dirroot . '/question/type/stack/samplequestions/' . $params['filepath'];
+            $basedir = $CFG->dirroot . '/question/type/stack/samplequestions/';
+        }
+        if (
+            !str_starts_with(realpath($requestedfile), "{$CFG->dataroot}/stack/sitelibrary") &&
+            !str_starts_with(realpath($requestedfile), "{$CFG->dirroot}/question/type/stack/samplequestions/")
+        ) {
+            throw new \Exception('Dubious file request.');
+        }
+
         if (
             pathinfo($params['filepath'], PATHINFO_EXTENSION) === 'json'
                     && strrpos($params['filepath'], '_quiz.json') !== false
         ) {
             // We've got a quiz file. Load JSON and instantiate.
-            $quizcontents = file_get_contents($CFG->dirroot . '/question/type/stack/samplequestions/' . $params['filepath']);
+            $quizcontents = file_get_contents($requestedfile);
             $quizdata = json_decode($quizcontents);
             // We have to create the quiz, import the questions and then add the questions to the quiz.
             // Create quiz and its default category. This is now our target category which we add to the quiz data.
@@ -142,7 +156,7 @@ class library_import extends \external_api {
         } else {
             // We're importing a folder.
             // Full path of supplied question.
-            $fullpath = $CFG->dirroot . '/question/type/stack/samplequestions/' . $params['filepath'];
+            $fullpath = $requestedfile;
             $reldirname = dirname($params['filepath']);
             // List all the files in the same folder.
             $files = scandir(dirname($fullpath));
@@ -166,7 +180,7 @@ class library_import extends \external_api {
             $qformat->set_display_progress(false);
             $qformat->setCategory($thiscategory);
             $qformat->setCatfromfile(true);
-            $qformat->setFilename($CFG->dirroot . '/question/type/stack/samplequestions/' . $category);
+            $qformat->setFilename($basedir . $category);
             $qformat->setContextfromfile(false);
             $qformat->setStoponerror(true);
             $contexts = new question_edit_contexts($thiscontext);
@@ -212,7 +226,7 @@ class library_import extends \external_api {
             }
             $qformat->setCatfromfile(false);
 
-            $qformat->setFilename($CFG->dirroot . '/question/type/stack/samplequestions/' . $file);
+            $qformat->setFilename($basedir . $file);
             $qformat->setContextfromfile(false);
             $qformat->setStoponerror(true);
             $contexts = new question_edit_contexts($thiscontext);

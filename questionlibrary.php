@@ -91,11 +91,14 @@ $cache = cache::make('qtype_stack', 'librarycache');
 // Make sure we're only listing contents of STACK library or site library.
 $location = optional_param('location', '', PARAM_RAW);
 $cacheid = 'library_file_list';
+$libraryname = stack_string('stack_library');
 if (str_starts_with($location, 'sitelibrary')) {
-    $cacheid = 'sitelibrary_' . explode('/', $location)[1] . '_file_list';
+    $libraryname = explode('/', $location)[1];
+    $cacheid = 'sitelibrary_' . $libraryname . '_file_list';
     $location = "{$CFG->dataroot}/stack/{$location}";
     if (!str_starts_with(realpath($location), "{$CFG->dataroot}/stack/sitelibrary")) {
         $location = __DIR__ . '/samplequestions/stacklibrary/*';
+        $libraryname = stack_string('stack_library');
         $cacheid = 'library_file_list';
     } else {
         $location .= '/*';
@@ -121,6 +124,31 @@ $outputdata->files = $files->children;
 $outputdata->category = $mform->render();
 $outputdata->coursename = $coursename;
 $outputdata->courseid = $courseid;
+$outputdata->libraries = new StdClass();
+$outputdata->libraries->items = [];
+$outputdata->libraries->hasitems = false;
+
+$libraries = glob("{$CFG->dataroot}/stack/sitelibrary/*");
+if ($libraries) {
+    $libentry = new StdClass();
+    $libentry->name = stack_string('stack_library');
+    $urlparams['location'] = "/samplequestions/stacklibrary";
+    $libentry->url = new moodle_url('/question/type/stack/questionlibrary.php', $urlparams);
+    $libentry->url = $libentry->url->out();
+    $libentry->active = ($libentry->name === $libraryname) ? true : false;
+    $outputdata->libraries->items[] = $libentry;
+    $outputdata->libraries->hasitems = true;
+}
+foreach ($libraries as $library) {
+    $libentry = new StdClass();
+    $parts = explode('/', $library);
+    $libentry->name = end($parts);
+    $urlparams['location'] = "sitelibrary/{$libentry->name}";
+    $libentry->url = new moodle_url('/question/type/stack/questionlibrary.php', $urlparams);
+    $libentry->url = $libentry->url->out();
+    $libentry->active = ($libentry->name === $libraryname) ? true : false;
+    $outputdata->libraries->items[] = $libentry;
+}
 
 echo $OUTPUT->render_from_template('qtype_stack/questionlibrary', $outputdata);
 

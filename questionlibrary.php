@@ -107,7 +107,7 @@ if (str_starts_with($location, 'sitelibrary')) {
     $location = __DIR__ . '/samplequestions/stacklibrary/*';
 }
 
-$files = $cache->get('library_file_list');
+$files = $cache->get($cacheid);
 if (!$files) {
     $files = stack_question_library::get_file_list($location);
     $cache->set($cacheid, $files);

@@ -134,7 +134,7 @@ require_login();
         </a>
         Choose a STACK sample file:
         <?php
-        $files = stack_question_library::get_file_list(__DIR__ . '/samplequestions/stacklibrary/*');
+        $files = stack_question_library::get_file_list(realpath(__DIR__ . '/../../samplequestions/stacklibrary') . '/*');
         function render_directory($dirdetails) {
             echo '<div style="margin-left: 30px;">';
             foreach ($dirdetails as $file) {

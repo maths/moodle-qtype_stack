@@ -37,11 +37,12 @@ if (isset($_GET['question'])) {
 }
 
 $scriptname = urldecode($_GET['name']);
+$corslocation = dirname($CFG->dirroot) . '/corsscripts/';
+$questionlocation = dirname($CFG->dirroot) . '/samplequestions/';
 
-// ISS1633 Only allow files from this directory and below.
-if (!str_starts_with(realpath($scriptname), __DIR__)) {
+if (!str_starts_with(realpath($scriptname), $corslocation) && !str_starts_with(realpath($corslocation . $scriptname), $corslocation)) {
     // Give a special exception for sample questions.
-    if (!($is_question && file_exists('../../samplequestions/' . $scriptname))) {
+    if (!($is_question && str_starts_with(realpath($questionlocation . $scriptname), $questionlocation))) {
         die("No such script here.");
     }
 }

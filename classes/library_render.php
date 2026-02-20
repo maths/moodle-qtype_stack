@@ -24,6 +24,8 @@
 
 namespace qtype_stack;
 
+use stack_exception;
+
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
@@ -113,22 +115,32 @@ class library_render extends \external_api {
         $result = $cache->get($params['filepath']);
         $isquiz = (pathinfo($params['filepath'], PATHINFO_EXTENSION) === 'json'
                             && strrpos($params['filepath'], '_quiz.json') !== false) ? true : false;
+        $external = false;
 
         if (str_starts_with($params['filepath'], 'sitelibrary/')) {
             $requestedfile = $CFG->dataroot . '/stack/' . $params['filepath'];
+        } else if (str_starts_with($params['filepath'], 'https://api.github.com/')) {
+            $requestedfile = $params['filepath'];
+            $external = true;
         } else {
             $requestedfile = $CFG->dirroot . '/question/type/stack/samplequestions/' . $params['filepath'];
         }
         if (
             !str_starts_with(realpath($requestedfile), "{$CFG->dataroot}/stack/sitelibrary") &&
-            !str_starts_with(realpath($requestedfile), "{$CFG->dirroot}/question/type/stack/samplequestions/")
+            !str_starts_with(realpath($requestedfile), "{$CFG->dirroot}/question/type/stack/samplequestions/") &&
+            !str_starts_with($requestedfile, "https://api.github.com/")
         ) {
             throw new \Exception('Dubious file request.');
         }
 
+        if ($external) {
+            stack_question_library::get_external_file($requestedfile);
+        } else {
+            $qcontents = file_get_contents($requestedfile);
+        }
+
         if (!$result && !$isquiz) {
             // Get contents of file and run through API question loader to render.
-            $qcontents = file_get_contents($requestedfile);
             try {
                 $question = StackQuestionLoader::loadxml($qcontents)['question'];
                 $render = static::call_question_render($question);
@@ -176,9 +188,9 @@ class library_render extends \external_api {
                 }
             }
         }
+
         if (!$result && $isquiz) {
-            $quizcontents = file_get_contents($requestedfile);
-            $json = json_decode($quizcontents);
+            $json = json_decode($qcontents);
             $quiz = $json->quiz;
             $questions = $json->questions;
             $sections = $json->sections;

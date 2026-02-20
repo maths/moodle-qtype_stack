@@ -113,6 +113,9 @@ if (!$files) {
     $cache->set($cacheid, $files);
 }
 
+$libraryurls = [['url' => 'https://github.com/maths/moodle-qtype_stack/tree/master/samplequestions/importtest', 'name' => 'Extrnal: import test']];
+//$files = stack_question_library::stack_list_github_repo('https://github.com/maths/moodle-qtype_stack/tree/master/samplequestions/importtest');
+
 $mform = new category_form(null, ['qcontext' => $contexts]);
 // Prepare data for template.
 $outputdata = new StdClass();
@@ -144,6 +147,16 @@ foreach ($libraries as $library) {
     $parts = explode('/', $library);
     $libentry->name = end($parts);
     $urlparams['location'] = "sitelibrary/{$libentry->name}";
+    $libentry->url = new moodle_url('/question/type/stack/questionlibrary.php', $urlparams);
+    $libentry->url = $libentry->url->out();
+    $libentry->active = ($libentry->name === $libraryname) ? true : false;
+    $outputdata->libraries->items[] = $libentry;
+}
+
+foreach ($libraryurls as $libraryurl) {
+    $libentry = new StdClass();
+    $libentry->name = $libraryurl['name'];
+    $urlparams['location'] = $libraryurl['url'];
     $libentry->url = new moodle_url('/question/type/stack/questionlibrary.php', $urlparams);
     $libentry->url = $libentry->url->out();
     $libentry->active = ($libentry->name === $libraryname) ? true : false;

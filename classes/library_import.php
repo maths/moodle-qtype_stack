@@ -106,20 +106,26 @@ class library_import extends \external_api {
         require_capability('moodle/question:add', $thiscontext);
         $loadingquiz = false;
         $categories = [];
+        $external = false;
 
         if (str_starts_with($params['filepath'], 'sitelibrary/')) {
             $requestedfile = $CFG->dataroot . '/stack/' . $params['filepath'];
             $basedir = $CFG->dataroot . '/stack/';
+        } else if (str_starts_with($params['filepath'], 'https://api.github.com/')) {
+            $requestedfile = $params['filepath'];
+            $external = true;
         } else {
             $requestedfile = $CFG->dirroot . '/question/type/stack/samplequestions/' . $params['filepath'];
             $basedir = $CFG->dirroot . '/question/type/stack/samplequestions/';
         }
         if (
             !str_starts_with(realpath($requestedfile), "{$CFG->dataroot}/stack/sitelibrary") &&
-            !str_starts_with(realpath($requestedfile), "{$CFG->dirroot}/question/type/stack/samplequestions/")
+            !str_starts_with(realpath($requestedfile), "{$CFG->dirroot}/question/type/stack/samplequestions/") &&
+            !str_starts_with($requestedfile, "https://api.github.com/")
         ) {
             throw new \Exception('Dubious file request.');
         }
+
 
         if (
             pathinfo($params['filepath'], PATHINFO_EXTENSION) === 'json'
@@ -151,8 +157,8 @@ class library_import extends \external_api {
             }
             $loadingquiz = true;
         } else if (!$params['isfolder']) {
-            // We're only importing one question. Stick the supplied fielpath in an array.
-            $files = [$params['filepath']];
+            // We're only importing one question. Stick the supplied fieldpath in an array.
+            $files = [$requestedfile];
         } else {
             // We're importing a folder.
             // Full path of supplied question.

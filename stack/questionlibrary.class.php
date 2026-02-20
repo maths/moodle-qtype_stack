@@ -137,7 +137,8 @@ class stack_question_library {
      * Gets the structure of folders and files within a given directory
      * See questionfolder.mustache for output and usage.
      * We sanitise the structure a bit to remove gitsync files and folders.
-     * @param string relative directory starting with either samplequestions in STACK or sitelibrary in Moodle data
+     * @param string sanitised search string e.g. '/srv/stack/samplequestions/stacklibrary/*'
+     * with the full real path of the folder and search criteria.
      * @return object StdClass Representation of the file system
      */
     public static function get_file_list(string $dir): object {

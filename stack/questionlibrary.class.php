@@ -137,10 +137,12 @@ class stack_question_library {
      * Gets the structure of folders and files within a given directory
      * See questionfolder.mustache for output and usage.
      * We sanitise the structure a bit to remove gitsync files and folders.
-     * @param string directory within samplequestions to be examined
+     * @param string sanitised search string e.g. '/srv/stack/samplequestions/stacklibrary/*'
+     * with the full real path of the folder and search criteria.
      * @return object StdClass Representation of the file system
      */
     public static function get_file_list(string $dir): object {
+        global $CFG;
         $files = glob($dir);
         $results = new stdClass();
         $labels = explode('/', $dir);
@@ -156,9 +158,9 @@ class stack_question_library {
                     || (pathinfo($path, PATHINFO_EXTENSION) === 'json' && strrpos($path, '_quiz.json') !== false)
                 ) {
                     $childless = new StdClass();
-                    // Get the path relative to the samplequestions folder.
-                    $pathfromsq = str_replace('samplequestions/', '', $path);
-                    $pathfromsq = str_replace('../', '', $pathfromsq);
+                    // Get the path relative to the samplequestions or stack dataroot folder.
+                    $pathfromsq = str_replace(dirname(__DIR__) . '/samplequestions/', '', $path);
+                    $pathfromsq = str_replace("{$CFG->dataroot}/stack/", '', $pathfromsq);
                     $childless->path = $pathfromsq;
                     $labels = explode('/', $path);
                     $childless->label = end($labels);

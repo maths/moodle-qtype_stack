@@ -134,7 +134,7 @@ class library_render extends \external_api {
         }
 
         if ($external) {
-            stack_question_library::get_external_file($requestedfile);
+            $qcontents = stack_question_library::get_external_file($requestedfile);
         } else {
             $qcontents = file_get_contents($requestedfile);
         }

@@ -126,7 +126,6 @@ class library_import extends \external_api {
             throw new \Exception('Dubious file request.');
         }
 
-
         if (
             pathinfo($params['filepath'], PATHINFO_EXTENSION) === 'json'
                     && strrpos($params['filepath'], '_quiz.json') !== false

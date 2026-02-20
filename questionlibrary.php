@@ -92,6 +92,9 @@ $cache = cache::make('qtype_stack', 'librarycache');
 $location = optional_param('location', '', PARAM_RAW);
 $cacheid = 'library_file_list';
 $libraryname = stack_string('stack_library');
+$external = false;
+$libraryurls = [['url' => 'https://github.com/maths/moodle-qtype_stack/tree/master/samplequestions/importtest', 'name' => 'External: import test']];
+
 if (str_starts_with($location, 'sitelibrary')) {
     $libraryname = explode('/', $location)[1];
     $cacheid = 'sitelibrary_' . $libraryname . '_file_list';
@@ -103,18 +106,25 @@ if (str_starts_with($location, 'sitelibrary')) {
     } else {
         $location .= '/*';
     }
+} else if (in_array($location, array_column($libraryurls, 'url'))) {
+    $libraryname = optional_param('name', '', PARAM_RAW);
+    $cacheid = 'sitelibrary_' . $libraryname . '_file_list';
+    $external = true;
 } else {
     $location = __DIR__ . '/samplequestions/stacklibrary/*';
 }
 
 $files = $cache->get($cacheid);
 if (!$files) {
-    $files = stack_question_library::get_file_list($location);
+    if ($external) {
+        $files = stack_question_library::stack_list_github_repo($location);
+    } else {
+        $files = stack_question_library::get_file_list($location);
+    }
     $cache->set($cacheid, $files);
 }
 
-$libraryurls = [['url' => 'https://github.com/maths/moodle-qtype_stack/tree/master/samplequestions/importtest', 'name' => 'Extrnal: import test']];
-//$files = stack_question_library::stack_list_github_repo('https://github.com/maths/moodle-qtype_stack/tree/master/samplequestions/importtest');
+
 
 $mform = new category_form(null, ['qcontext' => $contexts]);
 // Prepare data for template.
@@ -157,6 +167,7 @@ foreach ($libraryurls as $libraryurl) {
     $libentry = new StdClass();
     $libentry->name = $libraryurl['name'];
     $urlparams['location'] = $libraryurl['url'];
+    $urlparams['name'] = $libraryurl['name'];
     $libentry->url = new moodle_url('/question/type/stack/questionlibrary.php', $urlparams);
     $libentry->url = $libentry->url->out();
     $libentry->active = ($libentry->name === $libraryname) ? true : false;

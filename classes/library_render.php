@@ -62,7 +62,7 @@ class library_render extends \external_api {
             'filepath' => new \external_value(
                 PARAM_RAW,
                 'File path relative to samplequestions, STACK data directory or top of GitHub library'),
-            'libraryname' => new \external_value(PARAM_RAW, 'Library cache id'),
+            'cacheid' => new \external_value(PARAM_RAW, 'Library cache id'),
         ]);
     }
 
@@ -100,31 +100,31 @@ class library_render extends \external_api {
      * @param string $filepath File path relative to samplequestions.
      * @return array Array of question render, question text, description and question variables.
      */
-    public static function render_execute($category, $filepath, $libraryname) {
+    public static function render_execute($category, $filepath, $cacheid) {
         global $CFG, $DB;
         $params = self::validate_parameters(self::render_execute_parameters(), [
             'category' => $category,
             'filepath' => $filepath,
-            'libraryname' => $libraryname,
+            'cacheid' => $cacheid,
         ]);
         StackIframeHolder::$islibrary = true;
         // Check parameters and that user has question add capability in the supplied category.
         $context = $DB->get_field('question_categories', 'contextid', ['id' => $params['category']]);
-        $external = (str_starts_with($params['libraryname'], 'externallibrary')) ? true : false;
+        $external = (str_starts_with($params['cacheid'], 'githublibrary')) ? true : false;
         $thiscontext = context::instance_by_id($context);
         self::validate_context($thiscontext);
         require_capability('moodle/question:add', $thiscontext);
 
         // Check if we've already cached the answer.
         $cache = cache::make('qtype_stack', 'librarycache');
-        $result = $cache->get($external ? "{$params['libraryname']}/{$params['filepath']}" : $params['filepath']);
+        $result = $cache->get($external ? "{$params['cacheid']}/{$params['filepath']}" : $params['filepath']);
         $isquiz = (pathinfo($params['filepath'], PATHINFO_EXTENSION) === 'json'
                             && strrpos($params['filepath'], '_quiz.json') !== false) ? true : false;
 
         if (str_starts_with($params['filepath'], 'sitelibrary/')) {
             $requestedfile = $CFG->dataroot . '/stack/' . $params['filepath'];
         } else if ($external) {
-            $externalfiles = $cache->get($params['libraryname'] . '_flat_file_list');
+            $externalfiles = $cache->get($params['cacheid'] . '_flat_file_list');
             $requestedfile = $externalfiles[$params['filepath']]->url;
         } else {
             $requestedfile = $CFG->dirroot . '/question/type/stack/samplequestions/' . $params['filepath'];
@@ -168,7 +168,7 @@ class library_render extends \external_api {
                     'questiondescription' => $question->questiondescription,
                     'isstack' => true,
                 ];
-                $cache->set($external ? "{$params['libraryname']}/{$params['filepath']}" : $params['filepath'], $result);
+                $cache->set($external ? "{$params['cacheid']}/{$params['filepath']}" : $params['filepath'], $result);
             } catch (\stack_exception $e) {
                 // If the question is not a STACK question we can't render it
                 // but we still want users to be able to import it.

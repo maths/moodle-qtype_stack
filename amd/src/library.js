@@ -31,7 +31,7 @@ define([
 
     let courseId = null;
     let categoryId = null;
-    let libraryName = null;
+    let cacheId = null;
     let libraryDiv = null;
     let rawDiv = null;
     let variablesDiv = null;
@@ -74,7 +74,7 @@ define([
             elem.addEventListener('click', libraryRender);
         });
         courseId = document.querySelector('[data-id="stack_library_course_id"]').getAttribute('data-value');
-        libraryName = document.querySelector('[data-id="stack_library_name"]').getAttribute('data-value');
+        cacheId = document.querySelector('[data-id="stack_cache_id"]').getAttribute('data-value');
         const importButton = document.querySelector('.library-import-link');
         importButton.addEventListener('click', ()=>libraryImport(false));
         const importFolderButton = document.querySelector('.library-import-link-folder');
@@ -108,7 +108,7 @@ define([
         categoryId = Number(document.getElementById('id_category').value.split(',')[0]);
         Ajax.call([{
             methodname: 'qtype_stack_library_render',
-            args: {category: categoryId, filepath: filepath, libraryname: libraryName},
+            args: {category: categoryId, filepath: filepath, cacheid: cacheId},
             done: function(response) {
                 loading(false);
                 libraryDiv.innerHTML = response.questionrender;
@@ -170,7 +170,7 @@ define([
                 category: categoryId,
                 filepath: filepath,
                 isfolder: (isFolder) ? 1 : 0,
-                libraryname: libraryName
+                cacheid: cacheId
             },
             done: function(response) {
                 loading(false);

@@ -63,7 +63,7 @@ class library_import extends \external_api {
                 'File path relative to samplequestions, STACK data directory or top of GitHub library'
             ),
             'isfolder' => new \external_value(PARAM_BOOL, 'Is import of whole question folder requested?'),
-            'libraryname' => new \external_value(PARAM_RAW, 'Library cache id'),
+            'cacheid' => new \external_value(PARAM_RAW, 'Library cache id'),
         ]);
     }
 
@@ -92,14 +92,14 @@ class library_import extends \external_api {
      * @param string $filepath File path relative to samplequestions.
      * @return array Question details.
      */
-    public static function import_execute($courseid, $category, $filepath, $isfolder, $libraryname) {
+    public static function import_execute($courseid, $category, $filepath, $isfolder, $cacheid) {
         global $CFG, $DB;
         $params = self::validate_parameters(self::import_execute_parameters(), [
             'courseid' => $courseid,
             'category' => $category,
             'filepath' => $filepath,
             'isfolder' => $isfolder,
-            'libraryname' => $libraryname,
+            'cacheid' => $cacheid,
         ]);
         // Check parameters and permissions.
         $thiscontext = null;
@@ -118,11 +118,11 @@ class library_import extends \external_api {
         if (str_starts_with($params['filepath'], 'sitelibrary/')) {
             $requestedfile = $CFG->dataroot . '/stack/' . $params['filepath'];
             $basedir = $CFG->dataroot . '/stack/';
-        } else if (str_starts_with($params['libraryname'], 'externallibrary')) {
+        } else if (str_starts_with($params['cacheid'], 'githublibrary')) {
             $requestedfile = make_request_directory() . "/importq.xml";
             $external = true;
             $cache = \cache::make('qtype_stack', 'librarycache');
-            $externalfiles = $cache->get($params['libraryname'] . '_flat_file_list');
+            $externalfiles = $cache->get($params['cacheid'] . '_flat_file_list');
         } else {
             $requestedfile = $CFG->dirroot . '/question/type/stack/samplequestions/' . $params['filepath'];
             $basedir = $CFG->dirroot . '/question/type/stack/samplequestions/';

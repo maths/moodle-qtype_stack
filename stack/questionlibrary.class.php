@@ -28,6 +28,7 @@
 
  use api\util\StackSeedHelper;
  use api\util\StackPlotReplacer;
+ use stack_exception;
 
 /**
  * Functions required to display the STACK question library
@@ -163,6 +164,7 @@ class stack_question_library {
                     $pathfromsq = str_replace(dirname(__DIR__) . '/samplequestions/', '', $path);
                     $pathfromsq = str_replace("{$CFG->dataroot}/stack/", '', $pathfromsq);
                     $childless->path = $pathfromsq;
+                    $childless->url = '';
                     $labels = explode('/', $path);
                     $childless->label = end($labels);
                     $childless->isdirectory = 0;
@@ -273,11 +275,13 @@ class stack_question_library {
             }
         }
 
+        $flatarray = array_column($files, null, 'relpath');
+
         usort($files, function ($a, $b) {
             return strnatcmp($a->relpath, $b->relpath);
         });
 
-        return self::format_file_list($files);
+        return [self::format_file_list($files), $flatarray];
 
     }
 
@@ -305,7 +309,8 @@ class stack_question_library {
                     || (pathinfo($file->relpath, PATHINFO_EXTENSION) === 'json' && strrpos($file->relpath, '_quiz.json') !== false)
                 ) {
                     $childless = new StdClass();
-                    $childless->path = $file->url;
+                    $childless->path = $file->relpath;
+                    $childless->url = $file->url;
                     $childless->label = $file->label;
                     $childless->isdirectory = 0;
                     $results->children[] = $childless;
@@ -321,7 +326,7 @@ class stack_question_library {
                         foreach ($topchildren as $topchild) {
                             if (
                                 isset($topchild->relpath) && pathinfo($topchild->relpath, PATHINFO_EXTENSION) === 'json'
-                                    && strrpos($topchild->path, '_quiz.json') !== false
+                                    && strrpos($topchild->relpath, '_quiz.json') !== false
                             ) {
                                 $topquizzes[] = $topchild;
                             } else if ($topchild->isdirectory) {
@@ -351,7 +356,7 @@ class stack_question_library {
         return $results;
     }
 
-    public static function get_external_file($requestedfile) {
+    public static function get_external_github_file($requestedfile) {
         $headers = [
             'User-Agent: PHP',
             'Accept: application/vnd.github.v3+json',
@@ -368,21 +373,21 @@ class stack_question_library {
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
         if ($res === false || $httpCode !== 200) {
-            throw new stack_exception('');
+            throw new \stack_exception('');
         }
 
         $json = json_decode($res, true);
         if (!is_array($json) || empty($json['content']) || empty($json['encoding'])) {
-            throw new stack_exception('');
+            throw new \stack_exception('');
         }
 
         if ($json['encoding'] !== 'base64') {
-            throw new stack_exception('');
+            throw new \stack_exception('');
         }
 
         $filecontents = base64_decode($json['content'], true);
         if ($filecontents === false) {
-            throw new stack_exception('');
+            throw new \stack_exception('');
         }
 
         return $filecontents;

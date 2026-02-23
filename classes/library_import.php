@@ -43,6 +43,7 @@ use external_value;
 use qformat_xml;
 use core_question\local\bank\question_edit_contexts;
 use mod_quiz\quiz_settings;
+use stack_question_library;
 
 /**
  * External API for AJAX calls.
@@ -57,8 +58,12 @@ class library_import extends \external_api {
         return new \external_function_parameters([
             'courseid' => new \external_value(PARAM_INT, 'ID of current course.'),
             'category' => new \external_value(PARAM_INT, 'Question category where user has edit access'),
-            'filepath' => new \external_value(PARAM_RAW, 'File path relative to samplequestions'),
+            'filepath' => new \external_value(
+                PARAM_RAW,
+                'File path relative to samplequestions, STACK data directory or top of GitHub library'
+            ),
             'isfolder' => new \external_value(PARAM_BOOL, 'Is import of whole question folder requested?'),
+            'libraryname' => new \external_value(PARAM_RAW, 'Library cache id'),
         ]);
     }
 
@@ -87,13 +92,14 @@ class library_import extends \external_api {
      * @param string $filepath File path relative to samplequestions.
      * @return array Question details.
      */
-    public static function import_execute($courseid, $category, $filepath, $isfolder) {
+    public static function import_execute($courseid, $category, $filepath, $isfolder, $libraryname) {
         global $CFG, $DB;
         $params = self::validate_parameters(self::import_execute_parameters(), [
             'courseid' => $courseid,
             'category' => $category,
             'filepath' => $filepath,
             'isfolder' => $isfolder,
+            'libraryname' => $libraryname,
         ]);
         // Check parameters and permissions.
         $thiscontext = null;
@@ -107,13 +113,16 @@ class library_import extends \external_api {
         $loadingquiz = false;
         $categories = [];
         $external = false;
+        $externalfiles = null;
 
         if (str_starts_with($params['filepath'], 'sitelibrary/')) {
             $requestedfile = $CFG->dataroot . '/stack/' . $params['filepath'];
             $basedir = $CFG->dataroot . '/stack/';
-        } else if (str_starts_with($params['filepath'], 'https://api.github.com/')) {
-            $requestedfile = $params['filepath'];
+        } else if (str_starts_with($params['libraryname'], 'externallibrary')) {
+            $requestedfile = make_request_directory() . "/importq.xml";
             $external = true;
+            $cache = \cache::make('qtype_stack', 'librarycache');
+            $externalfiles = $cache->get($params['libraryname'] . '_flat_file_list');
         } else {
             $requestedfile = $CFG->dirroot . '/question/type/stack/samplequestions/' . $params['filepath'];
             $basedir = $CFG->dirroot . '/question/type/stack/samplequestions/';
@@ -121,7 +130,7 @@ class library_import extends \external_api {
         if (
             !str_starts_with(realpath($requestedfile), "{$CFG->dataroot}/stack/sitelibrary") &&
             !str_starts_with(realpath($requestedfile), "{$CFG->dirroot}/question/type/stack/samplequestions/") &&
-            !str_starts_with($requestedfile, "https://api.github.com/")
+            !$external
         ) {
             throw new \Exception('Dubious file request.');
         }
@@ -131,7 +140,12 @@ class library_import extends \external_api {
                     && strrpos($params['filepath'], '_quiz.json') !== false
         ) {
             // We've got a quiz file. Load JSON and instantiate.
-            $quizcontents = file_get_contents($requestedfile);
+            if ($external) {
+                $url = $externalfiles[$params['filepath']]->url;
+                $quizcontents = stack_question_library::get_external_github_file($url);
+            } else {
+                $quizcontents = file_get_contents($requestedfile);
+            }
             $quizdata = json_decode($quizcontents);
             // We have to create the quiz, import the questions and then add the questions to the quiz.
             // Create quiz and its default category. This is now our target category which we add to the quiz data.
@@ -157,22 +171,30 @@ class library_import extends \external_api {
             $loadingquiz = true;
         } else if (!$params['isfolder']) {
             // We're only importing one question. Stick the supplied fieldpath in an array.
-            $files = [$requestedfile];
+            $files = [$params['filepath']];
         } else {
             // We're importing a folder.
             // Full path of supplied question.
             $fullpath = $requestedfile;
             $reldirname = dirname($params['filepath']);
             // List all the files in the same folder.
-            $files = scandir(dirname($fullpath));
+            if ($external) {
+                $files = array_filter(
+                    array_keys($externalfiles),
+                    fn($file) => dirname($file) === $reldirname
+                );
+            } else {
+                $files = scandir(dirname($fullpath));
+                $files = array_map(function ($file) use ($reldirname) {
+                    return $reldirname . '/' . $file;
+                }, $files);
+            }
             // Discard anything which isn't XML. Also discard category files.
             $files = array_filter($files, function ($file) {
                 return pathinfo($file, PATHINFO_EXTENSION) === 'xml' && strrpos($file, 'gitsync_category') === false;
             });
             // Convert file names into paths relative to the sample questions folder.
-            $files = array_map(function ($file) use ($reldirname) {
-                return $reldirname . '/' . $file;
-            }, $files);
+
         }
         $response = [];
 
@@ -185,7 +207,13 @@ class library_import extends \external_api {
             $qformat->set_display_progress(false);
             $qformat->setCategory($thiscategory);
             $qformat->setCatfromfile(true);
-            $qformat->setFilename($basedir . $category);
+            if ($external) {
+                $url = $externalfiles[$category]->url;
+                file_put_contents($requestedfile, stack_question_library::get_external_github_file($url));
+                $qformat->setFilename($requestedfile);
+            } else {
+                $qformat->setFilename($basedir . $category);
+            }
             $qformat->setContextfromfile(false);
             $qformat->setStoponerror(true);
             $contexts = new question_edit_contexts($thiscontext);
@@ -230,8 +258,14 @@ class library_import extends \external_api {
                 $qformat->setCategory($thiscategory);
             }
             $qformat->setCatfromfile(false);
+            if ($external) {
+                $url = $externalfiles[$file]->url;
+                file_put_contents($requestedfile, stack_question_library::get_external_github_file($url));
+                $qformat->setFilename($requestedfile);
+            } else {
+                $qformat->setFilename($basedir . $file);
+            }
 
-            $qformat->setFilename($basedir . $file);
             $qformat->setContextfromfile(false);
             $qformat->setStoponerror(true);
             $contexts = new question_edit_contexts($thiscontext);

@@ -90,41 +90,40 @@ $cache = cache::make('qtype_stack', 'librarycache');
 
 // Make sure we're only listing contents of STACK library or site library.
 $location = optional_param('location', '', PARAM_RAW);
-$cacheid = 'library_file_list';
+$cacheid = 'library';
 $libraryname = stack_string('stack_library');
 $external = false;
 $libraryurls = [['url' => 'https://github.com/maths/moodle-qtype_stack/tree/master/samplequestions/importtest', 'name' => 'External: import test']];
 
 if (str_starts_with($location, 'sitelibrary')) {
     $libraryname = explode('/', $location)[1];
-    $cacheid = 'sitelibrary_' . $libraryname . '_file_list';
+    $cacheid = 'sitelibrary_' . $libraryname;
     $location = "{$CFG->dataroot}/stack/{$location}";
     if (!str_starts_with(realpath($location), "{$CFG->dataroot}/stack/sitelibrary")) {
         $location = __DIR__ . '/samplequestions/stacklibrary/*';
         $libraryname = stack_string('stack_library');
-        $cacheid = 'library_file_list';
+        $cacheid = 'library';
     } else {
         $location .= '/*';
     }
 } else if (in_array($location, array_column($libraryurls, 'url'))) {
     $libraryname = optional_param('name', '', PARAM_RAW);
-    $cacheid = 'sitelibrary_' . $libraryname . '_file_list';
+    $cacheid = 'externallibrary_' . $libraryname;
     $external = true;
 } else {
     $location = __DIR__ . '/samplequestions/stacklibrary/*';
 }
 
-$files = $cache->get($cacheid);
+$files = $cache->get($cacheid . '_file_list');
 if (!$files) {
     if ($external) {
-        $files = stack_question_library::stack_list_github_repo($location);
+        [$files, $flatfiles] = stack_question_library::stack_list_github_repo($location);
+        $cache->set($cacheid . '_flat_file_list', $flatfiles);
     } else {
         $files = stack_question_library::get_file_list($location);
     }
-    $cache->set($cacheid, $files);
+    $cache->set($cacheid . '_file_list', $files);
 }
-
-
 
 $mform = new category_form(null, ['qcontext' => $contexts]);
 // Prepare data for template.
@@ -140,6 +139,7 @@ $outputdata->courseid = $courseid;
 $outputdata->libraries = new StdClass();
 $outputdata->libraries->items = [];
 $outputdata->libraries->hasitems = false;
+$outputdata->libraries->current = $cacheid;
 
 $libraries = glob("{$CFG->dataroot}/stack/sitelibrary/*");
 if ($libraries) {

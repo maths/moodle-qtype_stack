@@ -112,15 +112,15 @@ class library_import extends \external_api {
         require_capability('moodle/question:add', $thiscontext);
         $loadingquiz = false;
         $categories = [];
-        $external = false;
+        $external = null;
         $externalfiles = null;
 
-        if (str_starts_with($params['filepath'], 'sitelibrary/')) {
+        if (str_starts_with($params['filepath'], stack_question_library::SITELIB)) {
             $requestedfile = $CFG->dataroot . '/stack/' . $params['filepath'];
             $basedir = $CFG->dataroot . '/stack/';
-        } else if (str_starts_with($params['cacheid'], 'githublibrary')) {
+        } else if (str_starts_with($params['cacheid'], stack_question_library::GITHUB)) {
             $requestedfile = make_request_directory() . "/importq.xml";
-            $external = true;
+            $external = explode('_', $params['cacheid'])[0];
             $cache = \cache::make('qtype_stack', 'librarycache');
             $externalfiles = $cache->get($params['cacheid'] . '_flat_file_list');
         } else {
@@ -142,7 +142,7 @@ class library_import extends \external_api {
             // We've got a quiz file. Load JSON and instantiate.
             if ($external) {
                 $url = $externalfiles[$params['filepath']]->url;
-                $quizcontents = stack_question_library::get_external_github_file($url);
+                $quizcontents = stack_question_library::get_external_file($url, $external);
             } else {
                 $quizcontents = file_get_contents($requestedfile);
             }
@@ -209,7 +209,7 @@ class library_import extends \external_api {
             $qformat->setCatfromfile(true);
             if ($external) {
                 $url = $externalfiles[$category]->url;
-                file_put_contents($requestedfile, stack_question_library::get_external_github_file($url));
+                file_put_contents($requestedfile, stack_question_library::get_external_file($url, $external));
                 $qformat->setFilename($requestedfile);
             } else {
                 $qformat->setFilename($basedir . $category);
@@ -260,7 +260,7 @@ class library_import extends \external_api {
             $qformat->setCatfromfile(false);
             if ($external) {
                 $url = $externalfiles[$file]->url;
-                file_put_contents($requestedfile, stack_question_library::get_external_github_file($url));
+                file_put_contents($requestedfile, stack_question_library::get_external_file($url, $external));
                 $qformat->setFilename($requestedfile);
             } else {
                 $qformat->setFilename($basedir . $file);

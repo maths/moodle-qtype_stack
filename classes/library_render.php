@@ -110,7 +110,11 @@ class library_render extends \external_api {
         StackIframeHolder::$islibrary = true;
         // Check parameters and that user has question add capability in the supplied category.
         $context = $DB->get_field('question_categories', 'contextid', ['id' => $params['category']]);
-        $external = (str_starts_with($params['cacheid'], 'githublibrary')) ? true : false;
+        if (str_starts_with($params['cacheid'], stack_question_library::GITHUB)) {
+            $external = stack_question_library::GITHUB;
+        } else {
+            $external = null;
+        }
         $thiscontext = context::instance_by_id($context);
         self::validate_context($thiscontext);
         require_capability('moodle/question:add', $thiscontext);
@@ -121,7 +125,7 @@ class library_render extends \external_api {
         $isquiz = (pathinfo($params['filepath'], PATHINFO_EXTENSION) === 'json'
                             && strrpos($params['filepath'], '_quiz.json') !== false) ? true : false;
 
-        if (str_starts_with($params['filepath'], 'sitelibrary/')) {
+        if (str_starts_with($params['filepath'], stack_question_library::SITELIB . '/')) {
             $requestedfile = $CFG->dataroot . '/stack/' . $params['filepath'];
         } else if ($external) {
             $externalfiles = $cache->get($params['cacheid'] . '_flat_file_list');
@@ -130,7 +134,7 @@ class library_render extends \external_api {
             $requestedfile = $CFG->dirroot . '/question/type/stack/samplequestions/' . $params['filepath'];
         }
         if (
-            !str_starts_with(realpath($requestedfile), "{$CFG->dataroot}/stack/sitelibrary") &&
+            !str_starts_with(realpath($requestedfile), "{$CFG->dataroot}/stack/sitelibrary/") &&
             !str_starts_with(realpath($requestedfile), "{$CFG->dirroot}/question/type/stack/samplequestions/") &&
             !$external
         ) {
@@ -138,7 +142,7 @@ class library_render extends \external_api {
         }
 
         if ($external) {
-            $qcontents = stack_question_library::get_external_github_file($requestedfile);
+            $qcontents = stack_question_library::get_external_file($requestedfile, $external);
         } else {
             $qcontents = file_get_contents($requestedfile);
         }

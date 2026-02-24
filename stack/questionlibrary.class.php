@@ -37,6 +37,8 @@
 class stack_question_library {
     /** @var int increments unique folder ids */
     public static $dircount = 1;
+    public const GITHUB = 'githublibrary';
+    public const SITELIB = 'sitelibrary';
 
     /**
      * Summary of render_question
@@ -210,7 +212,25 @@ class stack_question_library {
         return $results;
     }
 
-    public static function stack_list_github_repo(string $githuburl) {
+    public static function get_file_list_from_repo($url, $repotype) {
+        switch ($repotype) {
+            case self::GITHUB:
+                return self::list_github_repo($url);
+            default:
+                return [[], []];
+        }
+    }
+
+    public static function get_external_file($requestedfile, $repotype) {
+        switch ($repotype) {
+            case self::GITHUB:
+                return self::get_external_github_file($requestedfile);
+            default:
+                return null;
+        }
+    }
+
+    public static function list_github_repo(string $githuburl) {
         // Parse github URL like:
         // https://github.com/{owner}/{repo}/tree/{branch}/{path...}
         $parts = parse_url($githuburl);

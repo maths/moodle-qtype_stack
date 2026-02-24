@@ -237,6 +237,16 @@ $settings->add(new admin_setting_configtext(
     3
 ));
 
+$settings->add(new admin_setting_configtextarea(
+    'qtype_stack/libraries',
+    get_string('settingexternallibraries', 'qtype_stack'),
+    get_string('settingexternallibraries_desc', 'qtype_stack'),
+    '',
+    PARAM_RAW,
+    60,
+    5
+));
+
 // Options for maths display.
 $settings->add(new admin_setting_heading(
     'mathsdisplayheading',

@@ -90,19 +90,24 @@ $cache = cache::make('qtype_stack', 'librarycache');
 
 // Make sure we're only listing contents of STACK library or site library.
 $location = optional_param('location', '', PARAM_RAW);
+// Location parameter will be in form:
+// samplequestions/stacklibrary
+// sitelibrary/foldername
+// githublibrary/id.
+// Corresponding cache ids are:
+// library
+// sitelibrary_foldername
+// githublibrary_id.
 $cacheid = 'library';
 $libraryname = stack_string('stack_library');
-$external = false;
-$allowedlibraries = [
-    'EIT' => [
-        'url' => 'https://github.com/maths/moodle-qtype_stack/tree/master/samplequestions/importtest',
-        'name' => 'External: import test',
-    ]
-];
+$external = null;
+$allowedlibraries = get_config('qtype_stack', 'libraries');
+$allowedlibraries = json_decode($allowedlibraries);
+$allowedlibraries = $allowedlibraries ? $allowedlibraries : new StdClass();
 
-if (str_starts_with($location, 'sitelibrary')) {
+if (str_starts_with($location, stack_question_library::SITELIB)) {
     $libraryname = explode('/', $location)[1];
-    $cacheid = 'sitelibrary_' . $libraryname;
+    $cacheid = stack_question_library::SITELIB . "_{$libraryname}";
     $location = "{$CFG->dataroot}/stack/{$location}";
     if (!str_starts_with(realpath($location), "{$CFG->dataroot}/stack/sitelibrary")) {
         $location = __DIR__ . '/samplequestions/stacklibrary/*';
@@ -111,16 +116,18 @@ if (str_starts_with($location, 'sitelibrary')) {
     } else {
         $location .= '/*';
     }
-} else if (str_starts_with($location, 'githublibrary')) {
-    $libraryid = explode('/', $location)[1];
-    $cacheid = 'githublibrary_' . $libraryid;
-    $libraryname = $allowedlibraries[$libraryid]['name'] ?? null;
+} else if (str_starts_with($location, stack_question_library::GITHUB)) {
+    $libparts = explode('/', $location);
+    $librarytype = $libparts[0];
+    $libraryid = $libparts[1];
+    $cacheid = $librarytype . "_{$libraryid}";
+    $libraryname = $allowedlibraries->{$libraryid}->name ?? null;
     if (!$libraryname) {
         $location = __DIR__ . '/samplequestions/stacklibrary/*';
         $libraryname = stack_string('stack_library');
         $cacheid = 'library';
     } else {
-        $external = true;
+        $external = $librarytype;
     }
 } else {
     $location = __DIR__ . '/samplequestions/stacklibrary/*';
@@ -129,7 +136,7 @@ if (str_starts_with($location, 'sitelibrary')) {
 $files = $cache->get($cacheid . '_file_list');
 if (!$files) {
     if ($external) {
-        [$files, $flatfiles] = stack_question_library::stack_list_github_repo($allowedlibraries[$libraryid]['url']);
+        [$files, $flatfiles] = stack_question_library::get_file_list_from_repo($allowedlibraries->{$libraryid}->url, $external);
         $cache->set($cacheid . '_flat_file_list', $flatfiles);
     } else {
         $files = stack_question_library::get_file_list($location);
@@ -157,7 +164,7 @@ $libraries = glob("{$CFG->dataroot}/stack/sitelibrary/*");
 if ($libraries) {
     $libentry = new StdClass();
     $libentry->name = stack_string('stack_library');
-    $urlparams['location'] = "/samplequestions/stacklibrary";
+    $urlparams['location'] = "samplequestions/stacklibrary";
     $libentry->url = new moodle_url('/question/type/stack/questionlibrary.php', $urlparams);
     $libentry->url = $libentry->url->out();
     $libentry->active = ($libentry->name === $libraryname) ? true : false;
@@ -168,7 +175,7 @@ foreach ($libraries as $library) {
     $libentry = new StdClass();
     $parts = explode('/', $library);
     $libentry->name = end($parts);
-    $urlparams['location'] = "sitelibrary/{$libentry->name}";
+    $urlparams['location'] = stack_question_library::SITELIB . "/{$libentry->name}";
     $libentry->url = new moodle_url('/question/type/stack/questionlibrary.php', $urlparams);
     $libentry->url = $libentry->url->out();
     $libentry->active = ($libentry->name === $libraryname) ? true : false;
@@ -177,9 +184,13 @@ foreach ($libraries as $library) {
 
 foreach ($allowedlibraries as $id => $lib) {
     $libentry = new StdClass();
-    $libentry->name = $lib['name'];
-    $urlparams['location'] = 'githublibrary/' . $id;
-    $urlparams['name'] = $lib['name'];
+    $libentry->name = $lib->name;
+    if (str_starts_with($lib->url, 'https://github.com/')) {
+        $urlparams['location'] = stack_question_library::GITHUB . "/{$id}";
+    } else {
+        $urlparams['location'] = 'invalid';
+    }
+    $urlparams['name'] = $lib->name;
     $libentry->url = new moodle_url('/question/type/stack/questionlibrary.php', $urlparams);
     $libentry->url = $libentry->url->out();
     $libentry->active = ($libentry->name === $libraryname) ? true : false;

@@ -103,6 +103,12 @@
               </option>
             {{/libraries.items}}
           </select>
+          {{#libraries.external}}
+            <button class="btn btn-primary library-cache-refresh" onClick="document.querySelector('[data-id=\'qa-loading\']').removeAttribute('hidden');window.location.href=window.location.href + '&refresh=1'"
+                type="button">
+              {{#str}} stack_library_refresh, qtype_stack {{/str}}
+            </button>
+          {{/libraries.external}}
           <span data-id='qa-loading' hidden>
             {{#pix}}y/loading, core, {{#str}}loading, tool_lp{{/str}}{{/pix}}
           </span>

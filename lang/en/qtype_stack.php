@@ -1869,6 +1869,7 @@ $string['stack_library_import_folder'] = 'Import folder';
 $string['stack_library_quiz'] = 'This is a quiz:';
 $string['stack_library_quiz_course'] = 'The quiz will be imported into course: ';
 $string['stack_library_quiz_prefix'] = 'Quiz:';
+$string['stack_library_refresh'] = 'Refresh library contents';
 $string['stack_library_selected'] = 'Displayed question:';
 $string['stack_library_select'] = 'Select library:';
 $string['stack_library_success'] = 'Successful import of:';

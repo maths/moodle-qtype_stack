@@ -54,6 +54,7 @@ if ($cmid = optional_param('cmid', 0, PARAM_INT)) {
     $urlparams['courseid'] = $courseid;
     $returntext = get_string('stack_library_qb_return', 'qtype_stack');
 }
+$isrefresh =  optional_param('refresh', 0, PARAM_INT) === 1 ? true : false;
 
 // Check user has add capability for the required context.
 require_capability('moodle/question:add', $thiscontext);
@@ -133,6 +134,17 @@ if (str_starts_with($location, stack_question_library::SITELIB)) {
     $location = __DIR__ . '/samplequestions/stacklibrary/*';
 }
 
+if ($isrefresh) {
+    $refreshfiles = $cache->get($cacheid . '_flat_file_list');
+    if ($refreshfiles) {
+        $refreshfiles = array_keys($refreshfiles);
+        $refreshfiles = array_map(function($file) use ($cacheid) { return "{$cacheid}/{$file}";}, $refreshfiles);
+    }
+    $refreshfiles[] = $cacheid . '_flat_file_list';
+    $refreshfiles[] = $cacheid . '_file_list';
+    $cache->delete_many($refreshfiles);
+}
+
 $files = $cache->get($cacheid . '_file_list');
 if (!$files) {
     if ($external) {
@@ -159,6 +171,9 @@ $outputdata->libraries = new StdClass();
 $outputdata->libraries->items = [];
 $outputdata->libraries->hasitems = false;
 $outputdata->libraries->current = $cacheid;
+if ($external) {
+    $outputdata->libraries->external = $cacheid;
+}
 
 $libraries = glob("{$CFG->dataroot}/stack/sitelibrary/*");
 if ($libraries) {
@@ -195,6 +210,7 @@ foreach ($allowedlibraries as $id => $lib) {
     $libentry->url = $libentry->url->out();
     $libentry->active = ($libentry->name === $libraryname) ? true : false;
     $outputdata->libraries->items[] = $libentry;
+    $outputdata->libraries->hasitems = true;
 }
 
 echo $OUTPUT->render_from_template('qtype_stack/questionlibrary', $outputdata);

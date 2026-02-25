@@ -54,7 +54,7 @@ if ($cmid = optional_param('cmid', 0, PARAM_INT)) {
     $urlparams['courseid'] = $courseid;
     $returntext = get_string('stack_library_qb_return', 'qtype_stack');
 }
-$isrefresh =  optional_param('refresh', 0, PARAM_INT) === 1 ? true : false;
+$isrefresh = optional_param('refresh', 0, PARAM_INT) === 1 ? true : false;
 
 // Check user has add capability for the required context.
 require_capability('moodle/question:add', $thiscontext);
@@ -111,11 +111,9 @@ if (str_starts_with($location, stack_question_library::SITELIB)) {
     $cacheid = stack_question_library::SITELIB . "_{$libraryname}";
     $location = "{$CFG->dataroot}/stack/{$location}";
     if (!str_starts_with(realpath($location), "{$CFG->dataroot}/stack/sitelibrary")) {
-        $location = __DIR__ . '/samplequestions/stacklibrary/*';
+        $location = __DIR__ . '/samplequestions/stacklibrary';
         $libraryname = stack_string('stack_library');
         $cacheid = 'library';
-    } else {
-        $location .= '/*';
     }
 } else if (str_starts_with($location, stack_question_library::GITHUB)) {
     $libparts = explode('/', $location);
@@ -124,21 +122,23 @@ if (str_starts_with($location, stack_question_library::SITELIB)) {
     $cacheid = $librarytype . "_{$libraryid}";
     $libraryname = $allowedlibraries->{$libraryid}->name ?? null;
     if (!$libraryname) {
-        $location = __DIR__ . '/samplequestions/stacklibrary/*';
+        $location = __DIR__ . '/samplequestions/stacklibrary';
         $libraryname = stack_string('stack_library');
         $cacheid = 'library';
     } else {
         $external = $librarytype;
     }
 } else {
-    $location = __DIR__ . '/samplequestions/stacklibrary/*';
+    $location = __DIR__ . '/samplequestions/stacklibrary';
 }
 
 if ($isrefresh) {
     $refreshfiles = $cache->get($cacheid . '_flat_file_list');
     if ($refreshfiles) {
         $refreshfiles = array_keys($refreshfiles);
-        $refreshfiles = array_map(function($file) use ($cacheid) { return "{$cacheid}/{$file}";}, $refreshfiles);
+        $refreshfiles = array_map(function ($file) use ($cacheid) {
+            return "{$cacheid}/{$file}";
+        }, $refreshfiles);
     }
     $refreshfiles[] = $cacheid . '_flat_file_list';
     $refreshfiles[] = $cacheid . '_file_list';

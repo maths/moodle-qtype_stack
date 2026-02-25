@@ -194,7 +194,6 @@ class library_import extends \external_api {
                 return pathinfo($file, PATHINFO_EXTENSION) === 'xml' && strrpos($file, 'gitsync_category') === false;
             });
             // Convert file names into paths relative to the sample questions folder.
-
         }
         $response = [];
 

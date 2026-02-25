@@ -61,7 +61,8 @@ class library_render extends \external_api {
             'category' => new \external_value(PARAM_INT, 'Question category where user has edit access'),
             'filepath' => new \external_value(
                 PARAM_RAW,
-                'File path relative to samplequestions, STACK data directory or top of GitHub library'),
+                'File path relative to samplequestions, STACK data directory or top of GitHub library'
+            ),
             'cacheid' => new \external_value(PARAM_RAW, 'Library cache id'),
         ]);
     }

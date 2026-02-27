@@ -99,7 +99,7 @@ $location = optional_param('location', '', PARAM_RAW);
 // library
 // sitelibrary_foldername
 // githublibrary_id.
-$cacheid = 'library';
+$cacheid = stack_question_library::STACKLIB;
 $libraryname = stack_string('stack_library');
 $external = null;
 $allowedlibraries = get_config('qtype_stack', 'libraries');
@@ -113,7 +113,7 @@ if (str_starts_with($location, stack_question_library::SITELIB)) {
     if (!str_starts_with(realpath($location), "{$CFG->dataroot}/stack/sitelibrary")) {
         $location = __DIR__ . '/samplequestions/stacklibrary';
         $libraryname = stack_string('stack_library');
-        $cacheid = 'library';
+        $cacheid = stack_question_library::STACKLIB;
     }
 } else if (str_starts_with($location, stack_question_library::GITHUB)) {
     $libparts = explode('/', $location);
@@ -124,7 +124,7 @@ if (str_starts_with($location, stack_question_library::SITELIB)) {
     if (!$libraryname) {
         $location = __DIR__ . '/samplequestions/stacklibrary';
         $libraryname = stack_string('stack_library');
-        $cacheid = 'library';
+        $cacheid = stack_question_library::STACKLIB;
     } else {
         $external = $librarytype;
     }

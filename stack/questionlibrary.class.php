@@ -46,6 +46,11 @@ class stack_question_library {
      * @var string
      */
     public const SITELIB = 'sitelibrary';
+    /**
+     * STACK library identifier
+     * @var string
+     */
+    public const STACKLIB = 'stacklibrary';
 
     /**
      * Summary of render_question
@@ -306,7 +311,8 @@ class stack_question_library {
         $firstfile = $filelist[array_key_first($filelist)]->relpath;
         $basedir = dirname($firstfile !== '.') ? dirname($firstfile) : '';
 
-        $results->label = end(explode('/', $basedir));
+        $dirparts = explode('/', $basedir);
+        $results->label = end($dirparts);
         foreach ($filelist as $file) {
             // We only want children of the current base directory. We ignore more distant descendants.
             if ($basedir === '') {

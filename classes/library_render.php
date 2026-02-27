@@ -143,7 +143,7 @@ class library_render extends \external_api {
         }
 
         if ($external) {
-            $qcontents = stack_question_library::get_external_file($requestedfile, $external);
+            $qcontents = static::call_external_request($requestedfile, $external);
         } else {
             $qcontents = file_get_contents($requestedfile);
         }
@@ -238,5 +238,15 @@ class library_render extends \external_api {
      */
     public static function call_question_render($question) {
         return stack_question_library::render_question($question);
+    }
+
+    /**
+     * Separate out to mock in unit testing.
+     * @param string $requestedfile
+     * @param string $external
+     * @return string XML of question
+     */
+    public static function call_external_request($requestedfile, $external) {
+        return stack_question_library::get_external_file($requestedfile, $external);
     }
 }

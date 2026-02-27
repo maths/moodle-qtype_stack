@@ -31,7 +31,9 @@ require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
 require_once($CFG->dirroot . '/webservice/tests/helpers.php');
 require_once($CFG->dirroot . '/question/type/stack/tests/fixtures/test_maxima_configuration.php');
 require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
+require_once($CFG->dirroot . '/question/type/stack/stack/questionlibrary.class.php');
 
+use cache;
 use context_course;
 use externallib_advanced_testcase;
 use external_api;
@@ -90,7 +92,7 @@ final class library_import_test extends externallib_advanced_testcase {
         $managerroleid = $DB->get_field('role', 'id', ['shortname' => 'manager']);
         role_assign($managerroleid, $this->user->id, $context->id);
 
-        $returnvalue = library_import::import_execute($this->course->id, $this->qcategory->id, $this->filepath, false);
+        $returnvalue = library_import::import_execute($this->course->id, $this->qcategory->id, $this->filepath, false, \stack_question_library::STACKLIB);
 
         // We need to execute the return values cleaning process to simulate
         // the web service server.
@@ -113,7 +115,7 @@ final class library_import_test extends externallib_advanced_testcase {
         $this->expectException(require_login_exception::class);
         // Exception messages don't seem to get translated.
         $this->expectExceptionMessage('not logged in');
-        library_import::import_execute($this->course->id, $this->qcategory->id, $this->filepath, false);
+        library_import::import_execute($this->course->id, $this->qcategory->id, $this->filepath, false, \stack_question_library::STACKLIB);
     }
 
     /**
@@ -127,7 +129,7 @@ final class library_import_test extends externallib_advanced_testcase {
         $this->getDataGenerator()->enrol_user($this->user->id, $this->course->id);
         $this->expectException(required_capability_exception::class);
         $this->expectExceptionMessage('you do not currently have permissions to do that (Add new questions).');
-        library_import::import_execute($this->course->id, $this->qcategory->id, $this->filepath, false);
+        library_import::import_execute($this->course->id, $this->qcategory->id, $this->filepath, false, \stack_question_library::STACKLIB);
     }
 
     /**
@@ -136,7 +138,7 @@ final class library_import_test extends externallib_advanced_testcase {
     public function test_export_capability(): void {
         $this->expectException(require_login_exception::class);
         $this->expectExceptionMessage('Not enrolled');
-        library_import::import_execute($this->course->id, $this->qcategory->id, $this->filepath, false);
+        library_import::import_execute($this->course->id, $this->qcategory->id, $this->filepath, false, \stack_question_library::STACKLIB);
     }
 
     /**
@@ -150,7 +152,7 @@ final class library_import_test extends externallib_advanced_testcase {
         role_assign($managerroleid, $this->user->id, $context->id);
         $sink = $this->redirectEvents();
 
-        $returnvalue = library_import::import_execute($this->course->id, $this->qcategory->id, $this->filepath, false);
+        $returnvalue = library_import::import_execute($this->course->id, $this->qcategory->id, $this->filepath, false, \stack_question_library::STACKLIB);
 
         // We need to execute the return values cleaning process to simulate
         // the web service server.
@@ -185,7 +187,7 @@ final class library_import_test extends externallib_advanced_testcase {
         role_assign($managerroleid, $this->user->id, $context->id);
         $sink = $this->redirectEvents();
 
-        $returnvalue = library_import::import_execute($this->course->id, $this->qcategory->id, $this->filepath, true);
+        $returnvalue = library_import::import_execute($this->course->id, $this->qcategory->id, $this->filepath, true, \stack_question_library::STACKLIB);
 
         // We need to execute the return values cleaning process to simulate
         // the web service server.
@@ -224,7 +226,7 @@ final class library_import_test extends externallib_advanced_testcase {
         role_assign($managerroleid, $this->user->id, $context->id);
         $sink = $this->redirectEvents();
 
-        $returnvalue = library_import::import_execute($this->course->id, $this->qcategory->id, $quizfilepath, true);
+        $returnvalue = library_import::import_execute($this->course->id, $this->qcategory->id, $quizfilepath, true, \stack_question_library::STACKLIB);
 
         // We need to execute the return values cleaning process to simulate
         // the web service server.
@@ -330,7 +332,7 @@ final class library_import_test extends externallib_advanced_testcase {
         $managerroleid = $DB->get_field('role', 'id', ['shortname' => 'manager']);
         role_assign($managerroleid, $this->user->id, $context->id);
 
-        library_import::import_execute($this->course->id, $this->qcategory->id, $quizfilepath, true);
+        library_import::import_execute($this->course->id, $this->qcategory->id, $quizfilepath, true, \stack_question_library::STACKLIB);
 
         $sections = $DB->get_records('quiz_sections');
         $this->assertEquals(1, count($sections));
@@ -360,7 +362,7 @@ final class library_import_test extends externallib_advanced_testcase {
         $managerroleid = $DB->get_field('role', 'id', ['shortname' => 'manager']);
         role_assign($managerroleid, $this->user->id, $context->id);
 
-        library_import::import_execute($this->course->id, $this->qcategory->id, $quizfilepath, true);
+        library_import::import_execute($this->course->id, $this->qcategory->id, $quizfilepath, true, \stack_question_library::STACKLIB);
 
         $slots = $DB->get_records('quiz_slots');
         $this->assertEquals(4, count($slots));
@@ -370,5 +372,62 @@ final class library_import_test extends externallib_advanced_testcase {
         $this->assertEquals(0, $slot1->requireprevious);
         $this->assertEquals(1, $slot2->requireprevious);
         $this->assertEquals(0, $slot3->requireprevious);
+    }
+
+    /**
+     * Test output of library_render function when accessing site library.
+     */
+    public function test_dubious_file_check(): void {
+        global $DB;
+        $cache = cache::make('qtype_stack', 'librarycache');
+        $cache->purge();
+        // Set the required capabilities - webservice access and export rights on course.
+        $context = context_course::instance($this->course->id);
+        $managerroleid = $DB->get_field('role', 'id', ['shortname' => 'manager']);
+        role_assign($managerroleid, $this->user->id, $context->id);
+        $iserror = false;
+        try {
+            library_import::import_execute(
+                $this->course->id,
+                $this->qcategory->id,
+                'sitelibrary/libtest/../../testq.xml',
+                false,
+                \stack_question_library::SITELIB
+            );
+        } catch (\Exception $e) {
+            $this->assertEquals('Dubious file request.', $e->getMessage());
+            $iserror = true;
+        }
+        $this->assertEquals(true, $iserror);
+
+        $iserror = false;
+        try {
+            library_import::import_execute(
+                $this->course->id,
+                $this->qcategory->id,
+                'sitelibrary/libtest/../../testq.xml',
+                false,
+                'fake'
+            );
+        } catch (\Exception $e) {
+            $this->assertEquals('Dubious file request.', $e->getMessage());
+            $iserror = true;
+        }
+        $this->assertEquals(true, $iserror);
+
+        $iserror = false;
+        try {
+            library_import::import_execute(
+                $this->course->id,
+                $this->qcategory->id,
+                'otherlib/libtest/../../testq.xml',
+                false,
+                'fake'
+            );
+        } catch (\Exception $e) {
+            $this->assertEquals('Dubious file request.', $e->getMessage());
+            $iserror = true;
+        }
+        $this->assertEquals(true, $iserror);
     }
 }

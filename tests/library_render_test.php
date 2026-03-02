@@ -208,13 +208,18 @@ final class library_render_test extends externallib_advanced_testcase {
         mkdir($CFG->dataroot . '/stack/sitelibrary/libtest', 0777, true);
         file_put_contents(
             $CFG->dataroot . '/stack/sitelibrary/libtest/testq.xml',
-            '<quiz><question type="stack"><questiontext><text>Fake XML: Site</text></questiontext></question></quiz>');
+            '<quiz><question type="stack"><questiontext><text>Fake XML: Site</text></questiontext></question></quiz>'
+        );
         // Set the required capabilities - webservice access and export rights on course.
         $context = context_course::instance($this->course->id);
         $managerroleid = $DB->get_field('role', 'id', ['shortname' => 'manager']);
         role_assign($managerroleid, $this->user->id, $context->id);
 
-        $returnvalue = fake_render::render_execute($this->qcategory->id, 'sitelibrary/libtest/testq.xml', \stack_question_library::SITELIB);
+        $returnvalue = fake_render::render_execute(
+            $this->qcategory->id,
+            'sitelibrary/libtest/testq.xml',
+            \stack_question_library::SITELIB
+        );
 
         // We need to execute the return values cleaning process to simulate
         // the web service server.

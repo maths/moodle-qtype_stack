@@ -137,7 +137,11 @@ final class questionlibrary_test extends qtype_stack_testcase {
      * Test getting external files.
      */
     public function test_get_external_files(): void {
-        [$files, $flatfiles ] = stack_question_library::get_file_list_from_repo('https://github.com/maths/moodle-qtype_stack/tree/master/samplequestions/importtest' , stack_question_library::GITHUB);
+        [$files, $flatfiles ] =
+            stack_question_library::get_file_list_from_repo(
+                'https://github.com/maths/moodle-qtype_stack/tree/master/samplequestions/importtest',
+                stack_question_library::GITHUB
+            );
         $this->assertEquals(2, count($files->children));
         $this->assertEquals('Course1', $files->children[0]->label);
         $this->assertEquals('Course1_quiz_quiz-1', $files->children[1]->label);

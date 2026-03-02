@@ -316,7 +316,8 @@ class qtype_stack_edit_form extends question_edit_form {
         } else {
             $data = ($this->question->options->metadata) ? $this->question->options->metadata : '{}';
         }
-        $md = $mform->createElement('hidden', 'metadata', $data, ['data-lib' => $datalib, 'id' => 'id_stack_metadata']);
+        $md = $mform->createElement('hidden', 'metadata', $data,
+            ['data-lib' => $datalib, 'id' => 'id_stack_metadata', 'data-change' => stack_string('metadatachange')]);
         $mform->insertElementBefore($md, 'metadatamodal');
         $mform->setType('metadata', PARAM_RAW);
 

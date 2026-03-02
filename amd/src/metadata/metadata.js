@@ -76,6 +76,7 @@ class StackMetadata extends Reactive {
      */
     replacer(key, value) {
         const languages = [];
+        const additional = {};
         switch(key) {
             case 'metadataTicker':
                 return undefined;
@@ -89,6 +90,21 @@ class StackMetadata extends Reactive {
             case 'license':
             case 'isPartOf':
                 return value.value;
+            case 'additional':
+                for (const item of value) {
+                    if (item.scope in additional === false) {
+                        additional[item.scope] = {};
+                    }
+                    if (item.property in additional[item.scope] === false) {
+                        additional[item.scope][item.property] = {};
+                    }
+                    if (item.qualifier === '') {
+                        additional[item.scope][item.property] = item.value;
+                    } else {
+                        additional[item.scope][item.property][item.qualifier] = item.value;
+                    }
+                }
+                return additional;
             default:
                 return value;
         }
@@ -108,7 +124,6 @@ class StackMetadata extends Reactive {
         let id = 1;
         switch(key) {
             case 'contributor':
-            case 'additional':
                 for (const current of value) {
                     current.id = id;
                     holder.push(current);
@@ -142,7 +157,6 @@ class StackMetadata extends Reactive {
         data = this.stripFields(data, fields);
         const creatorFields = ['firstName', 'lastName', 'institution', 'year'];
         const contribFields = ['id', 'firstName', 'lastName', 'institution', 'year'];
-        const additionalFields = ['id', 'scope', 'property', 'qualifier', 'value'];
         const standardFields = ['id', 'value'];
 
         data.creator = this.tidyObject(data.creator, creatorFields);
@@ -162,11 +176,34 @@ class StackMetadata extends Reactive {
         data.language = langHolder;
         data.isPartOf = this.tidyObject(data.isPartOf, standardFields);
         data.license = this.tidyObject(data.license, standardFields);
-        data.additional = (Array.isArray(data.additional)) ? data.additional : [];
         const addHolder = [];
-        for (let addInfo of data.additional) {
-            addInfo = this.tidyObject(addInfo, additionalFields);
-            addHolder.push(addInfo);
+        let addId = 1;
+        for (const addScope in data.additional) {
+            for (const addProperty in data.additional[addScope]) {
+                if (typeof data.additional[addScope][addProperty] === 'object') {
+                    for (const addQualifier in data.additional[addScope][addProperty]) {
+                        const add = {
+                            id: addId,
+                            scope: addScope,
+                            property: addProperty,
+                            qualifier: addQualifier,
+                            value: data.additional[addScope][addProperty][addQualifier]
+                        };
+                        addHolder.push(add);
+                        addId++;
+                    }
+                } else {
+                    const add = {
+                        id: addId,
+                        scope: addScope,
+                        property: addProperty,
+                        qualifier: '',
+                        value: data.additional[addScope][addProperty]
+                    };
+                    addHolder.push(add);
+                    addId++;
+                }
+            }
         }
         data.additional = addHolder;
 

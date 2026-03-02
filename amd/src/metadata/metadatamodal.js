@@ -38,7 +38,13 @@ export class MetadataModal extends Modal {
     async hide() {
         const result = await metadata.container.update(true);
         if (result) {
-            document.querySelector('input[name="metadata"]').value = JSON.stringify(metadata.state, metadata.replacer);
+            const current = document.querySelector('input[name="metadata"]');
+            const newValue = JSON.stringify(metadata.state, metadata.replacer);
+            if (current.value !== newValue) {
+                document.querySelector('input[name="metadata"]').value = newValue;
+                document.querySelector('[data-name="metadata_text"]').textContent =
+                    document.querySelector('#id_stack_metadata').getAttribute('data-change');
+            }
             super.hide();
         }
     }

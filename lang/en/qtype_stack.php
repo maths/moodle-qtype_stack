@@ -422,6 +422,7 @@ $string['additionalmetadata'] = 'Additional metadata';
 $string['novalidmetadata'] = 'No valid metadata';
 $string['metadata'] = 'Metadata';
 $string['metadatahighlights'] = 'Metadata';
+$string['metadatachange'] = 'Please save your changes.';
 $string['firstname'] = 'First name';
 $string['lastname'] = 'Last name';
 $string['institution'] = 'Institution';

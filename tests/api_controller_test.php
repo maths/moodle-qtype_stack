@@ -174,7 +174,7 @@ final class api_controller_test extends qtype_stack_testcase {
         $this->assertEquals(0, count($this->output->iframes));
         $this->assertEquals(false, $this->output->isinteractive);
         $this->assertEquals(
-            "\\({\\left[\\begin{array}{cc} 5 & 5 \\\\ 4 & 4 \\end{array}\\right]}.{\\left[\\begin{array}{cc} " . 
+            "\\({\\left[\\begin{array}{cc} 5 & 5 \\\\ 4 & 4 \\end{array}\\right]}.{\\left[\\begin{array}{cc} " .
             "2 & 4 \\\\ 5 & 2 \\end{array}\\right]}={\\left[\\begin{array}{cc} 35 & 30 \\\\ 28 & 24 \\end{array}\\right]}\\)",
             $this->output->questionnote
         );
@@ -211,11 +211,16 @@ final class api_controller_test extends qtype_stack_testcase {
         $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('plots');
         $rc = new RenderController();
         $rc->__invoke($this->request, $this->response, []);
-        $this->assertEquals(4, count((array)$this->output->questionassets));
+        $this->assertEquals(9, count((array)$this->output->questionassets));
         $this->assertEquals(true, isset($this->output->questionassets->{'input-ans1-1-0.svg'}));
         $this->assertEquals(true, isset($this->output->questionassets->{'input-ans1-2-0.svg'}));
         $this->assertEquals(true, isset($this->output->questionassets->{'input-ans1-3-0.svg'}));
         $this->assertEquals(true, isset($this->output->questionassets->{'input-ans1-4-0.svg'}));
+        $this->assertEquals(true, isset($this->output->questionassets->{'note-ans1-0.svg'}));
+        $this->assertEquals(true, isset($this->output->questionassets->{'note-ans1-1.svg'}));
+        $this->assertEquals(true, isset($this->output->questionassets->{'note-ans1-2.svg'}));
+        $this->assertEquals(true, isset($this->output->questionassets->{'note-ans1-3.svg'}));
+        $this->assertEquals(true, isset($this->output->questionassets->{'note-ans1-4.svg'}));
         $this->assertEquals(false, $this->output->isinteractive);
     }
 

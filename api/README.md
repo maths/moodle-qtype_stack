@@ -81,6 +81,7 @@ The response is again a JSON document, with the following fields:
 - an int array `questionvariants` containing all variant seeds of the question
 - an array of arrays `iframes` of arguments to create iframes to hold JS panels e.g. JSXGraph, GeoGebra
 - a boolean field `isinteractive`, indicating if the question contains elements preventing a static representation. If true, a printed version of the question would make no sense
+- a string field `questionnote`, containing the rendered questionnote of the question
 
 The input configuration consists of the following fields:
 

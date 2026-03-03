@@ -133,13 +133,13 @@ class RenderController {
 
         // Necessary, as php will otherwise encode this as an empty array, instead of an empty object.
         $renderresponse->questioninputs = (object) $inputs;
-
-        $renderresponse->questionassets = (object) $plots;
-
         $renderresponse->questionseed = $question->seed;
         $renderresponse->questionvariants = $question->deployedseeds;
         $renderresponse->iframes = StackIframeHolder::$iframes;
         $renderresponse->isinteractive = $question->is_interactive();
+        $renderresponse->questionnote = $question->get_question_summary();
+        StackPlotReplacer::replace_plots($plots, $renderresponse->questionnote, "note-" . $name, $storeprefix);
+        $renderresponse->questionassets = (object) $plots;
 
         if (!empty($data['fullRender'])) {
             // Request for full rendering. We replace placeholders with input renders and basic feedback and validation divs.

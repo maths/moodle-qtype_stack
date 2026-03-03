@@ -180,6 +180,10 @@ require_login();
           <h2>General feedback:</h2>
           <div id="generalfeedback" class="feedback"></div>
         </div>
+        <div id="stackapi_questionnote" class="col-lg-8" style="display: none">
+          <h2>Question note:</h2>
+          <div id="questionnote" class="feedback"></div>
+        </div>
         <h2 id="stackapi_score" style="display: none">Score: <span id="score"></span></h2>
         <div id="stackapi_summary" class="col-lg-10" style="display: none">
           <h2><?php echo stack_string('api_response')?>:</h2>

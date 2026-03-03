@@ -173,6 +173,11 @@ final class api_controller_test extends qtype_stack_testcase {
         $this->assertEquals(3, count($this->output->questionvariants));
         $this->assertEquals(0, count($this->output->iframes));
         $this->assertEquals(false, $this->output->isinteractive);
+        $this->assertEquals(
+            "\\({\\left[\\begin{array}{cc} 5 & 5 \\\\ 4 & 4 \\end{array}\\right]}.{\\left[\\begin{array}{cc} " . 
+            "2 & 4 \\\\ 5 & 2 \\end{array}\\right]}={\\left[\\begin{array}{cc} 35 & 30 \\\\ 28 & 24 \\end{array}\\right]}\\)",
+            $this->output->questionnote
+        );
     }
 
     public function test_full_render(): void {

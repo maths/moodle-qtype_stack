@@ -1,0 +1,168 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template qtype_stack/questionreportquestion
+
+    Template purpose and description.
+
+    Classes required for JS:
+    * none
+
+    Data attributes required for JS:
+    * none
+
+    Context variables required for this template:
+    * none
+
+    Example context (json):
+    {
+    "question": {
+        "name": "Question name",
+        "text": "Text",
+        "deployedseeds": true,
+        "hasvariants": true,
+        "vars": "a1 : 1+rand(6);"
+    },
+    "summary": {
+        "prts": [
+            {
+                "prtname": "prt1",
+                "graph_svg": "<svg><\/svg>",
+                "graph_text": "<table><\/table>",
+                "maxima": "maxima text",
+                "sumout": "## prt1 (2)\n1 ( 50.00%); # = 0 | ATInt_generic. ATInt_var_SB_notSA. | prt1-1-F\n1 ( 50.00%); # = 0 | ATInt_generic. | prt1-1-F"
+            }
+        ],
+        "tot": {
+            "prt1": 2
+        }
+    },
+    "notesummary": {
+        "prts": [
+            {
+                "prtname": "prt1",
+                "graph_svg": "<svg><\/svg>",
+                "graph_text": "<table><\/table>",
+                "sumout": "## prt1 (2)\n2 (100.00%); # = 0\n1 ( 50.00%); ATInt_generic.\n1 ( 50.00%); ATInt_generic. ATInt_var_SB_notSA.\n2 (100.00%); prt1-1-F\n\n"
+            }
+        ]
+    },
+    "variants": {
+        "variants": [
+            {
+                "seed": 399724897,
+                "notes": "<span><\/span>",
+                "notessumout": "## prt1 (1)\n1 (100.00%); # = 0 | ATInt_generic. ATInt_var_SB_notSA. | prt1-1-F\n1 (100.00%); ans1:34; \n\n\n",
+                "anssumout": "## ans1 (1)\n### score\n1 (100.00%); 34\n\n"
+            },
+            {
+                "seed": 799651125,
+                "notes": "<span><\/span>",
+                "notessumout": "## prt1 (1)\n1 (100.00%); # = 0 | ATInt_generic. | prt1-1-F\n1 (100.00%); ans1:x-3; \n\n\n",
+                "anssumout": "## ans1 (1)\n### score\n1 (100.00%); x-3\n\n"
+            }
+        ]
+    },
+    "inputs": {
+        "inputs": "## ans1 (2)\n### score\n1 ( 50.00%); 34\n1 ( 50.00%); x-3\n\n"
+    },
+    "rawdata": {
+        "rawdata": "\n# 4 (1)\n1 (100.00%); Seed: 399724897; ans1: 34 [score]; prt1: # = 0 | ATInt_generic. ATInt_var_SB_notSA. | prt1-1-F\n\n# 2 (1)\n1 (100.00%); Seed: 799651125; ans1: x-3 [score]; prt1: # = 0 | ATInt_generic. | prt1-1-F\n"
+    },
+    "quizzes": [
+        {
+            "quizcontextid": "102",
+            "name": "Analysis input",
+            "coursecontextid": "21",
+            "coursename": "Course 1",
+            "url": "ReportURL",
+            "active": true
+        }
+    ],
+    "general": {
+        "testquestionlink": "DashboardURL",
+        "previewquestionlink": "PreviewURL"
+    }
+  }
+}}
+
+<div class="qtype_stack_question_report">
+    <!-- Dashboard and preview links -->
+
+  <h2>{{question.name}}</h2>
+  <p>{{#str}} version, qtype_stack {{/str}} {{question.version}}<p>
+
+  <ul class="nav">
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" href="{{{general.editquestionlink}}}">{{#str}} editquestioninthequestionbank, qtype_stack {{/str}}</a>
+    </li>
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" href="{{{general.editxmllink}}}">{{#str}} editxml, qtype_stack {{/str}}</a>
+    </li>
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" href="{{{general.questionbanklink}}}">{{#str}} seethisquestioninthequestionbank, qtype_stack {{/str}}</a>
+    </li>
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" href="{{{general.chatlink}}}">{{#str}} sendgeneralfeedback, qtype_stack {{/str}}</a>
+    </li>
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" href="{{{general.tidylink}}}">{{#str}} tidyquestion, qtype_stack {{/str}}</a>
+    </li>
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" href="{{{general.exportquestionlink}}}">{{#str}} exportthisquestion, qtype_stack {{/str}}</a>
+    </li>
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" href="{{{general.reportlink}}}">{{#str}} basicquestionreport, qtype_stack {{/str}}</a>
+    </li>
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" href="{{{general.todolink}}}">{{#str}} seetodolist, qtype_stack {{/str}}</a>
+    </li>
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" href="{{{general.bulktestlink}}}">{{#str}} bulktestquiz, qtype_stack {{/str}}</a>
+    </li>
+  </ul>
+
+  <!-- Tab headers -->
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <a class="nav-link active" href="#test-pane" id="test-tab" data-bs-toggle="tab" data-toggle="tab" role="tab" aria-controls="test-pane" aria-selected="true">{{#str}} tests, qtype_stack {{/str}}</a>
+    </li>
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" href="#question-pane" id="question-tab" data-bs-toggle="tab" data-toggle="tab" role="tab" aria-controls="question-pane" aria-selected="false">{{#str}} question, core {{/str}}</a>
+    </li>
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" href="#variants-pane" id="variants-tab" data-bs-toggle="tab" data-toggle="tab" role="tab" aria-controls="variants-pane" aria-selected="false">{{#str}} variants, qtype_stack {{/str}}</a>
+    </li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div class="tab-pane active mt-3" id="test-pane" role="tabpanel" aria-labelledby="test-tab">
+      {{#general.canedit}}{{#tests.demotest}}
+        <button class="btn btn-danger" type="button" onclick="window.location.href='{{{general.defaulttestlink}}}'">
+          {{#str}} runquestiontests_autoprompt, qtype_stack {{/str}}
+        </button>
+      {{tests.demotest}}{{/general.canedit}}
+      {{#tests.demotest}}
+        {{#str}} runquestiontests_explanation {{/str}}
+      {{/tests.demotest}}
+    </div>
+    <div class="tab-pane mt-3" id="question-pane" role="tabpanel" aria-labelledby="question-tab">
+
+    </div>
+    <div class="tab-pane mt-3" id="variants-pane" role="tabpanel" aria-labelledby="variants-tab">
+

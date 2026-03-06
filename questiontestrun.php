@@ -59,7 +59,8 @@ $question = question_bank::load_question($questionid);
 
 // Process any other URL parameters, and do require_login.
 [$context, $seed, $urlparams] = qtype_stack_setup_question_test_page($question);
-
+unset($urlparams['sesskey']);
+unset($urlparams['defaulttestcase']);
 // Check permissions.
 question_require_capability_on($questiondata, 'view');
 $canedit = question_has_capability_on($questiondata, 'edit');
@@ -98,6 +99,9 @@ $questionbanklink = new moodle_url('/question/edit.php', $qbankparams);
 $exportquestionlink = new moodle_url('/question/bank/exporttoxml/exportone.php', $exportparams);
 $exportquestionlink->param('sesskey', sesskey());
 $todolink = new moodle_url('/question/type/stack/adminui/todo.php', $todoparams);
+$reportlink = new moodle_url('/question/type/stack/questiontestreport.php', $urlparams);
+$bulktestlink = new moodle_url('/question/type/stack/questionbulktest.php', $urlparams);
+$pagelink = new moodle_url('/question/type/stack/questiontestrun.php', $urlparams);
 
 // We've chosen not to send a specific seed since it is helpful to test the general feedback in a random context.
 $chatparams = $urlparams;
@@ -111,9 +115,20 @@ if (optional_param('defaulttestcase', null, PARAM_INT) && $canedit && $question-
 // Start output.
 echo $OUTPUT->header();
 $initialdata = $dashboard->initial_load();
+$initialdata->question->version = $qversion;
 $initialdata->general = new Stdclass();
 $initialdata->general->editquestionlink = $questionbanklinkedit->out();
 $initialdata->general->editxmllink = $questionxmllink->out();
+$initialdata->general->questionbanklink = $questionbanklink->out();
+$initialdata->general->chatlink = $chatlink->out();
+$initialdata->general->tidylink = $question->qtype->get_tidy_question_url($question);
+$initialdata->general->exportquestionlink = $exportquestionlink->out();
+$initialdata->general->reportlink = $reportlink->out();
+$initialdata->general->todolink = $todolink->out();
+$initialdata->general->bulktestlink = $bulktestlink->out();
+$initialdata->general->pagelink = $pagelink->out();
+$initialdata->general->canedit = $canedit;
+$initialdata->general->sesskey = sesskey();
 echo $OUTPUT->render_from_template('qtype_stack/questiontestrun', $initialdata);
 $variantdata = $dashboard->list_variants();
 echo $OUTPUT->render_from_template('qtype_stack/questiontestrunvariants', $variantdata);

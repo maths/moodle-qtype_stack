@@ -73,6 +73,7 @@ class stack_question_dashboard {
         global $PAGE;
         $renderer = $PAGE->get_renderer('qtype_stack');
         $output = new StdClass();
+        $output->name = $this->question->name;
         $generalfeedback = $this->question->get_generalfeedback_castext();
         $output->rendergeneralfeedback = $renderer->general_feedback($this->quba->get_question_attempt($this->slot));
         $output->generalfeedbackerr = $generalfeedback->get_errors();
@@ -102,7 +103,6 @@ class stack_question_dashboard {
     public function create_default_test() {
         $defaulttest = stack_bulk_tester::create_default_test($this->question);
         question_bank::get_qtype('stack')->save_question_test($this->question->id, $defaulttest);
-        $testscases = question_bank::get_qtype('stack')->load_question_tests($this->question->id);
     }
 
     public function initial_load() {

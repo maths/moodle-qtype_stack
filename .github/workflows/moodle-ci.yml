@@ -65,7 +65,7 @@ jobs:
         run: |
           maxima="${{ (matrix.maxima == 'SBCL' && 'sbcl') || 'gcl' }}"
           wget http://mirrors.kernel.org/ubuntu/pool/main/r/readline/libreadline7_7.0-3_amd64.deb \
-               https://sourceforge.net/projects/maxima/files/Maxima-Linux-RPM/5.42.2-Linux/maxima-common_5.42.2-1_all.deb/download \
+               https://sourceforge.net/projects/maxima/files/Maxima-Linux-RPM/5.42.2-Linux/maxima-common_5.42.2-1_all.deb \
                https://sourceforge.net/projects/maxima/files/Maxima-Linux-RPM/5.42.2-Linux/maxima-${maxima}_5.42.2-1_amd64.deb
 
           sudo locale-gen en_AU.UTF-8

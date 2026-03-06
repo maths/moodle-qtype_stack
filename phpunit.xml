@@ -2,3 +2,4 @@
 <phpunit
   displayDetailsOnPhpunitWarnings="true"
 >
+</phpunit>

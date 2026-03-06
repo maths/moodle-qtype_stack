@@ -229,7 +229,7 @@ jobs:
 
       - name: PHPUnit tests
         if: ${{ matrix.moodle-branch == 'main' || matrix.moodle-branch == 'MOODLE_405_STABLE'}}
-        run: moodle-plugin-ci phpunit --configuration "phpunit.xml"
+        run: moodle-plugin-ci phpunit --display-notices
 
       - name: Behat features
         if: ${{ always() }}

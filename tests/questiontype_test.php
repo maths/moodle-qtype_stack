@@ -875,17 +875,17 @@ final class questiontype_test extends qtype_stack_walkthrough_test_base {
         );
         $this->assertEquals(FORMAT_HTML, $question->generalfeedbackformat);
         $this->assertEquals(
-            '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             $question->prtcorrect['text']
         );
         $this->assertEquals(FORMAT_HTML, $question->prtpartiallycorrect['format']);
         $this->assertEquals(
-            '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.',
+            '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] [[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             $question->prtpartiallycorrect['text']
         );
         $this->assertEquals(FORMAT_HTML, $question->prtincorrect['format']);
         $this->assertEquals(
-            '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             $question->prtincorrect['text']
         );
         $this->assertEquals(FORMAT_HTML, $question->prtcorrect['format']);

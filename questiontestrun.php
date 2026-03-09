@@ -129,7 +129,22 @@ $initialdata->general->bulktestlink = $bulktestlink->out();
 $initialdata->general->pagelink = $pagelink->out();
 $initialdata->general->canedit = $canedit;
 $initialdata->general->sesskey = sesskey();
+$initialdata->question->deployfeedback = optional_param('deployfeedback', null, PARAM_TEXT);
+$initialdata->question->deployfeedbackerr = optional_param('deployfeedbackerr', null, PARAM_TEXT);
+$dashboard->create_progress_bar();
 echo $OUTPUT->render_from_template('qtype_stack/questiontestrun', $initialdata);
+foreach($initialdata->tests->results as $key => $result) {
+    $test = new StdClass();
+    $test->output = $result->html_output($question, $key);
+    $testeditlink = new moodle_url('/question/type/stack/questiontestedit.php', array_merge($urlparams, ['testcase' => $key]));
+    $testconfirmlink = new moodle_url('/question/type/stack/questiontestedit.php', array_merge($urlparams, ['testcase' => $key, 'confirmthistestcase' => true]));
+    $testdeletelink = new moodle_url('/question/type/stack/questiontestdelete.php', array_merge($urlparams, ['testcase' => $key]));
+    $test->editlink = $testeditlink->out();
+    $test->confirmlink = $testconfirmlink->out();
+    $test->deletelink = $testdeletelink->out();
+    $test->canedit = $canedit;
+    echo $OUTPUT->render_from_template('qtype_stack/questiontestruntest', $test);
+}
 $variantdata = $dashboard->list_variants();
 echo $OUTPUT->render_from_template('qtype_stack/questiontestrunvariants', $variantdata);
 

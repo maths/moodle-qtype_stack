@@ -151,18 +151,50 @@
 
   <!-- Tab panes -->
   <div class="tab-content">
+    <div class="tab-pane mt-3" id="question-pane" role="tabpanel" aria-labelledby="question-tab">
+      <h3>{{#str}} questionvariablevalues, qtype_stack {{/str}}</h3>
+      <div class="questionvariablevalues"><pre>{{question.questionvariablevalues}}</pre></div>
+      <details>
+        <summary>{{#str}} prts, qtype_stack {{/str}}</summary>
+        <div class="questionvariables"><pre>{{question.prts}}</pre></div>
+      </details>
+      <h3>{{#str}} questionpreview, qtype_stack {{/str}}</h3>
+      {{{question.renderquestion}}}
+      <h3>{{#str}} generalfeedback, qtype_stack {{/str}}</h3>
+      <div class="que"><div class="outcome generalfeedback">{{{question.rendergeneralfeedback}}}</div></div>
+      <h3>{{#str}} questiondescription, qtype_stack {{/str}}</h3>
+      <div class="que"><div class="outcome generalfeedback">{{{question.renderquestiondescription}}}</div></div>
+      {{#question.questiondescription}}
+        <div class="que"><pre class="outcome generalfeedback">{{question.questiondescription}}</pre></div>
+      {{/question.questiondescription}}
+      <p>{{question.stackversion}}</p>
+    </div>
     <div class="tab-pane active mt-3" id="test-pane" role="tabpanel" aria-labelledby="test-tab">
       {{#general.canedit}}{{#tests.demotest}}
         <button class="btn btn-danger" type="button" onclick="window.location.href='{{{general.defaulttestlink}}}'">
           {{#str}} runquestiontests_autoprompt, qtype_stack {{/str}}
         </button>
-      {{tests.demotest}}{{/general.canedit}}
+      {{/tests.demotest}}{{/general.canedit}}
       {{#tests.demotest}}
         {{#str}} runquestiontests_explanation {{/str}}
       {{/tests.demotest}}
-    </div>
-    <div class="tab-pane mt-3" id="question-pane" role="tabpanel" aria-labelledby="question-tab">
+      {{#question.deployfeedback}}
+        <p class="overallresult pass">{{question.deployfeedback}}</p>
+      {{/question.deployfeedback}}
+      {{#question.deployfeedbackerr}}
+        <p class="overallresult fail">{{question.deployfeedback}}</p>
+      {{/question.deployfeedbackerr}}
+      {{#question.upgradeerrors}}
+        <p class="fail">{{question.upgradeerrors}}</p>
+      {{/question.upgradeerrors}}
+      {{#question.validationerrors}}
+        <p class="fail">{{question.validationerrors}}</p>
+      {{/question.validationerrors}}
+      {{#question.tests.results.0}}
+        <h2>{{#str}} runquestiontests_autoprompt, qtype_stack {{/str}}</h2>
+      {{/question.tests.results.0}}
 
-    </div>
-    <div class="tab-pane mt-3" id="variants-pane" role="tabpanel" aria-labelledby="variants-tab">
+
+
+
 

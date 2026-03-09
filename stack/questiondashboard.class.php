@@ -46,6 +46,10 @@ class stack_question_dashboard {
      * @var int Question slot
      */
     public $slot;
+    /**
+     * @var object Variant progress bar.
+     */
+    public $progress;
 
     public function __construct(object $question, int|null $seed, object $context) {
         $this->question = $question;
@@ -81,7 +85,7 @@ class stack_question_dashboard {
         $questiondescription = $this->question->get_questiondescription_castext();
         $output->renderquestiondescription = $renderer->question_description($this->quba->get_question_attempt($this->slot));
         //Not currently displayed:
-        $output->questiondescription = $questiondescription->get_errors();
+        $output->questiondescription = trim($questiondescription->get_errors());
         // Prepare the display options.
         $options = question_display_options();
         // Store a rendered version of the blank question here.
@@ -97,6 +101,11 @@ class stack_question_dashboard {
             $offlinemaxima[] = $prt->get_maxima_representation();
         }
         $output->prts = s(implode("\n", $offlinemaxima));
+        $output->stackversion = ($this->question->stackversion == null) ?
+            stack_string('stackversionnone') :
+            stack_string('stackversionedited', $this->question->stackversion) .
+            stack_string('stackversionnow', get_config('qtype_stack', 'version'));
+
         return $output;
     }
 
@@ -110,6 +119,10 @@ class stack_question_dashboard {
         $output->question = $this->question_details();
         $output->tests = $this->run_test_cases();
         return $output;
+    }
+
+    public function create_progress_bar() {
+        $this->progress = new progress_bar('testingquestionvariants', 500, true);
     }
 
     public function run_test_cases() {
@@ -155,7 +168,6 @@ class stack_question_dashboard {
         if (!empty($this->question->deployedseeds)) {
             $a = ['total' => count($this->question->deployedseeds), 'done' => 0];
             $progressevery = (int) min(max(1, count($this->question->deployedseeds) / 500), 100);
-            $pbar = new progress_bar('testingquestionvariants', 500, true);
             foreach ($this->question->deployedseeds as $key => $deployedseed) {
                 $variant = $this->get_variant($key, $deployedseed);
                 $output->notes[] = $variant;
@@ -163,7 +175,7 @@ class stack_question_dashboard {
                 $a['done'] += 1;
                 if ($a['done'] % $progressevery == 0 || $a['done'] == $a['total']) {
                     core_php_time_limit::raise(60);
-                    $pbar->update($a['done'], $a['total'], get_string('testingquestionvariants', 'qtype_stack', $a));
+                    $this->progress->update($a['done'], $a['total'], get_string('testingquestionvariants', 'qtype_stack', $a));
                 }
             }
         }

@@ -93,6 +93,10 @@ class maxima_parser_utils {
         }
         */
 
+        // Fix to issue #1661.
+        if (trim($code) == '') {
+            return new MP_Root([]);
+        }
         $parser = $parseoptions->get_parser();
         $ast = $parser->parse($parseoptions->get_lexer($code));
 

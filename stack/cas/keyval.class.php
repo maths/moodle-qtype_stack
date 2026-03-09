@@ -97,11 +97,10 @@ class stack_cas_keyval {
             return true;
         }
 
-        $str = $this->raw;
+        $str = maxima_parser_utils::remove_comments($this->raw);
         // phpcs:disable Squiz.PHP.CommentedOutCode.Found
         /* TO-DO: if we accept $ and @ in the new parser ignore these.
         // Protect things inside strings before we do QMCHAR tricks, and check for @, $.
-        $str = maxima_parser_utils::remove_comments($this->raw);
 
         // Check again whether the string is now empty.
         if (trim($str) == '') {

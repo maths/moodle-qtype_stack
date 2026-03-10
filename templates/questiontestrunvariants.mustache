@@ -102,7 +102,74 @@
 
     </div>
     <div class="tab-pane mt-3" id="variants-pane" role="tabpanel" aria-labelledby="variants-tab">
-Stuff
+        <h3>
+            {{#notes.0}}
+                {{#str}} deployedvariantsn, qtype_stack, {{deployedcount}} {{/str}}
+            {{/notes.0}}
+            {{^notes.0}}
+                {{#str}} deployedvariants, qtype_stack {{/str}}
+            {{/notes.0}}
+        </h3>
+        {{^hasrandomvariants}}
+            <p>{{#str}} questiondoesnotuserandomisation, qtype_stack {{/str}} <a href="{{{previewurl}}}">{{#pix}}t/preview, core, {{#str}} preview, core {{/str}}{{/pix}}</a></p>
+        {{/hasrandomvariants}}
+        {{^notes.0}}
+            {{#hasrandomvariants}}
+                <p>{{#str}} runquestiontests_alert, qtype_stack {{/str}} <a href="{{{previewurl}}}">{{#pix}}t/preview, core, {{#str}} preview, core {{/str}}{{/pix}}</a></p>
+            {{/hasrandomvariants}}
+        {{/notes.0}}
+        {{#duplicateerror}}
+            <p>{{#str}} deployduplicateerror, qtype_stack {{/str}}</p>
+        {{/duplicateerror}}
+        {{#notes.0}}
+            <table class="generaltable stacktestsuite">
+                <tr>
+                    <th>{{#str}} variant, qtype_stack {{/str}}</th>
+                    <th>{{#str}} questionnote, qtype_stack {{/str}}</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+        {{/notes.0}}
+        {{#notes}}
+            <tr>
+                <td>
+                    {{#iscurrentvariant}}
+                        <strong title="{{#str}} currentlyselectedvariant, qtype_stack {{/str}}">{{deployedseed}}</strong>
+                    {{/iscurrentvariant}}
+                    {{^iscurrentvariant}}
+                        <a href="{{{qurl}}}" title="{{#str}} testthisvariant, qtype_stack {{/str}}">{{deployedseed}}</a>
+                    {{/iscurrentvariant}}
+                    <a href="{{{previewurl}}}">{{#pix}}t/preview, core, {{#str}} preview, core {{/str}}{{/pix}}</a>
+                    {{#canedit}}
+                        <a href="{{{deletelink}}}">{{#pix}}t/delete, core, {{#str}} undeploy, qtype_stack {{/str}}{{/pix}}</a>
+                    {{/canedit}}
+                </td>
+                <td>
+                    {{{questionnoterendered}}}
+                </td>
+                <td>
+                    {{#bulktestresultspass}}
+                        {{#pix}}t/check, core, {{#str}} questiontestspass, qtype_stack {{/str}}{{/pix}}
+                    {{/bulktestresultspass}}
+                </td>
+                <td>
+                    {{{bulktestresults}}}
+                </td>
+            </tr>
+        {{/notes}}
+        {{^variantmatched}}
+            <div class="undeployedvariant">
+                <b>{{#str}} showingundeployedvariant, qtype_stack, seed {{/str}}</b>
+                {{#canedit}}
+                {{/canedit}}
+            </div>
+        {{/variantmatched}}
+        {{#notes.0}}
+            {{#canedit}}
+            {{/canedit}}
+        {{/notes.0}}
+        {{#hasrandomvariants}}
+        {{/hasrandomvariants}}
     </div>
   </div>
 </div>

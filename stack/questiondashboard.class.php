@@ -139,7 +139,7 @@ class stack_question_dashboard {
         if (empty($testscases) && $this->question->inputs !== []) {
             $defaulttest = stack_bulk_tester::create_default_test($this->question);
             $defaulttestresult = $defaulttest->test_question($this->question->id, $this->question->seed, $this->context);
-            $output->results[] = $defaulttestresult->html_output($this->question, stack_string('runquestiontests_example'));
+            $output->results[stack_string('runquestiontests_example')] = $defaulttestresult;
             $output->demotest = true;
         }
 
@@ -159,17 +159,19 @@ class stack_question_dashboard {
         $output->duplicateerror = false;
         $questionnotes = [];
         $output->notes = [];
+        $output->deployedcount = 0;
+        $output->seed = $this->question->seed;
 
-
-        if (!$this->question->has_random_variants()) {
-            $output->hasvariants = false;
-        }
+        $output->hasrandomvariants = $this->question->has_random_variants() ? true : false;
+        $output->variantmatched = !$output->hasrandomvariants;
 
         if (!empty($this->question->deployedseeds)) {
-            $a = ['total' => count($this->question->deployedseeds), 'done' => 0];
+            $output->deployedcount = count($this->question->deployedseeds);
+            $a = ['total' => $output->deployedcount, 'done' => 0];
             $progressevery = (int) min(max(1, count($this->question->deployedseeds) / 500), 100);
             foreach ($this->question->deployedseeds as $key => $deployedseed) {
                 $variant = $this->get_variant($key, $deployedseed);
+                $output->variantmatched = ($variant->iscurrentvariant) ? true : $output->variantmatched;
                 $output->notes[] = $variant;
                 $questionnotes[] = $variant->questionnote;
                 $a['done'] += 1;
@@ -178,6 +180,9 @@ class stack_question_dashboard {
                     $this->progress->update($a['done'], $a['total'], get_string('testingquestionvariants', 'qtype_stack', $a));
                 }
             }
+        } else {
+            $previewurl = qbank_previewquestion\helper::question_preview_url($this->question->id, null, null, null, null, $this->context);
+            $output->previewurl = $previewurl->out();
         }
         // phpcs:ignore moodle.Commenting.MissingDocblock.Function
         function sort_by_note($a1, $b1) {
@@ -201,14 +206,19 @@ class stack_question_dashboard {
     }
 
     function get_variant($key, $deployedseed) {
+        global $PAGE;
         $output = new StdClass();
         $output->iscurrentvariant = false;
         $output->isdeployed = false;
+        $output->deployedseed = $deployedseed;
         if (!is_null($this->question->seed) && $this->question->seed == $deployedseed) {
             $output->iscurrentvariant = true;
         }
 
-        $qurl = qbank_previewquestion\helper::question_preview_url($this->question->id, null, null, null, $key + 1, $this->context);
+        $previewurl = qbank_previewquestion\helper::question_preview_url($this->question->id, null, null, null, $key + 1, $this->context);
+        $output->previewurl = $previewurl->out();
+        $qurl = new moodle_url($PAGE->url, ['seed' => $deployedseed]);
+        $output->qurl = $qurl->out();
 
         $bulktestresults = [false, ''];
         if (optional_param('testall', null, PARAM_INT)) {
@@ -231,6 +241,7 @@ class stack_question_dashboard {
         // Check for duplicate question notes.
         $output->questionnote = $qn->get_question_summary();
         $output->questionnoterendered = stack_ouput_castext($output->questionnote);
+        $output->bulktestresultspass = $bulktestresults[0] ? true : false;
         $output->bulktestresults = $bulktestresults[1];
 
         return $output;

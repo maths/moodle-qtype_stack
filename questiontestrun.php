@@ -92,12 +92,13 @@ $todoparams = $qbankparams;
 $todoparams['contextid'] = $question->contextid;
 $exportparams = $urlparams;
 $exportparams['id'] = $question->id;
+$sesskey = sesskey();
 
 $questionbanklinkedit = new moodle_url('/question/type/stack/questioneditlatest.php', $editparams);
 $questionxmllink = new moodle_url('/question/type/stack/questionxmledit.php', $editparams);
 $questionbanklink = new moodle_url('/question/edit.php', $qbankparams);
 $exportquestionlink = new moodle_url('/question/bank/exporttoxml/exportone.php', $exportparams);
-$exportquestionlink->param('sesskey', sesskey());
+$exportquestionlink->param('sesskey', $sesskey);
 $todolink = new moodle_url('/question/type/stack/adminui/todo.php', $todoparams);
 $reportlink = new moodle_url('/question/type/stack/questiontestreport.php', $urlparams);
 $bulktestlink = new moodle_url('/question/type/stack/questionbulktest.php', $urlparams);
@@ -128,7 +129,6 @@ $initialdata->general->todolink = $todolink->out();
 $initialdata->general->bulktestlink = $bulktestlink->out();
 $initialdata->general->pagelink = $pagelink->out();
 $initialdata->general->canedit = $canedit;
-$initialdata->general->sesskey = sesskey();
 $initialdata->question->deployfeedback = optional_param('deployfeedback', null, PARAM_TEXT);
 $initialdata->question->deployfeedbackerr = optional_param('deployfeedbackerr', null, PARAM_TEXT);
 $dashboard->create_progress_bar();
@@ -146,6 +146,15 @@ foreach($initialdata->tests->results as $key => $result) {
     echo $OUTPUT->render_from_template('qtype_stack/questiontestruntest', $test);
 }
 $variantdata = $dashboard->list_variants();
+
+foreach($variantdata->notes as $variant) {
+    $variant->canedit = $canedit;
+    $vdeletelink = new moodle_url(
+        '/question/type/stack/deploy.php',
+        $urlparams + ['undeploy' => $deployedseed, 'sesskey' => $sesskey]
+    );
+    $variant->deletelink = $vdeletelink->out();
+}
 echo $OUTPUT->render_from_template('qtype_stack/questiontestrunvariants', $variantdata);
 
 echo $OUTPUT->footer();

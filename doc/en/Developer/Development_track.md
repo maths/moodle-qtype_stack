@@ -22,7 +22,8 @@ Changes and new features.
 5. Much code tidying to comply with updated to Moodle Code Checker.
 6. Add in suppport for `style` in Parsons blocks.  E.g. you can now use `style="compact"` to get smaller, tighter items.
 7. Facilitate bulk test for questions in a particular quiz.  (Issue #1521)  Follow the link from the question dashboard to see quizzes in which that question is used.
-8. STACK library now imports whole quizzes - look for a `.json` file in the library.
+8. Add in support for [local stack libraries](../STACK_question_admin/Library/index.md) of questions in the `stack/sitelibrary` directory within the Moodle data directory.
+9. STACK library now imports whole quizzes - look for a `.json` file in the library.
 
 Issues with [github milestone 4.12.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.12.0) include
 

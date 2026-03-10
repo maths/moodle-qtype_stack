@@ -37,17 +37,19 @@ You can use the question library to import a whole folder of questions, or a qui
 
 Some directories have quiz files which are stored as `.json` files in the directories.  If you import this file then STACK will create a simple quiz.   Which questions, the order in quiz, pagination, etc. are imported.  Assessment policies such as behaviour (e.g. adaptive mode), due date, number of attempts and so on need to be set by hand.
 
+# Local site libraries
+
+Additional libraries of STACK questions can be installed on your Moodle server. Once STACK is installed, there will be a `stack/sitelibrary` directory within the Moodle data directory. STACK will interpret each top-level subdirectory of `stack/sitelibrary` as a separate library and allow you to switch between them (and the STACK question library) using a dropdown on the library page displaying subdirectory names. Ask your server administrator to copy a library you wish to use into a suitably named subdirectory in `stack/sitelibrary`. After any update to an installed library, the Moodle MUC cache will need to be cleared.
+
+Note, questions in `stack/sitelibrary` will be available to any teacher on this moodle site to import.
+
 # Moodle courses released with STACK #
 
 STACK is released with a demonstration course.
 
      /qtype_stack/samplequestions/STACK-demo.mbz
 
-We have also release a course containing all the HELM materials, which are comprehensive courses in engineering mathematics.
-
-     /qtype_stack/samplequestions/HELM_Sept_23.mbz
-
-You can "restore" these into your version of Moodle.  It has a number of quizzes, pre-created with questions and deployed variants.  It also has a large question bank, with questions not arranged into quizzes.
+You can "restore" this into your version of Moodle.  It has a number of quizzes, pre-created with questions and deployed variants.  It also has a large question bank, with questions not arranged into quizzes.
 
 # Open Educational Resources #
 

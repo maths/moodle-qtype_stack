@@ -253,13 +253,13 @@ final class questiontype_test extends qtype_stack_walkthrough_test_base {
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
     <prtcorrect format="html">
-      <text><![CDATA[<p>Correct answer, well done.</p>]]></text>
+      <text><![CDATA[<p>[[commonstring key="defaultprtcorrectfeedback"/]]</p>]]></text>
     </prtcorrect>
     <prtpartiallycorrect format="html">
-      <text><![CDATA[<p>Your answer is partially correct.</p>]]></text>
+      <text><![CDATA[<p>[[commonstring key="defaultprtpartiallycorrectfeedback"/]]</p>]]></text>
     </prtpartiallycorrect>
     <prtincorrect format="html">
-      <text><![CDATA[<p>Incorrect answer.</p>]]></text>
+      <text><![CDATA[<p>[[commonstring key="defaultprtincorrectfeedback"/]]</p>]]></text>
     </prtincorrect>
     <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
@@ -378,13 +378,13 @@ final class questiontype_test extends qtype_stack_walkthrough_test_base {
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
     <prtcorrect format="html">
-      <text><![CDATA[<p>Correct answer, well done.</p>]]></text>
+      <text><![CDATA[<p>[[commonstring key="defaultprtcorrectfeedback"/]]</p>]]></text>
     </prtcorrect>
     <prtpartiallycorrect format="html">
-      <text><![CDATA[<p>Your answer is partially correct.</p>]]></text>
+      <text><![CDATA[<p>[[commonstring key="defaultprtpartiallycorrectfeedback"/]]</p>]]></text>
     </prtpartiallycorrect>
     <prtincorrect format="html">
-      <text><![CDATA[<p>Incorrect answer.</p>]]></text>
+      <text><![CDATA[<p>[[commonstring key="defaultprtincorrectfeedback"/]]</p>]]></text>
     </prtincorrect>
     <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
@@ -572,15 +572,15 @@ final class questiontype_test extends qtype_stack_walkthrough_test_base {
         $expectedq->assumepositive        = 0;
         $expectedq->assumereal            = 0;
         $expectedq->prtcorrect            = [
-            'text' => '<p>Correct answer, well done.</p>',
+            'text' => '<p>[[commonstring key="defaultprtcorrectfeedback"/]]</p>',
             'format' => FORMAT_HTML, 'files' => [],
         ];
         $expectedq->prtpartiallycorrect   = [
-            'text' => '<p>Your answer is partially correct.</p>',
+            'text' => '<p>[[commonstring key="defaultprtpartiallycorrectfeedback"/]]</p>',
             'format' => FORMAT_HTML, 'files' => [],
         ];
         $expectedq->prtincorrect          = [
-            'text' => '<p>Incorrect answer.</p>',
+            'text' => '<p>[[commonstring key="defaultprtincorrectfeedback"/]]</p>',
             'format' => FORMAT_HTML, 'files' => [],
         ];
         $expectedq->decimals              = '.';

@@ -20,11 +20,11 @@ question:
   questionsimplify: '1'
   assumepositive: '0'
   assumereal: '0'
-  prtcorrect: '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]'
+  prtcorrect: '<p>[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]</p>'
   prtcorrectformat: html
-  prtpartiallycorrect: '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] [[commonstring key="defaultprtpartiallycorrectfeedback"/]]'
+  prtpartiallycorrect: '<p>[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] [[commonstring key="defaultprtpartiallycorrectfeedback"/]]</p>'
   prtpartiallycorrectformat: html
-  prtincorrect: '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]'
+  prtincorrect: '<p>[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]</p>'
   prtincorrectformat: html
   decimals: .
   scientificnotation: '*10'

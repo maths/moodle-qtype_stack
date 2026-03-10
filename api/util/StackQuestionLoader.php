@@ -138,10 +138,15 @@ class StackQuestionLoader {
         $question->questionnoteformat        =
             isset($xmldata->question->questionnote['format']) ? (string) $xmldata->question->questionnote['format'] :
             self::get_default('question', 'questionnoteformat', 'html');
-        $question->specificfeedback          =
-                isset($xmldata->question->specificfeedback->text) ?
-                (string) $xmldata->question->specificfeedback->text :
-                self::get_default('question', 'specificfeedback', '[[feedback:prt1]]');
+        if (isset($xmldata->question->specificfeedback->text)) {
+            $question->specificfeedback = (string) $xmldata->question->specificfeedback->text;
+        } else {
+            if (preg_match("/\[\[input:" . self::get_default('input', 'name', 'ans1') . "\]\]/", $question->questiontext)) {
+                $question->specificfeedback = self::get_default('question', 'specificfeedback', '[[feedback:prt1]]');
+            } else {
+                $question->specificfeedback = '';
+            }
+        }
         $question->specificfeedbackformat    =
                 isset($xmldata->question->specificfeedback['format']) ?
                 (string) $xmldata->question->specificfeedback['format'] :
@@ -295,11 +300,17 @@ class StackQuestionLoader {
             $inputmap[(string) $input->name] = $input;
         }
 
-        if (empty($inputmap) && $question->defaultmark) {
-            $defaultinput = new \SimpleXMLElement('<input></input>');
-            $defaultinput->addChild('name', self::get_default('input', 'name', 'ans1'));
-            $defaultinput->addChild('tans', self::get_default('input', 'tans', 'ta1'));
-            $inputmap[self::get_default('input', 'name', 'ans1')] = $defaultinput;
+        if (empty($inputmap)) {
+            $inputname = self::get_default('input', 'name', 'ans1');
+            if (preg_match("/\[\[input:{$inputname}\]\]/", $question->questiontext)) {
+                $defaultinput = new \SimpleXMLElement('<input></input>');
+                $defaultinput->addChild('name', $inputname);
+                $defaultinput->addChild('tans', self::get_default('input', 'tans', 'ta1'));
+                $inputmap[$inputname] = $defaultinput;
+            } else {
+                // We've not got any inputs. Set default mark to 0.
+                $question->defaultmark = 0;
+            }
         }
 
         $requiredparams = \stack_input_factory::get_parameters_used();
@@ -372,16 +383,19 @@ class StackQuestionLoader {
             $prtmap[(string) $prt->name] = $prt;
         }
 
-        if (empty($prtmap) && $question->defaultmark) {
-            $defaultprt = new \SimpleXMLElement('<prt></prt>');
-            $defaultprt->addChild('name', self::get_default('prt', 'name', 'prt1'));
-            $defaultnode = $defaultprt->addChild('node');
-            $defaultnode->addChild('name', self::get_default('node', 'name', '0'));
-            $defaultnode->addChild('sans', self::get_default('node', 'sans', 'ans1'));
-            $defaultnode->addChild('tans', self::get_default('node', 'tans', 'ta1'));
-            $defaultnode->addChild('trueanswernote', self::get_default('node', 'trueanswernote', 'prt1-1-T'));
-            $defaultnode->addChild('falseanswernote', self::get_default('node', 'falseanswernote', 'prt1-1-F'));
-            $prtmap[self::get_default('prt', 'name', 'prt1')] = $defaultprt;
+        if (empty($prtmap)) {
+            $prtname = self::get_default('prt', 'name', 'prt1');
+            if (preg_match("/\[\[feedback:{$prtname}\]\]/", $question->questiontext . $question->specificfeedback)) {
+                $defaultprt = new \SimpleXMLElement('<prt></prt>');
+                $defaultprt->addChild('name', $prtname);
+                $defaultnode = $defaultprt->addChild('node');
+                $defaultnode->addChild('name', self::get_default('node', 'name', '0'));
+                $defaultnode->addChild('sans', self::get_default('node', 'sans', 'ans1'));
+                $defaultnode->addChild('tans', self::get_default('node', 'tans', 'ta1'));
+                $defaultnode->addChild('trueanswernote', self::get_default('node', 'trueanswernote', 'prt1-1-T'));
+                $defaultnode->addChild('falseanswernote', self::get_default('node', 'falseanswernote', 'prt1-1-F'));
+                $prtmap[$prtname] = $defaultprt;
+            }
         }
 
         foreach ($prtmap as $prtdata) {
@@ -749,6 +763,27 @@ class StackQuestionLoader {
         }
         $plaindata = self::xml_to_array($xmldata);
         $diff = self::obj_diff(self::$defaults['question'], $plaindata['question']);
+
+        $isquestiontext = isset($plaindata['question']['questiontext']);
+        $isdefaultinput = preg_match(
+            "/\[\[input:" . self::get_default('input', 'name', 'ans1') . "\]\]/",
+            self::get_default('question', 'questiontext', '<p>Default question</p><p>[[input:ans1]] [[validation:ans1]]</p>')
+        );
+        $isrequesteddefaultinput = isset($plaindata['question']['questiontext']) && preg_match(
+            "/\[\[input:" . self::get_default('input', 'name', 'ans1') . "\]\]/",
+            $plaindata['question']['questiontext']
+        );
+        $isfeedback = isset($plaindata['question']['specificfeedback']);
+        $isdefaultprt = preg_match(
+            "/\[\[feedback:" . self::get_default('prt', 'name', 'prt1') . "\]\]/",
+            self::get_default('question', 'specificfeedback', '[[feedback:prt1]]')
+        );
+        $isrequesteddefaultprt = isset($plaindata['question']['questiontext']) &&
+            isset($plaindata['question']['specificfeedback']) &&
+            preg_match(
+                "/\[\[feedback:{" . self::get_default('prt', 'name', 'prt1') . "}\]\]/",
+                $plaindata['question']['questiontext'] . $plaindata['question']['specificfeedback']
+            );
         if (!empty($plaindata['question']['input'])) {
             $diffinputs = [];
             foreach ($plaindata['question']['input'] as $input) {
@@ -756,7 +791,9 @@ class StackQuestionLoader {
                 $diffinputs[] = $diffinput;
             }
             $diff['input'] = $diffinputs;
-        } else if (!isset($plaindata['question']['defaultgrade']) || $plaindata['question']['defaultgrade']) {
+            // We need to create an input if questiontext contains [[input:ansnamedefault]] or
+            // questiontext doesn't exist and default contains [[input:ansnamedefault]].
+        } else if ((!$isquestiontext && $isdefaultinput) || $isrequesteddefaultinput) {
             $diff['input'] = [['name' => self::get_default('input', 'name', 'ans1'),
                 'type' => self::get_default('input', 'type', 'algebraic'),
                 'tans' => self::get_default('input', 'tans', 'ta1'),
@@ -767,6 +804,11 @@ class StackQuestionLoader {
                 'showvalidation' => self::get_default('input', 'showvalidation', '1')]];
         } else {
             $diff['input'] = [];
+            if (self::get_default('question', 'defaultgrade', 1) !== 0) {
+                $diff['defaultgrade'] = '0';
+            } else {
+                unset($diff['defaultgrade']);
+            }
         }
         if (!empty($plaindata['question']['prt'])) {
             $diffprts = [];
@@ -805,12 +847,17 @@ class StackQuestionLoader {
                 $diffprts[] = $diffprt;
             }
             $diff['prt'] = $diffprts;
-        } else if (!isset($plaindata['question']['defaultgrade']) || $plaindata['question']['defaultgrade']) {
+            // We need to create a PRT if questiontext contains [[input:ansnamedefault]] or
+            // questiontext doesn't exist and default contains [[input:ansnamedefault]].
+        } else if (
+            ((!$isfeedback && $isdefaultprt) || $isrequesteddefaultprt) &&
+            ((!$isquestiontext && $isdefaultinput) || $isrequesteddefaultinput)
+        ) {
             $prtnode = ['name' => self::get_default('node', 'name', '0'),
                     'answertest' => self::get_default('node', 'answertest', 'AlgEquiv'), ];
             if (substr($prtnode['answertest'], 0, 2) !== 'AT') {
-                $prtnode['sans'] = self::get_default('node', 'sans', 'sans');
-                $prtnode['tans'] = self::get_default('node', 'tans', 'tans');
+                $prtnode['sans'] = self::get_default('node', 'sans', 'ans1');
+                $prtnode['tans'] = self::get_default('node', 'tans', 'ta1');
             }
             $prtnode['quiet'] = self::get_default('node', 'quiet', '0');
             $diff['prt'] = [['name' => self::get_default('prt', 'name', 'prt1'),

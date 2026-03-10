@@ -31,6 +31,45 @@ class stack_api_test_data {
               <question type="stack">
               </question>
             </quiz>',
+        'emptygrade' =>
+           '<quiz>
+                <question type="stack">
+                    <defaultgrade>2</defaultgrade>
+                </question>
+            </quiz>',
+        'noinputblankspecific' =>
+           '<quiz>
+                <question type="stack">
+                    <questiontext>
+                        <text>Question wording</text>
+                    </questiontext>
+                    <specificfeedback format="html">
+                        <text></text>
+                    </specificfeedback>
+                    <defaultgrade>2</defaultgrade>
+                </question>
+            </quiz>',
+        'inputblankspecific' =>
+           '<quiz>
+                <question type="stack">
+                    <questiontext>
+                        <text>Question wording [[input:ans1]] [[validation:ans1]]</text>
+                    </questiontext>
+                    <specificfeedback format="html">
+                        <text></text>
+                    </specificfeedback>
+                    <defaultgrade>2</defaultgrade>
+                </question>
+            </quiz>',
+        'noinputnospecific' =>
+           '<quiz>
+                <question type="stack">
+                    <questiontext>
+                        <text>Question wording</text>
+                    </questiontext>
+                    <defaultgrade>2</defaultgrade>
+                </question>
+            </quiz>',
         'multipleprts' =>
            '<quiz>
               <question type="stack">

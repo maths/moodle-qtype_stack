@@ -31,6 +31,12 @@ The following directories are linked to documentation and templates
 
 A significant advantage of using questions from the STACK library is that they are distributed with the source code, and therefore use features which match your version of STACK.  Consider using [Gitsync](https://github.com/maths/moodle-qbank_gitsync) to manage large question banks.
 
+## Import folders and quizzes
+
+You can use the question library to import a whole folder of questions, or a quiz.
+
+Some directories have quiz files which are stored as `.json` files in the directories.  If you import this file then STACK will create a simple quiz.   Which questions, the order in quiz, pagination, etc. are imported.  Assessment policies such as behaviour (e.g. adaptive mode), due date, number of attempts and so on need to be set by hand.
+
 # Local site libraries
 
 Additional libraries of STACK questions can be installed on your Moodle server. Once STACK is installed, there will be a `stack/sitelibrary` directory within the Moodle data directory. STACK will interpret each top-level subdirectory of `stack/sitelibrary` as a separate library and allow you to switch between them (and the STACK question library) using a dropdown on the library page displaying subdirectory names. Ask your server administrator to copy a library you wish to use into a suitably named subdirectory in `stack/sitelibrary`. After any update to an installed library, the Moodle MUC cache will need to be cleared.

@@ -35,6 +35,11 @@ class stack_multilang {
     private $lang = 'en';
 
     /**
+     * @var bool Variable to indicate if replacements have been completed.
+     */
+    private $replacementdone = null;
+
+    /**
      * @var array Cache of parent language(s) of a given language
      */
     protected static $parentcache = [];

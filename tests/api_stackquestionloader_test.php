@@ -421,6 +421,7 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         $yaml = file_get_contents(__DIR__ . '/fixtures/questionyml.yml');
         $diff = StackQuestionLoader::detect_differences($yaml);
         $diffarray = Yaml::parse($diff);
+        var_dump($diffarray);
         $this->assertEquals(11, count($diffarray));
         $expected = [
             'name' => 'Test question',

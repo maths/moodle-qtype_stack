@@ -221,6 +221,11 @@ class stack_ast_container_silent implements cas_evaluatable {
         // ast = null, we still want to check that the request is valid.
         $pipeline = stack_parsing_rule_factory::get_filter_pipeline($filterstoapply, $filteroptions, true);
 
+        // Match old logic of empty input being null.
+        if (($ast instanceof MP_Root) && count($ast->items) === 0) {
+            $ast = null;
+        }
+
         if ($ast !== null) {
             $ast = $pipeline->filter($ast, $errors, $answernotes, $securitymodel);
         }
@@ -279,6 +284,11 @@ class stack_ast_container_silent implements cas_evaluatable {
             '995_ev_modification', '996_call_modification', '998_security',
             '999_strict',
         ], $filteroptions, true);
+
+        // Match old logic of empty input being null.
+        if (($ast instanceof MP_Root) && count($ast->items) === 0) {
+            $ast = null;
+        }
 
         if ($ast !== null) {
             $ast = $pipeline->filter($ast, $errors, $answernotes, $securitymodel);

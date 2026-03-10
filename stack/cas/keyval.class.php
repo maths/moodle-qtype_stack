@@ -149,6 +149,10 @@ class stack_cas_keyval {
                 $this->valid = false;
                 return false;
             }
+        } else if (count($ast->items) === 0) {
+            // There is no active content in the source, i.e., empty input which is valid.
+            $this->valid = true;
+            return true;
         }
 
         $vallist = [];

@@ -2515,7 +2515,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_contains_prt_feedback('prt1');
         $this->check_output_contains_prt_feedback('prt2');
         $this->check_output_does_not_contain_stray_placeholders();
-        $this->assertMatchesRegularExpression('~' . preg_quote("Correct aswer, well done.", '~') . '~', $this->currentoutput);
+        $this->assertMatchesRegularExpression('~' . preg_quote("Correct answer, well done.", '~') . '~', $this->currentoutput);
         $this->check_current_output(
             $this->get_does_not_contain_num_parts_correct(),
             $this->get_no_hint_visible_expectation()
@@ -2559,7 +2559,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_contains_prt_feedback('prt2');
         $this->check_output_does_not_contain_stray_placeholders();
         $this->assertMatchesRegularExpression('~' . preg_quote("Incorrect answer.", '~') . '~', $this->currentoutput);
-        $this->assertMatchesRegularExpression('~' . preg_quote("Correct aswer, well done.", '~') . '~', $this->currentoutput);
+        $this->assertMatchesRegularExpression('~' . preg_quote("Correct answer, well done.", '~') . '~', $this->currentoutput);
         $this->check_current_output(
             $this->get_does_not_contain_num_parts_correct(),
             $this->get_no_hint_visible_expectation()
@@ -2584,7 +2584,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_contains_prt_feedback('prt2');
         $this->check_output_does_not_contain_stray_placeholders();
         $this->assertMatchesRegularExpression('~' . preg_quote("Incorrect answer.", '~') . '~', $this->currentoutput);
-        $this->assertMatchesRegularExpression('~' . preg_quote("Correct aswer, well done.", '~') . '~', $this->currentoutput);
+        $this->assertMatchesRegularExpression('~' . preg_quote("Correct answer, well done.", '~') . '~', $this->currentoutput);
         $this->check_current_output(
             $this->get_does_not_contain_num_parts_correct(),
             $this->get_no_hint_visible_expectation()

@@ -22,9 +22,9 @@ assumepositive: 0
 assumereal: 0
 prtcorrect: <p><i class="fa fa-check"></i> Correct answer*, well done.</p>
 prtcorrectformat: html
-prtpartiallycorrect: <p><i class="fa fa-adjust"></i> Your answer is partially correct.</p>
+prtpartiallycorrect: <p>[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] [[commonstring key="defaultprtpartiallycorrectfeedback"/]]</p>
 prtpartiallycorrectformat: html
-prtincorrect: <p><i class="fa fa-times"></i> Incorrect answer.</p>
+prtincorrect: <p>[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]</p>
 prtincorrectformat: html
 decimals: .
 scientificnotation: '*10'

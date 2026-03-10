@@ -4893,7 +4893,8 @@ final class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] [[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -5018,10 +5019,12 @@ final class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] [[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
+        
         $formform->prtincorrect = [
             'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
@@ -5284,7 +5287,8 @@ final class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] [[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -5409,7 +5413,8 @@ final class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] [[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -5569,7 +5574,8 @@ final class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] [[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -5694,7 +5700,8 @@ final class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] [[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -5822,7 +5829,8 @@ final class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] [[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -5949,7 +5957,8 @@ final class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] [[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -6094,7 +6103,8 @@ final class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] [[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -6277,7 +6287,8 @@ final class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] [[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -6405,7 +6416,8 @@ final class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] [[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -6529,7 +6541,8 @@ final class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] [[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -6655,7 +6668,8 @@ final class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] [[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -6805,7 +6819,8 @@ final class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] [[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -6949,7 +6964,8 @@ final class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] [[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -7170,7 +7186,8 @@ final class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] [[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -7294,7 +7311,8 @@ final class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] [[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -7419,7 +7437,8 @@ final class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] [[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -7546,7 +7565,8 @@ final class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] [[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -7673,7 +7693,8 @@ final class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] [[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -7797,7 +7818,8 @@ final class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] [[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -7940,7 +7962,8 @@ final class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] [[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -8064,7 +8087,8 @@ final class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] [[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -8188,7 +8212,8 @@ final class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] [[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -8312,7 +8337,8 @@ final class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] [[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -8436,7 +8462,8 @@ final class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] [[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -8622,7 +8649,8 @@ final class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] [[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];

@@ -48,7 +48,8 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
 
         // Testing a representative selection of fields.
         $this->assertEquals('test_3_matrix', $question->name);
-        $this->assertEquals('<p>[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]</p>', $question->prtcorrect);
+        $this->assertEquals('<p>[[commonstring key="symbolicprtcorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtcorrectfeedback"/]]</p>', $question->prtcorrect);
         $this->assertEquals('html', $question->prtcorrectformat);
         $nodesummary = $question->prts['prt1']->get_nodes_summary()[0];
         $this->assertEquals('-1', $nodesummary->truenextnode);
@@ -151,17 +152,20 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         );
         $this->assertEquals('html', $question->generalfeedbackformat);
         $this->assertEquals(
-            '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
+            '[[commonstring key="symbolicprtcorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtcorrectfeedback"/]]',
             $question->prtcorrect
         );
         $this->assertEquals('html', $question->prtcorrectformat);
         $this->assertEquals(
-            '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] [[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
+            '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             $question->prtpartiallycorrect
         );
         $this->assertEquals('html', $question->prtpartiallycorrectformat);
         $this->assertEquals(
-            '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
+            '[[commonstring key="symbolicprtincorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtincorrectfeedback"/]]',
             $question->prtincorrect
         );
         $this->assertEquals('html', $question->prtincorrectformat);

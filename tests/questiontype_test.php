@@ -880,7 +880,8 @@ final class questiontype_test extends qtype_stack_walkthrough_test_base {
         );
         $this->assertEquals(FORMAT_HTML, $question->prtpartiallycorrect['format']);
         $this->assertEquals(
-            '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] [[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
+            '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             $question->prtpartiallycorrect['text']
         );
         $this->assertEquals(FORMAT_HTML, $question->prtincorrect['format']);

@@ -12,6 +12,21 @@ Important release notes:
 * STACK 4.12.0 requires PHP 8.1 or newer.  PHP 7.4 will not work.
 * We no longer support Moodle 4.1.
 * We now require the plugin [import as new version](https://github.com/maths/moodle-qbank_importasversion/).
+* We suggest you change the STACK options as follows to match the new default settings.
+
+1. Option `qtype_stack | prtcorrect` should now be
+
+    [[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]
+
+2. Option `qtype_stack | prtpartiallycorrect` should now be
+
+    [[commonstring key="symbolicprtpartiallycorrectfeedback"/]] [[commonstring key="defaultprtpartiallycorrectfeedback"/]]
+
+3. Option `qtype_stack | prtincorrect` should now be 
+
+    [[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]
+
+These options can be changed on the STACK plugin page (before or after upgrade).
 
 Changes and new features.
 

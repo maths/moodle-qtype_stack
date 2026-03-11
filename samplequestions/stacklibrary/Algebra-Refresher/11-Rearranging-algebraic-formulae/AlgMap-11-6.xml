@@ -28,7 +28,7 @@ Now you have an equation for \(x\).</text>
       <text/>
     </stackversion>
     <questionvariables>
-      <text>ta:(a-c)/(d+b);</text>
+      <text>ta:(a-b)*c;</text>
     </questionvariables>
     <specificfeedback format="html">
       <text><![CDATA[<p>[[feedback:prt1]]</p>]]></text>

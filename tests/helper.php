@@ -5024,7 +5024,6 @@ final class qtype_stack_test_helper extends question_test_helper {
             'format' => '1',
             'itemid' => 0,
         ];
-        
         $formform->prtincorrect = [
             'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',

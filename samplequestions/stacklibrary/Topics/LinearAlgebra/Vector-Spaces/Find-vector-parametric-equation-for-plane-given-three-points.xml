@@ -44,7 +44,6 @@ ta: un_vec_convert(p1) + t*un_vec_convert(p2 - p1) + s*un_vec_convert(p3 - p1);]
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>

@@ -78,7 +78,6 @@ val3: ev(f_xy, x=x3, y=y3);</text>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>1</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>none</multiplicationsign>
     <sqrtsign>1</sqrtsign>

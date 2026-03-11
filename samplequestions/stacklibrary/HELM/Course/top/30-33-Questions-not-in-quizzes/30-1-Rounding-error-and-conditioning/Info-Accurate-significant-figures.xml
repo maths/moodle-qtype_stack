@@ -64,7 +64,6 @@ T: apply(table,append([[x_0,x,"a.s.f."]],makelist(
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>

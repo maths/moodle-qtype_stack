@@ -74,7 +74,6 @@ plot3: plot(exp3, [x, l3-1,u3+1], [y, bb-(u3)^(2)-1, bb-(l3)^(2)+1], [box, false
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>none</multiplicationsign>
     <sqrtsign>1</sqrtsign>

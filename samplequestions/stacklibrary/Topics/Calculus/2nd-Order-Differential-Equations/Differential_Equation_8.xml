@@ -66,7 +66,6 @@ wronganswer5:(n4/2 + %i*n6/(2*n2))*exp(bvar*x*%i)+(n4 + %i*n6/(2*n2))*exp(-bvar*
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>

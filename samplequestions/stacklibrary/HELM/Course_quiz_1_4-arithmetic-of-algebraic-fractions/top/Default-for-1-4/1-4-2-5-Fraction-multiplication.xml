@@ -87,7 +87,6 @@ ta4: ev(fr7*fr8, simp);</text>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>cross</multiplicationsign>
     <sqrtsign>1</sqrtsign>

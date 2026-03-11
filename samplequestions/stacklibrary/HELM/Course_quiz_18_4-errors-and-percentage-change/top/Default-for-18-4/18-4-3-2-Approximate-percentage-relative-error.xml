@@ -83,7 +83,6 @@ percent_error: (delta_x_coeff*error_x)+(delta_y_coeff*error_y)+(delta_u_coeff*er
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>

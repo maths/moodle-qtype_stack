@@ -99,7 +99,6 @@ thumbnailplot:lambda([ex1,ex2],plot(ex1,[x,0,4*pi/b],[y,-a, a],[box, false],[yx_
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>

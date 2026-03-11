@@ -50,7 +50,6 @@ ta:(-b1*k1-b2*k2)/(b1*cf1+b2*cf2);</text>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>none</multiplicationsign>
     <sqrtsign>1</sqrtsign>

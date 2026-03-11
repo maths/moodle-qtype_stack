@@ -67,7 +67,6 @@ ta3: decimalplaces(float(int(exp, x, 0, ub)), 3);</text>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>none</multiplicationsign>
     <sqrtsign>1</sqrtsign>

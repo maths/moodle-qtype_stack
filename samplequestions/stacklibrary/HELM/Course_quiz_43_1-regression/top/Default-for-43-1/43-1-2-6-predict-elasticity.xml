@@ -210,7 +210,6 @@ slope (ta9) = {@ta9@} intercept (ta10) = {@ta10@}, ta11 = {@ta11@}</text>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>

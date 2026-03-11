@@ -47,7 +47,6 @@ ta1: significantfigures(((side_2/2)*max_error)+((side_1/2)*max_error),1);]]></te
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>

@@ -34,7 +34,6 @@ ta: decimalplaces(0.5*n*(n-1)*((1-p)^(n-2))*(p^2) + n*((1-p)^(n-1))*p + (1-p)^n,
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>

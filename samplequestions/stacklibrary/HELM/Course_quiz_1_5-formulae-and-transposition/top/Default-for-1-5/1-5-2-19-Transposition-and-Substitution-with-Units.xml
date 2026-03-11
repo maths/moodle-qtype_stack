@@ -68,7 +68,6 @@ ta2w: stackunits(dispsf(float(ev(ta1,Q=aq,P=ap,g=981/1000,h=ah,C=ac)),3), m^2)</
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>

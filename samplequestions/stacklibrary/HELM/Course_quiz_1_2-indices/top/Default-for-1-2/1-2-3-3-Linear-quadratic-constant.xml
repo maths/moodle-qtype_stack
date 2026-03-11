@@ -81,7 +81,6 @@ ta8:[[X,false," "],[L,false, "linear"],[Q,true, "quadratic"],[C,false,"constant"
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>

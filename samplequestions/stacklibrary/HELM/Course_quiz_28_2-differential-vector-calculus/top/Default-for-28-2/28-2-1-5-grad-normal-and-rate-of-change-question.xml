@@ -87,7 +87,6 @@ at point \((1, 1, 1) \quad \vec{v_u} = {@ta2i@} \underline{i} + {@ta2j@} \underl
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>onum</multiplicationsign>
     <sqrtsign>1</sqrtsign>

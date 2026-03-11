@@ -36,7 +36,6 @@ ta:[p,(v-n1)*(v-n2)=0,v=n1 nounor v=n2]</text>
     <questionsimplify>0</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>none</multiplicationsign>
     <sqrtsign>1</sqrtsign>

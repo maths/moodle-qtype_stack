@@ -48,7 +48,6 @@ plot1: plot(eqt, [x,firstval-1, secondval+1], [box, false],[yx_ratio, 1],[axes, 
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>none</multiplicationsign>
     <sqrtsign>1</sqrtsign>

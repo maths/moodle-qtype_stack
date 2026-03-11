@@ -42,7 +42,6 @@ ta: dispdp(ev(eqs, x=a1,y=a2,numer,simp),3);</text>
     <questionsimplify>0</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>

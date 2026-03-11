@@ -61,7 +61,6 @@ ta : random_permutation([ [a1,true], [a2,false], [a3,true], [a4,false], [a5,true
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>

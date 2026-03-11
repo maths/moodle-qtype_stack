@@ -43,7 +43,6 @@ ta_alt: decimalplaces(bb*sin(angC*%pi/180)/sin(angB*%pi/180),2);</text>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>

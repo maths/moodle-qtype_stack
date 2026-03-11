@@ -107,7 +107,6 @@ feedb3:varA/exp4^2+varB/exp4+varC/exp5+varD*var^2+varE*var+varF;</text>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>none</multiplicationsign>
     <sqrtsign>1</sqrtsign>

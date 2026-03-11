@@ -119,7 +119,6 @@ ta_6: decimalplaces((0.05*(1 - 0.05)^(n_first_def_item - 1)) / sum_p,4)*/</text>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>

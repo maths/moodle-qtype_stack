@@ -63,7 +63,6 @@ ta2: 1/pi*( 1/(1-n)*(1 - cos((1-n)*pi)) + 1/(1+n)*(1 - cos((1+n)*pi)) )*cos(n*t)
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>

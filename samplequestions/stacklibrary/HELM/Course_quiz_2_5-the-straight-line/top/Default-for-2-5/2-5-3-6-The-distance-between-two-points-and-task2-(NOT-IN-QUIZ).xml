@@ -53,7 +53,6 @@ The distance between the points \(({@x5@}, {@y5@})\) and \(({@x6@}, {@y6@})\) is
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>

@@ -74,7 +74,6 @@ thumbnailplot:lambda([ex1,ex2],plot(ex1,[x,-4,4],[y,-4,4],[box, false],[yx_ratio
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>none</multiplicationsign>
     <sqrtsign>1</sqrtsign>

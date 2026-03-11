@@ -50,7 +50,6 @@ eqnattempt: (x - dd)*(x^3 + (2*bb - aa)*x^2 - (2*aa*bb - bb^2 + cc)*x - aa*bb^2 
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>none</multiplicationsign>
     <sqrtsign>1</sqrtsign>

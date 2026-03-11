@@ -39,7 +39,6 @@ wronganswer4:sqrt(n1)*tanh(sqrt(n1)*(n2*x+x^3/3)+p);</text>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>

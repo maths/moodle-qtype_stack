@@ -33,7 +33,6 @@
     <questionsimplify>0</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>1</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>cross</multiplicationsign>
     <sqrtsign>1</sqrtsign>

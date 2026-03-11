@@ -78,7 +78,6 @@ ta4: ev(d1*x^(d2+1), simp:true);</text>
     <questionsimplify>0</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>

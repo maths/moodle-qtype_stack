@@ -72,7 +72,6 @@ disp_vecs: {transpose(bas[1]), transpose(bas[2]), sol_remove};]]></text>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>onum</multiplicationsign>
     <sqrtsign>1</sqrtsign>

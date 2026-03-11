@@ -96,7 +96,6 @@ plot3: plot(exp6, [x,l2-1,bb+1], [y, coeff2*(coeff2-aa)*(coeff2-bb), coeff1*(coe
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>

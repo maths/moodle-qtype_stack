@@ -58,7 +58,6 @@ ta3:binomial(ff-1,ee-1)*(2/3)^(ee-1)*(1/3)^(ff-ee)</text>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>

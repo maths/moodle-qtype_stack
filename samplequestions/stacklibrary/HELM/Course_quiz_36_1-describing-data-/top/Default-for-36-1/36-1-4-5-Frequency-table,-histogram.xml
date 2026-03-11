@@ -226,7 +226,6 @@ ta9:block(s:0, for i:1 thru l do if (L[i] >= 185 and L[i] < 190) then s:s+1, ret
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>none</multiplicationsign>
     <sqrtsign>1</sqrtsign>

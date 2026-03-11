@@ -58,7 +58,6 @@ ta3: if 2*th1-th2 > %pi then 2*th1-th2 - 2*%pi else if 2*th1-th2 <= -%pi then 2*
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>none</multiplicationsign>
     <sqrtsign>1</sqrtsign>

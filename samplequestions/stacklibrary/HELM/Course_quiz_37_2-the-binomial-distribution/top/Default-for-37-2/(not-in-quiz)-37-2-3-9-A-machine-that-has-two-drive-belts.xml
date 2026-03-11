@@ -90,7 +90,6 @@ ta_6: decimalplaces(n*(n-1)*(n-2)*(0.5^3)*(0.5^(n-3))/6,4)</text>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>

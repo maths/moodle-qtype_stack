@@ -55,7 +55,6 @@ w4: arr*(cos(7/4*%pi)+%i*sin(7/4*%pi));      /* ta4 in wrong form*/</text>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>none</multiplicationsign>
     <sqrtsign>1</sqrtsign>

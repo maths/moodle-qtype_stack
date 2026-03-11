@@ -47,7 +47,6 @@ ta2:aa*alpha^(aa-1)+bb*beta^(bb-1)+cc*gamma^(cc-1);</text>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>

@@ -61,7 +61,6 @@ ta2: (4)/(4+n^2*pi^2)*(e^2*cos(n*pi) - 1)*cos(n*pi*t);</text>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>

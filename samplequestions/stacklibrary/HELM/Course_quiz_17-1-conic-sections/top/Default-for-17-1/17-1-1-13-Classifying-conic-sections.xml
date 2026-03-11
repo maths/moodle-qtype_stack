@@ -93,7 +93,6 @@ for i:1 thru 4 do(ta[i]:mc[perm[i]]);]]></text>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>onum</multiplicationsign>
     <sqrtsign>1</sqrtsign>

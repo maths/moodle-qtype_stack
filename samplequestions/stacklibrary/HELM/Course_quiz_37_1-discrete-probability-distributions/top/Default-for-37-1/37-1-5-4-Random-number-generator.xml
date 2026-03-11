@@ -34,7 +34,6 @@ All digits are equally likely, so \(\text{E}(X)=\dfrac{1}{10}\{0+1+2+3+\ldots+9\
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>

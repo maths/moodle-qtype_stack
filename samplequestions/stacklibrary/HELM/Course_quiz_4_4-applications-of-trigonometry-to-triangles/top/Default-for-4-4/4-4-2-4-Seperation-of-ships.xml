@@ -70,7 +70,6 @@ ta1: decimalplaces(sqrt(s1^2+s2^2-2*s1*s2*cos(angO*%pi/180)),1);</text>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>

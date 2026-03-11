@@ -42,7 +42,6 @@ ta1: ev(sqrt((q^2)*(A1^2)), simp)/ev(sqrt(b1*g*h*(A1^2)+b2*(q^2)), simp)</text>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>none</multiplicationsign>
     <sqrtsign>1</sqrtsign>

@@ -54,7 +54,6 @@ BB: [-1,e^(n1*(b1+0.1)),b1+1, -(1/6)*e^(n1*(b1+0.1))]     /* boundingbox:[left, 
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>none</multiplicationsign>
     <sqrtsign>1</sqrtsign>

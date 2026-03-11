@@ -44,7 +44,6 @@ ta1: s^3 + (a1 + a2 - a3)*s^2 + (a1*a2 -a1*a3 - a2*a3)*s - a1*a2*a3</text>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>

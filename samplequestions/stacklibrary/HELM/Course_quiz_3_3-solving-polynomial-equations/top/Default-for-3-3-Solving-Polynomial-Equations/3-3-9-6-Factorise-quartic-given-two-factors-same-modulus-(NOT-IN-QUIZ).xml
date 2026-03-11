@@ -47,7 +47,6 @@ eqn: x^4 + (aa + bb + cc + dd)*x^3 + (aa*bb + aa*cc + aa*dd + bb*cc + bb*dd + cc
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>none</multiplicationsign>
     <sqrtsign>1</sqrtsign>

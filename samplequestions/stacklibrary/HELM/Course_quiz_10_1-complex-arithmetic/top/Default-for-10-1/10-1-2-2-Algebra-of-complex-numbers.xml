@@ -60,7 +60,6 @@ ta3: (-a1*a1*a3+a1*a2*a4)+%i*(a1*a1*a4+a1*a2*a3);</text>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>none</multiplicationsign>
     <sqrtsign>1</sqrtsign>

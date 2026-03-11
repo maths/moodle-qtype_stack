@@ -76,7 +76,6 @@ detCC: unary_minus_sort(CC[1,1]*CC[2,2]-CC[1,2]*CC[2,1]);</text>
     <questionsimplify>0</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>

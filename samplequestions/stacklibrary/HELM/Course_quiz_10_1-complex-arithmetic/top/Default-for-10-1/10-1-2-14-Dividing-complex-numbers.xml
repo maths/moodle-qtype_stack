@@ -60,7 +60,6 @@ tempc:ev(n1*n3+n2*n3*%i - n1*n4*%i - n2*n4*(-1),simp)</text>
     <questionsimplify>0</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>none</multiplicationsign>
     <sqrtsign>1</sqrtsign>

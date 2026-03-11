@@ -66,7 +66,6 @@ J(u,v,w) &= 2u(2uv - u^3w) - w(2wu^2v - u^2vw) + v(2w^2u^2 - 2vw) \\
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>

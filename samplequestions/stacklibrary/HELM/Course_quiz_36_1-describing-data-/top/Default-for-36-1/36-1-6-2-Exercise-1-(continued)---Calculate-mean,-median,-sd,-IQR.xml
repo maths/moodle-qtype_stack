@@ -64,7 +64,6 @@ l4:L[4];l5:L[5];l8:L[8]; l9:L[9];l12:L[12];l13:L[13];]]></text>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>

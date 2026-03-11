@@ -67,7 +67,6 @@ ta5: decimalplaces(integrate((1/4)*(cosh(2*u)+1), u, asinh(2*xmin), asinh(2*xmax
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>

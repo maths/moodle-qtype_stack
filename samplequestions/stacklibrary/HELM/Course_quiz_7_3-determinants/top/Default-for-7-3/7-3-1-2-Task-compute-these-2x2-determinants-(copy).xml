@@ -102,7 +102,6 @@ detGG: unary_minus_sort(GG[1,1]*GG[2,2]-GG[1,2]*GG[2,1]);</text>
     <questionsimplify>0</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>

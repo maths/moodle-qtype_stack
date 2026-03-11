@@ -73,7 +73,6 @@ delta_f: significantfigures((abs(f_x_eval)*error_x)+(abs(f_y_eval)*error_y),2);<
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>none</multiplicationsign>
     <sqrtsign>1</sqrtsign>

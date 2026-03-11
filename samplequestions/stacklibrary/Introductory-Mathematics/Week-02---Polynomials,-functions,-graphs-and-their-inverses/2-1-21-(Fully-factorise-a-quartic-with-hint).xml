@@ -40,7 +40,6 @@ ta1: ev((x-r4)*(x-r2)*(rdenom1*x-r1)*(x-r3),simp);</text>
     <questionsimplify>0</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>none</multiplicationsign>
     <sqrtsign>1</sqrtsign>

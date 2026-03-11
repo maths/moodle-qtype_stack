@@ -82,7 +82,6 @@ plot3: plot(eqt, [x,correctans6-1, correctans5+1], [box, false],[yx_ratio, 1],[a
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>none</multiplicationsign>
     <sqrtsign>1</sqrtsign>

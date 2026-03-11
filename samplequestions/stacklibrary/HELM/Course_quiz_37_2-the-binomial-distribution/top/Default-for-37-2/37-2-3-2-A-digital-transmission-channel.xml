@@ -57,7 +57,6 @@ ta_2: decimalplaces((1-p_wrong_digit)^word_len_2 + word_len_2*p_wrong_digit*(1-p
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>

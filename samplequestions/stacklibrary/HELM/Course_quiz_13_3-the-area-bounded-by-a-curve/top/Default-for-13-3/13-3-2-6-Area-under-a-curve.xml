@@ -69,7 +69,6 @@ plot1: plot(exp3, [t, l3-1,u3+1], [y, 0, cc*(u3)^2+1], [box, false], [axes,solid
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>none</multiplicationsign>
     <sqrtsign>1</sqrtsign>

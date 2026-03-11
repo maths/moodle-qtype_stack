@@ -43,7 +43,6 @@ ta: dispdp(float(ev(eqs,w=a1,x=a2,y=a3,z=a4)),3);</text>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>none</multiplicationsign>
     <sqrtsign>1</sqrtsign>

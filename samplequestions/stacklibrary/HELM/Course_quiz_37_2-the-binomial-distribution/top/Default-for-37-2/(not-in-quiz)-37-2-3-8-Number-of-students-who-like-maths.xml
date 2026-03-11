@@ -50,7 +50,6 @@ ta_3: decimalplaces(1 - ((100-percent)/100)^(n_2) - n_2*(percent/100)*(((100-per
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>

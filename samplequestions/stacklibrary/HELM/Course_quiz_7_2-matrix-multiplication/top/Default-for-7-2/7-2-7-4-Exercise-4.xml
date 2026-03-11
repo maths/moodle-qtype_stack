@@ -81,7 +81,6 @@ MM: ev(lmax([ev(mat_norm(Interm1,1),simp),ev(mat_norm(Interm2,1),simp),ev(mat_no
     <questionsimplify>0</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>

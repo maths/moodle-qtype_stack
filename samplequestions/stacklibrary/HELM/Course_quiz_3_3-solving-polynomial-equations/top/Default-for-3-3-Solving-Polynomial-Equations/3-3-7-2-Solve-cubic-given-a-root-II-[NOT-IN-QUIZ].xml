@@ -43,7 +43,6 @@ eqn: 2*x^3 + (2*aa + bb)*x^2 + (aa*bb + cc)*x + aa*cc;</text>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>none</multiplicationsign>
     <sqrtsign>1</sqrtsign>

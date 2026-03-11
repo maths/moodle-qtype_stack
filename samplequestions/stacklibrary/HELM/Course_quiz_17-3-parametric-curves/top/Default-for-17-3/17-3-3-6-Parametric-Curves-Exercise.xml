@@ -177,7 +177,6 @@ ta4: fullratsimp((dx_dt_1b*dy_dt_2b - dy_dt_1b*dx_dt_2b)/(dx_dt_1b)^3);</text>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>

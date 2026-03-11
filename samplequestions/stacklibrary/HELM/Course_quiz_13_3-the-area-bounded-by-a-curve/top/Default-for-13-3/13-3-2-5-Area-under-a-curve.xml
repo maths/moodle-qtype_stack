@@ -121,7 +121,6 @@ plot2: plot(exp2, [x, l2-1,u2+1], [y, bb*(l2)^3-1, bb*(u2)^3+1], [box, false], [
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>none</multiplicationsign>
     <sqrtsign>1</sqrtsign>

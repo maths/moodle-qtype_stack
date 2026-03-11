@@ -76,7 +76,6 @@ wta3: ((n1*n3+n2*n4)+%i*(n2*n3-n1*n4))/(n3^2+n4^2);</text>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>none</multiplicationsign>
     <sqrtsign>1</sqrtsign>

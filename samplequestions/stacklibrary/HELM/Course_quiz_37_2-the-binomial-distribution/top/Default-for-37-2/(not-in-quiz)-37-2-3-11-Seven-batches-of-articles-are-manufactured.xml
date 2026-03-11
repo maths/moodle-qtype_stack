@@ -51,7 +51,6 @@ ta_2: decimalplaces((factorial(7)/(factorial(4)*factorial(3)))*(p_batch^4)*((1-p
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>

@@ -68,7 +68,6 @@ plot1: plot(exp4, [x, l4-1,u4+1], [y, dd*(u4)^(-2)-1, dd*(l4)^(-2)+1], [box, fal
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>

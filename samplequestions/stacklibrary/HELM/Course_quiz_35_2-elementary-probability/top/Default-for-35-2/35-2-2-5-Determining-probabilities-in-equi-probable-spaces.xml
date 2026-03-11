@@ -69,7 +69,6 @@ Score \({@scr2@}\) on d\({@fcs2@}\)s:\[ \text{P}(C) = {@ta5@};\quad \text{P}(C')
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>

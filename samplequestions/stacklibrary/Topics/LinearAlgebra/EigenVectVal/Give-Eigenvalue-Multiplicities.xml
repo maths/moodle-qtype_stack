@@ -78,7 +78,6 @@ sol_invert: [["Yes",sol_invert],["No",not(sol_invert)]];]]></text>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>onum</multiplicationsign>
     <sqrtsign>1</sqrtsign>

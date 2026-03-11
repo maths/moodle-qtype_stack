@@ -50,7 +50,6 @@ Median = {@ta1@}, Lower quartile ={@ta2@}, Upper quartile = {@ta3@},  IQR = {@ta
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>

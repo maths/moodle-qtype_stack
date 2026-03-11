@@ -81,7 +81,6 @@ keyterm:[(x-r1),(x-r1)^2,(x-r2)^3,(x-r),(x-r1),(x-r1)^2,(x-r2)^3,(x-r1)][qform];
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>none</multiplicationsign>
     <sqrtsign>1</sqrtsign>

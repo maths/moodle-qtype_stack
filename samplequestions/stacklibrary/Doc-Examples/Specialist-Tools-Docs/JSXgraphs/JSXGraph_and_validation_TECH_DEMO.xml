@@ -572,7 +572,6 @@ ans1_validator(ex):= stack_seq_validator(ex, [require_dgo, require_2_nodes, requ
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>

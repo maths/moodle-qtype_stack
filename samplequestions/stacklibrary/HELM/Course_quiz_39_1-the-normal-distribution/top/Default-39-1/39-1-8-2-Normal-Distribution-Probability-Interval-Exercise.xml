@@ -57,7 +57,6 @@ checkt2: decimalplaces(float(quantile_normal(0.5 + numa/200,mu,sigma)),0);</text
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>

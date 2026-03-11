@@ -102,6 +102,12 @@
 
     </div>
     <div class="tab-pane mt-3" id="variants-pane" role="tabpanel" aria-labelledby="variants-tab">
+        {{#deployfeedback}}
+            <p class="overallresult pass">{{deployfeedback}}</p>
+        {{/deployfeedback}}
+        {{#deployfeedbackerr}}
+            <p class="overallresult fail">{{deployfeedbackerr}}</p>
+        {{/deployfeedbackerr}}
         <h3>
             {{#notes.0}}
                 {{#str}} deployedvariantsn, qtype_stack, {{deployedcount}} {{/str}}
@@ -157,18 +163,81 @@
                 </td>
             </tr>
         {{/notes}}
+        {{#notes.0}}
+            </table>
+        {{/notes.0}}
         {{^variantmatched}}
             <div class="undeployedvariant">
-                <b>{{#str}} showingundeployedvariant, qtype_stack, seed {{/str}}</b>
+                <b>{{#str}} showingundeployedvariant, qtype_stack, {{seed}} {{/str}}</b>
                 {{#canedit}}
+                    {{#variantdeployed}}
+                        {{#str}} alreadydeployed, qtype_stack{{/str}}
+                    {{/variantdeployed}}
+                    {{^variantdeployed}}
+                        <button class="btn btn-secondary" type="button" onclick="window.location.href='{{{deploysinglelink}}}'">
+                            {{#str}} deploy, qtype_stack {{/str}}
+                        </button>
+                    {{/variantdeployed}}
                 {{/canedit}}
             </div>
         {{/variantmatched}}
         {{#notes.0}}
             {{#canedit}}
+                <div class="deploymany">
+                    <button class="btn btn-danger" type="button" onclick="window.location.href='{{{undeployalllink}}}'">
+                        {{#str}} deployremoveall, qtype_stack {{/str}}
+                    </button>
+                </div>
             {{/canedit}}
         {{/notes.0}}
         {{#hasrandomvariants}}
+            <form method="get" class="switchtovariant" action="{{pagelink}}">
+                <input type="hidden" name="courseid" value="{{courseid}}">
+                <input type="hidden" name="questionid" value="{{questionid}}">
+                <input type="submit" class="btn btn-secondary" value="{{#str}} switchtovariant, qtype_stack {{/str}}">
+                <input type="text" size="7" id="seedfield" name="seed" value="{{newseed}}">
+            </form>
+            {{#canedit}}
+                <form method="get" class="deploymany" action="{{{deploylink}}}">
+                    <input type="hidden" name="courseid" value="{{courseid}}">
+                    <input type="hidden" name="questionid" value="{{questionid}}">
+                    <input type="hidden" name="sesskey" value="{{sesskey}}">
+                    <input type="submit" class="btn btn-secondary" value="{{#str}} deploymanybtn, qtype_stack {{/str}}">
+                    <input type="text" size="4" id="deploymanyfield" name="deploymany">
+                    {{#str}} deploymanynotes, qtype_stack {{/str}}
+                </form>
+                <form method="get" class="deploysystematic" action="{{{deploylink}}}">
+                    <input type="hidden" name="courseid" value="{{courseid}}">
+                    <input type="hidden" name="questionid" value="{{questionid}}">
+                    <input type="hidden" name="sesskey" value="{{sesskey}}">
+                    <input type="submit" class="btn btn-secondary" value="{{#str}} deploysystematicbtn, qtype_stack {{/str}}">
+                    <input type="text" size="3" id="deploysystematicfield" name="deploysystematic">
+                </form>
+                <form method="get" class="deploysystematicfromto" action="{{{deploylink}}}">
+                    <input type="hidden" name="courseid" value="{{courseid}}">
+                    <input type="hidden" name="questionid" value="{{questionid}}">
+                    <input type="hidden" name="sesskey" value="{{sesskey}}">
+                    <input type="submit" class="btn btn-secondary" value="{{#str}} deploysystematicfrombtn, qtype_stack {{/str}}">
+                    <input type="text" size="3" id="deploysystematicfromfield" name="deploysystematicfrom">
+                    {{#str}} deploysystematicto, qtype_stack {{/str}}
+                    <input type="text" size="3" id="deploysystematictofield" name="deploysystematicto">
+                </form>
+                <form method="get" class="deployfromlist" action="{{{deploylink}}}">
+                    <input type="hidden" name="courseid" value="{{courseid}}">
+                    <input type="hidden" name="questionid" value="{{questionid}}">
+                    <input type="hidden" name="sesskey" value="{{sesskey}}">
+                    <input type="submit" class="btn btn-secondary" style="vertical-align: top;" value="{{#str}} deployfromlistbtn, qtype_stack {{/str}}">
+                    <textarea cols="15" rows="{{deploylistrows}}" id="deployfromlist" name="deployfromlist"></textarea>
+                    {{#str}} deployfromlist, qtype_stack {{/str}}
+                    <details>
+                        <summary>
+                            {{#str}} deployfromlistexisting, qtype_stack {{/str}}
+                        </summary>
+                        <pre>{{#deployedseeds}}{{.}}<br>{{/deployedseeds}}</pre>
+                    </details>
+
+                </form>
+            {{/canedit}}
         {{/hasrandomvariants}}
     </div>
   </div>

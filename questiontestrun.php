@@ -47,6 +47,7 @@ use stack_question_dashboard;
 
 // Get the parameters from the URL.
 $questionid = required_param('questionid', PARAM_INT);
+$courseid = optional_param('courseid', null, PARAM_INT);
 
 [$qversion, $questionid] = get_latest_question_version($questionid);
 
@@ -80,6 +81,10 @@ $dashboard = new stack_question_dashboard($question, $seed, $context);
 $qbankparams = $urlparams;
 unset($qbankparams['questionid']);
 unset($qbankparams['seed']);
+unset($qbankparams['deploy']);
+unset($qbankparams['undeploy']);
+unset($qbankparams['undeployall']);
+
 $editparams = $qbankparams;
 $editparams['id'] = $question->id;
 $qbankparams['qperpage'] = 1000; // Should match MAXIMUM_QUESTIONS_PER_PAGE but that constant is not easily accessible.
@@ -102,7 +107,6 @@ $exportquestionlink->param('sesskey', $sesskey);
 $todolink = new moodle_url('/question/type/stack/adminui/todo.php', $todoparams);
 $reportlink = new moodle_url('/question/type/stack/questiontestreport.php', $urlparams);
 $bulktestlink = new moodle_url('/question/type/stack/questionbulktest.php', $urlparams);
-$pagelink = new moodle_url('/question/type/stack/questiontestrun.php', $urlparams);
 
 // We've chosen not to send a specific seed since it is helpful to test the general feedback in a random context.
 $chatparams = $urlparams;
@@ -127,18 +131,15 @@ $initialdata->general->exportquestionlink = $exportquestionlink->out();
 $initialdata->general->reportlink = $reportlink->out();
 $initialdata->general->todolink = $todolink->out();
 $initialdata->general->bulktestlink = $bulktestlink->out();
-$initialdata->general->pagelink = $pagelink->out();
 $initialdata->general->canedit = $canedit;
-$initialdata->question->deployfeedback = optional_param('deployfeedback', null, PARAM_TEXT);
-$initialdata->question->deployfeedbackerr = optional_param('deployfeedbackerr', null, PARAM_TEXT);
 $dashboard->create_progress_bar();
 echo $OUTPUT->render_from_template('qtype_stack/questiontestrun', $initialdata);
 foreach($initialdata->tests->results as $key => $result) {
     $test = new StdClass();
     $test->output = $result->html_output($question, $key);
-    $testeditlink = new moodle_url('/question/type/stack/questiontestedit.php', array_merge($urlparams, ['testcase' => $key]));
-    $testconfirmlink = new moodle_url('/question/type/stack/questiontestedit.php', array_merge($urlparams, ['testcase' => $key, 'confirmthistestcase' => true]));
-    $testdeletelink = new moodle_url('/question/type/stack/questiontestdelete.php', array_merge($urlparams, ['testcase' => $key]));
+    $testeditlink = new moodle_url('/question/type/stack/questiontestedit.php', array_merge($urlparams, ['testcase' => $key]), 'variants-pane');
+    $testconfirmlink = new moodle_url('/question/type/stack/questiontestedit.php', array_merge($urlparams, ['testcase' => $key, 'confirmthistestcase' => true]), 'variants-pane');
+    $testdeletelink = new moodle_url('/question/type/stack/questiontestdelete.php', array_merge($urlparams, ['testcase' => $key]), 'variants-pane');
     $test->editlink = $testeditlink->out();
     $test->confirmlink = $testconfirmlink->out();
     $test->deletelink = $testdeletelink->out();
@@ -146,15 +147,50 @@ foreach($initialdata->tests->results as $key => $result) {
     echo $OUTPUT->render_from_template('qtype_stack/questiontestruntest', $test);
 }
 $variantdata = $dashboard->list_variants();
-
+$variantdata->deployfeedback = optional_param('deployfeedback', null, PARAM_TEXT);
+$variantdata->deployfeedbackerr = optional_param('deployfeedbackerr', null, PARAM_TEXT);
+if ($variantdata->deployfeedback || $variantdata->deployfeedbackerr) {
+    $PAGE->set_url('/question/type/stack/questiontestrun.php#variants-pane', $urlparams);
+}
+$variantdata->canedit = $canedit;
 foreach($variantdata->notes as $variant) {
     $variant->canedit = $canedit;
     $vdeletelink = new moodle_url(
         '/question/type/stack/deploy.php',
-        $urlparams + ['undeploy' => $deployedseed, 'sesskey' => $sesskey]
+        $urlparams + ['undeploy' => $seed, 'sesskey' => $sesskey],
+        'variants-pane'
     );
     $variant->deletelink = $vdeletelink->out();
 }
+$deploysinglelink = new moodle_url(
+    '/question/type/stack/deploy.php',
+    $urlparams + ['deploy' => $seed, 'sesskey' => $sesskey],
+    'variants-pane'
+);
+$variantdata->deploysinglelink = $deploysinglelink->out();
+$deploylink = new moodle_url(
+    '/question/type/stack/deploy.php',
+    [],
+    'variants-pane'
+);
+$variantdata->deploylink = $deploylink->out();
+$undeployalllink = new moodle_url(
+    '/question/type/stack/deploy.php',
+    $urlparams + ['undeployall' => true, 'sesskey' => $sesskey],
+    'variants-pane'
+);
+$variantdata->undeployalllink = $undeployalllink->out();
+
+$pageparams = $urlparams;
+unset($pageparams['seed']);
+$pagelink = new moodle_url('/question/type/stack/questiontestrun.php', [], 'variants-pane');
+$variantdata->pagelink = $pagelink->out();
+$variantdata->courseid = $courseid;
+$variantdata->questionid = $questionid;
+$variantdata->sesskey = $sesskey;
+$variantdata->newseed = mt_rand();
+$variantdata->deployedseeds = $question->deployedseeds;
+$variantdata->deploylistrows = min(count($question->deployedseeds), 5);
 echo $OUTPUT->render_from_template('qtype_stack/questiontestrunvariants', $variantdata);
 
 echo $OUTPUT->footer();

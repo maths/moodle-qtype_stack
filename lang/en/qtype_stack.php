@@ -645,6 +645,7 @@ $string['selectquiz'] = 'Select quiz to analyze results';
 $string['analyzeresponsesnotes'] = "Note, (1) all the students' answers for each quiz attempt are included here, (2) all versions of the question are included.";
 $string['splitsummary'] = 'Split summary';
 $string['variants'] = 'Variants';
+$string['tests'] = 'Tests';
 
 $string['importwillfail'] = 'This question cannot be saved or imported in its current state.';
 $string['noroots'] = 'The graph of this PRT has no roots. Does it have nodes?';

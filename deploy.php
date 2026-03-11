@@ -46,7 +46,7 @@ question_require_capability_on($questiondata, 'edit');
 require_sesskey();
 
 // Initialise $PAGE.
-$nexturl = new moodle_url('/question/type/stack/questiontestrun.php', $urlparams);
+$nexturl = new moodle_url('/question/type/stack/questiontestrun.php', $urlparams, 'variants-pane');
 $PAGE->set_url($nexturl); // Since this script always ends in a redirect.
 $PAGE->set_heading($COURSE->fullname);
 $PAGE->set_pagelayout('popup');

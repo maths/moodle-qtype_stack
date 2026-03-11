@@ -164,6 +164,7 @@ class stack_question_dashboard {
 
         $output->hasrandomvariants = $this->question->has_random_variants() ? true : false;
         $output->variantmatched = !$output->hasrandomvariants;
+        $output->variantdeployed = false;
 
         if (!empty($this->question->deployedseeds)) {
             $output->deployedcount = count($this->question->deployedseeds);
@@ -171,6 +172,12 @@ class stack_question_dashboard {
             $progressevery = (int) min(max(1, count($this->question->deployedseeds) / 500), 100);
             foreach ($this->question->deployedseeds as $key => $deployedseed) {
                 $variant = $this->get_variant($key, $deployedseed);
+                if ($variant->iscurrentvariant) {
+                    $output->variantmatched = true;
+                    if ($variant->isdeployed) {
+                        $output->variantdeployed = true;
+                    }
+                }
                 $output->variantmatched = ($variant->iscurrentvariant) ? true : $output->variantmatched;
                 $output->notes[] = $variant;
                 $questionnotes[] = $variant->questionnote;
@@ -240,6 +247,9 @@ class stack_question_dashboard {
         $qunote->start_question($slotnote);
         // Check for duplicate question notes.
         $output->questionnote = $qn->get_question_summary();
+        if ($output->questionnote == $this->question->get_question_summary()) {
+            $output->isdeployed = true;
+        }
         $output->questionnoterendered = stack_ouput_castext($output->questionnote);
         $output->bulktestresultspass = $bulktestresults[0] ? true : false;
         $output->bulktestresults = $bulktestresults[1];

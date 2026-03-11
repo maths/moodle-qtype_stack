@@ -37,6 +37,15 @@ You can use the question library to import a whole folder of questions, or a qui
 
 Some directories have quiz files which are stored as `.json` files in the directories.  If you import this file then STACK will create a simple quiz.   Which questions, the order in quiz, pagination, etc. are imported.  Assessment policies such as behaviour (e.g. adaptive mode), due date, number of attempts and so on need to be set by hand.
 
+## HTML fragments
+
+STACK questions in the library are incomplete .xml files, missing the following fields
+
+* Standard PRT feedback (e.g. "Correct answer, well done"
+* Decimal separator option
+
+When imported STACK chooses the current system default. 
+
 # Moodle courses released with STACK #
 
 STACK is released with a demonstration course.

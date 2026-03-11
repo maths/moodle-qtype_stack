@@ -47,15 +47,6 @@ ta2: true;</text>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <prtcorrect format="html">
-      <text/>
-    </prtcorrect>
-    <prtpartiallycorrect format="html">
-      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
-    </prtpartiallycorrect>
-    <prtincorrect format="html">
-      <text/>
-    </prtincorrect>
     <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
@@ -124,7 +115,7 @@ ta2: true;</text>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt1-1-T</trueanswernote>
         <truefeedback format="html">
-          <text><![CDATA[<p><span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.<br></p>]]></text>
+          <text><![CDATA[]]></text>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0.0000000</falsescore>
@@ -132,8 +123,7 @@ ta2: true;</text>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt1-1-F</falseanswernote>
         <falsefeedback format="html">
-          <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.
-<p>The general form is \(ax+b=0\) where \(a\) and \(b\) are known numbers and \(x\) represents the unknown quantity.<br></p>]]></text>
+          <text><![CDATA[<p>The general form is \(ax+b=0\) where \(a\) and \(b\) are known numbers and \(x\) represents the unknown quantity.<br></p>]]></text>
         </falsefeedback>
       </node>
     </prt>
@@ -159,16 +149,7 @@ ta2: true;</text>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt2-1-T</trueanswernote>
         <truefeedback format="html">
-          <text><![CDATA[<p></p><div title="Page 5">
-			<div>
-				<div>
-					<div>
-						<p>A root is a value for the unknown which satisfies the equation.
-</p>
-					</div>
-				</div>
-			</div>
-		</div><br><p></p>]]></text>
+          <text><![CDATA[<p>A root is a value for the unknown which satisfies the equation.</p>]]></text>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0.0000000</falsescore>
@@ -176,16 +157,7 @@ ta2: true;</text>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt2-1-F</falseanswernote>
         <falsefeedback format="html">
-          <text><![CDATA[<p></p><div title="Page 5">
-			<div>
-				<div>
-					<div>
-						<p>A root is a value for the unknown which satisfies the equation.
-</p>
-					</div>
-				</div>
-			</div>
-		</div><br><p></p>]]></text>
+          <text><![CDATA[<p>A root is a value for the unknown which satisfies the equation.</p>]]></text>
         </falsefeedback>
       </node>
     </prt>

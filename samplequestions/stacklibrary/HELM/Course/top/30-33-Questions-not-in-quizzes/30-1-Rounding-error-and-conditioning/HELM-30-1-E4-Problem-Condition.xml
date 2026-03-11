@@ -84,15 +84,6 @@ b_mcq: [
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <prtcorrect format="markdown">
-      <text>Richtige Antwort, gut gemacht!</text>
-    </prtcorrect>
-    <prtpartiallycorrect format="markdown">
-      <text>Ihre Antwort ist teilweise korrekt.</text>
-    </prtpartiallycorrect>
-    <prtincorrect format="markdown">
-      <text>Falsche Antwort.</text>
-    </prtincorrect>
     <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>

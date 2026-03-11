@@ -40,16 +40,6 @@ ta5: deg-1;]]></text>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <prtcorrect format="html">
-      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
-<file name="tick.png" path="/" encoding="base64">iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAAigAAAIoBlCJR2wAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAHnSURBVDiNrdW/axNhHMfx9/e5gG0QMeAf0azmHCVeQBuSGwwh4KR/Q5Opk10KLrV/glLoUjhSpCmFFC8di0nWDk52cos61IT07uuQH70kQ3Lqd7p7+D6v5+Hhuc+JqjJfTstJ0EvmjWKjmlEhAyBKB5FOKLRJ3Zz5z/zb+bkyD2brbtrS8ACwF1aarXYg5vVF6eQqOmimMiI5r1i1NOyugAHYlobdnFesCiILoOMVthDdA9ZWwCaliO45XmFrBszW3TSiuzEggEMrSGwIfEV0N1t30wDGaTmJ8ZnF2dnho+D+m2bl0/WQMIvwzdLwwGk5CUMvmWe1M5vBjipHAYD1a9BT5Rqw6SXzxujfY85HZ00erB8LPAdAw4xBNTM36XscDNicNBgV20wu7bgurWC4oSLv4mIAKmRM5P3SCoabzUrzp19qbEfQlbDpLkXpjB7vLieAX2psK7yKg4nSkZxX2FH0LYDCF8y9F/7L+o/55mXYaL7umFBoT1eAJxIOms5x6WFcbASYjiF1cwZ3KGBLODh/2nBTsTBGCSSqOkmYLrNfS/eW0E1gPqyA9QMxjy9KJ1fT+Mp5xeo4HKL1G1hfgoFK7XO58R4iaeOXT/dRqQH9SOsyrI9KzS+f7k8G/nvALoDwb7+APy1h/QXTkPfjAAAAAElFTkSuQmCC</file>
-    </prtcorrect>
-    <prtpartiallycorrect format="html">
-      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
-    </prtpartiallycorrect>
-    <prtincorrect format="html">
-      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
-    </prtincorrect>
     <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>none</multiplicationsign>

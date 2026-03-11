@@ -36,15 +36,6 @@ ta:(v-a)^(n+1)/(n+1);</text>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <prtcorrect format="html">
-      <text><![CDATA[<p><span class="correct">Correct answer, well done.</span></p>]]></text>
-    </prtcorrect>
-    <prtpartiallycorrect format="html">
-      <text><![CDATA[<p><span class="partially">Your answer is partially correct.</span></p>]]></text>
-    </prtpartiallycorrect>
-    <prtincorrect format="html">
-      <text><![CDATA[<p><span class="incorrect">Incorrect answer.</span></p>]]></text>
-    </prtincorrect>
     <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>

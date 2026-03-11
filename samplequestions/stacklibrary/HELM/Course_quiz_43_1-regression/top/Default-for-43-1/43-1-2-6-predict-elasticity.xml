@@ -210,15 +210,6 @@ slope (ta9) = {@ta9@} intercept (ta10) = {@ta10@}, ta11 = {@ta11@}</text>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <prtcorrect format="html">
-      <text>Correct answer, well done.</text>
-    </prtcorrect>
-    <prtpartiallycorrect format="html">
-      <text>Your answer is partially correct.</text>
-    </prtpartiallycorrect>
-    <prtincorrect format="html">
-      <text>Incorrect answer.</text>
-    </prtincorrect>
     <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>

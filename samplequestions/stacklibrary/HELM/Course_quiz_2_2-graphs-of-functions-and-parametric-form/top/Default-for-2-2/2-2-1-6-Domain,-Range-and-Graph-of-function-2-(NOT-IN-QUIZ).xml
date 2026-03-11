@@ -152,15 +152,6 @@ thumbnailplot:lambda([ex1,ex2],plot(ex1,[t,-5,5],[y,-30, 30],[box, false],[yx_ra
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <prtcorrect format="html">
-      <text>Correct answer, well done.</text>
-    </prtcorrect>
-    <prtpartiallycorrect format="html">
-      <text>Your answer is partially correct.</text>
-    </prtpartiallycorrect>
-    <prtincorrect format="html">
-      <text>Incorrect answer.</text>
-    </prtincorrect>
     <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>none</multiplicationsign>

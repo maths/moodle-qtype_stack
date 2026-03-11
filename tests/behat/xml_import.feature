@@ -32,7 +32,10 @@ Feature: Test importing STACK questions from Moodle XML files.
     And I am on the "Course 1" "core_question > course question export" page
     And I set the field "id_format_xml" to "1"
     And I press "Export questions to file"
-    And following "click here" should download between "50000" and "70000" bytes
+    Then following "click here" should download a file that:
+      | Has mimetype                 | text/xml       |
+      | Contains text in xml element | [[input:ans1]] |
+
     # If the download step is the last in the scenario then we can sometimes run
     # into the situation where the download page causes a http redirect but behat
     # has already conducted its reset (generating an error). By putting a logout
@@ -55,7 +58,9 @@ Feature: Test importing STACK questions from Moodle XML files.
     And I am on the "Course 1" "core_question > course question export" page
     And I set the field "id_format_xml" to "1"
     And I press "Export questions to file"
-    And following "click here" should download between "5000" and "6000" bytes
+    Then following "click here" should download a file that:
+      | Has mimetype                 | text/xml       |
+      | Contains text in xml element | [[input:ans1]] |
     And I log out
 
   @javascript @_file_upload
@@ -78,5 +83,7 @@ Feature: Test importing STACK questions from Moodle XML files.
     And I am on the "Course 1" "core_question > course question export" page
     And I set the field "id_format_xml" to "1"
     And I press "Export questions to file"
-    And following "click here" should download between "6000" and "7000" bytes
+    Then following "click here" should download a file that:
+      | Has mimetype                 | text/xml       |
+      | Contains text in xml element | [[input:ans]] |
     And I log out

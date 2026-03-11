@@ -48,7 +48,8 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
 
         // Testing a representative selection of fields.
         $this->assertEquals('test_3_matrix', $question->name);
-        $this->assertEquals('<p><span class="correct">Correct answer, well done.</span></p>', $question->prtcorrect);
+        $this->assertEquals('<p>[[commonstring key="symbolicprtcorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtcorrectfeedback"/]]</p>', $question->prtcorrect);
         $this->assertEquals('html', $question->prtcorrectformat);
         $nodesummary = $question->prts['prt1']->get_nodes_summary()[0];
         $this->assertEquals('-1', $nodesummary->truenextnode);
@@ -151,17 +152,20 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         );
         $this->assertEquals('html', $question->generalfeedbackformat);
         $this->assertEquals(
-            '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            '[[commonstring key="symbolicprtcorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtcorrectfeedback"/]]',
             $question->prtcorrect
         );
         $this->assertEquals('html', $question->prtcorrectformat);
         $this->assertEquals(
-            '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.',
+            '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             $question->prtpartiallycorrect
         );
         $this->assertEquals('html', $question->prtpartiallycorrectformat);
         $this->assertEquals(
-            '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            '[[commonstring key="symbolicprtincorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtincorrectfeedback"/]]',
             $question->prtincorrect
         );
         $this->assertEquals('html', $question->prtincorrectformat);

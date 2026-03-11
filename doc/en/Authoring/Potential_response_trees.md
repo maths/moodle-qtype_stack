@@ -98,7 +98,7 @@ The feedback created by PRTs has the following parts concatenated together.
 
     [Generic feedback] [Runtime errors] [PRT generated feedback] [Score ?]
 
-The `[Generic feedback]` is a question level option, e.g. "Standard feedback for correct", to provide consistency across a question. By default the `[Generic feedback]` contains both an initial symbol, and a language sentence.  The current "correct" default is
+The `[Generic feedback]` is a question level option, e.g. "Standard feedback for correct", to provide consistency across a question. By default the `[Generic feedback]` contains both an initial symbol, and a language sentence.  The current "correct" default is displayed as
 
 <span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.
 

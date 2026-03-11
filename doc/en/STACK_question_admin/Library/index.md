@@ -37,6 +37,15 @@ You can use the question library to import a whole folder of questions, or a qui
 
 Some directories have quiz files which are stored as `.json` files in the directories.  If you import this file then STACK will create a simple quiz.   Which questions, the order in quiz, pagination, etc. are imported.  Assessment policies such as behaviour (e.g. adaptive mode), due date, number of attempts and so on need to be set by hand.
 
+## HTML fragments
+
+STACK questions in the library are incomplete .xml files, missing the following fields
+
+* Standard PRT feedback (e.g. "Correct answer, well done"
+* Decimal separator option
+
+When imported STACK chooses the current system default. 
+
 # Local site libraries
 
 Additional libraries of STACK questions can be installed on your Moodle server. Once STACK is installed, there will be a `stack/sitelibrary` directory within the Moodle data directory. STACK will interpret each top-level subdirectory of `stack/sitelibrary` as a separate library and allow you to switch between them (and the STACK question library) using a dropdown on the library page displaying subdirectory names. Ask your server administrator to copy a library you wish to use into a suitably named subdirectory in `stack/sitelibrary`. After any update to an installed library, the Moodle MUC cache will need to be cleared.

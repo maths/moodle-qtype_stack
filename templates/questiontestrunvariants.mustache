@@ -121,11 +121,11 @@
         {{/hasrandomvariants}}
         {{^notes.0}}
             {{#hasrandomvariants}}
-                <p>{{#str}} runquestiontests_alert, qtype_stack {{/str}} <a href="{{{previewurl}}}">{{#pix}}t/preview, core, {{#str}} preview, core {{/str}}{{/pix}}</a></p>
+                <p><i class="icon fa fa-exclamation-circle text-danger fa-fw"></i>{{#str}} runquestiontests_alert, qtype_stack {{/str}} <a href="{{{previewurl}}}">{{#pix}}t/preview, core, {{#str}} preview, core {{/str}}{{/pix}}</a></p>
             {{/hasrandomvariants}}
         {{/notes.0}}
         {{#duplicateerror}}
-            <p>{{#str}} deployduplicateerror, qtype_stack {{/str}}</p>
+            <p><i class="icon fa fa-exclamation-circle text-danger fa-fw"></i>{{#str}} deployduplicateerror, qtype_stack {{/str}}</p>
         {{/duplicateerror}}
         {{#notes.0}}
             <table class="generaltable stacktestsuite">
@@ -235,8 +235,12 @@
                         </summary>
                         <pre>{{#deployedseeds}}{{.}}<br>{{/deployedseeds}}</pre>
                     </details>
-
                 </form>
+                <div class="deploymany">
+                    <button class="btn btn-warning" type="button" onclick="window.location.href='{{{testalllink}}}'">
+                        {{#str}} deploytestall, qtype_stack {{/str}}
+                    </button>
+                </div>
             {{/canedit}}
         {{/hasrandomvariants}}
     </div>

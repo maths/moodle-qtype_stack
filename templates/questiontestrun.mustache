@@ -170,6 +170,9 @@
       <p>{{question.stackversion}}</p>
     </div>
     <div class="tab-pane active mt-3" id="test-pane" role="tabpanel" aria-labelledby="test-tab">
+      {{#general.testcreated}}
+        <p><i class="icon fa fa-exclamation-circle text-danger fa-fw"></i>{{#str}} runquestiontests_auto, qtype_stack {{/str}}</p>
+      {{/general.testcreated}}
       {{#general.canedit}}{{#tests.demotest}}
         <button class="btn btn-danger" type="button" onclick="window.location.href='{{{general.defaulttestlink}}}'">
           {{#str}} runquestiontests_autoprompt, qtype_stack {{/str}}
@@ -184,9 +187,56 @@
       {{#question.validationerrors}}
         <p class="fail">{{question.validationerrors}}</p>
       {{/question.validationerrors}}
-      {{#question.tests.results.0}}
+      {{#question.tests.hasresults}}
         <h2>{{#str}} runquestiontests_autoprompt, qtype_stack {{/str}}</h2>
-      {{/question.tests.results.0}}
+      {{/question.tests.hasresults}}
+      {{#tests.hasheadlineerror}}
+        <p class="overallresult fail">{{#str}} errors, qtype_stack {{/str}}</p>
+        {{#tests.runtimeerrors}}
+          <p>{{{#tests.runtimeerrors}}}</p>
+        {{/tests.runtimeerrors}}
+        {{#tests.generalfeedbackerror}}
+          <p>{{#str}} errors, qtype_stack {{/str}}: {{tests.generalfeedbackerror}}</p>
+        {{/tests.generalfeedbackerror}}
+      {{/tests.hasheadlineerror}}
+      {{#tests.hasinputs}}
+        <h2>{{#str}} questiontestsfor, qtype_stack, {{question.seed}} {{/str}}</h2>
+      {{/tests.hasinputs}}
+      {{^tests.hasresults}}
+        <p>
+          <i class="icon fa fa-exclamation-circle text-danger fa-fw"></i>{{#str}} runquestiontests_alert, qtype_stack {{/str}}
+          {{#str}} notestcasesyet, qtype_stack {{/str}}
+        </p>
+      {{/tests.hasresults}}
+      {{#tests.hasresults}}
+        {{#tests.allpassed}}
+          <p class="overallresult pass">
+            {{#tests.hasrandomvariants}}
+              {{#str}} questiontestsfor, qtype_stack, {{question.seed}} {{/str}}:
+            {{/tests.hasrandomvariants}}
+            {{#str}} stackInstall_testsuite_pass, qtype_stack {{/str}}
+          </p>
+        {{/tests.allpassed}}
+        {{^tests.allpassed}}
+          <p class="overallresult fail">
+            {{#tests.hasrandomvariants}}
+              {{#str}} questiontestsfor, qtype_stack, {{question.seed}} {{/str}}:
+            {{/tests.hasrandomvariants}}
+            {{#str}} stackInstall_testsuite_fail, qtype_stack {{/str}}
+          </p>
+        {{/tests.allpassed}}
+      {{/tests.hasresults}}
+      {{#general.canedit}}
+        <button class="btn btn-secondary" type="button" onclick="window.location.href='{{{tests.testeditlink}}}'">
+          {{#tests.hasresults}}
+            {{#str}} addanothertestcase, qtype_stack {{/str}}
+          {{/tests.hasresults}}
+          {{^tests.hasresults}}
+            {{#str}} addatestcase, qtype_stack {{/str}}
+          {{/tests.hasresults}}
+        </button>
+      {{/general.canedit}}
+      
 
 
 

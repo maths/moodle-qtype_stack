@@ -81,6 +81,7 @@ class stack_question_dashboard {
         $generalfeedback = $this->question->get_generalfeedback_castext();
         $output->rendergeneralfeedback = $renderer->general_feedback($this->quba->get_question_attempt($this->slot));
         $output->generalfeedbackerr = $generalfeedback->get_errors();
+        $output->seed = $this->question->seed;
 
         $questiondescription = $this->question->get_questiondescription_castext();
         $output->renderquestiondescription = $renderer->question_description($this->quba->get_question_attempt($this->slot));
@@ -97,7 +98,7 @@ class stack_question_dashboard {
 
         // Display a representation of the PRT for offline use.
         $offlinemaxima = [];
-        foreach ($this->question->prts as $name => $prt) {
+        foreach ($this->question->prts as $prt) {
             $offlinemaxima[] = $prt->get_maxima_representation();
         }
         $output->prts = s(implode("\n", $offlinemaxima));
@@ -118,6 +119,8 @@ class stack_question_dashboard {
         $output = new StdClass();
         $output->question = $this->question_details();
         $output->tests = $this->run_test_cases();
+        $output->tests->generalfeedbackerr = $output->question->generalfeedbackerr;
+        $output->tests->hasheadlineerror = ($output->tests->generalfeedbackerr || $output->tests->runtimeerrors) ? true : false;
         return $output;
     }
 
@@ -130,13 +133,16 @@ class stack_question_dashboard {
         $output->results = [];
         $output->demotest = false;
         $output->allpassed = true;
+        $output->runtimeerrors = implode('<br />', array_keys($this->question->runtimeerrors));
+        $output->hasrandomvariants = $this->question->has_random_variants() ? true : false;
         // Load the list of test cases.
         $testscases = question_bank::get_qtype('stack')->load_question_tests($this->question->id);
         // Create the default test case.
         $defaulttest = null;
         $defaulttestresult = null;
+        $output->hasinputs = ($this->question->inputs !== []) ? true : false;
 
-        if (empty($testscases) && $this->question->inputs !== []) {
+        if (empty($testscases) && $output->hasinputs) {
             $defaulttest = stack_bulk_tester::create_default_test($this->question);
             $defaulttestresult = $defaulttest->test_question($this->question->id, $this->question->seed, $this->context);
             $output->results[stack_string('runquestiontests_example')] = $defaulttestresult;
@@ -150,7 +156,7 @@ class stack_question_dashboard {
                 $output->allpassed = false;
             }
         }
-
+        $output->hasresults = (!empty($output->results)) ? true : false;
         return $output;
     }
 

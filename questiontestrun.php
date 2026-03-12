@@ -84,6 +84,7 @@ unset($qbankparams['seed']);
 unset($qbankparams['deploy']);
 unset($qbankparams['undeploy']);
 unset($qbankparams['undeployall']);
+unset($qbankparams['testall']);
 
 $editparams = $qbankparams;
 $editparams['id'] = $question->id;
@@ -113,15 +114,19 @@ $chatparams = $urlparams;
 $chatparams['initialise'] = true;
 $chatlink = new moodle_url('/question/type/stack/adminui/caschat.php', $chatparams);
 
-if (optional_param('defaulttestcase', null, PARAM_INT) && $canedit && $question->inputs !== []) {
-    $dashboard->create_default_test();
-}
 
 // Start output.
 echo $OUTPUT->header();
 $initialdata = $dashboard->initial_load();
-$initialdata->question->version = $qversion;
 $initialdata->general = new Stdclass();
+if (optional_param('defaulttestcase', null, PARAM_INT) && $canedit && $question->inputs !== []) {
+    $dashboard->create_default_test();
+    $initialdata->general->testcreated = true;
+} else {
+    $initialdata->general->testcreated = false;
+}
+
+$initialdata->question->version = $qversion;
 $initialdata->general->editquestionlink = $questionbanklinkedit->out();
 $initialdata->general->editxmllink = $questionxmllink->out();
 $initialdata->general->questionbanklink = $questionbanklink->out();
@@ -134,12 +139,14 @@ $initialdata->general->bulktestlink = $bulktestlink->out();
 $initialdata->general->canedit = $canedit;
 $dashboard->create_progress_bar();
 echo $OUTPUT->render_from_template('qtype_stack/questiontestrun', $initialdata);
+$testeditlink = new moodle_url('/question/type/stack/questiontestedit.php', $urlparams);
+$initialdata->tests->testeditlink = $testeditlink->out();
 foreach($initialdata->tests->results as $key => $result) {
     $test = new StdClass();
     $test->output = $result->html_output($question, $key);
-    $testeditlink = new moodle_url('/question/type/stack/questiontestedit.php', array_merge($urlparams, ['testcase' => $key]), 'variants-pane');
-    $testconfirmlink = new moodle_url('/question/type/stack/questiontestedit.php', array_merge($urlparams, ['testcase' => $key, 'confirmthistestcase' => true]), 'variants-pane');
-    $testdeletelink = new moodle_url('/question/type/stack/questiontestdelete.php', array_merge($urlparams, ['testcase' => $key]), 'variants-pane');
+    $testeditlink = new moodle_url('/question/type/stack/questiontestedit.php', array_merge($urlparams, ['testcase' => $key]));
+    $testconfirmlink = new moodle_url('/question/type/stack/questiontestedit.php', array_merge($urlparams, ['testcase' => $key, 'confirmthistestcase' => true]));
+    $testdeletelink = new moodle_url('/question/type/stack/questiontestdelete.php', array_merge($urlparams, ['testcase' => $key]));
     $test->editlink = $testeditlink->out();
     $test->confirmlink = $testconfirmlink->out();
     $test->deletelink = $testdeletelink->out();
@@ -191,6 +198,12 @@ $variantdata->sesskey = $sesskey;
 $variantdata->newseed = mt_rand();
 $variantdata->deployedseeds = $question->deployedseeds;
 $variantdata->deploylistrows = min(count($question->deployedseeds), 5);
+$testalllink = new moodle_url(
+        '/question/type/stack/questiontestrun.php',
+        $urlparams + ['testall' => '1', 'sesskey' => $sesskey],
+        'variants-pane'
+    );
+$variantdata->testalllink = $testalllink->out();
 echo $OUTPUT->render_from_template('qtype_stack/questiontestrunvariants', $variantdata);
 
 echo $OUTPUT->footer();

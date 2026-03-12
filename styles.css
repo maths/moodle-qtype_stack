@@ -443,6 +443,7 @@ body.path-question-type-stack .overallresult {
     color: white;
     font-weight: bold;
     padding: 0.5em;
+    border-radius: 5px;
 }
 body.path-question-type-stack .overallresult.fail {
     background: #f00;

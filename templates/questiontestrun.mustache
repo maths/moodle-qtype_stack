@@ -158,14 +158,27 @@
         <summary>{{#str}} prts, qtype_stack {{/str}}</summary>
         <div class="questionvariables"><pre>{{question.prts}}</pre></div>
       </details>
+      <br>
       <h3>{{#str}} questionpreview, qtype_stack {{/str}}</h3>
       {{{question.renderquestion}}}
+      <h3>{{#str}} questionnote, qtype_stack {{/str}}</h3>
+      <div class="que"><div class="questionnote">{{{question.questionnote}}}</div></div>
       <h3>{{#str}} generalfeedback, qtype_stack {{/str}}</h3>
-      <div class="que"><div class="outcome generalfeedback">{{{question.rendergeneralfeedback}}}</div></div>
+      {{#question.rendergeneralfeedback}}
+        <div class="que"><div class="outcome generalfeedback">{{{question.rendergeneralfeedback}}}</div></div>
+      {{/question.rendergeneralfeedback}}
+      {{^question.rendergeneralfeedback}}
+        <br><br><br>
+      {{/question.rendergeneralfeedback}}
       <h3>{{#str}} questiondescription, qtype_stack {{/str}}</h3>
-      <div class="que"><div class="outcome generalfeedback">{{{question.renderquestiondescription}}}</div></div>
+      {{#question.renderquestiondescription}}
+        <div class="que"><div class="outcome generalfeedback">{{{question.renderquestiondescription}}}</div></div>
+      {{/question.renderquestiondescription}}
       {{#question.questiondescription}}
         <div class="que"><pre class="outcome generalfeedback">{{question.questiondescription}}</pre></div>
+      {{/question.questiondescription}}
+      {{^question.questiondescription}}
+        <br><br><br>
       {{/question.questiondescription}}
       <p>{{question.stackversion}}</p>
     </div>
@@ -236,7 +249,8 @@
           {{/tests.hasresults}}
         </button>
       {{/general.canedit}}
-      
+      <br>
+
 
 
 

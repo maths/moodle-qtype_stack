@@ -59,6 +59,8 @@ class stack_multilang {
                    {\s*mlang\s*}                                # And look for the trailing {mlang}.
                    /isx';
 
+    private $replacementdone = false;
+
     /**
      * Filter text for the specified language.
      */

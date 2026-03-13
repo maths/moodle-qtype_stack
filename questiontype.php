@@ -798,7 +798,8 @@ class qtype_stack extends question_type {
         if (question_has_capability_on($question, 'view')) {
             $actions[] = new \action_menu_link_secondary(
                 new moodle_url('/question/type/stack/questiontestrun.php', $linkparams),
-                new \pix_icon('t/approve', ''),
+                // Should be the wrench.
+                new \pix_icon('t/preferences', ''),
                 get_string('runquestiontests', 'qtype_stack')
             );
         }
@@ -807,8 +808,8 @@ class qtype_stack extends question_type {
         if (question_has_capability_on($question, 'view')) {
             $actions[] = new \action_menu_link_secondary(
                 new moodle_url('/question/type/stack/tidyquestion.php', $linkparams),
-                new \pix_icon('t/edit', ''),
-                get_string('tidyquestion', 'qtype_stack')
+                new \pix_icon('t/sort_by', ''),
+                get_string('tidyquestion_txt', 'qtype_stack')
             );
         }
 

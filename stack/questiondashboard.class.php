@@ -100,9 +100,12 @@ class stack_question_dashboard {
         // Display a representation of the PRT for offline use.
         $offlinemaxima = [];
         foreach ($this->question->prts as $prt) {
-            $offlinemaxima[] = $prt->get_maxima_representation();
+            $obj = new stdClass();
+            $obj->name = $prt->get_name();
+            $obj->prt = $prt->get_maxima_representation();
+            $offlinemaxima[] = $obj;
         }
-        $output->prts = s(implode("\n", $offlinemaxima));
+        $output->prts = $offlinemaxima;
         $output->stackversion = ($this->question->stackversion == null) ?
             stack_string('stackversionnone') :
             stack_string('stackversionedited', $this->question->stackversion) .

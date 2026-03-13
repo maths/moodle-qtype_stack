@@ -152,17 +152,24 @@
   <!-- Tab panes -->
   <div class="tab-content">
     <div class="tab-pane mt-3" id="question-pane" role="tabpanel" aria-labelledby="question-tab">
+      <h2>{{question.name}}</h2>
+      <h2>{{#str}} seed, qtype_stack {{/str}}: {{question.seed}}</h2>
+      <br>
+      <h3>{{#str}} questionnote, qtype_stack {{/str}}</h3>
+      <div class="que"><div class="questionnote">{{{question.questionnote}}}</div></div>
       <h3>{{#str}} questionvariablevalues, qtype_stack {{/str}}</h3>
-      <div class="questionvariablevalues"><pre>{{question.questionvariablevalues}}</pre></div>
-      <details>
-        <summary>{{#str}} prts, qtype_stack {{/str}}</summary>
-        <div class="questionvariables"><pre>{{question.prts}}</pre></div>
-      </details>
+      <div class="questionvariables"><pre>{{question.questionvariablevalues}}</pre></div>
+      <br>
+      <h3>{{#str}} prts, qtype_stack {{/str}}</h3>
+      {{#question.prts}}
+        <details>
+          <summary><h4 style="display:inline-block">{{name}}</h4></summary>
+          <div class="questionvariables"><pre>{{prt}}</pre></div>
+        </details>
+      {{/question.prts}}
       <br>
       <h3>{{#str}} questionpreview, qtype_stack {{/str}}</h3>
       {{{question.renderquestion}}}
-      <h3>{{#str}} questionnote, qtype_stack {{/str}}</h3>
-      <div class="que"><div class="questionnote">{{{question.questionnote}}}</div></div>
       <h3>{{#str}} generalfeedback, qtype_stack {{/str}}</h3>
       {{#question.rendergeneralfeedback}}
         <div class="que"><div class="outcome generalfeedback">{{{question.rendergeneralfeedback}}}</div></div>

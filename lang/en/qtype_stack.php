@@ -570,7 +570,7 @@ $string['deployremoveall'] = 'Undeploy all variants';
 $string['deploytestall'] = 'Run all tests on all deployed variants (slow)';
 $string['deployfromlist'] = 'List positive integer seeds, one on each line.';
 $string['deployfromlistexisting'] = 'Current seeds:';
-$string['deployfromlistbtn'] = 'Remove variants and re-deploy from list';
+$string['deployfromlistbtn'] = 'Remove variants and re-deploy from list of seeds';
 $string['deployfromlisterror'] = 'An error was detected in your list of integers, and so no changes were made to the list of deployed variants.';
 $string['editingtestcase'] = 'Editing test case {$a->no} for question {$a->question}';
 $string['editthistestcase'] = 'Edit this test case.';
@@ -607,9 +607,9 @@ $string['runquestiontests_autoprompt'] = 'Add test case assuming the teacher\'s 
 $string['runquestiontests_explanation'] = 'If you add the test, its output will look like this:';
 $string['runquestiontests_example'] = 'example';
 $string['autotestcase'] = 'Test case assuming the teacher\'s input gets full marks.';
-$string['showingundeployedvariant'] = 'Showing undeployed variant: {$a}';
+$string['showingundeployedvariant'] = 'Showing undeployed seed: {$a}';
 $string['switch'] = 'Switch';
-$string['switchtovariant'] = 'Switch to variant: ';
+$string['switchtovariant'] = 'Switch to seed: ';
 $string['testcasexresult'] = 'Test case {$a->no} {$a->result}';
 $string['testingquestion'] = 'Testing question {$a}';
 $string['testingquestionvariants'] = 'Preparing question variants';
@@ -620,6 +620,7 @@ $string['tidyquestionx'] = 'Rename the parts of question {$a}';
 $string['undeploy'] = 'Un-deploy';
 $string['variant'] = 'Variant';
 $string['seednumber'] = 'Seed number';
+$string['seed'] = 'Seed';
 
 $string['editquestioninthequestionbank'] = '<i class="fa fa-pencil"></i> Edit question';
 $string['seethisquestioninthequestionbank'] = '<i class="fa fa-list-alt"></i> Show in question bank';

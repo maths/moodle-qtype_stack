@@ -182,11 +182,11 @@
                     </div>
                 </div>
             </form>
+            <br>
+            <h3>{{#str}} variantmanagement, qtype_stack {{/str}}</h3>
         {{/hasrandomvariants}}
-        <br>
-        <h3>{{#str}} variantmanagement, qtype_stack {{/str}}</h3>
         {{^variantmatched}}
-            <div class="undeployedvariant">
+            <div class="undeployedvarian">
                 <b>{{#str}} showingundeployedvariant, qtype_stack, {{seed}} {{/str}}</b>
                 {{#canedit}}
                     {{#variantdeployed}}
@@ -202,7 +202,7 @@
         {{/variantmatched}}
         {{#notes.0}}
             {{#canedit}}
-                <div class="deploymany">
+                <div class="deploymany mt-3">
                     <button class="btn btn-danger" type="button" onclick="window.location.href='{{{undeployalllink}}}'">
                         {{#str}} deployremoveall, qtype_stack {{/str}}
                     </button>
@@ -233,22 +233,6 @@
                     </div>
                 </div>
                 </form>
-                <form method="get" class="deploysystematic" action="{{{deploylink}}}">
-                    <input type="hidden" name="courseid" value="{{courseid}}">
-                    <input type="hidden" name="questionid" value="{{questionid}}">
-                    <input type="hidden" name="sesskey" value="{{sesskey}}">
-                    <div class="row mt-3">
-                        <div class="col-2">
-                            {{#str}} deploysystematicbtn, qtype_stack {{/str}}
-                        </div>
-                        <div class="col-2">
-                            <input type="text" id="deploysystematicfield" name="deploysystematic" class="form-control">
-                        </div>
-                        <div class="col-2">
-                            <input type="submit" class="btn btn-secondary" value="{{#str}} deploybtn, qtype_stack {{/str}}">
-                        </div>
-                    </div>
-                </form>
                 <form method="get" class="deploysystematicfromto" action="{{{deploylink}}}">
                     <input type="hidden" name="courseid" value="{{courseid}}">
                     <input type="hidden" name="questionid" value="{{questionid}}">
@@ -258,7 +242,7 @@
                             {{#str}} deploysystematicfrombtn, qtype_stack {{/str}}
                         </div>
                         <div class="col-2">
-                            <input type="text" id="deploysystematicfromfield" name="deploysystematicfrom" class="form-control" style="width: 40%; display: inline;">
+                            <input type="text" id="deploysystematicfromfield" name="deploysystematicfrom" class="form-control" style="width: 40%; display: inline;" value="1">
                             {{#str}} deploysystematicto, qtype_stack {{/str}}
                             <input type="text" id="deploysystematictofield" name="deploysystematicto" class="form-control" style="width: 40%; display: inline;">
                         </div>

@@ -132,7 +132,7 @@ echo $OUTPUT->header();
 $links = [];
 $qtype = new qtype_stack();
 $qtestlink = $qtype->get_question_test_url($question);
-$links[] = html_writer::link($qtestlink, '<i class="fa fa-wrench"></i> '
+$links[] = html_writer::link($qtestlink, stack_string('runquestiontests_icon')
                     . stack_string('runquestiontests'), ['class' => 'nav-link']);
 $qpreviewlink = qbank_previewquestion\helper::question_preview_url($questionid, null, null, null, null, $context);
 $links[] = html_writer::link($qpreviewlink, '<i class="fa fa-plus-circle"></i> '

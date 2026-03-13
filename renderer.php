@@ -251,7 +251,7 @@ class qtype_stack_renderer extends qtype_renderer {
         } else {
             $links[] = html_writer::link(
                 $question->qtype->get_question_test_url($question),
-                '<i class="fa fa-wrench"></i> ' . stack_string('runquestiontests')
+                stack_string('runquestiontests_icon') . stack_string('runquestiontests')
             );
         }
 

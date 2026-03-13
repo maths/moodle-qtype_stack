@@ -240,16 +240,20 @@
         {{/tests.allpassed}}
       {{/tests.hasresults}}
       {{#general.canedit}}
-        <button class="btn btn-secondary" type="button" onclick="window.location.href='{{{tests.testeditlink}}}'">
-          {{#tests.hasresults}}
-            {{#str}} addanothertestcase, qtype_stack {{/str}}
-          {{/tests.hasresults}}
-          {{^tests.hasresults}}
-            {{#str}} addatestcase, qtype_stack {{/str}}
-          {{/tests.hasresults}}
-        </button>
+        <form method="get" class="switchtovariant" action="{{{tests.testeditlink}}}">
+          <input type="hidden" name="courseid" value="{{general.courseid}}">
+          <input type="hidden" name="questionid" value="{{general.questionid}}">
+          <input type="hidden" name="seed" value="{{general.seed}}">
+          <button class="btn btn-secondary" type="submit">
+            {{#tests.hasresults}}
+              {{#str}} addanothertestcase, qtype_stack {{/str}}
+            {{/tests.hasresults}}
+            {{^tests.hasresults}}
+              {{#str}} addatestcase, qtype_stack {{/str}}
+            {{/tests.hasresults}}
+          </button>
+        </form>
       {{/general.canedit}}
-      <br>
 
 
 

@@ -137,11 +137,15 @@ $initialdata->general->reportlink = $reportlink->out();
 $initialdata->general->todolink = $todolink->out();
 $initialdata->general->bulktestlink = $bulktestlink->out();
 $initialdata->general->canedit = $canedit;
+$initialdata->general->courseid = $courseid;
+$initialdata->general->questionid = $questionid;
+$initialdata->general->seed = $seed;
+$testeditlink = new moodle_url('/question/type/stack/questiontestedit.php', $urlparams);
+$initialdata->tests->testeditlink = $testeditlink->out();
 $dashboard->create_progress_bar();
 echo $OUTPUT->render_from_template('qtype_stack/questiontestrun', $initialdata);
 flush();
-$testeditlink = new moodle_url('/question/type/stack/questiontestedit.php', $urlparams);
-$initialdata->tests->testeditlink = $testeditlink->out();
+
 foreach($initialdata->tests->results as $key => $result) {
     $test = new StdClass();
     $test->output = $result->html_output($question, $key);

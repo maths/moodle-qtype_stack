@@ -130,7 +130,7 @@
         {{#notes.0}}
             <table class="generaltable stacktestsuite">
                 <tr>
-                    <th>{{#str}} variant, qtype_stack {{/str}}</th>
+                    <th>{{#str}} seednumber, qtype_stack {{/str}}</th>
                     <th>{{#str}} questionnote, qtype_stack {{/str}}</th>
                     <th></th>
                     <th></th>
@@ -166,6 +166,25 @@
         {{#notes.0}}
             </table>
         {{/notes.0}}
+        {{#hasrandomvariants}}
+            <form method="get" class="switchtovariant" action="{{pagelink}}">
+                <input type="hidden" name="courseid" value="{{courseid}}">
+                <input type="hidden" name="questionid" value="{{questionid}}">
+                <div class="row mt-3">
+                    <div class="col-2">
+                        {{#str}} switchtovariant, qtype_stack {{/str}}
+                    </div>
+                    <div class="col-2">
+                        <input type="text" id="seedfield" name="seed" value="{{newseed}}" class="form-control">
+                    </div>
+                    <div class="col-2">
+                        <input type="submit" class="btn btn-secondary" value="{{#str}} switch, qtype_stack {{/str}}">
+                    </div>
+                </div>
+            </form>
+        {{/hasrandomvariants}}
+        <br>
+        <h3>{{#str}} variantmanagement, qtype_stack {{/str}}</h3>
         {{^variantmatched}}
             <div class="undeployedvariant">
                 <b>{{#str}} showingundeployedvariant, qtype_stack, {{seed}} {{/str}}</b>
@@ -194,21 +213,6 @@
             {{/canedit}}
         {{/notes.0}}
         {{#hasrandomvariants}}
-            <form method="get" class="switchtovariant" action="{{pagelink}}">
-                <input type="hidden" name="courseid" value="{{courseid}}">
-                <input type="hidden" name="questionid" value="{{questionid}}">
-                <div class="row mt-3">
-                    <div class="col-2">
-                        {{#str}} switchtovariant, qtype_stack {{/str}}
-                    </div>
-                    <div class="col-2">
-                        <input type="text" id="seedfield" name="seed" value="{{newseed}}" class="form-control">
-                    </div>
-                    <div class="col-2">
-                        <input type="submit" class="btn btn-secondary" value="{{#str}} switch, qtype_stack {{/str}}">
-                    </div>
-                </div>
-            </form>
             {{#canedit}}
                 <form method="get" class="deploymany" action="{{{deploylink}}}">
                     <input type="hidden" name="courseid" value="{{courseid}}">

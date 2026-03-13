@@ -546,6 +546,7 @@ $string['completetestcase'] = 'Fill in the rest of the form to make a passing te
 $string['teacheranswercase'] = 'Use the teacher\'s answers as test-case';
 $string['createtestcase'] = 'Create test case';
 $string['currentlyselectedvariant'] = 'This is the variant shown below';
+$string['variantmanagement'] = 'Variant management';
 $string['deletetestcase'] = 'Delete test case {$a->no} for question {$a->question}';
 $string['deletetestcaseareyousure'] = 'Are you sure you want to delete test case {$a->no} for question {$a->question}?';
 $string['deletethistestcase'] = 'Delete this test case.';
@@ -618,6 +619,7 @@ $string['testthisvariant'] = 'Switch to test this variant';
 $string['tidyquestionx'] = 'Rename the parts of question {$a}';
 $string['undeploy'] = 'Un-deploy';
 $string['variant'] = 'Variant';
+$string['seednumber'] = 'Seed number';
 
 $string['editquestioninthequestionbank'] = '<i class="fa fa-pencil"></i> Edit question';
 $string['seethisquestioninthequestionbank'] = '<i class="fa fa-list-alt"></i> Show in question bank';

@@ -731,7 +731,7 @@ _CS2out() := (
 stack_disp(expr, exprm) := block([str:"", expru],
     /* LaTeX display */
     if OPT_OUTPUT = "LaTeX" then
-        if not(ev(elementp(exprm, {"", "i", "d", "id", "i{", "{"}), simp)) then print(concat("ERROR: illegal delimiter option found: ", exprm)),
+        if not(ev(elementp(exprm, {"", "i", "d", "id", "i{", "{"}), simp)) then error(concat("ERROR: stack_disp illegal delimiter option found: ", exprm)),
     /* Fine tune display, e.g. sort out display of atoms like theta0. */
     expru: %_ce_rem(expr),
     if not(stack_disp_control_structurep(expr)) then block(

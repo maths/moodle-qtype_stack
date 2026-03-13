@@ -27,7 +27,7 @@ require_once(__DIR__ . '../../emulation/MoodleEmulation.php');
 require_once(__DIR__ . '/../../stack/questionlibrary.class.php');
 // Required to pass Moodle code check. Uses emulation stub.
 require_login();
-$files = stack_question_library::get_file_list('../../samplequestions/stackdemo/*');
+$files = stack_question_library::get_file_list(realpath(__DIR__ . '/../../samplequestions/stackdemo') . '/*');
 
 $questions = [];
 foreach ($files->children as $file) {

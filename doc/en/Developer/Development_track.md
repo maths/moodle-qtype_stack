@@ -12,6 +12,21 @@ Important release notes:
 * STACK 4.12.0 requires PHP 8.1 or newer.  PHP 7.4 will not work.
 * We no longer support Moodle 4.1.
 * We now require the plugin [import as new version](https://github.com/maths/moodle-qbank_importasversion/).
+* We suggest you change the STACK options as follows to match the new default settings.
+
+1. Option `qtype_stack | prtcorrect` should now be
+
+    [[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]
+
+2. Option `qtype_stack | prtpartiallycorrect` should now be
+
+    [[commonstring key="symbolicprtpartiallycorrectfeedback"/]] [[commonstring key="defaultprtpartiallycorrectfeedback"/]]
+
+3. Option `qtype_stack | prtincorrect` should now be 
+
+    [[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]
+
+These options can be changed on the STACK plugin page (before or after upgrade).
 
 Changes and new features.
 
@@ -22,6 +37,10 @@ Changes and new features.
 5. Much code tidying to comply with updated to Moodle Code Checker.
 6. Add in suppport for `style` in Parsons blocks.  E.g. you can now use `style="compact"` to get smaller, tighter items.
 7. Facilitate bulk test for questions in a particular quiz.  (Issue #1521)  Follow the link from the question dashboard to see quizzes in which that question is used.
+8. STACK library now imports whole quizzes - look for a `.json` file in the library.
+9. Add in support for [local stack libraries](../STACK_question_admin/Library/index.md) of questions in the `stack/sitelibrary` directory within the Moodle data directory.
+10. Change the *Generic feedback* defaults to use the common language strings.  __Users upgrading their site in place will need to change the settings in the plugin setting page to the new default.__
+11.The Generic feedback and decimals options have been removed from questions in the question library.  When importing library questions, the current site defaults will be used.
 
 Issues with [github milestone 4.12.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.12.0) include
 

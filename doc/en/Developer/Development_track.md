@@ -47,6 +47,63 @@ Issues with [github milestone 4.12.0](https://github.com/maths/moodle-qtype_stac
 1. Fix [issue #406](https://github.com/maths/moodle-qtype_stack/issues/406)
 2. Remove all "cte" code from Maxima - mostly install.
 
+--------------------------------------
+## Testing a node, not a whole tree
+
+This section is a detailed design proposal to improve question testing to test a node, not a whole tree, and address issue #1703.
+
+### Change of `expectedanswernote`
+
+Make DB changes to considerably lengthen `expectedanswernote` from 255 chars:  https://github.com/maths/moodle-qtype_stack/blob/master/db/install.xml#L178
+
+This field now holds any expected notes from the branches, e.g.  `prt1-1-F | prt1-3-F | prt1-4-F`. Note in this example, there is no expectation from node 2. Individual notes are separated by `|` as in the current output, but this becomes part of the formal note syntax.
+
+* Currently `|` is not permitted in answer notes (see https://github.com/maths/moodle-qtype_stack/blob/master/questiontype.php#L2284)
+* When we split over `|` we should trim whitespace before comparison.
+
+The test passes if and only if the PRT produces those notes in order. We condone any notes from the PRT which don't appear in the test case expectation. Hence, with the expectation  `prt1-1-F | prt1-3-F | prt1-4-F` all the following will pass as tests.
+
+    prt1-1-F | prt1-2-T | prt1-3-F | prt1-4-F
+    prt1-1-F | prt1-2-F | prt1-3-F | prt1-4-F
+    prt1-1-F | prt1-2-T | prt1-3-F | prt1-4-T | prt1-5-F | prt1-6-F
+
+This is simple and I think authors will actually be able to write tests like this and understand what is being tested when they read other people's test.
+
+1. The current test setup is a special case of this (retaining back compatibility).
+2. We now test non-leaf nodes (the underlying purpose of issue #1703).
+3. Simple to author - you don't have to specify the whole route through the tree, but you _can_ specify the whole route through the tree.
+4. This can ignore output from answer tests. By design some answer tests give information about the specific input (e.g. missing items in a set). This is super helpful to teachers and for statistics, but wrecks testing of questions (each input gets a different note).
+
+TODO: add a button "confirm current test behavior" which copies the current note into a text input as the test expectation, and allows a teacher to edit (delete) any individual PRT notes which should not form part of the test case. (The authoring interface changes from a dropdown (prevents author errors) to a string input (more fragile).)
+
+The "confirm current test behavior" does not remove notes from answer tests.
+
+TODO: auto-remove notes from answer tests which contain calculations?  Easy enough to tag those notes and auto-detect them.
+
+* We __anchor__ these notes to specify an expected start/end note.   Use the range notations: `[...]` for both ends fixed, `(...]` for the end, `[...)` for the start, `(...)` for neither.
+* `(...]` would be the default if no wrapping defined (retains back compatibility).
+* Empty answer notes are not permitted, but the special string `()` indicates any answer note is accepted (rather than using the `any` string).
+
+TODO: update the _Tidy inputs and PRTs_ script.
+
+### Add in a new keyvals field "test variables".
+
+Add in a new keyvals field "test variables". The test execution would then take three CAS sessions.
+
+   1.  Loading up the seed, question variables, test variables and all input definitions, generating input "strings".
+   2. Those "strings" would then go through PHP side input validation and CAS side validation in the second CAS session.
+   3. Finally, the valid strings would be fed to the PRT functions in the last session, and logic to check if the PRT output matches would be included in that session, so that we do not need to output the full PRT function output for potentially a large number of tests, instead just booleans.
+
+### More flexibility in testing score/penalty.
+
+Introduce new keyword `any` in score/penalty effectiveley ignoring that field for the purposes of this test case.
+
+### Other ideas (later)
+
+1. It would be a fun (student project?!) to graphically illustrate the expected and actual route through the tree by expanding the current PRT graph library, or writing something else. (I get ahead of myself of course....)
+
+--------------------------------------
+
 ## Future Adapt block development ideas
 
 1. Add in a "counter" option to the button.  If set to true, then the value of the counter changes from true/false to the number of times the button has been pressed.

@@ -1287,3 +1287,6 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
 .que .comment {
     color: #44331b;
 }
+.stack-dash-tab-load:hover {
+    cursor: not-allowed;
+}

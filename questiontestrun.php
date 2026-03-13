@@ -139,6 +139,7 @@ $initialdata->general->bulktestlink = $bulktestlink->out();
 $initialdata->general->canedit = $canedit;
 $dashboard->create_progress_bar();
 echo $OUTPUT->render_from_template('qtype_stack/questiontestrun', $initialdata);
+flush();
 $testeditlink = new moodle_url('/question/type/stack/questiontestedit.php', $urlparams);
 $initialdata->tests->testeditlink = $testeditlink->out();
 foreach($initialdata->tests->results as $key => $result) {
@@ -152,6 +153,7 @@ foreach($initialdata->tests->results as $key => $result) {
     $test->deletelink = $testdeletelink->out();
     $test->canedit = $canedit;
     echo $OUTPUT->render_from_template('qtype_stack/questiontestruntest', $test);
+    flush();
 }
 $variantdata = $dashboard->list_variants();
 $variantdata->deployfeedback = optional_param('deployfeedback', null, PARAM_TEXT);

@@ -117,7 +117,8 @@ $chatlink = new moodle_url('/question/type/stack/adminui/caschat.php', $chatpara
 
 // Start output.
 echo $OUTPUT->header();
-$initialdata = $dashboard->initial_load();
+$initialdata = new StdClass();
+$initialdata->question = $dashboard->question_details();
 $initialdata->general = new Stdclass();
 if (optional_param('defaulttestcase', null, PARAM_INT) && $canedit && $question->inputs !== []) {
     $dashboard->create_default_test();
@@ -140,10 +141,16 @@ $initialdata->general->canedit = $canedit;
 $initialdata->general->courseid = $courseid;
 $initialdata->general->questionid = $questionid;
 $initialdata->general->seed = $seed;
+$dashboard->create_progress_bars();
+echo $OUTPUT->render_from_template('qtype_stack/questiontestrun', $initialdata);
+flush();
+
+$initialdata->tests = $dashboard->run_test_cases();
 $testeditlink = new moodle_url('/question/type/stack/questiontestedit.php', $urlparams);
 $initialdata->tests->testeditlink = $testeditlink->out();
-$dashboard->create_progress_bar();
 $initialdata->tests->output = [];
+$initialdata->tests->generalfeedbackerr = $initialdata->question->generalfeedbackerr;
+$initialdata->tests->hasheadlineerror = ($initialdata->tests->generalfeedbackerr || $initialdata->tests->runtimeerrors) ? true : false;
 
 foreach($initialdata->tests->results as $key => $result) {
     $test = new StdClass();
@@ -157,7 +164,7 @@ foreach($initialdata->tests->results as $key => $result) {
     $test->canedit = $canedit;
     $initialdata->tests->output[] = $test;
 }
-echo $OUTPUT->render_from_template('qtype_stack/questiontestrun', $initialdata);
+echo $OUTPUT->render_from_template('qtype_stack/questiontestruntests', $initialdata);
 flush();
 $variantdata = $dashboard->list_variants();
 $variantdata->deployfeedback = optional_param('deployfeedback', null, PARAM_TEXT);

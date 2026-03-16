@@ -78,7 +78,9 @@ if (!is_null($undeploy) && $question->deployedseeds) {
     $nexturl->param('seed', $seed);
     redirect($nexturl);
 }
-
+$listbtn = optional_param('deployfromlistbtn', null, PARAM_TEXT);
+$systbtn = optional_param('deploysyctbtn', null, PARAM_TEXT);
+$manybtn = optional_param('deploymanybtn', null, PARAM_TEXT);
 // Process undeployall if applicable.
 $deployfromlist = optional_param('deployfromlist', null, PARAM_INT);
 $deploysystematic = optional_param('deploysystematic', null, PARAM_INT);
@@ -86,8 +88,8 @@ $deploysystematicfrom = optional_param('deploysystematicfrom', null, PARAM_INT);
 $deploysystematicto = optional_param('deploysystematicto', null, PARAM_INT);
 $usefromtofeature = false;
 if (
-    !is_null($deployfromlist) || !is_null($deploysystematic) || (!is_null($deploysystematicfrom) &&
-    !is_null($deploysystematicto))
+    (!is_null($deployfromlist) && $listbtn) ||
+    (!is_null($deploysystematicfrom) && !is_null($deploysystematicto) && $systbtn)
 ) {
     // Check data integrity.
     $dataproblem = false;
@@ -173,7 +175,7 @@ $numforprogressbar = 10;
 core_php_time_limit::raise($maxtime); // Prevent PHP timeouts.
 gc_collect_cycles(); // Because PHP's default memory management is rubbish.
 
-if (!is_null($deploy)) {
+if (!is_null($deploy) && $manybtn) {
     if (0 == $deploy) {
         $nexturl->param('deployfeedbackerr', stack_string('deploymanyerror', ['err' => $deploytxt]));
         redirect($nexturl);

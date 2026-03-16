@@ -613,6 +613,7 @@ $string['switchtovariant'] = 'Switch to seed: ';
 $string['testcasexresult'] = 'Test case {$a->no} {$a->result}';
 $string['testingquestion'] = 'Testing question {$a}';
 $string['testingquestionvariants'] = 'Preparing question variants';
+$string['testingquestiontests'] = 'Preparing test results';
 $string['testinputs'] = 'Test inputs';
 $string['testinputsimpwarning'] = 'Please note that test inputs are always <em>unsimplified</em> regardless of the question or PRT option setting.  Please use <tt>ev(...,simp)</tt> to simplify part or all of the test input expressions.';
 $string['testthisvariant'] = 'Switch to test this variant';

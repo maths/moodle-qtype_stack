@@ -222,21 +222,16 @@
                         <div class="col-2">
                             {{#str}} deploymanybtn, qtype_stack {{/str}}
                         </div>
-                    <div class="col-2">
-                        <input type="text" id="deploymanyfield" name="deploymany" class="form-control">
+                        <div class="col-2">
+                            <input type="text" id="deploymanyfield" name="deploymany" class="form-control">
+                        </div>
+                        <div class="col-2">
+                            <input type="submit" name="deploymanybtn" class="btn btn-secondary" value="{{#str}} deploybtn, qtype_stack {{/str}}">
+                        </div>
+                        <div class="col-4">
+                            {{#str}} deploymanynotes, qtype_stack {{/str}}
+                        </div>
                     </div>
-                    <div class="col-2">
-                        <input type="submit" class="btn btn-secondary" value="{{#str}} deploybtn, qtype_stack {{/str}}">
-                    </div>
-                    <div class="col-4">
-                        {{#str}} deploymanynotes, qtype_stack {{/str}}
-                    </div>
-                </div>
-                </form>
-                <form method="get" class="deploysystematicfromto" action="{{{deploylink}}}">
-                    <input type="hidden" name="courseid" value="{{courseid}}">
-                    <input type="hidden" name="questionid" value="{{questionid}}">
-                    <input type="hidden" name="sesskey" value="{{sesskey}}">
                     <div class="row mt-3">
                         <div class="col-2">
                             {{#str}} deploysystematicfrombtn, qtype_stack {{/str}}
@@ -247,14 +242,9 @@
                             <input type="text" id="deploysystematictofield" name="deploysystematicto" class="form-control" style="width: 40%; display: inline;">
                         </div>
                         <div class="col-2">
-                            <input type="submit" class="btn btn-secondary" value="{{#str}} deploybtn, qtype_stack {{/str}}">
+                            <input type="submit" name="deploysystbtn" class="btn btn-secondary" value="{{#str}} deploybtn, qtype_stack {{/str}}">
                         </div>
                     </div>
-                </form>
-                <form method="get" class="deployfromlist" action="{{{deploylink}}}">
-                    <input type="hidden" name="courseid" value="{{courseid}}">
-                    <input type="hidden" name="questionid" value="{{questionid}}">
-                    <input type="hidden" name="sesskey" value="{{sesskey}}">
                     <div class="row mt-3">
                         <div class="col-2">
                             {{#str}} deployfromlistbtn, qtype_stack {{/str}}:
@@ -263,7 +253,7 @@
                             <textarea cols="15" rows="{{deploylistrows}}" id="deployfromlist" name="deployfromlist" class="form-control"></textarea>
                         </div>
                         <div class="col-2">
-                            <input type="submit" class="btn btn-secondary" value="{{#str}} deploybtn, qtype_stack {{/str}}">
+                            <input type="submit" name="deployfromlistbtn" class="btn btn-secondary" value="{{#str}} deploybtn, qtype_stack {{/str}}">
                         </div>
                         <div class="col-4">
                             {{#str}} deployfromlist, qtype_stack {{/str}}

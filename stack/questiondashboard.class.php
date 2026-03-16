@@ -49,7 +49,11 @@ class stack_question_dashboard {
     /**
      * @var object Variant progress bar.
      */
-    public $progress;
+    public $variantprogress;
+    /**
+     * @var object Test progress bar.
+     */
+    public $testprogress;
 
     public function __construct(object $question, int|null $seed, object $context) {
         $this->question = $question;
@@ -128,8 +132,9 @@ class stack_question_dashboard {
         return $output;
     }
 
-    public function create_progress_bar() {
-        $this->progress = new progress_bar('testingquestionvariants', 500, true);
+    public function create_progress_bars() {
+        $this->testprogress = new progress_bar('testingquestiontests', 500, true);
+        $this->variantprogress = new progress_bar('testingquestionvariants', 500, true);
     }
 
     public function run_test_cases() {
@@ -153,6 +158,8 @@ class stack_question_dashboard {
             $output->demotest = true;
         }
 
+        $progressevery = (int) min(max(1, count($testscases) / 200), 100);
+        $a = ['total' => count($testscases), 'done' => 0];
         // Execute the tests.
         foreach ($testscases as $key => $testcase) {
             $summaryoutput = new StdClass();
@@ -179,6 +186,11 @@ class stack_question_dashboard {
                 }
             }
             $output->summary[] = $summaryoutput;
+            $a['done'] += 1;
+            if ($a['done'] % $progressevery == 0 || $a['done'] == $a['total']) {
+                core_php_time_limit::raise(60);
+                $this->testprogress->update($a['done'], $a['total'], get_string('testingquestiontests', 'qtype_stack', $a));
+            }
         }
         $output->hasresults = (!empty($output->results)) ? true : false;
         return $output;
@@ -214,7 +226,7 @@ class stack_question_dashboard {
                 $a['done'] += 1;
                 if ($a['done'] % $progressevery == 0 || $a['done'] == $a['total']) {
                     core_php_time_limit::raise(60);
-                    $this->progress->update($a['done'], $a['total'], get_string('testingquestionvariants', 'qtype_stack', $a));
+                    $this->variantprogress->update($a['done'], $a['total'], get_string('testingquestionvariants', 'qtype_stack', $a));
                 }
             }
         } else {

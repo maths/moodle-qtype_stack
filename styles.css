@@ -420,7 +420,7 @@ body.path-question-type-stack table.stacktestsuite pre {
     max-width: 60em;
 }
 body.path-question-type-stack .stacktestsuite td {
-    padding: 0.3rem;
+    padding: 0.3rem 0.3rem 0.3rem 0.75rem;
 }
 body.path-question-type-stack .stacktestsuite .MathJax_Display {
     margin: 0;

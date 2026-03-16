@@ -245,6 +245,45 @@
             {{#str}} stackInstall_testsuite_fail, qtype_stack {{/str}}
           </p>
         {{/tests.allpassed}}
+        <table class="generaltable stacktestsuite">
+          <tr>
+            <th style="text-align: left;">{{#str}} answertest_ab, qtype_stack {{/str}}</th>
+            <th>{{#str}} description, qtype_stack {{/str}}</th>
+            <th>{{#str}} score, qtype_stack {{/str}}</th>
+            <th>{{#str}} penalty, qtype_stack {{/str}}</th>
+            <th>{{#str}} answernote, qtype_stack {{/str}}</th>
+          </tr>
+          {{#tests.summary}}
+            <tr onclick="window.location='#{{id}}'" style="cursor: pointer;">
+                <td>{{number}}</td>
+                <td>{{description}}</td>
+                <td>
+                  {{#scorepass}}
+                    {{#str}} symbolicprtcorrectfeedback, qtype_stack {{/str}}
+                  {{/scorepass}}
+                  {{^scorepass}}
+                    {{#str}} symbolicprtincorrectfeedback, qtype_stack {{/str}}
+                  {{/scorepass}}
+                </td>
+                <td>
+                  {{#penaltypass}}
+                    {{#str}} symbolicprtcorrectfeedback, qtype_stack {{/str}}
+                  {{/penaltypass}}
+                  {{^penaltypass}}
+                    {{#str}} symbolicprtincorrectfeedback, qtype_stack {{/str}}
+                  {{/penaltypass}}
+                </td>
+                <td>
+                  {{#notepass}}
+                    {{#str}} symbolicprtcorrectfeedback, qtype_stack {{/str}}
+                  {{/notepass}}
+                  {{^notepass}}
+                    {{#str}} symbolicprtincorrectfeedback, qtype_stack {{/str}}
+                  {{/notepass}}
+                </td>
+            </tr>
+          {{/tests.summary}}
+        </table>
       {{/tests.hasresults}}
       {{#general.canedit}}
         <form method="get" class="switchtovariant" action="{{{tests.testeditlink}}}">

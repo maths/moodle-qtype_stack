@@ -155,10 +155,30 @@ class stack_question_dashboard {
 
         // Execute the tests.
         foreach ($testscases as $key => $testcase) {
+            $summaryoutput = new StdClass();
+            $summaryoutput->number = $testcase->testcase;
+            $summaryoutput->id = 'testcase-' . $testcase->testcase . '-' . $this->question->id;
+            $summaryoutput->description = $testcase->description;
+            $summaryoutput->scorepass = true;
+            $summaryoutput->penaltypass = true;
+            $summaryoutput->notepass = true;
             $output->results[$key] = $testcase->test_question($this->question->id, $this->question->seed, $this->context);
-            if (!$output->results[$key]->passed()) {
+            $currentsummary = $output->results[$key]->passed_with_reasons();
+            if (!$currentsummary['passed']) {
                 $output->allpassed = false;
+                foreach ($currentsummary['outcomes'] as $prtoutcome) {
+                    if ($summaryoutput->scorepass && str_contains($prtoutcome['reason'], stack_string('score'))) {
+                        $summaryoutput->scorepass = false;
+                    }
+                    if ($summaryoutput->penaltypass && str_contains($prtoutcome['reason'], stack_string('penalty'))) {
+                        $summaryoutput->penaltypass = false;
+                    }
+                    if ($summaryoutput->notepass && str_contains($prtoutcome['reason'], stack_string('answernote'))) {
+                        $summaryoutput->notepass = false;
+                    }
+                }
             }
+            $output->summary[] = $summaryoutput;
         }
         $output->hasresults = (!empty($output->results)) ? true : false;
         return $output;

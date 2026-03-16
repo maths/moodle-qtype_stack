@@ -128,6 +128,11 @@
             <p><i class="icon fa fa-exclamation-circle text-danger fa-fw"></i>{{#str}} deployduplicateerror, qtype_stack {{/str}}</p>
         {{/duplicateerror}}
         {{#notes.0}}
+            <form method="get" action="{{{deploylink}}}">
+                <input type="hidden" name="courseid" value="{{courseid}}">
+                <input type="hidden" name="questionid" value="{{questionid}}">
+                <input type="hidden" name="sesskey" value="{{sesskey}}">
+                <input type="hidden" name="seed" value="{{seed}}">
             <table class="generaltable stacktestsuite">
                 <tr>
                     <th>{{#str}} seednumber, qtype_stack {{/str}}</th>
@@ -136,9 +141,11 @@
                     <th></th>
                 </tr>
         {{/notes.0}}
+
         {{#notes}}
             <tr>
                 <td>
+                    <input type="checkbox" name="deletevariant-{{deployedseed}}">
                     {{#iscurrentvariant}}
                         <strong title="{{#str}} currentlyselectedvariant, qtype_stack {{/str}}">{{deployedseed}}</strong>
                     {{/iscurrentvariant}}
@@ -165,6 +172,8 @@
         {{/notes}}
         {{#notes.0}}
             </table>
+                <input type="submit" name="deleteselectedbtn" class="btn btn-secondary" value="{{#str}} deleteselected, qtype_stack {{/str}}">
+            </form>
         {{/notes.0}}
         {{#hasrandomvariants}}
             <form method="get" class="switchtovariant" action="{{pagelink}}">

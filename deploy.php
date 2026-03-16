@@ -90,6 +90,19 @@ if (!is_null($undeploy)) {
     redirect($nexturl);
 }
 
+// Process undeploy selected if applicable.
+$undeployselected = optional_param('deleteselectedbtn', null, PARAM_TEXT);
+if (!is_null($undeployselected)) {
+    foreach($question->deployedseeds as $deployedseed) {
+        $selected = optional_param("deletevariant-{$deployedseed}", null, PARAM_TEXT);
+        if (isset($selected)) {
+            $question->undeploy_variant($deployedseed);
+        }
+    }
+    $nexturl->param('seed', $seed);
+    redirect($nexturl);
+}
+
 // Process undeployall if applicable.
 $undeploy = optional_param('undeployall', null, PARAM_INT);
 if (!is_null($undeploy) && $question->deployedseeds) {

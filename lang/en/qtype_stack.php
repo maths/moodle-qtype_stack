@@ -624,6 +624,7 @@ $string['seednumber'] = 'Seed number';
 $string['seed'] = 'Seed';
 $string['deployhalt'] = 'Stop deployment when a test fails';
 $string['deleteexisting'] = 'Delete existing variants';
+$string['deleteselected'] = 'Delete selected';
 
 $string['editquestioninthequestionbank'] = '<i class="fa fa-pencil"></i> Edit question';
 $string['seethisquestioninthequestionbank'] = '<i class="fa fa-list-alt"></i> Show in question bank';

@@ -197,7 +197,7 @@ $variantdata->undeployalllink = $undeployalllink->out();
 
 $pageparams = $urlparams;
 unset($pageparams['seed']);
-$pagelink = new moodle_url('/question/type/stack/questiontestrun.php', [], 'variants-pane');
+$pagelink = new moodle_url('/question/type/stack/questiontestrun.php', []);
 $variantdata->pagelink = $pagelink->out();
 $variantdata->courseid = $courseid;
 $variantdata->questionid = $questionid;

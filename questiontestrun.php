@@ -182,12 +182,6 @@ foreach($variantdata->notes as $variant) {
     );
     $variant->deletelink = $vdeletelink->out();
 }
-$deploysinglelink = new moodle_url(
-    '/question/type/stack/deploy.php',
-    $urlparams + ['deploy' => $seed, 'sesskey' => $sesskey],
-    'variants-pane'
-);
-$variantdata->deploysinglelink = $deploysinglelink->out();
 $deploylink = new moodle_url(
     '/question/type/stack/deploy.php',
     [],
@@ -210,7 +204,6 @@ $variantdata->questionid = $questionid;
 $variantdata->sesskey = $sesskey;
 $variantdata->newseed = mt_rand();
 $variantdata->deployedseeds = $question->deployedseeds;
-$variantdata->deploylistrows = min(count($question->deployedseeds), 5);
 $testalllink = new moodle_url(
         '/question/type/stack/questiontestrun.php',
         $urlparams + ['testall' => '1', 'sesskey' => $sesskey],

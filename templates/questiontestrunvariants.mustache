@@ -186,38 +186,42 @@
             <h3>{{#str}} variantmanagement, qtype_stack {{/str}}</h3>
         {{/hasrandomvariants}}
         {{^variantmatched}}
-            <div class="undeployedvarian">
-                <b>{{#str}} showingundeployedvariant, qtype_stack, {{seed}} {{/str}}</b>
-                {{#canedit}}
-                    {{#variantdeployed}}
-                        {{#str}} alreadydeployed, qtype_stack{{/str}}
-                    {{/variantdeployed}}
-                    {{^variantdeployed}}
-                        <button class="btn btn-secondary" type="button" onclick="window.location.href='{{{deploysinglelink}}}'">
-                            {{#str}} deploy, qtype_stack {{/str}}
-                        </button>
-                    {{/variantdeployed}}
-                {{/canedit}}
-            </div>
-        {{/variantmatched}}
-        {{#notes.0}}
-            {{#canedit}}
-                <div class="deploymany mt-3">
-                    <button class="btn btn-danger" type="button" onclick="window.location.href='{{{undeployalllink}}}'">
-                        {{#str}} deployremoveall, qtype_stack {{/str}}
-                    </button>
-                    <button class="btn btn-warning" type="button" onclick="window.location.href='{{{testalllink}}}'">
-                        {{#str}} deploytestall, qtype_stack {{/str}}
-                    </button>
+            {{^canedit}}
+                <div class="row mt-3">
+                    <div class="col-2">
+                        <b>{{#str}} showingundeployedvariant, qtype_stack {{/str}}</b>
+                    </div>
+                    <div class="col-2">
+                        <b>{{seed}}</b>
+                    </div>
                 </div>
             {{/canedit}}
-        {{/notes.0}}
+        {{/variantmatched}}
         {{#hasrandomvariants}}
             {{#canedit}}
                 <form method="get" class="deploymany" action="{{{deploylink}}}">
                     <input type="hidden" name="courseid" value="{{courseid}}">
                     <input type="hidden" name="questionid" value="{{questionid}}">
                     <input type="hidden" name="sesskey" value="{{sesskey}}">
+                    <input type="hidden" name="deploy" value="{{seed}}">
+                    {{^variantmatched}}
+                        <div class="row mt-3">
+                            <div class="col-2">
+                                <b>{{#str}} showingundeployedvariant, qtype_stack {{/str}}</b>
+                            </div>
+                            <div class="col-2">
+                                <b>{{seed}}</b>
+                            </div>
+                            <div class="col-2">
+                                {{#variantdeployed}}
+                                    {{#str}} alreadydeployed, qtype_stack{{/str}}
+                                {{/variantdeployed}}
+                                {{^variantdeployed}}
+                                    <input type="submit" name="deploysinglebtn" class="btn btn-secondary" value="{{#str}} deploybtn, qtype_stack {{/str}}">
+                                {{/variantdeployed}}
+                            </div>
+                        </div>
+                    {{/variantmatched}}
                     <div class="row mt-3">
                         <div class="col-2">
                             {{#str}} deploymanybtn, qtype_stack {{/str}}
@@ -250,13 +254,15 @@
                             {{#str}} deployfromlistbtn, qtype_stack {{/str}}:
                         </div>
                         <div class="col-2">
-                            <textarea cols="15" rows="{{deploylistrows}}" id="deployfromlist" name="deployfromlist" class="form-control"></textarea>
+                            <textarea cols="15" rows="3" id="deployfromlist" name="deployfromlist" class="form-control"></textarea>
                         </div>
                         <div class="col-2">
                             <input type="submit" name="deployfromlistbtn" class="btn btn-secondary" value="{{#str}} deploybtn, qtype_stack {{/str}}">
                         </div>
                         <div class="col-4">
                             {{#str}} deployfromlist, qtype_stack {{/str}}
+                            <br>
+                            {{#str}} deleteexisting, qtype_stack {{/str}} <input type="checkbox" name="deleteexisting">
                             <details>
                                 <summary>
                                     {{#str}} deployfromlistexisting, qtype_stack {{/str}}
@@ -265,10 +271,29 @@
                             </details>
                         </div>
                     </div>
+                    <div class="row mt-3">
+                        <div class="col-2">
+                            {{#str}} deployhalt, qtype_stack {{/str}}:
+                        </div>
+                        <div class="col-2">
+                            <input type="checkbox" name="deployhalt" checked>
+                        </div>
+                    </div>
                 </form>
-
             {{/canedit}}
         {{/hasrandomvariants}}
+        {{#notes.0}}
+            {{#canedit}}
+                <div class="deploymany mt-3">
+                    <button class="btn btn-danger" type="button" onclick="window.location.href='{{{undeployalllink}}}'">
+                        {{#str}} deployremoveall, qtype_stack {{/str}}
+                    </button>
+                    <button class="btn btn-warning" type="button" onclick="window.location.href='{{{testalllink}}}'">
+                        {{#str}} deploytestall, qtype_stack {{/str}}
+                    </button>
+                </div>
+            {{/canedit}}
+        {{/notes.0}}
     </div>
   </div>
 </div>

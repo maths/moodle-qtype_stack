@@ -53,9 +53,30 @@ $PAGE->set_pagelayout('popup');
 
 require_login();
 
+function testseed($question, $seed, $context, $nexturl, $numberdeployed) {
+    $deployhalt = optional_param('deployhalt', null, PARAM_TEXT);
+    if (!isset($deployhalt)) {
+        return;
+    }
+    $testscases = question_bank::get_qtype('stack')->load_question_tests($question->id);
+    // Exectue the tests.
+    $testresults = [];
+    foreach ($testscases as $key => $testcase) {
+        $testresults[$key] = $testcase->test_question($question->id, $seed, $context);
+        if (!$testresults[$key]->passed()) {
+            $nexturl->param('seed', $seed);
+            $nexturl->param('deployfeedback', stack_string('deploymanysuccess', ['no' => $numberdeployed]));
+            $nexturl->param('deployfeedbackerr', stack_string('stackInstall_testsuite_fail'));
+            redirect($nexturl);
+        }
+    }
+}
+
 // Process deploy if applicable.
 $deploy = optional_param('deploy', null, PARAM_INT);
-if (!is_null($deploy)) {
+$deploybtn = optional_param('deploysinglebtn', null, PARAM_TEXT);
+if (!is_null($deploy) && $deploybtn) {
+    testseed($question, $deploy, $context, $nexturl, 0);
     $question->deploy_variant($deploy);
     redirect($nexturl);
 }
@@ -142,24 +163,25 @@ if (
         redirect($nexturl);
     }
 
-    // Undeploy all existing variants.
-    // If the deploy-from-to feature is used, only undeploy variants that already exist.
-    if ($question->deployedseeds) {
-        if ($usefromtofeature) {
-            foreach ($question->deployedseeds as $seed) {
-                if (in_array($seed, $newseeds)) {
-                    $question->undeploy_variant($seed);
-                }
-            }
-        } else {
-            foreach ($question->deployedseeds as $seed) {
+    // If deploying a list and user has selected to delete existing variants,
+    // undeploy all existing variants not on the list.
+    $deleteexisting = optional_param('deleteexisting', null, PARAM_TEXT);
+    if ($deleteexisting && $listbtn) {
+        foreach ($question->deployedseeds as $seed) {
+            if (!in_array($seed, $newseeds)) {
                 $question->undeploy_variant($seed);
             }
         }
     }
+
     // Deploy all new variants.
+    $numberdeployed = 0;
     foreach ($newseeds as $seed) {
-        $question->deploy_variant($seed);
+        if (!in_array($seed, $question->deployedseeds)) {
+            testseed($question, $seed, $context, $nexturl, $numberdeployed);
+            $question->deploy_variant($seed);
+            $numberdeployed++;
+        }
     }
     redirect($nexturl);
 }
@@ -234,15 +256,7 @@ if (!is_null($deploy) && $manybtn) {
             // Exectue the tests.
             $testresults = [];
             $allpassed = true;
-            foreach ($testscases as $key => $testcase) {
-                $testresults[$key] = $testcase->test_question($questionid, $seed, $context);
-                if (!$testresults[$key]->passed()) {
-                    $nexturl->param('seed', $seed);
-                    $nexturl->param('deployfeedback', stack_string('deploymanysuccess', ['no' => $numberdeployed]));
-                    $nexturl->param('deployfeedbackerr', stack_string('stackInstall_testsuite_fail'));
-                    redirect($nexturl);
-                }
-            }
+            testseed($question, $seed, $context, $nexturl, $numberdeployed);
 
             // Actually deploy the question.
             $question->deploy_variant($seed);

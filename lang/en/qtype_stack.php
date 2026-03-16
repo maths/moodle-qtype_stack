@@ -570,7 +570,7 @@ $string['deployremoveall'] = 'Undeploy all variants';
 $string['deploytestall'] = 'Run all tests on all deployed variants (slow)';
 $string['deployfromlist'] = 'List positive integer seeds, one on each line.';
 $string['deployfromlistexisting'] = 'Current seeds:';
-$string['deployfromlistbtn'] = 'Remove variants and re-deploy from list of seeds';
+$string['deployfromlistbtn'] = 'Deploy a list of seeds';
 $string['deployfromlisterror'] = 'An error was detected in your list of integers, and so no changes were made to the list of deployed variants.';
 $string['editingtestcase'] = 'Editing test case {$a->no} for question {$a->question}';
 $string['editthistestcase'] = 'Edit this test case.';
@@ -622,6 +622,8 @@ $string['undeploy'] = 'Un-deploy';
 $string['variant'] = 'Variant';
 $string['seednumber'] = 'Seed number';
 $string['seed'] = 'Seed';
+$string['deployhalt'] = 'Stop deployment when a test fails';
+$string['deleteexisting'] = 'Delete existing variants';
 
 $string['editquestioninthequestionbank'] = '<i class="fa fa-pencil"></i> Edit question';
 $string['seethisquestioninthequestionbank'] = '<i class="fa fa-list-alt"></i> Show in question bank';

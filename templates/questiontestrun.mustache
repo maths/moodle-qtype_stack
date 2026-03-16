@@ -300,6 +300,24 @@
           </button>
         </form>
       {{/general.canedit}}
+      {{#tests.output}}
+        <br>
+        <hr style="background-color: black;">
+        {{{output}}}
+        {{#canedit}}
+            <div class="testcasebuttons">
+                <button class="btn btn-secondary" type="button" onclick="window.location.href='{{{editlink}}}'">
+                  {{#str}} editthistestcase, qtype_stack {{/str}}
+                </button>
+                <button class="btn btn-secondary" type="button" onclick="window.location.href='{{{confirmlink}}}'">
+                  {{#str}} confirmthistestcase, qtype_stack {{/str}}
+                </button>
+                <button class="btn btn-secondary" type="button" onclick="window.location.href='{{{deletelink}}}'">
+                  {{#str}} deletethistestcase, qtype_stack {{/str}}
+                </button>
+            </div>
+        {{/canedit}}
+      {{/tests.output}}
 
 
 

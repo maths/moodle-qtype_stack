@@ -143,8 +143,7 @@ $initialdata->general->seed = $seed;
 $testeditlink = new moodle_url('/question/type/stack/questiontestedit.php', $urlparams);
 $initialdata->tests->testeditlink = $testeditlink->out();
 $dashboard->create_progress_bar();
-echo $OUTPUT->render_from_template('qtype_stack/questiontestrun', $initialdata);
-flush();
+$initialdata->tests->output = [];
 
 foreach($initialdata->tests->results as $key => $result) {
     $test = new StdClass();
@@ -156,9 +155,10 @@ foreach($initialdata->tests->results as $key => $result) {
     $test->confirmlink = $testconfirmlink->out();
     $test->deletelink = $testdeletelink->out();
     $test->canedit = $canedit;
-    echo $OUTPUT->render_from_template('qtype_stack/questiontestruntest', $test);
-    flush();
+    $initialdata->tests->output[] = $test;
 }
+echo $OUTPUT->render_from_template('qtype_stack/questiontestrun', $initialdata);
+flush();
 $variantdata = $dashboard->list_variants();
 $variantdata->deployfeedback = optional_param('deployfeedback', null, PARAM_TEXT);
 $variantdata->deployfeedbackerr = optional_param('deployfeedbackerr', null, PARAM_TEXT);

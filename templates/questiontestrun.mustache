@@ -187,6 +187,11 @@
       {{^question.questiondescription}}
         <br><br><br>
       {{/question.questiondescription}}
+      {{#question.metadata}}
+        <h3>{{#str}} metadata, qtype_stack {{/str}}</h3>
+        <div class="questionvariables"><pre>{{question.metadata}}</pre></div>
+        <br>
+      {{/question.metadata}}
       <p>{{question.stackversion}}</p>
     </div>
     <div class="tab-pane active mt-3" id="test-pane" role="tabpanel" aria-labelledby="test-tab">

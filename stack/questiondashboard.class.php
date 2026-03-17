@@ -86,7 +86,9 @@ class stack_question_dashboard {
         $output->rendergeneralfeedback = $renderer->general_feedback($this->quba->get_question_attempt($this->slot));
         $output->generalfeedbackerr = $generalfeedback->get_errors();
         $output->seed = $this->question->seed;
-
+        if (isset($this->question->metadata)) {
+            $output->metadata = $this->question->metadata;
+        }
         $questiondescription = $this->question->get_questiondescription_castext();
         $output->renderquestiondescription = $renderer->question_description($this->quba->get_question_attempt($this->slot));
         //Not currently displayed:
@@ -112,7 +114,7 @@ class stack_question_dashboard {
         $output->prts = $offlinemaxima;
         $output->stackversion = ($this->question->stackversion == null) ?
             stack_string('stackversionnone') :
-            stack_string('stackversionedited', $this->question->stackversion) .
+            stack_string('stackversionedited', $this->question->stackversion) . ' ' .
             stack_string('stackversionnow', get_config('qtype_stack', 'version'));
 
         return $output;
@@ -121,15 +123,6 @@ class stack_question_dashboard {
     public function create_default_test() {
         $defaulttest = stack_bulk_tester::create_default_test($this->question);
         question_bank::get_qtype('stack')->save_question_test($this->question->id, $defaulttest);
-    }
-
-    public function initial_load() {
-        $output = new StdClass();
-        $output->question = $this->question_details();
-        $output->tests = $this->run_test_cases();
-        $output->tests->generalfeedbackerr = $output->question->generalfeedbackerr;
-        $output->tests->hasheadlineerror = ($output->tests->generalfeedbackerr || $output->tests->runtimeerrors) ? true : false;
-        return $output;
     }
 
     public function create_progress_bars() {

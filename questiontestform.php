@@ -41,12 +41,26 @@ class qtype_stack_question_test_form extends moodleform {
 
         $mform = $this->_form;
         $question = $this->_customdata['question'];
+        $mform->addElement('header', 'questionheader', stack_string('questiondetails'));
+        $mform->setExpanded('questionheader', false);
+        $mform->addElement('static', 'questionrender', stack_string('questionrender'),
+            $this->_customdata['questionrender']);
+        $mform->addElement('static', 'questionvariables', stack_string('questionvariables'),
+            $this->_customdata['questionvariables']);
+        $mform->addElement('static', 'questionvariablevalues', stack_string('questionvariablevalues'),
+            $this->_customdata['questionvariablevalues']);
+        $mform->addElement('static', 'questiontext', stack_string('questiontext'),
+            $this->_customdata['questiontext']);
 
         $mform->addElement('text', 'description', stack_string('description'), ['size' => 64]);
         $mform->setType('description', PARAM_RAW);
+        $mform->addElement('static', 'pleasenote','', stack_string('testinputsimpwarning'));
+        $mform->closeHeaderBefore('description');
+
 
         // Inputs.
         $mform->addElement('header', 'inputsheader', stack_string('testinputs'));
+        $mform->setExpanded('inputsheader');
 
         foreach ($question->inputs as $input) {
             // We do not require these to be filled in, (or contain valid input), as the teacher may want to test such cases.
@@ -60,6 +74,7 @@ class qtype_stack_question_test_form extends moodleform {
 
         // Expected outcome.
         $mform->addElement('header', 'prtsheader', stack_string('expectedoutcomes'));
+        $mform->setExpanded('prtsheader');
 
         $allinputs = array_keys($question->inputs);
         foreach ($question->prts as $prtname => $prt) {

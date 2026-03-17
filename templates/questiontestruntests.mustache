@@ -15,7 +15,7 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template qtype_stack/questionreportquestion
+    @template qtype_stack/questiontestruntests
 
     Template purpose and description.
 
@@ -30,74 +30,74 @@
 
     Example context (json):
     {
-    "question": {
-        "name": "Question name",
-        "text": "Text",
-        "deployedseeds": true,
-        "hasvariants": true,
-        "vars": "a1 : 1+rand(6);"
-    },
-    "summary": {
-        "prts": [
+      "question": {
+          "name": "Question name",
+          "rendergeneralfeedback": "General feedback",
+          "seed": 182397542,
+          "renderquestiondescription": "",
+          "questiondescription": "",
+          "renderquestion": "",
+          "questionnote": "",
+          "questionvariablevalues": "n1:4;\nn2:6;",
+          "upgradeerrors": "",
+          "validationerrors": "",
+          "prts": [
+              {
+                  "name": "Result",
+                  "prt": "PRT result"
+              }
+          ],
+          "stackversion": "This question was authored with STACK version 2026022303. The current version of STACK is 2026022303.",
+          "version": "7"
+      },
+      "general": {
+          "testcreated": false,
+          "editquestionlink": "http:...question\/type\/stack\/questioneditlatest.php?courseid=7&amp;id=6605",
+          "editxmllink": "http:...question\/type\/stack\/questionxmledit.php?courseid=7&amp;id=6605",
+          "questionbanklink": "http:...question\/edit.php?courseid=7&amp;qperpage=1000&amp;category=546%2C183&amp;lastchanged=6605",
+          "chatlink": "http:...question\/type\/stack\/adminui\/caschat.php?questionid=6605&amp;seed=182397542&amp;courseid=7&amp;initialise=1",
+          "tidylink": "http:...question/type/stack/tidyquestion.php?questionid=6605&seed=182397542&courseid=7",
+          "exportquestionlink": "http:...question\/bank\/exporttoxml\/exportone.php?questionid=6605&amp;seed=182397542&amp;courseid=7&amp;id=6605&amp;sesskey=ElIpavgr9m",
+          "reportlink": "http:...question\/type\/stack\/questiontestreport.php?questionid=6605&amp;seed=182397542&amp;courseid=7",
+          "todolink": "http:...question\/type\/stack\/adminui\/todo.php?courseid=7&amp;qperpage=1000&amp;category=546%2C183&amp;lastchanged=6605&amp;contextid=183",
+          "bulktestlink": "http:...question\/type\/stack\/questionbulktest.php?questionid=6605&amp;seed=182397542&amp;courseid=7",
+          "canedit": true,
+          "courseid": 7,
+          "questionid": "6605",
+          "seed": 182397542
+      }
+      "tests": {
+        "demotest": false,
+        "allpassed": true,
+        "runtimeerrors": "",
+        "hasrandomvariants": true,
+        "hasinputs": true,
+        "summary": [
             {
-                "prtname": "prt1",
-                "graph_svg": "<svg><\/svg>",
-                "graph_text": "<table><\/table>",
-                "maxima": "maxima text",
-                "sumout": "## prt1 (2)\n1 ( 50.00%); # = 0 | ATInt_generic. ATInt_var_SB_notSA. | prt1-1-F\n1 ( 50.00%); # = 0 | ATInt_generic. | prt1-1-F"
+                "number": 1,
+                "id": "testcase-1-6605",
+                "description": "",
+                "scorepass": true,
+                "penaltypass": true,
+                "notepass": true
             }
         ],
-        "tot": {
-            "prt1": 2
-        }
-    },
-    "notesummary": {
-        "prts": [
+        "hasresults": true,
+        "testeditlink": "http:...question\/type\/stack\/questiontestedit.php?questionid=6605&amp;seed=182397542&amp;courseid=7",
+        "output": [
             {
-                "prtname": "prt1",
-                "graph_svg": "<svg><\/svg>",
-                "graph_text": "<table><\/table>",
-                "sumout": "## prt1 (2)\n2 (100.00%); # = 0\n1 ( 50.00%); ATInt_generic.\n1 ( 50.00%); ATInt_generic. ATInt_var_SB_notSA.\n2 (100.00%); prt1-1-F\n\n"
+                "output": "Test output HTML",
+                "number": 1,
+                "editlink": "http:...question\/type\/stack\/questiontestedit.php?questionid=6605&amp;seed=182397542&amp;courseid=7&amp;testcase=1",
+                "confirmlink": "http:...question\/type\/stack\/questiontestedit.php?questionid=6605&amp;seed=182397542&amp;courseid=7&amp;testcase=1&amp;confirmthistestcase=1",
+                "deletelink": "http:...question\/type\/stack\/questiontestdelete.php?questionid=6605&amp;seed=182397542&amp;courseid=7&amp;testcase=1",
+                "canedit": true
             }
-        ]
-    },
-    "variants": {
-        "variants": [
-            {
-                "seed": 399724897,
-                "notes": "<span><\/span>",
-                "notessumout": "## prt1 (1)\n1 (100.00%); # = 0 | ATInt_generic. ATInt_var_SB_notSA. | prt1-1-F\n1 (100.00%); ans1:34; \n\n\n",
-                "anssumout": "## ans1 (1)\n### score\n1 (100.00%); 34\n\n"
-            },
-            {
-                "seed": 799651125,
-                "notes": "<span><\/span>",
-                "notessumout": "## prt1 (1)\n1 (100.00%); # = 0 | ATInt_generic. | prt1-1-F\n1 (100.00%); ans1:x-3; \n\n\n",
-                "anssumout": "## ans1 (1)\n### score\n1 (100.00%); x-3\n\n"
-            }
-        ]
-    },
-    "inputs": {
-        "inputs": "## ans1 (2)\n### score\n1 ( 50.00%); 34\n1 ( 50.00%); x-3\n\n"
-    },
-    "rawdata": {
-        "rawdata": "\n# 4 (1)\n1 (100.00%); Seed: 399724897; ans1: 34 [score]; prt1: # = 0 | ATInt_generic. ATInt_var_SB_notSA. | prt1-1-F\n\n# 2 (1)\n1 (100.00%); Seed: 799651125; ans1: x-3 [score]; prt1: # = 0 | ATInt_generic. | prt1-1-F\n"
-    },
-    "quizzes": [
-        {
-            "quizcontextid": "102",
-            "name": "Analysis input",
-            "coursecontextid": "21",
-            "coursename": "Course 1",
-            "url": "ReportURL",
-            "active": true
-        }
-    ],
-    "general": {
-        "testquestionlink": "DashboardURL",
-        "previewquestionlink": "PreviewURL"
+        ],
+        "generalfeedbackerr": "",
+        "hasheadlineerror": false
+      }
     }
-  }
 }}
       {{#general.canedit}}{{#tests.demotest}}
         <button class="btn btn-danger" type="button" onclick="window.location.href='{{{general.defaulttestlink}}}'">

@@ -165,6 +165,7 @@ foreach($initialdata->tests->results as $key => $result) {
     $test->canedit = $canedit;
     $initialdata->tests->output[] = $test;
 }
+unset($initialdata->tests->results);
 echo $OUTPUT->render_from_template('qtype_stack/questiontestruntests', $initialdata);
 flush();
 $variantdata = $dashboard->list_variants();

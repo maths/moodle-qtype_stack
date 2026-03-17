@@ -32,6 +32,7 @@ require_once(__DIR__ . '/stack/questiontest.php');
 
 // Get the parameters from the URL.
 $questionid = required_param('questionid', PARAM_INT);
+[$qversion, $questionid] = get_latest_question_version($questionid);
 $testcase = required_param('testcase', PARAM_INT);
 
 // Load the necessary data.
@@ -76,7 +77,7 @@ echo $OUTPUT->header();
 echo $OUTPUT->confirm(
     stack_string(
         'deletetestcaseareyousure',
-        ['no' => $testcase, 'question' => format_string($question->name)]
+        ['no' => $testcase, 'question' => format_string($question->name), 'version' => $qversion]
     ),
     new moodle_url($PAGE->url, ['sesskey' => sesskey()]),
     $backurl

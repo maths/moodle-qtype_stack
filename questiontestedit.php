@@ -34,6 +34,7 @@ require_once(__DIR__ . '/stack/potentialresponsetreestate.class.php');
 
 // Get the parameters from the URL.
 $questionid = required_param('questionid', PARAM_INT);
+[$qversion, $questionid] = get_latest_question_version($questionid);
 $testcase = optional_param('testcase', null, PARAM_INT);
 $confirmthistestcase = optional_param('confirmthistestcase', null, PARAM_INT);
 
@@ -190,6 +191,7 @@ if ($mform->is_cancelled()) {
 // Display the page.
 echo $OUTPUT->header();
 echo html_writer::tag('h2', $title);
+echo html_writer::tag('p', stack_string('version') . ' ' . $qversion);
 // Show the form.
 $mform->display();
 echo $OUTPUT->footer();

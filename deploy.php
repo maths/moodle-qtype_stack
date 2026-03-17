@@ -95,7 +95,7 @@ if (!is_null($undeploy)) {
 $undeployselected = optional_param('deleteselectedbtn', null, PARAM_TEXT);
 if (!is_null($undeployselected)) {
     foreach($question->deployedseeds as $deployedseed) {
-        $selected = optional_param("deletevariant-{$deployedseed}", null, PARAM_TEXT);
+        $selected = optional_param("selectvariant-{$deployedseed}", null, PARAM_TEXT);
         if (isset($selected)) {
             $question->undeploy_variant($deployedseed);
         }

@@ -120,7 +120,8 @@
         {{/tests.generalfeedbackerror}}
       {{/tests.hasheadlineerror}}
       {{#tests.hasinputs}}
-        <h2>{{#str}} questiontestsfor, qtype_stack, {{question.seed}} {{/str}}</h2>
+        <h2 id="tests-heading">{{#str}} questiontestsfor, qtype_stack, {{question.seed}} {{/str}}</h2>
+        <p>{{#str}} questionnote, qtype_stack {{/str}}: {{{question.questionnote}}}</p>
       {{/tests.hasinputs}}
       {{^tests.hasresults}}
         <p>
@@ -186,7 +187,7 @@
         </table>
       {{/tests.hasresults}}
       {{#general.canedit}}
-        <form method="get" class="switchtovariant" action="{{{tests.testeditlink}}}">
+        <form method="get" action="{{{tests.testeditlink}}}">
           <input type="hidden" name="courseid" value="{{general.courseid}}">
           <input type="hidden" name="questionid" value="{{general.questionid}}">
           <input type="hidden" name="seed" value="{{general.seed}}">
@@ -207,13 +208,16 @@
         {{#canedit}}
             <div class="testcasebuttons">
                 <button class="btn btn-secondary" type="button" onclick="window.location.href='{{{editlink}}}'">
-                  {{#str}} editthistestcase, qtype_stack {{/str}}
+                  {{#str}} editthistestcase, qtype_stack, {{number}} {{/str}}
                 </button>
                 <button class="btn btn-secondary" type="button" onclick="window.location.href='{{{confirmlink}}}'">
                   {{#str}} confirmthistestcase, qtype_stack {{/str}}
                 </button>
                 <button class="btn btn-secondary" type="button" onclick="window.location.href='{{{deletelink}}}'">
-                  {{#str}} deletethistestcase, qtype_stack {{/str}}
+                  {{#str}} deletethistestcase, qtype_stack, {{number}} {{/str}}
+                </button>
+                <button class="btn btn-secondary" type="button" onclick="window.location.href='#tests-heading'">
+                  {{#str}} gosummary, qtype_stack {{/str}}
                 </button>
             </div>
         {{/canedit}}

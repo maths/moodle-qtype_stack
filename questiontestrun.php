@@ -155,6 +155,7 @@ $initialdata->tests->hasheadlineerror = ($initialdata->tests->generalfeedbackerr
 foreach($initialdata->tests->results as $key => $result) {
     $test = new StdClass();
     $test->output = $result->html_output($question, $key);
+    $test->number = $key;
     $testeditlink = new moodle_url('/question/type/stack/questiontestedit.php', array_merge($urlparams, ['testcase' => $key]));
     $testconfirmlink = new moodle_url('/question/type/stack/questiontestedit.php', array_merge($urlparams, ['testcase' => $key, 'confirmthistestcase' => true]));
     $testdeletelink = new moodle_url('/question/type/stack/questiontestdelete.php', array_merge($urlparams, ['testcase' => $key]));

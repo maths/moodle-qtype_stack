@@ -145,7 +145,7 @@
         {{#notes}}
             <tr>
                 <td>
-                    <input type="checkbox" name="deletevariant-{{deployedseed}}">
+                    <input type="checkbox" name="selectvariant-{{deployedseed}}" aria-label="{{#str}} selectvariant, qtype_stack {{/str}} {{deployedseed}}<">
                     {{#iscurrentvariant}}
                         <strong title="{{#str}} currentlyselectedvariant, qtype_stack {{/str}}">{{deployedseed}}</strong>
                     {{/iscurrentvariant}}
@@ -184,10 +184,10 @@
                         {{#str}} switchtovariant, qtype_stack {{/str}}
                     </div>
                     <div class="col-2">
-                        <input type="text" id="seedfield" name="seed" value="{{newseed}}" class="form-control">
+                        <input type="text" id="seedfield" name="seed" value="{{newseed}}" aria-label="{{#str}} switchtovariant, qtype_stack {{/str}}" class="form-control">
                     </div>
                     <div class="col-2">
-                        <input type="submit" class="btn btn-secondary" value="{{#str}} switch, qtype_stack {{/str}}">
+                        <input type="submit" class="btn btn-secondary" aria-label="{{#str}} switchtovariant, qtype_stack {{/str}} {{newseed}}" value="{{#str}} switch, qtype_stack {{/str}}">
                     </div>
                 </div>
             </form>
@@ -226,7 +226,7 @@
                                     {{#str}} alreadydeployed, qtype_stack{{/str}}
                                 {{/variantdeployed}}
                                 {{^variantdeployed}}
-                                    <input type="submit" name="deploysinglebtn" class="btn btn-secondary" value="{{#str}} deploybtn, qtype_stack {{/str}}">
+                                    <input type="submit" name="deploysinglebtn" class="btn btn-secondary" aria-label="{{#str}} deploy, qtype_stack {{/str}}" value="{{#str}} deploybtn, qtype_stack {{/str}}">
                                 {{/variantdeployed}}
                             </div>
                         </div>
@@ -236,10 +236,10 @@
                             {{#str}} deploymanybtn, qtype_stack {{/str}}
                         </div>
                         <div class="col-2">
-                            <input type="text" id="deploymanyfield" name="deploymany" class="form-control">
+                            <input type="text" id="deploymanyfield" name="deploymany" aria-label="{{#str}} deploynumber, qtype_stack {{/str}}" class="form-control">
                         </div>
                         <div class="col-2">
-                            <input type="submit" name="deploymanybtn" class="btn btn-secondary" value="{{#str}} deploybtn, qtype_stack {{/str}}">
+                            <input type="submit" name="deploymanybtn" class="btn btn-secondary" aria-label="{{#str}} deploymany, qtype_stack {{/str}}" value="{{#str}} deploybtn, qtype_stack {{/str}}">
                         </div>
                         <div class="col-4">
                             {{#str}} deploymanynotes, qtype_stack {{/str}}
@@ -250,12 +250,12 @@
                             {{#str}} deploysystematicfrombtn, qtype_stack {{/str}}
                         </div>
                         <div class="col-2">
-                            <input type="text" id="deploysystematicfromfield" name="deploysystematicfrom" class="form-control" style="width: 40%; display: inline;" value="1">
+                            <input type="text" id="deploysystematicfromfield" name="deploysystematicfrom" aria-label="{{#str}} deployfrom, qtype_stack {{/str}}" class="form-control" style="width: 40%; display: inline;" value="1">
                             {{#str}} deploysystematicto, qtype_stack {{/str}}
-                            <input type="text" id="deploysystematictofield" name="deploysystematicto" class="form-control" style="width: 40%; display: inline;">
+                            <input type="text" id="deploysystematictofield" name="deploysystematicto" aria-label="{{#str}} deployto, qtype_stack {{/str}}" class="form-control" style="width: 40%; display: inline;">
                         </div>
                         <div class="col-2">
-                            <input type="submit" name="deploysystbtn" class="btn btn-secondary" value="{{#str}} deploybtn, qtype_stack {{/str}}">
+                            <input type="submit" name="deploysystbtn" class="btn btn-secondary" aria-label="{{#str}} deployrange, qtype_stack {{/str}}" value="{{#str}} deploybtn, qtype_stack {{/str}}">
                         </div>
                     </div>
                     <div class="row mt-3">
@@ -266,12 +266,12 @@
                             <textarea cols="15" rows="3" id="deployfromlist" name="deployfromlist" class="form-control"></textarea>
                         </div>
                         <div class="col-2">
-                            <input type="submit" name="deployfromlistbtn" class="btn btn-secondary" value="{{#str}} deploybtn, qtype_stack {{/str}}">
+                            <input type="submit" name="deployfromlistbtn" class="btn btn-secondary" aria-label="{{#str}} deployfromlistbtn, qtype_stack {{/str}}" value="{{#str}} deploybtn, qtype_stack {{/str}}">
                         </div>
                         <div class="col-4">
                             {{#str}} deployfromlist, qtype_stack {{/str}}
                             <br>
-                            {{#str}} deleteexisting, qtype_stack {{/str}} <input type="checkbox" name="deleteexisting">
+                            {{#str}} deleteexisting, qtype_stack {{/str}} <input type="checkbox" aria-label="{{#str}} deleteexisting, qtype_stack {{/str}}" name="deleteexisting">
                             <details>
                                 <summary>
                                     {{#str}} deployfromlistexisting, qtype_stack {{/str}}
@@ -281,11 +281,11 @@
                         </div>
                     </div>
                     <div class="row mt-3">
-                        <div class="col-2">
+                        <div class="col-2" id="deployhalttext">
                             {{#str}} deployhalt, qtype_stack {{/str}}:
                         </div>
                         <div class="col-2">
-                            <input type="checkbox" name="deployhalt" checked>
+                            <input type="checkbox" name="deployhalt" aria-label="{{#str}} deployhalt, qtype_stack {{/str}}" checked>
                         </div>
                     </div>
                 </form>

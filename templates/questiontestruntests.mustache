@@ -17,7 +17,7 @@
 {{!
     @template qtype_stack/questiontestruntests
 
-    Template purpose and description.
+    Displays test results for variant on STACK dashboard.
 
     Classes required for JS:
     * none
@@ -99,17 +99,7 @@
       }
     }
 }}
-      {{#general.canedit}}{{#tests.demotest}}
-        <button class="btn btn-danger" type="button" onclick="window.location.href='{{{general.defaulttestlink}}}'">
-          {{#str}} runquestiontests_autoprompt, qtype_stack {{/str}}
-        </button>
-      {{/tests.demotest}}{{/general.canedit}}
-      {{#tests.demotest}}
-        <p>{{#str}} runquestiontests_explanation, qtype_stack {{/str}}</p>
-      {{/tests.demotest}}
-      {{#question.tests.hasresults}}
-        <h2>{{#str}} runquestiontests_autoprompt, qtype_stack {{/str}}</h2>
-      {{/question.tests.hasresults}}
+      <!-- Continuation of Test pane after running tests -->
       {{#tests.hasheadlineerror}}
         <p class="overallresult fail">{{#str}} errors, qtype_stack {{/str}}</p>
         {{#tests.runtimeerrors}}
@@ -120,16 +110,25 @@
         {{/tests.generalfeedbackerror}}
       {{/tests.hasheadlineerror}}
       {{#tests.hasinputs}}
-        <h2 id="tests-heading">{{#str}} questiontestsfor, qtype_stack, {{question.seed}} {{/str}}</h2>
-        <p>{{#str}} questionnote, qtype_stack {{/str}}: {{{question.questionnote}}}</p>
+        <!-- Only need tests if we have inputs -->
+        {{#tests.hasrandomvariants}}
+          <h2 id="tests-heading">{{#str}} questiontestsfor, qtype_stack, {{question.seed}} {{/str}}</h2>
+          <p>{{#str}} questionnote, qtype_stack {{/str}}: {{{question.questionnote}}}</p>
+        {{/tests.hasrandomvariants}}
+        {{#tests.demotest}}
+          <p>
+            <i class="icon fa fa-exclamation-circle text-danger fa-fw"></i>{{#str}} runquestiontests_alert, qtype_stack {{/str}}
+            {{#str}} notestcasesyet, qtype_stack {{/str}}
+          </p>
+        {{/tests.demotest}}
       {{/tests.hasinputs}}
-      {{^tests.hasresults}}
-        <p>
-          <i class="icon fa fa-exclamation-circle text-danger fa-fw"></i>{{#str}} runquestiontests_alert, qtype_stack {{/str}}
-          {{#str}} notestcasesyet, qtype_stack {{/str}}
-        </p>
-      {{/tests.hasresults}}
+      {{#general.testcreated}}
+        <!-- Sample test created -->
+        <p><i class="icon fa fa-exclamation-circle text-danger fa-fw"></i>{{#str}} runquestiontests_auto, qtype_stack {{/str}}</p>
+      {{/general.testcreated}}
       {{#tests.hasresults}}
+        <!-- Does not show if we only have a demo test -->
+        <!-- Overall result banner -->
         {{#tests.allpassed}}
           <p class="overallresult pass">
             {{#tests.hasrandomvariants}}
@@ -146,6 +145,7 @@
             {{#str}} stackInstall_testsuite_fail, qtype_stack {{/str}}
           </p>
         {{/tests.allpassed}}
+        <!-- Tests summary table -->
         <table class="generaltable stacktestsuite">
           <tr>
             <th style="text-align: left;">{{#str}} answertest_ab, qtype_stack {{/str}}</th>
@@ -187,6 +187,7 @@
         </table>
       {{/tests.hasresults}}
       {{#general.canedit}}
+        <!-- Add another test case -->
         <form method="get" action="{{{tests.testeditlink}}}">
           <input type="hidden" name="courseid" value="{{general.courseid}}">
           <input type="hidden" name="questionid" value="{{general.questionid}}">
@@ -201,11 +202,21 @@
           </button>
         </form>
       {{/general.canedit}}
+      {{#general.canedit}}{{#tests.demotest}}
+        <!-- Give option to make fake sample test a real test -->
+        <br>
+        <button class="btn btn-danger" type="button" onclick="window.location.href='{{{tests.defaulttestlink}}}'">
+          {{#str}} runquestiontests_autoprompt, qtype_stack {{/str}}
+        </button>
+        <br><br>
+        {{#str}} runquestiontests_explanation, qtype_stack {{/str}}
+      {{/tests.demotest}}{{/general.canedit}}
       {{#tests.output}}
+        <!-- Output of individual tests. Test HTML created in stack_question_test_resul->html_output() -->
         <br>
         <hr style="background-color: black;">
         {{{output}}}
-        {{#canedit}}
+        {{#canedit}}{{^tests.demotest}}
             <div class="testcasebuttons">
                 <button class="btn btn-secondary" type="button" onclick="window.location.href='{{{editlink}}}'">
                   {{#str}} editthistestcase, qtype_stack, {{number}} {{/str}}
@@ -220,7 +231,7 @@
                   {{#str}} gosummary, qtype_stack {{/str}}
                 </button>
             </div>
-        {{/canedit}}
+        {{/tests.demotest}}{{/canedit}}
       {{/tests.output}}
 
 

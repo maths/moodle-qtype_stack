@@ -139,15 +139,10 @@ class stack_question_dashboard {
         $output->hasrandomvariants = $this->question->has_random_variants() ? true : false;
         // Load the list of test cases.
         $testscases = question_bank::get_qtype('stack')->load_question_tests($this->question->id);
-        // Create the default test case.
-        $defaulttest = null;
-        $defaulttestresult = null;
         $output->hasinputs = ($this->question->inputs !== []) ? true : false;
 
         if (empty($testscases) && $output->hasinputs) {
-            $defaulttest = stack_bulk_tester::create_default_test($this->question);
-            $defaulttestresult = $defaulttest->test_question($this->question->id, $this->question->seed, $this->context);
-            $output->results[stack_string('runquestiontests_example')] = $defaulttestresult;
+            $testscases[stack_string('runquestiontests_example')] = stack_bulk_tester::create_default_test($this->question);
             $output->demotest = true;
         }
 
@@ -185,7 +180,7 @@ class stack_question_dashboard {
                 $this->testprogress->update($a['done'], $a['total'], get_string('testingquestiontests', 'qtype_stack', $a));
             }
         }
-        $output->hasresults = (!empty($output->results)) ? true : false;
+        $output->hasresults = (!empty($output->results) && !$output->demotest) ? true : false;
         return $output;
     }
 
@@ -209,11 +204,10 @@ class stack_question_dashboard {
                 $variant = $this->get_variant($key, $deployedseed);
                 if ($variant->iscurrentvariant) {
                     $output->variantmatched = true;
-                    if ($variant->isdeployed) {
-                        $output->variantdeployed = true;
-                    }
                 }
-                $output->variantmatched = ($variant->iscurrentvariant) ? true : $output->variantmatched;
+                if ($variant->samenoteascurrent) {
+                    $output->variantdeployed = true;
+                }
                 $output->notes[] = $variant;
                 $questionnotes[] = $variant->questionnote;
                 $a['done'] += 1;
@@ -283,7 +277,7 @@ class stack_question_dashboard {
         // Check for duplicate question notes.
         $output->questionnote = $qn->get_question_summary();
         if ($output->questionnote == $this->question->get_question_summary()) {
-            $output->isdeployed = true;
+            $output->samenoteascurrent = true;
         }
         $output->questionnoterendered = stack_ouput_castext($output->questionnote);
         $output->bulktestresultspass = $bulktestresults[0] ? true : false;

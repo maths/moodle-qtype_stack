@@ -114,30 +114,29 @@ if (!is_null($undeploy) && $question->deployedseeds) {
     redirect($nexturl);
 }
 $listbtn = optional_param('deployfromlistbtn', null, PARAM_TEXT);
-$systbtn = optional_param('deploysyctbtn', null, PARAM_TEXT);
+$systbtn = optional_param('deploysystbtn', null, PARAM_TEXT);
 $manybtn = optional_param('deploymanybtn', null, PARAM_TEXT);
 // Process undeployall if applicable.
-$deployfromlist = optional_param('deployfromlist', null, PARAM_INT);
+$deployfromlist = optional_param('deployfromlist', null, PARAM_TEXT);
 $deploysystematic = optional_param('deploysystematic', null, PARAM_INT);
 $deploysystematicfrom = optional_param('deploysystematicfrom', null, PARAM_INT);
 $deploysystematicto = optional_param('deploysystematicto', null, PARAM_INT);
 $usefromtofeature = false;
 if (
-    (!is_null($deployfromlist) && $listbtn) ||
-    (!is_null($deploysystematicfrom) && !is_null($deploysystematicto) && $systbtn)
+    ($deployfromlist && $listbtn) ||
+    ($deploysystematicfrom && $deploysystematicto && $systbtn)
 ) {
     // Check data integrity.
     $dataproblem = false;
 
-    if (!is_null($deployfromlist)) {
+    if ($deployfromlist && $listbtn) {
         $deploytxt = optional_param('deployfromlist', null, PARAM_TEXT);
         $baseseeds = explode("\n", trim($deploytxt));
-    } else if (!is_null($deploysystematicfrom) && !is_null($deploysystematicto)) {
+    } else {
         $baseseeds = range($deploysystematicfrom, $deploysystematicto);
         $usefromtofeature = true;
-    } else {
-        $baseseeds = range(1, $deploysystematic);
     }
+
     $newseeds = [];
     foreach ($baseseeds as $newseed) {
         // Now also explode over commas.
@@ -324,3 +323,5 @@ if (!is_null($deploy) && $manybtn) {
     }
     redirect($nexturl);
 }
+
+redirect($nexturl);

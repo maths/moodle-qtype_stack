@@ -62,6 +62,12 @@ $question = question_bank::load_question($questionid);
 [$context, $seed, $urlparams] = qtype_stack_setup_question_test_page($question);
 unset($urlparams['sesskey']);
 unset($urlparams['defaulttestcase']);
+unset($urlparams['deploy']);
+unset($urlparams['undeploy']);
+unset($urlparams['undeployall']);
+unset($urlparams['testall']);
+unset($urlparams['nocache']);
+
 // Check permissions.
 question_require_capability_on($questiondata, 'view');
 $canedit = question_has_capability_on($questiondata, 'edit');
@@ -81,10 +87,6 @@ $dashboard = new stack_question_dashboard($question, $seed, $context);
 $qbankparams = $urlparams;
 unset($qbankparams['questionid']);
 unset($qbankparams['seed']);
-unset($qbankparams['deploy']);
-unset($qbankparams['undeploy']);
-unset($qbankparams['undeployall']);
-unset($qbankparams['testall']);
 
 $editparams = $qbankparams;
 $editparams['id'] = $question->id;
@@ -148,6 +150,8 @@ flush();
 $initialdata->tests = $dashboard->run_test_cases();
 $testeditlink = new moodle_url('/question/type/stack/questiontestedit.php', $urlparams);
 $initialdata->tests->testeditlink = $testeditlink->out();
+$defaulttestlink = new moodle_url('/question/type/stack/questiontestrun.php', array_merge($urlparams, ['defaulttestcase' => '1', 'sesskey' => $sesskey]));
+$initialdata->tests->defaulttestlink = $defaulttestlink->out();
 $initialdata->tests->output = [];
 $initialdata->tests->generalfeedbackerr = $initialdata->question->generalfeedbackerr;
 $initialdata->tests->hasheadlineerror = ($initialdata->tests->generalfeedbackerr || $initialdata->tests->runtimeerrors) ? true : false;
@@ -179,7 +183,7 @@ foreach($variantdata->notes as $variant) {
     $variant->canedit = $canedit;
     $vdeletelink = new moodle_url(
         '/question/type/stack/deploy.php',
-        $urlparams + ['undeploy' => $seed, 'sesskey' => $sesskey],
+        $urlparams + ['undeploy' => $variant->deployedseed, 'sesskey' => $sesskey],
         'variants-pane'
     );
     $variant->deletelink = $vdeletelink->out();
@@ -207,10 +211,10 @@ $variantdata->sesskey = $sesskey;
 $variantdata->newseed = mt_rand();
 $variantdata->deployedseeds = $question->deployedseeds;
 $testalllink = new moodle_url(
-        '/question/type/stack/questiontestrun.php',
-        $urlparams + ['testall' => '1', 'sesskey' => $sesskey],
-        'variants-pane'
-    );
+    '/question/type/stack/questiontestrun.php',
+    $urlparams + ['testall' => '1', 'sesskey' => $sesskey, 'nocache' => time()],
+    'variants-pane'
+);
 $variantdata->testalllink = $testalllink->out();
 echo $OUTPUT->render_from_template('qtype_stack/questiontestrunvariants', $variantdata);
 

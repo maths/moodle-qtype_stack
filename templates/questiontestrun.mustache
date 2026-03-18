@@ -17,7 +17,8 @@
 {{!
     @template qtype_stack/questiontestrun
 
-    Template purpose and description.
+    Displays page headers and question info on STACK dashboard before intensive
+    processing takes place.
 
     Classes required for JS:
     * none
@@ -70,30 +71,32 @@
 }}
 
 <div class="qtype_stack_question_report">
-    <!-- Dashboard and preview links -->
-
+    <!-- Dashboard links -->
   <h2>{{question.name}}</h2>
   <p>{{#str}} version, qtype_stack {{/str}} {{question.version}}<p>
-
   <ul class="nav">
-    <li class="nav-item" role="presentation">
-      <a class="nav-link" href="{{{general.editquestionlink}}}">{{#str}} editquestioninthequestionbank, qtype_stack {{/str}}</a>
-    </li>
-    <li class="nav-item" role="presentation">
-      <a class="nav-link" href="{{{general.editxmllink}}}">{{#str}} editxml, qtype_stack {{/str}}</a>
-    </li>
+    {{#general.canedit}}
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" href="{{{general.editquestionlink}}}">{{#str}} editquestioninthequestionbank, qtype_stack {{/str}}</a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" href="{{{general.editxmllink}}}">{{#str}} editxml, qtype_stack {{/str}}</a>
+      </li>
+    {{/general.canedit}}
     <li class="nav-item" role="presentation">
       <a class="nav-link" href="{{{general.questionbanklink}}}">{{#str}} seethisquestioninthequestionbank, qtype_stack {{/str}}</a>
     </li>
-    <li class="nav-item" role="presentation">
-      <a class="nav-link" href="{{{general.chatlink}}}">{{#str}} sendgeneralfeedback, qtype_stack {{/str}}</a>
-    </li>
-    <li class="nav-item" role="presentation">
-      <a class="nav-link" href="{{{general.tidylink}}}">{{#str}} tidyquestion, qtype_stack {{/str}}</a>
-    </li>
-    <li class="nav-item" role="presentation">
-      <a class="nav-link" href="{{{general.exportquestionlink}}}">{{#str}} exportthisquestion, qtype_stack {{/str}}</a>
-    </li>
+    {{#general.canedit}}
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" href="{{{general.chatlink}}}">{{#str}} sendgeneralfeedback, qtype_stack {{/str}}</a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" href="{{{general.tidylink}}}">{{#str}} tidyquestion, qtype_stack {{/str}}</a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" href="{{{general.exportquestionlink}}}">{{#str}} exportthisquestion, qtype_stack {{/str}}</a>
+      </li>
+    {{/general.canedit}}
     <li class="nav-item" role="presentation">
       <a class="nav-link" href="{{{general.reportlink}}}">{{#str}} basicquestionreport, qtype_stack {{/str}}</a>
     </li>
@@ -105,7 +108,9 @@
     </li>
   </ul>
 
-  <!-- Tab headers -->
+  <!-- Tab headers. These only work after the page is fully loaded and JavaScript can run i.e. tests run and variants processed so
+  we default to the test pane as it's likely to be the most instantly useful. Set to disabled initially. Tiny script
+  in questiontestrunvariants.mustache removes disabled class on page load -->
   <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item" role="presentation">
       <a class="nav-link active" href="#test-pane" id="test-tab" data-bs-toggle="tab" data-toggle="tab" role="tab" aria-controls="test-pane" aria-selected="true">{{#str}} tests, qtype_stack {{/str}}</a>
@@ -120,10 +125,10 @@
 
   <!-- Tab panes -->
   <div class="tab-content">
+    <!-- Question details panes -->
     <div class="tab-pane mt-3" id="question-pane" role="tabpanel" aria-labelledby="question-tab">
-      <h2>{{question.name}}</h2>
-      <h2>{{#str}} seed, qtype_stack {{/str}}: {{question.seed}}</h2>
-      <br>
+      <h3>{{question.name}}</h3>
+      <p>{{#str}} seed, qtype_stack {{/str}}: {{question.seed}}</p>
       <h3>{{#str}} questionnote, qtype_stack {{/str}}</h3>
       <div class="que"><div class="questionnote">{{{question.questionnote}}}</div></div>
       <h3>{{#str}} questionvariablevalues, qtype_stack {{/str}}</h3>
@@ -164,12 +169,11 @@
       <p>{{question.stackversion}}</p>
     </div>
     <div class="tab-pane active mt-3" id="test-pane" role="tabpanel" aria-labelledby="test-tab">
-      {{#general.testcreated}}
-        <p><i class="icon fa fa-exclamation-circle text-danger fa-fw"></i>{{#str}} runquestiontests_auto, qtype_stack {{/str}}</p>
-      {{/general.testcreated}}
+      <!-- Test pane -->
       {{#question.upgradeerrors}}
         <p class="fail">{{question.upgradeerrors}}</p>
       {{/question.upgradeerrors}}
       {{#question.validationerrors}}
         <p class="fail">{{question.validationerrors}}</p>
       {{/question.validationerrors}}
+      <!-- Pane finished by questiontestruntests.mustache after tests have been run -->

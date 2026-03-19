@@ -107,11 +107,11 @@
           <input type="hidden" name="questionid" value="{{questionid}}">
           <input type="hidden" name="sesskey" value="{{sesskey}}">
           <input type="hidden" name="seed" value="{{seed}}">
-        <table class="generaltable stacktestsuite">
+        <table id="deployed-variants-table" class="generaltable stacktestsuite">
           <!-- Table of variants and question notes -->
           <tr>
-            <th>{{#str}} seednumber, qtype_stack {{/str}}</th>
-            <th>{{#str}} questionnote, qtype_stack {{/str}}</th>
+            <th class="stack-sortable-header" data-sort-index="0" data-sort-type="number" role="button" tabindex="0" aria-sort="none">{{#str}} seednumber, qtype_stack {{/str}}</th>
+            <th class="stack-sortable-header" data-sort-index="1" data-sort-type="text" role="button" tabindex="0" aria-sort="none">{{#str}} questionnote, qtype_stack {{/str}}</th>
             <th></th>
             <th></th>
           </tr>
@@ -302,5 +302,72 @@
   const tabs = document.querySelectorAll('.stack-dash-tab-load');
   for (const tab of tabs) {
     tab.classList.remove("disabled", "stack-dash-tab-load");
+  }
+
+  // Add simple client-side sorting for the first two columns.
+  const variantsTable = document.getElementById('deployed-variants-table');
+  if (variantsTable) {
+    const sortableHeaders = variantsTable.querySelectorAll('.stack-sortable-header');
+    const tbody = variantsTable.tBodies[0] || variantsTable;
+
+    const getRows = () => Array.from(tbody.querySelectorAll('tr')).filter((row) => row.querySelector('td'));
+
+    const setHeaderState = (activeHeader, isAsc) => {
+      sortableHeaders.forEach((header) => {
+        if (header === activeHeader) {
+          header.setAttribute('aria-sort', isAsc ? 'ascending' : 'descending');
+          header.dataset.sortDirection = isAsc ? 'asc' : 'desc';
+        } else {
+          header.setAttribute('aria-sort', 'none');
+          delete header.dataset.sortDirection;
+        }
+      });
+    };
+
+    const getCellValue = (row, index) => {
+      const cell = row.cells[index];
+      return cell ? cell.textContent.trim() : '';
+    };
+
+    const sortByHeader = (header) => {
+      const columnIndex = Number(header.dataset.sortIndex);
+      const sortType = header.dataset.sortType;
+      const currentDirection = header.dataset.sortDirection || 'none';
+      const isAsc = currentDirection !== 'asc';
+      const direction = isAsc ? 1 : -1;
+      const rows = getRows();
+
+      rows.sort((a, b) => {
+        const av = getCellValue(a, columnIndex);
+        const bv = getCellValue(b, columnIndex);
+
+        if (sortType === 'number') {
+          const an = Number(av);
+          const bn = Number(bv);
+          const aIsNum = !Number.isNaN(an);
+          const bIsNum = !Number.isNaN(bn);
+          if (aIsNum && bIsNum) {
+            return (an - bn) * direction;
+          }
+          return av.localeCompare(bv, undefined, {numeric: true, sensitivity: 'base'}) * direction;
+        }
+
+        return av.localeCompare(bv, undefined, {sensitivity: 'base'}) * direction;
+      });
+
+      rows.forEach((row) => tbody.appendChild(row));
+      setHeaderState(header, isAsc);
+    };
+
+    sortableHeaders.forEach((header) => {
+      header.style.cursor = 'pointer';
+      header.addEventListener('click', () => sortByHeader(header));
+      header.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          sortByHeader(header);
+        }
+      });
+    });
   }
 </script>

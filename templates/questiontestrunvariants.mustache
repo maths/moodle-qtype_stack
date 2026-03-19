@@ -33,7 +33,7 @@
     "duplicateerror": false,
     "notes": [
       {
-        "iscurrentvariant": false,
+        "iscurrentseed": false,
         "isdeployed": false,
         "deployedseed": "1",
         "previewurl": "http:...question\/bank\/previewquestion\/preview.php?id=6611&amp;courseid=42&amp;variant=1",
@@ -49,7 +49,7 @@
     "deployedcount": 9,
     "seed": 5,
     "hasrandomvariants": true,
-    "variantmatched": true,
+    "seedmatched": true,
     "variantdeployed": true,
     "deployfeedback": null,
     "deployfeedbackerr": null,
@@ -133,12 +133,12 @@
         <tr>
           <td>
             <input type="checkbox" name="selectvariant-{{deployedseed}}" aria-label="{{#str}} selectvariant, qtype_stack {{/str}} {{deployedseed}}<">
-            {{#iscurrentvariant}}
+            {{#iscurrentseed}}
               <strong title="{{#str}} currentlyselectedvariant, qtype_stack {{/str}}">{{deployedseed}}</strong>
-            {{/iscurrentvariant}}
-            {{^iscurrentvariant}}
+            {{/iscurrentseed}}
+            {{^iscurrentseed}}
               <a href="{{{qurl}}}" title="{{#str}} testthisvariant, qtype_stack {{/str}}">{{deployedseed}}</a>
-            {{/iscurrentvariant}}
+            {{/iscurrentseed}}
             <a href="{{{previewurl}}}">{{#pix}}t/preview, core, {{#str}} preview, core {{/str}}{{/pix}}</a>
             {{#canedit}}
               <a href="{{{deletelink}}}">{{#pix}}t/delete, core, {{#str}} undeploy, qtype_stack {{/str}}{{/pix}}</a>
@@ -163,6 +163,9 @@
           {{#canedit}}
             <input type="submit" name="deleteselectedbtn" class="btn btn-secondary" value="{{#str}} deleteselected, qtype_stack {{/str}}">
           {{/canedit}}
+          <button class="btn btn-warning" type="button" onclick="window.location.href='{{{testalllink}}}'">
+            {{#str}} deploytestall, qtype_stack {{/str}}
+          </button>
         </form>
       {{/notes.0}}
       {{#hasrandomvariants}}
@@ -187,7 +190,7 @@
           <h3>{{#str}} variantmanagement, qtype_stack {{/str}}</h3>
         {{/canedit}}
       {{/hasrandomvariants}}
-      {{^variantmatched}}
+      {{^seedmatched}}
         {{^canedit}}
           <!-- Showing undeployed variant and can't edit. Info only. -->
           <div class="row mt-3">
@@ -199,7 +202,7 @@
             </div>
           </div>
         {{/canedit}}
-      {{/variantmatched}}
+      {{/seedmatched}}
       {{#hasrandomvariants}}
         {{#canedit}}
           <!-- Combined form for the different deploys -->
@@ -208,7 +211,7 @@
             <input type="hidden" name="questionid" value="{{questionid}}">
             <input type="hidden" name="sesskey" value="{{sesskey}}">
             <input type="hidden" name="deploy" value="{{seed}}">
-            {{^variantmatched}}
+            {{^seedmatched}}
               <!-- Showing undeployed variant -->
               <div class="row mt-3">
                 <div class="col-2">
@@ -226,8 +229,23 @@
                     <input type="submit" name="deploysinglebtn" class="btn btn-secondary" aria-label="{{#str}} deploy, qtype_stack {{/str}}" value="{{#str}} deploybtn, qtype_stack {{/str}}">
                   {{/variantdeployed}}
                 </div>
+                <div class="col-4">
+                  {{#str}} questionnote, qtype_stack {{/str}}: {{{questionnote}}}
+                </div>
               </div>
-            {{/variantmatched}}
+            {{/seedmatched}}
+            <div class="row mt-3">
+              <!-- Option to halt deploy on test failure -->
+              <div class="col-2" id="deployhalttext">
+                {{#str}} deployhalt, qtype_stack {{/str}}:
+              </div>
+              <div class="col-2">
+                <input type="checkbox" name="deployhalt" aria-label="{{#str}} deployhalt, qtype_stack {{/str}}" checked>
+              </div>
+              <div class="col-4 offset-2">
+                {{#str}} deployhalthelp, qtype_stack {{/str}}
+              </div>
+            </div>
             <div class="row mt-3">
               <!-- Deploy a number of variants -->
               <div class="col-2">
@@ -280,31 +298,9 @@
                 </details>
               </div>
             </div>
-            <div class="row mt-3">
-              <!-- Option to halt deploy on test failure -->
-              <div class="col-2" id="deployhalttext">
-                {{#str}} deployhalt, qtype_stack {{/str}}:
-              </div>
-              <div class="col-2">
-                <input type="checkbox" name="deployhalt" aria-label="{{#str}} deployhalt, qtype_stack {{/str}}" checked>
-              </div>
-            </div>
           </form>
         {{/canedit}}
       {{/hasrandomvariants}}
-      {{#notes.0}}
-        {{#canedit}}
-          <!-- Delete/test all (if there are some) -->
-          <div class="deploymany mt-3">
-            <button class="btn btn-danger" type="button" onclick="window.location.href='{{{undeployalllink}}}'">
-              {{#str}} deployremoveall, qtype_stack {{/str}}
-            </button>
-            <button class="btn btn-warning" type="button" onclick="window.location.href='{{{testalllink}}}'">
-              {{#str}} deploytestall, qtype_stack {{/str}}
-            </button>
-          </div>
-        {{/canedit}}
-      {{/notes.0}}
     </div>
   </div>
 </div>
@@ -314,3 +310,11 @@ require(['qtype_stack/dashboard'], function(component) {
     component.init();
 });
 {{/js}}
+<script>
+  // Un-disable tabs once the page has loaded.
+  // Having the code here triggers a switch to the relevant pane on page load.
+  const tabs = document.querySelectorAll('.stack-dash-tab-load');
+  for (const tab of tabs) {
+      tab.classList.remove("disabled", "stack-dash-tab-load");
+  }
+</script>

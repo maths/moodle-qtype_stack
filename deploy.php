@@ -54,6 +54,15 @@ $PAGE->set_pagelayout('popup');
 
 require_login();
 
+/**
+ * Run tests on a given seed and stop deployment if a test fails.
+ * @param mixed $question
+ * @param mixed $seed
+ * @param mixed $context
+ * @param mixed $nexturl
+ * @param mixed $numberdeployed Number of variants deployed so far/
+ * @return void
+ */
 function testseed($question, $seed, $context, $nexturl, $numberdeployed) {
     $deployhalt = optional_param('deployhalt', null, PARAM_TEXT);
     if (!isset($deployhalt)) {
@@ -94,7 +103,7 @@ if (!is_null($undeploy)) {
 // Process undeploy selected if applicable.
 $undeployselected = optional_param('deleteselectedbtn', null, PARAM_TEXT);
 if (!is_null($undeployselected)) {
-    foreach($question->deployedseeds as $deployedseed) {
+    foreach ($question->deployedseeds as $deployedseed) {
         $selected = optional_param("selectvariant-{$deployedseed}", null, PARAM_TEXT);
         if (isset($selected)) {
             $question->undeploy_variant($deployedseed);

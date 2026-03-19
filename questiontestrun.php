@@ -16,7 +16,7 @@
 
 /**
  * This script lets the user test a question using any question tests defined
- * in the database. It also displays some of the internal workins of questions.
+ * in the database. It also displays some of the internal workings of questions.
  *
  * Users with moodle/question:view capability can use this script to view the
  * results of the tests.
@@ -68,6 +68,8 @@ unset($urlparams['undeployall']);
 unset($urlparams['testall']);
 unset($urlparams['nocache']);
 
+require_login();
+
 // Check permissions.
 question_require_capability_on($questiondata, 'view');
 $canedit = question_has_capability_on($questiondata, 'edit');
@@ -78,9 +80,6 @@ $title = stack_string('testingquestion', format_string($question->name));
 $PAGE->set_title($title);
 $PAGE->set_heading($title);
 $PAGE->set_pagelayout('popup');
-
-require_login();
-
 $dashboard = new stack_question_dashboard($question, $seed, $context);
 
 // Create some other useful links.
@@ -116,19 +115,22 @@ $chatparams = $urlparams;
 $chatparams['initialise'] = true;
 $chatlink = new moodle_url('/question/type/stack/adminui/caschat.php', $chatparams);
 
-
 // Start output.
 echo $OUTPUT->header();
+
+// Create object containing the display information.
 $initialdata = new StdClass();
 $initialdata->question = $dashboard->question_details();
 $initialdata->general = new Stdclass();
+
+// Create default test if requested and save it to the question.
 if (optional_param('defaulttestcase', null, PARAM_INT) && $canedit && $question->inputs !== []) {
-    $dashboard->create_default_test();
-    $initialdata->general->testcreated = true;
+    $initialdata->general->testcreated = $dashboard->create_default_test();
 } else {
     $initialdata->general->testcreated = false;
 }
 
+// Add all the display information that's based on this page's paramaters.
 $initialdata->question->version = $qversion;
 $initialdata->general->editquestionlink = $questionbanklinkedit->out();
 $initialdata->general->editxmllink = $questionxmllink->out();
@@ -143,24 +145,36 @@ $initialdata->general->canedit = $canedit;
 $initialdata->general->courseid = $courseid;
 $initialdata->general->questionid = $questionid;
 $initialdata->general->seed = $seed;
+
+// Output the progress bars first.
 $dashboard->create_progress_bars();
+// Render the navigation links and low cost question information before running tests and processing variants.
 echo $OUTPUT->render_from_template('qtype_stack/questiontestrun', $initialdata);
 flush();
 
+// Create test data.
 $initialdata->tests = $dashboard->run_test_cases();
 $testeditlink = new moodle_url('/question/type/stack/questiontestedit.php', $urlparams);
 $initialdata->tests->testeditlink = $testeditlink->out();
-$defaulttestlink = new moodle_url('/question/type/stack/questiontestrun.php', array_merge($urlparams, ['defaulttestcase' => '1', 'sesskey' => $sesskey]));
+$defaulttestlink = new moodle_url(
+    '/question/type/stack/questiontestrun.php',
+    array_merge($urlparams, ['defaulttestcase' => '1', 'sesskey' => $sesskey])
+);
 $initialdata->tests->defaulttestlink = $defaulttestlink->out();
 $initialdata->tests->output = [];
-$initialdata->tests->hasheadlineerror = ($initialdata->question->generalfeedbackerr || $initialdata->tests->runtimeerrors) ? true : false;
+$initialdata->tests->hasheadlineerror =
+    ($initialdata->question->generalfeedbackerr || $initialdata->tests->runtimeerrors) ? true : false;
 
-foreach($initialdata->tests->results as $key => $result) {
+// Create display info for individual tests.
+foreach ($initialdata->tests->results as $key => $result) {
     $test = new StdClass();
     $test->output = $result->html_output($question, $key);
     $test->number = $key;
     $testeditlink = new moodle_url('/question/type/stack/questiontestedit.php', array_merge($urlparams, ['testcase' => $key]));
-    $testconfirmlink = new moodle_url('/question/type/stack/questiontestedit.php', array_merge($urlparams, ['testcase' => $key, 'confirmthistestcase' => true]));
+    $testconfirmlink = new moodle_url(
+        '/question/type/stack/questiontestedit.php',
+        array_merge($urlparams, ['testcase' => $key, 'confirmthistestcase' => true])
+    );
     $testdeletelink = new moodle_url('/question/type/stack/questiontestdelete.php', array_merge($urlparams, ['testcase' => $key]));
     $test->editlink = $testeditlink->out();
     $test->confirmlink = $testconfirmlink->out();
@@ -168,9 +182,14 @@ foreach($initialdata->tests->results as $key => $result) {
     $test->canedit = $canedit;
     $initialdata->tests->output[] = $test;
 }
+
+// We no longer need the in-depth results.
 unset($initialdata->tests->results);
+// Display test information.
 echo $OUTPUT->render_from_template('qtype_stack/questiontestruntests', $initialdata);
 flush();
+
+// Create variant data for display.
 $variantdata = $dashboard->list_variants();
 $variantdata->deployfeedback = optional_param('deployfeedback', null, PARAM_TEXT);
 $variantdata->deployfeedbackerr = optional_param('deployfeedbackerr', null, PARAM_TEXT);
@@ -178,7 +197,8 @@ if ($variantdata->deployfeedback || $variantdata->deployfeedbackerr) {
     $PAGE->set_url('/question/type/stack/questiontestrun.php#variants-pane', $urlparams);
 }
 $variantdata->canedit = $canedit;
-foreach($variantdata->notes as $variant) {
+// Create varaiant action links.
+foreach ($variantdata->notes as $variant) {
     $variant->canedit = $canedit;
     $vdeletelink = new moodle_url(
         '/question/type/stack/deploy.php',
@@ -199,7 +219,6 @@ $undeployalllink = new moodle_url(
     'variants-pane'
 );
 $variantdata->undeployalllink = $undeployalllink->out();
-
 $pageparams = $urlparams;
 unset($pageparams['seed']);
 $pagelink = new moodle_url('/question/type/stack/questiontestrun.php', []);
@@ -215,6 +234,8 @@ $testalllink = new moodle_url(
     'variants-pane'
 );
 $variantdata->testalllink = $testalllink->out();
+$variantdata->questionnote = $initialdata->question->questionnote;
+// Finally about variant data.
 echo $OUTPUT->render_from_template('qtype_stack/questiontestrunvariants', $variantdata);
 
 echo $OUTPUT->footer();

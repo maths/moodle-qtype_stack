@@ -12,22 +12,18 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Stack.  If not, see <http://www.gnu.org/licenses/>.
-
-/**
- * Loads and manipulates data for display on the response analysis page.
- *
- * @package    qtype_stack
- * @copyright 2024 University of Edinburgh.
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
- */
+// along with STACK.  If not, see <http://www.gnu.org/licenses/>.
 
 defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/questiontest.php');
 require_once(__DIR__ . '/bulktester.class.php');
 
 /**
+ * Loads and manipulates data for display on the STACK dashboard page.
  *
+ * @package   qtype_stack
+ * @copyright 2026 University of Edinburgh.
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 class stack_question_dashboard {
     /**
@@ -55,6 +51,12 @@ class stack_question_dashboard {
      */
     public $testprogress;
 
+    /**
+     * Constructor
+     * @param object $question
+     * @param int|null $seed
+     * @param object $context
+     */
     public function __construct(object $question, int|null $seed, object $context) {
         $this->question = $question;
         $this->context = $context;
@@ -77,6 +79,10 @@ class stack_question_dashboard {
         $this->question->castextprocessor = new castext2_qa_processor($this->quba->get_question_attempt($this->slot));
     }
 
+    /**
+     * Get the basic display information for a question
+     * @return StdClass
+     */
     public function question_details() {
         global $PAGE;
         $renderer = $PAGE->get_renderer('qtype_stack');
@@ -91,7 +97,7 @@ class stack_question_dashboard {
         }
         $questiondescription = $this->question->get_questiondescription_castext();
         $output->renderquestiondescription = $renderer->question_description($this->quba->get_question_attempt($this->slot));
-        //Not currently displayed:
+        // Not currently displayed.
         $output->questiondescription = trim($questiondescription->get_errors());
         // Prepare the display options.
         $options = question_display_options();
@@ -119,16 +125,33 @@ class stack_question_dashboard {
         return $output;
     }
 
+    /**
+     * Create the default test for a question assuming teacher's anser is correct.
+     * @return boolean
+     */
     public function create_default_test() {
-        $defaulttest = stack_bulk_tester::create_default_test($this->question);
-        question_bank::get_qtype('stack')->save_question_test($this->question->id, $defaulttest);
+        $testscases = question_bank::get_qtype('stack')->load_question_tests($this->question->id);
+        if (empty($testscases) && $this->question->inputs !== []) {
+            $defaulttest = stack_bulk_tester::create_default_test($this->question);
+            question_bank::get_qtype('stack')->save_question_test($this->question->id, $defaulttest);
+            return true;
+        }
+        return false;
     }
 
+    /**
+     * Set up progress bars for the dashboard.
+     * @return void
+     */
     public function create_progress_bars() {
         $this->testprogress = new progress_bar('testingquestiontests', 500, true);
         $this->variantprogress = new progress_bar('testingquestionvariants', 500, true);
     }
 
+    /**
+     * Run all the test cases and return display information.
+     * @return StdClass
+     */
     public function run_test_cases() {
         $output = new StdClass();
         $output->results = [];
@@ -140,6 +163,8 @@ class stack_question_dashboard {
         $testscases = question_bank::get_qtype('stack')->load_question_tests($this->question->id);
         $output->hasinputs = ($this->question->inputs !== []) ? true : false;
 
+        // Create a fake (unsaved) test if we don't have any. We use the demotest flag
+        // to let the mustache template know our one test is not real.
         if (empty($testscases) && $output->hasinputs) {
             $testscases[stack_string('runquestiontests_example')] = stack_bulk_tester::create_default_test($this->question);
             $output->demotest = true;
@@ -149,6 +174,8 @@ class stack_question_dashboard {
         $a = ['total' => count($testscases), 'done' => 0];
         // Execute the tests.
         foreach ($testscases as $key => $testcase) {
+            // Summary output is used to create the summary table with test number, description and
+            // pass/fail for score, penalty and answer note.
             $summaryoutput = new StdClass();
             $summaryoutput->number = $testcase->testcase;
             $summaryoutput->id = 'testcase-' . $testcase->testcase . '-' . $this->question->id;
@@ -161,6 +188,7 @@ class stack_question_dashboard {
             if (!$currentsummary['passed']) {
                 $output->allpassed = false;
                 foreach ($currentsummary['outcomes'] as $prtoutcome) {
+                    // If we've already failed a criterion we don't need to test it again.
                     if ($summaryoutput->scorepass && str_contains($prtoutcome['reason'], stack_string('score'))) {
                         $summaryoutput->scorepass = false;
                     }
@@ -183,6 +211,11 @@ class stack_question_dashboard {
         return $output;
     }
 
+    /**
+     * Get general variant information and details for each individual variant.
+     *
+     * @return StdClass
+     */
     public function list_variants() {
         $output = new StdClass();
         $output->duplicateerror = false;
@@ -192,7 +225,10 @@ class stack_question_dashboard {
         $output->seed = $this->question->seed;
 
         $output->hasrandomvariants = $this->question->has_random_variants() ? true : false;
-        $output->variantmatched = !$output->hasrandomvariants;
+        // If the question does not have random variants, act as if we have a current seed that's
+        // been deployed.
+        $output->seedmatched = !$output->hasrandomvariants;
+        // Is the current variant (not necessarily seed) deployed?
         $output->variantdeployed = false;
 
         if (!empty($this->question->deployedseeds)) {
@@ -201,8 +237,8 @@ class stack_question_dashboard {
             $progressevery = (int) min(max(1, count($this->question->deployedseeds) / 500), 100);
             foreach ($this->question->deployedseeds as $key => $deployedseed) {
                 $variant = $this->get_variant($key, $deployedseed);
-                if ($variant->iscurrentvariant) {
-                    $output->variantmatched = true;
+                if ($variant->iscurrentseed) {
+                    $output->seedmatched = true;
                 }
                 if ($variant->samenoteascurrent) {
                     $output->variantdeployed = true;
@@ -212,24 +248,23 @@ class stack_question_dashboard {
                 $a['done'] += 1;
                 if ($a['done'] % $progressevery == 0 || $a['done'] == $a['total']) {
                     core_php_time_limit::raise(60);
-                    $this->variantprogress->update($a['done'], $a['total'], get_string('testingquestionvariants', 'qtype_stack', $a));
+                    $this->variantprogress->update(
+                        $a['done'],
+                        $a['total'],
+                        get_string('testingquestionvariants', 'qtype_stack', $a)
+                    );
                 }
             }
         } else {
-            $previewurl = qbank_previewquestion\helper::question_preview_url($this->question->id, null, null, null, null, $this->context);
+            $previewurl =
+                qbank_previewquestion\helper::question_preview_url($this->question->id, null, null, null, null, $this->context);
             $output->previewurl = $previewurl->out();
         }
         // phpcs:ignore moodle.Commenting.MissingDocblock.Function
         function sort_by_note($a1, $b1) {
             $a = $a1->questionnoterendered;
             $b = $b1->questionnoterendered;
-            if ($a == $b) {
-                return 0;
-            }
-            if ($a < $b) {
-                return -1;
-            }
-            return 1;
+            return strcoll($a, $b);
         }
         usort($output->notes, 'sort_by_note');
 
@@ -240,17 +275,30 @@ class stack_question_dashboard {
         return $output;
     }
 
-    function get_variant($key, $deployedseed) {
+    /**
+     * Get the details of a particular variant
+     * @param int $key the array key of the variant in the question
+     * @param string $deployedseed the seed
+     * @return StdClass
+     */
+    public function get_variant($key, $deployedseed) {
         global $PAGE;
         $output = new StdClass();
-        $output->iscurrentvariant = false;
+        $output->iscurrentseed = false;
         $output->isdeployed = false;
         $output->deployedseed = $deployedseed;
         if (!is_null($this->question->seed) && $this->question->seed == $deployedseed) {
-            $output->iscurrentvariant = true;
+            $output->iscurrentseed = true;
         }
 
-        $previewurl = qbank_previewquestion\helper::question_preview_url($this->question->id, null, null, null, $key + 1, $this->context);
+        $previewurl = qbank_previewquestion\helper::question_preview_url(
+            $this->question->id,
+            null,
+            null,
+            null,
+            $key + 1,
+            $this->context
+        );
         $output->previewurl = $previewurl->out();
         $qurl = new moodle_url($PAGE->url, ['seed' => $deployedseed]);
         $output->qurl = $qurl->out();
@@ -261,8 +309,14 @@ class stack_question_dashboard {
             $bulktester = new stack_bulk_tester();
             // Load the list of test cases.
             $testscases = question_bank::get_qtype('stack')->load_question_tests($this->question->id);
-            $bulktestresults = $bulktester->qtype_stack_test_question($this->context, $this->question->id,
-                    $testscases, 'web', $deployedseed, true);
+            $bulktestresults = $bulktester->qtype_stack_test_question(
+                $this->context,
+                $this->question->id,
+                $testscases,
+                'web',
+                $deployedseed,
+                true
+            );
         }
 
         // Print out question notes of all deployed variants.
@@ -285,9 +339,3 @@ class stack_question_dashboard {
         return $output;
     }
 }
-
-
-
-
-
-

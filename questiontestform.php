@@ -43,20 +43,25 @@ class qtype_stack_question_test_form extends moodleform {
         $question = $this->_customdata['question'];
         $mform->addElement('header', 'questionheader', stack_string('questiondetails'));
         $mform->setExpanded('questionheader', false);
-        $mform->addElement('static', 'questionrender', stack_string('questionrender'),
-            $this->_customdata['questionrender']);
-        $mform->addElement('static', 'questionvariables', stack_string('questionvariables'),
-            $this->_customdata['questionvariables']);
-        $mform->addElement('static', 'questionvariablevalues', stack_string('questionvariablevalues'),
-            $this->_customdata['questionvariablevalues']);
-        $mform->addElement('static', 'questiontext', stack_string('questiontext'),
-            $this->_customdata['questiontext']);
+        $mform->addElement('static', 'questionrender', stack_string('questionrender'), $this->_customdata['questionrender']);
+        $mform->addElement(
+            'static',
+            'questionvariables',
+            stack_string('questionvariables'),
+            $this->_customdata['questionvariables']
+        );
+        $mform->addElement(
+            'static',
+            'questionvariablevalues',
+            stack_string('questionvariablevalues'),
+            $this->_customdata['questionvariablevalues']
+        );
+        $mform->addElement('static', 'questiontext', stack_string('questiontext'), $this->_customdata['questiontext']);
 
         $mform->addElement('text', 'description', stack_string('description'), ['size' => 64]);
         $mform->setType('description', PARAM_RAW);
-        $mform->addElement('static', 'pleasenote','', stack_string('testinputsimpwarning'));
+        $mform->addElement('static', 'pleasenote', '', stack_string('testinputsimpwarning'));
         $mform->closeHeaderBefore('description');
-
 
         // Inputs.
         $mform->addElement('header', 'inputsheader', stack_string('testinputs'));

@@ -27,12 +27,6 @@ define([], function () {
      *
      */
     function init() {
-        // Un-disable tabs once the page has loaded.
-        const tabs = document.querySelectorAll('.stack-dash-tab-load');
-        for (const tab of tabs) {
-            tab.classList.remove("disabled", "stack-dash-tab-load");
-        }
-
         // Add simple client-side sorting for the first two columns.
         const variantsTable = document.getElementById('deployed-variants-table');
         if (!variantsTable) {

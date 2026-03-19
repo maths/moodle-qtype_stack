@@ -317,7 +317,8 @@ class stack_question_test_result {
             $outcome = html_writer::tag('span', stack_string('testsuitefail'), ['class' => 'fail']);
         }
         if ($key !== null) {
-            $html .= html_writer::tag('h3',
+            $html .= html_writer::tag(
+                'h3',
                 stack_string('testcasexresult', ['no' => $key, 'result' => $outcome]),
                 ['id' => 'testcase-' . $key . '-' . $question->id]
             );

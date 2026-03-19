@@ -111,12 +111,19 @@
           <!-- Table of variants and question notes -->
           <tr>
             <th class="stack-sortable-header" data-sort-index="0" data-sort-type="number" role="button" tabindex="0" aria-sort="none">
-              <button type="button" class="btn btn-link p-0 stack-toggle-variants-btn" aria-label="Invert variant selection" title="Invert variant selection" aria-pressed="false">
+              <button type="button" class="btn btn-link p-0 stack-toggle-variants-btn"
+                  aria-label="Invert variant selection" title="Invert variant selection" aria-pressed="false">
                 <i class="icon fa fa-exchange" aria-hidden="true"></i>
               </button>
               {{#str}} seednumber, qtype_stack {{/str}}
+              <span class="stack-sort-arrow" aria-hidden="true"><i class="icon fa fa-sort text-muted"></i></span>
             </th>
-            <th class="stack-sortable-header" data-sort-index="1" data-sort-type="text" role="button" tabindex="0" aria-sort="none">{{#str}} questionnote, qtype_stack {{/str}}</th>
+            <th class="stack-sortable-header" data-sort-index="1" data-sort-type="text" role="button" tabindex="0" aria-sort="ascending">
+              {{#str}} questionnote, qtype_stack {{/str}}
+              <span class="stack-sort-arrow" aria-hidden="true">
+                <i class="icon fa fa-sort text-muted"></i>
+              </span>
+            </th>
             <th></th>
             <th></th>
           </tr>
@@ -314,34 +321,59 @@
   if (variantsTable) {
     const sortableHeaders = variantsTable.querySelectorAll('.stack-sortable-header');
     const toggleVariantsButton = variantsTable.querySelector('.stack-toggle-variants-btn');
-    const tbody = variantsTable.tBodies[0] || variantsTable;
 
-    const getRows = () => Array.from(tbody.querySelectorAll('tr')).filter((row) => row.querySelector('td'));
-
-    const setHeaderState = (activeHeader, isAsc) => {
+    /**
+     * Update arrow icons showing direction of sort
+     *
+     * @param {element} activeHeader Header element to update
+     * @param {boolean} isAsc is column sorted in ascending order?
+     */
+    function setHeaderState(activeHeader, isAsc) {
       sortableHeaders.forEach((header) => {
+        const arrowIcon = header.querySelector('.stack-sort-arrow i');
         if (header === activeHeader) {
           header.setAttribute('aria-sort', isAsc ? 'ascending' : 'descending');
           header.dataset.sortDirection = isAsc ? 'asc' : 'desc';
+          if (arrowIcon) {
+            arrowIcon.classList.remove('fa-sort', 'fa-sort-up', 'fa-sort-down', 'text-muted');
+            arrowIcon.classList.add(isAsc ? 'fa-sort-up' : 'fa-sort-down');
+          }
         } else {
           header.setAttribute('aria-sort', 'none');
           delete header.dataset.sortDirection;
+          if (arrowIcon) {
+            arrowIcon.classList.remove('fa-sort-up', 'fa-sort-down');
+            arrowIcon.classList.add('fa-sort', 'text-muted');
+          }
         }
       });
     };
 
-    const getCellValue = (row, index) => {
+    /**
+     * Get test content of index cell or row.
+     *
+     * @param {int} row
+     * @param {int} index
+     */
+    function getCellValue(row, index) {
       const cell = row.cells[index];
       return cell ? cell.textContent.trim() : '';
     };
 
-    const sortByHeader = (header) => {
+    /**
+     * Sort table by a column.
+     *
+     * @param {element} header The header element mof the column.
+     */
+    function sortByHeader(header) {
       const columnIndex = Number(header.dataset.sortIndex);
       const sortType = header.dataset.sortType;
       const currentDirection = header.dataset.sortDirection || 'none';
+      // Flip current direction.
       const isAsc = currentDirection !== 'asc';
       const direction = isAsc ? 1 : -1;
-      const rows = getRows();
+      // Filters out header row.
+      const rows = Array.from(variantsTable.querySelectorAll('tr')).filter((row) => row.querySelector('td'));
 
       rows.sort((a, b) => {
         const av = getCellValue(a, columnIndex);
@@ -361,10 +393,11 @@
         return av.localeCompare(bv, undefined, {sensitivity: 'base'}) * direction;
       });
 
-      rows.forEach((row) => tbody.appendChild(row));
+      rows.forEach((row) => variantsTable.appendChild(row));
       setHeaderState(header, isAsc);
     };
 
+    // Add event listeners to headers.
     sortableHeaders.forEach((header) => {
       header.style.cursor = 'pointer';
       header.addEventListener('click', () => sortByHeader(header));
@@ -376,6 +409,13 @@
       });
     });
 
+    // Assume question note starts in ascending order and show that state initially.
+    const defaultSortedHeader = variantsTable.querySelector('.stack-sortable-header[data-sort-index="1"]');
+    if (defaultSortedHeader) {
+      setHeaderState(defaultSortedHeader, true);
+    }
+
+    // Prevent toggle button sorting column. Add event listener to toggle selection boxes.
     if (toggleVariantsButton) {
       toggleVariantsButton.addEventListener('click', (event) => {
         event.preventDefault();

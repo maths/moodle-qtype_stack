@@ -136,6 +136,7 @@ function send() {
                 for (const [name, file] of Object.entries(json.questionassets)) {
                     question = question.replace(name, `${serverUrl}plots/${file}`);
                     json.questionsamplesolutiontext = json.questionsamplesolutiontext.replace(name, `${serverUrl}plots/${file}`);
+                    json.questionnote = json.questionnote.replace(name, `${serverUrl}plots/${file}`);
                     correctAnswers = correctAnswers.replace(name, `${serverUrl}plots/${file}`);
                 }
                 question = replaceFeedbackTags(question);
@@ -171,6 +172,8 @@ function send() {
                         // If the question is updated, there may no longer be general feedback.
                         document.getElementById('stackapi_generalfeedback').style.display = 'none';
                     }
+                    document.getElementById('stackapi_questionnote').style.display = 'block';
+                    document.getElementById('questionnote').innerHTML = json.questionnote;
                     document.getElementById('stackapi_score').style.display = 'none';
                 } else {
                     if (sampleText) {

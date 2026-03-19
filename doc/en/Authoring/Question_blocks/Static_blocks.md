@@ -51,6 +51,12 @@ The special "debug" block allows question authors to see all the values of varia
 
     [[ debug /]]
 
+Note, when asking for markdown the rows in the table are generated with code such as
+
+    | `$key` | `{#$key,simp#}` | `{#$key,simp=false#}` | {@$key,simp@} | {@$key,simp=false@} |
+
+or the HTML equivalent.  This means that if your variable is a complex string, with line breaks, then the markdown will likely be broken.
+
 ## Format blocks ##
 
 In general CASText is assumed to be written in the format (Markdown, raw HTML, Moodle auto-format) that Moodle defines and which can be selected in the editor if one uses the plain text area editor. However, there are cases where one might need to mix formats within the CASText itself, one of those cases is the inclusion of content written in another format. In these cases one can wrap the differing part in blocks that declare the format to use for that portion. The blocks used for this are named `[[moodleformat]]`, `[[markdownformat]]`, and `[[htmlformat]]`. In the end all CASText evaluates down to HTML, even if it were written in Markdown-format it will be rendered down to HTML.

@@ -643,6 +643,7 @@ $string['seethisquestioninthequestionbank'] = '<i class="fa fa-list-alt"></i> Sh
 $string['exportthisquestion'] = '<i class="fa fa-download"></i> Export as Moodle XML';
 $string['exportthisquestion_help'] = 'This will create a Moodle XML export file containing just this one question. One example of when this is useful if you think this question demonstrates a bug in STACK that you would like to report to the developers.';
 $string['tidyquestion'] = '<i class="fa fa-sort-amount-asc"></i> Tidy inputs and PRTs';
+$string['tidyquestion_txt'] = 'Tidy inputs and PRTs';
 $string['sendgeneralfeedback'] = '<i class="fa fa-file-text"></i> Send general feedback to the CAS';
 $string['editxml'] = '<i class="fa fa-align-left"></i> Edit question XML';
 $string['reloadsavedXML'] = '<i class="fa fa-rotate-left"></i> Reload saved version of question';
@@ -1884,6 +1885,7 @@ $string['stack_library_quiz'] = 'This is a quiz:';
 $string['stack_library_quiz_course'] = 'The quiz will be imported into course: ';
 $string['stack_library_quiz_prefix'] = 'Quiz:';
 $string['stack_library_selected'] = 'Displayed question:';
+$string['stack_library_select'] = 'Select library:';
 $string['stack_library_success'] = 'Successful import of:';
 $string['stack_library_not_stack'] = 'This is not a STACK question and so cannot be fully rendered here but you can still import it.';
 $string['stack_library_quiz_return'] = 'Return to quiz';

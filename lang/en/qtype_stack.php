@@ -634,6 +634,8 @@ $string['selectvariant'] = 'Select variant';
 $string['deploynumber'] = 'Number of variants to deploy';
 $string['deployfrom'] = 'Deploy seeds from';
 $string['deployto'] = 'Deploy seeds to';
+$string['noinputs'] = 'This question has no inputs so no tests are required.';
+$string['upgradeerrors'] = 'Upgrade errors';
 
 $string['editquestioninthequestionbank'] = '<i class="fa fa-pencil"></i> Edit question';
 $string['seethisquestioninthequestionbank'] = '<i class="fa fa-list-alt"></i> Show in question bank';

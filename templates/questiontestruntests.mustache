@@ -101,13 +101,16 @@
 }}
       <!-- Continuation of Test pane after running tests -->
       {{#tests.hasheadlineerror}}
-        <p class="overallresult fail">{{#str}} errors, qtype_stack {{/str}}</p>
-        {{#tests.runtimeerrors}}
-          <p>{{{#tests.runtimeerrors}}}</p>
-        {{/tests.runtimeerrors}}
-        {{#tests.generalfeedbackerror}}
-          <p>{{#str}} errors, qtype_stack {{/str}}: {{tests.generalfeedbackerror}}</p>
-        {{/tests.generalfeedbackerror}}
+        <div class="stack-library-import-failure">
+          <h3>{{#str}} errors, qtype_stack {{/str}}</h3>
+          {{#tests.runtimeerrors}}
+            <p>{{{tests.runtimeerrors}}}</p>
+          {{/tests.runtimeerrors}}
+          {{#general.generalfeedbackerror}}
+            <p>{{#str}} errors, qtype_stack {{/str}}: {{general.generalfeedbackerror}}</p>
+          {{/general.generalfeedbackerror}}
+        </div>
+        <br>
       {{/tests.hasheadlineerror}}
       {{#tests.hasinputs}}
         <!-- Only need tests if we have inputs -->
@@ -121,6 +124,9 @@
             {{#str}} notestcasesyet, qtype_stack {{/str}}
           </p>
         {{/tests.demotest}}
+      {{/tests.hasinputs}}
+      {{^tests.hasinputs}}
+        <p>{{#str}} noinputs, qtype_stack {{/str}}</p>
       {{/tests.hasinputs}}
       {{#general.testcreated}}
         <!-- Sample test created -->
@@ -186,7 +192,7 @@
           {{/tests.summary}}
         </table>
       {{/tests.hasresults}}
-      {{#general.canedit}}
+      {{#general.canedit}}{{#tests.hasinputs}}
         <!-- Add another test case -->
         <form method="get" action="{{{tests.testeditlink}}}">
           <input type="hidden" name="courseid" value="{{general.courseid}}">
@@ -201,7 +207,7 @@
             {{/tests.hasresults}}
           </button>
         </form>
-      {{/general.canedit}}
+      {{/tests.hasinputs}}{{/general.canedit}}
       {{#general.canedit}}{{#tests.demotest}}
         <!-- Give option to make fake sample test a real test -->
         <br>

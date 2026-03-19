@@ -153,8 +153,7 @@ $initialdata->tests->testeditlink = $testeditlink->out();
 $defaulttestlink = new moodle_url('/question/type/stack/questiontestrun.php', array_merge($urlparams, ['defaulttestcase' => '1', 'sesskey' => $sesskey]));
 $initialdata->tests->defaulttestlink = $defaulttestlink->out();
 $initialdata->tests->output = [];
-$initialdata->tests->generalfeedbackerr = $initialdata->question->generalfeedbackerr;
-$initialdata->tests->hasheadlineerror = ($initialdata->tests->generalfeedbackerr || $initialdata->tests->runtimeerrors) ? true : false;
+$initialdata->tests->hasheadlineerror = ($initialdata->question->generalfeedbackerr || $initialdata->tests->runtimeerrors) ? true : false;
 
 foreach($initialdata->tests->results as $key => $result) {
     $test = new StdClass();

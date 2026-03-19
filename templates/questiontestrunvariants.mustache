@@ -110,7 +110,12 @@
         <table id="deployed-variants-table" class="generaltable stacktestsuite">
           <!-- Table of variants and question notes -->
           <tr>
-            <th class="stack-sortable-header" data-sort-index="0" data-sort-type="number" role="button" tabindex="0" aria-sort="none">{{#str}} seednumber, qtype_stack {{/str}}</th>
+            <th class="stack-sortable-header" data-sort-index="0" data-sort-type="number" role="button" tabindex="0" aria-sort="none">
+              <button type="button" class="btn btn-link p-0 stack-toggle-variants-btn" aria-label="Invert variant selection" title="Invert variant selection" aria-pressed="false">
+                <i class="icon fa fa-exchange" aria-hidden="true"></i>
+              </button>
+              {{#str}} seednumber, qtype_stack {{/str}}
+            </th>
             <th class="stack-sortable-header" data-sort-index="1" data-sort-type="text" role="button" tabindex="0" aria-sort="none">{{#str}} questionnote, qtype_stack {{/str}}</th>
             <th></th>
             <th></th>
@@ -308,6 +313,7 @@
   const variantsTable = document.getElementById('deployed-variants-table');
   if (variantsTable) {
     const sortableHeaders = variantsTable.querySelectorAll('.stack-sortable-header');
+    const toggleVariantsButton = variantsTable.querySelector('.stack-toggle-variants-btn');
     const tbody = variantsTable.tBodies[0] || variantsTable;
 
     const getRows = () => Array.from(tbody.querySelectorAll('tr')).filter((row) => row.querySelector('td'));
@@ -369,5 +375,16 @@
         }
       });
     });
+
+    if (toggleVariantsButton) {
+      toggleVariantsButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const checkboxes = Array.from(variantsTable.querySelectorAll('input[type="checkbox"][name^="selectvariant-"]'));
+        checkboxes.forEach((checkbox) => {
+          checkbox.checked = !checkbox.checked;
+        });
+      });
+    }
   }
 </script>

@@ -36,14 +36,14 @@
         "iscurrentseed": false,
         "isdeployed": false,
         "deployedseed": "1",
-        "previewurl": "http:...question\/bank\/previewquestion\/preview.php?id=6611&amp;courseid=42&amp;variant=1",
-        "qurl": "http:...question\/type\/stack\/questiontestrun.php?questionid=6611&amp;courseid=42&amp;seed=1",
+        "previewurl": "http://question\/bank\/previewquestion\/preview.php?id=6611&amp;courseid=42&amp;variant=1",
+        "qurl": "http://question\/type\/stack\/questiontestrun.php?questionid=6611&amp;courseid=42&amp;seed=1",
         "questionnote": "Question note",
         "questionnoterendered": "Rendered question note",
         "bulktestresultspass": false,
         "bulktestresults": "",
         "canedit": true,
-        "deletelink": "http:...question\/type\/stack\/deploy.php?questionid=6611&amp;courseid=42&amp;undeploy&amp;sesskey=ElIpavgr9m#variants-pane"
+        "deletelink": "http://question\/type\/stack\/deploy.php?questionid=6611&amp;courseid=42&amp;undeploy&amp;sesskey=ElIpavgr9m#variants-pane"
       }
     ],
     "deployedcount": 9,
@@ -54,9 +54,9 @@
     "deployfeedback": null,
     "deployfeedbackerr": null,
     "canedit": true,
-    "deploylink": "http:...question\/type\/stack\/deploy.php#variants-pane",
-    "undeployalllink": "http:...question\/type\/stack\/deploy.php?questionid=6611&amp;courseid=42&amp;undeployall=1&amp;sesskey=ElIpavgr9m#variants-pane",
-    "pagelink": "http:...question\/type\/stack\/questiontestrun.php",
+    "deploylink": "http://question\/type\/stack\/deploy.php#variants-pane",
+    "undeployalllink": "http://question\/type\/stack\/deploy.php?questionid=6611&amp;courseid=42&amp;undeployall=1&amp;sesskey=ElIpavgr9m#variants-pane",
+    "pagelink": "http://question\/type\/stack\/questiontestrun.php",
     "courseid": 42,
     "questionid": "6611",
     "sesskey": "ElIpavgr9m",
@@ -64,13 +64,20 @@
     "deployedseeds": [
       "1"
     ],
-    "testalllink": "http:...question\/type\/stack\/questiontestrun.php?questionid=6611&amp;courseid=42&amp;testall=1&amp;sesskey=ElIpavgr9m#variants-pane"
+    "testalllink": "http://question\/type\/stack\/questiontestrun.php?questionid=6611&amp;courseid=42&amp;testall=1&amp;sesskey=ElIpavgr9m#variants-pane",
+    "istest": true
   }
 }}
-
+<!-- This is a continuation of questiontestrun.mustache -->
+{{#istest}}
+<!-- Fake pane start to pass mustache linting tests. -->
+<div>
+  <div>
+    <div>
+{{/istest}}
     <!-- End test pane -->
     </div>
-    <div class="tab-pane mt-3" id="variants-pane" role="tabpanel" aria-labelledby="variants-tab">
+    <div class="tab-pane mt-3" id="variants-pane" role="tabpanel" aria-label="{{#str}} variants, qtype_stack {{/str}}">
       <!-- Variant pane -->
       {{#deployfeedback}}
         <p class="overallresult pass">{{deployfeedback}}</p>
@@ -110,7 +117,7 @@
         <table id="deployed-variants-table" class="generaltable stacktestsuite">
           <!-- Table of variants and question notes -->
           <tr>
-            <th class="stack-sortable-header" data-sort-index="0" data-sort-type="number" role="button" tabindex="0" aria-sort="none">
+            <th class="stack-sortable-header" data-sort-index="0" data-sort-type="number" tabindex="0" aria-sort="none">
               <button type="button" class="btn btn-link p-0 stack-toggle-variants-btn"
                   aria-label="Invert variant selection" title="Invert variant selection" aria-pressed="false">
                 <i class="icon fa fa-exchange" aria-hidden="true"></i>
@@ -118,7 +125,7 @@
               {{#str}} seednumber, qtype_stack {{/str}}
               <span class="stack-sort-arrow" aria-hidden="true"><i class="icon fa fa-sort text-muted"></i></span>
             </th>
-            <th class="stack-sortable-header" data-sort-index="1" data-sort-type="text" role="button" tabindex="0" aria-sort="ascending">
+            <th class="stack-sortable-header" data-sort-index="1" data-sort-type="text" tabindex="0" aria-sort="ascending">
               {{#str}} questionnote, qtype_stack {{/str}}
               <span class="stack-sort-arrow" aria-hidden="true">
                 <i class="icon fa fa-sort text-muted"></i>

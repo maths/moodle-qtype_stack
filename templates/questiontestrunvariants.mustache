@@ -100,7 +100,10 @@
       {{^notes.0}}
         {{#hasrandomvariants}}
           <!-- No variants -->
-          <p><i class="icon fa fa-exclamation-circle text-danger fa-fw"></i>{{#str}} runquestiontests_alert, qtype_stack {{/str}} <a href="{{{previewurl}}}">{{#pix}}t/preview, core, {{#str}} preview, core {{/str}}{{/pix}}</a></p>
+          <p><i class="icon fa fa-exclamation-circle text-danger fa-fw"></i>
+            {{#str}} runquestiontests_alert, qtype_stack {{/str}} {{#str}} questionnotdeployedyet, qtype_stack {{/str}}
+            <a href="{{{previewurl}}}">{{#pix}}t/preview, core, {{#str}} preview, core {{/str}}{{/pix}}</a>
+          </p>
         {{/hasrandomvariants}}
       {{/notes.0}}
       {{#duplicateerror}}
@@ -224,7 +227,7 @@
                 <div class="col-2">
                   <b>{{#str}} showingundeployedvariant, qtype_stack {{/str}}</b>
                 </div>
-                <div class="col-2">
+                <div id="id_unmatchedseed" class="col-2">
                   <b>{{seed}}</b>
                 </div>
                 <div class="col-2">

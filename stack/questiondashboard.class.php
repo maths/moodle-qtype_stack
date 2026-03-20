@@ -329,9 +329,8 @@ class stack_question_dashboard {
         $qunote->start_question($slotnote);
         // Check for duplicate question notes.
         $output->questionnote = $qn->get_question_summary();
-        if ($output->questionnote == $this->question->get_question_summary()) {
-            $output->samenoteascurrent = true;
-        }
+        $output->samenoteascurrent =
+            ($output->questionnote == $this->question->get_question_summary()) ? true : false;
         $output->questionnoterendered = stack_ouput_castext($output->questionnote);
         $output->bulktestresultspass = $bulktestresults[0] ? true : false;
         $output->bulktestresults = $bulktestresults[1];

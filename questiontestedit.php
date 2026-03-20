@@ -92,11 +92,28 @@ $PAGE->set_heading($title);
 $PAGE->set_pagelayout('popup');
 
 require_login();
+$questionrender = $quba->render_question($slot, $options) ?? "";
+$questionvariables = html_writer::start_tag('div', ['class' => 'questionvariables']) .
+    html_writer::tag('pre', $question->questionvariables) .
+    html_writer::end_tag('div');
+$questionvariablevalues = html_writer::start_tag('div', ['class' => 'questionvariables']) .
+    html_writer::tag('pre', $question->get_question_session_keyval_representation()) .
+    html_writer::end_tag('div');
+// Display the question text.
+// We need this as well as the rendered view above so that teachers can see the names of variables used.
+// This helps when writing question tests using those variables to reflect randomization.
+$questiontext = html_writer::tag('pre', $question->questiontext, ['class' => 'questiontext']);
 
 // Create the editing form.
 $mform = new qtype_stack_question_test_form(
     $PAGE->url,
-    ['submitlabel' => $submitlabel, 'question' => $question]
+    ['submitlabel' => $submitlabel,
+    'question' => $question,
+    'questionrender' => $questionrender,
+    'questionvariables' => $questionvariables,
+    'questionvariablevalues' => $questionvariablevalues,
+    'questiontext' => $questiontext
+    ]
 );
 
 $currentdata = new stdClass();
@@ -123,17 +140,7 @@ if ($testcase) {
         $currentdata->{$prtname . 'answernote'} = $expected->answernotes[0];
     }
 }
-$currentdata->questionrender = $quba->render_question($slot, $options);
-$currentdata->questionvariables = html_writer::start_tag('div', ['class' => 'questionvariables']) .
-    html_writer::tag('pre', $question->questionvariables) .
-    html_writer::end_tag('div');
-$currentdata->questionvariablevalues = html_writer::start_tag('div', ['class' => 'questionvariables']) .
-    html_writer::tag('pre', $question->get_question_session_keyval_representation()) .
-    html_writer::end_tag('div');
-// Display the question text.
-// We need this as well as the rendered view above so that teachers can see the names of variables used.
-// This helps when writing question tests using those variables to reflect randomization.
-$currentdata->questiontext = html_writer::tag('pre', $question->questiontext, ['class' => 'questiontext']);
+
 $mform->set_data($currentdata);
 
 // Process the form.

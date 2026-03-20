@@ -88,6 +88,7 @@ $deploybtn = optional_param('deploysinglebtn', null, PARAM_TEXT);
 if (!is_null($deploy) && $deploybtn) {
     testseed($question, $deploy, $context, $nexturl, 0);
     $question->deploy_variant($deploy);
+    $nexturl->param('seed', $deploy);
     redirect($nexturl);
 }
 

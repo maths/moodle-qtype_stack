@@ -61,16 +61,18 @@ Feature: Create, preview, test, tidy and edit STACK questions
 
     # Create a question test: two methods.
     When I follow "Question is missing tests or variants"
+    And I follow "Variants"
     Then I should see "This question does not use randomisation."
+    And I follow "Tests"
     When I press "Add test case assuming the teacher's input gets full marks."
     Then I should see "Automatically adding one test case assuming the teacher's input gets full marks."
     And I should see "Test case 1"
     And I should see "All tests passed!"
-    When I press "Delete this test case."
+    When I press "Delete test case 1"
     Then I should see "Are you sure you want to delete test case 1 for question Test STACK question"
     When I press "Continue"
     Then I should see "Question is missing tests or variants. No test cases have been added yet."
-    When I press "Add a test case..."
+    When I press "Add a test case"
     And I set the following fields to these values:
       | ans1 | x - 1 |
     And I press "Fill in the rest of the form to make a passing test-case"
@@ -94,7 +96,6 @@ Feature: Create, preview, test, tidy and edit STACK questions
       | New name for '1'    | 2   |
     And I press "Rename parts of the question"
     Then I should see "All tests passed!"
-    When I follow "Preview"
 
     # Edit the question, verify the form field contents, then change some.
     When I am on the "Test STACK question" "core_question > edit" page
@@ -154,16 +155,18 @@ Feature: Create, preview, test, tidy and edit STACK questions
 
     # Create a question test: two methods.
     When I follow "Question is missing tests or variants"
+    And I follow "Variants"
     Then I should see "This question does not use randomisation."
+    And I follow "Tests"
     When I press "Add test case assuming the teacher's input gets full marks."
     Then I should see "Automatically adding one test case assuming the teacher's input gets full marks."
     And I should see "Test case 1"
     And I should see "All tests passed!"
-    When I press "Delete this test case."
+    When I press "Delete test case 1"
     Then I should see "Are you sure you want to delete test case 1 for question Test STACK question"
     When I press "Continue"
     Then I should see "Question is missing tests or variants. No test cases have been added yet."
-    When I press "Add a test case..."
+    When I press "Add a test case"
     And I set the following fields to these values:
       | ans1 | x - 1 |
     And I press "Fill in the rest of the form to make a passing test-case"
@@ -187,7 +190,6 @@ Feature: Create, preview, test, tidy and edit STACK questions
       | New name for '1'    | 2   |
     And I press "Rename parts of the question"
     Then I should see "All tests passed!"
-    When I follow "Preview"
 
     # Edit the question, verify the form field contents, then change some.
     When I am on the "Test STACK question" "core_question > edit" page
@@ -223,8 +225,10 @@ Feature: Create, preview, test, tidy and edit STACK questions
     And I choose "Duplicate" action for "Question to copy" in the question bank
     And I press "id_submitbutton"
     And I choose "STACK question dashboard" action for "Question to copy (copy)" in the question bank
+    And I follow "Variants"
     Then I should see "Deployed variants (1)"
     And I should see "42"
+    And I follow "Tests"
     And I should see "Test case 1"
     And I should see "All tests passed!"
 
@@ -246,11 +250,14 @@ Feature: Create, preview, test, tidy and edit STACK questions
     And I set the field "Question name" to "Edited question"
     And I press "id_submitbutton"
     And I choose "STACK question dashboard" action for "Edited question" in the question bank
+    And I follow "Variants"
     Then I should see "Deployed variants (1)"
     And I should see "42"
+    And I follow "Tests"
     And I should see "Test case 1"
     And I should see "All tests passed!"
 
+  @current
   @javascript
   Scenario: Add a second test, and deploy variants from a list.
     When I am on the "Course 1" "core_question > course question bank" page logged in as "teacher"
@@ -273,27 +280,36 @@ Feature: Create, preview, test, tidy and edit STACK questions
     Then I should see "Automatically adding one test case assuming the teacher's input gets full marks."
     And I should see "Test case 1"
     And I should see "All tests passed!"
+    And I follow "Variants"
     And I should see "No variants of this question have been deployed yet."
     And I set the field "seedfield" to "1729"
-    And I press "Switch to variant"
+    And I press "Switch"
+    And I follow "Variants"
     Then I should see "Question is missing tests or variants."
-    And I should see "Showing undeployed variant: 1729"
-    Then I press "Deploy single variant"
+    And I should see "Showing undeployed seed:"
+    And I should see "1729" in the "[id='id_unmatchedseed']" "css_element"
+    Then I press "deploysinglebtn"
     And I should see "Deployed variants (1)"
     When I set the field "seedfield" to "1730"
-    And I press "Switch to variant"
-    Then I should see "Showing undeployed variant: 1730"
-    Then I press "Deploy single variant"
+    And I press "Switch"
+    And I follow "Variants"
+    Then I should see "Showing undeployed seed:"
+    And I should see "1730" in the "[id='id_unmatchedseed']" "css_element"
+    Then I press "deploysinglebtn"
     And I should see "Deployed variants (2)"
     When I set the field "seedfield" to "1731"
-    And I press "Switch to variant"
-    Then I should see "Showing undeployed variant: 1731"
-    Then I press "Deploy single variant"
+    And I press "Switch"
+    And I follow "Variants"
+    Then I should see "Showing undeployed seed:"
+    And I should see "1731" in the "[id='id_unmatchedseed']" "css_element"
+    Then I press "deploysinglebtn"
     And I should see "Deployed variants (3)"
-    And I should see "Question tests for seed 1731: All tests passed!"
+    And I follow "Tests"
+    And I should see "Question tests for seed 1731"
+    And I should see "All tests passed!"
 
     # Add in a second test case.
-    When I press "Add another test case..."
+    When I press "Add another test case"
     And I set the following fields to these values:
       | ans1 | x - 1 |
     And I press "Fill in the rest of the form to make a passing test-case"
@@ -307,26 +323,36 @@ Feature: Create, preview, test, tidy and edit STACK questions
     And I should see "Test case 2"
 
     # Run all tests on all variants
+    And I follow "Variants"
     When I press "Run all tests on all deployed variants (slow)"
     And I should see "Deployed variants (3)"
     And I should see "2 passes and 0 failures."
-    And I should see "Question tests for seed 1731: All tests passed!"
+    And I follow "Tests"
+    And I should see "Question tests for seed 1731"
+    And I should see "All tests passed!"
+    And I follow "Variants"
 
     # Remove all variants and deploy from list
-    When I press "Undeploy all variants"
+    When I press "Invert variant selection"
+    And I press "deleteselectedbtn"
     Then I should see "Question is missing tests or variants"
 
     When I set the field "deployfromlist" to "10,11,12,13,11"
-    Then I press "Remove variants and re-deploy from list"
+    Then I press "deployfromlistbtn"
     And I should see "An error was detected in your list of integers, and so no changes were made to the list of deployed variants."
 
     When I set the field "deployfromlist" to "10,11,12,13"
-    Then I press "Remove variants and re-deploy from list"
+    And I click on "[name='deployhalt']" "css_element"
+    Then I press "deployfromlistbtn"
     And I should see "Deployed variants (4)"
+    And I follow "Tests"
     And I should see "All tests passed!"
+    And I follow "Variants"
     When I press "Run all tests on all deployed variants (slow)"
     And I should see "Deployed variants (4)"
+    And I follow "Tests"
     And I should see "All tests passed!"
+    And I follow "Variants"
     And I should see "2 passes and 0 failures."
 
     # Test the edit link in the STACK question dashboard.
@@ -340,18 +366,21 @@ Feature: Create, preview, test, tidy and edit STACK questions
     When I am on the "Test STACK rand question v2" "core_question > preview" page logged in as teacher
     Then I should see "STACK question dashboard"
     When I follow "STACK question dashboard"
+    And I follow "Variants"
     Then I should see "Deployed variants (4)"
     And I should see "duplicate notes"
 
     # Undeploy and try to create random variants, which won't work.
-    When I press "Undeploy all variants"
+    When I press "Invert variant selection"
+    And I press "deleteselectedbtn"
     Then I should see "Question is missing tests or variants"
     And I set the field "deploymany" to "3"
-    And I press "Deploy # of variants:"
+    And I click on "[name='deployhalt']" "css_element"
+    And I press "deploymanybtn"
     Then I should see "Deployed variants (1)"
     And I should see "Number of new variants successfully created, tested and deployed: 1."
     And I should see "Too many repeated existing question notes were generated."
-    And I should see "A variant matching this Question note is already deployed."
+    And I should see "A variant matching this question note is already deployed."
 
   @javascript
   Scenario: Saving broken questions

@@ -58,6 +58,7 @@
     "undeployalllink": "http://question\/type\/stack\/deploy.php?questionid=6611&amp;courseid=42&amp;undeployall=1&amp;sesskey=ElIpavgr9m#variants-pane",
     "pagelink": "http://question\/type\/stack\/questiontestrun.php",
     "courseid": 42,
+    "cmid": 7,
     "questionid": "6611",
     "sesskey": "ElIpavgr9m",
     "newseed": 1300573900,
@@ -114,6 +115,7 @@
         <form method="get" action="{{{deploylink}}}">
           <!-- Surround table in a form containing variant select check boxes and delete button -->
           <input type="hidden" name="courseid" value="{{courseid}}">
+          <input type="hidden" name="cmid" value="{{cmid}}">
           <input type="hidden" name="questionid" value="{{questionid}}">
           <input type="hidden" name="sesskey" value="{{sesskey}}">
           <input type="hidden" name="seed" value="{{seed}}">
@@ -182,6 +184,7 @@
         <form method="get" class="switchtovariant" action="{{pagelink}}">
           <!-- Switch to random variant -->
           <input type="hidden" name="courseid" value="{{courseid}}">
+          <input type="hidden" name="cmid" value="{{cmid}}">
           <input type="hidden" name="questionid" value="{{questionid}}">
           <div class="row mt-3">
             <div class="col-2">
@@ -218,6 +221,7 @@
           <!-- Combined form for the different deploys -->
           <form method="get" class="deploymany" action="{{{deploylink}}}">
             <input type="hidden" name="courseid" value="{{courseid}}">
+            <input type="hidden" name="cmid" value="{{cmid}}">
             <input type="hidden" name="questionid" value="{{questionid}}">
             <input type="hidden" name="sesskey" value="{{sesskey}}">
             <input type="hidden" name="deploy" value="{{seed}}">

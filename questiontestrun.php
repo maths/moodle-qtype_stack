@@ -48,6 +48,7 @@ use stack_question_dashboard;
 // Get the parameters from the URL.
 $questionid = required_param('questionid', PARAM_INT);
 $courseid = optional_param('courseid', null, PARAM_INT);
+$cmid = optional_param('cmid', null, PARAM_INT);
 
 [$qversion, $questionid] = get_latest_question_version($questionid);
 
@@ -68,8 +69,6 @@ unset($urlparams['undeployall']);
 unset($urlparams['testall']);
 unset($urlparams['nocache']);
 
-require_login();
-
 // Check permissions.
 question_require_capability_on($questiondata, 'view');
 $canedit = question_has_capability_on($questiondata, 'edit');
@@ -80,6 +79,8 @@ $title = stack_string('testingquestion', format_string($question->name));
 $PAGE->set_title($title);
 $PAGE->set_heading($title);
 $PAGE->set_pagelayout('popup');
+
+require_login();
 $dashboard = new stack_question_dashboard($question, $seed, $context);
 
 // Create some other useful links.
@@ -143,6 +144,7 @@ $initialdata->general->todolink = $todolink->out();
 $initialdata->general->bulktestlink = $bulktestlink->out();
 $initialdata->general->canedit = $canedit;
 $initialdata->general->courseid = $courseid;
+$initialdata->general->cmid = $cmid;
 $initialdata->general->questionid = $questionid;
 $initialdata->general->seed = $seed;
 
@@ -224,6 +226,7 @@ unset($pageparams['seed']);
 $pagelink = new moodle_url('/question/type/stack/questiontestrun.php', []);
 $variantdata->pagelink = $pagelink->out();
 $variantdata->courseid = $courseid;
+$variantdata->cmid = $cmid;
 $variantdata->questionid = $questionid;
 $variantdata->sesskey = $sesskey;
 $variantdata->newseed = mt_rand();

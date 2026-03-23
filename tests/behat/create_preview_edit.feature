@@ -257,7 +257,6 @@ Feature: Create, preview, test, tidy and edit STACK questions
     And I should see "Test case 1"
     And I should see "All tests passed!"
 
-  @current
   @javascript
   Scenario: Add a second test, and deploy variants from a list.
     When I am on the "Course 1" "core_question > course question bank" page logged in as "teacher"

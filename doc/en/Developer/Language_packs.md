@@ -43,6 +43,12 @@ To allow users of your server to see interface in a certain language through Moo
 
 Once a language pack is installed, a user can change the preferred language for Moodle and STACK by clicking on their profile, and then going to `Preferences`, ` Preferred language` and selecting the language.
 
+## Installing a language pack in the API
+
+Languages will automatically be included in the API when you build the docker container.   Set the following config option in the API to include langauage packs:
+
+`$CFG->supportedlanguages = 'en,de';`
+
 ## How to translate STACK
 
 STACK is part of Moodle.  Hence, we have used the Moodle translation management system.  

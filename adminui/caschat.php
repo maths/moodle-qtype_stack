@@ -64,6 +64,7 @@ if (!$questionid) {
     $editparams['id'] = $question->id;
     $questionediturl = new moodle_url('/question/bank/editquestion/question.php', $editparams);
     $questioneditlatesturl = new moodle_url('/question/type/stack/questioneditlatest.php', $editparams);
+    $questionxmllink = new moodle_url('/question/type/stack/questionxmledit.php', $editparams);
     $quba = question_engine::make_questions_usage_by_activity('qtype_stack', $context);
     $quba->set_preferred_behaviour('adaptive');
 
@@ -219,6 +220,11 @@ if ($questionid) {
     $links[] = html_writer::link(
         $questioneditlatesturl,
         stack_string('editquestioninthequestionbank'),
+        ['class' => 'nav-link']
+    );
+    $links[] = html_writer::link(
+        $questionxmllink,
+        stack_string('editxml'),
         ['class' => 'nav-link']
     );
     echo html_writer::tag('nav', implode(' ', $links), ['class' => 'nav']);

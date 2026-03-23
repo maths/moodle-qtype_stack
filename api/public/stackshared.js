@@ -27,6 +27,10 @@ const feedbackPrefix = 'stackapi_fb_';
 const validationPrefix = 'stackapi_val_';
 const FULLDISPLAY = 'FULL';
 const SAMPLEDISPLAY = 'SAMPLE';
+// Set API server here with trailing slash e.g. 'https://stack-api.maths.ed.ac.uk/'.
+// Leave as is if page is on the same server e.g. for STACK API demo.
+const serverUrl = '/';
+const requestLanguage = 'en';
 let displayType = FULLDISPLAY;
 
 // Get the different input elements by tag and return object with values.
@@ -65,9 +69,10 @@ function processNodes(res, nodes) {
 function send() {
     loading(true);
     const http = new XMLHttpRequest();
-    const url = window.location.origin + '/render';
+    const url = serverUrl + 'render';
     http.open("POST", url, true);
     http.setRequestHeader('Content-Type', 'application/json');
+    http.setRequestHeader('Accept-Language', requestLanguage);
     http.onreadystatechange = function () {
         if (http.readyState == 4) {
             try {
@@ -129,9 +134,10 @@ function send() {
                 }
                 // Convert Moodle plot filenames to API filenames.
                 for (const [name, file] of Object.entries(json.questionassets)) {
-                    question = question.replace(name, `plots/${file}`);
-                    json.questionsamplesolutiontext = json.questionsamplesolutiontext.replace(name, `plots/${file}`);
-                    correctAnswers = correctAnswers.replace(name, `plots/${file}`);
+                    question = question.replace(name, `${serverUrl}plots/${file}`);
+                    json.questionsamplesolutiontext = json.questionsamplesolutiontext.replace(name, `${serverUrl}plots/${file}`);
+                    json.questionnote = json.questionnote.replace(name, `${serverUrl}plots/${file}`);
+                    correctAnswers = correctAnswers.replace(name, `${serverUrl}plots/${file}`);
                 }
                 question = replaceFeedbackTags(question);
 
@@ -166,6 +172,8 @@ function send() {
                         // If the question is updated, there may no longer be general feedback.
                         document.getElementById('stackapi_generalfeedback').style.display = 'none';
                     }
+                    document.getElementById('stackapi_questionnote').style.display = 'block';
+                    document.getElementById('questionnote').innerHTML = json.questionnote;
                     document.getElementById('stackapi_score').style.display = 'none';
                 } else {
                     if (sampleText) {
@@ -199,11 +207,12 @@ function send() {
 // Validate an input. Called a set amount of time after an input is last updated.
 function validate(element) {
     const http = new XMLHttpRequest();
-    const url = window.location.origin + '/validate';
+    const url = serverUrl + 'validate';
     http.open("POST", url, true);
     // Remove API prefix and subanswer id.
     const answerName = element.name.slice(15).split('_', 1)[0];
     http.setRequestHeader('Content-Type', 'application/json');
+    http.setRequestHeader('Accept-Language', requestLanguage);
     http.onreadystatechange = function () {
         if (http.readyState == 4) {
             try {
@@ -242,7 +251,7 @@ function validate(element) {
 function answer() {
     loading(true);
     const http = new XMLHttpRequest();
-    const url = window.location.origin + '/grade';
+    const url = serverUrl + 'grade';
     http.open("POST", url, true);
 
     if (!document.getElementById('output').innerText) {
@@ -250,6 +259,7 @@ function answer() {
     }
 
     http.setRequestHeader('Content-Type', 'application/json');
+    http.setRequestHeader('Accept-Language', requestLanguage);
     http.onreadystatechange = function () {
         if (http.readyState == 4) {
             try {
@@ -262,8 +272,9 @@ function answer() {
                     document.getElementById('errors').innerText = '';
                 }
                 if (!json.isgradable) {
+                    // Should we display this or nothing (like Moodle)?
                     document.getElementById('stackapi_validity').innerText
-                        = ' Please enter valid answers for all parts of the question.';
+                        = ' Please supply additional valid answers.';
                     return;
                 }
                 renameIframeHolders();
@@ -282,7 +293,7 @@ function answer() {
                 // Replace tags and plots in specific feedback and then display.
                 if (json.specificfeedback) {
                     for (const [name, file] of Object.entries(json.gradingassets)) {
-                        json.specificfeedback = json.specificfeedback.replace(name, `plots/${file}`);
+                        json.specificfeedback = json.specificfeedback.replace(name, `${serverUrl}plots/${file}`);
                     }
                     json.specificfeedback = replaceFeedbackTags(json.specificfeedback);
                     specificFeedbackElement.innerHTML = json.specificfeedback;
@@ -295,12 +306,12 @@ function answer() {
                 // Replace plots in tagged feedback and then display.
                 for (let [name, fb] of Object.entries(feedback)) {
                     for (const [name, file] of Object.entries(json.gradingassets)) {
-                        fb = fb.replace(name, `plots/${file}`);
+                        fb = fb.replace(name, `${serverUrl}plots/${file}`);
                     }
                     const elements = document.getElementsByName(`${feedbackPrefix + name}`);
                     if (elements.length > 0) {
                         const element = elements[0];
-                        if (json.scores[name] !== undefined) {
+                        if (json.scores[name] !== undefined && json.scoreweights[name]) {
                             fb = fb + `<div>Marks for this submission:
                 ${(json.scores[name] * json.scoreweights[name] * json.scoreweights.total).toFixed(2)}
                 / ${(json.scoreweights[name] * json.scoreweights.total).toFixed(2)}.</div>`;
@@ -353,6 +364,7 @@ function renameIframeHolders() {
 
 function createIframes(iframes) {
     for (const iframe of iframes) {
+        iframe[1] = iframe[1].replace('<head>', `<head><base href="${serverUrl}" />`)
         create_iframe(...iframe);
     }
 }
@@ -384,9 +396,10 @@ function loading(isLoading) {
 
 function download(filename, fileid) {
     const http = new XMLHttpRequest();
-    const url = window.location.origin + '/download';
+    const url = serverUrl + 'download';
     http.open("POST", url, true);
     http.setRequestHeader('Content-Type', 'application/json');
+    http.setRequestHeader('Accept-Language', requestLanguage);
     http.onreadystatechange = function() {
         if(http.readyState == 4) {
         try {
@@ -416,9 +429,10 @@ function download(filename, fileid) {
 
 function diff() {
     const http = new XMLHttpRequest();
-    const url = window.location.origin + '/diff';
+    const url = serverUrl + 'diff';
     http.open("POST", url, true);
     http.setRequestHeader('Content-Type', 'application/json');
+    http.setRequestHeader('Accept-Language', requestLanguage);
     http.onreadystatechange = function() {
         if(http.readyState == 4) {
             try {

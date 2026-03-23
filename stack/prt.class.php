@@ -943,9 +943,41 @@ class stack_potentialresponse_tree_lite {
     }
 
     /**
-     * Returns the trace of the PRT.
+     * Make the trace available.
+     * @return array Returns the trace.
      */
     public function get_trace() {
         return $this->trace;
+    }
+
+    /**
+     * Needed for ILIAS, rather than Moodle.
+     * @return bool Returns the value of the simplify flag.
+     */
+    public function is_simplify(): bool {
+        return $this->simplify;
+    }
+
+    /**
+     * Needed for ILIAS, rather than Moodle.
+     * @return object Returns the trace.
+     */
+    public function get_nodes() {
+        return $this->nodes;
+    }
+
+    /**
+     * Needed for ILIAS, rather than Moodle.
+     */
+    public function set_nodes($nodes): void {
+        $this->nodes = $nodes;
+    }
+
+    /**
+     * Needed for ILIAS, rather than Moodle.
+     * @return string Returns the first node.
+     */
+    public function get_first_node(): string {
+        return $this->firstnode;
     }
 }

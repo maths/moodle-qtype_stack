@@ -1,12 +1,11 @@
 # Bulk testing STACK questions on your site
 
-You can bulk test all question tests on all variants of all STACK questions by using the bulk-test script.  Access this functionality from STACK's "adminui" page (or the plugin setting page)
+You can bulk test all question tests on all variants of all STACK questions by using the bulk-test script.  There are two ways to bulk test.
 
-    [...]/question/type/stack/adminui/index.php
+1. Bulk test all questions in a course or category.  To do this, access STACK's "adminui" page (or the plugin setting page) `[...]/question/type/stack/adminui/index.php`
+2. Bulk test all questions in a particular quiz.  Follow the link from the question dashboard to see quizzes in which that question is used.
 
 To make use of the bulk test users require the capability `qtype/stack:usediagnostictools` via Moodle's capability system.
-
-The bulk-test index page lists all Moodle contexts which contain STACK questions.  You can bulk-test by context.
 
 Bulk testing does the following.
 

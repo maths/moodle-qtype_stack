@@ -1530,13 +1530,13 @@
       "function": "f"
   },
   "contour": {
-      "variable": "f"
+      "variable": "?"
   },
   "contour_levels": {
-      "variable": "f"
+      "variable": "?"
   },
   "contour_plot": {
-      "function": "f"
+      "function": "?"
   },
   "contract": {
       "function": "?"

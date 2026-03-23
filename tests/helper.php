@@ -29,11 +29,11 @@ require_once(__DIR__ . '../../stack/potentialresponsetreestate.class.php');
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 final class qtype_stack_test_helper extends question_test_helper {
     // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
-    const DEFAULT_CORRECT_FEEDBACK          = '<p>Correct answer, well done.</p>';
+    const DEFAULT_CORRECT_FEEDBACK          = '<p>[[commonstring key="defaultprtcorrectfeedback"/]]</p>';
     // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
-    const DEFAULT_PARTIALLYCORRECT_FEEDBACK = '<p>Your answer is partially correct.</p>';
+    const DEFAULT_PARTIALLYCORRECT_FEEDBACK = '<p>[[commonstring key="defaultprtpartiallycorrectfeedback"/]]</p>';
     // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
-    const DEFAULT_INCORRECT_FEEDBACK        = '<p>Incorrect answer.</p>';
+    const DEFAULT_INCORRECT_FEEDBACK        = '<p>[[commonstring key="defaultprtincorrectfeedback"/]]</p>';
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_test_questions() {
@@ -4899,18 +4899,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -5027,18 +5027,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -5296,18 +5296,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -5424,18 +5424,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -5587,18 +5587,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -5715,18 +5715,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -5846,18 +5846,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -5976,18 +5976,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -6124,18 +6124,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -6310,18 +6310,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -6441,18 +6441,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -6568,18 +6568,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -6697,18 +6697,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -6850,18 +6850,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -6997,18 +6997,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -7221,18 +7221,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -7348,18 +7348,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -7476,18 +7476,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -7606,18 +7606,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -7736,18 +7736,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -7863,18 +7863,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -8009,18 +8009,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -8136,18 +8136,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -8263,18 +8263,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -8390,18 +8390,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -8517,18 +8517,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -8706,18 +8706,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];

@@ -1,10 +1,11 @@
 @qtype @qtype_stack
-Feature: Test analysis response page
+Feature: Test analysis response page in Moodle < 5.2.
   As a teacher
   In order to analyse student responses
   I need to open the analysis reposnse page
 
   Background:
+    Given the site is running Moodle version 5.1 or lower
     Given I set up STACK using the PHPUnit configuration
     Given the following "users" exist:
       | username |
@@ -38,8 +39,7 @@ Feature: Test analysis response page
       | Test question 3         | 1    |
 
   @javascript
-  Scenario: Analyse a question in Moodle ≥ 4.1
-    Given the site is running Moodle version 4.1 or higher
+  Scenario: Analyse a question in Moodle < 5.2.
     And I am on the "Quiz 2" "mod_quiz > View" page logged in as "student"
     And I press "Attempt quiz"
     And I set the input "ans1" to "a*b" in the STACK question
@@ -56,28 +56,10 @@ Feature: Test analysis response page
     And I should see "## prt1: 1 (100.00%); # = 1 | prt1-1-T"
 
   @javascript
-  Scenario: Check random questions appear in analysis
+  Scenario: Check random questions appear in analysis < 5.2.
     Given I log in as "teacher"
     And I am on the "Quiz 1" "mod_quiz > Responses report" page
     When I am on the "C1 > Test question 1" "qtype_stack > analysis" page logged in as "teacher"
     Then I should see "Type in {@ta@}."
     And I click on "select option:nth-child(2)" "css_element"
     And I should see "ATAlgEquiv(ans1,ta)"
-
-  @javascript
-  Scenario: Analyse a question in Moodle ≤ 4.0
-    Given the site is running Moodle version 4.0 or lower
-    And I am on the "Quiz 2" "mod_quiz > View" page logged in as "student"
-    And I press "Attempt quiz"
-    And I set the input "ans1" to "a*b" in the STACK question
-    And I wait until "Your last answer was interpreted as follows" "text" exists
-    And I follow "Finish attempt ..."
-    And I press "Submit all and finish"
-    And I click on "Submit all and finish" "button" in the "Confirmation" "dialogue"
-    And I follow "Finish review"
-    When I am on the "C1 > Test question 3" "qtype_stack > analysis" page logged in as "teacher"
-    Then I should see "Type in {@ta@}."
-    And I click on "select option:nth-child(2)" "css_element"
-    And I should see "ATAlgEquiv(ans1,ta)"
-    And I follow "Variants"
-    And I should see "## prt1: 1 (100.00%); # = 1 | prt1-1-T"

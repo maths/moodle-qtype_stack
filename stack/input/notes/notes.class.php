@@ -193,7 +193,7 @@ class stack_notes_input extends stack_input {
      * @param string $lang language of the question.
      * @return string HTML for the validation results for this input.
      */
-    public function render_validation(stack_input_state $state, $fieldname, $lang) {
+    public function render_validation(stack_input_state $state, $fieldname, $lang = null) {
         if ($lang !== null && $lang !== '') {
             $prevlang = force_current_language($lang);
         }

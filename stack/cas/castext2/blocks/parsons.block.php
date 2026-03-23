@@ -142,6 +142,10 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             $js = $this->params['overridejs'];
         }
 
+        if (isset($this->params['style'])) {
+            $css = 'cors://parsonsstyles/' . $this->params['style'] . '.min.css';
+        }
+
         $r->items[] = new MP_String(json_encode($xpars));
 
         // Plug in some style and scripts.
@@ -199,8 +203,8 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         // JS script.
         $r->items[] = new MP_String('<script type="module">');
 
-        $importcode = "\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n";
-        $importcode .= "import {Sortable} from '" . stack_cors_link('sortablecore.min.js') . "';\n";
+        $importcode = "\nimport stack_js from '" . stack_cors_link('stackjsiframe.min.js') . "';\n";
+        $importcode .= "import Sortable from '" . stack_cors_link('sortablecore.min.js') . "';\n";
         $importcode .= "import {preprocess_steps,
                                 stack_sortable,
                                 get_iframe_height,
@@ -412,6 +416,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         &$errors = [],
         $options = []
     ): bool {
+        global $CFG;
         // Basically, check that the dimensions have units we know.
         // Also that the references make sense.
         $valid  = true;
@@ -554,6 +559,24 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             }
         }
 
+        if (array_key_exists('style', $this->params)) {
+            $stylename = $this->params['style'];
+            if (
+                strpos($stylename, '..') !== false
+                || strpos($stylename, '/') !== false
+                || strpos($stylename, '\\') !== false
+            ) {
+                $valid    = false;
+                $err[] = stack_string('stackBlock_parsons_unknown_style', ['style' => $stylename]);
+            } else if (
+                    !file_exists($CFG->dirroot . '/question/type/stack/corsscripts/parsonsstyles/' .
+                    $stylename . '.min.css')
+            ) {
+                $valid    = false;
+                $err[] = stack_string('stackBlock_parsons_unknown_style', ['style' => $stylename]);
+            }
+        }
+
         // Check that only valid parameters are passed to block header.
         $valids = null;
         foreach ($this->params as $key => $value) {
@@ -570,7 +593,8 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
                 $key !== 'transpose' &&
                 $key !== 'item-height' &&
                 $key !== 'item-width' &&
-                $key !== 'log'
+                $key !== 'log' &&
+                $key !== 'style'
             ) {
                 $err[] = "Unknown parameter '$key' for Parson's block.";
                 $valid    = false;
@@ -578,7 +602,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
                     $valids = [
                         'width', 'height', 'aspect-ratio', 'version', 'overridecss',
                         'overridejs', 'input', 'clone', 'columns', 'rows', 'transpose', 'item-height',
-                        'item-width', 'log',
+                        'item-width', 'log', 'style',
                     ];
                     $err[] = stack_string('stackBlock_parsons_param', [
                         'param' => implode(', ', $valids),

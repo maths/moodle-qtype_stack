@@ -43,7 +43,7 @@ class stack_cas_castext2_adaptauto extends stack_cas_castext2_block {
         $list[] = new MP_String('script');
         $list[] = new MP_String(json_encode(['type' => 'module']));
 
-        $code = 'import {stack_js} from "' . stack_cors_link('stackjsiframe.min.js') . '";';
+        $code = 'import stack_js from "' . stack_cors_link('stackjsiframe.min.js') . '";';
         $code .= 'document.addEventListener("DOMContentLoaded", function(){';
         $list[] = new MP_String($code);
 

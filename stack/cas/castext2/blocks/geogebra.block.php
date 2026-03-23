@@ -367,9 +367,9 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
         $r->items[] = new MP_String('<div style="' . $style .
             '"><div class="geogebrabox" id="geogebrabox" style="width:100%;height:100%;"></div></div><script type="module">');
         // For binding we need to import the binding libraries.
-        $r->items[] = new MP_String("\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n");
+        $r->items[] = new MP_String("\nimport stack_js from '" . stack_cors_link('stackjsiframe.min.js') . "';\n");
         // TO-DO: minify.
-        $r->items[] = new MP_String("import {stack_geogebra} from '" . stack_cors_link('stackgeogebra.js') . "';\n");
+        $r->items[] = new MP_String("import stack_geogebra from '" . stack_cors_link('stackgeogebra.js') . "';\n");
 
         // Lets define the common bits of code.
         $commonprecode = 'var presetparams = {"id":"applet","appName":"classic","width":800,"height": 600,' .

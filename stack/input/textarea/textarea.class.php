@@ -183,7 +183,11 @@ class stack_textarea_input extends stack_input {
      * @return string
      */
     protected function maxima_to_raw_input($in) {
-        $values = stack_utils::list_to_array($in, false);
+        $delim = ',';
+        if ($this->options->get_option('decimals') === ',') {
+            $delim = ';';
+        }
+        $values = stack_utils::list_to_array($in, false, $delim);
         foreach ($values as $key => $val) {
             if (trim($val) != '') {
                 $cs = stack_ast_container::make_from_teacher_source($val);
@@ -244,7 +248,14 @@ class stack_textarea_input extends stack_input {
             $fb = $cs->get_feedback();
             if ($cs->is_correctly_evaluated() && $fb == '') {
                 // The zero element of the array defines the display style: 0 = align center, 1 = red frame.
-                $row[] = [0, '\(\displaystyle ' . $ilines[$index]->get_display() . ' \)'];
+                // ISS1629 - Use textstyle for compact validation.
+                $row[] = [
+                    0,
+                    '\(' .
+                    ($this->get_parameter('showValidation', 1) == 3 ? '\textstyle ' : '\displaystyle ') .
+                    $ilines[$index]->get_display() .
+                    ' \)',
+                    ];
                 if ($errors[$index]) {
                     $row[] = [1, stack_maxima_translate($errors[$index])];
                 }

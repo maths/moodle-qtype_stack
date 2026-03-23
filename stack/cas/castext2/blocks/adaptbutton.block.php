@@ -53,7 +53,7 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
         $list[] = new MP_String('script');
         $list[] = new MP_String(json_encode(['type' => 'module']));
 
-        $code = "\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n";
+        $code = "\nimport stack_js from '" . stack_cors_link('stackjsiframe.min.js') . "';\n";
         $code .= "stack_js.request_access_to_input('" . $this->params['save_state'] . "', true).then((id) => {\n";
         $code .= "const input = document.getElementById(id);\n";
         $code .= "if (input.value=='true'){ hide_and_show(); }\n";

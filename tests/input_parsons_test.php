@@ -344,10 +344,10 @@ final class input_parsons_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('parsons', 'ans1', $ta);
         $this->assertEquals(
             '<table border=\'1\'><tr><th style=\'text-align:center;\'>1</th>' .
-                            '<th style=\'text-align:center;\'>2</th>' .
-                            '<th style=\'text-align:center;\'>3</th></tr><tr><td>one</td><td>three</td>' .
-                            '<td>six</td></tr><tr><td>two</td>' .
-                            '<td>four</td><td></td></tr><tr><td></td><td>five</td><td></td></tr></table>',
+            '<th style=\'text-align:center;\'>2</th>' .
+            '<th style=\'text-align:center;\'>3</th></tr><tr><td>one</td><td>three</td>' .
+            '<td>six</td></tr><tr><td>two</td>' .
+            '<td>four</td><td></td></tr><tr><td></td><td>five</td><td></td></tr></table>',
             $el->get_teacher_answer_display($ta, '')
         );
     }

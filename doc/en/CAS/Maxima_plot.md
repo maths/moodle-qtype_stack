@@ -11,6 +11,7 @@ For example,
 
 Notes.
 
+* Some of these features are dependent on the version of Maxima you are using, e.g. implicit plots are only available from Maxima 46.0.
 * Currently STACK (PHP) calls Maxima, this in turn has `gnuplot` create a basic SVG image on the server and return a URL.
 * By default plots are surrounded by the `<div class="stack_plot">`.  This puts whitespace around a plot, and places the plot in the centre of the screen.  To suppress this `div` use the option `[plottags,false]`.
 * The default in Maxima is to include a legend consisting of a `string` representation of the plot.  In STACK this is turned off by default.  To switch it back on, use the command `[legend, true]`.  Any other value of the option `legend` will respect the original command.
@@ -19,7 +20,7 @@ Notes.
 
 The following `plot` options are currently supported by STACK.   If you would like to expand the range of options available please contact the developers.
 
-    [xlabel, ylabel, label, legend, color, style, point_type, nticks, logx, logy, axes, box, plot_realpart, yx_ratio, xtics, ytics, ztic, grid2d, adapt_depth],
+    [xlabel, ylabel, label, legend, levels, color, style, point_type, nticks, logx, logy, axes, box, plot_realpart, yx_ratio, xtics, ytics, ztics, adapt_depth, plotepsilon, xy_scale, same_xy, yx_ratio, sample, margin],
 
 ## Options only available in `plot()`
 
@@ -99,6 +100,12 @@ The grid is controlled by the maxima command `grid2d`.  Compare the following.
     {@plot([x^2/(1+x^2),2*x/(1+x^2)^2], [x, -2, 2], [y,-2.1,2.1], grid2d)@}
     {@plot([x^2/(1+x^2),2*x/(1+x^2)^2], [x, -2, 2], [y,-2.1,2.1])@}
 
+## Ratio for plot sizes
+
+There are various options to set the ratio for the plot size including `same_xy` and `yx_ratio`.  For example,
+
+    @plot(%e^(2*x)-6*%e^x+5,[x,-3,3],[y,-5.2,5],grid2d,[same_xy, true])@}
+
 ## Piecewise functions
 
 A piecewise function can be defined with `if` statements.
@@ -163,6 +170,12 @@ To illustrate how the `margin` option can be used compare the above with
         {@plot(x^n,[x,-1,1],[size,250,250],[plottags,false],[margin,1.8])@}
     [[/ foreach]]
 
+## Contour plots
+
+Maxima will create contor plots, but (unlike with Maxima) you must use variable names `x` and `y` to define them.  E.g.
+
+    {@plot([contour, sin(x)*y], [x,-10,10],[y,-2,2])@}
+
 ## Bode plots
 
 Maxima has a very basic package for bode diagrams, try `load(bode)` in a Maxima session.  This is not a supported package, so instead you can create Bode diagrams directly with code such as the following.
@@ -226,4 +239,8 @@ The following CASText gives representative examples of the plot2d features suppo
     {@plot([x^2/(1+x^2),2*x/(1+x^2)^2], [x, -2, 2], [y,-2.1,2.1], [box, false], [yx_ratio, 1], [axes, solid], [xtics, -2, 0.5, 2],[ytics, -2, 0.5, 2])@}
     <h3>Example with ticks, colour and alt-text</h3>
     {@plot([6*x,6^x,x^6,x^(1/6)], [x, -2.2, 2.2], [y, -5.2, 5.2], [box, false], [yx_ratio, 1], [axes, solid], [xtics, -5, 1, 5],[ytics, -5, 1, 5], cons(legend, ["f", "F", "g", "G"]), [alt, "Graph Of Multiple Functions"], [style, [linespoints, 1, 1.5]], [nticks, 5], [color, "#785EF0", "#DC267F", "#FE6100", "#648FFF"], [adapt_depth, 0]);@}
-
+    <h3>Example implicit plots</h3>
+    {@plot(x^3=cos(y), [x, -4, 4], [y, -10, 10])@}
+    <h3>Example contour plots</h3>
+    {@plot([contour, sin(x)*y], [x,-10,10],[y,-2,2])@}
+    {@plot([contour, x^3 + y^2], [x, -4, 4], [y, -4, 4],[levels,30])@}

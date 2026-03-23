@@ -647,5 +647,13 @@
             document.getElementById(targetdivid).replaceChildren(frm);
             IFRAMES[iframeid] = frm;
 
+    };
 
+    /**
+     * Register an iframe if already created.
+     * @param string iframeid
+     */
+    function register_iframe(iframeid) {
+        const iframe = document.getElementById(iframeid);
+        IFRAMES[iframeid] = iframe;
     };

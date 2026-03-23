@@ -78,7 +78,7 @@ final class api_controller_test extends qtype_stack_testcase {
         $this->requestdata = [];
         $this->requestdata['seed'] = '';
         $this->requestdata['readOnly'] = false;
-        $this->requestdata['renderInputs'] = true;
+        $this->requestdata['renderInputs'] = 'stackapi_input_';
 
         // Need to mock request and response for the controllers but Moodle only
         // has the interfaces, not the classes themselves. We have to get an array
@@ -173,6 +173,27 @@ final class api_controller_test extends qtype_stack_testcase {
         $this->assertEquals(3, count($this->output->questionvariants));
         $this->assertEquals(0, count($this->output->iframes));
         $this->assertEquals(false, $this->output->isinteractive);
+        $this->assertEquals(
+            "\\({\\left[\\begin{array}{cc} 5 & 5 \\\\ 4 & 4 \\end{array}\\right]}.{\\left[\\begin{array}{cc} " .
+            "2 & 4 \\\\ 5 & 2 \\end{array}\\right]}={\\left[\\begin{array}{cc} 35 & 30 \\\\ 28 & 24 \\end{array}\\right]}\\)",
+            $this->output->questionnote
+        );
+    }
+
+    public function test_full_render(): void {
+
+        $this->requestdata['fullRender'] = ['stackapi_val_', 'stackapi_fb_'];
+        $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('iframes');
+        $rc = new RenderController();
+        $rc->__invoke($this->request, $this->response, []);
+        $this->assertEquals(1, count($this->output->iframes));
+        $this->assertEquals(true, $this->output->isinteractive);
+        $this->assertStringContainsString("<input type=\"text\" name=\"stackapi_input_da_ans1\" ", $this->output->questionrender);
+        $this->assertStringContainsString("<span name='stackapi_val_da_ans1'></span>", $this->output->questionrender);
+        $this->assertStringContainsString("<iframe id=\"stack-iframe-1\" style=\"width: 100%; height: 100%; border: 0;\" " .
+            "scrolling=\"yes\" title=\"\" referrerpolicy=\"no-referrer\" allow-scripts allow-downloads srcdoc=",
+            $this->output->questionrender
+        );
     }
 
     public function test_render_specified_seed(): void {
@@ -190,11 +211,16 @@ final class api_controller_test extends qtype_stack_testcase {
         $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('plots');
         $rc = new RenderController();
         $rc->__invoke($this->request, $this->response, []);
-        $this->assertEquals(4, count((array)$this->output->questionassets));
+        $this->assertEquals(9, count((array)$this->output->questionassets));
         $this->assertEquals(true, isset($this->output->questionassets->{'input-ans1-1-0.svg'}));
         $this->assertEquals(true, isset($this->output->questionassets->{'input-ans1-2-0.svg'}));
         $this->assertEquals(true, isset($this->output->questionassets->{'input-ans1-3-0.svg'}));
         $this->assertEquals(true, isset($this->output->questionassets->{'input-ans1-4-0.svg'}));
+        $this->assertEquals(true, isset($this->output->questionassets->{'note-ans1-0.svg'}));
+        $this->assertEquals(true, isset($this->output->questionassets->{'note-ans1-1.svg'}));
+        $this->assertEquals(true, isset($this->output->questionassets->{'note-ans1-2.svg'}));
+        $this->assertEquals(true, isset($this->output->questionassets->{'note-ans1-3.svg'}));
+        $this->assertEquals(true, isset($this->output->questionassets->{'note-ans1-4.svg'}));
         $this->assertEquals(false, $this->output->isinteractive);
     }
 
@@ -246,7 +272,73 @@ final class api_controller_test extends qtype_stack_testcase {
         $this->assertEquals('<p>[[feedback:prt1]]</p>', $this->output->specificfeedback);
         $this->assertStringContainsString('correct', $this->output->prts->prt1);
         $this->assertEquals(0, count((array)$this->output->gradingassets));
-        $this->assertEquals('Seed: 86; ans1: matrix([35,30],[28,24]) [valid]; prt1: !', $this->output->responsesummary);
+        $this->assertEquals(
+            'Seed: 86; ans1: matrix([35,30],[28,24]) [score]; prt1: # = 1 |  | 1-0-T',
+            $this->output->responsesummary
+        );
+        $this->assertEquals(0, count($this->output->iframes));
+    }
+
+    public function test_grade_multipleprts(): void {
+        $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('multipleprts');
+        $this->requestdata['answers'] = (array) json_decode(stack_api_test_data::get_answer_string('multipleprts_correct'));
+        $gc = new GradingController();
+        $gc->__invoke($this->request, $this->response, []);
+        $this->assertEquals(true, $this->output->isgradable);
+        $this->assertEquals(1, $this->output->score);
+        $this->assertEquals(1, $this->output->scores->even);
+        $this->assertEquals(1, $this->output->scores->odd);
+        $this->assertEquals(1, $this->output->scores->oddeven);
+        $this->assertEquals(1, $this->output->scores->poly);
+        $this->assertEquals(1, $this->output->scores->unique);
+        $this->assertEquals(1, $this->output->scores->total);
+        $this->assertEqualsWithDelta(0.2, $this->output->scoreweights->even, 0.0001);
+        $this->assertEqualsWithDelta(0.2, $this->output->scoreweights->odd, 0.0001);
+        $this->assertEqualsWithDelta(0.4, $this->output->scoreweights->oddeven, 0.0001);
+        $this->assertEquals(null, $this->output->scoreweights->poly ?? null);
+        $this->assertEqualsWithDelta(0.2, $this->output->scoreweights->unique, 0.0001);
+        $this->assertEquals(5, $this->output->scoreweights->total);
+        $this->assertEquals('', $this->output->specificfeedback);
+        $this->assertEquals(
+            '<p>Perhaps you could think of some non-polynomial examples as well?</p>',
+            $this->output->prts->poly
+        );
+        $this->assertEquals(0, count((array)$this->output->gradingassets));
+        $this->assertEquals(
+            'Seed: -1; ans1: x^3 [score]; ans2: x^2 [score]; ans3: 0 [score]; ans4: true [score]; ' .
+            'even: # = 1 | even-0-T; odd: # = 1 | odd-0-T; oddeven: # = 1 | ODD | EVEN; ' .
+            'poly: # = 1 [formative] | ATLogic_True. | poly-1-T; unique: # = 1 | ATLogic_True. | unique-0-T',
+            $this->output->responsesummary
+        );
+        $this->assertEquals(0, count($this->output->iframes));
+    }
+
+    public function test_grade_some_answers_multipleprt(): void {
+        $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('multipleprts');
+        // Including unsupplied and invalid answers.
+        $this->requestdata['answers'] = (array) json_decode(stack_api_test_data::get_answer_string('multipleprts_some'));
+        $gc = new GradingController();
+        $gc->__invoke($this->request, $this->response, []);
+        $this->assertEquals(true, $this->output->isgradable);
+        $this->assertEqualsWithDelta(0.4, $this->output->score, 0.0001);
+        $this->assertEquals(null, $this->output->scores->even);
+        $this->assertEquals(1, $this->output->scores->odd);
+        $this->assertEquals(null, $this->output->scores->oddeven);
+        $this->assertEquals(null, $this->output->scores->poly);
+        $this->assertEquals(1, $this->output->scores->unique);
+        $this->assertEqualsWithDelta(0.4, $this->output->scores->total, 0.0001);
+        $this->assertEquals('', $this->output->specificfeedback);
+        $this->assertStringContainsString('Correct answer', $this->output->prts->odd);
+        $this->assertStringContainsString('Correct answer', $this->output->prts->unique);
+        $this->assertEquals(null, $this->output->prts->even ?? null);
+        $this->assertEquals(null, $this->output->prts->poly ?? null);
+        $this->assertEquals(null, $this->output->prts->oddeven ?? null);
+        $this->assertEquals(0, count((array)$this->output->gradingassets));
+        $this->assertEquals(
+            'Seed: -1; ans1: x^3 [score]; ans2: * [invalid]; ans4: true [score]; even: !; ' .
+            'odd: # = 1 | odd-0-T; oddeven: !; poly: !; unique: # = 1 | ATLogic_True. | unique-0-T',
+            $this->output->responsesummary
+        );
         $this->assertEquals(0, count($this->output->iframes));
     }
 
@@ -272,6 +364,10 @@ final class api_controller_test extends qtype_stack_testcase {
         $this->assertEquals(1, $this->output->scoreweights->total);
         $this->assertEquals('<p>[[feedback:prt1]]</p>', $this->output->specificfeedback);
         $this->assertStringContainsString('correct', $this->output->prts->prt1);
+        $this->assertEquals(
+            'Seed: -1; ans1: 1 [score]; prt1: # = 1 | prt1-1-T',
+            $this->output->responsesummary
+        );
     }
 
     public function test_grade_scores(): void {
@@ -293,6 +389,11 @@ final class api_controller_test extends qtype_stack_testcase {
         $this->assertEqualsWithDelta(0.1, $this->output->scoreweights->prt3, 0.0001);
         $this->assertEqualsWithDelta(0.1, $this->output->scoreweights->prt4, 0.0001);
         $this->assertEquals(10, $this->output->scoreweights->total);
+        $this->assertEquals(
+            'Seed: -1; ans1: c [score]; ans2: 1 [score]; ans3: 0 [score]; ans4: 0 [score]; prt1: # = 1 | prt1-1-T; ' .
+                'prt2: # = 1 | prt2-1-T; prt3: # = 0 | prt3-1-F; prt4: # = 1 | prt4-1-T',
+            $this->output->responsesummary
+        );
     }
 
     public function test_download(): void {

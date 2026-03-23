@@ -42,11 +42,11 @@ jobs:
             database: 'pgsql'
             maxima: 'SBCL'
             moodle-app: true
-          #- php: '8.2'
-          #  moodle-branch: 'MOODLE_500_STABLE'
-          #  database: 'pgsql'
-          #  maxima: 'SBCL'
-          #  moodle-app: true
+          - php: '8.2'
+            moodle-branch: 'MOODLE_500_STABLE'
+            database: 'pgsql'
+            maxima: 'SBCL'
+            moodle-app: true
           # Edinburgh is planning to run the setup below for 2025-26.
           - php: '8.2'
             moodle-branch: 'MOODLE_405_STABLE'
@@ -65,8 +65,8 @@ jobs:
         run: |
           maxima="${{ (matrix.maxima == 'SBCL' && 'sbcl') || 'gcl' }}"
           wget http://mirrors.kernel.org/ubuntu/pool/main/r/readline/libreadline7_7.0-3_amd64.deb \
-               https://sourceforge.net/projects/maxima/files/Maxima-Linux/5.42.2-Linux/maxima-common_5.42.2-1_all.deb \
-               https://sourceforge.net/projects/maxima/files/Maxima-Linux/5.42.2-Linux/maxima-${maxima}_5.42.2-1_amd64.deb
+               https://sourceforge.net/projects/maxima/files/Maxima-Linux-RPM/5.42.2-Linux/maxima-common_5.42.2-1_all.deb \
+               https://sourceforge.net/projects/maxima/files/Maxima-Linux-RPM/5.42.2-Linux/maxima-${maxima}_5.42.2-1_amd64.deb
 
           sudo locale-gen en_AU.UTF-8
           sudo apt-get install libtinfo5
@@ -126,6 +126,7 @@ jobs:
           moodle-plugin-ci add-plugin maths/moodle-qbehaviour_dfexplicitvaildate
           moodle-plugin-ci add-plugin maths/moodle-qbehaviour_dfcbmexplicitvaildate
           moodle-plugin-ci add-plugin maths/moodle-qbehaviour_adaptivemultipart
+          moodle-plugin-ci add-plugin maths/moodle-qbank_importasversion
 
           moodle-plugin-ci install --plugin ./plugin --db-host=127.0.0.1
 
@@ -158,6 +159,7 @@ jobs:
           moodle-plugin-ci add-plugin maths/moodle-qbehaviour_dfexplicitvaildate
           moodle-plugin-ci add-plugin maths/moodle-qbehaviour_dfcbmexplicitvaildate
           moodle-plugin-ci add-plugin maths/moodle-qbehaviour_adaptivemultipart
+          moodle-plugin-ci add-plugin maths/moodle-qbank_importasversion
 
           moodle-plugin-ci install --plugin ./plugin --db-host=127.0.0.1
 
@@ -226,7 +228,8 @@ jobs:
         run: moodle-plugin-ci grunt
 
       - name: PHPUnit tests
-        if: ${{ matrix.moodle-branch == 'main' || matrix.moodle-branch == 'MOODLE_405_STABLE'}}
+        #if: ${{ matrix.moodle-branch == 'main' || matrix.moodle-branch == 'MOODLE_405_STABLE'}}
+        if: ${{ always() }}
         run: moodle-plugin-ci phpunit
 
       - name: Behat features

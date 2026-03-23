@@ -62,7 +62,7 @@ Please note
 
 Instructions for installing a more recent version of Maxima on CentOS 6 are available on the [Moodle forum](https://moodle.org/mod/forum/discuss.php?d=270956)  (Oct 2014).
 
-## 3. Add some additional question behaviours
+## 3. Add some additional question behaviours and importasversion
 
 STACK requires these.
 
@@ -77,12 +77,17 @@ Alternatively, get the code using git by running the following command in the to
 Alternatively, get the code using git by running the following command in the top level folder of your Moodle install:
 
         git clone https://github.com/maths/moodle-qbehaviour_dfcbmexplicitvaildate.git question/behaviour/dfcbmexplicitvaildate
-2. Obtain adaptivemutlipart behaviour code. You can [download the zip file](https://github.com/maths/moodle-qbehaviour_adaptivemultipart/zipball/master), unzip it, and place it in the directory `moodle/question/behaviour/adaptivemultipart`. (You will need to rename the directory `moodle-qbehaviour_adaptivemultipart  -> adaptivemultipart`.)
+3. Obtain adaptivemutlipart behaviour code. You can [download the zip file](https://github.com/maths/moodle-qbehaviour_adaptivemultipart/zipball/master), unzip it, and place it in the directory `moodle/question/behaviour/adaptivemultipart`. (You will need to rename the directory `moodle-qbehaviour_adaptivemultipart  -> adaptivemultipart`.)
 
 Alternatively, get the code using git by running the following command in the top level folder of your Moodle install:
 
         git clone https://github.com/maths/moodle-qbehaviour_adaptivemultipart.git question/behaviour/adaptivemultipart
-3. Login to Moodle as the admin user and click on Notifications in the Site Administration panel.
+4. Obtain importasversion code. You can [download the zip file](https://github.com/maths/moodle-qbank_importasversion/archive/refs/heads/main.zip), unzip it, and place it in the directory `moodle/question/bank/importasversion`. (You will need to rename the directory `moodle-qbehaviour_importasversion  -> importasversion`.)
+
+Alternatively, get the code using git by running the following command in the top level folder of your Moodle install:
+
+        git clone https://github.com/maths/moodle-qbank_importasversion.git question/bank/importasversion
+5. Login to Moodle as the admin user and click on Notifications in the Site Administration panel.
 
 ## 4. Add the STACK question type
 
@@ -164,6 +169,12 @@ If STACK is already installed, as described above, it can be updated via git, li
         cd ..
         cd adaptivemultipart/
         git pull
+        cd ..
+        cd ..
+        cd bank/importasversion
+        git pull
+
+If upgrading from an older version of STACK, you may need to install the importasversion plugin as instructed in installation step 3.
 
 2. Then login as admin in your moodle and update the database.
 

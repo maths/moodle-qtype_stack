@@ -41,6 +41,7 @@ Feature: Test validation language is correct.
     And I wait until "Votre dernière réponse a été interprétée comme suit" "text" does not exist
     And I set the input "ans1" to "a*b" in the STACK question
     And I wait until "Votre dernière réponse a été interprétée comme suit" "text" exists
+    And I wait until "Les variables trouvées dans votre réponses étaient" "text" exists
     And I am on "Course 1" course homepage
     And I should see "Paramètres"
     # Change course language to Spanish.
@@ -50,5 +51,6 @@ Feature: Test validation language is correct.
     And I press "Enregistrer et afficher"
     And I am on the "Algebraic input" "core_question > preview" page logged in as teacher
     And I wait until "Tu respuesta fue interpretado como" "text" does not exist
-    And I set the input "ans1" to "a*b" in the STACK question
+    And I set the input "ans1" to "a*(" in the STACK question
     And I wait until "Tu respuesta fue interpretado como" "text" exists
+    And I wait until "Esta respuesta es invalida. Olvidaste un paréntesis derecho" "text" exists

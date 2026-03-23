@@ -6,7 +6,6 @@ This page will deal with translations of the STACK interface. Individual questio
 
 ## STACK 4 is released and being used with the following languages
 
-
 STACK is designed to support the straightforward addition of other language packs. If you have translated STACK into other languages - or would be interested in doing so - please [let us know](mailto:C.J.Sangwin@ed.ac.uk).
 
 As of May 2023, substantial translations exist for the following languages.
@@ -14,7 +13,6 @@ As of May 2023, substantial translations exist for the following languages.
 * Afrikaans [af]
 * Arabic [ar]
 * Catalan [ca]
-* Chinese (simplified) [zh_cn]
 * Dansk [da]
 * Dutch [nl]
 * Estonian [et]
@@ -28,7 +26,6 @@ As of May 2023, substantial translations exist for the following languages.
 * Italian [it]
 * Japanese [ja]
 * Polish [pl]
-* Portuguese - Brazil [pt_br]
 * Romanian [ro]
 * Romanian for workplace [ro_wp]
 * Silesian [szl]
@@ -40,9 +37,9 @@ As of May 2023, substantial translations exist for the following languages.
 
 Details of some colleagues who translated STACK are given under [credits](../About/Credits.md).  If you need these languages please contact the developers for more details of the status of this work.
 
-## Installing a language pack
+## Installing a language pack in Moodle
 
-To allow users of your server to see interface in a certain language, the language pack has to be installed on your server. In Moodle, to install a language pack on your server, goo to `Site adminstration`, `Language`, `Language pakcs`. Here you can see a list of installed language packs, as well as a list of available languages. This is a list of all translations of Moodle, but note only some of them correspond to translations of STACK as well (see list above). To install a language pack, click on it and click `Install selected language pack`. 
+To allow users of your server to see interface in a certain language through Moodle, the language pack has to be installed on your server. In Moodle, to install a language pack on your server, goo to `Site adminstration`, `Language`, `Language pakcs`. Here you can see a list of installed language packs, as well as a list of available languages. This is a list of all translations of Moodle, but note only some of them correspond to translations of STACK as well (see list above). To install a language pack, click on it and click `Install selected language pack`. 
 
 Once a language pack is installed, a user can change the preferred language for Moodle and STACK by clicking on their profile, and then going to `Preferences`, ` Preferred language` and selecting the language.
 
@@ -62,7 +59,9 @@ It is convenient to translate the strings online.  To translate STACK into anoth
 
 Apologies to those people who have translated STACK through AMOS, but who do not appear in the [credits](../About/Credits.md). Please contact [Chris Sangwin](mailto:C.J.Sangwin@ed.ac.uk) to add your name.
 
-## Finding language packs for an API setup
+## Finding the location of language packs on a Moodle server
+
+If you want to find the location of language packs on a Moodle server
 
 1. Create a new full Moodle server and install the language pack you want.
 2. Look on your server in `$CFG->langlocalroot.'/'.$lang;`

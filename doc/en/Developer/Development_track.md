@@ -41,6 +41,7 @@ Changes and new features.
 9. Add in support for [local stack libraries](../STACK_question_admin/Library/index.md) of questions in the `stack/sitelibrary` directory within the Moodle data directory.
 10. Change the *Generic feedback* defaults to use the common language strings.  __Users upgrading their site in place will need to change the settings in the plugin setting page to the new default.__
 11.The Generic feedback and decimals options have been removed from questions in the question library.  When importing library questions, the current site defaults will be used.
+12. Remove the German language packs locally (#1710).
 
 Issues with [github milestone 4.12.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.12.0) include
 

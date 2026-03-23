@@ -160,9 +160,14 @@
             {{{questionnoterendered}}}
           </td>
           <td>
+          {{#bulktestresults}}
             {{#bulktestresultspass}}
-              {{#pix}}t/check, core, {{#str}} questiontestspass, qtype_stack {{/str}}{{/pix}}
+              <span style="color:green;">{{#pix}}t/check, core, {{#str}} questiontestspass, qtype_stack {{/str}}{{/pix}}</span>
             {{/bulktestresultspass}}
+            {{^bulktestresultspass}}
+              <span style="color:red;">{{#pix}}t/completion_fail, core, {{#str}} questiontestsfailed, qtype_stack {{/str}}{{/pix}}</span>
+            {{/bulktestresultspass}}
+          {{/bulktestresults}}
           </td>
           <td>
             {{{bulktestresults}}}

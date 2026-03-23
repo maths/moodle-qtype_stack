@@ -105,11 +105,14 @@ function send() {
                             correctAnswers += `\\[{${input.samplesolutionrender}}\\]`;
                         }
                         if (input.samplesolution) {
-                            correctAnswers += `, which can be typed as follows: `;
+                            let answerOutput = "";
                             for (const [name, solution] of Object.entries(input.samplesolution)) {
-                                if (name.indexOf('_val') === -1) {
-                                    correctAnswers += `<span class='correct-answer'>${solution.replace(/\n/g, '<br>')}</span>`;
+                                if (name.indexOf('_val') === -1 && !(typeof solution === 'string' && solution.startsWith('[[{"used":'))) {
+                                    answerOutput += `<span class='correct-answer'>${solution.replace(/\n/g, '<br>')}</span>`;
                                 }
+                            }
+                            if (answerOutput) {
+                                correctAnswers += `, which can be typed as follows: ` + answerOutput;
                             }
                         }
                         correctAnswers += '.</p>';

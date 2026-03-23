@@ -39,8 +39,11 @@ if (isset($_GET['question'])) {
 $scriptname = urldecode($_GET['name']);
 $corslocation = dirname($CFG->dirroot) . '/corsscripts/';
 $questionlocation = dirname($CFG->dirroot) . '/samplequestions/';
-
-if (!str_starts_with(realpath($scriptname), $corslocation) && !str_starts_with(realpath($corslocation . $scriptname), $corslocation)) {
+if (
+    !str_starts_with(realpath($scriptname), $corslocation)
+    && !str_starts_with(realpath($corslocation . $scriptname), $corslocation)
+    && $scriptname !== 'styles.css'
+    ) {
     // Give a special exception for sample questions.
     if (!($is_question && str_starts_with(realpath($questionlocation . $scriptname), $questionlocation))) {
         die("No such script here.");

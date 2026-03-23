@@ -27,6 +27,7 @@ require_once(__DIR__ . '/../block.interface.php');
 require_once(__DIR__ . '/../block.factory.php');
 
 require_once(__DIR__ . '/root.specialblock.php');
+require_once(__DIR__ . '/javascript.block.php');
 require_once(__DIR__ . '/stack_translate.specialblock.php');
 require_once(__DIR__ . '/../../../../vle_specific.php');
 
@@ -183,8 +184,31 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
         $r->items[] = new MP_String("\nimport stack_js from '" . stack_cors_link('stackjsiframe.min.js') . "';\n");
         $r->items[] = new MP_String("import stack_jxg from '" . stack_cors_link('stackjsxgraph.min.js') . "';\n");
 
+
+        $opt2 = [];
+        if ($options !== null) {
+            $opt2 = array_merge([], $options);
+        }
+        $opt2['in iframe'] = true;
+        $content = [];
+
+        foreach ($this->children as $item) {
+            // Assume that all code inside is JavaScript and that we do not
+            // want to do the markdown escaping or any other in it.
+            $c = $item->compile(castext2_parser_utils::RAWFORMAT, $opt2);
+            if ($c !== null) {
+                $content[] = $c;
+            }
+        }
+
+
         // Do we need to bind anything?
         if (count($inputs) > 0) {
+            [$imports, $content] = stack_cas_castext2_javascript::separate_imports($content);
+            if (count($imports) > 0) {
+                $r->items = array_merge($r->items, $imports);
+            }
+
             // Then we need to link up to the inputs.
             $promises = [];
             $vars = [];
@@ -201,20 +225,8 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
         // Plug in the div id = board id thing.
         $r->items[] = new MP_String('var divid = "jxgbox";var BOARDID = divid;');
 
-        $opt2 = [];
-        if ($options !== null) {
-            $opt2 = array_merge([], $options);
-        }
-        $opt2['in iframe'] = true;
-
-        foreach ($this->children as $item) {
-            // Assume that all code inside is JavaScript and that we do not
-            // want to do the markdown escaping or any other in it.
-            $c = $item->compile(castext2_parser_utils::RAWFORMAT, $opt2);
-            if ($c !== null) {
-                $r->items[] = $c;
-            }
-        }
+        // Include the content, previously compiled, within the possible Promise block.
+        $r->items = array_merge($r->items, $content);
 
         if (count($inputs) > 0) {
             // Close the `then(`.
@@ -354,7 +366,6 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
             }
         }
 
-        $valids = null;
         foreach ($this->params as $key => $value) {
             if (substr($key, 0, 10) === 'input-ref-') {
                 $varname = substr($key, 10);
@@ -371,21 +382,15 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
             ) {
                 $err[] = "Unknown parameter '$key' for jsxgraph-block.";
                 $valid    = false;
-                if ($valids === null) {
-                    $valids = ['width', 'height', 'aspect-ratio', 'version', 'overridecss', 'overridejs'];
-                    // The variable $inputdefinitions is not defined!
-                    if ($inputdefinitions !== null) {
-                        $tmp    = $root->get_parameter('ioblocks');
-                        $inputs = [];
-                        foreach ($inputdefinitions->get_names() as $key) {
-                            $inputs[] = "input-ref-$key";
-                        }
-                        $valids = array_merge($valids, $inputs);
+                $valids = ['width', 'height', 'aspect-ratio', 'style', 'version', 'overridecss', 'overridejs'];
+                if (isset($options['inputs'])) {
+                    foreach (array_keys($options['inputs']) as $key) {
+                        $valids[] = "input-ref-$key";
                     }
-                    $err[] = stack_string('stackBlock_jsxgraph_param', [
-                        'param' => implode(', ', $valids),
-                    ]);
                 }
+                $err[] = stack_string('stackBlock_jsxgraph_param', [
+                    'param' => implode(', ', $valids),
+                ]);
             }
         }
 

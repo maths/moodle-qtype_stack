@@ -145,10 +145,17 @@ class RenderController {
             // Request for full rendering. We replace placeholders with input renders and basic feedback and validation divs.
             // Iframes are rendered but will still need to be registered on the front end.
             $uri = $request->getUri();
-            $baseurl = $uri->getScheme() . '://' . $uri->getHost();
-            $port = $uri->getPort();
-            if ($port && !in_array($port, [80, 443], true)) {
-                $baseurl .= ':' . $port;
+            if ($uri) {
+                $baseurl = $uri->getScheme() . '://' . $uri->getHost();
+                $port = $uri->getPort();
+                if ($port && !in_array($port, [80, 443], true)) {
+                    $baseurl .= ':' . $port;
+                }
+            } else {
+                // Older versions of Moodle don't have UriInterface as part of PSR.
+                // We don't really care as this code isn't run via Moodle but unit
+                // tests fail without a fallback.
+                $baseurl = '';
             }
 
             [$validationprefix, $feedbackprefix] = $data['fullRender'];

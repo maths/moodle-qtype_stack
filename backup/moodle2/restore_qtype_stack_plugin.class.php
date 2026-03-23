@@ -91,6 +91,9 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
         if (!property_exists($questiondata->options, 'metadata')) {
             $questiondata->options->metadata = '';
         }
+        if (!property_exists($questiondata->options, 'prescribedmetadata')) {
+            $questiondata->options->prescribedmetadata = '';
+        }
 
         if (!property_exists($questiondata->options, 'inversetrig')) {
             $questiondata->options->inversetrig = 'cos-1';
@@ -213,6 +216,10 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
 
         if (!property_exists($data, 'metadata')) {
             $data->metadata = '';
+        }
+
+        if (!property_exists($data, 'prescribedmetadata')) {
+            $data->prescribedmetadata = '';
         }
 
         if (!property_exists($data, 'inversetrig')) {

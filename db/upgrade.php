@@ -1049,6 +1049,20 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         // Stack savepoint reached.
         upgrade_plugin_savepoint(true, 2026010700, 'qtype', 'stack');
     }
+
+    if ($oldversion < 2026032300) {
+        // Define field prescribedmetadata to be added to qtype_stack_options.
+        $table = new xmldb_table('qtype_stack_options');
+        $field = new xmldb_field('prescribedmetadata', XMLDB_TYPE_TEXT, null, null, null, null, null, 'isbroken');
+
+        // Conditionally launch add field prescribedmetadata.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Stack savepoint reached.
+        upgrade_plugin_savepoint(true, 2026032300, 'qtype', 'stack');
+    }
     // Add new upgrade blocks just above here.
 
     // Check the version of the Maxima library code that comes with this version

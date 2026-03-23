@@ -699,7 +699,7 @@ if ($question->metadata !== null) {
         'pre',
         json_encode(json_decode($question->metadata), JSON_PRETTY_PRINT),
         ['class' => 'outcome generalfeedback']
-        ), ['class' => 'que']);
+    ), ['class' => 'que']);
 }
 
 echo "\n";

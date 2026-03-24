@@ -112,6 +112,8 @@ final class qtype_stack_test_helper extends question_test_helper {
             'jsx_graph_input',
             'response_test',
             'response_test_2',
+            'dashboard_test',
+            'dashboard_test_2',
         ];
     }
 
@@ -8770,7 +8772,7 @@ final class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->questionnote = [
-            'text' => '{@p@}, {@ta@}.',
+            'text' => '{@n@}, {@ta@}.',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -8848,6 +8850,22 @@ final class qtype_stack_test_helper extends question_test_helper {
     public function get_stack_question_form_data_response_test_2() {
         $formform = $this->get_stack_question_form_data_test3();
         $formform->questionvariables = $formform->questionvariables . ' n : rand(5)+3;';
+        return $formform;
+    }
+
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    public function get_stack_question_form_data_dashboard_test() {
+        $formform = $this->get_stack_question_form_data_response_test();
+        // Gives notes 3, 4, 6.
+        $formform->deployedseeds = [1, 3, 8];
+        return $formform;
+    }
+
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    public function get_stack_question_form_data_dashboard_test_2() {
+        $formform = $this->get_stack_question_form_data_response_test();
+        // Gives notes 3, 4, 3, 6.
+        $formform->deployedseeds = [1, 3, 4, 8];
         return $formform;
     }
 }

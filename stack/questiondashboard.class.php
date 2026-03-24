@@ -260,13 +260,8 @@ class stack_question_dashboard {
                 qbank_previewquestion\helper::question_preview_url($this->question->id, null, null, null, null, $this->context);
             $output->previewurl = $previewurl->out();
         }
-        // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-        function sort_by_note($a1, $b1) {
-            $a = $a1->questionnoterendered;
-            $b = $b1->questionnoterendered;
-            return strcoll($a, $b);
-        }
-        usort($output->notes, 'sort_by_note');
+
+        usort($output->notes, [stack_question_dashboard::class, 'sort_by_note']);
 
         if (count($questionnotes) != count(array_flip($questionnotes))) {
             $output->duplicateerror = true;
@@ -336,5 +331,17 @@ class stack_question_dashboard {
         $output->bulktestresults = $bulktestresults[1];
 
         return $output;
+    }
+
+    /**
+     * Sorting function for sorting by note
+     * @param mixed $a1
+     * @param mixed $b1
+     * @return int
+     */
+    static function sort_by_note($a1, $b1) {
+        $a = $a1->questionnoterendered;
+        $b = $b1->questionnoterendered;
+        return strcoll($a, $b);
     }
 }

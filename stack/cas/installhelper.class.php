@@ -217,6 +217,7 @@ END;
         make_upload_directory('stack');
         make_upload_directory('stack/logs');
         make_upload_directory('stack/plots');
+        make_upload_directory('stack/sitelibrary');
         make_upload_directory('stack/tmp');
 
         if (!file_put_contents(self::maximalocal_location(), self::generate_maximalocal_contents())) {

@@ -53,16 +53,6 @@ ta1: round(sind(anga)*(AB/sind(angc)));</text>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <prtcorrect format="html">
-      <text><![CDATA[<p>Correct answer, well done.</p>]]></text>
-    </prtcorrect>
-    <prtpartiallycorrect format="html">
-      <text><![CDATA[<p>Your answer is partially correct.</p>]]></text>
-    </prtpartiallycorrect>
-    <prtincorrect format="html">
-      <text><![CDATA[<p>Incorrect answer.</p>]]></text>
-    </prtincorrect>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>

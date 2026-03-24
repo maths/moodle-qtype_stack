@@ -78,7 +78,7 @@ final class api_controller_test extends qtype_stack_testcase {
         $this->requestdata = [];
         $this->requestdata['seed'] = '';
         $this->requestdata['readOnly'] = false;
-        $this->requestdata['renderInputs'] = true;
+        $this->requestdata['renderInputs'] = 'stackapi_input_';
 
         // Need to mock request and response for the controllers but Moodle only
         // has the interfaces, not the classes themselves. We have to get an array
@@ -173,6 +173,27 @@ final class api_controller_test extends qtype_stack_testcase {
         $this->assertEquals(3, count($this->output->questionvariants));
         $this->assertEquals(0, count($this->output->iframes));
         $this->assertEquals(false, $this->output->isinteractive);
+        $this->assertEquals(
+            "\\({\\left[\\begin{array}{cc} 5 & 5 \\\\ 4 & 4 \\end{array}\\right]}.{\\left[\\begin{array}{cc} " .
+            "2 & 4 \\\\ 5 & 2 \\end{array}\\right]}={\\left[\\begin{array}{cc} 35 & 30 \\\\ 28 & 24 \\end{array}\\right]}\\)",
+            $this->output->questionnote
+        );
+    }
+
+    public function test_full_render(): void {
+
+        $this->requestdata['fullRender'] = ['stackapi_val_', 'stackapi_fb_'];
+        $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('iframes');
+        $rc = new RenderController();
+        $rc->__invoke($this->request, $this->response, []);
+        $this->assertEquals(1, count($this->output->iframes));
+        $this->assertEquals(true, $this->output->isinteractive);
+        $this->assertStringContainsString("<input type=\"text\" name=\"stackapi_input_da_ans1\" ", $this->output->questionrender);
+        $this->assertStringContainsString("<span name='stackapi_val_da_ans1'></span>", $this->output->questionrender);
+        $this->assertStringContainsString("<iframe id=\"stack-iframe-1\" style=\"width: 100%; height: 100%; border: 0;\" " .
+            "scrolling=\"yes\" title=\"\" referrerpolicy=\"no-referrer\" allow-scripts allow-downloads srcdoc=",
+            $this->output->questionrender
+        );
     }
 
     public function test_render_specified_seed(): void {
@@ -190,11 +211,16 @@ final class api_controller_test extends qtype_stack_testcase {
         $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('plots');
         $rc = new RenderController();
         $rc->__invoke($this->request, $this->response, []);
-        $this->assertEquals(4, count((array)$this->output->questionassets));
+        $this->assertEquals(9, count((array)$this->output->questionassets));
         $this->assertEquals(true, isset($this->output->questionassets->{'input-ans1-1-0.svg'}));
         $this->assertEquals(true, isset($this->output->questionassets->{'input-ans1-2-0.svg'}));
         $this->assertEquals(true, isset($this->output->questionassets->{'input-ans1-3-0.svg'}));
         $this->assertEquals(true, isset($this->output->questionassets->{'input-ans1-4-0.svg'}));
+        $this->assertEquals(true, isset($this->output->questionassets->{'note-ans1-0.svg'}));
+        $this->assertEquals(true, isset($this->output->questionassets->{'note-ans1-1.svg'}));
+        $this->assertEquals(true, isset($this->output->questionassets->{'note-ans1-2.svg'}));
+        $this->assertEquals(true, isset($this->output->questionassets->{'note-ans1-3.svg'}));
+        $this->assertEquals(true, isset($this->output->questionassets->{'note-ans1-4.svg'}));
         $this->assertEquals(false, $this->output->isinteractive);
     }
 

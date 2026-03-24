@@ -89,16 +89,6 @@ TAns2 : -a^2*c^2+c^4</text>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <prtcorrect format="html">
-      <text><![CDATA[<span lang="en" class="multilang">Your answer is correct!</span><span lang="fi" hidden="" class="multilang">Vastauksesi on oikein!</span>]]></text>
-    </prtcorrect>
-    <prtpartiallycorrect format="html">
-      <text><![CDATA[<span lang="en" class="multilang">Your answer is partially correct. Keep trying!</span><span lang="fi" hidden="" class="multilang">Vastauksesi on osittain oikein. Jatka yrittämistä!</span>]]></text>
-    </prtpartiallycorrect>
-    <prtincorrect format="html">
-      <text><![CDATA[<span lang="en" class="multilang">Your answer is incorrect.</span><span lang="fi" hidden="" class="multilang">Vastauksesi on väärin.</span>]]></text>
-    </prtincorrect>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>

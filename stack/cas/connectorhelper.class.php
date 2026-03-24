@@ -442,10 +442,10 @@ abstract class stack_connection_helper {
                 $maximacommand = ':lisp (ext:saveinitmem "' . $imagename . '" :init-function #\'user::run)' . "\n";
                 $maximacommand .= 'quit();' . "\n";
                 $lisprun = shell_exec('locate lisp.run');
-                if (trim($lisprun) == '') {
+                if ($lisprun == null || trim($lisprun) == '') {
                     $success = false;
                     $message = stack_string('healthautomaxopt_nolisprun');
-                    return [$message, '', $success, ''];
+                    return [$message, '', $success, '', ''];
                 }
                 $lisprun = explode("\n", $lisprun);
                 $rawcommand = $lisprun[0] . ' -q -M ' . stack_utils::convert_slash_paths($imagename);
@@ -454,7 +454,7 @@ abstract class stack_connection_helper {
             default:
                 $success = false;
                 $message = stack_string('healthautomaxopt_nolisp');
-                return [$message, '', $success, ''];
+                return [$message, '', $success, '', ''];
         }
 
         // Really make sure there is no cache.

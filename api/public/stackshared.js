@@ -105,11 +105,14 @@ function send() {
                             correctAnswers += `\\[{${input.samplesolutionrender}}\\]`;
                         }
                         if (input.samplesolution) {
-                            correctAnswers += `, which can be typed as follows: `;
+                            let answerOutput = "";
                             for (const [name, solution] of Object.entries(input.samplesolution)) {
-                                if (name.indexOf('_val') === -1) {
-                                    correctAnswers += `<span class='correct-answer'>${solution.replace(/\n/g, '<br>')}</span>`;
+                                if (name.indexOf('_val') === -1 && !(typeof solution === 'string' && solution.startsWith('[[{"used":'))) {
+                                    answerOutput += `<span class='correct-answer'>${solution.replace(/\n/g, '<br>')}</span>`;
                                 }
+                            }
+                            if (answerOutput) {
+                                correctAnswers += `, which can be typed as follows: ` + answerOutput;
                             }
                         }
                         correctAnswers += '.</p>';
@@ -136,6 +139,7 @@ function send() {
                 for (const [name, file] of Object.entries(json.questionassets)) {
                     question = question.replace(name, `${serverUrl}plots/${file}`);
                     json.questionsamplesolutiontext = json.questionsamplesolutiontext.replace(name, `${serverUrl}plots/${file}`);
+                    json.questionnote = json.questionnote.replace(name, `${serverUrl}plots/${file}`);
                     correctAnswers = correctAnswers.replace(name, `${serverUrl}plots/${file}`);
                 }
                 question = replaceFeedbackTags(question);
@@ -171,6 +175,8 @@ function send() {
                         // If the question is updated, there may no longer be general feedback.
                         document.getElementById('stackapi_generalfeedback').style.display = 'none';
                     }
+                    document.getElementById('stackapi_questionnote').style.display = 'block';
+                    document.getElementById('questionnote').innerHTML = json.questionnote;
                     document.getElementById('stackapi_score').style.display = 'none';
                 } else {
                     if (sampleText) {

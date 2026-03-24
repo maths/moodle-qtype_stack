@@ -101,15 +101,14 @@
       {{^notes.0}}
         {{#hasrandomvariants}}
           <!-- No variants -->
-          <p><i class="icon fa fa-exclamation-circle text-danger fa-fw"></i>
-            {{#str}} runquestiontests_alert, qtype_stack {{/str}} {{#str}} questionnotdeployedyet, qtype_stack {{/str}}
+          <p>{{#pix}}req, core{{/pix}}{{#str}} runquestiontests_alert, qtype_stack {{/str}} {{#str}} questionnotdeployedyet, qtype_stack {{/str}}
             <a href="{{{previewurl}}}">{{#pix}}t/preview, core, {{#str}} preview, core {{/str}}{{/pix}}</a>
           </p>
         {{/hasrandomvariants}}
       {{/notes.0}}
       {{#duplicateerror}}
         <!-- Duplicate question notes -->
-        <p><i class="icon fa fa-exclamation-circle text-danger fa-fw"></i>{{#str}} deployduplicateerror, qtype_stack {{/str}}</p>
+        <p>{{#pix}}req, core{{/pix}}</i>{{#str}} deployduplicateerror, qtype_stack {{/str}}</p>
       {{/duplicateerror}}
       {{#notes.0}}
         <form method="get" action="{{{deploylink}}}">
@@ -125,16 +124,13 @@
             <th class="stack-sortable-header" data-sort-index="0" data-sort-type="number" tabindex="0" aria-sort="none">
               <button type="button" class="btn btn-link p-0 stack-toggle-variants-btn"
                   aria-label="Invert variant selection" title="Invert variant selection" aria-pressed="false">
-                <i class="icon fa fa-exchange" aria-hidden="true"></i>
-              </button>
-              {{#str}} seednumber, qtype_stack {{/str}}
-              <span class="stack-sort-arrow" aria-hidden="true"><i class="icon fa fa-sort text-muted"></i></span>
+              {{#pix}}i/switch, core{{/pix}}
+              </button>{{#str}} seednumber, qtype_stack {{/str}}
+              <span class="stack-sort-arrow" aria-hidden="true">{{#pix}}t/sort, core{{/pix}}</span>
             </th>
             <th class="stack-sortable-header" data-sort-index="1" data-sort-type="text" tabindex="0" aria-sort="ascending">
               {{#str}} questionnote, qtype_stack {{/str}}
-              <span class="stack-sort-arrow" aria-hidden="true">
-                <i class="icon fa fa-sort text-muted"></i>
-              </span>
+              <span class="stack-sort-arrow" aria-hidden="true">{{#pix}}t/sort, core{{/pix}}</span>
             </th>
             <th></th>
             <th></th>
@@ -162,10 +158,10 @@
           <td>
           {{#bulktestresults}}
             {{#bulktestresultspass}}
-              <span style="color:green;">{{#pix}}t/check, core, {{#str}} questiontestspass, qtype_stack {{/str}}{{/pix}}</span>
+              <span class="text-success">{{#pix}}t/check, core, {{#str}} questiontestspass, qtype_stack {{/str}}{{/pix}}</span>
             {{/bulktestresultspass}}
             {{^bulktestresultspass}}
-              <span style="color:red;">{{#pix}}t/completion_fail, core, {{#str}} questiontestsfailed, qtype_stack {{/str}}{{/pix}}</span>
+              <span class="text-danger">{{#pix}}t/completion_fail, core, {{#str}} questiontestsfailed, qtype_stack {{/str}}{{/pix}}</span>
             {{/bulktestresultspass}}
           {{/bulktestresults}}
           </td>

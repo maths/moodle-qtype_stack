@@ -121,8 +121,7 @@
         {{/tests.hasrandomvariants}}
         {{#tests.demotest}}
           <p>
-            <i class="icon fa fa-exclamation-circle text-danger fa-fw"></i>
-            {{#str}} runquestiontests_alert, qtype_stack {{/str}} {{#str}} notestcasesyet, qtype_stack {{/str}}
+            {{#pix}}req, core{{/pix}}{{#str}} runquestiontests_alert, qtype_stack {{/str}} {{#str}} notestcasesyet, qtype_stack {{/str}}
           </p>
         {{/tests.demotest}}
       {{/tests.hasinputs}}
@@ -131,7 +130,7 @@
       {{/tests.hasinputs}}
       {{#general.testcreated}}
         <!-- Sample test created -->
-        <p><i class="icon fa fa-exclamation-circle text-danger fa-fw"></i>{{#str}} runquestiontests_auto, qtype_stack {{/str}}</p>
+        <p>{{#pix}}req, core{{/pix}}{{#str}} runquestiontests_auto, qtype_stack {{/str}}</p>
       {{/general.testcreated}}
       {{#tests.hasresults}}
         <!-- Does not show if we only have a demo test -->
@@ -222,7 +221,7 @@
       {{#tests.output}}
         <!-- Output of individual tests. Test HTML created in stack_question_test_resul->html_output() -->
         <br>
-        <hr style="background-color: black;">
+        <hr class="bg-dark">
         {{{output}}}
         {{#canedit}}{{^tests.demotest}}
             <div class="testcasebuttons">

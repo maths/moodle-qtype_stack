@@ -5,7 +5,7 @@ Multilingual content can be developed using two systems.
 1. The multilang-filter that comes with Moodle.
 2. STACK's own language blocks (recommended).
 
-Please note that the TinyMCE editor considers paragraph tags (`<p>..</p>`) inside any span tags (e.g. `<span lang="en" class="multilang">...</span>`) to be invalud. The TinyMCE editor will potentially "clean up" (i.e. ruin) your multilingual content if using both the Moodle multilang filter and TinyMCE(as of June 2024).  This is a known issue, and one reason we recommend against using TinyMCE for editing STACK content. (It does nasty things to Javascript content as well).
+Please note that the TinyMCE editor considers paragraph tags (`<p>..</p>`) inside any span tags (e.g. `<span lang="en" class="multilang">...</span>`) to be invalid.  The TinyMCE editor will potentially "clean up" (i.e. ruin) your multilingual content if using both the Moodle multilang filter and TinyMCE (as of June 2024).  This is a known issue, and one reason we recommend against using TinyMCE for editing STACK content. (It does nasty things to Javascript content as well).
 
 ## Using the built-in castext block in STACK
 

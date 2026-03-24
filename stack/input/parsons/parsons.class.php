@@ -371,9 +371,4 @@ class stack_parsons_input extends stack_json_input {
 
         return $render;
     }
-
-    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function get_api_solution($value) {
-        return null;
-    }
 }

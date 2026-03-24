@@ -159,3 +159,4 @@ input.addEventListener("change", () => {
 });
 [[/javascript]]
 ```
+Do note that the use of `input-ref-...` attributes will lead to rewriting parts of the JavaScript code. Basically, the contents of the block are wrapped as a function that will be called after the input references have been fully registered. During that wrapping, all `import`-statements in that code will be lifted outside of that function, that lifting is unaware of JS-comments. If such rewriting causes trouble for your logic, you may choose to not use the `input-ref-...` feature and instead do any access to inputs through [STACK-JS](../../Specialist_tools/STACK-JS/index.md). No rewriting happens, if those attributes are not used.

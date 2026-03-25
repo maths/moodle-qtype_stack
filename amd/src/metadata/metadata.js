@@ -95,13 +95,28 @@ class StackMetadata extends Reactive {
                     if (item.scope in additional === false) {
                         additional[item.scope] = {};
                     }
-                    if (item.property in additional[item.scope] === false) {
+                    if (item.property in additional[item.scope] === false && item.qualifier) {
                         additional[item.scope][item.property] = {};
                     }
+                    let currentValue = null;
                     if (item.qualifier === '') {
-                        additional[item.scope][item.property] = item.value;
+                        currentValue = additional[item.scope][item.property];
                     } else {
-                        additional[item.scope][item.property][item.qualifier] = item.value;
+                        currentValue = additional[item.scope][item.property][item.qualifier];
+                    }
+                    let value = null;
+                    // If we have multiple values, we need to convert to an array.
+                    if (!currentValue) {
+                        value = item.value;
+                    } else if (!Array.isArray(currentValue)) {
+                        value = [currentValue, item.value];
+                    } else {
+                        value = currentValue.concat([item.value]);
+                    }
+                    if (item.qualifier === '') {
+                        additional[item.scope][item.property] = value;
+                    } else {
+                        additional[item.scope][item.property][item.qualifier] = value;
                     }
                 }
                 return additional;
@@ -180,28 +195,40 @@ class StackMetadata extends Reactive {
         let addId = 1;
         for (const addScope in data.additional) {
             for (const addProperty in data.additional[addScope]) {
-                if (typeof data.additional[addScope][addProperty] === 'object') {
+                if (
+                    data.additional[addScope][addProperty] &&
+                    typeof data.additional[addScope][addProperty] === 'object' &&
+                    !Array.isArray(data.additional[addScope][addProperty])
+                ) {
                     for (const addQualifier in data.additional[addScope][addProperty]) {
+                        let values = data.additional[addScope][addProperty][addQualifier];
+                        values = (Array.isArray(values)) ? values : [values];
+                        for (const value of values) {
+                            const add = {
+                                id: addId,
+                                scope: addScope,
+                                property: addProperty,
+                                qualifier: addQualifier,
+                                value: value
+                            };
+                            addHolder.push(add);
+                            addId++;
+                        }
+                    }
+                } else {
+                    let values = data.additional[addScope][addProperty];
+                    values = (Array.isArray(values)) ? values : [values];
+                    for (const value of values) {
                         const add = {
                             id: addId,
                             scope: addScope,
                             property: addProperty,
-                            qualifier: addQualifier,
-                            value: data.additional[addScope][addProperty][addQualifier]
+                            qualifier: '',
+                            value: value
                         };
                         addHolder.push(add);
                         addId++;
                     }
-                } else {
-                    const add = {
-                        id: addId,
-                        scope: addScope,
-                        property: addProperty,
-                        qualifier: '',
-                        value: data.additional[addScope][addProperty]
-                    };
-                    addHolder.push(add);
-                    addId++;
                 }
             }
         }

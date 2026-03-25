@@ -727,7 +727,7 @@ c3: sublist_indices(colsum(adj_matrix), lambda([x],ev(is(x=0),simp)));</text>
         <name>prt1</name>
         <expectedscore>1.0000000</expectedscore>
         <expectedpenalty>0.0000000</expectedpenalty>
-        <expectedanswernote>prt1-3-F</expectedanswernote>
+        <expectedanswernote>( prt1-1-F | prt1-2-F | prt1-3-F ]</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
@@ -741,7 +741,7 @@ c3: sublist_indices(colsum(adj_matrix), lambda([x],ev(is(x=0),simp)));</text>
         <name>prt1</name>
         <expectedscore>0.6670010</expectedscore>
         <expectedpenalty></expectedpenalty>
-        <expectedanswernote>prt1-3-T</expectedanswernote>
+        <expectedanswernote>( prt1-1-F | prt1-2-F | prt1-3-T ]</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
@@ -755,7 +755,7 @@ c3: sublist_indices(colsum(adj_matrix), lambda([x],ev(is(x=0),simp)));</text>
         <name>prt1</name>
         <expectedscore>0.3330000</expectedscore>
         <expectedpenalty></expectedpenalty>
-        <expectedanswernote>prt1-3-F</expectedanswernote>
+        <expectedanswernote>[ prt1-1-T | prt1-2-T | prt1-3-F ]</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
@@ -769,7 +769,7 @@ c3: sublist_indices(colsum(adj_matrix), lambda([x],ev(is(x=0),simp)));</text>
         <name>prt1</name>
         <expectedscore>1.0000000</expectedscore>
         <expectedpenalty>0.0000000</expectedpenalty>
-        <expectedanswernote>prt1-3-F</expectedanswernote>
+        <expectedanswernote>( prt1-1-F | prt1-2-F | prt1-3-F ]</expectedanswernote>
       </expected>
     </qtest>
   </question>

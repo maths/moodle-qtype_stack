@@ -1772,7 +1772,7 @@ class stack_equiv_test_data {
                 if ('unsupported' !== $equivarg['outcome']) {
                     $answertestfixtures[] = [
                         'Equiv', $options, $equivarg['casstring'], '[]',
-                        $score, $equivarg['debuglist'], '',
+                        $score, 'ATEquiv:' . $equivarg['debuglist'], '',
                     ];
                 }
             }

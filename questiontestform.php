@@ -80,11 +80,18 @@ class qtype_stack_question_test_form extends moodleform {
                     ['size' => 2]
                 ),
                 $mform->createElement(
-                    'select',
+                    'text',
                     $prtname . 'answernote',
                     stack_string('answernote'),
-                    $prt->get_all_answer_notes()
+                    ['size' => 50]
                 ),
+                // Show the user the available answer notes.
+                $mform->createElement(
+                    'static',
+                    'info',
+                    '',
+                    implode(' | ', $prt->get_all_answer_notes())
+                    ),
             ];
             $mform->addGroup($elements, $prtname . 'group', $prtname . $inputsused, ' ', false);
             $mform->setType($prtname . 'score', PARAM_RAW);
@@ -121,7 +128,7 @@ class qtype_stack_question_test_form extends moodleform {
 
         foreach ($question->prts as $prtname => $prt) {
             $result = $question->get_prt_result($prtname, $response, false);
-            $answernotes = $result->get_answernotes();
+            $answernote = array_pop($result->get_answernotes_testcase());
             // In automatic test case generation set penalties as the default unless they differ.
             // If they are the same as the detault, and you want this, you can change it later.
             $prtpenalty = $result->get_penalty();
@@ -131,7 +138,7 @@ class qtype_stack_question_test_form extends moodleform {
             $mform->getElement($prtname . 'group')->setValue([
                 $prtname . 'score'      => $result->get_score(),
                 $prtname . 'penalty'    => $prtpenalty,
-                $prtname . 'answernote' => end($answernotes),
+                $prtname . 'answernote' => $answernote,
             ]);
         }
     }

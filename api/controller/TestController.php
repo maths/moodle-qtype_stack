@@ -188,15 +188,13 @@ class TestController {
                 // We could just check if score === 1 at this point but by creating
                 // a test and running it we get the full outcomes in the same
                 // format as above.
-                $answernotes = $result->get_answernotes();
-                $answernote = [end($answernotes)];
                 $qtest->add_expected_result($prtname, new \stack_potentialresponse_tree_state(
                     1,
                     true,
                     1,
                     0,
                     '',
-                    $answernote
+                    $result->get_answernotes_testcase()
                 ));
             }
             $results = $qtest->process_results($question, $response);

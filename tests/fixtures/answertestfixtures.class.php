@@ -1655,19 +1655,19 @@ class stack_answertest_test_data {
             'Equiv', '', '[x^2=4,x=2 or x=-2]', '[1/0]', -1,
             'ATEquiv_STACKERROR_TAns.', '',
         ],
-        ['Equiv', '', '[x^2=4,x=2 or x=-2]', '[x^2=4,x=2 or x=-2]', 1, '(EMPTYCHAR,EQUIVCHAR)', ''],
-        ['Equiv', '', '[x^2=4,x=#pm#2,x=2 and x=-2]', '[x^2=4,x=2 or x=-2]', 0, '(EMPTYCHAR,EQUIVCHAR,ANDOR)', ''],
-        ['Equiv', '', '[x^2=4,x=2]', '[x^2=4,x=2 or x=-2]', 0, '(EMPTYCHAR,IMPLIEDCHAR)', ''],
-        ['Equiv', '[assumepos]', '[x^2=4,x=2]', '[x^2=4,x=2]', 1, '(ASSUMEPOSVARS,EQUIVCHAR)', ''],
+        ['Equiv', '', '[x^2=4,x=2 or x=-2]', '[x^2=4,x=2 or x=-2]', 1, 'ATEquiv:(EMPTYCHAR,EQUIVCHAR)', ''],
+        ['Equiv', '', '[x^2=4,x=#pm#2,x=2 and x=-2]', '[x^2=4,x=2 or x=-2]', 0, 'ATEquiv:(EMPTYCHAR,EQUIVCHAR,ANDOR)', ''],
+        ['Equiv', '', '[x^2=4,x=2]', '[x^2=4,x=2 or x=-2]', 0, 'ATEquiv:(EMPTYCHAR,IMPLIEDCHAR)', ''],
+        ['Equiv', '[assumepos]', '[x^2=4,x=2]', '[x^2=4,x=2]', 1, 'ATEquiv:(ASSUMEPOSVARS,EQUIVCHAR)', ''],
         [
             'Equiv', '', '[x^2=4,x^2-4=0,(x-2)*(x+2)=0,x=2 or x=-2]', '[x^2=4,x=2 or x=-2]', 1,
-            '(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR)', '',
+            'ATEquiv:(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR)', '',
         ],
         [
             'Equiv', '', '[x^2=4,x= #pm#2, x=2 or x=-2]', '[x^2=4,x=2 or x=-2]', 1,
-            '(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR)', '',
+            'ATEquiv:(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR)', '',
         ],
-        ['Equiv', '', '[x^2-6*x+9=0,x=3]', '[x^2-6*x+9=0,x=3]', 1, '(EMPTYCHAR,SAMEROOTS)', ''],
+        ['Equiv', '', '[x^2-6*x+9=0,x=3]', '[x^2-6*x+9=0,x=3]', 1, 'ATEquiv:(EMPTYCHAR,SAMEROOTS)', ''],
 
         ['EquivFirst', '', 'x', '[x^2=4,x=2 or x=-2]', -1, 'ATEquivFirst_SA_not_list.', ''],
         ['EquivFirst', '', '[x^2=4,x=2 or x=-2]', 'x', -1, 'ATEquivFirst_SB_not_list.', ''],
@@ -1679,19 +1679,19 @@ class stack_answertest_test_data {
             'EquivFirst', '', '[x^2=4,x=2 or x=-2]', '[1/0]', -1,
             'ATEquivFirst_STACKERROR_TAns.', '',
         ],
-        ['EquivFirst', '', '[x^2=4,x=2 or x=-2]', '[x^2=4,x=2 or x=-2]', 1, '(EMPTYCHAR,EQUIVCHAR)', ''],
+        ['EquivFirst', '', '[x^2=4,x=2 or x=-2]', '[x^2=4,x=2 or x=-2]', 1, 'ATEquivFirst:(EMPTYCHAR,EQUIVCHAR)', ''],
         ['EquivFirst', '', '[x^2=9,x=3 or x=-3]', '[x^2=4,x=2 or x=-2]', 0, 'ATEquivFirst_SA_wrong_start', ''],
-        ['EquivFirst', '', '[x^2=4,x=2]', '[x^2=4,x=2 or x=-2]', 0, '(EMPTYCHAR,IMPLIEDCHAR)', ''],
+        ['EquivFirst', '', '[x^2=4,x=2]', '[x^2=4,x=2 or x=-2]', 0, 'ATEquivFirst:(EMPTYCHAR,IMPLIEDCHAR)', ''],
         [
             'EquivFirst', '', '[x^2=4,x^2-4=0,(x-2)*(x+2)=0,x=2 or x=-2]', '[x^2=4,x=2 or x=-2]', 1,
-            '(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR)', '',
+            'ATEquivFirst:(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR)', '',
         ],
         [
             'EquivFirst', '', '[x^2=4,x= #pm#2, x=2 or x=-2]', '[x^2=4,x=2 or x=-2]', 1,
-            '(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR)', '',
+            'ATEquivFirst:(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR)', '',
         ],
-        ['EquivFirst', '', '[x^2-6*x+9=0,x=3]', '[x^2-6*x+9=0,x=3]', 1, '(EMPTYCHAR,SAMEROOTS)', ''],
-        ['EquivFirst', '[assumepos]', '[x^2=4,x=2]', '[x^2=4,x=2]', 1, '(ASSUMEPOSVARS,EQUIVCHAR)', ''],
+        ['EquivFirst', '', '[x^2-6*x+9=0,x=3]', '[x^2-6*x+9=0,x=3]', 1, 'ATEquivFirst:(EMPTYCHAR,SAMEROOTS)', ''],
+        ['EquivFirst', '[assumepos]', '[x^2=4,x=2]', '[x^2=4,x=2]', 1, 'ATEquivFirst:(ASSUMEPOSVARS,EQUIVCHAR)', ''],
 
         ['SingleFrac', '', '1/0', '1/n', -1, 'ATSingleFrac_STACKERROR_SAns.', ''],
         ['SingleFrac', '', '0', '1/0', -1, 'ATSingleFrac_STACKERROR_TAns.', ''],
@@ -2451,8 +2451,8 @@ class stack_answertest_test_data {
         ['GT', '', '1', '2.1', 0, 'ATGT_false.', ''],
         ['GT', '', 'pi', '3', 1, 'ATGT_true.', ''],
         ['GT', '', 'pi+2', '5', 1, 'ATGT_true.', ''],
-        ['GT', '', '-inf', '0', 0, 'Not number', 'Infinity'],
-        ['GT', '', 'inf', '0', 0, 'Not number', ''],
+        ['GT', '', '-inf', '0', 0, 'ATGT_NotNumber', 'Infinity'],
+        ['GT', '', 'inf', '0', 0, 'ATGT_NotNumber', ''],
 
         ['GTE', '', '1/0', '1', -1, 'ATGTE_STACKERROR_SAns.', ''],
         ['GTE', '', '1', '1/0', -1, 'ATGTE_STACKERROR_TAns.', ''],
@@ -3401,6 +3401,22 @@ class stack_answertest_test_data {
             }
         }
 
+        
+        $ansnote = trim($ansnote);
+        if (strlen($ansnote) >= 3) {
+            if ($ansnote == 'TEST_FAILED' || $ansnote == 'STACKERROR_OPTION.') {
+                $allowablenote = true;
+            }
+            if (substr($ansnote, 0, 2) === 'AT' || substr($ansnote, 0, 3) === '(AT') {
+                $allowablenote = true;
+            }
+        } else {
+            $allowablenote = true;
+        }
+        if (!$allowablenote) {
+            $passed = false;
+            $anomalynote[] = '[NOTE expected to begin with "AT": ' . $test->ansnote . ']';
+        }
         if (!($ansnote === $test->ansnote)) {
             $passed = false;
             $anomalynote[] = '[NOTE expected: ' . $test->ansnote . ']';

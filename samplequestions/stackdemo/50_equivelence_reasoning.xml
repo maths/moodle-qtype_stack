@@ -170,7 +170,7 @@ foundfac:ev(any_listp(lambda([ex], second(ATFacForm(lhs(ex),lhs(ex),x))), foundf
         <name>prt1</name>
         <expectedscore>1.0000000</expectedscore>
         <expectedpenalty>0.0000000</expectedpenalty>
-        <expectedanswernote>prt1-3-T</expectedanswernote>
+        <expectedanswernote>( prt1-1-T | prt1-2-T | prt1-3-T ]</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
@@ -198,7 +198,7 @@ foundfac:ev(any_listp(lambda([ex], second(ATFacForm(lhs(ex),lhs(ex),x))), foundf
         <name>prt1</name>
         <expectedscore>0.0000000</expectedscore>
         <expectedpenalty>0.1000000</expectedpenalty>
-        <expectedanswernote>prt1-3-F</expectedanswernote>
+        <expectedanswernote>( prt1-1-T | prt1-2-T | prt1-3-F ]</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
@@ -212,7 +212,7 @@ foundfac:ev(any_listp(lambda([ex], second(ATFacForm(lhs(ex),lhs(ex),x))), foundf
         <name>prt1</name>
         <expectedscore>0.0000000</expectedscore>
         <expectedpenalty>0.1000000</expectedpenalty>
-        <expectedanswernote>prt1-3-F</expectedanswernote>
+        <expectedanswernote>( prt1-1-T | prt1-2-T | prt1-3-F ]</expectedanswernote>
       </expected>
     </qtest>
   </question>

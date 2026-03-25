@@ -4,7 +4,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 
 
 
-<h2>Equiv</h2><div class="table-responsive"><table class="flexible table table-striped table-hover generaltable generalbox stacktestsuite"><thead><tr><th class="header c0" scope="col">Test<div class="commands"></div></th><th class="header c1" scope="col">?<div class="commands"></div></th><th class="header c2" scope="col">Student response<div class="commands"></div></th><th class="header c3" scope="col">Teacher answer<div class="commands"></div></th><th class="header c4" scope="col">Opt<div class="commands"></div></th><th class="header c5" scope="col">Mark<div class="commands"></div></th><th class="header c6" scope="col">Answer note<div class="commands"></div></th>
+<h2>Equiv</h2><div class="no-overflow"><table class="flexible table table-striped table-hover generaltable generalbox stacktestsuite"><thead><tr><th class="header c0" scope="col">Test<div class="commands"></div></th><th class="header c1" scope="col">?<div class="commands"></div></th><th class="header c2" scope="col">Student response<div class="commands"></div></th><th class="header c3" scope="col">Teacher answer<div class="commands"></div></th><th class="header c4" scope="col">Opt<div class="commands"></div></th><th class="header c5" scope="col">Mark<div class="commands"></div></th><th class="header c6" scope="col">Answer note<div class="commands"></div></th>
 </tr></thead><tbody>
 <tr class="expectedfail">
   <td class="cell c0">Equiv</td>
@@ -57,7 +57,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c3"><pre>[x^2=4,x=2 or x=-2]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -70,7 +70,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c3"><pre>[x^2=4,x=2 or x=-2]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR,ANDOR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR,ANDOR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -83,7 +83,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c3"><pre>[x^2=4,x=2 or x=-2]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR,IMPLIEDCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR,IMPLIEDCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -96,7 +96,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c3"><pre>[x^2=4,x=2]</pre></td>
   <td class="cell c4"><pre>[assumepos]</pre></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(ASSUMEPOSVARS, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(ASSUMEPOSVARS, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -110,7 +110,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c3"><pre>[x^2=4,x=2 or x=-2]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -123,7 +123,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c3"><pre>[x^2=4,x=2 or x=-2]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -136,7 +136,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c3"><pre>[x^2-6*x+9=0,x=3]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR,SAMEROOTS)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR,SAMEROOTS)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -149,7 +149,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -162,7 +162,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -175,7 +175,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -188,7 +188,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -201,7 +201,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR,QMCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR,QMCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -214,7 +214,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -227,7 +227,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -240,7 +240,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -253,7 +253,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -266,7 +266,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -279,7 +279,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -292,7 +292,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -305,7 +305,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR, CHECKMARK,QMCHAR, CHECKMARK)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, CHECKMARK,QMCHAR, CHECKMARK)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -319,7 +319,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -333,7 +333,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[assumereal]</pre></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(ASSUMEREALVARS, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(ASSUMEREALVARS, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -346,7 +346,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR,QMCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR,QMCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -360,7 +360,7 @@ rue]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -373,7 +373,7 @@ rue]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR,QMCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR,QMCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -386,7 +386,7 @@ rue]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, CHECKMARK)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, CHECKMARK)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -399,7 +399,7 @@ rue]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR,QMCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR,QMCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -413,7 +413,7 @@ ounor B),B]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, CHECKMARK)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, CHECKMARK)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -427,7 +427,7 @@ ounor B),stackeq(B)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, CHECKMARK)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, CHECKMARK)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -440,7 +440,7 @@ ounor B),stackeq(B)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, CHECKMARK)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, CHECKMARK)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -453,7 +453,7 @@ ounor B),stackeq(B)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR,QMCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR,QMCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -466,7 +466,7 @@ ounor B),stackeq(B)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, CHECKMARK)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, CHECKMARK)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -479,7 +479,7 @@ ounor B),stackeq(B)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR,QMCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR,QMCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -493,7 +493,7 @@ ounor B),stackeq(B)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, CHECKMARK, CHECKMARK, CHECKMARK)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, CHECKMARK, CHECKMARK, CHECKMARK)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -507,7 +507,7 @@ tackeq(3*lg(4,4)),stackeq(3)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, CHECKMARK, CHECKMARK, CHECKMARK)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, CHECKMARK, CHECKMARK, CHECKMARK)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -520,7 +520,7 @@ tackeq(3*lg(4,4)),stackeq(3)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR,MISSINGVAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR,MISSINGVAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -533,7 +533,7 @@ tackeq(3*lg(4,4)),stackeq(3)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR,ANDOR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR,ANDOR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -546,7 +546,7 @@ tackeq(3*lg(4,4)),stackeq(3)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR,ANDOR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR,ANDOR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -559,7 +559,7 @@ tackeq(3*lg(4,4)),stackeq(3)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR,IMPLIESCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR,IMPLIESCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -572,7 +572,7 @@ tackeq(3*lg(4,4)),stackeq(3)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR,IMPLIEDCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR,IMPLIEDCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -585,7 +585,7 @@ tackeq(3*lg(4,4)),stackeq(3)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR,IMPLIEDCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR,IMPLIEDCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -598,7 +598,7 @@ tackeq(3*lg(4,4)),stackeq(3)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -612,7 +612,7 @@ tackeq(3*lg(4,4)),stackeq(3)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -634,7 +634,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR,SAMEROOTS)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR,SAMEROOTS)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -647,7 +647,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR,IMPLIESCHAR,IMPLIEDCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR,IMPLIESCHAR,IMPLIEDCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -660,7 +660,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -673,7 +673,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -686,7 +686,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR,IMPLIEDCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR,IMPLIEDCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -699,7 +699,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[assumereal]</pre></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(ASSUMEREALVARS, EQUIVCHARREAL)</td>
+  <td class="cell c6">ATEquiv:(ASSUMEREALVARS, EQUIVCHARREAL)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -713,7 +713,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -726,7 +726,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -740,7 +740,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[assumepos]</pre></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(ASSUMEPOSVARS, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(ASSUMEPOSVARS, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -753,7 +753,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[assumepos]</pre></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(ASSUMEPOSVARS, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(ASSUMEPOSVARS, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -766,7 +766,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[assumepos]</pre></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(ASSUMEPOSVARS, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(ASSUMEPOSVARS, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -779,7 +779,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[assumepos]</pre></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(ASSUMEPOSVARS, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(ASSUMEPOSVARS, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -792,7 +792,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[assumepos]</pre></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(ASSUMEPOSVARS, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(ASSUMEPOSVARS, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -805,7 +805,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[assumepos]</pre></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(ASSUMEPOSVARS, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(ASSUMEPOSVARS, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -818,7 +818,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[assumepos]</pre></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(ASSUMEPOSVARS, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(ASSUMEPOSVARS, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -831,7 +831,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[assumepos]</pre></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(ASSUMEPOSVARS, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(ASSUMEPOSVARS, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -844,7 +844,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[assumepos]</pre></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(ASSUMEPOSVARS, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(ASSUMEPOSVARS, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -857,7 +857,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[assumepos]</pre></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(ASSUMEPOSVARS, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(ASSUMEPOSVARS, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -870,7 +870,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[assumepos]</pre></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(ASSUMEPOSVARS, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(ASSUMEPOSVARS, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -884,7 +884,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[assumepos]</pre></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(ASSUMEPOSVARS, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(ASSUMEPOSVARS, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -897,7 +897,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[assumepos]</pre></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(ASSUMEPOSVARS, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(ASSUMEPOSVARS, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -911,7 +911,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[assumepos]</pre></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(ASSUMEPOSVARS, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(ASSUMEPOSVARS, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -924,7 +924,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[assumepos]</pre></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(ASSUMEPOSVARS, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(ASSUMEPOSVARS, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -937,7 +937,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[assumepos]</pre></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(ASSUMEPOSVARS, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(ASSUMEPOSVARS, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -951,7 +951,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -965,7 +965,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -979,7 +979,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR,SAMEROOTS, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR,SAMEROOTS, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -993,7 +993,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1007,7 +1007,7 @@ a*b+b^2)=0,(a-b)=0,a=b]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR,IMPLIEDCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR,IMPLIEDCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1025,7 +1025,7 @@ a*b+b^2)=0,(a-b)=0 or (a^2+a*b
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1040,7 +1040,7 @@ a*b+b^2)=0,(a-b)=0 or (a^2+a*b
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1055,7 +1055,7 @@ t(2)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1069,7 +1069,7 @@ t(2)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1085,7 +1085,7 @@ t(2)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1099,7 +1099,7 @@ t(2)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR,SAMEROOTS, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR,SAMEROOTS, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1114,7 +1114,7 @@ t(2)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR,IMPLIEDCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR,IMPLIEDCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1130,7 +1130,7 @@ t(2)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1148,7 +1148,7 @@ q+p^2) or x-p=-sqrt(q+p^2),x=p
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1165,7 +1165,7 @@ qrt(18)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1180,7 +1180,7 @@ qrt(18)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1194,7 +1194,7 @@ qrt(18)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR,SAMEROOTS, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR,SAMEROOTS, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1209,7 +1209,7 @@ x+a-a)*(x+a+a)=0, (x+a)^2-a^2=
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1223,7 +1223,7 @@ x+a-a)*(x+a+a)=0, (x+a)^2-a^2=
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR,IMPLIEDCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR,IMPLIEDCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1239,7 +1239,7 @@ t(3)*%i+1)/2 or x=(sqrt(3)*%i-
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1264,7 +1264,7 @@ b/2+sqrt(b^2/4-a*c) or a*x=-b/
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1282,7 +1282,7 @@ x+b^2=b^2-4*a*c,(2*a*x+b)^2=b^
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR,IMPLIESCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR,QMCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR,IMPLIESCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR,QMCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1300,7 +1300,7 @@ b^2-4*a*c),x=(-b#pm#sqrt(b^2-4
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1317,7 +1317,7 @@ sqrt(x+2),x^2-2*x+1 = 4*x+8,x^
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR,IMPLIESCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR,IMPLIESCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1334,7 +1334,7 @@ sqrt(x+2),x^2-2*x+1 = 4*x+8,x^
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[assumepos]</pre></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(ASSUMEPOSVARS, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(ASSUMEPOSVARS, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1348,7 +1348,7 @@ x-1)*(x-2)=0,x*(x^2-2)=0]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR,IMPLIEDCHAR,IMPLIESCHAR,QMCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR,IMPLIEDCHAR,IMPLIESCHAR,QMCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1361,7 +1361,7 @@ x-1)*(x-2)=0,x*(x^2-2)=0]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR,SAMEROOTS)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR,SAMEROOTS)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1375,7 +1375,7 @@ x-1)*(x-2)=0,x*(x^2-2)=0]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR,SAMEROOTS)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR,SAMEROOTS)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1389,7 +1389,7 @@ nor x=2]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR,SAMEROOTS)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR,SAMEROOTS)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1404,7 +1404,7 @@ nor x=2]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR,SAMEROOTS,SAMEROOTS)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR,SAMEROOTS,SAMEROOTS)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1419,7 +1419,7 @@ nor x=2]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1434,7 +1434,7 @@ g(y))),stackeq(e^(log(y)*log(x
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, CHECKMARK, CHECKMARK, CHECKMARK)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, CHECKMARK, CHECKMARK, CHECKMARK)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1450,7 +1450,7 @@ x),3)=2,(x+17)/(2*x)=3^2,(x+17
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1465,7 +1465,7 @@ x),3)=2,(x+17)/(2*x)=3^2,(x+17
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1479,7 +1479,7 @@ a=2]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1493,7 +1493,7 @@ a=2]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR,QMCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR,QMCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1507,7 +1507,7 @@ a*b+b^2)=0,(a-b)=0,a=b]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[assumereal]</pre></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(ASSUMEREALVARS, EQUIVCHAR, EQUIVCHAR,IMPLIEDCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(ASSUMEREALVARS, EQUIVCHAR, EQUIVCHAR,IMPLIEDCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1521,7 +1521,7 @@ a*b+b^2)=0,(a-b)=0,a=b]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[assumereal]</pre></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(ASSUMEREALVARS, EQUIVCHAR, EQUIVCHARREAL)</td>
+  <td class="cell c6">ATEquiv:(ASSUMEREALVARS, EQUIVCHAR, EQUIVCHARREAL)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1536,7 +1536,7 @@ pm# 2^(1/4)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[assumereal]</pre></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(ASSUMEREALVARS, EQUIVCHAR, EQUIVCHAR, EQUIVCHARREAL, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(ASSUMEREALVARS, EQUIVCHAR, EQUIVCHAR, EQUIVCHARREAL, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1550,7 +1550,7 @@ pm# 2^(1/4)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1564,7 +1564,7 @@ pm# 2^(1/4)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR,SAMEROOTS)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR,SAMEROOTS)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1578,7 +1578,7 @@ pm# 2^(1/4)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1595,7 +1595,7 @@ p or x=q]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1610,7 +1610,7 @@ p or x=q]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR,IMPLIESCHAR, EQUIVCHAR, EQUIVCHAR,IMPLIEDCHAR, EQUIVCHAR,IMPLIEDCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR,IMPLIESCHAR, EQUIVCHAR, EQUIVCHAR,IMPLIEDCHAR, EQUIVCHAR,IMPLIEDCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1626,7 +1626,7 @@ a+b=b or a-b=0, 2*a=a or a=b,
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1640,7 +1640,7 @@ x-2)=0,x+2=0,x=-2]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1654,7 +1654,7 @@ x-2)=0,x+2=0,x=-2]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR,IMPLIESCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR,IMPLIESCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1671,7 +1671,7 @@ x+1)-3*(2*x+1)=(x+1)*(2*x+1),5
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1687,7 +1687,7 @@ x),(x+10-5*(x-6))/(x-6)= (4*x-
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR,QMCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR,QMCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1703,7 +1703,7 @@ x),(x+10-5*(x-6))/(x-6)= (4*x-
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR,IMPLIEDCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR,IMPLIEDCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1720,7 +1720,7 @@ x),(x+10-5*(x-6))/(x-6)= (4*x-
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1734,7 +1734,7 @@ b)+1/(b-a))]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR,QMCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR,QMCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1748,7 +1748,7 @@ b)+1/(b-a))]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR,EQUATECOEFFLOSS(x),EQUATECOEFFGAIN(x))</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR,EQUATECOEFFLOSS(x),EQUATECOEFFGAIN(x))</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1763,7 +1763,7 @@ ounand b=B nounand c=C,a*x^2+b
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR,EQUATECOEFFLOSS(x),EQUATECOEFFGAIN(x))</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR,EQUATECOEFFLOSS(x),EQUATECOEFFGAIN(x))</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1777,7 +1777,7 @@ ounand b=B nounand c=C,a*x^2+b
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR,QMCHAR,QMCHAR,QMCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR,QMCHAR,QMCHAR,QMCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1791,7 +1791,7 @@ ounand b=B nounand c=C,a*x^2+b
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[assumereal]</pre></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(ASSUMEREALVARS,SAMEROOTS,SAMEROOTS,SAMEROOTS)</td>
+  <td class="cell c6">ATEquiv:(ASSUMEREALVARS,SAMEROOTS,SAMEROOTS,SAMEROOTS)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1805,7 +1805,7 @@ ounand b=B nounand c=C,a*x^2+b
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[assumereal]</pre></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(ASSUMEREALVARS,SAMEROOTS,SAMEROOTS,SAMEROOTS)</td>
+  <td class="cell c6">ATEquiv:(ASSUMEREALVARS,SAMEROOTS,SAMEROOTS,SAMEROOTS)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1818,7 +1818,7 @@ ounand b=B nounand c=C,a*x^2+b
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[assumereal]</pre></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(ASSUMEREALVARS, EQUIVCHARREAL, EQUIVCHAR, EQUIVCHARREAL)</td>
+  <td class="cell c6">ATEquiv:(ASSUMEREALVARS, EQUIVCHARREAL, EQUIVCHAR, EQUIVCHARREAL)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1832,7 +1832,7 @@ ounand b=B nounand c=C,a*x^2+b
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[assumereal]</pre></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(ASSUMEREALVARS, EQUIVCHARREAL, EQUIVCHARREAL, EQUIVCHARREAL)</td>
+  <td class="cell c6">ATEquiv:(ASSUMEREALVARS, EQUIVCHARREAL, EQUIVCHARREAL, EQUIVCHARREAL)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1846,7 +1846,7 @@ x-4),stackeq(x^2+3*x-4)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, CHECKMARK, CHECKMARK)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, CHECKMARK, CHECKMARK)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1860,7 +1860,7 @@ sqrt(2)))]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, CHECKMARK)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, CHECKMARK)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1874,7 +1874,7 @@ sqrt(2)))]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, CHECKMARK)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, CHECKMARK)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1888,7 +1888,7 @@ x+a)^2-a^2]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, CHECKMARK, CHECKMARK)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, CHECKMARK, CHECKMARK)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1902,7 +1902,7 @@ x+a)^2-a^2]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, CHECKMARK, CHECKMARK)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, CHECKMARK, CHECKMARK)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1917,7 +1917,7 @@ x+a)^2-a^2]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, CHECKMARK, CHECKMARK)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, CHECKMARK, CHECKMARK)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1933,7 +1933,7 @@ x+a)^2-a^2]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, CHECKMARK, CHECKMARK)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, CHECKMARK, CHECKMARK)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1954,7 +1954,7 @@ c^2-2*c^2*a^2)),stackeq((2*a*b
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, CHECKMARK, CHECKMARK, CHECKMARK, CHECKMARK)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, CHECKMARK, CHECKMARK, CHECKMARK, CHECKMARK)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1968,7 +1968,7 @@ eq(abs(x)-1)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR,QMCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR,QMCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -1989,7 +1989,7 @@ x+8)*(x+63)=0]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR,QMCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR,QMCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -2004,7 +2004,7 @@ x+%i)))]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(CHECKMARK, CHECKMARK)</td>
+  <td class="cell c6">ATEquiv:(CHECKMARK, CHECKMARK)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -2021,7 +2021,7 @@ x+%i)))]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, CHECKMARK, CHECKMARK, CHECKMARK)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, CHECKMARK, CHECKMARK, CHECKMARK)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -2038,7 +2038,7 @@ b^2+2*a*b+a^2))]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, CHECKMARK, CHECKMARK, CHECKMARK)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, CHECKMARK, CHECKMARK, CHECKMARK)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -2054,7 +2054,7 @@ k,1,n)+(n+1)),stackeq(n*(n+1)/
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, CHECKMARK, CHECKMARK, CHECKMARK, CHECKMARK)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, CHECKMARK, CHECKMARK, CHECKMARK, CHECKMARK)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -2069,7 +2069,7 @@ um(log(x_i),i,1,n))]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, CHECKMARK)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, CHECKMARK)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -2096,7 +2096,7 @@ um(log(x_i),i,1,n))]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, CHECKMARK, CHECKMARK, CHECKMARK, CHECKMARK, CHECKMARK, CHECKMARK, CHECKMARK, CHECKMARK, CHECKMARK)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, CHECKMARK, CHECKMARK, CHECKMARK, CHECKMARK, CHECKMARK, CHECKMARK, CHECKMARK, CHECKMARK, CHECKMARK)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -2117,7 +2117,7 @@ k!*(n-k+1)!)+n!*(n-k+1)/(k!*(n
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, CHECKMARK, CHECKMARK, CHECKMARK, CHECKMARK, CHECKMARK)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, CHECKMARK, CHECKMARK, CHECKMARK, CHECKMARK, CHECKMARK)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -2131,7 +2131,7 @@ x^2-2*x+1)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(CHECKMARK, CHECKMARK)</td>
+  <td class="cell c6">ATEquiv:(CHECKMARK, CHECKMARK)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -2145,7 +2145,7 @@ x^2-2*x+2)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(CHECKMARK,QMCHAR)</td>
+  <td class="cell c6">ATEquiv:(CHECKMARK,QMCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -2159,7 +2159,7 @@ x^2-2*x+1)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(QMCHAR, CHECKMARK)</td>
+  <td class="cell c6">ATEquiv:(QMCHAR, CHECKMARK)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -2173,7 +2173,7 @@ ackeq(4*(4^(n+1)-1)+3)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(CHECKMARK, CHECKMARK)</td>
+  <td class="cell c6">ATEquiv:(CHECKMARK, CHECKMARK)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -2188,7 +2188,7 @@ ackeq(4*(4^(n+1)-1)+3)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -2203,7 +2203,7 @@ ackeq(4*(4^(n+1)-1)+3)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR,QMCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR,QMCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -2220,7 +2220,7 @@ d y=x, x^2=4 and y=x, x= #pm#2
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -2242,7 +2242,7 @@ x=-2 and y=-1) or (x=-1 and y=
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -2259,7 +2259,7 @@ and y=x-4, (x-2)^2=0 and y=x-4
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -2274,7 +2274,7 @@ and y=x-4, (x-2)^2=0 and y=x-4
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -2287,7 +2287,7 @@ and y=x-4, (x-2)^2=0 and y=x-4
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -2305,7 +2305,7 @@ and a*(a-1)*(a^2+a+1)=0, b=a^2
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[assumereal]</pre></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(ASSUMEREALVARS, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(ASSUMEREALVARS, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -2323,7 +2323,7 @@ x-3))]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR, EMPTYCHAR, CHECKMARK, CHECKMARK, EMPTYCHAR, EMPTYCHAR, CHECKMARK, CHECKMARK)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EMPTYCHAR, CHECKMARK, CHECKMARK, EMPTYCHAR, EMPTYCHAR, CHECKMARK, CHECKMARK)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -2337,7 +2337,7 @@ x-3))]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR,QMCHAR,QMCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR,QMCHAR,QMCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -2356,7 +2356,7 @@ x-3))]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -2375,7 +2375,7 @@ x-3))]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR,QMCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR,QMCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -2390,7 +2390,7 @@ t;=0 and x&gt;3, (x&gt;=3 or x
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -2419,7 +2419,7 @@ lt;a and a&lt;2)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EMPTYCHAR, EMPTYCHAR, EMPTYCHAR, EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EMPTYCHAR, EMPTYCHAR, EMPTYCHAR, EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -2438,7 +2438,7 @@ and x&lt;5]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -2457,7 +2457,7 @@ and x&lt;5]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR,QMCHAR,QMCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR,QMCHAR,QMCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -2483,7 +2483,7 @@ t a is an integer.&quot;,a&gt;
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EMPTYCHAR, EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EMPTYCHAR, EMPTYCHAR, EMPTYCHAR, EMPTYCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EMPTYCHAR, EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EMPTYCHAR, EMPTYCHAR, EMPTYCHAR, EMPTYCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -2498,7 +2498,7 @@ t a is an integer.&quot;,a&gt;
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -2525,7 +2525,7 @@ k,1,n+1)= (n+1)*(n*(2*n+1) +6*
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR, EMPTYCHAR, EMPTYCHAR, EMPTYCHAR, EQUIVCHAR, EMPTYCHAR, EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EMPTYCHAR, EMPTYCHAR, EMPTYCHAR, EQUIVCHAR, EMPTYCHAR, EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -2544,7 +2544,7 @@ um(k^2,k,1,n+1) = ((n+1)*(n+2)
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -2566,11 +2566,11 @@ stacklet(x+i*y,a),stacklet(r+i
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EMPTYCHAR, EMPTYCHAR, CHECKMARK, CHECKMARK, CHECKMARK, CHECKMARK, CHECKMARK, EMPTYCHAR, EMPTYCHAR, CHECKMARK)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EMPTYCHAR, EMPTYCHAR, CHECKMARK, CHECKMARK, CHECKMARK, CHECKMARK, CHECKMARK, EMPTYCHAR, EMPTYCHAR, CHECKMARK)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &a^\star\cdot b^\star& \cr &\text{Let }a = x+\mathrm{i}\cdot y& \cr &\text{Let }b = r+\mathrm{i}\cdot s& \cr \color{green}{\checkmark}&=\left(x+\mathrm{i}\cdot y\right)^\star\cdot \left(r+\mathrm{i}\cdot s\right)^\star& \cr \color{green}{\checkmark}&=\left(x-\mathrm{i}\cdot y\right)\cdot \left(r-\mathrm{i}\cdot s\right)& \cr \color{green}{\checkmark}&=x\cdot r-y\cdot s-\mathrm{i}\cdot \left(y\cdot r+x\cdot s\right)& \cr \color{green}{\checkmark}&=\left(x\cdot r-y\cdot s+\mathrm{i}\cdot \left(y\cdot r+x\cdot s\right)\right)^\star& \cr \color{green}{\checkmark}&=\left(\left(x+\mathrm{i}\cdot y\right)\cdot \left(r+\mathrm{i}\cdot s\right)\right)^\star& \cr &\text{Let }x+\mathrm{i}\cdot y = a& \cr &\text{Let }r+\mathrm{i}\cdot s = b& \cr \color{green}{\checkmark}&=\left(a\cdot b\right)^\star& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &a^{\ast}\cdot b^{\ast}& \cr &\text{Let }a = x+\mathrm{i}\cdot y& \cr &\text{Let }b = r+\mathrm{i}\cdot s& \cr \color{green}{\checkmark}&={\left(x+\mathrm{i}\cdot y\right)}^{\ast}\cdot {\left(r+\mathrm{i}\cdot s\right)}^{\ast}& \cr \color{green}{\checkmark}&=\left(x-\mathrm{i}\cdot y\right)\cdot \left(r-\mathrm{i}\cdot s\right)& \cr \color{green}{\checkmark}&=x\cdot r-y\cdot s-\mathrm{i}\cdot \left(y\cdot r+x\cdot s\right)& \cr \color{green}{\checkmark}&={\left(x\cdot r-y\cdot s+\mathrm{i}\cdot \left(y\cdot r+x\cdot s\right)\right)}^{\ast}& \cr \color{green}{\checkmark}&={\left(\left(x+\mathrm{i}\cdot y\right)\cdot \left(r+\mathrm{i}\cdot s\right)\right)}^{\ast}& \cr &\text{Let }x+\mathrm{i}\cdot y = a& \cr &\text{Let }r+\mathrm{i}\cdot s = b& \cr \color{green}{\checkmark}&={\left(a\cdot b\right)}^{\ast}& \cr \end{array}\]</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
@@ -2584,7 +2584,7 @@ limit(-t*e^t,t,-inf)+nounlimit
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, CHECKMARK, CHECKMARK, CHECKMARK, CHECKMARK)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, CHECKMARK, CHECKMARK, CHECKMARK, CHECKMARK)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -2600,7 +2600,7 @@ ckeq(2*x)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, CHECKMARK, CHECKMARK, CHECKMARK)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, CHECKMARK, CHECKMARK, CHECKMARK)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -2613,7 +2613,7 @@ ckeq(2*x)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -2626,7 +2626,7 @@ ckeq(2*x)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR,QMCHAR,QMCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR,QMCHAR,QMCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -2640,7 +2640,7 @@ ckeq(2*x)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -2655,7 +2655,7 @@ ckeq(2*x)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -2671,7 +2671,7 @@ undiff(y(x),x)=0,-5*noundiff(y
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[calculus]</pre></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -2685,7 +2685,7 @@ undiff(y(x),x)=0,-5*noundiff(y
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[calculus]</pre></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR,INTCHAR(x),DIFFCHAR(x),INTCHAR(x))</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR,INTCHAR(x),DIFFCHAR(x),INTCHAR(x))</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -2699,7 +2699,7 @@ undiff(y(x),x)=0,-5*noundiff(y
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[calculus]</pre></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR,DIFFCHAR(x),INTCHAR(x))</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR,DIFFCHAR(x),INTCHAR(x))</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -2713,7 +2713,7 @@ q(x^2+1),stackeq(x^3/3+x+c)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[calculus]</pre></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR,INTCHAR(x),DIFFCHAR(x),INTCHAR(x))</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR,INTCHAR(x),DIFFCHAR(x),INTCHAR(x))</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -2729,7 +2729,7 @@ iff(x^2,x)*sin(x)),stackeq(x^2
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[calculus]</pre></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, CHECKMARK, CHECKMARK)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, CHECKMARK, CHECKMARK)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -2747,7 +2747,7 @@ n(x)+6)/(cos(x)+2*y(x))]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[calculus]</pre></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR,DIFFCHAR(x), EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR,DIFFCHAR(x), EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -2761,7 +2761,7 @@ n(x)+6)/(cos(x)+2*y(x))]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[calculus]</pre></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR,INTCHAR(s))</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR,INTCHAR(s))</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -2776,7 +2776,7 @@ og(x)-1/4*nounint(x^3,x),x^4/4
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[calculus]</pre></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, CHECKMARK, CHECKMARK)</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, CHECKMARK, CHECKMARK)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -2791,7 +2791,7 @@ og(x)-1/4*nounint(x^3,x),x^4/4
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[calculus]</pre></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, CHECKMARK,INTCHAR(x))</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, CHECKMARK,INTCHAR(x))</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -2809,7 +2809,7 @@ x*cos(3*x))/9+c]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[calculus]</pre></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR,INTCHAR(x),INTCHAR(x))</td>
+  <td class="cell c6">ATEquiv:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR,INTCHAR(x),INTCHAR(x))</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>

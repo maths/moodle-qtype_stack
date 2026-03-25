@@ -262,7 +262,7 @@ class stack_potentialresponse_tree_lite {
 
     /**
      * This lists all possible answer notes, used for question testing.
-     * @return array string Of all the answer notes this tree might produce.
+     * @return array string All the answer notes this tree might produce.
      */
     public function get_all_answer_notes() {
         $nodenotes = [];

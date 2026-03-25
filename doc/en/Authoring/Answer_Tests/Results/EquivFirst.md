@@ -4,7 +4,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 
 
 
-<h2>EquivFirst</h2><div class="table-responsive"><table class="flexible table table-striped table-hover generaltable generalbox stacktestsuite"><thead><tr><th class="header c0" scope="col">Test<div class="commands"></div></th><th class="header c1" scope="col">?<div class="commands"></div></th><th class="header c2" scope="col">Student response<div class="commands"></div></th><th class="header c3" scope="col">Teacher answer<div class="commands"></div></th><th class="header c4" scope="col">Opt<div class="commands"></div></th><th class="header c5" scope="col">Mark<div class="commands"></div></th><th class="header c6" scope="col">Answer note<div class="commands"></div></th>
+<h2>EquivFirst</h2><div class="no-overflow"><table class="flexible table table-striped table-hover generaltable generalbox stacktestsuite"><thead><tr><th class="header c0" scope="col">Test<div class="commands"></div></th><th class="header c1" scope="col">?<div class="commands"></div></th><th class="header c2" scope="col">Student response<div class="commands"></div></th><th class="header c3" scope="col">Teacher answer<div class="commands"></div></th><th class="header c4" scope="col">Opt<div class="commands"></div></th><th class="header c5" scope="col">Mark<div class="commands"></div></th><th class="header c6" scope="col">Answer note<div class="commands"></div></th>
 </tr></thead><tbody>
 <tr class="expectedfail">
   <td class="cell c0">EquivFirst</td>
@@ -57,7 +57,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c3"><pre>[x^2=4,x=2 or x=-2]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquivFirst:(EMPTYCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -83,7 +83,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c3"><pre>[x^2=4,x=2 or x=-2]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR,IMPLIEDCHAR)</td>
+  <td class="cell c6">ATEquivFirst:(EMPTYCHAR,IMPLIEDCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -97,7 +97,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c3"><pre>[x^2=4,x=2 or x=-2]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquivFirst:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -110,7 +110,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c3"><pre>[x^2=4,x=2 or x=-2]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquivFirst:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -123,7 +123,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c3"><pre>[x^2-6*x+9=0,x=3]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR,SAMEROOTS)</td>
+  <td class="cell c6">ATEquivFirst:(EMPTYCHAR,SAMEROOTS)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -136,7 +136,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c3"><pre>[x^2=4,x=2]</pre></td>
   <td class="cell c4"><pre>[assumepos]</pre></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(ASSUMEPOSVARS, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquivFirst:(ASSUMEPOSVARS, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>

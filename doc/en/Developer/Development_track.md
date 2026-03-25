@@ -74,16 +74,6 @@ This is simple and I think authors will actually be able to write tests like thi
 3. Simple to author - you don't have to specify the whole route through the tree, but you _can_ specify the whole route through the tree.
 4. This can ignore output from answer tests. By design some answer tests give information about the specific input (e.g. missing items in a set). This is super helpful to teachers and for statistics, but wrecks testing of questions (each input gets a different note).
 
-TODO: add a button "confirm current test behavior" which copies the current note into a text input as the test expectation, and allows a teacher to edit (delete) any individual PRT notes which should not form part of the test case. (The authoring interface changes from a dropdown (prevents author errors) to a string input (more fragile).)
-
-The "confirm current test behavior" does not remove notes from answer tests.
-
-TODO: auto-remove notes from answer tests which contain calculations?  Easy enough to tag those notes and auto-detect them.
-
-* We __anchor__ these notes to specify an expected start/end note.   Use the range notations: `[...]` for both ends fixed, `(...]` for the end, `[...)` for the start, `(...)` for neither.
-* `(...]` would be the default if no wrapping defined (retains back compatibility).
-* Empty answer notes are not permitted, but the special string `()` indicates any answer note is accepted (rather than using the `any` string).
-
 TODO: update the _Tidy inputs and PRTs_ script.
 
 ### Add in a new keyvals field "test variables".
@@ -94,13 +84,19 @@ Add in a new keyvals field "test variables". The test execution would then take 
    2. Those "strings" would then go through PHP side input validation and CAS side validation in the second CAS session.
    3. Finally, the valid strings would be fed to the PRT functions in the last session, and logic to check if the PRT output matches would be included in that session, so that we do not need to output the full PRT function output for potentially a large number of tests, instead just booleans.
 
-### More flexibility in testing score/penalty.
-
-Introduce new keyword `any` in score/penalty effectiveley ignoring that field for the purposes of this test case.
-
 ### Other ideas (later)
 
 1. It would be a fun (student project?!) to graphically illustrate the expected and actual route through the tree by expanding the current PRT graph library, or writing something else. (I get ahead of myself of course....)
+
+2. Introduce new keyword `any` in score/penalty effectiveley ignoring that field for the purposes of this test case.
+
+Currently, the DB fields for score and penalty are numbers, specifically
+
+        <FIELD NAME="expectedscore" TYPE="number" LENGTH="12" NOTNULL="false" SEQUENCE="false" DECIMALS="7" COMMENT="The expected score."/>
+        <FIELD NAME="expectedpenalty" TYPE="number" LENGTH="12" NOTNULL="false" SEQUENCE="false" DECIMALS="7" COMMENT="The expected penalty."/>
+
+So this requires a DB change as well.
+
 
 --------------------------------------
 

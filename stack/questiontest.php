@@ -107,8 +107,7 @@ class stack_question_test {
     }
 
     /**
-     * Seperate out from Moodle-specific parts of test_question() to allow
-     * use in the API
+     * Seperate out from Moodle-specific parts of test_question() to allow use in the API.
      *
      * @param question_definition $question
      * @param array $response

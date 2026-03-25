@@ -2675,7 +2675,7 @@ ATEquiv([ex]) := block([SA, SB, SO, SAA, SAB, SOO, opts, ret, Ares, AnswerNote, 
 
     /* Actually perform the test.  */
     Ares:stack_eval_equiv_arg(SA, true, true, false, false),
-    AnswerNote:third(Ares),
+    AnswerNote:sconcat("ATEquiv:", third(Ares)),
     FeedBack:stack_disp(second(Ares), "d"),
 
     ret:[true, first(Ares), AnswerNote, FeedBack],
@@ -2721,7 +2721,7 @@ ATEquivFirst([ex]) := block([SA, SB, SO, SAA, SAB, SOO, opts, ret, Ares, AnswerN
 
     /* Actually perform the test.  */
     Ares:stack_eval_equiv_arg(SA, true, true, false, false),
-    AnswerNote:third(Ares),
+    AnswerNote:sconcat("ATEquivFirst:", third(Ares)),
     FeedBack:stack_disp(second(Ares), "d"),
 
     ret:[true, first(Ares), AnswerNote, FeedBack],

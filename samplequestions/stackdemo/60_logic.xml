@@ -140,7 +140,7 @@ T2:apply(table, append([[A, B, QMCHAR]], rest(args(T1))));</text>
         <name>prt1</name>
         <expectedscore>1.0000000</expectedscore>
         <expectedpenalty>0.0000000</expectedpenalty>
-        <expectedanswernote>prt1-2-T</expectedanswernote>
+        <expectedanswernote>( prt1-1-T | prt1-2-T ]</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
@@ -154,7 +154,7 @@ T2:apply(table, append([[A, B, QMCHAR]], rest(args(T1))));</text>
         <name>prt1</name>
         <expectedscore>0.0000000</expectedscore>
         <expectedpenalty></expectedpenalty>
-        <expectedanswernote>prt1-1-F</expectedanswernote>
+        <expectedanswernote>[ prt1-1-F ]</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
@@ -168,7 +168,7 @@ T2:apply(table, append([[A, B, QMCHAR]], rest(args(T1))));</text>
         <name>prt1</name>
         <expectedscore>0.0000000</expectedscore>
         <expectedpenalty>0.1000000</expectedpenalty>
-        <expectedanswernote>prt1-2-F</expectedanswernote>
+        <expectedanswernote>( prt1-1-T | prt1-2-F ]</expectedanswernote>
       </expected>
     </qtest>
   </question>

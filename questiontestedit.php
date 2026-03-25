@@ -135,17 +135,13 @@ if ($mform->is_cancelled()) {
 
     foreach ($question->prts as $prtname => $prt) {
         $result = $question->get_prt_result($prtname, $response, false);
-        // For testing purposes we just take the last note.
-        $answernotes = $result->get_answernotes();
-        // ISS1657 - Handle case when PRT does not fire.
-        $answernote = ($answernotes) ? [end($answernotes)] : ['NULL'];
         $qtest->add_expected_result($prtname, new stack_potentialresponse_tree_state(
             1,
             true,
             $result->get_score(),
             $result->get_penalty(),
             '',
-            $answernote
+            $result->get_answernotes_testcase()
         ));
     }
     question_bank::get_qtype('stack')->save_question_test($questionid, $qtest, $testcase);

@@ -312,7 +312,7 @@ It has been modified to show how to give partial credit in proofs.  In particula
         <name>prt1</name>
         <expectedscore>1.0000000</expectedscore>
         <expectedpenalty>0.0000000</expectedpenalty>
-        <expectedanswernote>prt1-1-T</expectedanswernote>
+        <expectedanswernote>[ prt1-1-T ]</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
@@ -326,7 +326,7 @@ It has been modified to show how to give partial credit in proofs.  In particula
         <name>prt1</name>
         <expectedscore>0.0000000</expectedscore>
         <expectedpenalty>0.1000000</expectedpenalty>
-        <expectedanswernote>prt1-5-F</expectedanswernote>
+        <expectedanswernote>[ prt1-1-F | prt1-2-F | prt1-3-F | prt1-4-F | prt1-5-F ]</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
@@ -340,7 +340,7 @@ It has been modified to show how to give partial credit in proofs.  In particula
         <name>prt1</name>
         <expectedscore>0.4000000</expectedscore>
         <expectedpenalty>0.1000000</expectedpenalty>
-        <expectedanswernote>prt1-4-T</expectedanswernote>
+        <expectedanswernote>[ prt1-1-F | prt1-2-F | prt1-3-F | prt1-4-T ]</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
@@ -354,7 +354,7 @@ It has been modified to show how to give partial credit in proofs.  In particula
         <name>prt1</name>
         <expectedscore>0.4000000</expectedscore>
         <expectedpenalty>0.1000000</expectedpenalty>
-        <expectedanswernote>prt1-5-T</expectedanswernote>
+        <expectedanswernote>[ prt1-1-F | prt1-2-F | prt1-3-F | prt1-4-F | prt1-5-T ]</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
@@ -368,7 +368,7 @@ It has been modified to show how to give partial credit in proofs.  In particula
         <name>prt1</name>
         <expectedscore>1.0000000</expectedscore>
         <expectedpenalty>0.0000000</expectedpenalty>
-        <expectedanswernote>prt1-1-T</expectedanswernote>
+        <expectedanswernote>[ prt1-1-T ]</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
@@ -382,7 +382,7 @@ It has been modified to show how to give partial credit in proofs.  In particula
         <name>prt1</name>
         <expectedscore>1.0000000</expectedscore>
         <expectedpenalty>0.0000000</expectedpenalty>
-        <expectedanswernote>prt1-2-T</expectedanswernote>
+        <expectedanswernote>[ prt1-1-F | prt1-2-T ]</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
@@ -396,7 +396,7 @@ It has been modified to show how to give partial credit in proofs.  In particula
         <name>prt1</name>
         <expectedscore>0.8000000</expectedscore>
         <expectedpenalty></expectedpenalty>
-        <expectedanswernote>prt1-3-T</expectedanswernote>
+        <expectedanswernote>[ prt1-1-F | prt1-2-F | prt1-3-T ]</expectedanswernote>
       </expected>
     </qtest>
   </question>

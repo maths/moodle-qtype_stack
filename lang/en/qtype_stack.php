@@ -638,6 +638,12 @@ $string['deployfrom'] = 'Deploy seeds from';
 $string['deployto'] = 'Deploy seeds to';
 $string['noinputs'] = 'This question has no inputs so no tests are required.';
 $string['upgradeerrors'] = 'Upgrade errors';
+$string['scorepass'] = 'Score check passed';
+$string['penaltypass'] = 'Penalty check passed';
+$string['notepass'] = 'Question note check passed';
+$string['scorefail'] = 'Score check failed';
+$string['penaltyfail'] = 'Penalty check failed';
+$string['notefail'] = 'Question note check failed';
 
 $string['editquestioninthequestionbank'] = '<i class="fa fa-pencil"></i> Edit question';
 $string['seethisquestioninthequestionbank'] = '<i class="fa fa-list-alt"></i> Show in question bank';

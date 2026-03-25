@@ -164,28 +164,28 @@
             <tr onclick="window.location='#{{id}}'" style="cursor: pointer;">
                 <td>{{number}}</td>
                 <td>{{description}}</td>
-                <td>
+                <td class="results-symbol">
                   {{#scorepass}}
-                    {{#str}} symbolicprtcorrectfeedback, qtype_stack {{/str}}
+                    {{#pix}}i/valid, core, {{#str}} scorepass, qtype_stack {{/str}}{{/pix}}
                   {{/scorepass}}
                   {{^scorepass}}
-                    {{#str}} symbolicprtincorrectfeedback, qtype_stack {{/str}}
+                    {{#pix}}i/invalid, core, {{#str}} scorefail, qtype_stack {{/str}}{{/pix}}
                   {{/scorepass}}
                 </td>
-                <td>
+                <td class="results-symbol">
                   {{#penaltypass}}
-                    {{#str}} symbolicprtcorrectfeedback, qtype_stack {{/str}}
+                    {{#pix}}i/valid, core, {{#str}} penaltypass, qtype_stack {{/str}}{{/pix}}
                   {{/penaltypass}}
                   {{^penaltypass}}
-                    {{#str}} symbolicprtincorrectfeedback, qtype_stack {{/str}}
+                    {{#pix}}i/invalid, core, {{#str}} penaltyfail, qtype_stack {{/str}}{{/pix}}
                   {{/penaltypass}}
                 </td>
-                <td>
+                <td class="results-symbol">
                   {{#notepass}}
-                    {{#str}} symbolicprtcorrectfeedback, qtype_stack {{/str}}
+                    {{#pix}}i/valid, core, {{#str}} notepass, qtype_stack {{/str}}{{/pix}}
                   {{/notepass}}
                   {{^notepass}}
-                    {{#str}} symbolicprtincorrectfeedback, qtype_stack {{/str}}
+                    {{#pix}}i/invalid, core, {{#str}} notefail, qtype_stack {{/str}}{{/pix}}
                   {{/notepass}}
                 </td>
             </tr>

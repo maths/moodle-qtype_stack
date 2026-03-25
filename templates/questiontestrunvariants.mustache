@@ -158,10 +158,10 @@
           <td>
           {{#bulktestresults}}
             {{#bulktestresultspass}}
-              <span class="text-success">{{#pix}}t/check, core, {{#str}} questiontestspass, qtype_stack {{/str}}{{/pix}}</span>
+              <span>{{#pix}}i/valid, core, {{#str}} questiontestspass, qtype_stack {{/str}}{{/pix}}</span>
             {{/bulktestresultspass}}
             {{^bulktestresultspass}}
-              <span class="text-danger">{{#pix}}t/completion_fail, core, {{#str}} questiontestsfailed, qtype_stack {{/str}}{{/pix}}</span>
+              <span>{{#pix}}i/invalid, core, {{#str}} questiontestsfailed, qtype_stack {{/str}}{{/pix}}</span>
             {{/bulktestresultspass}}
           {{/bulktestresults}}
           </td>

@@ -1290,3 +1290,6 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
 .stack-dash-tab-load:hover {
     cursor: not-allowed;
 }
+.stacktestsuite .results-symbol {
+    font-size: 1.5em;
+}

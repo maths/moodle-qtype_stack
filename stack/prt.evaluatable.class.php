@@ -290,9 +290,10 @@ class prt_evaluatable implements cas_raw_value_extractor {
         return $notes;
     }
 
-    /* 
+    /**
      * This function creates a single answer note as a test case expectation.
      * This ignores contributions from answer tests which might vary with the student's answer.
+     * @return array The single string containing the expected note.
      */
     public function get_answernotes_testcase() {
         $allanswernotes = $this->get_answernotes(true);

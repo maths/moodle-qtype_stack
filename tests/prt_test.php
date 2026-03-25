@@ -159,7 +159,7 @@ final class prt_test extends qtype_stack_testcase {
         $expected = 'Yeah!';
         $this->assertEquals($expected, $prtev->get_feedback());
         $this->assertEquals(['ATInt_true.', '1-0-1'], $prtev->get_answernotes());
-        $this->assertEquals(['[ 1-0-1 ]'], $prtev->get_answernotes_testcase());
+        $this->assertEquals(['( 1-0-1 ]'], $prtev->get_answernotes_testcase());
         $expected = [
             'ATInt(sans,(x+1)^3/3+c,ev(x,simp));', '/* ------------------- */',
             'prt_testprt(sans);',
@@ -203,7 +203,7 @@ final class prt_test extends qtype_stack_testcase {
             'Boo!';
         $this->assertEquals($expected, $prtev->get_feedback());
         $this->assertEquals(['ATInt_const.', '1-0-0'], $prtev->get_answernotes());
-        $this->assertEquals(['[ 1-0-0 ]'], $prtev->get_answernotes_testcase());
+        $this->assertEquals(['( 1-0-0 ]'], $prtev->get_answernotes_testcase());
         $expected = [
             'ATInt(sans,(x+1)^3/3+c,ev(x,simp));', '/* ------------------- */',
             'prt_testprt(sans);',

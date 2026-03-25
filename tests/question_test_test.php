@@ -40,7 +40,6 @@ require_once(__DIR__ . '/../question.php');
  * @covers \qtype_stack_question
  */
 final class question_test_test extends qtype_stack_testcase {
-
     public function test_basic_examples(): void {
         // This unit test runs a question test.
         global $DB;
@@ -55,26 +54,32 @@ final class question_test_test extends qtype_stack_testcase {
         $seed = 1;
 
         $qtest = new stack_question_test('', ['ans1' => 'x^3']);
-        $qtest->add_expected_result('odd', new stack_potentialresponse_tree_state(
-            1,
-            true,
-            1,
-            0,
-            '',
-            ['[ odd-1-T ]']
-            ));
+        $qtest->add_expected_result(
+            'odd',
+            new stack_potentialresponse_tree_state(
+                1,
+                true,
+                1,
+                0,
+                '',
+                ['[ odd-1-T ]']
+            )
+        );
         $result = $qtest->test_question($questionid, $seed, context_system::instance());
         $this->assertTrue($result->passed());
 
         $qtest = new stack_question_test('', ['ans3' => 'x^3']);
-        $qtest->add_expected_result('oddeven', new stack_potentialresponse_tree_state(
-            1,
-            true,
-            0,
-            0,
-            '',
-            ['[ oddeven-1-T | oddeven-2-F ]']
-            ));
+        $qtest->add_expected_result(
+            'oddeven',
+            new stack_potentialresponse_tree_state(
+                1,
+                true,
+                0,
+                0,
+                '',
+                ['[ oddeven-1-T | oddeven-2-F ]']
+            )
+        );
         $result = $qtest->test_question($questionid, $seed, context_system::instance());
         $state = $result->get_prt_states();
         $state = $state['oddeven'];
@@ -82,14 +87,17 @@ final class question_test_test extends qtype_stack_testcase {
         $this->assertFalse($result->passed());
 
         $qtest = new stack_question_test('', ['ans3' => 'x^3']);
-        $qtest->add_expected_result('oddeven', new stack_potentialresponse_tree_state(
-            1,
-            true,
-            0.5,
-            0.4,
-            '',
-            ['[ oddeven-1-T ]']
-            ));
+        $qtest->add_expected_result(
+            'oddeven',
+            new stack_potentialresponse_tree_state(
+                1,
+                true,
+                0.5,
+                0.4,
+                '',
+                ['[ oddeven-1-T ]']
+            )
+        );
         $result = $qtest->test_question($questionid, $seed, context_system::instance());
         $state = $result->get_prt_states();
         $state = $state['oddeven'];
@@ -99,14 +107,17 @@ final class question_test_test extends qtype_stack_testcase {
         $this->assertFalse($result->passed());
 
         $qtest = new stack_question_test('', ['ans3' => 'x^3']);
-        $qtest->add_expected_result('oddeven', new stack_potentialresponse_tree_state(
-            1,
-            true,
-            0.5,
-            0.4,
-            '',
-            ['NULL']
-            ));
+        $qtest->add_expected_result(
+            'oddeven',
+            new stack_potentialresponse_tree_state(
+                1,
+                true,
+                0.5,
+                0.4,
+                '',
+                ['NULL']
+            )
+        );
         $result = $qtest->test_question($questionid, $seed, context_system::instance());
         $state = $result->get_prt_states();
         $state = $state['oddeven'];
@@ -115,14 +126,17 @@ final class question_test_test extends qtype_stack_testcase {
         $this->assertFalse($result->passed());
 
         $qtest = new stack_question_test('', ['ans3' => 'x^3']);
-        $qtest->add_expected_result('oddeven', new stack_potentialresponse_tree_state(
-            1,
-            true,
-            0.5,
-            0.4,
-            '',
-            ['()']
-            ));
+        $qtest->add_expected_result(
+            'oddeven',
+            new stack_potentialresponse_tree_state(
+                1,
+                true,
+                0.5,
+                0.4,
+                '',
+                ['()']
+            )
+        );
         $result = $qtest->test_question($questionid, $seed, context_system::instance());
         $state = $result->get_prt_states();
         $state = $state['oddeven'];

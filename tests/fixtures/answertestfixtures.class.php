@@ -3401,7 +3401,6 @@ class stack_answertest_test_data {
             }
         }
 
-        
         $ansnote = trim($ansnote);
         if (strlen($ansnote) >= 3) {
             if ($ansnote == 'TEST_FAILED' || $ansnote == 'STACKERROR_OPTION.') {

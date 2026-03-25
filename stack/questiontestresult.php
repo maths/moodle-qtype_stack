@@ -215,8 +215,10 @@ class stack_question_test_result {
                     $reason[] = stack_string('penalty');
                 }
             }
-            [$noteresult, $messages] = $this->test_answer_note($state->expectedanswernote,
-                $actualresult->get_answernotes());
+            [$noteresult, $messages] = $this->test_answer_note(
+                $state->expectedanswernote,
+                $actualresult->get_answernotes()
+            );
             if (!$noteresult) {
                 $state->testoutcome = false;
                 $reason[] = stack_string('answernote') . ': ' . implode(' ', $messages);
@@ -293,7 +295,7 @@ class stack_question_test_result {
                 $messages[] = stack_string(
                     'questiontestsfirst',
                     ['expected' => $expectednotes[0], 'actual' => $actual[0]]
-                    );
+                );
             }
         }
         if ($anchorend) {
@@ -302,8 +304,8 @@ class stack_question_test_result {
                 $noteresult = false;
                 $messages[] = stack_string(
                     'questiontestslast',
-                    ['expected' => $lastexpected, 'actual' =>  $lastactual]
-                    );
+                    ['expected' => $lastexpected, 'actual' => $lastactual]
+                );
             }
         }
         // With anchoring problems, return the error immediately.
@@ -328,7 +330,7 @@ class stack_question_test_result {
                 $actual = array_slice($actual, $foundkey + 1);
             } else {
                 $noteresult = false;
-                $messages[] = stack_string('questiontestsmissing',  $nextexpected);
+                $messages[] = stack_string('questiontestsmissing', $nextexpected);
             }
         }
         return [$noteresult, $messages];

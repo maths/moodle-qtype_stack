@@ -171,7 +171,8 @@ final class question_test_test extends qtype_stack_testcase {
             0,
             '',
             ['[ odd-1-T ]']
-            ));
+            )
+        );
         $result = $qtest->test_question($questionid, $seed, context_system::instance());
 
         // At this point we have a working and testable stack_question_test_result object.
@@ -271,6 +272,5 @@ final class question_test_test extends qtype_stack_testcase {
                 ['prt1-0-T', 'prt1-order', 'prt1-1-T', 'prt1-3-T', 'prt1-4-T']
             )
         );
-
     }
 }

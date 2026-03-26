@@ -101,8 +101,10 @@ final class question_test_test extends qtype_stack_testcase {
         $result = $qtest->test_question($questionid, $seed, context_system::instance());
         $state = $result->get_prt_states();
         $state = $state['oddeven'];
-        $this->assertEquals('(Answer note: Expected last node of oddeven-1-T but got oddeven-2-F.)',
-            trim($state->reason));
+        $this->assertEquals(
+            '(Answer note: Expected last node of oddeven-1-T but got oddeven-2-F.)',
+            trim($state->reason)
+        );
         $this->assertEquals('oddeven-1-T | oddeven-2-F', trim($state->answernote));
         $this->assertFalse($result->passed());
 
@@ -121,8 +123,10 @@ final class question_test_test extends qtype_stack_testcase {
         $result = $qtest->test_question($questionid, $seed, context_system::instance());
         $state = $result->get_prt_states();
         $state = $state['oddeven'];
-        $this->assertEquals('(Answer note: Expected a null result, but got: oddeven-2-F.)',
-            trim($state->reason));
+        $this->assertEquals(
+            '(Answer note: Expected a null result, but got: oddeven-2-F.)',
+            trim($state->reason)
+        );
         $this->assertFalse($result->passed());
 
         $qtest = new stack_question_test('', ['ans3' => 'x^3']);
@@ -140,8 +144,10 @@ final class question_test_test extends qtype_stack_testcase {
         $result = $qtest->test_question($questionid, $seed, context_system::instance());
         $state = $result->get_prt_states();
         $state = $state['oddeven'];
-        $this->assertEquals('',
-            trim($state->reason));
+        $this->assertEquals(
+            '',
+            trim($state->reason)
+        );
         $this->assertTrue($result->passed());
     }
 
@@ -169,14 +175,21 @@ final class question_test_test extends qtype_stack_testcase {
         $result = $qtest->test_question($questionid, $seed, context_system::instance());
 
         // At this point we have a working and testable stack_question_test_result object.
-        $this->assertEquals([false, ['Expected result is empty, which is a test case construction error.  ' .
-            'Use NULL for PRTs which do not activate.']], $result->test_answer_note('', []));
+        $this->assertEquals(
+            [false, ['Expected result is empty, which is a test case construction error.  ' .
+            'Use NULL for PRTs which do not activate.']],
+            $result->test_answer_note('', [])
+        );
 
         $this->assertEquals([true, []], $result->test_answer_note('NULL', []));
-        $this->assertEquals([false, ['Got an unexpected null result.']],
-            $result->test_answer_note('prt1-1-T', []));
-        $this->assertEquals([false, ['Expected a null result, but got: prt1-1-T.']],
-            $result->test_answer_note('NULL', ['prt1-1-T']));
+        $this->assertEquals(
+            [false, ['Got an unexpected null result.']],
+            $result->test_answer_note('prt1-1-T', [])
+        );
+        $this->assertEquals(
+            [false, ['Expected a null result, but got: prt1-1-T.']],
+            $result->test_answer_note('NULL', ['prt1-1-T'])
+        );
 
         $this->assertEquals([true, []], $result->test_answer_note('()', []));
         $this->assertEquals([true, []], $result->test_answer_note('()', ['prt1-1-T', 'prt1-1-F']));
@@ -190,19 +203,25 @@ final class question_test_test extends qtype_stack_testcase {
         // Relaxed.
         $this->assertEquals([true, []], $result->test_answer_note('( prt1-1-T )', ['prt1-1-T']));
 
-        $this->assertEquals([false, ['Expected last node of prt1-1-T but got prt1-1-F.']],
-            $result->test_answer_note('prt1-1-T', ['prt1-1-F']));
-        $this->assertEquals([false, ['Expected last node of prt1-1-T but got prt1-1-F.']],
-            $result->test_answer_note('(prt1-1-T]', ['prt1-1-F']));
+        $this->assertEquals(
+            [false, ['Expected last node of prt1-1-T but got prt1-1-F.']],
+            $result->test_answer_note('prt1-1-T', ['prt1-1-F'])
+        );
+        $this->assertEquals(
+            [false, ['Expected last node of prt1-1-T but got prt1-1-F.']],
+            $result->test_answer_note('(prt1-1-T]', ['prt1-1-F'])
+        );
 
         $expected = ['Expected first node of prt1-1-T but got prt1-1-F.', 'Expected last node of prt1-1-T but got prt1-1-F.'];
-        $this->assertEquals([false, $expected],
-            $result->test_answer_note('[prt1-1-T]', ['prt1-1-F']));
+        $this->assertEquals(
+            [false, $expected],
+            $result->test_answer_note('[prt1-1-T]', ['prt1-1-F'])
+        );
         $expected = ['Expected first node of prt1-1-T but got prt1-2-F.', 'Expected last node of prt1-4-T but got prt1-3-F.'];
         $this->assertEquals(
             [false, $expected],
             $result->test_answer_note('[prt1-1-T | prt1-4-T]', ['prt1-2-F', 'prt1-3-F'])
-            );
+        );
 
         // Condone extra notes.
         $this->assertEquals(
@@ -210,22 +229,22 @@ final class question_test_test extends qtype_stack_testcase {
             $result->test_answer_note(
                 'prt1-1-T | prt1-2-T | prt1-4-T',
                 ['prt1-1-T', 'prt1-2-T', 'prt1-3-T', 'prt1-4-T']
-                )
-            );
+            )
+        );
         $this->assertEquals(
             [true, []],
             $result->test_answer_note(
                 '[ prt1-1-T | prt1-2-T | prt1-4-T ]',
                 ['prt1-1-T', 'prt1-2-T', 'prt1-3-T', 'prt1-4-T']
-                )
-            );
+            )
+        );
         $this->assertEquals(
             [true, []],
             $result->test_answer_note(
                 '( prt1-1-T | prt1-2-T | prt1-4-T ]',
                 ['prt1-0-T', 'prt1-1-T', 'prt1-2-T', 'prt1-3-T', 'prt1-4-T']
-                )
-            );
+            )
+        );
 
         // Missing notes.
         $this->assertEquals(
@@ -233,15 +252,15 @@ final class question_test_test extends qtype_stack_testcase {
             $result->test_answer_note(
                 '( prt1-1-T | prt1-2-T | prt1-4-T ]',
                 ['prt1-0-T', 'prt1-1-T', 'prt1-3-T', 'prt1-4-T']
-                )
-            );
+            )
+        );
         $this->assertEquals(
             [false, ['Expected node: prt1-2-T.', 'Expected node: prt1-5-T.']],
             $result->test_answer_note(
                 '( prt1-1-T | prt1-2-T | prt1-5-T | prt1-4-T ]',
                 ['prt1-0-T', 'prt1-1-T', 'prt1-3-T', 'prt1-4-T']
-                )
-            );
+            )
+        );
         // Notes appear out of order.
         // We match prt1-1-T with the first actual occurance (slot 3 in the array).
         // This means although 'prt1-order' exists in the answer note array it's gone.
@@ -250,8 +269,8 @@ final class question_test_test extends qtype_stack_testcase {
             $result->test_answer_note(
                 '( prt1-1-T | prt1-2-T | prt1-order | prt1-4-T ]',
                 ['prt1-0-T', 'prt1-order', 'prt1-1-T', 'prt1-3-T', 'prt1-4-T']
-                )
-            );
+            )
+        );
 
     }
 }

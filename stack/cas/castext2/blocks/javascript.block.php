@@ -113,7 +113,6 @@ class stack_cas_castext2_javascript extends stack_cas_castext2_block {
         // Include the content, previously compiled, within the possible Promise block.
         $r->items = array_merge($r->items, $content);
 
-
         if (count($inputs) > 0) {
             // Close the `then(`.
             $r->items[] = new MP_String("\n});");
@@ -131,14 +130,13 @@ class stack_cas_castext2_javascript extends stack_cas_castext2_block {
         return false;
     }
 
-
     /**
-     * Takes a sequence of already compiled CASText that is assumed to produce 
+     * Takes a sequence of already compiled CASText that is assumed to produce
      * JavaScript syntax and tries to identify import statements from within it.
      * Returns the imports and the rest of the content separated, into lists.
-     * 
+     *
      * For use with generated promise logic like the `input-ref-...` shorthand.
-     * 
+     *
      * Note! Not currently aware of JS comments.
      */
     public static function separate_imports(array $compiledcontent): array {
@@ -156,7 +154,7 @@ class stack_cas_castext2_javascript extends stack_cas_castext2_block {
             $content = [$content];
         } else {
             $content = $content->items;
-            // Drop the '%root';
+            // Drop the '%root';.
             array_shift($content);
         }
 

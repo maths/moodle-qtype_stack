@@ -184,7 +184,6 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
         $r->items[] = new MP_String("\nimport stack_js from '" . stack_cors_link('stackjsiframe.min.js') . "';\n");
         $r->items[] = new MP_String("import stack_jxg from '" . stack_cors_link('stackjsxgraph.min.js') . "';\n");
 
-
         $opt2 = [];
         if ($options !== null) {
             $opt2 = array_merge([], $options);
@@ -200,7 +199,6 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
                 $content[] = $c;
             }
         }
-
 
         // Do we need to bind anything?
         if (count($inputs) > 0) {

@@ -29,7 +29,6 @@ use MP_Root;
 use MP_Comment;
 use MP_Statement;
 
-
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/fixtures/test_base.php');
@@ -37,16 +36,18 @@ require_once(__DIR__ . '/../stack/maximaparser/parser.options.class.php');
 /**
  * Defines behaviour for parsing of certain special cases.
  * @group qtype_stack
+ * @covers \qtype_stack_question
  */
 final class parser_tests extends qtype_stack_testcase {
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     public function test_empty_values(): void {
         // Use parsing settings as close to keyval usage as possible.
         $po = stack_parser_options::get_cas_config();
         $po->dropcomments = true;
 
         $parserdropcomments = $po->get_parser();
-        
+
         // True empty should not cause issues.
         $test1 = "";
         $lex1 = $po->get_lexer($test1);
@@ -95,7 +96,7 @@ final class parser_tests extends qtype_stack_testcase {
         $this->assertTrue($parsed6->items[1] instanceof MP_Comment);
     }
 
-
+    // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     public function test_comment_collection(): void {
         // Use parsing settings as close to keyval usage as possible.
         $po = stack_parser_options::get_cas_config();

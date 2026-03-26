@@ -164,13 +164,15 @@ final class question_test_test extends qtype_stack_testcase {
         $questionid = $question->id;
         $seed = 1;
         $qtest = new stack_question_test('', ['ans1' => 'x^3']);
-        $qtest->add_expected_result('odd', new stack_potentialresponse_tree_state(
-            1,
-            true,
-            1,
-            0,
-            '',
-            ['[ odd-1-T ]']
+        $qtest->add_expected_result(
+            'odd',
+            new stack_potentialresponse_tree_state(
+                1,
+                true,
+                1,
+                0,
+                '',
+                ['[ odd-1-T ]']
             )
         );
         $result = $qtest->test_question($questionid, $seed, context_system::instance());

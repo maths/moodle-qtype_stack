@@ -301,7 +301,7 @@ Feature: Create, preview, test, tidy and edit STACK questions
       | ans1        | x - 1        |
       | Score       | 0            |
       | Penalty     |              |
-      | Answer note | ( prt1-1-F ] |
+      | Answer note | [ prt1-1-F ] |
     When I press "Create test case"
     Then I should see "All tests passed!"
     And I should see "Test case 2"

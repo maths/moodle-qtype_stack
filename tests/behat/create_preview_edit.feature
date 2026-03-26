@@ -75,10 +75,10 @@ Feature: Create, preview, test, tidy and edit STACK questions
       | ans1 | x - 1 |
     And I press "Fill in the rest of the form to make a passing test-case"
     Then the following fields match these values:
-      | ans1        | x - 1        |
-      | Score       | 0            |
-      | Penalty     |              |
-      | Answer note | ( prt1-1-F ] |
+      | ans1                 | x - 1        |
+      | Score                | 0            |
+      | Penalty              |              |
+      | Expected answer note | ( prt1-1-F ] |
     When I press "Create test case"
     Then I should see "All tests passed!"
     And I should see "Test case 1"
@@ -168,10 +168,10 @@ Feature: Create, preview, test, tidy and edit STACK questions
       | ans1 | x - 1 |
     And I press "Fill in the rest of the form to make a passing test-case"
     Then the following fields match these values:
-      | ans1        | x - 1        |
-      | Score       | 0            |
-      | Penalty     |              |
-      | Answer note | [ prt1-1-F ] |
+      | ans1                 | x - 1        |
+      | Score                | 0            |
+      | Penalty              |              |
+      | Expected answer note | [ prt1-1-F ] |
     When I press "Create test case"
     Then I should see "All tests passed!"
     And I should see "Test case 1"
@@ -298,10 +298,10 @@ Feature: Create, preview, test, tidy and edit STACK questions
       | ans1 | x - 1 |
     And I press "Fill in the rest of the form to make a passing test-case"
     Then the following fields match these values:
-      | ans1        | x - 1        |
-      | Score       | 0            |
-      | Penalty     |              |
-      | Answer note | [ prt1-1-F ] |
+      | ans1                 | x - 1        |
+      | Score                | 0            |
+      | Penalty              |              |
+      | Expected answer note | [ prt1-1-F ] |
     When I press "Create test case"
     Then I should see "All tests passed!"
     And I should see "Test case 2"

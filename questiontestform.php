@@ -82,7 +82,7 @@ class qtype_stack_question_test_form extends moodleform {
                 $mform->createElement(
                     'text',
                     $prtname . 'answernote',
-                    stack_string('answernote'),
+                    stack_string('expectedanswernote'),
                     ['size' => 50]
                 ),
                 // Show the user the available answer notes.

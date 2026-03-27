@@ -1943,6 +1943,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $qdata->options->stackversion              = get_config('qtype_stack', 'version');
         $qdata->options->isbroken                  = 0;
         $qdata->options->metadata                  = '{}';
+        $qdata->options->prescribedmetadata        = '';
         $qdata->options->questionvariables         = '';
         $qdata->options->specificfeedback          = '[[feedback:firsttree]]';
         $qdata->options->specificfeedbackformat    = FORMAT_HTML;
@@ -2386,6 +2387,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $qdata->options->stackversion              = get_config('qtype_stack', 'version');
         $qdata->options->isbroken                  = 0;
         $qdata->options->metadata                  = '{}';
+        $qdata->options->prescribedmetadata        = '';
         $qdata->options->questionvariables         = '';
         $qdata->options->specificfeedback          = '[[feedback:firsttree]]';
         $qdata->options->specificfeedbackformat    = FORMAT_HTML;
@@ -2526,6 +2528,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $qdata->options->stackversion              = get_config('qtype_stack', 'version');
         $qdata->options->isbroken                  = 0;
         $qdata->options->metadata                  = '';
+        $qdata->options->prescribedmetadata        = '';
         $qdata->options->questionvariables         = '';
         $qdata->options->specificfeedback          = '';
         $qdata->options->specificfeedbackformat    = FORMAT_HTML;

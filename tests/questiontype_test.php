@@ -271,7 +271,7 @@ final class questiontype_test extends qtype_stack_walkthrough_test_base {
     <matrixparens>[</matrixparens>
     <isbroken>0</isbroken>
     <metadata>{}</metadata>
-    <prescribedmetadata>{}</prescribedmetadata>
+    <prescribedmetadata></prescribedmetadata>
     <variantsselectionseed></variantsselectionseed>
     <input>
       <name>ans1</name>

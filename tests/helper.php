@@ -155,6 +155,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->questionnoteformat = FORMAT_HTML;
         $q->isbroken = 0;
         $q->metadata = '';
+        $q->prescribedmetadata = '';
 
         return $q;
     }
@@ -224,6 +225,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
         $q->isbroken = 0;
         $q->metadata = '';
+        $q->prescribedmetadata = '';
 
         return $q;
     }
@@ -389,6 +391,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->qtype = 'stack';
         $formform->isbroken = 0;
         $formform->metadata = '';
+        $formform->prescribedmetadata = '';
 
         return $formform;
     }
@@ -677,6 +680,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->deployedseeds = [];
 
         $q->metadata = '';
+        $q->prescribedmetadata = '';
 
         return $q;
     }
@@ -3279,6 +3283,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         ];
         $formform->qtype = 'stack';
         $formform->metadata = '';
+        $formform->prescribedmetadata = '';
 
         return $formform;
     }
@@ -4966,6 +4971,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->prt1truenextnode[0] = '-1';
         $formform->isbroken = 0;
         $formform->metadata = '';
+        $formform->prescribedmetadata = '';
         return $formform;
     }
 
@@ -5094,6 +5100,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->prt1truenextnode[0] = '-1';
         $formform->isbroken = 0;
         $formform->metadata = '';
+        $formform->prescribedmetadata = '';
         return $formform;
     }
 
@@ -5363,6 +5370,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->prt1truenextnode[0] = '-1';
         $formform->isbroken = 0;
         $formform->metadata = '';
+        $formform->prescribedmetadata = '';
         return $formform;
     }
 
@@ -5491,6 +5499,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->prt1truenextnode[0] = '-1';
         $formform->isbroken = 0;
         $formform->metadata = '';
+        $formform->prescribedmetadata = '';
         return $formform;
     }
 
@@ -5654,6 +5663,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->prt1truenextnode[0] = '-1';
         $formform->isbroken = 0;
         $formform->metadata = '';
+        $formform->prescribedmetadata = '';
         return $formform;
     }
 
@@ -5782,6 +5792,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->prt1truenextnode[0] = '-1';
         $formform->isbroken = 0;
         $formform->metadata = '';
+        $formform->prescribedmetadata = '';
         return $formform;
     }
 
@@ -5913,6 +5924,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->prt1truenextnode[0] = '-1';
         $formform->isbroken = 0;
         $formform->metadata = '';
+        $formform->prescribedmetadata = '';
         return $formform;
     }
 
@@ -6043,6 +6055,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->prt1truenextnode[0] = '-1';
         $formform->isbroken = 0;
         $formform->metadata = '';
+        $formform->prescribedmetadata = '';
         return $formform;
     }
 
@@ -6245,6 +6258,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->prt1truenextnode[2] = '-1';
         $formform->isbroken = 0;
         $formform->metadata = '';
+        $formform->prescribedmetadata = '';
         return $formform;
     }
 
@@ -6377,6 +6391,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->prt1truenextnode[0] = '-1';
         $formform->isbroken = 0;
         $formform->metadata = '';
+        $formform->prescribedmetadata = '';
         return $formform;
     }
 
@@ -6508,6 +6523,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->prt1truenextnode[0] = '-1';
         $formform->isbroken = 0;
         $formform->metadata = '';
+        $formform->prescribedmetadata = '';
         return $formform;
     }
 
@@ -6635,6 +6651,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->prt1truenextnode[0] = '-1';
         $formform->isbroken = 0;
         $formform->metadata = '';
+        $formform->prescribedmetadata = '';
         return $formform;
     }
 
@@ -6790,6 +6807,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->prt1truenextnode[1] = '-1';
         $formform->isbroken = 0;
         $formform->metadata = '';
+        $formform->prescribedmetadata = '';
         return $formform;
     }
 
@@ -6917,6 +6935,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->prt1truenextnode[0] = '-1';
         $formform->isbroken = 0;
         $formform->metadata = '';
+        $formform->prescribedmetadata = '';
         return $formform;
     }
 
@@ -7142,6 +7161,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->prt1truenextnode[3] = '-1';
         $formform->isbroken = 0;
         $formform->metadata = '';
+        $formform->prescribedmetadata = '';
         return $formform;
     }
 
@@ -7288,6 +7308,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->prt1truenextnode[0] = '-1';
         $formform->isbroken = 0;
         $formform->metadata = '';
+        $formform->prescribedmetadata = '';
         return $formform;
     }
 
@@ -7415,6 +7436,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->prt1truenextnode[0] = '-1';
         $formform->isbroken = 0;
         $formform->metadata = '';
+        $formform->prescribedmetadata = '';
         return $formform;
     }
 
@@ -7543,6 +7565,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->prt1truenextnode[0] = '-1';
         $formform->isbroken = 0;
         $formform->metadata = '';
+        $formform->prescribedmetadata = '';
         return $formform;
     }
 
@@ -7673,6 +7696,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->prt1truenextnode[0] = '-1';
         $formform->isbroken = 0;
         $formform->metadata = '';
+        $formform->prescribedmetadata = '';
         return $formform;
     }
 
@@ -7803,6 +7827,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->prt1truenextnode[0] = '-1';
         $formform->isbroken = 0;
         $formform->metadata = '';
+        $formform->prescribedmetadata = '';
         return $formform;
     }
 
@@ -7930,6 +7955,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->prt1truenextnode[0] = '-1';
         $formform->isbroken = 0;
         $formform->metadata = '';
+        $formform->prescribedmetadata = '';
         return $formform;
     }
 
@@ -8076,6 +8102,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->prt1truenextnode[0] = '-1';
         $formform->isbroken = 0;
         $formform->metadata = '';
+        $formform->prescribedmetadata = '';
         return $formform;
     }
 
@@ -8203,6 +8230,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->prt1truenextnode[0] = '-1';
         $formform->isbroken = 0;
         $formform->metadata = '';
+        $formform->prescribedmetadata = '';
         return $formform;
     }
 
@@ -8330,6 +8358,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->prt1truenextnode[0] = '-1';
         $formform->isbroken = 0;
         $formform->metadata = '';
+        $formform->prescribedmetadata = '';
         return $formform;
     }
 
@@ -8457,6 +8486,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->prt1truenextnode[0] = '-1';
         $formform->isbroken = 0;
         $formform->metadata = '';
+        $formform->prescribedmetadata = '';
         return $formform;
     }
 
@@ -8584,6 +8614,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->prt1truenextnode[0] = '-1';
         $formform->isbroken = 0;
         $formform->metadata = '';
+        $formform->prescribedmetadata = '';
         return $formform;
     }
 
@@ -8799,6 +8830,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->prt1truenextnode[1] = '-1';
         $formform->isbroken = 0;
         $formform->metadata = '';
+        $formform->prescribedmetadata = '';
         return $formform;
     }
 
@@ -8907,6 +8939,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->qtype = 'stack';
         $formform->isbroken = 0;
         $formform->metadata = '';
+        $formform->prescribedmetadata = '';
 
         return $formform;
     }

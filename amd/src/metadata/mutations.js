@@ -32,9 +32,66 @@ class Mutations {
      * For scope, row id is for one of the matching additional info rows.
      * @param {*} stateManager
      * @param {*} inputArray [['smdi-1-contributor-year', 2025], ...]
+     * @returns
      */
-    updateAll(stateManager, inputArray) {
-        const state = stateManager.state;
+    async updateAll(stateManager, inputArray) {
+        let state = stateManager.state;
+        const additionalCopy = {};
+        state.additional.forEach((addInfo) => {
+            const rowCopy = {
+                scope: addInfo.scope,
+                property: addInfo.property,
+                qualifier: addInfo.qualifier,
+                value: addInfo.value
+            };
+            additionalCopy[addInfo.id] = rowCopy;
+        });
+        for (const field of inputArray) {
+            const parts = field[0].split('_');
+            const id = parts[1];
+            const property = parts[2];
+            const subproperty = parts[3];
+            if (property !== 'additional') {
+                continue;
+            }
+            if (subproperty === 'scope') {
+                // Scope input updates multiple rows.
+                // We find all entries for that scope and update.
+                const existingScope = additionalCopy[id].scope;
+                if (existingScope !== field[1]) {
+                    additionalCopy.forEach((addInfo) => {
+                        if (addInfo.scope === existingScope) {
+                            addInfo.scope = field[1];
+                        }
+                    });
+                }
+            } else {
+                const existing = additionalCopy[id];
+                if (existing) {
+                    existing[subproperty] = field[1];
+                }
+            }
+        }
+
+        let problems = new Set();
+        for (const key1 in additionalCopy) {
+            const addInfo = additionalCopy[key1];
+            if (addInfo.qualifier === '') {
+                for (const key2 in additionalCopy) {
+                    const addInfo2 = additionalCopy[key2];
+                    if (
+                        addInfo.scope === addInfo2.scope && addInfo.property === addInfo2.property && addInfo2.qualifier !== ''
+                    ) {
+                        problems.add(key1);
+                    }
+                }
+            }
+        }
+        problems = Array.from(problems);
+        if (problems.length) {
+            const output = problems.join(',');
+            return Promise.reject(output);
+        }
         stateManager.setReadOnly(false);
         for (const field of inputArray) {
             const parts = field[0].split('_');
@@ -61,10 +118,12 @@ class Mutations {
                 state[property][subproperty] = field[1];
             }
         }
+
         // Force display refresh in odd circumstances where state has not changed
         // but JSON needs to be updated.
         state.metadataTicker.value += 1;
         stateManager.setReadOnly(true);
+        return Promise.resolve('Success');
     }
 
     /**

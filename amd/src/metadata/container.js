@@ -278,12 +278,21 @@ export default class extends BaseComponent {
                 return false;
             }
         }
-        // Elements have ids in form smdi-id-category-field e.g. smdi-1-contributor-year.
+        // Elements have ids in form smdi_id_category_field e.g. smdi_1_contributor_year.
         // id is category entry id in state. 0 is used for single elements e.g. license.
         // Multi-elements begin counting from 1.
         let inputElements = this.getElements(this.selectors.ALLINPUTS);
         inputElements = Array.from(inputElements).map((el) => [el.id, el.value]);
-        await this.reactive.dispatch('updateAll', inputElements);
+        try {
+            await this.reactive.dispatch('updateAll', inputElements);
+        } catch (e) {
+            const addIds = e.split(',');
+            for (const id of addIds) {
+                const element = this.getElement('#qtype-stack-metadata-content [id="smdi_' + id + '_additional_qualifier"]');
+                notifyFieldValidationFailure(element, 'Required');
+            }
+            return false;
+        }
         return true;
     }
 

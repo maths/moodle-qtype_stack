@@ -26,6 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../block.interface.php');
 require_once(__DIR__ . '/../block.factory.php');
+require_once(__DIR__ . '/../../parsingrules/parsingrule.factory.php');
 
 require_once(__DIR__ . '/root.specialblock.php');
 require_once(__DIR__ . '/stack_translate.specialblock.php');
@@ -70,6 +71,30 @@ class stack_cas_castext2_javascript extends stack_cas_castext2_block {
         // For binding and other use we need to import the stack_js library.
         $r->items[] = new MP_String("\nimport stack_js from '" . stack_cors_link('stackjsiframe.min.js') . "';\n");
 
+        // Process the contents.
+        $content = [];
+        $opt2 = [];
+        if ($options !== null) {
+            $opt2 = array_merge([], $options);
+        }
+        $opt2['in iframe'] = true;
+        foreach ($this->children as $item) {
+            // Assume that all code inside is JavaScript and that we do not
+            // want to do the markdown escaping or any other in it.
+            $c = $item->compile(castext2_parser_utils::RAWFORMAT, $opt2);
+            if ($c !== null) {
+                $content[] = $c;
+            }
+        }
+
+        // Figure out if we have something else to import? But only if we add that Promise bit.
+        if (count($inputs) > 0) {
+            [$imports, $content] = self::separate_imports($content);
+            if (count($imports) > 0) {
+                $r->items = array_merge($r->items, $imports);
+            }
+        }
+
         // Do we need to bind anything?
         if (count($inputs) > 0) {
             // Then we need to link up to the inputs.
@@ -85,20 +110,8 @@ class stack_cas_castext2_javascript extends stack_cas_castext2_block {
             $r->items[] = new MP_String($linkcode);
         }
 
-        $opt2 = [];
-        if ($options !== null) {
-            $opt2 = array_merge([], $options);
-        }
-        $opt2['in iframe'] = true;
-
-        foreach ($this->children as $item) {
-            // Assume that all code inside is JavaScript and that we do not
-            // want to do the markdown escaping or any other in it.
-            $c = $item->compile(castext2_parser_utils::RAWFORMAT, $opt2);
-            if ($c !== null) {
-                $r->items[] = $c;
-            }
-        }
+        // Include the content, previously compiled, within the possible Promise block.
+        $r->items = array_merge($r->items, $content);
 
         if (count($inputs) > 0) {
             // Close the `then(`.
@@ -115,6 +128,105 @@ class stack_cas_castext2_javascript extends stack_cas_castext2_block {
     public function is_flat(): bool {
         // Even when the content were flat we need to evaluate this during postprocessing.
         return false;
+    }
+
+    /**
+     * Takes a sequence of already compiled CASText that is assumed to produce
+     * JavaScript syntax and tries to identify import statements from within it.
+     * Returns the imports and the rest of the content separated, into lists.
+     *
+     * For use with generated promise logic like the `input-ref-...` shorthand.
+     *
+     * Note! Not currently aware of JS comments.
+     */
+    public static function separate_imports(array $compiledcontent): array {
+        // First simplify the input. To deal with various static things like [[CORS]] urls.
+        $root = [new MP_String('%root')];
+        $root = new MP_Root([new MP_List(array_merge($root, $compiledcontent))]);
+        $simplificationfilter = stack_parsing_rule_factory::get_by_common_name('602_castext_simplifier');
+        $notused1 = [];
+        $notused2 = [];
+        $root = $simplificationfilter->filter($root, $notused1, $notused2, new stack_cas_security());
+
+        // Unwrap back to an array.
+        $content = $root->items[0];
+        if ($content instanceof MP_String) {
+            $content = [$content];
+        } else {
+            $content = $content->items;
+            // Drop the '%root';.
+            array_shift($content);
+        }
+
+        // Then start splitting the content.
+        $imports = [];
+        $remainder = [];
+
+        $lookingforsemicolon = false;
+        while (count($content) > 0) {
+            $focus = array_shift($content);
+            $focus->parentnode = null;
+            if ($focus instanceof MP_String) {
+                if ($lookingforsemicolon) {
+                    if (mb_strpos($focus->value, ';') === false) {
+                        // This is an unlikely case but for completenes sake.
+                        $imports[] = $focus;
+                    } else {
+                        $i = mb_strpos($focus->value, ';');
+                        $uptoand = mb_substr($focus->value, 0, $i + 1);
+                        $remains = mb_substr($focus->value, $i + 1);
+                        $imports[] = new MP_String($uptoand . "\n");
+                        $lookingforsemicolon = false;
+                        // Return for further processing.
+                        array_unshift($content, new MP_String($remains));
+                    }
+                } else {
+                    // Not looking for a semicolon, so looking for the import.
+                    // Note that we do not handle all matches. Only the first one.
+                    // First do we have a full import?
+                    $matches = [];
+                    preg_match('/(^|[;^\s])(import [^;]+;)/', $focus->value, $matches);
+                    $full = null;
+                    if (count($matches) > 0) {
+                        $full = $matches[2];
+                    }
+                    // Then the case of a start.
+                    $matches = [];
+                    preg_match('/(^|[;^\s])(import\s)/', $focus->value, $matches);
+                    $start = null;
+                    if (count($matches) > 0) {
+                        $start = $matches[2];
+                    }
+
+                    // Which is first?
+                    if ($full !== null && (mb_strpos($focus->value, $full) === mb_strpos($focus->value, $start))) {
+                        // The first one is the full so we simply slice that out and continue.
+                        $imports[] = new MP_String($full . "\n");
+                        $focus->value = str_replace($full, ' ', $focus->value);
+                        array_unshift($content, $focus);
+                    } else if ($start !== null) {
+                        // So we only have the start of the import.
+                        $lookingforsemicolon = true;
+                        $i = mb_strpos($focus->value, $start);
+                        $upto = mb_substr($focus->value, 0, $i);
+                        $remains = mb_substr($focus->value, $i);
+                        $imports[] = new MP_String($remains);
+                        $remainder[] = new MP_String($upto);
+                    } else {
+                        // Nothing.
+                        $remainder[] = $focus;
+                    }
+                }
+            } else {
+                if ($lookingforsemicolon) {
+                    $imports[] = $focus;
+                } else {
+                    $remainder[] = $focus;
+                }
+            }
+        }
+
+        return [$imports, $remainder];
     }
 
 

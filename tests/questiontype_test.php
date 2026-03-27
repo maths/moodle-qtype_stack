@@ -270,6 +270,8 @@ final class questiontype_test extends qtype_stack_walkthrough_test_base {
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
     <isbroken>0</isbroken>
+    <prescribedmetadata></prescribedmetadata>
+    <metadata>{}</metadata>
     <variantsselectionseed></variantsselectionseed>
     <input>
       <name>ans1</name>

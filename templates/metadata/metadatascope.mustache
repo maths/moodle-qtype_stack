@@ -1,0 +1,162 @@
+{{!
+    This file is part of Stack - http://stack.maths.ed.ac.uk/
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template qtype_stack/metadata/metadatascope
+    Example context (json):
+        {
+            "name": "d",
+            "firstProp": "1",
+            "properties": [
+                {
+                    "property": {
+                        "required": true,
+                        "element": {
+                            "value": "e",
+                            "wrapperid": "fitem_smdi_1_additional_property",
+                            "id": "smdi_1_additional_property",
+                            "name": "smdi_1_additional_property",
+                            "iderror": "smde_1_additional_property_error"
+                        }
+                    },
+                    "qualifier": {
+                        "required": false,
+                        "element": {
+                            "value": "f",
+                            "wrapperid": "fitem_smdi_1_additional_qualifier",
+                            "id": "smdi_1_additional_qualifier",
+                            "name": "smdi_1_additional_qualifier",
+                            "iderror": "smde_1_additional_qualifier_error"
+                        }
+                    },
+                    "value": {
+                        "required": false,
+                        "element": {
+                            "value": "g",
+                            "wrapperid": "fitem_smdi_1_additional_value",
+                            "id": "smdi_1_additional_value",
+                            "name": "smdi_1_additional_value",
+                            "iderror": "smde_1_additional_value_error"
+                        }
+                    },
+                    "id": "1"
+                },
+                {
+                    "property": {
+                        "required": true,
+                        "element": {
+                            "value": "h",
+                            "wrapperid": "fitem_smdi_2_additional_property",
+                            "id": "smdi_2_additional_property",
+                            "name": "smdi_2_additional_property",
+                            "iderror": "smde_2_additional_property_error"
+                        }
+                    },
+                    "qualifier": {
+                        "required": false,
+                        "element": {
+                            "value": "i",
+                            "wrapperid": "fitem_smdi_2_additional_qualifier",
+                            "id": "smdi_2_additional_qualifier",
+                            "name": "smdi_2_additional_qualifier",
+                            "iderror": "smde_2_additional_qualifier_error"
+                        }
+                    },
+                    "value": {
+                        "required": false,
+                        "element": {
+                            "value": "j",
+                            "wrapperid": "fitem_smdi_2_additional_value",
+                            "id": "smdi_2_additional_value",
+                            "name": "smdi_2_additional_value",
+                            "iderror": "smde_2_additional_value_error"
+                        }
+                    },
+                    "id": "2"
+                },
+                {
+                    "property": {
+                        "required": true,
+                        "element": {
+                            "value": "k",
+                            "wrapperid": "fitem_smdi_3_additional_property",
+                            "id": "smdi_3_additional_property",
+                            "name": "smdi_3_additional_property",
+                            "iderror": "smde_3_additional_property_error"
+                        }
+                    },
+                    "qualifier": {
+                        "required": false,
+                        "element": {
+                            "value": "l",
+                            "wrapperid": "fitem_smdi_3_additional_qualifier",
+                            "id": "smdi_3_additional_qualifier",
+                            "name": "smdi_3_additional_qualifier",
+                            "iderror": "smde_3_additional_qualifier_error"
+                        }
+                    },
+                    "value": {
+                        "required": false,
+                        "element": {
+                            "value": "m",
+                            "wrapperid": "fitem_smdi_3_additional_value",
+                            "id": "smdi_3_additional_value",
+                            "name": "smdi_3_additional_value",
+                            "iderror": "smde_3_additional_value_error"
+                        }
+                    },
+                    "id": "3"
+                }
+            ],
+            "input": {
+                "required": true,
+                "element": {
+                    "value": "d",
+                    "wrapperid": "fitem_smdi_1_additional_scope",
+                    "id": "smdi_1_additional_scope",
+                    "name": "smdi_1_additional_scope",
+                    "iderror": "smde_1_additional_scope_error"
+                }
+            }
+        }
+}}
+<div class="scope">
+    <div class="row" id="qtype-stack-metadata-scope-{{{firstProp}}}">
+        <div class="col-lg-2"><h6>{{#str}} scope, qtype_stack {{/str}}</h6></div>
+        <div class="col-2 inputcol">
+            {{#input}}
+                <label class="sr-only" for="{{element.id}}">
+                    {{#str}} scope, qtype_stack {{/str}}
+                </label>
+                {{> core_form/element-text-inline }}
+            {{/input}}
+        </div>
+        <div class="col-1">
+            <button id="smd_scope_{{{firstProp}}}_delete" name="smd_delete" type="button" class="btn btn-danger">
+                {{#str}} delete {{/str}} <span class="sr-only">{{#str}} scope, qtype_stack {{/str}}</span>
+            </button>
+        </div>
+    </div>
+    <div class="row d-none d-md-flex">
+        <div class="col-2"><h6>{{#str}} property, qtype_stack {{/str}}</h6></div>
+        <div class="col-2"><h6>{{#str}} qualifier, qtype_stack {{/str}}</h6></div>
+        <div class="col-3"><h6>{{#str}} value, qtype_stack {{/str}}</h6></div>
+    </div>
+    {{#properties}}
+        {{>qtype_stack/metadata/metadataadditional}}
+    {{/properties}}
+</div>
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-10"><button type="button" class="btn btn-secondary" name="smd_add" id="smd_property_{{firstProp}}_add">{{#str}} addproperty, qtype_stack {{/str}}</button></div>
+</div>

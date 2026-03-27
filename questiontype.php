@@ -266,6 +266,8 @@ class qtype_stack extends question_type {
         $options->matrixparens              = $fromform->matrixparens;
         $options->variantsselectionseed     = $fromform->variantsselectionseed;
         $options->isbroken                  = !empty($fromform->isbroken) ? 1 : 0;
+        $options->metadata                  = $fromform->metadata;
+        $options->prescribedmetadata        = "";
 
         // We will not have the values for this.
         $options->compiledcache             = '{}';
@@ -638,6 +640,8 @@ class qtype_stack extends question_type {
         $question->variantsselectionseed     = $questiondata->options->variantsselectionseed;
         $question->compiledcache             = $questiondata->options->compiledcache;
         $question->isbroken                  = $questiondata->options->isbroken;
+        $question->metadata                  = $questiondata->options->metadata;
+        $question->prescribedmetadata        = $questiondata->options->prescribedmetadata;
 
         // Parse the cache in advance.
         if (is_string($question->compiledcache)) {
@@ -1680,6 +1684,8 @@ class qtype_stack extends question_type {
         $output .= "    <logicsymbol>{$options->logicsymbol}</logicsymbol>\n";
         $output .= "    <matrixparens>{$options->matrixparens}</matrixparens>\n";
         $output .= "    <isbroken>{$options->isbroken}</isbroken>\n";
+        $output .= "    <prescribedmetadata>{$options->prescribedmetadata}</prescribedmetadata>\n";
+        $output .= "    <metadata>{$options->metadata}</metadata>\n";
         $output .= "    <variantsselectionseed>{$format->xml_escape($options->variantsselectionseed)}</variantsselectionseed>\n";
 
         foreach ($questiondata->inputs as $input) {
@@ -1848,6 +1854,8 @@ class qtype_stack extends question_type {
         $fromform->assumereal
             = $format->getpath($xml, ['#', 'assumereal', 0, '#'], get_config('qtype_stack', 'assumereal'));
         $fromform->isbroken              = $format->getpath($xml, ['#', 'isbroken', 0, '#'], 0);
+        $fromform->metadata              = $format->getpath($xml, ['#', 'metadata', 0, '#'], '');
+        $fromform->prescribedmetadata    = $format->getpath($xml, ['#', 'prescribedmetadata', 0, '#'], '');
         $fformat = FORMAT_HTML;
         if (isset($fromform->prtcorrectformat)) {
             $fformat = $fromform->prtcorrectformat;

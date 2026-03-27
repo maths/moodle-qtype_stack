@@ -1,0 +1,81 @@
+{{!
+    This file is part of Stack - http://stack.maths.ed.ac.uk/
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template qtype_stack/metadata/metadataadditional
+    Example context (json):
+        {
+            "property": {
+                "required": true,
+                "element": {
+                    "value": "h",
+                    "wrapperid": "fitem_smdi_2_additional_property",
+                    "id": "smdi_2_additional_property",
+                    "name": "smdi_2_additional_property",
+                    "iderror": "smde_2_additional_property_error"
+                }
+            },
+            "qualifier": {
+                "required": false,
+                "element": {
+                    "value": "i",
+                    "wrapperid": "fitem_smdi_2_additional_qualifier",
+                    "id": "smdi_2_additional_qualifier",
+                    "name": "smdi_2_additional_qualifier",
+                    "iderror": "smde_2_additional_qualifier_error"
+                }
+            },
+            "value": {
+                "required": false,
+                "element": {
+                    "value": "j",
+                    "wrapperid": "fitem_smdi_2_additional_value",
+                    "id": "smdi_2_additional_value",
+                    "name": "smdi_2_additional_value",
+                    "iderror": "smde_2_additional_value_error"
+                }
+            },
+            "id": "2"
+        }
+}}
+<div class="row" id="qtype-stack-metadata-additional-{{{id}}}">
+    <div class="col-2 inputcol">
+        {{#property}}
+            <label class="sr-only" for="{{element.id}}">
+                {{#str}} additionalmetadata, qtype_stack {{/str}} {{#str}} property, qtype_stack {{/str}}
+            </label>
+            {{> core_form/element-text-inline }}
+        {{/property}}
+    </div>
+    <div class="col-2 inputcol">
+        {{#qualifier}}
+            <label class="sr-only" for="{{element.id}}">
+                {{#str}} additionalmetadata, qtype_stack {{/str}} {{#str}} qualifier, qtype_stack {{/str}}
+            </label>
+            {{> core_form/element-text-inline }}
+        {{/qualifier}}
+    </div>
+    <div class="col-4 inputcol">
+        {{#value}}
+            <label class="sr-only" for="{{element.id}}">
+                {{#str}} additionalmetadata, qtype_stack {{/str}} {{#str}} value, qtype_stack {{/str}}
+            </label>
+            {{> core_form/element-text-inline }}
+        {{/value}}
+    </div>
+    <div class="col-1">
+        <button id="smd_additional_{{id}}_delete" name="smd_delete" type="button" class="btn btn-danger" title="">
+            {{#str}} delete {{/str}}<span class="sr-only">{{#str}} property, qtype_stack {{/str}}</span>
+        </button>
+    </div>
+</div>

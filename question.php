@@ -256,6 +256,14 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      * @var bool is this question marked as broken.
      */
     public $isbroken = false;
+    /**
+     * @var string The question metadata in JSON form. Can be set by users.
+     */
+    public $metadata = '';
+    /**
+     * @var string The metadata created by STACK itself in JSON form.
+     */
+    public $prescribedmetadata = '';
 
     /**
      * Make sure the cache is valid for the current response. If not, clear it.

@@ -1,0 +1,47 @@
+{{!
+    This file is part of Stack - http://stack.maths.ed.ac.uk/
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template qtype_stack/metadata/metadatalanguage
+
+    Example context (json):
+    {
+        "id": "1",
+        "lang": {
+            "required": true,
+            "element": {
+                "value": "en",
+                "wrapperid": "fitem_smdi_1_language_value",
+                "id": "smdi_1_language_value",
+                "name": "smdi_1_language_value",
+                "iderror": "smde_1_language_error"
+            }
+        }
+    }
+}}
+<div class="row" id="qtype-stack-metadata-language-{{{id}}}">
+    <div class="col-lg-2"><h5>{{#str}} language, core {{/str}}</h5></div>
+    <div class="col-2 inputcol">
+        {{#lang}}
+            <label class="sr-only" for="{{element.id}}">
+                {{#str}} language, core {{/str}}
+            </label>
+            {{> core_form/element-text-inline }}
+        {{/lang}}
+    </div>
+    <div class="col-1">
+        <button id="smd_language_{{id}}_delete" name="smd_delete" type="button" class="btn btn-danger">
+            {{#str}} delete {{/str}} <span class="sr-only">{{#str}} language, core {{/str}}</span>
+        </button>
+    </div>
+</div>

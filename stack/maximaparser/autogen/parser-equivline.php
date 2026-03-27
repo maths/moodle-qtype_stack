@@ -414,28 +414,29 @@ class stack_maxima_parser2_equivline {
                     if (count($commentdump) > 0 && $reduced instanceof MP_Root) {
                         $interleaved = [];
                         $commenttoassign = array_shift($commentdump);
+                        $lastassigned = null;
                         foreach ($reduced->items as $item) {
                             while ($commenttoassign !== null &&
                                 $commenttoassign->position['start'] < $item->position['start']) {
                                 $interleaved[] = $commenttoassign;
+                                $lastassigned = $commenttoassign;
                                 $commenttoassign = array_shift($commentdump);
                             }
                             while ($commenttoassign !== null &&
                                 $commenttoassign->position['start'] < $item->position['end']) {
                                 $item->internalcomments[] = $commenttoassign;
+                                $lastassigned = $commenttoassign;
                                 $commenttoassign = array_shift($commentdump);
                             }
                             $interleaved[] = $item;
-                        } 
+                        }
+                        if ($commenttoassign !== null && ($lastassigned === null || $lastassigned !== $commenttoassign)) {
+                            $interleaved[] = $commenttoassign;
+                        }
                         foreach ($commentdump as $commenttoassign) {
                             $interleaved[] = $commenttoassign;
                         }
                         $reduced->items = $interleaved;
-                    }
-
-                    // To work with previous logic, return null...
-                    if ($reduced instanceof MP_Root && count($reduced->items) === 0) {
-                        return(null);
                     }
 
                     return $reduced;

@@ -649,6 +649,20 @@
         "file":"Validator.md",
         "title":"Creating bespoke validation - STACK Documentation",
         "description":"How to create bespoke validation of student's input."
+        },
+        {
+        "Library":[
+        {
+        "file":"index.md",
+        "title":"Index of STACK specific Maxima functions - STACK Documentation",
+        "description":"Tree index of STACK specific Maxima functions"
+        },
+        {
+        "file":"alphabetical.md",
+        "title":"Alphabetical index of STACK specific Maxima functions - STACK Documentation",
+        "description":"Alphabetical index of STACK specific Maxima functions"
+        }
+        ]
         }
       ]
       },
@@ -905,6 +919,16 @@
         "file":"STACK_library.md",
         "title":"Maintaining the STACK library using Gitsync",
         "description":"How to add and maintain courses in the library using Gitsync."
+        },
+        {
+        "file":"STACK-Maxima-Library.md",
+        "title":"New guidelines for the STACK-Maxima-Libary development",
+        "description":"How to add and maintain STACK-Maxima-Libary code."
+        },
+        {
+        "file":"Documentation_maximasrc.md",
+        "title":"STACK-Maxima library Documentation",
+        "description":"How to add documentation to maxima code to enable autogeneration of STACK docs."
         },
         {
         "file":"STACK-JS.md",
@@ -1353,6 +1377,10 @@
          {"file":"index.md",
           "title":"STACK-JS: STACK <-> VLE JavaScript interface - STACK Documentation",
           "description":"This section describes tools for writing future-proof, portable and safe JavaScript features using the JavaScript system within STACK."
+         },
+         {"file":"STACK_MP_LITE.md",
+          "title":"STACK-MP-Lite - STACK Documentation",
+          "description":"This section describes  collection JavaScript functions and classes for parsing STACK-Maxima syntax."
          },
          {"file":"Validation_state_listener.md",
           "title":"STACK-JS a cautionary example on using validation messages for data transfer - STACK Documentation",

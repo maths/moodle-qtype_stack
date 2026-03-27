@@ -4,7 +4,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 
 
 
-<h2>Equiv</h2><div class="table-responsive"><table class="flexible table table-striped table-hover generaltable generalbox stacktestsuite"><thead><tr><th class="header c0" scope="col">Test<div class="commands"></div></th><th class="header c1" scope="col">?<div class="commands"></div></th><th class="header c2" scope="col">Student response<div class="commands"></div></th><th class="header c3" scope="col">Teacher answer<div class="commands"></div></th><th class="header c4" scope="col">Opt<div class="commands"></div></th><th class="header c5" scope="col">Mark<div class="commands"></div></th><th class="header c6" scope="col">Answer note<div class="commands"></div></th>
+<h2>Equiv</h2><div class="no-overflow"><table class="flexible table table-striped table-hover generaltable generalbox stacktestsuite"><thead><tr><th class="header c0" scope="col">Test<div class="commands"></div></th><th class="header c1" scope="col">?<div class="commands"></div></th><th class="header c2" scope="col">Student response<div class="commands"></div></th><th class="header c3" scope="col">Teacher answer<div class="commands"></div></th><th class="header c4" scope="col">Opt<div class="commands"></div></th><th class="header c5" scope="col">Mark<div class="commands"></div></th><th class="header c6" scope="col">Answer note<div class="commands"></div></th>
 </tr></thead><tbody>
 <tr class="expectedfail">
   <td class="cell c0">Equiv</td>
@@ -2570,7 +2570,7 @@ stacklet(x+i*y,a),stacklet(r+i
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &a^\star\cdot b^\star& \cr &\text{Let }a = x+\mathrm{i}\cdot y& \cr &\text{Let }b = r+\mathrm{i}\cdot s& \cr \color{green}{\checkmark}&=\left(x+\mathrm{i}\cdot y\right)^\star\cdot \left(r+\mathrm{i}\cdot s\right)^\star& \cr \color{green}{\checkmark}&=\left(x-\mathrm{i}\cdot y\right)\cdot \left(r-\mathrm{i}\cdot s\right)& \cr \color{green}{\checkmark}&=x\cdot r-y\cdot s-\mathrm{i}\cdot \left(y\cdot r+x\cdot s\right)& \cr \color{green}{\checkmark}&=\left(x\cdot r-y\cdot s+\mathrm{i}\cdot \left(y\cdot r+x\cdot s\right)\right)^\star& \cr \color{green}{\checkmark}&=\left(\left(x+\mathrm{i}\cdot y\right)\cdot \left(r+\mathrm{i}\cdot s\right)\right)^\star& \cr &\text{Let }x+\mathrm{i}\cdot y = a& \cr &\text{Let }r+\mathrm{i}\cdot s = b& \cr \color{green}{\checkmark}&=\left(a\cdot b\right)^\star& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &a^{\ast}\cdot b^{\ast}& \cr &\text{Let }a = x+\mathrm{i}\cdot y& \cr &\text{Let }b = r+\mathrm{i}\cdot s& \cr \color{green}{\checkmark}&={\left(x+\mathrm{i}\cdot y\right)}^{\ast}\cdot {\left(r+\mathrm{i}\cdot s\right)}^{\ast}& \cr \color{green}{\checkmark}&=\left(x-\mathrm{i}\cdot y\right)\cdot \left(r-\mathrm{i}\cdot s\right)& \cr \color{green}{\checkmark}&=x\cdot r-y\cdot s-\mathrm{i}\cdot \left(y\cdot r+x\cdot s\right)& \cr \color{green}{\checkmark}&={\left(x\cdot r-y\cdot s+\mathrm{i}\cdot \left(y\cdot r+x\cdot s\right)\right)}^{\ast}& \cr \color{green}{\checkmark}&={\left(\left(x+\mathrm{i}\cdot y\right)\cdot \left(r+\mathrm{i}\cdot s\right)\right)}^{\ast}& \cr &\text{Let }x+\mathrm{i}\cdot y = a& \cr &\text{Let }r+\mathrm{i}\cdot s = b& \cr \color{green}{\checkmark}&={\left(a\cdot b\right)}^{\ast}& \cr \end{array}\]</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>

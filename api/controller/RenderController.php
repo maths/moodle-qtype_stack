@@ -145,10 +145,17 @@ class RenderController {
             // Request for full rendering. We replace placeholders with input renders and basic feedback and validation divs.
             // Iframes are rendered but will still need to be registered on the front end.
             $uri = $request->getUri();
-            $baseurl = $uri->getScheme() . '://' . $uri->getHost();
-            $port = $uri->getPort();
-            if ($port && !in_array($port, [80, 443], true)) {
-                $baseurl .= ':' . $port;
+            if ($uri) {
+                $baseurl = $uri->getScheme() . '://' . $uri->getHost();
+                $port = $uri->getPort();
+                if ($port && !in_array($port, [80, 443], true)) {
+                    $baseurl .= ':' . $port;
+                }
+            } else {
+                // Older versions of Moodle don't have UriInterface as part of PSR.
+                // We don't really care as this code isn't run via Moodle but unit
+                // tests fail without a fallback.
+                $baseurl = '';
             }
 
             [$validationprefix, $feedbackprefix] = $data['fullRender'];
@@ -156,24 +163,50 @@ class RenderController {
             $feedbackprefix = trim($feedbackprefix);
             preg_match_all('/\[\[input:([^\]]*)\]\]/', $renderresponse->questionrender, $inputtags);
             foreach ($inputtags[1] as $tag) {
-                $renderresponse->questionrender = str_replace("[[input:{$tag}]]", $renderresponse->questioninputs->$tag->render, $renderresponse->questionrender);
-                $renderresponse->questionrender = str_replace("[[validation:{$tag}]]", "<span name='{$validationprefix}{$tag}'></span>", $renderresponse->questionrender);
+                $renderresponse->questionrender = str_replace(
+                    "[[input:{$tag}]]",
+                    $renderresponse->questioninputs->$tag->render,
+                    $renderresponse->questionrender
+                );
+                $renderresponse->questionrender = str_replace(
+                    "[[validation:{$tag}]]",
+                    "<span name='{$validationprefix}{$tag}'></span>",
+                    $renderresponse->questionrender
+                );
             }
             foreach ($renderresponse->iframes as $iframe) {
                 $iframe[1] = str_replace('<head>', "<head><base href=\"{$baseurl}\" />", $iframe[1]);
-                $renderediframe = "<iframe id=\"{$iframe[0]}\" style=\"width: 100%; height: 100%; border: 0;" . ($iframe[4] === 'false' ? ' overflow: hidden;' : '') . "\" scrolling=\"" . ($iframe[4] === 'false' ? 'no' : 'yes') . "\" title=\"{$iframe[4]}\" referrerpolicy=\"no-referrer\" " . (!$iframe[5] ? 'allow-scripts allow-downloads ' : '') . "srcdoc=\"" . htmlentities($iframe[1]) . "\"></iframe>";
-                $renderresponse->questionrender = str_replace("id=\"{$iframe[2]}\"></div>", "id=\"{$iframe[2]}\">{$renderediframe}</div>", $renderresponse->questionrender);
-                $renderresponse->questionsamplesolutiontext = str_replace("id=\"{$iframe[2]}\"></div>", "id=\"{$iframe[2]}\">{$renderediframe}</div>", $renderresponse->questionsamplesolutiontext);
+                $renderediframe = "<iframe id=\"{$iframe[0]}\" style=\"width: 100%; height: 100%; border: 0;" .
+                                  ($iframe[4] === 'false' ? ' overflow: hidden;' : '') . "\" scrolling=\"" .
+                                  ($iframe[4] === 'false' ? 'no' : 'yes') .
+                                  "\" title=\"{$iframe[4]}\" referrerpolicy=\"no-referrer\" " .
+                                  (!$iframe[5] ? 'allow-scripts allow-downloads ' : '') .
+                                  "srcdoc=\"" . htmlentities($iframe[1]) . "\"></iframe>";
+                $renderresponse->questionrender = str_replace(
+                    "id=\"{$iframe[2]}\"></div>",
+                    "id=\"{$iframe[2]}\">{$renderediframe}</div>",
+                    $renderresponse->questionrender
+                );
+                $renderresponse->questionsamplesolutiontext = str_replace(
+                    "id=\"{$iframe[2]}\"></div>", "id=\"{$iframe[2]}\">{$renderediframe}</div>",
+                    $renderresponse->questionsamplesolutiontext
+                );
             }
             foreach ($renderresponse->questionassets as $name => $file) {
                 $renderresponse->questionrender = str_replace($name, "{$baseurl}/plots/{$file}", $renderresponse->questionrender);
-                $renderresponse->questionsamplesolutiontext = str_replace($name, "{$baseurl}/plots/{$file}", $renderresponse->questionsamplesolutiontext);
+                $renderresponse->questionsamplesolutiontext = str_replace(
+                    $name,
+                    "{$baseurl}/plots/{$file}", $renderresponse->questionsamplesolutiontext
+                );
                 foreach ($renderresponse->questioninputs as $input) {
                     $input->samplesolutionrender = str_replace($name, "{$baseurl}/plots/{$file}", $input->samplesolutionrender);
                 }
             }
             $renderresponse->questionrender = $this->replace_feedback_tags($renderresponse->questionrender, $feedbackprefix);
-            $renderresponse->questionsamplesolutiontext  = $this->replace_feedback_tags($renderresponse->questionsamplesolutiontext, $feedbackprefix);
+            $renderresponse->questionsamplesolutiontext  = $this->replace_feedback_tags(
+                $renderresponse->questionsamplesolutiontext,
+                $feedbackprefix
+            );
         }
 
         $response->getBody()->write(json_encode($renderresponse));

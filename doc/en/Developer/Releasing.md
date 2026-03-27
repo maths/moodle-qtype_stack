@@ -29,7 +29,7 @@ Unless you want to discuss something confidential with the developers, please do
 * Run `php cli/stacklibrarycheck.php` to check filenames in the stacklibrary do not have special characters, particularly `'` (which breaks the .zip download in the plugin directory!)
 * Run `php cli/unicode_data_process.php` to update unicode mappings.
 * Run `php cli/ast_test_generator.php` to confirm if auto-generated tests have not changed.
-* Run `php cli/stack_maxima_compiler.mac` to process `stack/maximasrc` and generate `stack/maxima/maximasrccompiled.mac`, the test version, and the documentation.
+* Run `php cli/stack_maxima_compiler.php` to process `stack/maximasrc` and generate `stack/maxima/maximasrccompiled.mac`, the test version, and the documentation.
 * Run Maxima unit tests for the `stack/maximasrc` content with `load("maximasrccompiled_tests.mac");`, it should say `"All tests successfully executed."`
 * Run Maxima unit tests of contributed packages by re-defining `stacklocation` and running `s_test_case.mac` in the sandbox.  E.g.
 

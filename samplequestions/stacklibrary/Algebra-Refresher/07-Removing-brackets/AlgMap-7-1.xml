@@ -1,46 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <quiz>
+<!-- question: 954  -->
   <question type="stack">
     <name>
       <text>AlgMap-7.1</text>
     </name>
     <questiontext format="html">
-      <text><![CDATA[<html>
-Expand the following:
-<br>
-<br>
-\(\left( x-{@a@} \right) \left(x+{@a@} \right)\) = [[input:ans]] [[validation:ans]]
-</html>]]></text>
+      <text><![CDATA[<p>Expand the following:</p>
+\(\left( x-{@a@} \right) \left(x+{@a@} \right)\) = [[input:ans1]] [[validation:ans1]]]]></text>
     </questiontext>
     <generalfeedback format="html">
-      <text><![CDATA[<html>
+      <text><![CDATA[<p>
 The difference of two squares comes up very often in mathematics:
-<br>
 \[\left( x-y \right) \left(x+y \right) = x^2-y^2. \] 
-<br>
-In this example: <br>
+In this example: 
 \[ \left( x-{@a@} \right) \left( x+{@a@} \right) = x^2-{@a^2@}. \]
-</html>]]></text>
+</p>]]></text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>
     <hidden>0</hidden>
-    <idnumber/>
+    <idnumber></idnumber>
     <stackversion>
-      <text/>
+      <text>2026010500</text>
     </stackversion>
     <questionvariables>
       <text>a:rand(10)+1;
-ta:x^2-a^2;</text>
+ta1:x^2-a^2;</text>
     </questionvariables>
     <specificfeedback format="html">
       <text><![CDATA[<p>[[feedback:prt1]]</p>]]></text>
     </specificfeedback>
     <questionnote format="moodle_auto_format">
-      <text>\[\left( x-{@a@} \right) \left( x+{@a@} \right) = {@ta@}.\]</text>
+      <text>\[\left( x-{@a@} \right) \left( x+{@a@} \right) = {@ta1@}.\]</text>
     </questionnote>
     <questiondescription format="moodle_auto_format">
-      <text/>
+      <text></text>
     </questiondescription>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
@@ -63,24 +58,24 @@ ta:x^2-a^2;</text>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
     <isbroken>0</isbroken>
-    <variantsselectionseed/>
+    <variantsselectionseed></variantsselectionseed>
     <input>
-      <name>ans</name>
+      <name>ans1</name>
       <type>algebraic</type>
-      <tans>ta</tans>
+      <tans>ta1</tans>
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint/>
+      <syntaxhint></syntaxhint>
       <syntaxattribute>0</syntaxattribute>
       <forbidwords>expand</forbidwords>
-      <allowwords/>
+      <allowwords></allowwords>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>1</requirelowestterms>
       <checkanswertype>1</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>1</showvalidation>
-      <options/>
+      <options></options>
     </input>
     <prt>
       <name>prt1</name>
@@ -88,31 +83,31 @@ ta:x^2-a^2;</text>
       <autosimplify>1</autosimplify>
       <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text/>
+        <text></text>
       </feedbackvariables>
       <node>
         <name>0</name>
-        <description/>
+        <description></description>
         <answertest>EqualComAss</answertest>
-        <sans>ans</sans>
-        <tans>ta</tans>
-        <testoptions/>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions></testoptions>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
-        <truescore>0.0000000</truescore>
-        <truepenalty/>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
         <truenextnode>-1</truenextnode>
         <trueanswernote>1-0-T </trueanswernote>
         <truefeedback format="html">
-          <text/>
+          <text></text>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
-        <falsescore>0.0000000</falsescore>
-        <falsepenalty/>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>1-0-F </falseanswernote>
         <falsefeedback format="html">
-          <text/>
+          <text></text>
         </falsefeedback>
       </node>
     </prt>
@@ -126,23 +121,23 @@ ta:x^2-a^2;</text>
     <deployedseed>1723443166</deployedseed>
     <qtest>
       <testcase>1</testcase>
-      <description/>
+      <description>Correct answer</description>
       <testinput>
-        <name>ans</name>
-        <value>ta</value>
+        <name>ans1</name>
+        <value>ta1</value>
       </testinput>
       <expected>
         <name>prt1</name>
-        <expectedscore>0.0000000</expectedscore>
-        <expectedpenalty>0.1000000</expectedpenalty>
-        <expectedanswernote>1-0-T </expectedanswernote>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>1-0-T</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
       <testcase>2</testcase>
-      <description/>
+      <description></description>
       <testinput>
-        <name>ans</name>
+        <name>ans1</name>
         <value>(x-a)*(x+a)</value>
       </testinput>
       <expected>
@@ -153,4 +148,5 @@ ta:x^2-a^2;</text>
       </expected>
     </qtest>
   </question>
+
 </quiz>

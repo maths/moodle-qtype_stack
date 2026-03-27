@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <quiz>
+<!-- question: 945  -->
   <question type="stack">
     <name>
       <text>AlgMap-3.1</text>
     </name>
     <questiontext format="html">
-      <text><![CDATA[<p>Express the following, as a single fraction: \[{@a/b@}+{@c/d@}.\] <br /> [[input:ans]] <br /> <br /> Leave your answer in it's lowest terms in the form \(\frac{a}{b}\). [[validation:ans]]</p>]]></text>
+      <text><![CDATA[<p>Express the following, as a single fraction: \[{@a/b@}+{@c/d@}.\] </p>
+<p>[[input:ans]] [[validation:ans]]</p>
+Leave your answer in it's lowest terms in the form \(\frac{a}{b}\). </p>]]></text>
     </questiontext>
     <generalfeedback format="html">
       <text><![CDATA[<p>In this case the denominators of the fractions are equal so you simply add the numerators to obtain the numerator and the denominator stays the same.</p>
@@ -14,9 +17,9 @@
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>
     <hidden>0</hidden>
-    <idnumber/>
+    <idnumber></idnumber>
     <stackversion>
-      <text/>
+      <text>2026010500</text>
     </stackversion>
     <questionvariables>
       <text>simp:true;
@@ -35,7 +38,7 @@ simp:false;</text>
       <text>\[{@a/b@}+{@c/d@} = {@ta@}.\]</text>
     </questionnote>
     <questiondescription format="moodle_auto_format">
-      <text/>
+      <text></text>
     </questiondescription>
     <questionsimplify>0</questionsimplify>
     <assumepositive>0</assumepositive>
@@ -58,7 +61,7 @@ simp:false;</text>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
     <isbroken>0</isbroken>
-    <variantsselectionseed/>
+    <variantsselectionseed></variantsselectionseed>
     <input>
       <name>ans</name>
       <type>algebraic</type>
@@ -66,16 +69,16 @@ simp:false;</text>
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint/>
+      <syntaxhint></syntaxhint>
       <syntaxattribute>0</syntaxattribute>
-      <forbidwords/>
-      <allowwords/>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>1</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>1</showvalidation>
-      <options/>
+      <options></options>
     </input>
     <prt>
       <name>prt1</name>
@@ -83,81 +86,81 @@ simp:false;</text>
       <autosimplify>0</autosimplify>
       <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text/>
+        <text></text>
       </feedbackvariables>
       <node>
         <name>0</name>
-        <description/>
-        <answertest>EqualComAss</answertest>
+        <description>Correct answers</description>
+        <answertest>EqualComAssRules</answertest>
         <sans>ans</sans>
         <tans>ta</tans>
-        <testoptions/>
+        <testoptions>[ID_TRANS]</testoptions>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
-        <truescore>1.0000000</truescore>
-        <truepenalty/>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
         <truenextnode>-1</truenextnode>
-        <trueanswernote>1-0-T </trueanswernote>
+        <trueanswernote>prt1-1-T</trueanswernote>
         <truefeedback format="html">
-          <text/>
+          <text></text>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
-        <falsescore>0.0000000</falsescore>
-        <falsepenalty/>
-        <falsenextnode>2</falsenextnode>
-        <falseanswernote>1-0-F </falseanswernote>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
         <falsefeedback format="html">
-          <text/>
+          <text></text>
         </falsefeedback>
       </node>
       <node>
         <name>1</name>
-        <description/>
-        <answertest>AlgEquiv</answertest>
-        <sans>ans</sans>
-        <tans>(a+c)/(b+d)</tans>
-        <testoptions/>
-        <quiet>0</quiet>
-        <truescoremode>=</truescoremode>
-        <truescore>0.0000000</truescore>
-        <truepenalty/>
-        <truenextnode>-1</truenextnode>
-        <trueanswernote>1-1-T (naive adding of fractions)</trueanswernote>
-        <truefeedback format="html">
-          <text><![CDATA[<p>Remember that the first step in adding fractions is to make both denominators equal. It is not simply adding the numerators and the denominators.</p>]]></text>
-        </truefeedback>
-        <falsescoremode>=</falsescoremode>
-        <falsescore>0.0000000</falsescore>
-        <falsepenalty/>
-        <falsenextnode>-1</falsenextnode>
-        <falseanswernote>1-1-F </falseanswernote>
-        <falsefeedback format="html">
-          <text/>
-        </falsefeedback>
-      </node>
-      <node>
-        <name>2</name>
-        <description/>
+        <description></description>
         <answertest>AlgEquiv</answertest>
         <sans>ans</sans>
         <tans>ta</tans>
-        <testoptions/>
+        <testoptions></testoptions>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
-        <truescore>0.0000000</truescore>
-        <truepenalty/>
+        <truescore>0</truescore>
+        <truepenalty></truepenalty>
         <truenextnode>-1</truenextnode>
-        <trueanswernote>1-2-T </trueanswernote>
+        <trueanswernote>prt1-2-T</trueanswernote>
         <truefeedback format="html">
           <text><![CDATA[<p>Simplify the fraction fully into the form \(\frac{a}{b}\) and leave in it's lowest terms.</p>]]></text>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
-        <falsescore>0.0000000</falsescore>
-        <falsepenalty/>
-        <falsenextnode>1</falsenextnode>
-        <falseanswernote>1-2-F </falseanswernote>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
         <falsefeedback format="html">
-          <text/>
+          <text></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description>Naive adding of fractions/mediant</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans</sans>
+        <tans>(a+c)/(b+d)</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Remember that the first step in adding fractions is to make both denominators equal. It is not simply adding the numerators and the denominators.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
         </falsefeedback>
       </node>
     </prt>
@@ -168,7 +171,7 @@ simp:false;</text>
     <deployedseed>944404612</deployedseed>
     <qtest>
       <testcase>1</testcase>
-      <description/>
+      <description></description>
       <testinput>
         <name>ans</name>
         <value>ta</value>
@@ -177,12 +180,12 @@ simp:false;</text>
         <name>prt1</name>
         <expectedscore>1.0000000</expectedscore>
         <expectedpenalty>0.0000000</expectedpenalty>
-        <expectedanswernote>1-0-T</expectedanswernote>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
       <testcase>2</testcase>
-      <description/>
+      <description></description>
       <testinput>
         <name>ans</name>
         <value>(a+c)/(b+d)</value>
@@ -191,12 +194,12 @@ simp:false;</text>
         <name>prt1</name>
         <expectedscore>0.0000000</expectedscore>
         <expectedpenalty>0.1000000</expectedpenalty>
-        <expectedanswernote>1-1-T (naive adding of fractions)</expectedanswernote>
+        <expectedanswernote>prt1-3-T</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
       <testcase>3</testcase>
-      <description/>
+      <description></description>
       <testinput>
         <name>ans</name>
         <value>a/b+c/d</value>
@@ -205,8 +208,37 @@ simp:false;</text>
         <name>prt1</name>
         <expectedscore>0.0000000</expectedscore>
         <expectedpenalty>0.1000000</expectedpenalty>
-        <expectedanswernote>1-2-T</expectedanswernote>
+        <expectedanswernote>prt1-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description>Literal a/b</description>
+      <testinput>
+        <name>ans</name>
+        <value>2/1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>5</testcase>
+      <description>Wrong answer</description>
+      <testinput>
+        <name>ans</name>
+        <value>3/2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty></expectedpenalty>
+        <expectedanswernote>prt1-3-F</expectedanswernote>
       </expected>
     </qtest>
   </question>
+
 </quiz>

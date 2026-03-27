@@ -56,26 +56,6 @@ This section is a detailed design proposal to improve question testing to test a
 
 Make DB changes to considerably lengthen `expectedanswernote` from 255 chars:  https://github.com/maths/moodle-qtype_stack/blob/master/db/install.xml#L178
 
-This field now holds any expected notes from the branches, e.g.  `prt1-1-F | prt1-3-F | prt1-4-F`. Note in this example, there is no expectation from node 2. Individual notes are separated by `|` as in the current output, but this becomes part of the formal note syntax.
-
-* Currently `|` is not permitted in answer notes (see https://github.com/maths/moodle-qtype_stack/blob/master/questiontype.php#L2284)
-* When we split over `|` we should trim whitespace before comparison.
-
-The test passes if and only if the PRT produces those notes in order. We condone any notes from the PRT which don't appear in the test case expectation. Hence, with the expectation  `prt1-1-F | prt1-3-F | prt1-4-F` all the following will pass as tests.
-
-    prt1-1-F | prt1-2-T | prt1-3-F | prt1-4-F
-    prt1-1-F | prt1-2-F | prt1-3-F | prt1-4-F
-    prt1-1-F | prt1-2-T | prt1-3-F | prt1-4-T | prt1-5-F | prt1-6-F
-
-This is simple and I think authors will actually be able to write tests like this and understand what is being tested when they read other people's test.
-
-1. The current test setup is a special case of this (retaining back compatibility).
-2. We now test non-leaf nodes (the underlying purpose of issue #1703).
-3. Simple to author - you don't have to specify the whole route through the tree, but you _can_ specify the whole route through the tree.
-4. This can ignore output from answer tests. By design some answer tests give information about the specific input (e.g. missing items in a set). This is super helpful to teachers and for statistics, but wrecks testing of questions (each input gets a different note).
-
-TODO: update the _Tidy inputs and PRTs_ script.
-
 ### Add in a new keyvals field "test variables".
 
 Add in a new keyvals field "test variables". The test execution would then take three CAS sessions.

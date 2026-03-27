@@ -70,6 +70,28 @@ class stack_question_test {
     }
 
     /**
+     * Update testcase expectations from question tidy.
+     * @param array $prtrenames maps old PRT names to new names.
+     * @param array $notedata maps old PRT note data to new data.
+     */
+    public function update_expected_testcase(array $prtrenames, array $notedata) {
+        $expectedresults = $this->expectedresults;
+        $this->expectedresults = [];
+        foreach ($expectedresults as $oldprtname => $prtstate) {
+            $oldanswernotes = $prtstate->__get('answernotes');
+            // Expected answer notes are always a string, first element in the array.
+            $note = $oldanswernotes[0];
+            foreach (stack_utils::decompose_rename_operation($notedata[$oldprtname]) as $onote => $nnote) {
+                $note = str_replace($onote, $nnote, $note);
+            }
+            $newanswernotes = [$note];
+            $prtstate->answernotes = $newanswernotes;
+            // Use the new name of the PRT for this updated expected result.
+            $this->add_expected_result($prtrenames[$oldprtname], $prtstate);
+        }
+    }
+
+    /**
      * Run this test against a particular question.
      * @param int $questionid The database id of the question to test.
      * @param int $seed the random seed to use.

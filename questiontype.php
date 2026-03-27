@@ -1313,30 +1313,6 @@ class qtype_stack extends question_type {
             ]
         );
 
-        // True answer notes in question test data if default is used.
-        $DB->set_field(
-            'qtype_stack_qtest_expected',
-            'expectedanswernote',
-            $prtname . '-' . (intval($to) + 1) . '-T',
-            [
-                    'questionid' => $questionid,
-                    'prtname' => $prtname,
-                    'expectedanswernote' => $prtname . '-' . (intval($from) + 1) . '-T',
-            ]
-        );
-
-        // False answer notes in question test data if default is used.
-        $DB->set_field(
-            'qtype_stack_qtest_expected',
-            'expectedanswernote',
-            $prtname . '-' . (intval($to) + 1) . '-F',
-            [
-                    'questionid' => $questionid,
-                    'prtname' => $prtname,
-                    'expectedanswernote' => $prtname . '-' . (intval($from) + 1) . '-F',
-            ]
-        );
-
         // The PRT node itself.
         $DB->set_field(
             'qtype_stack_prt_nodes',

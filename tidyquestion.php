@@ -91,6 +91,8 @@ if ($form->is_cancelled()) {
     redirect($returnurl);
 } else if ($data = $form->get_data()) {
     $qtype = question_bank::get_qtype('stack');
+    $testscases = $qtype->load_question_tests($question->id);
+
     $transaction = $DB->start_delegated_transaction();
 
     // Rename the inputs.
@@ -103,13 +105,14 @@ if ($form->is_cancelled()) {
     }
 
     // Rename the PRT nodes.
-    foreach ($question->prts as $prtname => $prt) {
-        $noderenames = [];
+    $noderenames = [];
+    foreach ($question->prts as $oldprtname => $prt) {
+        $noderenames[$oldprtname] = [];
         foreach ($prt->get_nodes_summary() as $nodekey => $notused) {
-            $noderenames[$nodekey] = $data->{'nodename_' . $prtname . '_' . $nodekey} - 1;
+            $noderenames[$oldprtname][$nodekey] = $data->{'nodename_' . $oldprtname . '_' . $nodekey} - 1;
         }
-        foreach (stack_utils::decompose_rename_operation($noderenames) as $from => $to) {
-            $qtype->rename_prt_node($question->id, $prtname, $from, $to);
+        foreach (stack_utils::decompose_rename_operation($noderenames[$oldprtname]) as $from => $to) {
+            $qtype->rename_prt_node($question->id, $oldprtname, $from, $to);
         }
     }
 
@@ -120,6 +123,27 @@ if ($form->is_cancelled()) {
     }
     foreach (stack_utils::decompose_rename_operation($prtrenames) as $from => $to) {
         $qtype->rename_prt($question->id, $from, $to);
+    }
+
+    // Create all default answer note expectation _change_ mappings over the whole question.
+    $notesubs = [];
+    foreach ($prtrenames as $oldprtname => $newprtname) {
+        $newnotes = [];
+        foreach ($noderenames[$oldprtname] as $oldnode => $newnode) {
+            if ($oldprtname != $newprtname || $oldnode != $newnode) {
+                $on = $oldprtname . '-' . (intval($oldnode) + 1);
+                $nn = $newprtname . '-' . (intval($newnode) + 1);
+                $newnotes[$on . '-T'] =  $nn . '-T';
+                $newnotes[$on . '-F'] =  $nn . '-F';
+            }
+        }
+        $notesubs[$oldprtname] = $newnotes;
+    }
+
+    // Update all expected answer notes in the question tests.
+    foreach ($testscases as $number => $testcase) {
+        $testcase->update_expected_testcase($prtrenames, $notesubs);
+        $qtype->save_question_test($question->id, $testcase, $number);
     }
 
     // Done.

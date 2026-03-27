@@ -37,15 +37,17 @@ class Mutations {
     async updateAll(stateManager, inputArray) {
         let state = stateManager.state;
         const additionalCopy = {};
-        state.additional.forEach((addInfo) => {
-            const rowCopy = {
-                scope: addInfo.scope,
-                property: addInfo.property,
-                qualifier: addInfo.qualifier,
-                value: addInfo.value
-            };
-            additionalCopy[addInfo.id] = rowCopy;
-        });
+        if (state.additional) {
+            state.additional.forEach((addInfo) => {
+                const rowCopy = {
+                    scope: addInfo.scope,
+                    property: addInfo.property,
+                    qualifier: addInfo.qualifier,
+                    value: addInfo.value
+                };
+                additionalCopy[addInfo.id] = rowCopy;
+            });
+        }
         for (const field of inputArray) {
             const parts = field[0].split('_');
             const id = parts[1];
@@ -59,11 +61,12 @@ class Mutations {
                 // We find all entries for that scope and update.
                 const existingScope = additionalCopy[id].scope;
                 if (existingScope !== field[1]) {
-                    additionalCopy.forEach((addInfo) => {
+                   for (const key in additionalCopy) {
+                        const addInfo = additionalCopy[key];
                         if (addInfo.scope === existingScope) {
                             addInfo.scope = field[1];
                         }
-                    });
+                    }
                 }
             } else {
                 const existing = additionalCopy[id];

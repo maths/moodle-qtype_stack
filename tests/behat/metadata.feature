@@ -179,6 +179,27 @@ Feature: Create and edit STACK metadata
     And I check the hidden input "metadata" is '{"creator":{"firstName":"Bob","lastName":"Smith","institution":"MIT","year":"2024"},"contributor":[{"firstName":"Mike","lastName":"Jones","institution":"Bath","year":"2023"}],"language":["en"],"isPartOf":"Everything","license":"cc-nc-4.1","additional":{"Added":{"Cat":{"Breed":"Al$%&^"},"Horse":"Dobbin","Dog":{"Teeth":"50","Tails":"1"}},"Added too":{"Fish":{"Gills":"2"}}}}'
     And I click on "View and edit full metadata" "button"
     And I should see "STACK metadata is stored as a JSON object."
+    And I click on "smd_property_5_add" "button"
+    And I wait until "smdi_6_additional_property" "field" exists
+    And I set the field "smdi_6_additional_property" in the "#qtype-stack-metadata-content" "css_element" to "Fish"
+    And I set the field "smdi_6_additional_qualifier" in the "#qtype-stack-metadata-content" "css_element" to "Gills"
+    And I set the field "smdi_6_additional_value" in the "#qtype-stack-metadata-content" "css_element" to "3"
+    And I click on "smd_property_1_add" "button"
+    And I wait until "smdi_7_additional_property" "field" exists
+    And I set the field "smdi_7_additional_property" in the "#qtype-stack-metadata-content" "css_element" to "Horse"
+    And I set the field "smdi_7_additional_qualifier" in the "#qtype-stack-metadata-content" "css_element" to ""
+    And I set the field "smdi_7_additional_value" in the "#qtype-stack-metadata-content" "css_element" to "Champion"
+    And I click on "Validate and close" "button"
+    And I check the hidden input "metadata" is '{"creator":{"firstName":"Bob","lastName":"Smith","institution":"MIT","year":"2024"},"contributor":[{"firstName":"Mike","lastName":"Jones","institution":"Bath","year":"2023"}],"language":["en"],"isPartOf":"Everything","license":"cc-nc-4.1","additional":{"Added":{"Cat":{"Breed":"Al$%&^"},"Horse":["Dobbin","Champion"],"Dog":{"Teeth":"50","Tails":"1"}},"Added too":{"Fish":{"Gills":["2","3"]}}}}'
+    And I click on "View and edit full metadata" "button"
+    And I should see "STACK metadata is stored as a JSON object."
+    And I click on "smd_property_1_add" "button"
+    And I wait until "smdi_8_additional_property" "field" exists
+    And I set the field "smdi_8_additional_property" in the "#qtype-stack-metadata-content" "css_element" to "Horse"
+    And I set the field "smdi_8_additional_qualifier" in the "#qtype-stack-metadata-content" "css_element" to "Name"
+    And I set the field "smdi_8_additional_value" in the "#qtype-stack-metadata-content" "css_element" to "Nessie"
+    And I click on "Validate and close" "button"
+    And I should see "Required" in the "#smde_7_additional_qualifier_error" "css_element"
     And I set the field "id_metadata_json" to multiline:
     """
     {
@@ -229,14 +250,14 @@ Feature: Create and edit STACK metadata
     And I click on "Revert current changes" "button"
     And I should not see "Lowell"
     And I click on "Validate and close" "button"
-    And I check the hidden input "metadata" is '{"creator":{"firstName":"Bob","lastName":"Smith","institution":"MIT","year":"2024"},"contributor":[{"firstName":"Mike","lastName":"Jones","institution":"Bath","year":"2023"}],"language":["en"],"isPartOf":"Everything","license":"cc-nc-4.1","additional":{"Added":{"Cat":{"Breed":"Al$%&^"},"Horse":"Dobbin","Dog":{"Teeth":"50","Tails":"1"}},"Added too":{"Fish":{"Gills":"2"}}}}'
+    And I check the hidden input "metadata" is '{"creator":{"firstName":"Bob","lastName":"Smith","institution":"MIT","year":"2024"},"contributor":[{"firstName":"Mike","lastName":"Jones","institution":"Bath","year":"2023"}],"language":["en"],"isPartOf":"Everything","license":"cc-nc-4.1","additional":{"Added":{"Cat":{"Breed":"Al$%&^"},"Horse":["Dobbin","Champion"],"Dog":{"Teeth":"50","Tails":"1"}},"Added too":{"Fish":{"Gills":["2","3"]}}}}'
     And I press "id_updatebutton"
     Given the site is running Moodle version 4.6 or lower
     Then I should see "Version 2"
-    And I check the hidden input "metadata" is '{"creator":{"firstName":"Bob","lastName":"Smith","institution":"MIT","year":"2024"},"contributor":[{"firstName":"Mike","lastName":"Jones","institution":"Bath","year":"2023"}],"language":["en"],"isPartOf":"Everything","license":"cc-nc-4.1","additional":{"Added":{"Cat":{"Breed":"Al$%&^"},"Horse":"Dobbin","Dog":{"Teeth":"50","Tails":"1"}},"Added too":{"Fish":{"Gills":"2"}}}}'
+    And I check the hidden input "metadata" is '{"creator":{"firstName":"Bob","lastName":"Smith","institution":"MIT","year":"2024"},"contributor":[{"firstName":"Mike","lastName":"Jones","institution":"Bath","year":"2023"}],"language":["en"],"isPartOf":"Everything","license":"cc-nc-4.1","additional":{"Added":{"Cat":{"Breed":"Al$%&^"},"Horse":["Dobbin","Champion"],"Dog":{"Teeth":"50","Tails":"1"}},"Added too":{"Fish":{"Gills":["2","3"]}}}}'
     Given the site is running Moodle version 5.0 or higher
     Then I should see "v2 (latest)"
-    And I check the hidden input "metadata" is '{"creator":{"firstName":"Bob","lastName":"Smith","institution":"MIT","year":"2024"},"contributor":[{"firstName":"Mike","lastName":"Jones","institution":"Bath","year":"2023"}],"language":["en"],"isPartOf":"Everything","license":"cc-nc-4.1","additional":{"Added":{"Cat":{"Breed":"Al$%&^"},"Horse":"Dobbin","Dog":{"Teeth":"50","Tails":"1"}},"Added too":{"Fish":{"Gills":"2"}}}}'
+    And I check the hidden input "metadata" is '{"creator":{"firstName":"Bob","lastName":"Smith","institution":"MIT","year":"2024"},"contributor":[{"firstName":"Mike","lastName":"Jones","institution":"Bath","year":"2023"}],"language":["en"],"isPartOf":"Everything","license":"cc-nc-4.1","additional":{"Added":{"Cat":{"Breed":"Al$%&^"},"Horse":["Dobbin","Champion"],"Dog":{"Teeth":"50","Tails":"1"}},"Added too":{"Fish":{"Gills":["2","3"]}}}}'
 
   @javascript
   Scenario: New question metadata

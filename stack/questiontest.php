@@ -81,8 +81,10 @@ class stack_question_test {
             $oldanswernotes = $prtstate->__get('answernotes');
             // Expected answer notes are always a string, first element in the array.
             $note = $oldanswernotes[0];
-            foreach (stack_utils::decompose_rename_operation($notedata[$oldprtname]) as $onote => $nnote) {
-                $note = str_replace($onote, $nnote, $note);
+            if (array_key_exists($oldprtname, $notedata) && is_array($notedata[$oldprtname])) {
+                foreach (stack_utils::decompose_rename_operation($notedata[$oldprtname]) as $onote => $nnote) {
+                    $note = str_replace($onote, $nnote, $note);
+                }
             }
             $newanswernotes = [$note];
             $prtstate->answernotes = $newanswernotes;

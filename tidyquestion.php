@@ -91,7 +91,6 @@ if ($form->is_cancelled()) {
     redirect($returnurl);
 } else if ($data = $form->get_data()) {
     $qtype = question_bank::get_qtype('stack');
-    $testscases = $qtype->load_question_tests($question->id);
 
     $transaction = $DB->start_delegated_transaction();
 
@@ -103,6 +102,10 @@ if ($form->is_cancelled()) {
     foreach (stack_utils::decompose_rename_operation($inputrenames) as $from => $to) {
         $qtype->rename_input($question->id, $from, $to);
     }
+
+    // Rename inputs before getting the test cases.  These test cases need the _new_ input names.
+    // Get the test cases before renaming the question parts.
+    $testscases = $qtype->load_question_tests($question->id);
 
     // Rename the PRT nodes.
     $noderenames = [];

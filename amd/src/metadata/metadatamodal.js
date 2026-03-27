@@ -40,8 +40,12 @@ export class MetadataModal extends Modal {
             const newValue = JSON.stringify(metadata.state, metadata.replacer);
             if (current.value !== newValue) {
                 document.querySelector('input[name="metadata"]').value = newValue;
-                document.querySelector('[data-name="metadata_text"]').textContent =
-                    document.querySelector('#id_stack_metadata').getAttribute('data-change');
+                try {
+                    document.querySelector('[data-name="metadata_text"]').textContent =
+                        document.querySelector('#id_stack_metadata').getAttribute('data-change');
+                } catch (e) {
+                    // Don't update in Moodle 4.2.
+                }
             }
             super.hide();
         }

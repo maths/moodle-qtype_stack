@@ -507,6 +507,18 @@ $string['settingmaximalibraries'] = 'Load optional Maxima libraries:';
 $string['settingmaximalibraries_desc'] = 'This is a comma separated list of Maxima library names which will be automatically loaded into Maxima.  Only supported library names can be used: "stats, distrib, descriptive, simplex". When you change the listed libraties you must rebuild the Maxima optimised image.';
 $string['settingmaximalibraries_error'] = 'Please edit the STACK plugin setting <tt>qtype_stack | maximalibraries</tt>. The following package is not supported: {$a}';
 $string['settingmaximalibraries_failed'] = 'It appears as if some of the Maxima packages you have asked for have failed to load.';
+$string['settingexternallibraries'] = 'External question libraries';
+$string['settingexternallibraries_desc'] = 'JSON object listing display names and URL locations of allowed external GitHub libraries with a short identifier for each. Example:
+<br>{
+<br>&nbsp;&nbsp;"EIT": {
+<br>&nbsp;&nbsp;&nbsp;&nbsp;"url": "https:\/\/github.com\/maths\/moodle-qtype_stack\/tree\/master\/samplequestions\/importtest",
+<br>&nbsp;&nbsp;&nbsp;&nbsp;"name": "External: import test"
+<br>&nbsp;&nbsp;},
+<br>&nbsp;&nbsp;"ESQ": {
+<br>&nbsp;&nbsp;&nbsp;&nbsp;"url": "https:\/\/github.com\/maths\/moodle-qtype_stack\/tree\/master\/samplequestions\/stacklibrary",
+<br>&nbsp;&nbsp;&nbsp;&nbsp;"name": "External: sample library"
+<br>&nbsp;&nbsp;}
+<br>}';
 
 // Strings used by replace dollars script.
 $string['replacedollarscount'] = 'This category contains {$a} STACK questions.';
@@ -1862,6 +1874,7 @@ $string['stack_library_import_folder'] = 'Import folder';
 $string['stack_library_quiz'] = 'This is a quiz:';
 $string['stack_library_quiz_course'] = 'The quiz will be imported into course: ';
 $string['stack_library_quiz_prefix'] = 'Quiz:';
+$string['stack_library_refresh'] = 'Refresh library contents';
 $string['stack_library_selected'] = 'Displayed question:';
 $string['stack_library_select'] = 'Select library:';
 $string['stack_library_success'] = 'Successful import of:';

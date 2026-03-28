@@ -31,7 +31,9 @@ require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
 require_once($CFG->dirroot . '/webservice/tests/helpers.php');
 require_once($CFG->dirroot . '/question/type/stack/tests/fixtures/test_maxima_configuration.php');
 require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
+require_once($CFG->dirroot . '/question/type/stack/stack/questionlibrary.class.php');
 
+use cache;
 use context_course;
 use externallib_advanced_testcase;
 use external_api;
@@ -77,6 +79,8 @@ final class library_import_test extends externallib_advanced_testcase {
         }
         \stack_utils::clear_config_cache();
         \qtype_stack_test_config::setup_test_maxima_connection();
+        $cache = cache::make('qtype_stack', 'librarycache');
+        $cache->purge();
         $this->resetAfterTest();
     }
 
@@ -90,7 +94,13 @@ final class library_import_test extends externallib_advanced_testcase {
         $managerroleid = $DB->get_field('role', 'id', ['shortname' => 'manager']);
         role_assign($managerroleid, $this->user->id, $context->id);
 
-        $returnvalue = library_import::import_execute($this->course->id, $this->qcategory->id, $this->filepath, false);
+        $returnvalue = library_import::import_execute(
+            $this->course->id,
+            $this->qcategory->id,
+            $this->filepath,
+            false,
+            \stack_question_library::STACKLIB
+        );
 
         // We need to execute the return values cleaning process to simulate
         // the web service server.
@@ -113,7 +123,13 @@ final class library_import_test extends externallib_advanced_testcase {
         $this->expectException(require_login_exception::class);
         // Exception messages don't seem to get translated.
         $this->expectExceptionMessage('not logged in');
-        library_import::import_execute($this->course->id, $this->qcategory->id, $this->filepath, false);
+        library_import::import_execute(
+            $this->course->id,
+            $this->qcategory->id,
+            $this->filepath,
+            false,
+            \stack_question_library::STACKLIB
+        );
     }
 
     /**
@@ -127,7 +143,13 @@ final class library_import_test extends externallib_advanced_testcase {
         $this->getDataGenerator()->enrol_user($this->user->id, $this->course->id);
         $this->expectException(required_capability_exception::class);
         $this->expectExceptionMessage('you do not currently have permissions to do that (Add new questions).');
-        library_import::import_execute($this->course->id, $this->qcategory->id, $this->filepath, false);
+        library_import::import_execute(
+            $this->course->id,
+            $this->qcategory->id,
+            $this->filepath,
+            false,
+            \stack_question_library::STACKLIB
+        );
     }
 
     /**
@@ -136,7 +158,13 @@ final class library_import_test extends externallib_advanced_testcase {
     public function test_export_capability(): void {
         $this->expectException(require_login_exception::class);
         $this->expectExceptionMessage('Not enrolled');
-        library_import::import_execute($this->course->id, $this->qcategory->id, $this->filepath, false);
+        library_import::import_execute(
+            $this->course->id,
+            $this->qcategory->id,
+            $this->filepath,
+            false,
+            \stack_question_library::STACKLIB
+        );
     }
 
     /**
@@ -150,7 +178,13 @@ final class library_import_test extends externallib_advanced_testcase {
         role_assign($managerroleid, $this->user->id, $context->id);
         $sink = $this->redirectEvents();
 
-        $returnvalue = library_import::import_execute($this->course->id, $this->qcategory->id, $this->filepath, false);
+        $returnvalue = library_import::import_execute(
+            $this->course->id,
+            $this->qcategory->id,
+            $this->filepath,
+            false,
+            \stack_question_library::STACKLIB
+        );
 
         // We need to execute the return values cleaning process to simulate
         // the web service server.
@@ -185,7 +219,13 @@ final class library_import_test extends externallib_advanced_testcase {
         role_assign($managerroleid, $this->user->id, $context->id);
         $sink = $this->redirectEvents();
 
-        $returnvalue = library_import::import_execute($this->course->id, $this->qcategory->id, $this->filepath, true);
+        $returnvalue = library_import::import_execute(
+            $this->course->id,
+            $this->qcategory->id,
+            $this->filepath,
+            true,
+            \stack_question_library::STACKLIB
+        );
 
         // We need to execute the return values cleaning process to simulate
         // the web service server.
@@ -224,7 +264,13 @@ final class library_import_test extends externallib_advanced_testcase {
         role_assign($managerroleid, $this->user->id, $context->id);
         $sink = $this->redirectEvents();
 
-        $returnvalue = library_import::import_execute($this->course->id, $this->qcategory->id, $quizfilepath, true);
+        $returnvalue = library_import::import_execute(
+            $this->course->id,
+            $this->qcategory->id,
+            $quizfilepath,
+            true,
+            \stack_question_library::STACKLIB
+        );
 
         // We need to execute the return values cleaning process to simulate
         // the web service server.
@@ -330,7 +376,13 @@ final class library_import_test extends externallib_advanced_testcase {
         $managerroleid = $DB->get_field('role', 'id', ['shortname' => 'manager']);
         role_assign($managerroleid, $this->user->id, $context->id);
 
-        library_import::import_execute($this->course->id, $this->qcategory->id, $quizfilepath, true);
+        library_import::import_execute(
+            $this->course->id,
+            $this->qcategory->id,
+            $quizfilepath,
+            true,
+            \stack_question_library::STACKLIB
+        );
 
         $sections = $DB->get_records('quiz_sections');
         $this->assertEquals(1, count($sections));
@@ -360,7 +412,13 @@ final class library_import_test extends externallib_advanced_testcase {
         $managerroleid = $DB->get_field('role', 'id', ['shortname' => 'manager']);
         role_assign($managerroleid, $this->user->id, $context->id);
 
-        library_import::import_execute($this->course->id, $this->qcategory->id, $quizfilepath, true);
+        library_import::import_execute(
+            $this->course->id,
+            $this->qcategory->id,
+            $quizfilepath,
+            true,
+            \stack_question_library::STACKLIB
+        );
 
         $slots = $DB->get_records('quiz_slots');
         $this->assertEquals(4, count($slots));
@@ -370,5 +428,524 @@ final class library_import_test extends externallib_advanced_testcase {
         $this->assertEquals(0, $slot1->requireprevious);
         $this->assertEquals(1, $slot2->requireprevious);
         $this->assertEquals(0, $slot3->requireprevious);
+    }
+
+    /**
+     * Test output of library_render function when accessing site library.
+     */
+    public function test_dubious_file_check(): void {
+        global $DB;
+        $cache = cache::make('qtype_stack', 'librarycache');
+        $cache->purge();
+        // Set the required capabilities - webservice access and export rights on course.
+        $context = context_course::instance($this->course->id);
+        $managerroleid = $DB->get_field('role', 'id', ['shortname' => 'manager']);
+        role_assign($managerroleid, $this->user->id, $context->id);
+        $iserror = false;
+        try {
+            library_import::import_execute(
+                $this->course->id,
+                $this->qcategory->id,
+                'sitelibrary/libtest/../../testq.xml',
+                false,
+                \stack_question_library::SITELIB
+            );
+        } catch (\Exception $e) {
+            $this->assertEquals('Dubious file request.', $e->getMessage());
+            $iserror = true;
+        }
+        $this->assertEquals(true, $iserror);
+
+        $iserror = false;
+        try {
+            library_import::import_execute(
+                $this->course->id,
+                $this->qcategory->id,
+                'sitelibrary/libtest/../../testq.xml',
+                false,
+                'fake'
+            );
+        } catch (\Exception $e) {
+            $this->assertEquals('Dubious file request.', $e->getMessage());
+            $iserror = true;
+        }
+        $this->assertEquals(true, $iserror);
+
+        $iserror = false;
+        try {
+            library_import::import_execute(
+                $this->course->id,
+                $this->qcategory->id,
+                'otherlib/libtest/../../testq.xml',
+                false,
+                'fake'
+            );
+        } catch (\Exception $e) {
+            $this->assertEquals('Dubious file request.', $e->getMessage());
+            $iserror = true;
+        }
+        $this->assertEquals(true, $iserror);
+    }
+
+    /**
+     * Set up files for site library tests.
+     * @return void
+     */
+    public function copy_directory(): void {
+        global $CFG;
+
+        $dest = $CFG->dataroot . '/stack/sitelibrary/importtest';
+        $source = $CFG->dirroot . '/question/type/stack/samplequestions/importtest';
+        $this->filepath = 'sitelibrary/importtest/Course1/top/CR_Diff_01/CR-Diff-01-basic-1-e.xml';
+
+        mkdir($dest, 0777, true);
+        foreach (
+            $iterator = new \RecursiveIteratorIterator(
+                new \RecursiveDirectoryIterator(
+                    $source,
+                    \RecursiveDirectoryIterator::SKIP_DOTS
+                ),
+                \RecursiveIteratorIterator::SELF_FIRST
+            ) as $item
+        ) {
+            if ($item->isDir()) {
+                mkdir($dest . DIRECTORY_SEPARATOR . $iterator->getSubPathname());
+            } else {
+                copy($item, $dest . DIRECTORY_SEPARATOR . $iterator->getSubPathname());
+            }
+        }
+    }
+
+    /**
+     * Test output of library_import function for site library.
+     */
+    public function test_site_library_import(): void {
+        global $DB;
+
+        $this->copy_directory();
+
+        // Set the required capabilities - webservice access and export rights on course.
+        $context = context_course::instance($this->course->id);
+        $managerroleid = $DB->get_field('role', 'id', ['shortname' => 'manager']);
+        role_assign($managerroleid, $this->user->id, $context->id);
+        $sink = $this->redirectEvents();
+
+        $returnvalue = library_import::import_execute(
+            $this->course->id,
+            $this->qcategory->id,
+            $this->filepath,
+            false,
+            \stack_question_library::SITELIB
+        );
+
+        // We need to execute the return values cleaning process to simulate
+        // the web service server.
+        $returnvalue = external_api::clean_returnvalue(
+            library_import::import_execute_returns(),
+            $returnvalue
+        );
+
+        $this->assertEquals(1, count($returnvalue));
+        $this->assertEquals(true, $returnvalue[0]['success']);
+        $this->assertEquals('CR-Diff-01-basic-1.e', $returnvalue[0]['questionname']);
+        $this->assertEquals(basename($this->filepath), $returnvalue[0]['filename']);
+        $this->assertEquals(true, $returnvalue[0]['isstack']);
+
+        $events = $sink->get_events();
+        $this->assertEquals(count($events), 2);
+        $this->assertInstanceOf('\core\event\question_created', $events['0']);
+        $this->assertInstanceOf('\core\event\questions_imported', $events['1']);
+
+        $dbquestion = $DB->get_record('question', ['name' => 'CR-Diff-01-basic-1.e'], '*', MUST_EXIST);
+        $this->assertEquals($dbquestion->id, $returnvalue[0]['questionid']);
+    }
+
+    /**
+     * Test output of library_import function for an entire folder for site library.
+     */
+    public function test_site_library_import_folder(): void {
+        global $DB, $CFG;
+        $this->copy_directory();
+        // Add in an extra question just to make sure we're getting questions from the correct place.
+        file_put_contents(
+            $CFG->dataroot . '/stack/sitelibrary/importtest/Course1/top/CR_Diff_01/testq.xml',
+            '<quiz><question type="stack"><name><text>Test</text></name></question></quiz>'
+        );
+        // Set the required capabilities - webservice access and export rights on course.
+        $context = context_course::instance($this->course->id);
+        $managerroleid = $DB->get_field('role', 'id', ['shortname' => 'manager']);
+        role_assign($managerroleid, $this->user->id, $context->id);
+        $sink = $this->redirectEvents();
+
+        $returnvalue = library_import::import_execute(
+            $this->course->id,
+            $this->qcategory->id,
+            $this->filepath,
+            true,
+            \stack_question_library::SITELIB
+        );
+
+        // We need to execute the return values cleaning process to simulate
+        // the web service server.
+        $returnvalue = external_api::clean_returnvalue(
+            library_import::import_execute_returns(),
+            $returnvalue
+        );
+
+        $this->assertEquals(19, count($returnvalue));
+        $this->assertEquals(true, $returnvalue[0]['success']);
+        $this->assertEquals('CR-Diff-01-basic-1.b', $returnvalue[0]['questionname']);
+        $this->assertEquals('CR-Diff-01-basic-1-b.xml', $returnvalue[0]['filename']);
+        $this->assertEquals(true, $returnvalue[0]['isstack']);
+        $this->assertEquals('Test', $returnvalue[18]['questionname']);
+        $this->assertEquals('testq.xml', $returnvalue[18]['filename']);
+        $this->assertEquals(true, $returnvalue[18]['isstack']);
+
+        $events = $sink->get_events();
+        $this->assertEquals(count($events), 20);
+        $this->assertInstanceOf('\core\event\question_created', $events['0']);
+        $this->assertInstanceOf('\core\event\question_created', $events['18']);
+        $this->assertInstanceOf('\core\event\questions_imported', $events['19']);
+
+        $dbquestion = $DB->get_record('question', ['name' => 'CR-Diff-01-basic-1.b'], '*', MUST_EXIST);
+        $this->assertEquals($dbquestion->id, $returnvalue[0]['questionid']);
+        $dbquestions = $DB->get_records('question', ['qtype' => 'stack'], '', 'id');
+        $this->assertEquals(19, count($dbquestions));
+    }
+
+    /**
+     * Test output of library_import function for an entire folder for site library.
+     */
+    public function test_site_library_import_quiz(): void {
+        global $DB, $CFG;
+        $this->copy_directory();
+        $quizfolder = $CFG->dataroot . '/stack/sitelibrary/importtest/Course1_quiz_quiz-1';
+        // Rename quiz to make sure we're getting it from the correct place.
+        rename("{$quizfolder}/quiz-1_quiz.json", "{$quizfolder}/quiz-2_quiz.json");
+        // Set the required capabilities - webservice access and export rights on course.
+        $context = context_course::instance($this->course->id);
+        $quizfilepath = 'sitelibrary/importtest/Course1_quiz_quiz-1/quiz-2_quiz.json';
+        $managerroleid = $DB->get_field('role', 'id', ['shortname' => 'manager']);
+        role_assign($managerroleid, $this->user->id, $context->id);
+        $sink = $this->redirectEvents();
+
+        $returnvalue = library_import::import_execute(
+            $this->course->id,
+            $this->qcategory->id,
+            $quizfilepath,
+            true,
+            \stack_question_library::SITELIB
+        );
+
+        // We need to execute the return values cleaning process to simulate
+        // the web service server.
+        $returnvalue = external_api::clean_returnvalue(
+            library_import::import_execute_returns(),
+            $returnvalue
+        );
+
+        // Four questions plus the quiz itself.
+        $this->assertEquals(5, count($returnvalue));
+        $this->assertEquals(true, $returnvalue[0]['success']);
+        $this->assertEquals('Checkbox', $returnvalue[0]['questionname']);
+        $this->assertEquals('Checkbox.xml', $returnvalue[0]['filename']);
+        $this->assertEquals(true, $returnvalue[0]['isstack']);
+        $this->assertEquals('Algebraic input', $returnvalue[1]['questionname']);
+        $this->assertEquals('Algebraic-input.xml', $returnvalue[1]['filename']);
+        $this->assertEquals(true, $returnvalue[1]['isstack']);
+        $this->assertEquals('Dropdown (shuffle)', $returnvalue[2]['questionname']);
+        $this->assertEquals('Dropdown-(shuffle).xml', $returnvalue[2]['filename']);
+        $this->assertEquals(true, $returnvalue[2]['isstack']);
+        $this->assertEquals('Matrix', $returnvalue[3]['questionname']);
+        $this->assertEquals('Matrix.xml', $returnvalue[3]['filename']);
+        $this->assertEquals(true, $returnvalue[3]['isstack']);
+        $this->assertEquals('Quiz: Quiz 1', $returnvalue[4]['questionname']);
+        $this->assertEquals('quiz-2_quiz.json', $returnvalue[4]['filename']);
+        $this->assertEquals(false, $returnvalue[4]['isstack']);
+
+        $events = $sink->get_events();
+        $categoriescreated = 0;
+        $questionscreated = 0;
+        $questionsimported = 0;
+        foreach ($events as $currentevent) {
+            $eventclass = get_class($currentevent);
+            switch ($eventclass) {
+                case 'core\event\question_category_created':
+                    $categoriescreated++;
+                    break;
+                case 'core\event\question_created':
+                    $questionscreated++;
+                    break;
+                case 'core\event\questions_imported':
+                    // Fired once for each question category.
+                    $questionsimported++;
+                    break;
+            }
+        }
+        $this->assertEquals(1, $categoriescreated);
+        $this->assertEquals(4, $questionscreated);
+        $this->assertEquals(2, $questionsimported);
+
+        $dbquestion = $DB->get_record('question', ['name' => 'Checkbox'], '*', MUST_EXIST);
+        $this->assertEquals($dbquestion->id, $returnvalue[0]['questionid']);
+        $dbquestions = $DB->get_records('question', ['qtype' => 'stack'], '', 'id');
+        $this->assertEquals(4, count($dbquestions));
+
+        $quizzes = $DB->get_records('quiz');
+        $quiz = array_shift($quizzes);
+        $this->assertEquals('Quiz 1', $quiz->name);
+        $this->assertEquals('A highly interesting quiz involving maths.', $quiz->intro);
+        $this->assertEquals(1, $quiz->questionsperpage);
+        $this->assertEquals('deferredfeedback', $quiz->preferredbehaviour);
+        $this->assertEquals(2, $quiz->decimalpoints);
+        $this->assertEquals(4352, $quiz->reviewmarks);
+        $this->assertEquals(10, $quiz->grade);
+
+        $sections = $DB->get_records('quiz_sections');
+        $this->assertEquals(2, count($sections));
+        $section1 = array_shift($sections);
+        $section2 = array_shift($sections);
+        $this->assertEquals('', $section1->heading);
+        $this->assertEquals(1, $section1->firstslot);
+        $this->assertEquals('New heading 1', $section2->heading);
+        $this->assertEquals(3, $section2->firstslot);
+
+        $slots = $DB->get_records('quiz_slots');
+        $this->assertEquals(4, count($slots));
+        $slot1 = array_shift($slots);
+        $slot2 = array_shift($slots);
+        $this->assertEquals(0, $slot1->requireprevious);
+        $this->assertEquals(1, $slot1->page);
+        $this->assertEquals(1, $slot1->maxmark);
+        $this->assertEquals(0, $slot2->requireprevious);
+        $this->assertEquals(2, $slot2->page);
+        $this->assertEquals(1, $slot2->maxmark);
+
+        $feedback = $DB->get_records('quiz_feedback');
+        $this->assertEquals(1, count($feedback));
+        $feedback1 = array_shift($feedback);
+        $this->assertEquals('Low score', $feedback1->feedbacktext);
+        $this->assertEquals(1, $feedback1->feedbacktextformat);
+        $this->assertEquals(0, $feedback1->mingrade);
+        $this->assertEquals(6, $feedback1->maxgrade);
+    }
+
+    /**
+     * Set cache for external import tests.
+     * @return void
+     */
+    public function set_external(): void {
+        $cache = cache::make('qtype_stack', 'librarycache');
+        $cache->purge();
+        [$files, $flatfiles ] =
+            \stack_question_library::get_file_list_from_repo(
+                'https://github.com/maths/moodle-qtype_stack/tree/master/samplequestions/importtest',
+                \stack_question_library::GITHUB
+            );
+
+        $cache->set(\stack_question_library::GITHUB . '_TEST_flat_file_list', $flatfiles);
+        $this->filepath = 'Course1/top/CR_Diff_01/CR-Diff-01-basic-1-e.xml';
+    }
+
+    /**
+     * Test output of library_import function for GitHub.
+     */
+    public function test_external_library_import(): void {
+        global $DB;
+        $this->set_external();
+
+        // Set the required capabilities - webservice access and export rights on course.
+        $context = context_course::instance($this->course->id);
+        $managerroleid = $DB->get_field('role', 'id', ['shortname' => 'manager']);
+        role_assign($managerroleid, $this->user->id, $context->id);
+        $sink = $this->redirectEvents();
+
+        $returnvalue = library_import::import_execute(
+            $this->course->id,
+            $this->qcategory->id,
+            $this->filepath,
+            false,
+            \stack_question_library::GITHUB . '_TEST'
+        );
+
+        // We need to execute the return values cleaning process to simulate
+        // the web service server.
+        $returnvalue = external_api::clean_returnvalue(
+            library_import::import_execute_returns(),
+            $returnvalue
+        );
+
+        $this->assertEquals(1, count($returnvalue));
+        $this->assertEquals(true, $returnvalue[0]['success']);
+        $this->assertEquals('CR-Diff-01-basic-1.e', $returnvalue[0]['questionname']);
+        $this->assertEquals(basename($this->filepath), $returnvalue[0]['filename']);
+        $this->assertEquals(true, $returnvalue[0]['isstack']);
+
+        $events = $sink->get_events();
+        $this->assertEquals(count($events), 2);
+        $this->assertInstanceOf('\core\event\question_created', $events['0']);
+        $this->assertInstanceOf('\core\event\questions_imported', $events['1']);
+
+        $dbquestion = $DB->get_record('question', ['name' => 'CR-Diff-01-basic-1.e'], '*', MUST_EXIST);
+        $this->assertEquals($dbquestion->id, $returnvalue[0]['questionid']);
+    }
+
+    /**
+     * Test output of library_import function for an entire folder for GitHub.
+     */
+    public function test_external_library_import_folder(): void {
+        global $DB;
+        $this->set_external();
+        // Set the required capabilities - webservice access and export rights on course.
+        $context = context_course::instance($this->course->id);
+        $managerroleid = $DB->get_field('role', 'id', ['shortname' => 'manager']);
+        role_assign($managerroleid, $this->user->id, $context->id);
+        $sink = $this->redirectEvents();
+
+        $returnvalue = library_import::import_execute(
+            $this->course->id,
+            $this->qcategory->id,
+            $this->filepath,
+            true,
+            \stack_question_library::GITHUB . '_TEST'
+        );
+
+        // We need to execute the return values cleaning process to simulate
+        // the web service server.
+        $returnvalue = external_api::clean_returnvalue(
+            library_import::import_execute_returns(),
+            $returnvalue
+        );
+
+        $this->assertEquals(18, count($returnvalue));
+        $this->assertEquals(true, $returnvalue[0]['success']);
+        $this->assertEquals('CR-Diff-01-basic-1.b', $returnvalue[0]['questionname']);
+        $this->assertEquals('CR-Diff-01-basic-1-b.xml', $returnvalue[0]['filename']);
+        $this->assertEquals(true, $returnvalue[0]['isstack']);
+
+        $events = $sink->get_events();
+        $this->assertEquals(count($events), 19);
+        $this->assertInstanceOf('\core\event\question_created', $events['0']);
+        $this->assertInstanceOf('\core\event\question_created', $events['17']);
+        $this->assertInstanceOf('\core\event\questions_imported', $events['18']);
+
+        $dbquestion = $DB->get_record('question', ['name' => 'CR-Diff-01-basic-1.b'], '*', MUST_EXIST);
+        $this->assertEquals($dbquestion->id, $returnvalue[0]['questionid']);
+        $dbquestions = $DB->get_records('question', ['qtype' => 'stack'], '', 'id');
+        $this->assertEquals(18, count($dbquestions));
+    }
+
+    /**
+     * Test output of library_import function for an entire folder for GitHub.
+     */
+    public function test_external_library_import_quiz(): void {
+        global $DB;
+        $this->set_external();
+        // Set the required capabilities - webservice access and export rights on course.
+        $context = context_course::instance($this->course->id);
+        $quizfilepath = 'Course1_quiz_quiz-1/quiz-1_quiz.json';
+        $managerroleid = $DB->get_field('role', 'id', ['shortname' => 'manager']);
+        role_assign($managerroleid, $this->user->id, $context->id);
+        $sink = $this->redirectEvents();
+
+        $returnvalue = library_import::import_execute(
+            $this->course->id,
+            $this->qcategory->id,
+            $quizfilepath,
+            true,
+            \stack_question_library::GITHUB . '_TEST'
+        );
+
+        // We need to execute the return values cleaning process to simulate
+        // the web service server.
+        $returnvalue = external_api::clean_returnvalue(
+            library_import::import_execute_returns(),
+            $returnvalue
+        );
+
+        // Four questions plus the quiz itself.
+        $this->assertEquals(5, count($returnvalue));
+        $this->assertEquals(true, $returnvalue[0]['success']);
+        $this->assertEquals('Checkbox', $returnvalue[0]['questionname']);
+        $this->assertEquals('Checkbox.xml', $returnvalue[0]['filename']);
+        $this->assertEquals(true, $returnvalue[0]['isstack']);
+        $this->assertEquals('Algebraic input', $returnvalue[1]['questionname']);
+        $this->assertEquals('Algebraic-input.xml', $returnvalue[1]['filename']);
+        $this->assertEquals(true, $returnvalue[1]['isstack']);
+        $this->assertEquals('Dropdown (shuffle)', $returnvalue[2]['questionname']);
+        $this->assertEquals('Dropdown-(shuffle).xml', $returnvalue[2]['filename']);
+        $this->assertEquals(true, $returnvalue[2]['isstack']);
+        $this->assertEquals('Matrix', $returnvalue[3]['questionname']);
+        $this->assertEquals('Matrix.xml', $returnvalue[3]['filename']);
+        $this->assertEquals(true, $returnvalue[3]['isstack']);
+        $this->assertEquals('Quiz: Quiz 1', $returnvalue[4]['questionname']);
+        $this->assertEquals('quiz-1_quiz.json', $returnvalue[4]['filename']);
+        $this->assertEquals(false, $returnvalue[4]['isstack']);
+
+        $events = $sink->get_events();
+        $categoriescreated = 0;
+        $questionscreated = 0;
+        $questionsimported = 0;
+        foreach ($events as $currentevent) {
+            $eventclass = get_class($currentevent);
+            switch ($eventclass) {
+                case 'core\event\question_category_created':
+                    $categoriescreated++;
+                    break;
+                case 'core\event\question_created':
+                    $questionscreated++;
+                    break;
+                case 'core\event\questions_imported':
+                    // Fired once for each question category.
+                    $questionsimported++;
+                    break;
+            }
+        }
+        $this->assertEquals(1, $categoriescreated);
+        $this->assertEquals(4, $questionscreated);
+        $this->assertEquals(2, $questionsimported);
+
+        $dbquestion = $DB->get_record('question', ['name' => 'Checkbox'], '*', MUST_EXIST);
+        $this->assertEquals($dbquestion->id, $returnvalue[0]['questionid']);
+        $dbquestions = $DB->get_records('question', ['qtype' => 'stack'], '', 'id');
+        $this->assertEquals(4, count($dbquestions));
+
+        $quizzes = $DB->get_records('quiz');
+        $quiz = array_shift($quizzes);
+        $this->assertEquals('Quiz 1', $quiz->name);
+        $this->assertEquals('A highly interesting quiz involving maths.', $quiz->intro);
+        $this->assertEquals(1, $quiz->questionsperpage);
+        $this->assertEquals('deferredfeedback', $quiz->preferredbehaviour);
+        $this->assertEquals(2, $quiz->decimalpoints);
+        $this->assertEquals(4352, $quiz->reviewmarks);
+        $this->assertEquals(10, $quiz->grade);
+
+        $sections = $DB->get_records('quiz_sections');
+        $this->assertEquals(2, count($sections));
+        $section1 = array_shift($sections);
+        $section2 = array_shift($sections);
+        $this->assertEquals('', $section1->heading);
+        $this->assertEquals(1, $section1->firstslot);
+        $this->assertEquals('New heading 1', $section2->heading);
+        $this->assertEquals(3, $section2->firstslot);
+
+        $slots = $DB->get_records('quiz_slots');
+        $this->assertEquals(4, count($slots));
+        $slot1 = array_shift($slots);
+        $slot2 = array_shift($slots);
+        $this->assertEquals(0, $slot1->requireprevious);
+        $this->assertEquals(1, $slot1->page);
+        $this->assertEquals(1, $slot1->maxmark);
+        $this->assertEquals(0, $slot2->requireprevious);
+        $this->assertEquals(2, $slot2->page);
+        $this->assertEquals(1, $slot2->maxmark);
+
+        $feedback = $DB->get_records('quiz_feedback');
+        $this->assertEquals(1, count($feedback));
+        $feedback1 = array_shift($feedback);
+        $this->assertEquals('Low score', $feedback1->feedbacktext);
+        $this->assertEquals(1, $feedback1->feedbacktextformat);
+        $this->assertEquals(0, $feedback1->mingrade);
+        $this->assertEquals(6, $feedback1->maxgrade);
     }
 }

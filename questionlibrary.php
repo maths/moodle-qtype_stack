@@ -54,6 +54,7 @@ if ($cmid = optional_param('cmid', 0, PARAM_INT)) {
     $urlparams['courseid'] = $courseid;
     $returntext = get_string('stack_library_qb_return', 'qtype_stack');
 }
+$isrefresh = optional_param('refresh', 0, PARAM_INT) === 1 ? true : false;
 
 // Check user has add capability for the required context.
 require_capability('moodle/question:add', $thiscontext);
@@ -90,27 +91,69 @@ $cache = cache::make('qtype_stack', 'librarycache');
 
 // Make sure we're only listing contents of STACK library or site library.
 $location = optional_param('location', '', PARAM_RAW);
-$cacheid = 'library_file_list';
+// Location parameter will be in form:
+// samplequestions/stacklibrary
+// sitelibrary/foldername
+// githublibrary/id.
+// Corresponding cache ids are:
+// library
+// sitelibrary_foldername
+// githublibrary_id.
+$cacheid = stack_question_library::STACKLIB;
 $libraryname = stack_string('stack_library');
-if (str_starts_with($location, 'sitelibrary')) {
+$external = null;
+$allowedlibraries = get_config('qtype_stack', 'libraries');
+$allowedlibraries = json_decode($allowedlibraries);
+$allowedlibraries = $allowedlibraries ? $allowedlibraries : new StdClass();
+
+if (str_starts_with($location, stack_question_library::SITELIB)) {
     $libraryname = explode('/', $location)[1];
-    $cacheid = 'sitelibrary_' . $libraryname . '_file_list';
+    $cacheid = stack_question_library::SITELIB . "_{$libraryname}";
     $location = "{$CFG->dataroot}/stack/{$location}";
     if (!str_starts_with(realpath($location), "{$CFG->dataroot}/stack/sitelibrary")) {
-        $location = __DIR__ . '/samplequestions/stacklibrary/*';
+        $location = __DIR__ . '/samplequestions/stacklibrary';
         $libraryname = stack_string('stack_library');
-        $cacheid = 'library_file_list';
+        $cacheid = stack_question_library::STACKLIB;
+    }
+} else if (str_starts_with($location, stack_question_library::GITHUB)) {
+    $libparts = explode('/', $location);
+    $librarytype = $libparts[0];
+    $libraryid = $libparts[1];
+    $cacheid = $librarytype . "_{$libraryid}";
+    $libraryname = $allowedlibraries->{$libraryid}->name ?? null;
+    if (!$libraryname) {
+        $location = __DIR__ . '/samplequestions/stacklibrary';
+        $libraryname = stack_string('stack_library');
+        $cacheid = stack_question_library::STACKLIB;
     } else {
-        $location .= '/*';
+        $external = $librarytype;
     }
 } else {
-    $location = __DIR__ . '/samplequestions/stacklibrary/*';
+    $location = __DIR__ . '/samplequestions/stacklibrary';
 }
 
-$files = $cache->get($cacheid);
+if ($isrefresh) {
+    $refreshfiles = $cache->get($cacheid . '_flat_file_list');
+    if ($refreshfiles) {
+        $refreshfiles = array_keys($refreshfiles);
+        $refreshfiles = array_map(function ($file) use ($cacheid) {
+            return "{$cacheid}/{$file}";
+        }, $refreshfiles);
+    }
+    $refreshfiles[] = $cacheid . '_flat_file_list';
+    $refreshfiles[] = $cacheid . '_file_list';
+    $cache->delete_many($refreshfiles);
+}
+
+$files = $cache->get($cacheid . '_file_list');
 if (!$files) {
-    $files = stack_question_library::get_file_list($location);
-    $cache->set($cacheid, $files);
+    if ($external) {
+        [$files, $flatfiles] = stack_question_library::get_file_list_from_repo($allowedlibraries->{$libraryid}->url, $external);
+        $cache->set($cacheid . '_flat_file_list', $flatfiles);
+    } else {
+        $files = stack_question_library::get_file_list($location);
+    }
+    $cache->set($cacheid . '_file_list', $files);
 }
 
 $mform = new category_form(null, ['qcontext' => $contexts]);
@@ -127,12 +170,16 @@ $outputdata->courseid = $courseid;
 $outputdata->libraries = new StdClass();
 $outputdata->libraries->items = [];
 $outputdata->libraries->hasitems = false;
+$outputdata->libraries->current = $cacheid;
+if ($external) {
+    $outputdata->libraries->external = $cacheid;
+}
 
 $libraries = glob("{$CFG->dataroot}/stack/sitelibrary/*");
 if ($libraries) {
     $libentry = new StdClass();
     $libentry->name = stack_string('stack_library');
-    $urlparams['location'] = "/samplequestions/stacklibrary";
+    $urlparams['location'] = "samplequestions/stacklibrary";
     $libentry->url = new moodle_url('/question/type/stack/questionlibrary.php', $urlparams);
     $libentry->url = $libentry->url->out();
     $libentry->active = ($libentry->name === $libraryname) ? true : false;
@@ -143,11 +190,27 @@ foreach ($libraries as $library) {
     $libentry = new StdClass();
     $parts = explode('/', $library);
     $libentry->name = end($parts);
-    $urlparams['location'] = "sitelibrary/{$libentry->name}";
+    $urlparams['location'] = stack_question_library::SITELIB . "/{$libentry->name}";
     $libentry->url = new moodle_url('/question/type/stack/questionlibrary.php', $urlparams);
     $libentry->url = $libentry->url->out();
     $libentry->active = ($libentry->name === $libraryname) ? true : false;
     $outputdata->libraries->items[] = $libentry;
+}
+
+foreach ($allowedlibraries as $id => $lib) {
+    $libentry = new StdClass();
+    $libentry->name = $lib->name;
+    if (str_starts_with($lib->url, 'https://github.com/')) {
+        $urlparams['location'] = stack_question_library::GITHUB . "/{$id}";
+    } else {
+        $urlparams['location'] = 'invalid';
+    }
+    $urlparams['name'] = $lib->name;
+    $libentry->url = new moodle_url('/question/type/stack/questionlibrary.php', $urlparams);
+    $libentry->url = $libentry->url->out();
+    $libentry->active = ($libentry->name === $libraryname) ? true : false;
+    $outputdata->libraries->items[] = $libentry;
+    $outputdata->libraries->hasitems = true;
 }
 
 echo $OUTPUT->render_from_template('qtype_stack/questionlibrary', $outputdata);

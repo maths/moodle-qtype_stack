@@ -64,7 +64,7 @@ final class questionlibrary_test extends qtype_stack_testcase {
      */
     public function test_get_file_list(): void {
         global $CFG;
-        $files = stack_question_library::get_file_list($CFG->dirroot . '/question/type/stack/samplequestions/stacklibrary/*');
+        $files = stack_question_library::get_file_list($CFG->dirroot . '/question/type/stack/samplequestions/stacklibrary');
         $folder = null;
         foreach ($files->children as $currentfolder) {
             if ($currentfolder->label === 'Calculus-Refresher') {
@@ -102,7 +102,7 @@ final class questionlibrary_test extends qtype_stack_testcase {
      */
     public function test_get_file_list_quizzes(): void {
         global $CFG;
-        $files = stack_question_library::get_file_list($CFG->dirroot . '/question/type/stack/samplequestions/importtest/*');
+        $files = stack_question_library::get_file_list($CFG->dirroot . '/question/type/stack/samplequestions/importtest');
         $this->assertEquals(2, count($files->children));
         $this->assertEquals('Course1', $files->children[0]->label);
         $this->assertEquals('Course1_quiz_quiz-1', $files->children[1]->label);
@@ -131,5 +131,49 @@ final class questionlibrary_test extends qtype_stack_testcase {
                 $this->assertEquals(0, $files->children[1]->children[$index]->isdirectory, $label);
             }
         }
+    }
+
+    /**
+     * Test getting external files.
+     */
+    public function test_get_external_files(): void {
+        [$files, $flatfiles ] =
+            stack_question_library::get_file_list_from_repo(
+                'https://github.com/maths/moodle-qtype_stack/tree/master/samplequestions/importtest',
+                stack_question_library::GITHUB
+            );
+        $this->assertEquals(2, count($files->children));
+        $this->assertEquals('Course1', $files->children[0]->label);
+        $this->assertEquals('Course1_quiz_quiz-1', $files->children[1]->label);
+
+        // Ignore top and lone folder.
+        $this->assertEquals(18, count($files->children[0]->children));
+
+        // Seven questions, sub-category and 3 quizzes.
+        $this->assertEquals(11, count($files->children[1]->children));
+        $labels = ['Sub-for-quiz-1', 'Algebraic-input-(with-simplification).xml', 'Checkbox-(no-body-LaTeX).xml',
+            'Dropdown-(shuffle).xml', 'Equiv-input-test-(compact).xml', 'Matrix.xml',
+            'Radio-(compact).xml', 'Single-char.xml', 'quiz-1_quiz.json', 'quiz-no-sections_quiz.json',
+            'quiz-require-prev_quiz.json'];
+        foreach ($labels as $label) {
+            $index = null;
+            foreach ($files->children[1]->children as $childkey => $child) {
+                if ($child->label === $label) {
+                    $index = $childkey;
+                    break;
+                }
+            }
+            $this->assertEquals(true, isset($index), $label);
+            if ($label === 'Sub-for-quiz-1') {
+                $this->assertEquals(1, $files->children[1]->children[$index]->isdirectory, $label);
+            } else {
+                $this->assertEquals(0, $files->children[1]->children[$index]->isdirectory, $label);
+            }
+        }
+
+        $url = $flatfiles['Course1/top/CR_Diff_01/CR-Diff-01-basic-1-e.xml']->url;
+
+        $file = stack_question_library::get_external_github_file($url);
+        $this->assertStringContainsString('Differentiate \({@v@}^{@rdm@}\) with respect to {@v@}', $file);
     }
 }

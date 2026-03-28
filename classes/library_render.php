@@ -24,6 +24,8 @@
 
 namespace qtype_stack;
 
+use stack_exception;
+
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
@@ -57,7 +59,11 @@ class library_render extends \external_api {
     public static function render_execute_parameters() {
         return new \external_function_parameters([
             'category' => new \external_value(PARAM_INT, 'Question category where user has edit access'),
-            'filepath' => new \external_value(PARAM_RAW, 'File path relative to samplequestions'),
+            'filepath' => new \external_value(
+                PARAM_RAW,
+                'File path relative to samplequestions, STACK data directory or top of GitHub library'
+            ),
+            'cacheid' => new \external_value(PARAM_RAW, 'Library cache id'),
         ]);
     }
 
@@ -95,40 +101,55 @@ class library_render extends \external_api {
      * @param string $filepath File path relative to samplequestions.
      * @return array Array of question render, question text, description and question variables.
      */
-    public static function render_execute($category, $filepath) {
+    public static function render_execute($category, $filepath, $cacheid) {
         global $CFG, $DB;
         $params = self::validate_parameters(self::render_execute_parameters(), [
             'category' => $category,
             'filepath' => $filepath,
+            'cacheid' => $cacheid,
         ]);
         StackIframeHolder::$islibrary = true;
         // Check parameters and that user has question add capability in the supplied category.
         $context = $DB->get_field('question_categories', 'contextid', ['id' => $params['category']]);
+        if (str_starts_with($params['cacheid'], stack_question_library::GITHUB)) {
+            $external = stack_question_library::GITHUB;
+        } else {
+            $external = null;
+        }
         $thiscontext = context::instance_by_id($context);
         self::validate_context($thiscontext);
         require_capability('moodle/question:add', $thiscontext);
 
         // Check if we've already cached the answer.
         $cache = cache::make('qtype_stack', 'librarycache');
-        $result = $cache->get($params['filepath']);
+        $result = $cache->get($external ? "{$params['cacheid']}/{$params['filepath']}" : $params['filepath']);
         $isquiz = (pathinfo($params['filepath'], PATHINFO_EXTENSION) === 'json'
                             && strrpos($params['filepath'], '_quiz.json') !== false) ? true : false;
 
-        if (str_starts_with($params['filepath'], 'sitelibrary/')) {
+        if (str_starts_with($params['filepath'], stack_question_library::SITELIB . '/')) {
             $requestedfile = $CFG->dataroot . '/stack/' . $params['filepath'];
+        } else if ($external) {
+            $externalfiles = $cache->get($params['cacheid'] . '_flat_file_list');
+            $requestedfile = $externalfiles[$params['filepath']]->url;
         } else {
             $requestedfile = $CFG->dirroot . '/question/type/stack/samplequestions/' . $params['filepath'];
         }
         if (
-            !str_starts_with(realpath($requestedfile), "{$CFG->dataroot}/stack/sitelibrary") &&
-            !str_starts_with(realpath($requestedfile), "{$CFG->dirroot}/question/type/stack/samplequestions/")
+            !str_starts_with(realpath($requestedfile), "{$CFG->dataroot}/stack/sitelibrary/") &&
+            !str_starts_with(realpath($requestedfile), "{$CFG->dirroot}/question/type/stack/samplequestions/") &&
+            !$external
         ) {
             throw new \Exception('Dubious file request.');
         }
 
+        if ($external) {
+            $qcontents = static::call_external_request($requestedfile, $external);
+        } else {
+            $qcontents = file_get_contents($requestedfile);
+        }
+
         if (!$result && !$isquiz) {
             // Get contents of file and run through API question loader to render.
-            $qcontents = file_get_contents($requestedfile);
             try {
                 $question = StackQuestionLoader::loadxml($qcontents)['question'];
                 $render = static::call_question_render($question);
@@ -152,7 +173,7 @@ class library_render extends \external_api {
                     'questiondescription' => $question->questiondescription,
                     'isstack' => true,
                 ];
-                $cache->set($params['filepath'], $result);
+                $cache->set($external ? "{$params['cacheid']}/{$params['filepath']}" : $params['filepath'], $result);
             } catch (\stack_exception $e) {
                 // If the question is not a STACK question we can't render it
                 // but we still want users to be able to import it.
@@ -176,9 +197,9 @@ class library_render extends \external_api {
                 }
             }
         }
+
         if (!$result && $isquiz) {
-            $quizcontents = file_get_contents($requestedfile);
-            $json = json_decode($quizcontents);
+            $json = json_decode($qcontents);
             $quiz = $json->quiz;
             $questions = $json->questions;
             $sections = $json->sections;
@@ -188,7 +209,7 @@ class library_render extends \external_api {
             $sectionno = 0;
             for ($questionno = 0; $questionno < $numquestions; $questionno++) {
                 $slot = $questions[$questionno]->slot;
-                if ($sections[$sectionno]->firstslot === $slot) {
+                if (!empty($sections[$sectionno]) && $sections[$sectionno]->firstslot === $slot) {
                     $quiztext .= '<h5>' . $sections[$sectionno]->heading . '</h5>';
                     $sectionno++;
                 }
@@ -217,5 +238,15 @@ class library_render extends \external_api {
      */
     public static function call_question_render($question) {
         return stack_question_library::render_question($question);
+    }
+
+    /**
+     * Separate out to mock in unit testing.
+     * @param string $requestedfile
+     * @param string $external
+     * @return string XML of question
+     */
+    public static function call_external_request($requestedfile, $external) {
+        return stack_question_library::get_external_file($requestedfile, $external);
     }
 }

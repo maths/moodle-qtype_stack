@@ -49,6 +49,8 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
+        global $PAGE;
+
         $r = new MP_List([new MP_String('iframe')]);
 
         // Define iframe params.
@@ -149,6 +151,14 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             new MP_String('script'),
             new MP_String(json_encode(['type' => 'text/javascript', 'src' => $mathjax])),
         ]);
+
+        foreach ($PAGE->theme->css_urls($PAGE) as $themecssurl) {
+            $r->items[] = new MP_List([
+                new MP_String('style'),
+                new MP_String(json_encode(['href' => $themecssurl->out(false)])),
+            ]);
+        }
+
         $r->items[] = new MP_List([
             new MP_String('style'),
             new MP_String(json_encode(['href' => $css])),

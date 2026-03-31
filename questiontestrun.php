@@ -203,6 +203,8 @@ if ($variantdata->deployfeedback || $variantdata->deployfeedbackerr) {
     $PAGE->set_url('/question/type/stack/questiontestrun.php#variants-pane', $urlparams);
 }
 $variantdata->canedit = $canedit;
+$variantdata->passed = 0;
+$variantdata->failed = 0;
 // Create varaiant action links.
 foreach ($variantdata->notes as $variant) {
     $variant->canedit = $canedit;
@@ -212,6 +214,11 @@ foreach ($variantdata->notes as $variant) {
         'variants-pane'
     );
     $variant->deletelink = $vdeletelink->out();
+    if ($variant->bulktestresultspass) {
+        $variantdata->passed += 1;
+    } else {
+        $variantdata->failed += 1;
+    }
 }
 $deploylink = new moodle_url(
     '/question/type/stack/deploy.php',

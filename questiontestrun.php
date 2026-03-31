@@ -50,7 +50,7 @@ $questionid = required_param('questionid', PARAM_INT);
 $courseid = optional_param('courseid', null, PARAM_INT);
 $cmid = optional_param('cmid', null, PARAM_INT);
 
-[$qversion, $questionid] = get_latest_question_version($questionid);
+[$qversion, $questionid, $qbeid] = get_latest_question_version($questionid);
 
 // Load the necessary data.
 $questiondata = question_bank::load_question_data($questionid);
@@ -110,6 +110,9 @@ $exportquestionlink->param('sesskey', $sesskey);
 $todolink = new moodle_url('/question/type/stack/adminui/todo.php', $todoparams);
 $reportlink = new moodle_url('/question/type/stack/questiontestreport.php', $urlparams);
 $bulktestlink = new moodle_url('/question/type/stack/questionbulktest.php', $urlparams);
+$pagelink = new moodle_url('/question/type/stack/questiontestrun.php', $urlparams);
+$historyparams = ['entryid' => $qbeid, 'courseid' => $courseid, 'returnurl' => $pagelink->out(false)];
+$historylink = new moodle_url('/question/bank/history/history.php', $historyparams);
 
 // We've chosen not to send a specific seed since it is helpful to test the general feedback in a random context.
 $chatparams = $urlparams;
@@ -142,6 +145,7 @@ $initialdata->general->exportquestionlink = $exportquestionlink->out();
 $initialdata->general->reportlink = $reportlink->out();
 $initialdata->general->todolink = $todolink->out();
 $initialdata->general->bulktestlink = $bulktestlink->out();
+$initialdata->general->historylink = $historylink->out();
 $initialdata->general->canedit = $canedit;
 $initialdata->general->courseid = $courseid;
 $initialdata->general->cmid = $cmid;
@@ -231,6 +235,7 @@ $variantdata->questionid = $questionid;
 $variantdata->sesskey = $sesskey;
 $variantdata->newseed = mt_rand();
 $variantdata->deployedseeds = $question->deployedseeds;
+$variantdata->hastests = optional_param('testall', null, PARAM_INT);
 $testalllink = new moodle_url(
     '/question/type/stack/questiontestrun.php',
     $urlparams + ['testall' => '1', 'sesskey' => $sesskey, 'nocache' => time()],

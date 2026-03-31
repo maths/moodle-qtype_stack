@@ -133,7 +133,12 @@
               <span class="stack-sort-arrow" aria-hidden="true">{{#pix}}t/sort, core{{/pix}}</span>
             </th>
             <th></th>
-            <th></th>
+            <th class="stack-sortable-header" data-sort-index="3" data-sort-type="text" tabindex="0" aria-sort="none">
+              {{#hastests}}
+                {{#str}} questiontests, qtype_stack {{/str}}
+                <span class="stack-sort-arrow" aria-hidden="true">{{#pix}}t/sort, core{{/pix}}</span>
+              {{/hastests}}
+            </th>
           </tr>
       {{/notes.0}}
 

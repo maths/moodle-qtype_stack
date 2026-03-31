@@ -644,6 +644,7 @@ $string['notepass'] = 'Question note check passed';
 $string['scorefail'] = 'Score check failed';
 $string['penaltyfail'] = 'Penalty check failed';
 $string['notefail'] = 'Question note check failed';
+$string['history'] = 'Question history';
 
 $string['editquestioninthequestionbank'] = '<i class="fa fa-pencil"></i> Edit question';
 $string['seethisquestioninthequestionbank'] = '<i class="fa fa-list-alt"></i> Show in question bank';
@@ -659,6 +660,7 @@ $string['seetodolist_desc'] = 'The purpose of this page is to find all questions
 $string['seetodolist_help'] = 'Clicking on the question name takes you to the dashboard.  You can also preview the question.';
 $string['bulktestquiz'] = '<i class="fa fa-certificate"></i> Bulk test quiz';
 $string['bulktestquiznotes'] = 'Bulk test the latest version of all the questions in a quiz containing this question.';
+$string['history'] = '<i class="fa fa-list-alt"></i> Question history';
 $string['bulktestquizselect'] = 'Select a quiz';
 
 $string['basicquestionreport'] = '<i class="fa fa-bar-chart"></i> Analyze responses';

@@ -111,7 +111,10 @@ $todolink = new moodle_url('/question/type/stack/adminui/todo.php', $todoparams)
 $reportlink = new moodle_url('/question/type/stack/questiontestreport.php', $urlparams);
 $bulktestlink = new moodle_url('/question/type/stack/questionbulktest.php', $urlparams);
 $pagelink = new moodle_url('/question/type/stack/questiontestrun.php', $urlparams);
-$historyparams = ['entryid' => $qbeid, 'courseid' => $courseid, 'returnurl' => $pagelink->out(false)];
+$historyparams = $urlparams;
+unset($historyparams['questionid']);
+$historyparams['entryid'] = $qbeid;
+$historyparams['returnurl'] =  $pagelink->out(false);
 $historylink = new moodle_url('/question/bank/history/history.php', $historyparams);
 
 // We've chosen not to send a specific seed since it is helpful to test the general feedback in a random context.

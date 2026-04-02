@@ -160,13 +160,17 @@ class stack_question_test {
                 if ($inputresponse != '') {
                     $emptytestcase = false;
                 }
+                $inputerrors = $inputstate->errors;
+                if (!empty($question->runtimeerrors)) {
+                    $inputerrors = implode('; ', array_keys($question->runtimeerrors));
+                }
                 $results->set_input_state(
                     $inputname,
                     $inputresponse,
                     $inputstate->contentsmodified,
                     $inputstate->contentsdisplayed,
                     $inputstate->status,
-                    $inputstate->errors
+                    $inputerrors
                 );
             }
         }

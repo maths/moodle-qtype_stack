@@ -344,6 +344,11 @@ class stack_question_test_result {
         if ($this->emptytestcase) {
             return false;
         }
+        foreach ($this->get_input_states() as $state) {
+            if ($state->errors !== "") {
+                return false;
+            }
+        }
         foreach ($this->get_prt_states() as $state) {
             if (!$state->testoutcome) {
                 return false;

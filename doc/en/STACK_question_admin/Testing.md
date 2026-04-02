@@ -153,6 +153,11 @@ This test will throw an error when `n` is zero.
 
 In many situations this kind of test creation will be simpler than mapping onto student inputs.
 
+1. If you place `s_assert` in the question variables then any run-time errors will stop the question being used by students.  These errors will appear when you bulk-test the question variants.
+2. If you place `s_assert` in the feedback variables of a PRT then any run-time errors will be ignored.  
+
+Note, the purpose of `s_assert` is unit testing of question variables within question testing.
+
 ## STACK-Maxima sandbox ##
 
 It is very useful to be able to use the desktop Maxima application to test questions.  To do this it is very helpful to load all the STACK libraries.  Details on how to do this are in the [STACK-Maxima sandbox](../CAS/STACK-Maxima_sandbox.md) page.

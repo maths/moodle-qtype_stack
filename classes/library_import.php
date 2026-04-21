@@ -64,6 +64,7 @@ class library_import extends \external_api {
             ),
             'isfolder' => new \external_value(PARAM_BOOL, 'Is import of whole question folder requested?'),
             'cacheid' => new \external_value(PARAM_RAW, 'Library cache id'),
+            'apikey' => new \external_value(PARAM_RAW, 'API key'),
         ]);
     }
 
@@ -92,7 +93,7 @@ class library_import extends \external_api {
      * @param string $filepath File path relative to samplequestions.
      * @return array Question details.
      */
-    public static function import_execute($courseid, $category, $filepath, $isfolder, $cacheid) {
+    public static function import_execute($courseid, $category, $filepath, $isfolder, $cacheid, $apikey) {
         global $CFG, $DB;
         $params = self::validate_parameters(self::import_execute_parameters(), [
             'courseid' => $courseid,
@@ -100,6 +101,7 @@ class library_import extends \external_api {
             'filepath' => $filepath,
             'isfolder' => $isfolder,
             'cacheid' => $cacheid,
+            'apikey' => $apikey,
         ]);
         // Check parameters and permissions.
         $thiscontext = null;
@@ -120,9 +122,12 @@ class library_import extends \external_api {
             $basedir = $CFG->dataroot . '/stack/';
         } else if (str_starts_with($params['cacheid'], stack_question_library::GITHUB)) {
             $requestedfile = make_request_directory() . "/importq.xml";
-            $external = explode('_', $params['cacheid'])[0];
+            $external = stack_question_library::GITHUB;
             $cache = \cache::make('qtype_stack', 'librarycache');
             $externalfiles = $cache->get($params['cacheid'] . '_flat_file_list');
+        } else if (str_starts_with($params['cacheid'], stack_question_library::NRWSEARCH)) {
+            $requestedfile = $params['filepath'];
+            $external = stack_question_library::NRWSEARCH;
         } else {
             $requestedfile = $CFG->dirroot . '/question/type/stack/samplequestions/' . $params['filepath'];
             $basedir = $CFG->dirroot . '/question/type/stack/samplequestions/';
@@ -142,7 +147,7 @@ class library_import extends \external_api {
             // We've got a quiz file. Load JSON and instantiate.
             if ($external) {
                 $url = $externalfiles[$params['filepath']]->url;
-                $quizcontents = stack_question_library::get_external_file($url, $external);
+                $quizcontents = stack_question_library::get_external_file($url, $external, $apikey);
             } else {
                 $quizcontents = file_get_contents($requestedfile);
             }
@@ -208,7 +213,7 @@ class library_import extends \external_api {
             $qformat->setCatfromfile(true);
             if ($external) {
                 $url = $externalfiles[$category]->url;
-                file_put_contents($requestedfile, stack_question_library::get_external_file($url, $external));
+                file_put_contents($requestedfile, stack_question_library::get_external_file($url, $external, $apikey));
                 $qformat->setFilename($requestedfile);
             } else {
                 $qformat->setFilename($basedir . $category);
@@ -257,9 +262,12 @@ class library_import extends \external_api {
                 $qformat->setCategory($thiscategory);
             }
             $qformat->setCatfromfile(false);
-            if ($external) {
+            if ($external === stack_question_library::GITHUB) {
                 $url = $externalfiles[$file]->url;
-                file_put_contents($requestedfile, stack_question_library::get_external_file($url, $external));
+                file_put_contents($requestedfile, stack_question_library::get_external_file($url, $external, $apikey));
+                $qformat->setFilename($requestedfile);
+            } else if ($external === stack_question_library::NRWSEARCH) {
+                file_put_contents($requestedfile, stack_question_library::get_external_file($file, $external, $apikey));
                 $qformat->setFilename($requestedfile);
             } else {
                 $qformat->setFilename($basedir . $file);

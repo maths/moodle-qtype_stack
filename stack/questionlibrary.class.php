@@ -51,6 +51,11 @@ class stack_question_library {
      * @var string
      */
     public const STACKLIB = 'stacklibrary';
+    /**
+     * NRW API identifier
+     * @var string
+     */
+    public const NRWSEARCH = 'nrwsearch';
 
     /**
      * Summary of render_question
@@ -60,7 +65,12 @@ class stack_question_library {
      */
     public static function render_question(object $question): string {
         global $CFG;
-        StackSeedHelper::initialize_seed($question, null);
+        try {
+            StackSeedHelper::initialize_seed($question, null);
+        } catch (stack_exception $e) {
+            // XML has no deployed seeds but we don't care in the library.
+            $question->seed = 0;
+        }
 
         // Handle Pluginfiles.
         $storeprefix = uniqid();
@@ -181,14 +191,16 @@ class stack_question_library {
      * retrieval of file info, paerticularly the file URL.
      * This is a wrapper function to make it easier to support different repo types.
      * See questionfolder.mustache for output and usage.
-     * @param string $url URL of the directory required
-     * @param string $repotype The type of repo being searched. (Currently only GitHub is supported)
+     * @param string|array $detail URL of the directory required or search term and apikey
+     * @param string $repotype The type of repo being searched.
      * @return array [object StdClass structured representation of the file system, array flat array of file objects]
      */
-    public static function get_file_list_from_repo($url, $repotype) {
+    public static function get_file_list_from_repo($detail, $repotype) {
         switch ($repotype) {
             case self::GITHUB:
-                return self::list_github_repo($url);
+                return self::list_github_repo($detail);
+            case self::NRWSEARCH:
+                return self::list_nrw_search($detail);
             default:
                 return [new StdClass(), []];
         }
@@ -202,10 +214,12 @@ class stack_question_library {
      * @param string $repotype
      * @return void
      */
-    public static function get_external_file($requestedfile, $repotype) {
+    public static function get_external_file($requestedfile, $repotype, $apikey) {
         switch ($repotype) {
             case self::GITHUB:
                 return self::get_external_github_file($requestedfile);
+            case self::NRWSEARCH:
+                return self::get_external_nrw_file($requestedfile, $apikey);
             default:
                 return null;
         }
@@ -252,6 +266,7 @@ class stack_question_library {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_USERAGENT, 'Moodle-STACK'); // GitHub requires a user agent.
         curl_setopt($ch, CURLOPT_HTTPHEADER, ['Accept: application/vnd.github.v3+json']);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Accept: application/vnd.github.v3+json']);
         curl_setopt($ch, CURLOPT_TIMEOUT, 10);
 
         $files = [];
@@ -284,6 +299,48 @@ class stack_question_library {
         $flatarray = array_column($files, null, 'relpath');
 
         return [self::format_file_list($files), $flatarray];
+    }
+
+    /**
+     * Retrieves a list of all the files in a GitHub repo via API
+     * @param array $details - search term and apikey
+     * @return array [object StdClass structured representation of the file system, array flat array of file objects]
+     */
+    public static function list_nrw_search(array $details) {
+        $apibase = "https://vmits1614.vm.ruhr-uni-bochum.de:8742/questions/search?fields=id,data";
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_USERAGENT, 'Moodle-STACK'); // GitHub requires a user agent.
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Accept: application/vnd.github.v3+json']);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ["Authorization: Bearer {$details['apikey']}"]);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+
+        $files = new StdClass();
+        $files->divid = 'stack-library-folder-1';
+        $files->children = [];
+        $files->isdirectory = 1;
+        $files->label = '.';
+
+        // Always use the git/trees API with recursive=1, then filter by subpath.
+        $apiurl = "{$apibase}&q={$details['search']}";
+        curl_setopt($ch, CURLOPT_URL, $apiurl);
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        if ($response === false || $httpcode >= 400) {
+            return [];
+        }
+        $data = json_decode($response, true);
+        foreach ($data['results'] as $item) {
+            $files->children[] = (object)[
+                'label' => $item['question']['data']['title'],
+                'path' => $item['question']['id'],
+                'isdirectory' => 0,
+                'url' => '',
+            ];
+        }
+
+        return [$files, []];
     }
 
     /**
@@ -391,7 +448,7 @@ class stack_question_library {
      */
     public static function get_external_github_file($requestedfile) {
         $headers = [
-            'User-Agent: PHP',
+            'User-Agent: Moodle-STACK',
             'Accept: application/vnd.github.v3+json',
         ];
 
@@ -424,5 +481,35 @@ class stack_question_library {
         }
 
         return $filecontents;
+    }
+
+        /**
+     * Fetch a file from GitHub using the api blob URL.
+     *
+     * @param string $requestedfile API URL
+     * @return string XML file contents
+     */
+    public static function get_external_nrw_file($requestedid, $apikey) {
+        $apibase = "https://vmits1614.vm.ruhr-uni-bochum.de:8742/questions/get/";
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_USERAGENT, 'Moodle-STACK'); // GitHub requires a user agent.
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ["Authorization: Bearer {$apikey}"]);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+        $apiurl = "{$apibase}{$requestedid}?fields=xml";
+        curl_setopt($ch, CURLOPT_URL, $apiurl);
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        if ($response === false || $httpcode >= 400) {
+            throw new \stack_exception('File unavailable.');
+        }
+
+        $json = json_decode($response, true);
+        if (!$json) {
+            throw new \stack_exception('Invalid JSON.');
+        }
+
+        return $json['xml'];
     }
 }

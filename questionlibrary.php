@@ -94,17 +94,21 @@ $location = optional_param('location', '', PARAM_RAW);
 // Location parameter will be in form:
 // samplequestions/stacklibrary
 // sitelibrary/foldername
-// githublibrary/id.
+// githublibrary/id
+// nrwsearch.
 // Corresponding cache ids are:
 // library
 // sitelibrary_foldername
-// githublibrary_id.
+// githublibrary_id
+// null.
 $cacheid = stack_question_library::STACKLIB;
 $libraryname = stack_string('stack_library');
 $external = null;
 $allowedlibraries = get_config('qtype_stack', 'libraries');
 $allowedlibraries = json_decode($allowedlibraries);
 $allowedlibraries = $allowedlibraries ? $allowedlibraries : new StdClass();
+$search = optional_param('search', '', PARAM_RAW);
+$apikey = optional_param('apikey', '', PARAM_RAW);
 
 if (str_starts_with($location, stack_question_library::SITELIB)) {
     $libraryname = explode('/', $location)[1];
@@ -127,7 +131,13 @@ if (str_starts_with($location, stack_question_library::SITELIB)) {
         $cacheid = stack_question_library::STACKLIB;
     } else {
         $external = $librarytype;
+        $externaldetail = $allowedlibraries->{$libraryid}->url;
     }
+} else if (str_starts_with($location, stack_question_library::NRWSEARCH)) {
+    $cacheid = stack_question_library::NRWSEARCH;
+    $libraryname = null;
+    $external = stack_question_library::NRWSEARCH;
+    $externaldetail = ['search' => $search, 'apikey' => $apikey];
 } else {
     $location = __DIR__ . '/samplequestions/stacklibrary';
 }
@@ -145,15 +155,22 @@ if ($isrefresh) {
     $cache->delete_many($refreshfiles);
 }
 
-$files = $cache->get($cacheid . '_file_list');
-if (!$files) {
-    if ($external) {
-        [$files, $flatfiles] = stack_question_library::get_file_list_from_repo($allowedlibraries->{$libraryid}->url, $external);
-        $cache->set($cacheid . '_flat_file_list', $flatfiles);
-    } else {
-        $files = stack_question_library::get_file_list($location);
+$files = new StdClass();
+
+if ($cacheid && $cacheid != stack_question_library::NRWSEARCH) {
+    $files = $cache->get($cacheid . '_file_list');
+    if (!$files) {
+        if ($external) {
+            [$files, $flatfiles] = stack_question_library::get_file_list_from_repo($externaldetail, $external);
+            $cache->set($cacheid . '_flat_file_list', $flatfiles);
+        } else {
+            $files = stack_question_library::get_file_list($location);
+        }
+        $cache->set($cacheid . '_file_list', $files);
     }
-    $cache->set($cacheid . '_file_list', $files);
+}
+if ($cacheid && $cacheid === stack_question_library::NRWSEARCH) {
+    [$files, $flatfiles] = stack_question_library::get_file_list_from_repo($externaldetail, $external);
 }
 
 $mform = new category_form(null, ['qcontext' => $contexts]);
@@ -163,16 +180,18 @@ $outputdata->returnlink = $returnlink->out();
 $outputdata->dashboardlink = $dashboardlink->out();
 $outputdata->quizlink = $quizlink->out();
 $outputdata->returntext = $returntext;
-$outputdata->files = $files->children;
+$outputdata->files = (isset($files->children)) ? $files->children : [];
 $outputdata->category = $mform->render();
 $outputdata->coursename = $coursename;
 $outputdata->courseid = $courseid;
+$outputdata->apikey = $apikey;
+$outputdata->search = $search;
 $outputdata->libraries = new StdClass();
 $outputdata->libraries->items = [];
 $outputdata->libraries->hasitems = false;
 $outputdata->libraries->current = $cacheid;
-if ($external) {
-    $outputdata->libraries->external = $cacheid;
+if ($external === stack_question_library::GITHUB) {
+    $outputdata->libraries->isgithub = true;
 }
 
 $libraries = glob("{$CFG->dataroot}/stack/sitelibrary/*");
@@ -212,6 +231,11 @@ foreach ($allowedlibraries as $id => $lib) {
     $outputdata->libraries->items[] = $libentry;
     $outputdata->libraries->hasitems = true;
 }
+
+unset($urlparams['name']);
+$urlparams['location'] = stack_question_library::NRWSEARCH;
+$outputdata->searchurl = new moodle_url('/question/type/stack/questionlibrary.php', $urlparams);
+$outputdata->searchurl = $outputdata->searchurl->out();
 
 echo $OUTPUT->render_from_template('qtype_stack/questionlibrary', $outputdata);
 

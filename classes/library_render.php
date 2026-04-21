@@ -64,6 +64,7 @@ class library_render extends \external_api {
                 'File path relative to samplequestions, STACK data directory or top of GitHub library'
             ),
             'cacheid' => new \external_value(PARAM_RAW, 'Library cache id'),
+            'apikey' => new \external_value(PARAM_RAW, 'API key'),
         ]);
     }
 
@@ -101,18 +102,21 @@ class library_render extends \external_api {
      * @param string $filepath File path relative to samplequestions.
      * @return array Array of question render, question text, description and question variables.
      */
-    public static function render_execute($category, $filepath, $cacheid) {
+    public static function render_execute($category, $filepath, $cacheid, $apikey) {
         global $CFG, $DB;
         $params = self::validate_parameters(self::render_execute_parameters(), [
             'category' => $category,
             'filepath' => $filepath,
             'cacheid' => $cacheid,
+            'apikey' => $apikey,
         ]);
         StackIframeHolder::$islibrary = true;
         // Check parameters and that user has question add capability in the supplied category.
         $context = $DB->get_field('question_categories', 'contextid', ['id' => $params['category']]);
         if (str_starts_with($params['cacheid'], stack_question_library::GITHUB)) {
             $external = stack_question_library::GITHUB;
+        } else if (str_starts_with($params['cacheid'], stack_question_library::NRWSEARCH)) {
+            $external = stack_question_library::NRWSEARCH;
         } else {
             $external = null;
         }
@@ -128,9 +132,11 @@ class library_render extends \external_api {
 
         if (str_starts_with($params['filepath'], stack_question_library::SITELIB . '/')) {
             $requestedfile = $CFG->dataroot . '/stack/' . $params['filepath'];
-        } else if ($external) {
+        } else if ($external && $external === stack_question_library::GITHUB) {
             $externalfiles = $cache->get($params['cacheid'] . '_flat_file_list');
             $requestedfile = $externalfiles[$params['filepath']]->url;
+        } else if ($external && $external === stack_question_library::NRWSEARCH) {
+            $requestedfile = $params['filepath'];
         } else {
             $requestedfile = $CFG->dirroot . '/question/type/stack/samplequestions/' . $params['filepath'];
         }
@@ -143,7 +149,7 @@ class library_render extends \external_api {
         }
 
         if ($external) {
-            $qcontents = static::call_external_request($requestedfile, $external);
+            $qcontents = static::call_external_request($requestedfile, $external, $apikey);
         } else {
             $qcontents = file_get_contents($requestedfile);
         }
@@ -246,7 +252,7 @@ class library_render extends \external_api {
      * @param string $external
      * @return string XML of question
      */
-    public static function call_external_request($requestedfile, $external) {
-        return stack_question_library::get_external_file($requestedfile, $external);
+    public static function call_external_request($requestedfile, $external, $apikey) {
+        return stack_question_library::get_external_file($requestedfile, $external, $apikey);
     }
 }

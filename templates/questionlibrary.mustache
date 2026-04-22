@@ -117,11 +117,15 @@
         </p>
       {{/libraries.hasitems}}
       <form name='stack_lib_search' id='stack_lib_search' method='post' action='{{{searchurl}}}'>
-        <label for="stack_library_search">{{#str}} stack_library_nrw, qtype_stack {{/str}}: </label>
-        <input id='stack_library_search' name='search' value="{{{search}}}" />
-        <label for="stack_library_apikey">{{#str}} stack_library_apikey, qtype_stack {{/str}}: </label>
-        <input id='stack_library_apikey' type="password" name='apikey' value="{{{apikey}}}" />
-        <input type="submit" class="btn-primary" name="submit-button" id="submit-button" value="Search" />
+        <div class="mb-1" style="display:flex; flex-direction:row;">
+          <label for="stack_library_search">{{#str}} stack_library_nrw, qtype_stack {{/str}}: </label>&nbsp;
+          <input id='stack_library_search' name='search' value="{{{search}}}" style="flex:1" />
+        </div>
+        <div style="display:flex; flex-direction:row">
+          <label for="stack_library_apikey">{{#str}} stack_library_apikey, qtype_stack {{/str}}: </label>&nbsp;
+          <input id='stack_library_apikey' type="password" name='apikey' value="{{{apikey}}}" style="flex:1"/>&nbsp;
+          <input type="submit" class="btn-primary" name="submit-button" id="submit-button" value="Search" />
+        </div>
       </form>
       <br>
       <div class="alert alert-secondary" style="position: relative; color: black;">

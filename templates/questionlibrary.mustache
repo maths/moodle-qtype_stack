@@ -119,11 +119,7 @@
       <form name='stack_lib_search' id='stack_lib_search' method='post' action='{{{searchurl}}}'>
         <div class="mb-1" style="display:flex; flex-direction:row;">
           <label for="stack_library_search">{{#str}} stack_library_nrw, qtype_stack {{/str}}: </label>&nbsp;
-          <input id='stack_library_search' name='search' value="{{{search}}}" style="flex:1" />
-        </div>
-        <div style="display:flex; flex-direction:row">
-          <label for="stack_library_apikey">{{#str}} stack_library_apikey, qtype_stack {{/str}}: </label>&nbsp;
-          <input id='stack_library_apikey' type="password" name='apikey' value="{{{apikey}}}" style="flex:1"/>&nbsp;
+          <input id='stack_library_search' name='search' value="{{{search}}}" style="flex:1" />&nbsp;
           <input type="submit" class="btn-primary" name="submit-button" id="submit-button" value="Search" />
         </div>
       </form>
@@ -173,6 +169,11 @@
         </div>
       </div>
       <div class="formulation stack-library-file-list">
+        {{#fileserror}}
+          <div style="margin-left: 30px">
+            {{fileserror}}
+          </div>
+        {{/fileserror}}
         {{#files}}
           {{>qtype_stack/questionfolder}}
         {{/files}}

@@ -137,7 +137,7 @@ if (str_starts_with($location, stack_question_library::SITELIB)) {
     $cacheid = stack_question_library::NRWSEARCH;
     $libraryname = null;
     $external = stack_question_library::NRWSEARCH;
-    $externaldetail = ['search' => $search, 'apikey' => $apikey];
+    $externaldetail = ['search' => $search, 'apikey' => get_config('qtype_stack', 'nrwapikey')];
 } else {
     $location = __DIR__ . '/samplequestions/stacklibrary';
 }
@@ -181,6 +181,9 @@ $outputdata->dashboardlink = $dashboardlink->out();
 $outputdata->quizlink = $quizlink->out();
 $outputdata->returntext = $returntext;
 $outputdata->files = (isset($files->children)) ? $files->children : [];
+if (isset($files->error)) {
+    $outputdata->fileserror = $files->error;
+}
 $outputdata->category = $mform->render();
 $outputdata->coursename = $coursename;
 $outputdata->courseid = $courseid;

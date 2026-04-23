@@ -67,7 +67,7 @@ class stack_question_library {
         global $CFG;
         try {
             StackSeedHelper::initialize_seed($question, null);
-        } catch (stack_exception $e) {
+        } catch (\stack_exception $e) {
             // XML has no deployed seeds but we don't care in the library.
             $question->seed = 0;
         }
@@ -270,6 +270,8 @@ class stack_question_library {
         curl_setopt($ch, CURLOPT_TIMEOUT, 10);
 
         $files = [];
+        $errorresponse = new StdClass();
+        $errorresponse->error = stack_string('stack_library_connection_error');
 
         // Always use the git/trees API with recursive=1, then filter by subpath.
         $apiurl = "{$apibase}/git/trees/" . rawurlencode($branch) . "?recursive=1";
@@ -277,11 +279,14 @@ class stack_question_library {
         $response = curl_exec($ch);
         $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         if ($response === false || $httpcode >= 400) {
-            return [];
+            if ($response) {
+                $errorresponse->error .= ': ' . $response;
+            }
+            return [$errorresponse, []];
         }
         $data = json_decode($response, true);
         if (empty($data['tree']) || !is_array($data['tree'])) {
-            return [];
+            return [$errorresponse, []];
         }
         $prefix = $subpath === '' ? '' : rtrim($subpath, '/') . '/';
         foreach ($data['tree'] as $item) {
@@ -328,16 +333,28 @@ class stack_question_library {
         $response = curl_exec($ch);
         $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         if ($response === false || $httpcode >= 400) {
-            return [];
+            $files->error = stack_string('stack_library_connection_error');
+            if ($response) {
+                $files->error .= ': ' . $response;
+            }
+
+            return [$files, []];
         }
         $data = json_decode($response, true);
-        foreach ($data['results'] as $item) {
-            $files->children[] = (object)[
-                'label' => $item['question']['data']['title'],
-                'path' => $item['question']['id'],
-                'isdirectory' => 0,
-                'url' => '',
-            ];
+        if (isset($data['results'])) {
+            foreach ($data['results'] as $item) {
+                $files->children[] = (object)[
+                    'label' => $item['question']['data']['title'],
+                    'path' => $item['question']['id'],
+                    'isdirectory' => 0,
+                    'url' => '',
+                ];
+            }
+            if (!count($data['results'])) {
+                $files->error = stack_string('stack_library_nothing');
+            }
+        } else {
+            $files->error = stack_string('stack_library_connection_error');
         }
 
         return [$files, []];

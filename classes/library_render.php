@@ -137,6 +137,7 @@ class library_render extends \external_api {
             $requestedfile = $externalfiles[$params['filepath']]->url;
         } else if ($external && $external === stack_question_library::NRWSEARCH) {
             $requestedfile = $params['filepath'];
+            $apikey = get_config('qtype_stack', 'nrwapikey');
         } else {
             $requestedfile = $CFG->dirroot . '/question/type/stack/samplequestions/' . $params['filepath'];
         }

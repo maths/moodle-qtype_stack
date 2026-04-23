@@ -106,10 +106,9 @@ define([
         currentPath = filepath;
         loading(true);
         categoryId = Number(document.getElementById('id_category').value.split(',')[0]);
-        const apikey = document.querySelector('#stack_library_apikey').value;
         Ajax.call([{
             methodname: 'qtype_stack_library_render',
-            args: {category: categoryId, filepath: filepath, cacheid: cacheId, apikey: apikey},
+            args: {category: categoryId, filepath: filepath, cacheid: cacheId, apikey: ''},
             done: function(response) {
                 loading(false);
                 libraryDiv.innerHTML = response.questionrender;
@@ -166,7 +165,6 @@ define([
         const filepath = currentPath;
         loading(true);
         categoryId = Number(document.getElementById('id_category').value.split(',')[0]);
-        const apikey = document.querySelector('#stack_library_apikey').value;
         Ajax.call([{
             methodname: 'qtype_stack_library_import',
             args: {
@@ -175,7 +173,7 @@ define([
                 filepath: filepath,
                 isfolder: (isFolder) ? 1 : 0,
                 cacheid: cacheId,
-                apikey: apikey
+                apikey: ''
             },
             done: function(response) {
                 loading(false);

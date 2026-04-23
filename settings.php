@@ -247,6 +247,15 @@ $settings->add(new admin_setting_configtextarea(
     5
 ));
 
+$settings->add(new admin_setting_configtext(
+    'qtype_stack/nrwapikey',
+    get_string('settingnrwapikey', 'qtype_stack'),
+    get_string('settingnrwapikey_desc', 'qtype_stack'),
+    '',
+    PARAM_TEXT,
+    60
+));
+
 // Options for maths display.
 $settings->add(new admin_setting_heading(
     'mathsdisplayheading',

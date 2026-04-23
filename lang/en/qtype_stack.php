@@ -518,6 +518,8 @@ $string['settingexternallibraries_desc'] = 'JSON object listing display names an
 <br>&nbsp;&nbsp;&nbsp;&nbsp;"name": "External: sample library"
 <br>&nbsp;&nbsp;}
 <br>}';
+$string['settingnrwapikey'] = 'STACK.nrw databse API key';
+$string['settingnrwapikey_desc'] = 'Allows access to the STACK.nrw question database via the STACK library page. Access can be restricted on a per user basis using Moodle permission XXXX.';
 
 // Strings used by replace dollars script.
 $string['replacedollarscount'] = 'This category contains {$a} STACK questions.';
@@ -1855,6 +1857,7 @@ $string['castext_error_unevaluated'] = 'This text content was never evaluated.';
 // Strings used by question library.
 $string['stack_library'] = 'STACK question library';
 $string['stack_library_destination'] = 'Questions will be imported into the following category:';
+$string['stack_library_connection_error'] = 'Something went wrong contacting an external question source';
 $string['stack_library_error'] = 'Something went wrong. Please refresh the page and try again.';
 $string['stack_library_failure'] = 'Failed import of:';
 $string['stack_library_help'] = 'Rather than creating your own question, follow this link to go to the STACK question library. The STACK question library contains many pre-made STACK questions ready for you to import into Moodle. You can then use them as they are or edit them to fit your needs.';
@@ -1872,12 +1875,13 @@ $string['stack_library_quiz_prefix'] = 'Quiz:';
 $string['stack_library_refresh'] = 'Refresh library contents';
 $string['stack_library_selected'] = 'Displayed question:';
 $string['stack_library_select'] = 'Select library:';
-$string['stack_library_nrw'] = 'Search NRW database for';
+$string['stack_library_nrw'] = 'Search NRW database';
 $string['stack_library_apikey'] = 'using API key';
 $string['stack_library_success'] = 'Successful import of:';
 $string['stack_library_not_stack'] = 'This is not a STACK question and so cannot be fully rendered here but you can still import it.';
 $string['stack_library_quiz_return'] = 'Return to quiz';
 $string['stack_library_qb_return'] = 'Return to question bank';
+$string['stack_library_nothing'] = 'No results found';
 // API strings.
 $string['api_advance_variant'] = 'Next Variant';
 $string['api_choose_file'] = 'Please select a question file';

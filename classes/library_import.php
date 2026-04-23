@@ -128,6 +128,7 @@ class library_import extends \external_api {
         } else if (str_starts_with($params['cacheid'], stack_question_library::NRWSEARCH)) {
             $requestedfile = $params['filepath'];
             $external = stack_question_library::NRWSEARCH;
+            $apikey = get_config('qtype_stack', 'nrwapikey');
         } else {
             $requestedfile = $CFG->dirroot . '/question/type/stack/samplequestions/' . $params['filepath'];
             $basedir = $CFG->dirroot . '/question/type/stack/samplequestions/';

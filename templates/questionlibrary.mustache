@@ -116,6 +116,7 @@
           </span>
         </p>
       {{/libraries.hasitems}}
+      {{#isnrwapikey}}
       <form name='stack_lib_search' id='stack_lib_search' method='post' action='{{{searchurl}}}'>
         <div class="mb-1" style="display:flex; flex-direction:row;">
           <label for="stack_library_search">{{#str}} stack_library_nrw, qtype_stack {{/str}}: </label>&nbsp;
@@ -124,6 +125,7 @@
         </div>
       </form>
       <br>
+      {{/isnrwapikey}}
       <div class="alert alert-secondary" style="position: relative; color: black;">
         <div class="stack-library-category-holder">
           {{#str}} stack_library_destination, qtype_stack {{/str}}

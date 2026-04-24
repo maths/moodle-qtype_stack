@@ -345,6 +345,11 @@ class stack_question_library {
             foreach ($data['results'] as $item) {
                 $files->children[] = (object)[
                     'label' => $item['question']['data']['title'],
+                    'description' => $item['question']['data']['description'],
+                    'license' => $item['question']['data']['license'],
+                    'source' => $item['question']['data']['source'],
+                    'subject' => (is_array($item['question']['data']['subject'])) ?
+                        implode(', ', $item['question']['data']['subject']) : $item['question']['data']['subject'],
                     'path' => $item['question']['id'],
                     'isdirectory' => 0,
                     'url' => '',

@@ -187,7 +187,7 @@ if (isset($files->error)) {
 $outputdata->category = $mform->render();
 $outputdata->coursename = $coursename;
 $outputdata->courseid = $courseid;
-$outputdata->apikey = $apikey;
+$outputdata->isnrwapikey = (get_config('qtype_stack', 'nrwapikey')) ? true : false;
 $outputdata->search = $search;
 $outputdata->libraries = new StdClass();
 $outputdata->libraries->items = [];

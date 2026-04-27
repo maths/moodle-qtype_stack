@@ -51,6 +51,7 @@ $string['checkstack_version_check']      = 'STACK-Maxima library version';
 
 // Capability names.
 $string['stack:usediagnostictools'] = 'Use the STACK tools';
+$string['stack:useexternallibraries'] = 'Use external libraries';
 
 // Versions of STACK.
 $string['stackversionedited']     = 'This question was authored with STACK version {$a}.';

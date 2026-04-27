@@ -35,4 +35,14 @@ $capabilities = [
             'manager' => CAP_ALLOW,
         ],
     ],
+    // Users with this in the system context can use external question libraries.
+    'qtype/stack:useexternallibraries' => [
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_SYSTEM,
+        'archetypes' => [
+            'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW,
+        ],
+        'clonepermissionsfrom' => 'moodle/question:add',
+    ],
 ];

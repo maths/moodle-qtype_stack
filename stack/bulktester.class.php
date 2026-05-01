@@ -862,9 +862,6 @@ class stack_bulk_tester {
 
         foreach ($question->prts as $prtname => $prt) {
             $result = $question->get_prt_result($prtname, $response, false);
-            // For testing purposes we just take the last note.
-            $answernotes = $result->get_answernotes();
-            $answernote = [end($answernotes)];
             // Here we hard-wire 1 mark and 0 penalty.  This is what we normally want for the
             // teacher's answer.  If the question does not give full marks to the teacher's answer then
             // the test case will fail, and the user can confirm the failing behaviour if they really intended this.
@@ -875,7 +872,7 @@ class stack_bulk_tester {
                 1,
                 0,
                 '',
-                $answernote
+                $result->get_answernotes_testcase()
             ));
         }
 

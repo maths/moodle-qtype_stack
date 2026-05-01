@@ -57,7 +57,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c3"><pre>[x^2=4,x=2 or x=-2]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquivFirst:(EMPTYCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -83,7 +83,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c3"><pre>[x^2=4,x=2 or x=-2]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR,IMPLIEDCHAR)</td>
+  <td class="cell c6">ATEquivFirst:(EMPTYCHAR,IMPLIEDCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -97,7 +97,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c3"><pre>[x^2=4,x=2 or x=-2]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquivFirst:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -110,7 +110,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c3"><pre>[x^2=4,x=2 or x=-2]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquivFirst:(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -123,7 +123,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c3"><pre>[x^2-6*x+9=0,x=3]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR,SAMEROOTS)</td>
+  <td class="cell c6">ATEquivFirst:(EMPTYCHAR,SAMEROOTS)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
@@ -136,7 +136,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c3"><pre>[x^2=4,x=2]</pre></td>
   <td class="cell c4"><pre>[assumepos]</pre></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(ASSUMEPOSVARS, EQUIVCHAR)</td>
+  <td class="cell c6">ATEquivFirst:(ASSUMEPOSVARS, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>

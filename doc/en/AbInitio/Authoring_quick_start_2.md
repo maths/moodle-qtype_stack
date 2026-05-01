@@ -25,8 +25,8 @@ We make more use of the question text field. For instance, we can start to use t
 Add the following to the question variables
 
 ```
-exp: 3*(x-1)^(-4);
-ta: int(exp,x)+c;
+ex1: 3*(x-1)^(-4);
+ta1: int(ex1,x)+c;
 ```
 
 The coding in question variables is based on Maxima, which has an unusual syntax for assignment.  In particular, the colon `:` is used to assign a value to a variable.  So to assign the value of `5` to `a1`, we use the syntax `a1:5`. In general, it is good practice to give variables multi-character names, as single-character names are meant for student input. This is because multi-character variables the author defined cannot by default be input by students. Additionally, adding semicolons to the end of each line is optional, but good practice.
@@ -35,16 +35,16 @@ Notice we are using the CAS to determine the model answer by calling the `int()`
 
 Now it will be a lot faster to fill out the rest of the question. Add the following to the question text:
 
-	<p>Find \(\int{@exp@} \mathrm{d}x\)</p>
+	<p>Find \(\int{@ex1@} \mathrm{d}x\)</p>
 	<p>[[input:ans1]] [[validation:ans1]]</p>
 
-Notice that we have defined a local variable `exp`, and used the value of this in the Question text. There is a difference between mathematics enclosed between `\(..\)` symbols and `{@..@}` symbols. All the text-based fields in the question, including feedback, are [CAS text](../Authoring/CASText.md).  This is HTML into which mathematics can be inserted.  LaTeX is placed between `\(..\)`s, and CAS expressions (including your variables) between matching `{@..@}` symbols.  The CAS expressions are evaluated in the context of the question variables and displayed as LaTeX.
+Notice that we have defined a local variable `ex1`, and used the value of this in the Question text. There is a difference between mathematics enclosed between `\(..\)` symbols and `{@..@}` symbols. All the text-based fields in the question, including feedback, are [CAS text](../Authoring/CASText.md).  This is HTML into which mathematics can be inserted.  LaTeX is placed between `\(..\)`s, and CAS expressions (including your variables) between matching `{@..@}` symbols.  The CAS expressions are evaluated in the context of the question variables and displayed as LaTeX.
 
-Since we have used `{@exp@}` here, the user will not see a \(exp\) on the screen when the question is instantiated, but the _displayed value_ of `exp`: \(\frac{3}{(x-1)^{-4}}\)
+Since we have used `{@ex1@}` here, the user will not see a \(ex1\) on the screen when the question is instantiated, but the _displayed value_ of `ex1`: \(\frac{3}{(x-1)^{-4}}\)
 
-In the input `ans1`, confirm the default `model answer` is the variable `ta`.
+In the input `ans1`, confirm the default `model answer` is the variable `ta1`.
 
-In the potential response tree, confirm the default `Answer test` is  `AlgEquiv`, `SAns` is `ans1` and `TAns` is `ta`.
+In the potential response tree, confirm the default `Answer test` is  `AlgEquiv`, `SAns` is `ans1` and `TAns` is `ta1`.
 
 It is good practice to use question variables often, as they save time and let you change properties of the question easily in the future.
 

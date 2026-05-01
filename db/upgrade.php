@@ -1036,7 +1036,18 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2025042500, 'qtype', 'stack');
     }
 
-    if ($oldversion < 2026010700) {
+    if ($oldversion < 2026042402) {
+        $table = new xmldb_table('qtype_stack_qtest_expected');
+        $field = new xmldb_field('expectedanswernote', XMLDB_TYPE_CHAR, '1023', null, XMLDB_NOTNULL, null, null, 'expectedpenalty');
+
+        $dbman->change_field_type($table, $field);
+
+        // STACK savepoint reached.
+        upgrade_plugin_savepoint(true, 2026042402, 'qtype', 'stack');
+    }
+
+
+    if ($oldversion < 2026042600) {
         // Define field metadata to be added to qtype_stack_options.
         $table = new xmldb_table('qtype_stack_options');
         $field = new xmldb_field('metadata', XMLDB_TYPE_TEXT, null, null, null, null, null, 'isbroken');
@@ -1047,10 +1058,10 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         }
 
         // Stack savepoint reached.
-        upgrade_plugin_savepoint(true, 2026010700, 'qtype', 'stack');
+        upgrade_plugin_savepoint(true, 2026042600, 'qtype', 'stack');
     }
 
-    if ($oldversion < 2026032300) {
+    if ($oldversion < 2026042700) {
         // Define field prescribedmetadata to be added to qtype_stack_options.
         $table = new xmldb_table('qtype_stack_options');
         $field = new xmldb_field('prescribedmetadata', XMLDB_TYPE_TEXT, null, null, null, null, null, 'isbroken');
@@ -1061,7 +1072,7 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         }
 
         // Stack savepoint reached.
-        upgrade_plugin_savepoint(true, 2026032300, 'qtype', 'stack');
+        upgrade_plugin_savepoint(true, 2026042700, 'qtype', 'stack');
     }
     // Add new upgrade blocks just above here.
 

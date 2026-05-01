@@ -325,7 +325,7 @@ An example is \(f(x)=5x^4\).&nbsp; Indeed, polynomials with only even powers are
     </prt>
     <qtest>
       <testcase>1</testcase>
-      <description></description>
+      <description>Correct examples</description>
       <testinput>
         <name>ans1</name>
         <value>x^3</value>
@@ -346,31 +346,31 @@ An example is \(f(x)=5x^4\).&nbsp; Indeed, polynomials with only even powers are
         <name>even</name>
         <expectedscore>1.0000000</expectedscore>
         <expectedpenalty>0.0000000</expectedpenalty>
-        <expectedanswernote>even-0-T</expectedanswernote>
+        <expectedanswernote>[ even-0-T ]</expectedanswernote>
       </expected>
       <expected>
         <name>odd</name>
         <expectedscore>1.0000000</expectedscore>
         <expectedpenalty>0.0000000</expectedpenalty>
-        <expectedanswernote>odd-0-T</expectedanswernote>
+        <expectedanswernote> [ odd-0-T ]</expectedanswernote>
       </expected>
       <expected>
         <name>oddeven</name>
         <expectedscore>1.0000000</expectedscore>
         <expectedpenalty>0.0000000</expectedpenalty>
-        <expectedanswernote>EVEN</expectedanswernote>
+        <expectedanswernote>[ ODD | EVEN ]</expectedanswernote>
       </expected>
       <expected>
         <name>poly</name>
         <expectedscore>0.0000000</expectedscore>
         <expectedpenalty>0.3333333</expectedpenalty>
-        <expectedanswernote>poly-1-F</expectedanswernote>
+        <expectedanswernote>[ poly-1-F ]</expectedanswernote>
       </expected>
       <expected>
         <name>unique</name>
         <expectedscore>1.0000000</expectedscore>
         <expectedpenalty>0.0000000</expectedpenalty>
-        <expectedanswernote>unique-0-T</expectedanswernote>
+        <expectedanswernote>( unique-0-T ]</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
@@ -396,31 +396,31 @@ An example is \(f(x)=5x^4\).&nbsp; Indeed, polynomials with only even powers are
         <name>even</name>
         <expectedscore>0.0000000</expectedscore>
         <expectedpenalty>0.3333333</expectedpenalty>
-        <expectedanswernote>even-0-F</expectedanswernote>
+        <expectedanswernote>[ even-0-F ]</expectedanswernote>
       </expected>
       <expected>
         <name>odd</name>
         <expectedscore>0.0000000</expectedscore>
         <expectedpenalty>0.3333333</expectedpenalty>
-        <expectedanswernote>odd-0-F</expectedanswernote>
+        <expectedanswernote>[ odd-0-F ]</expectedanswernote>
       </expected>
       <expected>
         <name>oddeven</name>
         <expectedscore>0.5000000</expectedscore>
         <expectedpenalty>0.3333333</expectedpenalty>
-        <expectedanswernote>oddeven-1-F</expectedanswernote>
+        <expectedanswernote>[ ODD | oddeven-1-F ]</expectedanswernote>
       </expected>
       <expected>
         <name>poly</name>
         <expectedscore>1.0000000</expectedscore>
         <expectedpenalty>0.0000000</expectedpenalty>
-        <expectedanswernote>poly-1-T</expectedanswernote>
+        <expectedanswernote>( poly-1-T ]</expectedanswernote>
       </expected>
       <expected>
         <name>unique</name>
         <expectedscore>0.0000000</expectedscore>
         <expectedpenalty>0.3333333</expectedpenalty>
-        <expectedanswernote>unique-0-F</expectedanswernote>
+        <expectedanswernote>[ unique-0-F ]</expectedanswernote>
       </expected>
     </qtest>
   </question>

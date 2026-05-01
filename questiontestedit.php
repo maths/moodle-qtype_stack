@@ -45,6 +45,7 @@ $question->options->set_option('decimals', '.');
 if ($testcase || $confirmthistestcase) {
     $qtest = question_bank::get_qtype('stack')->load_question_test($questionid, $testcase);
 }
+$errors = [];
 
 // Process any other URL parameters, and do require_login.
 [$context, $seed, $urlparams] = qtype_stack_setup_question_test_page($question);
@@ -135,17 +136,13 @@ if ($mform->is_cancelled()) {
 
     foreach ($question->prts as $prtname => $prt) {
         $result = $question->get_prt_result($prtname, $response, false);
-        // For testing purposes we just take the last note.
-        $answernotes = $result->get_answernotes();
-        // ISS1657 - Handle case when PRT does not fire.
-        $answernote = ($answernotes) ? [end($answernotes)] : ['NULL'];
         $qtest->add_expected_result($prtname, new stack_potentialresponse_tree_state(
             1,
             true,
             $result->get_score(),
             $result->get_penalty(),
             '',
-            $answernote
+            $result->get_answernotes_testcase()
         ));
     }
     question_bank::get_qtype('stack')->save_question_test($questionid, $qtest, $testcase);
@@ -168,8 +165,16 @@ if ($mform->is_cancelled()) {
             [$data->{$prtname . 'answernote'}]
         ));
     }
+    if (strlen($data->{$prtname . 'answernote'}) > 1000) {
+        $errors[] = stack_string(
+            'questiontestslong',
+            ['prt' => $prtname, 'len' => strlen($data->{$prtname . 'answernote'})]
+            );
+    }
     question_bank::get_qtype('stack')->save_question_test($questionid, $qtest, $testcase);
-    redirect($backurl);
+    if (empty($errors)) {
+        redirect($backurl);
+    }
 }
 
 // Prepare the display options.
@@ -199,6 +204,10 @@ echo $OUTPUT->heading(stack_string('questiontext'), 3);
 echo html_writer::tag('pre', $question->questiontext, ['class' => 'questiontext']);
 
 echo html_writer::tag('p', stack_string('testinputsimpwarning'));
+
+if (!empty($errors)) {
+    echo html_writer::tag('div', implode(' ', $errors), ['class' => 'alert alert-danger']);
+}
 
 // Show the form.
 $mform->display();

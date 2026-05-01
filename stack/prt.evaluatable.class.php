@@ -258,7 +258,7 @@ class prt_evaluatable implements cas_raw_value_extractor {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function get_answernotes() {
+    public function get_answernotes($atnotes = true) {
         if ($this->score === null) {
             $this->unpack();
         }
@@ -272,8 +272,14 @@ class prt_evaluatable implements cas_raw_value_extractor {
         }
         $i = 0;
         foreach ($path as $atresult) {
-            if ($atresult[2] !== '""') {
-                $notes[] = trim($atresult[2]);
+            if ($atnotes) {
+                // Some answer test notes are non-empty whitespace string, e.g. "    ";
+                $note = trim($atresult[2]);
+                // Strip off "" and trim.
+                $note = trim(substr($note, 1, strlen($note) - 2));
+                if ($note !== '') {
+                    $notes[] = trim($atresult[2]);
+                }
             }
             // We need to check the array_key_exists because in the case of a guard clause it will not.
             // Do we actually want to ignore the missing note here or indicate the note is missing with a note?
@@ -288,6 +294,32 @@ class prt_evaluatable implements cas_raw_value_extractor {
         }
 
         return $notes;
+    }
+
+    /**
+     * This function creates a single answer note as a test case expectation.
+     * This ignores contributions from answer tests which might vary with the student's answer.
+     * @return array The single string containing the expected note.
+     */
+    public function get_answernotes_testcase() {
+        $allanswernotes = $this->get_answernotes(true);
+        $answernotes = $this->get_answernotes(false);
+        if ($this->bailed) {
+            return($this->bailed);
+        }
+        // ISS1657 - Handle case when PRT does not fire.
+        if (empty($answernotes)) {
+            return(['NULL']);
+        }
+        $anchorstart = '[ ';
+        // The answer test contributes a note which we ignore.
+        if (substr(trim(implode(' | ', $allanswernotes)), 0, 2) === 'AT') {
+            $anchorstart = '( ';
+        }
+        if (substr(trim(implode(' | ', $allanswernotes)), 0, 3) === '(AT') {
+            $anchorstart = '( ';
+        }
+        return([$anchorstart . implode(' | ', $answernotes) . ' ]']);
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

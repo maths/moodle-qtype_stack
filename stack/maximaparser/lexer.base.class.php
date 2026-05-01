@@ -602,7 +602,7 @@ class stack_maxima_lexer_base {
 
 
     /**
-     * Continues eating starting from '/*'
+     * Continues eating starting from '/*'.
      */
     public function eat_comment(stack_maxima_lexer_token $token): stack_maxima_lexer_token {
         $token->type = StackMaximaTokenType::Comment;

@@ -129,7 +129,7 @@
         <name>prt1</name>
         <expectedscore>1.0000000</expectedscore>
         <expectedpenalty>0.0000000</expectedpenalty>
-        <expectedanswernote>1-0-T</expectedanswernote>
+        <expectedanswernote>[ ATInt_true. | 1-0-T ]</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
@@ -143,7 +143,7 @@
         <name>prt1</name>
         <expectedscore>0.0000000</expectedscore>
         <expectedpenalty>0.1000000</expectedpenalty>
-        <expectedanswernote>1-0-F</expectedanswernote>
+        <expectedanswernote>[ ATInt_const. | 1-0-F ]</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
@@ -157,7 +157,7 @@
         <name>prt1</name>
         <expectedscore>0.0000000</expectedscore>
         <expectedpenalty>0.1000000</expectedpenalty>
-        <expectedanswernote>1-0-F</expectedanswernote>
+        <expectedanswernote>[ ATInt_diff. | 1-0-F ]</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
@@ -171,7 +171,7 @@
         <name>prt1</name>
         <expectedscore>0.0000000</expectedscore>
         <expectedpenalty>0.1000000</expectedpenalty>
-        <expectedanswernote>1-0-F</expectedanswernote>
+        <expectedanswernote>[ ATInt_generic. | 1-0-F ]</expectedanswernote>
       </expected>
     </qtest>
     <qtest>

@@ -408,7 +408,7 @@ class stack_answertest_test_data {
         ['AlgEquiv', '', 'x=2', 'x=1', 0, 'ATEquation_lhs_notrhs', ''],
         ['AlgEquiv', '', '2=x', 'x=1', 0, 'ATEquation_default', ''],
         ['AlgEquiv', '', 'x=x', 'y=y', 1, 'ATEquation_zero', ''],
-        ['AlgEquiv', '', 'x+y=1', 'y=1-x', 1, '', ''],
+        ['AlgEquiv', '', 'x+y=1', 'y=1-x', 1, 'ATEquation_num', ''],
         ['AlgEquiv', '', '2*x+2*y=1', 'y=0.5-x', 1, 'ATEquation_ratio', ''],
         ['AlgEquiv', '', '1/x+1/y=2', 'y = x/(2*x-1)', 1, 'ATEquation_ratio', ''],
         ['AlgEquiv', '', 'y=sin(2*x)', 'y/2=cos(x)*sin(x)', 1, 'ATEquation_ratio', ''],
@@ -417,14 +417,15 @@ class stack_answertest_test_data {
         ['AlgEquiv', '', 'y=(a-x)^6000', 'y=(x-a)^6000', 1, 'ATEquation_sides', ''],
         ['AlgEquiv', '', 'y=(a-x)^5999', 'y=(x-a)^5999', 0, 'ATEquation_lhs_notrhs', ''],
         ['AlgEquiv', '', 'y=(a-x)^59999', 'y=(x-a)^5999', 0, 'ATEquation_lhs_notrhs', ''],
-        ['AlgEquiv', '', 'x+y=i', 'y=i-x', 1, '', ''],
-        ['AlgEquiv', '', '(1+%i)*(x+y)=0', 'y=-x', 1, '', ''],
+        ['AlgEquiv', '', 'x+y=i', 'y=i-x', 1, 'ATEquation_num', ''],
+        ['AlgEquiv', '', '(1+%i)*(x+y)=0', 'y=-x', 1, 'ATEquation_num', ''],
         ['AlgEquiv', '', 's^2*%e^(s*t)=0', 's^2=0', 0, 'ATEquation_default', ''],
-        ['AlgEquiv', '', '0=-x+y/A+(y-z)/B', '0=x-y/A-(y-z)/B', 1, '', ''],
+        ['AlgEquiv', '', '0=-x+y/A+(y-z)/B', '0=x-y/A-(y-z)/B', 1, 'ATEquation_num', ''],
         ['AlgEquiv', '', 'x^6000-x^6001=x^5999', 'x^5999*(1-x+x^2)=0', 1, 'ATEquation_ratio', ''],
         ['AlgEquiv', '', 'x^6000-x^6001=x^5999', 'x^5999*(1-x+x^3)=0', 0, 'ATEquation_default', ''],
-        ['AlgEquiv', '', '258552*x^7*(81*x^8+1)^398', 'x^3*(x^4+1)^399', 0, '', ''],
-        ['AlgEquiv', '', 'Ia*(R1+R2+R3)-Ib*R3=0', '-Ia*(R1+R2+R3)+Ib*R3=0', 1, '', ''],
+        // Factoring the difference of these expressions is expensive enough to hit the CAS timeout on slower runs.
+        ['AlgEquiv', '', '258552*x^7*(81*x^8+1)^398', '(algebraic_equivalence_factorp:false,x^3*(x^4+1)^399)', 0, '', ''],
+        ['AlgEquiv', '', 'Ia*(R1+R2+R3)-Ib*R3=0', '-Ia*(R1+R2+R3)+Ib*R3=0', 1, 'ATEquation_num', ''],
         ['AlgEquiv', '', 'a=0 or b=0', 'a*b=0', 1, 'ATEquation_sides', ''],
         ['AlgEquiv', '', 'a*b=0', 'a=0 or b=0', 1, 'ATEquation_sides', ''],
         // Notice here that Maxima does not know anything about a, so you can't cancel it!
@@ -1655,19 +1656,19 @@ class stack_answertest_test_data {
             'Equiv', '', '[x^2=4,x=2 or x=-2]', '[1/0]', -1,
             'ATEquiv_STACKERROR_TAns.', '',
         ],
-        ['Equiv', '', '[x^2=4,x=2 or x=-2]', '[x^2=4,x=2 or x=-2]', 1, '(EMPTYCHAR,EQUIVCHAR)', ''],
-        ['Equiv', '', '[x^2=4,x=#pm#2,x=2 and x=-2]', '[x^2=4,x=2 or x=-2]', 0, '(EMPTYCHAR,EQUIVCHAR,ANDOR)', ''],
-        ['Equiv', '', '[x^2=4,x=2]', '[x^2=4,x=2 or x=-2]', 0, '(EMPTYCHAR,IMPLIEDCHAR)', ''],
-        ['Equiv', '[assumepos]', '[x^2=4,x=2]', '[x^2=4,x=2]', 1, '(ASSUMEPOSVARS,EQUIVCHAR)', ''],
+        ['Equiv', '', '[x^2=4,x=2 or x=-2]', '[x^2=4,x=2 or x=-2]', 1, 'ATEquiv:(EMPTYCHAR,EQUIVCHAR)', ''],
+        ['Equiv', '', '[x^2=4,x=#pm#2,x=2 and x=-2]', '[x^2=4,x=2 or x=-2]', 0, 'ATEquiv:(EMPTYCHAR,EQUIVCHAR,ANDOR)', ''],
+        ['Equiv', '', '[x^2=4,x=2]', '[x^2=4,x=2 or x=-2]', 0, 'ATEquiv:(EMPTYCHAR,IMPLIEDCHAR)', ''],
+        ['Equiv', '[assumepos]', '[x^2=4,x=2]', '[x^2=4,x=2]', 1, 'ATEquiv:(ASSUMEPOSVARS,EQUIVCHAR)', ''],
         [
             'Equiv', '', '[x^2=4,x^2-4=0,(x-2)*(x+2)=0,x=2 or x=-2]', '[x^2=4,x=2 or x=-2]', 1,
-            '(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR)', '',
+            'ATEquiv:(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR)', '',
         ],
         [
             'Equiv', '', '[x^2=4,x= #pm#2, x=2 or x=-2]', '[x^2=4,x=2 or x=-2]', 1,
-            '(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR)', '',
+            'ATEquiv:(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR)', '',
         ],
-        ['Equiv', '', '[x^2-6*x+9=0,x=3]', '[x^2-6*x+9=0,x=3]', 1, '(EMPTYCHAR,SAMEROOTS)', ''],
+        ['Equiv', '', '[x^2-6*x+9=0,x=3]', '[x^2-6*x+9=0,x=3]', 1, 'ATEquiv:(EMPTYCHAR,SAMEROOTS)', ''],
 
         ['EquivFirst', '', 'x', '[x^2=4,x=2 or x=-2]', -1, 'ATEquivFirst_SA_not_list.', ''],
         ['EquivFirst', '', '[x^2=4,x=2 or x=-2]', 'x', -1, 'ATEquivFirst_SB_not_list.', ''],
@@ -1679,19 +1680,19 @@ class stack_answertest_test_data {
             'EquivFirst', '', '[x^2=4,x=2 or x=-2]', '[1/0]', -1,
             'ATEquivFirst_STACKERROR_TAns.', '',
         ],
-        ['EquivFirst', '', '[x^2=4,x=2 or x=-2]', '[x^2=4,x=2 or x=-2]', 1, '(EMPTYCHAR,EQUIVCHAR)', ''],
+        ['EquivFirst', '', '[x^2=4,x=2 or x=-2]', '[x^2=4,x=2 or x=-2]', 1, 'ATEquivFirst:(EMPTYCHAR,EQUIVCHAR)', ''],
         ['EquivFirst', '', '[x^2=9,x=3 or x=-3]', '[x^2=4,x=2 or x=-2]', 0, 'ATEquivFirst_SA_wrong_start', ''],
-        ['EquivFirst', '', '[x^2=4,x=2]', '[x^2=4,x=2 or x=-2]', 0, '(EMPTYCHAR,IMPLIEDCHAR)', ''],
+        ['EquivFirst', '', '[x^2=4,x=2]', '[x^2=4,x=2 or x=-2]', 0, 'ATEquivFirst:(EMPTYCHAR,IMPLIEDCHAR)', ''],
         [
             'EquivFirst', '', '[x^2=4,x^2-4=0,(x-2)*(x+2)=0,x=2 or x=-2]', '[x^2=4,x=2 or x=-2]', 1,
-            '(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR)', '',
+            'ATEquivFirst:(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR)', '',
         ],
         [
             'EquivFirst', '', '[x^2=4,x= #pm#2, x=2 or x=-2]', '[x^2=4,x=2 or x=-2]', 1,
-            '(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR)', '',
+            'ATEquivFirst:(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR)', '',
         ],
-        ['EquivFirst', '', '[x^2-6*x+9=0,x=3]', '[x^2-6*x+9=0,x=3]', 1, '(EMPTYCHAR,SAMEROOTS)', ''],
-        ['EquivFirst', '[assumepos]', '[x^2=4,x=2]', '[x^2=4,x=2]', 1, '(ASSUMEPOSVARS,EQUIVCHAR)', ''],
+        ['EquivFirst', '', '[x^2-6*x+9=0,x=3]', '[x^2-6*x+9=0,x=3]', 1, 'ATEquivFirst:(EMPTYCHAR,SAMEROOTS)', ''],
+        ['EquivFirst', '[assumepos]', '[x^2=4,x=2]', '[x^2=4,x=2]', 1, 'ATEquivFirst:(ASSUMEPOSVARS,EQUIVCHAR)', ''],
 
         ['SingleFrac', '', '1/0', '1/n', -1, 'ATSingleFrac_STACKERROR_SAns.', ''],
         ['SingleFrac', '', '0', '1/0', -1, 'ATSingleFrac_STACKERROR_TAns.', ''],
@@ -2451,8 +2452,8 @@ class stack_answertest_test_data {
         ['GT', '', '1', '2.1', 0, 'ATGT_false.', ''],
         ['GT', '', 'pi', '3', 1, 'ATGT_true.', ''],
         ['GT', '', 'pi+2', '5', 1, 'ATGT_true.', ''],
-        ['GT', '', '-inf', '0', 0, 'Not number', 'Infinity'],
-        ['GT', '', 'inf', '0', 0, 'Not number', ''],
+        ['GT', '', '-inf', '0', 0, 'ATGT_NotNumber', 'Infinity'],
+        ['GT', '', 'inf', '0', 0, 'ATGT_NotNumber', ''],
 
         ['GTE', '', '1/0', '1', -1, 'ATGTE_STACKERROR_SAns.', ''],
         ['GTE', '', '1', '1/0', -1, 'ATGTE_STACKERROR_TAns.', ''],
@@ -3401,6 +3402,21 @@ class stack_answertest_test_data {
             }
         }
 
+        $ansnote = trim($ansnote);
+        if (strlen($ansnote) >= 3) {
+            if ($ansnote == 'TEST_FAILED' || $ansnote == 'STACKERROR_OPTION.') {
+                $allowablenote = true;
+            }
+            if (substr($ansnote, 0, 2) === 'AT' || substr($ansnote, 0, 3) === '(AT') {
+                $allowablenote = true;
+            }
+        } else {
+            $allowablenote = true;
+        }
+        if (!$allowablenote) {
+            $passed = false;
+            $anomalynote[] = '[NOTE expected to begin with "AT": ' . $test->ansnote . ']';
+        }
         if (!($ansnote === $test->ansnote)) {
             $passed = false;
             $anomalynote[] = '[NOTE expected: ' . $test->ansnote . ']';

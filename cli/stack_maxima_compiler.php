@@ -421,7 +421,7 @@ foreach ($scripts as $filename) {
             $ast = $parser->parse($po->get_lexer($content));
         } catch (stack_maxima_parser_exception $e) {
             cli_error("PARSING FAIL: in $sname.");
-             $ei = new stack_parser_error_interpreter($po);
+            $ei = new stack_parser_error_interpreter($po);
             $result['exception'] = $e;
             $errors = [];
             $notes = [];

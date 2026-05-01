@@ -188,7 +188,8 @@ class RenderController {
                     $renderresponse->questionrender
                 );
                 $renderresponse->questionsamplesolutiontext = str_replace(
-                    "id=\"{$iframe[2]}\"></div>", "id=\"{$iframe[2]}\">{$renderediframe}</div>",
+                    "id=\"{$iframe[2]}\"></div>",
+                    "id=\"{$iframe[2]}\">{$renderediframe}</div>",
                     $renderresponse->questionsamplesolutiontext
                 );
             }
@@ -196,7 +197,8 @@ class RenderController {
                 $renderresponse->questionrender = str_replace($name, "{$baseurl}/plots/{$file}", $renderresponse->questionrender);
                 $renderresponse->questionsamplesolutiontext = str_replace(
                     $name,
-                    "{$baseurl}/plots/{$file}", $renderresponse->questionsamplesolutiontext
+                    "{$baseurl}/plots/{$file}",
+                    $renderresponse->questionsamplesolutiontext
                 );
                 foreach ($renderresponse->questioninputs as $input) {
                     $input->samplesolutionrender = str_replace($name, "{$baseurl}/plots/{$file}", $input->samplesolutionrender);

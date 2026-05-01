@@ -1453,9 +1453,6 @@ final class castext_test extends qtype_stack_testcase {
      */
     public function test_numerical_display_float_scientific_small(): void {
 
-        // On old Maxima, you get back \(9.999999999999999e-7\).
-        $this->skip_if_old_maxima('5.32.1');
-
         // For some reason 5.41.0 returns \(9.999999999999999e-7\) too.
         $this->skip_if_new_maxima('5.40.0');
 
@@ -3139,7 +3136,7 @@ final class castext_test extends qtype_stack_testcase {
 
         $options = new stack_options();
 
-        $vars = 'stack_include("contribl://chemistry.mac");';
+        $vars = "stack_include_contrib(\"chemistry.mac\");";
         $at1 = new stack_cas_keyval($vars, $options, 123);
         $this->assertTrue($at1->get_valid());
 
@@ -3304,5 +3301,46 @@ final class castext_test extends qtype_stack_testcase {
         $cs2->add_statement($at1);
         $cs2->instantiate();
         $this->assertEquals($exp, $at1->get_rendered());
+    }
+
+    /**
+     * Allow "if" statements in the castext nody, issue #1721.
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_cas_keyval
+     */
+    public function test_stack_simple_cas_if(): void {
+        $a2 = ['ta1:2'];
+        $s2 = [];
+        foreach ($a2 as $s) {
+            $cs = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
+            $this->assertTrue($cs->get_valid());
+            $s2[] = $cs;
+        }
+        $options = new stack_options();
+        $options->set_option('simplify', true);
+        $cs2 = new stack_cas_session2($s2, $options, 0);
+        $raw = '{@if ta1>3 then a else b@}';
+        $exp = '\({b}\)';
+        $at1 = castext2_evaluatable::make_from_source($raw, 'test-case');
+        $this->assertTrue($at1->get_valid());
+        $cs2->add_statement($at1);
+        $cs2->instantiate();
+        $this->assertEquals($exp, $at1->get_rendered());
+    }
+
+    /**
+     * Add error message for &gt; and other editor-generated problems: issue #1721.
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_cas_keyval
+     */
+    public function test_stack_cas_if_editor_err(): void {
+        $raw = '{@if ta1&gt;3 then a else b@}';
+        $at1 = castext2_evaluatable::make_from_source($raw, 'test-case');
+        $this->assertFalse($at1->get_valid());
+        $errmsg = 'Maxima received <code>&amp;gt;</code> instead of <span class="stacksyntaxexample">></span> ' .
+                  'which is a sign your text editor might be quietly changing your content.  We recommend ' .
+                  'CASText source is edited as a plain text document., Unknown operator: ' .
+                  '<span class="stacksyntaxexample">&</span>.';
+        $this->assertEquals($errmsg, $at1->get_errors());
     }
 }

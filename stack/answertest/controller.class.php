@@ -81,52 +81,53 @@ class stack_ans_test_controller {
      * Does this test require options [0] and are these evaluated by the CAS [1] ?
      * In [2] we have the value of simp in the CAS session.
      * Does the test require the raw value of the student's answer as a string [3] ?
+     * Does the test return an answer note which is free of calculations and hence testable [4]?
      *
      * Note, the options are currently always simplified in the node class.
      */
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected static $pops = [
-        'AlgEquiv'             => [false, false, true, false],
-        'AlgEquivNouns'        => [false, false, false, false],
-        'EqualComAss'          => [false, false, false, false],
-        'EqualComAssRules'     => [true, true, false, false],
-        'CasEqual'             => [false, false, false, false],
-        'SameType'             => [false, false, true, false],
-        'SubstEquiv'           => ['optional', true, true, false],
-        'SysEquiv'             => [false, false, true, false],
-        'Sets'                 => [false, false, false, false],
-        'Expanded'             => [false, false, true, false],
-        'FacForm'              => [true, true, false, false],
-        'SingleFrac'           => [false, false, false, false],
-        'PartFrac'             => [true, true, true, false],
-        'CompSquare'           => [true, true, true, false],
-        'PropLogic'            => [false, false, true, false],
-        'Equiv'                => ['optional', true, false, false],
-        'EquivFirst'           => ['optional', true, false, false],
-        'GT'                   => [false, false, true, false],
-        'GTE'                  => [false, false, true, false],
-        'SigFigsStrict'        => [true, true, true, true],
-        'NumAbsolute'          => [true, true, true, false],
-        'NumRelative'          => [true, true, true, false],
-        'NumSigFigs'           => [true, true, false, true],
-        'NumDecPlaces'         => [true, true, false, true],
-        'NumDecPlacesWrong'    => [true, true, false, false],
-        'Units'                => [true, true, false, true],
-        'UnitsStrict'          => [true, true, false, true],
-        'UnitsAbsolute'        => [true, true, false, false],
-        'UnitsStrictAbsolute'  => [true, true, false, false],
-        'UnitsRelative'        => [true, true, false, false],
-        'UnitsStrictRelative'  => [true, true, false, false],
-        'LowestTerms'          => [false, false, false, false],
-        'Diff'                 => [true, true, false, false],
-        'Int'                  => [true, true, false, false],
-        'Antidiff'             => [true, true, false, false],
-        'AddConst'             => [true, true, false, false],
-        'String'               => [false, false, false, false],
-        'StringSloppy'         => [false, false, false, false],
-        'Levenshtein'          => [true, true, true, false],
-        'SRegExp'              => [false, false, true, false],
-        'Validator'            => [true, true, false, false],
+        'AlgEquiv'             => [false, false, true, false, false],
+        'AlgEquivNouns'        => [false, false, false, false, true],
+        'EqualComAss'          => [false, false, false, false, false],
+        'EqualComAssRules'     => [true, true, false, false, false],
+        'CasEqual'             => [false, false, false, false, true],
+        'SameType'             => [false, false, true, false, true],
+        'SubstEquiv'           => ['optional', true, true, false, false],
+        'SysEquiv'             => [false, false, true, false, true],
+        'Sets'                 => [false, false, false, false, true],
+        'Expanded'             => [false, false, true, false, true],
+        'FacForm'              => [true, true, false, false, true],
+        'SingleFrac'           => [false, false, false, false, true],
+        'PartFrac'             => [true, true, true, false, true],
+        'CompSquare'           => [true, true, true, false, true],
+        'PropLogic'            => [false, false, true, false, true],
+        'Equiv'                => ['optional', true, false, false, false],
+        'EquivFirst'           => ['optional', true, false, false, false],
+        'GT'                   => [false, false, true, false, true],
+        'GTE'                  => [false, false, true, false, true],
+        'SigFigsStrict'        => [true, true, true, true, false],
+        'NumAbsolute'          => [true, true, true, false, false],
+        'NumRelative'          => [true, true, true, false, false],
+        'NumSigFigs'           => [true, true, false, true, false],
+        'NumDecPlaces'         => [true, true, false, true, false],
+        'NumDecPlacesWrong'    => [true, true, false, false, false],
+        'Units'                => [true, true, false, true, false],
+        'UnitsStrict'          => [true, true, false, true, false],
+        'UnitsAbsolute'        => [true, true, false, false, false],
+        'UnitsStrictAbsolute'  => [true, true, false, false, false],
+        'UnitsRelative'        => [true, true, false, false, false],
+        'UnitsStrictRelative'  => [true, true, false, false, false],
+        'LowestTerms'          => [false, false, false, false, true],
+        'Diff'                 => [true, true, false, false, true],
+        'Int'                  => [true, true, false, false, true],
+        'Antidiff'             => [true, true, false, false, true],
+        'AddConst'             => [true, true, false, false, true],
+        'String'               => [false, false, false, false, true],
+        'StringSloppy'         => [false, false, false, false, true],
+        'Levenshtein'          => [true, true, true, false, false],
+        'SRegExp'              => [false, false, true, false, true],
+        'Validator'            => [true, true, false, false, false],
     ];
 
     /**
@@ -347,6 +348,17 @@ class stack_ans_test_controller {
     public static function required_raw($atest) {
         $op = self::$pops[$atest];
         return $op[3];
+    }
+
+    /**
+     * Returns whether the test answernotes are static (fixed) or depend on students' input.
+     * Only static notes can be included in test cases reliably.
+     *
+     * @return bool
+     */
+    public static function static_answernotes($atest) {
+        $op = self::$pops[$atest];
+        return $op[4];
     }
 
     /**

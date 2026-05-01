@@ -22,7 +22,7 @@ There are lots of fields, but only a few are compulsory:
 
 1. The "question name",
 2. The "question text", which is shown to the student,
-3. The teacher's "model answer" `ta` using a variable in the "question variables",
+3. The teacher's "model answer" `ta1` using a variable in the "question variables",
 4. A test of "correctness" (defaults to Algebraic equivalence).
 
 By default a new question automatically has one [input](../Authoring/Inputs/index.md), and one algorithm to test correctness of the answer.
@@ -39,10 +39,10 @@ You must give the question a name, for example `question1`.
 
 There should be text in question variables by default.
 
-    ta:?;
+    ta1:?;
 We should replace `?` with the model answer to the question. In this case, this wil be the derivative of \((x-1)^3\), which is \(3(x-1)^2\). So we should replace `?` with `3*(x-1)^2`.
 
-    ta:3*(x-1)^2;
+    ta1:3*(x-1)^2;
 
 
 ### Question text ###
@@ -110,7 +110,7 @@ Each branch can then
 We can leave the default settings for a minimal question, which is the following:
 
 1. Specify the variable `ans1` in the `SAns` setting.
-2. Specify the correct answer in the `TAns` setting: `ta`.
+2. Specify the correct answer in the `TAns` setting: `ta1`.
 3. `AlgEquiv` in the _Answer test_ drop-down menu.
 
 ## Saving the question
@@ -123,7 +123,7 @@ To recap, we have
 
 1. The "question name",
 2. The "question text",
-3. The teacher's "model answer", (`ta` in the question variables).
+3. The teacher's "model answer", (`ta1` in the question variables).
 4. A test of "correctness" (set to Algebraic equivalence).
 
 Next we should try out our question by pressing the `Preview` link at the bottom of the page.

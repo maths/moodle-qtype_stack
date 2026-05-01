@@ -33,8 +33,6 @@ require_once(__DIR__ . '/stack/utils.class.php');
 require_once(__DIR__ . '/stack/questionlibrary.class.php');
 require_once(__DIR__ . '/classes/form/category_form.php');
 
-use category_form;
-
 if ($cmid = optional_param('cmid', 0, PARAM_INT)) {
     $cm = get_coursemodule_from_id(false, $cmid);
     require_login($cm->course, false, $cm);

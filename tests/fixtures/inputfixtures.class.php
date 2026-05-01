@@ -202,10 +202,6 @@ class stack_inputvalidation_test_data {
             '\left( 2,\, 3\right] \cup \left[ 4,\, \infty \right) \cup \left[ -1,\, 1\right]', '', "",
         ],
         [
-            'union({3,7})', 'php_true', 'union({3,7})', 'cas_true',
-            '\left \{3 , 7 \right \}', '', "",
-        ],
-        [
             'intersection(oo(2,3),oo(4,inf))', 'php_true', 'intersection(oo(2,3),oo(4,inf))', 'cas_true',
             '\left( 2,\, 3\right) \cap \left( 4,\, \infty \right)', '', "",
         ],
@@ -437,13 +433,7 @@ class stack_inputvalidation_test_data {
         ['+pi', 'php_true', '+pi', 'cas_true', '+\pi', '', ""],
         ['+i', 'php_true', '+i', 'cas_true', '+\mathrm{i}', '', ""],
         ['+x', 'php_true', '+x', 'cas_true', '+x', '', ""],
-        // The example below is an "odd" output from Maxima.
-        ['sqrt(+x)', 'php_true', 'sqrt(+x)', 'cas_true', '+\sqrt{x}', '', ""],
         ['sqrt(x)^3', 'php_true', 'sqrt(x)^3', 'cas_true', '{\sqrt{x}}^3', '', ""],
-        // This was raised as issue #1281.
-        ['x^+5', 'php_true', 'x^+5', 'cas_true', 'x+^{5}', '', ""],
-        // The example below is an "odd" output from Maxima. I'm not planning to fix this!
-        ['1/sin(+x)', 'php_true', '1/sin(+x)', 'cas_true', '\frac{1+}{\sin \left( x \right)}', '', ""],
         ['"+"(a,b)', 'php_true', '"+"(a,b)', 'cas_true', 'a+b', '', "This is Maxima specific syntax."],
         ['(+1)', 'php_true', '(+1)', 'cas_true', '+1', '', ""],
         ['[1,+2]', 'php_true', '[1,+2]', 'cas_true', '\left[ 1 , +2 \right]', '', ""],
@@ -471,7 +461,6 @@ class stack_inputvalidation_test_data {
             '\frac{{-b \pm \sqrt{b^2}}}{2\cdot a}', '', "",
         ],
         ['a+-b', 'php_true', 'a+-b', 'cas_true', '{a \pm b}', '', ""],
-        ['a-+b', 'php_true', 'a-+b', 'cas_true', 'a+-\left(b\right)', '', ""],
         ['x & y', 'php_false', 'x & y', '', '', 'spuriousop', "Synonyms"],
         ['x && y', 'php_false', 'x && y', '', '', 'spuriousop', ""],
         ['x and y', 'php_true', 'x and y', 'cas_true', 'x\,{\text{ and }}\, y', '', ""],
@@ -671,11 +660,6 @@ class stack_inputvalidation_test_data {
             'log(2x)/x+1/2', 'php_true', 'log(2*x)/x+1/2', 'cas_true',
             '\frac{\ln \left( 2\cdot x \right)}{x}+\frac{1}{2}', 'missing_stars', "",
         ],
-        [
-            'a++b', 'php_true', 'a++b', 'cas_true', 'a++\left(b\right)', '',
-            "The extra plusses or minuses are interpreted as unary operators on b",
-        ],
-        ['a +++ b', 'php_true', 'a+++b', 'cas_true', 'a+++\left(\left(b\right)\right)', '', ""],
         ['a --- b', 'php_true', 'a---b', 'cas_true', 'a-\left(-\left(-b\right)\right)', '', ""],
         [
             'rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 'php_true', 'rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 'cas_true',
@@ -751,6 +735,39 @@ class stack_inputvalidation_test_data {
             '(pi+1)*(2*mm)', 'php_true', '(pi+1)*(2*mm)', 'cas_true',
             '\left(\pi+1\right)\,2\, \mathrm{m}\mathrm{m}', '', "",
         ],
+    ];
+
+    protected static $rawdata_old = [
+        [
+            'union({3,7})', 'php_true', 'union({3,7})', 'cas_true',
+            '\left \{3 , 7 \right \}', '', "",
+        ],
+        ['a-+b', 'php_true', 'a-+b', 'cas_true', 'a+-\left(b\right)', '', ""],
+        [
+            'a++b', 'php_true', 'a++b', 'cas_true', 'a++\left(b\right)', '',
+            "The extra plusses or minuses are interpreted as unary operators on b",
+        ],
+        ['a +++ b', 'php_true', 'a+++b', 'cas_true', 'a+++\left(\left(b\right)\right)', '', ""],
+        ['x^+5', 'php_true', 'x^+5', 'cas_true', 'x+^{5}', '', ""],
+        // This was raised as issue #1281.
+        ['sqrt(+x)', 'php_true', 'sqrt(+x)', 'cas_true', '+\sqrt{x}', '', ""],
+        // The example below is an "odd" output from Maxima. I'm not planning to fix this!
+        ['1/sin(+x)', 'php_true', '1/sin(+x)', 'cas_true', '\frac{1+}{\sin \left( x \right)}', '', ""],
+    ];
+
+    protected static $rawdata_5_48_0 = [
+        [
+            'union({3,7})', 'php_true', 'union({3,7})', 'cas_true',
+            '\bigcup \left(\left \{3 , 7 \right \}\right)', '', "",
+        ],
+        ['a-+b', 'php_true', 'a-+b', 'cas_true', 'a-\left(+b\right)', '', ""],
+        ['a++b', 'php_true', 'a++b', 'cas_true', 'a+\left(+b\right)', '', ""],
+        ['a +++ b', 'php_true', 'a+++b', 'cas_true', 'a+\left(+\left(+b\right)\right)', '', ""],
+        ['x^+5', 'php_true', 'x^+5', 'cas_true', 'x^{+5}', '', ""],
+        // This was raised as issue #1281.  Now fixed in newer Maxima.
+        ['sqrt(+x)', 'php_true', 'sqrt(+x)', 'cas_true', '\sqrt{+x}', '', ""],
+        // The example below was an "odd" output from Maxima, now fixed.
+        ['1/sin(+x)', 'php_true', '1/sin(+x)', 'cas_true', '\frac{1}{\sin \left( +x \right)}', '', ""],
     ];
 
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
@@ -845,6 +862,16 @@ class stack_inputvalidation_test_data {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    public static function get_raw_test_data_old() {
+        return self::$rawdata_old;
+    }
+
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    public static function get_raw_test_data_5_48_0() {
+        return self::$rawdata_5_48_0;
+    }
+
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function get_raw_test_data_units() {
         return self::$rawdataunits;
     }
@@ -909,6 +936,17 @@ class stack_inputvalidation_test_data {
         foreach (self::$rawdata as $data) {
             $tests[] = self::test_from_raw($data, 'typeless');
         }
+        $versionused = get_config('qtype_stack', 'maximaversion');
+        if ($versionused == 'default' || version_compare($versionused, '5.47.0') <= 0) {
+            foreach (self::$rawdata_old as $data) {
+                $tests[] = self::test_from_raw($data, 'typeless');
+            }
+        } else {
+            foreach (self::$rawdata_5_48_0 as $data) {
+                $tests[] = self::test_from_raw($data, 'typeless');
+            }
+        }
+
         foreach (self::$rawdataunits as $data) {
             $tests[] = self::test_from_raw($data, 'units');
         }

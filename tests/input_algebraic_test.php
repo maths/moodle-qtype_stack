@@ -782,8 +782,13 @@ final class input_algebraic_test extends qtype_stack_testcase {
         );
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('2*sqrt(+2)/3', $state->contentsmodified);
-        // Maxima's TeX code pulls out the + to outside the sqrt. Known edge case.
-        $this->assertEquals('\[ \frac{2\cdot +\sqrt{2}}{3} \]', $state->contentsdisplayed);
+        if ($this->adapt_to_new_maxima('5.47.0')) {
+            // Fixed in Maxima 5.48.0.
+            $this->assertEquals('\[ \frac{2\cdot \sqrt{+2}}{3} \]', $state->contentsdisplayed);
+        } else {
+                // Maxima's TeX code pulls out the + to outside the sqrt. Known edge case.
+            $this->assertEquals('\[ \frac{2\cdot +\sqrt{2}}{3} \]', $state->contentsdisplayed);
+        }
         $this->assertEquals(
             'The answer <span class="filter_mathjaxloader_equation">'
             . '<span class="nolink">\( \frac{2\cdot \sqrt{2}}{3} \)</span></span>, which can be typed as '

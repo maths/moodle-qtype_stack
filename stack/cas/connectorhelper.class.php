@@ -251,11 +251,14 @@ abstract class stack_connection_helper {
 
         $usedversion = stack_string('healthchecksstackmaximatooold');
         foreach ($results as $result) {
-            if ($result['key'] != '__stackmaximaversion') {
+            if (array_key_exists('key', $result) && $result['key'] != '__stackmaximaversion') {
                 continue;
             }
 
-            $usedversion = $result['value'];
+            $usedversion = null;
+            if (array_key_exists('value', $result)) {
+                $usedversion = $result['value'];
+            }
             if (self::$config->stackmaximaversion == $usedversion) {
                 return [
                     'healthchecksstackmaximaversionok',
@@ -338,7 +341,6 @@ abstract class stack_connection_helper {
 
         // Really make sure there is no cache.
         [$results, $debug] = self::stackmaxima_nocache_call($command);
-
         $success = true;
         $message = [];
         if (empty($results)) {
@@ -376,7 +378,8 @@ abstract class stack_connection_helper {
                             'healthuncachedstack_CAS_versionnotchecked',
                             ['actual' => $maximaversionstr]
                         );
-                    } else if ($result['value'] != '"' . $maximaversion . '"') {
+                    } else if (substr($result['value'], 1, strlen($maximaversion)) != $maximaversion) {
+                        // Compiling from source can give things like 5.47.0_dirty.
                         $message[] = stack_string(
                             'healthuncachedstack_CAS_version',
                             ['expected' => $maximaversion, 'actual' => $maximaversionstr]

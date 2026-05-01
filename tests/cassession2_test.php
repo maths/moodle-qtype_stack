@@ -2197,7 +2197,11 @@ final class cassession2_test extends qtype_stack_testcase {
             '\left( 1,\, 2\right) \cup \left( 3,\, 4\right) \cup \left( 4,\, 5\right)',
         ];
         $cases[] = ['%union(a,b+1,d)', 'a \cup \left(b+1\right) \cup d'];
-        $cases[] = ['%union({5,6})', '\left \{5 , 6 \right \}'];
+        if ($this->adapt_to_new_maxima('5.47.0')) {
+            $cases[] = ['%union({5,6})', '\bigcup \left(\left \{5 , 6 \right \}\right)'];
+        } else {
+            $cases[] = ['%union({5,6})', '\left \{5 , 6 \right \}'];
+        }
 
         $cases[] = ['%intersection(a,b,c)', 'a \cap b \cap c'];
         $cases[] = [
@@ -3305,7 +3309,13 @@ final class cassession2_test extends qtype_stack_testcase {
         $session->instantiate();
         $this->assertTrue($session->is_instantiated());
         $p = $session->get_by_key('p');
-        $this->assertEquals('X^3-3*X^2+3*X-1', $p->get_value());
+        if ($this->adapt_to_new_maxima('5.47.0')) {
+            // Change in Maxima 5.48.0.
+            $this->assertEquals('X^3-3*X^2+3*X-I^3', $p->get_value());
+        } else {
+            // Known edge case.
+            $this->assertEquals('X^3-3*X^2+3*X-1', $p->get_value());
+        }
     }
 
     public function test_unary_minus_sort(): void {

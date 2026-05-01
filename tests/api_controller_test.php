@@ -274,7 +274,7 @@ final class api_controller_test extends qtype_stack_testcase {
         $this->assertStringContainsString('correct', $this->output->prts->prt1);
         $this->assertEquals(0, count((array)$this->output->gradingassets));
         $this->assertEquals(
-            'Seed: 86; ans1: matrix([35,30],[28,24]) [score]; prt1: # = 1 |  | 1-0-T',
+            'Seed: 86; ans1: matrix([35,30],[28,24]) [score]; prt1: # = 1 | 1-0-T',
             $this->output->responsesummary
         );
         $this->assertEquals(0, count($this->output->iframes));

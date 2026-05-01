@@ -138,7 +138,7 @@ load("stack_logic.lisp");
 load("Ksimplifier.lisp");
 
 /* We don't want to allow people to put boxes round things. */
-box(ex) := ex;
+kill(box);
 
 /* Although this works well in MAXIMA, |'s are not allowed in STACK */
 /* The heuristics to catch the various errors do not work, since | is symmetrical */
@@ -1033,13 +1033,24 @@ set_plot_option([gnuplot_default_term_command, ""]);
 plot(ex, [ra]) :=  /*stack_web_plot*/
     block([simp:true, tfn, tfnp1, tfnp2, tfnp3, afn, ufn, lvs, preamble, sysp, sysr,
         filename, tn, alt, altc, alttext, ral, ralforbid, pltargs, plotfunmake, plotdebug,
-        plotgrid2d, size, psize, plot_size, plot_tags, stack_mtell_quiet, plotpid, margin],
+        plotgrid2d, plotbox, size, psize, plot_size, plot_tags, stack_mtell_quiet, plotpid, margin],
     stack_mtell_quiet:true,
     plotdebug: false,
     /* Check for grid2d  in the plotoptions. */
     plotgrid2d: false,
     if member(grid2d, ra) or member(STACKGRID, ra) then
          plotgrid2d: true,
+    /*******************/
+    /* Check for box.  */
+    plotbox:sublist(ra, lambda([ex], if listp(ex) then is(first(ex) = box) else false)),
+    if emptyp(plotbox) then plotbox:true else block(
+            ra:delete(first(plotbox), ra),
+            if not(second(first(plotbox))) then plotbox:false
+        ),
+    /* For new versions. */
+    if member(nobox, ra) then plotbox:false,
+    if plotdebug then print("Should plot2d print a box? ", plotbox),
+    /************************************/
     /* Arguments to plot must be lists. */
     ral: sublist(ra, listp), /* The actual arguments used by plot. */
     /* Check expressions to be plotted has/have only one variable. */
@@ -1127,6 +1138,9 @@ set output ", afn),
     /* Add in the command for the grid. */
     if plotgrid2d and MAXIMA_VERSION_NUM>34 then
         ral: append(ral, [grid2d]),
+    /* Add in the command for the nobox. */
+    if not(plotbox) then if MAXIMA_VERSION_NUM>47 then
+        ral:append(ral, [nobox]) else ral:append(ral, [[box,false]]),
     if plotdebug then print(preamble),
     if PLOT_TERMINAL="svg" then set_plot_option([svg_file, afn]),
     if PLOT_TERMINAL="svg" then
@@ -1489,7 +1503,8 @@ ATEquation(SA, SB) := block([keepfloat, RawMark, SA1, SB1, SB2, Rationalex1, Rat
              return([true, true, "ATEquation_zero", ""])
         else return([true, false, "ATEquation_zero_fail", ""]),
     if numberp(float(abs(Rationalex1/Rationalex2))) then
-        return([true, true, "", ""]),    Rationalex1:num(ratsimp(Rationalex1)),
+        return([true, true, "ATEquation_num", ""]),
+    Rationalex1:num(ratsimp(Rationalex1)),
     Rationalex2:num(ratsimp(Rationalex2)),
     if algebraic_equivalence(abs(Rationalex1/Rationalex2), 1) then
         return([true, true, "ATEquation_ratio", ""]),
@@ -1637,7 +1652,7 @@ ATMatrix(SA, SB) := block([RawMark, FeedBack, AnswerNote, str, ret, SAr, SAc, SB
         retnew:ATAlgEquivfun(SA[kloop], SB[kloop]),
         ret[1]:ret[1] and retnew[1],
         ret[2]:ret[2] and retnew[2],
-        ret[3]:concat(ret[3], " ", retnew[3]),
+        ret[3]:strim(" ", concat(ret[3], " ", retnew[3])),
         if retnew[2] = false then AddFeedBack:true
     ),
     if AddFeedBack = true then block(
@@ -2312,7 +2327,7 @@ ATCasEqual(SA,SB) :=
 /* SA>SB? */
 ATGT(SA,SB) :=
     block([keepfloat, Validity, RawMark, FeedBack, AnswerNote, str, ex],
-    Validity:true, RawMark:false, FeedBack:"", AnswerNote:"Not number",
+    Validity:true, RawMark:false, FeedBack:"", AnswerNote:"ATGT_NotNumber",
     keepfloat:true,               /* See pg 23 */
 
     SAA:errcatch(ev(SA, simp, nouns)),
@@ -2334,7 +2349,7 @@ ATGT(SA,SB) :=
 /* SA>=SB? */
 ATGTE(SA,SB) :=
     block([keepfloat, Validity, RawMark, FeedBack, AnswerNote, str, ex, SAA, SBB],
-    Validity:true, RawMark:false, FeedBack:"", AnswerNote:"Not number",
+    Validity:true, RawMark:false, FeedBack:"", AnswerNote:"ATGT_NotNumber",
     keepfloat:true,
 
     SAA:errcatch(ev(SA, simp, nouns)),
@@ -3445,15 +3460,15 @@ assess(ex1,ex2):=block([ret],
 /* ****************************************************** */
 
 /* A function to create a truth table of an expression ex. */
-truth_table(ex) := block([exs, vars, tab, tt],
+truth_table(ex) := block([exs, vars, tbl, tt],
     vars: ev(sort(listofvars(ex)),simp),
     if length(vars) > 5 then error("truth_table will only print with fewer than 6 variables."),
     /* Store this variable to prevent 2^n re-evaluations of this function. */
     exs: noun_logic_remove(ex),
-    tab: maplist(lambda([ex2], zip_with("=", vars, ex2)), truth_table_allvars(vars)),
-    tab: maplist(lambda([ex2], append(maplist('rhs, ex2), [ev(logic_simp(exs), ex2)])), tab),
-    tab: append([append(vars, [ex])], tab),
-    apply('table, tab)
+    tbl: maplist(lambda([ex2], zip_with("=", vars, ex2)), truth_table_allvars(vars)),
+    tbl: maplist(lambda([ex2], append(maplist('rhs, ex2), [ev(logic_simp(exs), ex2)])), tbl),
+    tbl: append([append(vars, [ex])], tbl),
+    apply('table, tbl)
 )$
 
 truth_table_allvars(l) := block(
@@ -3548,4 +3563,4 @@ is_lang(code):=ev(is(%_STACK_LANG=code),simp=true)$
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2026032300$
+stackmaximaversion:2026042402$

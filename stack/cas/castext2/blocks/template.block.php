@@ -85,11 +85,7 @@ class stack_cas_castext2_template extends stack_cas_castext2_block {
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_flat(): bool {
-        if (count($this->children) === 0 && !array_key_exists('mode', $this->params)) {
-            // When declaring a template the result will always be an empty string.
-            return true;
-        }
-        // We cannot know if the overriding template is flat when using the template.
+        // The only cases where this could be flat are such that we cannot identify them here.
         return false;
     }
 

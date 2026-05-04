@@ -1,10 +1,8 @@
 # Testing, debugging and quality control
 
-This page deals with testing questions and quality control. This is largely done through the question test functionality.
+This page deals with testing questions and quality control. An [authoring workflow](Authoring_workflow.md) is described separately.
 
-High-quality question production needs care at each stage.  An [authoring workflow](Authoring_workflow.md) is described separately.
-
-We have separate advice on [fixing broken questions](../STACK_question_admin/Fixing_broken_questions.md) in a live quiz.
+We also have separate advice on [fixing broken questions](../STACK_question_admin/Fixing_broken_questions.md) in a live quiz.
 
 ## Testing for quality control  ##
 
@@ -144,13 +142,17 @@ The decimal separator option (e.g. `.` or `,`) is a very thin layer based on the
 
 ## Testing values of variables
 
-STACK provides a special function `s_assert(ex1, ex2)` which can be used in the question variables and feedback variables.  If `is(ex1=ex2)` does not evaluate to `true` then this function throws a maxima error message.  This can be used to create a runtime error and prevent a question, and a particular variant, being used.
+If there are any runtime errors in the _Question Variables_ then question tests will fail (even if the errors do not affect the outcomes of the particular test).  Question variables should be runtime error free.
+
+Runtime errors in the _Feedback variables_ of a potential response tree are ignored by the testing mechanism.  This field can be used as a guard clause to the PRT.  E.g. evaluating a rational expression might result in division by zero which can be ignored.
+
+STACK provides a special function `s_assert(ex1, ex2)` for testing, which can be used in the question variables and feedback variables.  If `is(ex1=ex2)` does not evaluate to `true` then this function throws a maxima error message.  This can be used to create a runtime error and prevent a question, and a particular variant, being used.
 
 For example, if you have an expression `1/n` and the variable `n` is randomly generated you need to prevent a random version being zero.  In this case put the following in the question variables.
 
     s_assert(is(n=0), false);
 
-This test will throw an error when `n` is zero.
+This test will throw an error in the question variables when `n` is zero.
 
 In many situations this kind of test creation will be simpler than mapping onto student inputs.
 

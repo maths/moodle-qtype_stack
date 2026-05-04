@@ -111,7 +111,7 @@ if (!$files) {
     $cache->set($cacheid, $files);
 }
 
-$mform = new category_form(null, ['qcontext' => $contexts]);
+$mform = new qtype_stack\form\category_form(null, ['qcontext' => $contexts]);
 // Prepare data for template.
 $outputdata = new StdClass();
 $outputdata->returnlink = $returnlink->out();

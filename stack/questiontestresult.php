@@ -69,6 +69,11 @@ class stack_question_test_result {
     public $debuginfo = [];
 
     /**
+     * @var array Runtime errors from the question.
+     */
+    public $runtimeerrors = [];
+
+    /**
      * @var float Store the question penalty to check defaults.
      */
     public $questionpenalty;
@@ -344,6 +349,9 @@ class stack_question_test_result {
         if ($this->emptytestcase) {
             return false;
         }
+        if (!empty($this->runtimeerrors)) {
+            return false;
+        }
         foreach ($this->get_prt_states() as $state) {
             if (!$state->testoutcome) {
                 return false;
@@ -364,6 +372,9 @@ class stack_question_test_result {
         if ($this->emptytestcase) {
             $passed = false;
             $reason = stack_string('questiontestempty');
+        } else if (!empty($this->runtimeerrors)) {
+            $passed = false;
+            $reason = implode(' ', $this->runtimeerrors);
         } else {
             foreach ($this->get_input_states() as $inputname => $inputstate) {
                 $inputval = ($inputstate->input === false) ? '' : $inputstate->input;
@@ -408,10 +419,11 @@ class stack_question_test_result {
             $outcome = html_writer::tag('span', stack_string('testsuitefail'), ['class' => 'fail']);
         }
         if ($key !== null) {
-            $html .= html_writer::tag('h3', stack_string(
-                'testcasexresult',
-                ['no' => $key, 'result' => $outcome]
-            ));
+            $html .= html_writer::tag(
+                'h3',
+                stack_string('testcasexresult', ['no' => $key, 'result' => $outcome]),
+                ['id' => 'testcase-' . $key . '-' . $question->id]
+            );
         }
 
         if (trim($this->testcase->description) !== '') {

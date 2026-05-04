@@ -15,10 +15,10 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Unit tests for create repo command line script for gitsync
+ * Unit tests for the STACK question library
  *
  * @package    qtype_stack
- * @copyright  2023 The Open University
+ * @copyright  2025 The University of Edinburgh
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

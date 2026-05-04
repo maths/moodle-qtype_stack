@@ -41,7 +41,7 @@ jobs:
             moodle-branch: 'MOODLE_502_STABLE'
             database: 'pgsql'
             maxima: 'SBCL'
-            moodle-app: false
+            moodle-app: true
           - php: '8.2'
             moodle-branch: 'MOODLE_500_STABLE'
             database: 'pgsql'
@@ -58,7 +58,7 @@ jobs:
             moodle-branch: 'MOODLE_402_STABLE'
             database: 'pgsql'
             maxima: 'GCL'
-            moodle-app: false
+            moodle-app: true
 
     steps:
       - name: Install Maxima (${{ matrix.maxima }})
@@ -267,4 +267,7 @@ jobs:
       - name: Behat features
         if: ${{ always() }}
         run: moodle-plugin-ci behat --profile chrome --auto-rerun 12
+        env:
+          # April 2026 - Remove after next Moodle App release
+          MOODLE_BEHAT_SELENIUM_IMAGE: selenium/standalone-chrome:145.0-20260222
 

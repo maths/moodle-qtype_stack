@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+echo "0 0,12 * * * root /opt/certbot/bin/python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew -q" | tee -a /etc/cron.d/crontab > /dev/null
+service cron start
+/usr/sbin/apache2ctl -D FOREGROUND

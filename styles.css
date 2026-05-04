@@ -420,7 +420,7 @@ body.path-question-type-stack table.stacktestsuite pre {
     max-width: 60em;
 }
 body.path-question-type-stack .stacktestsuite td {
-    padding: 0.3rem;
+    padding: 0.3rem 0.3rem 0.3rem 0.75rem;
 }
 body.path-question-type-stack .stacktestsuite .MathJax_Display {
     margin: 0;
@@ -443,6 +443,7 @@ body.path-question-type-stack .overallresult {
     color: white;
     font-weight: bold;
     padding: 0.5em;
+    border-radius: 5px;
 }
 body.path-question-type-stack .overallresult.fail {
     background: #f00;
@@ -1285,6 +1286,12 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
 .que .outcome,
 .que .comment {
     color: #44331b;
+}
+.stack-dash-tab-load:hover {
+    cursor: not-allowed;
+}
+.stacktestsuite .results-symbol {
+    font-size: 1.5em;
 }
 .stack-metadata input {
     width: 98%;

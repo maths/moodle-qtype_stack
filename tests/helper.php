@@ -59,6 +59,7 @@ final class qtype_stack_test_helper extends question_test_helper {
             'runtime_prt_err', // This generates an error in the PRT at runtime.  With and without guard clause.
             'runtime_ses_err', // This generates an invalid session.
             'runtime_cas_err', // This generates a 1/0 in the CAS at run time.
+            'runtime_s_assert_err', // This generates an error via s_assess function.
             'units', // This question has units inputs, and a numerical test.
             'unitsoptions', // This question has units inputs, and a numerical test with the accuracy in a variable.
             'unitsmulti', // This question has units inputs, and an algebraic input.
@@ -112,6 +113,8 @@ final class qtype_stack_test_helper extends question_test_helper {
             'jsx_graph_input',
             'response_test',
             'response_test_2',
+            'dashboard_test',
+            'dashboard_test_2',
         ];
     }
 
@@ -2360,6 +2363,66 @@ final class qtype_stack_test_helper extends question_test_helper {
         $newnode->truefeedback        = 'Correct.';
         $newnode->truefeedbackformat  = '1';
         $newnode->trueanswernote      = 'Result-0-T';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
+
+        return $q;
+    }
+
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    public static function make_stack_question_runtime_s_assert_err() {
+        $q = self::make_a_stack_question();
+
+        $q->stackversion = '2019072900';
+        $q->name = 'runtime_s_assert_err';
+        // Checks the stack_seed is a perfect square.
+        $q->questionvariables = "ta1:factor(x^2-stack_seed);s_assert(integerp(sqrt(stack_seed)), true);";
+        $q->questiontext = '<p>Factor {@expand(ta1)@}.</p>' .
+            '<p>[[input:ans1]] [[validation:ans1]]</p>';
+
+        $q->specificfeedback = '[[feedback:prt1]]';
+        $q->questionnote = '';
+
+        $q->inputs['ans1'] = stack_input_factory::make(
+            'algebraic',
+            'ans1',
+            'ta1',
+            null,
+            ['boxWidth' => 25]
+            );
+
+        $prt = new stdClass();
+        $prt->name              = 'prt1';
+        $prt->id                = 0;
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = '';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = true;
+        $newnode = new stdClass();
+        $newnode->id                  = '0';
+        $newnode->nodename            = '0';
+        $newnode->description         = '';
+        $newnode->sans                = 'ans1';
+        $newnode->tans                = 'ta1';
+        $newnode->answertest          = 'FacForm';
+        $newnode->testoptions         = 'x';
+        $newnode->quiet               = true;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = 'Not quite.';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'prt1-0-F';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = 'Correct.';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'prt1-0-T';
         $newnode->truenextnode        = '-1';
         $prt->nodes[] = $newnode;
         $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
@@ -8870,7 +8933,7 @@ final class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->questionnote = [
-            'text' => '{@p@}, {@ta@}.',
+            'text' => '{@n@}, {@ta@}.',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -8951,6 +9014,22 @@ final class qtype_stack_test_helper extends question_test_helper {
     public function get_stack_question_form_data_response_test_2() {
         $formform = $this->get_stack_question_form_data_test3();
         $formform->questionvariables = $formform->questionvariables . ' n : rand(5)+3;';
+        return $formform;
+    }
+
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    public function get_stack_question_form_data_dashboard_test() {
+        $formform = $this->get_stack_question_form_data_response_test();
+        // Gives notes 3, 4, 6.
+        $formform->deployedseeds = [1, 3, 8];
+        return $formform;
+    }
+
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    public function get_stack_question_form_data_dashboard_test_2() {
+        $formform = $this->get_stack_question_form_data_response_test();
+        // Gives notes 3, 4, 3, 6.
+        $formform->deployedseeds = [1, 3, 4, 8];
         return $formform;
     }
 }

@@ -192,6 +192,7 @@ class stack_question_test {
             $results->set_prt_result($prtname, $result);
         }
 
+        $results->runtimeerrors = $question->runtimeerrors;
         $results->emptytestcase = $emptytestcase;
         return $results;
     }

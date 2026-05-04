@@ -1,16 +1,12 @@
 # Random objects
 
-STACK can generate structured random objects.  STACK provides a [Maxima](Maxima_background.md) function `rand()` which can be used in the question and answer variables.
+STACK can generate structured random objects.  STACK provides a [Maxima](Maxima_background.md) function `rand()` which can be used in the question and answer variables.  STACK creates pseudo-random numbers from a definite seed. This ensures that when a particular student returns they see the same variant of the question. 
 
-STACK creates pseudo-random numbers from a definite seed.
-This ensures that when a particular student returns they see the same variant of the question.
-(Note to site maintainers: if you upgrade your Maxima version mid-way through an academic cycle, then there is no gurantee that the random numbers will remain the same.  It is unlikely Maxima will change its random number generation between versions, but if it important to you please check first!)
-
-For the purposes of learning and teaching, we do not need an algorithm which is statistically perfect. We are much more interested in simplicity, efficiency and reproducibility across platforms. Hence, we adopt pseudo-random numbers.
-
-It is very important to test each random version a student is likely to see and not to leave this to chance.  To pre-generate and test random variants see the separate documentation on [deploying random variants](../STACK_question_admin/Deploying.md).
+It is very important to test each random variant of a question, and not to leave this to chance.  To pre-generate and test random variants see the separate documentation on [deploying random variants](../STACK_question_admin/Deploying.md).
 
 Users may also [systematically deploy](../STACK_question_admin/Deploying_systematically.md) all variants of a question in a simple manner.
+
+For the purposes of learning and teaching, we do not need an algorithm which is statistically perfect. We are much more interested in simplicity, efficiency and reproducibility across platforms. Hence, we adopt pseudo-random numbers.
 
 ## rand() {#rand}
 
@@ -146,6 +142,10 @@ To use this library you must load it into the question variables.
 See documentation on [inclusions](../Authoring/Inclusions.md) for more detail of these functions.
 
 Then you can create random matrices, e.g. to generate a \(3\times 3\) invertible matrix use `{@rand_invertible(3)@}`.
+
+## Direct access to the seed
+
+Every CAS (Maxima) session contains a constant `stack_seed` which holds the integer value of the seed used by that variant of the question.  If you want to create "random" questions in a carefully index way, using this variable is possible.  See [systematic deployment](../STACK_question_admin/Deploying_systematically.md).
 
 ## See also
 

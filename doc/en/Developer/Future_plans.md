@@ -137,7 +137,6 @@ Basic reports now work.
 * Text based potential response trees (would allow for easier copying of complicated trees, etc).
 * Changes to preset feedback to certain answer tests which might be more appropriate for different audiences. Could a 'simplified' English language pack allow for this (future changes might allow this to be done on a question-by-question basis).
 * Check for potential issues with default correct/incorrect feedback for different languages (defaults can already be set on the server level by a Moodle administrator).
-* Metadata on language for questions.
 * Tools for language integrity (e.g. making it easier to identify what languages are in each question).
 * Making sure Maxima knows the intended language (will allow for Maxima code to choose from the available languages).
 * May want to have further discussions on how scores and penalties are handled (there is already a new feature in the latest version of STACK so that you can include functions in the "score" field.

@@ -273,23 +273,6 @@ class qtype_stack_edit_form extends question_edit_form {
         }
         $PAGE->requires->js_call_amd('qtype_stack/metadata/metadatamodal', 'setup');
         $mform->addElement('button', 'metadatamodal', stack_string('editmetadata'));
-        $metadataobj = json_decode($this->question->options->metadata ?? '');
-        if ($metadataobj) {
-            $metadatasummary = stack_string('creator') . ': ' .
-                ($metadataobj->creator->firstName ?? '') . ' ' . ($metadataobj->creator->lastName ?? '');
-            if (isset($metadataobj->contributor) && count($metadataobj->contributor)) {
-                $contribsummary = '';
-                foreach ($metadataobj->contributor as $contrib) {
-                    $contribsummary .= ($contribsummary) ? ', ' : '';
-                    $contribsummary .= ($contrib->firstName ?? '') . ' ' . ($contrib->lastName ?? '');
-                }
-                $metadatasummary .= '; ' . stack_string('contributor') . ': ' . $contribsummary;
-            }
-        } else {
-            $metadatasummary = stack_string('novalidmetadata');
-        }
-        $metadatatext = $mform->createElement('static', 'metadata_text', stack_string('metadatahighlights'), $metadatasummary);
-        $mform->insertElementBefore($metadatatext, 'metadatamodal');
         $datalib = new \stdClass();
         $datalib->licenses = explode(',', $CFG->licenses ?? '');
         $datalib->licenses = array_map(function ($license) {
@@ -324,6 +307,24 @@ class qtype_stack_edit_form extends question_edit_form {
         );
         $mform->insertElementBefore($md, 'metadatamodal');
         $mform->setType('metadata', PARAM_RAW);
+
+        $metadataobj = json_decode($data ?? '');
+        if ($metadataobj && $data !== '{}') {
+            $metadatasummary = stack_string('creator') . ': ' .
+                ($metadataobj->creator->firstName ?? '') . ' ' . ($metadataobj->creator->lastName ?? '');
+            if (isset($metadataobj->contributor) && count($metadataobj->contributor)) {
+                $contribsummary = '';
+                foreach ($metadataobj->contributor as $contrib) {
+                    $contribsummary .= ($contribsummary) ? ', ' : '';
+                    $contribsummary .= ($contrib->firstName ?? '') . ' ' . ($contrib->lastName ?? '');
+                }
+                $metadatasummary .= '; ' . stack_string('contributor') . ': ' . $contribsummary;
+            }
+        } else {
+            $metadatasummary = stack_string('novalidmetadata');
+        }
+        $metadatatext = $mform->createElement('static', 'metadata_text', stack_string('metadatahighlights'), $metadatasummary);
+        $mform->insertElementBefore($metadatatext, 'metadatamodal');
 
         // Note that for the editor elements, we are using $mform->getElement('prtincorrect')->setValue(...); instead
         // of setDefault, because setDefault does not work for editors.

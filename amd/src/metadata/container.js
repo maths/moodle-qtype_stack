@@ -112,6 +112,7 @@ export default class extends BaseComponent {
             license: this.createDataElement(true, 0, 'license_value', state.license.value),
             isPartOf: this.createDataElement(false, 0, 'isPartOf_value', state.isPartOf.value),
             scope: [],
+            freeform: this.createDataElement(false, 0, 'freeform_value', state.freeform.value || '{}'),
         };
 
         // Need to copy licenses list as we modify to mark as selected.
@@ -180,7 +181,7 @@ export default class extends BaseComponent {
         data.json = {
             required: true,
             element: {
-                value: JSON.stringify(state, metadata.replacer, 4),
+                value: metadata.jsonStringify(state),
                 attributes: 'rows="10"',
                 wrapperid: 'fitem_metadata_json',
                 id: 'id_metadata_json',
@@ -274,6 +275,17 @@ export default class extends BaseComponent {
                     notifyFieldValidationFailure(element, '');
                 }
             }
+            // Validate freeform JSON if non-empty.
+            const freeformElement = this.getElement('#smdi_0_freeform_value');
+            if (freeformElement && freeformElement.value.trim() !== '') {
+                try {
+                    JSON.parse(freeformElement.value);
+                    notifyFieldValidationFailure(freeformElement, '');
+                } catch(e) {
+                    notifyFieldValidationFailure(freeformElement, e.message);
+                    isError = true;
+                }
+            }
             if (isError) {
                 return false;
             }
@@ -338,7 +350,7 @@ export default class extends BaseComponent {
             notifyFieldValidationFailure(jsonElement, e.message);
             return;
         }
-        jsonElement.value = JSON.stringify(data, metadata.replacer, 4);
+        jsonElement.value = metadata.jsonStringify(data);
         this.reactive.dispatch('updateFromJson', data);
     }
 
@@ -382,7 +394,7 @@ export default class extends BaseComponent {
             this.reactive.dispatch('updateFromJson', metadata.jsonToState('{}'));
             return;
         }
-        jsonElement.value = JSON.stringify(previousdata, metadata.replacer, 4);
+        jsonElement.value = metadata.jsonStringify(previousdata);
         this.reactive.dispatch('updateFromJson', previousdata);
     }
 }

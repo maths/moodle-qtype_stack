@@ -470,13 +470,37 @@
             {{/license}}
         </div>
     </div>
-    <h5>{{#str}} additionalmetadata, qtype_stack {{/str}}:</h5>
+    <h5>{{#str}} additionalmetadata, qtype_stack {{/str}}</h5>
     {{#scope}}
         {{>qtype_stack/metadata/metadatascope}}
     {{/scope}}
     <div class="row" style="padding-top: 10px">
         <div class="col-md-2"></div>
         <div class="col-10"><button type="button" class="btn btn-secondary" name="smd_add" id="smd_scope_0_add">{{#str}} addscope, qtype_stack {{/str}}</button></div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-2"><h5>{{#str}} freeformmetadata, qtype_stack {{/str}}</h5></div>
+        <div class="col-10">
+            {{#freeform}}
+                <label class="sr-only" for="{{element.id}}">
+                    {{#str}} freeformmetadata, qtype_stack {{/str}}
+                </label>
+                {{< core_form/element-template-inline }}
+                    {{$element}}
+                        <textarea
+                            id="{{element.id}}"
+                            name="{{element.name}}"
+                            class="form-control {{#error}}is-invalid{{/error}}"
+                            {{#error}}
+                                autofocus aria-describedby="{{element.iderror}}"
+                            {{/error}}
+                            {{{element.attributes}}}
+                        >{{element.value}}</textarea>
+                    {{/element}}
+                {{/ core_form/element-template-inline }}
+            {{/freeform}}
+        </div>
     </div>
     <br>
     <div class="row">

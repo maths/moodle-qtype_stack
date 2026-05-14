@@ -90,6 +90,18 @@ class StackMetadata extends Reactive {
             case 'license':
             case 'isPartOf':
                 return value.value;
+            case 'freeform':
+                if (!value.value) {
+                    return '{}';
+                }
+                try {
+                    // If we parse the value here then the replacer
+                    // works on it recursively which gets messed up
+                    // if someone uses property values to match our own.
+                    return value.value;
+                } catch(e) {
+                    return undefined;
+                }
             case 'additional':
                 for (const item of value) {
                     if (item.scope in additional === false) {
@@ -119,11 +131,29 @@ class StackMetadata extends Reactive {
                         additional[item.scope][item.property][item.qualifier] = value;
                     }
                 }
-                return additional;
+                return JSON.stringify(additional);
             default:
                 return value;
         }
 
+    }
+
+    /**
+     * Convert state into a JSON string.
+     * We can't simply stringify because of the freeform and additional properties.
+     * We have to deal with them as strings before this to prevent the replacer
+     * acting recursively.
+     *
+     * @param {*} state
+     * @returns
+     */
+    jsonStringify(state) {
+        let output = JSON.stringify(state, this.replacer);
+        output = JSON.parse(output);
+        output.freeform = JSON.parse(output.freeform);
+        output.additional = JSON.parse(output.additional);
+        output = JSON.stringify(output, null, 4);
+        return output;
     }
 
     /**
@@ -154,6 +184,8 @@ class StackMetadata extends Reactive {
             case 'license':
             case 'isPartOf':
                 return {value: value};
+            case 'freeform':
+                return {value: JSON.stringify(value)};
             default:
                 return value;
         }
@@ -167,8 +199,13 @@ class StackMetadata extends Reactive {
      * @returns
      */
     jsonToState(data) {
-        data = JSON.parse(data, this.reviver);
-        const fields = ['creator', 'contributor', 'language', 'license', 'isPartOf', 'additional'];
+        data = JSON.parse(data);
+        for (let property in data) {
+            // We use the reviver once rather than recursively as it works from the bottom
+            // up and that causes issues if someone has re-used one of our property names.
+            data[property] = this.reviver(property, data[property]);
+        }
+        const fields = ['creator', 'contributor', 'language', 'license', 'isPartOf', 'additional', 'freeform'];
         data = this.stripFields(data, fields);
         const creatorFields = ['firstName', 'lastName', 'institution', 'year'];
         const contribFields = ['id', 'firstName', 'lastName', 'institution', 'year'];
@@ -233,6 +270,7 @@ class StackMetadata extends Reactive {
             }
         }
         data.additional = addHolder;
+        data.freeform = this.tidyObject(data.freeform, standardFields);
 
         return data;
     }

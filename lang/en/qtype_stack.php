@@ -446,6 +446,7 @@ $string['property'] = 'Property';
 $string['qualifier'] = 'Qualifier';
 $string['value'] = 'Value';
 $string['ispartof'] = 'isPartOf';
+$string['freeformmetadata'] = 'Freeform metadata';
 $string['reverttosaved'] = 'Revert current changes';
 $string['licenseselect'] = 'Type or select license';
 

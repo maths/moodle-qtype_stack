@@ -10,6 +10,8 @@ These three mechanisms aim to provide comprehensive testing of STACK.  The last 
 
 STACK uses the moodle-ci continuous integration mechanism via github actions so that all unit tests are triggered when a commit is pushed to github.
 
+JavaScript unit tests added May 2026.
+
 # PHP Unit tests
 
 Moodle uses PHPUnit for its unit tests. Setting this up and getting it working is a bit of a pain, but you only have to follow the instructions in [the Moodle PHPUnit documentation](http://docs.moodle.org/dev/PHPUnit) once to get it working.
@@ -189,8 +191,6 @@ In the STACK directory
     php cli/casstringtester.php --string="0..1"
 
 # Testing JavaScript
-
-JavaScript tests are not run as part of the Continuous Integration.
 
 In the tests/jest directory as a user with write permissions:
 ```

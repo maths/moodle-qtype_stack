@@ -264,6 +264,13 @@ jobs:
         #if: ${{ always() }}
         run: moodle-plugin-ci phpunit
 
+      - name: JS unit tests
+        if: ${{matrix.moodle-branch == 'MOODLE_502_STABLE'}}
+        run: |
+          cd plugin/tests/jest
+          npm ci
+          npm test
+
       - name: Behat features
         if: ${{ always() }}
         run: moodle-plugin-ci behat --profile chrome --auto-rerun 12

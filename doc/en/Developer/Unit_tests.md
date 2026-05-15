@@ -194,6 +194,6 @@ In the STACK directory
 
 In the tests/jest directory as a user with write permissions:
 ```
-npm ci
+npm install
 npm test
 ```

@@ -261,6 +261,92 @@ Feature: Create and edit STACK metadata
     Then I should see "v2 (latest)"
     And I check the hidden input "metadata" is '{"creator":{"firstName":"Bob","lastName":"Smith","institution":"MIT","year":"2024"},"contributor":[{"firstName":"Mike","lastName":"Jones","institution":"Bath","year":"2023"}],"language":["en"],"isPartOf":"Everything","license":"cc-nc-4.1","additional":{"Added":{"Cat":{"Breed":"Al$%&^"},"Horse":["Dobbin","Champion"],"Dog":{"Teeth":"50","Tails":"1"}},"Added too":{"Fish":{"Gills":["2","3"]}}},"freeform":{}}'
 
+  @javascript @current
+  Scenario: Create and edit STACK freeform metadata
+    When I am on the "Algebraic input" "core_question > edit" page logged in as teacher
+    And I click on "View and edit full metadata" "button"
+    And I should see "STACK metadata is stored as a JSON object."
+    And I set the field "id_metadata_json" to multiline:
+    """
+    {
+      "creator": {
+          "firstName": "Bob",
+          "lastName": "Smith",
+          "institution": "MIT",
+          "year": "2024"
+      },
+      "contributor": [
+          {
+              "firstName": "Mike",
+              "lastName": "Jones",
+              "institution": "Bath",
+              "year": "2023"
+          }
+      ],
+      "language": [
+          "en"
+      ],
+      "isPartOf": "Everything",
+      "license": "cc-nc-4.1",
+      "additional":
+          {
+              "additional": {
+                  "Cat": {
+                      "Breed": "Al$%&^"
+                  },
+                  "Horse": "Dobbin",
+                  "Dog": {
+                      "Teeth": "50",
+                      "Tails": "1"
+                  },
+                  "Multi": [
+                    1,2,3
+                  ],
+                  "Multi1": {
+                    "Multi2": [
+                      4,5,6
+                    ]
+                  }
+              },
+              "Added too": {
+                  "Fish": {
+                      "Gills": "2"
+                  }
+              }
+          },
+      "freeform":
+          {
+              "license": {
+                  "Cat": {
+                      "Breed": "Al$%&^"
+                  },
+                  "Horse": "Dobbin",
+                  "Dog": {
+                      "Teeth": "50",
+                      "Tails": "1"
+                  }
+              },
+              "Freeform too": {
+                  "Fish": {
+                      "Gills": "2"
+                  }
+              }
+          }
+    }
+    """
+    And I click on "Update inputs from JSON" "button"
+    And I should see "{\"license\":{\"Cat\":{\"Breed\":\"Al$%&^\"},\"Horse\":\"Dobbin\",\"Dog\":{\"Teeth\":\"50\",\"Tails\":\"1\"}},\"Freeform too\":{\"Fish\":{\"Gills\":\"2\"}}}"
+    And I click on "Validate and close" "button"
+    And I check the hidden input "metadata" is '{"creator":{"firstName":"Bob","lastName":"Smith","institution":"MIT","year":"2024"},"contributor":[{"firstName":"Mike","lastName":"Jones","institution":"Bath","year":"2023"}],"language":["en"],"isPartOf":"Everything","license":"cc-nc-4.1","additional":{"additional":{"Cat":{"Breed":"Al$%&^"},"Horse":"Dobbin","Dog":{"Teeth":"50","Tails":"1"},"Multi":["1","2","3"],"Multi1":{"Multi2":["4","5","6"]}},"Added too":{"Fish":{"Gills":"2"}}},"freeform":{"license":{"Cat":{"Breed":"Al$%&^"},"Horse":"Dobbin","Dog":{"Teeth":"50","Tails":"1"}},"Freeform too":{"Fish":{"Gills":"2"}}}}'
+    And I click on "View and edit full metadata" "button"
+    And I should see "STACK metadata is stored as a JSON object."
+    And I set the field "smdi_0_freeform_value" to multiline:
+    """
+    {"x":[{"additional":"b"},{"license":"d"}]}
+    """
+    And I click on "Validate and close" "button"
+    And I check the hidden input "metadata" is '{"creator":{"firstName":"Bob","lastName":"Smith","institution":"MIT","year":"2024"},"contributor":[{"firstName":"Mike","lastName":"Jones","institution":"Bath","year":"2023"}],"language":["en"],"isPartOf":"Everything","license":"cc-nc-4.1","additional":{"additional":{"Cat":{"Breed":"Al$%&^"},"Horse":"Dobbin","Dog":{"Teeth":"50","Tails":"1"},"Multi":["1","2","3"],"Multi1":{"Multi2":["4","5","6"]}},"Added too":{"Fish":{"Gills":"2"}}},"freeform":{"x":[{"additional":"b"},{"license":"d"}]}}'
+
   @javascript
   Scenario: New question metadata
     When I am on the "Course 1" "core_question > course question bank" page logged in as "teacher"

@@ -17,10 +17,11 @@ New questions will be created with editable `metadata` similar to the following:
     ],
     "license": "unknown", // $CFG->sitedefaultlicense
     "isPartOf": "",
-    "additional": {}
+    "additional": {},
+    "freeform" {}
 }
 ```
-A question has one creator but can have multiple contributors.
+A question has one creator but can have multiple contributors. `Last name` is required. 
 
 Additional metadata is stored in Scope->Property->Qualifier->Value or Scope->Property->Value format. Scope identifies the metadata scheme being used. For instance, two institutions might have the property `Level` that has different meanings. Scope allows differentiation between the two:
 ```
@@ -77,13 +78,15 @@ If any entry for a property has a qualifier, then all entries must do so in orde
     }
 }
 ```
-All information in the `metadata` field can be updated via the button 'View and edit full metadata' in the question edit form. This launches a pop-up where the metadata information can be updated via input boxes or the JSON can be manually amended and validated.
+The freeform metadata input allows entry of further metadata in whatever format the user requires. It simply has to be valid JSON. This can also be added in the main JSON metadata input field but (unlike `additional` entries) does not create additional input fields and buttons. This field is for power users who require greater nesting depth in their metadata.
+
+All information in the question `metadata` field can be updated via the button 'View and edit full metadata' in the question edit form. This launches a pop-up where the metadata information can be updated via input boxes or the JSON can be manually amended and validated.
 
 ![Metadata popup in action](../../content/metadata.png)
 
 Update the input boxes and click 'Validate inputs and update JSON' to display the JSON output. Update the JSON and click 'Update inputs from JSON' to fill in the input boxes from the JSON. 'Validate and close' will take the contents of the input boxes, validate them and then create and store JSON ready to be saved as part of the STACK question. The question edit form must still be saved normally once the pop-up has closed in order to save this JSON to the question.
 
- Please note that although you can update either the JSON or the input boxes, the form saves the contents of the input boxes. If you update the JSON you must click 'Update inputs from JSON' without a JSON error being displayed before clicking 'Validate and close'.
+Please note that although you can update either the JSON or the input boxes, the form saves the contents of the input boxes. If you update the JSON you must click 'Update inputs from JSON' without a JSON error being displayed before clicking 'Validate and close'.
 
 Example metadata:
 ```
@@ -135,7 +138,8 @@ Example metadata:
             "Workbook": "10",
             "Level": "Basic"
         }
-    }
+    },
+    "freeform": {}
 }
 ```
 Both metadata fields are exported and imported normally as part of Moodle XML, allowing automated addition of metadata to large question banks with the aid of Gitsync.
@@ -144,6 +148,6 @@ Both metadata fields are exported and imported normally as part of Moodle XML, a
     {"id": XXXX-XXX-XXXX_XXXX}
 </prescribedmetadata>
 <metadata>
-    {"creator":{"firstName":"Dave","lastName":"Summers","institution":"Edinburgh","year":"2025"},"contributor":[{"firstName":"Bob","lastName":"Smith","institution":"Open University","year":"2026"}],"language":["en"],"isPartOf":"HELM","license":"cc-4.0","additional":{"UoE":{"Course":{"Name":"Introductory Maths","Week":"3"},"Topic":"Calculus"}}}
+    {"creator":{"firstName":"Dave","lastName":"Summers","institution":"Edinburgh","year":"2025"},"contributor":[{"firstName":"Bob","lastName":"Smith","institution":"Open University","year":"2026"}],"language":["en"],"isPartOf":"HELM","license":"cc-4.0","additional":{"UoE":{"Course":{"Name":"Introductory Maths","Week":"3"},"Topic":"Calculus"}},"freeform":{}}
 </metadata>
 ```

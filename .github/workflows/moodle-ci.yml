@@ -268,7 +268,7 @@ jobs:
         if: ${{matrix.moodle-branch == 'MOODLE_502_STABLE'}}
         run: |
           cd plugin/tests/jest
-          npm ci
+          npm install
           npm test
 
       - name: Behat features

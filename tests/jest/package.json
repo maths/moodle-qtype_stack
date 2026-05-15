@@ -5,6 +5,7 @@
   "jest": {
     "moduleNameMapper": {
       "^core/(.*)$": "<rootDir>/__mocks__/core/$1.js",
+      "^core_form/(.*)$": "<rootDir>/__mocks__/core_form/$1.js",
       "^qtype_stack/(.*)$": "<rootDir>/__mocks__/qtype_stack/$1.js"
     }
   },

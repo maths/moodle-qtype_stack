@@ -261,7 +261,7 @@ Feature: Create and edit STACK metadata
     Then I should see "v2 (latest)"
     And I check the hidden input "metadata" is '{"creator":{"firstName":"Bob","lastName":"Smith","institution":"MIT","year":"2024"},"contributor":[{"firstName":"Mike","lastName":"Jones","institution":"Bath","year":"2023"}],"language":["en"],"isPartOf":"Everything","license":"cc-nc-4.1","additional":{"Added":{"Cat":{"Breed":"Al$%&^"},"Horse":["Dobbin","Champion"],"Dog":{"Teeth":"50","Tails":"1"}},"Added too":{"Fish":{"Gills":["2","3"]}}},"freeform":{}}'
 
-  @javascript @current
+  @javascript
   Scenario: Create and edit STACK freeform metadata
     When I am on the "Algebraic input" "core_question > edit" page logged in as teacher
     And I click on "View and edit full metadata" "button"

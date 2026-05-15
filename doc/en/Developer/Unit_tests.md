@@ -187,3 +187,13 @@ You need to output values to the file system, as the display can't manage this. 
 In the STACK directory
 
     php cli/casstringtester.php --string="0..1"
+
+# Testing JavaScript
+
+JavaScript tests are not run as part of the Continuous Integration.
+
+In the tests/jest directory as a user with write permissions:
+```
+npm ci
+npm test
+```

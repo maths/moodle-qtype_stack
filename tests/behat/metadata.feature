@@ -51,7 +51,7 @@ Feature: Create and edit STACK metadata
     And I set the field "smdi_1_additional_qualifier" in the "#qtype-stack-metadata-content" "css_element" to "Breed"
     And I set the field "smdi_1_additional_value" in the "#qtype-stack-metadata-content" "css_element" to "Al$%&^"
     And I click on "Validate and close" "button"
-    And I check the hidden input "metadata" is '{"creator":{"firstName":"Edmund","lastName":"Farrow","institution":"UoE","year":"2025"},"contributor":[{"firstName":"Bob","lastName":"Smith","institution":"MIT","year":"2026"}],"language":["en"],"isPartOf":"HELM","license":"cc-nc-4.0","additional":{"Added data":{"Dog info":{"Breed":"Al$%&^"}}}}'
+    And I check the hidden input "metadata" is '{"creator":{"firstName":"Edmund","lastName":"Farrow","institution":"UoE","year":"2025"},"contributor":[{"firstName":"Bob","lastName":"Smith","institution":"MIT","year":"2026"}],"language":["en"],"isPartOf":"HELM","license":"cc-nc-4.0","additional":{"Added data":{"Dog info":{"Breed":"Al$%&^"}}},"freeform":{}}'
     And I click on "View and edit full metadata" "button"
     And I should see "STACK metadata is stored as a JSON object."
     And I click on "Add me as a contributor" "button"
@@ -75,11 +75,11 @@ Feature: Create and edit STACK metadata
     And I set the field "smdi_4_additional_qualifier" in the "#qtype-stack-metadata-content" "css_element" to "Things"
     And I set the field "smdi_4_additional_value" in the "#qtype-stack-metadata-content" "css_element" to "AAA"
     And I click on "Validate and close" "button"
-    And I check the hidden input "metadata" is '{"creator":{"firstName":"Edmund","lastName":"Farrow","institution":"UoE","year":"2025"},"contributor":[{"firstName":"Bob","lastName":"Smith","institution":"MIT","year":"2026"},{"firstName":"Teacher","lastName":"Lastname1","institution":"","year":"XXXX"}],"language":["en","fr"],"isPartOf":"HELM","license":"cc-nc-4.0","additional":{"Added data":{"Dog info":{"Breed":"Al$%&^"},"Cat info":{"Breed":"Tabby"}},"More data":{"Question":{"Type":"MC"},"More":{"Things":"AAA"}}}}'
+    And I check the hidden input "metadata" is '{"creator":{"firstName":"Edmund","lastName":"Farrow","institution":"UoE","year":"2025"},"contributor":[{"firstName":"Bob","lastName":"Smith","institution":"MIT","year":"2026"},{"firstName":"Teacher","lastName":"Lastname1","institution":"","year":"XXXX"}],"language":["en","fr"],"isPartOf":"HELM","license":"cc-nc-4.0","additional":{"Added data":{"Dog info":{"Breed":"Al$%&^"},"Cat info":{"Breed":"Tabby"}},"More data":{"Question":{"Type":"MC"},"More":{"Things":"AAA"}}},"freeform":{}}'
     And I click on "View and edit full metadata" "button"
     And I set the field "smdi_3_additional_scope" in the "#qtype-stack-metadata-content" "css_element" to "Changed"
     And I click on "Validate and close" "button"
-    And I check the hidden input "metadata" is '{"creator":{"firstName":"Edmund","lastName":"Farrow","institution":"UoE","year":"2025"},"contributor":[{"firstName":"Bob","lastName":"Smith","institution":"MIT","year":"2026"},{"firstName":"Teacher","lastName":"Lastname1","institution":"","year":"XXXX"}],"language":["en","fr"],"isPartOf":"HELM","license":"cc-nc-4.0","additional":{"Added data":{"Dog info":{"Breed":"Al$%&^"},"Cat info":{"Breed":"Tabby"}},"Changed":{"Question":{"Type":"MC"},"More":{"Things":"AAA"}}}}'
+    And I check the hidden input "metadata" is '{"creator":{"firstName":"Edmund","lastName":"Farrow","institution":"UoE","year":"2025"},"contributor":[{"firstName":"Bob","lastName":"Smith","institution":"MIT","year":"2026"},{"firstName":"Teacher","lastName":"Lastname1","institution":"","year":"XXXX"}],"language":["en","fr"],"isPartOf":"HELM","license":"cc-nc-4.0","additional":{"Added data":{"Dog info":{"Breed":"Al$%&^"},"Cat info":{"Breed":"Tabby"}},"Changed":{"Question":{"Type":"MC"},"More":{"Things":"AAA"}}},"freeform":{}}'
     And I click on "View and edit full metadata" "button"
     And I should see "STACK metadata is stored as a JSON object."
     And I click on "smd_contributor_1_delete" "button"
@@ -93,7 +93,7 @@ Feature: Create and edit STACK metadata
     And I wait until "smdi_3_language_value" "field" exists
     And I set the field "smdi_3_language_value" in the "#qtype-stack-metadata-content" "css_element" to "it"
     And I click on "Validate and close" "button"
-    And I check the hidden input "metadata" is '{"creator":{"firstName":"Edmund","lastName":"Farrow","institution":"UoE","year":"2025"},"contributor":[{"firstName":"Teacher","lastName":"Lastname1","institution":"","year":"XXXX"}],"language":["fr","it"],"isPartOf":"HELM","license":"cc-nc-4.0","additional":{"Added data":{"Dog info":{"Breed":"Al$%&^"}},"Changed":{"Question":{"Type":"MC"},"More":{"Things":"AAA"}}}}'
+    And I check the hidden input "metadata" is '{"creator":{"firstName":"Edmund","lastName":"Farrow","institution":"UoE","year":"2025"},"contributor":[{"firstName":"Teacher","lastName":"Lastname1","institution":"","year":"XXXX"}],"language":["fr","it"],"isPartOf":"HELM","license":"cc-nc-4.0","additional":{"Added data":{"Dog info":{"Breed":"Al$%&^"}},"Changed":{"Question":{"Type":"MC"},"More":{"Things":"AAA"}}},"freeform":{}}'
     And I click on "View and edit full metadata" "button"
     And I should see "STACK metadata is stored as a JSON object."
     And I click on "smd_scope_1_delete" "button"
@@ -104,7 +104,7 @@ Feature: Create and edit STACK metadata
     And I should see "Required" in the "#smde_5_additional_property_error" "css_element"
     And I click on "smd_additional_5_delete" "button"
     And I click on "Validate and close" "button"
-    And I check the hidden input "metadata" is '{"creator":{"firstName":"Edmund","lastName":"Farrow","institution":"UoE","year":"2025"},"contributor":[{"firstName":"Teacher","lastName":"Lastname1","institution":"","year":"XXXX"}],"language":["fr","it"],"isPartOf":"HELM","license":"cc-nc-4.0","additional":{"Changed":{"Question":{"Type":"MC"},"More":{"Things":"AAA"}}}}'
+    And I check the hidden input "metadata" is '{"creator":{"firstName":"Edmund","lastName":"Farrow","institution":"UoE","year":"2025"},"contributor":[{"firstName":"Teacher","lastName":"Lastname1","institution":"","year":"XXXX"}],"language":["fr","it"],"isPartOf":"HELM","license":"cc-nc-4.0","additional":{"Changed":{"Question":{"Type":"MC"},"More":{"Things":"AAA"}}},"freeform":{}}'
     And I click on "View and edit full metadata" "button"
     And I should see "STACK metadata is stored as a JSON object."
     And I click on "Add scope" "button"
@@ -129,7 +129,7 @@ Feature: Create and edit STACK metadata
     And I set the field "smdi_8_additional_qualifier" in the "#qtype-stack-metadata-content" "css_element" to ""
     And I set the field "smdi_8_additional_value" in the "#qtype-stack-metadata-content" "css_element" to "BBB3"
     And I click on "Validate and close" "button"
-    And I check the hidden input "metadata" is '{"creator":{"firstName":"Edmund","lastName":"Farrow","institution":"UoE","year":"2025"},"contributor":[{"firstName":"Teacher","lastName":"Lastname1","institution":"","year":"XXXX"}],"language":["fr","it"],"isPartOf":"HELM","license":"cc-nc-4.0","additional":{"Changed":{"Question":{"Type":"MC"},"More":{"Things":"AAA"}},"Another Scope":{"Question2":{"Type2":"MC2"},"More data":{"Things2":"AAA2","Type2":"BBB2"},"No obj":"BBB3"}}}'
+    And I check the hidden input "metadata" is '{"creator":{"firstName":"Edmund","lastName":"Farrow","institution":"UoE","year":"2025"},"contributor":[{"firstName":"Teacher","lastName":"Lastname1","institution":"","year":"XXXX"}],"language":["fr","it"],"isPartOf":"HELM","license":"cc-nc-4.0","additional":{"Changed":{"Question":{"Type":"MC"},"More":{"Things":"AAA"}},"Another Scope":{"Question2":{"Type2":"MC2"},"More data":{"Things2":"AAA2","Type2":"BBB2"},"No obj":"BBB3"}},"freeform":{}}'
     And I click on "View and edit full metadata" "button"
     And I should see "STACK metadata is stored as a JSON object."
     And I set the field "id_metadata_json" to multiline:
@@ -171,12 +171,13 @@ Feature: Create and edit STACK metadata
                       "Gills": "2"
                   }
               }
-          }
+          },
+      "freeform": {}
     }
     """
     And I click on "Update inputs from JSON" "button"
     And I click on "Validate and close" "button"
-    And I check the hidden input "metadata" is '{"creator":{"firstName":"Bob","lastName":"Smith","institution":"MIT","year":"2024"},"contributor":[{"firstName":"Mike","lastName":"Jones","institution":"Bath","year":"2023"}],"language":["en"],"isPartOf":"Everything","license":"cc-nc-4.1","additional":{"Added":{"Cat":{"Breed":"Al$%&^"},"Horse":"Dobbin","Dog":{"Teeth":"50","Tails":"1"}},"Added too":{"Fish":{"Gills":"2"}}}}'
+    And I check the hidden input "metadata" is '{"creator":{"firstName":"Bob","lastName":"Smith","institution":"MIT","year":"2024"},"contributor":[{"firstName":"Mike","lastName":"Jones","institution":"Bath","year":"2023"}],"language":["en"],"isPartOf":"Everything","license":"cc-nc-4.1","additional":{"Added":{"Cat":{"Breed":"Al$%&^"},"Horse":"Dobbin","Dog":{"Teeth":"50","Tails":"1"}},"Added too":{"Fish":{"Gills":"2"}}},"freeform":{}}'
     And I click on "View and edit full metadata" "button"
     And I should see "STACK metadata is stored as a JSON object."
     And I click on "smd_property_5_add" "button"
@@ -190,7 +191,7 @@ Feature: Create and edit STACK metadata
     And I set the field "smdi_7_additional_qualifier" in the "#qtype-stack-metadata-content" "css_element" to ""
     And I set the field "smdi_7_additional_value" in the "#qtype-stack-metadata-content" "css_element" to "Champion"
     And I click on "Validate and close" "button"
-    And I check the hidden input "metadata" is '{"creator":{"firstName":"Bob","lastName":"Smith","institution":"MIT","year":"2024"},"contributor":[{"firstName":"Mike","lastName":"Jones","institution":"Bath","year":"2023"}],"language":["en"],"isPartOf":"Everything","license":"cc-nc-4.1","additional":{"Added":{"Cat":{"Breed":"Al$%&^"},"Horse":["Dobbin","Champion"],"Dog":{"Teeth":"50","Tails":"1"}},"Added too":{"Fish":{"Gills":["2","3"]}}}}'
+    And I check the hidden input "metadata" is '{"creator":{"firstName":"Bob","lastName":"Smith","institution":"MIT","year":"2024"},"contributor":[{"firstName":"Mike","lastName":"Jones","institution":"Bath","year":"2023"}],"language":["en"],"isPartOf":"Everything","license":"cc-nc-4.1","additional":{"Added":{"Cat":{"Breed":"Al$%&^"},"Horse":["Dobbin","Champion"],"Dog":{"Teeth":"50","Tails":"1"}},"Added too":{"Fish":{"Gills":["2","3"]}}},"freeform":{}}'
     And I click on "View and edit full metadata" "button"
     And I should see "STACK metadata is stored as a JSON object."
     And I click on "smd_property_1_add" "button"
@@ -242,7 +243,8 @@ Feature: Create and edit STACK metadata
                     "Giflls": "2f"
                 }
             }
-        }
+        },
+      "freeform": {}
     }
     """
     And I click on "Update inputs from JSON" "button"
@@ -250,14 +252,14 @@ Feature: Create and edit STACK metadata
     And I click on "Revert current changes" "button"
     And I should not see "Lowell"
     And I click on "Validate and close" "button"
-    And I check the hidden input "metadata" is '{"creator":{"firstName":"Bob","lastName":"Smith","institution":"MIT","year":"2024"},"contributor":[{"firstName":"Mike","lastName":"Jones","institution":"Bath","year":"2023"}],"language":["en"],"isPartOf":"Everything","license":"cc-nc-4.1","additional":{"Added":{"Cat":{"Breed":"Al$%&^"},"Horse":["Dobbin","Champion"],"Dog":{"Teeth":"50","Tails":"1"}},"Added too":{"Fish":{"Gills":["2","3"]}}}}'
+    And I check the hidden input "metadata" is '{"creator":{"firstName":"Bob","lastName":"Smith","institution":"MIT","year":"2024"},"contributor":[{"firstName":"Mike","lastName":"Jones","institution":"Bath","year":"2023"}],"language":["en"],"isPartOf":"Everything","license":"cc-nc-4.1","additional":{"Added":{"Cat":{"Breed":"Al$%&^"},"Horse":["Dobbin","Champion"],"Dog":{"Teeth":"50","Tails":"1"}},"Added too":{"Fish":{"Gills":["2","3"]}}},"freeform":{}}'
     And I press "id_updatebutton"
     Given the site is running Moodle version 4.6 or lower
     Then I should see "Version 2"
-    And I check the hidden input "metadata" is '{"creator":{"firstName":"Bob","lastName":"Smith","institution":"MIT","year":"2024"},"contributor":[{"firstName":"Mike","lastName":"Jones","institution":"Bath","year":"2023"}],"language":["en"],"isPartOf":"Everything","license":"cc-nc-4.1","additional":{"Added":{"Cat":{"Breed":"Al$%&^"},"Horse":["Dobbin","Champion"],"Dog":{"Teeth":"50","Tails":"1"}},"Added too":{"Fish":{"Gills":["2","3"]}}}}'
+    And I check the hidden input "metadata" is '{"creator":{"firstName":"Bob","lastName":"Smith","institution":"MIT","year":"2024"},"contributor":[{"firstName":"Mike","lastName":"Jones","institution":"Bath","year":"2023"}],"language":["en"],"isPartOf":"Everything","license":"cc-nc-4.1","additional":{"Added":{"Cat":{"Breed":"Al$%&^"},"Horse":["Dobbin","Champion"],"Dog":{"Teeth":"50","Tails":"1"}},"Added too":{"Fish":{"Gills":["2","3"]}}},"freeform":{}}'
     Given the site is running Moodle version 5.0 or higher
     Then I should see "v2 (latest)"
-    And I check the hidden input "metadata" is '{"creator":{"firstName":"Bob","lastName":"Smith","institution":"MIT","year":"2024"},"contributor":[{"firstName":"Mike","lastName":"Jones","institution":"Bath","year":"2023"}],"language":["en"],"isPartOf":"Everything","license":"cc-nc-4.1","additional":{"Added":{"Cat":{"Breed":"Al$%&^"},"Horse":["Dobbin","Champion"],"Dog":{"Teeth":"50","Tails":"1"}},"Added too":{"Fish":{"Gills":["2","3"]}}}}'
+    And I check the hidden input "metadata" is '{"creator":{"firstName":"Bob","lastName":"Smith","institution":"MIT","year":"2024"},"contributor":[{"firstName":"Mike","lastName":"Jones","institution":"Bath","year":"2023"}],"language":["en"],"isPartOf":"Everything","license":"cc-nc-4.1","additional":{"Added":{"Cat":{"Breed":"Al$%&^"},"Horse":["Dobbin","Champion"],"Dog":{"Teeth":"50","Tails":"1"}},"Added too":{"Fish":{"Gills":["2","3"]}}},"freeform":{}}'
 
   @javascript
   Scenario: New question metadata
@@ -268,4 +270,4 @@ Feature: Create and edit STACK metadata
     And I click on "View and edit full metadata" "button"
     And I should see "STACK metadata is stored as a JSON object."
     And I click on "Validate and close" "button"
-    And I check the hidden input "metadata" is '{"creator":{"firstName":"Teacher","lastName":"Lastname1","institution":"","year":"XXXX"},"contributor":[],"language":["en"],"license":"unknown","isPartOf":"","additional":{}}'
+    And I check the hidden input "metadata" is '{"creator":{"firstName":"Teacher","lastName":"Lastname1","institution":"","year":"XXXX"},"contributor":[],"language":["en"],"license":"unknown","isPartOf":"","additional":{},"freeform":{}}'

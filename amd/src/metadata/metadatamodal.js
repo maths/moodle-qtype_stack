@@ -37,7 +37,7 @@ export class MetadataModal extends Modal {
         const result = await metadata.container.update(true);
         if (result) {
             const current = document.querySelector('input[name="metadata"]');
-            const newValue = metadata.jsonStringify(metadata.state);
+            const newValue = metadata.jsonStringify(metadata.state, 0);
             if (current.value !== newValue) {
                 document.querySelector('input[name="metadata"]').value = newValue;
                 try {

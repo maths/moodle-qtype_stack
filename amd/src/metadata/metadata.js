@@ -145,14 +145,15 @@ class StackMetadata extends Reactive {
      * acting recursively.
      *
      * @param {*} state
+     * @param {*} spacing
      * @returns
      */
-    jsonStringify(state) {
+    jsonStringify(state, spacing) {
         let output = JSON.stringify(state, this.replacer);
         output = JSON.parse(output);
         output.freeform = JSON.parse(output.freeform);
         output.additional = JSON.parse(output.additional);
-        output = JSON.stringify(output, null, 4);
+        output = JSON.stringify(output, null, spacing);
         return output;
     }
 

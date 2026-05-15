@@ -181,7 +181,7 @@ export default class extends BaseComponent {
         data.json = {
             required: true,
             element: {
-                value: metadata.jsonStringify(state),
+                value: metadata.jsonStringify(state, 4),
                 attributes: 'rows="10"',
                 wrapperid: 'fitem_metadata_json',
                 id: 'id_metadata_json',
@@ -350,7 +350,7 @@ export default class extends BaseComponent {
             notifyFieldValidationFailure(jsonElement, e.message);
             return;
         }
-        jsonElement.value = metadata.jsonStringify(data);
+        jsonElement.value = metadata.jsonStringify(data, 4);
         this.reactive.dispatch('updateFromJson', data);
     }
 
@@ -394,7 +394,7 @@ export default class extends BaseComponent {
             this.reactive.dispatch('updateFromJson', metadata.jsonToState('{}'));
             return;
         }
-        jsonElement.value = metadata.jsonStringify(previousdata);
+        jsonElement.value = metadata.jsonStringify(previousdata, 4);
         this.reactive.dispatch('updateFromJson', previousdata);
     }
 }

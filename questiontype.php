@@ -2412,6 +2412,14 @@ class qtype_stack extends question_type {
             $fromform['questiondescription']['text']
         );
 
+        $errors['metadata_text'] = [];
+        if (mb_strlen($fromform['metadata']) > 32000) {
+            $errors['metadata_text'][] = stack_string('JSONtoolong');
+        }
+        if ($fromform['metadata'] && !json_decode($fromform['metadata'])) {
+            $errors['metadata_text'][] = stack_string('JSONbroken');
+        }
+
         // 2) Validate all inputs.
         $stackinputfactory = new stack_input_factory();
         foreach ($inputs as $inputname => $counts) {

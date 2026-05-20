@@ -139,7 +139,7 @@ export default class extends BaseComponent {
         state.contributor.forEach(contributor => {
              const element = {
                 firstname: this.createDataElement(false, contributor.id, 'contributor_firstName', contributor.firstName),
-                lastname: this.createDataElement(true, contributor.id, 'contributor_lastName', contributor.lastName),
+                lastname: this.createDataElement(false, contributor.id, 'contributor_lastName', contributor.lastName),
                 institution: this.createDataElement(false, contributor.id, 'contributor_institution', contributor.institution),
                 year: this.createDataElement(false, contributor.id, 'contributor_year', contributor.year),
                 id: contributor.id,
@@ -173,7 +173,7 @@ export default class extends BaseComponent {
 
         data.creator = {
             firstname: this.createDataElement(false, 0, 'creator_firstName', state.creator.firstName),
-            lastname: this.createDataElement(true, 0, 'creator_lastName', state.creator.lastName),
+            lastname: this.createDataElement(false, 0, 'creator_lastName', state.creator.lastName),
             institution: this.createDataElement(false, 0, 'creator_institution', state.creator.institution),
             year: this.createDataElement(false, 0, 'creator_year', state.creator.year),
         };

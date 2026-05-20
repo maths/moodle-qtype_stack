@@ -414,11 +414,11 @@ describe('reloadContainerComponent', () => {
             expect(data.creator.year.element.value).toBe('2025');
         });
 
-        test('lastname is required; firstname, institution and year are not', async () => {
+        test('lastname is not required; firstname, institution and year are not', async () => {
             const {instance} = makeInstance();
             setupForRender(instance);
             const data = await captureData(instance, makeState());
-            expect(data.creator.lastname.required).toBe(true);
+            expect(data.creator.lastname.required).toBe(false);
             expect(data.creator.firstname.required).toBe(false);
             expect(data.creator.institution.required).toBe(false);
             expect(data.creator.year.required).toBe(false);
@@ -480,11 +480,11 @@ describe('reloadContainerComponent', () => {
             expect(data.contributor[0].year.element.value).toBe('2026');
         });
 
-        test('contributor lastname is required; firstname, institution and year are not', async () => {
+        test('contributor lastname is not required; firstname, institution and year are not', async () => {
             const {instance} = makeInstance();
             setupForRender(instance);
             const data = await captureData(instance, makeState());
-            expect(data.contributor[0].lastname.required).toBe(true);
+            expect(data.contributor[0].lastname.required).toBe(false);
             expect(data.contributor[0].firstname.required).toBe(false);
             expect(data.contributor[0].institution.required).toBe(false);
             expect(data.contributor[0].year.required).toBe(false);

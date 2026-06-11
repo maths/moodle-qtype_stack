@@ -3,7 +3,7 @@
 // Note the escaped backslashes. Searches for a trimmed line matching the given expression.
 // Returns the whole trimmed line with the regex removed.
 // Scans lines in reverse order.
-export default function lastregexremainder(raw, blocks, operation) {
+export default function lastregexremainder(raw, blockCollector, operation) {
     if (!operation || !operation.regex) {
         return 'ERROR';
     }

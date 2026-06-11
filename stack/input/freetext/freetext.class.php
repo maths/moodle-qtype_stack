@@ -28,6 +28,10 @@ require_once(__DIR__ . '/../string/string.class.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_freetext_input extends stack_string_input {
+    /**
+     * @var string Maximum input length in characters.
+     */
+    public $maxinputlength = '4096';
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $extraoptions = [
         'hideanswer' => false,
@@ -101,7 +105,7 @@ class stack_freetext_input extends stack_string_input {
 
         // Metadata for JS users.
         $attributes['data-stack-input-type'] = 'freetext';
-        $attributes['maxlength'] = '4096';
+        $attributes['maxlength'] = $this->maxinputlength;
 
         return html_writer::tag('textarea', htmlspecialchars($value, ENT_COMPAT), $attributes);
     }

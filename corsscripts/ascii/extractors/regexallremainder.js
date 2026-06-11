@@ -3,7 +3,7 @@
 // Searches the entire raw input for all lines matching operation.regex and returns
 // a JSON object of the form {"matches":[...]} set as answerEl.value. The regex itself is removed
 // from the matches.
-export default function regexallremainder(raw, blocks, operation) {
+export default function regexallremainder(raw, blockCollector, operation) {
     if (!operation || !operation.regex) {
         return 'ERROR';
     }

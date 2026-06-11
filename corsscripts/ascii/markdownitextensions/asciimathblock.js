@@ -44,9 +44,14 @@
 /**
  * Markdown-it plugin that registers the asciimath_block block rule.
  * @param {Object} mdit - the markdownit instance to extend.
+ * @param {Object} [options] - plugin options.
+ * @param {string} [options.marker='`'] - single-character delimiter marker.
+ * @param {Object} [options.state] - shared mutable state (optional).
  */
-function asciimathBlock(mdit) {
-    "use strict";
+function asciimathBlock(mdit, options = {delimiter: '`'}) {
+    if (!options?.delimiter) {
+        options.delimiter = '`';
+    }
 
     /**
      * Markdown-it block rule for multi-line AsciiMath blocks.
@@ -72,17 +77,20 @@ function asciimathBlock(mdit) {
             return false;
         }
 
-        // Must start with exactly one backtick.
-        if (state.src.charCodeAt(startPos) !== 0x60 /* ` */) {
+        const marker = options.delimiter;
+        const markerCode = marker.charCodeAt(0);
+
+        // Must start with exactly one marker character.
+        if (state.src.charCodeAt(startPos) !== markerCode) {
             return false;
         }
 
-        // Must NOT be followed by another backtick (avoids matching fenced blocks).
-        if (state.src.charCodeAt(startPos + 1) === 0x60 /* ` */) {
+        // Must NOT be followed by another marker (avoids matching fenced blocks).
+        if (state.src.charCodeAt(startPos + 1) === markerCode) {
             return false;
         }
 
-        // Every character after the backtick must be a space or tab.
+        // Every character after the marker must be a space or tab.
         // If anything else is present, this is inline code — leave it alone.
         for (let i = startPos + 1; i < lineEnd; i++) {
             const ch = state.src.charCodeAt(i);
@@ -96,7 +104,7 @@ function asciimathBlock(mdit) {
             return true;
         }
 
-        // Scan forward to find the closing line (first non-blank line starting with a backtick).
+        // Scan forward to find the closing line (first non-blank line starting with marker).
         let closingLine = -1;
         const contentLines = [];
 
@@ -110,8 +118,8 @@ function asciimathBlock(mdit) {
             const lPos = state.bMarks[line] + state.tShift[line];
             const lEnd = state.eMarks[line];
 
-            if (state.src.charCodeAt(lPos) === 0x60 /* ` */ && lPos + 1 === lEnd) {
-                // Found the closing marker: a single backtick with no other non-whitespace content.
+            if (state.src.charCodeAt(lPos) === markerCode && lPos + 1 === lEnd) {
+                // Found the closing marker: a single marker with no other non-whitespace content.
                 closingLine = line;
                 break;
             }
@@ -119,7 +127,7 @@ function asciimathBlock(mdit) {
             contentLines.push(state.src.slice(lPos, state.eMarks[line]));
         }
 
-        // No closing backtick found — do not consume this block.
+        // No closing marker found — do not consume this block.
         if (closingLine === -1) {
             return false;
         }
@@ -128,7 +136,7 @@ function asciimathBlock(mdit) {
         const token = state.push('asciimath_block', '', 0);
         token.content = contentLines.join('\n');
         token.map    = [startLine, closingLine + 1];
-        token.markup = '`';
+        token.markup = marker;
 
         // Advance the parser past the closing line.
         state.line = closingLine + 1;

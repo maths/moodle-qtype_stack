@@ -41,13 +41,14 @@ const transformLib = {
  * @property {Object}      transformLib - map from name → transform function.
  * @property {Object|null} collector    - { blocks: [], isHTML = false } object populated by the renderer rules.
  *   null when not initialised by filter.
+ * @property {string}      delimiter    - single-character AsciiMath block delimiter.
  */
-const state = { transforms: [], transformLib, collector: null };
+const state = { transforms: [], transformLib, collector: null, delimiter: '`' };
 
 // mdItPluginTex.tex must come before markdownitrules.
 const converter = markdownit({ html: true })
     .use(mdItPluginTex.tex, { render: (content) => content, delimiters: 'brackets' })
-    .use(asciimathBlock)
+    .use(asciimathBlock, { state })
     .use(markdownitrules, { state });
 
 /**
@@ -68,6 +69,12 @@ export default function markdown(text, blockCollector, op) {
         .split(',')
         .map(s => s.trim())
         .filter(Boolean);
+    state.delimiter = (typeof op.delimiter === 'string' && op.delimiter.length === 1)
+        ? op.delimiter
+        : '`';
     state.collector = blockCollector || null;
+    if (state.collector) {
+        state.collector.delimiter = state.delimiter;
+    }
     return converter.render(text);
 }

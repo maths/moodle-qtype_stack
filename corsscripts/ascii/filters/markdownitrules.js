@@ -23,6 +23,7 @@ export default function markdownitrules(mdit, options) {
     "use strict";
     const state = options.state;
     const originalCodeRule = mdit.renderer.rules.code_inline;
+    const delimiter = state.delimiter;
 
     // Core rule: runs before rendering to clear the block list from the previous pass.
     mdit.core.ruler.push('reset_collector', () => {
@@ -56,7 +57,7 @@ export default function markdownitrules(mdit, options) {
         const code = tokens[idx].content;
         let rendered = '';
         if (state.transforms.length === 0) {
-            rendered = '`' + mdit.render(code) + '`';
+            rendered = delimiter + mdit.render(code) + delimiter;
         } else {
             rendered = applyTransforms(code, 'asciimath_block');
         }

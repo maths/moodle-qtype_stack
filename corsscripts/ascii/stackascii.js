@@ -78,7 +78,7 @@ export default function init(inputIds, operations) {
     const alloperations = operations;
     // blockCollector is populated by the active filter's renderer rules and then
     // read by each extractor.  It is reset at the start of every filter render pass.
-    const blockCollector = { blocks: [], isHTML: false };
+    const blockCollector = { blocks: [], isHTML: false, delimiter: '`' };
 
     /**
      * Re-render the display and re-run all extractors from the current textarea value.
@@ -128,7 +128,7 @@ export default function init(inputIds, operations) {
                     const answerEl = document.getElementById(inputIds[answerIndex]);
                     answerIndex++;
                     if (extractor && answerEl) {
-                        let value = extractor(raw, blockCollector.blocks, currentop);
+                        let value = extractor(raw, blockCollector, currentop);
                         const oldValue = answerEl.value;
                         // Clear the input on extraction failure rather than leaving a stale value.
                         if (value === 'ERROR') {

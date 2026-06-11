@@ -4,7 +4,7 @@
 // Searches for a trimmed line matching the given expression, ignoring whitespace, and backticks.
 // Returns the matching group, with the regex removed.
 // Scans lines in reverse order.
-export default function lastmatch(raw, blocks, operation) {
+export default function lastmatch(raw, blockCollector, operation) {
     if (!operation || !operation.match) {
         return 'ERROR';
     }
@@ -38,4 +38,3 @@ function escaperegex(str) {
   // 2. Turn each whitespace character to zero or more spaces.
   return match.replace(/\s+/g, "\\s*");
 }
-

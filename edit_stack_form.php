@@ -293,9 +293,9 @@ class qtype_stack_edit_form extends question_edit_form {
         $datalib->placeholder = stack_string('licenseselect');
         $datalib = json_encode($datalib);
         if (!isset($this->question->id)) {
-            $data = '{"creator":{"firstName":"' . ($USER->firstname ?? '') . '","lastName":"' . ($USER->lastname ?? '') . '",' .
-            '"institution":"' . ($USER->institution ?? '') . '","year":"' . date('Y') . '"},' .
-            '"contributor":[],"language":["' . current_language() . '"],"license":"' . $CFG->sitedefaultlicense . '"}';
+            $data = '{"author":[{"firstName":"' . ($USER->firstname ?? '') . '","lastName":"' . ($USER->lastname ?? '') . '",' .
+            '"institution":"' . ($USER->institution ?? '') . '","year":"' . date('Y') . '"}],' .
+            '"language":["' . current_language() . '"],"license":"' . $CFG->sitedefaultlicense . '"}';
         } else {
             $data = ($this->question->options->metadata) ? $this->question->options->metadata : '{}';
         }
@@ -310,16 +310,20 @@ class qtype_stack_edit_form extends question_edit_form {
 
         $metadataobj = json_decode($data ?? '');
         if ($metadataobj && $data !== '{}') {
-            $metadatasummary = stack_string('creator') . ': ' .
-                ($metadataobj->creator->firstName ?? '') . ' ' . ($metadataobj->creator->lastName ?? '');
-            if (isset($metadataobj->contributor) && count($metadataobj->contributor)) {
-                $contribsummary = '';
-                foreach ($metadataobj->contributor as $contrib) {
-                    $contribsummary .= ($contribsummary) ? ', ' : '';
-                    $contribsummary .= ($contrib->firstName ?? '') . ' ' . ($contrib->lastName ?? '');
-                }
-                $metadatasummary .= '; ' . stack_string('contributor') . ': ' . $contribsummary;
+            $authors = [];
+            if (isset($metadataobj->author) && is_array($metadataobj->author)) {
+                $authors = $metadataobj->author;
             }
+            $authorsummary = '';
+            foreach ($authors as $author) {
+                $authorsummary .= ($authorsummary) ? ', ' : '';
+                $currentsummary = ($author->firstName ?? '') . ' ' . ($author->lastName ?? '');
+                if (!trim($currentsummary)) {
+                    $currentsummary = $author->institution ?? '';
+                }
+                $authorsummary .= $currentsummary;
+            }
+            $metadatasummary = stack_string('author') . ': ' . trim($authorsummary);
         } else {
             $metadatasummary = stack_string('novalidmetadata');
         }

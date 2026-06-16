@@ -5,13 +5,14 @@ STACK questions support flexible metadata. Metadata is recorded in JSON format i
 New questions will be created with editable `metadata` similar to the following:
 ```
 {
-    "creator": {
-        "firstName": "Current", //$USER->firstname
-        "lastName": "User", // $USER->lastname
-        "institution": "", // $USER->institution
-        "year": "2026" // Current year
-    },
-    "contributor": [],
+    "author":[
+        {
+            "firstName": "Current", //$USER->firstname
+            "lastName": "User", // $USER->lastname
+            "institution": "", // $USER->institution
+            "year": "2026" // Current year
+        }
+    ],
     "language": [
         "en" // Current language
     ],
@@ -21,7 +22,7 @@ New questions will be created with editable `metadata` similar to the following:
     "freeform" {}
 }
 ```
-A question has one creator but can have multiple contributors. `Last name` is required. 
+A question can have multiple authors. 
 
 Additional metadata is stored in Scope->Property->Qualifier->Value or Scope->Property->Value format. Scope identifies the metadata scheme being used. For instance, two institutions might have the property `Level` that has different meanings. Scope allows differentiation between the two:
 ```
@@ -91,13 +92,13 @@ Please note that although you can update either the JSON or the input boxes, the
 Example metadata:
 ```
 {
-    "creator": {
-        "firstName": "Dave",
-        "lastName": "Summers",
-        "institution": "Edinburgh",
-        "year": "2025"
-    },
-    "contributor": [
+    "author": [
+        {
+            "firstName": "Dave",
+            "lastName": "Summers",
+            "institution": "Edinburgh",
+            "year": "2025"
+        },
         {
             "firstName": "Bob",
             "lastName": "Smith",
@@ -148,6 +149,6 @@ Both metadata fields are exported and imported normally as part of Moodle XML, a
     {"id": XXXX-XXX-XXXX_XXXX}
 </prescribedmetadata>
 <metadata>
-    {"creator":{"firstName":"Dave","lastName":"Summers","institution":"Edinburgh","year":"2025"},"contributor":[{"firstName":"Bob","lastName":"Smith","institution":"Open University","year":"2026"}],"language":["en"],"isPartOf":"HELM","license":"cc-4.0","additional":{"UoE":{"Course":{"Name":"Introductory Maths","Week":"3"},"Topic":"Calculus"}},"freeform":{}}
+    {"author":[{"firstName":"Dave","lastName":"Summers","institution":"Edinburgh","year":"2025"},{"firstName":"Bob","lastName":"Smith","institution":"Open University","year":"2026"}],"language":["en"],"isPartOf":"HELM","license":"cc-4.0","additional":{"UoE":{"Course":{"Name":"Introductory Maths","Week":"3"},"Topic":"Calculus"}},"freeform":{}}
 </metadata>
 ```

@@ -60,35 +60,17 @@ describe('createDataElement', () => {
 
     test('element IDs are composed from id and tag', () => {
         const {instance} = makeInstance();
-        const el = instance.createDataElement(false, 3, 'contributor_lastName', 'Smith');
-        expect(el.element.id).toBe('smdi_3_contributor_lastName');
-        expect(el.element.name).toBe('smdi_3_contributor_lastName');
-        expect(el.element.wrapperid).toBe('fitem_smdi_3_contributor_lastName');
-        expect(el.element.iderror).toBe('smde_3_contributor_lastName_error');
+        const el = instance.createDataElement(false, 3, 'author_lastName', 'Smith');
+        expect(el.element.id).toBe('smdi_3_author_lastName');
+        expect(el.element.name).toBe('smdi_3_author_lastName');
+        expect(el.element.wrapperid).toBe('fitem_smdi_3_author_lastName');
+        expect(el.element.iderror).toBe('smde_3_author_lastName_error');
     });
 
     test('works with id=0 for single-instance elements', () => {
         const {instance} = makeInstance();
-        const el = instance.createDataElement(true, 0, 'creator_firstName', 'Alice');
-        expect(el.element.id).toBe('smdi_0_creator_firstName');
-    });
-});
-
-// ── makeCreator ────────────────────────────────────────────────────────────────
-
-describe('makeCreator', () => {
-    test('populates all four creator fields from metadata.lib.user and current year', () => {
-        const {instance} = makeInstance();
-        const fields = {};
-        instance.getElement.mockImplementation(sel => {
-            fields[sel] = {value: ''};
-            return fields[sel];
-        });
-        instance.makeCreator();
-        expect(fields['#smdi_0_creator_firstName'].value).toBe('Jane');
-        expect(fields['#smdi_0_creator_lastName'].value).toBe('Doe');
-        expect(fields['#smdi_0_creator_institution'].value).toBe('Test University');
-        expect(fields['#smdi_0_creator_year'].value).toBe(new Date().getFullYear());
+        const el = instance.createDataElement(true, 0, 'license_value', 'MIT');
+        expect(el.element.id).toBe('smdi_0_license_value');
     });
 });
 
@@ -107,7 +89,9 @@ describe('update', () => {
         const {instance, reactive} = makeInstance();
         const allInputs = [makeInputEl('smdi_0_license_value', 'MIT')];
         instance.getElements.mockImplementation(sel => {
-            if (sel === instance.selectors.ALLINPUTS) return allInputs;
+            if (sel === instance.selectors.ALLINPUTS) {
+                return allInputs;
+            }
             return [];
         });
         reactive.dispatch.mockResolvedValue(undefined);
@@ -118,9 +102,11 @@ describe('update', () => {
 
     test('returns false and notifies when a required field is empty', async () => {
         const {instance, reactive} = makeInstance();
-        const emptyEl = makeInputEl('smdi_0_creator_lastName', '');
+        const emptyEl = makeInputEl('smdi_1_language_value', '');
         instance.getElements.mockImplementation(sel => {
-            if (sel === instance.selectors.REQUIREDINPUTS) return [emptyEl];
+            if (sel === instance.selectors.REQUIREDINPUTS) {
+                return [emptyEl];
+            }
             return [];
         });
         const result = await instance.update(true);
@@ -131,10 +117,14 @@ describe('update', () => {
 
     test('clears error notification for an is-invalid field that now has a value', async () => {
         const {instance, reactive} = makeInstance();
-        const fixedEl = makeInputEl('smdi_0_creator_lastName', 'Smith', ['is-invalid']);
+        const fixedEl = makeInputEl('smdi_1_language_value', 'en', ['is-invalid']);
         instance.getElements.mockImplementation(sel => {
-            if (sel === instance.selectors.REQUIREDINPUTS) return [fixedEl];
-            if (sel === instance.selectors.ALLINPUTS) return [fixedEl];
+            if (sel === instance.selectors.REQUIREDINPUTS) {
+                return [fixedEl];
+            }
+            if (sel === instance.selectors.ALLINPUTS) {
+                return [fixedEl];
+            }
             return [];
         });
         reactive.dispatch.mockResolvedValue(undefined);
@@ -147,7 +137,9 @@ describe('update', () => {
         const freeformEl = {value: '{bad json', classList: {contains: () => false}};
         instance.getElements.mockReturnValue([]);
         instance.getElement.mockImplementation(sel => {
-            if (sel === '#smdi_0_freeform_value') return freeformEl;
+            if (sel === '#smdi_0_freeform_value') {
+                return freeformEl;
+            }
             return null;
         });
         const result = await instance.update(true);
@@ -159,13 +151,20 @@ describe('update', () => {
     test('clears freeform error and dispatches when freeform JSON is valid', async () => {
         const {instance, reactive} = makeInstance();
         const freeformEl = {value: '{"ok":true}', classList: {contains: () => false}};
+        const authorEl = makeInputEl('smdi_1_author_firstName', 'Alice');
         instance.getElements.mockImplementation(sel => {
-            if (sel === instance.selectors.REQUIREDINPUTS) return [];
-            if (sel === instance.selectors.ALLINPUTS) return [];
+            if (sel === instance.selectors.REQUIREDINPUTS) {
+                return [];
+            }
+            if (sel === instance.selectors.ALLINPUTS) {
+                return [authorEl];
+            }
             return [];
         });
         instance.getElement.mockImplementation(sel => {
-            if (sel === '#smdi_0_freeform_value') return freeformEl;
+            if (sel === '#smdi_0_freeform_value') {
+                return freeformEl;
+            }
             return null;
         });
         reactive.dispatch.mockResolvedValue(undefined);
@@ -177,7 +176,6 @@ describe('update', () => {
     test('returns false and notifies per-element when dispatch throws comma-separated IDs', async () => {
         const {instance, reactive} = makeInstance();
         instance.getElements.mockReturnValue([]);
-        instance.getElement.mockReturnValue(null);
         reactive.dispatch.mockRejectedValue('2,5');
         const errorEl = {value: ''};
         instance.getElement.mockImplementation(sel => {
@@ -198,7 +196,7 @@ describe('addItem', () => {
     test('does not dispatch when update() returns false', async () => {
         const {instance, reactive} = makeInstance();
         jest.spyOn(instance, 'update').mockResolvedValue(false);
-        await instance.addItem({target: {id: 'smd_add_1_language'}});
+        await instance.addItem({target: {id: 'smd_language_0_add'}});
         expect(reactive.dispatch).not.toHaveBeenCalled();
     });
 
@@ -206,9 +204,9 @@ describe('addItem', () => {
         const {instance, reactive} = makeInstance();
         jest.spyOn(instance, 'update').mockResolvedValue(true);
         reactive.dispatch.mockResolvedValue(undefined);
-        await instance.addItem({target: {id: 'smd_add_contributor_user'}});
-        // id.split('_') → ['smd', 'add', 'contributor', 'user']; parts[1]='add', parts[2]='contributor'
-        expect(reactive.dispatch).toHaveBeenCalledWith('addItem', 'add', 'contributor');
+        await instance.addItem({target: {id: 'smd_add_author_user'}});
+        // id.split('_') → ['smd', 'add', 'author', 'user']; parts[1]='add', parts[2]='author'
+        expect(reactive.dispatch).toHaveBeenCalledWith('addItem', 'add', 'author');
     });
 });
 
@@ -218,7 +216,7 @@ describe('deleteItem', () => {
     test('does not dispatch when update() returns false', async () => {
         const {instance, reactive} = makeInstance();
         jest.spyOn(instance, 'update').mockResolvedValue(false);
-        await instance.deleteItem({target: {id: 'smd_delete_1_language'}});
+        await instance.deleteItem({target: {id: 'smd_author_1_delete'}});
         expect(reactive.dispatch).not.toHaveBeenCalled();
     });
 
@@ -226,27 +224,27 @@ describe('deleteItem', () => {
         const {instance, reactive} = makeInstance();
         jest.spyOn(instance, 'update').mockResolvedValue(true);
         reactive.dispatch.mockResolvedValue(undefined);
-        await instance.deleteItem({target: {id: 'smd_delete_1_language'}});
-        expect(reactive.dispatch).toHaveBeenCalledWith('deleteRow', 'delete', '1');
+        await instance.deleteItem({target: {id: 'smd_author_1_delete'}});
+        expect(reactive.dispatch).toHaveBeenCalledWith('deleteRow', 'author', '1');
     });
 });
 
-// ── makeContributor ────────────────────────────────────────────────────────────
+// ── makeAuthor ────────────────────────────────────────────────────────────────
 
-describe('makeContributor', () => {
+describe('makeAuthor', () => {
     test('does not dispatch when update() returns false', async () => {
         const {instance, reactive} = makeInstance();
         jest.spyOn(instance, 'update').mockResolvedValue(false);
-        await instance.makeContributor();
+        await instance.makeAuthor();
         expect(reactive.dispatch).not.toHaveBeenCalled();
     });
 
-    test('dispatches addItem for contributor/user when update succeeds', async () => {
+    test('dispatches addItem for author/user when update succeeds', async () => {
         const {instance, reactive} = makeInstance();
         jest.spyOn(instance, 'update').mockResolvedValue(true);
         reactive.dispatch.mockResolvedValue(undefined);
-        await instance.makeContributor();
-        expect(reactive.dispatch).toHaveBeenCalledWith('addItem', 'contributor', 'user');
+        await instance.makeAuthor();
+        expect(reactive.dispatch).toHaveBeenCalledWith('addItem', 'author', 'user');
     });
 });
 
@@ -306,7 +304,9 @@ describe('revert', () => {
         metadata.jsonToState.mockImplementation(() => {
             // First call: parsing the saved (invalid) JSON → throws.
             // Second call: inside the catch block for the dispatch argument (valid '{}') → succeeds.
-            if (callCount++ === 0) throw parseError;
+            if (callCount++ === 0) {
+                throw parseError;
+            }
             return {};
         });
         reactive.dispatch.mockResolvedValue(undefined);
@@ -324,9 +324,8 @@ describe('reloadContainerComponent', () => {
     function makeState(overrides = {}) {
         const items = (arr) => ({forEach: (cb) => arr.forEach(cb)});
         return {
-            creator: {firstName: 'Alice', lastName: 'Smith', institution: 'Uni', year: '2025'},
+            author: items([{id: 1, firstName: 'Alice', lastName: 'Smith', institution: 'Uni', year: '2025'}]),
             language: items([{id: 1, value: 'en'}]),
-            contributor: items([{id: 1, firstName: 'Bob', lastName: 'Jones', institution: 'Uni2', year: '2026'}]),
             additional: items([]),
             license: {value: 'cc-by'},
             isPartOf: {value: 'course1'},
@@ -401,37 +400,58 @@ describe('reloadContainerComponent', () => {
         expect(instance.addEventListener).toHaveBeenCalledWith(fakeButton, 'click', instance.deleteItem);
     });
 
-    // ── data.creator ─────────────────────────────────────────────────────────────
+    // ── data.author ─────────────────────────────────────────────────────────────
 
-    describe('data.creator', () => {
-        test('maps all four creator fields with correct values', async () => {
+    describe('data.author', () => {
+        test('maps all four author fields with correct values', async () => {
             const {instance} = makeInstance();
             setupForRender(instance);
             const data = await captureData(instance, makeState());
-            expect(data.creator.firstname.element.value).toBe('Alice');
-            expect(data.creator.lastname.element.value).toBe('Smith');
-            expect(data.creator.institution.element.value).toBe('Uni');
-            expect(data.creator.year.element.value).toBe('2025');
+            expect(data.author[0].firstname.element.value).toBe('Alice');
+            expect(data.author[0].lastname.element.value).toBe('Smith');
+            expect(data.author[0].institution.element.value).toBe('Uni');
+            expect(data.author[0].year.element.value).toBe('2025');
         });
 
         test('lastname is not required; firstname, institution and year are not', async () => {
             const {instance} = makeInstance();
             setupForRender(instance);
             const data = await captureData(instance, makeState());
-            expect(data.creator.lastname.required).toBe(false);
-            expect(data.creator.firstname.required).toBe(false);
-            expect(data.creator.institution.required).toBe(false);
-            expect(data.creator.year.required).toBe(false);
+            expect(data.author[0].lastname.required).toBe(false);
+            expect(data.author[0].firstname.required).toBe(false);
+            expect(data.author[0].institution.required).toBe(false);
+            expect(data.author[0].year.required).toBe(false);
         });
 
-        test('element IDs follow the creator_* naming convention', async () => {
+        test('element IDs follow the author_* naming convention', async () => {
             const {instance} = makeInstance();
             setupForRender(instance);
             const data = await captureData(instance, makeState());
-            expect(data.creator.firstname.element.id).toBe('smdi_0_creator_firstName');
-            expect(data.creator.lastname.element.id).toBe('smdi_0_creator_lastName');
-            expect(data.creator.institution.element.id).toBe('smdi_0_creator_institution');
-            expect(data.creator.year.element.id).toBe('smdi_0_creator_year');
+            expect(data.author[0].firstname.element.id).toBe('smdi_1_author_firstName');
+            expect(data.author[0].lastname.element.id).toBe('smdi_1_author_lastName');
+            expect(data.author[0].institution.element.id).toBe('smdi_1_author_institution');
+            expect(data.author[0].year.element.id).toBe('smdi_1_author_year');
+        });
+
+        test('multiple authors produce multiple entries', async () => {
+            const {instance} = makeInstance();
+            setupForRender(instance);
+            const state = makeState({
+                author: rows([
+                    {id: 1, firstName: 'Alice', lastName: 'Smith', institution: 'Uni', year: '2025'},
+                    {id: 2, firstName: 'Bob', lastName: 'Jones', institution: 'Uni2', year: '2026'},
+                ]),
+            });
+            const data = await captureData(instance, state);
+            expect(data.author).toHaveLength(2);
+            expect(data.author[1].firstname.element.value).toBe('Bob');
+        });
+
+        test('empty author list produces an empty array', async () => {
+            const {instance} = makeInstance();
+            setupForRender(instance);
+            const data = await captureData(instance, makeState({author: rows([])}));
+            expect(data.author).toEqual([]);
         });
     });
 
@@ -462,39 +482,6 @@ describe('reloadContainerComponent', () => {
             setupForRender(instance);
             const data = await captureData(instance, makeState({language: rows([{id: 3, value: 'de'}])}));
             expect(data.language[0].lang.element.id).toBe('smdi_3_language_value');
-        });
-    });
-
-    // ── data.contributor ──────────────────────────────────────────────────────────
-
-    describe('data.contributor', () => {
-        test('single contributor has all four fields mapped', async () => {
-            const {instance} = makeInstance();
-            setupForRender(instance);
-            const data = await captureData(instance, makeState());
-            expect(data.contributor).toHaveLength(1);
-            expect(data.contributor[0].id).toBe(1);
-            expect(data.contributor[0].firstname.element.value).toBe('Bob');
-            expect(data.contributor[0].lastname.element.value).toBe('Jones');
-            expect(data.contributor[0].institution.element.value).toBe('Uni2');
-            expect(data.contributor[0].year.element.value).toBe('2026');
-        });
-
-        test('contributor lastname is not required; firstname, institution and year are not', async () => {
-            const {instance} = makeInstance();
-            setupForRender(instance);
-            const data = await captureData(instance, makeState());
-            expect(data.contributor[0].lastname.required).toBe(false);
-            expect(data.contributor[0].firstname.required).toBe(false);
-            expect(data.contributor[0].institution.required).toBe(false);
-            expect(data.contributor[0].year.required).toBe(false);
-        });
-
-        test('empty contributor list produces an empty array', async () => {
-            const {instance} = makeInstance();
-            setupForRender(instance);
-            const data = await captureData(instance, makeState({contributor: rows([])}));
-            expect(data.contributor).toEqual([]);
         });
     });
 
@@ -754,7 +741,9 @@ describe('reloadContainerComponent', () => {
             const jsonInputEl = {value: ''};
             instance.renderComponent.mockResolvedValue(undefined);
             instance.getElement.mockImplementation(sel => {
-                if (sel === instance.selectors.JSONINPUT) return jsonInputEl;
+                if (sel === instance.selectors.JSONINPUT) {
+                    return jsonInputEl;
+                }
                 return fakeContainer;
             });
             instance.getElements.mockReturnValue([]);

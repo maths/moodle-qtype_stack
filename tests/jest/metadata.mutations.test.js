@@ -18,8 +18,7 @@ class MockStateCollection {
 
 function makeState(overrides = {}) {
     return {
-        creator:         {firstName: '', lastName: '', institution: '', year: ''},
-        contributor:     new MockStateCollection(),
+        author:          new MockStateCollection(),
         language:        new MockStateCollection(),
         license:         {id: '', value: ''},
         isPartOf:        {id: '', value: ''},
@@ -41,10 +40,10 @@ describe('updateFromJson', () => {
         const state = makeState();
         const stateManager = makeStateManager(state);
         mutations.updateFromJson(stateManager, {
-            creator: {firstName: 'Alice'},
+            author: [{firstName: 'Alice'}],
             license: {id: '', value: 'MIT'},
         });
-        expect(state.creator).toEqual({firstName: 'Alice'});
+        expect(state.author).toEqual([{firstName: 'Alice'}]);
         expect(state.license).toEqual({id: '', value: 'MIT'});
     });
 
@@ -65,15 +64,15 @@ describe('updateFromJson', () => {
 // ── deleteRow ──────────────────────────────────────────────────────────────────
 
 describe('deleteRow', () => {
-    test('removes the specified contributor entry and leaves others intact', () => {
-        const contributor = new MockStateCollection([
+    test('removes the specified author entry and leaves others intact', () => {
+        const author = new MockStateCollection([
             {id: 1, firstName: 'Alice'},
             {id: 2, firstName: 'Bob'},
         ]);
-        const stateManager = makeStateManager(makeState({contributor}));
-        mutations.deleteRow(stateManager, 'contributor', '1');
-        expect(stateManager.state.contributor.get('1')).toBeUndefined();
-        expect(stateManager.state.contributor.get('2')).toBeDefined();
+        const stateManager = makeStateManager(makeState({author}));
+        mutations.deleteRow(stateManager, 'author', '1');
+        expect(stateManager.state.author.get('1')).toBeUndefined();
+        expect(stateManager.state.author.get('2')).toBeDefined();
     });
 
     test('removes the specified language entry and leaves others intact', () => {
@@ -136,25 +135,58 @@ describe('addItem', () => {
         expect(stateManager.state.language.get('2')).toMatchObject({value: '', id: 2});
     });
 
-    test('contributor: adds a blank entry when id is not "user"', () => {
-        const contributor = new MockStateCollection();
-        const stateManager = makeStateManager(makeState({contributor}));
-        mutations.addItem(stateManager, 'contributor', 'blank');
-        const item = stateManager.state.contributor.get('1');
+    test('author: adds a blank entry when id is not "user"', () => {
+        const author = new MockStateCollection();
+        const stateManager = makeStateManager(makeState({author}));
+        mutations.addItem(stateManager, 'author', 'blank');
+        const item = stateManager.state.author.get('1');
         expect(item.firstName).toBe('');
         expect(item.lastName).toBe('');
         expect(item.institution).toBe('');
         expect(item.year).toBe(String(new Date().getFullYear()));
     });
 
-    test('contributor: prefills user data when id is "user"', () => {
-        const contributor = new MockStateCollection();
-        const stateManager = makeStateManager(makeState({contributor}));
-        mutations.addItem(stateManager, 'contributor', 'user');
-        const item = stateManager.state.contributor.get('1');
+    test('author: prefills user data when id is "user"', () => {
+        const author = new MockStateCollection();
+        const stateManager = makeStateManager(makeState({author}));
+        mutations.addItem(stateManager, 'author', 'user');
+        const item = stateManager.state.author.get('1');
         expect(item.firstName).toBe('Jane');
         expect(item.lastName).toBe('Doe');
         expect(item.institution).toBe('Test University');
+    });
+
+    test('author: does not add a second blank entry while one already exists', () => {
+        const author = new MockStateCollection([
+            {id: 1, firstName: 'Alice', lastName: 'Author', institution: 'Uni', year: '2024'},
+            {id: 2, firstName: ' ', lastName: '', institution: '', year: '2025'},
+        ]);
+        const stateManager = makeStateManager(makeState({author}));
+        mutations.addItem(stateManager, 'author', 'blank');
+        expect(stateManager.state.author.get('2')).toEqual({
+            id: 2,
+            firstName: ' ',
+            lastName: '',
+            institution: '',
+            year: '2025',
+        });
+        expect(stateManager.state.author.get('3')).toBeUndefined();
+    });
+
+    test('author: reuses a blank entry for "user" instead of adding a new one', () => {
+        const author = new MockStateCollection([
+            {id: 1, firstName: ' ', lastName: '', institution: '', year: '2023'},
+        ]);
+        const stateManager = makeStateManager(makeState({author}));
+        mutations.addItem(stateManager, 'author', 'user');
+        expect(stateManager.state.author.get('1')).toEqual({
+            id: 1,
+            firstName: 'Jane',
+            lastName: 'Doe',
+            institution: 'Test University',
+            year: String(new Date().getFullYear()),
+        });
+        expect(stateManager.state.author.get('2')).toBeUndefined();
     });
 
     test('scope: adds a blank additional entry with all empty fields', () => {
@@ -194,8 +226,8 @@ describe('addItem', () => {
 describe('updateAll', () => {
     test('updates a scalar field (id=0) directly on the state property', async () => {
         const state = makeState();
-        await mutations.updateAll(makeStateManager(state), [['smdi_0_creator_firstName', 'Alice']]);
-        expect(state.creator.firstName).toBe('Alice');
+        await mutations.updateAll(makeStateManager(state), [['smdi_0_license_value', 'MIT']]);
+        expect(state.license.value).toBe('MIT');
     });
 
     test('updates a collection item by id', async () => {
@@ -324,13 +356,14 @@ describe('updateAll', () => {
     });
 
     test('processes multiple fields in a single call', async () => {
-        const state = makeState();
+        const author = new MockStateCollection([{id: 1, firstName: '', lastName: '', institution: '', year: ''}]);
+        const state = makeState({author});
         await mutations.updateAll(makeStateManager(state), [
-            ['smdi_0_creator_firstName', 'Alice'],
-            ['smdi_0_creator_lastName',  'Smith'],
+            ['smdi_1_author_firstName', 'Alice'],
+            ['smdi_1_author_lastName',  'Smith'],
         ]);
-        expect(state.creator.firstName).toBe('Alice');
-        expect(state.creator.lastName).toBe('Smith');
+        expect(state.author.get('1').firstName).toBe('Alice');
+        expect(state.author.get('1').lastName).toBe('Smith');
     });
 
     test('opens and closes read-only around the update', async () => {

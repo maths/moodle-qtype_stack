@@ -17,88 +17,46 @@
 
     Example context (json):
     {
-    "creator": {
-        "firstname": {
-            "required": false,
-            "element": {
-                "value": "Edmund",
-                "wrapperid": "fitem_smdi_0_creator_firstName",
-                "id": "smdi_0_creator_firstName",
-                "name": "smdi_0_creator_firstName",
-                "iderror": "smde_0_creator_firstName_error"
-            }
-        },
-        "lastname": {
-            "required": true,
-            "element": {
-                "value": "Farrow",
-                "wrapperid": "fitem_smdi_0_creator_lastName",
-                "id": "smdi_0_creator_lastName",
-                "name": "smdi_0_creator_lastName",
-                "iderror": "smde_0_creator_lastName_error"
-            }
-        },
-        "institution": {
-            "required": false,
-            "element": {
-                "value": "UoE",
-                "wrapperid": "fitem_smdi_0_creator_institution",
-                "id": "smdi_0_creator_institution",
-                "name": "smdi_0_creator_institution",
-                "iderror": "smde_0_creator_institution_error"
-            }
-        },
-        "year": {
-            "required": false,
-            "element": {
-                "value": "2025",
-                "wrapperid": "fitem_smdi_0_creator_year",
-                "id": "smdi_0_creator_year",
-                "name": "smdi_0_creator_year",
-                "iderror": "smde_0_creator_year_error"
-            }
-        }
-    },
-    "contributor": [
+    "author": [
         {
             "firstname": {
                 "required": false,
                 "element": {
                     "value": "a",
-                    "wrapperid": "fitem_smdi_1_contributor_firstName",
-                    "id": "smdi_1_contributor_firstName",
-                    "name": "smdi_1_contributor_firstName",
-                    "iderror": "smde_1_contributor_firstName_error"
+                    "wrapperid": "fitem_smdi_1_author_firstName",
+                    "id": "smdi_1_author_firstName",
+                    "name": "smdi_1_author_firstName",
+                    "iderror": "smde_1_author_firstName_error"
                 }
             },
             "lastname": {
                 "required": true,
                 "element": {
                     "value": "b",
-                    "wrapperid": "fitem_smdi_1_contributor_lastName",
-                    "id": "smdi_1_contributor_lastName",
-                    "name": "smdi_1_contributor_lastName",
-                    "iderror": "smde_1_contributor_lastName_error"
+                    "wrapperid": "fitem_smdi_1_author_lastName",
+                    "id": "smdi_1_author_lastName",
+                    "name": "smdi_1_author_lastName",
+                    "iderror": "smde_1_author_lastName_error"
                 }
             },
             "institution": {
                 "required": false,
                 "element": {
                     "value": "c",
-                    "wrapperid": "fitem_smdi_1_contributor_institution",
-                    "id": "smdi_1_contributor_institution",
-                    "name": "smdi_1_contributor_institution",
-                    "iderror": "smde_1_contributor_institution_error"
+                    "wrapperid": "fitem_smdi_1_author_institution",
+                    "id": "smdi_1_author_institution",
+                    "name": "smdi_1_author_institution",
+                    "iderror": "smde_1_author_institution_error"
                 }
             },
             "year": {
                 "required": false,
                 "element": {
                     "value": "2025",
-                    "wrapperid": "fitem_smdi_1_contributor_year",
-                    "id": "smdi_1_contributor_year",
-                    "name": "smdi_1_contributor_year",
-                    "iderror": "smde_1_contributor_year_error"
+                    "wrapperid": "fitem_smdi_1_author_year",
+                    "id": "smdi_1_author_year",
+                    "name": "smdi_1_author_year",
+                    "iderror": "smde_1_author_year_error"
                 }
             },
             "id": "1"
@@ -366,7 +324,7 @@
     "json": {
         "required": true,
         "element": {
-            "value": "{\n    \"creator\": {\n        \"firstName\": \"Edmund\",\n   ... ... ...    }",
+            "value": "{\n    \"author\": [\n        {\n            \"firstName\": \"Edmund\",\n   ... ... ...    }",
             "attributes": "rows=\"10\"",
             "wrapperid": "fitem_metadata_json",
             "id": "id_metadata_json",
@@ -385,57 +343,17 @@
         <div class="col-3"><h6>{{#str}} institution, qtype_stack {{/str}}</h6></div>
         <div class="col-1"><h6>{{#str}} year, qtype_stack {{/str}}</h6></div>
     </div>
-    {{#creator}}
-        <div class="row">
-            <div class="col-md-2"><h5>{{#str}} creator, qtype_stack {{/str}}</h5></div>
-            <div class="col-2 inputcol">
-                {{#firstname}}
-                    <label class="sr-only" for="{{element.id}}">
-                        {{#str}} creator, qtype_stack {{/str}} {{#str}} firstname, qtype_stack {{/str}}
-                    </label>
-                    {{> core_form/element-text-inline }}
-                {{/firstname}}
-            </div>
-            <div class="col-2 inputcol">
-                {{#lastname}}
-                    <label class="sr-only" for="{{element.id}}">
-                        {{#str}} creator, qtype_stack {{/str}} {{#str}} lastname, qtype_stack {{/str}}
-                    </label>
-                    {{> core_form/element-text-inline }}
-                {{/lastname}}
-            </div>
-            <div class="col-3 inputcol">
-                {{#institution}}
-                    <label class="sr-only" for="{{element.id}}">
-                        {{#str}} creator, qtype_stack {{/str}} {{#str}} institution, qtype_stack {{/str}}
-                    </label>
-                    {{> core_form/element-text-inline }}
-                {{/institution}}
-            </div>
-            <div class="col-2 col-lg-1 inputcol">
-                {{#year}}
-                    <label class="sr-only" for="{{element.id}}">
-                        {{#str}} creator, qtype_stack {{/str}} {{#str}} year, qtype_stack {{/str}}
-                    </label>
-                    {{>qtype_stack/metadata/metadatayear}}
-                {{/year}}
-            </div>
-        </div>
-    {{/creator}}
-    {{#contributor}}
-        {{>qtype_stack/metadata/metadatacontributor}}
-    {{/contributor}}
+    {{#author}}
+        {{>qtype_stack/metadata/metadataauthor}}
+    {{/author}}
     <div class="row">
         <div class="col-md-2"></div>
         <div class="col-10">
-            <button class="btn btn-secondary mb-1" type="button" name="smd_add" id="smd_contributor_0_add">
-                {{#str}} addcontributor, qtype_stack {{/str}}
+            <button class="btn btn-secondary mb-1" type="button" name="smd_add" id="smd_author_0_add">
+                {{#str}} addauthor, qtype_stack {{/str}}
             </button>
-            <button class="btn btn-secondary mb-1" type="button" id="stack-metadata-make-contributor">
-                {{#str}} makemecontributor, qtype_stack {{/str}}
-            </button>
-            <button class="btn btn-secondary mb-1" type="button" id="stack-metadata-make-creator">
-                {{#str}} makemecreator, qtype_stack {{/str}}
+            <button class="btn btn-secondary mb-1" type="button" id="stack-metadata-make-author">
+                {{#str}} makemeauthor, qtype_stack {{/str}}
             </button>
         </div>
     </div>

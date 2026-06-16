@@ -34,8 +34,7 @@ export default class extends BaseComponent {
             UPDATEINPUTS: `#stack-metadata-update-inputs`,
             ADDITEM: `[name="smd_add"]`,
             DELETEITEM: `[name="smd_delete"]`,
-            MAKECONTRIBUTOR: `#stack-metadata-make-contributor`,
-            MAKECREATOR: `#stack-metadata-make-creator`,
+            MAKEAUTHOR: `#stack-metadata-make-author`,
             REVERT: `#stack-metadata-revert`,
             FORMJSON: 'input[name="metadata"]',
             JSONINPUT: '#id_metadata_json',
@@ -106,8 +105,7 @@ export default class extends BaseComponent {
         // Mustache data is not fully compatible with state object so we need to convert it
         // into a plain object.
         const data = {
-            creator: {},
-            contributor: [],
+            author: [],
             language: [],
             license: this.createDataElement(true, 0, 'license_value', state.license.value),
             isPartOf: this.createDataElement(false, 0, 'isPartOf_value', state.isPartOf.value),
@@ -136,15 +134,15 @@ export default class extends BaseComponent {
             data.language.push({...element});
         });
 
-        state.contributor.forEach(contributor => {
+        state.author.forEach(author => {
              const element = {
-                firstname: this.createDataElement(false, contributor.id, 'contributor_firstName', contributor.firstName),
-                lastname: this.createDataElement(false, contributor.id, 'contributor_lastName', contributor.lastName),
-                institution: this.createDataElement(false, contributor.id, 'contributor_institution', contributor.institution),
-                year: this.createDataElement(false, contributor.id, 'contributor_year', contributor.year),
-                id: contributor.id,
+                firstname: this.createDataElement(false, author.id, 'author_firstName', author.firstName),
+                lastname: this.createDataElement(false, author.id, 'author_lastName', author.lastName),
+                institution: this.createDataElement(false, author.id, 'author_institution', author.institution),
+                year: this.createDataElement(false, author.id, 'author_year', author.year),
+                id: author.id,
             };
-            data.contributor.push({...element});
+            data.author.push({...element});
         });
 
         const scopeHolder = {};
@@ -170,13 +168,6 @@ export default class extends BaseComponent {
             };
             data.scope.push(current);
         }
-
-        data.creator = {
-            firstname: this.createDataElement(false, 0, 'creator_firstName', state.creator.firstName),
-            lastname: this.createDataElement(false, 0, 'creator_lastName', state.creator.lastName),
-            institution: this.createDataElement(false, 0, 'creator_institution', state.creator.institution),
-            year: this.createDataElement(false, 0, 'creator_year', state.creator.year),
-        };
 
         data.json = {
             required: true,
@@ -225,14 +216,9 @@ export default class extends BaseComponent {
             this.updateInputs
         );
         this.addEventListener(
-            this.getElement(this.selectors.MAKECREATOR),
+            this.getElement(this.selectors.MAKEAUTHOR),
             'click',
-            this.makeCreator
-        );
-        this.addEventListener(
-            this.getElement(this.selectors.MAKECONTRIBUTOR),
-            'click',
-            this.makeContributor
+            this.makeAuthor
         );
         this.addEventListener(
             this.getElement(this.selectors.REVERT),
@@ -257,7 +243,7 @@ export default class extends BaseComponent {
      *
      * @param {bool} mustValidate Do we want validation to occur?
      * We check when explicitly asked for and when attempting to close the modal other than by cancel.
-     * We don't check when e.g. adding a contributor. This means state can be invalid but we only
+     * We don't check when e.g. adding an author. This means state can be invalid but we only
      * update the edit form entry after successful validation on modal close.
      * @returns {bool} Returns false on validation error.
      */
@@ -290,7 +276,7 @@ export default class extends BaseComponent {
                 return false;
             }
         }
-        // Elements have ids in form smdi_id_category_field e.g. smdi_1_contributor_year.
+        // Elements have ids in form smdi_id_category_field e.g. smdi_1_author_year.
         // id is category entry id in state. 0 is used for single elements e.g. license.
         // Multi-elements begin counting from 1.
         let inputElements = this.getElements(this.selectors.ALLINPUTS);
@@ -355,23 +341,13 @@ export default class extends BaseComponent {
     }
 
     /**
-     * Add the current user as a contributor.
+     * Add the current user as an author.
      */
-    async makeContributor() {
+    async makeAuthor() {
         const result = await this.update(false);
         if (result) {
-            this.reactive.dispatch('addItem', 'contributor', 'user');
+            this.reactive.dispatch('addItem', 'author', 'user');
         }
-    }
-
-    /**
-     * Make current user the creator.
-     */
-    makeCreator() {
-        this.getElement('#smdi_0_creator_firstName').value = metadata.lib.user.firstname;
-        this.getElement('#smdi_0_creator_lastName').value = metadata.lib.user.lastname;
-        this.getElement('#smdi_0_creator_institution').value = metadata.lib.user.institution;
-        this.getElement('#smdi_0_creator_year').value = new Date().getFullYear();
     }
 
     /**

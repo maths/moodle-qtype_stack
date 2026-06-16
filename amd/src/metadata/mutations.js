@@ -24,14 +24,40 @@ import {metadata} from 'qtype_stack/metadata/metadata';
 
 class Mutations {
     /**
+     * Check whether an author row is blank across the identity fields.
+     *
+     * @param {object} author
+     * @returns {boolean}
+     */
+    isBlankAuthor(author) {
+        return ['firstName', 'lastName', 'institution'].every((field) => String(author[field] ?? '').trim() === '');
+    }
+
+    /**
+     * Find the first blank author row, if present.
+     *
+     * @param {*} authors
+     * @returns {object|null}
+     */
+    getBlankAuthor(authors) {
+        let blankAuthor = null;
+        authors.forEach((author) => {
+            if (!blankAuthor && this.isBlankAuthor(author)) {
+                blankAuthor = author;
+            }
+        });
+        return blankAuthor;
+    }
+
+    /**
      * Update state from array of input field information.
      *
-     * Inputs have ids in form smdi-id-category-field e.g. smdi-1-contributor-year.
+     * Inputs have ids in form smdi-id-category-field e.g. smdi-1-author-year.
      * id is row entry id in state. 0 is used for single elements e.g. license.
      * Multi-elements begin counting from 1.
      * For scope, row id is for one of the matching additional info rows.
      * @param {*} stateManager
-     * @param {*} inputArray [['smdi-1-contributor-year', 2025], ...]
+     * @param {*} inputArray [['smdi-1-author-year', 2025], ...]
      * @returns
      */
     async updateAll(stateManager, inputArray) {
@@ -170,19 +196,30 @@ class Mutations {
         let addCategory = category;
         let newItem = null;
         let existingProperty = null;
+        let blankAuthor = null;
         switch (category) {
             case 'language':
                 newItem = {
                     value: ""
                 };
                 break;
-            case 'contributor':
+            case 'author':
                 newItem = {
                     firstName: (id === 'user') ? metadata.lib.user.firstname : "",
                     lastName: (id === 'user') ? metadata.lib.user.lastname : "",
                     institution: (id === 'user') ? metadata.lib.user.institution : "",
                     year: String(new Date().getFullYear())
                 };
+                // Don't add an author entry if we already have a blank one.
+                blankAuthor = this.getBlankAuthor(state.author);
+                if (blankAuthor) {
+                    if (id === 'user') {
+                        stateManager.setReadOnly(false);
+                        Object.assign(blankAuthor, newItem);
+                        stateManager.setReadOnly(true);
+                    }
+                    return;
+                }
                 break;
             case 'scope':
                 newItem = {

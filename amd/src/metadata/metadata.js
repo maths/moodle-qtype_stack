@@ -169,7 +169,7 @@ class StackMetadata extends Reactive {
         const holder = [];
         let id = 1;
         switch(key) {
-            case 'contributor':
+            case 'author':
                 for (const current of value) {
                     current.id = id;
                     holder.push(current);
@@ -206,20 +206,18 @@ class StackMetadata extends Reactive {
             // up and that causes issues if someone has re-used one of our property names.
             data[property] = this.reviver(property, data[property]);
         }
-        const fields = ['creator', 'contributor', 'language', 'license', 'isPartOf', 'additional', 'freeform'];
+        const fields = ['author', 'language', 'license', 'isPartOf', 'additional', 'freeform'];
         data = this.stripFields(data, fields);
-        const creatorFields = ['firstName', 'lastName', 'institution', 'year'];
-        const contribFields = ['id', 'firstName', 'lastName', 'institution', 'year'];
+        const authorFields = ['id', 'firstName', 'lastName', 'institution', 'year'];
         const standardFields = ['id', 'value'];
 
-        data.creator = this.tidyObject(data.creator, creatorFields);
-        data.contributor = (Array.isArray(data.contributor)) ? data.contributor : [];
-        const contribHolder = [];
-        for (let contrib of data.contributor) {
-            contrib = this.tidyObject(contrib, contribFields);
-            contribHolder.push(contrib);
+        data.author = (Array.isArray(data.author)) ? data.author : [this.tidyObject({id: 1}, authorFields)];
+        const authorHolder = [];
+        for (let author of data.author) {
+            author = this.tidyObject(author, authorFields);
+            authorHolder.push(author);
         }
-        data.contributor = contribHolder;
+        data.author = authorHolder;
         data.language = (Array.isArray(data.language)) ? data.language : [];
         const langHolder = [];
         for (let lang of data.language) {
@@ -229,6 +227,7 @@ class StackMetadata extends Reactive {
         data.language = langHolder;
         data.isPartOf = this.tidyObject(data.isPartOf, standardFields);
         data.license = this.tidyObject(data.license, standardFields);
+        data.additional = (data.additional && typeof data.additional === 'object') ? data.additional : {};
         const addHolder = [];
         let addId = 1;
         for (const addScope in data.additional) {
@@ -335,5 +334,3 @@ export const metadata = new StackMetadata({
     eventDispatch: notifyQtypeStackStateUpdated,
     mutations,
 });
-
-

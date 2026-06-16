@@ -3,11 +3,17 @@ const {metadata} = require('../../amd/src/metadata/metadata.js');
 // ── reviver ────────────────────────────────────────────────────────────────────
 
 describe('reviver', () => {
-    test('contributor: assigns sequential ids to each item', () => {
+    test('author: assigns sequential ids to each item', () => {
         const input = [{firstName: 'Alice'}, {firstName: 'Bob'}];
-        expect(metadata.reviver('contributor', input)).toEqual([
+        expect(metadata.reviver('author', input)).toEqual([
             {firstName: 'Alice', id: 1},
             {firstName: 'Bob', id: 2},
+        ]);
+    });
+
+    test('author: wraps a single object and assigns an id', () => {
+        expect(metadata.reviver('author', {firstName: 'Alice'})).toEqual([
+            {firstName: 'Alice', id: 1},
         ]);
     });
 
@@ -190,40 +196,38 @@ describe('tidyObject', () => {
 describe('jsonToState', () => {
     test('empty JSON produces a fully-defaulted state', () => {
         expect(metadata.jsonToState('{}')).toEqual({
-            creator:     {firstName: '', lastName: '', institution: '', year: ''},
-            contributor: [],
-            language:    [],
-            license:     {id: '', value: ''},
-            isPartOf:    {id: '', value: ''},
-            additional:  [],
-            freeform:    {id: '', value: ''},
+            author:     [{id: '', firstName: '', lastName: '', institution: '', year: ''}],
+            language:   [],
+            license:    {id: '', value: ''},
+            isPartOf:   {id: '', value: ''},
+            additional: [],
+            freeform:   {id: '', value: ''},
         });
     });
 
-    test('parses creator fields and coerces values to strings', () => {
-        const input = JSON.stringify({creator: {firstName: 'Alice', lastName: 'Smith', institution: 'Uni', year: 2025}});
-        expect(metadata.jsonToState(input).creator)
-            .toEqual({firstName: 'Alice', lastName: 'Smith', institution: 'Uni', year: '2025'});
+    test('parses author fields and coerces values to strings', () => {
+        const input = JSON.stringify({
+            author: [{firstName: 'Alice', lastName: 'Smith', institution: 'Uni', year: 2025}],
+        });
+        expect(metadata.jsonToState(input).author)
+            .toEqual([{id: '1', firstName: 'Alice', lastName: 'Smith', institution: 'Uni', year: '2025'}]);
     });
 
-    test('strips unrecognised creator fields', () => {
-        const input = JSON.stringify({creator: {firstName: 'Alice', unknownField: 'ignored'}});
-        expect(metadata.jsonToState(input).creator).not.toHaveProperty('unknownField');
+    test('parses single author object into an array with one item', () => {
+        const input = JSON.stringify({author: {firstName: 'Alice', lastName: 'Smith'}});
+        expect(metadata.jsonToState(input).author)
+            .toEqual([{id: '1', firstName: 'Alice', lastName: 'Smith', institution: '', year: ''}]);
+    });
+
+    test('strips unrecognised author fields', () => {
+        const input = JSON.stringify({author: [{firstName: 'Alice', unknownField: 'ignored'}]});
+        expect(metadata.jsonToState(input).author[0]).not.toHaveProperty('unknownField');
     });
 
     test('parses language strings into [{id, value}] objects', () => {
         const input = JSON.stringify({language: ['en', 'fr']});
         expect(metadata.jsonToState(input).language)
             .toEqual([{id: '1', value: 'en'}, {id: '2', value: 'fr'}]);
-    });
-
-    test('parses contributors and assigns sequential string ids', () => {
-        const input = JSON.stringify({contributor: [{firstName: 'Bob', lastName: 'Jones'},{firstName: 'Dave', lastName: 'Smith'}]});
-        expect(metadata.jsonToState(input).contributor)
-            .toEqual([
-              {id: '1', firstName: 'Bob', lastName: 'Jones', institution: '', year: ''},
-              {id: '2', firstName: 'Dave', lastName: 'Smith', institution: '', year: ''}
-            ]);
     });
 
     test('parses license string into {id, value}', () => {
@@ -242,20 +246,20 @@ describe('jsonToState', () => {
     });
 
     test('parses additional unqualified entries in array form', () => {
-        const input = JSON.stringify({additional: {dc: {subject: ['math','physics']}}});
+        const input = JSON.stringify({additional: {dc: {subject: ['math', 'physics']}}});
         expect(metadata.jsonToState(input).additional)
             .toEqual([
-              {id: 1, scope: 'dc', property: 'subject', qualifier: '', value: 'math'},
-              {id: 2, scope: 'dc', property: 'subject', qualifier: '', value: 'physics'},
+                {id: 1, scope: 'dc', property: 'subject', qualifier: '', value: 'math'},
+                {id: 2, scope: 'dc', property: 'subject', qualifier: '', value: 'physics'},
             ]);
     });
 
     test('parses additional qualified entries in array form', () => {
-        const input = JSON.stringify({additional: {dc: {subject: {qual: ['math','physics']}}}});
+        const input = JSON.stringify({additional: {dc: {subject: {qual: ['math', 'physics']}}}});
         expect(metadata.jsonToState(input).additional)
             .toEqual([
-              {id: 1, scope: 'dc', property: 'subject', qualifier: 'qual', value: 'math'},
-              {id: 2, scope: 'dc', property: 'subject', qualifier: 'qual', value: 'physics'}
+                {id: 1, scope: 'dc', property: 'subject', qualifier: 'qual', value: 'math'},
+                {id: 2, scope: 'dc', property: 'subject', qualifier: 'qual', value: 'physics'},
             ]);
     });
 
@@ -283,7 +287,7 @@ describe('jsonToState', () => {
             .toEqual({id: '', value: '{"custom":"data"}'});
     });
 
-      test('parses freeform object containing key waords into {id, value} where value is JSON string', () => {
+    test('parses freeform object containing key words into {id, value}', () => {
         const input = JSON.stringify({freeform: {additional: 'data'}});
         expect(metadata.jsonToState(input).freeform)
             .toEqual({id: '', value: '{"additional":"data"}'});
@@ -294,9 +298,11 @@ describe('jsonToState', () => {
 
 describe('jsonStringify', () => {
     const baseState = {
-        creator:     {firstName: 'Alice', lastName: 'Smith', institution: 'Uni', year: '2025'},
-        contributor: [{firstName: 'Bob', lastName: 'Jones', institution: 'Uni2', year: '2026'}],
-        language:    [{id: 1, value: 'en'},{id: 2, value: 'fr'}],
+        author: [
+            {id: '1', firstName: 'Alice', lastName: 'Smith', institution: 'Uni', year: '2025'},
+            {id: '2', firstName: 'Bob', lastName: 'Jones', institution: 'Uni2', year: '2026'},
+        ],
+        language:    [{id: 1, value: 'en'}, {id: 2, value: 'fr'}],
         license:     {id: 0, value: 'MIT'},
         isPartOf:    {id: 0, value: 'course1'},
         additional:  [
@@ -306,10 +312,12 @@ describe('jsonStringify', () => {
         freeform:    {id: '', value: '{"times":[1,2,3]}'},
     };
 
-    test('round-trips creator fields unchanged', () => {
+    test('round-trips author fields unchanged and strips ids', () => {
         const result = JSON.parse(metadata.jsonStringify(baseState));
-        expect(result.creator).toEqual({firstName: 'Alice', lastName: 'Smith', institution: 'Uni', year: '2025'});
-        expect(result.contributor).toEqual([{firstName: 'Bob', lastName: 'Jones', institution: 'Uni2', year: '2026'}]);
+        expect(result.author).toEqual([
+            {firstName: 'Alice', lastName: 'Smith', institution: 'Uni', year: '2025'},
+            {firstName: 'Bob', lastName: 'Jones', institution: 'Uni2', year: '2026'},
+        ]);
     });
 
     test('converts language objects back to string array', () => {
@@ -355,7 +363,7 @@ describe('jsonStringify', () => {
     test('respects spacing parameter for pretty-printing', () => {
         const result = metadata.jsonStringify(baseState, 2);
         expect(result).toContain('\n');
-        expect(result).toContain('\n  "creator');
+        expect(result).toContain('\n  "author"');
     });
 
     test('produces compact output with no spacing', () => {

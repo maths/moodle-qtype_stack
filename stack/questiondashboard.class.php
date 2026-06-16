@@ -145,7 +145,9 @@ class stack_question_dashboard {
      */
     public function create_progress_bars() {
         $this->testprogress = new progress_bar('testingquestiontests', 500, true);
-        $this->variantprogress = new progress_bar('testingquestionvariants', 500, true);
+        if (!empty($this->question->deployedseeds)) {
+            $this->variantprogress = new progress_bar('testingquestionvariants', 500, true);
+        }
     }
 
     /**

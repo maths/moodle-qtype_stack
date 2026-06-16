@@ -4,11 +4,9 @@ STACK provides a comprehensive chemical data sheet for use in numerical problems
 
 To include chemical data use the following within your STACK question (question variables).
 
-    stack_include_contrib("chemistry.mac");
+    stack_chemistry_declare(true);
 
-Developer notes: 
-
-* During development to load the code local to your development server use `stack_include("contribl://chemistry.mac");`
+(Older questions used an optional library `stack_include_contrib("chemistry.mac");` which has been moved to the core.)
 
 ## Using chemical data
 
@@ -49,7 +47,7 @@ Notes.
 1. Names of elements are always given as strings.  E.g. to access data for hydrogen use `"H"`.
 2. Field names are always given as strings, e.g. `"AtomicMass"` is a string (not an atom `AtomicMass`).
 3. The utility functions filter the `"Name"` field to give the name of the element with the local language selection.  STACK uses the global `%_STACK_LANG` variable.  If no local name is defined the `"Name"` in English is returned.   If you really want _all_ the data, just use `assoc(element, %_STACK_CHEM_ELEMENTS)` rather than ` chem_data_all(element)`.
-4. Note that, for efficiency reasons, data is stored in flat table and the above arrays are reconstructed from the flat table, the list of field names and any languages available.  Language data is separated which makes it easier to add a new language.  Chemical names are _not_ part of Moodle's normal language pack and need to be added explicitly to `chemistry.mac`.  See [github](https://github.com/maths/moodle-qtype_stack/blob/master/stack/maxima/contrib/chemistry.mac) for examples. As of Nov 2025, English, Finnish and German names are available.
+4. Note that, for efficiency reasons, data is stored in flat table and the above arrays are reconstructed from the flat table, the list of field names and any languages available.  Language data is separated which makes it easier to add a new language.  Chemical names are _not_ part of Moodle's normal language pack and need to be added explicitly to `chemistry.mac`.  See [github](https://github.com/maths/moodle-qtype_stack/blob/master/stack/maxima/chemistry.mac) for examples. As of Nov 2025, English, Finnish and German names are available.
 
 TODO: write a maxima function which gives an annotated atomic symbol in LaTeX, based on the chemical data e.g. \(^{25}_{12}\mbox{Mg}^{2+}\).
 

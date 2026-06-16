@@ -12,7 +12,8 @@ Issues with [github milestone 4.13.0](https://github.com/maths/moodle-qtype_stac
 1. Remove all "cte" code from Maxima - mostly install.
 2. Support for Maxima 5.47.0, 5.48.0, and 5.49.0.  This includes a fix for issue #1281 from 5.48.0.
 3. Question tests can now test the whole route through a PRT, rather than just the final node.  This is a significant improvement on the ability to test questions.  This is back-compatible with older questions.
-4. Add in flexible [question metadata](../Authoring/Metadata.md).  This fixes issue #1171.
+4. Move chemistry data and some core functions into the Maxima supported code.  Load these with `stack_chemistry_declare(true);` in the question variables.
+5. Add in flexible [question metadata](../Authoring/Metadata.md).  This fixes issue #1171.
 
 --------------------------------------
 

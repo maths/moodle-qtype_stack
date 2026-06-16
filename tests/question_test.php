@@ -322,7 +322,7 @@ final class question_test extends qtype_stack_testcase {
 
         $q = test_question_maker::make_question('stack', 'mul');
         $expected = 'This question has an input which uses the "mul" option, '
-            . 'which is not suppored after STACK version 4.2.  Please edit this question.';
+            . 'which is not supported after STACK version 4.2.  Please edit this question.';
 
             $this->assertEquals($expected, $q->validate_against_stackversion(context_system::instance()));
     }

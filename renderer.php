@@ -97,20 +97,31 @@ class qtype_stack_renderer extends qtype_renderer {
         );
         // Restore inputnames.
         foreach ($question->inputs as $name => $input) {
+            // ISS1752 - The Mathjax filter is mangling the nolink spans if they're between
+            // curly braces so we have to do an extra search.
             $questiontext = str_replace(
-                "<span class=\"nolink\">[[InMNEYMWDx:{$name}]]</span>",
+                [
+                    "<span class=\"nolink\">[[InMNEYMWDx:{$name}]]</span>",
+                    "&lt;span class=\"nolink\"&gt;[[InMNEYMWDx:{$name}]]&lt;/span&gt;",
+                ],
                 "[[input:{$name}]]",
                 $questiontext
             );
             $questiontext = str_replace(
-                "<span class=\"nolink\">[[VnMNEYMWDx:{$name}]]</span>",
+                [
+                    "<span class=\"nolink\">[[VnMNEYMWDx:{$name}]]</span>",
+                    "&lt;span class=\"nolink\"&gt;[[VnMNEYMWDx:{$name}]]&lt;/span&gt;",
+                ],
                 "[[validation:{$name}]]",
                 $questiontext
             );
         }
         foreach ($question->prts as $index => $prt) {
             $questiontext = str_replace(
-                "<span class=\"nolink\">[[GDBBdLBJLg:{$index}]]</span>",
+                [
+                    "<span class=\"nolink\">[[GDBBdLBJLg:{$index}]]</span>",
+                    "&lt;span class=\"nolink\"&gt;[[GDBBdLBJLg:{$index}]]&lt;/span&gt;",
+                ],
                 "[[feedback:{$index}]]",
                 $questiontext
             );
@@ -132,7 +143,9 @@ class qtype_stack_renderer extends qtype_renderer {
             $formatedinputplaceholders !== $originalinputplaceholders ||
                 $formatedfeedbackplaceholders !== $originalfeedbackplaceholders
         ) {
-            throw new coding_exception('Inconsistent placeholders. Possibly due to multi-lang filter not being active.');
+            throw new coding_exception('Inconsistent placeholders. Possibly due to multi-lang filter not being active. ' .
+                ' Original placeholders: ' . implode(', ', $originalfeedbackplaceholders) . '.' .
+                ' Formatted placeholders: ' . implode(', ', $formatedfeedbackplaceholders));
         }
 
         foreach ($question->inputs as $name => $input) {

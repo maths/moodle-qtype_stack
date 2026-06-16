@@ -2,9 +2,10 @@
 
 ## Which version of STACK do I have? ##
 
-If you navigate to the front page of the STACK documentation _on your server_ then you can find the version number of the STACK plugin at the bottom of the page.  If your site is `https://maths.assessment/site` then the URL of the STACK documentation is probably `https://maths.assessment/site/question/type/stack/doc/doc.php`.  We distribute the documentation with the source code so you can check the STACK features you have available on your site by referring to this version of the documentation (rather than the docs on [https://docs.stack-assessment.org/](https://docs.stack-assessment.org/) which documents the latest release.).
+If you navigate to the STACK admin links page _on your server_ then you can find the version number of the STACK plugin at the bottom of the page.  If your site is `https://maths.assessment/site` then the URL is probably `https://maths.assessment/site/question/type/stack/adminui/index.php`.  The version number is given in the form used by all Moodle plugins, e.g. `2022052300` which is basically a release date of the plugin you are using.
 
-The version number is given in the form used by all Moodle plugins, e.g. `2022052300` which is basically a release date of the plugin you are using.
+Note, we distribute the documentation with the source code so you can check the STACK features you have available on your site by referring to this version of the documentation (rather than the docs on [https://docs.stack-assessment.org/](https://docs.stack-assessment.org/) which documents the latest release.).  If your site is `https://maths.assessment/site` then the URL of the documentation is probably `https://maths.assessment/site/question/type/stack/doc/doc.php`.
+
 
 ## How can I report a bug or make a suggestion? ##
 

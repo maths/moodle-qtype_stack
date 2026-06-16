@@ -258,6 +258,7 @@ function answer() {
     http.open("POST", url, true);
 
     if (!document.getElementById('output').innerText) {
+        loading(false);
         return;
     }
 

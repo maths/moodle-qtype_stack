@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+<!-- question: 174411  -->
+  <question type="stack">
+    <name>
+      <text>Area between line and parabola (from FAC: 10.2.1 Find parabola, hence area between line and parabola)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>The diagram shows the graph of a parabola with turning point \(({@quad_TP[1]@},{@quad_TP[2]@})\), and the line with equation \(y={@k*x+linec@}\), both of which pass through the point \(({@B[1]@},{@B[2]@})\).</p>
+
+<p style="text-align: center;"></p><div style="margin-left:4em;margin-right:auto;">[[jsxgraph width='250px' height='250px']]
+  JXG.Options.axis.ticks.majorHeight = 10;
+  JXG.Options.axis.ticks.insertTicks = false;
+  JXG.Options.axis.ticks.ticksDistance = 200;
+  JXG.Options.text.fontSize = 16; 
+  var board = JXG.JSXGraph.initBoard(divid, {boundingbox: {#BB#}, axis: true, showCopyright: false, showNavigation:false});
+  var f = board.jc.snippet('{#quad#}', true, 'x', true);
+  var plotf = board.create('functiongraph', [f,{#BB[1]#},{#BB[3]#}],{strokeColor:'#003399',strokeWidth:2});
+  var g = board.jc.snippet('{#line#}', true, 'x', true);
+  var plotg = board.create('functiongraph', [g,{#BB[1]#},{#BB[3]#}],{strokeColor:'#003399',strokeWidth:2});
+  var pta = board.create('point',{#A#}, {name:'',size:2,fixed:true,strokeColor:'#003399',fillColor:'#003399', label: { offset: [0, {#-15*cy#}],anchorX: 'middle', anchorY: 'middle' }});
+  var ptb = board.create('point',{#B#}, {name:'({#B[1]#},{#B[2]#})',size:2,fixed:true,strokeColor:'#003399',fillColor:'#003399', label: { offset: [-10, 0],anchorX: 'right', anchorY: 'middle' }});
+  var ptc = board.create('point',{#quad_TP#}, {name:'({#quad_TP[1]#},{#quad_TP[2]#})',size:2,fixed:true,strokeColor:'#003399',fillColor:'#003399', label: { offset: [0, -5],anchorX: 'middle', anchorY: 'top' }});
+
+ /* Creating a shaded area https://groups.google.com/forum/#!topic/jsxgraph/umlhu6CkGD0 */
+ var area = board.create('curve', [[], []], {fillColor:'#003399',fillOpacity:0.15,strokeWidth:0});
+ var upper = plotf;
+ var lower = plotg;
+ var limitL = {#ax#};
+ var limitR = {#bx#};
+
+ area.updateDataArray = function () {
+ 
+/* code to get round the fact that we can't use the usual comparison operators due to HTML parsing - https://stackoverflow.com/a/49267601 */
+ var precision=10;
+ function isLessThan(a, b) {
+   return Object.is((a-b)%1, -0);
+ }
+ function lte(a,b) {
+   if(a==b) {
+   	return true;
+   } else {
+   	return isLessThan(Math.floor(a*precision),Math.ceil(b*precision));
+   }
+ }
+     var left = limitL, right = limitR, curve;
+     var x = [left];
+     var y = [upper.Y(left)];
+     /* go through upper curve forwards, push all of its data points into the data array for area */
+     curve = upper;    
+     for (var i = 0; isLessThan(i, curve.numberPoints); i++) {
+         if (lte(left,curve.points[i].usrCoords[1])) {
+           if(lte(curve.points[i].usrCoords[1],right)) {
+             x.push(curve.points[i].usrCoords[1]);
+             y.push(curve.points[i].usrCoords[2]);
+           }
+         }
+     }
+     x.push(right);
+     y.push(upper.Y(right));
+ 
+     x.push(right);
+     y.push(lower.Y(right));
+     
+     /* walk backwards through lower curve */
+     curve = lower;
+     for (var i = curve.numberPoints - 1; lte(0,i); i--) {
+         if (lte(left,curve.points[i].usrCoords[1])) {
+           if(lte(curve.points[i].usrCoords[1],right)) {
+             x.push(curve.points[i].usrCoords[1]);
+             y.push(curve.points[i].usrCoords[2]);
+           }
+         }
+     }
+ 
+     x.push(left);
+     y.push(lower.Y(left));
+     
+     x.push(left);
+     y.push(upper.Y(left));
+     
+     this.dataX = x;
+     this.dataY = y;
+ };
+ 
+ board.update();
+
+[[/jsxgraph]]</div><p></p>
+
+<p><b>(a) </b>What is the equation of the parabola?</p><p>&nbsp; &nbsp; \(y=\)&nbsp;[[input:ans1]][[validation:ans1]][[feedback:prt1]]</p><p><b>(b) </b>What is the value of \(k\)?<br></p><p>&nbsp; &nbsp; \(k=\)&nbsp;[[input:ans2]][[validation:ans2]][[feedback:prt2]]</p><p><b>(c) </b>Calculate the shaded area, enclosed between the parabola and the line.</p><p>&nbsp; &nbsp; The shaded area is&nbsp;[[input:ans3]][[validation:ans3]][[feedback:prt3]]<br></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p><b></b></p><p><b>(a) </b>From the turning point, the equation of the parabola must be of the form \(y={@('a*(x-quad_TP[1])^2+quad_TP[2]),simp=false@}\).</p><p>Since it passes through&nbsp;\(({@B[1]@},{@B[2]@})\), we have {@(simp:true,ev('a*(x-quad_TP[1])^2+quad_TP[2],x=B[1])=B[2])@}, thus {@'a=coeff(quad,x,2)@}.</p><p>So the parabola has equation {@y=quad@}.</p><p><br></p><p><b>(b) </b>The line&nbsp;\(y={@k*x+linec@}\) also passes through&nbsp;\(({@B[1]@},{@B[2]@})\), so substituting gives {@(ev(x*k+linec,x=B[1])=B[2]),simp=false@}, from which we get \(k={@ta2@}\).</p><p><br></p><p><b>(c) </b>To find the shaded area, we need the points of intersection of the line and the parabola, so we solve: \[\begin{align*}{@quad@}&amp;={@line@} \\ {@quad@}-({@line@}) &amp;=0 \\ {@(simp:true,quad-line)@} &amp;=0 \\ {@factor(quad-line)@}&amp;=0, \end{align*}\] from which we see that the curves intersect when \(x={@ax@}\) or \(x={@bx@}\).</p><p>So, the shaded area is given by \[\begin{align*} \int_{@ax@}^{@bx@} \left(\text{upper}-\text{lower}\right)\,dx &amp;=&nbsp;\int_{@ax@}^{@bx@} \left(({@line@})-({@quad@})\right)\,dx \\ &amp;=&nbsp;\int_{@ax@}^{@bx@} \left({@line-quad@}\right)\,dx. \\ &amp;= \left[{@int1@}\right]_{@ax@}^{@bx@} \\ &amp;=&nbsp; \left({@(make_multsgn("dot"),ev(int1,x=bx)),simp=false@}\right)-\left({@ev(int1,x=ax),simp=false@}\right)&nbsp;\\ &amp;= {@ta3@}. \end{align*}\]</p><p></p>]]></text>
+    </generalfeedback>
+    <defaultgrade>7</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+    <stackversion>
+      <text>2022082900</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[/* HSN AT002 */
+tx:rand_range(-2,3);
+ty:rand_range(-3,4);
+cx:rand([1,-1]);
+cy:1;
+/* The following are based on applying translations tx, ty and scalings cx, cy to a known "nice" question */
+T(x,y):=[cx*(x+tx),cy*(y+ty)];
+TF(y):=expand(ev(T(0,y)[2],x=x/cx-tx)); /* given an expression y=[fn], return a transformed y=[fn2] in new coords */
+quad:TF((x+1)^2-5);  /*ev(expand(cy*(ty- ((x)/(cx)-tx)^(2))),simp);*/
+A:T(-2,-4);
+B:T(3,11);
+quad_TP:T(-1,-5);
+quad_y0:ev(quad,x=0);
+line:TF(3*x+2);
+ax:lmin([A[1],B[1]]);
+bx:lmax([A[1],B[1]]);
+linem:coeff(line,x,1);
+linec:coeff(line,x,0);
+ta1:quad;
+altta1:coeff(quad,x,2)*(x-quad_TP[1])^2+quad_TP[2];
+ta2:linem;
+int1:int(line-quad,x);
+ta3:int(line-quad,x,ax,bx);
+
+
+/*bounding box*/
+bbTL:T(-7,15);
+bbBR:T(6,-8);
+BBx:[bbTL[1],bbBR[1],-1.5,1.5];
+BBy:[bbTL[2],bbBR[2],-1.5,1.5];
+BB:[lmin(BBx),lmax(BBy),lmax(BBx),lmin(BBy)];]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text><![CDATA[\[\begin{align*} \int_{@ax@}^{@bx@} \left(\text{upper}-\text{lower}\right)\,dx &= \int_{@ax@}^{@bx@} \left(({@line@})-({@quad@})\right)\,dx \\ &= \int_{@ax@}^{@bx@} \left({@line-quad@}\right)\,dx. \\ &= \left[{@int1@}\right]_{@ax@}^{@bx@} \\ &=  \left({@(simp:false,make_multsgn("dot"),ev(int1,x=bx))@}\right)-\left({@ev(int1,x=ax)@}\right) \\ &= {@ta3@}. \end{align*}\]]]></text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text><![CDATA[[[todo tags="bulktest-20250822,upgrade_error"]]This question appears to use /*...*/ style comments in the Question text, which are no longer supported.[[/todo]]]]></text>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>ta2</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>algebraic</type>
+      <tans>ta3</tans>
+      <boxsize>7</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>2.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt3</name>
+      <value>4.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>ta3</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>2127394329</deployedseed>
+    <deployedseed>1274090329</deployedseed>
+    <deployedseed>2023039359</deployedseed>
+    <deployedseed>455744874</deployedseed>
+    <deployedseed>350754509</deployedseed>
+    <deployedseed>1229334746</deployedseed>
+    <deployedseed>1119075273</deployedseed>
+    <deployedseed>127964942</deployedseed>
+    <deployedseed>633357327</deployedseed>
+    <deployedseed>1202052179</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description></description>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta3</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description></description>
+      <testinput>
+        <name>ans1</name>
+        <value>altta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>-ta2</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta3+1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt3-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <tags>
+      <tag><text>jsxgraph</text>
+</tag>
+      <tag><text>jsxenclosedarea</text>
+</tag>
+    </tags>
+  </question>
+
+</quiz>

@@ -546,6 +546,25 @@ final class input_algebraic_test extends qtype_stack_testcase {
             '\[ 3\cdot a\cdot b\cdot \left(x+1\right) \]',
             $state->contentsdisplayed
         );
+
+        // As raised in issue #1766.
+        // Note, by design, the lower case e denotes an exponent, not a calculus constant %e.
+        $el->set_parameter('insertStars', 7);
+        $el->set_parameter('forbidFloats', false);
+        $state = $el->validate_student_response(
+            ['sans1' => '7e9'],
+            $options,
+            '7E9',
+            new stack_cas_security(false, '', '', ['tans'])
+            );
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('7E9', $state->contentsmodified);
+        $this->assertEquals(
+            '\[ 7 \times 10^{9} \]',
+            $state->contentsdisplayed
+            );
     }
 
     public function test_validate_student_response_too_long(): void {

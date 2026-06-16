@@ -137,13 +137,6 @@ if ($uri == '/') {
     $body = $sitemapurl . '<br />'
         . '<img src="' . $webpix1 . '" width=200 />'
         . '<img src="' . $webpix2 . '" width=140 style="margin-left: 45px;"/>' . $body;
-
-    $settings = get_config('qtype_stack');
-    $libs = array_map('trim', explode(',', $settings->maximalibraries));
-    asort($libs);
-    $libs = implode(', ', $libs);
-    $vstr = $settings->version . ' (' . $libs . ')';
-    $body .= '<br/>' . stack_string('stackDoc_version', $vstr);
 }
 
 $webpix  = $CFG->wwwroot . '/question/type/stack/pix/logo-sm.png';

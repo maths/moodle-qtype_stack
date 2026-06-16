@@ -30,6 +30,15 @@
 
 s_test_case(aug(matrix([1,2,3,1],[4,5,6,1],[7,8,9,1])),aug_matrix([1,2,3,1],[4,5,6,1],[7,8,9,1]));
 s_test_case(de_aug(aug_matrix([1,2,3,1],[4,5,6,1],[7,8,9,1])),matrix([1,2,3,1],[4,5,6,1],[7,8,9,1]));
+s_test_case(de_aug(aug(ident(4),matrix([1],[2],[3],[4]),ident(4))),matrix([1,0,0,0,1,1,0,0,0],[0,1,0,0,2,0,1,0,0],[0,0,1,0,3,0,0,1,0],[0,0,0,1,4,0,0,0,1]));
+
+lmxchar: "[";
+s_test_case(tex1(aug(matrix([1,2,3],[4,5,6],[7,8,9]),matrix([1],[1],[1]))),"\\left[\\begin{array}{ccc} 1 & 2 & 3 \\\\ 4 & 5 & 6 \\\\ 7 & 8 & 9 \\end{array}\\left|\\begin{array}{c} 1 \\\\ 1 \\\\ 1 \\end{array}\\right.\\right]");
+s_test_case(tex1(aug(matrix([1,2,3,1],[4,5,6,1],[7,8,9,1]))),"\\left[\\begin{array}{ccc} 1 & 2 & 3 \\\\ 4 & 5 & 6 \\\\ 7 & 8 & 9 \\end{array}\\left|\\begin{array}{c} 1 \\\\ 1 \\\\ 1 \\end{array}\\right.\\right]");
+s_test_case(tex1(aug(matrix([1,2,3],[4,5,6],[7,8,9]),matrix([1],[1],[1]),matrix([3,2,1,0],[6,5,4,3],[9,8,7,6]))),"\\left[\\begin{array}{ccc} 1 & 2 & 3 \\\\ 4 & 5 & 6 \\\\ 7 & 8 & 9 \\end{array}\\left|\\begin{array}{c} 1 \\\\ 1 \\\\ 1 \\end{array}\\right.\\left|\\begin{array}{cccc} 3 & 2 & 1 & 0 \\\\ 6 & 5 & 4 & 3 \\\\ 9 & 8 & 7 & 6 \\end{array}\\right.\\right]");
+lmxchar: "{";
+s_test_case(tex1(aug(matrix([1,2,3],[4,5,6],[7,8,9]),matrix([1],[1],[1]))),"\\left\\{\\begin{array}{ccc} 1 & 2 & 3 \\\\ 4 & 5 & 6 \\\\ 7 & 8 & 9 \\end{array}\\left|\\begin{array}{c} 1 \\\\ 1 \\\\ 1 \\end{array}\\right.\\right\\}");
+lmxchar: "[";
 
 s_test_case(triu(matrix([1,2,3],[4,5,6],[7,8,9])),matrix([1,2,3],[0,5,6],[0,0,9]));
 s_test_case(triu(matrix([1,2,3],[4,5,6],[7,8,9],[10,11,12])),matrix([1,2,3],[0,5,6],[0,0,9],[0,0,0]));

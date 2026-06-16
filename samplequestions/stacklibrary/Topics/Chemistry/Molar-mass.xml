@@ -36,7 +36,7 @@ M=
       <text>2025080100</text>
     </stackversion>
     <questionvariables>
-      <text><![CDATA[stack_include_contrib("chemistry.mac");
+      <text><![CDATA[stack_chemistry_declare(true);
 stack_unit_si_declare(true);
 
 /* Each element must be a list of atoms and numbers. */

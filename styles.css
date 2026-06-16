@@ -216,6 +216,13 @@ div.stack-comment {
 }
 
 /* Support for proof. */
+.statement {
+    padding: 12px 16px;
+    margin: 8px 0;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #fff;
+}
 .proof,
 .proof-block {
     text-align: left;

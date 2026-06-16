@@ -48,11 +48,14 @@ require_sesskey();
 
 // Initialise $PAGE.
 $nexturl = new moodle_url('/question/type/stack/questiontestrun.php', $urlparams, 'variants-pane');
+$nexturl->param('hidetests', 1);
 $PAGE->set_url($nexturl); // Since this script always ends in a redirect.
 $PAGE->set_heading($COURSE->fullname);
 $PAGE->set_pagelayout('popup');
 
 require_login();
+// Deploying lots of variants is time consuming, and we need a progress bar in some cases.
+$numforprogressbar = 10;
 
 /**
  * Run tests on a given seed and stop deployment if a test fails.
@@ -200,13 +203,33 @@ if (
 
     // Deploy all new variants.
     $numberdeployed = 0;
+    $newseeds = array_diff($newseeds, $question->deployedseeds);
+    $deployhalt = optional_param('deployhalt', null, PARAM_TEXT);
+    $newcount = count($newseeds);
+
+    // Output something if we need a progress bar.
+    // (We have 10+ variants and we are running the tests.)
+    if ($newcount >= $numforprogressbar && isset($deployhalt)) {
+        echo $OUTPUT->header();
+        flush();
+        $a = ['total' => $newcount, 'done' => 0];
+        $progressevery = (int) min(max(1, $newcount / 500), 100);
+        $pbar = new progress_bar('deployedprogress', 500, true);
+    }
+
     foreach ($newseeds as $seed) {
-        if (!in_array($seed, $question->deployedseeds)) {
-            testseed($question, $seed, $context, $nexturl, $numberdeployed);
-            $question->deploy_variant($seed);
-            $numberdeployed++;
+        testseed($question, $seed, $context, $nexturl, $numberdeployed);
+        $question->deploy_variant($seed);
+        $numberdeployed++;
+        if ($newcount >= $numforprogressbar && isset($deployhalt)) {
+            $a['done'] += 1;
+            if ($a['done'] % $progressevery == 0 || $a['done'] == $a['total']) {
+                core_php_time_limit::raise(60);
+                $pbar->update($a['done'], $a['total'], get_string('deployedprogress', 'qtype_stack', $a));
+            }
         }
     }
+    $nexturl->param('deployfeedback', stack_string('deploymanysuccess', ['no' => $numberdeployed]));
     redirect($nexturl);
 }
 
@@ -216,8 +239,7 @@ $starttime = time();
 // The number of seconds we devote to deploying before moving on.  Prevents system hangging.
 // Note, in "safe mode" the set time limit function has no effect.
 $maxtime = 180;
-// Deploying lots of variants is time consuming, and we need a progress bar in some cases.
-$numforprogressbar = 10;
+
 core_php_time_limit::raise($maxtime); // Prevent PHP timeouts.
 gc_collect_cycles(); // Because PHP's default memory management is rubbish.
 

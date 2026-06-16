@@ -58,7 +58,7 @@ $string['stackversionnow']        = 'The current version of STACK is {$a}.';
 $string['stackversionnone']       = 'This question has not been edited since question variant numbering was introduced in STACK 4.2.  Please review your question carefully.';
 $string['stackversionerror']      = 'This question uses {$a->pat} in the {$a->qfield}, which changed in STACK version {$a->ver} and is no longer supported.';
 $string['stackversionerroralt']   = 'An alternative is {$a}.';
-$string['stackversionmulerror']   = 'This question has an input which uses the "mul" option, which is not suppored after STACK version 4.2.  Please edit this question.';
+$string['stackversionmulerror']   = 'This question has an input which uses the "mul" option, which is not supported after STACK version 4.2.  Please edit this question.';
 $string['stackversionregexp']     = 'The RegExp answer test is not supported after STACK version 4.3.  Please use the new SRegExp instead.';
 $string['stackfilesizeerror']      = 'One or more files (e.g. images) is more than 1MB in size.';
 $string['stackfileuseerror']      = 'One or more files (e.g. images) are associated internally with the {$a}, but none appear to be used in the current text itself.';
@@ -83,16 +83,16 @@ $string['assumepositive'] = 'Assume positive';
 $string['assumepositive_help'] = 'This option sets the value of Maxima\'s assume_pos variable.';
 $string['assumepositive_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Question_options.md#Assume_Positive';
 $string['assumereal'] = 'Assume real';
-$string['assumereal_help'] = 'This option sets the assume_real variable.';
+$string['assumereal_help'] = 'This option sets the <code>assume_real</code> variable.';
 $string['assumereal_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Question_options.md#Assume_Real';
 $string['autosimplify'] = 'Auto-simplify';
-$string['autosimplify_help'] = 'Sets the variable "simp" within Maxima for this question.  E.g. question variables, question text etc.  The value set in each potential response tree will over ride this for any expressions subsequently defined within the tree.';
+$string['autosimplify_help'] = 'Sets the variable <code>simp</code> within Maxima for this question.  E.g. question variables, question text etc.  The value set in each potential response tree will over ride this for any expressions subsequently defined within the tree.';
 $string['autosimplify_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/CAS/Simplification.md';
 $string['autosimplifyprt'] = 'Auto-simplify';
-$string['autosimplifyprt_help'] = 'Sets the variable "simp" within Maxima for the feedback variables defined in this potential response tree. Note that whether expressions in PRT notes are simplified before use depends on the answer test. For example, arguments to AlgEquiv are simplified, while those for EqualComAss are not.';
+$string['autosimplifyprt_help'] = 'Sets the variable <code>simp</code> within Maxima for the feedback variables defined in this potential response tree. Note that whether expressions in PRT notes are simplified before use depends on the answer test. For example, arguments to AlgEquiv are simplified, while those for EqualComAss are not.';
 $string['autosimplifyprt_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/CAS/Simplification.md';
 $string['boxsize'] = 'Input box size';
-$string['boxsize_help'] = 'Width of the html formfield.';
+$string['boxsize_help'] = 'Width of the html form field for this input.';
 $string['boxsize_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Box_Size';
 $string['bulktestindexintro_desc'] = 'The <a href="{$a->link}">bulk test script</a> lets you easily run all the STACK question tests in a given context. Not only does this test the questions. It is also a good way to re-populate the CAS cache after it has been cleared.';
 $string['todo_desc'] = 'The <a href="{$a->link}">"to do"</a> page finds questions with <tt>[[todo]]</tt> blocks and questions marked as broken.';
@@ -259,7 +259,7 @@ $string['namealreadyused'] = 'You have already used this name.';
 $string['newnameforx'] = 'New name for \'{$a}\'';
 $string['next'] = 'Next';
 $string['nodehelp'] = 'Response tree node';
-$string['nodehelp_help'] = '<h3>Descriptoion</h3>
+$string['nodehelp_help'] = '<h3>Description</h3>
 This helps give meaning to the purpose of this node.  This field is a string (not CASText).
 
 <h3>Answer test</h3>
@@ -496,7 +496,7 @@ $string['settingcasresultscache_db'] = 'Cache in the database';
 $string['settingcasresultscache_desc'] = 'This setting determines whether calls the to CAS are cached. This setting should be turned on unless you are doing development that involves changing the Maxima code. The current state of the cache is shown on the healthcheck page.  If you change your settings, e.g. the gnuplot command, you will need to clear the cache before you can see the effects of these changes.';
 $string['settingcasresultscache_none'] = 'Do not cache';
 $string['settingcastimeout'] = 'CAS connection timeout';
-$string['settingcastimeout_desc'] = 'The timout to use when trying to connect to Maxima.';
+$string['settingcastimeout_desc'] = 'The timeout to use when trying to connect to Maxima.';
 $string['settingcaspreparse'] = 'Pre-parse all code before sending to Maxima.';
 $string['settingcaspreparse_desc'] = 'We recommend all code in question variables, etc., even from trusted teachers, is pre-parsed for potentially malicious patterns.  This is especially important when accepting imported questions from known sources.  However, it is possible for this pre-parse to time-out and it would be necessary to disable this check (temporarily) to back out of a potential dead end.  This code is still under testing and development and this setting will be removed in future releases ensuring this pre-parse is always applied.';
 $string['settingcaspreparse_true'] = 'Always preparse';
@@ -532,7 +532,7 @@ $string['settingplatformplotcommand_desc'] = 'Normally this can be left blank, b
 $string['settingreplacedollars'] = 'Replace <code>$</code> and <code>$$</code>';
 $string['settingreplacedollars_desc'] = 'Replace <code>$...$</code> and <code>$$...$$</code> delimiters in question text, in addition to <code>\\\\[...\\\\]</code> and <code>\\\\(...\\\\)</code>. A better option is to use the \'Fix maths delimiters\' script which is referred to below.';
 $string['settingserveruserpass'] = 'Server username:password';
-$string['settingserveruserpass_desc'] = 'If you are using Platform type: Server, and if you have set up your Maxima pool server with HTTP authentication, then you can put the username and password here. That is slighly safer than putting them in the URL. The format is username:password.';
+$string['settingserveruserpass_desc'] = 'If you are using Platform type: Server, and if you have set up your Maxima pool server with HTTP authentication, then you can put the username and password here. That is slightly safer than putting them in the URL. The format is username:password.';
 $string['settingusefullinks'] = 'Useful links';
 $string['settingmaximalibraries'] = 'Load optional Maxima libraries:';
 $string['settingmaximalibraries_desc'] = 'This is a comma separated list of Maxima library names which will be automatically loaded into Maxima.  Only supported library names can be used: "stats, distrib, descriptive, simplex". When you change the listed libraties you must rebuild the Maxima optimised image.';
@@ -606,6 +606,7 @@ $string['deployfromlist'] = 'List positive integer seeds, one on each line.';
 $string['deployfromlistexisting'] = 'Current seeds:';
 $string['deployfromlistbtn'] = 'Deploy a list of seeds';
 $string['deployfromlisterror'] = 'An error was detected in your list of integers, and so no changes were made to the list of deployed variants.';
+$string['dismiss'] = 'Dismiss';
 $string['editingtestcase'] = 'Editing test case {$a->no} for question {$a->question}';
 $string['editthistestcase'] = 'Edit test case {$a}';
 $string['confirmthistestcase'] = 'Confirm current test behaviour';
@@ -622,6 +623,7 @@ $string['inputstatusname'] = 'Blank';
 $string['inputstatusnameinvalid'] = 'Invalid';
 $string['inputstatusnamevalid'] = 'Valid';
 $string['inputstatusnamescore'] = 'Score';
+$string['invertvariantselection'] = 'Invert variant selection';
 $string['notestcasesyet'] = 'No test cases have been added yet.';
 $string['penalty'] = 'Penalty';
 $string['prtname'] = 'PRT name';
@@ -983,7 +985,7 @@ $string['stackCas_badLogIn']                = 'You have typed in the expression 
 $string['stackCas_unitssynonym']            = 'You appear to have units {$a->forbid}.  Did you mean {$a->unit}?';
 $string['stackCas_unknownUnitsCase']        = 'Input of units is case sensitive:  {$a->forbid} is an unknown unit. Did you mean one from the following list {$a->unit}?';
 $string['stackCas_applyingnonobviousfunction'] = 'This function call {$a->problem} does not appear to have an easily visible function name. Due to security reasons you may need to simplify the call so that the validator can see the function name.';
-$string['stackCas_callingasfunction']       = 'Calling the result of a function call is forbidden {$a->problem}, lambdas are still allowed.';
+$string['stackCas_callingasfunction']       = 'Calling the result of a function call is forbidden {$a->problem}, lambda functions are still allowed.';
 $string['stackCas_applyfunmakestring']      = 'The name of the function cannot be a string in <code>{$a->type}</code>.';
 $string['stackCas_badpostfixop']            = 'You have a bad "postfix" operator in your expression.';
 $string['stackCas_overrecursivesignatures'] = 'The question code includes too many functions defined through mapping';
@@ -1043,7 +1045,7 @@ $string['unknown_block']                     = 'Unknown block of type {$a->type}
 
 $string['Maxima_DivisionZero']  = 'Division by zero.';
 $string['Maxima_Args']  = 'args: argument must be a non-atomic expression. ';
-$string['Variable_function']   = 'The following appear in your expression as both a variable and a function: {$a->m0}.  Please clarify your input.  Either insert <code>*</code> symbols to remove functions, or make all occurances functions.';
+$string['Variable_function']   = 'The following appear in your expression as both a variable and a function: {$a->m0}.  Please clarify your input.  Either insert <code>*</code> symbols to remove functions, or make all occurrences functions.';
 $string['Lowest_Terms']   = 'Your answer contains fractions that are not written in lowest terms.  Please cancel factors and try again.';
 $string['Illegal_floats'] = 'Your answer contains floating point numbers, that are not allowed here.  You need to type in numbers as fractions.  For example, you should type 1/3 not 0.3333, which is after all only an approximation to one third.';
 $string['Illegal_strings'] = 'Your answer contains "strings" these are not allowed here.';
@@ -1390,7 +1392,7 @@ $string['stackDoc_licence_alt']         = 'Creative Commons License';
 $string['stackDoc_community']           = 'Community site';
 $string['stackDoc_AnswerTestResults']   = 'Answer test results
 
-This page exposes the results of running answer tests on STACK test cases.  This page is automatically generated from the STACK unit tests and is designed to show question authors what answer tests actually do.  This includes cases where answer tests currentl fail, which gives a negative expected mark.  Comments and further test cases are very welcome.';
+This page exposes the results of running answer tests on STACK test cases.  This page is automatically generated from the STACK unit tests and is designed to show question authors what answer tests actually do.  This includes cases where answer tests currently fail, which gives a negative expected mark.  Comments and further test cases are very welcome.';
 
 // Fact sheets.
 
@@ -1970,10 +1972,7 @@ $string['api_submit'] = 'Submit Answers';
 $string['api_valid_all_parts'] = 'Please enter valid answers for all parts of the question.';
 $string['api_which_typed'] = 'which can be typed as follows';
 
-
-
-
-$string['parsertester'] = 'Parsertester';
+$string['parsertester'] = 'Parser-tester';
 $string['parsertester_settings'] = 'Parser settings';
 $string['parsertester_settings_rule'] = 'Parser variant';
 $string['parsertester_settings_separators'] = 'Decimal and other separators';

@@ -11,7 +11,7 @@
 <p>[[input:ans2]] [[validation:ans2]][[feedback:prt2]]</p>]]></text>
     </questiontext>
     <generalfeedback format="html">
-      <text><![CDATA[<p>We first need to take out the&nbsp;\(x^2\) coefficient as a factor from the&nbsp;\(x^2\) and \(x\) terms:</p><p>\[{@quad@}={@(a*(ev(x^2+b/a*x,simp))+c),simp=false@} \]</p><p>Now working inside the bracket, we complete the square {@(simp:true,x^2+(b/a)*x)@} using the bracket {@(x+b/(2*a))^2@} and compensating by subtracting \(\left({@b/(2*a)@}\right)^2\):</p><p>\[ \begin{align*} {@quad@} &amp;={@(a*(ev(x^2+b/a*x,simp))+c),simp=false@} \\ &amp;={@(a*(ev((x+b/(2*a))^2,simp)-(ev(b/(2*a),simp))^2)+c),simp=false@} \\ &amp;= {@a*ev((x+b/(2*a))^2,simp) -(make_multsgn("cross"),a*(ev(b/(2*a),simp))^2)+c,simp=false@} \\ &amp;= {@(make_multsgn("blank"),ta1)@} \end{align*} \]</p>]]></text>
+      <text><![CDATA[<p>We first need to take out the&nbsp;\(x^2\) coefficient as a factor from the&nbsp;\(x^2\) and \(x\) terms:</p><p>\[{@quad@}={@(a*(ev(x^2+b/a*x,simp))+c),simp=false@} \]</p><p>Now working inside the bracket, we complete the square {@(simp:true,x^2+(b/a)*x)@} using the bracket {@(x+b/(2*a))^2@} and compensating by subtracting \(\left({@b/(2*a)@}\right)^2\):</p><p>\[ \begin{align*} {@quad@} &amp;={@(a*(ev(x^2+b/a*x,simp))+c),simp=false@} \\ &amp;={@(a*(ev((x+b/(2*a))^2,simp)-(ev(b/(2*a),simp))^2)+c),simp=false@} \\ &amp;= {@a*ev((x+b/(2*a))^2,simp) -(make_multsgn("cross"),a*(ev(b/(2*a),simp))^2)+c,simp=false@} \\ &amp;= {@(make_multsgn("none"),ta1)@} \end{align*} \]</p>]]></text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>

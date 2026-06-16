@@ -73,4 +73,5 @@ RUN a2enmod ssl && \
     apt-get install -y cron
 
 COPY /api/docker/files/startcron /usr/sbin
+RUN chmod -R 755 /usr/sbin/startcron
 ENTRYPOINT ["startcron"]

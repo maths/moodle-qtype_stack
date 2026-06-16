@@ -136,8 +136,8 @@ if ($form->is_cancelled()) {
             if ($oldprtname != $newprtname || $oldnode != $newnode) {
                 $on = $oldprtname . '-' . (intval($oldnode) + 1);
                 $nn = $newprtname . '-' . (intval($newnode) + 1);
-                $newnotes[$on . '-T'] =  $nn . '-T';
-                $newnotes[$on . '-F'] =  $nn . '-F';
+                $newnotes[$on . '-T'] = $nn . '-T';
+                $newnotes[$on . '-F'] = $nn . '-F';
             }
         }
         $notesubs[$oldprtname] = $newnotes;

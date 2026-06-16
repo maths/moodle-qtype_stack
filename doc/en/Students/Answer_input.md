@@ -22,14 +22,15 @@ It might also forgive some errors you make.
 You should type in numbers without spaces, and use fractions rather than decimals where possible.
 For example, \(1/4\) should be entered as `1/4`, not as `0.25`. Also,
 
-* \(\pi\) is entered as either `pi` or `%pi`,
-* \(e\), the base of the natural logarithms, is entered as either `e` or `%e`,
+* You can also use scientific notation for large numbers, e.g. \(1000\) can be entered as either `1E+3`, or as `1e3`.
+  * Note, that in many situations floating point numbers are forbidden.
+* \(\pi\) is entered as either `pi` or `%pi`.
+
 * \(i\) is entered as either `i` or `%i`.
   * \(i\) is also sometimes entered as `j` if you are an engineer. If in doubt ask your teacher.
   * You could also use `sqrt(-1)`, or `(-1)^(1/2)`, being careful with the brackets.
   * STACK modifies Maxima's normal input rules so that you don't get caught out with a variable `i` when you meant `%i`.
-* You can also use scientific notation for large numbers, e.g. \(1000\) can be entered as `1E+3`.
-  Note, however, that in many situations floating point numbers are forbidden.
+* \(e\), the base of the natural logarithms, is entered as either `e` or `%e`.   Note that scientific notation can be written using `e` or `E`, e.g. `6.02e23`.  Preference is given to scienfic notation, rather than interpreting `e` as the base of the natural logaithms.  Use explicit multiplication signs to remove this ambiguity, e.g. if you want the base of the natural logarithm, then type `6.02*e*23` instead.
 
 ### Multiplication  ###
 

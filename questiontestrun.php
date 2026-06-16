@@ -172,6 +172,7 @@ $initialdata->general->courseid = $courseid;
 $initialdata->general->cmid = $cmid;
 $initialdata->general->questionid = $questionid;
 $initialdata->general->seed = $seed;
+$initialdata->general->hidetests = optional_param('hidetests', '', PARAM_INT);
 
 // Output the progress bars first.
 $dashboard->create_progress_bars();
@@ -265,7 +266,7 @@ $variantdata->deployedseeds = $question->deployedseeds;
 $variantdata->hastests = optional_param('testall', null, PARAM_INT);
 $testalllink = new moodle_url(
     '/question/type/stack/questiontestrun.php',
-    $urlparams + ['testall' => '1', 'sesskey' => $sesskey, 'nocache' => time(), 'historic' => $historic],
+    $urlparams + ['testall' => '1', 'sesskey' => $sesskey, 'nocache' => time(), 'historic' => $historic, 'hidetests' => 1],
     'variants-pane'
 );
 $variantdata->testalllink = $testalllink->out();

@@ -52,19 +52,34 @@ $PAGE->set_title($title);
 // Figure out the number of questions that can be explored.
 // In Moodle 4+ hidden questions occur when they are included in a quiz, but then are deleted from the question bank.
 // In this case the database sets the field `status` to `'hidden'` within the question versions database.
-$query = 'SELECT count(*) as notcompiled FROM {question} q, ' .
-    '{qtype_stack_options} o, {question_versions} v WHERE q.id = o.questionid AND q.id = v.id ' . '
-    AND NOT v.status = "hidden" AND o.compiledcache = ?;';
+$query = 'SELECT COUNT(*) as notcompiled
+          FROM {question} q
+          JOIN {qtype_stack_options} o ON q.id = o.questionid
+          JOIN {question_versions} v ON q.id = v.questionid
+         WHERE v.status <> :hidden
+               AND o.compiledcache = :emptycache';
 
-$notcompiled = $DB->get_record_sql($query, ['{}']);
-$nnotcompiled = $notcompiled->notcompiled;
+$params = [
+    'hidden' => 'hidden',
+    'emptycache' => '{}',
+];
 
-$query = 'SELECT count(*) as compiled FROM {question} q, ' .
-    '{qtype_stack_options} o, {question_versions} v WHERE q.id = o.questionid AND q.id = v.id ' . '
-    AND NOT v.status = "hidden" AND o.compiledcache != ?;';
+$notcompiled = $DB->get_record_sql($query, $params);
+if ($notcompiled) {
+    $nnotcompiled = $notcompiled->notcompiled;
+}
 
-$compiled = $DB->get_record_sql($query, ['{}']);
-$ncompiled = $compiled->compiled;
+$sql = 'SELECT COUNT(*) as compiled
+          FROM {question} q
+          JOIN {qtype_stack_options} o ON q.id = o.questionid
+          JOIN {question_versions} v ON q.id = v.questionid
+         WHERE v.status <> :hidden
+               AND o.compiledcache <> :emptycache';
+
+$compiled = $DB->get_record_sql($query, $params);
+if ($compiled) {
+    $ncompiled = $compiled->compiled;
+}
 
 echo $OUTPUT->header();
 echo $OUTPUT->heading($title);

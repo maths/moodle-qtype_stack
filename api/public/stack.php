@@ -178,26 +178,26 @@ require_login();
         </div>
         <div id="stackapi_generalfeedback" class="col-lg-8" style="display: none">
           <h2>General feedback:</h2>
-          <div id="generalfeedback" class="feedback"></div>
+          <div id="generalfeedback" class="feedback outcome"></div>
         </div>
         <div id="stackapi_questionnote" class="col-lg-8" style="display: none">
           <h2>Question note:</h2>
-          <div id="questionnote" class="feedback"></div>
+          <div id="questionnote" class="feedback outcome"></div>
         </div>
         <h2 id="stackapi_score" style="display: none">Score: <span id="score"></span></h2>
         <div id="stackapi_summary" class="col-lg-10" style="display: none">
           <h2><?php echo stack_string('api_response')?>:</h2>
-          <div id="response_summary" class="feedback"></div>
+          <div id="response_summary" class="feedback outcome"></div>
         </div>
         <div id="stackapi_correct" class="col-lg-10" style="display: none">
           <div class="noninfo">
             <h2>Response summary:</h2>
-            <div id="formatcorrectresponse" class="feedback"></div>
+            <div id="formatcorrectresponse" class="feedback outcome"></div>
           </div>
         </div>
         <div id="stackapi_difference" class="col-lg-10" style="display: none">
             <h2>YAML representation based on API defaults:</h2>
-            <div id="difference" class="feedback" style="white-space: pre;"></div>
+            <div id="difference" class="feedback outcome" style="white-space: pre;"></div>
           </div>
         </div>
       </div>

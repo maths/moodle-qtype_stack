@@ -199,8 +199,11 @@ class stack_question_test_result {
                 is_null($state->expectedscore) != is_null($state->score) ||
                     abs($state->expectedscore - $state->score) > 10E-6
             ) {
-                $state->testoutcome = false;
-                $reason[] = stack_string('score');
+                // When the expected score is -1 the test does not fail.
+                if ($state->expectedscore != -1) {
+                    $state->testoutcome = false;
+                    $reason[] = stack_string('score');
+                }
             }
             // If the expected penalty is null then we use the question default penalty.
             $penalty = $state->expectedpenalty;
@@ -216,8 +219,11 @@ class stack_question_test_result {
                     is_null($state->penalty) ||
                         abs($penalty - $state->penalty) > 10E-6
                 ) {
-                    $state->testoutcome = false;
-                    $reason[] = stack_string('penalty');
+                    // When the expected penalty is -1 the test does not fail.
+                    if ($penalty != -1) {
+                        $state->testoutcome = false;
+                        $reason[] = stack_string('penalty');
+                    }
                 }
             }
             [$noteresult, $messages] = $this->test_answer_note(

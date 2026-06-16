@@ -85,7 +85,11 @@
         <p class="overallresult pass">{{deployfeedback}}</p>
       {{/deployfeedback}}
       {{#deployfeedbackerr}}
-        <p class="overallresult fail var-pane-fail">{{deployfeedbackerr}}</p>
+        <p class="overallresult fail var-pane-fail">
+          {{deployfeedbackerr}}
+          <button type="button" class="btn ml-3" style="border: 1px solid grey; border-radius: 0; color: grey; padding: 0px 2px 0px 2px" onclick="window.location.reload();"
+            title="{{#str}} dismiss, qtype_stack {{/str}}">X</button>
+        </p>
       {{/deployfeedbackerr}}
       <h3>
         {{#notes.0}}
@@ -98,6 +102,10 @@
       {{^hasrandomvariants}}
         <!-- No randomisation -->
         <p>{{#str}} questiondoesnotuserandomisation, qtype_stack {{/str}} <a href="{{{previewurl}}}">{{#pix}}t/preview, core, {{#str}} preview, core {{/str}}{{/pix}}</a></p>
+        <span id="variant-count" hidden>(-)</span>
+      {{/hasrandomvariants}}
+      {{#hasrandomvariants}}
+        <span id="variant-count" hidden>({{deployedcount}})</span>
       {{/hasrandomvariants}}
       {{^notes.0}}
         {{#hasrandomvariants}}
@@ -124,7 +132,7 @@
           <tr>
             <th class="stack-sortable-header" data-sort-index="0" data-sort-type="number" tabindex="0" aria-sort="none">
               <button type="button" class="btn btn-link p-0 stack-toggle-variants-btn"
-                  aria-label="Invert variant selection" title="Invert variant selection" aria-pressed="false">
+                  aria-label="{{#str}} invertvariantselection, qtype_stack {{/str}}" title="{{#str}} invertvariantselection, qtype_stack {{/str}}" aria-pressed="false">
               {{#pix}}i/switch, core{{/pix}}
               </button>{{#str}} seednumber, qtype_stack {{/str}}
               <span class="stack-sort-arrow" aria-hidden="true">{{#pix}}t/sort, core{{/pix}}</span>

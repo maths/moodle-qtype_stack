@@ -298,12 +298,12 @@ class MPString extends MPAtom {
 	}
 
 	toString(opt) {
-		return '"' + this.value.replace("\\", "\\\\").replace('"', "\\\"") + '"';
+		return '"' + this.value.replaceAll("\\", "\\\\").replaceAll('"', "\\\"") + '"';
 	}
 
 	translate(opt) {
 		// We will use 'strings' to match JessieCode and JS at the same time.
-		return "'" + this.value.replace("\\", "\\\\").replace("'", "\\'").replace("\n", "\\n").replace("\t", "\\t") + "'";
+		return "'" + this.value.replaceAll("\\", "\\\\").replaceAll("'", "\\'").replaceAll("\n", "\\n").replaceAll("\t", "\\t") + "'";
 	}
 }
 

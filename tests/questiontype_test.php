@@ -143,7 +143,6 @@ final class questiontype_test extends qtype_stack_walkthrough_test_base {
     }
 
     public function test_initialise_question_instance(): void {
-
         $qdata = test_question_maker::get_question_data('stack', 'test3');
         $q = $this->qtype->make_question($qdata);
         $expectedq = test_question_maker::make_question('stack', 'test3');
@@ -193,17 +192,29 @@ final class questiontype_test extends qtype_stack_walkthrough_test_base {
         ));
         $testcases[] = $qtest;
 
-        // This unit test runs a question test, with an input name as
-        // the expected answer, which should work.
+        // This unit test runs a question test, with an input name as the expected answer.
         $qtest = new stack_question_test('', ['ans2' => 'ans2']);
         $qtest->add_expected_result('even', new stack_potentialresponse_tree_state(
             1,
-            true,
+            false,
             1,
             0,
             '',
             ['even-1-T']
         ));
+        $testcases[] = $qtest;
+
+        // This unit test runs a question test, accepting any score and penalty.
+        $qtest = new stack_question_test('', ['ans2' => 'x^2']);
+        $qtest->add_expected_result('even', new stack_potentialresponse_tree_state(
+            1,
+            true,
+            -1,
+            -1,
+            '',
+            ['even-1-T']
+            ));
+        $testcases[] = $qtest;
 
         foreach ($testcases as $testcase) {
             $result = $testcase->test_question($questionid, $seed, context_system::instance());

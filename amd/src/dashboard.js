@@ -27,6 +27,36 @@ define([], function () {
      *
      */
     function init() {
+        const warningTab = document.getElementById('warning-tab');
+        if (document.querySelectorAll('.var-pane-fail').length) {
+            const varTabWarning = document.getElementById('variants-pane-warning');
+            varTabWarning.style.display = 'inline';
+            warningTab.style.display = 'inline';
+        }
+        if (document.querySelectorAll('.test-pane-fail').length) {
+            const testTab = document.getElementById('test-pane-warning');
+            testTab.style.display = 'inline';
+            warningTab.style.display = 'inline';
+        }
+        const variantCount = document.getElementById('variant-count').textContent;
+        const variantTabLabel = document.getElementById('variants-tab-label');
+        variantTabLabel.textContent = variantTabLabel.textContent + ' ' + variantCount;
+        document.getElementById('dashboard-tab-content').style.display = 'block';
+
+        // Prevent page refresh loading old version.
+        const url = new URL(location);
+        url.searchParams.delete('deployfeedback');
+        url.searchParams.delete('deployfeedbackerr');
+        if (url.searchParams.get('historic')) {
+            url.searchParams.delete('historic');
+        } else {
+            // Page reload will not reset dropdown. We have to do it manually.
+            var options = document.querySelectorAll('.version-dropdown-option');
+            for (var i = 0, l = options.length; i < l; i++) {
+                options[i].selected = options[i].defaultSelected;
+            }
+        }
+        history.replaceState(null, null, url);
         // Add simple client-side sorting for the first two columns.
         const variantsTable = document.getElementById('deployed-variants-table');
         if (!variantsTable) {
@@ -138,18 +168,6 @@ define([], function () {
                     checkbox.checked = !checkbox.checked;
                 });
             });
-        }
-
-        const warningTab = document.getElementById('warning-tab');
-        if (document.querySelectorAll('.var-pane-fail').length) {
-            const varTab = document.getElementById('variants-pane-warning');
-            varTab.style.display = 'inline';
-            warningTab.style.display = 'inline';
-        }
-        if (document.querySelectorAll('.test-pane-fail').length) {
-            const testTab = document.getElementById('test-pane-warning');
-            testTab.style.display = 'inline';
-            warningTab.style.display = 'inline';
         }
     }
 

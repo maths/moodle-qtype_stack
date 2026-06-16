@@ -74,7 +74,8 @@
           "courseid": 7,
           "cmid": 7,
           "questionid": "6605",
-          "seed": 182397542
+          "seed": 182397542,
+          "hidetests": ""
       },
       "istest": true
     }
@@ -86,7 +87,10 @@
   <p>{{#str}} version, qtype_stack {{/str}}
     <select onChange="window.location.href=this.value;">
       {{#question.versions}}
-        <option value="{{{url}}}" {{#active}} selected="selected" {{/active}}>
+        <option class="version-dropdown-option"
+          value="{{{url}}}"
+          {{#active}} selected=true defaultSelected=true {{/active}}
+          {{^active}} defaultSelected=false {{/active}}>
           {{version}}
         </option>
       {{/question.versions}}
@@ -142,13 +146,16 @@
       <a class="nav-link stack-dash-tab-load disabled" href="#question-pane" id="question-tab" data-bs-toggle="tab" data-toggle="tab" role="tab" aria-controls="question-pane" aria-selected="false">{{#str}} question, core {{/str}}</a>
     </li>
     <li class="nav-item stack-dash-tab-load" role="presentation">
-      <a class="nav-link stack-dash-tab-load disabled" href="#variants-pane" id="variants-tab" data-bs-toggle="tab" data-toggle="tab" role="tab" aria-controls="variants-pane" aria-selected="false"><span id="variants-pane-warning" style="display:none;">{{#pix}}req, core{{/pix}}</span>{{#str}} variants, qtype_stack {{/str}}</a>
+      <a class="nav-link stack-dash-tab-load disabled" href="#variants-pane" id="variants-tab" data-bs-toggle="tab" data-toggle="tab" role="tab" aria-controls="variants-pane" aria-selected="false">
+        <span id="variants-pane-warning" style="display:none;">{{#pix}}req, core{{/pix}}</span>
+        <span id="variants-tab-label">{{#str}} variants, qtype_stack {{/str}}</span>
+      </a>
     </li>
     <li id="warning-tab" class="nav-link stack-dash-tab-load disabled" style="border: none; border-radius: 0; display:none;">{{#pix}}req, core{{/pix}}{{#str}}dashboardissues, qtype_stack{{/str}}</li>
   </ul>
 
   <!-- Tab panes -->
-  <div class="tab-content">
+  <div id="dashboard-tab-content" class="tab-content" {{#general.hidetests}}style="display: none"{{/general.hidetests}}>
     <!-- Question details panes -->
     <div class="tab-pane mt-3" id="question-pane" role="tabpanel" aria-labelledby="question-tab">
       <h3>{{question.name}}</h3>

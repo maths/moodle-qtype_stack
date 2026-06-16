@@ -185,6 +185,9 @@ class stack_varmatrix_input extends stack_input {
         $contents = [];
         if (array_key_exists($this->name, $response)) {
             $sans = $response[$this->name];
+            if (trim($sans) === '' && $this->get_extra_option('allowempty')) {
+                return(['EMPTYANSWER']);
+            }
             $rowsin = explode("\n", $sans);
             foreach ($rowsin as $key => $row) {
                 $cleanrow = trim($row);
@@ -200,7 +203,6 @@ class stack_varmatrix_input extends stack_input {
             $maxlen = max(count($entries), $maxlen);
             $contents[$key] = $entries;
         }
-
         foreach ($contents as $key => $row) {
             // Pad out short rows.
             $padrow = [];
@@ -208,9 +210,6 @@ class stack_varmatrix_input extends stack_input {
                 $padrow[] = '?';
             }
             $contents[$key] = array_merge($row, $padrow);
-        }
-        if ($contents == [] && $this->get_extra_option('allowempty')) {
-            $contents = ['EMPTYANSWER'];
         }
         return $contents;
     }
@@ -241,7 +240,7 @@ class stack_varmatrix_input extends stack_input {
      */
     public function contents_to_maxima($contents) {
         if ($contents == ['EMPTYANSWER']) {
-            return 'matrix(EMPTYCHAR)';
+            return 'EMPTYANSWER';
         }
         $matrix = [];
         foreach ($contents as $row) {

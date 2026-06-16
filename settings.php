@@ -257,6 +257,13 @@ $settings->add(new admin_setting_configtext(
     60
 ));
 
+$settings->add(new admin_setting_configcheckbox(
+    'qtype_stack/nrwupload',
+    get_string('settingnrwupload', 'qtype_stack'),
+    get_string('settingnrwupload_desc', 'qtype_stack'),
+    0
+));
+
 // Options for maths display.
 $settings->add(new admin_setting_heading(
     'mathsdisplayheading',

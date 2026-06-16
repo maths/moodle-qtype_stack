@@ -52,6 +52,7 @@ $string['checkstack_version_check']      = 'STACK-Maxima library version';
 // Capability names.
 $string['stack:usediagnostictools'] = 'Use the STACK tools';
 $string['stack:useexternallibraries'] = 'Use external libraries';
+$string['stack:exporttoexternallibraries'] = 'Allow export to external libraries';
 
 // Versions of STACK.
 $string['stackversionedited']     = 'This question was authored with STACK version {$a}.';
@@ -521,7 +522,9 @@ $string['settingexternallibraries_desc'] = 'JSON object listing display names an
 <br>&nbsp;&nbsp;}
 <br>}';
 $string['settingnrwapikey'] = 'STACK.nrw databse API key';
-$string['settingnrwapikey_desc'] = 'Allows access to the STACK.nrw question database via the STACK library page. Access can be restricted on a per user basis using Moodle permission XXXX.';
+$string['settingnrwapikey_desc'] = 'Allows access to the STACK.nrw question database via the STACK library page. Access can be restricted on a per user basis using Moodle permission qtype/stack:useexternallibraries.';
+$string['settingnrwupload'] = 'STACK.nrw upload allowed';
+$string['settingnrwupload_desc'] = 'Allows questions to be uploaded to the STACK.nrw question database via the STACK question dashboard. Access can be restricted on a per user basis using Moodle permission qtype/stack:exporttoexternallibraries.';
 
 // Strings used by replace dollars script.
 $string['replacedollarscount'] = 'This category contains {$a} STACK questions.';
@@ -677,6 +680,7 @@ $string['editquestioninthequestionbank'] = '<i class="fa fa-pencil"></i> Edit qu
 $string['seethisquestioninthequestionbank'] = '<i class="fa fa-list-alt"></i> Show in question bank';
 $string['exportthisquestion'] = '<i class="fa fa-download"></i> Export as Moodle XML';
 $string['exportthisquestion_help'] = 'This will create a Moodle XML export file containing just this one question. One example of when this is useful if you think this question demonstrates a bug in STACK that you would like to report to the developers.';
+$string['exporttonrw'] = '<i class="fa fa-cloud-arrow-down"></i> Export to NRW';
 $string['tidyquestion'] = '<i class="fa fa-sort-amount-asc"></i> Tidy inputs and PRTs';
 $string['tidyquestion_txt'] = 'Tidy inputs and PRTs';
 $string['sendgeneralfeedback'] = '<i class="fa fa-file-text"></i> Send general feedback to the CAS';
@@ -688,6 +692,7 @@ $string['seetodolist_help'] = 'Clicking on the question name takes you to the da
 $string['bulktestquiz'] = '<i class="fa fa-certificate"></i> Bulk test quiz';
 $string['bulktestquiznotes'] = 'Bulk test the latest version of all the questions in a quiz containing this question.';
 $string['history'] = '<i class="fa fa-list-alt"></i> Question history';
+$string['questionexportplaceholder'] = 'This page is a placeholder for the NRW export workflow.';
 $string['bulktestquizselect'] = 'Select a quiz';
 
 $string['basicquestionreport'] = '<i class="fa fa-bar-chart"></i> Analyze responses';

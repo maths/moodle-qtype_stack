@@ -45,4 +45,14 @@ $capabilities = [
         ],
         'clonepermissionsfrom' => 'moodle/question:add',
     ],
+    // Users with this in the system context can export to external question libraries.
+    'qtype/stack:exporttoexternallibraries' => [
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_SYSTEM,
+        'archetypes' => [
+            'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW,
+        ],
+        'clonepermissionsfrom' => 'moodle/question:add',
+    ],
 ];

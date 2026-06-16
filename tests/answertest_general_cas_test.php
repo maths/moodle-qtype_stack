@@ -525,12 +525,22 @@ final class answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
 
-        $fb = 'stack_trans(\'ATMatrix_wrongentries\' , ' .
+        if ($this->adapt_to_new_maxima('5.48.0')) {
+            $fb = 'stack_trans(\'ATMatrix_wrongentries\' , ' .
+                '!quot!\[\left[\begin{array}{cc} 1 & 2 \\\\ {\color{red}{\underline{2}}} & 4 \end{array}\right]\]!quot! );';
+        } else {
+            $fb = 'stack_trans(\'ATMatrix_wrongentries\' , ' .
                 '!quot!\[ \left[\begin{array}{cc} 1 & 2 \\\\ {\color{red}{\underline{2}}} & 4 \end{array}\right]\]!quot! );';
+        }
         $this->assertEquals(stack_maxima_translate($fb), $at->get_at_feedback());
 
-        $fbt = 'The entries underlined in red below are those that are incorrect. ' .
+        if ($this->adapt_to_new_maxima('5.48.0')) {
+            $fbt = 'The entries underlined in red below are those that are incorrect. ' .
+                '\[\left[\begin{array}{cc} 1 & 2 \\\\ {\color{red}{\underline{2}}} & 4 \end{array}\right]\]';
+        } else {
+            $fbt = 'The entries underlined in red below are those that are incorrect. ' .
                 '\[ \left[\begin{array}{cc} 1 & 2 \\\\ {\color{red}{\underline{2}}} & 4 \end{array}\right]\]';
+        }
         $this->assert_content_with_maths_equals($fbt, $at->get_at_feedback());
     }
 
@@ -541,11 +551,21 @@ final class answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
 
-        $fbt = 'The derivative of your answer should be equal to the expression that you were asked to integrate, that was: '.
-               '\[\frac{e^{5\cdot x+7}}{5}+\frac{\left(5\cdot e^7\cdot x-e^7\right) \cdot e^{5\cdot x}}{5}\] '.
-               'In fact, the derivative of your answer, with respect to \(x\) is: '.
-               '\[5\cdot e^{5\cdot x+7}+5\cdot \left(5\cdot e^7\cdot x-e^7\right) \cdot e^{5\cdot x}\] '.
-               'so you must have done something wrong!';
+        if ($this->adapt_to_new_maxima('5.48.0')) {
+            $fbt = 'The derivative of your answer should be equal to the expression that you were ' .
+                'asked to integrate, that was: ' .
+                '\[\frac{e^{5\cdot x}\cdot \left(5\cdot e^7\cdot x-e^7\right)}{5}+\frac{e^{5\cdot x+7}}{5}\] '.
+                'In fact, the derivative of your answer, with respect to \(x\) is: '.
+                '\[5\cdot e^{5\cdot x}\cdot \left(5\cdot e^7\cdot x-e^7\right)+5\cdot e^{5\cdot x+7}\] '.
+                'so you must have done something wrong!';
+        } else {
+            $fbt = 'The derivative of your answer should be equal to the expression that you were ' .
+                'asked to integrate, that was: ' .
+                '\[\frac{e^{5\cdot x+7}}{5}+\frac{\left(5\cdot e^7\cdot x-e^7\right) \cdot e^{5\cdot x}}{5}\] '.
+                'In fact, the derivative of your answer, with respect to \(x\) is: '.
+                '\[5\cdot e^{5\cdot x+7}+5\cdot \left(5\cdot e^7\cdot x-e^7\right) \cdot e^{5\cdot x}\] '.
+                'so you must have done something wrong!';
+        }
         $this->assert_content_with_maths_equals($fbt, $at->get_at_feedback());
     }
 
@@ -556,10 +576,19 @@ final class answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
 
-        $fbt = 'The derivative of your answer should be equal to the expression that you were asked to integrate, that was: '.
-               '\[x\cdot e^{5\cdot x+7}\] In fact, the derivative of your answer, with respect to \(x\) is: '.
-               '\[5\cdot e^{5\cdot x+7}+5\cdot \left(5\cdot e^7\cdot x-e^7\right) \cdot e^{5\cdot x}\] '.
-               'so you must have done something wrong!';
+        if ($this->adapt_to_new_maxima('5.48.0')) {
+            $fbt = 'The derivative of your answer should be equal to the expression that you ' .
+                'were asked to integrate, that was: \[x\cdot e^{5\cdot x+7}\] ' .
+                'In fact, the derivative of your answer, with respect to \(x\) is: ' .
+                '\[5\cdot e^{5\cdot x}\cdot \left(5\cdot e^7\cdot x-e^7\right)+5\cdot e^{5\cdot x+7}\] '.
+                'so you must have done something wrong!';
+        } else {
+            $fbt = 'The derivative of your answer should be equal to the expression that you ' .
+                'were asked to integrate, that was: \[x\cdot e^{5\cdot x+7}\] ' .
+                'In fact, the derivative of your answer, with respect to \(x\) is: ' .
+                '\[5\cdot e^{5\cdot x+7}+5\cdot \left(5\cdot e^7\cdot x-e^7\right) \cdot e^{5\cdot x}\] ' .
+                'so you must have done something wrong!';
+        }
         $this->assert_content_with_maths_equals($fbt, $at->get_at_feedback());
     }
 
@@ -614,7 +643,7 @@ final class answertest_general_cas_test extends qtype_stack_testcase {
                 'Equiv', 'null');
         $this->assertTrue($at->do_test());
         $this->assertEquals(1, $at->get_at_mark());
-        $this->assertEquals('(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR)', $at->get_at_answernote());
+        $this->assertEquals('ATEquiv:(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR)', $at->get_at_answernote());
         $fbt = '\[\begin{array}{lll} &x^2-1=0& \cr \color{green}{\Leftrightarrow}&\left(x-1\right)\cdot \left(x+1\right)=0& '.
             '\cr \color{green}{\Leftrightarrow}&x=1\,{\text{ or }}\, x=-1& \cr \end{array}\]';
         $this->assert_content_with_maths_equals($fbt, $at->get_at_feedback());
@@ -626,7 +655,7 @@ final class answertest_general_cas_test extends qtype_stack_testcase {
                 'Equiv', 'null');
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
-        $this->assertEquals('(EMPTYCHAR,EQUIVCHAR,QMCHAR)', $at->get_at_answernote());
+        $this->assertEquals('ATEquiv:(EMPTYCHAR,EQUIVCHAR,QMCHAR)', $at->get_at_answernote());
         $fbt = '\[\begin{array}{lll} &x^2-1=0& \cr \color{green}{\Leftrightarrow}&\left(x-1\right)\cdot \left(x+1\right)=0&'.
             ' \cr \color{red}{?}&x=\mathrm{i}\,{\text{ or }}\, x=-1& \cr \end{array}\]';
         $this->assert_content_with_maths_equals($fbt, $at->get_at_feedback());
@@ -638,7 +667,7 @@ final class answertest_general_cas_test extends qtype_stack_testcase {
                 '[x^2-1=0,(x-1)*(x+1)=0,x=1 or x=-1]', 'Equiv', 'null');
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
-        $this->assertEquals('(EMPTYCHAR,EQUIVCHAR,EMPTYCHAR,EMPTYCHAR)', $at->get_at_answernote());
+        $this->assertEquals('ATEquiv:(EMPTYCHAR,EQUIVCHAR,EMPTYCHAR,EMPTYCHAR)', $at->get_at_answernote());
         $fbt = '\[\begin{array}{lll} &x^2-1=0& \cr \color{green}{\Leftrightarrow}&\left(x-1\right)\cdot \left(x+1\right)=0& '.
             '\cr &\text{Could be}& \cr &x=\mathrm{i}\,{\text{ or }}\, x=-1& \cr \end{array}\]';
         $this->assert_content_with_maths_equals($fbt, $at->get_at_feedback());

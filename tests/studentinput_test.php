@@ -59,6 +59,42 @@ final class studentinput_test extends qtype_stack_testcase {
      * Add description
      * @codingStandardsIgnoreStart
      * Provider in another class/file throws false code check error.
+     * @dataProvider stack_inputvalidation_test_data::get_raw_test_data_old
+     * @codingStandardsIgnoreEnd
+     */
+    public function test_studentinput_old(): void {
+
+        $this->skip_if_new_maxima('5.47.0');
+        $test = stack_inputvalidation_test_data::test_from_raw(func_get_args(), 'typeless');
+        $result = stack_inputvalidation_test_data::run_test($test);
+
+        $this->assert_equals_ignore_spaces_and_e($result->display, $result->casdisplay);
+        $this->assertEquals($result->ansnotes, $result->casnotes);
+        $this->assertTrue($result->passed);
+    }
+
+    /**
+     * Add description
+     * @codingStandardsIgnoreStart
+     * Provider in another class/file throws false code check error.
+     * @dataProvider stack_inputvalidation_test_data::get_raw_test_data_5_48_0
+     * @codingStandardsIgnoreEnd
+     */
+    public function test_studentinput_5_48_0(): void {
+
+        $this->skip_if_old_maxima('5.47.0');
+        $test = stack_inputvalidation_test_data::test_from_raw(func_get_args(), 'typeless');
+        $result = stack_inputvalidation_test_data::run_test($test);
+
+        $this->assert_equals_ignore_spaces_and_e($result->display, $result->casdisplay);
+        $this->assertEquals($result->ansnotes, $result->casnotes);
+        $this->assertTrue($result->passed);
+    }
+
+    /**
+     * Add description
+     * @codingStandardsIgnoreStart
+     * Provider in another class/file throws false code check error.
      * @dataProvider stack_inputvalidation_test_data::get_raw_test_data_units
      * @codingStandardsIgnoreEnd
      */

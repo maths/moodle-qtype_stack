@@ -66,7 +66,7 @@ function xmldb_qtype_stack_install() {
         // Set to the same defaults as in settings.php - however, that has not been done
         // yet in the Moodle install code flow, so we have to duplicate here.
         set_config('maximaversion', 'default', 'qtype_stack');
-        set_config('castimeout', 30, 'qtype_stack');
+        set_config('castimeout', 40, 'qtype_stack');
         set_config('casresultscache', 'db', 'qtype_stack');
         set_config('caspreparse', 'true', 'qtype_stack');
         set_config('maximacommand', '', 'qtype_stack');
@@ -89,9 +89,11 @@ function xmldb_qtype_stack_install() {
             !defined('QTYPE_STACK_TEST_CONFIG_PLATFORM')
                     || !in_array(QTYPE_STACK_TEST_CONFIG_PLATFORM, ['server', 'server-proxy', 'none'])
         ) {
+            $starttime = time();
             [$ok, $message] = stack_cas_configuration::create_auto_maxima_image();
             if (!$ok) {
-                throw new coding_exception('maxima_opt_auto creation failed.', $message);
+                $msg = 'maxima_opt_auto creation failed.  Time taken = ' . (time() - $starttime) . '. ';
+                throw new coding_exception($msg, $message);
             }
         }
     }

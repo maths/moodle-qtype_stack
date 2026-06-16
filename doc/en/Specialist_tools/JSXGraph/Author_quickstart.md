@@ -58,12 +58,12 @@ We may want to randomize the function graph of the function f(x) that the line s
 ```
 slope: rand([1/2, 3/2, 2]);
 intercept: rand_with_step(-3, -1, 1);
-expr: slope*x + intercept;  /* our function f(x) */
-ta1: [2, 2 * float(slope)];  /* A correct answer for A with integer coordinates */
+expr: slope*x + intercept;   /* Our function f(x). */
+ta1: [2, 2 * float(slope)];  /* A correct answer for A with integer coordinates. */
 
 xA_init: 1 + rand(3);
 yA_init: -1 - rand(3);
-A_init: [xA_init, yA_init];  /* Initial position of A */
+A_init: [xA_init, yA_init];  /* Initial position of A. */
 ```
 
 As our question now has randomization, we also need to choose a question note:
@@ -167,7 +167,8 @@ You may also want to hide the teacher answer from the student feedback, as by de
 
 # Tips and tricks
 When creating JSXGraph questions in STACK, it is often slow and difficult to find errors in the JSXGraph javascript code. It can be useful to develop the JSXGraph component of the question locally first, and then "STACKify" it. For this purpose, create a file with a `.html` extension on your computer, with the following content:
-```
+
+````
 <!DOCTYPE HTML>
 <html lang="en">
 
@@ -189,7 +190,6 @@ When creating JSXGraph questions in STACK, it is often slow and difficult to fin
         is the width -->
     <div id="jxgbox" class="jxgbox" style="width:600px; height:600px;"></div>
 
-
     <!-- Start your jsxgraph here -->
     <script>
         var board = JXG.JSXGraph.initBoard('jxgbox', { // STACK: when moving to STACK change 'jxgboard' for divid
@@ -204,9 +204,9 @@ When creating JSXGraph questions in STACK, it is often slow and difficult to fin
     </script>
 </body>
 </html>
-```
-Now edit your JSXGraph code in between the `<script>` tags. To preview the question, open in a browser. After each edit, you can simply refresh the page to see the changes. If nothing displays, there is likely an error in your code. To get the relevant error messages, in your browser, go into developer mode (usually Ctrl+Shift+C). Usually, there is a tab for errors, you may be able to find it looking for a red symbol with a cross. Once you have found the list of errors, they usually indicate where in the code the problem is.
-Once you are happy with your JSXGraph component, copy the content within the `<script>` tags into a STACK question and change `'jxgboard'` to `divid` in the `initBoard` function call. You can now work on the randomization and interactive parts.
+````
+
+Now edit your JSXGraph code in between the `<script>` tags. To preview the question, open in a browser. After each edit, you can simply refresh the page to see the changes. If nothing displays, there is likely an error in your code. To get the relevant error messages, in your browser, go into developer mode (usually Ctrl+Shift+C). Usually, there is a tab for errors, you may be able to find it looking for a red symbol with a cross. Once you have found the list of errors, they usually indicate where in the code the problem is.  Once you are happy with your JSXGraph component, copy the content within the `<script>` tags into a STACK question and change `'jxgboard'` to `divid` in the `initBoard` function call. You can now work on the randomization and interactive parts.
 
 When previewing a broken JSXGraph question in STACK, it is still possible to use the browser's developer (Ctrl+Shift+C) mode to find errors, as before. However, you won't get useful on where exactly the error is.
 

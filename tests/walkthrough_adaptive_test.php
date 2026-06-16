@@ -2515,7 +2515,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_contains_prt_feedback('prt1');
         $this->check_output_contains_prt_feedback('prt2');
         $this->check_output_does_not_contain_stray_placeholders();
-        $this->assertMatchesRegularExpression('~' . preg_quote($q->prtcorrect, '~') . '~', $this->currentoutput);
+        $this->assertMatchesRegularExpression('~' . preg_quote("Correct answer, well done.", '~') . '~', $this->currentoutput);
         $this->check_current_output(
             $this->get_does_not_contain_num_parts_correct(),
             $this->get_no_hint_visible_expectation()
@@ -2558,8 +2558,8 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_contains_prt_feedback('prt1');
         $this->check_output_contains_prt_feedback('prt2');
         $this->check_output_does_not_contain_stray_placeholders();
-        $this->assertMatchesRegularExpression('~' . preg_quote($q->prtincorrect, '~') . '~', $this->currentoutput);
-        $this->assertMatchesRegularExpression('~' . preg_quote($q->prtcorrect, '~') . '~', $this->currentoutput);
+        $this->assertMatchesRegularExpression('~' . preg_quote("Incorrect answer.", '~') . '~', $this->currentoutput);
+        $this->assertMatchesRegularExpression('~' . preg_quote("Correct answer, well done.", '~') . '~', $this->currentoutput);
         $this->check_current_output(
             $this->get_does_not_contain_num_parts_correct(),
             $this->get_no_hint_visible_expectation()
@@ -2583,8 +2583,8 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_output_contains_prt_feedback('prt1');
         $this->check_output_contains_prt_feedback('prt2');
         $this->check_output_does_not_contain_stray_placeholders();
-        $this->assertMatchesRegularExpression('~' . preg_quote($q->prtincorrect, '~') . '~', $this->currentoutput);
-        $this->assertMatchesRegularExpression('~' . preg_quote($q->prtcorrect, '~') . '~', $this->currentoutput);
+        $this->assertMatchesRegularExpression('~' . preg_quote("Incorrect answer.", '~') . '~', $this->currentoutput);
+        $this->assertMatchesRegularExpression('~' . preg_quote("Correct answer, well done.", '~') . '~', $this->currentoutput);
         $this->check_current_output(
             $this->get_does_not_contain_num_parts_correct(),
             $this->get_no_hint_visible_expectation()
@@ -2843,6 +2843,58 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         );
     }
 
+    public function test_runtime_error_s_assert_err(): void {
+
+        // Non-square stack_seed should throw an error.
+        $q = \test_question_maker::make_question('stack', 'runtime_s_assert_err');
+        $this->start_attempt_at_question($q, 'adaptive', 1, 77);
+        $this->render();
+
+        $rte = implode(' ', array_keys($q->runtimeerrors));
+        $err = "s_assert: STACK expected ' true ' but was given ' false '. " .
+            "The field \"Question variables\" generated the following error: " .
+            "s_assert: STACK expected ' true ' but was given ' false '.";
+        $this->assertEquals($err, $rte);
+
+        // Square stack_seed should not throw an error.
+        $q = \test_question_maker::make_question('stack', 'runtime_s_assert_err');
+        $this->start_attempt_at_question($q, 'adaptive', 1, 4);
+        $this->render();
+
+        $rte = implode(' ', array_keys($q->runtimeerrors));
+        $err = '';
+        $this->assertEquals($err, $rte);
+
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('prt1', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1');
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            new question_pattern_expectation('/Factor/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
+            );
+        // Process a submit of the correct answer.
+        $this->process_submission(['ans1' => '(x-2)*(x+2)', 'ans1_val' => '(x-2)*(x+2)', '-submit' => 1]);
+        // Verify.
+        $this->check_current_state(question_state::$complete);
+        $this->check_current_mark(1.0);
+        $this->check_prt_score('prt1', 1, 0);
+        $this->render();
+        $expected = 'Seed: 4; ans1: (x-2)*(x+2) [score]; prt1: # = 1 | ATFacForm_true. | prt1-0-T';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', '(x-2)*(x+2)');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_prt_feedback('prt1');
+        $this->check_output_does_not_contain_stray_placeholders();
+    }
+
     public function test_runtime_err_feedback_variables(): void {
 
         $q = \test_question_maker::make_question('stack', 'runtime_prt_err');
@@ -2912,8 +2964,8 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->render();
 
         $rte = implode(' ', array_keys($q->runtimeerrors));
-        $err = 'Division by zero. The field ""Question text"" generated the following error: Division by zero. ' .
-            'The field ""Question variables"" generated the following error: Division by zero.';
+        $err = 'Division by zero. The field "Question text" generated the following error: Division by zero. ' .
+            'The field "Question variables" generated the following error: Division by zero.';
         $this->assertEquals($err, $rte);
     }
 
@@ -3602,7 +3654,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(0);
         $this->check_prt_score('firsttree', 0, 0.2);
-        $this->check_answer_note('firsttree', '(EMPTYCHAR,EQUIVCHAR,QMCHAR) | firsttree-1-F');
+        $this->check_answer_note('firsttree', 'ATEquiv:(EMPTYCHAR,EQUIVCHAR,QMCHAR) | firsttree-1-F');
         $this->render();
         $this->check_output_contains_textarea_input('ans1', "x^2-3*x+2=0\n(x-2)*(x-1)=0\nx=-1 and x=-2");
         $this->check_output_does_not_contain_stray_placeholders();
@@ -3629,10 +3681,10 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
         $this->check_current_state(question_state::$complete);
         $this->check_current_mark(0.8);
         $this->check_prt_score('firsttree', 1, 0);
-        $this->check_answer_note('firsttree', '(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR) | firsttree-1-T');
+        $this->check_answer_note('firsttree', 'ATEquiv:(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR) | firsttree-1-T');
         $this->render();
         $expected = 'Seed: 1; ans1: [x^2-3*x+2=0,(x-2)*(x-1)=0,x=1 or x=2] [score]; firsttree: # = 1 | ' .
-                '(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR) | firsttree-1-T';
+                'ATEquiv:(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR) | firsttree-1-T';
         $this->check_response_summary($expected);
         $this->check_output_contains_textarea_input('ans1', "x^2-3*x+2=0\n(x-2)*(x-1)=0\nx=1 or x=2");
         $this->check_output_does_not_contain_stray_placeholders();

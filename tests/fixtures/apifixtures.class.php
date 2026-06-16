@@ -24,12 +24,52 @@
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_api_test_data {
+    // @codingStandardsIgnoreStart
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected static array $questiondata = [
         'empty' =>
            '<quiz>
               <question type="stack">
               </question>
+            </quiz>',
+        'emptygrade' =>
+           '<quiz>
+                <question type="stack">
+                    <defaultgrade>2</defaultgrade>
+                </question>
+            </quiz>',
+        'noinputblankspecific' =>
+           '<quiz>
+                <question type="stack">
+                    <questiontext>
+                        <text>Question wording</text>
+                    </questiontext>
+                    <specificfeedback format="html">
+                        <text></text>
+                    </specificfeedback>
+                    <defaultgrade>2</defaultgrade>
+                </question>
+            </quiz>',
+        'inputblankspecific' =>
+           '<quiz>
+                <question type="stack">
+                    <questiontext>
+                        <text>Question wording [[input:ans1]] [[validation:ans1]]</text>
+                    </questiontext>
+                    <specificfeedback format="html">
+                        <text></text>
+                    </specificfeedback>
+                    <defaultgrade>2</defaultgrade>
+                </question>
+            </quiz>',
+        'noinputnospecific' =>
+           '<quiz>
+                <question type="stack">
+                    <questiontext>
+                        <text>Question wording</text>
+                    </questiontext>
+                    <defaultgrade>2</defaultgrade>
+                </question>
             </quiz>',
         'multipleprts' =>
            '<quiz>
@@ -76,13 +116,13 @@ class stack_api_test_data {
                 <assumepositive>0</assumepositive>
                 <assumereal>0</assumereal>
                 <prtcorrect format="html">
-                  <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+                  <text><![CDATA[[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]]]></text>
                 </prtcorrect>
                 <prtpartiallycorrect format="html">
-                  <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+                  <text><![CDATA[[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] [[commonstring key="defaultprtpartiallycorrectfeedback"/]]]]></text>
                 </prtpartiallycorrect>
                 <prtincorrect format="html">
-                  <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+                  <text><![CDATA[[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]]]></text>
                 </prtincorrect>
                 <decimals>.</decimals>
                 <scientificnotation>*10</scientificnotation>
@@ -509,13 +549,13 @@ class stack_api_test_data {
                     <assumepositive>0</assumepositive>
                     <assumereal>0</assumereal>
                     <prtcorrect format="html">
-                    <text><![CDATA[<p><span class="correct">Correct answer, well done.</span></p>]]></text>
+                      <text><![CDATA[<p>[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]</p>]]></text>
                     </prtcorrect>
                     <prtpartiallycorrect format="html">
-                    <text><![CDATA[<p><span class="partially">Your answer is partially correct.</span></p>]]></text>
+                      <text><![CDATA[<p>[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] [[commonstring key="defaultprtpartiallycorrectfeedback"/]]</p>]]></text>
                     </prtpartiallycorrect>
                     <prtincorrect format="html">
-                    <text><![CDATA[<p><span class="incorrect">Incorrect answer.</span></p>]]></text>
+                      <text><![CDATA[<p>[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]</p>]]></text>
                     </prtincorrect>
                     <multiplicationsign>dot</multiplicationsign>
                     <sqrtsign>1</sqrtsign>
@@ -714,13 +754,13 @@ class stack_api_test_data {
                  <text>\(\int {@p@} d{@v@} = {@ta@}\)</text>
                </questionnote>
                <prtcorrect format="html">
-                 <text><![CDATA[<p><span class="correct">Correct answer, well done.</span></p>]]></text>
+                 <text><![CDATA[[[[commonstring key="defaultprtcorrectfeedback"/]]]]></text>
                </prtcorrect>
                <prtpartiallycorrect format="html">
-                 <text><![CDATA[<p><span class="partially">Your answer is partially correct.</span></p>]]></text>
+                <text><![CDATA[[[[commonstring key="defaultprtpartiallycorrectfeedback"/]]]]></text>
                </prtpartiallycorrect>
                <prtincorrect format="html">
-                 <text><![CDATA[<p><span class="incorrect">Incorrect answer.</span></p>]]></text>
+                 <text><![CDATA[[[[commonstring key="defaultprtincorrectfeedback"/]]]]></text>
                </prtincorrect>
                <variantsselectionseed/>
                <input>
@@ -852,13 +892,13 @@ class stack_api_test_data {
                 <text>\(\int {@p@} d{@v@} = {@ta@}\)</text>
                 </questionnote>
                 <prtcorrect format="html">
-                <text><![CDATA[<p><span class="correct">Correct answer, well done.</span></p>]]></text>
+                  <text><![CDATA[[[[commonstring key="defaultprtcorrectfeedback"/]]]]></text>
                 </prtcorrect>
                 <prtpartiallycorrect format="html">
-                <text><![CDATA[<p><span class="partially">Your answer is partially correct.</span></p>]]></text>
+                  <text><![CDATA[[[[commonstring key="defaultprtpartiallycorrectfeedback"/]]]]></text>
                 </prtpartiallycorrect>
                 <prtincorrect format="html">
-                <text><![CDATA[<p><span class="incorrect">Incorrect answer.</span></p>]]></text>
+                  <text><![CDATA[[[[commonstring key="defaultprtincorrectfeedback"/]]]]></text>
                 </prtincorrect>
                 <questionsimplify>0</questionsimplify>
                 <assumepositive>1</assumepositive>
@@ -1599,16 +1639,13 @@ class stack_api_test_data {
             <assumepositive>0</assumepositive>
             <assumereal>0</assumereal>
             <prtcorrect format="html">
-              <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i>
-              </span> Correct answer, well done.]]></text>
+              <text><![CDATA[[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]]]></text>
             </prtcorrect>
             <prtpartiallycorrect format="html">
-              <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i>
-              </span> Your answer is partially correct.]]></text>
+              <text><![CDATA[[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] [[commonstring key="defaultprtpartiallycorrectfeedback"/]]]]></text>
             </prtpartiallycorrect>
             <prtincorrect format="html">
-              <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i>
-              </span> Incorrect answer.]]></text>
+              <text><![CDATA[[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]]]></text>
             </prtincorrect>
             <multiplicationsign>dot</multiplicationsign>
             <sqrtsign>1</sqrtsign>
@@ -1744,16 +1781,13 @@ class stack_api_test_data {
             <assumepositive>0</assumepositive>
             <assumereal>0</assumereal>
             <prtcorrect format="html">
-              <text><![CDATA[<span style="font-size: 1.5em; color:green;">
-              <i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+              <text><![CDATA[[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]]]></text>
             </prtcorrect>
             <prtpartiallycorrect format="html">
-              <text><![CDATA[<span style="font-size: 1.5em; color:orange;">
-              <i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+              <text><![CDATA[[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] [[commonstring key="defaultprtpartiallycorrectfeedback"/]]]]></text>
             </prtpartiallycorrect>
             <prtincorrect format="html">
-              <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span>
-              Incorrect answer.]]></text>
+              <text><![CDATA[[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]]]></text>
             </prtincorrect>
             <decimals>.</decimals>
             <scientificnotation>*10</scientificnotation>
@@ -1868,16 +1902,13 @@ class stack_api_test_data {
             <assumepositive>0</assumepositive>
             <assumereal>0</assumereal>
             <prtcorrect format="html">
-              <text><![CDATA[<span style="font-size: 1.5em; color:green;">
-              <i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+              <text><![CDATA[[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]]]></text>
             </prtcorrect>
             <prtpartiallycorrect format="html">
-              <text><![CDATA[<span style="font-size: 1.5em; color:orange;">
-              <i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+              <text><![CDATA[[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] [[commonstring key="defaultprtpartiallycorrectfeedback"/]]]]></text>
             </prtpartiallycorrect>
             <prtincorrect format="html">
-              <text><![CDATA[<span style="font-size: 1.5em; color:red;">
-              <i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+              <text><![CDATA[[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]]]></text>
             </prtincorrect>
             <multiplicationsign>dot</multiplicationsign>
             <sqrtsign>1</sqrtsign>
@@ -1998,16 +2029,13 @@ class stack_api_test_data {
             <assumepositive>0</assumepositive>
             <assumereal>0</assumereal>
             <prtcorrect format="html">
-              <text><![CDATA[<span style="font-size: 1.5em; color:green;">
-              <i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+              <text><![CDATA[[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]]]></text>
             </prtcorrect>
             <prtpartiallycorrect format="html">
-              <text><![CDATA[<span style="font-size: 1.5em; color:orange;">
-              <i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+              <text><![CDATA[[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] [[commonstring key="defaultprtpartiallycorrectfeedback"/]]]]></text>
             </prtpartiallycorrect>
             <prtincorrect format="html">
-              <text><![CDATA[<span style="font-size: 1.5em; color:red;">
-              <i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+              <text><![CDATA[[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]]]></text>
             </prtincorrect>
             <multiplicationsign>dot</multiplicationsign>
             <sqrtsign>1</sqrtsign>
@@ -2102,16 +2130,13 @@ class stack_api_test_data {
             <assumepositive>0</assumepositive>
             <assumereal>0</assumereal>
             <prtcorrect format="html">
-              <text><![CDATA[<span style="font-size: 1.5em; color:green;">
-              <i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+              <text><![CDATA[[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]]]></text>
             </prtcorrect>
             <prtpartiallycorrect format="html">
-              <text><![CDATA[<span style="font-size: 1.5em; color:orange;">
-              <i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+              <text><![CDATA[[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] [[commonstring key="defaultprtpartiallycorrectfeedback"/]]]]></text>
             </prtpartiallycorrect>
             <prtincorrect format="html">
-              <text><![CDATA[<span style="font-size: 1.5em; color:red;">
-              <i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+              <text><![CDATA[[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]]]></text>
             </prtincorrect>
             <multiplicationsign>dot</multiplicationsign>
             <sqrtsign>1</sqrtsign>
@@ -2174,6 +2199,7 @@ class stack_api_test_data {
           </question>
         </quiz>',
     ];
+    // @codingStandardsIgnoreEnd
 
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected static array $answers = [

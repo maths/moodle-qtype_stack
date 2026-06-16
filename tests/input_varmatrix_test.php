@@ -346,7 +346,7 @@ final class input_varmatrix_test extends qtype_stack_testcase {
         );
         $this->assertEquals(stack_input::SCORE, $state->status);
         $this->assertEquals('', $state->note);
-        $this->assertEquals('matrix(EMPTYCHAR)', $state->contentsmodified);
+        $this->assertEquals('EMPTYANSWER', $state->contentsmodified);
         $this->assertEquals(
             '',
             $state->contentsdisplayed

@@ -60,7 +60,7 @@ class stack_cas_castext2_adapt extends stack_cas_castext2_block {
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_flat(): bool {
-        return true;
+        return false;
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

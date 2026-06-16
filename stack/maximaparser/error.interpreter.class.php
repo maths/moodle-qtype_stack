@@ -64,6 +64,16 @@ class stack_parser_error_interpreter {
     public function interprete(stack_maxima_parser_exception $exception, array &$errors = [], array &$answernote = []): string {
         $groupped = $this->group_expectations($exception->expected);
 
+        /**
+         * @var Common patterns which are a sign of using HTML elements.
+         */
+        static $htmlelementpairs  = [
+            '>' => '&gt;',
+            '<' => '&lt;',
+            '&' => '&amp;',
+            '"' => '&quot;',
+        ];
+
         // Lexer errors.
         if ($exception->received !== null && $exception->received->type === StackMaximaTokenType::Error) {
             switch ($exception->received->value) {
@@ -89,6 +99,17 @@ class stack_parser_error_interpreter {
                             $answernote[] = 'illegalcaschars';
                             break;
                         case '&':
+                            // This could be a sign of HTML element contamination in the castext.
+                            $string = $exception->original;
+                            foreach ($htmlelementpairs as $key => $val) {
+                                if (str_contains($string, $val)) {
+                                    $errors[] = stack_string(
+                                        'stackCas_badhtmlelement',
+                                        ['val' => htmlspecialchars($val), 'key' => stack_maxima_format_casstring($key)]
+                                        );
+                                    $answernote[] = 'badhtmlelement';
+                                }
+                            }
                             $a = ['cmd' => stack_maxima_format_casstring('&')];
                             $errors[] = stack_string('stackCas_spuriousop', $a);
                             $answernote[] = 'spuriousop';

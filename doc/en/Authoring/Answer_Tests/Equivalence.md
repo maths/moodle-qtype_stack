@@ -20,7 +20,7 @@ This list is in approximate order of the size of the equivalence classes from mo
 
 ### AlgEquiv {#AlgEquiv}
 
-This is the most commonly used test.  The pseudo code
+This is the most commonly used test.  The pseudo code (for mathematical _expressions_ at least) is
 
     If
       simplify(ex1-ex2) = 0
@@ -38,7 +38,24 @@ Note: exactly what this answer test does depends on what objects are given to it
 
 For sets, the CAS tries to write the expression in a canonical form.  It then compares the string representations these forms to remove duplicate elements and compare sets.  This is subtly different from trying to simplify the difference of two expressions to zero.  For example, imagine we have \(\{(x-a)^{6000}\}\) and \(\{(a-x)^{6000}\}\).  One canonical form is to expand out both sides.  While this work in principal, in practice this is much too slow for assessment.
 
-Currently we do check multiplicity of roots, so that \( (x-2)^2=0\) and \( x=2\) are not considered to be equivalent.  Similarly \(a^3b^3=0\) is not \(a=0 \text{ or } b=0\).  This is a long-standing issue and we would need a separate test to ignore multiplicity of roots.
+Equations and expressions are very different.  Two equations are equivalent if they have the same roots with the same multiplicity of roots.  For example, \((x-2)^2=0\) and \(x=2\) are not considered to be equivalent.  Similarly \(a^3b^3=0\) is not \(a=0 \text{ or } b=0\).  To establish equivalence of equations we use the pseudo code
+
+    If
+      numberp( (lhs(ex1)-rhs(ex1))/(lhs(ex2)-rhs(ex2)) )
+    then
+      true
+    else
+      false.
+
+That is to say, we turn the equation `ex1` into an expression `x1:simplify(lhs(ex1)-rhs(ex1))` and the equation `ex2` into an expression `x2:simplify(lhs(ex2)-rhs(ex2))`, and then simplify the ratio of the two numerators of `x1` and `x2`:, i.e. `num(x1)/num(x2)` (with some edge case detection of course).  If this is a number then we have cancelled algebraic factors precicely, and roots match (with multiplicity).  Notice we do not actually "solve" the equations during this process, thereby side-stepping the decidability question.  (We would need a separate test to ignore multiplicity of roots.)
+
+In calculating the ratio `x1/x2` we use Maxima's simplifer, which may be modified by commands like `assume`.  However, since we do not actually solve the equations we do not use `assume` to reject solutions themselves.  For example, in the following situation
+
+    assume(x>0);
+    eq1: a = (c*x^3)/x;
+    eq2: a*x = c*x^3;
+
+`eq1` does not have \(0\) as a solution, whereas `eq2` does have \(0\) as a solution, the ratio simplifes to `1/x` indicating that `eq2` has a zero solution which is not balanced by a corresponding solution in `eq`.   Since the equations are never solved, the `assume(x>0)` never comes into play here.  (We would need a separate test to use `assume` statements and reject roots.)
 
 Inequalities are turned into sets of real numbers they represent.  When this is done it is indicated by the answer note `ATInequality_solver.`  If you want `a>1` to be _not_ the same as `x>1` then you need to test in a more syntactic way, not using algebraic equivalence.
 

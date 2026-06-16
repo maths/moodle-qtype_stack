@@ -21,11 +21,13 @@
  * @copyright 2024 University of Edinburgh
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+namespace qtype_stack\form;
 defined('MOODLE_INTERNAL') || die();
 require_once("$CFG->libdir/formslib.php");
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
-class category_form extends moodleform {
+class category_form extends \moodleform {
     // Add elements to form.
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function definition() {

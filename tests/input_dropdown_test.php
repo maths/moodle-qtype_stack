@@ -290,6 +290,26 @@ final class input_dropdown_test extends qtype_stack_walkthrough_test_base {
         ), 'stack1__ans1', false, null));
     }
 
+    public function test_render_hidenonotanswered(): void {
+
+        $el = $this->make_dropdown(['options' => 'hideanswer,nonotanswered']);
+        $el->adapt_to_model_answer($this->make_ta());
+        $expected = '<select data-stack-input-type="dropdown" id="menustack1__ans1" class="select'
+            . self::$moodleclass . ' menustack1__ans1" '
+                . 'name="stack1__ans1">'
+                    . '<option value="1"><code>x+1</code></option><option value="2"><code>x+2</code></option>'
+                        . '<option selected="selected" value="3"><code>sin(pi*n)</code></option></select>';
+                        $this->assert_same_select_html($expected, $el->render(new stack_input_state(
+                            stack_input::SCORE,
+                            ['3'],
+                            '',
+                            '',
+                            '',
+                            '',
+                            ''
+                        ), 'stack1__ans1', false, null));
+    }
+
     public function test_render_latex(): void {
 
         $el = $this->make_dropdown(['options' => 'LaTeX']);

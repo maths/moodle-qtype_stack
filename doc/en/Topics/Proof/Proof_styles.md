@@ -4,6 +4,12 @@ We support the following CSS styles to enable consistent display of mathematical
 
 Note, the precise style will also depend on the styles in your learning environment.  The `class="proof"` styles focus on block structure and layout, e.g. indenting blocks and column layout.  Colour and typeface are generally not specified in the proof styles (although a white background is defined).  Styles are defined in `styles.css` of the top-level of the STACK plugin.
 
+### `<div class="statement">`
+
+This class can be used to present the statement of a Theorem/Lemma/etc.
+
+<div class="statement"><strong>Claim:</strong>\(\displaystyle \sum_{k=1}^n k = \frac{n(n+1)}{2}\)</div>
+
 ### `<div class="proof">`
 
 This class is a general high level container.

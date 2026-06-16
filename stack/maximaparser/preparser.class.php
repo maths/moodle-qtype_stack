@@ -173,8 +173,6 @@ class stack_maxima_student_preparser {
         return $string;
     }
 
-
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function strings_replace($stringles, $original) {
         $strings = stack_utils::all_substring_strings($original);

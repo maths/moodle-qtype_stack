@@ -131,6 +131,8 @@ s_test_case(scale_nicely([9,12,27]),[3,4,9]);
 s_test_case(scale_nicely(matrix([-9],[-12],[-27])),matrix([3],[4],[9]));
 s_test_case_simp(scale_nicely([1/2,1/4,-5/6]),[6,3,-10]);
 s_test_case(scale_nicely([0,0,0]),[0,0,0]);
+s_test_case(scale_nicely([-1,0,-2,-3]),[-1,0,-2,-3]);
+s_test_case(scale_nicely([-1,0,-2,-3],true),[1,0,2,3]);
 
 s_test_case(pinv(matrix([0,0],[0,0])),matrix([0,0],[0,0]));
 s_test_case_simp(pinv(matrix([1,1],[1,1])),matrix([1/4,1/4],[1/4,1/4]));

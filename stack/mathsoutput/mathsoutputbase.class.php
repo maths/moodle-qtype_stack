@@ -140,6 +140,7 @@ abstract class stack_maths_output {
             $v4start      = '{@';
             $v4end        = '@}';
         }
+        $text = $text ?? '';
         $text = preg_replace('~(?<!\\\\)\$\$(.*?)(?<!\\\\)\$\$~', $displaystart . '$1' . $displayend, $text);
         $text = preg_replace('~(?<!\\\\)\$(.*?)(?<!\\\\)\$~', $inlinestart . '$1' . $inlineend, $text);
 

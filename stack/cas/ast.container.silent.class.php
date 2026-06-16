@@ -221,6 +221,11 @@ class stack_ast_container_silent implements cas_evaluatable {
         // ast = null, we still want to check that the request is valid.
         $pipeline = stack_parsing_rule_factory::get_filter_pipeline($filterstoapply, $filteroptions, true);
 
+        // Match old logic of empty input being null.
+        if (($ast instanceof MP_Root) && count($ast->items) === 0) {
+            $ast = null;
+        }
+
         if ($ast !== null) {
             $ast = $pipeline->filter($ast, $errors, $answernotes, $securitymodel);
         }
@@ -273,12 +278,17 @@ class stack_ast_container_silent implements cas_evaluatable {
         // As we take no filter options for teachers sourced stuff lets build them from scratch.
         $filteroptions = ['998_security' => ['security' => 't'], '995_ev_modification' => ['flags' => true]];
 
-        // Get the filter pipeline. Now we only want the core filtters and
+        // Get the filter pipeline. Now we only want the core filters and
         // append the strict syntax check to the end.
         $pipeline = stack_parsing_rule_factory::get_filter_pipeline([
             '995_ev_modification', '996_call_modification', '998_security',
             '999_strict',
         ], $filteroptions, true);
+
+        // Match old logic of empty input being null.
+        if (($ast instanceof MP_Root) && count($ast->items) === 0) {
+            $ast = null;
+        }
 
         if ($ast !== null) {
             $ast = $pipeline->filter($ast, $errors, $answernotes, $securitymodel);

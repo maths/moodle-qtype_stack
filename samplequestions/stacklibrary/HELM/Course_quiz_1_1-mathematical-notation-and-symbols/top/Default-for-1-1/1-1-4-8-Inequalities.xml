@@ -29,8 +29,8 @@
       <text>2021072200</text>
     </stackversion>
     <questionvariables>
-      <text>a1: rand([4,5,6,7])
-a2: rand([8,9])</text>
+      <text>a1: rand([4,5,6,7]);
+a2: rand([8,9]);</text>
     </questionvariables>
     <specificfeedback format="html">
       <text/>
@@ -44,16 +44,6 @@ a2: rand([8,9])</text>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <prtcorrect format="html">
-      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
-    </prtcorrect>
-    <prtpartiallycorrect format="html">
-      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
-    </prtpartiallycorrect>
-    <prtincorrect format="html">
-      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
-    </prtincorrect>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>
@@ -138,7 +128,7 @@ a2: rand([8,9])</text>
     <input>
       <name>ans5</name>
       <type>boolean</type>
-      <tans>false</tans>
+      <tans>true</tans>
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
@@ -338,7 +328,7 @@ a2: rand([8,9])</text>
         <description/>
         <answertest>AlgEquiv</answertest>
         <sans>ans5</sans>
-        <tans>false</tans>
+        <tans>true</tans>
         <testoptions/>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>

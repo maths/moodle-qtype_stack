@@ -1,0 +1,350 @@
+{{!
+  This file is part of Moodle - https://moodle.org/
+
+  Moodle is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  Moodle is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with Moodle. If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+  @template qtype_stack/questiontestrunvariants
+
+  Display STACK dashboard variant pane after variants have been processed.
+
+  Classes required for JS:
+  * none
+
+  Data attributes required for JS:
+  * none
+
+  Context variables required for this template:
+  * none
+
+  Example context (json):
+  {
+    "duplicateerror": false,
+    "notes": [
+      {
+        "iscurrentseed": false,
+        "isdeployed": false,
+        "deployedseed": "1",
+        "previewurl": "http://question\/bank\/previewquestion\/preview.php?id=6611&amp;courseid=42&amp;variant=1",
+        "qurl": "http://question\/type\/stack\/questiontestrun.php?questionid=6611&amp;courseid=42&amp;seed=1",
+        "questionnote": "Question note",
+        "questionnoterendered": "Rendered question note",
+        "bulktestresultspass": false,
+        "bulktestresults": "",
+        "canedit": true,
+        "deletelink": "http://question\/type\/stack\/deploy.php?questionid=6611&amp;courseid=42&amp;undeploy&amp;sesskey=ElIpavgr9m#variants-pane"
+      }
+    ],
+    "deployedcount": 9,
+    "seed": 5,
+    "hasrandomvariants": true,
+    "seedmatched": true,
+    "variantdeployed": true,
+    "deployfeedback": null,
+    "deployfeedbackerr": null,
+    "canedit": true,
+    "deploylink": "http://question\/type\/stack\/deploy.php#variants-pane",
+    "undeployalllink": "http://question\/type\/stack\/deploy.php?questionid=6611&amp;courseid=42&amp;undeployall=1&amp;sesskey=ElIpavgr9m#variants-pane",
+    "pagelink": "http://question\/type\/stack\/questiontestrun.php",
+    "courseid": 42,
+    "cmid": 7,
+    "questionid": "6611",
+    "sesskey": "ElIpavgr9m",
+    "historic": 0,
+    "newseed": 1300573900,
+    "deployedseeds": [
+      "1"
+    ],
+    "testalllink": "http://question\/type\/stack\/questiontestrun.php?questionid=6611&amp;courseid=42&amp;testall=1&amp;sesskey=ElIpavgr9m#variants-pane",
+    "istest": true
+  }
+}}
+<!-- This is a continuation of questiontestrun.mustache -->
+{{#istest}}
+<!-- Fake pane start to pass mustache linting tests. -->
+<div>
+  <div>
+    <div>
+{{/istest}}
+    <!-- End test pane -->
+    </div>
+    <div class="tab-pane mt-3" id="variants-pane" role="tabpanel" aria-label="{{#str}} variants, qtype_stack {{/str}}">
+      <!-- Variant pane -->
+      {{#deployfeedback}}
+        <p class="overallresult pass">{{deployfeedback}}</p>
+      {{/deployfeedback}}
+      {{#deployfeedbackerr}}
+        <p class="overallresult fail var-pane-fail">
+          {{deployfeedbackerr}}
+          <button type="button" class="btn ml-3" style="border: 1px solid grey; border-radius: 0; color: grey; padding: 0px 2px 0px 2px" onclick="window.location.reload();"
+            title="{{#str}} dismiss, qtype_stack {{/str}}">X</button>
+        </p>
+      {{/deployfeedbackerr}}
+      <h3>
+        {{#notes.0}}
+          {{#str}} deployedvariantsn, qtype_stack, {{deployedcount}} {{/str}}
+        {{/notes.0}}
+        {{^notes.0}}
+          {{#str}} deployedvariants, qtype_stack {{/str}}
+        {{/notes.0}}
+      </h3>
+      {{^hasrandomvariants}}
+        <!-- No randomisation -->
+        <p>{{#str}} questiondoesnotuserandomisation, qtype_stack {{/str}} <a href="{{{previewurl}}}">{{#pix}}t/preview, core, {{#str}} preview, core {{/str}}{{/pix}}</a></p>
+        <span id="variant-count" hidden>(-)</span>
+      {{/hasrandomvariants}}
+      {{#hasrandomvariants}}
+        <span id="variant-count" hidden>({{deployedcount}})</span>
+      {{/hasrandomvariants}}
+      {{^notes.0}}
+        {{#hasrandomvariants}}
+          <!-- No variants -->
+          <p class="var-pane-fail">{{#pix}}req, core{{/pix}}{{#str}} runquestiontests_alert, qtype_stack {{/str}} {{#str}} questionnotdeployedyet, qtype_stack {{/str}}
+            <a href="{{{previewurl}}}">{{#pix}}t/preview, core, {{#str}} preview, core {{/str}}{{/pix}}</a>
+          </p>
+        {{/hasrandomvariants}}
+      {{/notes.0}}
+      {{#duplicateerror}}
+        <!-- Duplicate question notes -->
+        <p class="var-pane-fail">{{#pix}}req, core{{/pix}}</i>{{#str}} deployduplicateerror, qtype_stack {{/str}}</p>
+      {{/duplicateerror}}
+      {{#notes.0}}
+        <form method="get" action="{{{deploylink}}}">
+          <!-- Surround table in a form containing variant select check boxes and delete button -->
+          <input type="hidden" name="courseid" value="{{courseid}}">
+          <input type="hidden" name="cmid" value="{{cmid}}">
+          <input type="hidden" name="questionid" value="{{questionid}}">
+          <input type="hidden" name="sesskey" value="{{sesskey}}">
+          <input type="hidden" name="seed" value="{{seed}}">
+        <table id="deployed-variants-table" class="generaltable stacktestsuite">
+          <!-- Table of variants and question notes -->
+          <tr>
+            <th class="stack-sortable-header" data-sort-index="0" data-sort-type="number" tabindex="0" aria-sort="none">
+              <button type="button" class="btn btn-link p-0 stack-toggle-variants-btn"
+                  aria-label="{{#str}} invertvariantselection, qtype_stack {{/str}}" title="{{#str}} invertvariantselection, qtype_stack {{/str}}" aria-pressed="false">
+              {{#pix}}i/switch, core{{/pix}}
+              </button>{{#str}} seednumber, qtype_stack {{/str}}
+              <span class="stack-sort-arrow" aria-hidden="true">{{#pix}}t/sort, core{{/pix}}</span>
+            </th>
+            <th class="stack-sortable-header" data-sort-index="1" data-sort-type="text" tabindex="0" aria-sort="ascending">
+              {{#str}} questionnote, qtype_stack {{/str}}
+              <span class="stack-sort-arrow" aria-hidden="true">{{#pix}}t/sort, core{{/pix}}</span>
+            </th>
+            <th></th>
+            <th class="stack-sortable-header" data-sort-index="3" data-sort-type="text" tabindex="0" aria-sort="none">
+              {{#hastests}}
+                {{#str}} testpassesandfails, qtype_stack, {"passes":"{{passed}}", "fails":"{{failed}}"} {{/str}}
+                <span class="stack-sort-arrow" aria-hidden="true">{{#pix}}t/sort, core{{/pix}}</span>
+              {{/hastests}}
+            </th>
+          </tr>
+      {{/notes.0}}
+
+      {{#notes}}
+        <tr>
+          <td>
+            <input type="checkbox" name="selectvariant-{{deployedseed}}" aria-label="{{#str}} selectvariant, qtype_stack {{/str}} {{deployedseed}}<">
+            {{#iscurrentseed}}
+              <strong title="{{#str}} currentlyselectedvariant, qtype_stack {{/str}}">{{deployedseed}}</strong>
+            {{/iscurrentseed}}
+            {{^iscurrentseed}}
+              <a href="{{{qurl}}}" title="{{#str}} testthisvariant, qtype_stack {{/str}}">{{deployedseed}}</a>
+            {{/iscurrentseed}}
+            <a href="{{{previewurl}}}">{{#pix}}t/preview, core, {{#str}} preview, core {{/str}}{{/pix}}</a>
+            {{#canedit}}
+              <a href="{{{deletelink}}}">{{#pix}}t/delete, core, {{#str}} undeploy, qtype_stack {{/str}}{{/pix}}</a>
+            {{/canedit}}
+          </td>
+          <td>
+            {{{questionnoterendered}}}
+          </td>
+          <td>
+          {{#bulktestresults}}
+            {{#bulktestresultspass}}
+              <span>{{#pix}}i/valid, core, {{#str}} questiontestspass, qtype_stack {{/str}}{{/pix}}</span>
+            {{/bulktestresultspass}}
+            {{^bulktestresultspass}}
+              <span>{{#pix}}i/invalid, core, {{#str}} questiontestsfailed, qtype_stack {{/str}}{{/pix}}</span>
+            {{/bulktestresultspass}}
+          {{/bulktestresults}}
+          </td>
+          <td>
+            {{{bulktestresults}}}
+          </td>
+        </tr>
+      {{/notes}}
+      {{#notes.0}}
+        </table>
+          <!-- Delete selected -->
+          {{#canedit}}
+            <input type="submit" name="deleteselectedbtn" class="btn btn-secondary" value="{{#str}} deleteselected, qtype_stack {{/str}}">
+          {{/canedit}}
+          <button class="btn btn-warning" type="button" onclick="window.location.href='{{{testalllink}}}'">
+            {{#str}} deploytestall, qtype_stack {{/str}}
+          </button>
+        </form>
+      {{/notes.0}}
+      {{#hasrandomvariants}}
+        <form method="get" class="switchtovariant" action="{{pagelink}}">
+          <!-- Switch to random variant -->
+          <input type="hidden" name="courseid" value="{{courseid}}">
+          <input type="hidden" name="cmid" value="{{cmid}}">
+          <input type="hidden" name="questionid" value="{{questionid}}">
+          <input type="hidden" name="historic" value={{historic}}>
+          <div class="row mt-3">
+            <div class="col-2">
+              {{#str}} switchtovariant, qtype_stack {{/str}}
+            </div>
+            <div class="col-2">
+              <input type="text" id="seedfield" name="seed" value="{{newseed}}" aria-label="{{#str}} switchtovariant, qtype_stack {{/str}}" class="form-control">
+            </div>
+            <div class="col-2">
+              <input type="submit" class="btn btn-secondary" aria-label="{{#str}} switchtovariant, qtype_stack {{/str}} {{newseed}}" value="{{#str}} switch, qtype_stack {{/str}}">
+            </div>
+          </div>
+        </form>
+        <br>
+        {{#canedit}}
+          <h3>{{#str}} variantmanagement, qtype_stack {{/str}}</h3>
+        {{/canedit}}
+      {{/hasrandomvariants}}
+      {{^seedmatched}}
+        {{^canedit}}
+          <!-- Showing undeployed variant and can't edit. Info only. -->
+          <div class="row mt-3">
+            <div class="col-2">
+              <b>{{#str}} showingundeployedvariant, qtype_stack {{/str}}</b>
+            </div>
+            <div class="col-2">
+              <b>{{seed}}</b>
+            </div>
+          </div>
+        {{/canedit}}
+      {{/seedmatched}}
+      {{#hasrandomvariants}}
+        {{#canedit}}
+          <!-- Combined form for the different deploys -->
+          <form method="get" class="deploymany" action="{{{deploylink}}}">
+            <input type="hidden" name="courseid" value="{{courseid}}">
+            <input type="hidden" name="cmid" value="{{cmid}}">
+            <input type="hidden" name="questionid" value="{{questionid}}">
+            <input type="hidden" name="sesskey" value="{{sesskey}}">
+            <input type="hidden" name="deploy" value="{{seed}}">
+            {{^seedmatched}}
+              <!-- Showing undeployed variant -->
+              <div class="row mt-3">
+                <div class="col-2">
+                  <b>{{#str}} showingundeployedvariant, qtype_stack {{/str}}</b>
+                </div>
+                <div id="id_unmatchedseed" class="col-2">
+                  <b>{{seed}}</b>
+                </div>
+                <div class="col-2">
+                  {{#variantdeployed}}
+                    <!-- Seed does not match a deployed variant but the question note does -->
+                    {{#str}} alreadydeployed, qtype_stack{{/str}}
+                  {{/variantdeployed}}
+                  {{^variantdeployed}}
+                    <input type="submit" name="deploysinglebtn" class="btn btn-secondary" aria-label="{{#str}} deploy, qtype_stack {{/str}}" value="{{#str}} deploybtn, qtype_stack {{/str}}">
+                  {{/variantdeployed}}
+                </div>
+                <div class="col-4">
+                  {{#str}} questionnote, qtype_stack {{/str}}: {{{questionnote}}}
+                </div>
+              </div>
+            {{/seedmatched}}
+            <div class="row mt-3">
+              <!-- Option to halt deploy on test failure -->
+              <div class="col-2" id="deployhalttext">
+                {{#str}} deployhalt, qtype_stack {{/str}}:
+              </div>
+              <div class="col-2">
+                <input type="checkbox" name="deployhalt" aria-label="{{#str}} deployhalt, qtype_stack {{/str}}" checked>
+              </div>
+              <div class="col-4 offset-2">
+                {{#str}} deployhalthelp, qtype_stack {{/str}}
+              </div>
+            </div>
+            <div class="row mt-3">
+              <!-- Deploy a number of variants -->
+              <div class="col-2">
+                {{#str}} deploymanybtn, qtype_stack {{/str}}
+              </div>
+              <div class="col-2">
+                <input type="text" id="deploymanyfield" name="deploymany" aria-label="{{#str}} deploynumber, qtype_stack {{/str}}" class="form-control">
+              </div>
+              <div class="col-2">
+                <input type="submit" name="deploymanybtn" class="btn btn-secondary" aria-label="{{#str}} deploymany, qtype_stack {{/str}}" value="{{#str}} deploybtn, qtype_stack {{/str}}">
+              </div>
+              <div class="col-4">
+                {{#str}} deploymanynotes, qtype_stack {{/str}}
+              </div>
+            </div>
+            <div class="row mt-3">
+              <!-- Deploy seeds from x to y -->
+              <div class="col-2">
+                {{#str}} deploysystematicfrombtn, qtype_stack {{/str}}
+              </div>
+              <div class="col-2">
+                <input type="text" id="deploysystematicfromfield" name="deploysystematicfrom" aria-label="{{#str}} deployfrom, qtype_stack {{/str}}" class="form-control" style="width: 40%; display: inline;" value="1">
+                {{#str}} deploysystematicto, qtype_stack {{/str}}
+                <input type="text" id="deploysystematictofield" name="deploysystematicto" aria-label="{{#str}} deployto, qtype_stack {{/str}}" class="form-control" style="width: 40%; display: inline;">
+              </div>
+              <div class="col-2">
+                <input type="submit" name="deploysystbtn" class="btn btn-secondary" aria-label="{{#str}} deployrange, qtype_stack {{/str}}" value="{{#str}} deploybtn, qtype_stack {{/str}}">
+              </div>
+            </div>
+            <div class="row mt-3">
+              <!-- Deploy from a list of seeds -->
+              <div class="col-2">
+                {{#str}} deployfromlistbtn, qtype_stack {{/str}}:
+              </div>
+              <div class="col-2">
+                <textarea cols="15" rows="3" id="deployfromlist" name="deployfromlist" class="form-control"></textarea>
+              </div>
+              <div class="col-2">
+                <input type="submit" name="deployfromlistbtn" class="btn btn-secondary" aria-label="{{#str}} deployfromlistbtn, qtype_stack {{/str}}" value="{{#str}} deploybtn, qtype_stack {{/str}}">
+              </div>
+              <div class="col-4">
+                {{#str}} deployfromlist, qtype_stack {{/str}}
+                <br>
+                {{#str}} deleteexisting, qtype_stack {{/str}} <input type="checkbox" aria-label="{{#str}} deleteexisting, qtype_stack {{/str}}" name="deleteexisting">
+                <details>
+                  <summary>
+                    {{#str}} deployfromlistexisting, qtype_stack {{/str}}
+                  </summary>
+                  <pre>{{#deployedseeds}}{{.}}<br>{{/deployedseeds}}</pre>
+                </details>
+              </div>
+            </div>
+          </form>
+        {{/canedit}}
+      {{/hasrandomvariants}}
+    </div>
+  </div>
+</div>
+
+{{#js}}
+require(['qtype_stack/dashboard'], function(component) {
+    component.init();
+});
+{{/js}}
+<script>
+  // Un-disable tabs once the page has loaded.
+  // Having the code here triggers a switch to the relevant pane on page load.
+  const tabs = document.querySelectorAll('.stack-dash-tab-load');
+  for (const tab of tabs) {
+      tab.classList.remove("disabled", "stack-dash-tab-load");
+  }
+</script>

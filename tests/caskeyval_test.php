@@ -447,4 +447,11 @@ final class caskeyval_test extends qtype_stack_testcase {
         $kv->compile('test');
         $this->assertEquals($tests, $kv->get_raw());
     }
+
+    public function test_stack_compile_comment_only(): void {
+        // This is related to issue #1661.
+        $tests = '/* Comment only! */';
+        $kv = new stack_cas_keyval($tests);
+        $this->asserttrue($kv->get_valid());
+    }
 }

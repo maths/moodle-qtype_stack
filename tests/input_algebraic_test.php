@@ -546,6 +546,25 @@ final class input_algebraic_test extends qtype_stack_testcase {
             '\[ 3\cdot a\cdot b\cdot \left(x+1\right) \]',
             $state->contentsdisplayed
         );
+
+        // As raised in issue #1766.
+        // Note, by design, the lower case e denotes an exponent, not a calculus constant %e.
+        $el->set_parameter('insertStars', 7);
+        $el->set_parameter('forbidFloats', false);
+        $state = $el->validate_student_response(
+            ['sans1' => '7e9'],
+            $options,
+            '7E9',
+            new stack_cas_security(false, '', '', ['tans'])
+            );
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('7E9', $state->contentsmodified);
+        $this->assertEquals(
+            '\[ 7 \times 10^{9} \]',
+            $state->contentsdisplayed
+            );
     }
 
     public function test_validate_student_response_too_long(): void {
@@ -782,8 +801,13 @@ final class input_algebraic_test extends qtype_stack_testcase {
         );
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('2*sqrt(+2)/3', $state->contentsmodified);
-        // Maxima's TeX code pulls out the + to outside the sqrt. Known edge case.
-        $this->assertEquals('\[ \frac{2\cdot +\sqrt{2}}{3} \]', $state->contentsdisplayed);
+        if ($this->adapt_to_new_maxima('5.47.0')) {
+            // Fixed in Maxima 5.48.0.
+            $this->assertEquals('\[ \frac{2\cdot \sqrt{+2}}{3} \]', $state->contentsdisplayed);
+        } else {
+                // Maxima's TeX code pulls out the + to outside the sqrt. Known edge case.
+            $this->assertEquals('\[ \frac{2\cdot +\sqrt{2}}{3} \]', $state->contentsdisplayed);
+        }
         $this->assertEquals(
             'The answer <span class="filter_mathjaxloader_equation">'
             . '<span class="nolink">\( \frac{2\cdot \sqrt{2}}{3} \)</span></span>, which can be typed as '

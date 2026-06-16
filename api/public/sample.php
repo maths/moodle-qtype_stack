@@ -172,14 +172,14 @@ foreach ($files->children as $file) {
                 <div id="stackapi_validity" style="color:darkred"></div>
               </div>
               <br>
-              <div id="stackapi_combinedfeedback" class="feedback col-lg-8" style="display: none">
+              <div id="stackapi_combinedfeedback" class="feedback outcome col-lg-8" style="display: none">
                 <div id="specificfeedback"></div>
                 <div id="generalfeedback"></div>
               </div>
               <div id="stackapi_correct" style="display: none">
                 <div class="noninfo">
                   <h2>Correct answers:</h2>
-                  <div id="formatcorrectresponse" class="feedback"></div>
+                  <div id="formatcorrectresponse" class="feedback outcome"></div>
                 </div>
               </div>
             </div>

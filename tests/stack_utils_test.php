@@ -293,4 +293,42 @@ final class stack_utils_test extends qtype_stack_testcase {
     public function test_count_missing_alttext(int $expectedcount, string $html): void {
         $this->assertEquals($expectedcount, stack_utils::count_missing_alttext($html));
     }
+
+    /**
+     * Test cases for test_rational_approximation.
+     *
+     * @return array of test cases.
+     */
+    public static function rational_approximation_cases(): array {
+        return [
+            [0.1, 4, [1, 10]],
+            [1.3, 4, [13, 10]],
+            [0.25, 4, [1, 4]],
+            [0.37, 4, [37, 100]],
+            [0.33333, 4, [1, 3]],
+            [0.333, 4, [333, 1000]],
+            [-0.1, 4, [-1, 10]],
+            [3, 4, [3, 1]],
+            [-7, 4, [-7, 1]],
+            [2.718281828, 2, [19, 7]],
+            [2.718281828, 4, [193, 71]],
+            [2.718281828, 6, [2721, 1001]],
+            // Fibonacci numbers for good measure.
+            [1.618181818, 4, [89, 55]],
+            [1.618181818, 3, [34, 21]],
+            [1.618033963, 8, [6765, 4181]],
+        ];
+    }
+
+    /**
+     * Test rational_approximation
+     *
+     * @param float $n Number to be approximated.
+     * @param int $accuracy Number of places to be returned.$this
+     * @param array $expected Output of the test.
+     * @dataProvider rational_approximation_cases
+     */
+    public function test_rational_approximation(float $n, int $accuracy, array $expected): void {
+        $this->assertEquals($expected, stack_utils::rational_approximation($n, $accuracy));
+    }
 }

@@ -61,16 +61,6 @@ tplane:mone*x + ntwo*y+nthree*z=mone*xzero+ntwo*yzero+nthree*zzero;
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <prtcorrect format="html">
-      <text><![CDATA[Correct answer, well done.<br>]]></text>
-    </prtcorrect>
-    <prtpartiallycorrect format="html">
-      <text>Your answer is partially correct.</text>
-    </prtpartiallycorrect>
-    <prtincorrect format="html">
-      <text><![CDATA[<div class="editor-indent" style="margin-left: 30px;"><br></div><br><span class="rangySelectionBoundary" style="line-height: 0;" id="selectionBoundary_1437740478501_9255851274093964">﻿</span><span class="rangySelectionBoundary" style="line-height: 0;" id="selectionBoundary_1437740478500_7610759551001749">﻿</span>]]></text>
-    </prtincorrect>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>none</multiplicationsign>
     <sqrtsign>1</sqrtsign>

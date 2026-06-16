@@ -21,7 +21,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="expectedfail">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. Missing option when executing the test. </td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. Option field is invalid. </td></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">AddConst</td>
@@ -38,7 +38,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="expectedfail">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. Missing option when executing the test. </td></td>
+  <td class="cell c1"><td colspan="4">The answer test failed to execute correctly: please alert your teacher. Option field is invalid. </td></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">AddConst</td>

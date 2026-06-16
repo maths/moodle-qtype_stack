@@ -91,6 +91,7 @@ class stack_cas_casstring_units {
         ['Wh', '3600*(kg*m^2)/s^2', 'Wh', 'Watts hours'],
         ['A', 'A', 'A', 'Ampere'],
         ['ohm', '(kg*m^2)/(s^3*A^2)', '\Omega', 'ohm'],
+        ['Omega', '(kg*m^2)/(s^3*A^2)', '\Omega', 'ohm'],
         ['C', 's*A', 'C', 'Coulomb'],
         ['V', '(kg*m^2)/(s^3*A)', 'V', 'Volt'],
         ['F', '(s^4*A^2)/(kg*m^2)', 'F', 'Farad'],

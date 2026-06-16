@@ -6,7 +6,7 @@
     </name>
     <questiontext format="html">
       <text><![CDATA[<p class="HELM_exercise">Exercise</p>
-<p>Find the definite integral of {@exp1@} from {@b1@} to {@b2@}, that is, find \(\displaystyle \int_{@b1@}^{@b2@} ({@exp@}) \, \mathrm{d}x\).</p>
+<p>Find the definite integral of {@exp1@} from {@b1@} to {@b2@}, that is, find \(\displaystyle \int_{@b1@}^{@b2@} ({@exp1@}) \, \mathrm{d}x\).</p>
 <p>First find the indefinite integral:</p>
 <p>\(\displaystyle \int ({@exp1@}) \, \mathrm{d}x = \) [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</p>
 <p>Now insert the limits of integration, the upper limit first, and hence evaluate the integral:</p>
@@ -60,16 +60,6 @@ ta3: -ta2;</text>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <prtcorrect format="html">
-      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
-    </prtcorrect>
-    <prtpartiallycorrect format="html">
-      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
-    </prtpartiallycorrect>
-    <prtincorrect format="html">
-      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
-    </prtincorrect>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>

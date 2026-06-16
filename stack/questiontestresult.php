@@ -69,6 +69,11 @@ class stack_question_test_result {
     public $debuginfo = [];
 
     /**
+     * @var array Runtime errors from the question.
+     */
+    public $runtimeerrors = [];
+
+    /**
      * @var float Store the question penalty to check defaults.
      */
     public $questionpenalty;
@@ -194,8 +199,11 @@ class stack_question_test_result {
                 is_null($state->expectedscore) != is_null($state->score) ||
                     abs($state->expectedscore - $state->score) > 10E-6
             ) {
-                $state->testoutcome = false;
-                $reason[] = stack_string('score');
+                // When the expected score is -1 the test does not fail.
+                if ($state->expectedscore != -1) {
+                    $state->testoutcome = false;
+                    $reason[] = stack_string('score');
+                }
             }
             // If the expected penalty is null then we use the question default penalty.
             $penalty = $state->expectedpenalty;
@@ -211,13 +219,20 @@ class stack_question_test_result {
                     is_null($state->penalty) ||
                         abs($penalty - $state->penalty) > 10E-6
                 ) {
-                    $state->testoutcome = false;
-                    $reason[] = stack_string('penalty');
+                    // When the expected penalty is -1 the test does not fail.
+                    if ($penalty != -1) {
+                        $state->testoutcome = false;
+                        $reason[] = stack_string('penalty');
+                    }
                 }
             }
-            if (!$this->test_answer_note($state->expectedanswernote, $actualresult->get_answernotes())) {
+            [$noteresult, $messages] = $this->test_answer_note(
+                $state->expectedanswernote,
+                $actualresult->get_answernotes()
+            );
+            if (!$noteresult) {
                 $state->testoutcome = false;
-                $reason[] = stack_string('answernote');
+                $reason[] = stack_string('answernote') . ': ' . implode(' ', $messages);
             }
             if (empty($reason)) {
                 $state->reason = '';
@@ -232,17 +247,104 @@ class stack_question_test_result {
     }
 
     /**
-     * Test that the expected and actual answer notes match, to the level we can test.
+     * Test that the expected and actual answer notes match.
      * @param string $expected the expected final answer note.
      * @param array $actual the actual answer notes returend.
-     * @return bool whether the answer notes match sufficiently.
+     * @return array Boolean of whether the answer notes match sufficiently, and an array of messages.
      */
-    protected function test_answer_note($expected, $actual) {
-        $lastactual = array_pop($actual) ?? '';
-        if ('NULL' == $expected) {
-            return '' == trim($lastactual);
+    public function test_answer_note(string $expected, array $actual) {
+
+        $expected = trim($expected);
+        if ('' == $expected) {
+            return [false, [stack_string('questiontestsempty')]];
         }
-        return trim($lastactual) == trim($expected);
+        // Specific edge case.
+        if ('()' == $expected) {
+            return [true, []];
+        }
+
+        if (empty($actual)) {
+            if ('NULL' === $expected) {
+                return [true, []];
+            } else {
+                return [false, [stack_string('questiontestsnull')]];
+            }
+        }
+        if ('NULL' === $expected) {
+            return [false, [stack_string('questiontestsnotnull', array_pop($actual))]];
+        }
+        $lastactual = $actual[array_key_last($actual)];
+
+        $messages = [];
+        $noteresult = true;
+
+        // Do we anchor the start?
+        $anchorstart = false;
+        if (mb_substr($expected, 0, 1) === '[') {
+            $anchorstart = true;
+            $expected = mb_substr($expected, 1);
+        }
+        if (mb_substr($expected, 0, 1) === '(') {
+            $expected = mb_substr($expected, 1);
+        }
+
+        // Do we anchor the end?
+        $anchorend = true;
+        if (mb_substr($expected, -1, 1) === ']') {
+            $expected = mb_substr($expected, 0, -1);
+        }
+        if (mb_substr($expected, -1, 1) === ')') {
+            $anchorend = false;
+            $expected = mb_substr($expected, 0, -1);
+        }
+
+        $expectednotes = array_map('trim', explode('|', $expected));
+
+        if ($anchorstart) {
+            if ($expectednotes[0] != $actual[0]) {
+                $noteresult = false;
+                $messages[] = stack_string(
+                    'questiontestsfirst',
+                    ['expected' => $expectednotes[0], 'actual' => $actual[0]]
+                );
+            }
+        }
+        if ($anchorend) {
+            $lastexpected = $expectednotes[array_key_last($expectednotes)];
+            if ($lastexpected != $lastactual) {
+                $noteresult = false;
+                $messages[] = stack_string(
+                    'questiontestslast',
+                    ['expected' => $lastexpected, 'actual' => $lastactual]
+                );
+            }
+        }
+        // With anchoring problems, return the error immediately.
+        if (!$noteresult) {
+            return [$noteresult, $messages];
+        }
+
+        // Make sure each expected note appears in order in the actual notes.
+        // Ignore actual notes which don't appear.
+        foreach ($expectednotes as $nextexpected) {
+            $found = false;
+            $foundkey = 0;
+            foreach ($actual as $key => $nextactual) {
+                // Only use the first occurance in the $foundkey variable.
+                if (!$found && (trim($nextexpected) === trim($nextactual))) {
+                    $found = true;
+                    $foundkey = $key;
+                }
+            }
+            if ($found) {
+                // Prune down the actual array.
+                $actual = array_slice($actual, $foundkey + 1);
+            } else {
+                $noteresult = false;
+                $messages[] = stack_string('questiontestsmissing', $nextexpected);
+            }
+        }
+        return [$noteresult, $messages];
     }
 
     /**
@@ -251,6 +353,9 @@ class stack_question_test_result {
      */
     public function passed() {
         if ($this->emptytestcase) {
+            return false;
+        }
+        if (!empty($this->runtimeerrors)) {
             return false;
         }
         foreach ($this->get_prt_states() as $state) {
@@ -273,6 +378,9 @@ class stack_question_test_result {
         if ($this->emptytestcase) {
             $passed = false;
             $reason = stack_string('questiontestempty');
+        } else if (!empty($this->runtimeerrors)) {
+            $passed = false;
+            $reason = implode(' ', $this->runtimeerrors);
         } else {
             foreach ($this->get_input_states() as $inputname => $inputstate) {
                 $inputval = ($inputstate->input === false) ? '' : $inputstate->input;
@@ -317,10 +425,11 @@ class stack_question_test_result {
             $outcome = html_writer::tag('span', stack_string('testsuitefail'), ['class' => 'fail']);
         }
         if ($key !== null) {
-            $html .= html_writer::tag('h3', stack_string(
-                'testcasexresult',
-                ['no' => $key, 'result' => $outcome]
-            ));
+            $html .= html_writer::tag(
+                'h3',
+                stack_string('testcasexresult', ['no' => $key, 'result' => $outcome]),
+                ['id' => 'testcase-' . $key . '-' . $question->id]
+            );
         }
 
         if (trim($this->testcase->description) !== '') {

@@ -28,39 +28,43 @@ stack_linear_algebra_declare(true)$
 /*******************************************************************************/
 /* A convenience function for displaying a matrix as an augmented matrix       */
 /*******************************************************************************/
-texput(aug_matrix, lambda([ex], block([M,ll,rr,m,n,A,b,simp],
-  simp:true,
-  M: apply(matrix,args(ex)),
-  ll: lmxchar,
-  if is(ll="[") then rr: "]"
-  else if is(ll="(") then rr: ")"
-  else if is(ll="") then (ll: ".", rr: ".")
-  else if is(ll="{") then (ll: "\\{", rr: "\\}")
-  else if is(ll="|") then rr: "|",
-  [m, n]: matrix_size(M),
-  A: submatrix(M,n),
-  b: col(M,n),
-  sconcat("\\left",ll,block([lmxchar],lmxchar:"",tex1(A)),"\\right|\\left.",block([lmxchar],lmxchar:"",tex1(b)),"\\right",rr)
-)));
+texput(aug_matrix, lambda([ex],
+  block([exl:args(ex),ii,ss,ll:lmxchar,rr,lmxchar],
+    if is(ll="[") then rr: "]"
+    else if is(ll="(") then rr: ")"
+    else if is(ll="") then (ll: ".", rr: ".")
+    else if is(ll="{") then (ll: "\\{", rr: "\\}")
+    else if is(ll="|") then rr: "|",
+    lmxchar: "",
+    ss: ["\\left",ll,tex1(exl[1])],
+    for ii: 2 thru length(exl) do block(
+      ii: ev(ii,simp),
+      ss: append(ss, ["\\left|",tex1(exl[ii]),"\\right."])
+    ),
+    ss: append(ss, ["\\right",rr]),
+    return(simplode(ss))
+  )
+));
 
 /**
  * Converts a matrix to an aug_matrix
  * aug_matrix is an inert function that is used for displaying a matrix as an augmented matrix
  * To convert back, use de_aug 
  *
- * @param[matrix] M The matrix you would like to display as an augmented matrix
+ * @param[matrix] M The matrix or matrices you would like to display as an augmented matrix
  * @return[aug_matrix] An augmented matrix
  */
-aug(M):= apply(aug_matrix,args(M));
+aug([M]):= if is(length(M)=1) then apply(aug_matrix,[submatrix(first(M),second(matrix_size(first(M)))),col(first(M),second(matrix_size(first(M))))]) else apply(aug_matrix,M);
 
 /**
  * Converts an aug_matrix to a matrix
  * aug_matrix is an inert function that is used for displaying a matrix as an augmented matrix
+ * Note: This always returns a single matrix constructed by concatenating the arguments of the original aug_matrix. 
  *
  * @param[matrix] M The aug_matrix you would like to treat as a regular matrix
  * @return[aug_matrix] A matrix
  */
-de_aug(M):= apply(matrix,args(M));
+de_aug(M):= apply(addcol, args(M));
 
 /*********************************************************************************/
 /* Functions to extract parts of matrices                                        */

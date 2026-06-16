@@ -72,7 +72,7 @@ get_Jordan_form(M):= block([jordan_info,J,P],
 diagonalize(M):= block([P,D],
   if not(squarep(M)) then return([]),
   [P, D]: get_Jordan_form(M),
-  if ev(zeromatrixp(M - transpose(M)),simp) then P:ev(transpose(apply('matrix, map(lambda([ex], ex/sqrt(ex.ex)), args(transpose(P))))), simp),
+  if ev(zeromatrixp(M - transpose(M)),simp) then P:ev(transpose(apply('matrix, map(lambda([ex], ex/sqrt(ex.ex)), gramschmidt(args(transpose(P)))))), simp),
   if diagp(D) then return([P,D]) else return([])
 );
 

@@ -697,16 +697,29 @@ final class castext2_test extends qtype_stack_testcase {
         $this->assertEquals($output, $this->evaluate($input, $preamble));
     }
 
-    // Inline fractions using stack_disp_fractions("i").
     /**
-     * Add description here.
+     * Inline fractions using stack_disp_fractions("i").
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_stack_disp_fractions(): void {
-
         $input = '{@(stack_disp_fractions("i"),a/b)@}, {@(stack_disp_fractions("d"),a/b)@}';
         $output = '\({{a}/{b}}\), \({\frac{a}{b}}\)';
         $this->assertEquals($output, $this->evaluate($input));
+    }
+
+    /**
+     * Option error trapping.
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
+    public function test_stack_disp_error(): void {
+        $input = '{@stack_disp(x^2,"di")@}';
+
+        $statements[] = castext2_evaluatable::make_from_source($input, 'castext-test-case');
+        $session = new stack_cas_session2($statements, new \stack_options());
+
+        $session->instantiate();
+        $this->assertTrue($session->get_valid());
+        $this->assertEquals('ERROR: stack_disp illegal delimiter option found: di', $session->get_errors());
     }
 
     // JavaScript string generation.

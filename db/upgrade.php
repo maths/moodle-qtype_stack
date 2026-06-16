@@ -1035,6 +1035,16 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         // STACK savepoint reached.
         upgrade_plugin_savepoint(true, 2025042500, 'qtype', 'stack');
     }
+
+    if ($oldversion < 2026042402) {
+        $table = new xmldb_table('qtype_stack_qtest_expected');
+        $field = new xmldb_field('expectedanswernote', XMLDB_TYPE_CHAR, '1023', null, XMLDB_NOTNULL, null, null, 'expectedpenalty');
+
+        $dbman->change_field_type($table, $field);
+
+        // STACK savepoint reached.
+        upgrade_plugin_savepoint(true, 2026042402, 'qtype', 'stack');
+    }
     // Add new upgrade blocks just above here.
 
     // Check the version of the Maxima library code that comes with this version

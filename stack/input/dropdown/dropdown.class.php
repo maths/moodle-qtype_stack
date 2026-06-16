@@ -90,7 +90,6 @@ class stack_dropdown_input extends stack_input {
                     } else {
                         $this->extraoptions[$opt] = $arg;
                     }
-                    break;
                 }
 
                 switch ($option) {

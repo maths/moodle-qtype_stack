@@ -874,6 +874,14 @@ final class ast_filter_998_security_auto_generated_test extends qtype_stack_ast_
         );
 
         $this->expect(
+            'omega',
+            'omega',
+            ['unknownUnitsCase'],
+            false,
+            true
+        );
+
+        $this->expect(
             'partialdiff(x,y,1)',
             'partialdiff(x,y,1)',
             ['forbiddenFunction'],
@@ -2401,14 +2409,6 @@ final class ast_filter_998_security_auto_generated_test extends qtype_stack_ast_
         $this->expect(
             'nu',
             'nu',
-            [],
-            true,
-            false
-        );
-
-        $this->expect(
-            'omega',
-            'omega',
             [],
             true,
             false

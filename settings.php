@@ -131,11 +131,12 @@ $settings->add(new admin_setting_configselect(
     get_string('settingcasmaximaversion_desc', 'qtype_stack'),
     null,
     [
-                    '5.40.0' => '5.40.0', '5.41.0' => '5.41.0', '5.42.0' => '5.42.0',
-                    '5.42.1' => '5.42.1', '5.42.2' => '5.42.2',
-                    '5.43.0' => '5.43.0', '5.43.1' => '5.43.1', '5.43.2' => '5.43.2',
-                    '5.44.0' => '5.44.0', '5.46.0' => '5.46.0', '5.47.0' => '5.47.0',
-                    'default' => 'default',
+        '5.40.0' => '5.40.0', '5.41.0' => '5.41.0', '5.42.0' => '5.42.0',
+        '5.42.1' => '5.42.1', '5.42.2' => '5.42.2', '5.43.0' => '5.43.0',
+        '5.43.1' => '5.43.1', '5.43.2' => '5.43.2', '5.44.0' => '5.44.0',
+        '5.45.0' => '5.45.0', '5.46.0' => '5.46.0', '5.47.0' => '5.47.0',
+        '5.48.0' => '5.48.0', '5.49.0' => '5.49.0',
+        'default' => 'default',
     ]
 ));
 
@@ -423,8 +424,8 @@ $settings->add(new admin_setting_configtextarea(
     'qtype_stack/prtcorrect',
     get_string('prtcorrectfeedback', 'qtype_stack'),
     '',
-    get_string('symbolicprtcorrectfeedback', 'qtype_stack') . ' ' .
-    get_string('defaultprtcorrectfeedback', 'qtype_stack'),
+    '[[commonstring key="symbolicprtcorrectfeedback"/]] ' .
+    '[[commonstring key="defaultprtcorrectfeedback"/]]',
     PARAM_RAW,
     60,
     3
@@ -434,8 +435,8 @@ $settings->add(new admin_setting_configtextarea(
     'qtype_stack/prtpartiallycorrect',
     get_string('prtpartiallycorrectfeedback', 'qtype_stack'),
     '',
-    get_string('symbolicprtpartiallycorrectfeedback', 'qtype_stack') . ' ' .
-    get_string('defaultprtpartiallycorrectfeedback', 'qtype_stack'),
+    '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+    '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
     PARAM_RAW,
     60,
     3
@@ -445,8 +446,8 @@ $settings->add(new admin_setting_configtextarea(
     'qtype_stack/prtincorrect',
     get_string('prtincorrectfeedback', 'qtype_stack'),
     '',
-    get_string('symbolicprtincorrectfeedback', 'qtype_stack') . ' ' .
-    get_string('defaultprtincorrectfeedback', 'qtype_stack'),
+    '[[commonstring key="symbolicprtincorrectfeedback"/]] ' .
+    '[[commonstring key="defaultprtincorrectfeedback"/]]',
     PARAM_RAW,
     60,
     3

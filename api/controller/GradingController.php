@@ -79,13 +79,13 @@ class GradingController {
         $storeprefix = uniqid();
         $gradingresponse = new StackGradingResponse();
         $gradingresponse->isgradable = true;
-                    
+
         if (!$question->is_gradable_response($data['answers'])) {
             $gradingresponse->isgradable = false;
             $response->getBody()->write(json_encode($gradingresponse));
             return $response->withHeader('Content-Type', 'application/json');
         }
-        
+
         $scores = [];
         foreach ($question->prts as $index => $prt) {
             $result = $question->get_prt_result($index, $data['answers'], true);

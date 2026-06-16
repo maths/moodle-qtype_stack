@@ -1,0 +1,219 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template qtype_stack/questiontestrun
+
+    Displays page headers and question info on STACK dashboard before intensive
+    processing takes place.
+
+    Classes required for JS:
+    * none
+
+    Data attributes required for JS:
+    * none
+
+    Context variables required for this template:
+    * none
+
+    Example context (json):
+    {
+      "question": {
+          "name": "Question name",
+          "rendergeneralfeedback": "General feedback",
+          "seed": 182397542,
+          "renderquestiondescription": "",
+          "questiondescription": "",
+          "renderquestion": "",
+          "questionnote": "",
+          "questionvariablevalues": "n1:4;\nn2:6;",
+          "upgradeerrors": "",
+          "validationerrors": "",
+          "prts": [
+              {
+                  "name": "Result",
+                  "prt": "PRT result"
+              }
+          ],
+          "stackversion": "This question was authored with STACK version 2026022303. The current version of STACK is 2026022303.",
+          "version": "7"
+      },
+      "general": {
+          "testcreated": false,
+          "versions": [
+            {
+              "version": "latest",
+              "url": "http://question\/type\/stack\/questiontestrun.php?courseid=7&amp;questionid=6605",
+              "active": true
+            }
+          ],
+          "editquestionlink": "http://question\/type\/stack\/questioneditlatest.php?courseid=7&amp;id=6605",
+          "editxmllink": "http://question\/type\/stack\/questionxmledit.php?courseid=7&amp;id=6605",
+          "questionbanklink": "http://question\/edit.php?courseid=7&amp;qperpage=1000&amp;category=546%2C183&amp;lastchanged=6605",
+          "chatlink": "http://question\/type\/stack\/adminui\/caschat.php?questionid=6605&amp;seed=182397542&amp;courseid=7&amp;initialise=1",
+          "tidylink": "http://question/type/stack/tidyquestion.php?questionid=6605&seed=182397542&courseid=7",
+          "exportquestionlink": "http://question\/bank\/exporttoxml\/exportone.php?questionid=6605&amp;seed=182397542&amp;courseid=7&amp;id=6605&amp;sesskey=ElIpavgr9m",
+          "reportlink": "http://question\/type\/stack\/questiontestreport.php?questionid=6605&amp;seed=182397542&amp;courseid=7",
+          "todolink": "http://question\/type\/stack\/adminui\/todo.php?courseid=7&amp;qperpage=1000&amp;category=546%2C183&amp;lastchanged=6605&amp;contextid=183",
+          "bulktestlink": "http://question\/type\/stack\/questionbulktest.php?questionid=6605&amp;seed=182397542&amp;courseid=7",
+          "historylink": "http://question/bank/history/history.php?entryid=2719",
+          "canedit": true,
+          "courseid": 7,
+          "cmid": 7,
+          "questionid": "6605",
+          "seed": 182397542,
+          "hidetests": ""
+      },
+      "istest": true
+    }
+}}
+
+<div class="qtype_stack_question_report">
+    <!-- Dashboard links -->
+  <h2>{{question.name}}</h2>
+  <p>{{#str}} version, qtype_stack {{/str}}
+    <select onChange="window.location.href=this.value;">
+      {{#question.versions}}
+        <option class="version-dropdown-option"
+          value="{{{url}}}"
+          {{#active}} selected=true defaultSelected=true {{/active}}
+          {{^active}} defaultSelected=false {{/active}}>
+          {{version}}
+        </option>
+      {{/question.versions}}
+    </select>
+  <p>
+  <ul class="nav">
+    {{#general.canedit}}
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" href="{{{general.editquestionlink}}}">{{#str}} editquestioninthequestionbank, qtype_stack {{/str}}</a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" href="{{{general.editxmllink}}}">{{#str}} editxml, qtype_stack {{/str}}</a>
+      </li>
+    {{/general.canedit}}
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" href="{{{general.questionbanklink}}}">{{#str}} seethisquestioninthequestionbank, qtype_stack {{/str}}</a>
+    </li>
+    {{#general.canedit}}
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" href="{{{general.chatlink}}}">{{#str}} sendgeneralfeedback, qtype_stack {{/str}}</a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" href="{{{general.tidylink}}}">{{#str}} tidyquestion, qtype_stack {{/str}}</a>
+      </li>
+    {{/general.canedit}}
+    {{#general.caneditpermission}}
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" href="{{{general.exportquestionlink}}}">{{#str}} exportthisquestion, qtype_stack {{/str}}</a>
+      </li>
+    {{/general.caneditpermission}}
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" href="{{{general.reportlink}}}">{{#str}} basicquestionreport, qtype_stack {{/str}}</a>
+    </li>
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" href="{{{general.todolink}}}">{{#str}} seetodolist, qtype_stack {{/str}}</a>
+    </li>
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" href="{{{general.historylink}}}">{{#str}} history, qtype_stack {{/str}}</a>
+    </li>
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" href="{{{general.bulktestlink}}}">{{#str}} bulktestquiz, qtype_stack {{/str}}</a>
+    </li>
+  </ul>
+
+  <!-- Tab headers. These only work after the page is fully loaded and JavaScript can run i.e. tests run and variants processed so
+  we default to the test pane as it's likely to be the most instantly useful. Set to disabled initially. Tiny script
+  in questiontestrunvariants.mustache removes disabled class on page load -->
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <a class="nav-link active" href="#test-pane" id="test-tab" data-bs-toggle="tab" data-toggle="tab" role="tab" aria-controls="test-pane" aria-selected="true"><span id="test-pane-warning" style="display:none;">{{#pix}}req, core{{/pix}}</span>{{#str}}tests, qtype_stack{{/str}}</a>
+    </li>
+    <li class="nav-item stack-dash-tab-load" role="presentation">
+      <a class="nav-link stack-dash-tab-load disabled" href="#question-pane" id="question-tab" data-bs-toggle="tab" data-toggle="tab" role="tab" aria-controls="question-pane" aria-selected="false">{{#str}} question, core {{/str}}</a>
+    </li>
+    <li class="nav-item stack-dash-tab-load" role="presentation">
+      <a class="nav-link stack-dash-tab-load disabled" href="#variants-pane" id="variants-tab" data-bs-toggle="tab" data-toggle="tab" role="tab" aria-controls="variants-pane" aria-selected="false">
+        <span id="variants-pane-warning" style="display:none;">{{#pix}}req, core{{/pix}}</span>
+        <span id="variants-tab-label">{{#str}} variants, qtype_stack {{/str}}</span>
+      </a>
+    </li>
+    <li id="warning-tab" class="nav-link stack-dash-tab-load disabled" style="border: none; border-radius: 0; display:none;">{{#pix}}req, core{{/pix}}{{#str}}dashboardissues, qtype_stack{{/str}}</li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div id="dashboard-tab-content" class="tab-content" {{#general.hidetests}}style="display: none"{{/general.hidetests}}>
+    <!-- Question details panes -->
+    <div class="tab-pane mt-3" id="question-pane" role="tabpanel" aria-labelledby="question-tab">
+      <h3>{{question.name}}</h3>
+      <p>{{#str}} seed, qtype_stack {{/str}}: {{question.seed}}</p>
+      <h3>{{#str}} questionnote, qtype_stack {{/str}}</h3>
+      <div class="que"><div class="questionnote">{{{question.questionnote}}}</div></div>
+      <h3>{{#str}} questionvariablevalues, qtype_stack {{/str}}</h3>
+      <div class="questionvariables"><pre>{{question.questionvariablevalues}}</pre></div>
+      <br>
+      <h3>{{#str}} prts, qtype_stack {{/str}}</h3>
+      {{#question.prts}}
+        <details>
+          <summary><h4 style="display:inline-block">{{name}}</h4></summary>
+          <div class="questionvariables"><pre>{{prt}}</pre></div>
+        </details>
+      {{/question.prts}}
+      <br>
+      <h3>{{#str}} questionpreview, qtype_stack {{/str}}</h3>
+      {{{question.renderquestion}}}
+      <h3>{{#str}} generalfeedback, qtype_stack {{/str}}</h3>
+      {{#question.rendergeneralfeedback}}
+        <div class="que"><div class="outcome generalfeedback">{{{question.rendergeneralfeedback}}}</div></div>
+      {{/question.rendergeneralfeedback}}
+      {{^question.rendergeneralfeedback}}
+        <br><br><br>
+      {{/question.rendergeneralfeedback}}
+      <h3>{{#str}} questiondescription, qtype_stack {{/str}}</h3>
+      {{#question.renderquestiondescription}}
+        <div class="que"><div class="outcome generalfeedback">{{{question.renderquestiondescription}}}</div></div>
+      {{/question.renderquestiondescription}}
+      {{#question.questiondescription}}
+        <div class="que"><pre class="outcome generalfeedback">{{question.questiondescription}}</pre></div>
+      {{/question.questiondescription}}
+      {{^question.questiondescription}}
+        <br><br><br>
+      {{/question.questiondescription}}
+      {{#question.metadata}}
+        <h3>{{#str}} metadata, qtype_stack {{/str}}</h3>
+        <div class="questionvariables"><pre>{{question.metadata}}</pre></div>
+        <br>
+      {{/question.metadata}}
+      <p>{{question.stackversion}}</p>
+    </div>
+    <div class="tab-pane active mt-3" id="test-pane" role="tabpanel" aria-labelledby="test-tab">
+      <!-- Test pane -->
+      {{#question.upgradeerrors}}
+        <div class="stack-library-import-failure test-pane-fail">
+          <h3>{{#str}} upgradeerrors, qtype_stack {{/str}}</h3>
+          <p>{{{question.upgradeerrors}}}</p>
+        </div>
+        <br>
+      {{/question.upgradeerrors}}
+<!-- Pane finished by questiontestruntests.mustache after tests have been run -->
+{{#istest}}
+<!-- Fake pane end to pass mustache linting tests. -->
+    </div>
+    <div id="variants-pane">
+    </div>
+  </div>
+</div>
+{{/istest}}

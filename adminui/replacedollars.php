@@ -177,14 +177,9 @@ echo $OUTPUT->footer();
 class qtype_stack_dollar_fixer {
     /** @var bool whether to output the changes made to the content. */
     protected $preview;
-    /** @var array bit of HTML that we want to un-escape when displaying the updated HTML. */
-    protected $newsearch;
-    /** @var array what we want to replace $newsearch with. */
-    protected $newreplace;
-    /** @var array bit of HTML that we want to un-escape and modify when displaying the original HTML. */
-    protected $oldsearch;
-    /** @var array what we want to replace $oldsearch with. */
-    protected $oldreplace;
+    private array $replace;
+    /** @var array what we want to replace $search with */
+    private array $search;
 
     /**
      * Constructor.

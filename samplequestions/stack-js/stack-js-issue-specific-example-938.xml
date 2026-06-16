@@ -106,15 +106,6 @@ simp:true;
     <questionsimplify>0</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <prtcorrect format="html">
-      <text></text>
-    </prtcorrect>
-    <prtpartiallycorrect format="html">
-      <text></text>
-    </prtpartiallycorrect>
-    <prtincorrect format="html">
-      <text></text>
-    </prtincorrect>
     <decimals>.</decimals>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>0</sqrtsign>

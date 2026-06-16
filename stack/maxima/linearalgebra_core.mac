@@ -302,14 +302,16 @@ mat_solve(A,b,[lstsq]):= block([m,n,vars,eqns,sol,AT],
  * Very nice for eigenvector problems.
  * 
  * @param[matrix or list] v a list or a Mx1 or matrix. Row vectors also accepted but will return transposed
+ * @param[boolean] _pos Optional: if given true then it will multiply by -1 if all entries are non-positive (instead of strictly negative). Given as optional to preserve earlier randomisation.
  * @return[matrix or list] v, but scaled by a constant such that all entries are the smallest possible integers
  */
-scale_nicely(v):= block([v_op, tmp],
+scale_nicely(v,[_pos]):= block([v_op, tmp],
+  if emptyp(_pos) then _pos: false else _pos: first(_pos),
   v_op: "list",
   if vectorp(v) then (v_op: "matrix", v: list_matrix_entries(v)),
   tmp: ev(lreduce(lambda([ex1,ex2],gcd(ex1,ex2)),v),simp),
   if ev(is(tmp#0),simp) then v: ev(v/tmp,simp),
-  if ev(every(lambda([ex],is(signum(ex)=-1)),v),simp) then v: ev(-v,simp),
+  if ev(every(lambda([ex],is(signum(ex)=-1) or (_pos and is(signum(ex)=0) )),v),simp) then v: ev(-v,simp),
   if is(v_op="matrix") then return(transpose(v)) else return(v)
 );
 

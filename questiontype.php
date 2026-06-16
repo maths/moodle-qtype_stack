@@ -175,6 +175,15 @@ class qtype_stack extends question_type {
                 break;
         }
 
+        if (!empty($fromform->structuralerror)) {
+            if ($throwexceptions) {
+                throw new stack_exception($fromform->validationerrors);
+            }
+            $result->error = html_writer::tag('h6', $fromform->name);
+            $result->error .= $fromform->validationerrors;
+            return $result;
+        }
+
         $context = $fromform->context;
 
         parent::save_question_options($fromform);
@@ -789,7 +798,8 @@ class qtype_stack extends question_type {
         if (question_has_capability_on($question, 'view')) {
             $actions[] = new \action_menu_link_secondary(
                 new moodle_url('/question/type/stack/questiontestrun.php', $linkparams),
-                new \pix_icon('t/approve', ''),
+                // Should be the wrench.
+                new \pix_icon('t/preferences', ''),
                 get_string('runquestiontests', 'qtype_stack')
             );
         }
@@ -798,8 +808,8 @@ class qtype_stack extends question_type {
         if (question_has_capability_on($question, 'view')) {
             $actions[] = new \action_menu_link_secondary(
                 new moodle_url('/question/type/stack/tidyquestion.php', $linkparams),
-                new \pix_icon('t/edit', ''),
-                get_string('tidyquestion', 'qtype_stack')
+                new \pix_icon('t/sort_by', ''),
+                get_string('tidyquestion_txt', 'qtype_stack')
             );
         }
 
@@ -1021,7 +1031,8 @@ class qtype_stack extends question_type {
                     (float) $expectedresults->penalty
                 );
             }
-            $expected->expectedanswernote = $expectedresults->answernotes[0];
+            // We coerce the score and penalty to be numeric (correct DB type), so we should make sure the note isn't too long.
+            $expected->expectedanswernote = substr($expectedresults->answernotes[0], 0, 1000);
             $DB->insert_record('qtype_stack_qtest_expected', $expected);
         }
 
@@ -1300,30 +1311,6 @@ class qtype_stack extends question_type {
                     'prtname' => $prtname,
                     'nodename' => $from,
                     'falseanswernote' => $prtname . '-' . (intval($from) + 1) . '-F',
-            ]
-        );
-
-        // True answer notes in question test data if default is used.
-        $DB->set_field(
-            'qtype_stack_qtest_expected',
-            'expectedanswernote',
-            $prtname . '-' . (intval($to) + 1) . '-T',
-            [
-                    'questionid' => $questionid,
-                    'prtname' => $prtname,
-                    'expectedanswernote' => $prtname . '-' . (intval($from) + 1) . '-T',
-            ]
-        );
-
-        // False answer notes in question test data if default is used.
-        $DB->set_field(
-            'qtype_stack_qtest_expected',
-            'expectedanswernote',
-            $prtname . '-' . (intval($to) + 1) . '-F',
-            [
-                    'questionid' => $questionid,
-                    'prtname' => $prtname,
-                    'expectedanswernote' => $prtname . '-' . (intval($from) + 1) . '-F',
             ]
         );
 
@@ -1786,6 +1773,8 @@ class qtype_stack extends question_type {
             return false;
         }
 
+        $loaderrors = [];
+
         $fromform = $format->import_headers($xml);
         $fromform->qtype = $this->name();
 
@@ -1808,7 +1797,17 @@ class qtype_stack extends question_type {
         if (isset($fromform->specificfeedbackformat)) {
             $fformat = $fromform->specificfeedbackformat;
         }
-        $fromform->specificfeedback      = $this->import_xml_text($xml, 'specificfeedback', $format, $fformat, '[[feedback:prt1]]');
+
+        $fromform->specificfeedback = $this->import_xml_text($xml, 'specificfeedback', $format, $fformat, 'default_placeholder');
+        // We need a temporary placeholder to differentiate user-supplied blank feedback (which we leave) from absent
+        // feedback (which we may need to replace).
+        if ($fromform->specificfeedback['text'] === 'default_placeholder') {
+            if (preg_match("/\[\[input:ans1\]\]/", $fromform->questiontext)) {
+                $fromform->specificfeedback['text'] = '[[feedback:prt1]]';
+            } else {
+                $fromform->specificfeedback['text'] = '';
+            }
+        }
         $fformat = FORMAT_HTML;
         if (isset($fromform->questionnoteformat)) {
             $fformat = $fromform->questionnoteformat;
@@ -1871,23 +1870,42 @@ class qtype_stack extends question_type {
 
         $structurerepairs = '';
         if (isset($xml['#']['input']) && count($xml['#']['input'])) {
+            $loadedinputs = [];
             foreach ($xml['#']['input'] as $inputxml) {
-                $this->import_xml_input($inputxml, $fromform, $format);
+                $loadedinput = $this->import_xml_input($inputxml, $fromform, $format);
+                if (in_array($loadedinput, $loadedinputs)) {
+                    $loaderrors[$loadedinput . 'input'] = stack_string('multipleinputs', $loadedinput);
+                    $fromform->structuralerror = true;
+                } else {
+                    $loadedinputs[] = $loadedinput;
+                }
             }
         } else {
-            if ($fromform->defaultmark) {
+            if (preg_match("/\[\[input:ans1\]\]/", $fromform->questiontext)) {
                 $defaultinput = [];
                 $defaultinput['#'] = ['name' => [0 => ['#' => 'ans1']], 'tans' => [0 => ['#' => 'ta1']]];
                 $this->import_xml_input($defaultinput, $fromform, $format);
+            } else {
+                // We've not got any inputs. Set default mark to 0.
+                $fromform->defaultmark = 0;
             }
         }
 
         if (isset($xml['#']['prt']) && count($xml['#']['prt'])) {
+            $loadedprts = [];
             foreach ($xml['#']['prt'] as $prtxml) {
-                $structurerepairs .= $this->import_xml_prt($prtxml, $fromform, $format);
+                [$currentrepairs, $loadedprt, $nodeerrors] = $this->import_xml_prt($prtxml, $fromform, $format);
+                $loaderrors = array_merge($loaderrors, $nodeerrors);
+                $structurerepairs .= $currentrepairs;
+                if (in_array($loadedprt, $loadedprts)) {
+                    $loaderrors[$loadedprt . 'prt'] = stack_string('multipleprts', $loadedprt);
+                    $fromform->structuralerror = true;
+                } else {
+                    $loadedprts[] = $loadedprt;
+                }
             }
         } else {
-            if ($fromform->defaultmark) {
+            if (preg_match("/\[\[feedback:prt1\]\]/", $fromform->questiontext . $fromform->specificfeedback['text'])) {
                 $defaultnode = [
                     'name' => [0 => ['#' => 0]],
                     'sans' => [0 => ['#' => 'ans1']],
@@ -1930,6 +1948,7 @@ class qtype_stack extends question_type {
         $this->prtgraph = [];
 
         $errors = $this->validate_fromform($formarray, []);
+        $errors = array_merge($loaderrors, $this->validate_fromform($formarray, []));
         if ($structurerepairs) {
             $errors['structurerepairs'] = $structurerepairs;
         }
@@ -1939,11 +1958,9 @@ class qtype_stack extends question_type {
             foreach ($errors as $key => $error) {
                 $errortext .= $key . ': ' . $error . ' <br />';
             }
-            if (isset($errors['structuralerror'])) {
+            if (isset($errors['structuralerror']) || !empty($fromform->structuralerror)) {
                 // Graph creation failed. If we import this question
                 // we won't be able to open it in the edit form.
-                // TO-DO Once we have a text-based editor we could allow saving
-                // of even really broken questions.
                 $errortext .= stack_string('importwillfail');
             } else {
                 $errortext .= stack_string('markedasbroken');
@@ -1984,6 +2001,8 @@ class qtype_stack extends question_type {
      * @param array $xml the bit of the XML representing one input.
      * @param object $fromform the data structure we are building from the XML.
      * @param qformat_xml $format the importer/exporter object.
+     *
+     * @return string|null name of the input
      */
     protected function import_xml_input($xml, $fromform, qformat_xml $format) {
         $name = $format->getpath($xml, ['#', 'name', 0, '#'], null, false, 'Missing input name in the XML.');
@@ -2011,6 +2030,8 @@ class qtype_stack extends question_type {
         $fromform->{$name . 'showvalidation'}
             = $format->getpath($xml, ['#', 'showvalidation', 0, '#'], get_config('qtype_stack', 'inputshowvalidation'));
         $fromform->{$name . 'options'}            = $format->getpath($xml, ['#', 'options', 0, '#'], '');
+
+        return $name;
     }
 
     /**
@@ -2019,7 +2040,7 @@ class qtype_stack extends question_type {
      * @param object $fromform the data structure we are building from the XML.
      * @param qformat_xml $format the importer/exporter object.
      *
-     * @return string errors
+     * @return array [errors string, prtname string, loaderrors string]
      */
     protected function import_xml_prt($xml, $fromform, qformat_xml $format) {
         $errors = [];
@@ -2043,9 +2064,17 @@ class qtype_stack extends question_type {
             $fromform->{$name . $field} = [];
         }
 
+        $loaderrors = [];
         if (isset($xml['#']['node'])) {
+            $loadednodes = [];
             foreach ($xml['#']['node'] as $nodexml) {
-                $this->import_xml_prt_node($nodexml, $name, $fromform, $format);
+                $loadednode = $this->import_xml_prt_node($nodexml, $name, $fromform, $format);
+                if (in_array($loadednode, $loadednodes)) {
+                    $loaderrors[$loadednode . 'node'] = stack_string('multiplenodes', ['prt' => $name, 'node' => $loadednode]);
+                    $fromform->structuralerror = true;
+                } else {
+                    $loadednodes[] = $loadednode;
+                }
             }
         }
 
@@ -2070,7 +2099,7 @@ class qtype_stack extends question_type {
                 }
             }
         }
-        return implode(' ', $errors);
+        return [implode(' ', $errors), $name, $loaderrors];
         ;
     }
 
@@ -2080,6 +2109,8 @@ class qtype_stack extends question_type {
      * @param string $prtname the name of the PRT this node belongs to.
      * @param object $fromform the data structure we are building from the XML.
      * @param qformat_xml $format the importer/exporter object.
+     *
+     * @return string node name
      */
     protected function import_xml_prt_node($xml, $prtname, $fromform, qformat_xml $format) {
         $name = $format->getpath($xml, ['#', 'name', 0, '#'], null, false, 'Missing PRT node name in the XML.');
@@ -2116,6 +2147,8 @@ class qtype_stack extends question_type {
             $format,
             FORMAT_HTML
         );
+
+        return $name;
     }
 
     /**
@@ -2135,7 +2168,7 @@ class qtype_stack extends question_type {
         if (isset($xml['#']['testinput'])) {
             foreach ($xml['#']['testinput'] as $inputxml) {
                 $name  = $format->getpath($inputxml, ['#', 'name', 0, '#'], 'ans1');
-                $value = $format->getpath($inputxml, ['#', 'value', 0, '#'], 'ta1');
+                $value = $format->getpath($inputxml, ['#', 'value', 0, '#'], '');
                 $inputs[$name] = $value;
             }
         }

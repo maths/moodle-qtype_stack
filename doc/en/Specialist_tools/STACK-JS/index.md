@@ -149,12 +149,14 @@ library, there are others that come with norm STACK distributions.
 First and foremost among them is the `stack_jxg` library that is always
 automatically imported to `[[jsxgraph]]` blocks but can naturally also be
 importted elsewhere, e.g., larger IFRAME constructs with internal JSXGraphs
-mixed with other things. See [../JSXGraph/](documentation) on `[[jsxgraph]]`
+mixed with other things. See [documentation](../../Specialist_tools/JSXGraph/index.md)
+ on `[[jsxgraph]]`
 for more details about this library.
 
 Then there is the `stack_geogebra` library for similar activities with
-[../GeoGebra/](GeoGebra). Again automatically imported in `[[geogebra]]`
-blocks. This library is probably only sensible inside that block.
+[GeoGebra](../../Specialist_tools/GeoGebra//index.md). Again automatically imported
+in `[[geogebra]]` blocks. This library is probably only sensible inside
+that block.
 
 [../Drag_and_drop/](Parsons-problems or the drag and drop) feature also 
 has its own tool library, `stack_sortable`. Again probaly only sensible

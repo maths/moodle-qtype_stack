@@ -873,56 +873,58 @@ class stack_utils {
      * @param float $n
      * @param int $accuracy Stop when we get within this many decimal places of $n
      */
-    public static function rational_approximation($n, $accuracy) {
+    public static function rational_approximation(float $n, int $accuracy) {
         $accuracy = pow(10, -$accuracy);
 
-        $i = floor($n);
-        if ($i == $n) { // If n is an integer, its rational representation is obvious.
-            return [$n, 1];
+        // Handle sign.
+        $sign = ($n < 0) ? -1 : 1;
+        $n = abs($n);
+
+        // Handle integers directly.
+        if (floor($n) == $n) {
+            return [$sign * $n, 1];
         }
 
-        // Take away the integer part of n.
-        // From now on, we can assume 0 < n < 1.
-        $nint = $i;
-        $n = $n - $i;
+        // Continued fraction expansion with convergents.
+        $p0 = 1;
+        $q0 = 0;
+        $p1 = floor($n);
+        $q1 = 1;
 
-        // We'll keep track of our working as (numx*n +numc)/(denx*n+denc).
-        $numx = 0;
-        $numc = 1;
-        $denx = 1;
-        $denc = 0;
-
-        $frac = []; // Continued fraction coefficients.
-        $diff = $n - $i; // Difference between current approximation and n.
-
+        $x1 = $n;
         $steps = 0;
-        $onum = 0;
-        $oden = 1;
-        while (abs($diff) > $accuracy && $steps < 1000) {
-            $steps = $steps + 1;
 
-            // Evaluate current working to a fraction.
-            $nume = $numx * $n + $numc;
-            $dene = $denx * $n + $denc;
-            $div = $nume / $dene; // Then to a float.
-            $i = floor($div); // Integer part - this is the next coefficient in the continued fraction.
-            if ($dene <= $nume) {
-                // If i>=1.
-                array_unshift($frac, $i);
+        // The algorithm converges quickly, so no need for more than 100 here.
+        while ($steps < 100) {
+            $steps++;
+
+            // Current approximation.
+            $approx = $p1 / $q1;
+            if (abs($approx - $n) <= $accuracy) {
+                break;
             }
 
-            // Reduce the continued fraction.
-            $onum = 0;
-            $oden = 1;
-            foreach ($frac as $c) {
-                [$oden, $onum] = [$oden * $c + $onum, $oden];
+            // Prevent division by zero.
+            $frac = $x1 - floor($x1);
+            if ($frac == 0.0) {
+                break;
             }
-            $diff = $n - $onum / $oden;
 
-            // Subtract i from our working, and then take its reciprocal.
-            [$numx, $numc, $denx, $denc] = [$denx, $denc, $numx - $denx * $i, $numc - $denc * $i];
+            // Next term in continued fraction.
+            $x1 = 1.0 / $frac;
+            $a = floor($x1);
+
+            // Recurrence.
+            $p2 = $a * $p1 + $p0;
+            $q2 = $a * $q1 + $q0;
+
+            // Shift.
+            $p0 = $p1;
+            $q0 = $q1;
+            $p1 = $p2;
+            $q1 = $q2;
         }
-        return [$nint * $oden + $onum, $oden];
+        return [$sign * $p1, $q1];
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

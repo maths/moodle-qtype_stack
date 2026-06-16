@@ -254,43 +254,55 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
 
         // If the author's JSON has invalid structure throw an error.
         $code .= 'if (valid === false)
-            {stack_js.display_error("' . stack_string('stackBlock_parsons_contents') . '");}' . "\n";
+            {stack_js.display_error('
+            . json_encode(stack_string('stackBlock_parsons_contents'), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
+            . ');}' . "\n";
 
         // More specific pieces of validation
         // Check typing of headers, it should be an array containing strings.
         $code .= 'if (!(Array.isArray(headers)))
-            {stack_js.display_error("' . stack_string('stackBlock_incorrect_header_type') . '");}' . "\n";
+            {stack_js.display_error('
+            . json_encode(stack_string('stackBlock_incorrect_header_type'), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
+            . ');}' . "\n";
 
         // If the length of headers does not match the number of columns expected throw an error.
         // Error is different for proof vs. matching.
-        $code .= 'if (headers.length !== ' . $ogcolumns . ') {stack_js.display_error("';
-        if ($proofmode) {
-            $code .= stack_string('stackBlock_proof_incorrect_header_length') . '");}' . "\n";
-        } else {
-            $code .= stack_string('stackBlock_incorrect_header_length') . '");}' . "\n";
-        }
+        $msg = $proofmode
+            ? stack_string('stackBlock_proof_incorrect_header_length')
+            : stack_string('stackBlock_incorrect_header_length');
+        $code .= 'if (headers.length !== ' . $ogcolumns . ') {'
+            . 'stack_js.display_error('
+            . json_encode($msg, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
+            . ')};' . "\n";
 
         // Validate available headers. It is either a string or an array containing a single string.
         $code .= 'if (!(typeof(available_header) === "string" ||
         (Array.isArray(available_header) && available_header.length === 1 && typeof(available_header[0]) === "string")))
-            {stack_js.display_error("' . stack_string('stackBlock_incorrect_available_header_type') . '");}' . "\n";
+            {stack_js.display_error('
+            . json_encode(stack_string('stackBlock_incorrect_available_header_type'), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
+            . ');}' . "\n";
         // Extract available header if it is an array containing a single string.
         $code .= 'if (Array.isArray(available_header)) {available_header = available_header[0]};' . "\n";
 
         // If index is passed then it should be an array containing strings.
         $code .= 'if (index !== undefined && !(Array.isArray(index) && index.every((idx) => typeof(idx) === "string")))
-            {stack_js.display_error("' . stack_string('stackBlock_incorrect_index_type') . '");}' . "\n";
+            {stack_js.display_error('
+            . json_encode(stack_string('stackBlock_incorrect_index_type'), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
+            . ');}' . "\n";
 
         // If rows and index are passed then the length of index should match the value of rows + 1.
         if ($ogrows !== null) {
             $code .= 'if (index !== undefined && index.length !== ' . ($ogrows + 1) . ')
-                {stack_js.display_error("' . stack_string('stackBlock_incorrect_index_length') . '");}' . "\n";
-        }
+                {stack_js.display_error('
+                . json_encode(stack_string('stackBlock_incorrect_index_length'), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
+                . ');}' . "\n";        }
 
         // Index cannot be used in proof mode due to styling issues.
         if ($proofmode) {
             $code .= 'if (index !== undefined)
-                {stack_js.display_error("' . stack_string('stackBlock_proof_mode_index') . '");}' . "\n";
+                {stack_js.display_error('
+                . json_encode(stack_string('stackBlock_proof_mode_index'), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
+                . ');}' . "\n";
         }
 
         // Link up to STACK inputs.
@@ -571,7 +583,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             } else if (
                     !file_exists($CFG->dirroot . '/question/type/stack/corsscripts/parsonsstyles/' .
                     $stylename . '.min.css')
-                ) {
+            ) {
                 $valid    = false;
                 $err[] = stack_string('stackBlock_parsons_unknown_style', ['style' => $stylename]);
             }

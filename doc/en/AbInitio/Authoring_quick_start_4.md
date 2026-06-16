@@ -14,11 +14,11 @@ In the last part, we worked with a problem about integrating \(3(x-1)^{-4}\) wit
 Let's take a look again at the question variables we declared:
 
 ```
-exp: 3*(x-1)^(-4);
-ta: int(exp,x)+c;
+ex1: 3*(x-1)^(-4);
+ta1: int(ex1,x)+c;
 ```
 
-We defined two local variables `exp` and `ta`, and used these values in other places such as the question text, input and potential response tree. 
+We defined two local variables `ex1` and `ta1`, and used these values in other places such as the question text, input and potential response tree. 
 
 We are now in a position to generate a random question. To do this, modify the [question variables](../Authoring/Variables.md#Question_variables) to be
 
@@ -26,11 +26,11 @@ We are now in a position to generate a random question. To do this, modify the [
 a1 : 1+rand(6);
 a2 : 1+rand(6);
 nn : 1+rand(4);
-exp : a1*(x-a2)^(-nn);
-ta: int(exp, x)+c;
+ex1 : a1*(x-a2)^(-nn);
+ta1: int(ex1, x)+c;
 ```
 
-In this new question we are asking the student to find the anti-derivative of a question with a definite form \( a_1(x-a_2)^{-nn} \). `a1`, `a2` and `nn` are all variables which are assigned random positive integers.  These are then used to define the variable `exp`, used in the question itself. We also have the CAS integrate the expression `exp` and store the result in the variable `ta`. It is good practice to use variables names with more than one character as single-character variables, like `x`, are meant for student input.
+In this new question we are asking the student to find the anti-derivative of a question with a definite form \( a_1(x-a_2)^{-nn} \). `a1`, `a2` and `nn` are all variables which are assigned random positive integers.  These are then used to define the variable `ex1`, used in the question itself. We also have the CAS integrate the expression `ex1` and store the result in the variable `ta1`. It is good practice to use variables names with more than one character as single-character variables, like `x`, are meant for student input.
 
 Remember that when generating random questions in STACK we talk about _random numbers_ when we really mean _pseudo-random numbers_. To keep track of which random numbers are generated for each user, there is a special `rand` command in STACK, which you should use instead of [Maxima](../CAS/Maxima_background.md)'s random command. The `rand` command is a general "random thing" generator, see the page on [random generation](../CAS/Random.md) for full details. `rand` can be used to generate random numbers and also to make selections from a list. `rand(n)` will select a random integer from 0 up to, **and not including**, `n`. So  `rand(3)` will select a random number from the list  `[0,1,2]` .
 
@@ -40,7 +40,7 @@ Now that as our question contains random numbers, we need to record the actual q
 Fill the question note in as
 
 ```
-\[ \int {@exp@} \mathrm{d}x = {@ta@}.\]
+\[ \int {@ex1@} \mathrm{d}x = {@ta1@}.\]
 ```
 
 Two question variants are considered to be the same if and only if the question note is the same. It is the teacher's responsibility to create sensible notes.

@@ -115,14 +115,17 @@ class castext2_static_replacer {
                             array_search($node, $node->parentnode->items) > 1)
                     )
                 ) {
-                    // Do we already have this string value?
-                    $key = array_search($node->value, $map);
-                    if ($key === false) {
-                        $k = count($map);
-                        $key = "//CT2S$k//"; // Assume that this is never present in normal content.
-                        $map[$key] = $node->value;
+                    // Are we sure we are not targetting something already replaced?
+                    if (mb_strpos($node->value, '//CT2S') === false) {
+                        // Do we already have this string value?
+                        $key = array_search($node->value, $map);
+                        if ($key === false) {
+                            $k = count($map);
+                            $key = "//CT2S$k//"; // Assume that this is never present in normal content.
+                            $map[$key] = $node->value;
+                        }
+                        $node->value = $key;
                     }
-                    $node->value = $key;
                 }
             }
             return true;
@@ -136,6 +139,11 @@ class castext2_static_replacer {
      * Adds a string to the map and returns the replacement placeholder.
      */
     public function add_to_map(string $value): string {
+        if (mb_strpos($value, '//CT2S') !== false) {
+            // Do not replace if already contains a marker.
+            return $value;
+        }
+
         $key = array_search($value, $this->map);
         if ($key === false) {
             $k = count($this->map);

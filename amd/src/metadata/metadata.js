@@ -211,7 +211,7 @@ class StackMetadata extends Reactive {
         const authorFields = ['id', 'firstName', 'lastName', 'institution', 'year'];
         const standardFields = ['id', 'value'];
 
-        data.author = (Array.isArray(data.author)) ? data.author : [this.tidyObject({id: 1}, authorFields)];
+        data.author = (Array.isArray(data.author)) ? data.author : [];
         const authorHolder = [];
         for (let author of data.author) {
             author = this.tidyObject(author, authorFields);

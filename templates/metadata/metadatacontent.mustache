@@ -336,13 +336,15 @@
 
 }}
 <form class="mform" data-boost-form-errors-enhanced="1" id="qtype-stack-metadata-content">
-    <div class="row d-none d-md-flex">
-        <div class="col-2"></div>
-        <div class="col-2"><h6>{{#str}} firstname, qtype_stack {{/str}}</h6></div>
-        <div class="col-2"><h6>{{#str}} lastname, qtype_stack {{/str}}</h6></div>
-        <div class="col-3"><h6>{{#str}} institution, qtype_stack {{/str}}</h6></div>
-        <div class="col-1"><h6>{{#str}} year, qtype_stack {{/str}}</h6></div>
-    </div>
+    {{#author.0}}
+        <div class="row d-none d-md-flex">
+            <div class="col-2"></div>
+            <div class="col-2"><h6>{{#str}} firstname, qtype_stack {{/str}}</h6></div>
+            <div class="col-2"><h6>{{#str}} lastname, qtype_stack {{/str}}</h6></div>
+            <div class="col-3"><h6>{{#str}} institution, qtype_stack {{/str}}</h6></div>
+            <div class="col-1"><h6>{{#str}} year, qtype_stack {{/str}}</h6></div>
+        </div>
+    {{/author.0}}
     {{#author}}
         {{>qtype_stack/metadata/metadataauthor}}
     {{/author}}

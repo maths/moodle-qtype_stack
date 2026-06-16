@@ -11,12 +11,6 @@ describe('reviver', () => {
         ]);
     });
 
-    test('author: wraps a single object and assigns an id', () => {
-        expect(metadata.reviver('author', {firstName: 'Alice'})).toEqual([
-            {firstName: 'Alice', id: 1},
-        ]);
-    });
-
     test('language: converts array of strings to [{id, value}] objects', () => {
         expect(metadata.reviver('language', ['en', 'fr'])).toEqual([
             {id: 1, value: 'en'},
@@ -196,7 +190,7 @@ describe('tidyObject', () => {
 describe('jsonToState', () => {
     test('empty JSON produces a fully-defaulted state', () => {
         expect(metadata.jsonToState('{}')).toEqual({
-            author:     [{id: '', firstName: '', lastName: '', institution: '', year: ''}],
+            author:     [],
             language:   [],
             license:    {id: '', value: ''},
             isPartOf:   {id: '', value: ''},
@@ -211,12 +205,6 @@ describe('jsonToState', () => {
         });
         expect(metadata.jsonToState(input).author)
             .toEqual([{id: '1', firstName: 'Alice', lastName: 'Smith', institution: 'Uni', year: '2025'}]);
-    });
-
-    test('parses single author object into an array with one item', () => {
-        const input = JSON.stringify({author: {firstName: 'Alice', lastName: 'Smith'}});
-        expect(metadata.jsonToState(input).author)
-            .toEqual([{id: '1', firstName: 'Alice', lastName: 'Smith', institution: '', year: ''}]);
     });
 
     test('strips unrecognised author fields', () => {

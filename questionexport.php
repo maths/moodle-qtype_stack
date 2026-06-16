@@ -27,6 +27,7 @@ require_once(__DIR__ . '/../../../config.php');
 require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/vle_specific.php');
 require_once(__DIR__ . '/locallib.php');
+require_once(__DIR__ . '/stack/questionlibrary.class.php');
 
 $questionid = required_param('questionid', PARAM_INT);
 [$qversion, $questionid] = get_latest_question_version($questionid);
@@ -37,7 +38,7 @@ if (!$questiondata) {
 }
 $question = question_bank::load_question($questionid);
 
-[$context, $seed, $urlparams] = qtype_stack_setup_question_test_page($question);
+[$context, , $urlparams] = qtype_stack_setup_question_test_page($question);
 
 question_require_capability_on($questiondata, 'view');
 require_capability('qtype/stack:exporttoexternallibraries', $context);
@@ -63,6 +64,13 @@ unset($editparams['seed']);
 $editparams['id'] = $question->id;
 $editquestionlink = new moodle_url('/question/type/stack/questioneditlatest.php', $editparams);
 
+$uploadresult = null;
+if (optional_param('uploadtonrw', false, PARAM_BOOL)) {
+    require_sesskey();
+    $apikey = get_config('qtype_stack', 'nrwapikey');
+    $uploadresult = stack_question_library::upload_nrw_question($questiondata, $apikey);
+}
+
 echo $OUTPUT->header();
 
 $outputdata = new stdClass();
@@ -73,6 +81,9 @@ $outputdata->general = new stdClass();
 $outputdata->general->testquestionlink = $dashboardlink->out();
 $outputdata->general->previewquestionlink = $previewquestionlink->out();
 $outputdata->general->editquestionlink = $editquestionlink->out();
+$outputdata->general->uploadurl = $PAGE->url->out(false);
+$outputdata->general->sesskey = sesskey();
+$outputdata->uploadresult = $uploadresult;
 
 echo $OUTPUT->render_from_template('qtype_stack/questionexport', $outputdata);
 

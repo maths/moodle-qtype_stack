@@ -680,7 +680,7 @@ $string['editquestioninthequestionbank'] = '<i class="fa fa-pencil"></i> Edit qu
 $string['seethisquestioninthequestionbank'] = '<i class="fa fa-list-alt"></i> Show in question bank';
 $string['exportthisquestion'] = '<i class="fa fa-download"></i> Export as Moodle XML';
 $string['exportthisquestion_help'] = 'This will create a Moodle XML export file containing just this one question. One example of when this is useful if you think this question demonstrates a bug in STACK that you would like to report to the developers.';
-$string['exporttonrw'] = '<i class="fa fa-cloud-arrow-down"></i> Export to NRW';
+$string['exporttonrw'] = '<i class="fa fa-cloud-arrow-up"></i> Export to STACK.nrw';
 $string['tidyquestion'] = '<i class="fa fa-sort-amount-asc"></i> Tidy inputs and PRTs';
 $string['tidyquestion_txt'] = 'Tidy inputs and PRTs';
 $string['sendgeneralfeedback'] = '<i class="fa fa-file-text"></i> Send general feedback to the CAS';
@@ -693,6 +693,18 @@ $string['bulktestquiz'] = '<i class="fa fa-certificate"></i> Bulk test quiz';
 $string['bulktestquiznotes'] = 'Bulk test the latest version of all the questions in a quiz containing this question.';
 $string['history'] = '<i class="fa fa-list-alt"></i> Question history';
 $string['questionexportplaceholder'] = 'This page is a placeholder for the NRW export workflow.';
+$string['nrwuploadbutton'] = 'Upload to STACK.nrw';
+$string['nrwuploadcreated'] = 'Question uploaded to NRW successfully. ATLAS ID: {$a}.';
+$string['nrwuploadduplicate'] = 'This XML already exists in NRW. Existing ATLAS ID: {$a}.';
+$string['nrwuploadvalidationerror'] = 'NRW rejected the upload: XML failed validation.';
+$string['nrwuploadfailed'] = 'NRW upload failed.';
+$string['nrwuploadunexpected'] = 'Unexpected response from NRW upload endpoint.';
+$string['nrwuploadapikeymissing'] = 'Cannot upload: NRW API key is not configured.';
+$string['nrwuploadxmlerror'] = 'Could not export this question to XML for upload.';
+$string['nrwuploadpayloadencodeerror'] = 'Could not encode upload payload.';
+$string['nrwuploadduplicateapi'] = 'Duplicate question already exists.';
+$string['nrwuploadcreatedapi'] = 'Question uploaded successfully.';
+$string['nrwuploadxmlvalidationapifailed'] = 'XML failed validation.';
 $string['bulktestquizselect'] = 'Select a quiz';
 
 $string['basicquestionreport'] = '<i class="fa fa-bar-chart"></i> Analyze responses';

@@ -25,6 +25,9 @@
     * general.testquestionlink
     * general.previewquestionlink
     * general.editquestionlink
+    * general.uploadurl
+    * general.sesskey
+    * uploadresult
 }}
 
 <div class="qtype_stack_question_export">
@@ -42,5 +45,15 @@
   <h2>{{#str}} exporttonrw, qtype_stack {{/str}}</h2>
   <h2>{{question.name}}</h2>
   <p>{{#str}} version, qtype_stack {{/str}} {{question.version}}<p>
+  <form action="{{{general.uploadurl}}}" method="post">
+    <input type="hidden" name="sesskey" value="{{general.sesskey}}">
+    <input type="hidden" name="uploadtonrw" value="1">
+    <button type="submit" class="btn btn-primary">{{#str}} nrwuploadbutton, qtype_stack {{/str}}</button>
+  </form>
+  {{#uploadresult}}
+    <div class="alert alert-{{#issuccess}}success{{/issuccess}}{{#iswarning}}warning{{/iswarning}}{{#iserror}}danger{{/iserror}} mt-3" role="alert">
+      {{message}}
+    </div>
+  {{/uploadresult}}
   <p>{{#str}} questionexportplaceholder, qtype_stack {{/str}}</p>
 </div>

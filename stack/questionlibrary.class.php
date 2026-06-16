@@ -56,6 +56,11 @@ class stack_question_library {
      * @var string
      */
     public const NRWSEARCH = 'nrwsearch';
+    /**
+     * NRW API base URL
+     * @var string
+     */
+    public const NRWAPIBASE = 'https://vmits1614.vm.ruhr-uni-bochum.de:8742';
 
     /**
      * Summary of render_question
@@ -312,7 +317,7 @@ class stack_question_library {
      * @return array [object StdClass structured representation of the file system, array flat array of file objects]
      */
     public static function list_nrw_search(array $details) {
-        $apibase = "https://vmits1614.vm.ruhr-uni-bochum.de:8742/questions/search?fields=id,data";
+        $apibase = self::NRWAPIBASE . "/questions/search?fields=id,data";
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -512,7 +517,7 @@ class stack_question_library {
      * @return string XML file contents
      */
     public static function get_external_nrw_file($requestedid, $apikey) {
-        $apibase = "https://vmits1614.vm.ruhr-uni-bochum.de:8742/questions/get/";
+        $apibase = self::NRWAPIBASE . "/questions/get/";
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -533,5 +538,103 @@ class stack_question_library {
         }
 
         return $json['xml'];
+    }
+
+    /**
+     * Upload a Moodle question object to the NRW API.
+     *
+     * @param object $questiondata Question data from question_bank::load_question_data().
+     * @param string $apikey NRW API key.
+     * @return array Upload result for template output.
+     */
+    public static function upload_nrw_question(object $questiondata, string $apikey): array {
+        global $CFG;
+        require_once($CFG->dirroot . '/question/format/xml/format.php');
+
+        if (empty($apikey)) {
+            return [
+                'iserror' => true,
+                'message' => stack_string('nrwuploadapikeymissing'),
+            ];
+        }
+
+        $qformat = new \qformat_xml();
+        $qformat->setQuestions([$questiondata]);
+        if (!$qformat->exportpreprocess()) {
+            return [
+                'iserror' => true,
+                'message' => stack_string('nrwuploadxmlerror'),
+            ];
+        }
+        $xmlstring = $qformat->exportprocess(true);
+        if (!$xmlstring) {
+            return [
+                'iserror' => true,
+                'message' => stack_string('nrwuploadxmlerror'),
+            ];
+        }
+
+        $apiurl = self::NRWAPIBASE . '/questions/upload';
+        $payload = json_encode(['xml' => $xmlstring]);
+        if ($payload === false) {
+            return [
+                'iserror' => true,
+                'message' => stack_string('nrwuploadpayloadencodeerror'),
+            ];
+        }
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $apiurl);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_USERAGENT, 'Moodle-STACK');
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Authorization: Bearer ' . $apikey,
+            'Content-Type: application/json',
+        ]);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 20);
+        $response = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        if ($response === false) {
+            return [
+                'iserror' => true,
+                'message' => stack_string('nrwuploadfailed') . ': ' . curl_error($ch),
+            ];
+        }
+
+        $json = json_decode($response, true);
+        if (!is_array($json)) {
+            return [
+                'iserror' => true,
+                'message' => stack_string('nrwuploadfailed') . ' HTTP ' . $httpcode . ': ' . $response,
+            ];
+        }
+        $id = $json['id'] ?? null;
+
+        if ($httpcode === 201) {
+            if ($json['status'] === 'duplicate') {
+                return [
+                    'iswarning' => true,
+                    'message' => stack_string('nrwuploadduplicate', $id ?? '-'),
+                ];
+            }
+            return [
+                'issuccess' => true,
+                'message' => stack_string('nrwuploadcreated', $id ?? '-'),
+            ];
+        }
+
+        if ($httpcode === 400) {
+            return [
+                'iserror' => true,
+                'message' => stack_string('nrwuploadvalidationerror') . ' ' . ($json['detail']['error_message'] ?? ''),
+            ];
+        }
+
+        return [
+            'iserror' => true,
+            'message' => stack_string('nrwuploadfailed') . ' HTTP ' . $httpcode . ': ' . $response,
+        ];
     }
 }

@@ -63,6 +63,27 @@ class stack_question_library {
     public const NRWAPIBASE = 'https://vmits1614.vm.ruhr-uni-bochum.de:8742';
 
     /**
+     * Wrapper for curl_exec to allow mocking in unit tests.
+     *
+     * @param resource $ch cURL handle
+     * @return string|bool
+     */
+    protected static function execute_curl_request($ch) {
+        return curl_exec($ch);
+    }
+
+    /**
+     * Wrapper for curl_getinfo to allow mocking in unit tests.
+     *
+     * @param resource $ch cURL handle
+     * @param int $opt cURL info option
+     * @return mixed
+     */
+    protected static function get_curl_info($ch, int $opt) {
+        return curl_getinfo($ch, $opt);
+    }
+
+    /**
      * Summary of render_question
      * @param object Moodle XML of question
      * @throws \stack_exception
@@ -281,8 +302,8 @@ class stack_question_library {
         // Always use the git/trees API with recursive=1, then filter by subpath.
         $apiurl = "{$apibase}/git/trees/" . rawurlencode($branch) . "?recursive=1";
         curl_setopt($ch, CURLOPT_URL, $apiurl);
-        $response = curl_exec($ch);
-        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $response = static::execute_curl_request($ch);
+        $httpcode = static::get_curl_info($ch, CURLINFO_HTTP_CODE);
         if ($response === false || $httpcode >= 400) {
             if ($response) {
                 $errorresponse->error .= ': ' . $response;
@@ -312,7 +333,7 @@ class stack_question_library {
     }
 
     /**
-     * Retrieves a list of all the files in a GitHub repo via API
+     * Retrieves search results via API
      * @param array $details - search term and apikey
      * @return array [object StdClass structured representation of the file system, array flat array of file objects]
      */
@@ -335,8 +356,8 @@ class stack_question_library {
         // Always use the git/trees API with recursive=1, then filter by subpath.
         $apiurl = "{$apibase}&q={$details['search']}";
         curl_setopt($ch, CURLOPT_URL, $apiurl);
-        $response = curl_exec($ch);
-        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $response = static::execute_curl_request($ch);
+        $httpcode = static::get_curl_info($ch, CURLINFO_HTTP_CODE);
         if ($response === false || $httpcode >= 400) {
             $files->error = stack_string('stack_library_connection_error');
             if ($response) {
@@ -350,6 +371,7 @@ class stack_question_library {
             foreach ($data['results'] as $item) {
                 $files->children[] = (object)[
                     'label' => $item['question']['data']['title'],
+                    // Once we have format data use format_text($text, FORMAT_MARKDOWN).
                     'description' => $item['question']['data']['description'],
                     'license' => $item['question']['data']['license'],
                     'source' => $item['question']['data']['source'],
@@ -486,8 +508,8 @@ class stack_question_library {
             CURLOPT_FAILONERROR    => false,
             CURLOPT_SSL_VERIFYPEER => true,
         ]);
-        $res = curl_exec($ch);
-        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $res = static::execute_curl_request($ch);
+        $httpcode = static::get_curl_info($ch, CURLINFO_HTTP_CODE);
 
         if ($res === false || $httpcode !== 200) {
             throw new \stack_exception('File unavailable.');
@@ -510,7 +532,7 @@ class stack_question_library {
         return $filecontents;
     }
 
-        /**
+    /**
      * Fetch a file from GitHub using the api blob URL.
      *
      * @param string $requestedfile API URL
@@ -526,8 +548,8 @@ class stack_question_library {
         curl_setopt($ch, CURLOPT_TIMEOUT, 10);
         $apiurl = "{$apibase}{$requestedid}?fields=xml";
         curl_setopt($ch, CURLOPT_URL, $apiurl);
-        $response = curl_exec($ch);
-        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $response = static::execute_curl_request($ch);
+        $httpcode = static::get_curl_info($ch, CURLINFO_HTTP_CODE);
         if ($response === false || $httpcode >= 400) {
             throw new \stack_exception('File unavailable.');
         }
@@ -594,8 +616,8 @@ class stack_question_library {
             'Content-Type: application/json',
         ]);
         curl_setopt($ch, CURLOPT_TIMEOUT, 20);
-        $response = curl_exec($ch);
-        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $response = static::execute_curl_request($ch);
+        $httpcode = static::get_curl_info($ch, CURLINFO_HTTP_CODE);
         if ($response === false) {
             return [
                 'iserror' => true,

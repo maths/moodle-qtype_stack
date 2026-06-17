@@ -28,6 +28,27 @@
     * general.uploadurl
     * general.sesskey
     * uploadresult
+
+    Example context (json):
+    {
+      "question": {
+        "name": "Question name",
+        "version": "2"
+      },
+      "general": {
+        "testquestionlink": "DashboardURL",
+        "previewquestionlink": "PreviewURL",
+        "editquestionlink": "EditURL",
+        "uploadurl": "UploadURL",
+        "sesskey": "abc123"
+      },
+      "uploadresult": {
+        "issuccess": 1,
+        "iswarning": 0,
+        "iserror": 0,
+        "message": "Question uploaded to NRW."
+      }
+    }
 }}
 
 <div class="qtype_stack_question_export">

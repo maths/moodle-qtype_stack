@@ -59,7 +59,6 @@ final class library_render_test extends externallib_advanced_testcase {
 
     public function setUp(): void {
         parent::setUp();
-        global $DB;
         $this->resetAfterTest();
         $this->generator = $this->getDataGenerator()->get_plugin_generator('core_question');
         $this->course = $this->getDataGenerator()->create_course();

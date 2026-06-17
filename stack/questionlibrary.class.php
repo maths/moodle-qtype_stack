@@ -26,6 +26,7 @@
  require_once(__DIR__ . '../../api/util/StackSeedHelper.php');
  require_once(__DIR__ . '../../api/util/StackPlotReplacer.php');
 
+ use core_question\local\bank\question_edit_contexts;
  use api\util\StackSeedHelper;
  use api\util\StackPlotReplacer;
 
@@ -570,7 +571,8 @@ class stack_question_library {
      * @return array Upload result for template output.
      */
     public static function upload_nrw_question(object $questiondata, string $apikey): array {
-        global $CFG;
+        global $CFG, $COURSE;
+        require_once($CFG->libdir . '/questionlib.php');
         require_once($CFG->dirroot . '/question/format/xml/format.php');
 
         if (empty($apikey)) {
@@ -580,29 +582,24 @@ class stack_question_library {
             ];
         }
 
+        // Preflight the same capability exportprocess(true) will enforce, so we can
+        // fail cleanly instead of falling into a zero-question export edge case.
+        if (!question_has_capability_on($questiondata, 'view')) {
+            return [
+                'iserror' => true,
+                'message' => get_string('nopermissions', 'error', get_string('stack:exporttoexternallibraries', 'qtype_stack')),
+            ];
+        }
+
         $qformat = new \qformat_xml();
         $qformat->setQuestions([$questiondata]);
-
-        // Moodle 4.5- export paths may expect category/context metadata to be initialised
-        // even when exporting an explicit question list.
-        if (!empty($questiondata->category) && property_exists($qformat, 'category')) {
-            $category = new \stdClass();
-            $category->id = (int)$questiondata->category;
-            if (!empty($questiondata->contextid)) {
-                $category->contextid = (int)$questiondata->contextid;
-            }
-            $qformat->category = $category;
-        }
-        if (!empty($questiondata->contextid) && method_exists($qformat, 'setContexts')) {
-            try {
-                $context = \context::instance_by_id((int)$questiondata->contextid, IGNORE_MISSING);
-                if ($context) {
-                    $qformat->setContexts([$context]);
-                }
-            } catch (\Throwable $e) {
-                // Context metadata is optional for our XML payload generation.
-            }
-        }
+        $thiscontext = context::instance_by_id($questiondata->contextid);
+        $contexts = new question_edit_contexts($thiscontext);
+        // Checks user has export permission for the supplied context.
+        $qformat->setContexts($contexts->having_one_edit_tab_cap('export'));
+        $qformat->setCattofile(false);
+        $qformat->setContexttofile(false);
+        $qformat->setCourse($COURSE);
 
         if (!$qformat->exportpreprocess()) {
             return [

@@ -37,7 +37,7 @@ class fake_render extends library_render {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public static function call_external_request($requestedfile, $external) {
+    public static function call_external_request($requestedfile, $external, $apikey) {
         return "<quiz><question type=\"stack\"><questiontext><text>Fake XML: {$external} {$requestedfile}</text></questiontext></question></quiz>";
     }
 }

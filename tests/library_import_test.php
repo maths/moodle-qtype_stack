@@ -227,7 +227,8 @@ final class library_import_test extends externallib_advanced_testcase {
             $this->qcategory->id,
             $this->filepath,
             true,
-            \stack_question_library::STACKLIB
+            \stack_question_library::STACKLIB,
+            ''
         );
 
         // We need to execute the return values cleaning process to simulate
@@ -470,7 +471,8 @@ final class library_import_test extends externallib_advanced_testcase {
                 $this->qcategory->id,
                 'sitelibrary/libtest/../../testq.xml',
                 false,
-                'fake'
+                'fake',
+                ''
             );
         } catch (\Exception $e) {
             $this->assertEquals('Dubious file request.', $e->getMessage());

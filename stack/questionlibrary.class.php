@@ -582,6 +582,28 @@ class stack_question_library {
 
         $qformat = new \qformat_xml();
         $qformat->setQuestions([$questiondata]);
+
+        // Moodle 4.5- export paths may expect category/context metadata to be initialised
+        // even when exporting an explicit question list.
+        if (!empty($questiondata->category) && property_exists($qformat, 'category')) {
+            $category = new \stdClass();
+            $category->id = (int)$questiondata->category;
+            if (!empty($questiondata->contextid)) {
+                $category->contextid = (int)$questiondata->contextid;
+            }
+            $qformat->category = $category;
+        }
+        if (!empty($questiondata->contextid) && method_exists($qformat, 'setContexts')) {
+            try {
+                $context = \context::instance_by_id((int)$questiondata->contextid, IGNORE_MISSING);
+                if ($context) {
+                    $qformat->setContexts([$context]);
+                }
+            } catch (\Throwable $e) {
+                // Context metadata is optional for our XML payload generation.
+            }
+        }
+
         if (!$qformat->exportpreprocess()) {
             return [
                 'iserror' => true,

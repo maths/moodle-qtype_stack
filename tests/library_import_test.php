@@ -62,7 +62,6 @@ final class library_import_test extends externallib_advanced_testcase {
 
     public function setUp(): void {
         parent::setUp();
-        global $DB;
         $this->resetAfterTest();
         $this->generator = $this->getDataGenerator()->get_plugin_generator('core_question');
         $this->course = $this->getDataGenerator()->create_course();
@@ -81,7 +80,6 @@ final class library_import_test extends externallib_advanced_testcase {
         \qtype_stack_test_config::setup_test_maxima_connection();
         $cache = cache::make('qtype_stack', 'librarycache');
         $cache->purge();
-        $this->resetAfterTest();
     }
 
     /**
@@ -99,7 +97,8 @@ final class library_import_test extends externallib_advanced_testcase {
             $this->qcategory->id,
             $this->filepath,
             false,
-            \stack_question_library::STACKLIB
+            \stack_question_library::STACKLIB,
+            ''
         );
 
         // We need to execute the return values cleaning process to simulate
@@ -128,7 +127,8 @@ final class library_import_test extends externallib_advanced_testcase {
             $this->qcategory->id,
             $this->filepath,
             false,
-            \stack_question_library::STACKLIB
+            \stack_question_library::STACKLIB,
+            ''
         );
     }
 
@@ -148,7 +148,8 @@ final class library_import_test extends externallib_advanced_testcase {
             $this->qcategory->id,
             $this->filepath,
             false,
-            \stack_question_library::STACKLIB
+            \stack_question_library::STACKLIB,
+            ''
         );
     }
 
@@ -163,7 +164,8 @@ final class library_import_test extends externallib_advanced_testcase {
             $this->qcategory->id,
             $this->filepath,
             false,
-            \stack_question_library::STACKLIB
+            \stack_question_library::STACKLIB,
+            ''
         );
     }
 
@@ -183,7 +185,8 @@ final class library_import_test extends externallib_advanced_testcase {
             $this->qcategory->id,
             $this->filepath,
             false,
-            \stack_question_library::STACKLIB
+            \stack_question_library::STACKLIB,
+            ''
         );
 
         // We need to execute the return values cleaning process to simulate
@@ -269,7 +272,8 @@ final class library_import_test extends externallib_advanced_testcase {
             $this->qcategory->id,
             $quizfilepath,
             true,
-            \stack_question_library::STACKLIB
+            \stack_question_library::STACKLIB,
+            ''
         );
 
         // We need to execute the return values cleaning process to simulate
@@ -381,7 +385,8 @@ final class library_import_test extends externallib_advanced_testcase {
             $this->qcategory->id,
             $quizfilepath,
             true,
-            \stack_question_library::STACKLIB
+            \stack_question_library::STACKLIB,
+            ''
         );
 
         $sections = $DB->get_records('quiz_sections');
@@ -417,7 +422,8 @@ final class library_import_test extends externallib_advanced_testcase {
             $this->qcategory->id,
             $quizfilepath,
             true,
-            \stack_question_library::STACKLIB
+            \stack_question_library::STACKLIB,
+            ''
         );
 
         $slots = $DB->get_records('quiz_slots');
@@ -448,7 +454,8 @@ final class library_import_test extends externallib_advanced_testcase {
                 $this->qcategory->id,
                 'sitelibrary/libtest/../../testq.xml',
                 false,
-                \stack_question_library::SITELIB
+                \stack_question_library::SITELIB,
+            ''
             );
         } catch (\Exception $e) {
             $this->assertEquals('Dubious file request.', $e->getMessage());
@@ -535,7 +542,8 @@ final class library_import_test extends externallib_advanced_testcase {
             $this->qcategory->id,
             $this->filepath,
             false,
-            \stack_question_library::SITELIB
+            \stack_question_library::SITELIB,
+            ''
         );
 
         // We need to execute the return values cleaning process to simulate
@@ -582,7 +590,8 @@ final class library_import_test extends externallib_advanced_testcase {
             $this->qcategory->id,
             $this->filepath,
             true,
-            \stack_question_library::SITELIB
+            \stack_question_library::SITELIB,
+            ''
         );
 
         // We need to execute the return values cleaning process to simulate
@@ -634,7 +643,8 @@ final class library_import_test extends externallib_advanced_testcase {
             $this->qcategory->id,
             $quizfilepath,
             true,
-            \stack_question_library::SITELIB
+            \stack_question_library::SITELIB,
+            ''
         );
 
         // We need to execute the return values cleaning process to simulate
@@ -765,7 +775,8 @@ final class library_import_test extends externallib_advanced_testcase {
             $this->qcategory->id,
             $this->filepath,
             false,
-            \stack_question_library::GITHUB . '_TEST'
+            \stack_question_library::GITHUB . '_TEST',
+            ''
         );
 
         // We need to execute the return values cleaning process to simulate
@@ -807,7 +818,8 @@ final class library_import_test extends externallib_advanced_testcase {
             $this->qcategory->id,
             $this->filepath,
             true,
-            \stack_question_library::GITHUB . '_TEST'
+            \stack_question_library::GITHUB . '_TEST',
+            ''
         );
 
         // We need to execute the return values cleaning process to simulate
@@ -853,7 +865,8 @@ final class library_import_test extends externallib_advanced_testcase {
             $this->qcategory->id,
             $quizfilepath,
             true,
-            \stack_question_library::GITHUB . '_TEST'
+            \stack_question_library::GITHUB . '_TEST',
+            ''
         );
 
         // We need to execute the return values cleaning process to simulate

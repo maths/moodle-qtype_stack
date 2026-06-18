@@ -82,7 +82,7 @@ final class library_render_test extends externallib_advanced_testcase {
         $managerroleid = $DB->get_field('role', 'id', ['shortname' => 'manager']);
         role_assign($managerroleid, $this->user->id, $context->id);
 
-        $returnvalue = fake_render::render_execute($this->qcategory->id, $this->filepath, \stack_question_library::STACKLIB);
+        $returnvalue = fake_render::render_execute($this->qcategory->id, $this->filepath, \stack_question_library::STACKLIB, '');
 
         // We need to execute the return values cleaning process to simulate
         // the web service server.
@@ -105,7 +105,7 @@ final class library_render_test extends externallib_advanced_testcase {
         $this->expectException(require_login_exception::class);
         // Exception messages don't seem to get translated.
         $this->expectExceptionMessage('not logged in');
-        library_render::render_execute($this->qcategory->id, $this->filepath, \stack_question_library::STACKLIB);
+        library_render::render_execute($this->qcategory->id, $this->filepath, \stack_question_library::STACKLIB, '');
     }
 
     /**
@@ -119,7 +119,7 @@ final class library_render_test extends externallib_advanced_testcase {
         $this->getDataGenerator()->enrol_user($this->user->id, $this->course->id);
         $this->expectException(required_capability_exception::class);
         $this->expectExceptionMessage('you do not currently have permissions to do that (Add new questions).');
-        library_render::render_execute($this->qcategory->id, $this->filepath, \stack_question_library::STACKLIB);
+        library_render::render_execute($this->qcategory->id, $this->filepath, \stack_question_library::STACKLIB, '');
     }
 
     /**
@@ -128,7 +128,7 @@ final class library_render_test extends externallib_advanced_testcase {
     public function test_library_render_capability(): void {
         $this->expectException(require_login_exception::class);
         $this->expectExceptionMessage('Not enrolled');
-        library_render::render_execute($this->qcategory->id, $this->filepath, \stack_question_library::STACKLIB);
+        library_render::render_execute($this->qcategory->id, $this->filepath, \stack_question_library::STACKLIB, '');
     }
 
     /**
@@ -143,7 +143,7 @@ final class library_render_test extends externallib_advanced_testcase {
         $managerroleid = $DB->get_field('role', 'id', ['shortname' => 'manager']);
         role_assign($managerroleid, $this->user->id, $context->id);
 
-        $returnvalue = fake_render::render_execute($this->qcategory->id, $this->filepath, \stack_question_library::STACKLIB);
+        $returnvalue = fake_render::render_execute($this->qcategory->id, $this->filepath, \stack_question_library::STACKLIB, '');
 
         // We need to execute the return values cleaning process to simulate
         // the web service server.
@@ -178,7 +178,7 @@ final class library_render_test extends externallib_advanced_testcase {
         $managerroleid = $DB->get_field('role', 'id', ['shortname' => 'manager']);
         role_assign($managerroleid, $this->user->id, $context->id);
 
-        $returnvalue = fake_render::render_execute($this->qcategory->id, 'file', \stack_question_library::GITHUB);
+        $returnvalue = fake_render::render_execute($this->qcategory->id, 'file', \stack_question_library::GITHUB, '');
 
         // We need to execute the return values cleaning process to simulate
         // the web service server.
@@ -217,7 +217,8 @@ final class library_render_test extends externallib_advanced_testcase {
         $returnvalue = fake_render::render_execute(
             $this->qcategory->id,
             'sitelibrary/libtest/testq.xml',
-            \stack_question_library::SITELIB
+            \stack_question_library::SITELIB,
+            ''
         );
 
         // We need to execute the return values cleaning process to simulate
@@ -253,7 +254,8 @@ final class library_render_test extends externallib_advanced_testcase {
             fake_render::render_execute(
                 $this->qcategory->id,
                 'sitelibrary/libtest/../../testq.xml',
-                \stack_question_library::SITELIB
+                \stack_question_library::SITELIB,
+                ''
             );
         } catch (\Exception $e) {
             $this->assertEquals('Dubious file request.', $e->getMessage());
@@ -266,7 +268,8 @@ final class library_render_test extends externallib_advanced_testcase {
             fake_render::render_execute(
                 $this->qcategory->id,
                 'sitelibrary/libtest/../../testq.xml',
-                'fake'
+                'fake',
+                ''
             );
         } catch (\Exception $e) {
             $this->assertEquals('Dubious file request.', $e->getMessage());
@@ -279,7 +282,8 @@ final class library_render_test extends externallib_advanced_testcase {
             fake_render::render_execute(
                 $this->qcategory->id,
                 'otherlib/libtest/../../testq.xml',
-                'fake'
+                'fake',
+                ''
             );
         } catch (\Exception $e) {
             $this->assertEquals('Dubious file request.', $e->getMessage());

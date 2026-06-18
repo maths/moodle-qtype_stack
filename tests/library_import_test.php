@@ -487,7 +487,8 @@ final class library_import_test extends externallib_advanced_testcase {
                 $this->qcategory->id,
                 'otherlib/libtest/../../testq.xml',
                 false,
-                'fake'
+                'fake',
+                ''
             );
         } catch (\Exception $e) {
             $this->assertEquals('Dubious file request.', $e->getMessage());

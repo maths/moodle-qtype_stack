@@ -456,7 +456,7 @@ final class library_import_test extends externallib_advanced_testcase {
                 'sitelibrary/libtest/../../testq.xml',
                 false,
                 \stack_question_library::SITELIB,
-            ''
+                ''
             );
         } catch (\Exception $e) {
             $this->assertEquals('Dubious file request.', $e->getMessage());

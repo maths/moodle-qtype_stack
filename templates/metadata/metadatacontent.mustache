@@ -483,4 +483,45 @@
 require(['qtype_stack/metadata/metadatacontent'], function(component) {
     component.init('#qtype-stack-metadata-content');
 });
+
+// Scope name inline-edit: pencil click → focus input; Enter/blur → confirm; update display span.
+// Listeners are added once per page load (flag guards against re-render duplicates).
+if (!document._stackScopeEditInit) {
+    document._stackScopeEditInit = true;
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.smd-scope-pencil')) {
+            e.preventDefault(); // prevent <summary> from toggling
+            var nameEl = e.target.closest('.smd-scope-name');
+            if (nameEl) {
+                var inp = nameEl.querySelector('input');
+                if (inp) { inp.focus({preventScroll: true}); inp.select(); }
+            }
+        }
+    });
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && e.target.matches && e.target.matches('.smd-scope-name input')) {
+            e.preventDefault();
+            e.target.blur();
+        }
+    });
+    document.addEventListener('focusout', function(e) {
+        if (e.target.matches && e.target.matches('.smd-scope-name input')) {
+            var nameEl = e.target.closest('.smd-scope-name');
+            if (nameEl) {
+                var span = nameEl.querySelector('.smd-scope-name-text');
+                if (span) { span.textContent = e.target.value || ''; }
+            }
+        }
+    });
+}
+
+// Auto-focus scope name input when name is empty (newly added scope).
+(function() {
+    document.querySelectorAll('.smd-scope-name-text').forEach(function(span) {
+        if (!span.textContent.trim()) {
+            var inp = span.closest('.smd-scope-name').querySelector('input');
+            if (inp) { setTimeout(function() { inp.focus(); }, 50); }
+        }
+    });
+}());
 {{/js}}

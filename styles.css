@@ -1383,6 +1383,54 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
 .stack-metadata .smd-scope-card > summary::-webkit-details-marker {
     display: none;
 }
+/* Scope name: inline edit with pencil */
+.stack-metadata .smd-scope-name {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    min-width: 0;
+}
+.stack-metadata .smd-scope-name-text {
+    font-weight: 600;
+    font-size: 0.95rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+/* Pencil: always in pointer flow, just invisible until hover */
+.stack-metadata .smd-scope-pencil {
+    color: #6c757d;
+    opacity: 0;
+    transition: opacity 0.15s;
+    flex-shrink: 0;
+}
+.stack-metadata .smd-scope-pencil i {
+    pointer-events: none;
+}
+.stack-metadata .smd-scope-header:hover .smd-scope-pencil {
+    opacity: 0.6;
+}
+/* Read mode: fitem collapses to zero, stays in-flow so focus() never scrolls */
+.stack-metadata .smd-scope-name .fitem {
+    flex: 0 0 0 !important;
+    max-width: 0 !important;
+    max-height: 0 !important;
+    overflow: hidden;
+    opacity: 0;
+}
+/* Edit mode: input has focus */
+.stack-metadata .smd-scope-name:has(input:focus) .fitem {
+    flex: 1 !important;
+    max-width: none !important;
+    max-height: none !important;
+    overflow: visible;
+    opacity: 1;
+}
+.stack-metadata .smd-scope-name:has(input:focus) .smd-scope-name-text,
+.stack-metadata .smd-scope-name:has(input:focus) .smd-scope-pencil {
+    display: none;
+}
+/* Allow text selection in the scope name input */
 .stack-metadata .smd-scope-card > summary input {
     user-select: text;
 }

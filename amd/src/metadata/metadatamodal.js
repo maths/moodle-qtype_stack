@@ -116,6 +116,7 @@ async function openModal() {
     }
     if (addListener) {
         document.querySelector('#stackmetadata_cancel').addEventListener('click', closeModal);
+        document.querySelector('#stackmetadata_save').addEventListener('click', () => modal.hide());
     }
 }
 

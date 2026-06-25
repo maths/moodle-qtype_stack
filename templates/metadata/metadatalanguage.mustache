@@ -29,9 +29,8 @@
         }
     }
 }}
-<div class="row" id="qtype-stack-metadata-language-{{{id}}}">
-    <div class="col-lg-2"><h5>{{#str}} language, core {{/str}}</h5></div>
-    <div class="col-2 inputcol">
+<div class="row align-items-center mb-2" id="qtype-stack-metadata-language-{{{id}}}">
+    <div class="col-4 inputcol">
         {{#lang}}
             <label class="sr-only" for="{{element.id}}">
                 {{#str}} language, core {{/str}}
@@ -39,9 +38,12 @@
             {{> core_form/element-text-inline }}
         {{/lang}}
     </div>
-    <div class="col-1">
-        <button id="smd_language_{{id}}_delete" name="smd_delete" type="button" class="btn btn-danger">
-            {{#str}} delete {{/str}} <span class="sr-only">{{#str}} language, core {{/str}}</span>
+    <div class="col-1 smd-delete">
+        <button id="smd_language_{{id}}_delete" name="smd_delete" type="button"
+                class="btn btn-sm btn-outline-danger"
+                title="{{#str}} delete {{/str}} {{#str}} language, core {{/str}}">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+            <span class="sr-only">{{#str}} delete {{/str}} {{#str}} language, core {{/str}}</span>
         </button>
     </div>
 </div>

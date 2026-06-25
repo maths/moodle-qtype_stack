@@ -336,116 +336,124 @@
 
 }}
 <form class="mform" data-boost-form-errors-enhanced="1" id="qtype-stack-metadata-content">
-    {{#author.0}}
-        <div class="row d-none d-md-flex">
-            <div class="col-2"></div>
-            <div class="col-2"><h6>{{#str}} firstname, qtype_stack {{/str}}</h6></div>
-            <div class="col-2"><h6>{{#str}} lastname, qtype_stack {{/str}}</h6></div>
-            <div class="col-3"><h6>{{#str}} institution, qtype_stack {{/str}}</h6></div>
-            <div class="col-1"><h6>{{#str}} year, qtype_stack {{/str}}</h6></div>
+
+    {{! Authors }}
+    <div class="smd-section">
+        <div class="smd-section-label">{{#str}} author, qtype_stack {{/str}}</div>
+        {{#author.0}}
+        <div class="row mb-1">
+            <div class="col-3"><span class="smd-col-label">{{#str}} firstname, qtype_stack {{/str}}</span></div>
+            <div class="col-3"><span class="smd-col-label">{{#str}} lastname, qtype_stack {{/str}}</span></div>
+            <div class="col-3"><span class="smd-col-label">{{#str}} institution, qtype_stack {{/str}}</span></div>
+            <div class="col-1"><span class="smd-col-label">{{#str}} year, qtype_stack {{/str}}</span></div>
         </div>
-    {{/author.0}}
-    {{#author}}
-        {{>qtype_stack/metadata/metadataauthor}}
-    {{/author}}
-    <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-10">
-            <button class="btn btn-secondary mb-1" type="button" name="smd_add" id="smd_author_0_add">
+        {{/author.0}}
+        {{#author}}
+            {{>qtype_stack/metadata/metadataauthor}}
+        {{/author}}
+        <div class="d-flex gap-2 mt-2">
+            <button class="btn btn-sm btn-outline-secondary" type="button" name="smd_add" id="smd_author_0_add">
                 {{#str}} addauthor, qtype_stack {{/str}}
             </button>
-            <button class="btn btn-secondary mb-1" type="button" id="stack-metadata-make-author">
+            <button class="btn btn-sm btn-outline-secondary" type="button" id="stack-metadata-make-author">
                 {{#str}} makemeauthor, qtype_stack {{/str}}
             </button>
         </div>
     </div>
-    <br>
-    {{#language}}
-        {{>qtype_stack/metadata/metadatalanguage}}
-    {{/language}}
-    <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-10"><button type="button" class="btn btn-secondary" name="smd_add" id="smd_language_0_add">{{#str}} addlanguage, qtype_stack {{/str}}</button></div>
-    </div>
-    <br>
-    <div class="row">
-        <div class="col-md-2"><h5>{{#str}} ispartof, qtype_stack {{/str}}</h5></div>
-        <div class="col-2 inputcol">
-            {{#isPartOf}}
-                <label class="sr-only" for="{{element.id}}">
-                    {{#str}} ispartof, qtype_stack {{/str}}
-                </label>
-                {{> core_form/element-text-inline}}
-            {{/isPartOf}}
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-2"><h5>{{#str}} license {{/str}}</h5></div>
-        <div class="col-6 inputcol">
-            {{#license}}
-                <label class="sr-only" for="{{element.id}}">
-                    {{#str}} license {{/str}}
-                </label>
-                {{> core_form/element-autocomplete-inline}}
-            {{/license}}
-        </div>
-    </div>
-    <h5>{{#str}} additionalmetadata, qtype_stack {{/str}}</h5>
-    {{#scope}}
-        {{>qtype_stack/metadata/metadatascope}}
-    {{/scope}}
-    <div class="row" style="padding-top: 10px">
-        <div class="col-md-2"></div>
-        <div class="col-10"><button type="button" class="btn btn-secondary" name="smd_add" id="smd_scope_0_add">{{#str}} addscope, qtype_stack {{/str}}</button></div>
-    </div>
-    <br>
-    <div class="row">
-        <div class="col-md-2"><h5>{{#str}} freeformmetadata, qtype_stack {{/str}}</h5></div>
-        <div class="col-10">
-            {{#freeform}}
-                <label class="sr-only" for="{{element.id}}">
-                    {{#str}} freeformmetadata, qtype_stack {{/str}}
-                </label>
-                {{< core_form/element-template-inline }}
-                    {{$element}}
-                        <textarea
-                            id="{{element.id}}"
-                            name="{{element.name}}"
-                            class="form-control {{#error}}is-invalid{{/error}}"
-                            {{#error}}
-                                autofocus aria-describedby="{{element.iderror}}"
-                            {{/error}}
-                            {{{element.attributes}}}
-                        >{{element.value}}</textarea>
-                    {{/element}}
-                {{/ core_form/element-template-inline }}
-            {{/freeform}}
-        </div>
-    </div>
-    <br>
-    <div class="row">
-        <div class="col-10">
-            <button class="btn btn-primary mb-1" type="button" id="stack-metadata-update">
-                {{#str}} updateJSON, qtype_stack {{/str}}
-            </button>
-            <button class="btn btn-primary mb-1" type="button" id="stack-metadata-update-inputs">
-                {{#str}} updateinputs, qtype_stack {{/str}}
-            </button>
-            <button class="btn btn-primary mb-1" type="button" id="stack-metadata-revert">
-                {{#str}} reverttosaved, qtype_stack {{/str}}
-            </button>
-            <button class="btn btn-primary mb-1" type="button" id="stack-metadata-validate" onclick="document.querySelector('.stack-metadata .btn-close, .stack-metadata .close').click();">
-                {{#str}} validateandclose, qtype_stack {{/str}}
+
+    {{! Language }}
+    <div class="smd-section">
+        <div class="smd-section-label">{{#str}} language, core {{/str}}</div>
+        {{#language}}
+            {{>qtype_stack/metadata/metadatalanguage}}
+        {{/language}}
+        <div class="mt-2">
+            <button type="button" class="btn btn-sm btn-outline-secondary" name="smd_add" id="smd_language_0_add">
+                {{#str}} addlanguage, qtype_stack {{/str}}
             </button>
         </div>
     </div>
-    <br>
-    <p>
+
+    {{! License + isPartOf }}
+    <div class="smd-section">
+        <div class="row">
+            <div class="col-md-7">
+                <div class="smd-section-label">{{#str}} license {{/str}}</div>
+                {{#license}}
+                    <label class="sr-only" for="{{element.id}}">{{#str}} license {{/str}}</label>
+                    {{> core_form/element-autocomplete-inline}}
+                {{/license}}
+            </div>
+            <div class="col-md-5">
+                <div class="smd-section-label">{{#str}} ispartof, qtype_stack {{/str}}</div>
+                {{#isPartOf}}
+                    <label class="sr-only" for="{{element.id}}">{{#str}} ispartof, qtype_stack {{/str}}</label>
+                    {{> core_form/element-text-inline}}
+                {{/isPartOf}}
+            </div>
+        </div>
+    </div>
+
+    {{! Additional metadata }}
+    <div class="smd-section">
+        <div class="smd-section-label">{{#str}} additionalmetadata, qtype_stack {{/str}}</div>
+        {{#scope}}
+            {{>qtype_stack/metadata/metadatascope}}
+        {{/scope}}
+        <div class="mt-2">
+            <button type="button" class="btn btn-sm btn-outline-secondary" name="smd_add" id="smd_scope_0_add">
+                {{#str}} addscope, qtype_stack {{/str}}
+            </button>
+        </div>
+    </div>
+
+    {{! Freeform metadata }}
+    <div class="smd-section">
+        <div class="smd-section-label">{{#str}} freeformmetadata, qtype_stack {{/str}}</div>
+        {{#freeform}}
+            <label class="sr-only" for="{{element.id}}">
+                {{#str}} freeformmetadata, qtype_stack {{/str}}
+            </label>
+            {{< core_form/element-template-inline }}
+                {{$element}}
+                    <textarea
+                        id="{{element.id}}"
+                        name="{{element.name}}"
+                        class="form-control {{#error}}is-invalid{{/error}}"
+                        {{#error}}
+                            autofocus aria-describedby="{{element.iderror}}"
+                        {{/error}}
+                        {{{element.attributes}}}
+                    >{{element.value}}</textarea>
+                {{/element}}
+            {{/ core_form/element-template-inline }}
+        {{/freeform}}
+    </div>
+
+    {{! Utility buttons }}
+    <div class="d-flex gap-2 flex-wrap mb-3">
+        <button class="btn btn-sm btn-secondary" type="button" id="stack-metadata-update">
+            {{#str}} updateJSON, qtype_stack {{/str}}
+        </button>
+        <button class="btn btn-sm btn-secondary" type="button" id="stack-metadata-update-inputs">
+            {{#str}} updateinputs, qtype_stack {{/str}}
+        </button>
+        <button class="btn btn-sm btn-secondary" type="button" id="stack-metadata-revert">
+            {{#str}} reverttosaved, qtype_stack {{/str}}
+        </button>
+    </div>
+
+    <p class="text-muted small">
         {{#str}} metadataexplanation, qtype_stack {{/str}}
     </p>
-    <div class="row">
-        <div class="col-md-2"><h5>{{#str}} JSONmetadata, qtype_stack {{/str}}</h5></div>
-        <div class="col-10">
+
+    {{! JSON metadata — collapsible }}
+    <details class="smd-section">
+        <summary class="smd-section-label">
+            {{#str}} JSONmetadata, qtype_stack {{/str}}
+            <i class="fa fa-chevron-down fa-xs ms-1" aria-hidden="true"></i>
+        </summary>
+        <div class="mt-2">
             {{#json}}
                 <label class="sr-only" for="{{element.id}}">
                     {{#str}} JSONmetadata, qtype_stack {{/str}}
@@ -468,7 +476,8 @@
                 {{/ core_form/element-template-inline }}
             {{/json}}
         </div>
-    </div>
+    </details>
+
 </form>
 {{#js}}
 require(['qtype_stack/metadata/metadatacontent'], function(component) {

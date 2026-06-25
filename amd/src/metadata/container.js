@@ -304,7 +304,7 @@ export default class extends BaseComponent {
     async addItem(event) {
         const result = await this.update(true);
         if (result) {
-            const parts = event.target.id.split('_');
+            const parts = event.currentTarget.id.split('_');
             this.reactive.dispatch('addItem', parts[1], parts[2]);
         }
     }
@@ -318,7 +318,7 @@ export default class extends BaseComponent {
     async deleteItem(event) {
         const result = await this.update(false);
         if (result) {
-            const parts = event.target.id.split('_');
+            const parts = event.currentTarget.id.split('_');
             this.reactive.dispatch('deleteRow', parts[1], parts[2]);
         }
     }

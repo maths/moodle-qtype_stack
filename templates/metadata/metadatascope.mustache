@@ -130,10 +130,11 @@
             }
         }
 }}
-<div class="scope">
-    <div class="row" id="qtype-stack-metadata-scope-{{{firstProp}}}">
-        <div class="col-lg-2"><h6>{{#str}} scope, qtype_stack {{/str}}</h6></div>
-        <div class="col-2 inputcol">
+<details class="smd-scope-card" id="qtype-stack-metadata-scope-{{{firstProp}}}" open>
+    <summary class="smd-scope-header">
+        <i class="fa fa-chevron-down smd-scope-chevron" aria-hidden="true"></i>
+        <span class="smd-col-label">{{#str}} scope, qtype_stack {{/str}}</span>
+        <div class="flex-grow-1">
             {{#input}}
                 <label class="sr-only" for="{{element.id}}">
                     {{#str}} scope, qtype_stack {{/str}}
@@ -141,22 +142,26 @@
                 {{> core_form/element-text-inline }}
             {{/input}}
         </div>
-        <div class="col-1">
-            <button id="smd_scope_{{{firstProp}}}_delete" name="smd_delete" type="button" class="btn btn-danger">
-                {{#str}} delete {{/str}} <span class="sr-only">{{#str}} scope, qtype_stack {{/str}}</span>
+        <button id="smd_scope_{{{firstProp}}}_delete" name="smd_delete" type="button"
+                class="btn btn-sm btn-outline-danger"
+                title="{{#str}} delete {{/str}} {{#str}} scope, qtype_stack {{/str}}">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+            <span class="sr-only">{{#str}} delete {{/str}} {{#str}} scope, qtype_stack {{/str}}</span>
+        </button>
+    </summary>
+    <div class="smd-scope-body">
+        <div class="row mb-1">
+            <div class="col-2"><span class="smd-col-label">{{#str}} property, qtype_stack {{/str}}</span></div>
+            <div class="col-2"><span class="smd-col-label">{{#str}} qualifier, qtype_stack {{/str}}</span></div>
+            <div class="col-4"><span class="smd-col-label">{{#str}} value, qtype_stack {{/str}}</span></div>
+        </div>
+        {{#properties}}
+            {{>qtype_stack/metadata/metadataadditional}}
+        {{/properties}}
+        <div class="mt-2">
+            <button type="button" class="btn btn-sm btn-outline-secondary" name="smd_add" id="smd_property_{{firstProp}}_add">
+                {{#str}} addproperty, qtype_stack {{/str}}
             </button>
         </div>
     </div>
-    <div class="row d-none d-md-flex">
-        <div class="col-2"><h6>{{#str}} property, qtype_stack {{/str}}</h6></div>
-        <div class="col-2"><h6>{{#str}} qualifier, qtype_stack {{/str}}</h6></div>
-        <div class="col-3"><h6>{{#str}} value, qtype_stack {{/str}}</h6></div>
-    </div>
-    {{#properties}}
-        {{>qtype_stack/metadata/metadataadditional}}
-    {{/properties}}
-</div>
-<div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-10"><button type="button" class="btn btn-secondary" name="smd_add" id="smd_property_{{firstProp}}_add">{{#str}} addproperty, qtype_stack {{/str}}</button></div>
-</div>
+</details>

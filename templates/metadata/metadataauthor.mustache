@@ -58,20 +58,19 @@
             "id": "1"
         }
 }}
-<div class="row" id="qtype-stack-metadata-author-{{{id}}}">
-    <div class="col-md-2"><h5>{{#str}} author, qtype_stack {{/str}}</h5></div>
-    <div class="col-2 inputcol">
+<div class="row align-items-center mb-2" id="qtype-stack-metadata-author-{{{id}}}">
+    <div class="col-3 inputcol">
         {{#firstname}}
             <label class="sr-only" for="{{element.id}}">
-                {{#str}} author, qtype_stack {{/str}} {{#str}} firstname, qtype_stack {{/str}}
+                {{#str}} firstname, qtype_stack {{/str}}
             </label>
             {{> core_form/element-text-inline }}
         {{/firstname}}
     </div>
-    <div class="col-2 inputcol">
+    <div class="col-3 inputcol">
         {{#lastname}}
             <label class="sr-only" for="{{element.id}}">
-                {{#str}} author, qtype_stack {{/str}} {{#str}} lastname, qtype_stack {{/str}}
+                {{#str}} lastname, qtype_stack {{/str}}
             </label>
             {{> core_form/element-text-inline }}
         {{/lastname}}
@@ -79,22 +78,25 @@
     <div class="col-3 inputcol">
         {{#institution}}
             <label class="sr-only" for="{{element.id}}">
-                {{#str}} author, qtype_stack {{/str}} {{#str}} institution, qtype_stack {{/str}}
+                {{#str}} institution, qtype_stack {{/str}}
             </label>
             {{> core_form/element-text-inline }}
         {{/institution}}
     </div>
-    <div class="col-2 col-lg-1 inputcol">
+    <div class="col-1 inputcol">
         {{#year}}
             <label class="sr-only" for="{{element.id}}">
-                {{#str}} author, qtype_stack {{/str}} {{#str}} year, qtype_stack {{/str}}
+                {{#str}} year, qtype_stack {{/str}}
             </label>
             {{>qtype_stack/metadata/metadatayear}}
         {{/year}}
     </div>
-    <div class="col-1">
-        <button id="smd_author_{{id}}_delete" name="smd_delete" type="button" class="btn btn-danger">
-            {{#str}} delete {{/str}} <span class="sr-only">{{#str}} author, qtype_stack {{/str}}</span>
+    <div class="col-2 smd-delete">
+        <button id="smd_author_{{id}}_delete" name="smd_delete" type="button"
+                class="btn btn-sm btn-outline-danger"
+                title="{{#str}} delete {{/str}} {{#str}} author, qtype_stack {{/str}}">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+            <span class="sr-only">{{#str}} delete {{/str}} {{#str}} author, qtype_stack {{/str}}</span>
         </button>
     </div>
 </div>

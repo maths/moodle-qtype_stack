@@ -91,6 +91,13 @@ class stack_ast_filter_601_castext implements stack_cas_astfilter_parametric {
                         $compiled = $compiled->statement;
                     }
                     $compiled->position['castext'] = true;
+                    if ($compiled instanceof MP_String) {
+                        // An inline-CASText fragment cannot be flat, as injections of such could not be distinguished
+                        // from string injections. For this reason we tag it with a marker to stop simplification.
+                        // And make it non flat if it already is.
+                        $compiled = new MP_List([new MP_String('%root'), $compiled]);
+                    }
+                    $compiled->position['inline-castext'] = true;
                     $node->parentnode->replace($node, $compiled);
                     return false;
                 } else if ($node->name instanceof MP_Identifier && $node->name->value === 'castext_concat') {

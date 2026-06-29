@@ -2,41 +2,35 @@
 <quiz>
   <question type="stack">
     <name>
-      <text>5.1.2 quadratic with sin (copy)</text>
+      <text>3.2.5.3 Solve the quadratic equation (rationals)</text>
     </name>
     <questiontext format="html">
-      <text><![CDATA[<p></p><p>Find all solutions in the range \(-\pi/2 \leq x \leq \pi/2\) to the equation {@eq@}. Give your answer as a set of values.</p><p>Solutions are [[input:ans1]]. [[validation:ans1]]</p>]]></text>
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p><p>Solve the quadratic equation \({@exp@}=0\). If there is a repeated root, enter this twice.</p>
+<p><nowrap>\(x = \)[[input:ans1]] [[validation:ans1]] or \(x = \)[[input:ans2]][[validation:ans2]]<nowrap></nowrap></nowrap></p>]]></text>
     </questiontext>
     <generalfeedback format="html">
-      <text><![CDATA[<p>The equation factorizes as \[{@factor(p)@} = 0,\] so the the solutions are those \(x\) such that \[\sin(x) = {@sol1@}, {@sol2@}.\]These are the values \(x = {@xsol1@}, {@xsol2@}\).<br></p>]]></text>
+      <text><![CDATA[<p>We are given the quadratic equation \({@exp@}=0.\)</p><p>First factorise the left-hand side:</p><p>\[{@exp@}={@exp1@}.\]</p><p>Equate each factor is then equated to zero to obtain the two solutions:</p><p>Solution 1: \(x=&nbsp;{@ta1@}\)</p><p>Solution 2: \(x= {@ta2@}\).</p>]]></text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text>2020081700</text>
+      <text>2021072200</text>
     </stackversion>
     <questionvariables>
-      <text>a: rand([-2,-1,1,2]);
-b:rand([-2,-1,1,2]);
-c:rand([-1,1]);
-d:rand([-1,1]);
-fac1:(a*sin(x) +c);
-fac2: (b*sin(x) + d);
-p:expand(fac1*fac2);
-eq: p= 0;
-sol1:-c/a;
-sol2:-d/b;
-xsol1:asin(sol1);
-xsol2:asin(sol2);
-ta1:{xsol1,xsol2};</text>
+      <text>aa:1+rand(5)
+bb:1+rand(5)
+exp1: (2*x-aa)*(3*x-bb)
+exp : expand(exp1)
+ta1:aa/2
+ta2:bb/3</text>
     </questionvariables>
     <specificfeedback format="html">
       <text>[[feedback:prt1]]</text>
     </specificfeedback>
     <questionnote format="moodle_auto_format">
-      <text>{@eq@} has solutions {@ta1@}.</text>
+      <text>\({@exp@}=0\) roots \( x= {@ta1@}, x = {@ta2@} \)</text>
     </questionnote>
     <questiondescription format="moodle_auto_format">
       <text/>
@@ -57,10 +51,10 @@ ta1:{xsol1,xsol2};</text>
       <name>ans1</name>
       <type>algebraic</type>
       <tans>ta1</tans>
-      <boxsize>15</boxsize>
+      <boxsize>5</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
-      <syntaxhint>{?,?}</syntaxhint>
+      <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
       <forbidwords/>
       <allowwords/>
@@ -68,7 +62,25 @@ ta1:{xsol1,xsol2};</text>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
-      <showvalidation>1</showvalidation>
+      <showvalidation>3</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>ta2</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
       <options/>
     </input>
     <prt>
@@ -83,8 +95,8 @@ ta1:{xsol1,xsol2};</text>
         <name>0</name>
         <description/>
         <answertest>AlgEquiv</answertest>
-        <sans>ans1</sans>
-        <tans>ta1</tans>
+        <sans>{ratsimp(ans1),ratsimp(ans2)}</sans>
+        <tans>{ratsimp(ta1),ratsimp(ta2)}</tans>
         <testoptions/>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
@@ -105,27 +117,26 @@ ta1:{xsol1,xsol2};</text>
         </falsefeedback>
       </node>
     </prt>
-    <deployedseed>1020027425</deployedseed>
-    <deployedseed>659266048</deployedseed>
-    <deployedseed>676658393</deployedseed>
-    <deployedseed>1783501061</deployedseed>
-    <deployedseed>1927470806</deployedseed>
-    <deployedseed>1317788211</deployedseed>
-    <deployedseed>1619272096</deployedseed>
-    <deployedseed>138425479</deployedseed>
-    <deployedseed>236361113</deployedseed>
-    <deployedseed>788583263</deployedseed>
-    <deployedseed>1177470732</deployedseed>
-    <deployedseed>1797485179</deployedseed>
-    <deployedseed>1831044783</deployedseed>
-    <deployedseed>307118700</deployedseed>
-    <deployedseed>940447992</deployedseed>
+    <deployedseed>296953638</deployedseed>
+    <deployedseed>200420641</deployedseed>
+    <deployedseed>1741041881</deployedseed>
+    <deployedseed>2140628164</deployedseed>
+    <deployedseed>225101550</deployedseed>
+    <deployedseed>1431006916</deployedseed>
+    <deployedseed>419462610</deployedseed>
+    <deployedseed>1605014443</deployedseed>
+    <deployedseed>519137390</deployedseed>
+    <deployedseed>888782538</deployedseed>
     <qtest>
       <testcase>1</testcase>
       <description/>
       <testinput>
         <name>ans1</name>
-        <value>{xsol1,xsol2}</value>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
       </testinput>
       <expected>
         <name>prt1</name>
@@ -139,13 +150,17 @@ ta1:{xsol1,xsol2};</text>
       <description/>
       <testinput>
         <name>ans1</name>
-        <value>{xsol2,xsol1}</value>
+        <value>ta1+1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2+2</value>
       </testinput>
       <expected>
         <name>prt1</name>
-        <expectedscore>1.0000000</expectedscore>
-        <expectedpenalty>0.0000000</expectedpenalty>
-        <expectedanswernote>prt1-1-T</expectedanswernote>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
       </expected>
     </qtest>
   </question>

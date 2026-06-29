@@ -2,29 +2,37 @@
 <quiz>
   <question type="stack">
     <name>
-      <text><![CDATA[23.2.2.7 int sin nt & sin mt (copy)]]></text>
+      <text>18.3.2.4 T Locate stationary points</text>
     </name>
     <questiontext format="html">
       <text><![CDATA[<p class="HELM_exercise">Exercise</p>
-Proceeding in a similar way to the above, evaluate
-\[ I = \displaystyle{ \int _{-\pi}^\pi } \sin nt \sin mt \hspace{0.15cm} dt \]
-for integers \(m\) and \(n\).
-<p></p>
-<ol class="HELM_parts_inline">
-<li>\( n \neq m \)</li>
-<p></p>
- \( I = \) [[input:ans1]] [[validation:ans1]][[feedback:prt1]]
-<p></p>
-<li>\( n = m \neq 0 \)</li>
-<p></p>
- \( I = \) [[input:ans2]] [[validation:ans2]][[feedback:prt2]]
-<p></p>
-<li>\( n = m = 0 \)</li>
-<p></p>
- \( I = \) [[input:ans3]] [[validation:ans3]][[feedback:prt3]]&nbsp;<p></p><br></ol>]]></text>
+<p>Locate the stationary points of</p>
+\[f(x,y) = {@f@}.\]
+<p>First find the partial derivatives of \(f\):</p>
+<p>\(\displaystyle \frac{\partial f}{\partial x} = \) [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</p>
+<p>\(\displaystyle \frac{\partial f}{\partial y} = \) [[input:ans2]] [[validation:ans2]] [[feedback:prt2]]</p>
+<p>Now solve simultaenously the equations \(\displaystyle \frac{\partial f}{\partial x} = 0\) and \(\displaystyle \frac{\partial f}{\partial y} = 0\).
+</p>
+<p><b>Note:</b> write your answer as a set of points. For example, if you found the stationary points \((0,2)\) and \((1,3)\), your input should be <code>{[0,2], [1,3]}</code>.</p>
+<p>Stationary points: [[input:ans3]] [[validation:ans3]] [[feedback:prt3]]</p>]]></text>
     </questiontext>
     <generalfeedback format="html">
-      <text/>
+      <text><![CDATA[<p>We are asked to find the stationary points of \(f(x,y) = {@f@}\).</p>
+<p>We begin by finding the partial derivatives of \(f\):</p>
+\[\begin{aligned}
+    \frac{\partial f}{\partial x} &amp;= {@ta1@} \\
+    \frac{\partial f}{\partial y} &amp;= {@ta2@}
+\end{aligned}\]
+<p>Next, we find the points where both partial derivatives are zero. Note that each of them
+    only depends on one variable, so that we can solve each equation separately.
+</p>
+\[\begin{aligned}
+    \frac{\partial f}{\partial x} = {@ta1@} = 0 &amp;\implies x = \pm {@x1@} \\
+    \frac{\partial f}{\partial y} = {@ta2@} = 0 &amp;\implies y = {@y1@}
+\end{aligned}\]
+<p>Therefore, there are two points where both partial derivatives are zero: \(({@x1@},{@y1@})\)
+    and \(({@x2@},{@y1@})\). These are the <strong>stationary points</strong>.
+</p>]]></text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>
@@ -34,15 +42,27 @@ for integers \(m\) and \(n\).
       <text>2021120900</text>
     </stackversion>
     <questionvariables>
-      <text>ta1:0;
-ta2:pi;
-ta3:0;</text>
+      <text>ordergreat(x, y);
+/* Randomisation */
+/* First find zeroes of partial derivatives */
+x1: rand_with_step(1, 4, 1);
+x2: -x1;
+y1: rand_with_prohib(-4, 4, [0]);
+/* Then construct partial derivatives */
+f_x: expand(3 * (x - x1) * (x - x2));
+f_y: expand (2 * (y - y1));
+/* Lastly, construct f */
+f: int(f_x, x) + int(f_y, y) + rand_with_prohib(-5, 5, [0]);
+
+ta1: f_x;
+ta2: f_y;
+ta3: {[x1, y1], [x2, y1]};</text>
     </questionvariables>
     <specificfeedback format="html">
       <text/>
     </specificfeedback>
     <questionnote format="moodle_auto_format">
-      <text/>
+      <text>\(f(x,y) = {@f@}, ({@x1@},{@y1@}), ({@x2@},{@y1@})\)</text>
     </questionnote>
     <questiondescription format="moodle_auto_format">
       <text/>
@@ -51,7 +71,7 @@ ta3:0;</text>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
     <scientificnotation>*10</scientificnotation>
-    <multiplicationsign>dot</multiplicationsign>
+    <multiplicationsign>none</multiplicationsign>
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
     <inversetrig>cos-1</inversetrig>
@@ -61,16 +81,16 @@ ta3:0;</text>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>
-      <type>numerical</type>
+      <type>algebraic</type>
       <tans>ta1</tans>
-      <boxsize>3</boxsize>
+      <boxsize>6</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
       <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
       <forbidwords/>
       <allowwords/>
-      <forbidfloat>0</forbidfloat>
+      <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
@@ -79,16 +99,16 @@ ta3:0;</text>
     </input>
     <input>
       <name>ans2</name>
-      <type>numerical</type>
+      <type>algebraic</type>
       <tans>ta2</tans>
-      <boxsize>3</boxsize>
+      <boxsize>6</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
       <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
       <forbidwords/>
       <allowwords/>
-      <forbidfloat>0</forbidfloat>
+      <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
@@ -97,16 +117,16 @@ ta3:0;</text>
     </input>
     <input>
       <name>ans3</name>
-      <type>numerical</type>
+      <type>algebraic</type>
       <tans>ta3</tans>
-      <boxsize>3</boxsize>
+      <boxsize>7</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
       <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
       <forbidwords/>
       <allowwords/>
-      <forbidfloat>0</forbidfloat>
+      <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
@@ -143,9 +163,7 @@ ta3:0;</text>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt1-1-F</falseanswernote>
         <falsefeedback format="html">
-          <text>Using the identity \( \sin nt \sin mt \equiv \dfrac{1}{2} \left\{ \cos(n - m)t - \cos(n + m)t \right\} \) and integrating the right-hand side terms, we get,
-\[ I = \displaystyle{ \int _{-\pi}^\pi } \sin nt \sin mt \hspace{0.15cm} dt = 0\]
-for the case with \(n\), \(m\) integers, \(n \neq m\)</text>
+          <text/>
         </falsefeedback>
       </node>
     </prt>
@@ -179,8 +197,7 @@ for the case with \(n\), \(m\) integers, \(n \neq m\)</text>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt2-1-F</falseanswernote>
         <falsefeedback format="html">
-          <text>Using the identity \( \cos 2\theta = 1 - 2 \sin^2 \theta\) with \(\theta = nt\) gives for \(n = m \neq 0\), we have
-\[  I = \displaystyle{ \int _{-\pi}^\pi } \sin^2 nt \hspace{0.15cm} dt = \dfrac{1}{2} \displaystyle{ \int _{-\pi}^\pi } (1 - \cos 2nt)dt = \pi \]</text>
+          <text/>
         </falsefeedback>
       </node>
     </prt>
@@ -195,7 +212,7 @@ for the case with \(n\), \(m\) integers, \(n \neq m\)</text>
       <node>
         <name>0</name>
         <description/>
-        <answertest>AlgEquiv</answertest>
+        <answertest>Sets</answertest>
         <sans>ans3</sans>
         <tans>ta3</tans>
         <testoptions/>
@@ -214,11 +231,20 @@ for the case with \(n\), \(m\) integers, \(n \neq m\)</text>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt3-1-F</falseanswernote>
         <falsefeedback format="html">
-          <text>When \(n = m = 0\), we have
-\[  I = \displaystyle{ \int _{-\pi}^\pi } \sin nt \sin mt \hspace{0.15cm} dt = 0 \]</text>
+          <text/>
         </falsefeedback>
       </node>
     </prt>
+    <deployedseed>419321953</deployedseed>
+    <deployedseed>1485218859</deployedseed>
+    <deployedseed>343990670</deployedseed>
+    <deployedseed>2056514048</deployedseed>
+    <deployedseed>1851159288</deployedseed>
+    <deployedseed>920943237</deployedseed>
+    <deployedseed>545029771</deployedseed>
+    <deployedseed>733533868</deployedseed>
+    <deployedseed>1112243808</deployedseed>
+    <deployedseed>76107602</deployedseed>
     <qtest>
       <testcase>1</testcase>
       <description/>
@@ -266,7 +292,7 @@ for the case with \(n\), \(m\) integers, \(n \neq m\)</text>
       </testinput>
       <testinput>
         <name>ans3</name>
-        <value>ta3+1</value>
+        <value>{}</value>
       </testinput>
       <expected>
         <name>prt1</name>

@@ -5,13 +5,13 @@ describe('lastexpr extractor', () => {
     // ── Block-mode tests ──────────────────────────────────────────────────────
 
     describe('with blocks', () => {
-        test('returns trimmed raw of a single code_inline block', () => {
-            const blockCollector = { blocks: [{ type: 'code_inline', raw: 'x^2' }] };
+        test('returns trimmed raw of a single asciimath_inline block', () => {
+            const blockCollector = { blocks: [{ type: 'asciimath_inline', raw: 'x^2' }] };
             expect(lastexpr('', blockCollector)).toBe('x^2');
         });
 
-        test('trims whitespace from code_inline raw', () => {
-            const blockCollector = { blocks: [{ type: 'code_inline', raw: '  x^2  ' }] };
+        test('trims whitespace from asciimath_inline raw', () => {
+            const blockCollector = { blocks: [{ type: 'asciimath_inline', raw: '  x^2  ' }] };
             expect(lastexpr('', blockCollector)).toBe('x^2');
         });
 
@@ -33,10 +33,10 @@ describe('lastexpr extractor', () => {
             expect(lastexpr('', blockCollector)).toBe('line3');
         });
 
-        test('returns last code_inline over an earlier asciimath_block', () => {
+        test('returns last asciimath_inline over an earlier asciimath_block', () => {
             const blockCollector = { blocks: [
                 { type: 'asciimath_block', raw: 'math line' },
-                { type: 'code_inline', raw: 'inline last' }
+                { type: 'asciimath_inline', raw: 'inline last' }
             ]};
             expect(lastexpr('', blockCollector)).toBe('inline last');
         });
@@ -49,18 +49,18 @@ describe('lastexpr extractor', () => {
             expect(lastexpr('', blockCollector)).toBe('math content');
         });
 
-        test('scans bottom-up: last code_inline wins when multiple exist', () => {
+        test('scans bottom-up: last asciimath_inline wins when multiple exist', () => {
             const blockCollector = { blocks: [
-                { type: 'code_inline', raw: 'first' },
-                { type: 'code_inline', raw: 'last' }
+                { type: 'asciimath_inline', raw: 'first' },
+                { type: 'asciimath_inline', raw: 'last' }
             ]};
             expect(lastexpr('', blockCollector)).toBe('last');
         });
 
-        test('ignores blocks that are not code_inline or asciimath_block', () => {
+        test('ignores blocks that are not asciimath_inline or asciimath_block', () => {
             const blockCollector = { blocks: [
                 { type: 'heading', raw: 'ignored' },
-                { type: 'code_inline', raw: 'first' },
+                { type: 'asciimath_inline', raw: 'first' },
                 { type: 'calculation', raw: 'also ignored' }
             ]};
             expect(lastexpr('', blockCollector)).toBe('first');

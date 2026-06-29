@@ -24,12 +24,12 @@
 // Markdown-it block rule plugin.
 //
 // Syntax:
-//   Opening marker: a single backtick, optionally followed by spaces/tabs, at end of line.
+//   Opening marker: a single delimiter character, optionally followed by spaces/tabs, at end of line.
 //   Content:        any lines until the closing marker.
-//   Closing marker: any line whose first non-whitespace character is a backtick.
+//   Closing marker: any line whose first non-whitespace character is the delimiter.
 //
-// A backtick followed by non-whitespace characters is left untouched so that
-// code_inline still fires for `inline code`.
+// A delimiter followed by non-whitespace characters is left untouched so that
+// inline parsing can handle it instead.
 
 // UMD wrapper: works as a plain <script> (sets window.asciimathBlock) and as
 // an esbuild-bundled ES module import (exports the function as default).
@@ -46,19 +46,15 @@
  * @param {Object} mdit - the markdownit instance to extend.
  * @param {Object} [options] - plugin options.
  * @param {string} [options.marker='`'] - single-character delimiter marker.
- * @param {Object} [options.state] - shared mutable state (optional).
+ * @param {Object} [options.state] - shared mutable state with a runtime delimiter.
  */
-function asciimathBlock(mdit, options = {delimiter: '`'}) {
-    if (!options?.delimiter) {
-        options.delimiter = '`';
-    }
-
+function asciimathBlock(mdit, delimiter) {
     /**
      * Markdown-it block rule for multi-line AsciiMath blocks.
      * Registered before 'paragraph' so it takes priority over plain text.
      *
-     * Opening marker: a single backtick on its own line (trailing spaces/tabs allowed).
-     * Closing marker: a single backtick on its own line (no other non-whitespace content).
+     * Opening marker: a single delimiter on its own line (trailing spaces/tabs allowed).
+     * Closing marker: a single delimiter on its own line (no other non-whitespace content).
      * Emits an 'asciimath_block' token whose content is the joined interior lines.
      *
      * @param {Object}  state     - markdown-it state object.
@@ -77,7 +73,7 @@ function asciimathBlock(mdit, options = {delimiter: '`'}) {
             return false;
         }
 
-        const marker = options.delimiter;
+        const marker = delimiter ?? '`';
         const markerCode = marker.charCodeAt(0);
 
         // Must start with exactly one marker character.

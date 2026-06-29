@@ -1,5 +1,5 @@
 // Extractor: lastblock
-// Returns the raw content of the last code_inline, or the full content
+// Returns the raw content of the last asciimath_inline, or the full content
 // of the last asciimath_block, in document order.
 // Falls back to the final non-empty line of raw when no blocks are available.
 export default function lastblock(raw, blockCollector) {
@@ -7,7 +7,7 @@ export default function lastblock(raw, blockCollector) {
     if (blocks && blocks.length > 0) {
         for (let i = blocks.length - 1; i >= 0; i--) {
             const block = blocks[i];
-            if (block.type === 'code_inline') {
+            if (block.type === 'asciimath_inline') {
                 return block.raw;
             }
             if (block.type === 'asciimath_block') {

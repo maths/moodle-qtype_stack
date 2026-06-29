@@ -23,7 +23,6 @@ export default function markdownitrules(mdit, options) {
     "use strict";
     const state = options.state;
     const originalCodeRule = mdit.renderer.rules.code_inline;
-    const delimiter = state.delimiter;
 
     // Core rule: runs before rendering to clear the block list from the previous pass.
     mdit.core.ruler.push('reset_collector', () => {
@@ -34,27 +33,30 @@ export default function markdownitrules(mdit, options) {
     });
 
     /**
-     * Inline AsciiMath: a single backtick expression, e.g. `x^2 + 1`.
+     * Inline AsciiMath: text between matching delimiter runs.
      */
-    mdit.renderer.rules.code_inline = function(tokens, idx, options, env, self) {
+    mdit.renderer.rules.asciimath_inline = function(tokens, idx, options, env, self) {
         const code = tokens[idx].content;
         let rendered = '';
-        if (state.transforms.length === 0) {
+        if (state.transforms.length === 0 && state.delimiter === '`') {
             rendered = originalCodeRule(tokens, idx, options, env, self);
+        } else if (state.transforms.length === 0) {
+            rendered = state.delimiter + mdit.utils.escapeHtml(code) + state.delimiter;
         } else {
-            rendered = applyTransforms(code, 'code_inline');
+            rendered = applyTransforms(code, 'asciimath_inline');
         }
         if (state.collector) {
-            state.collector.blocks.push({ type: 'code_inline', raw: code, rendered });
+            state.collector.blocks.push({ type: 'asciimath_inline', raw: code, rendered });
         }
         return rendered;
     };
 
     /**
-     * Multi-line AsciiMath block: opened and closed by a solitary backtick on its own line.
+     * Multi-line AsciiMath block: opened and closed by a solitary delimiter on its own line.
      */
     mdit.renderer.rules.asciimath_block = function(tokens, idx) {
         const code = tokens[idx].content;
+        const delimiter = state.delimiter;
         let rendered = '';
         if (state.transforms.length === 0) {
             rendered = delimiter + mdit.render(code) + delimiter;

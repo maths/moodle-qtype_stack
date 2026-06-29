@@ -7,7 +7,7 @@ export default function boldfilter(lines, rule) {
     switch (rule) {
         case 'asciimath_block':
         case 'math_block':
-        case 'code_inline':
+        case 'asciimath_inline':
         case 'math_inline':
         default:
             break;

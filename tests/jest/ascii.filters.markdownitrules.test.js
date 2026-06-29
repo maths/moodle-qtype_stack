@@ -16,7 +16,7 @@ describe('markdownitrules filter', () => {
         const defaultCodeInline = jest.fn((tokens, idx) => `<code>${tokens[idx].content}</code>`);
         return {
             core: { ruler: { push: jest.fn() } },
-            renderer: { rules: { code_inline: defaultCodeInline } },
+            renderer: { rules: { asciimath_inline: defaultCodeInline } },
             render: jest.fn((content) => `R(${content})`),
             renderInline: jest.fn((content) => `RI(${content})`),
             block: { ruler: { before: jest.fn() } }
@@ -39,7 +39,7 @@ describe('markdownitrules filter', () => {
         const mdit = makeFakeMdit();
         const options = { state: { transforms: [], transformLib: {}, collector: null } };
         markdownitrules(mdit, options);
-        expect(typeof mdit.renderer.rules.code_inline).toBe('function');
+        expect(typeof mdit.renderer.rules.asciimath_inline).toBe('function');
         expect(typeof mdit.renderer.rules.asciimath_block).toBe('function');
         expect(typeof mdit.renderer.rules.math_inline).toBe('function');
         expect(typeof mdit.renderer.rules.math_block).toBe('function');
@@ -65,15 +65,15 @@ describe('markdownitrules filter', () => {
         expect(collector.blocks).toEqual([]);
     });
 
-    test('code_inline delegates to original code renderer and pushes collector block', () => {
+    test('asciimath_inline delegates to original code renderer and pushes collector block', () => {
         const collector = { blocks: [] };
         const { mdit } = setup({ collector });
 
-        const rendered = mdit.renderer.rules.code_inline([{ content: 'x^2' }], 0, {}, {}, {});
+        const rendered = mdit.renderer.rules.asciimath_inline([{ content: 'x^2' }], 0, {}, {}, {});
 
         expect(rendered).toBe('<code>x^2</code>');
         expect(collector.blocks).toEqual([
-            { type: 'code_inline', raw: 'x^2', rendered: '<code>x^2</code>' }
+            { type: 'asciimath_inline', raw: 'x^2', rendered: '<code>x^2</code>' }
         ]);
     });
 
@@ -167,27 +167,27 @@ describe('markdownitrules filter', () => {
         expect(rendered).toBe('\n');
     });
 
-    test('code_inline with transforms uses transform pipeline and does not call original renderer', () => {
+    test('asciimath_inline with transforms uses transform pipeline and does not call original renderer', () => {
         const up = jest.fn(lines => lines.map(line => line.toUpperCase()));
         const collector = { blocks: [] };
         const { mdit } = setup({ transforms: ['up'], transformLib: { up }, collector });
 
-        const rendered = mdit.renderer.rules.code_inline([{ content: '\\frac{a}{b}' }], 0);
+        const rendered = mdit.renderer.rules.asciimath_inline([{ content: '\\frac{a}{b}' }], 0);
 
-        expect(up).toHaveBeenCalledWith(['\\frac{a}{b}'], 'code_inline');
+        expect(up).toHaveBeenCalledWith(['\\frac{a}{b}'], 'asciimath_inline');
         expect(rendered).toBe('\\FRAC{A}{B}\n');
         expect(collector.blocks).toEqual([
-            { type: 'code_inline', raw: '\\frac{a}{b}', rendered: '\\FRAC{A}{B}\n' }
+            { type: 'asciimath_inline', raw: '\\frac{a}{b}', rendered: '\\FRAC{A}{B}\n' }
         ]);
     });
 
-    test('code_inline with transforms passes rule name to transform', () => {
+    test('asciimath_inline with transforms passes rule name to transform', () => {
         const spy = jest.fn(lines => lines);
         const { mdit } = setup({ transforms: ['spy'], transformLib: { spy } });
 
-        mdit.renderer.rules.code_inline([{ content: 'x^{2}' }], 0);
+        mdit.renderer.rules.asciimath_inline([{ content: 'x^{2}' }], 0);
 
-        expect(spy).toHaveBeenCalledWith(['x^{2}'], 'code_inline');
+        expect(spy).toHaveBeenCalledWith(['x^{2}'], 'asciimath_inline');
     });
 
 });

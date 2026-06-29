@@ -109,6 +109,7 @@ export default function init(inputIds, operations) {
                         if (currentop.reset === 'true') {
                             filterInput = raw;
                         }
+                        blockCollector.delimiter = currentop.delimiter ?? blockCollector.delimiter;
                         // The filter is responsible for resetting blockCollector.blocks
                         // at the start of its own render pass (see markdownitrules.js).
                         const filterOutput = filter(filterInput, blockCollector, currentop);

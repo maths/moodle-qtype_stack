@@ -1,4 +1,4 @@
-// Markdown filter — creates a single markdownit instance with the full transformLib.
+// Markdown filter — creates a markdownit instance with the full transformLib.
 // Called by stackascii.js as: filter(rawText, blockCollector, op)
 // where op is the [[filter]] block's parameter object, e.g.
 //   { operation: 'filter', type: 'markdown', transforms: 'aligneq,boldfilter' }
@@ -11,6 +11,7 @@
 
 import markdownit from '../markdownit.js';
 import asciimathBlock from '../markdownitextensions/asciimathblock.js';
+import asciimathInline from '../markdownitextensions/asciimathinline.js';
 import markdownitrules from './markdownitrules.js';
 
 // tex.js uses named CJS exports (exports.tex = ...) — import the whole namespace.
@@ -35,26 +36,36 @@ const transformLib = {
 };
 
 /**
- * Shared mutable state updated before each render so the single shared converter instance
- * can serve calls with different transforms and collectors without being re-created.
+ * Shared mutable state updated before each render so the converter instance uses the
+ * correct transforms and collector for the current render pass.
  * @property {string[]}    transforms   - ordered array of transform names, derived from op.transforms.
  * @property {Object}      transformLib - map from name → transform function.
  * @property {Object|null} collector    - { blocks: [], isHTML = false } object populated by the renderer rules.
  *   null when not initialised by filter.
- * @property {string}      delimiter    - single-character AsciiMath block delimiter.
+ * @property {string}      delimiter    - single-character AsciiMath delimiter.
  */
 const state = { transforms: [], transformLib, collector: null, delimiter: '`' };
+let converter = null;
 
-// mdItPluginTex.tex must come before markdownitrules.
-const converter = markdownit({ html: true })
-    .use(mdItPluginTex.tex, { render: (content) => content, delimiters: 'brackets' })
-    .use(asciimathBlock, { state })
-    .use(markdownitrules, { state });
+/**
+ * Create a markdown-it instance configured for the current delimiter.
+ * mdItPluginTex.tex must come before markdownitrules.
+ *
+ * @param {string} delimiter - single-character AsciiMath delimiter.
+ * @returns {Object} configured markdown-it instance.
+ */
+function createConverter(delimiter) {
+    return markdownit({ html: true })
+        .use(mdItPluginTex.tex, { render: (content) => content, delimiters: 'brackets' })
+        .use(asciimathBlock, delimiter)
+        .use(asciimathInline, delimiter)
+        .use(markdownitrules, { state });
+}
 
 /**
  * Entry point called by stackascii.js for each render pass.
- * Updates the shared state so the single converter instance uses the correct
- * transforms and collector for this particular call, then renders the text.
+ * Updates the shared state, creates the converter on first use,
+ * and then renders the text.
  * @param {string}      text          - the raw student input to render.
  * @param {Object|null} blockCollector - { blocks: [] } collector for extractors, or null.
  * @param {Object}      op            - the [[filter]] block parameter object;
@@ -69,12 +80,13 @@ export default function markdown(text, blockCollector, op) {
         .split(',')
         .map(s => s.trim())
         .filter(Boolean);
-    state.delimiter = (typeof op.delimiter === 'string' && op.delimiter.length === 1)
-        ? op.delimiter
-        : '`';
+    state.delimiter = (typeof op.delimiter === 'string') ? op.delimiter : '`';
     state.collector = blockCollector || null;
     if (state.collector) {
         state.collector.delimiter = state.delimiter;
+    }
+    if (converter === null) {
+        converter = createConverter(state.delimiter);
     }
     return converter.render(text);
 }

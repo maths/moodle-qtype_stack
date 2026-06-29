@@ -23,9 +23,9 @@ describe('lastcalc extractor', () => {
 
         test('scans bottom-up: last calculation block wins over earlier ones', () => {
             const blockCollector = { blocks: [
-                { type: 'code_inline', rendered: 'irrelevant' },
+                { type: 'asciimath_inline', rendered: 'irrelevant' },
                 { type: 'calculation', rendered: 'calc one' },
-                { type: 'code_inline', rendered: 'also irrelevant' },
+                { type: 'asciimath_inline', rendered: 'also irrelevant' },
                 { type: 'calculation', rendered: 'calc two' }
             ]};
             expect(lastcalc('', blockCollector)).toBe('calc two');
@@ -33,7 +33,7 @@ describe('lastcalc extractor', () => {
 
         test('ignores non-calculation blocks', () => {
             const blockCollector = { blocks: [
-                { type: 'code_inline', rendered: 'not a calc' },
+                { type: 'asciimath_inline', rendered: 'not a calc' },
                 { type: 'calculation', rendered: 'calc one' },
                 { type: 'asciimath_block', rendered: 'also not a calc' }
             ]};

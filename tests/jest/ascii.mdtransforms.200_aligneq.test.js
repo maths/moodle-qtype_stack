@@ -2,11 +2,11 @@ import aligneq from '../../corsscripts/ascii/markdownittransforms/200_aligneq.js
 
 describe('aligneq transform', () => {
     test('returns empty array for empty input', () => {
-        expect(aligneq([], 'code_inline')).toEqual([]);
+        expect(aligneq([], 'asciimath_inline')).toEqual([]);
     });
 
     test('ignores code inlint and does not wrap', () => {
-        expect(aligneq(['x = y'], 'code_inline')).toEqual([
+        expect(aligneq(['x = y'], 'asciimath_inline')).toEqual([
             'x = y',
         ]);
     });

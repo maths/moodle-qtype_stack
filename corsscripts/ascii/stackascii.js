@@ -238,18 +238,6 @@ function scrollDistance(element, left, right) {
 }
 
 /**
- * Treat two scroll positions as equal when they are within a couple of pixels.
- *
- * @param {HTMLElement} element scrollable element being compared.
- * @param {number|string} left first scroll ratio.
- * @param {number|string} right second scroll ratio.
- * @return {boolean} true when the positions are effectively the same.
- */
-function scrollPositionsMatch(element, left, right) {
-    return scrollDistance(element, left, right) < 2;
-}
-
-/**
  * Apply a fractional scroll position to an element.
  *
  * Sync updates temporarily force `scroll-behavior:auto` so CSS smooth scrolling
@@ -302,6 +290,8 @@ function createAsciiScrollSync(sourceInputId, output, frameId) {
     let suppressedOutputScrollPosition = null;
     let manualOutputScrollUntil = 0;
     const MANUAL_SCROLL_OWNERSHIP_MS = 1000;
+    const SCROLL_MATCH_TOLERANCE_PX = 2;
+    const SCROLL_PROGRESS_TOLERANCE_PX = 0.5;
 
     /**
      * Mark the output as being under direct user control for a short period so
@@ -312,22 +302,48 @@ function createAsciiScrollSync(sourceInputId, output, frameId) {
         manualOutputScrollUntil = Date.now() + MANUAL_SCROLL_OWNERSHIP_MS;
     };
 
-    const applySyncedScrollPosition = () => {
-        manualOutputScrollUntil = 0;
-        syncedScrollPosition = setScrollPosition(output, syncedScrollPosition);
+    const hasManualOutputScrollOwnership = () => manualOutputScrollUntil > Date.now();
+
+    const suppressOutputScrollAtPosition = (position) => {
         suppressedOutputScrollPosition = {
             // Ignore the next output scroll event while the element settles on
             // this programmatically applied target position.
-            position: syncedScrollPosition,
-            distance: scrollDistance(output, getScrollPosition(output), syncedScrollPosition)
+            position,
+            distance: scrollDistance(output, getScrollPosition(output), position)
         };
     };
 
-    output.addEventListener('wheel', markManualOutputScroll);
-    output.addEventListener('keydown', markManualOutputScroll);
-    output.addEventListener('touchstart', markManualOutputScroll);
-    output.addEventListener('touchmove', markManualOutputScroll);
-    output.addEventListener('pointerdown', markManualOutputScroll);
+    const shouldIgnoreSuppressedOutputScroll = (outputScrollPosition) => {
+        if (suppressedOutputScrollPosition === null) {
+            return false;
+        }
+
+        const distance = scrollDistance(output, outputScrollPosition, suppressedOutputScrollPosition.position);
+        if (distance < SCROLL_MATCH_TOLERANCE_PX) {
+            syncedScrollPosition = outputScrollPosition;
+            suppressedOutputScrollPosition = null;
+            return true;
+        }
+        if (distance <= suppressedOutputScrollPosition.distance + SCROLL_PROGRESS_TOLERANCE_PX) {
+            // Smooth scrolling or layout changes may emit several intermediate
+            // events while moving towards the requested position.
+            suppressedOutputScrollPosition.distance = distance;
+            return true;
+        }
+
+        suppressedOutputScrollPosition = null;
+        return false;
+    };
+
+    const applySyncedScrollPosition = () => {
+        manualOutputScrollUntil = 0;
+        syncedScrollPosition = setScrollPosition(output, syncedScrollPosition);
+        suppressOutputScrollAtPosition(syncedScrollPosition);
+    };
+
+    ['wheel', 'keydown', 'touchstart', 'touchmove', 'pointerdown'].forEach((eventName) => {
+        output.addEventListener(eventName, markManualOutputScroll);
+    });
 
     window.addEventListener('message', (event) => {
         if (!(typeof event.data === 'string' || event.data instanceof String)) {
@@ -352,7 +368,7 @@ function createAsciiScrollSync(sourceInputId, output, frameId) {
         }
 
         syncedScrollPosition = clampScrollPosition(message.position);
-        if (manualOutputScrollUntil > Date.now()) {
+        if (hasManualOutputScrollOwnership()) {
             return;
         }
         applySyncedScrollPosition();
@@ -360,26 +376,13 @@ function createAsciiScrollSync(sourceInputId, output, frameId) {
 
     output.addEventListener('scroll', () => {
         const outputScrollPosition = getScrollPosition(output);
-        const manualOutputScroll = manualOutputScrollUntil > Date.now();
-        if (suppressedOutputScrollPosition !== null) {
-            const distance = scrollDistance(output, outputScrollPosition, suppressedOutputScrollPosition.position);
-            if (distance < 2) {
-                syncedScrollPosition = outputScrollPosition;
-                suppressedOutputScrollPosition = null;
-                return;
-            }
-            if (distance <= suppressedOutputScrollPosition.distance + 0.5) {
-                // Smooth scrolling or layout changes may emit several intermediate
-                // events while moving towards the requested position.
-                suppressedOutputScrollPosition.distance = distance;
-                return;
-            }
-            suppressedOutputScrollPosition = null;
-        }
-        if (scrollPositionsMatch(output, outputScrollPosition, syncedScrollPosition)) {
+        if (shouldIgnoreSuppressedOutputScroll(outputScrollPosition)) {
             return;
         }
-        if (!manualOutputScroll) {
+        if (scrollDistance(output, outputScrollPosition, syncedScrollPosition) < SCROLL_MATCH_TOLERANCE_PX) {
+            return;
+        }
+        if (!hasManualOutputScrollOwnership()) {
             applySyncedScrollPosition();
             return;
         }

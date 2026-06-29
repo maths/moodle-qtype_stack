@@ -151,6 +151,7 @@ describe('stackascii init', () => {
             configurable: true
         });
         global.FRAME_ID = 'frame-1';
+        jest.spyOn(Date, 'now').mockReturnValue(1000);
     });
 
     afterEach(() => {
@@ -163,6 +164,7 @@ describe('stackascii init', () => {
         delete global.setTimeout;
         delete global.clearTimeout;
         delete global.FRAME_ID;
+        jest.restoreAllMocks();
     });
 
     test('runs filters and extractors, updates output, and dispatches change', () => {
@@ -303,7 +305,9 @@ describe('stackascii init', () => {
         env.output.listeners.scroll();
 
         expect(window.parent.postMessage).not.toHaveBeenCalled();
+        expect(env.output.scrollTop).toBe(100);
 
+        env.output.listeners.wheel();
         env.output.scrollTop = 150;
         env.output.listeners.scroll();
 
@@ -314,6 +318,44 @@ describe('stackascii init', () => {
             position: 0.75,
             src: 'frame-1'
         }), '*');
+
+        Date.now.mockReturnValue(3000);
+        window.dispatchEvent(new MessageEvent('message', {
+            data: JSON.stringify({
+                version: 'STACK-JS:1.6.0',
+                type: 'input-scroll-position',
+                name: 'markdownInput',
+                position: 0.25,
+                tgt: 'frame-1'
+            })
+        }));
+
+        expect(env.output.scrollTop).toBe(50);
+    });
+
+    test('non-manual output scrolling is reset back to the textarea position', () => {
+        const env = setupEnvironment('zeta', 0);
+        env.output.scrollHeight = 300;
+        env.output.clientHeight = 100;
+
+        init(['markdownInput'], []);
+
+        window.dispatchEvent(new MessageEvent('message', {
+            data: JSON.stringify({
+                version: 'STACK-JS:1.6.0',
+                type: 'input-scroll-position',
+                name: 'markdownInput',
+                position: 0.5,
+                tgt: 'frame-1'
+            })
+        }));
+
+        window.parent.postMessage.mockClear();
+        env.output.scrollTop = 60;
+        env.output.listeners.scroll();
+
+        expect(window.parent.postMessage).not.toHaveBeenCalled();
+        expect(env.output.scrollTop).toBe(100);
     });
 
     test('reapplies synced scroll position after MathJax 2 queue typesetting changes height', () => {

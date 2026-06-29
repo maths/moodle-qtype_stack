@@ -300,8 +300,20 @@ function createAsciiScrollSync(sourceInputId, output, frameId) {
 
     let syncedScrollPosition = 0;
     let suppressedOutputScrollPosition = null;
+    let manualOutputScrollUntil = 0;
+    const MANUAL_SCROLL_OWNERSHIP_MS = 1000;
+
+    /**
+     * Mark the output as being under direct user control for a short period so
+     * the following scroll events can drive the textarea instead of being
+     * treated as layout noise.
+     */
+    const markManualOutputScroll = () => {
+        manualOutputScrollUntil = Date.now() + MANUAL_SCROLL_OWNERSHIP_MS;
+    };
 
     const applySyncedScrollPosition = () => {
+        manualOutputScrollUntil = 0;
         syncedScrollPosition = setScrollPosition(output, syncedScrollPosition);
         suppressedOutputScrollPosition = {
             // Ignore the next output scroll event while the element settles on
@@ -310,6 +322,12 @@ function createAsciiScrollSync(sourceInputId, output, frameId) {
             distance: scrollDistance(output, getScrollPosition(output), syncedScrollPosition)
         };
     };
+
+    output.addEventListener('wheel', markManualOutputScroll);
+    output.addEventListener('keydown', markManualOutputScroll);
+    output.addEventListener('touchstart', markManualOutputScroll);
+    output.addEventListener('touchmove', markManualOutputScroll);
+    output.addEventListener('pointerdown', markManualOutputScroll);
 
     window.addEventListener('message', (event) => {
         if (!(typeof event.data === 'string' || event.data instanceof String)) {
@@ -334,11 +352,15 @@ function createAsciiScrollSync(sourceInputId, output, frameId) {
         }
 
         syncedScrollPosition = clampScrollPosition(message.position);
+        if (manualOutputScrollUntil > Date.now()) {
+            return;
+        }
         applySyncedScrollPosition();
     });
 
     output.addEventListener('scroll', () => {
         const outputScrollPosition = getScrollPosition(output);
+        const manualOutputScroll = manualOutputScrollUntil > Date.now();
         if (suppressedOutputScrollPosition !== null) {
             const distance = scrollDistance(output, outputScrollPosition, suppressedOutputScrollPosition.position);
             if (distance < 2) {
@@ -357,6 +379,11 @@ function createAsciiScrollSync(sourceInputId, output, frameId) {
         if (scrollPositionsMatch(output, outputScrollPosition, syncedScrollPosition)) {
             return;
         }
+        if (!manualOutputScroll) {
+            applySyncedScrollPosition();
+            return;
+        }
+        markManualOutputScroll();
         syncedScrollPosition = outputScrollPosition;
         const message = {
             version: 'STACK-JS:1.6.0',

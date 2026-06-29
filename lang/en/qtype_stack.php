@@ -615,6 +615,7 @@ $string['questiontestslast'] = 'Expected last node of {$a->expected} but got {$a
 $string['questiontestsmissing'] = 'Expected node: {$a}.';
 $string['questiontestslong'] = 'Expected notes are truncated at 1000 characters in the database.  PRT {$a->prt} was {$a->len} characters.  Testcase not saved.';
 $string['runquestiontests'] = 'STACK question dashboard';
+$string['runquestiontests_icon'] = '<i class="fa fa-wrench"></i> ';
 $string['runquestiontests_help'] = 'The dashboard runs question tests which unit-test the questions to ensure the behaviour matches expectations expressed by the teacher, and deployed variants ensure random versions seen by a student are pre-tested against the question tests. These are tools to help you create and test reliable questions and should be used in all cases a question will be used by students.  The dashboard also has numerous other STACK specific functions.';
 $string['runquestiontests_alert'] = 'Question is missing tests or variants.';
 $string['runquestiontests_auto'] = 'Automatically adding one test case assuming the teacher\'s input gets full marks.  Please check the answer note carefully.';

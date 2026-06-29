@@ -74,6 +74,9 @@ const extractorlib = {
 export default function init(inputIds, operations) {
     const markdownContainerId = inputIds.length ? inputIds[0] : null;
     const suppliedText = document.getElementById('asciiSuppliedText').innerHTML;
+    const output = document.getElementById('asciiContainerRow');
+    const frameId = (typeof FRAME_ID !== 'undefined') ? FRAME_ID : null;
+    const scrollSync = createAsciiScrollSync(markdownContainerId, output, frameId);
     // inputIds[1..N] correspond to each extractor's target answer input in order.
     const alloperations = operations;
     // blockCollector is populated by the active filter's renderer rules and then
@@ -91,7 +94,6 @@ export default function init(inputIds, operations) {
         } else {
             raw = suppliedText;
         }
-        const output = document.getElementById('asciiContainerRow');
 
         let processedOutput = raw;
         let isHTML = false;
@@ -150,12 +152,25 @@ export default function init(inputIds, operations) {
             output.classList.add("plaintext")
         }
         output.innerHTML = processedOutput;
+        if (scrollSync) {
+            scrollSync.applySyncedScrollPosition();
+        }
 
         // Tell MathJax to typeset only the output container element.
         if (typeof MathJax.typesetPromise === 'function') {
-            MathJax.typesetPromise([output]); // MathJax 3
-        } else {
+            const typeset = MathJax.typesetPromise([output]); // MathJax 3
+            if (typeset && typeof typeset.then === 'function' && scrollSync) {
+                typeset.then(() => {
+                    scrollSync.applySyncedScrollPosition();
+                });
+            }
+        } else if (MathJax.Hub && typeof MathJax.Hub.Queue === 'function') {
             MathJax.Hub.Queue(["Typeset", MathJax.Hub, 'asciiContainerRow']); // MathJax 2
+            if (scrollSync) {
+                MathJax.Hub.Queue(() => {
+                    scrollSync.applySyncedScrollPosition();
+                });
+            }
         }
     }
     if (markdownContainerId) {
@@ -166,5 +181,206 @@ export default function init(inputIds, operations) {
             debounceTimer = setTimeout(renderMath, 100); // debounce 100ms
         });
     }
+
     renderMath(); // initial render on load
+
+    if (scrollSync) {
+        scrollSync.start();
+    }
+}
+
+/**
+ * Scroll-sync helpers.
+ */
+
+/**
+ * Clamp a scroll ratio into the supported 0..1 range.
+ *
+ * @param {number|string} position fractional scroll position.
+ * @return {number} safe scroll ratio.
+ */
+function clampScrollPosition(position) {
+    const numeric = Number(position);
+    if (!Number.isFinite(numeric)) {
+        return 0;
+    }
+    return Math.min(1, Math.max(0, numeric));
+}
+
+/**
+ * Convert an element's current scrollTop into a 0..1 ratio.
+ *
+ * @param {HTMLElement} element scrollable element being inspected.
+ * @return {number} fractional scroll position.
+ */
+function getScrollPosition(element) {
+    const maxScroll = element.scrollHeight - element.clientHeight;
+    if (maxScroll <= 0) {
+        return 0;
+    }
+    return element.scrollTop / maxScroll;
+}
+
+/**
+ * Measure the pixel distance between two scroll ratios for one element.
+ *
+ * @param {HTMLElement} element scrollable element being compared.
+ * @param {number|string} left first scroll ratio.
+ * @param {number|string} right second scroll ratio.
+ * @return {number} distance in pixels.
+ */
+function scrollDistance(element, left, right) {
+    const maxScroll = element.scrollHeight - element.clientHeight;
+    if (maxScroll <= 0) {
+        return 0;
+    }
+    return Math.abs((clampScrollPosition(left) - clampScrollPosition(right)) * maxScroll);
+}
+
+/**
+ * Treat two scroll positions as equal when they are within a couple of pixels.
+ *
+ * @param {HTMLElement} element scrollable element being compared.
+ * @param {number|string} left first scroll ratio.
+ * @param {number|string} right second scroll ratio.
+ * @return {boolean} true when the positions are effectively the same.
+ */
+function scrollPositionsMatch(element, left, right) {
+    return scrollDistance(element, left, right) < 2;
+}
+
+/**
+ * Apply a fractional scroll position to an element.
+ *
+ * Sync updates temporarily force `scroll-behavior:auto` so CSS smooth scrolling
+ * does not generate a stream of intermediate positions that feed back into the
+ * other side of the sync.
+ *
+ * @param {HTMLElement} element scrollable element to update.
+ * @param {number|string} position fractional scroll position.
+ * @return {number} the clamped position that was applied.
+ */
+function setScrollPosition(element, position) {
+    const clampedPosition = clampScrollPosition(position);
+    const maxScroll = element.scrollHeight - element.clientHeight;
+    const previousScrollBehavior = element.style ? element.style.scrollBehavior : null;
+    if (element.style) {
+        element.style.scrollBehavior = 'auto';
+    }
+    if (maxScroll <= 0) {
+        element.scrollTop = 0;
+        if (element.style) {
+            element.style.scrollBehavior = previousScrollBehavior;
+        }
+        return clampedPosition;
+    }
+    element.scrollTop = clampedPosition * maxScroll;
+    if (element.style) {
+        element.style.scrollBehavior = previousScrollBehavior;
+    }
+    return clampedPosition;
+}
+
+/**
+ * Create the textarea/output scroll synchronisation controller for one ASCII block.
+ *
+ * The textarea is the source of truth. Incoming iframe messages update the ASCII
+ * output, and manual scrolling in the output sends the new position back to the
+ * parent so the freetext input can follow.
+ *
+ * @param {string} sourceInputId DOM id of the linked freetext input.
+ * @param {HTMLElement} output rendered ASCII output container.
+ * @param {string} frameId iframe identifier used by STACK-JS messaging.
+ * @return {?Object} sync controller, or null when sync cannot be initialised.
+ */
+function createAsciiScrollSync(sourceInputId, output, frameId) {
+    if (!sourceInputId || !output || !frameId) {
+        return null;
+    }
+
+    let syncedScrollPosition = 0;
+    let suppressedOutputScrollPosition = null;
+
+    const applySyncedScrollPosition = () => {
+        syncedScrollPosition = setScrollPosition(output, syncedScrollPosition);
+        suppressedOutputScrollPosition = {
+            // Ignore the next output scroll event while the element settles on
+            // this programmatically applied target position.
+            position: syncedScrollPosition,
+            distance: scrollDistance(output, getScrollPosition(output), syncedScrollPosition)
+        };
+    };
+
+    window.addEventListener('message', (event) => {
+        if (!(typeof event.data === 'string' || event.data instanceof String)) {
+            return;
+        }
+
+        let message = null;
+        try {
+            message = JSON.parse(event.data);
+        } catch (error) {
+            return;
+        }
+
+        if (!(('version' in message) && message.version.startsWith('STACK-JS'))) {
+            return;
+        }
+        if (!(('tgt' in message) && message.tgt === frameId && message.type === 'input-scroll-position')) {
+            return;
+        }
+        if (message.name !== sourceInputId) {
+            return;
+        }
+
+        syncedScrollPosition = clampScrollPosition(message.position);
+        applySyncedScrollPosition();
+    });
+
+    output.addEventListener('scroll', () => {
+        const outputScrollPosition = getScrollPosition(output);
+        if (suppressedOutputScrollPosition !== null) {
+            const distance = scrollDistance(output, outputScrollPosition, suppressedOutputScrollPosition.position);
+            if (distance < 2) {
+                syncedScrollPosition = outputScrollPosition;
+                suppressedOutputScrollPosition = null;
+                return;
+            }
+            if (distance <= suppressedOutputScrollPosition.distance + 0.5) {
+                // Smooth scrolling or layout changes may emit several intermediate
+                // events while moving towards the requested position.
+                suppressedOutputScrollPosition.distance = distance;
+                return;
+            }
+            suppressedOutputScrollPosition = null;
+        }
+        if (scrollPositionsMatch(output, outputScrollPosition, syncedScrollPosition)) {
+            return;
+        }
+        syncedScrollPosition = outputScrollPosition;
+        const message = {
+            version: 'STACK-JS:1.6.0',
+            type: 'set-input-scroll',
+            name: sourceInputId,
+            position: syncedScrollPosition,
+            src: frameId
+        };
+        window.parent.postMessage(JSON.stringify(message), '*');
+    });
+
+    return {
+        applySyncedScrollPosition() {
+            applySyncedScrollPosition();
+        },
+        start() {
+            const registration = {
+                version: 'STACK-JS:1.6.0',
+                type: 'track-input-scroll',
+                name: sourceInputId,
+                'limit-to-question': true,
+                src: frameId
+            };
+            window.parent.postMessage(JSON.stringify(registration), '*');
+        }
+    };
 }

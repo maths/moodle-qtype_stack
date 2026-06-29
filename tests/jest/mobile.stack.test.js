@@ -130,6 +130,26 @@ async function flushMicrotasks() {
     await Promise.resolve();
 }
 
+function setScrollMetrics(element, {scrollTop = 0, scrollHeight = 200, clientHeight = 100} = {}) {
+    let currentScrollTop = scrollTop;
+    element.style.scrollBehavior = '';
+    Object.defineProperty(element, 'scrollTop', {
+        configurable: true,
+        get: () => currentScrollTop,
+        set: (value) => {
+            currentScrollTop = value;
+        },
+    });
+    Object.defineProperty(element, 'scrollHeight', {
+        configurable: true,
+        get: () => scrollHeight,
+    });
+    Object.defineProperty(element, 'clientHeight', {
+        configurable: true,
+        get: () => clientHeight,
+    });
+}
+
 function triggerMutationObservers() {
     mutationObservers.forEach((observer) => {
         if (!observer.disconnected) {
@@ -599,6 +619,56 @@ describe('mobile/stack.js', () => {
         expect(responseToOther.type).toBe('changed-input');
         expect(responseToOther.name).toBe('ans');
         expect(responseToOther.value).toBe('from-frame');
+    });
+
+    test('scroll sync tracks textarea scrolling without bouncing programmatic updates', async() => {
+        const {postMessageByFrame, sendMessage, latestResponse} = await setupMessageHarness(['iframe-1', 'iframe-2']);
+        const textarea = document.querySelector('#q1 textarea[name="pfxtxt"]');
+        setScrollMetrics(textarea, {scrollTop: 30, scrollHeight: 220, clientHeight: 100});
+
+        sendMessage({
+            version: 'STACK-JS:1.6.0',
+            src: 'iframe-1',
+            type: 'track-input-scroll',
+            name: 'txt',
+        });
+        sendMessage({
+            version: 'STACK-JS:1.6.0',
+            src: 'iframe-2',
+            type: 'track-input-scroll',
+            name: 'txt',
+        });
+
+        expect(latestResponse('iframe-1').position).toBeCloseTo(0.25);
+        expect(latestResponse('iframe-2').position).toBeCloseTo(0.25);
+
+        postMessageByFrame['iframe-1'].mockClear();
+        postMessageByFrame['iframe-2'].mockClear();
+
+        textarea.scrollTop = 60;
+        textarea.dispatchEvent(new Event('scroll'));
+
+        expect(latestResponse('iframe-1').position).toBeCloseTo(0.5);
+        expect(latestResponse('iframe-2').position).toBeCloseTo(0.5);
+
+        postMessageByFrame['iframe-1'].mockClear();
+        postMessageByFrame['iframe-2'].mockClear();
+
+        sendMessage({
+            version: 'STACK-JS:1.6.0',
+            src: 'iframe-1',
+            type: 'set-input-scroll',
+            name: 'txt',
+            position: 0.75,
+        });
+
+        expect(textarea.scrollTop).toBe(90);
+        expect(postMessageByFrame['iframe-1']).not.toHaveBeenCalled();
+        expect(latestResponse('iframe-2').position).toBeCloseTo(0.75);
+
+        postMessageByFrame['iframe-2'].mockClear();
+        textarea.dispatchEvent(new Event('scroll'));
+        expect(postMessageByFrame['iframe-2']).not.toHaveBeenCalled();
     });
 
     test('clear-input and submit button commands operate through message API', async() => {

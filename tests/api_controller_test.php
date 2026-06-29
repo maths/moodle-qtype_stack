@@ -189,7 +189,10 @@ final class api_controller_test extends qtype_stack_testcase {
         $this->assertEquals(1, count($this->output->iframes));
         $this->assertEquals(true, $this->output->isinteractive);
         $this->assertStringContainsString("<input type=\"text\" name=\"stackapi_input_da_ans1\" ", $this->output->questionrender);
-        $this->assertStringContainsString("<span name='stackapi_val_da_ans1'></span>", $this->output->questionrender);
+        $this->assertStringContainsString(
+            "<span name='stackapi_val_da_ans1' class='stackinputfeedback empty'></span>",
+            $this->output->questionrender
+        );
         $this->assertStringContainsString(
             "<iframe id=\"stack-iframe-1\" style=\"width: 100%; height: 100%; border: 0;\" " .
             "scrolling=\"yes\" title=\"\" referrerpolicy=\"no-referrer\" allow-scripts allow-downloads srcdoc=",

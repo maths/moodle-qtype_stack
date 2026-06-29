@@ -55,12 +55,12 @@ jest.mock('../../corsscripts/ascii/extractors/laststringremainder.js', () => ({
     default: (...args) => mockLaststringremainder(...args)
 }));
 
-jest.mock('../../corsscripts/ascii/extractors/regexallmatch.js', () => ({
+jest.mock('../../corsscripts/ascii/extractors/allregexmatch.js', () => ({
     __esModule: true,
     default: (...args) => mockRegexallmatch(...args)
 }));
 
-jest.mock('../../corsscripts/ascii/extractors/regexallremainder.js', () => ({
+jest.mock('../../corsscripts/ascii/extractors/allregexremainder.js', () => ({
     __esModule: true,
     default: (...args) => mockRegexallremainder(...args)
 }));

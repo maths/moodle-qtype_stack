@@ -15,11 +15,11 @@ The `[[ascii]]` castext block takes one or more optional `[[filter]]` child bloc
   [[extractor type="lastexpr" targetinput="ans2" /]]
 [[/ascii]]
 ```
-The student's text is run through a markdown filter first which applies normal markdown display formatting.  In this example we also apply a special STACK transformation (`aligneq`) which translates and aligns AsciiMath surrounded by backticks.
+The student's text is run through a markdown filter first which applies normal markdown display formatting.  In this example we also apply a special STACK transformation (`aligneq`) which aligns equations either surrounded by lone backticks or display mode LaTeX (`\[..\]`).
 
-Multiple `[[extractor]]` blocks may be used to [extract answers](ASCII_Extractors.md) from the block into multiple STACK inputs. Multiple `[[filter]]` blocks can also be used to translate the raw original input in different ways in succession. By default, the output of one filter is fed into the next filter as the 'raw' input. Extractors are supplied with the raw input and 'map' information from the most recent filter applied. For instance, the markdown filter supplies a list of all the identified occurrences of code and AsciiMath sections in the student's text (in order) and with both the initial contents of the block given to the filter and the transformed output.
+Multiple `[[extractor]]` blocks may be used to [extract answers](ASCII_extractors.md) from the block into multiple STACK inputs. Multiple `[[filter]]` blocks can also be used to translate the raw original input in different ways in succession. By default, the output of one filter is fed into the next filter as the 'raw' input. Extractors are supplied with the raw input and 'map' information from the most recent filter applied. For instance, the markdown filter supplies a list of all the identified occurrences of code and AsciiMath sections in the student's text (in order) and with both the initial contents of the block given to the filter and the transformed output.
 
-Filters and [extractors](ASCII_Extractors.md) are applied in the order listed in the `[[ascii]]` block. Filters have the option to break the chain and return to processing the initial raw student input and/or to display the output of the current filter even if there are later filters in the chain (which will thus be used for creating input for extractors, not display).
+Filters and [extractors](ASCII_extractors.md) are applied in the order listed in the `[[ascii]]` block. Filters have the option to break the chain and return to processing the initial raw student input and/or to display the output of the current filter even if there are later filters in the chain (which will thus be used for creating input for extractors, not display).
 
 Currently, it is only possible to link one source input.
 
@@ -35,7 +35,7 @@ Functionality and styling can be customized through the use of block parameters.
 
 ## Filters
 
-Filters control how the student's text input is processed and displayed. If no `[[filter]]` block is provided, the default `markdown` filter with transform `aligneq` is applied automatically by default.
+Filters control how the student's text input is processed and displayed. If no `[[filter]]` block is provided, the default `markdown-math` filter with transform `aligneq` is applied automatically by default.
 
 A filter is specified with a `[[filter]]` child block inside the `[[ascii]]` block:
 
@@ -51,7 +51,7 @@ A filter is specified with a `[[filter]]` child block inside the `[[ascii]]` blo
 ### Filter block parameters
 
 1. `type` (required): the filter type. Currently available: `markdown`, `calculation`, `cas`.
-2. `transforms` (for `markdown` type): a comma-separated list of transforms to apply. Available transforms: `aligneq`, `asciimath`, `boldfilter`.
+2. `transforms` (for `markdown` type): a comma-separated list of transforms to apply. Available transforms: `aligneq`, `asciimath`, `boldfilter`, `minwrap`.
 3. `reset`: if `"true"`, this filter operates on the original raw input rather than the output of any preceding filter(s).
 4. `display`: if `"true"`, the output of this filter is used as the final display and subsequent filters cannot modify the display.
 
@@ -63,14 +63,14 @@ This is the default behaviour. If you do not specify a filter then `[[filter typ
 
 The `markdown-math` filter processes the student's text as markdown and renders mathematical content. The following rendering rules are applied to recognized token types:
 
-- **`code_inline`**: A single backtick expression is treated as inline AsciiMath.  If the content is identified as LaTeX then no processing takes place.  Otherwise, the content is converted to LaTeX by `AMparseMath`.  The result is always wrapped in `\(...\)`.
+- **`code_inline`**: A single backtick expression is treated as inline AsciiMath.  If the content is identified as LaTeX then no processing takes place.  Otherwise, the content is converted to LaTeX.  The result is always wrapped in `\(...\)`.
 
   ```
   The derivative is `dy/dx = 2x`.
   ```
 ![Code_inline display](../../../content/code_inline.png)
 
-- **`asciimath_block`**: A backtick on its own line opens a multi-line AsciiMath block; another solitary backtick closes it. If the content is identified as LaTeX then no processing takes place.  Otherwise, each line of content is converted to LaTeX by `AMparseMath` and any configured transforms are applied. The result is wrapped in `\[...\]` if needed.
+- **`asciimath_block`**: A backtick on its own line opens a multi-line AsciiMath block; another solitary backtick closes it. If the content is identified as LaTeX then no processing takes place.  Otherwise, each line of content is converted to LaTeX and any configured transforms are applied. The result is wrapped in `\[...\]` if needed.
 
 In the following example, the transform `aligneq` is applied to line up equations on the `=` sign by using LaTeX `begin{align*}` environments.
 
@@ -82,7 +82,7 @@ In the following example, the transform `aligneq` is applied to line up equation
 ```
 ![Asciimath_block display](../../../content/asciimath_block.png)
 
-- **`math_inline`**: Inline LaTeX delimited by `\(...\)` (via the `tex` extension) is passed through as-is and wrapped in `\(...\)`.  Note, `$...$` is not supported for inline LaTeX to keep dollar symbols for currency.
+- **`math_inline`**: Inline LaTeX delimited by `\(...\)` (identified via the `tex` markdown extension) is passed through as-is and re-wrapped in `\(...\)`.  Note, `$...$` is not supported for inline LaTeX to keep dollar symbols for currency.
 
   ```
   The area is \(A = \pi r^2\).
@@ -147,7 +147,7 @@ Note, many of the extractor blocks require the identification of mathematics.  T
 
 #### `calculation` and `cas` filters
 
-The `calculation` provides a simple scientific calculator.  The filter finds text enclosed between `{@...@}` tags on a single line and evaluates the contents using [https://mathjs.org/](https://mathjs.org/). For example, `The answer to \(1+1={@1+1@}\).` displays the answer as 2. The enclosed text is also collected as a block and available to the `lastcalc` extractor.
+The `calculation` filter provides a simple scientific calculator.  The filter finds text enclosed between `{@...@}` tags on a single line and evaluates the contents using [https://mathjs.org/](https://mathjs.org/). For example, `The answer to \(1+1={@1+1@}\).` displays the answer as 2. The enclosed text is also collected as a block and available to the `lastcalc` extractor.
 
     [[filter type="calculation" /]]
 
@@ -155,5 +155,5 @@ See the [Filter: calculations](Filter_calculations.md) documentation for full de
 
 ### Filter developer notes
 
-Filters are defined in `corsscripts/ascii/filters`. This has been designed to add flexibility for filtering.  Markdown transforms and associated shared functions are in `corsscripts/ascii/markdownittransforms`. Markdown extensions for identifying additional document sections are in `corsscripts/ascii/markdownitextensions`. The rules for how to display these sections are in `corsscripts/ascii/filters/markdownitextensions.js`.
+Filters are defined in `corsscripts/ascii/filters`. This has been designed to add flexibility for filtering.  Markdown transforms and associated shared functions are in `corsscripts/ascii/markdownittransforms`. Markdown extensions for identifying additional document sections are in `corsscripts/ascii/markdownitextensions`. The rules for how to display these sections are in `corsscripts/ascii/filters/markdownitrules.js`.
 

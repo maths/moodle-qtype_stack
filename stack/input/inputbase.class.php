@@ -1592,6 +1592,18 @@ abstract class stack_input {
     abstract public function add_to_moodleform_testinput(MoodleQuickForm $mform);
 
     /**
+     * Returns true when the validation feedback itself must stay inline-safe.
+     *
+     * Compact validation and equiv validation both wrap their feedback in a span,
+     * so any nested error wrapper must also be phrasing content.
+     *
+     * @return bool
+     */
+    protected function validation_renders_inline() {
+        return $this->get_validation_method() == 'equiv' || $this->get_parameter('showValidation', 1) == 3;
+    }
+
+    /**
      * Generate the HTML that gives the results of validating the student's input.
      * @param stack_input_state $state represents the results of the validation.
      * @param string $fieldname the field name to use in the HTML for this input.
@@ -1641,7 +1653,11 @@ abstract class stack_input {
         if ($feedbackerr != '') {
             // Bespoke validation messages might contain maths, which needs to be processed.
             $feedbackerr = stack_ouput_castext($feedbackerr);
-            $feedback .= html_writer::tag('div', $feedbackerr, ['class' => 'alert alert-danger stackinputerror']);
+            $feedback .= html_writer::tag(
+                $this->validation_renders_inline() ? 'span' : 'div',
+                $feedbackerr,
+                ['class' => 'alert alert-danger stackinputerror']
+            );
         }
 
         if ($this->get_parameter('showValidation', 1) == 1 && !($state->lvars === '' || $state->lvars === '[]')) {
@@ -1778,15 +1794,13 @@ abstract class stack_input {
         $feedback = $this->render_validation($state, $fieldname, null);
 
         $class = "stackinputfeedback standard";
-        $divspan = 'div';
+        $divspan = $this->validation_renders_inline() ? 'span' : 'div';
         // Equiv inputs don't have validation divs.
         if ($this->get_validation_method() == 'equiv') {
             $class = "stackinputfeedback equiv";
-            $divspan = 'span';
         }
         if ($this->get_parameter('showValidation', 1) == 3) {
             $class = "stackinputfeedback compact";
-            $divspan = 'span';
         }
 
         if (!$feedback) {

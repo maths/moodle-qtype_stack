@@ -73,7 +73,8 @@ class stack_maxima_student_preparser {
 
         // Check for AsciiMath type input.  Remove outer backticks, but only outer ones.
         // We only condone this for students' input, not in general.
-        if (strlen($stringles) >1 && substr($stringles, 0, 1) === '`' && substr($stringles, -1, 1) === '`') {
+        // phpcs:ignore moodle.Strings.ForbiddenStrings.Found
+        if (strlen($stringles) > 1 && substr($stringles, 0, 1) === '`' && substr($stringles, -1, 1) === '`') {
             $stringles = substr($stringles, 1, strlen($stringles) - 2);
         }
 

@@ -279,7 +279,10 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $code .= 'if (!(typeof(available_header) === "string" ||
         (Array.isArray(available_header) && available_header.length === 1 && typeof(available_header[0]) === "string")))
             {stack_js.display_error('
-            . json_encode(stack_string('stackBlock_incorrect_available_header_type'), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
+            . json_encode(
+                stack_string('stackBlock_incorrect_available_header_type'),
+                JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+            )
             . ');}' . "\n";
         // Extract available header if it is an array containing a single string.
         $code .= 'if (Array.isArray(available_header)) {available_header = available_header[0]};' . "\n";
@@ -295,7 +298,8 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             $code .= 'if (index !== undefined && index.length !== ' . ($ogrows + 1) . ')
                 {stack_js.display_error('
                 . json_encode(stack_string('stackBlock_incorrect_index_length'), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
-                . ');}' . "\n";        }
+                . ');}' . "\n";
+        }
 
         // Index cannot be used in proof mode due to styling issues.
         if ($proofmode) {

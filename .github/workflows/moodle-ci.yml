@@ -33,12 +33,12 @@ jobs:
         # We use a mix of SBCL and GCL.
         include:
           - php: '8.4'
-            moodle-branch: 'main'
+            moodle-branch: 'MOODLE_502_STABLE'
             database: 'pgsql'
             maxima: 'GCL'
             moodle-app: false
           - php: '8.4'
-            moodle-branch: 'MOODLE_502_STABLE'
+            moodle-branch: 'MOODLE_501_STABLE'
             database: 'pgsql'
             maxima: 'SBCL'
             moodle-app: true
@@ -173,7 +173,6 @@ jobs:
           moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE",     "db");'
           moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_PLOTCOMMAND",         "");'
           moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CASDEBUGGING",        "0");'
-          moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CI_LIGHT",            "1");'
 
           #cat ${{ github.workspace }}/moodle/config.php
 
@@ -207,7 +206,6 @@ jobs:
           moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE",     "db");'
           moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_PLOTCOMMAND",         "");'
           moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CASDEBUGGING",        "0");'
-          moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CI_LIGHT",            "1");'
 
           #cat ${{ github.workspace }}/moodle/config.php
 

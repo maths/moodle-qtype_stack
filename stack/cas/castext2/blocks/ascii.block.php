@@ -105,7 +105,7 @@ class stack_cas_castext2_ascii extends stack_cas_castext2_block {
         $existsuserwidth = array_key_exists('width', $xpars);
         $existsuserheight = array_key_exists('height', $xpars);
         $width = $existsuserwidth ? $xpars['width'] : "100%";
-        $height = $existsuserheight ? $xpars['height'] : "100vh";
+        $height = $existsuserheight ? $xpars['height'] : "400px";
         $xpars['width'] = $width;
         $xpars['height'] = $height;
 
@@ -131,12 +131,16 @@ class stack_cas_castext2_ascii extends stack_cas_castext2_block {
             new MP_String(json_encode(['href' => 'cors://ascii/stackascii.css'])),
         ]);
 
-        $astyle = "width:calc({$xpars['width']} - 20px);height:calc({$xpars['height']} - 30px);";
+        // Size from the iframe viewport so the display area tracks frame resizing.
+        // Keep a configured minimum so default 400px frames start at 370px content height.
+        $astyle = "width:calc({$xpars['width']} - 20px);height:calc(100vh - 30px);";
+        $astyle .= "min-height:calc({$xpars['height']} - 30px);";
         if (array_key_exists('aspect-ratio', $xpars)) {
             $aspectratio = $xpars['aspect-ratio'];
             // Unset the undefined dimension, if both are defined then we have a problem.
             if ($existsuserheight) {
-                $astyle = "height:calc({$xpars['height']} - 30px);aspect-ratio:$aspectratio;";
+                $astyle = "height:calc(100vh - 30px);aspect-ratio:$aspectratio;";
+                $astyle .= "min-height:calc({$xpars['height']} - 30px);";
             } else if ($existsuserwidth) {
                 $astyle = "width:calc({$xpars['width']} - 20px);aspect-ratio:$aspectratio;";
             }
@@ -145,7 +149,7 @@ class stack_cas_castext2_ascii extends stack_cas_castext2_block {
         $r->items[] = new MP_String("\nimport stack_js from '" . stack_cors_link('stackjsiframe.min.js') . "';\n");
         $r->items[] = new MP_String("\nimport init from '" . stack_cors_link('ascii/stackascii.bundle.js') . "';\n");
 
-        $answercalls = implode(',', array_map(function($item, $index) {
+        $answercalls = implode(',', array_map(function ($item, $index) {
             $extra = $index === 0 ? ',true' : '';
             return 'stack_js.request_access_to_input("' . $item . '"' . $extra . ')';
         }, $inputs, array_keys($inputs)));
@@ -163,8 +167,10 @@ class stack_cas_castext2_ascii extends stack_cas_castext2_block {
         return $r;
     }
 
-    /*
+    /**
      * Ensure the markdown filter transforms have the correct defaults.
+     * @param mixed $transforms
+     * @return string
      */
     private function set_markdown_filter_defaults($transforms) {
         // Sort out the default transforms.
@@ -216,7 +222,7 @@ class stack_cas_castext2_ascii extends stack_cas_castext2_block {
         // Also that the references make sense.
         $valid  = true;
         $width  = array_key_exists('width', $this->params) ? $this->params['width'] : '100%';
-        $height = array_key_exists('height', $this->params) ? $this->params['height'] : '100vh';
+        $height = array_key_exists('height', $this->params) ? $this->params['height'] : '400px';
 
         // NOTE! List ordered by length. For the trimming logic.
         $validunits = [
@@ -296,7 +302,7 @@ class stack_cas_castext2_ascii extends stack_cas_castext2_block {
                 $valid    = false;
                 if ($valids === null) {
                     $valids = [
-                        'width', 'height', 'aspect-ratio', 'input', 'hidden'
+                        'width', 'height', 'aspect-ratio', 'input', 'hidden',
                     ];
                     $err[] = stack_string('stackBlock_ascii_param', [
                         'param' => implode(', ', $valids),

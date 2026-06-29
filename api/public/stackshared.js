@@ -94,7 +94,10 @@ function send() {
                     const name = holder[1];
                     const input = inputs[name];
                     question = question.replace(`[[input:${name}]]`, input.render);
-                    question = question.replace(`[[validation:${name}]]`, `<span name='${validationPrefix + name}'></span>`);
+                    question = question.replace(
+                        `[[validation:${name}]]`,
+                        `<span name='${validationPrefix + name}' class='stackinputfeedback empty'></span>`
+                    );
                     if (input.samplesolutionrender && name !== 'remember') {
                         // Display render of answer and matching user input to produce the answer.
                         correctAnswers += `<p>A correct answer is: `;
@@ -137,10 +140,10 @@ function send() {
                 }
                 // Convert Moodle plot filenames to API filenames.
                 for (const [name, file] of Object.entries(json.questionassets)) {
-                    question = question.replace(name, `${serverUrl}plots/${file}`);
-                    json.questionsamplesolutiontext = json.questionsamplesolutiontext.replace(name, `${serverUrl}plots/${file}`);
-                    json.questionnote = json.questionnote.replace(name, `${serverUrl}plots/${file}`);
-                    correctAnswers = correctAnswers.replace(name, `${serverUrl}plots/${file}`);
+                    question = question.replace(name, `${serverUrl}plot.php/${file}`);
+                    json.questionsamplesolutiontext = json.questionsamplesolutiontext.replace(name, `${serverUrl}plot.php/${file}`);
+                    json.questionnote = json.questionnote.replace(name, `${serverUrl}plot.php/${file}`);
+                    correctAnswers = correctAnswers.replace(name, `${serverUrl}plot.php/${file}`);
                 }
                 question = replaceFeedbackTags(question);
 
@@ -231,9 +234,11 @@ function validate(element) {
                 const element = document.getElementsByName(`${validationPrefix + answerName}`)[0];
                 element.innerHTML = validationHTML;
                 if (validationHTML) {
+                    element.classList.remove('empty');
                     element.classList.add('validation');
                 } else {
                     element.classList.remove('validation');
+                    element.classList.add('empty');
                 }
                 createIframes(json.iframes);
                 MathJax.typesetPromise();
@@ -297,7 +302,7 @@ function answer() {
                 // Replace tags and plots in specific feedback and then display.
                 if (json.specificfeedback) {
                     for (const [name, file] of Object.entries(json.gradingassets)) {
-                        json.specificfeedback = json.specificfeedback.replace(name, `${serverUrl}plots/${file}`);
+                        json.specificfeedback = json.specificfeedback.replace(name, `${serverUrl}plot.php/${file}`);
                     }
                     json.specificfeedback = replaceFeedbackTags(json.specificfeedback);
                     specificFeedbackElement.innerHTML = json.specificfeedback;
@@ -310,7 +315,7 @@ function answer() {
                 // Replace plots in tagged feedback and then display.
                 for (let [name, fb] of Object.entries(feedback)) {
                     for (const [name, file] of Object.entries(json.gradingassets)) {
-                        fb = fb.replace(name, `${serverUrl}plots/${file}`);
+                        fb = fb.replace(name, `${serverUrl}plot.php/${file}`);
                     }
                     const elements = document.getElementsByName(`${feedbackPrefix + name}`);
                     if (elements.length > 0) {

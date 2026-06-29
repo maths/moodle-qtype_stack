@@ -5873,8 +5873,8 @@ ta2:4*sqrt(2*x^2+1)+1;
 [[extractor targetinput="ans4" type="lastregexmatch" regex="^f\\\\(0\\\\)\\\\s*=\\\\s*" /]]
 [[extractor targetinput="ans5" type="lastregexremainder" regex="^f\\\\(0\\\\)\\\\s*=\\\\s*" /]]
 [[extractor targetinput="ans6" type="laststringremainder" string="f(0) =" /]]
-[[extractor targetinput="ans7" type="regexallmatch" regex="^f\\\\(x\\\\)\\\\s*=\\\\s*" /]]
-[[extractor targetinput="ans8" type="regexallremainder" regex="^f\\\\(x\\\\)\\\\s*=\\\\s*" /]]
+[[extractor targetinput="ans7" type="allregexmatch" regex="^f\\\\(x\\\\)\\\\s*=\\\\s*" /]]
+[[extractor targetinput="ans8" type="allregexremainder" regex="^f\\\\(x\\\\)\\\\s*=\\\\s*" /]]
 [[extractor targetinput="ans10" type="lastblock" /]]
 [[/ascii]]
 <p>[[hint title="Input help"]][[commonstring key="free_text_fact"/]][[/hint]]</p>

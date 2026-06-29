@@ -292,7 +292,7 @@ class stack_maxima_lexer_basen extends stack_maxima_lexer_base {
                     $this->pushc($c);
                     if ($startswithalpha) {
                         foreach ($chars as $ci) {
-                            $token->value .= $ci;
+                            $token->value .= $ci->c;
                             $token->set_end_position($ci);
                         }
                         // Feeding that _ back.

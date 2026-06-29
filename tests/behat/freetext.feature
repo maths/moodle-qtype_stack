@@ -55,4 +55,4 @@ Feature: Test input of correct answers on freetext inputs.
 
     When I am on the "Freetext (ASCII no input)" "core_question > preview" page logged in as teacher
     # MathJax 3 will have rendered, MathJax 2 probably won't. Moodle 5 gives us the flattened plain text. Sigh...
-    Then I check the value of iframe element "asciiContainerRow" contains one of '4sqrt(2x^2+1)' or '4⁢𝑠⁢𝑞⁢𝑟⁢𝑡⁢(2⁢𝑥2+1)' or '4⁢√2⁢𝑥2+1 +1'
+    Then I check the value of iframe element "asciiContainerRow" contains one of '{4}\sqrt{{{2}{x}^{{2}}+{1}}}+{1}' or '42x2+1+1' or '4⁢√2⁢𝑥2+1 +1'

@@ -1,9 +1,8 @@
-// Extractor: regexallremainder
-// [[extractor targetinput="ans2" type="regexallremainder" regex="^f\\(x\\)\\s*=\\s*" /]]
+// Extractor: allregexmatch
+// [[extractor targetinput="ans2" type="allregexmatch" regex="^f\\(x\\)\\s*=\\s*" /]]
 // Searches the entire raw input for all lines matching operation.regex and returns
-// a JSON object of the form {"matches":[...]} set as answerEl.value. The regex itself is removed
-// from the matches.
-export default function regexallremainder(raw, blockCollector, operation) {
+// a JSON object of the form {"matches":[...]} set as answerEl.value.
+export default function allregexmatch(raw, blockCollector, operation) {
     if (!operation || !operation.regex) {
         return 'ERROR';
     }
@@ -13,7 +12,7 @@ export default function regexallremainder(raw, blockCollector, operation) {
     for (const line of raw.split('\n')) {
         const trimmed = line.trim();
         if (trimmed && pattern.test(trimmed)) {
-            matches.push(trimmed.replace(pattern, ''));
+            matches.push(trimmed);
         }
     }
 

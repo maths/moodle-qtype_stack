@@ -1822,8 +1822,10 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         }
 
         // Check for /*...*/ comments in castext in older questions.
+        // Only checking against pre-JSXGraph questions as multiline
+        // comments still valid there.
         // TO-DO Should this be here or in the validate_for_bulk function?
-        if ($stackversion < $checkpat['ver']) {
+        if ($stackversion < '2018073000') {
             $pat = '~/\*.*?\*/~s';
             foreach ($castextfields as $field) {
                 if (preg_match($pat, $this->$field ?? '')) {

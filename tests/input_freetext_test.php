@@ -47,7 +47,7 @@ final class input_freetext_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('freetext', 'ans1', 'x^2');
         $this->assertEquals(
             '<textarea class="freetextinput" name="stack1__ans1" id="stack1__ans1" autocapitalize="none" ' .
-            'spellcheck="false" rows="5" cols="80" data-stack-input-type="freetext">' .
+            'spellcheck="false" rows="5" cols="80" data-stack-input-type="freetext" maxlength="5096">' .
             '</textarea>',
             $el->render(
                 new stack_input_state(stack_input::VALID, [], '', '', '', '', ''),
@@ -63,7 +63,7 @@ final class input_freetext_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('freetext', 'ans1', '"Hello world"');
         $this->assertEquals(
             '<textarea class="freetextinput" name="stack1__ans1" id="stack1__ans1" autocapitalize="none" ' .
-            'spellcheck="false" rows="5" cols="80" data-stack-input-type="freetext">' .
+            'spellcheck="false" rows="5" cols="80" data-stack-input-type="freetext" maxlength="5096">' .
             '000</textarea>',
             $el->render(
                 new stack_input_state(stack_input::VALID, ['000'], '', '', '', '', ''),
@@ -83,7 +83,7 @@ final class input_freetext_test extends qtype_stack_testcase {
         $el->set_parameter('options', 'monospace:true');
         $this->assertEquals(
             '<textarea class="freetextinput input-monospace" name="stack1__ans1" id="stack1__ans1" autocapitalize="none" ' .
-            'spellcheck="false" rows="5" cols="80" data-stack-input-type="freetext">' .
+            'spellcheck="false" rows="5" cols="80" data-stack-input-type="freetext" maxlength="5096">' .
             '000</textarea>',
             $el->render(
                 new stack_input_state(stack_input::VALID, ['000'], '', '', '', '', ''),

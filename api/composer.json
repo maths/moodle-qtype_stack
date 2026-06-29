@@ -6,7 +6,7 @@
         "slim/slim": "4.*",
         "slim/psr7": "^1.6.1",
         "erusev/parsedown": "^1.7.4",
-        "symfony/yaml": "^7.3"
+        "symfony/yaml": "^7.4.12"
     },
     "authors": [
         {

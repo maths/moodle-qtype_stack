@@ -298,6 +298,9 @@ final class input_equiv_test extends qtype_stack_testcase {
             $state->contentsdisplayed
         );
         $this->assertEquals('missingLeftBracket', $state->note);
+        $validation = $el->render_validation($state, 'q140:1_ans1', 'en');
+        $this->assertStringContainsString('<span class="alert alert-danger stackinputerror">', $validation);
+        $this->assertStringNotContainsString('<div class="alert alert-danger stackinputerror">', $validation);
     }
 
     public function test_validate_student_response_invalid_5(): void {

@@ -8,7 +8,8 @@ Both client-side regular expressions and post-processing in Maxima have their me
 
 1. `type` (required): the extractor type. See available types below.
 2. `targetinput` (required): the name of the STACK input which receives the extracted value.
-3. `regex`: a JavaScript regular expression string. Required for the `regexmatch` and `regexall` types. (Backslashes in the regex need to be escaped with an additional backslash.)
+5. `search`: a literal search term.  Required for the `laststringremainder` and `laststringremainderwhitespace` extractors described below.
+4. `regex`: a JavaScript regular expression string. Required for the various regex extractors types. (Note: backslashes in the regex need to be escaped with an additional backslash.)
 
 ## Last expression/calculation extractors
 
@@ -35,36 +36,46 @@ Returns the trimmed content of the last `calculation` block (i.e. text enclosed 
 ```
 [[extractor type="lastcalc" targetinput="ans2" /]]
 ```
-## Simple match extractors
+## String extractors
 
 These match a line containing a text string, and are designed to reduce the need to write full regular expressions.
 
-The `match` parameter is required.
+The `search` parameter is required, which is a simple string match.  No regex terms are supported, and there is no requirement to protect items within the string.  E.g. to search for a literal `f(x)=` you do not need to protect the brackets as you would when constructing a regular expression.
 
-#### `lastmatch`
+#### `laststringremainder`
 
 * Scans the raw answer line by line from the end backwards.
-* Whitespace is trimmed from the line, and any outer backticks are removed (hence it matches within mathematics, or outside).
-* Spaces within the `match` expression are replaced by `\s*` regex pattern.  Note, this is _zero or more_ whitespace.
-* The line must contain the given (modified) `match` expression.
-* Returns the trimmed line, without the `match`, and without any backticks (if any) around the expression.
+* Whitespace is trimmed from the line, and any outer backticks are removed.
+* The line must contain the given (modified) `search` expression exactly.
+* Returns the trimmed line, without the `search`, and without any backticks (if any) around the expression.
+
+#### `laststringremainderwhitespace`
+
+* Scans the raw answer line by line from the end backwards.
+* Whitespace is trimmed from the line.
+* A final full stop is removed, if needed.
+* Any outer backticks are removed (hence it matches within mathematics, or outside).
+* All whitespace is removed from within the line.
+* Any whitespace within `search` is replaced by regex `\s` which matches zero or more spaces.
+* The line must contain the given (modified) `search` expression.
+* Returns the trimmed line, without the `search`, and without any backticks (if any) around the expression.
 
 For example, to extract `<expr>` from a line such as `f(x) = <expr>`:
 
 ```
-[[extractor type="lastmatch" targetinput="ans2" match="f(x) =" /]]
+[[extractor type="laststringremainderwhitespace" targetinput="ans2" search="f(x) =" /]]
 ```
 
 Using this extractor, the following lines will all return `x^2`
 
-    f(x)=x^2
     f(x) = x^2
-    f(x)=`x^2`
     f(x) = `x^2`
+    f(x)=x^2
+    f(x)=`x^2`
     `f(x)=x^2`
     `f(x) =x^2`
 
-Note, by design the matching is expected to be on a line of its own. Hence this will _not_ match
+Note, by design, the matching is expected to be on a line of its own. Hence this will _not_ match
 
     hence `f(x)=x^2`.
 
@@ -90,12 +101,9 @@ Note the escaped backslashes: in the `regex` attribute value `\\(` represents th
 * Scans the raw answer line by line from the end backwards, matching the given regular expression.
 * Returns the whole trimmed line with the regex removed.
 
-#### `lastregexremainder`
+Note, this means if you have capture groups within your search term any line which matches will remove the capture group.  You cannot use this extractor to capture a group and return that group!
 
-* Scans the raw answer line by line from the end backwards, matching the given regular expression.
-* Returns the remainder of the line stripped of backslashes and leading/trailing spaces.
-
-#### `regexallmatch`
+#### `allregexmatch`
 
 * Searches the entire raw input for all lines matching the given regular expression.
 * Returns a JSON object `{"matches": [...]}` as a string. The target input should be a string or JSON input. (Choose JSON for better debugging.)
@@ -103,8 +111,6 @@ Note the escaped backslashes: in the `regex` attribute value `\\(` represents th
 ```
 [[extractor type="regexallmatch" targetinput="ans2" regex="fruit" /]]
 ```
-
-If the result is assigned to input `ans2`, you can create a Maxima list of the matched strings with:
 
 For example, if you have a regular expression which matches "fruit" within the student's answer (!), then the expected output will be in the form:
 
@@ -114,7 +120,7 @@ If this is assigned to input `ans2`, then you can create a Maxima list of the ma
 
     sa1: stackmap_get(stackjson_parse(ans2), "matches");
 
-#### `regexallremainder`
+#### `allregexremainder`
 
 * Searches the entire raw input for all lines matching the given regular expression.
 * Returns a JSON object `{"matches": [...]}` as a string. The target input should be a string or JSON input. (Choose JSON for better debugging.)
@@ -122,11 +128,35 @@ If this is assigned to input `ans2`, then you can create a Maxima list of the ma
 
 ## Extractor developer notes
 
-Extractors are defined in `corsscripts/ascii/extractors`. (
+Extractors are defined in `corsscripts/ascii/extractors`. 
 
 In the future we may add 
 
-* more flexible functionality, linking arbitrary extractors to multiple inputs.)
+* more flexible functionality, linking arbitrary extractors to multiple inputs.
 * support for a `bespoke` extractor enabling users to write JS code into the extractor block for use in that question directly.
 
 Please contact the developers for ideas of extractor use-cases.
+
+### Naming conventions
+
+Extractors are named using the following (informal) conventions
+
+    <which><what><how-much><other>
+
+Where
+
+* `<which>` refers to which match to return
+  * `last` only return the last match
+  * `all` return all matches
+  * `first` return the first occurrence
+* `<what>` refers to the search method
+  * `block` looks for asciimaths (both in-line and multiline blocks) and returns the whole thing
+  * `calc` look in calculation blocks
+  * `expr` looks for asciimaths (both in-line and multiline blocks) and returns the last line
+  * `string` match a literal string somewhere in the text
+  * `regex` use a regular expression
+* `<how-much>` What do we return?
+  * `match` the whole matching expression, typically the whole line, or maths block
+  * `remainder` of the expression without the search string or regex
+* `<other>` gives other qualifiers to the searches
+  * `whitespace` search without whitespace, or with whitespace rules.

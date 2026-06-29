@@ -1132,6 +1132,13 @@ table.HELM_table th:last-child {
     display: flex;
     gap: 1rem;
     align-items: stretch;  /* Make children same height. */
+    width: max-content;
+    max-width: 100%;
+}
+
+.free-text-container-vertical {
+    width: max-content;
+    max-width: 100%;
 }
 
 .free-text-container > * {
@@ -1140,8 +1147,13 @@ table.HELM_table th:last-child {
 }
 
 .free-text-container iframe {
-    min-height: 400px !important;
-    height: 100% !important;
+    flex: 1 1 auto;
+    height: 100%;
+}
+
+.free-text-container [id^=stack-iframe-holder] {
+    height: auto;
+    display: flex;
 }
 
 #source {
@@ -1153,6 +1165,17 @@ table.HELM_table th:last-child {
 @media (max-width: 768px) {
     .free-text-container {
         flex-direction: column;
+        width: 100%;
+    }
+
+    .free-text-container > * {
+        flex: none;
+        width: 100%;
+    }
+
+    .free-text-container > textarea {
+        box-sizing: border-box;
+        width: 100%;
     }
 }
 

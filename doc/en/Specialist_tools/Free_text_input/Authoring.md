@@ -44,7 +44,9 @@ The question text uses pure LaTeX rather than unicode:
 </div>
 ```
 
-Reference documentation is available for the linked [`[[ascii]]` block](../../Authoring/Question_blocks/ASCII.md) elsewhere.  This block provides more flexibility for options for free-text input than is available for general inputs.  In particular for (i) processing, (ii) displaying and (in later examples) (iii) extracting parts of the input for use in PRTs.  This example uses the default markdown filter.  This takes the free-text, processes it as markdown with mathematics and uses the `aligneq` transformation to align multi-line mathematics on the first equals sign.
+Note the use of style `<div class="free-text-container">...</div`.  This positions the input and ascii-block preview next to each other.
+
+Reference documentation is available for the linked [`[[ascii]]` block](../../Authoring/Question_blocks/ASCII.md) elsewhere.  This block provides more flexibility for options for free-text input than is available for general inputs.  In particular for (i) processing, (ii) displaying and (in later examples) (iii) extracting parts of the input for use in PRTs.  This example uses the default `markdown-math` filter.  This takes the free-text, processes it as markdown with mathematics and uses the `aligneq` transformation to align multi-line mathematics on the first equals sign.
 
 Adjust the input settings:
 
@@ -61,8 +63,6 @@ This question will be [manually graded](../../Moodle/Semi-automatic_Marking.md).
 This question can also be loaded from 
 
     Doc-Examples/Specialist-Tools-Docs/Free-text-input/Free-text_manually_graded_mathematical_proof.xml
-
-Note the use of style `<div class="free-text-container">...</div`.  This positions the input and ascii-block preview next to each other.
 
 # 2. Free-text answer linked to STACK input
 
@@ -98,7 +98,7 @@ The complete (html) question text is therefore
 
 ```
 <p> Solve {@eq1@}.</p>
-<p>Work line by line below, justifying your answer fully.  Your last line should be your answer \(f(x)=...\).</p>
+<p>Work line by line below, justifying your answer fully.  Your last line should be your answer \(x =...\).</p>
 <div class="free-text-container">
 [[input:ans1]] [[validation:ans1]]
 [[ascii input="ans1"]]
@@ -110,9 +110,7 @@ The complete (html) question text is therefore
 <p>[[validation:ans2]]</p>
 ```
 
-Notice, the `[[ascii]]` block uses the default `markdown-math` filter, and also has an explicit child block that controls how the student's text is processed and displayed, and one or more `[[extractor]]` child blocks that extract parts of the text and send them to other STACK inputs.
-
-The `[[extractor]]` block specifies what to extract and where to send it. Here `type="lastexpr"` sends the last line of the last AsciiMath block to `ans2`. See [the ASCII block documentation](../../Authoring/Question_blocks/ASCII.md) for the full list of extractor types.
+Notice, the `[[ascii]]` block uses the default `markdown-math` filter. The `[[extractor]]` block specifies what to extract and where to send it. Here `type="lastexpr"` looks for the last line of mathematics and sends it to input `ans2`. See [the ASCII block documentation](../../Authoring/Question_blocks/ASCII.md) for the full list of extractor types.
 
 Note the `[[hint]]` block, using a `[[commonstring]]` block to provide standard help to students for this input type.
 
@@ -122,7 +120,7 @@ Note the `[[hint]]` block, using a `[[commonstring]]` block to provide standard 
 2. Box size: 80 (nice and wide to hold typed text)
 3. Extra options: `monospace:true, manualgraded:false`
 
-`ans2`: An algebraic input, to hold the last block of mathematics.
+`ans2`: An algebraic input, to hold the last line of mathematics.
 
 1. Validation shown
 2. Insert assuming single-character variables, implied and for spaces.

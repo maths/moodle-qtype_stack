@@ -177,6 +177,7 @@ echo $OUTPUT->footer();
 class qtype_stack_dollar_fixer {
     /** @var bool whether to output the changes made to the content. */
     protected $preview;
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private array $replace;
     /** @var array what we want to replace $search with */
     private array $search;

@@ -273,7 +273,7 @@ class prt_evaluatable implements cas_raw_value_extractor {
         $i = 0;
         foreach ($path as $atresult) {
             if ($atnotes) {
-                // Some answer test notes are a non-empty whitespace string, e.g. "    ".
+                // Some answer test notes are a non-empty whitespace string, e.g. "    "; which we discard.
                 $note = trim($atresult[2]);
                 // Strip off "" and trim.
                 $note = trim(substr($note, 1, strlen($note) - 2));

@@ -37,7 +37,7 @@ Use the following question text.
 2. Create input `ans2` as an algebraic input, with teacher's answer `ta2`.  Use the extra option `allowempty`.
 3. In the PRT the first node should check `ans1=X` and, if so check that `ans2=ta2`.
 
-Notice that the reveal block has the condition `value="5"`, _not_ `value="X"`.  This is because the reveal block executes client-side, using javascript, and the values of the options are simply numbered, and mapped back to Maxima values server-side.
+**Notice that the reveal block has the condition `value="5"`, _not_ `value="X"`.**  This is because the reveal block executes client-side, using javascript, and the values of the options are simply numbered, and mapped back to Maxima values server-side.
 
 ## Hint block ##
 

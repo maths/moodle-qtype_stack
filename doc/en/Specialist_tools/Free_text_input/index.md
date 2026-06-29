@@ -21,6 +21,11 @@ The default is for students to use unicode text in markdown format, extended by 
 * [Authoring free-text questions with extractors](Extractors.md)
 * [Authoring free-text questions with calculation](Calculation.md)
 
+An example question which uses regular expressions for assessment is 
+
+    Doc-Examples/Specialist-Tools-Docs/Free-text-input/Free-text_with_regex.xml
+
+
 ### Help for students
 
 Built-in help for students can be provided with either

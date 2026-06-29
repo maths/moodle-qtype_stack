@@ -1905,10 +1905,15 @@ $string['free_text_fact'] = 'This input allows you to type in free text, e.g. yo
 <li>You can type markdown text.</li>
 <li>You can type AsciiMath between backticks for mathematics: <code>`...`</code></li>
 <li>You can include LaTeX between brackets, <code>\(...\)</code> for inline mathematics and <code>\[...\]</code> displayed mathematics.</li>
+<li>If activated by the teacher, calculations between <code>{@...@}</code> will be automatically evaluated.</li>
 </ol>
-More specific documentation on markdown, AsciiMath and LaTeX is available online.';
+<p>AsciiMath has two forms.  <em>Inline</em> AsciiMath starts and ends with a backtick, e.g. <code>`sum_(k=1)^oo 1/(n^2)=pi^2/6`</code>.</p>
+<p><em>Displayed</em> AsciiMath starts and ends with a backtick on an empty line, and mathematics lines in between.  E.g.
+<pre>`<br>x^2-5x+6=0<br>(x-3)(x-2)=0<br>`</pre>
+<p>More specific documentation on markdown, AsciiMath and LaTeX is available online.</p>';
 $string['free_text_calc'] = 'This input allows you embed simple calculations between <code>{@...@}</code>, rather than reaching for an external calculator.';
 $string['free_text_calc_min'] = '{@...@}';
+$string['free_text_toolong'] = 'Your answer should not be more than {$a->max} characters long. It is currently {$a->current} characters.';
 // phpcs:enable moodle.Strings.ForbiddenStrings.Found
 $string['Illegal_singleton_power'] = 'This input requires a numeric value presented in one of the following forms: <code>{$a->forms}</code>';
 $string['Illegal_singleton_floats'] = 'This input does not accept decimal numbers in the given form. This input requires a numeric value presented in one of the following forms: <code>{$a->forms}</code>';

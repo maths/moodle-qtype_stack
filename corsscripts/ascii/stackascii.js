@@ -39,23 +39,23 @@ const filterlib = { calculation, cas, markdown, plain };
 import lastblock from './extractors/lastblock.js';
 import lastcalc from './extractors/lastcalc.js';
 import lastexpr from './extractors/lastexpr.js';
-import lastmatch from './extractors/lastmatch.js';
+import laststringremainder from './extractors/laststringremainder.js';
+import laststringremainderwhitespace from './extractors/laststringremainderwhitespace.js';
 import lastregexmatch from './extractors/lastregexmatch.js';
 import lastregexremainder from './extractors/lastregexremainder.js';
-import laststringremainder from './extractors/laststringremainder.js';
-import regexallmatch from './extractors/regexallmatch.js';
-import regexallremainder from './extractors/regexallremainder.js';
+import allregexmatch from './extractors/allregexmatch.js';
+import allregexremainder from './extractors/allregexremainder.js';
 
 const extractorlib = {
     lastblock,
     lastcalc,
     lastexpr,
-    lastmatch,
+    laststringremainder,
+    laststringremainderwhitespace,
     lastregexmatch,
     lastregexremainder,
-    laststringremainder,
-    regexallmatch,
-    regexallremainder
+    allregexmatch,
+    allregexremainder
 };
 
 /**

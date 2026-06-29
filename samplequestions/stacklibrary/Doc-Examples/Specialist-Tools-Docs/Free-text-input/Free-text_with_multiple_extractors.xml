@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <quiz>
-<!-- question: 1092  -->
+<!-- question: 5285  -->
   <question type="stack">
     <name>
       <text>Free-text input with multiple extractors</text>
     </name>
     <questiontext format="html">
       <text><![CDATA[<p>You have a parabola of the form \(f(x)=a\,x^2+b\) which satisfies \(f({@x1@})={@f1@}\) and \(f'({@x2@})={@f2@}\).</p>
-<p>Work line by line below, find the values of \(a\) and \(b\) and hence the formula for \(f\).  Justifying your answer fully.</p>
+<p>Work line by line, find the values of \(a\) and \(b\) and hence enter the final formula for \(f\) in the input below.
+Justify your answer fully.</p>
 <div class="free-text-container">
 [[input:ans1]] [[validation:ans1]]
 [[ascii input="ans1"]]
-  [[extractor type="lastmatch" targetinput="saa" match="a =" /]]
-  [[extractor type="lastmatch" targetinput="sab" match="b =" /]]
+  [[extractor type="laststringremainderwhitespace" targetinput="saa" search="a =" /]]
+  [[extractor type="laststringremainderwhitespace" targetinput="sab" search="b =" /]]
 [[/ascii]]
 </div>
 <p>Make sure your answer contains lines <code>a=?</code> and <code>b=?</code> for your values of the coefficients.</p>

@@ -23,6 +23,7 @@
 
 namespace qtype_stack;
 
+use StackLexerSeparators;
 use qtype_stack_testcase;
 use stack_parser_options;
 use MP_Root;
@@ -37,7 +38,7 @@ require_once(__DIR__ . '/../stack/maximaparser/parser.options.class.php');
  * Defines behaviour for parsing of certain special cases.
  * @group qtype_stack
  */
-final class parser_tests extends qtype_stack_testcase {
+final class parser_test extends qtype_stack_testcase {
     /**
      * Add description here.
      * @covers \qtype_stack\stack_parser_options
@@ -130,5 +131,94 @@ final class parser_tests extends qtype_stack_testcase {
         $this->assertEquals(count($parsed2->items[0]->internalcomments), 1);
         $this->assertTrue($parsed2->items[0]->internalcomments[0] instanceof MP_Comment);
         $this->assertEquals($parsed2->items[0]->internalcomments[0]->value, ' was 1 ');
+    }
+
+    /**
+     * Add description here.
+     * @covers \qtype_stack\stack_parser_options
+     */
+    public function test_non_exponent_e_after_integer_lexes_cleanly(): void {
+        $po = stack_parser_options::get_cas_config();
+        $lexer = $po->get_lexer('-2*ln(c(2e^-x-x))');
+
+        $tokens = [];
+        while (($token = $lexer->get_next_token()) !== null) {
+            $tokens[] = $token->value;
+        }
+
+        $this->assertSame(['-', 2, '*', 'ln', '(', 'c', '(', 2, 'e', '^', '-', 'x', '-', 'x', ')', ')'], $tokens);
+    }
+
+    /**
+     * Data provider for malformed exponent expressions.
+     *
+     * @return array[]
+     */
+    public static function malformed_exponent_provider(): array {
+        return [
+            'trailing lowercase e' => [
+                '2e',
+                [2, 'e'],
+            ],
+            'trailing uppercase E' => [
+                '2E',
+                [2, 'E'],
+            ],
+            'incomplete positive exponent' => [
+                '2e+',
+                [2, 'e', '+'],
+            ],
+            'incomplete negative exponent' => [
+                '2e-',
+                [2, 'e', '-'],
+            ],
+        ];
+    }
+
+    /**
+     * Test malformed exponent syntax does not crash the lexer.
+     *
+     * @dataProvider malformed_exponent_provider
+     *
+     * @param string $input
+     * @param array $expectedtokens
+     */
+    public function test_malformed_exponent_lexes_cleanly(
+        string $input,
+        array $expectedtokens
+    ): void {
+        $po = stack_parser_options::get_cas_config();
+        $lexer = $po->get_lexer($input);
+
+        $tokens = [];
+        while (($token = $lexer->get_next_token()) !== null) {
+            $tokens[] = $token->value;
+        }
+
+        $this->assertSame($expectedtokens, $tokens);
+    }
+
+    /**
+     * Test malformed exponent syntax does not crash the lexer.
+     *
+     * @dataProvider malformed_exponent_provider
+     *
+     * @param string $input
+     * @param array $expectedtokens
+     */
+    public function test_malformed_exponent_lexes_cleanly_comma(
+        string $input,
+        array $expectedtokens
+        ): void {
+            $po = stack_parser_options::get_cas_config();
+            $po->separators = StackLexerSeparators::Comma;
+            $lexer = $po->get_lexer($input);
+
+            $tokens = [];
+            while (($token = $lexer->get_next_token()) !== null) {
+                $tokens[] = $token->value;
+            }
+
+            $this->assertSame($expectedtokens, $tokens);
     }
 }

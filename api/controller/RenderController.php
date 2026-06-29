@@ -170,7 +170,7 @@ class RenderController {
                 );
                 $renderresponse->questionrender = str_replace(
                     "[[validation:{$tag}]]",
-                    "<span name='{$validationprefix}{$tag}'></span>",
+                    "<span name='{$validationprefix}{$tag}' class='stackinputfeedback empty'></span>",
                     $renderresponse->questionrender
                 );
             }
@@ -194,14 +194,18 @@ class RenderController {
                 );
             }
             foreach ($renderresponse->questionassets as $name => $file) {
-                $renderresponse->questionrender = str_replace($name, "{$baseurl}/plots/{$file}", $renderresponse->questionrender);
+                $renderresponse->questionrender = str_replace(
+                    $name,
+                    "{$baseurl}/plot.php/{$file}",
+                    $renderresponse->questionrender
+                );
                 $renderresponse->questionsamplesolutiontext = str_replace(
                     $name,
-                    "{$baseurl}/plots/{$file}",
+                    "{$baseurl}/plot.php/{$file}",
                     $renderresponse->questionsamplesolutiontext
                 );
                 foreach ($renderresponse->questioninputs as $input) {
-                    $input->samplesolutionrender = str_replace($name, "{$baseurl}/plots/{$file}", $input->samplesolutionrender);
+                    $input->samplesolutionrender = str_replace($name, "{$baseurl}/plot.php/{$file}", $input->samplesolutionrender);
                 }
             }
             $renderresponse->questionrender = $this->replace_feedback_tags($renderresponse->questionrender, $feedbackprefix);

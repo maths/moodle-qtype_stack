@@ -31,7 +31,7 @@ class stack_freetext_input extends stack_string_input {
     /**
      * @var string Maximum input length in characters.
      */
-    public $maxinputlength = '4096';
+    public $freetextmaxinputlength = '4096';
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $extraoptions = [
         'hideanswer' => false,
@@ -96,7 +96,7 @@ class stack_freetext_input extends stack_string_input {
         }
 
         preg_match_all('/\R/', $value, $matches);
-        $attributes['rows'] = max(5, count($matches[0])+3);
+        $attributes['rows'] = max(5, count($matches[0]) + 3);
         $attributes['cols'] = $this->parameters['boxWidth'];
 
         if ($readonly) {
@@ -105,7 +105,7 @@ class stack_freetext_input extends stack_string_input {
 
         // Metadata for JS users.
         $attributes['data-stack-input-type'] = 'freetext';
-        $attributes['maxlength'] = $this->maxinputlength;
+        $attributes['maxlength'] = $this->freetextmaxinputlength + 1000;
 
         return html_writer::tag('textarea', htmlspecialchars($value, ENT_COMPAT), $attributes);
     }
@@ -156,6 +156,18 @@ class stack_freetext_input extends stack_string_input {
         // TO-DO: something better here.
         $display = html_writer::tag('p', $display);
         return [$valid, $errors, $display, $notes];
+    }
+
+    /**
+     * Make sureanswer is not too long.
+     * @see stack_input::extra_validation()
+     */
+    protected function extra_validation($contents) {
+        $validation = $contents[0];
+        if (strlen($validation) > $this->freetextmaxinputlength) {
+            return stack_string('free_text_toolong', ['max' => $this->freetextmaxinputlength, 'current' => strlen($validation)]);
+        }
+        return '';
     }
 
     /**

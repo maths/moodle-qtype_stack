@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <quiz>
-<!-- question: 1088  -->
+<!-- question: 5283  -->
   <question type="stack">
     <name>
       <text>Free-text input with calculation.</text>
@@ -124,7 +124,7 @@ ta2:(45*2-2)/2;]]></text>
         <sans>sa2</sans>
         <tans>ta2</tans>
         <testoptions></testoptions>
-        <quiet>0</quiet>
+        <quiet>1</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1</truescore>
         <truepenalty></truepenalty>
@@ -146,10 +146,10 @@ ta2:(45*2-2)/2;]]></text>
         <name>1</name>
         <description>Student enters n+2, not n</description>
         <answertest>AlgEquiv</answertest>
-        <sans>ans2</sans>
+        <sans>sa2</sans>
         <tans>ta2+2</tans>
         <testoptions></testoptions>
-        <quiet>0</quiet>
+        <quiet>1</quiet>
         <truescoremode>+</truescoremode>
         <truescore>0.5</truescore>
         <truepenalty></truepenalty>

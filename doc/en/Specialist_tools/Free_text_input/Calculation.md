@@ -39,7 +39,7 @@ ta2:(45*2-2)/2;
 <p>[[validation:ans2]]</p>
 ```
 
-The `[[filter]]` blocks specifies how the student's input is processed. 
+The `[[filter]]` blocks specify how the student's input is processed. 
 
 The first `type="calculation"` extracts `{@...@}` as requested calculations and replaces this with the answer.
 

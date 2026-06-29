@@ -7,6 +7,27 @@ This input allows you to type in free text, e.g. your complete working or mathem
 3. You can include LaTeX between brackets, <code>\(...\)</code> for inline mathematics and <code>\[...\]</code> displayed mathematics.
 4. Sometimes, but not always, you will be able to include calculations between <code>{@...@}</code>.  Rather than reaching for an external calculator, the software will replace your requested calculation with the answer.
 
+## Mathematics
+
+If you would like mathematical expressions/equations to be _inline_ then use AsciiMath.  For example
+
+    This problem asks us to solve `x^2-10x+9=0`, which is a quadratic equation.
+
+If you would like mathematical expressions/equations to be _displayed_ then also use AsciiMath, but put backticks <code>``</code> on a single line at the start and end.  For example
+
+    To solve `x^2-10x+9` we work line by line
+    `
+    x^2-10x+9
+    (x-5)^2-16=0
+    (x-5)^2-4^2=0
+    (x-5-4)(x-5+4)=0
+    (x-9)(x-1)=0
+    x=9 or x=1
+    `
+
+If you have text on the same line as a backtick you will get _inline_ mathematics.
+
+
 ## Markdown
 
 Markdown is a lightweight markup language for creating formatted text using a plain-text editor.

@@ -110,7 +110,7 @@ final class ascii_block_test extends qtype_stack_testcase {
         $expectedlinkcode = '{init(inputIds,[{"operation":"filter","type":"markdown","transforms":"asciimath,aligneq,minwrap"}]);}';
         $this->assertStringContainsString($expectedlinkcode, $joined);
         $this->assertStringContainsString(
-            'id="asciiContainerRow" style="width:calc(100% - 20px);height:calc(400px - 30px);"',
+            'id="asciiContainerRow" style="width:calc(100% - 20px);height:calc(100vh - 30px);min-height:calc(400px - 30px);"',
             $joined
         );
     }
@@ -161,7 +161,7 @@ final class ascii_block_test extends qtype_stack_testcase {
             ',{"type":"lastexpr","targetinput":"ans2","operation":"extractor"}]);}';
         $this->assertStringContainsString($expectedlinkcode, $joined);
         $this->assertStringContainsString(
-            'id="asciiContainerRow" style="width:calc(80% - 20px);height:calc(300px - 30px);"',
+            'id="asciiContainerRow" style="width:calc(80% - 20px);height:calc(100vh - 30px);min-height:calc(300px - 30px);"',
             $joined
         );
         $this->assertStringNotContainsString('"transforms":"aligneq,boldfilter"', $joined);
@@ -181,7 +181,7 @@ final class ascii_block_test extends qtype_stack_testcase {
         $block = new \stack_cas_castext2_ascii(
             ['input' => 'ans1', 'width' => '80%', 'height' => '300px'],
             [$filter, $extractor]
-            );
+        );
         $compiled = $block->compile(null, []);
 
         $this->assertInstanceOf(\MP_List::class, $compiled);
@@ -193,13 +193,14 @@ final class ascii_block_test extends qtype_stack_testcase {
         $joined = implode("\n", $strings);
         $this->assertStringContainsString('stack_js.request_access_to_input("ans1",true)', $joined);
         $this->assertStringContainsString('stack_js.request_access_to_input("ans2")', $joined);
-        $expectedlinkcode = '{init(inputIds,[{"type":"markdown","transforms":"asciimath,aligneq,minwrap","display":"true","operation":"filter"}' .
+        $expectedlinkcode = '{init(inputIds,[{"type":"markdown","transforms":"asciimath,aligneq,minwrap",' .
+            '"display":"true","operation":"filter"}' .
             ',{"type":"lastexpr","targetinput":"ans2","operation":"extractor"}]);}';
         $this->assertStringContainsString($expectedlinkcode, $joined);
         $this->assertStringContainsString(
-            'id="asciiContainerRow" style="width:calc(80% - 20px);height:calc(300px - 30px);"',
+            'id="asciiContainerRow" style="width:calc(80% - 20px);height:calc(100vh - 30px);min-height:calc(300px - 30px);"',
             $joined
-            );
+        );
         $this->assertStringNotContainsString('"transforms":"aligneq,boldfilter"', $joined);
     }
 

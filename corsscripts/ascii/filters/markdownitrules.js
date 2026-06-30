@@ -36,12 +36,15 @@ export default function markdownitrules(mdit, options) {
      * Inline AsciiMath: text between matching delimiter runs.
      */
     mdit.renderer.rules.asciimath_inline = function(tokens, idx, options, env, self) {
-        const code = tokens[idx].content;
+        const token = tokens[idx];
+        const code = token.content;
+        const openingDelimiter = token.markup || state.delimiter;
+        const closingDelimiter = token.meta?.closingMarkup || state.closingdelimiter || openingDelimiter;
         let rendered = '';
-        if (state.transforms.length === 0 && state.delimiter === '`') {
+        if (state.transforms.length === 0 && openingDelimiter === '`' && closingDelimiter === '`') {
             rendered = originalCodeRule(tokens, idx, options, env, self);
         } else if (state.transforms.length === 0) {
-            rendered = state.delimiter + mdit.utils.escapeHtml(code) + state.delimiter;
+            rendered = openingDelimiter + mdit.utils.escapeHtml(code) + closingDelimiter;
         } else {
             rendered = applyTransforms(code, 'asciimath_inline');
         }
@@ -55,11 +58,13 @@ export default function markdownitrules(mdit, options) {
      * Multi-line AsciiMath block: opened and closed by a solitary delimiter on its own line.
      */
     mdit.renderer.rules.asciimath_block = function(tokens, idx) {
-        const code = tokens[idx].content;
-        const delimiter = state.delimiter;
+        const token = tokens[idx];
+        const code = token.content;
+        const openingDelimiter = token.markup || state.delimiter;
+        const closingDelimiter = token.meta?.closingMarkup || state.closingdelimiter || openingDelimiter;
         let rendered = '';
         if (state.transforms.length === 0) {
-            rendered = delimiter + mdit.render(code) + delimiter;
+            rendered = openingDelimiter + mdit.render(code) + closingDelimiter;
         } else {
             rendered = applyTransforms(code, 'asciimath_block');
         }

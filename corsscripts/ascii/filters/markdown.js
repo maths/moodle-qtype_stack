@@ -42,23 +42,24 @@ const transformLib = {
  * @property {Object}      transformLib - map from name → transform function.
  * @property {Object|null} collector    - { blocks: [], isHTML = false } object populated by the renderer rules.
  *   null when not initialised by filter.
- * @property {string}      delimiter    - single-character AsciiMath delimiter.
+ * @property {string}      delimiter    - opening AsciiMath delimiter string.
+ * @property {string}      closingdelimiter - closing AsciiMath delimiter string.
  */
-const state = { transforms: [], transformLib, collector: null, delimiter: '`' };
+const state = { transforms: [], transformLib, collector: null, delimiter: '`', closingdelimiter: '`' };
 let converter = null;
 
 /**
  * Create a markdown-it instance configured for the current delimiter.
  * mdItPluginTex.tex must come before markdownitrules.
  *
- * @param {string} delimiter - single-character AsciiMath delimiter.
+ * @param {Object} delimiters - opening and closing AsciiMath delimiter strings.
  * @returns {Object} configured markdown-it instance.
  */
-function createConverter(delimiter) {
+function createConverter(delimiters) {
     return markdownit({ html: true })
         .use(mdItPluginTex.tex, { render: (content) => content, delimiters: 'brackets' })
-        .use(asciimathBlock, delimiter)
-        .use(asciimathInline, delimiter)
+        .use(asciimathBlock, delimiters)
+        .use(asciimathInline, delimiters)
         .use(markdownitrules, { state });
 }
 
@@ -81,12 +82,19 @@ export default function markdown(text, blockCollector, op) {
         .map(s => s.trim())
         .filter(Boolean);
     state.delimiter = (typeof op.delimiter === 'string') ? op.delimiter : '`';
+    state.closingdelimiter = (typeof op.closingdelimiter === 'string' && op.closingdelimiter !== '')
+        ? op.closingdelimiter
+        : state.delimiter;
     state.collector = blockCollector || null;
     if (state.collector) {
         state.collector.delimiter = state.delimiter;
+        state.collector.closingdelimiter = state.closingdelimiter;
     }
     if (converter === null) {
-        converter = createConverter(state.delimiter);
+        converter = createConverter({
+            openDelimiter: state.delimiter,
+            closeDelimiter: state.closingdelimiter
+        });
     }
     return converter.render(text);
 }

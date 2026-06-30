@@ -478,6 +478,8 @@ $string['settingdefaultquestionoptions'] = 'Default question options';
 $string['settingdefaultquestionoptions_desc'] = 'Used when creating a new question.';
 $string['settingfreetextdelimiter'] = 'Freetext delimiter';
 $string['settingfreetextdelimiter_desc'] = 'Delimiter for ascii maths in freetext questions.';
+$string['settingfreetextclosingdelimiter'] = 'Freetext closing delimiter';
+$string['settingfreetextclosingdelimiter_desc'] = 'Optional closing delimiter if different from opening delimiter.';
 $string['settingmathsdisplay'] = 'Maths filter';
 $string['settingmathsdisplay'] = 'Maths filter';
 $string['settingmathsdisplay_mathjax'] = 'MathJax';
@@ -1906,13 +1908,13 @@ $string['free_text_name'] = 'Free-text inputs';
 $string['free_text_fact'] = 'This input allows you to type in free text, e.g. your complete working or mathematical proof.
 <ol>
 <li>You can type markdown text.</li>
-<li>You can type AsciiMath between backticks for mathematics: <code>`...`</code></li>
+<li>You can type AsciiMath between the configured delimiters for mathematics: <code>{$a->open}...{$a->close}</code></li>
 <li>You can include LaTeX between brackets, <code>\(...\)</code> for inline mathematics and <code>\[...\]</code> displayed mathematics.</li>
 <li>If activated by the teacher, calculations between <code>{@...@}</code> will be automatically evaluated.</li>
 </ol>
-<p>AsciiMath has two forms.  <em>Inline</em> AsciiMath starts and ends with a backtick, e.g. <code>`sum_(k=1)^oo 1/(n^2)=pi^2/6`</code>.</p>
-<p><em>Displayed</em> AsciiMath starts and ends with a backtick on an empty line, and mathematics lines in between.  E.g.
-<pre>`<br>x^2-5x+6=0<br>(x-3)(x-2)=0<br>`</pre>
+<p>AsciiMath has two forms.  <em>Inline</em> AsciiMath starts with <code>{$a->open}</code> and ends with <code>{$a->close}</code>, e.g. <code>{$a->open}sum_(k=1)^oo 1/(n^2)=pi^2/6{$a->close}</code>.</p>
+<p><em>Displayed</em> AsciiMath starts with <code>{$a->open}</code> on an empty line and ends with <code>{$a->close}</code> on an empty line, and mathematics lines in between.  E.g.
+<pre>{$a->open}<br>x^2-5x+6=0<br>(x-3)(x-2)=0<br>{$a->close}</pre>
 <p>More specific documentation on markdown, AsciiMath and LaTeX is available online.</p>';
 $string['free_text_calc'] = 'This input allows you embed simple calculations between <code>{@...@}</code>, rather than reaching for an external calculator.';
 $string['free_text_calc_min'] = '{@...@}';

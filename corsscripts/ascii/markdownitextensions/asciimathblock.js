@@ -24,9 +24,9 @@
 // Markdown-it block rule plugin.
 //
 // Syntax:
-//   Opening marker: a single delimiter character, optionally followed by spaces/tabs, at end of line.
+//   Opening marker: the delimiter string, optionally followed by spaces/tabs, at end of line.
 //   Content:        any lines until the closing marker.
-//   Closing marker: any line whose first non-whitespace character is the delimiter.
+//   Closing marker: any line whose first non-whitespace characters are the delimiter.
 //
 // A delimiter followed by non-whitespace characters is left untouched so that
 // inline parsing can handle it instead.
@@ -45,16 +45,61 @@
  * Markdown-it plugin that registers the asciimath_block block rule.
  * @param {Object} mdit - the markdownit instance to extend.
  * @param {Object} [options] - plugin options.
- * @param {string} [options.marker='`'] - single-character delimiter marker.
+ * @param {string} [options.marker='`'] - delimiter marker string.
  * @param {Object} [options.state] - shared mutable state with a runtime delimiter.
  */
-function asciimathBlock(mdit, delimiter) {
+function asciimathBlock(mdit, delimiters) {
+    /**
+     * Return the active delimiter strings.
+     * @returns {{openDelimiter: string, closeDelimiter: string}} delimiter marker strings.
+     */
+    function getDelimiters() {
+        if (typeof delimiters === 'string' && delimiters.length > 0) {
+            return { openDelimiter: delimiters, closeDelimiter: delimiters };
+        }
+        if (delimiters && typeof delimiters === 'object') {
+            const openDelimiter = (typeof delimiters.openDelimiter === 'string' && delimiters.openDelimiter.length > 0)
+                ? delimiters.openDelimiter
+                : '`';
+            const closeDelimiter = (typeof delimiters.closeDelimiter === 'string' && delimiters.closeDelimiter.length > 0)
+                ? delimiters.closeDelimiter
+                : openDelimiter;
+            return { openDelimiter, closeDelimiter };
+        }
+        return { openDelimiter: '`', closeDelimiter: '`' };
+    }
+
+    /**
+     * Check whether a line starts with the delimiter and contains only trailing
+     * spaces or tabs after it.
+     *
+     * @param {Object} state  - markdown-it state object.
+     * @param {number} pos    - start position of the candidate delimiter.
+     * @param {number} end    - end position of the line.
+     * @param {string} marker - delimiter marker string.
+     * @returns {boolean} true when the line contains only the delimiter plus whitespace.
+     */
+    function lineHasOnlyDelimiter(state, pos, end, marker) {
+        if (state.src.slice(pos, pos + marker.length) !== marker) {
+            return false;
+        }
+
+        for (let i = pos + marker.length; i < end; i++) {
+            const ch = state.src.charCodeAt(i);
+            if (ch !== 0x20 /* space */ && ch !== 0x09 /* tab */) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     /**
      * Markdown-it block rule for multi-line AsciiMath blocks.
      * Registered before 'paragraph' so it takes priority over plain text.
      *
-     * Opening marker: a single delimiter on its own line (trailing spaces/tabs allowed).
-     * Closing marker: a single delimiter on its own line (no other non-whitespace content).
+     * Opening marker: the delimiter on its own line (trailing spaces/tabs allowed).
+     * Closing marker: the delimiter on its own line (no other non-whitespace content).
      * Emits an 'asciimath_block' token whose content is the joined interior lines.
      *
      * @param {Object}  state     - markdown-it state object.
@@ -73,26 +118,11 @@ function asciimathBlock(mdit, delimiter) {
             return false;
         }
 
-        const marker = delimiter ?? '`';
-        const markerCode = marker.charCodeAt(0);
+        const { openDelimiter, closeDelimiter } = getDelimiters();
 
-        // Must start with exactly one marker character.
-        if (state.src.charCodeAt(startPos) !== markerCode) {
+        // Opening line must contain only the delimiter plus optional spaces/tabs.
+        if (!lineHasOnlyDelimiter(state, startPos, lineEnd, openDelimiter)) {
             return false;
-        }
-
-        // Must NOT be followed by another marker (avoids matching fenced blocks).
-        if (state.src.charCodeAt(startPos + 1) === markerCode) {
-            return false;
-        }
-
-        // Every character after the marker must be a space or tab.
-        // If anything else is present, this is inline code — leave it alone.
-        for (let i = startPos + 1; i < lineEnd; i++) {
-            const ch = state.src.charCodeAt(i);
-            if (ch !== 0x20 /* space */ && ch !== 0x09 /* tab */) {
-                return false;
-            }
         }
 
         // In silent (probe) mode, just confirm we can handle this line.
@@ -114,8 +144,8 @@ function asciimathBlock(mdit, delimiter) {
             const lPos = state.bMarks[line] + state.tShift[line];
             const lEnd = state.eMarks[line];
 
-            if (state.src.charCodeAt(lPos) === markerCode && lPos + 1 === lEnd) {
-                // Found the closing marker: a single marker with no other non-whitespace content.
+            if (lineHasOnlyDelimiter(state, lPos, lEnd, closeDelimiter)) {
+                // Found the closing marker: the delimiter with no other non-whitespace content.
                 closingLine = line;
                 break;
             }
@@ -132,7 +162,8 @@ function asciimathBlock(mdit, delimiter) {
         const token = state.push('asciimath_block', '', 0);
         token.content = contentLines.join('\n');
         token.map    = [startLine, closingLine + 1];
-        token.markup = marker;
+        token.markup = openDelimiter;
+        token.meta = { closingMarkup: closeDelimiter };
 
         // Advance the parser past the closing line.
         state.line = closingLine + 1;

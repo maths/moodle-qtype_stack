@@ -274,6 +274,13 @@ $settings->add(new admin_setting_configtext(
     '`'
 ));
 
+$settings->add(new admin_setting_configtext(
+    'qtype_stack/freetextclosingdelimiter',
+    get_string('settingfreetextclosingdelimiter', 'qtype_stack'),
+    get_string('settingfreetextclosingdelimiter_desc', 'qtype_stack'),
+    null
+));
+
 // Options for new inputs.
 $settings->add(new admin_setting_heading(
     'inputoptionsheading',

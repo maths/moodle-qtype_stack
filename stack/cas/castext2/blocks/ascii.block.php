@@ -82,6 +82,7 @@ class stack_cas_castext2_ascii extends stack_cas_castext2_block {
                     $options['transforms'] = $this->set_markdown_filter_defaults($transforms);
                 }
                 $options['delimiter'] = get_config('qtype_stack', 'freetextdelimiter');
+                $options['closingdelimiter'] = get_config('qtype_stack', 'freetextclosingdelimiter');
                 $operations[] = $options;
             } else {
                 $c = $child->compile(castext2_parser_utils::RAWFORMAT, $opt2);
@@ -98,6 +99,7 @@ class stack_cas_castext2_ascii extends stack_cas_castext2_block {
                 'type'       => 'markdown',
                 'transforms' => 'asciimath,aligneq,minwrap',
                 'delimiter' => get_config('qtype_stack', 'freetextdelimiter'),
+                'closingdelimiter' => get_config('qtype_stack', 'freetextclosingdelimiter') ?? get_config('qtype_stack', 'freetextdelimiter'),
             ];
             array_unshift($operations, $defaultmarkdown);
         }

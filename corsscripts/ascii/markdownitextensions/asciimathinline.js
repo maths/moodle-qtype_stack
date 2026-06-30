@@ -24,9 +24,9 @@
 // Markdown-it inline rule plugin.
 //
 // Syntax:
-//   Opening marker: one or more delimiter characters.
-//   Content:        any inline text until the matching closing marker run.
-//   Closing marker: the same number of delimiter characters as the opener.
+//   Opening marker: the configured delimiter string.
+//   Content:        any inline text until the matching closing delimiter.
+//   Closing marker: the same delimiter string as the opener.
 //
 // When the delimiter is a backtick, this mirrors markdown-it's built-in
 // code_inline parsing, but emits an 'asciimath_inline' token instead.
@@ -45,10 +45,30 @@
  * Markdown-it plugin that registers the asciimath_inline inline rule.
  * @param {Object} mdit - the markdownit instance to extend.
  * @param {Object} [options] - plugin options.
- * @param {string} [options.delimiter='`'] - single-character delimiter marker.
+ * @param {string} [options.delimiter='`'] - delimiter marker string.
  * @param {Object} [options.state] - shared mutable state with a runtime delimiter.
  */
-function asciimathInline(mdit, delimiter) {
+function asciimathInline(mdit, delimiters) {
+    /**
+     * Return the active delimiter strings.
+     * @returns {{openDelimiter: string, closeDelimiter: string}} delimiter marker strings.
+     */
+    function getDelimiters() {
+        if (typeof delimiters === 'string' && delimiters.length > 0) {
+            return { openDelimiter: delimiters, closeDelimiter: delimiters };
+        }
+        if (delimiters && typeof delimiters === 'object') {
+            const openDelimiter = (typeof delimiters.openDelimiter === 'string' && delimiters.openDelimiter.length > 0)
+                ? delimiters.openDelimiter
+                : '`';
+            const closeDelimiter = (typeof delimiters.closeDelimiter === 'string' && delimiters.closeDelimiter.length > 0)
+                ? delimiters.closeDelimiter
+                : openDelimiter;
+            return { openDelimiter, closeDelimiter };
+        }
+        return { openDelimiter: '`', closeDelimiter: '`' };
+    }
+
     /**
      * Match markdown-it's built-in inline text terminators so a custom delimiter
      * can also stop plain-text scanning before the stock text rule swallows it.
@@ -98,12 +118,11 @@ function asciimathInline(mdit, delimiter) {
      */
     function asciimathTextRule(state, silent) {
         let pos = state.pos;
-        const markerChar = delimiter ?? '`';
-        const markerCode = markerChar.charCodeAt(0);
+        const { openDelimiter } = getDelimiters();
 
         while (pos < state.posMax &&
             !isTextTerminatorChar(state.src.charCodeAt(pos)) &&
-            state.src.charCodeAt(pos) !== markerCode) {
+            state.src.slice(pos, pos + openDelimiter.length) !== openDelimiter) {
             pos++;
         }
 
@@ -159,17 +178,33 @@ function asciimathInline(mdit, delimiter) {
 
     /**
      * Markdown-it inline rule for AsciiMath spans between delimiter runs.
-     * For backticks, this intentionally mirrors markdown-it's built-in backtick rule
-     * so the same source text becomes an asciimath_inline token instead of code_inline.
      *
      * @param {Object}  state  - markdown-it state object.
      * @param {boolean} silent - if true, probe only; do not emit tokens.
      * @returns {boolean} true if the rule consumed input, false otherwise.
      */
     function asciimathInlineRule(state, silent) {
+        const { openDelimiter, closeDelimiter } = getDelimiters();
+
+        if (openDelimiter === '`' && closeDelimiter === '`') {
+            return backtickInlineRule(state, silent);
+        }
+
+        return fixedDelimiterInlineRule(state, silent, openDelimiter, closeDelimiter);
+    }
+
+    /**
+     * Markdown-it-compatible backtick parsing. This preserves normal code-span
+     * matching while emitting asciimath_inline tokens instead of code_inline.
+     *
+     * @param {Object}  state  - markdown-it state object.
+     * @param {boolean} silent - if true, probe only; do not emit tokens.
+     * @returns {boolean} true if the rule consumed input, false otherwise.
+     */
+    function backtickInlineRule(state, silent) {
         let pos = state.pos;
-        const markerChar = delimiter ?? '`';
-        const markerCode = markerChar.charCodeAt(0);
+        const marker = '`';
+        const markerCode = marker.charCodeAt(0);
 
         if (state.src.charCodeAt(pos) !== markerCode) {
             return false;
@@ -185,7 +220,7 @@ function asciimathInline(mdit, delimiter) {
 
         const markup = state.src.slice(start, pos);
         const openerLength = markup.length;
-        const cache = getDelimiterCache(state, markerChar);
+        const cache = getDelimiterCache(state, marker);
 
         if (cache.scanned && (cache.positions[openerLength] || 0) <= start) {
             if (!silent) {
@@ -198,7 +233,7 @@ function asciimathInline(mdit, delimiter) {
         let matchEnd = pos;
         let matchStart;
 
-        while ((matchStart = state.src.indexOf(markerChar, matchEnd)) !== -1) {
+        while ((matchStart = state.src.indexOf(marker, matchEnd)) !== -1) {
             matchEnd = matchStart + 1;
 
             while (matchEnd < max && state.src.charCodeAt(matchEnd) === markerCode) {
@@ -230,9 +265,52 @@ function asciimathInline(mdit, delimiter) {
         return true;
     }
 
+    /**
+     * Parse inline AsciiMath delimited by an exact delimiter string.
+     *
+     * @param {Object}  state  - markdown-it state object.
+     * @param {boolean} silent - if true, probe only; do not emit tokens.
+     * @param {string}  openMarker - exact opening delimiter string.
+     * @param {string}  closeMarker - exact closing delimiter string.
+     * @returns {boolean} true if the rule consumed input, false otherwise.
+     */
+    function fixedDelimiterInlineRule(state, silent, openMarker, closeMarker) {
+        const start = state.pos;
+        const contentStart = start + openMarker.length;
+        const max = state.posMax;
+
+        if (state.src.slice(start, contentStart) !== openMarker) {
+            return false;
+        }
+
+        let matchStart = state.src.indexOf(closeMarker, contentStart);
+        while (matchStart !== -1) {
+            const matchEnd = matchStart + closeMarker.length;
+            if (matchEnd <= max) {
+                if (!silent) {
+                    const token = state.push('asciimath_inline', 'code', 0);
+                    token.markup = openMarker;
+                    token.meta = { closingMarkup: closeMarker };
+                    token.content = state.src.slice(contentStart, matchStart)
+                        .replace(/\n/g, ' ')
+                        .replace(/^ (.+) $/, '$1');
+                }
+                state.pos = matchEnd;
+                return true;
+            }
+            matchStart = state.src.indexOf(closeMarker, matchStart + 1);
+        }
+
+        if (!silent) {
+            state.pending += openMarker;
+        }
+        state.pos = contentStart;
+        return true;
+    }
+
     mdit.inline.ruler.before('text', 'asciimath_inline', asciimathInlineRule);
 
-    const markerCode = (delimiter ?? '`').charCodeAt(0);
+    const markerCode = getDelimiters().openDelimiter.charCodeAt(0);
     if (!isTextTerminatorChar(markerCode)) {
         mdit.inline.ruler.before('text', 'asciimath_text', asciimathTextRule);
     }

@@ -111,7 +111,7 @@ fta:ev(factor(ta),simp);</text>
         <truescore>0.0000000</truescore>
         <truepenalty/>
         <truenextnode>-1</truenextnode>
-        <trueanswernote>1-1-T (naive adding of fractions)</trueanswernote>
+        <trueanswernote>1-1-T</trueanswernote>
         <truefeedback format="html">
           <text><![CDATA[<p>You cannot simply add the numerators and denominators when adding fractions. You need to find a common denominator and then add the fractions. One option is to use the general rule: \(\frac{a}{c}+\frac{b}{d} = \frac{ad+cd}{cd} \)</p>]]></text>
         </truefeedback>
@@ -184,7 +184,7 @@ fta:ev(factor(ta),simp);</text>
         <name>prt1</name>
         <expectedscore>0.0000000</expectedscore>
         <expectedpenalty>0.1000000</expectedpenalty>
-        <expectedanswernote>1-1-T (naive adding of fractions)</expectedanswernote>
+        <expectedanswernote>1-1-T</expectedanswernote>
       </expected>
     </qtest>
   </question>

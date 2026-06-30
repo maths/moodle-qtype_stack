@@ -109,7 +109,7 @@ final class questionlibrary_nrw_test extends advanced_testcase {
                         'id' => 'atlas-1',
                         'data' => [
                             'title' => 'Question 1',
-                            'description' => 'Description 1',
+                            'description' => [['', 'Description 1']],
                             'license' => 'CC-BY',
                             'source' => 'Source 1',
                             'subject' => ['Algebra', 'Calculus'],
@@ -121,7 +121,7 @@ final class questionlibrary_nrw_test extends advanced_testcase {
                         'id' => 'atlas-2',
                         'data' => [
                             'title' => 'Question 2',
-                            'description' => 'Description 2',
+                            'description' => [['', 'Description 2']],
                             'license' => 'CC0',
                             'source' => 'Source 2',
                             'subject' => 'Geometry',

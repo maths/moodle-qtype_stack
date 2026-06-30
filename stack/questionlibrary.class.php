@@ -373,7 +373,7 @@ class stack_question_library {
                 $files->children[] = (object)[
                     'label' => $item['question']['data']['title'],
                     // Once we have format data use format_text($text, FORMAT_MARKDOWN).
-                    'description' => $item['question']['data']['description'],
+                    'description' => $item['question']['data']['description'][0][1] ?? null,
                     'license' => $item['question']['data']['license'],
                     'source' => $item['question']['data']['source'],
                     'subject' => (is_array($item['question']['data']['subject'])) ?

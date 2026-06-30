@@ -191,7 +191,7 @@ if ($mform->is_cancelled()) {
         $errors[] = stack_string(
             'questiontestslong',
             ['prt' => $prtname, 'len' => strlen($data->{$prtname . 'answernote'})]
-            );
+        );
     }
     question_bank::get_qtype('stack')->save_question_test($questionid, $qtest, $testcase);
     if (empty($errors)) {

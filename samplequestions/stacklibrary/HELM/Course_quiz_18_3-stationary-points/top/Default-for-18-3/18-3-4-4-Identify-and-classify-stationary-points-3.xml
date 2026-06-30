@@ -2,12 +2,12 @@
 <quiz>
   <question type="stack">
     <name>
-      <text>18.3.4.5 Identify and classify stationary points 4 (copy)</text>
+      <text>18.3.4.4 Identify and classify stationary points 3</text>
     </name>
     <questiontext format="html">
       <text><![CDATA[<p class="HELM_exercise">Exercise</p>
-<p>Given that \(f(x) = {@exp@}\), identify the stationary point for this function.</p>
-<p> Classify the stationary point as either a local minimum, local maximum or a saddle point.
+<p>\(f(x,y) = {@exp@}\), identify the stationary point for this function.</p>
+<p> Classify the stationary point as either a local minimum, a local maximum or a saddle point.
 </p>
 
 <p>\(\dfrac{\partial f}{\partial x} = \dfrac{\partial f}{\partial y} = 0\) at \((x, y)\) = [[input:ans1]] [[validation:ans1]]</p>
@@ -20,16 +20,16 @@
 <p>First, find the partial derivatives of \(f(x,y):\)</p>\(f_x={@partialx@} \\ f_y={@partialy@}\)
 <p></p>
 <p>Now we solve the equations \(f_x = 0\) and \(f_y= 0:\)</p>
-<p>\(f_x = 0 \Rightarrow {@partialx@} = 0 .\)</p>
-<p>\(f_y = 0 \Rightarrow {@partialy@} = 0 .\)<br></p>
-<p>Solving the system of equations we find that the stationary point is \( (-1, 3) .\)</p>
-<p>Then we calculate \( f_{xx}, \, f_{yy}, \, f_{xy} \, \text{and} \, D:\)</p>
+<p>\(f_x = 0 \Rightarrow {@partialx@} = 0 \, \Rightarrow x= {@rhs(a[1])@} .\)</p>
+<p>\(f_y = 0 \Rightarrow {@partialy@} = 0 \, \Rightarrow y= {@rhs(b[1])@} .\)<br></p>
+<p>These equations have solution \( x=y= 0,\) hence the stationary point is \( (0, 0) .\)</p>
+<p>Then we calculate \( f_{xx}, \, f_{yy}, \, f_{xy} \, \text{ and } \, D:\)</p>
 <p>\( f_{xx} = {@f_xx@} \)</p>
 <p>\( f_{yy} = {@f_yy@} \)</p>
 <p>\( f_{xy} = {@f_xy@} \)</p>
 <p>\( D = f_{xx}f_{yy}- (f_{xy})^2 = {@D@} \)</p>
 <p></p>
-<p>We have \(D&lt;0 \) so the stationary point is a saddle point.</p>]]></text>
+<p>We have \(D&lt;0 \) and \(f_{xx} &lt;0\) so the stationary point is a saddle point.</p>]]></text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>
@@ -39,12 +39,19 @@
       <text>2021120900</text>
     </stackversion>
     <questionvariables>
-      <text><![CDATA[exp: 2*x^2+y^2+3*x*y-3*y-5*x+8;
+      <text><![CDATA[/* This function has 1 saddle point */
+
+ordergreat(C,x,y)
+a1: rand([3,4,5]);     /*only these values for D>0*/
+C: rand([4,9,16, 25]);
+
+exp: -x^2-a1*x*y-y^2+C;
+
 partialx: diff(exp, x);
 partialy: diff(exp, y);
 a:solve(partialx = 0, x);
 b:solve(partialy = 0, y);
-tacoords1:matrix([-1, 3]); 
+tacoords1:matrix([0, 0]);
 ta1: [["local minimum", false], ["local maximum", false], ["saddle point", true]];
 
 /* Calclulate second derivatives and D*/
@@ -57,7 +64,7 @@ D: f_xx*f_yy-(f_xy)^2;]]></text>
       <text/>
     </specificfeedback>
     <questionnote format="moodle_auto_format">
-      <text>{{@tacoords1@}, {@ta1@}}</text>
+      <text>\(f= {@exp@} \) so {{@tacoords1@} is local max, D={@D@}</text>
     </questionnote>
     <questiondescription format="moodle_auto_format">
       <text/>
@@ -165,10 +172,19 @@ D: f_xx*f_yy-(f_xy)^2;]]></text>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt2-2-F</falseanswernote>
         <falsefeedback format="html">
-          <text><![CDATA[<p dir="ltr" style="text-align: left;">You found the correct stationary point, but not its correct nature.<br></p>]]></text>
+          <text><![CDATA[<p dir="ltr" style="text-align: left;">You found the correct stationary point, but not its correct nature.</p>]]></text>
         </falsefeedback>
       </node>
     </prt>
+    <deployedseed>1509773588</deployedseed>
+    <deployedseed>101462348</deployedseed>
+    <deployedseed>2026433507</deployedseed>
+    <deployedseed>1750915320</deployedseed>
+    <deployedseed>849092285</deployedseed>
+    <deployedseed>1453276725</deployedseed>
+    <deployedseed>1114380885</deployedseed>
+    <deployedseed>1096900366</deployedseed>
+    <deployedseed>1262349960</deployedseed>
     <qtest>
       <testcase>1</testcase>
       <description/>
@@ -192,7 +208,7 @@ D: f_xx*f_yy-(f_xy)^2;]]></text>
       <description/>
       <testinput>
         <name>ans1</name>
-        <value>ev(matrix([0, 0]),simp)</value>
+        <value>ev(matrix([1, 1]),simp)</value>
       </testinput>
       <testinput>
         <name>ans2</name>

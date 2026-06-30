@@ -2,7 +2,7 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
-## Version 4.13.0
+## Version 4.13.0 (2026062900)
 
 Released June 2026.
 

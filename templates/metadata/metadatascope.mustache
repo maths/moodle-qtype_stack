@@ -141,6 +141,12 @@
                 <i class="fa fa-pencil" aria-hidden="true"></i>
                 <span class="sr-only">Edit scope name</span>
             </button>
+            <button id="smd_scope_{{{firstProp}}}_delete" name="smd_delete" type="button"
+                    class="btn btn-link btn-sm smd-row-delete p-0 ms-1"
+                    title="{{#str}} delete {{/str}} {{#str}} scope, qtype_stack {{/str}}">
+                <i class="fa fa-trash" aria-hidden="true"></i>
+                <span class="sr-only">{{#str}} delete {{/str}} {{#str}} scope, qtype_stack {{/str}}</span>
+            </button>
             {{#input}}
                 <label class="sr-only" for="{{element.id}}">
                     {{#str}} scope, qtype_stack {{/str}}
@@ -148,12 +154,6 @@
                 {{> core_form/element-text-inline }}
             {{/input}}
         </div>
-        <button id="smd_scope_{{{firstProp}}}_delete" name="smd_delete" type="button"
-                class="btn btn-sm btn-outline-danger"
-                title="{{#str}} delete {{/str}} {{#str}} scope, qtype_stack {{/str}}">
-            <i class="fa fa-trash" aria-hidden="true"></i>
-            <span class="sr-only">{{#str}} delete {{/str}} {{#str}} scope, qtype_stack {{/str}}</span>
-        </button>
     </summary>
     <div class="smd-scope-body">
         <div class="row mb-1">

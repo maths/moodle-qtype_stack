@@ -1427,8 +1427,12 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
     opacity: 1;
 }
 .stack-metadata .smd-scope-name:has(input:focus) .smd-scope-name-text,
-.stack-metadata .smd-scope-name:has(input:focus) .smd-scope-pencil {
+.stack-metadata .smd-scope-name:has(input:focus) .smd-scope-pencil,
+.stack-metadata .smd-scope-name:has(input:focus) .smd-row-delete {
     display: none;
+}
+.stack-metadata .smd-scope-header:hover .smd-row-delete {
+    opacity: 0.45;
 }
 /* Allow text selection in the scope name input */
 .stack-metadata .smd-scope-card > summary input {
@@ -1511,6 +1515,21 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
 .stack-metadata .smd-section:has(.smd-author-row.editing) .smd-author-actions,
 .stack-metadata .smd-section:not(:has(.smd-author-row)) .smd-author-actions {
     display: flex;
+}
+
+/* --- Inline delete button (trash next to pencil in read mode) -------------- */
+.stack-metadata .smd-row-delete {
+    color: #dc3545;
+    opacity: 0;
+    transition: opacity 0.15s;
+    flex-shrink: 0;
+}
+.stack-metadata .smd-author-row:hover .smd-row-delete,
+.stack-metadata .smd-lang-row:hover .smd-row-delete {
+    opacity: 0.45;
+}
+.stack-metadata .smd-row-delete:hover {
+    opacity: 1 !important;
 }
 
 /* --- Add (+) icon buttons -------------------------------------------------- */

@@ -62,6 +62,10 @@ define([], function () {
         if (!variantsTable) {
             return;
         }
+        const variantsTableBody = variantsTable.tBodies[0];
+        if (!variantsTableBody) {
+            return;
+        }
         const sortableHeaders = variantsTable.querySelectorAll('.stack-sortable-header');
         const toggleVariantsButton = variantsTable.querySelector('.stack-toggle-variants-btn');
 
@@ -115,8 +119,7 @@ define([], function () {
             // Flip current direction.
             const isAsc = currentDirection !== 'asc';
             const direction = isAsc ? 1 : -1;
-            // Filters out header row.
-            const rows = Array.from(variantsTable.querySelectorAll('tr')).filter((row) => row.querySelector('td'));
+            const rows = Array.from(variantsTableBody.rows);
 
             rows.sort((a, b) => {
                 const av = getCellValue(a, columnIndex);
@@ -136,7 +139,7 @@ define([], function () {
                 return av.localeCompare(bv, undefined, { sensitivity: 'base' }) * direction;
             });
 
-            rows.forEach((row) => variantsTable.appendChild(row));
+            rows.forEach((row) => variantsTableBody.appendChild(row));
             setHeaderState(header, isAsc);
         }
 

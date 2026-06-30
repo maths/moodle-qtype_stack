@@ -1460,3 +1460,175 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
     margin: 0 !important;
     padding: 0 !important;
 }
+
+/* --- Author row: pencil-to-edit pattern ------------------------------------ */
+.stack-metadata .smd-author-display {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    min-width: 0;
+    font-size: 0.9rem;
+    font-weight: 400;
+}
+.stack-metadata .smd-author-display-text {
+    font-weight: 400;
+}
+.stack-metadata .smd-author-pencil {
+    color: #6c757d;
+    opacity: 0;
+    transition: opacity 0.15s;
+    flex-shrink: 0;
+}
+.stack-metadata .smd-author-pencil i {
+    pointer-events: none;
+}
+.stack-metadata .smd-author-row:hover .smd-author-pencil {
+    opacity: 0.6;
+}
+/* Edit fields hidden in read mode */
+.stack-metadata .smd-author-field {
+    display: none;
+}
+/* Edit mode: .editing class added by JS after making fields visible */
+.stack-metadata .smd-author-row.editing .smd-author-field {
+    display: block;
+}
+.stack-metadata .smd-author-row.editing .smd-author-display {
+    display: none;
+}
+/* Column headers: only shown when any author row is being edited */
+.stack-metadata .smd-author-col-headers {
+    display: none;
+}
+.stack-metadata .smd-section:has(.smd-author-row.editing) .smd-author-col-headers {
+    display: flex;
+    flex-wrap: wrap;
+}
+/* Add buttons: hidden when authors exist but none are being edited */
+.stack-metadata .smd-author-actions {
+    display: none;
+}
+.stack-metadata .smd-section:has(.smd-author-row.editing) .smd-author-actions,
+.stack-metadata .smd-section:not(:has(.smd-author-row)) .smd-author-actions {
+    display: flex;
+}
+
+/* --- Add (+) icon buttons -------------------------------------------------- */
+.stack-metadata .smd-add-btn {
+    width: 1.75rem;
+    height: 1.75rem;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50% !important;
+    flex-shrink: 0;
+}
+
+/* --- Language row: pencil-to-edit ------------------------------------------ */
+.stack-metadata .smd-lang-display {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.9rem;
+}
+.stack-metadata .smd-lang-display-text {
+    font-weight: 400;
+}
+.stack-metadata .smd-lang-pencil {
+    color: #6c757d;
+    opacity: 0;
+    transition: opacity 0.15s;
+    flex-shrink: 0;
+}
+.stack-metadata .smd-lang-pencil i {
+    pointer-events: none;
+}
+.stack-metadata .smd-lang-row:hover .smd-lang-pencil {
+    opacity: 0.6;
+}
+.stack-metadata .smd-lang-field {
+    display: none;
+}
+.stack-metadata .smd-lang-row.editing .smd-lang-field {
+    display: block;
+}
+.stack-metadata .smd-lang-row.editing .smd-lang-display {
+    display: none;
+}
+
+/* --- isPartOf: pencil-to-edit (CSS :has approach, no JS class needed) ------ */
+.stack-metadata .smd-ispartof-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+.stack-metadata .smd-ispartof-display-text {
+    font-size: 0.9rem;
+    font-weight: 400;
+}
+.stack-metadata .smd-ispartof-pencil {
+    color: #6c757d;
+    opacity: 0;
+    transition: opacity 0.15s;
+    flex-shrink: 0;
+}
+.stack-metadata .smd-ispartof-pencil i {
+    pointer-events: none;
+}
+.stack-metadata .smd-ispartof-wrap:hover .smd-ispartof-pencil {
+    opacity: 0.6;
+}
+.stack-metadata .smd-ispartof-wrap .fitem {
+    flex: 0 0 0 !important;
+    max-width: 0 !important;
+    max-height: 0 !important;
+    overflow: hidden;
+    opacity: 0;
+}
+.stack-metadata .smd-ispartof-wrap:has(input:focus) .fitem {
+    flex: 1 !important;
+    max-width: none !important;
+    max-height: none !important;
+    overflow: visible;
+    opacity: 1;
+}
+.stack-metadata .smd-ispartof-wrap:has(input:focus) .smd-ispartof-display-text,
+.stack-metadata .smd-ispartof-wrap:has(input:focus) .smd-ispartof-pencil {
+    display: none;
+}
+
+/* --- License: pencil-to-edit (.editing class via JS for autocomplete) ------ */
+.stack-metadata .smd-license-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    flex-wrap: wrap;
+}
+.stack-metadata .smd-license-display-text {
+    font-size: 0.9rem;
+    font-weight: 400;
+}
+.stack-metadata .smd-license-pencil {
+    color: #6c757d;
+    opacity: 0;
+    transition: opacity 0.15s;
+    flex-shrink: 0;
+}
+.stack-metadata .smd-license-pencil i {
+    pointer-events: none;
+}
+.stack-metadata .smd-license-wrap:hover .smd-license-pencil {
+    opacity: 0.6;
+}
+.stack-metadata .smd-license-wrap .fitem {
+    display: none;
+}
+.stack-metadata .smd-license-wrap.editing .fitem {
+    display: block;
+    width: 100%;
+}
+.stack-metadata .smd-license-wrap.editing .smd-license-display-text,
+.stack-metadata .smd-license-wrap.editing .smd-license-pencil {
+    display: none;
+}

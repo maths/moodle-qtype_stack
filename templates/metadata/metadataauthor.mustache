@@ -58,8 +58,18 @@
             "id": "1"
         }
 }}
-<div class="row align-items-center mb-2" id="qtype-stack-metadata-author-{{{id}}}">
-    <div class="col-3 inputcol">
+<div class="row align-items-center mb-2 smd-author-row" id="qtype-stack-metadata-author-{{{id}}}">
+    {{! Read mode: compact one-line display + pencil }}
+    <div class="col smd-author-display">
+        <span class="smd-author-display-text">{{firstname.element.value}} {{lastname.element.value}}{{#institution.element.value}}, {{institution.element.value}}{{/institution.element.value}}{{#year.element.value}} ({{year.element.value}}){{/year.element.value}}</span>
+        <button type="button" class="btn btn-link btn-sm smd-author-pencil p-0 ms-1"
+                title="Edit author">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+            <span class="sr-only">Edit author</span>
+        </button>
+    </div>
+    {{! Edit mode: four input columns }}
+    <div class="col-3 inputcol smd-author-field">
         {{#firstname}}
             <label class="sr-only" for="{{element.id}}">
                 {{#str}} firstname, qtype_stack {{/str}}
@@ -67,7 +77,7 @@
             {{> core_form/element-text-inline }}
         {{/firstname}}
     </div>
-    <div class="col-3 inputcol">
+    <div class="col-3 inputcol smd-author-field">
         {{#lastname}}
             <label class="sr-only" for="{{element.id}}">
                 {{#str}} lastname, qtype_stack {{/str}}
@@ -75,7 +85,7 @@
             {{> core_form/element-text-inline }}
         {{/lastname}}
     </div>
-    <div class="col-3 inputcol">
+    <div class="col-3 inputcol smd-author-field">
         {{#institution}}
             <label class="sr-only" for="{{element.id}}">
                 {{#str}} institution, qtype_stack {{/str}}
@@ -83,7 +93,7 @@
             {{> core_form/element-text-inline }}
         {{/institution}}
     </div>
-    <div class="col-1 inputcol">
+    <div class="col-1 inputcol smd-author-field">
         {{#year}}
             <label class="sr-only" for="{{element.id}}">
                 {{#str}} year, qtype_stack {{/str}}

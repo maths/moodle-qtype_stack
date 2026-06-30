@@ -341,7 +341,7 @@
     <div class="smd-section">
         <div class="smd-section-label">{{#str}} author, qtype_stack {{/str}}</div>
         {{#author.0}}
-        <div class="row mb-1">
+        <div class="row mb-1 smd-author-col-headers">
             <div class="col-3"><span class="smd-col-label">{{#str}} firstname, qtype_stack {{/str}}</span></div>
             <div class="col-3"><span class="smd-col-label">{{#str}} lastname, qtype_stack {{/str}}</span></div>
             <div class="col-3"><span class="smd-col-label">{{#str}} institution, qtype_stack {{/str}}</span></div>
@@ -351,12 +351,16 @@
         {{#author}}
             {{>qtype_stack/metadata/metadataauthor}}
         {{/author}}
-        <div class="d-flex gap-2 mt-2">
-            <button class="btn btn-sm btn-outline-secondary" type="button" name="smd_add" id="smd_author_0_add">
-                {{#str}} addauthor, qtype_stack {{/str}}
+        <div class="d-flex gap-2 mt-2 smd-author-actions">
+            <button class="btn btn-sm btn-outline-secondary smd-add-btn" type="button" name="smd_add"
+                    id="smd_author_0_add" title="{{#str}} addauthor, qtype_stack {{/str}}">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+                <span class="sr-only">{{#str}} addauthor, qtype_stack {{/str}}</span>
             </button>
-            <button class="btn btn-sm btn-outline-secondary" type="button" id="stack-metadata-make-author">
-                {{#str}} makemeauthor, qtype_stack {{/str}}
+            <button class="btn btn-sm btn-outline-secondary smd-add-btn" type="button"
+                    id="stack-metadata-make-author" title="{{#str}} makemeauthor, qtype_stack {{/str}}">
+                <i class="fa fa-user-plus" aria-hidden="true"></i>
+                <span class="sr-only">{{#str}} makemeauthor, qtype_stack {{/str}}</span>
             </button>
         </div>
     </div>
@@ -368,8 +372,10 @@
             {{>qtype_stack/metadata/metadatalanguage}}
         {{/language}}
         <div class="mt-2">
-            <button type="button" class="btn btn-sm btn-outline-secondary" name="smd_add" id="smd_language_0_add">
-                {{#str}} addlanguage, qtype_stack {{/str}}
+            <button type="button" class="btn btn-sm btn-outline-secondary smd-add-btn" name="smd_add"
+                    id="smd_language_0_add" title="{{#str}} addlanguage, qtype_stack {{/str}}">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+                <span class="sr-only">{{#str}} addlanguage, qtype_stack {{/str}}</span>
             </button>
         </div>
     </div>
@@ -379,17 +385,33 @@
         <div class="row">
             <div class="col-md-7">
                 <div class="smd-section-label">{{#str}} license {{/str}}</div>
-                {{#license}}
-                    <label class="sr-only" for="{{element.id}}">{{#str}} license {{/str}}</label>
-                    {{> core_form/element-autocomplete-inline}}
-                {{/license}}
+                <div class="smd-license-wrap">
+                    <span class="smd-license-display-text">{{#license.element.options}}{{#selected}}{{text}}{{/selected}}{{/license.element.options}}</span>
+                    <button type="button" class="btn btn-link btn-sm smd-license-pencil p-0 ms-1"
+                            title="{{#str}} license {{/str}}">
+                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                        <span class="sr-only">{{#str}} license {{/str}}</span>
+                    </button>
+                    {{#license}}
+                        <label class="sr-only" for="{{element.id}}">{{#str}} license {{/str}}</label>
+                        {{> core_form/element-autocomplete-inline}}
+                    {{/license}}
+                </div>
             </div>
             <div class="col-md-5">
                 <div class="smd-section-label">{{#str}} ispartof, qtype_stack {{/str}}</div>
-                {{#isPartOf}}
-                    <label class="sr-only" for="{{element.id}}">{{#str}} ispartof, qtype_stack {{/str}}</label>
-                    {{> core_form/element-text-inline}}
-                {{/isPartOf}}
+                <div class="smd-ispartof-wrap">
+                    <span class="smd-ispartof-display-text">{{isPartOf.element.value}}</span>
+                    <button type="button" class="btn btn-link btn-sm smd-ispartof-pencil p-0 ms-1"
+                            title="{{#str}} ispartof, qtype_stack {{/str}}">
+                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                        <span class="sr-only">{{#str}} ispartof, qtype_stack {{/str}}</span>
+                    </button>
+                    {{#isPartOf}}
+                        <label class="sr-only" for="{{element.id}}">{{#str}} ispartof, qtype_stack {{/str}}</label>
+                        {{> core_form/element-text-inline}}
+                    {{/isPartOf}}
+                </div>
             </div>
         </div>
     </div>
@@ -401,8 +423,10 @@
             {{>qtype_stack/metadata/metadatascope}}
         {{/scope}}
         <div class="mt-2">
-            <button type="button" class="btn btn-sm btn-outline-secondary" name="smd_add" id="smd_scope_0_add">
-                {{#str}} addscope, qtype_stack {{/str}}
+            <button type="button" class="btn btn-sm btn-outline-secondary smd-add-btn" name="smd_add"
+                    id="smd_scope_0_add" title="{{#str}} addscope, qtype_stack {{/str}}">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+                <span class="sr-only">{{#str}} addscope, qtype_stack {{/str}}</span>
             </button>
         </div>
     </div>
@@ -524,4 +548,155 @@ if (!document._stackScopeEditInit) {
         }
     });
 }());
+
+// Author row pencil edit (listeners added once per page load).
+if (!document._stackAuthorEditInit) {
+    document._stackAuthorEditInit = true;
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.smd-author-pencil')) {
+            var row = e.target.closest('.smd-author-row');
+            if (row) {
+                row.classList.add('editing');
+                var first = row.querySelector('.smd-author-field input');
+                if (first) { first.focus({preventScroll: true}); first.select(); }
+            }
+        }
+    });
+    document.addEventListener('focusout', function(e) {
+        if (!e.target.matches || !e.target.matches('.smd-author-row input')) { return; }
+        var row = e.target.closest('.smd-author-row');
+        if (!row) { return; }
+        setTimeout(function() {
+            if (row.querySelector('input:focus')) { return; }
+            row.classList.remove('editing');
+            var f = row.querySelectorAll('.smd-author-field input');
+            var name = [f[0] && f[0].value.trim(), f[1] && f[1].value.trim()].filter(Boolean).join(' ');
+            var parts = [];
+            if (name) { parts.push(name); }
+            if (f[2] && f[2].value.trim()) { parts.push(f[2].value.trim()); }
+            if (f[3] && f[3].value.trim()) { parts.push('(' + f[3].value.trim() + ')'); }
+            var span = row.querySelector('.smd-author-display-text');
+            if (span) { span.textContent = parts.join(', '); }
+        }, 0);
+    });
+}
+
+// Auto-focus newly added author rows (all fields empty).
+(function() {
+    document.querySelectorAll('.smd-author-row').forEach(function(row) {
+        var inputs = row.querySelectorAll('.smd-author-field input');
+        var allEmpty = Array.from(inputs).every(function(i) { return !i.value.trim(); });
+        if (allEmpty && inputs[0]) {
+            row.classList.add('editing');
+            setTimeout(function() { inputs[0].focus({preventScroll: true}); }, 50);
+        }
+    });
+}());
+
+// Language row pencil edit.
+if (!document._stackLangEditInit) {
+    document._stackLangEditInit = true;
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.smd-lang-pencil')) {
+            var row = e.target.closest('.smd-lang-row');
+            if (row) {
+                row.classList.add('editing');
+                var inp = row.querySelector('.smd-lang-field input');
+                if (inp) { inp.focus({preventScroll: true}); inp.select(); }
+            }
+        }
+    });
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && e.target.matches && e.target.matches('.smd-lang-row input')) {
+            e.preventDefault();
+            e.target.blur();
+        }
+    });
+    document.addEventListener('focusout', function(e) {
+        if (!e.target.matches || !e.target.matches('.smd-lang-row input')) { return; }
+        var row = e.target.closest('.smd-lang-row');
+        if (!row) { return; }
+        row.classList.remove('editing');
+        var inp = row.querySelector('.smd-lang-field input');
+        var span = row.querySelector('.smd-lang-display-text');
+        if (span && inp) { span.textContent = inp.value; }
+    });
+}
+
+// Auto-focus newly added language rows.
+(function() {
+    document.querySelectorAll('.smd-lang-row').forEach(function(row) {
+        var inp = row.querySelector('.smd-lang-field input');
+        if (inp && !inp.value.trim()) {
+            row.classList.add('editing');
+            setTimeout(function() { inp.focus({preventScroll: true}); }, 50);
+        }
+    });
+}());
+
+// isPartOf inline edit (CSS :has(input:focus) handles show/hide; JS handles pencil + confirm).
+if (!document._stackIsPartOfEditInit) {
+    document._stackIsPartOfEditInit = true;
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.smd-ispartof-pencil')) {
+            var wrap = e.target.closest('.smd-ispartof-wrap');
+            if (wrap) {
+                var inp = wrap.querySelector('input');
+                if (inp) { inp.focus({preventScroll: true}); inp.select(); }
+            }
+        }
+    });
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && e.target.matches && e.target.matches('.smd-ispartof-wrap input')) {
+            e.preventDefault();
+            e.target.blur();
+        }
+    });
+    document.addEventListener('focusout', function(e) {
+        if (!e.target.matches || !e.target.matches('.smd-ispartof-wrap input')) { return; }
+        var wrap = e.target.closest('.smd-ispartof-wrap');
+        if (!wrap) { return; }
+        var inp = wrap.querySelector('input');
+        var span = wrap.querySelector('.smd-ispartof-display-text');
+        if (span && inp) { span.textContent = inp.value; }
+    });
+}
+
+// License pencil edit (autocomplete: show via .editing class, close on change or focusout).
+if (!document._stackLicenseEditInit) {
+    document._stackLicenseEditInit = true;
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.smd-license-pencil')) {
+            var wrap = e.target.closest('.smd-license-wrap');
+            if (wrap) {
+                wrap.classList.add('editing');
+                var inp = wrap.querySelector('input[type="text"]');
+                if (inp) { setTimeout(function() { inp.focus(); inp.select(); }, 20); }
+            }
+        }
+    });
+    // Read from hidden <select> — reliable even if the visible input resets.
+    document.addEventListener('change', function(e) {
+        var wrap = e.target.closest && e.target.closest('.smd-license-wrap');
+        if (!wrap || !wrap.classList.contains('editing')) { return; }
+        setTimeout(function() {
+            if (!wrap.classList.contains('editing')) { return; }
+            var sel = wrap.querySelector('select');
+            var text = sel && sel.options[sel.selectedIndex] ? sel.options[sel.selectedIndex].text : '';
+            var span = wrap.querySelector('.smd-license-display-text');
+            if (span && text) { span.textContent = text; }
+            wrap.classList.remove('editing');
+        }, 100);
+    });
+    // Fallback: close if focus leaves without a selection change.
+    document.addEventListener('focusout', function(e) {
+        var wrap = e.target.closest && e.target.closest('.smd-license-wrap');
+        if (!wrap || !wrap.classList.contains('editing')) { return; }
+        setTimeout(function() {
+            if (!wrap.classList.contains('editing')) { return; } // change handler already closed
+            if (wrap.contains(document.activeElement)) { return; }
+            wrap.classList.remove('editing');
+        }, 400);
+    });
+}
 {{/js}}

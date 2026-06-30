@@ -188,6 +188,7 @@ class qtype_stack_edit_form extends question_edit_form {
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function definition() {
+        global $PAGE;
         parent::definition();
         $mform = $this->_form;
         if (method_exists('MoodleQuickForm', 'set_sticky_footer')) {
@@ -216,6 +217,13 @@ class qtype_stack_edit_form extends question_edit_form {
         $closebeforebuttonarr = array_search('buttonar', $mform->defaultRenderer()->_stopFieldsetElements);
         if ($closebeforebuttonarr !== false) {
             unset($mform->defaultRenderer()->_stopFieldsetElements[$closebeforebuttonarr]);
+        }
+        // Disable ace editor when running behat.
+        if (!defined('BEHAT_SITE_RUNNING')) {
+            $PAGE->requires->js_call_amd(
+                'qtype_stack/ace_editor',
+                'init'
+            );
         }
     }
 
@@ -286,7 +294,11 @@ class qtype_stack_edit_form extends question_edit_form {
             'textarea',
             'questionvariables',
             stack_string('questionvariables'),
-            ['rows' => 5, 'cols' => 80]
+            [
+                'rows' => 5,
+                'cols' => 80,
+                'data-ace' => '1',
+            ]
         );
         $mform->insertElementBefore($qvars, 'questiontext');
         $mform->addHelpButton('questionvariables', 'questionvariables', 'qtype_stack');
@@ -832,7 +844,11 @@ class qtype_stack_edit_form extends question_edit_form {
             'textarea',
             $prtname . 'feedbackvariables',
             stack_string('feedbackvariables'),
-            ['rows' => 4, 'cols' => 80]
+            [
+                'rows' => 4,
+                'cols' => 80,
+                'data-ace' => '1',
+            ]
         );
         $mform->addHelpButton($prtname . 'feedbackvariables', 'feedbackvariables', 'qtype_stack');
 

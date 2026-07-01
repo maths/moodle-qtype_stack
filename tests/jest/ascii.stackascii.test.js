@@ -151,7 +151,6 @@ describe('stackascii init', () => {
             configurable: true
         });
         global.FRAME_ID = 'frame-1';
-        jest.spyOn(Date, 'now').mockReturnValue(1000);
     });
 
     afterEach(() => {
@@ -164,7 +163,6 @@ describe('stackascii init', () => {
         delete global.setTimeout;
         delete global.clearTimeout;
         delete global.FRAME_ID;
-        jest.restoreAllMocks();
     });
 
     test('runs filters and extractors, updates output, and dispatches change', () => {
@@ -274,7 +272,7 @@ describe('stackascii init', () => {
         expect(env.output.innerHTML).toBe('MD:gamma');
     });
 
-    test('registers scroll sync, applies inbound scroll positions, and publishes outbound scrolling', () => {
+    test('registers one-way scroll sync and applies inbound scroll positions', () => {
         const env = setupEnvironment('delta', 0);
         env.output.scrollHeight = 300;
         env.output.clientHeight = 100;
@@ -302,24 +300,12 @@ describe('stackascii init', () => {
         expect(env.output.scrollTop).toBe(100);
 
         window.parent.postMessage.mockClear();
-        env.output.listeners.scroll();
+        expect(env.output.listeners.scroll).toBeUndefined();
+        env.output.scrollTop = 150;
 
         expect(window.parent.postMessage).not.toHaveBeenCalled();
-        expect(env.output.scrollTop).toBe(100);
+        expect(env.output.scrollTop).toBe(150);
 
-        env.output.listeners.wheel();
-        env.output.scrollTop = 150;
-        env.output.listeners.scroll();
-
-        expect(window.parent.postMessage).toHaveBeenCalledWith(JSON.stringify({
-            version: 'STACK-JS:1.6.0',
-            type: 'set-input-scroll',
-            name: 'markdownInput',
-            position: 0.75,
-            src: 'frame-1'
-        }), '*');
-
-        Date.now.mockReturnValue(3000);
         window.dispatchEvent(new MessageEvent('message', {
             data: JSON.stringify({
                 version: 'STACK-JS:1.6.0',
@@ -331,31 +317,6 @@ describe('stackascii init', () => {
         }));
 
         expect(env.output.scrollTop).toBe(50);
-    });
-
-    test('non-manual output scrolling is reset back to the textarea position', () => {
-        const env = setupEnvironment('zeta', 0);
-        env.output.scrollHeight = 300;
-        env.output.clientHeight = 100;
-
-        init(['markdownInput'], []);
-
-        window.dispatchEvent(new MessageEvent('message', {
-            data: JSON.stringify({
-                version: 'STACK-JS:1.6.0',
-                type: 'input-scroll-position',
-                name: 'markdownInput',
-                position: 0.5,
-                tgt: 'frame-1'
-            })
-        }));
-
-        window.parent.postMessage.mockClear();
-        env.output.scrollTop = 60;
-        env.output.listeners.scroll();
-
-        expect(window.parent.postMessage).not.toHaveBeenCalled();
-        expect(env.output.scrollTop).toBe(100);
     });
 
     test('reapplies synced scroll position after MathJax 2 queue typesetting changes height', () => {

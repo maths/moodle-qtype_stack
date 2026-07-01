@@ -621,7 +621,7 @@ describe('mobile/stack.js', () => {
         expect(responseToOther.value).toBe('from-frame');
     });
 
-    test('scroll sync tracks textarea scrolling without bouncing programmatic updates', async() => {
+    test('scroll sync tracks textarea scrolling', async() => {
         const {postMessageByFrame, sendMessage, latestResponse} = await setupMessageHarness(['iframe-1', 'iframe-2']);
         const textarea = document.querySelector('#q1 textarea[name="pfxtxt"]');
         setScrollMetrics(textarea, {scrollTop: 30, scrollHeight: 220, clientHeight: 100});
@@ -650,25 +650,6 @@ describe('mobile/stack.js', () => {
 
         expect(latestResponse('iframe-1').position).toBeCloseTo(0.5);
         expect(latestResponse('iframe-2').position).toBeCloseTo(0.5);
-
-        postMessageByFrame['iframe-1'].mockClear();
-        postMessageByFrame['iframe-2'].mockClear();
-
-        sendMessage({
-            version: 'STACK-JS:1.6.0',
-            src: 'iframe-1',
-            type: 'set-input-scroll',
-            name: 'txt',
-            position: 0.75,
-        });
-
-        expect(textarea.scrollTop).toBe(90);
-        expect(postMessageByFrame['iframe-1']).not.toHaveBeenCalled();
-        expect(latestResponse('iframe-2').position).toBeCloseTo(0.75);
-
-        postMessageByFrame['iframe-2'].mockClear();
-        textarea.dispatchEvent(new Event('scroll'));
-        expect(postMessageByFrame['iframe-2']).not.toHaveBeenCalled();
     });
 
     test('clear-input and submit button commands operate through message API', async() => {

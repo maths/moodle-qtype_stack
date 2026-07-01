@@ -321,45 +321,6 @@ describe('api/public/stackjsvle.js', () => {
         expect(response2.position).toBeCloseTo(0.5);
     });
 
-    test('set-input-scroll updates textarea scroll and notifies other listeners', () => {
-        const textarea = document.getElementById('input_txt');
-        setScrollMetrics(textarea, {scrollTop: 0, scrollHeight: 300, clientHeight: 100});
-
-        sendMessage({
-            version: 'STACK-JS:1.6.0',
-            src: 'iframe-1',
-            type: 'track-input-scroll',
-            name: 'txt',
-        });
-        sendMessage({
-            version: 'STACK-JS:1.6.0',
-            src: 'iframe-2',
-            type: 'track-input-scroll',
-            name: 'txt',
-        });
-
-        postMessageByFrame['iframe-1'].mockClear();
-        postMessageByFrame['iframe-2'].mockClear();
-
-        sendMessage({
-            version: 'STACK-JS:1.6.0',
-            src: 'iframe-1',
-            type: 'set-input-scroll',
-            name: 'txt',
-            position: 0.75,
-        });
-
-        expect(textarea.scrollTop).toBe(150);
-        expect(postMessageByFrame['iframe-1']).not.toHaveBeenCalled();
-        const response = expectLatestResponse('iframe-2');
-        expect(response.type).toBe('input-scroll-position');
-        expect(response.position).toBeCloseTo(0.75);
-
-        postMessageByFrame['iframe-2'].mockClear();
-        textarea.dispatchEvent(new Event('scroll'));
-        expect(postMessageByFrame['iframe-2']).not.toHaveBeenCalled();
-    });
-
     test('track-validation-state forwards stack-validation events', () => {
         sendMessage({
             version: 'STACK-JS:1.5.0',

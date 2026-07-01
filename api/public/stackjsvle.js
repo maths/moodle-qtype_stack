@@ -62,12 +62,6 @@
     /* For scroll synchronisation, lists of IFRAMES listening particular inputs. */
     let INPUTS_SCROLL_EVENT = {};
 
-    /* Last known scroll positions for synced inputs. */
-    let INPUTS_SCROLL_POSITION = {};
-
-    /* Track programmatic scroll targets so intermediate scroll events can be ignored. */
-    let SUPPRESSED_SCROLL_POSITION = {};
-
     /**
      * Returns an element with a given id, if an only if that element exists
      * inside a portion of DOM that represents a question or its feedback.
@@ -266,20 +260,6 @@
     }
 
     /**
-     * Clamp a scroll position ratio into the supported 0..1 range.
-     *
-     * @param {number|string} position fractional scroll position.
-     * @return {number} a safe position ratio.
-     */
-    function clamp_scroll_position(position) {
-        const numeric = Number(position);
-        if (!Number.isFinite(numeric)) {
-            return 0;
-        }
-        return Math.min(1, Math.max(0, numeric));
-    }
-
-    /**
      * Return the current fractional scroll position for an input.
      *
      * @param {HTMLElement} inputelement element to inspect.
@@ -294,76 +274,17 @@
     }
 
     /**
-     * Return the distance in pixels between two fractional scroll positions.
-     *
-     * @param {HTMLElement} inputelement element being compared.
-     * @param {number|string} left first scroll ratio.
-     * @param {number|string} right second scroll ratio.
-     * @return {number} pixel distance between the two positions.
-     */
-    function vle_scroll_distance(inputelement, left, right) {
-        const maxscroll = inputelement.scrollHeight - inputelement.clientHeight;
-        if (maxscroll <= 0) {
-            return 0;
-        }
-        return Math.abs((clamp_scroll_position(left) - clamp_scroll_position(right)) * maxscroll);
-    }
-
-    /**
-     * Update an element scroll position from a 0..1 ratio.
-     *
-     * @param {HTMLElement} inputelement element to update.
-     * @param {number|string} position fractional scroll position.
-     * @return {number} the clamped position that was applied.
-     */
-    function vle_set_scroll_position(inputelement, position) {
-        const clampedposition = clamp_scroll_position(position);
-        const maxscroll = inputelement.scrollHeight - inputelement.clientHeight;
-        const previousscrollbehavior = inputelement.style ? inputelement.style.scrollBehavior : null;
-        if (inputelement.style) {
-            inputelement.style.scrollBehavior = 'auto';
-        }
-        if (maxscroll <= 0) {
-            inputelement.scrollTop = 0;
-            if (inputelement.style) {
-                inputelement.style.scrollBehavior = previousscrollbehavior;
-            }
-            return clampedposition;
-        }
-        inputelement.scrollTop = clampedposition * maxscroll;
-        if (inputelement.style) {
-            inputelement.style.scrollBehavior = previousscrollbehavior;
-        }
-        return clampedposition;
-    }
-
-    /**
-     * Determine whether two scroll positions are effectively the same.
-     *
-     * @param {HTMLElement} inputelement element being compared.
-     * @param {number|string} left first scroll ratio.
-     * @param {number|string} right second scroll ratio.
-     * @return {boolean} true when the positions are within a couple of pixels.
-     */
-    function vle_scroll_positions_match(inputelement, left, right) {
-        return vle_scroll_distance(inputelement, left, right) < 2;
-    }
-
-    /**
      * Broadcast the current input scroll position to every subscribed iframe.
      *
      * @param {HTMLElement} inputelement element being synced.
      * @param {String} inputname logical STACK input name.
      * @param {?String} skipframe iframe id to skip when broadcasting.
-     * @param {?number} position optional already-computed scroll position.
      */
-    function vle_sync_scroll_listeners(inputelement, inputname, skipframe, position) {
+    function vle_sync_scroll_listeners(inputelement, inputname, skipframe) {
         if (!(inputelement.id in INPUTS_SCROLL_EVENT)) {
             return;
         }
-        const scrollposition = (position === undefined) ? vle_get_scroll_position(inputelement) :
-            clamp_scroll_position(position);
-        INPUTS_SCROLL_POSITION[inputelement.id] = scrollposition;
+        const scrollposition = vle_get_scroll_position(inputelement);
         let response = {
             version: 'STACK-JS:1.6.0',
             type: 'input-scroll-position',
@@ -679,7 +600,6 @@
             response.name = msg.name;
             response.tgt = msg.src;
             response.position = vle_get_scroll_position(input);
-            INPUTS_SCROLL_POSITION[input.id] = response.position;
 
             if (input.id in INPUTS_SCROLL_EVENT) {
                 if (!(msg.src in INPUTS_SCROLL_EVENT[input.id])) {
@@ -688,26 +608,7 @@
             } else {
                 INPUTS_SCROLL_EVENT[input.id] = [msg.src];
                 input.addEventListener('scroll', () => {
-                    const scrollposition = vle_get_scroll_position(input);
-                    if (input.id in SUPPRESSED_SCROLL_POSITION) {
-                        const suppressed = SUPPRESSED_SCROLL_POSITION[input.id];
-                        const distance = vle_scroll_distance(input, scrollposition, suppressed.position);
-                        if (distance < 2) {
-                            INPUTS_SCROLL_POSITION[input.id] = scrollposition;
-                            delete SUPPRESSED_SCROLL_POSITION[input.id];
-                            return;
-                        }
-                        if (distance <= suppressed.distance + 0.5) {
-                            suppressed.distance = distance;
-                            return;
-                        }
-                        delete SUPPRESSED_SCROLL_POSITION[input.id];
-                    }
-                    if (input.id in INPUTS_SCROLL_POSITION &&
-                        vle_scroll_positions_match(input, scrollposition, INPUTS_SCROLL_POSITION[input.id])) {
-                        return;
-                    }
-                    vle_sync_scroll_listeners(input, msg.name, null, scrollposition);
+                    vle_sync_scroll_listeners(input, msg.name, null);
                 });
             }
 
@@ -789,37 +690,7 @@
                     });
                 }
             }
-
             break;
-        case 'set-input-scroll': {
-            input = vle_get_input_element(msg.name, msg.src, !msg['limit-to-question']);
-
-            if (input === null) {
-                response.type = 'error';
-                response.msg = 'Failed to connect to input: "' + msg.name + '"';
-                response.tgt = msg.src;
-                IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(response), '*');
-                return;
-            }
-
-            const appliedposition = vle_set_scroll_position(input, msg.position);
-            SUPPRESSED_SCROLL_POSITION[input.id] = {
-                position: appliedposition,
-                distance: vle_scroll_distance(
-                    input,
-                    vle_get_scroll_position(input),
-                    appliedposition
-                )
-            };
-            INPUTS_SCROLL_POSITION[input.id] = appliedposition;
-            vle_sync_scroll_listeners(
-                input,
-                msg.name,
-                msg.src,
-                appliedposition
-            );
-            break;
-        }
         case 'changed-input':
             // 1. Find the input.
             input = vle_get_input_element(msg.name, msg.src);

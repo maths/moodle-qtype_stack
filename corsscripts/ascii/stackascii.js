@@ -208,41 +208,10 @@ function clampScrollPosition(position) {
 }
 
 /**
- * Convert an element's current scrollTop into a 0..1 ratio.
- *
- * @param {HTMLElement} element scrollable element being inspected.
- * @return {number} fractional scroll position.
- */
-function getScrollPosition(element) {
-    const maxScroll = element.scrollHeight - element.clientHeight;
-    if (maxScroll <= 0) {
-        return 0;
-    }
-    return element.scrollTop / maxScroll;
-}
-
-/**
- * Measure the pixel distance between two scroll ratios for one element.
- *
- * @param {HTMLElement} element scrollable element being compared.
- * @param {number|string} left first scroll ratio.
- * @param {number|string} right second scroll ratio.
- * @return {number} distance in pixels.
- */
-function scrollDistance(element, left, right) {
-    const maxScroll = element.scrollHeight - element.clientHeight;
-    if (maxScroll <= 0) {
-        return 0;
-    }
-    return Math.abs((clampScrollPosition(left) - clampScrollPosition(right)) * maxScroll);
-}
-
-/**
  * Apply a fractional scroll position to an element.
  *
  * Sync updates temporarily force `scroll-behavior:auto` so CSS smooth scrolling
- * does not generate a stream of intermediate positions that feed back into the
- * other side of the sync.
+ * does not animate the programmatic jump to the textarea's latest position.
  *
  * @param {HTMLElement} element scrollable element to update.
  * @param {number|string} position fractional scroll position.
@@ -272,9 +241,8 @@ function setScrollPosition(element, position) {
 /**
  * Create the textarea/output scroll synchronisation controller for one ASCII block.
  *
- * The textarea is the source of truth. Incoming iframe messages update the ASCII
- * output, and manual scrolling in the output sends the new position back to the
- * parent so the freetext input can follow.
+ * The textarea is the only source of truth. Incoming iframe messages update the
+ * ASCII output, but scrolling the ASCII output does not send anything back.
  *
  * @param {string} sourceInputId DOM id of the linked freetext input.
  * @param {HTMLElement} output rendered ASCII output container.
@@ -287,63 +255,10 @@ function createAsciiScrollSync(sourceInputId, output, frameId) {
     }
 
     let syncedScrollPosition = 0;
-    let suppressedOutputScrollPosition = null;
-    let manualOutputScrollUntil = 0;
-    const MANUAL_SCROLL_OWNERSHIP_MS = 1000;
-    const SCROLL_MATCH_TOLERANCE_PX = 2;
-    const SCROLL_PROGRESS_TOLERANCE_PX = 0.5;
-
-    /**
-     * Mark the output as being under direct user control for a short period so
-     * the following scroll events can drive the textarea instead of being
-     * treated as layout noise.
-     */
-    const markManualOutputScroll = () => {
-        manualOutputScrollUntil = Date.now() + MANUAL_SCROLL_OWNERSHIP_MS;
-    };
-
-    const hasManualOutputScrollOwnership = () => manualOutputScrollUntil > Date.now();
-
-    const suppressOutputScrollAtPosition = (position) => {
-        suppressedOutputScrollPosition = {
-            // Ignore the next output scroll event while the element settles on
-            // this programmatically applied target position.
-            position,
-            distance: scrollDistance(output, getScrollPosition(output), position)
-        };
-    };
-
-    const shouldIgnoreSuppressedOutputScroll = (outputScrollPosition) => {
-        if (suppressedOutputScrollPosition === null) {
-            return false;
-        }
-
-        const distance = scrollDistance(output, outputScrollPosition, suppressedOutputScrollPosition.position);
-        if (distance < SCROLL_MATCH_TOLERANCE_PX) {
-            syncedScrollPosition = outputScrollPosition;
-            suppressedOutputScrollPosition = null;
-            return true;
-        }
-        if (distance <= suppressedOutputScrollPosition.distance + SCROLL_PROGRESS_TOLERANCE_PX) {
-            // Smooth scrolling or layout changes may emit several intermediate
-            // events while moving towards the requested position.
-            suppressedOutputScrollPosition.distance = distance;
-            return true;
-        }
-
-        suppressedOutputScrollPosition = null;
-        return false;
-    };
 
     const applySyncedScrollPosition = () => {
-        manualOutputScrollUntil = 0;
         syncedScrollPosition = setScrollPosition(output, syncedScrollPosition);
-        suppressOutputScrollAtPosition(syncedScrollPosition);
     };
-
-    ['wheel', 'keydown', 'touchstart', 'touchmove', 'pointerdown'].forEach((eventName) => {
-        output.addEventListener(eventName, markManualOutputScroll);
-    });
 
     window.addEventListener('message', (event) => {
         if (!(typeof event.data === 'string' || event.data instanceof String)) {
@@ -368,34 +283,7 @@ function createAsciiScrollSync(sourceInputId, output, frameId) {
         }
 
         syncedScrollPosition = clampScrollPosition(message.position);
-        if (hasManualOutputScrollOwnership()) {
-            return;
-        }
         applySyncedScrollPosition();
-    });
-
-    output.addEventListener('scroll', () => {
-        const outputScrollPosition = getScrollPosition(output);
-        if (shouldIgnoreSuppressedOutputScroll(outputScrollPosition)) {
-            return;
-        }
-        if (scrollDistance(output, outputScrollPosition, syncedScrollPosition) < SCROLL_MATCH_TOLERANCE_PX) {
-            return;
-        }
-        if (!hasManualOutputScrollOwnership()) {
-            applySyncedScrollPosition();
-            return;
-        }
-        markManualOutputScroll();
-        syncedScrollPosition = outputScrollPosition;
-        const message = {
-            version: 'STACK-JS:1.6.0',
-            type: 'set-input-scroll',
-            name: sourceInputId,
-            position: syncedScrollPosition,
-            src: frameId
-        };
-        window.parent.postMessage(JSON.stringify(message), '*');
     });
 
     return {

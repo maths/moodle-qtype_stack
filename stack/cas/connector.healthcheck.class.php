@@ -181,6 +181,12 @@ class stack_cas_healthcheck {
                 true
             );
             $this->output_cas_text(
+                'healthcheckfreetext',
+                stack_string('healthcheckfreetextintro'),
+                get_string('healthcheckfreetextsample', 'qtype_stack'),
+                true
+            );
+            $this->output_cas_text(
                 'healthcheckgeogebra',
                 stack_string('healthcheckgeogebraintro'),
                 get_string('healthcheckgeogebrasample', 'qtype_stack'),
@@ -301,7 +307,10 @@ class stack_cas_healthcheck {
         } else {
             // This content is goind to a secure output where we do not do the two phase
             // handlign the holder would want.
-            $test['details'] .= html_writer::tag('p', stack_ouput_castext($ct->apply_placeholder_holder($ct->get_rendered())));
+            $test['details'] .= html_writer::div(
+                stack_ouput_castext($ct->apply_placeholder_holder($ct->get_rendered())),
+                'healthcheck-castext'
+            );
         }
         $this->tests[] = $test;
     }

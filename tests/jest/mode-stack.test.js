@@ -83,4 +83,58 @@ describe('mode-stack.js Syntax Tokenizer', () => {
         const stringContent = tokens.filter(t => t.type === "string");
         expect(stringContent.length).toBeGreaterThan(0);
     });
+    test('Identifies Maxima mathematical constants and environment variables', () => {
+        const { tokens } = tokenizer.getLineTokens("%pi + %phi + inf + done;", "start");
+        expect(tokens.find(t => t.value === "%pi").type).toBe("constant.language");
+        expect(tokens.find(t => t.value === "%phi").type).toBe("constant.language");
+        expect(tokens.find(t => t.value === "inf").type).toBe("constant.language");
+        expect(tokens.find(t => t.value === "done").type).toBe("constant.language");
+
+        const { tokens: settingTokens } = tokenizer.getLineTokens("simp : false; fpprec : 16;", "start");
+        expect(settingTokens.find(t => t.value === "simp").type).toBe("variable.language");
+        expect(settingTokens.find(t => t.value === "fpprec").type).toBe("variable.language");
+    });
+
+    test('Identifies Maxima built-in functions when used as standalone identifiers', () => {
+        // When mapping functions as arguments without immediate evaluation parentheses:
+        const { tokens } = tokenizer.getLineTokens("diff linsolve determinant zeromatrix sin log sqrt", "start");
+
+        const types = tokens.filter(t => t.value.trim() !== "").map(t => t.type);
+        types.forEach(type => {
+            expect(type).toBe("support.function");
+        });
+    });
+
+    test('Distinguishes standalone functions from immediate function calls', () => {
+        const { tokens } = tokenizer.getLineTokens("map(integrate, [x]);", "start");
+
+        // 'map' is followed directly by an open parenthesis, triggering lookahead call tokenization
+        expect(tokens.find(t => t.value === "map").type).toBe("support.function.call");
+
+        // 'integrate' inside the array parameters passes to the plain keyword mapper fallback
+        expect(tokens.find(t => t.value === "integrate").type).toBe("support.function");
+    });
+
+    test('Identifies expanded control flow keywords and logical boolean operators', () => {
+        const { tokens } = tokenizer.getLineTokens("elseif thru step go and or not", "start");
+
+        expect(tokens.find(t => t.value === "elseif").type).toBe("keyword");
+        expect(tokens.find(t => t.value === "thru").type).toBe("keyword");
+        expect(tokens.find(t => t.value === "step").type).toBe("keyword");
+        expect(tokens.find(t => t.value === "go").type).toBe("keyword");
+
+        expect(tokens.find(t => t.value === "and").type).toBe("keyword.operator");
+        expect(tokens.find(t => t.value === "or").type).toBe("keyword.operator");
+        expect(tokens.find(t => t.value === "not").type).toBe("keyword.operator");
+    });
+
+    test('Processes line comments and tracks block comment state mutations', () => {
+        const lineResult = tokenizer.getLineTokens("// clear all math flags", "start");
+        expect(lineResult.tokens[0].type).toBe("comment.line");
+
+        // Verifies the structural state engine shifts safely when hitting multi-line tags
+        const blockResult = tokenizer.getLineTokens("/* processing multiline matrix block", "start");
+        expect(blockResult.tokens[0].type).toBe("comment.block");
+        expect(blockResult.state).toBe("comment");
+    });
 });

@@ -18,10 +18,10 @@ ace.define("ace/mode/stack", [
     // =========================
     const StackHighlightRules = function() {
 
-        // 1. Core Logic Keywords
+        // 1. Core Logic Keywords (Maxima)
         var keywords = [
             "if", "then", "else", "elseif", "do", "while", "for", "step",
-            "thru", "block", "return", "break", "continue"
+            "thru", "block", "return", "break", "continue", "go"
         ].join("|");
 
         // 2. Maxima + STACK Built-in Functions
@@ -33,32 +33,48 @@ ace.define("ace/mode/stack", [
             "castext", "tex", "disp", "display",
             // STACK Answer Tests
             "AlgEquiv", "CasEqual", "SubstEquiv", "SysEquiv", "FacForm",
-            // Base STACK Functions
+            // Maxima Base Functions (Evaluation & Manipulation)
             "at", "ev", "subst", "nounify", "unary", "binary", "part",
             "first", "rest", "append", "map", "float", "ratsimp", "expand",
-            "factor", "simplify", "fullratsimp", "int",
-            // Calculus
+            "factor", "simplify", "fullratsimp", "int", "rhs", "lhs",
+            // Maxima Calculus
             "diff", "integrate", "limit", "sum", "product", "taylor", "laplace", "ilt",
-            // Algebra
+            // Maxima Algebra & Matrices
             "solve", "linsolve", "algsys", "matrix", "determinant", "invert",
-            "transpose", "eigenvalues", "eigenvectors"
+            "transpose", "eigenvalues", "eigenvectors", "ident", "zeromatrix",
+            // Maxima Trigonometry & Math
+            "sin", "cos", "tan", "asin", "acos", "atan", "sinh", "cosh", "tanh",
+            "log", "exp", "sqrt", "abs", "max", "min", "signum", "mod"
         ].join("|");
 
-        // 3. Common STACK Question Variables & Nodes
+        // 3. Variables & Constants
         var stackVariables = [
+            // STACK PRT and Inputs
             "ans1", "ans2", "ans3", "ans4", "ans5",
             "prt1", "prt2", "prt3", "prt4", "prt5",
             "ta", "ta1", "ta2", "ta3", "sa"
         ].join("|");
 
+        var maximaSettings = [
+            // Common Maxima environment variables
+            "fpprec", "fpprintprec", "display2d", "keepfloat",
+            "simp", "radexpand", "algebraic", "ratfac", "trigsign"
+        ].join("|");
+
         var booleanOps = ["and", "or", "not"].join("|");
-        var constants = ["%pi", "%e", "%i", "%gamma", "inf", "minf", "und", "true", "false"].join("|");
+
+        // Expanded Maxima Constants
+        var constants = [
+            "%pi", "%e", "%i", "%gamma", "%phi",
+            "inf", "minf", "und", "ind", "infinity",
+            "true", "false", "done"
+        ].join("|");
 
         // 4. Keyword Mapper Configuration
         var keywordMapper = this.createKeywordMapper({
             "keyword": keywords,
             "support.function": builtInFunctions,
-            "variable.language": stackVariables, // Highlights standard STACK variables
+            "variable.language": stackVariables + "|" + maximaSettings,
             "constant.language": constants,
             "keyword.operator": booleanOps
         }, "identifier", false);
@@ -72,7 +88,7 @@ ace.define("ace/mode/stack", [
                 // CASText tags remain in start state for text outside strings
                 { token: "support.other.castext", regex: "\\{@|@\\}|\\{#|#\\}" },
 
-                // CHANGED: Redirect to stateful string handling
+                // Redirect to stateful string handling
                 { token: "string", regex: '"', next: "string_double" },
                 { token: "string", regex: "'", next: "string_single" },
 
@@ -81,9 +97,14 @@ ace.define("ace/mode/stack", [
                 { token: "keyword.operator.assignment", regex: ":=" },
                 { token: "keyword.operator", regex: "=|<=|>=|<|>|\\+|\\-|\\*|/|\\^|\\.|!!|!|::|''" },
                 { token: "constant.numeric", regex: "\\b\\d+(\\.\\d+)?\\b" },
+
+                // Prioritize function names before keyword mapper catches them as general identifiers
                 { token: "entity.name.function", regex: "[a-zA-Z_][a-zA-Z0-9_]*(?=\\s*\\([^\\)]*\\)\\s*:=)"},
                 { token: "support.function.call", regex: "[a-zA-Z_][a-zA-Z0-9_]*(?=\\s*\\()" },
-                { token: keywordMapper, regex: "[a-zA-Z_][a-zA-Z0-9_]*\\b" },
+
+                // Map identifiers (This uses the keyword mapper we defined above)
+                { token: keywordMapper, regex: "%?[a-zA-Z_][a-zA-Z0-9_]*\\b" },
+
                 { token: "paren.lparen", regex: "[\\(\\[\\{]" },
                 { token: "paren.rparen", regex: "[\\)\\]\\}]" },
                 { token: "punctuation.operator", regex: "," },
@@ -128,7 +149,7 @@ ace.define("ace/mode/stack", [
     (function() {
         this.lineCommentStart = "//";
         this.blockComment = { start: "/*", end: "*/" };
-        this.$id = "ace/mode/stack"; // Updated to reflect STACK
+        this.$id = "ace/mode/stack";
     }).call(Mode.prototype);
 
     exports.Mode = Mode;

@@ -119,7 +119,7 @@ describe('stackascii init', () => {
 
         getElementByIdSpy = jest.spyOn(document, 'getElementById').mockImplementation((id) => elements[id] || null);
         global.MathJax = {
-            typesetPromise: jest.fn(),
+            typesetPromise: jest.fn(() => Promise.resolve()),
             Hub: { Queue: jest.fn() }
         };
         global.Event = function Event(type) {

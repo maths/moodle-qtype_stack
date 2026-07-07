@@ -76,7 +76,33 @@ export default function init(inputIds, operations) {
     const suppliedText = document.getElementById('asciiSuppliedText').innerHTML;
     const output = document.getElementById('asciiContainerRow');
     const frameId = (typeof FRAME_ID !== 'undefined') ? FRAME_ID : null;
-    const scrollSync = createAsciiScrollSync(markdownContainerId, output, frameId);
+    let syncedScrollPosition = 0;
+    let syncScrollPosition = () => undefined;
+
+    if (markdownContainerId && frameId) {
+        syncScrollPosition = () => {
+            setScrollPosition(output, syncedScrollPosition);
+        };
+
+        window.addEventListener('message', (event) => {
+            const message = JSON.parse(event.data);
+            if (message.tgt !== frameId || message.type !== 'input-scroll-position' || message.name !== markdownContainerId) {
+                return;
+            }
+            syncedScrollPosition = message.position;
+            syncScrollPosition();
+        });
+
+        const registration = {
+            version: 'STACK-JS:1.6.0',
+            type: 'track-input-scroll',
+            name: markdownContainerId,
+            'limit-to-question': true,
+            src: frameId
+        };
+        window.parent.postMessage(JSON.stringify(registration), '*');
+    }
+
     // inputIds[1..N] correspond to each extractor's target answer input in order.
     const alloperations = operations;
     // blockCollector is populated by the active filter's renderer rules and then
@@ -152,25 +178,18 @@ export default function init(inputIds, operations) {
             output.classList.add("plaintext")
         }
         output.innerHTML = processedOutput;
-        if (scrollSync) {
-            scrollSync.applySyncedScrollPosition();
-        }
+        syncScrollPosition();
 
         // Tell MathJax to typeset only the output container element.
         if (typeof MathJax.typesetPromise === 'function') {
-            const typeset = MathJax.typesetPromise([output]); // MathJax 3
-            if (typeset && typeof typeset.then === 'function' && scrollSync) {
-                typeset.then(() => {
-                    scrollSync.applySyncedScrollPosition();
-                });
-            }
+            MathJax.typesetPromise([output]).then(() => { // MathJax 3
+                syncScrollPosition();
+            });
         } else if (MathJax.Hub && typeof MathJax.Hub.Queue === 'function') {
             MathJax.Hub.Queue(["Typeset", MathJax.Hub, 'asciiContainerRow']); // MathJax 2
-            if (scrollSync) {
-                MathJax.Hub.Queue(() => {
-                    scrollSync.applySyncedScrollPosition();
-                });
-            }
+            MathJax.Hub.Queue(() => {
+                syncScrollPosition();
+            });
         }
     }
     if (markdownContainerId) {
@@ -183,29 +202,11 @@ export default function init(inputIds, operations) {
     }
 
     renderMath(); // initial render on load
-
-    if (scrollSync) {
-        scrollSync.start();
-    }
 }
 
 /**
  * Scroll-sync helpers.
  */
-
-/**
- * Clamp a scroll ratio into the supported 0..1 range.
- *
- * @param {number|string} position fractional scroll position.
- * @return {number} safe scroll ratio.
- */
-function clampScrollPosition(position) {
-    const numeric = Number(position);
-    if (!Number.isFinite(numeric)) {
-        return 0;
-    }
-    return Math.min(1, Math.max(0, numeric));
-}
 
 /**
  * Apply a fractional scroll position to an element.
@@ -214,91 +215,12 @@ function clampScrollPosition(position) {
  * does not animate the programmatic jump to the textarea's latest position.
  *
  * @param {HTMLElement} element scrollable element to update.
- * @param {number|string} position fractional scroll position.
- * @return {number} the clamped position that was applied.
+ * @param {number} position fractional scroll position.
  */
 function setScrollPosition(element, position) {
-    const clampedPosition = clampScrollPosition(position);
     const maxScroll = element.scrollHeight - element.clientHeight;
-    const previousScrollBehavior = element.style ? element.style.scrollBehavior : null;
-    if (element.style) {
-        element.style.scrollBehavior = 'auto';
-    }
-    if (maxScroll <= 0) {
-        element.scrollTop = 0;
-        if (element.style) {
-            element.style.scrollBehavior = previousScrollBehavior;
-        }
-        return clampedPosition;
-    }
-    element.scrollTop = clampedPosition * maxScroll;
-    if (element.style) {
-        element.style.scrollBehavior = previousScrollBehavior;
-    }
-    return clampedPosition;
-}
-
-/**
- * Create the textarea/output scroll synchronisation controller for one ASCII block.
- *
- * The textarea is the only source of truth. Incoming iframe messages update the
- * ASCII output, but scrolling the ASCII output does not send anything back.
- *
- * @param {string} sourceInputId DOM id of the linked freetext input.
- * @param {HTMLElement} output rendered ASCII output container.
- * @param {string} frameId iframe identifier used by STACK-JS messaging.
- * @return {?Object} sync controller, or null when sync cannot be initialised.
- */
-function createAsciiScrollSync(sourceInputId, output, frameId) {
-    if (!sourceInputId || !output || !frameId) {
-        return null;
-    }
-
-    let syncedScrollPosition = 0;
-
-    const applySyncedScrollPosition = () => {
-        syncedScrollPosition = setScrollPosition(output, syncedScrollPosition);
-    };
-
-    window.addEventListener('message', (event) => {
-        if (!(typeof event.data === 'string' || event.data instanceof String)) {
-            return;
-        }
-
-        let message = null;
-        try {
-            message = JSON.parse(event.data);
-        } catch (error) {
-            return;
-        }
-
-        if (!(('version' in message) && message.version.startsWith('STACK-JS'))) {
-            return;
-        }
-        if (!(('tgt' in message) && message.tgt === frameId && message.type === 'input-scroll-position')) {
-            return;
-        }
-        if (message.name !== sourceInputId) {
-            return;
-        }
-
-        syncedScrollPosition = clampScrollPosition(message.position);
-        applySyncedScrollPosition();
-    });
-
-    return {
-        applySyncedScrollPosition() {
-            applySyncedScrollPosition();
-        },
-        start() {
-            const registration = {
-                version: 'STACK-JS:1.6.0',
-                type: 'track-input-scroll',
-                name: sourceInputId,
-                'limit-to-question': true,
-                src: frameId
-            };
-            window.parent.postMessage(JSON.stringify(registration), '*');
-        }
-    };
+    const previousScrollBehavior = element.style.scrollBehavior;
+    element.style.scrollBehavior = 'auto';
+    element.scrollTop = maxScroll > 0 ? position * maxScroll : 0;
+    element.style.scrollBehavior = previousScrollBehavior;
 }

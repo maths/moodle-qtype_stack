@@ -218,13 +218,11 @@ class qtype_stack_edit_form extends question_edit_form {
         if ($closebeforebuttonarr !== false) {
             unset($mform->defaultRenderer()->_stopFieldsetElements[$closebeforebuttonarr]);
         }
-        // Disable ace editor when running behat.
-        if (!defined('BEHAT_SITE_RUNNING')) {
-            $PAGE->requires->js_call_amd(
-                'qtype_stack/ace_editor',
-                'init'
-            );
-        }
+
+        $PAGE->requires->js_call_amd(
+            'qtype_stack/ace_editor',
+            'init'
+        );
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

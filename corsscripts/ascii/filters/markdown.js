@@ -11,6 +11,7 @@
 
 import markdownit from '../markdownit.js';
 import asciimathBlock from '../markdownitextensions/asciimathblock.js';
+import plotBlock from '../markdownitextensions/plotblock.js';
 import markdownitrules from './markdownitrules.js';
 
 // tex.js uses named CJS exports (exports.tex = ...) — import the whole namespace.
@@ -48,6 +49,7 @@ const state = { transforms: [], transformLib, collector: null };
 const converter = markdownit({ html: true })
     .use(mdItPluginTex.tex, { render: (content) => content, delimiters: 'brackets' })
     .use(asciimathBlock)
+    .use(plotBlock)
     .use(markdownitrules, { state });
 
 /**

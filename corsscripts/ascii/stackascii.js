@@ -33,6 +33,7 @@ import calculation from './filters/calculation.js';
 import cas from './filters/cas.js';
 import markdown from './filters/markdown.js';
 import plain from './filters/plain.js';
+import { renderPlots } from './plot/plot.js';
 
 const filterlib = { calculation, cas, markdown, plain };
 
@@ -150,6 +151,7 @@ export default function init(inputIds, operations) {
             output.classList.add("plaintext")
         }
         output.innerHTML = processedOutput;
+        renderPlots(output);
 
         // Tell MathJax to typeset only the output container element.
         if (typeof MathJax.typesetPromise === 'function') {

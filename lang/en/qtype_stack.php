@@ -1914,6 +1914,9 @@ $string['free_text_fact'] = 'This input allows you to type in free text, e.g. yo
 <p>More specific documentation on markdown, AsciiMath and LaTeX is available online.</p>';
 $string['free_text_calc'] = 'This input allows you embed simple calculations between <code>{@...@}</code>, rather than reaching for an external calculator.';
 $string['free_text_calc_min'] = '{@...@}';
+$string['free_text_plot'] = 'You can plot graphs using <code>!!plot</code> blocks.
+<pre>!!plot<br>x: -5..5<br>y: -3..10<br>plot y=x^2-1<br>point (2,3) A<br>!!plot</pre>
+<p>Use <code>x: a..b</code> and <code>y: c..d</code> to set the visible range. Add curves with <code>plot y=...</code>, and add points with <code>point (x,y)</code>.</p>';
 $string['free_text_toolong'] = 'Your answer should not be more than {$a->max} characters long. It is currently {$a->current} characters.';
 // phpcs:enable moodle.Strings.ForbiddenStrings.Found
 $string['Illegal_singleton_power'] = 'This input requires a numeric value presented in one of the following forms: <code>{$a->forms}</code>';

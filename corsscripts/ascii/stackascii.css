@@ -9,3 +9,16 @@
 .plaintext {
     white-space: pre-line;
 }
+.stack-plot {
+    margin: 0.75rem 0;
+}
+.stack-plot-board {
+    max-width: 100%;
+}
+.stack-plot-error {
+    background: #fff4f4;
+    border: 1px solid #b00020;
+    color: #7a0016;
+    padding: 0.5rem;
+    white-space: pre-wrap;
+}

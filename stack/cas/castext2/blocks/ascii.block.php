@@ -130,6 +130,14 @@ class stack_cas_castext2_ascii extends stack_cas_castext2_block {
             new MP_String('style'),
             new MP_String(json_encode(['href' => 'cors://ascii/stackascii.css'])),
         ]);
+        $r->items[] = new MP_List([
+            new MP_String('style'),
+            new MP_String(json_encode(['href' => 'cors://jsxgraph.min.css'])),
+        ]);
+        $r->items[] = new MP_List([
+            new MP_String('script'),
+            new MP_String(json_encode(['type' => 'text/javascript', 'src' => 'cors://jsxgraphcore.min.js'])),
+        ]);
 
         // Size from the iframe viewport so the display area tracks frame resizing.
         // Keep a configured minimum so default 400px frames start at 370px content height.

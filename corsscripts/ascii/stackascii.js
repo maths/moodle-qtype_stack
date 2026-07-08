@@ -76,32 +76,7 @@ export default function init(inputIds, operations) {
     const suppliedText = document.getElementById('asciiSuppliedText').innerHTML;
     const output = document.getElementById('asciiContainerRow');
     const frameId = (typeof FRAME_ID !== 'undefined') ? FRAME_ID : null;
-    let syncedScrollPosition = 0;
-    let syncScrollPosition = () => undefined;
-
-    if (markdownContainerId && frameId) {
-        syncScrollPosition = () => {
-            setScrollPosition(output, syncedScrollPosition);
-        };
-
-        window.addEventListener('message', (event) => {
-            const message = JSON.parse(event.data);
-            if (message.tgt !== frameId || message.type !== 'input-scroll-position' || message.name !== markdownContainerId) {
-                return;
-            }
-            syncedScrollPosition = message.position;
-            syncScrollPosition();
-        });
-
-        const registration = {
-            version: 'STACK-JS:1.6.0',
-            type: 'track-input-scroll',
-            name: markdownContainerId,
-            'limit-to-question': true,
-            src: frameId
-        };
-        window.parent.postMessage(JSON.stringify(registration), '*');
-    }
+    const syncScrollPosition = createScrollSyncHandler(markdownContainerId, frameId, output);
 
     // inputIds[1..N] correspond to each extractor's target answer input in order.
     const alloperations = operations;
@@ -223,4 +198,45 @@ function setScrollPosition(element, position) {
     element.style.scrollBehavior = 'auto';
     element.scrollTop = maxScroll > 0 ? position * maxScroll : 0;
     element.style.scrollBehavior = previousScrollBehavior;
+}
+
+/**
+ * Register iframe scroll syncing for the rendered ASCII output and return a
+ * callback that reapplies the last known input scroll position.
+ *
+ * @param {?string} markdownContainerId textarea element id.
+ * @param {?string} frameId parent frame id for postMessage coordination.
+ * @param {HTMLElement} output rendered output container.
+ * @returns {Function}
+ */
+function createScrollSyncHandler(markdownContainerId, frameId, output) {
+    // We don't have two containers so nothing to synch.
+    if (!markdownContainerId || !frameId) {
+        return () => undefined;
+    }
+
+    let syncedScrollPosition = 0;
+    const syncScrollPosition = () => {
+        setScrollPosition(output, syncedScrollPosition);
+    };
+
+    window.addEventListener('message', (event) => {
+        const message = JSON.parse(event.data);
+        if (message.tgt !== frameId || message.type !== 'input-scroll-position' || message.name !== markdownContainerId) {
+            return;
+        }
+        syncedScrollPosition = message.position;
+        syncScrollPosition();
+    });
+
+    const registration = {
+        version: 'STACK-JS:1.6.0',
+        type: 'track-input-scroll',
+        name: markdownContainerId,
+        'limit-to-question': true,
+        src: frameId
+    };
+    window.parent.postMessage(JSON.stringify(registration), '*');
+
+    return syncScrollPosition;
 }

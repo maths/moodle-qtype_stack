@@ -159,7 +159,7 @@ Filters are defined in `corsscripts/ascii/filters`. This has been designed to ad
 
 ## Plot blocks
 
-Students can include simple graphs in their free-text response using a `!!plot` block. Plot blocks are identified by the markdown filter, so the ASCII block must include a markdown filter explicitly.
+Students can include simple graphs in their free-text response using a `!!plot` block. Plot blocks are identified by the markdown filter, so the ASCII block must include a markdown filter (either explicitly or by default).
 
 TO-DO: Should plots be a separate filter rather than a markdown extension? What delimiter do we actually want? What syntax/functionality do we want available?
 
@@ -174,6 +174,7 @@ plot x=y^2
 point (2,3) A
 !!plot
 ```
+![Plot example output](../../../content/plot_block.png)
 
 Blank lines are ignored. Lines starting with `#` are comments.
 

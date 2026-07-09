@@ -246,6 +246,40 @@ describe('stackascii init', () => {
         expect(env.output.innerHTML).toBe('beta');
     });
 
+    test('keeps configured delimiter pair available to extractors', () => {
+        setupEnvironment('delta', 1);
+
+        mockMarkdown.mockImplementation((text, blockCollector) => {
+            blockCollector.blocks = [{ type: 'markdown', raw: text }];
+            return `MD:${text}`;
+        });
+        mockCalculation.mockImplementation((text, blockCollector) => {
+            blockCollector.blocks = [{ type: 'calculation', raw: text }];
+            return `CALC:${text}`;
+        });
+        mockLastexpr.mockReturnValue('EXTRACTED');
+
+        const operations = [
+            { operation: 'filter', type: 'markdown', delimiter: '<<', closingdelimiter: '>>' },
+            { operation: 'filter', type: 'calculation' },
+            { operation: 'extractor', type: 'lastexpr' }
+        ];
+
+        init(['markdownInput', 'answer1'], operations);
+
+        expect(mockLastexpr).toHaveBeenCalledWith(
+            'delta',
+            expect.objectContaining({
+                delimiter: '<<',
+                closingdelimiter: '>>',
+                blocks: [
+                    { type: 'calculation', raw: 'MD:delta' }
+                ]
+            }),
+            operations[2]
+        );
+    });
+
     test('debounces and rerenders when the input changes', () => {
         const env = setupEnvironment('gamma', 0);
 

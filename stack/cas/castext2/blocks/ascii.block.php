@@ -38,6 +38,7 @@ class stack_cas_castext2_ascii extends stack_cas_castext2_block {
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
         $r = new MP_List([new MP_String('iframe')]);
+        [$delimiter, $closingdelimiter] = $this->get_delimiters();
 
         // Define iframe params.
         $xpars = [];
@@ -81,8 +82,8 @@ class stack_cas_castext2_ascii extends stack_cas_castext2_block {
                     }
                     $options['transforms'] = $this->set_markdown_filter_defaults($transforms);
                 }
-                $options['delimiter'] = get_config('qtype_stack', 'freetextdelimiter');
-                $options['closingdelimiter'] = get_config('qtype_stack', 'freetextclosingdelimiter');
+                $options['delimiter'] = $delimiter;
+                $options['closingdelimiter'] = $closingdelimiter;
                 $operations[] = $options;
             } else {
                 $c = $child->compile(castext2_parser_utils::RAWFORMAT, $opt2);
@@ -98,8 +99,8 @@ class stack_cas_castext2_ascii extends stack_cas_castext2_block {
                 'operation'  => 'filter',
                 'type'       => 'markdown',
                 'transforms' => 'asciimath,aligneq,minwrap',
-                'delimiter' => get_config('qtype_stack', 'freetextdelimiter'),
-                'closingdelimiter' => get_config('qtype_stack', 'freetextclosingdelimiter') ?? get_config('qtype_stack', 'freetextdelimiter'),
+                'delimiter' => $delimiter,
+                'closingdelimiter' => $closingdelimiter,
             ];
             array_unshift($operations, $defaultmarkdown);
         }
@@ -169,6 +170,24 @@ class stack_cas_castext2_ascii extends stack_cas_castext2_block {
         $r->items[] = new MP_String('<div class="container row asciimath" id="asciiContainerRow" style="' . $astyle . '"></div>');
 
         return $r;
+    }
+
+    /**
+     * Get the configured AsciiMath delimiter pair.
+     * @return array [opening delimiter, closing delimiter]
+     */
+    private function get_delimiters(): array {
+        $delimiter = get_config('qtype_stack', 'freetextdelimiter');
+        if (!is_string($delimiter) || $delimiter === '') {
+            $delimiter = '`';
+        }
+
+        $closingdelimiter = get_config('qtype_stack', 'freetextclosingdelimiter');
+        if (!is_string($closingdelimiter) || $closingdelimiter === '') {
+            $closingdelimiter = $delimiter;
+        }
+
+        return [$delimiter, $closingdelimiter];
     }
 
     /**

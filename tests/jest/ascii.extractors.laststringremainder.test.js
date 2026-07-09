@@ -1,6 +1,6 @@
 import laststringremainder from '../../corsscripts/ascii/extractors/laststringremainder.js';
 
-const blockCollector = {blocks: [], delimiter: '`'}
+const blockCollector = {blocks: [], delimiter: '`', closingdelimiter: '`'};
 
 describe('laststringremainder extractor', () => {
     describe('guard clauses', () => {
@@ -36,6 +36,34 @@ describe('laststringremainder extractor', () => {
             const raw = '  Answer =  x^2   ';
             const operation = { string: 'Answer =' };
             expect(laststringremainder(raw, blockCollector, operation)).toBe('x^2');
+        });
+
+        test('supports asymmetric configured delimiters', () => {
+            const raw = '<<Answer = value>>';
+            const operation = { string: 'Answer =' };
+            const collector = { blocks: [], delimiter: '<<', closingdelimiter: '>>' };
+            expect(laststringremainder(raw, collector, operation)).toBe('value');
+        });
+
+        test('supports symmetric configured delimiters', () => {
+            const raw = '##Answer = value##';
+            const operation = { string: 'Answer =' };
+            const collector = { blocks: [], delimiter: '##', closingdelimiter: '##' };
+            expect(laststringremainder(raw, collector, operation)).toBe('value');
+        });
+
+        test('supports regex-special configured delimiters', () => {
+            const raw = '[Answer = *x + 1*]';
+            const operation = { string: 'Answer =' };
+            const collector = { blocks: [], delimiter: '[', closingdelimiter: ']' };
+            expect(laststringremainder(raw, collector, operation)).toBe('*x + 1*');
+        });
+
+        test('falls back to opening delimiter when closing delimiter is empty', () => {
+            const raw = '*Answer = value*';
+            const operation = { string: 'Answer =' };
+            const collector = { blocks: [], delimiter: '*', closingdelimiter: '' };
+            expect(laststringremainder(raw, collector, operation)).toBe('value');
         });
     });
 

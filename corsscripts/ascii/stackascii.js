@@ -78,7 +78,7 @@ export default function init(inputIds, operations) {
     const alloperations = operations;
     // blockCollector is populated by the active filter's renderer rules and then
     // read by each extractor.  It is reset at the start of every filter render pass.
-    const blockCollector = { blocks: [], isHTML: false, delimiter: '`' };
+    const blockCollector = { blocks: [], isHTML: false, delimiter: '`', closingdelimiter: '`' };
 
     /**
      * Re-render the display and re-run all extractors from the current textarea value.
@@ -109,7 +109,19 @@ export default function init(inputIds, operations) {
                         if (currentop.reset === 'true') {
                             filterInput = raw;
                         }
-                        blockCollector.delimiter = currentop.delimiter ?? blockCollector.delimiter;
+                        const hasDelimiter = typeof currentop.delimiter === 'string' && currentop.delimiter !== '';
+                        const hasClosingDelimiter = (
+                            typeof currentop.closingdelimiter === 'string' &&
+                            currentop.closingdelimiter !== ''
+                        );
+                        if (hasDelimiter) {
+                            blockCollector.delimiter = currentop.delimiter;
+                        }
+                        if (hasClosingDelimiter) {
+                            blockCollector.closingdelimiter = currentop.closingdelimiter;
+                        } else if (hasDelimiter) {
+                            blockCollector.closingdelimiter = blockCollector.delimiter;
+                        }
                         // The filter is responsible for resetting blockCollector.blocks
                         // at the start of its own render pass (see markdownitrules.js).
                         const filterOutput = filter(filterInput, blockCollector, currentop);

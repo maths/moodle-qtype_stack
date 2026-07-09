@@ -60,6 +60,30 @@ final class ascii_block_test extends qtype_stack_testcase {
         return $strings;
     }
 
+    /**
+     * Extract the operation payload passed to init() from a compiled block.
+     * @param \MP_List $compiled
+     * @return array
+     */
+    private function get_init_operations(\MP_List $compiled): array {
+        foreach ($this->get_string_items($compiled) as $item) {
+            $start = strpos($item, 'init(inputIds,');
+            if ($start === false) {
+                continue;
+            }
+
+            $jsonstart = $start + strlen('init(inputIds,');
+            $jsonend = strpos($item, ');}', $jsonstart);
+            $this->assertNotFalse($jsonend);
+
+            $operations = json_decode(substr($item, $jsonstart, $jsonend - $jsonstart), true);
+            $this->assertIsArray($operations);
+            return $operations;
+        }
+
+        $this->fail('Compiled ASCII block did not contain an init() call.');
+    }
+
     public function test_basic_ascii_block(): void {
         stack_cas_castext2_iframe::register_counter('///IFRAME_COUNT///');
 
@@ -107,8 +131,13 @@ final class ascii_block_test extends qtype_stack_testcase {
         $strings = $this->get_string_items($compiled);
         $joined = implode("\n", $strings);
         $this->assertStringContainsString('stack_js.request_access_to_input("ans1",true)', $joined);
-        $expectedlinkcode = '{init(inputIds,[{"operation":"filter","type":"markdown","transforms":"asciimath,aligneq,minwrap"}]);}';
-        $this->assertStringContainsString($expectedlinkcode, $joined);
+        $this->assertEquals([[
+            'operation' => 'filter',
+            'type' => 'markdown',
+            'transforms' => 'asciimath,aligneq,minwrap',
+            'delimiter' => '`',
+            'closingdelimiter' => '`',
+        ]], $this->get_init_operations($compiled));
         $this->assertStringContainsString(
             'id="asciiContainerRow" style="width:calc(100% - 20px);height:calc(100vh - 30px);min-height:calc(400px - 30px);"',
             $joined
@@ -127,8 +156,13 @@ final class ascii_block_test extends qtype_stack_testcase {
         $this->assertStringNotContainsString('stack_js.request_access_to_input(', $joined);
         $this->assertStringContainsString('<textarea id="asciiSuppliedText" style="display:none;">', $joined);
         $this->assertStringContainsString('</textarea>', $joined);
-        $expectedlinkcode = '{init(inputIds,[{"operation":"filter","type":"markdown","transforms":"asciimath,aligneq,minwrap"}]);}';
-        $this->assertStringContainsString($expectedlinkcode, $joined);
+        $this->assertEquals([[
+            'operation' => 'filter',
+            'type' => 'markdown',
+            'transforms' => 'asciimath,aligneq,minwrap',
+            'delimiter' => '`',
+            'closingdelimiter' => '`',
+        ]], $this->get_init_operations($compiled));
     }
 
     public function test_ascii_compile_uses_child_filter_and_extractor_operations(): void {
@@ -157,9 +191,21 @@ final class ascii_block_test extends qtype_stack_testcase {
         $joined = implode("\n", $strings);
         $this->assertStringContainsString('stack_js.request_access_to_input("ans1",true)', $joined);
         $this->assertStringContainsString('stack_js.request_access_to_input("ans2")', $joined);
-        $expectedlinkcode = '{init(inputIds,[{"type":"markdown","transforms":"aligneq","display":"true","operation":"filter"}' .
-            ',{"type":"lastexpr","targetinput":"ans2","operation":"extractor"}]);}';
-        $this->assertStringContainsString($expectedlinkcode, $joined);
+        $this->assertEquals([
+            [
+                'type' => 'markdown',
+                'transforms' => 'aligneq',
+                'display' => 'true',
+                'operation' => 'filter',
+                'delimiter' => '`',
+                'closingdelimiter' => '`',
+            ],
+            [
+                'type' => 'lastexpr',
+                'targetinput' => 'ans2',
+                'operation' => 'extractor',
+            ],
+        ], $this->get_init_operations($compiled));
         $this->assertStringContainsString(
             'id="asciiContainerRow" style="width:calc(80% - 20px);height:calc(100vh - 30px);min-height:calc(300px - 30px);"',
             $joined
@@ -193,15 +239,70 @@ final class ascii_block_test extends qtype_stack_testcase {
         $joined = implode("\n", $strings);
         $this->assertStringContainsString('stack_js.request_access_to_input("ans1",true)', $joined);
         $this->assertStringContainsString('stack_js.request_access_to_input("ans2")', $joined);
-        $expectedlinkcode = '{init(inputIds,[{"type":"markdown","transforms":"asciimath,aligneq,minwrap",' .
-            '"display":"true","operation":"filter"}' .
-            ',{"type":"lastexpr","targetinput":"ans2","operation":"extractor"}]);}';
-        $this->assertStringContainsString($expectedlinkcode, $joined);
+        $this->assertEquals([
+            [
+                'type' => 'markdown',
+                'transforms' => 'asciimath,aligneq,minwrap',
+                'display' => 'true',
+                'operation' => 'filter',
+                'delimiter' => '`',
+                'closingdelimiter' => '`',
+            ],
+            [
+                'type' => 'lastexpr',
+                'targetinput' => 'ans2',
+                'operation' => 'extractor',
+            ],
+        ], $this->get_init_operations($compiled));
         $this->assertStringContainsString(
             'id="asciiContainerRow" style="width:calc(80% - 20px);height:calc(100vh - 30px);min-height:calc(300px - 30px);"',
             $joined
         );
         $this->assertStringNotContainsString('"transforms":"aligneq,boldfilter"', $joined);
+    }
+
+    public function test_ascii_compile_uses_configured_delimiters(): void {
+        set_config('freetextdelimiter', '<<', 'qtype_stack');
+        set_config('freetextclosingdelimiter', '>>', 'qtype_stack');
+
+        $filter = new \stack_cas_castext2_filter([
+            'type' => 'markdown',
+            'transforms' => 'aligneq',
+        ]);
+
+        $defaultblock = new \stack_cas_castext2_ascii(['input' => 'ans1'], []);
+        $childfilterblock = new \stack_cas_castext2_ascii(['input' => 'ans1'], [$filter]);
+
+        $this->assertEquals([[
+            'operation' => 'filter',
+            'type' => 'markdown',
+            'transforms' => 'asciimath,aligneq,minwrap',
+            'delimiter' => '<<',
+            'closingdelimiter' => '>>',
+        ]], $this->get_init_operations($defaultblock->compile(null, [])));
+
+        $this->assertEquals([[
+            'type' => 'markdown',
+            'transforms' => 'aligneq',
+            'operation' => 'filter',
+            'delimiter' => '<<',
+            'closingdelimiter' => '>>',
+        ]], $this->get_init_operations($childfilterblock->compile(null, [])));
+    }
+
+    public function test_ascii_compile_uses_opening_delimiter_for_empty_closing_delimiter(): void {
+        set_config('freetextdelimiter', '##', 'qtype_stack');
+        set_config('freetextclosingdelimiter', '', 'qtype_stack');
+
+        $block = new \stack_cas_castext2_ascii(['input' => 'ans1'], []);
+
+        $this->assertEquals([[
+            'operation' => 'filter',
+            'type' => 'markdown',
+            'transforms' => 'asciimath,aligneq,minwrap',
+            'delimiter' => '##',
+            'closingdelimiter' => '##',
+        ]], $this->get_init_operations($block->compile(null, [])));
     }
 
     public function test_ascii_validate_width_unit_and_number(): void {

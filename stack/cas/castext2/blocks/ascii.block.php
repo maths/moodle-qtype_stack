@@ -162,7 +162,10 @@ class stack_cas_castext2_ascii extends stack_cas_castext2_block {
             return 'stack_js.request_access_to_input("' . $item . '"' . $extra . ')';
         }, $inputs, array_keys($inputs)));
         $linkcode = 'Promise.all([' . $answercalls . '])';
-        $linkcode .= ".then((inputIds) => {init(inputIds," . json_encode($operations) . ");});";
+        // The ASCII strings placeholder is replaced by iframe.block.php during
+        // postprocessing, so strings are resolved in the current student's UI language.
+        $linkcode .= ".then((inputIds) => {init(inputIds," . json_encode($operations) .
+            ',{"asciistrings":' . stack_cas_castext2_iframe::ASCII_STRINGS_PLACEHOLDER . "});});";
 
         $r->items[] = new MP_String($linkcode);
         $r->items[] = new MP_String("\n</script>");

@@ -36,34 +36,7 @@ function current_language() {
 // phpcs:ignore moodle.Commenting.MissingDocblock.Function
 function get_string($identifier, $component, $a = null) {
     static $userlanguage = current_language();
-
-    static $string = [];
-    switch ($userlanguage) {
-        case 'en':
-            if (empty($string)) {
-                // Load en values as defaults.
-                include(__DIR__ . '/../../lang/en/qtype_stack.php');
-            }
-            break;
-        default:
-            if (empty($string)) {
-                $variant = $userlanguage;
-                $region = ApiLanguage::get_next_parent_language($variant);
-                $language = ApiLanguage::get_next_parent_language($region);
-                // Load en values as defaults.
-                include(__DIR__ . '/../../lang/en/qtype_stack.php');
-                if ($language !== 'en' && is_file(__DIR__ . "/../../lang/{$language}/qtype_stack.php")) {
-                    include(__DIR__ . "/../../lang/{$language}/qtype_stack.php");
-                }
-                if ($region !== $language && is_file(__DIR__ . "/../../lang/{$region}/qtype_stack.php")) {
-                    include(__DIR__ . "/../../lang/{$region}/qtype_stack.php");
-                }
-                if ($variant !== $region && is_file(__DIR__ . "/../../lang/{$variant}/qtype_stack.php")) {
-                    include(__DIR__ . "/../../lang/{$variant}/qtype_stack.php");
-                }
-            }
-            break;
-    }
+    $string = stack_api_load_component_strings($component, $userlanguage);
 
     $localization = $string[$identifier];
     if ($a !== null) {
@@ -90,6 +63,39 @@ function get_string($identifier, $component, $a = null) {
     return $localization;
 }
 
+// phpcs:ignore moodle.Commenting.MissingDocblock.Function
+function stack_api_load_component_strings($component, $lang) {
+    // This API emulation currently only ships STACK language files, so the
+    // component argument is accepted for Moodle compatibility but not branched on.
+    static $cache = [];
+    $lang = $lang ?: 'en';
+
+    if (!array_key_exists($lang, $cache)) {
+        $string = [];
+        // Load en values as defaults.
+        include(__DIR__ . '/../../lang/en/qtype_stack.php');
+
+        if ($lang !== 'en') {
+            $variant = $lang;
+            $region = ApiLanguage::get_next_parent_language($variant);
+            $language = ApiLanguage::get_next_parent_language($region);
+            if ($language !== 'en' && is_file(__DIR__ . "/../../lang/{$language}/qtype_stack.php")) {
+                include(__DIR__ . "/../../lang/{$language}/qtype_stack.php");
+            }
+            if ($region !== $language && is_file(__DIR__ . "/../../lang/{$region}/qtype_stack.php")) {
+                include(__DIR__ . "/../../lang/{$region}/qtype_stack.php");
+            }
+            if ($variant !== $region && is_file(__DIR__ . "/../../lang/{$variant}/qtype_stack.php")) {
+                include(__DIR__ . "/../../lang/{$variant}/qtype_stack.php");
+            }
+        }
+
+        $cache[$lang] = $string;
+    }
+
+    return $cache[$lang];
+}
+
 // Used for multilanguage questions, retrusn dependencies between languages.
 // We currently support only english and german, therefore this is not that relevant for us.
 // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -99,6 +105,11 @@ function get_string_manager() {
         // phpcs:ignore moodle.Commenting.MissingDocblock.Function
         public function get_language_dependencies($lang) {
             return [];
+        }
+
+        // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+        public function load_component_strings($component, $lang) {
+            return stack_api_load_component_strings($component, $lang);
         }
     };
 }

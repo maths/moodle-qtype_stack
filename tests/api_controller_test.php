@@ -153,6 +153,15 @@ final class api_controller_test extends qtype_stack_testcase {
         set_config('stackapi', false, 'qtype_stack');
     }
 
+    /**
+     * Build a JSON object fragment for an ASCII string entry.
+     * @param string $key
+     * @return string
+     */
+    private function ascii_string_json_fragment(string $key): string {
+        return '"' . $key . '":' . json_encode(stack_string($key));
+    }
+
     public function test_render(): void {
 
         $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('matrices');
@@ -235,6 +244,30 @@ final class api_controller_test extends qtype_stack_testcase {
         $rc->__invoke($this->request, $this->response, []);
         $this->assertEquals(1, count($this->output->iframes));
         $this->assertEquals(true, $this->output->isinteractive);
+    }
+
+    public function test_render_ascii_iframe_strings(): void {
+
+        $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('ascii_iframe');
+        $rc = new RenderController();
+        $rc->__invoke($this->request, $this->response, []);
+        $this->assertEquals(1, count($this->output->iframes));
+        $this->assertEquals(true, $this->output->isinteractive);
+
+        $iframehtml = $this->output->iframes[0][1];
+        $this->assertStringNotContainsString('///STACK_ASCII_STRINGS///', $iframehtml);
+        $this->assertStringContainsString(
+            $this->ascii_string_json_fragment('asciistringplotempty'),
+            $iframehtml
+        );
+        $this->assertStringContainsString(
+            $this->ascii_string_json_fragment('asciistringplotinvalidexpression'),
+            $iframehtml
+        );
+        $this->assertStringContainsString(
+            $this->ascii_string_json_fragment('asciistringplotxrange'),
+            $iframehtml
+        );
     }
 
     public function test_render_download(): void {

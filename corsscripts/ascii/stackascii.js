@@ -33,7 +33,7 @@ import calculation from './filters/calculation.js';
 import cas from './filters/cas.js';
 import markdown from './filters/markdown.js';
 import plain from './filters/plain.js';
-import { renderPlots } from './plot/plot.js';
+import { renderPlots, setPlotStrings } from './plot/plot.js';
 
 const filterlib = { calculation, cas, markdown, plain };
 
@@ -71,8 +71,11 @@ const extractorlib = {
  *   [[filter]] and [[extractor]] child blocks, e.g.
  *   [{ operation:'filter',    type:'markdown', transforms:'aligneq' },
  *    { operation:'extractor', type:'lastexpr', targetinput:'ans2'     }]
+ * @param {Object} options - translated strings and other optional settings.
  */
-export default function init(inputIds, operations) {
+export default function init(inputIds, operations, options = {}) {
+    setPlotStrings(options.asciistrings || {});
+
     const markdownContainerId = inputIds.length ? inputIds[0] : null;
     const suppliedText = document.getElementById('asciiSuppliedText').innerHTML;
     // inputIds[1..N] correspond to each extractor's target answer input in order.

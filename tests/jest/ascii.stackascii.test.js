@@ -9,6 +9,8 @@ const mockLastregexremainder = jest.fn();
 const mockLaststringremainder = jest.fn();
 const mockRegexallmatch = jest.fn();
 const mockRegexallremainder = jest.fn();
+const mockRenderPlots = jest.fn();
+const mockSetPlotStrings = jest.fn();
 
 jest.mock('../../corsscripts/ascii/filters/markdown.js', () => ({
     __esModule: true,
@@ -63,6 +65,12 @@ jest.mock('../../corsscripts/ascii/extractors/allregexmatch.js', () => ({
 jest.mock('../../corsscripts/ascii/extractors/allregexremainder.js', () => ({
     __esModule: true,
     default: (...args) => mockRegexallremainder(...args)
+}));
+
+jest.mock('../../corsscripts/ascii/plot/plot.js', () => ({
+    __esModule: true,
+    renderPlots: (...args) => mockRenderPlots(...args),
+    setPlotStrings: (...args) => mockSetPlotStrings(...args)
 }));
 
 import init from '../../corsscripts/ascii/stackascii.js';
@@ -138,6 +146,8 @@ describe('stackascii init', () => {
         mockLaststringremainder.mockReset();
         mockRegexallmatch.mockReset();
         mockRegexallremainder.mockReset();
+        mockRenderPlots.mockReset();
+        mockSetPlotStrings.mockReset();
     });
 
     afterEach(() => {
@@ -176,6 +186,7 @@ describe('stackascii init', () => {
             { type: 'calculation', raw: '  alpha  ' }
         ], operations[2]);
         expect(env.output.innerHTML).toBe('MD:  alpha  ');
+        expect(mockRenderPlots).toHaveBeenCalledWith(env.output);
         expect(env.answers[0].value).toBe('EXTRACT:  alpha  :markdown|calculation');
         expect(env.answers[0].dispatchEvent).toHaveBeenCalledWith({ type: 'change' });
         expect(global.MathJax.typesetPromise).toHaveBeenCalledWith([env.output]);
@@ -233,6 +244,15 @@ describe('stackascii init', () => {
         expect(env.answers[0].value).toBe('');
         expect(env.answers[0].dispatchEvent).not.toHaveBeenCalled();
         expect(env.output.innerHTML).toBe('beta');
+    });
+
+    test('passes translated ASCII strings to the plot renderer', () => {
+        setupEnvironment('delta', 0);
+        const asciistrings = { asciistringplotempty: 'Translated empty plot' };
+
+        init(['markdownInput'], [], { asciistrings });
+
+        expect(mockSetPlotStrings).toHaveBeenCalledWith(asciistrings);
     });
 
     test('debounces and rerenders when the input changes', () => {

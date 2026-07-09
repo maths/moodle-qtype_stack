@@ -32,6 +32,25 @@ class stack_api_test_data {
               <question type="stack">
               </question>
             </quiz>',
+        'ascii_iframe' =>
+           '<quiz>
+              <question type="stack">
+                <name>
+                  <text>ASCII iframe</text>
+                </name>
+                <questiontext format="html">
+                  <text><![CDATA[[[ascii]]
+!!plot
+plot y=x
+!!plot
+[[/ascii]]]]></text>
+                </questiontext>
+                <specificfeedback format="html">
+                  <text></text>
+                </specificfeedback>
+                <defaultgrade>1</defaultgrade>
+              </question>
+            </quiz>',
         'emptygrade' =>
            '<quiz>
                 <question type="stack">

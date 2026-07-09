@@ -77,8 +77,18 @@ const allowed = {
     ])
 };
 
+let plotStrings = {};
 let nextPlotId = 1;
 const pendingPlots = new Map();
+
+/**
+ * Install translated plot strings supplied by PHP.
+ *
+ * @param {Object} strings translated message templates.
+ */
+export function setPlotStrings(strings = {}) {
+    plotStrings = { ...strings };
+}
 
 /**
  * Render a markdown plot token to a placeholder. The board is initialised after
@@ -186,13 +196,13 @@ export function parsePlot(code) {
     // Validate the complete config after all lines are read so ranges can be
     // given before or after curves.
     if (config.xmin >= config.xmax) {
-        throw new Error('Plot x range must increase.');
+        throw plotError('asciistringplotxrange');
     }
     if (config.ymin >= config.ymax) {
-        throw new Error('Plot y range must increase.');
+        throw plotError('asciistringplotyrange');
     }
     if (config.curves.length === 0 && config.points.length === 0) {
-        throw new Error('Plot block needs at least one curve or point.');
+        throw plotError('asciistringplotempty');
     }
 
     return config;
@@ -226,7 +236,8 @@ function parseLine(line, config) {
 
     const dimension = line.match(/^(width|height)\s*:\s*(\d+)$/i);
     if (dimension) {
-        config[dimension[1].toLowerCase()] = clamp(parseInt(dimension[2], 10), 100, 1200);
+        const value = parseInt(dimension[2], 10);
+        config[dimension[1].toLowerCase()] = Math.max(100, Math.min(1200, value));
         return;
     }
 
@@ -247,7 +258,7 @@ function parseLine(line, config) {
         return;
     }
 
-    throw new Error('Unknown plot instruction: ' + line);
+    throw plotError('asciistringplotunknown', line);
 }
 
 function addCurve(expression, config) {
@@ -266,7 +277,10 @@ function addCurve(expression, config) {
             label
         });
     } catch (error) {
-        throw new Error('Invalid plot expression "' + raw + '".');
+        if (error && error.stackPlotError) {
+            throw error;
+        }
+        throw plotError('asciistringplotinvalidexpression', raw);
     }
 }
 
@@ -279,24 +293,34 @@ function validate(node) {
                 break;
             case 'FunctionNode':
                 if (!allowed.functions.has(n.fn.name)) {
-                    throw new Error('Function not allowed: ' + n.fn.name);
+                    throw plotError('asciistringplotfunctionforbidden', n.fn.name);
                 }
                 break;
             case 'OperatorNode':
                 if (!allowed.operators.has(n.fn)) {
-                    throw new Error('Operator not allowed: ' + n.fn);
+                    throw plotError('asciistringplotoperatorforbidden', n.fn);
                 }
                 break;
             default:
                 if (!allowed.nodetypes.has(n.type)) {
-                    throw new Error('Node type not allowed: ' + n.type);
+                    throw plotError('asciistringplotnodetypeforbidden', n.type);
                 }
         }
     });
 }
 
-function clamp(value, min, max) {
-    return Math.max(min, Math.min(max, value));
+function plotError(key, detail = '') {
+    const error = new Error(plotString(key, detail));
+    error.stackPlotError = true;
+    return error;
+}
+
+function plotString(key, detail = '') {
+    const message = plotStrings[key] || key;
+    if (detail !== '') {
+        return message + ' ' + String(detail);
+    }
+    return message;
 }
 
 function escapeHTML(text) {

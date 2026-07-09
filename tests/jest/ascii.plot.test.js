@@ -2,9 +2,29 @@
  * @jest-environment jsdom
  */
 
-import { parsePlot, renderPlotPlaceholder, renderPlots } from '../../corsscripts/ascii/plot/plot.js';
+import {
+    parsePlot,
+    renderPlotPlaceholder,
+    renderPlots,
+    setPlotStrings
+} from '../../corsscripts/ascii/plot/plot.js';
+
+const testStrings = {
+    asciistringplotempty: 'Plot block needs at least one curve or point.',
+    asciistringplotfunctionforbidden: 'Function not allowed:',
+    asciistringplotinvalidexpression: 'Invalid plot expression:',
+    asciistringplotnodetypeforbidden: 'Expression syntax not allowed:',
+    asciistringplotoperatorforbidden: 'Operator not allowed:',
+    asciistringplotunknown: 'Unknown plot instruction:',
+    asciistringplotxrange: 'Plot x range must increase.',
+    asciistringplotyrange: 'Plot y range must increase.'
+};
 
 describe('plot helper', () => {
+    beforeEach(() => {
+        setPlotStrings(testStrings);
+    });
+
     afterEach(() => {
         delete global.JXG;
         document.body.innerHTML = '';
@@ -34,6 +54,20 @@ describe('plot helper', () => {
 
     test('throws when no plottable items exist', () => {
         expect(() => parsePlot('x: -1..1')).toThrow(/at least one curve or point/);
+    });
+
+    test('uses injected translated error strings', () => {
+        setPlotStrings({
+            asciistringplotempty: 'TRANSLATED empty plot',
+            asciistringplotfunctionforbidden: 'TRANSLATED function:',
+            asciistringplotinvalidexpression: 'TRANSLATED expression:'
+        });
+
+        expect(() => parsePlot('x: -1..1')).toThrow('TRANSLATED empty plot');
+        expect(() => parsePlot('plot y=evil(x)')).toThrow('TRANSLATED function: evil');
+
+        const html = renderPlotPlaceholder('plot y=<script>');
+        expect(html).toContain('TRANSLATED expression: &lt;script&gt;');
     });
 
     test('renders a placeholder and initialises a JSXGraph board', () => {

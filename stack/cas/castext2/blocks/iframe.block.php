@@ -27,6 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../block.interface.php');
 require_once(__DIR__ . '/../../../utils.class.php');
 require_once(__DIR__ . '/../../../../vle_specific.php');
+require_once(__DIR__ . '/../../../../locallib.php');
 require_once(__DIR__ . '/../../../../api/util/StackIframeHolder.php');
 
 use api\util\StackIframeHolder;
@@ -42,6 +43,11 @@ use api\util\StackIframeHolder;
  * that allow targetted content within this block.
  */
 class stack_cas_castext2_iframe extends stack_cas_castext2_block {
+    // This is intentionally replaced during postprocessing, not compilation,
+    // so the JSON uses the current user's language rather than the author's.
+    public const ASCII_STRINGS_PLACEHOLDER = '///STACK_ASCII_STRINGS///';
+    private const ASCII_STRING_PREFIX = 'asciistring';
+
     // All frames need unique (at request level) identifiers,
     // we use running numbering.
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
@@ -203,6 +209,13 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
                 $code
             );
         }
+        if (strpos($code, self::ASCII_STRINGS_PLACEHOLDER) !== false) {
+            $code = str_replace(
+                self::ASCII_STRINGS_PLACEHOLDER,
+                self::get_ascii_strings_json(),
+                $code
+            );
+        }
         // Unpack held things if they happen to exist inside the IFRAME.
         // That content would never go through the processing that that logic
         // protects against.
@@ -232,6 +245,23 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
 
         // Output the placeholder for this frame.
         return $holder->add_to_map(html_writer::tag('div', '', $attributes));
+    }
+
+    /**
+     * Strings used by JavaScript inside the ASCII block iframe.
+     * String keys are discovered by the asciistring prefix.
+     * @return string
+     */
+    private static function get_ascii_strings_json(): string {
+        $strings = [];
+        $stringmanager = get_string_manager();
+        $englishstrings = $stringmanager->load_component_strings('qtype_stack', 'en');
+        foreach (array_keys($englishstrings) as $key) {
+            if (strpos($key, self::ASCII_STRING_PREFIX) === 0) {
+                $strings[$key] = stack_string($key);
+            }
+        }
+        return json_encode($strings);
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

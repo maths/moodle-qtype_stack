@@ -172,6 +172,7 @@ y: -3..10
 plot y=x^2-1
 plot x=y^2
 point (2,3) A
+fit line (1,2), (2,4), (3,5) as trend
 !!plot
 ```
 ![Plot example output](../../../content/plot_block.png)
@@ -224,6 +225,31 @@ Points can be added with `point (x,y)`. Any text after the coordinates is used a
 point (2,3)
 point (-1,4) A
 ```
+
+### Data points with a fitted curve
+
+A set of data points can be plotted with a least-squares curve fitted to them.
+
+```
+fit line (1,2), (2,4), (3,5)
+fit line (1,2), (2,4), (3,5) as trend
+fit quadratic (0,1), (1,4), (2,9) as curve
+fit cubic (0,1), (1,2), (2,5), (3,10) as curve
+fit polynomial 4 (0,1), (1,2), (2,5), (3,10), (4,17) as curve
+```
+
+The command adds the data points to the graph and plots the fitted curve. The optional text after `as` is used as the label for the fitted curve.
+
+If an `x` or `y` range is not set explicitly, the default range is expanded as needed to show all the supplied data points.
+
+For a straight line, the compact forms `fitline` and `linefit` are also accepted.
+
+```
+fitline (1,2), (2,4), (3,5)
+linefit (1,2), (2,4), (3,5)
+```
+
+The highest polynomial degree accepted is 6. A polynomial fit of degree `n` needs at least `n+1` data points. A fit cannot be calculated if the supplied points do not determine the requested model, for example if all the points have the same `x` value.
 
 ### Axes and grid
 

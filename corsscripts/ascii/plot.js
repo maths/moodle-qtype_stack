@@ -21,12 +21,13 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-import math from '../mathjs.min.js';
+import math from './mathjs.min.js';
 
 // Student syntax is intentionally small:
 //   x: -5..5
 //   y: -3..10
 //   plot y=x^2-1
+//   plot x=y^2
 //   point (2,3) A
 // Each !!plot block is parsed into one of these config objects, then rendered
 // by JSXGraph after markdown has inserted the placeholder HTML into the page.
@@ -53,7 +54,7 @@ const allowed = {
         'sqrt',
         'log', 'log10',
         'exp',
-        'abs', 'floor', 'ceil', 'ceiling', 'round',
+        'abs', 'floor', 'ceil', 'round',
         'mod', 'min', 'max'
     ]),
 
@@ -148,6 +149,25 @@ export function renderPlots(container) {
             });
 
             config.curves.forEach((curve) => {
+                if (curve.axis === 'x') {
+                    // JSXGraph's functiongraph is always y=f(x), so x=f(y)
+                    // is drawn as a parametric curve: [x(y), y].
+                    board.create('curve', [
+                        function(y) {
+                            return curve.compiled.evaluate({ y });
+                        },
+                        function(y) {
+                            return y;
+                        },
+                        config.ymin,
+                        config.ymax
+                    ], {
+                        name: curve.label,
+                        withLabel: Boolean(curve.label)
+                    });
+                    return;
+                }
+
                 // mathjs compiled expressions are evaluated with only x in scope.
                 board.create('functiongraph', [
                     function(x) {
@@ -251,17 +271,17 @@ function parseLine(line, config) {
         return;
     }
 
-    const curve = line.match(/^(?:plot\s+)?(?:y\s*=\s*|f\s*\(\s*x\s*\)\s*=\s*)?(.+)$/i);
+    const curve = line.match(/^(?:plot\s+)?(?:(x|y)\s*=\s*|f\s*\(\s*x\s*\)\s*=\s*)?(.+)$/i);
     if (curve) {
         // A bare expression is accepted as shorthand for "plot y=...".
-        addCurve(curve[1], config);
+        addCurve(curve[2], config, curve[1] ? curve[1].toLowerCase() : 'y');
         return;
     }
 
     throw plotError('asciistringplotunknown', line);
 }
 
-function addCurve(expression, config) {
+function addCurve(expression, config, axis = 'y') {
     const labelMatch = expression.match(/^(.*?)\s+as\s+(.+)$/i);
     const raw = labelMatch ? labelMatch[1].trim() : expression.trim();
     const label = labelMatch ? labelMatch[2].trim() : '';
@@ -272,6 +292,7 @@ function addCurve(expression, config) {
         // Store the compiled expression once; JSXGraph can then evaluate it
         // repeatedly while sampling the curve.
         config.curves.push({
+            axis,
             expression: raw,
             compiled: node.compile(),
             label

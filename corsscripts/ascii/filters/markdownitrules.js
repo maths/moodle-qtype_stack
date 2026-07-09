@@ -19,7 +19,7 @@
  * @param {Object} mdit    - the markdownit instance to extend.
  * @param {Object} options - plugin options; must contain options.state (see markdown.js).
  */
-import { renderPlotPlaceholder } from '../plot/plot.js';
+import { renderPlotPlaceholder } from '../plot.js';
 
 export default function markdownitrules(mdit, options) {
     "use strict";

@@ -67,7 +67,7 @@ jest.mock('../../corsscripts/ascii/extractors/allregexremainder.js', () => ({
     default: (...args) => mockRegexallremainder(...args)
 }));
 
-jest.mock('../../corsscripts/ascii/plot/plot.js', () => ({
+jest.mock('../../corsscripts/ascii/plot.js', () => ({
     __esModule: true,
     renderPlots: (...args) => mockRenderPlots(...args),
     setPlotStrings: (...args) => mockSetPlotStrings(...args)

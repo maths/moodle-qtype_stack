@@ -1915,8 +1915,8 @@ $string['free_text_fact'] = 'This input allows you to type in free text, e.g. yo
 $string['free_text_calc'] = 'This input allows you embed simple calculations between <code>{@...@}</code>, rather than reaching for an external calculator.';
 $string['free_text_calc_min'] = '{@...@}';
 $string['free_text_plot'] = 'You can plot graphs using <code>!!plot</code> blocks.
-<pre>!!plot<br>x: -5..5<br>y: -3..10<br>plot y=x^2-1<br>point (2,3) A<br>!!plot</pre>
-<p>Use <code>x: a..b</code> and <code>y: c..d</code> to set the visible range. Add curves with <code>plot y=...</code>, and add points with <code>point (x,y)</code>.</p>';
+<pre>!!plot<br>x: -5..5<br>y: -3..10<br>plot y=x^2-1<br>plot x=y^2<br>point (2,3) A<br>!!plot</pre>
+<p>Use <code>x: a..b</code> and <code>y: c..d</code> to set the visible range. Add curves with <code>plot y=...</code> or <code>plot x=...</code>, and add points with <code>point (x,y)</code>.</p>';
 $string['asciistringplotempty'] = 'Plot block needs at least one curve or point.';
 $string['asciistringplotfunctionforbidden'] = 'Function not allowed:';
 $string['asciistringplotinvalidexpression'] = 'Invalid plot expression:';

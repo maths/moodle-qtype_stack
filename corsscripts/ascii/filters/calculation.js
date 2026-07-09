@@ -11,7 +11,7 @@ const allowed = {
       'sqrt',
       'log', 'log10',
       'exp',
-      'abs', 'floor', 'celing', 'round',
+      'abs', 'floor', 'ceil', 'round',
       'mod', 'gcd', 'lcm',
       'factorial',
       'combinations', 'permutations',

@@ -33,7 +33,7 @@ import calculation from './filters/calculation.js';
 import cas from './filters/cas.js';
 import markdown from './filters/markdown.js';
 import plain from './filters/plain.js';
-import { renderPlots, setPlotStrings } from './plot/plot.js';
+import { renderPlots, setPlotStrings } from './plot.js';
 
 const filterlib = { calculation, cas, markdown, plain };
 

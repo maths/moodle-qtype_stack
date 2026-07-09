@@ -7,7 +7,7 @@ import {
     renderPlotPlaceholder,
     renderPlots,
     setPlotStrings
-} from '../../corsscripts/ascii/plot/plot.js';
+} from '../../corsscripts/ascii/plot.js';
 
 const testStrings = {
     asciistringplotempty: 'Plot block needs at least one curve or point.',
@@ -37,6 +37,7 @@ describe('plot helper', () => {
             'width: 640',
             'height: 300',
             'plot y=x^2-1 as parabola',
+            'plot x=y^2 as sideways',
             'point (2,3) A'
         ].join('\n'));
 
@@ -46,9 +47,13 @@ describe('plot helper', () => {
         expect(config.ymax).toBe(10);
         expect(config.width).toBe(640);
         expect(config.height).toBe(300);
-        expect(config.curves).toHaveLength(1);
+        expect(config.curves).toHaveLength(2);
+        expect(config.curves[0].axis).toBe('y');
         expect(config.curves[0].expression).toBe('x^2-1');
         expect(config.curves[0].label).toBe('parabola');
+        expect(config.curves[1].axis).toBe('x');
+        expect(config.curves[1].expression).toBe('y^2');
+        expect(config.curves[1].label).toBe('sideways');
         expect(config.points).toEqual([{ x: 2, y: 3, label: 'A' }]);
     });
 
@@ -75,7 +80,7 @@ describe('plot helper', () => {
         const initBoard = jest.fn(() => ({ create }));
         global.JXG = { JSXGraph: { initBoard } };
 
-        document.body.innerHTML = renderPlotPlaceholder('x: -2..2\nplot y=x^2\npoint (1,1) A');
+        document.body.innerHTML = renderPlotPlaceholder('x: -2..2\nplot y=x^2\nplot x=y^2\npoint (1,1) A');
 
         renderPlots(document.body);
 
@@ -87,6 +92,12 @@ describe('plot helper', () => {
             showNavigation: false
         }));
         expect(create).toHaveBeenCalledWith('functiongraph', expect.any(Array), expect.any(Object));
+        expect(create).toHaveBeenCalledWith('curve', expect.any(Array), expect.any(Object));
+        const curveArgs = create.mock.calls.find((call) => call[0] === 'curve')[1];
+        expect(curveArgs[0](2)).toBe(4);
+        expect(curveArgs[1](2)).toBe(2);
+        expect(curveArgs[2]).toBe(-10);
+        expect(curveArgs[3]).toBe(10);
         expect(create).toHaveBeenCalledWith('point', [1, 1], expect.objectContaining({
             name: 'A',
             fixed: true

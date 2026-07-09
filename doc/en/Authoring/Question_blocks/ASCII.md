@@ -157,3 +157,115 @@ See the [Filter: calculations](Filter_calculations.md) documentation for full de
 
 Filters are defined in `corsscripts/ascii/filters`. This has been designed to add flexibility for filtering.  Markdown transforms and associated shared functions are in `corsscripts/ascii/markdownittransforms`. Markdown extensions for identifying additional document sections are in `corsscripts/ascii/markdownitextensions`. The rules for how to display these sections are in `corsscripts/ascii/filters/markdownitrules.js`.
 
+## Plot blocks
+
+Students can include simple graphs in their free-text response using a `!!plot` block. Plot blocks are identified by the markdown filter, so the ASCII block must include a markdown filter explicitly.
+
+TO-DO: Should plots be a separate filter rather than a markdown extension? What delimiter do we actually want? What syntax/functionality do we want available?
+
+The opening and closing markers must each be on a line by themselves.
+
+```
+!!plot
+x: -5..5
+y: -3..10
+plot y=x^2-1
+plot x=y^2
+point (2,3) A
+!!plot
+```
+
+Blank lines are ignored. Lines starting with `#` are comments.
+
+### Plot ranges
+
+The visible graph window can be set with `x: a..b` and `y: c..d`.
+
+```
+x: -5..5
+y: -3..10
+```
+
+If ranges are not specified, both axes default to `-10..10`. The first value must be smaller than the second value.
+
+### Curves
+
+Curves can be entered as `y` as a function of `x`.
+
+```
+plot y=x^2
+y=sin(x)
+f(x)=x^2-1
+x^2+1
+```
+
+A bare expression is treated as shorthand for `plot y=...`.
+
+Curves can also be entered as `x` as a function of `y`.
+
+```
+plot x=y^2
+x=sqrt(y)
+```
+
+An optional label can be added using `as`.
+
+```
+plot y=x^2 as parabola
+plot x=y^2 as sideways parabola
+```
+
+### Points
+
+Points can be added with `point (x,y)`. Any text after the coordinates is used as the point label.
+
+```
+point (2,3)
+point (-1,4) A
+```
+
+### Axes and grid
+
+Axes and grid are shown by default. They can be switched on or off.
+
+```
+axes
+no axes
+grid
+no grid
+```
+
+### Size
+
+The size of the plot can be set in pixels.
+
+```
+width: 600
+height: 350
+```
+
+Width and height values are limited to between `100` and `1200`.
+
+### Allowed expressions
+
+Plot expressions may use numbers, variables, brackets, and the following operators.
+
+```
++  -  *  /  ^
+```
+
+The following functions are allowed.
+
+```
+sin, cos, tan
+asin, acos, atan
+sqrt
+log, log10
+exp
+abs
+floor, ceil, round
+mod
+min, max
+```
+
+A plot block must contain at least one curve or point.

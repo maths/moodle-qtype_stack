@@ -124,6 +124,7 @@ The grading route returns the following fields:
 - a map from the PRT names to floats `scoreweights`, containing the weighting for each part. `scoreweights['total']` contains the default total mark for the question. The mark for a question part is its `score[prt] * scoreweights[prt] * scoreweights['total']`.
 - a string field `specificfeedback` containing the rendered specific feedback text
 - a map from the PRT names to strings `prts`, containing the rendered PRT feedback
+- a map from the PRT names to objects `prtresults`, containing structured PRT grading data. Each entry includes `score`, `penalty`, `answernotes` (the full answer-note path as an array), `prtanswernotes` (the PRT-node answer notes only), `errors`, and `fverrors`.
 - a string map `gradingassets`, containing a list of assets used in the grading response, see [Plots/Assets](#plotsassets)
 - a string field `responsesummary` containing a summary of response. (See [Reporting](../doc/en/Authoring/../STACK_question_admin/Reporting.md).)
 - an array of arrays `iframes` of arguments to create iframes to hold JS panels e.g. JSXGraph, GeoGebra
@@ -177,7 +178,7 @@ In the outcomes object, each test will key an object:
 - boolean: `passed`: Did the test pass?
 - string: `reason`: Reason for failure. A test empty message or the part of the output (e.g. score) which doesn't match the expected result.
 - object: `inputs`: Keyed by input name. Details of the inputs and their values.
-- object: `outcomes`: Keyed by PRT name. Details of the outcomes and expected outcomes for each PRT.
+- object: `outcomes`: Keyed by PRT name. Details of the outcomes and expected outcomes for each PRT. Each PRT outcome includes the legacy delimiter-separated `answernote` string, plus structured `answernotes` and `prtanswernotes` arrays.
 
 Example result object:
 ```
@@ -205,6 +206,8 @@ Example result object:
                     "score": 1,
                     "penalty": 0,
                     "answernote": "prt1-1-T",
+                    "answernotes": ["prt1-1-T"],
+                    "prtanswernotes": ["prt1-1-T"],
                     "expectedscore": 1,
                     "expectedpenalty": 0,
                     "expectedanswernote": "prt1-1-T",

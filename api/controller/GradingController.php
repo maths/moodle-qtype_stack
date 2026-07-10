@@ -90,6 +90,7 @@ class GradingController {
         foreach ($question->prts as $index => $prt) {
             $result = $question->get_prt_result($index, $data['answers'], true);
             $scores[$index] = $result->get_score();
+            $gradingresponse->prtresults[$index] = $this->prt_result_summary($result);
 
             $errors = $result->get_errors();
             if ($errors) {
@@ -188,5 +189,17 @@ class GradingController {
         }
 
         return '';
+    }
+
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    private function prt_result_summary(\prt_evaluatable $result): array {
+        return [
+            'score' => $result->get_score(),
+            'penalty' => $result->get_penalty(),
+            'answernotes' => $result->get_answernotes(),
+            'prtanswernotes' => $result->get_answernotes(false),
+            'errors' => $result->get_errors(),
+            'fverrors' => $result->get_fverrors(),
+        ];
     }
 }

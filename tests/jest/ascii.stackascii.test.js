@@ -68,13 +68,14 @@ jest.mock('../../corsscripts/ascii/extractors/allregexremainder.js', () => ({
 import init from '../../corsscripts/ascii/stackascii.js';
 
 describe('stackascii init', () => {
-    function createElement(id, value = '') {
+    function createElement(id, value = '', dataset = {}) {
         const listeners = {};
         const classes = new Set();
         return {
             id,
             value,
             innerHTML: '',
+            dataset,
             listeners,
             classList: {
                 add: jest.fn((className) => {
@@ -92,8 +93,8 @@ describe('stackascii init', () => {
         };
     }
 
-    function setupEnvironment(inputValue, answerCount = 1) {
-        const markdownInput = createElement('markdownInput', inputValue);
+    function setupEnvironment(inputValue, answerCount = 1, markdownDataset = {}) {
+        const markdownInput = createElement('markdownInput', inputValue, markdownDataset);
         const output = createElement('asciiContainerRow');
         const suppliedText = createElement('asciiSuppliedText');
         suppliedText.innerHTML = inputValue;
@@ -246,8 +247,11 @@ describe('stackascii init', () => {
         expect(env.output.innerHTML).toBe('beta');
     });
 
-    test('keeps configured delimiter pair available to extractors', () => {
-        setupEnvironment('delta', 1);
+    test('keeps configured delimiter pair from input metadata available to extractors', () => {
+        setupEnvironment('delta', 1, {
+            stackDelimiter: '<<',
+            stackClosingdelimiter: '>>'
+        });
 
         mockMarkdown.mockImplementation((text, blockCollector) => {
             blockCollector.blocks = [{ type: 'markdown', raw: text }];
@@ -260,7 +264,7 @@ describe('stackascii init', () => {
         mockLastexpr.mockReturnValue('EXTRACTED');
 
         const operations = [
-            { operation: 'filter', type: 'markdown', delimiter: '<<', closingdelimiter: '>>' },
+            { operation: 'filter', type: 'markdown' },
             { operation: 'filter', type: 'calculation' },
             { operation: 'extractor', type: 'lastexpr' }
         ];

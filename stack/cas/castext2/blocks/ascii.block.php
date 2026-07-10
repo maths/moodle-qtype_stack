@@ -38,7 +38,6 @@ class stack_cas_castext2_ascii extends stack_cas_castext2_block {
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
         $r = new MP_List([new MP_String('iframe')]);
-        [$delimiter, $closingdelimiter] = $this->get_delimiters();
 
         // Define iframe params.
         $xpars = [];
@@ -82,8 +81,6 @@ class stack_cas_castext2_ascii extends stack_cas_castext2_block {
                     }
                     $options['transforms'] = $this->set_markdown_filter_defaults($transforms);
                 }
-                $options['delimiter'] = $delimiter;
-                $options['closingdelimiter'] = $closingdelimiter;
                 $operations[] = $options;
             } else {
                 $c = $child->compile(castext2_parser_utils::RAWFORMAT, $opt2);
@@ -99,8 +96,6 @@ class stack_cas_castext2_ascii extends stack_cas_castext2_block {
                 'operation'  => 'filter',
                 'type'       => 'markdown',
                 'transforms' => 'asciimath,aligneq,minwrap',
-                'delimiter' => $delimiter,
-                'closingdelimiter' => $closingdelimiter,
             ];
             array_unshift($operations, $defaultmarkdown);
         }
@@ -113,7 +108,6 @@ class stack_cas_castext2_ascii extends stack_cas_castext2_block {
         $height = $existsuserheight ? $xpars['height'] : "400px";
         $xpars['width'] = $width;
         $xpars['height'] = $height;
-
         // Set a title.
         $xpars['title'] = 'STACK ASCII ///ASCII_COUNT///';
 
@@ -159,7 +153,7 @@ class stack_cas_castext2_ascii extends stack_cas_castext2_block {
             return 'stack_js.request_access_to_input("' . $item . '"' . $extra . ')';
         }, $inputs, array_keys($inputs)));
         $linkcode = 'Promise.all([' . $answercalls . '])';
-        $linkcode .= ".then((inputIds) => {init(inputIds," . json_encode($operations) . ");});";
+        $linkcode .= '.then((inputIds) => {init(inputIds,' . json_encode($operations) . ');});';
 
         $r->items[] = new MP_String($linkcode);
         $r->items[] = new MP_String("\n</script>");
@@ -171,25 +165,6 @@ class stack_cas_castext2_ascii extends stack_cas_castext2_block {
 
         return $r;
     }
-
-    /**
-     * Get the configured AsciiMath delimiter pair.
-     * @return array [opening delimiter, closing delimiter]
-     */
-    private function get_delimiters(): array {
-        $delimiter = get_config('qtype_stack', 'freetextdelimiter');
-        if (!is_string($delimiter) || $delimiter === '') {
-            $delimiter = '`';
-        }
-
-        $closingdelimiter = get_config('qtype_stack', 'freetextclosingdelimiter');
-        if (!is_string($closingdelimiter) || $closingdelimiter === '') {
-            $closingdelimiter = $delimiter;
-        }
-
-        return [$delimiter, $closingdelimiter];
-    }
-
     /**
      * Ensure the markdown filter transforms have the correct defaults.
      * @param mixed $transforms

@@ -81,15 +81,9 @@ export default function markdown(text, blockCollector, op) {
         .split(',')
         .map(s => s.trim())
         .filter(Boolean);
-    state.delimiter = (typeof op.delimiter === 'string') ? op.delimiter : '`';
-    state.closingdelimiter = (typeof op.closingdelimiter === 'string' && op.closingdelimiter !== '')
-        ? op.closingdelimiter
-        : state.delimiter;
+    state.delimiter = blockCollector?.delimiter || '`';
+    state.closingdelimiter = blockCollector?.closingdelimiter || state.delimiter;
     state.collector = blockCollector || null;
-    if (state.collector) {
-        state.collector.delimiter = state.delimiter;
-        state.collector.closingdelimiter = state.closingdelimiter;
-    }
     if (converter === null) {
         converter = createConverter({
             openDelimiter: state.delimiter,

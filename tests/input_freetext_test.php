@@ -47,7 +47,8 @@ final class input_freetext_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('freetext', 'ans1', 'x^2');
         $this->assertEquals(
             '<textarea class="freetextinput" name="stack1__ans1" id="stack1__ans1" autocapitalize="none" ' .
-            'spellcheck="false" rows="5" cols="80" data-stack-input-type="freetext" maxlength="5096">' .
+            'spellcheck="false" rows="5" cols="80" data-stack-input-type="freetext" data-stack-delimiter="`" ' .
+            'data-stack-closingdelimiter="`" maxlength="5096">' .
             '</textarea>',
             $el->render(
                 new stack_input_state(stack_input::VALID, [], '', '', '', '', ''),
@@ -63,7 +64,8 @@ final class input_freetext_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('freetext', 'ans1', '"Hello world"');
         $this->assertEquals(
             '<textarea class="freetextinput" name="stack1__ans1" id="stack1__ans1" autocapitalize="none" ' .
-            'spellcheck="false" rows="5" cols="80" data-stack-input-type="freetext" maxlength="5096">' .
+            'spellcheck="false" rows="5" cols="80" data-stack-input-type="freetext" data-stack-delimiter="`" ' .
+            'data-stack-closingdelimiter="`" maxlength="5096">' .
             '000</textarea>',
             $el->render(
                 new stack_input_state(stack_input::VALID, ['000'], '', '', '', '', ''),
@@ -83,7 +85,8 @@ final class input_freetext_test extends qtype_stack_testcase {
         $el->set_parameter('options', 'monospace:true');
         $this->assertEquals(
             '<textarea class="freetextinput input-monospace" name="stack1__ans1" id="stack1__ans1" autocapitalize="none" ' .
-            'spellcheck="false" rows="5" cols="80" data-stack-input-type="freetext" maxlength="5096">' .
+            'spellcheck="false" rows="5" cols="80" data-stack-input-type="freetext" data-stack-delimiter="`" ' .
+            'data-stack-closingdelimiter="`" maxlength="5096">' .
             '000</textarea>',
             $el->render(
                 new stack_input_state(stack_input::VALID, ['000'], '', '', '', '', ''),
@@ -92,6 +95,67 @@ final class input_freetext_test extends qtype_stack_testcase {
                 null
             )
         );
+    }
+
+    public function test_render_with_configured_ascii_delimiters(): void {
+        $el = stack_input_factory::make('freetext', 'ans1', '"Hello world"');
+        $el->set_parameter('options', 'delimiter:<<,closingdelimiter:>>');
+
+        $this->assertEquals(
+            '<textarea class="freetextinput" name="stack1__ans1" id="stack1__ans1" autocapitalize="none" ' .
+            'spellcheck="false" rows="5" cols="80" data-stack-input-type="freetext" data-stack-delimiter="&lt;&lt;" ' .
+            'data-stack-closingdelimiter="&gt;&gt;" maxlength="5096">000</textarea>',
+            $el->render(
+                new stack_input_state(stack_input::VALID, ['000'], '', '', '', '', ''),
+                'stack1__ans1',
+                false,
+                null
+            )
+        );
+    }
+
+    public function test_ascii_delimiters_default_to_backticks(): void {
+        $el = stack_input_factory::make('freetext', 'ans1', '"Hello world"');
+
+        $this->assertEquals(['`', '`'], $el->get_ascii_delimiters());
+    }
+
+    public function test_default_extra_options_use_admin_delimiters(): void {
+        $olddelimiter = get_config('qtype_stack', 'freetextdelimiter');
+        $oldclosingdelimiter = get_config('qtype_stack', 'freetextclosingdelimiter');
+
+        try {
+            set_config('freetextdelimiter', '<<', 'qtype_stack');
+            set_config('freetextclosingdelimiter', '>>', 'qtype_stack');
+
+            $this->assertEquals(
+                'delimiter:<<,closingdelimiter:>>',
+                \stack_freetext_input::get_default_extra_options()
+            );
+        } finally {
+            if ($olddelimiter === false || $olddelimiter === null) {
+                unset_config('freetextdelimiter', 'qtype_stack');
+            } else {
+                set_config('freetextdelimiter', $olddelimiter, 'qtype_stack');
+            }
+            if ($oldclosingdelimiter === false || $oldclosingdelimiter === null) {
+                unset_config('freetextclosingdelimiter', 'qtype_stack');
+            } else {
+                set_config('freetextclosingdelimiter', $oldclosingdelimiter, 'qtype_stack');
+            }
+        }
+    }
+
+    public function test_ascii_delimiters_use_opening_value_when_closing_missing(): void {
+        $el = stack_input_factory::make(
+            'freetext',
+            'ans1',
+            '"Hello world"',
+            null,
+            ['options' => 'delimiter:##']
+        );
+
+        $this->assertEquals(['##', '##'], $el->get_ascii_delimiters());
     }
 
     public function test_validate_string_input(): void {

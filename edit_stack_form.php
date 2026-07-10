@@ -784,8 +784,13 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addHelpButton($inputname . 'showvalidation', 'showvalidation', 'qtype_stack');
         $mform->hideIf($inputname . 'showvalidation', $inputname . 'type', 'in', []);
 
+        $defaultoptions = '';
+        if ($this->stackconfig->inputtype === 'freetext') {
+            $defaultoptions = stack_freetext_input::get_default_extra_options($this->stackconfig);
+        }
+
         $mform->addElement('text', $inputname . 'options', stack_string('inputextraoptions'), ['size' => 30]);
-        $mform->setDefault($inputname . 'options', '');
+        $mform->setDefault($inputname . 'options', $defaultoptions);
         $mform->setType($inputname . 'options', PARAM_RAW);
         $mform->addHelpButton($inputname . 'options', 'inputextraoptions', 'qtype_stack');
     }

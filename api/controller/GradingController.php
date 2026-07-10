@@ -44,6 +44,7 @@ class GradingController {
     public function __invoke(Request $request, Response $response, array $args): Response {
         // TO-DO: Validate.
         $data = $request->getParsedBody();
+        $language = current_language($data['lang'] ?? null);
 
         $question = StackQuestionLoader::loadxml($data["questionDefinition"])['question'];
 
@@ -65,8 +66,6 @@ class GradingController {
         $translate->search = '/(<span(\s+lang="[a-zA-Z0-9_-]+"|\s+class="multilang")' .
                              '{2}\s*>.*?<\/span>)(\s*<span(\s+lang="[a-zA-Z0-9_-]+"' .
                              '|\s+class="multilang"){2}\s*>.*?<\/span>)+/is';
-        $language = current_language();
-
         // If an input explicitly allows empty answers, and the response data doesn't
         // contain a value for the input, set the input value to an empty string.
         foreach ($question->inputs as $name => $input) {

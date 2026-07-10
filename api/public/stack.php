@@ -49,6 +49,7 @@ require_login();
           questionDefinition: yamlEditor.getDoc().getValue(),
           answers: collectAnswer(),
           seed: parseInt(document.getElementById('seed').value),
+          lang: document.getElementById('lang').value.trim(),
           renderInputs : inputPrefix,
           readOnly: document.getElementById('readOnly').checked,
         };
@@ -162,6 +163,7 @@ require_login();
         <h2>Question XML</h2>
         <textarea id="xml" cols="100" rows="10"></textarea>
         <h2>Seed <input id="seed" type="number"></h2>
+        <h2>Language <input id="lang" type="text"></h2>
         <div>
           <input type="button" onclick="send(); diff();" class="btn btn-primary" value="Display Question"/>
           <input type="checkbox" id="readOnly" style="margin-left: 10px"/> Read Only

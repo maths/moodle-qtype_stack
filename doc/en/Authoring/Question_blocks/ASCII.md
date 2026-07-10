@@ -70,6 +70,8 @@ The `markdown-math` filter processes the student's text as markdown and renders 
   ```
 ![asciimath_inline display](../../../content/code_inline.png)
 
+You can set custom delimiters for AsciiMath sections in STACK admin options.
+
 - **`asciimath_block`**: A backtick on its own line opens a multi-line AsciiMath block; another solitary backtick closes it. If the content is identified as LaTeX then no processing takes place.  Otherwise, each line of content is converted to LaTeX and any configured transforms are applied. The result is wrapped in `\[...\]` if needed.
 
 In the following example, the transform `aligneq` is applied to line up equations on the `=` sign by using LaTeX `begin{align*}` environments.

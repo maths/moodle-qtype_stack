@@ -59,6 +59,27 @@ describe('laststringremainder extractor', () => {
             expect(laststringremainder(raw, collector, operation)).toBe('*x + 1*');
         });
 
+        test('trims whitespace around asymmetric custom delimiters', () => {
+            const raw = '  Answer =  <<  value + 1  >>   ';
+            const operation = { string: 'Answer =' };
+            const collector = { blocks: [], delimiter: '<<', closingdelimiter: '>>' };
+            expect(laststringremainder(raw, collector, operation)).toBe('value + 1');
+        });
+
+        test('trims whitespace around symmetric custom delimiters', () => {
+            const raw = '  Answer =  ##  value + 2  ##   ';
+            const operation = { string: 'Answer =' };
+            const collector = { blocks: [], delimiter: '##', closingdelimiter: '##' };
+            expect(laststringremainder(raw, collector, operation)).toBe('value + 2');
+        });
+
+        test('trims custom delimiters when the whole line is wrapped', () => {
+            const raw = '  <<  Answer =  value + 3  >>   ';
+            const operation = { string: 'Answer =' };
+            const collector = { blocks: [], delimiter: '<<', closingdelimiter: '>>' };
+            expect(laststringremainder(raw, collector, operation)).toBe('value + 3');
+        });
+
         test('falls back to opening delimiter when closing delimiter is empty', () => {
             const raw = '*Answer = value*';
             const operation = { string: 'Answer =' };

@@ -669,6 +669,7 @@ $string['tidyquestion'] = '<i class="fa fa-sort-amount-asc"></i> Tidy inputs and
 $string['tidyquestion_txt'] = 'Tidy inputs and PRTs';
 $string['sendgeneralfeedback'] = '<i class="fa fa-file-text"></i> Send general feedback to the CAS';
 $string['editxml'] = '<i class="fa fa-align-left"></i> Edit question XML';
+$string['comparexml'] = '<i class="fa fa-columns"></i> Compare question XML';
 $string['reloadsavedXML'] = '<i class="fa fa-rotate-left"></i> Reload saved version of question';
 $string['seetodolist'] = '<i class="fa fa-exclamation-triangle"></i> Find <tt>[[todo]]</tt> blocks';
 $string['seetodolist_desc'] = 'The purpose of this page is to find all questions containing <tt>[[todo]]</tt> blocks and to group them by any tags. Questions that have been marked as broken will also be found and displayed.';
@@ -726,6 +727,11 @@ $string['editxmlintro'] = 'You can edit the XML of the question here and then sa
 $string['editxmltitle'] = 'Edit question XML';
 $string['editxmlquestion'] = 'Question XML';
 $string['editxmlbutton'] = 'Save as new version and continue editing';
+$string['comparexmltitle'] = 'Compare question XML';
+$string['comparexmlcurrentversion'] = 'Current version {$a}';
+$string['comparexmlselectedversion'] = 'Compared version {$a}';
+$string['comparexmlselectversion'] = 'Compare with version';
+$string['comparexmlnootherversions'] = 'There are no other versions of this question to compare.';
 $string['xmldisplayerror'] = ' There was a problem displaying the XML.';
 $string['healthcheck'] = 'STACK healthcheck';
 $string['healthcheck_desc'] = 'The <a href="{$a->link}">healthcheck script</a> helps you verify that all aspects of STACK are working properly.';

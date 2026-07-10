@@ -162,3 +162,14 @@ Feature: Test editing XML of a question.
     And I should see "Version 2"
     And I should see "The penalty must be a numeric value between 0 and 1"
     And I should see "The question has been marked as broken"
+    And I follow "STACK question dashboard"
+    And I follow "Compare question XML"
+    Then I should see "Compare question XML"
+    And I should see "Current version 2"
+    And I should see "Compared version 1"
+    And I should see "Compare with version"
+    And I should see "<quiz>"
+    And I set the field "Compare with version" to "Version 2"
+    And I wait until "Compared version 2" "text" exists
+    And I set the field "Compare with version" to "Version 1"
+    And I wait until "Compared version 1" "text" exists

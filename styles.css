@@ -438,6 +438,76 @@ body.path-question-type-stack .stacktestsuite {
 .questionvariables pre {
     white-space: pre-wrap;
 }
+body.path-question-type-stack .stack-xml-compare-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 1rem 0;
+}
+body.path-question-type-stack .stack-xml-compare-controls label {
+    margin-bottom: 0;
+    font-weight: 700;
+}
+body.path-question-type-stack .stack-xml-compare-controls select {
+    width: auto;
+}
+body.path-question-type-stack .stack-xml-compare-diff-wrap {
+    overflow-x: auto;
+    margin-bottom: 1rem;
+    border: 1px solid #d5d8dc;
+}
+body.path-question-type-stack table.stack-xml-compare-diff {
+    width: 100%;
+    min-width: 90rem;
+    margin-bottom: 0;
+    border-collapse: collapse;
+    background: #fff;
+}
+body.path-question-type-stack .stack-xml-compare-diff th,
+body.path-question-type-stack .stack-xml-compare-diff td {
+    padding: 0.15rem 0.35rem;
+    border: 1px solid #d5d8dc;
+    vertical-align: top;
+}
+body.path-question-type-stack .stack-xml-compare-diff th {
+    background: #f1f3f5;
+}
+body.path-question-type-stack .stack-xml-compare-line {
+    width: 4rem;
+    min-width: 4rem;
+    color: #5f6b76;
+    text-align: right;
+    user-select: none;
+}
+body.path-question-type-stack .stack-xml-compare-code {
+    width: 50%;
+    font-family: monospace;
+    white-space: pre;
+}
+body.path-question-type-stack .stack-xml-compare-empty {
+    background: #f8f9fa;
+}
+body.path-question-type-stack .stack-xml-compare-row-added .stack-xml-compare-code-current {
+    background: #e7f6e7;
+}
+body.path-question-type-stack .stack-xml-compare-row-deleted .stack-xml-compare-code-compared {
+    background: #fdeaea;
+}
+body.path-question-type-stack .stack-xml-compare-inline-added,
+body.path-question-type-stack .stack-xml-compare-inline-deleted {
+    display: inline;
+    padding: 0.05rem 0;
+}
+body.path-question-type-stack .stack-xml-compare-inline-added {
+    background: #b7e4b7;
+}
+body.path-question-type-stack .stack-xml-compare-inline-deleted {
+    background: #f4b4b4;
+}
+body.path-question-type-stack .stack-xml-compare-inline-missing {
+    text-decoration: line-through;
+}
 body.path-question-type-stack h2.fail,
 body.path-question-type-stack h3 span.fail {
     color: #f00;

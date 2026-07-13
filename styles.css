@@ -491,7 +491,7 @@ body.path-question-type-stack .stack-xml-compare-empty {
 body.path-question-type-stack .stack-xml-compare-row-added .stack-xml-compare-code-current {
     background: #e7f6e7;
 }
-body.path-question-type-stack .stack-xml-compare-row-deleted .stack-xml-compare-code-compared {
+body.path-question-type-stack .stack-xml-compare-row-deleted .stack-xml-compare-code-current {
     background: #fdeaea;
 }
 body.path-question-type-stack .stack-xml-compare-inline-added,

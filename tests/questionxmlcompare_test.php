@@ -164,32 +164,51 @@ final class questionxmlcompare_test extends \advanced_testcase {
     public function test_diff_rows_highlights_inline_edits_and_deletions(): void {
         $rows = \stack_question_xml_compare::diff_rows('value new tail', 'value old tail');
 
-        $this->assertCount(1, $rows);
-        $this->assertEquals('changed', $rows[0]->type);
-        $this->assertStringContainsString('stack-xml-compare-inline-added', $rows[0]->currenthtml);
+        $this->assertCount(2, $rows);
+        $this->assertEquals('deleted', $rows[0]->type);
         $this->assertStringContainsString('stack-xml-compare-inline-deleted', $rows[0]->currenthtml);
-        $this->assertStringContainsString('stack-xml-compare-inline-missing', $rows[0]->currenthtml);
-        $this->assertStringContainsString('stack-xml-compare-inline-deleted', $rows[0]->comparehtml);
+        $this->assertStringContainsString('old', strip_tags($rows[0]->currenthtml));
+        $this->assertSame('', $rows[0]->comparehtml);
+        $this->assertEquals('added', $rows[1]->type);
+        $this->assertStringContainsString('stack-xml-compare-inline-added', $rows[1]->currenthtml);
+        $this->assertStringContainsString('new', strip_tags($rows[1]->currenthtml));
+        $this->assertSame('', $rows[1]->comparehtml);
     }
 
     public function test_diff_rows_escapes_changed_xml_text_inside_inline_highlights(): void {
         $rows = \stack_question_xml_compare::diff_rows('<tag attr="new">', '<tag attr="old">');
 
-        $this->assertSame('changed', $rows[0]->type);
-        $this->assertStringContainsString('&lt;tag attr=&quot;', $rows[0]->currenthtml);
-        $this->assertSame('&lt;tag attr=&quot;oldnew&quot;&gt;', strip_tags($rows[0]->currenthtml));
-        $this->assertSame('&lt;tag attr=&quot;old&quot;&gt;', strip_tags($rows[0]->comparehtml));
+        $this->assertSame('deleted', $rows[0]->type);
+        $this->assertSame('&lt;tag attr=&quot;old&quot;&gt;', strip_tags($rows[0]->currenthtml));
         $this->assertStringNotContainsString('<tag attr=', $rows[0]->currenthtml);
-        $this->assertStringNotContainsString('<tag attr=', $rows[0]->comparehtml);
+        $this->assertSame('added', $rows[1]->type);
+        $this->assertStringContainsString('&lt;tag attr=&quot;', $rows[1]->currenthtml);
+        $this->assertSame('&lt;tag attr=&quot;new&quot;&gt;', strip_tags($rows[1]->currenthtml));
+        $this->assertStringNotContainsString('<tag attr=', $rows[1]->currenthtml);
     }
 
-    public function test_diff_rows_shows_deleted_only_content_in_current_column(): void {
+    public function test_diff_rows_shows_deleted_only_content_in_current_code_column(): void {
         $rows = \stack_question_xml_compare::diff_rows("same\nlast", "same\ndeleted\nlast");
 
         $this->assertEquals('deleted', $rows[1]->type);
         $this->assertStringContainsString('deleted', $rows[1]->currenthtml);
-        $this->assertStringContainsString('stack-xml-compare-inline-missing', $rows[1]->currenthtml);
-        $this->assertEquals('deleted', $rows[1]->comparehtml);
+        $this->assertStringContainsString('stack-xml-compare-inline-deleted', $rows[1]->currenthtml);
+        $this->assertSame('', $rows[1]->comparehtml);
+        $this->assertStringContainsString('stack-xml-compare-empty', $rows[1]->compareclass);
+    }
+
+    public function test_inline_changed_separate_marks_additions_and_deletions_on_separate_lines(): void {
+        [$currenthtml, $comparehtml] = \stack_question_xml_compare::inline_changed_separate(
+            'value new tail',
+            'value old tail'
+        );
+
+        $this->assertStringContainsString('stack-xml-compare-inline-added', $currenthtml);
+        $this->assertStringNotContainsString('stack-xml-compare-inline-deleted', $currenthtml);
+        $this->assertSame('value new tail', strip_tags($currenthtml));
+        $this->assertStringContainsString('stack-xml-compare-inline-deleted', $comparehtml);
+        $this->assertStringNotContainsString('stack-xml-compare-inline-added', $comparehtml);
+        $this->assertSame('value old tail', strip_tags($comparehtml));
     }
 
     public function test_inline_changed_marks_insertions_only_on_current_side(): void {
@@ -225,6 +244,24 @@ final class questionxmlcompare_test extends \advanced_testcase {
         $this->assertStringContainsString('stack-xml-compare-inline-deleted', $comparehtml);
     }
 
+    public function test_inline_changed_separate_region_marks_middle_changes_for_long_lines(): void {
+        [$currenthtml, $comparehtml] = \stack_question_xml_compare::inline_changed_separate_region(
+            str_split('prefix-CURRENT-suffix'),
+            str_split('prefix-COMPARED-suffix')
+        );
+
+        $this->assertStringStartsWith('prefix-', $currenthtml);
+        $this->assertStringEndsWith('-suffix', $currenthtml);
+        $this->assertStringContainsString('stack-xml-compare-inline-added', $currenthtml);
+        $this->assertStringContainsString('URRENT', $currenthtml);
+        $this->assertStringNotContainsString('stack-xml-compare-inline-deleted', $currenthtml);
+        $this->assertStringStartsWith('prefix-', $comparehtml);
+        $this->assertStringEndsWith('-suffix', $comparehtml);
+        $this->assertStringContainsString('stack-xml-compare-inline-deleted', $comparehtml);
+        $this->assertStringContainsString('OMPARED', $comparehtml);
+        $this->assertStringNotContainsString('stack-xml-compare-inline-added', $comparehtml);
+    }
+
     public function test_inline_changed_uses_long_line_fallback(): void {
         $current = str_repeat('a', 201) . 'current';
         $compared = str_repeat('a', 201) . 'compared';
@@ -239,47 +276,6 @@ final class questionxmlcompare_test extends \advanced_testcase {
 
     public function test_chars_handles_multibyte_characters(): void {
         $this->assertSame(['a', '£', 'b'], \stack_question_xml_compare::chars('a£b'));
-    }
-
-    public function test_output_data_builds_template_flags_and_rows(): void {
-        $question = (object) ['name' => 'Question name'];
-        $general = (object) ['refreshlink' => 'http://example.com'];
-
-        $output = \stack_question_xml_compare::output_data(
-            $question,
-            2,
-            1,
-            [2 => 102, 1 => 101],
-            'current',
-            'compared',
-            'Notice',
-            $general
-        );
-
-        $this->assertSame('Question name', $output->question->name);
-        $this->assertSame(2, $output->question->currentversion);
-        $this->assertSame(1, $output->question->compareversion);
-        $this->assertTrue($output->hasnotices);
-        $this->assertFalse($output->nootherversions);
-        $this->assertSame($general, $output->general);
-        $this->assertCount(2, $output->versions);
-        $this->assertCount(1, $output->rows);
-    }
-
-    public function test_output_data_marks_single_version_questions(): void {
-        $output = \stack_question_xml_compare::output_data(
-            (object) ['name' => 'Question name'],
-            1,
-            1,
-            [1 => 101],
-            'same',
-            'same',
-            '',
-            new \stdClass()
-        );
-
-        $this->assertFalse($output->hasnotices);
-        $this->assertTrue($output->nootherversions);
     }
 
     public function test_form_params_preserve_scalar_context_parameters(): void {

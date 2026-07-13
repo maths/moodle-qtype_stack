@@ -283,33 +283,68 @@ class stack_question_xml_compare {
     public static function diff_rows(string $currentxml, string $comparexml): array {
         $rows = [];
         foreach (self::compare_rows($currentxml, $comparexml) as $row) {
-            $currenthtml = null;
-            $comparehtml = null;
             if ($row->type === 'changed') {
-                [$currenthtml, $comparehtml] = self::inline_changed($row->currenttext, $row->comparetext);
+                [$currenthtml, $deletedhtml] = self::inline_changed_separate($row->currenttext, $row->comparetext);
+                $rows[] = self::template_row((object) [
+                    'type' => 'deleted',
+                    'currentline' => null,
+                    'compareline' => $row->compareline,
+                    'currenttext' => null,
+                    'comparetext' => null,
+                ], $deletedhtml, null);
+                $rows[] = self::template_row((object) [
+                    'type' => 'added',
+                    'currentline' => $row->currentline,
+                    'compareline' => null,
+                    'currenttext' => $row->currenttext,
+                    'comparetext' => null,
+                ], $currenthtml, null);
+                continue;
             } else if ($row->type === 'deleted') {
-                // For deleted-only lines there is no real current-side line. We still render the removed
-                // text in the current column, struck through, so the user can see what disappeared while
-                // scanning the "current version changed from selected version" side of the table.
                 $currenthtml = html_writer::tag(
                     'span',
                     s($row->comparetext),
-                    ['class' => 'stack-xml-compare-inline-deleted stack-xml-compare-inline-missing']
+                    ['class' => 'stack-xml-compare-inline-deleted']
                 );
+                $rows[] = self::template_row((object) [
+                    'type' => 'deleted',
+                    'currentline' => null,
+                    'compareline' => $row->compareline,
+                    'currenttext' => null,
+                    'comparetext' => null,
+                ], $currenthtml, null);
+                continue;
             }
 
-            $template = new stdClass();
-            $template->type = $row->type;
-            $template->currentline = $row->currentline ?? '';
-            $template->compareline = $row->compareline ?? '';
-            $template->currentclass = self::cell_class('current', $row->currenttext === null && $currenthtml === null);
-            $template->compareclass = self::cell_class('compared', $row->comparetext === null && $comparehtml === null);
-            $template->currenthtml = self::cell_html($row->currenttext, $currenthtml);
-            $template->comparehtml = self::cell_html($row->comparetext, $comparehtml);
-            $rows[] = $template;
+            $rows[] = self::template_row($row);
         }
 
         return $rows;
+    }
+
+    /**
+     * Build one template-ready diff row.
+     *
+     * @param stdClass $row raw row.
+     * @param string|null $currenthtml explicit current-side HTML.
+     * @param string|null $comparehtml explicit compared-side HTML.
+     * @return stdClass template row.
+     */
+    protected static function template_row(
+        stdClass $row,
+        ?string $currenthtml = null,
+        ?string $comparehtml = null
+    ): stdClass {
+        $template = new stdClass();
+        $template->type = $row->type;
+        $template->currentline = $row->currentline ?? '';
+        $template->compareline = $row->compareline ?? '';
+        $template->currentclass = self::cell_class('current', $row->currenttext === null && $currenthtml === null);
+        $template->compareclass = self::cell_class('compared', $row->comparetext === null && $comparehtml === null);
+        $template->currenthtml = self::cell_html($row->currenttext, $currenthtml);
+        $template->comparehtml = self::cell_html($row->comparetext, $comparehtml);
+
+        return $template;
     }
 
     /**
@@ -444,6 +479,80 @@ class stack_question_xml_compare {
     }
 
     /**
+     * Render inline character changes for two changed lines shown as separate rows.
+     *
+     * @param string $currenttext current version line.
+     * @param string $comparetext selected version line.
+     * @return string[] current-added HTML and compared-deleted HTML.
+     */
+    public static function inline_changed_separate(string $currenttext, string $comparetext): array {
+        $current = self::chars($currenttext);
+        $compare = self::chars($comparetext);
+        $currentcount = count($current);
+        $comparecount = count($compare);
+
+        if ($currentcount * $comparecount > 40000) {
+            return self::inline_changed_separate_region($current, $compare);
+        }
+
+        $lcs = array_fill(0, $currentcount + 1, array_fill(0, $comparecount + 1, 0));
+        for ($i = $currentcount - 1; $i >= 0; $i--) {
+            for ($j = $comparecount - 1; $j >= 0; $j--) {
+                if ($current[$i] === $compare[$j]) {
+                    $lcs[$i][$j] = $lcs[$i + 1][$j + 1] + 1;
+                } else {
+                    $lcs[$i][$j] = max($lcs[$i + 1][$j], $lcs[$i][$j + 1]);
+                }
+            }
+        }
+
+        $currenthtml = '';
+        $comparehtml = '';
+        $i = 0;
+        $j = 0;
+        while ($i < $currentcount && $j < $comparecount) {
+            if ($current[$i] === $compare[$j]) {
+                $currenthtml .= s($current[$i]);
+                $comparehtml .= s($compare[$j]);
+                $i++;
+                $j++;
+            } else if ($lcs[$i + 1][$j] > $lcs[$i][$j + 1]) {
+                $currenthtml .= html_writer::tag(
+                    'span',
+                    s($current[$i]),
+                    ['class' => 'stack-xml-compare-inline-added']
+                );
+                $i++;
+            } else {
+                $comparehtml .= html_writer::tag(
+                    'span',
+                    s($compare[$j]),
+                    ['class' => 'stack-xml-compare-inline-deleted']
+                );
+                $j++;
+            }
+        }
+        while ($i < $currentcount) {
+            $currenthtml .= html_writer::tag(
+                'span',
+                s($current[$i]),
+                ['class' => 'stack-xml-compare-inline-added']
+            );
+            $i++;
+        }
+        while ($j < $comparecount) {
+            $comparehtml .= html_writer::tag(
+                'span',
+                s($compare[$j]),
+                ['class' => 'stack-xml-compare-inline-deleted']
+            );
+            $j++;
+        }
+
+        return [$currenthtml, $comparehtml];
+    }
+
+    /**
      * Render inline changed regions for long lines without building an LCS matrix.
      *
      * @param string[] $current current version characters.
@@ -478,6 +587,50 @@ class stack_question_xml_compare {
         }
         if ($comparemiddle !== '') {
             $currenthtml .= self::missing_html($comparemiddle);
+            $comparehtml .= html_writer::tag(
+                'span',
+                s($comparemiddle),
+                ['class' => 'stack-xml-compare-inline-deleted']
+            );
+        }
+        $currenthtml .= s(implode('', array_slice($current, $currentcount - $suffix)));
+        $comparehtml .= s(implode('', array_slice($compare, $comparecount - $suffix)));
+
+        return [$currenthtml, $comparehtml];
+    }
+
+    /**
+     * Render separate-row inline changed regions for long lines without building an LCS matrix.
+     *
+     * @param string[] $current current version characters.
+     * @param string[] $compare selected version characters.
+     * @return string[] current-added HTML and compared-deleted HTML.
+     */
+    public static function inline_changed_separate_region(array $current, array $compare): array {
+        $currentcount = count($current);
+        $comparecount = count($compare);
+        $prefix = 0;
+        while ($prefix < $currentcount && $prefix < $comparecount && $current[$prefix] === $compare[$prefix]) {
+            $prefix++;
+        }
+
+        $suffix = 0;
+        while (
+            $suffix < $currentcount - $prefix &&
+            $suffix < $comparecount - $prefix &&
+            $current[$currentcount - $suffix - 1] === $compare[$comparecount - $suffix - 1]
+        ) {
+            $suffix++;
+        }
+
+        $currenthtml = s(implode('', array_slice($current, 0, $prefix)));
+        $comparehtml = s(implode('', array_slice($compare, 0, $prefix)));
+        $currentmiddle = implode('', array_slice($current, $prefix, $currentcount - $prefix - $suffix));
+        $comparemiddle = implode('', array_slice($compare, $prefix, $comparecount - $prefix - $suffix));
+        if ($currentmiddle !== '') {
+            $currenthtml .= html_writer::tag('span', s($currentmiddle), ['class' => 'stack-xml-compare-inline-added']);
+        }
+        if ($comparemiddle !== '') {
             $comparehtml .= html_writer::tag(
                 'span',
                 s($comparemiddle),

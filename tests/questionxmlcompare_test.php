@@ -156,6 +156,21 @@ final class questionxmlcompare_test extends \advanced_testcase {
         $this->assertFalse($options[2]->selected);
     }
 
+    public function test_version_options_adds_disabled_selected_file_option_when_requested(): void {
+        $options = \stack_question_xml_compare::version_options([3 => 103, 2 => 102, 1 => 101], 2, true);
+
+        $this->assertCount(4, $options);
+        $this->assertSame('Selected file', $options[0]->label);
+        $this->assertSame('', $options[0]->version);
+        $this->assertTrue($options[0]->selected);
+        $this->assertTrue($options[0]->disabled);
+        $this->assertSame(3, $options[1]->version);
+        $this->assertFalse($options[1]->selected);
+        $this->assertSame(2, $options[2]->version);
+        $this->assertFalse($options[2]->selected);
+        $this->assertSame(1, $options[3]->version);
+    }
+
     public function test_question_options_mark_selected_question(): void {
         $question1 = (object) ['id' => 10, 'name' => 'Stack question', 'qtype' => 'stack', 'version' => 2];
         $question2 = (object) ['id' => 20, 'name' => 'True false question', 'qtype' => 'truefalse', 'version' => 1];
@@ -499,5 +514,70 @@ final class questionxmlcompare_test extends \advanced_testcase {
         $this->assertEquals(2, $params[0]->value);
         $this->assertEquals('cmid', $params[1]->name);
         $this->assertEquals(3, $params[1]->value);
+    }
+
+    public function test_question_form_params_strip_uploaded_file_drafts(): void {
+        $params = \stack_question_xml_compare::question_form_params([
+            'id' => 2,
+            'currentfile' => 111,
+            'comparefile' => 222,
+            'display' => 'split',
+        ]);
+
+        $this->assertCount(2, $params);
+        $this->assertEquals('id', $params[0]->name);
+        $this->assertEquals('display', $params[1]->name);
+    }
+
+    public function test_draft_file_content_reads_current_users_filepicker_file(): void {
+        global $USER;
+
+        $this->resetAfterTest();
+        $this->setAdminUser();
+
+        $draftitemid = file_get_unused_draft_itemid();
+        $fs = get_file_storage();
+        $usercontext = \context_user::instance($USER->id);
+        $fs->create_file_from_string([
+            'contextid' => $usercontext->id,
+            'component' => 'user',
+            'filearea' => 'draft',
+            'itemid' => $draftitemid,
+            'filepath' => '/',
+            'filename' => 'question.xml',
+        ], '<quiz />');
+
+        $this->assertSame('<quiz />', \stack_question_xml_compare::draft_file_content($draftitemid));
+        $this->assertSame('question.xml', \stack_question_xml_compare::draft_file_name($draftitemid));
+    }
+
+    public function test_draft_file_content_reads_current_users_filepicker_file_for_compare_side(): void {
+        global $USER;
+
+        $this->resetAfterTest();
+        $this->setAdminUser();
+
+        $draftitemid = file_get_unused_draft_itemid();
+        $fs = get_file_storage();
+        $usercontext = \context_user::instance($USER->id);
+        $fs->create_file_from_string([
+            'contextid' => $usercontext->id,
+            'component' => 'user',
+            'filearea' => 'draft',
+            'itemid' => $draftitemid,
+            'filepath' => '/',
+            'filename' => 'compared.xml',
+        ], '<quiz><note>compare</note></quiz>');
+
+        $this->assertSame('<quiz><note>compare</note></quiz>', \stack_question_xml_compare::draft_file_content($draftitemid));
+        $this->assertSame('compared.xml', \stack_question_xml_compare::draft_file_name($draftitemid));
+    }
+
+    public function test_draft_file_content_returns_null_for_missing_file(): void {
+        $this->resetAfterTest();
+        $this->setAdminUser();
+
+        $this->assertNull(\stack_question_xml_compare::draft_file_content(123456789));
+        $this->assertNull(\stack_question_xml_compare::draft_file_name(123456789));
     }
 }

@@ -27,6 +27,7 @@ require_once(__DIR__ . '/locallib.php');
 require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/stack/utils.class.php');
 require_once(__DIR__ . '/stack/questionxmlcompare.class.php');
+require_once(__DIR__ . '/questionxmlcompare_form.php');
 
 require_login();
 
@@ -36,6 +37,8 @@ $requestedcurrentversion = optional_param('currentversion', null, PARAM_INT);
 $requestedcompareversion = optional_param('compareversion', null, PARAM_INT);
 $requesteddisplay = optional_param('display', null, PARAM_ALPHA);
 $requesteddiffonly = optional_param('diffonly', stack_question_xml_compare::FILTER_ALL, PARAM_BOOL);
+$requestedcurrentfile = optional_param('currentfile', 0, PARAM_INT);
+$requestedcomparefile = optional_param('comparefile', 0, PARAM_INT);
 
 [$latestversion, , , $versions] = get_latest_question_version($questionid);
 $currentversion = stack_question_xml_compare::get_current_version($requestedcurrentversion, $versions, $latestversion);
@@ -94,23 +97,90 @@ if ($requestedcurrentversion === null) {
 }
 
 $PAGE->set_context($context);
+$uploadformparams = $pageparams;
+$uploadform = new qtype_stack_question_xml_compare_form(
+    new moodle_url('/question/type/stack/questionxmlcompare.php', $uploadformparams)
+);
+if ($fromform = $uploadform->get_data()) {
+    $requestedcurrentfile = !empty($fromform->currentfile) ? (int) $fromform->currentfile : 0;
+    $requestedcomparefile = !empty($fromform->comparefile) ? (int) $fromform->comparefile : 0;
+    $redirectparams = $pageparams;
+    if (stack_question_xml_compare::draft_file($requestedcurrentfile)) {
+        $redirectparams['currentfile'] = $requestedcurrentfile;
+    }
+    if (stack_question_xml_compare::draft_file($requestedcomparefile)) {
+        $redirectparams['comparefile'] = $requestedcomparefile;
+    }
+    redirect(new moodle_url('/question/type/stack/questionxmlcompare.php', $redirectparams));
+}
+
+$currentfile = $requestedcurrentfile;
+$comparefile = $requestedcomparefile;
+$notices = [];
+
+$currentxml = stack_question_xml_compare::export_question_version_xml($questiondata);
+$comparexml = stack_question_xml_compare::export_question_version_xml($comparequestiondata);
+if ($currentfile) {
+    $uploadedxml = stack_question_xml_compare::draft_file_content($currentfile);
+    if ($uploadedxml === null) {
+        $uploadedxml = $uploadform->get_file_content('currentfile');
+    }
+    if ($uploadedxml === null || $uploadedxml === false) {
+        $currentfile = 0;
+    } else {
+        $currentxml = $uploadedxml;
+    }
+}
+if ($comparefile) {
+    $uploadedxml = stack_question_xml_compare::draft_file_content($comparefile);
+    if ($uploadedxml === null) {
+        $uploadedxml = $uploadform->get_file_content('comparefile');
+    }
+    if ($uploadedxml === null || $uploadedxml === false) {
+        $comparefile = 0;
+    } else {
+        $comparexml = $uploadedxml;
+    }
+}
+if (!$currentxml || !$comparexml) {
+    $notices[] = stack_string('xmldisplayerror');
+    $currentxml = $currentxml ?: '';
+    $comparexml = $comparexml ?: '';
+}
+if ($currentfile) {
+    $pageparams['currentfile'] = $currentfile;
+}
+if ($comparefile) {
+    $pageparams['comparefile'] = $comparefile;
+}
+
 $PAGE->set_url('/question/type/stack/questionxmlcompare.php', $pageparams);
 $title = stack_string('comparexmltitle');
 $PAGE->set_title($title);
 $PAGE->set_heading($title);
 $PAGE->set_pagelayout('popup');
 
-$currentxml = stack_question_xml_compare::export_question_version_xml($questiondata);
-$comparexml = stack_question_xml_compare::export_question_version_xml($comparequestiondata);
-$notices = '';
-if (!$currentxml || !$comparexml) {
-    $notices = stack_string('xmldisplayerror');
-    $currentxml = $currentxml ?: '';
-    $comparexml = $comparexml ?: '';
-}
+$uploadform->set_data([
+    'currentfile' => $currentfile ?: null,
+    'comparefile' => $comparefile ?: null,
+]);
 
+$hascurrentfile = !empty($currentfile);
+$hascomparefile = !empty($comparefile);
+$hasfiles = $hascurrentfile || $hascomparefile;
 $general = new stdClass();
 $general->isstackquestion = $isstackquestion;
+$general->filesopen = $hasfiles;
+$general->currentversionlabel = stack_string('comparexmlselectcurrentversion');
+$general->compareversionlabel = stack_string('comparexmlselectversion');
+$general->currentversiononchange = $hascurrentfile
+    ? "var f=this.form.querySelector('input[name=currentfile]'); if (f) { f.parentNode.removeChild(f); } this.form.submit();"
+    : "this.form.submit();";
+$general->compareversiononchange = $hascomparefile
+    ? "var f=this.form.querySelector('input[name=comparefile]'); if (f) { f.parentNode.removeChild(f); } this.form.submit();"
+    : "this.form.submit();";
+$general->questionselectmuted = $hascurrentfile && $hascomparefile;
+
 if ($isstackquestion) {
     $qtype = new qtype_stack();
     $general->testquestionlink = $qtype->get_question_test_url($question)->out();
@@ -131,12 +201,18 @@ $general->formaction = (new moodle_url('/question/type/stack/questionxmlcompare.
 $formparams = $editparams;
 $formparams['display'] = $displaymode;
 $formparams['diffonly'] = $pageparams['diffonly'];
+if ($currentfile) {
+    $formparams['currentfile'] = $currentfile;
+}
+if ($comparefile) {
+    $formparams['comparefile'] = $comparefile;
+}
 $general->formparams = stack_question_xml_compare::form_params($formparams);
 $questionformparams = $editparams;
 unset($questionformparams['id']);
 $questionformparams['display'] = $displaymode;
 $questionformparams['diffonly'] = $pageparams['diffonly'];
-$general->questionformparams = stack_question_xml_compare::form_params($questionformparams);
+$general->questionformparams = stack_question_xml_compare::question_form_params($questionformparams);
 $latestparams = $pageparams;
 unset($latestparams['currentversion']);
 $general->latestlink = (new moodle_url('/question/type/stack/questionxmlcompare.php', $latestparams))->out();
@@ -146,6 +222,7 @@ $general->displaytogglelink = (new moodle_url('/question/type/stack/questionxmlc
 $diffonlytoggleparams = $pageparams;
 $diffonlytoggleparams['diffonly'] = stack_question_xml_compare::toggle_diff_only($diffonly);
 $general->diffonlytogglelink = (new moodle_url('/question/type/stack/questionxmlcompare.php', $diffonlytoggleparams))->out();
+$general->uploadform = $uploadform->render();
 
 $output = new stdClass();
 $output->question = new stdClass();
@@ -158,11 +235,10 @@ $output->displaysplit = ($displaymode === stack_question_xml_compare::DISPLAY_SP
 $output->diffonly = $diffonly;
 $output->showalllines = !$diffonly;
 $output->general = $general;
-$output->hasnotices = $notices !== '';
-$output->notices = $notices;
-$output->nootherversions = count($versions) < 2;
-$output->currentversions = stack_question_xml_compare::version_options($versions, $currentversion);
-$output->versions = stack_question_xml_compare::version_options($versions, $compareversion);
+$output->hasnotices = $notices !== [];
+$output->notices = implode(' ', $notices);
+$output->currentversions = stack_question_xml_compare::version_options($versions, $currentversion, $hascurrentfile);
+$output->versions = stack_question_xml_compare::version_options($versions, $compareversion, $hascomparefile);
 $output->questionoptions = stack_question_xml_compare::questions_in_category($questiondata->category, $questionid);
 $output->rows = stack_question_xml_compare::diff_rows($currentxml, $comparexml, $displaymode, $diffonly);
 

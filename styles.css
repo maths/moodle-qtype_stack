@@ -452,6 +452,79 @@ body.path-question-type-stack .stack-xml-compare-controls label {
 body.path-question-type-stack .stack-xml-compare-controls select {
     width: auto;
 }
+body.path-question-type-stack .stack-xml-compare-upload {
+    margin: 1rem 0;
+}
+body.path-question-type-stack .stack-xml-compare-upload summary {
+    cursor: pointer;
+    font-weight: 700;
+    color: #1f2d3d;
+}
+body.path-question-type-stack .stack-xml-compare-upload form {
+    margin-bottom: 0;
+    margin-top: 0.75rem;
+}
+body.path-question-type-stack .stack-xml-compare-filepickers {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(22rem, 1fr));
+    gap: 1rem 2rem;
+    align-items: start;
+    padding: 1rem;
+}
+body.path-question-type-stack .stack-xml-compare-filepickers .fitem_ffilepicker {
+    display: flex;
+    flex-direction: column;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+}
+body.path-question-type-stack .stack-xml-compare-filepickers .fitemtitle {
+    margin-bottom: 0.25rem;
+    font-weight: 700;
+}
+body.path-question-type-stack .stack-xml-compare-filepickers .fitemtitle,
+body.path-question-type-stack .stack-xml-compare-filepickers .felement {
+    flex: 0 0 auto;
+    max-width: 100%;
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+}
+body.path-question-type-stack .stack-xml-compare-filepickers .filepicker-filelist .filepicker-container,
+body.path-question-type-stack .stack-xml-compare-filepickers .filepicker-filelist .dndupload-target {
+    box-sizing: border-box;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1rem;
+}
+body.path-question-type-stack .stack-xml-compare-filepickers .filepicker-filelist .filepicker-container {
+    display: flex;
+}
+body.path-question-type-stack.dndsupported
+    .stack-xml-compare-filepickers .filepicker-filelist.dndupload-ready .dndupload-target {
+    display: flex;
+}
+body.path-question-type-stack .stack-xml-compare-filepickers .dndupload-message,
+body.path-question-type-stack .stack-xml-compare-filepickers .dndupload-target {
+    line-height: 1.4;
+    text-align: center;
+}
+body.path-question-type-stack .stack-xml-compare-filepickers .dndupload-arrow {
+    position: static;
+    width: auto;
+    height: auto;
+    margin-top: 0.5rem;
+}
+@media (max-width: 768px) {
+    body.path-question-type-stack .stack-xml-compare-filepickers {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+body.path-question-type-stack .stack-xml-compare-question-muted {
+    opacity: 0.55;
+    color: #6c757d;
+}
 body.path-question-type-stack .stack-xml-compare-diff-wrap {
     overflow-x: auto;
     margin-bottom: 1rem;

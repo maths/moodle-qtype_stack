@@ -178,15 +178,24 @@ class stack_question_xml_compare {
      *
      * @param array $versions version number => question id.
      * @param int $compareversion selected comparison version.
+     * @param bool $fileselected whether to add a selected-file option.
      * @return stdClass[] template options.
      */
-    public static function version_options(array $versions, int $compareversion): array {
+    public static function version_options(array $versions, int $compareversion, bool $fileselected = false): array {
         $options = [];
+        if ($fileselected) {
+            $fileoption = new stdClass();
+            $fileoption->version = '';
+            $fileoption->label = stack_string('comparexmlselectedfile');
+            $fileoption->selected = true;
+            $fileoption->disabled = true;
+            $options[] = $fileoption;
+        }
         foreach (array_keys($versions) as $version) {
             $option = new stdClass();
             $option->version = $version;
             $option->label = $version;
-            $option->selected = ($version === $compareversion);
+            $option->selected = (!$fileselected && $version === $compareversion);
             $options[] = $option;
         }
 
@@ -261,6 +270,68 @@ class stack_question_xml_compare {
         }
 
         return $formparams;
+    }
+
+    /**
+     * Build hidden parameters for the question selector.
+     *
+     * Switching question should always discard uploaded files, so we strip any filepicker draft ids here.
+     *
+     * @param array $params URL parameters to preserve.
+     * @return stdClass[] template hidden input data.
+     */
+    public static function question_form_params(array $params): array {
+        unset($params['currentfile']);
+        unset($params['comparefile']);
+
+        return self::form_params($params);
+    }
+
+    /**
+     * Get a file from the current user's draft file area.
+     *
+     * @param int|null $draftitemid draft item id from a Moodle filepicker.
+     * @return stored_file|null draft file, if present.
+     */
+    public static function draft_file(?int $draftitemid) {
+        global $USER;
+
+        if (empty($draftitemid) || empty($USER->id)) {
+            return null;
+        }
+
+        $fs = get_file_storage();
+        $usercontext = context_user::instance($USER->id);
+        $files = $fs->get_area_files($usercontext->id, 'user', 'draft', $draftitemid, 'id DESC', false);
+        if (!$files) {
+            return null;
+        }
+
+        return reset($files) ?: null;
+    }
+
+    /**
+     * Read XML content from the current user's draft file area.
+     *
+     * @param int|null $draftitemid draft item id from a Moodle filepicker.
+     * @return string|null file content, if present.
+     */
+    public static function draft_file_content(?int $draftitemid): ?string {
+        $file = self::draft_file($draftitemid);
+
+        return $file ? $file->get_content() : null;
+    }
+
+    /**
+     * Get the display filename for a draft file.
+     *
+     * @param int|null $draftitemid draft item id from a Moodle filepicker.
+     * @return string|null filename, if present.
+     */
+    public static function draft_file_name(?int $draftitemid): ?string {
+        $file = self::draft_file($draftitemid);
+
+        return $file ? $file->get_filename() : null;
     }
 
     /**

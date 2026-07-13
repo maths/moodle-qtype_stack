@@ -48,7 +48,14 @@
         "latestlink": "http://example.com",
         "displaytogglelink": "http://example.com",
         "diffonlytogglelink": "http://example.com",
+        "uploadform": "<form></form>",
         "isstackquestion": true,
+        "filesopen": false,
+        "currentversionlabel": "Version",
+        "compareversionlabel": "Compared with version",
+        "currentversiononchange": "this.form.submit();",
+        "compareversiononchange": "this.form.submit();",
+        "questionselectmuted": false,
         "formparams": [
           {"name": "id", "value": 1}
         ],
@@ -107,7 +114,8 @@
 
   <h2>{{#str}} comparexmltitle, qtype_stack {{/str}}</h2>
 
-  <form method="get" action="{{{general.formaction}}}" class="stack-xml-compare-controls">
+  <form method="get" action="{{{general.formaction}}}" class="stack-xml-compare-controls
+      {{#general.questionselectmuted}}stack-xml-compare-question-muted{{/general.questionselectmuted}}">
     {{#general.questionformparams}}
       <input type="hidden" name="{{name}}" value="{{value}}">
     {{/general.questionformparams}}
@@ -119,9 +127,6 @@
     </select>
   </form>
 
-  {{#nootherversions}}
-    <div class="alert alert-info">{{#str}} comparexmlnootherversions, qtype_stack {{/str}}</div>
-  {{/nootherversions}}
   {{#hasnotices}}
     <div class="alert alert-warning">{{notices}}</div>
   {{/hasnotices}}
@@ -132,9 +137,10 @@
     {{/general.formparams}}
     <label for="id_currentversion">{{#str}} comparexmlselectcurrentversion, qtype_stack {{/str}}</label>
     <select id="id_currentversion" class="custom-select form-select"
-        name="currentversion" onchange="this.form.submit();">
+        name="currentversion" onchange="{{{general.currentversiononchange}}}">
       {{#currentversions}}
-        <option value="{{version}}" {{#selected}}selected="selected"{{/selected}}>{{label}}</option>
+        <option value="{{version}}" {{#selected}}selected="selected"{{/selected}}
+            {{#disabled}}disabled="disabled"{{/disabled}}>{{label}}</option>
       {{/currentversions}}
     </select>
     <a class="btn btn-secondary" href="{{{general.latestlink}}}">
@@ -142,9 +148,10 @@
     </a>
     <label for="id_compareversion">{{#str}} comparexmlselectversion, qtype_stack {{/str}}</label>
     <select id="id_compareversion" class="custom-select form-select"
-        name="compareversion" onchange="this.form.submit();">
+        name="compareversion" onchange="{{{general.compareversiononchange}}}">
       {{#versions}}
-        <option value="{{version}}" {{#selected}}selected="selected"{{/selected}}>{{label}}</option>
+        <option value="{{version}}" {{#selected}}selected="selected"{{/selected}}
+            {{#disabled}}disabled="disabled"{{/disabled}}>{{label}}</option>
       {{/versions}}
     </select>
     <a class="btn btn-secondary" href="{{{general.displaytogglelink}}}">
@@ -156,6 +163,11 @@
       {{#diffonly}}{{#str}} comparexmlshowalllines, qtype_stack {{/str}}{{/diffonly}}
     </a>
   </form>
+
+  <details class="stack-xml-compare-upload"{{#general.filesopen}} open{{/general.filesopen}}>
+    <summary>{{#str}} comparexmlloadfiles, qtype_stack {{/str}}</summary>
+    {{{general.uploadform}}}
+  </details>
 
   <div class="stack-xml-compare-diff-wrap">
     <table class="stack-xml-compare-diff stack-xml-compare-diff-{{displaymode}}">
@@ -185,3 +197,41 @@
     </table>
   </div>
 </div>
+
+{{#js}}
+(function() {
+    var submitUploadForm = function(form) {
+        if (!form) {
+            return;
+        }
+
+        form.dataset.formSubmitted = 'true';
+        form.dataset.formDirty = 'false';
+
+        if (form.requestSubmit) {
+            form.requestSubmit();
+            return;
+        }
+
+        form.submit();
+    };
+
+    document.querySelectorAll('.stack-xml-compare-upload .filepickerhidden').forEach(function(input) {
+        input.setAttribute('data-form-change-checker-override', 'true');
+        input.addEventListener('change', function() {
+            input.setAttribute('data-form-change-checker-override', 'true');
+            if (typeof require === 'function') {
+                require(['core_form/changechecker'], function(changeChecker) {
+                    if (changeChecker && changeChecker.disableAllChecks) {
+                        changeChecker.disableAllChecks();
+                    }
+                    submitUploadForm(input.form);
+                });
+                return;
+            }
+
+            submitUploadForm(input.form);
+        });
+    });
+})();
+{{/js}}

@@ -32,8 +32,8 @@
     {
       "question": {
         "name": "Question name",
-        "currentversionlabel": "Current version 2",
-        "compareversionlabel": "Compared version 1"
+        "currentversion": 2,
+        "compareversion": 1
       },
       "general": {
         "testquestionlink": "http://example.com",
@@ -41,6 +41,7 @@
         "editquestionlink": "http://example.com",
         "editxmllink": "http://example.com",
         "formaction": "http://example.com",
+        "refreshlink": "http://example.com",
         "formparams": [
           {"name": "id", "value": 1}
         ]
@@ -86,8 +87,16 @@
 
   <h2>{{#str}} comparexmltitle, qtype_stack {{/str}}</h2>
   <h3>{{question.name}}</h3>
-  <p>{{question.currentversionlabel}}</p>
-  <p>{{question.compareversionlabel}}</p>
+  <p>
+    <strong>
+      {{#str}} comparexmlcurrentversion, qtype_stack, {{question.currentversion}} {{/str}}
+      <a class="d-inline-block p-0 ml-2 ms-2" href="{{{general.refreshlink}}}"
+          title="{{#str}} comparexmlrefresh, qtype_stack {{/str}}"
+          aria-label="{{#str}} comparexmlrefresh, qtype_stack {{/str}}">
+        <i class="fa fa-rotate-left" aria-hidden="true"></i>
+      </a>
+    </strong>
+  </p>
 
   {{#nootherversions}}
     <div class="alert alert-info">{{#str}} comparexmlnootherversions, qtype_stack {{/str}}</div>
@@ -107,7 +116,6 @@
         <option value="{{version}}" {{#selected}}selected="selected"{{/selected}}>{{label}}</option>
       {{/versions}}
     </select>
-    <input type="submit" class="btn btn-secondary" value="{{#str}} go, core {{/str}}">
   </form>
 
   <div class="stack-xml-compare-diff-wrap">
@@ -115,9 +123,9 @@
       <thead>
         <tr>
           <th class="stack-xml-compare-line"></th>
-          <th>{{question.currentversionlabel}}</th>
+          <th>{{#str}} comparexmlcurrentversion, qtype_stack, {{question.currentversion}} {{/str}}</th>
           <th class="stack-xml-compare-line"></th>
-          <th>{{question.compareversionlabel}}</th>
+          <th>{{#str}} comparexmlselectedversion, qtype_stack, {{question.compareversion}} {{/str}}</th>
         </tr>
       </thead>
       <tbody>

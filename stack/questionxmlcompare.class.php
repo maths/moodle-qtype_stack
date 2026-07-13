@@ -73,6 +73,8 @@ class stack_question_xml_compare {
      */
     public static function get_compare_version($requestedcompareversion, array $versions, int $currentversion): int {
         $versionnumbers = array_keys($versions);
+        // Here get_latest_question_version() returns versions newest first. The natural default is therefore
+        // the entry after the latest version, falling back to comparing the latest version with itself.
         $defaultcompareversion = $versionnumbers[1] ?? $currentversion;
         if ($requestedcompareversion === null) {
             return $defaultcompareversion;
@@ -96,7 +98,7 @@ class stack_question_xml_compare {
         foreach (array_keys($versions) as $version) {
             $option = new stdClass();
             $option->version = $version;
-            $option->label = stack_string('version') . ' ' . $version;
+            $option->label = $version;
             $option->selected = ($version === $compareversion);
             $options[] = $option;
         }
@@ -113,6 +115,8 @@ class stack_question_xml_compare {
     public static function form_params(array $params): array {
         $formparams = [];
         foreach ($params as $name => $value) {
+            // The compare-version select has its own field, but Moodle context fields such as cmid/courseid
+            // must survive the auto-submit.
             if (is_array($value)) {
                 continue;
             }
@@ -123,47 +127,6 @@ class stack_question_xml_compare {
         }
 
         return $formparams;
-    }
-
-    /**
-     * Build template data for the comparison page.
-     *
-     * @param object $question current question.
-     * @param int $currentversion current/latest version number.
-     * @param int $compareversion selected comparison version.
-     * @param array $versions version number => question id.
-     * @param string $currentxml current version XML.
-     * @param string $comparexml selected version XML.
-     * @param string $notices notice text.
-     * @param stdClass $general general URL data.
-     * @return stdClass template data.
-     */
-    public static function output_data(
-        object $question,
-        int $currentversion,
-        int $compareversion,
-        array $versions,
-        string $currentxml,
-        string $comparexml,
-        string $notices,
-        stdClass $general
-    ): stdClass {
-        $output = new stdClass();
-        $output->question = new stdClass();
-        $output->question->name = $question->name;
-        $output->question->currentversion = $currentversion;
-        $output->question->compareversion = $compareversion;
-        $output->question->currentversionlabel = stack_string('comparexmlcurrentversion', $currentversion);
-        $output->question->compareversionlabel = stack_string('comparexmlselectedversion', $compareversion);
-
-        $output->general = $general;
-        $output->hasnotices = $notices !== '';
-        $output->notices = $notices;
-        $output->nootherversions = count($versions) < 2;
-        $output->versions = self::version_options($versions, $compareversion);
-        $output->rows = self::diff_rows($currentxml, $comparexml);
-
-        return $output;
     }
 
     /**
@@ -190,6 +153,8 @@ class stack_question_xml_compare {
         $comparecount = count($compare);
         $lcs = array_fill(0, $currentcount + 1, array_fill(0, $comparecount + 1, 0));
 
+        // Build a longest-common-subsequence matrix for complete XML lines. Working backwards lets each
+        // cell answer: "from these two positions, how many unchanged lines can still be matched?".
         for ($i = $currentcount - 1; $i >= 0; $i--) {
             for ($j = $comparecount - 1; $j >= 0; $j--) {
                 if ($current[$i] === $compare[$j]) {
@@ -200,6 +165,12 @@ class stack_question_xml_compare {
             }
         }
 
+        // Walk the matrix from the start of both files to produce a minimal stream of primitive operations.
+        // These primitive names are from the matrix perspective:
+        // - "delete" means a line exists only in the current/latest XML.
+        // - "add" means a line exists only in the compared/older XML.
+        // They are translated later into user-facing "added" and "deleted" rows from the perspective of
+        // "what changed in the current version compared with the selected version".
         $ops = [];
         $i = 0;
         $j = 0;
@@ -263,6 +234,9 @@ class stack_question_xml_compare {
                 continue;
             }
 
+            // Consecutive non-matching operations form a change block between two unchanged anchors.
+            // Pair one current-only line with one compared-only line as a changed line. Any surplus
+            // current-only lines are additions; any surplus compared-only lines are deletions.
             $currentblock = [];
             $compareblock = [];
             while ($i < $opcount && $ops[$i]['type'] !== 'same') {
@@ -314,6 +288,9 @@ class stack_question_xml_compare {
             if ($row->type === 'changed') {
                 [$currenthtml, $comparehtml] = self::inline_changed($row->currenttext, $row->comparetext);
             } else if ($row->type === 'deleted') {
+                // For deleted-only lines there is no real current-side line. We still render the removed
+                // text in the current column, struck through, so the user can see what disappeared while
+                // scanning the "current version changed from selected version" side of the table.
                 $currenthtml = html_writer::tag(
                     'span',
                     s($row->comparetext),
@@ -397,6 +374,8 @@ class stack_question_xml_compare {
         $currentcount = count($current);
         $comparecount = count($compare);
 
+        // Character LCS gives precise inline highlighting, but its matrix is O(n*m). Very long XML lines
+        // can come from encoded content, so switch to a cheaper prefix/suffix highlighter above this limit.
         if ($currentcount * $comparecount > 40000) {
             return self::inline_changed_region($current, $compare);
         }
@@ -423,6 +402,7 @@ class stack_question_xml_compare {
                 $i++;
                 $j++;
             } else if ($lcs[$i + 1][$j] > $lcs[$i][$j + 1]) {
+                // Character exists only in the current/latest line: highlight as inserted content.
                 $currenthtml .= html_writer::tag(
                     'span',
                     s($current[$i]),
@@ -430,6 +410,9 @@ class stack_question_xml_compare {
                 );
                 $i++;
             } else {
+                // Character exists only in the compared/older line: render it on both sides. The current
+                // side gets a "missing" strike-through marker so deletions are visible while reading
+                // the current column, not only the compared column.
                 $currenthtml .= self::missing_html($compare[$j]);
                 $comparehtml .= html_writer::tag(
                     'span',
@@ -440,12 +423,20 @@ class stack_question_xml_compare {
             }
         }
         while ($i < $currentcount) {
-            $currenthtml .= html_writer::tag('span', s($current[$i]), ['class' => 'stack-xml-compare-inline-added']);
+            $currenthtml .= html_writer::tag(
+                'span',
+                s($current[$i]),
+                ['class' => 'stack-xml-compare-inline-added']
+            );
             $i++;
         }
         while ($j < $comparecount) {
             $currenthtml .= self::missing_html($compare[$j]);
-            $comparehtml .= html_writer::tag('span', s($compare[$j]), ['class' => 'stack-xml-compare-inline-deleted']);
+            $comparehtml .= html_writer::tag(
+                'span',
+                s($compare[$j]),
+                ['class' => 'stack-xml-compare-inline-deleted']
+            );
             $j++;
         }
 
@@ -463,6 +454,8 @@ class stack_question_xml_compare {
         $currentcount = count($current);
         $comparecount = count($compare);
         $prefix = 0;
+        // For long lines, preserve the exact unchanged prefix and suffix, then mark the middle ranges.
+        // This is less precise than full character LCS but avoids allocating a huge matrix.
         while ($prefix < $currentcount && $prefix < $comparecount && $current[$prefix] === $compare[$prefix]) {
             $prefix++;
         }

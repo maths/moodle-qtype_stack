@@ -169,7 +169,14 @@ Feature: Test editing XML of a question.
     And I should see "Compared version 1"
     And I should see "Compare with version"
     And I should see "<quiz>"
-    And I set the field "Compare with version" to "Version 2"
+    And ".stack-xml-compare-diff" "css_element" should exist
+    And ".stack-xml-compare-row-changed" "css_element" should exist
+    And ".stack-xml-compare-inline-added" "css_element" should exist
+    And ".stack-xml-compare-inline-deleted" "css_element" should exist
+    And I set the field "Compare with version" to "2"
     And I wait until "Compared version 2" "text" exists
-    And I set the field "Compare with version" to "Version 1"
+    And I set the field "Compare with version" to "1"
     And I wait until "Compared version 1" "text" exists
+    And I wait until ".stack-xml-compare-row-changed" "css_element" exists
+    And ".stack-xml-compare-inline-added" "css_element" should exist
+    And ".stack-xml-compare-inline-deleted" "css_element" should exist

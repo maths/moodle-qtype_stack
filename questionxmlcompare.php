@@ -50,6 +50,7 @@ $comparequestiondata = question_bank::load_question_data($comparequestionid);
 if (!$comparequestiondata) {
     throw new stack_exception('questiondoesnotexist');
 }
+question_require_capability_on($comparequestiondata, 'edit');
 
 $editparams = $urlparams;
 unset($editparams['questionid']);
@@ -88,18 +89,20 @@ $general->editquestionlink = (new moodle_url('/question/type/stack/questioneditl
 $general->editxmllink = (new moodle_url('/question/type/stack/questionxmledit.php', $editparams))->out();
 $general->formaction = (new moodle_url('/question/type/stack/questionxmlcompare.php'))->out(false);
 $general->formparams = stack_question_xml_compare::form_params($editparams);
+$general->refreshlink = (new moodle_url('/question/type/stack/questionxmlcompare.php', $pageparams))->out();
 
-$outputdata = stack_question_xml_compare::output_data(
-    $question,
-    $qversion,
-    $compareversion,
-    $versions,
-    $currentxml,
-    $comparexml,
-    $notices,
-    $general
-);
+$output = new stdClass();
+$output->question = new stdClass();
+$output->question->name = $question->name;
+$output->question->currentversion = $qversion;
+$output->question->compareversion = $compareversion;
+$output->general = $general;
+$output->hasnotices = $notices !== '';
+$output->notices = $notices;
+$output->nootherversions = count($versions) < 2;
+$output->versions = stack_question_xml_compare::version_options($versions, $compareversion);
+$output->rows = stack_question_xml_compare::diff_rows($currentxml, $comparexml);
 
 echo $OUTPUT->header();
-echo $OUTPUT->render_from_template('qtype_stack/questionxmlcompare', $outputdata);
+echo $OUTPUT->render_from_template('qtype_stack/questionxmlcompare', $output);
 echo $OUTPUT->footer();

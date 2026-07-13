@@ -8,11 +8,6 @@
                          <ON_ERROR message="mbstringrequired" plugin="qtype_stack" />
                      </FEEDBACK>
                  </PHP_EXTENSION>
-                 <PHP_EXTENSION name="yaml" level="optional">
-                     <FEEDBACK>
-                         <ON_CHECK message="yamlrecommended" plugin="qtype_stack" />
-                     </FEEDBACK>
-                 </PHP_EXTENSION>
             </PHP_EXTENSIONS>
          </PHP>
      </PLUGIN>

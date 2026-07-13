@@ -34,7 +34,6 @@ $string['cachedef_parsercache'] = 'STACK parsed Maxima expressions';
 $string['cachedef_librarycache'] = 'STACK question library renders and file structure';
 
 $string['mbstringrequired'] = 'Installing the MBSTRING library is required for STACK.';
-$string['yamlrecommended']  = 'Installing the YAML library is recommended for STACK.';
 
 // General strings.
 $string['errors']            = 'Errors';

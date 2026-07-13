@@ -33,6 +33,7 @@ require_login();
 $questionid = required_param('id', PARAM_INT);
 $requestedcompareversion = optional_param('compareversion', null, PARAM_INT);
 $requesteddisplay = optional_param('display', null, PARAM_ALPHA);
+$requesteddiffonly = optional_param('diffonly', stack_question_xml_compare::FILTER_ALL, PARAM_BOOL);
 
 [$qversion, $questionid, , $versions] = get_latest_question_version($questionid);
 $questiondata = question_bank::load_question_data($questionid);
@@ -47,6 +48,7 @@ question_require_capability_on($questiondata, 'edit');
 
 $compareversion = stack_question_xml_compare::get_compare_version($requestedcompareversion, $versions, $qversion);
 $displaymode = stack_question_xml_compare::get_display_mode($requesteddisplay);
+$diffonly = stack_question_xml_compare::get_diff_only($requesteddiffonly);
 $comparequestionid = $versions[$compareversion];
 $comparequestiondata = question_bank::load_question_data($comparequestionid);
 if (!$comparequestiondata) {
@@ -61,6 +63,7 @@ $editparams['id'] = $question->id;
 $pageparams = $editparams;
 $pageparams['compareversion'] = $compareversion;
 $pageparams['display'] = $displaymode;
+$pageparams['diffonly'] = $diffonly ? stack_question_xml_compare::FILTER_DIFFERENCES : stack_question_xml_compare::FILTER_ALL;
 
 $PAGE->set_context($context);
 $PAGE->set_url('/question/type/stack/questionxmlcompare.php', $pageparams);
@@ -93,11 +96,15 @@ $general->editxmllink = (new moodle_url('/question/type/stack/questionxmledit.ph
 $general->formaction = (new moodle_url('/question/type/stack/questionxmlcompare.php'))->out(false);
 $formparams = $editparams;
 $formparams['display'] = $displaymode;
+$formparams['diffonly'] = $pageparams['diffonly'];
 $general->formparams = stack_question_xml_compare::form_params($formparams);
 $general->refreshlink = (new moodle_url('/question/type/stack/questionxmlcompare.php', $pageparams))->out();
 $toggleparams = $pageparams;
 $toggleparams['display'] = stack_question_xml_compare::toggle_display_mode($displaymode);
 $general->displaytogglelink = (new moodle_url('/question/type/stack/questionxmlcompare.php', $toggleparams))->out();
+$diffonlytoggleparams = $pageparams;
+$diffonlytoggleparams['diffonly'] = stack_question_xml_compare::toggle_diff_only($diffonly);
+$general->diffonlytogglelink = (new moodle_url('/question/type/stack/questionxmlcompare.php', $diffonlytoggleparams))->out();
 
 $output = new stdClass();
 $output->question = new stdClass();
@@ -107,12 +114,14 @@ $output->question->compareversion = $compareversion;
 $output->displaymode = $displaymode;
 $output->displayunified = ($displaymode === stack_question_xml_compare::DISPLAY_UNIFIED);
 $output->displaysplit = ($displaymode === stack_question_xml_compare::DISPLAY_SPLIT);
+$output->diffonly = $diffonly;
+$output->showalllines = !$diffonly;
 $output->general = $general;
 $output->hasnotices = $notices !== '';
 $output->notices = $notices;
 $output->nootherversions = count($versions) < 2;
 $output->versions = stack_question_xml_compare::version_options($versions, $compareversion);
-$output->rows = stack_question_xml_compare::diff_rows($currentxml, $comparexml, $displaymode);
+$output->rows = stack_question_xml_compare::diff_rows($currentxml, $comparexml, $displaymode, $diffonly);
 
 echo $OUTPUT->header();
 echo $OUTPUT->render_from_template('qtype_stack/questionxmlcompare', $output);

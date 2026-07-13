@@ -502,6 +502,17 @@ body.path-question-type-stack .stack-xml-compare-code-wrap {
 body.path-question-type-stack .stack-xml-compare-empty {
     background: #f8f9fa;
 }
+body.path-question-type-stack .stack-xml-compare-row-separator td {
+    padding: 0.5rem 0.35rem;
+    border-top: 2px solid #c2c8cf;
+    border-bottom: 2px solid #c2c8cf;
+    background: #eef1f4;
+}
+body.path-question-type-stack .stack-xml-compare-separator-cell {
+    color: #5f6b76;
+    font-weight: 700;
+    text-align: center;
+}
 body.path-question-type-stack .stack-xml-compare-row-added .stack-xml-compare-code-current {
     background: #e7f6e7;
 }

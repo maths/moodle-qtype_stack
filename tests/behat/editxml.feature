@@ -176,6 +176,15 @@ Feature: Test editing XML of a question.
     And ".stack-xml-compare-row-deleted" "css_element" should exist in the "0.4" "table_row"
     And I should see "<penalty>" in the "0.4" "table_row"
     And ".stack-xml-compare-inline-deleted" "css_element" should exist in the "0.4" "table_row"
+    And I follow "Show differences only"
+    And I should see "Show all lines"
+    And I should not see "<quiz>"
+    And ".stack-xml-compare-row-same" "css_element" should exist
+    And ".stack-xml-compare-row-added" "css_element" should exist in the "-1" "table_row"
+    And ".stack-xml-compare-row-deleted" "css_element" should exist in the "0.4" "table_row"
+    And I follow "Show all lines"
+    And I should see "Show differences only"
+    And ".stack-xml-compare-row-same" "css_element" should exist
     And I follow "Show split display"
     And I should see "Show unified display"
     And ".stack-xml-compare-row-changed" "css_element" should exist in the "<penalty>" "table_row"

@@ -38,6 +38,8 @@
       "displaymode": "unified",
       "displayunified": true,
       "displaysplit": false,
+      "diffonly": false,
+      "showalllines": true,
       "general": {
         "testquestionlink": "http://example.com",
         "previewquestionlink": "http://example.com",
@@ -46,6 +48,7 @@
         "formaction": "http://example.com",
         "refreshlink": "http://example.com",
         "displaytogglelink": "http://example.com",
+        "diffonlytogglelink": "http://example.com",
         "formparams": [
           {"name": "id", "value": 1}
         ]
@@ -123,6 +126,10 @@
     <a class="btn btn-secondary" href="{{{general.displaytogglelink}}}">
       {{#displayunified}}{{#str}} comparexmlshowsplit, qtype_stack {{/str}}{{/displayunified}}
       {{#displaysplit}}{{#str}} comparexmlshowunified, qtype_stack {{/str}}{{/displaysplit}}
+    </a>
+    <a class="btn btn-secondary" href="{{{general.diffonlytogglelink}}}">
+      {{#showalllines}}{{#str}} comparexmlshowdifferencesonly, qtype_stack {{/str}}{{/showalllines}}
+      {{#diffonly}}{{#str}} comparexmlshowalllines, qtype_stack {{/str}}{{/diffonly}}
     </a>
   </form>
 

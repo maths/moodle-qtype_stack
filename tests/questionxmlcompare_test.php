@@ -84,9 +84,11 @@ final class questionxmlcompare_test extends \advanced_testcase {
         );
     }
 
-    public function test_get_display_mode_rejects_unknown_mode(): void {
-        $this->expectException(\invalid_parameter_exception::class);
-        \stack_question_xml_compare::get_display_mode('sideways');
+    public function test_get_display_mode_defaults_to_unified_for_unknown_mode(): void {
+        $this->assertSame(
+            \stack_question_xml_compare::DISPLAY_UNIFIED,
+            \stack_question_xml_compare::get_display_mode('sideways')
+        );
     }
 
     public function test_toggle_display_mode_returns_the_other_mode(): void {
@@ -97,6 +99,23 @@ final class questionxmlcompare_test extends \advanced_testcase {
         $this->assertSame(
             \stack_question_xml_compare::DISPLAY_UNIFIED,
             \stack_question_xml_compare::toggle_display_mode(\stack_question_xml_compare::DISPLAY_SPLIT)
+        );
+    }
+
+    public function test_get_diff_only_reads_requested_filter(): void {
+        $this->assertFalse(\stack_question_xml_compare::get_diff_only(null));
+        $this->assertFalse(\stack_question_xml_compare::get_diff_only(0));
+        $this->assertTrue(\stack_question_xml_compare::get_diff_only(1));
+    }
+
+    public function test_toggle_diff_only_returns_the_other_url_value(): void {
+        $this->assertSame(
+            \stack_question_xml_compare::FILTER_DIFFERENCES,
+            \stack_question_xml_compare::toggle_diff_only(false)
+        );
+        $this->assertSame(
+            \stack_question_xml_compare::FILTER_ALL,
+            \stack_question_xml_compare::toggle_diff_only(true)
         );
     }
 
@@ -213,6 +232,16 @@ final class questionxmlcompare_test extends \advanced_testcase {
         $this->assertSame('', $rows[1]->comparehtml);
     }
 
+    public function test_diff_rows_can_show_only_changed_blocks_with_context_in_unified_mode(): void {
+        $rows = \stack_question_xml_compare::diff_rows("same\nnew\nsame", "same\nold\nsame", 'unified', true);
+
+        $this->assertCount(4, $rows);
+        $this->assertSame('same', $rows[0]->type);
+        $this->assertSame('deleted', $rows[1]->type);
+        $this->assertSame('added', $rows[2]->type);
+        $this->assertSame('same', $rows[3]->type);
+    }
+
     public function test_diff_rows_split_mode_keeps_changed_lines_side_by_side(): void {
         $rows = \stack_question_xml_compare::diff_rows(
             'value new tail',
@@ -238,6 +267,41 @@ final class questionxmlcompare_test extends \advanced_testcase {
         $this->assertSame('&lt;quiz&gt;', $rows[0]->currenthtml);
         $this->assertSame('&lt;quiz&gt;', $rows[0]->comparehtml);
         $this->assertStringNotContainsString('stack-xml-compare-empty', $rows[0]->compareclass);
+    }
+
+    public function test_diff_rows_can_show_only_changed_blocks_with_context_in_split_mode(): void {
+        $rows = \stack_question_xml_compare::diff_rows(
+            "same\nnew\nsame",
+            "same\nold\nsame",
+            \stack_question_xml_compare::DISPLAY_SPLIT,
+            true
+        );
+
+        $this->assertCount(3, $rows);
+        $this->assertSame('same', $rows[0]->type);
+        $this->assertSame('changed', $rows[1]->type);
+        $this->assertSame(2, $rows[1]->currentline);
+        $this->assertSame(2, $rows[1]->compareline);
+        $this->assertSame('same', $rows[2]->type);
+    }
+
+    public function test_diff_rows_adds_separator_between_compacted_changed_blocks(): void {
+        $rows = \stack_question_xml_compare::diff_rows(
+            "a\nnew 1\nb\nc\nnew 2\nd",
+            "a\nold 1\nb\nc\nold 2\nd",
+            \stack_question_xml_compare::DISPLAY_SPLIT,
+            true
+        );
+
+        $this->assertSame('same', $rows[0]->type);
+        $this->assertSame('changed', $rows[1]->type);
+        $this->assertSame('same', $rows[2]->type);
+        $this->assertSame('separator', $rows[3]->type);
+        $this->assertSame('...', $rows[3]->currenthtml);
+        $this->assertSame('...', $rows[3]->comparehtml);
+        $this->assertSame('same', $rows[4]->type);
+        $this->assertSame('changed', $rows[5]->type);
+        $this->assertSame('same', $rows[6]->type);
     }
 
     public function test_diff_rows_split_mode_shows_deleted_only_content_in_compared_column(): void {

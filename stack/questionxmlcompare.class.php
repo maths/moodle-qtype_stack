@@ -34,6 +34,12 @@ class stack_question_xml_compare {
     /** @var string split diff display mode. */
     public const DISPLAY_SPLIT = 'split';
 
+    /** @var int show every diff row, including unchanged context lines. */
+    public const FILTER_ALL = 0;
+
+    /** @var int show compacted changed blocks with one unchanged context row on either side. */
+    public const FILTER_DIFFERENCES = 1;
+
     /**
      * Export one question version as Moodle XML.
      *
@@ -121,6 +127,30 @@ class stack_question_xml_compare {
         }
 
         return self::DISPLAY_SPLIT;
+    }
+
+    /**
+     * Select whether unchanged rows should be hidden.
+     *
+     * @param int|bool|null $requesteddiffonly requested row filter.
+     * @return bool true when compacted changed blocks should be shown.
+     */
+    public static function get_diff_only($requesteddiffonly): bool {
+        return (bool) $requesteddiffonly;
+    }
+
+    /**
+     * Get the other row filter value.
+     *
+     * @param bool $diffonly current row filter.
+     * @return int toggled row filter URL value.
+     */
+    public static function toggle_diff_only(bool $diffonly): int {
+        if ($diffonly) {
+            return self::FILTER_ALL;
+        }
+
+        return self::FILTER_DIFFERENCES;
     }
 
     /**
@@ -315,18 +345,98 @@ class stack_question_xml_compare {
      *
      * @param string $currentxml the current version XML.
      * @param string $comparexml the selected version XML.
+     * @param string $displaymode display mode.
+     * @param bool $diffonly whether output should be compacted to changed blocks.
      * @return stdClass[] template rows.
      */
     public static function diff_rows(
         string $currentxml,
         string $comparexml,
-        string $displaymode = self::DISPLAY_UNIFIED
+        string $displaymode = self::DISPLAY_UNIFIED,
+        bool $diffonly = false
     ): array {
         if (self::get_display_mode($displaymode) === self::DISPLAY_SPLIT) {
-            return self::split_diff_rows($currentxml, $comparexml);
+            return self::filter_diff_rows(self::split_diff_rows($currentxml, $comparexml), $diffonly);
         }
 
-        return self::unified_diff_rows($currentxml, $comparexml);
+        return self::filter_diff_rows(self::unified_diff_rows($currentxml, $comparexml), $diffonly);
+    }
+
+    /**
+     * Optionally reduce output to changed blocks plus one unchanged context row on either side.
+     *
+     * @param stdClass[] $rows template rows.
+     * @param bool $diffonly whether unchanged rows should be mostly hidden.
+     * @return stdClass[] filtered template rows.
+     */
+    protected static function filter_diff_rows(array $rows, bool $diffonly): array {
+        if (!$diffonly) {
+            return $rows;
+        }
+
+        $segments = [];
+        $rowcount = count($rows);
+        for ($index = 0; $index < $rowcount; $index++) {
+            $row = $rows[$index];
+            if ($row->type === 'same') {
+                continue;
+            }
+
+            $start = $index;
+            $end = $index;
+            while ($end + 1 < $rowcount && $rows[$end + 1]->type !== 'same') {
+                $end++;
+            }
+            $index = $end;
+
+            if ($start > 0 && $rows[$start - 1]->type === 'same') {
+                $start--;
+            }
+            if ($end + 1 < $rowcount && $rows[$end + 1]->type === 'same') {
+                $end++;
+            }
+
+            $lastsegment = array_key_last($segments);
+            if ($lastsegment !== null && $start <= $segments[$lastsegment][1]) {
+                $segments[$lastsegment][1] = max($segments[$lastsegment][1], $end);
+            } else {
+                $segments[] = [$start, $end];
+            }
+        }
+
+        if (!$segments) {
+            return [];
+        }
+
+        $filtered = [];
+        foreach ($segments as $segmentindex => [$start, $end]) {
+            if ($segmentindex > 0) {
+                $filtered[] = self::separator_row();
+            }
+            for ($i = $start; $i <= $end; $i++) {
+                $filtered[] = $rows[$i];
+            }
+        }
+
+        return $filtered;
+    }
+
+    /**
+     * Build a marker row which separates compacted changed blocks.
+     *
+     * @return stdClass template row.
+     */
+    protected static function separator_row(): stdClass {
+        $row = new stdClass();
+        $row->type = 'separator';
+        $row->currentline = '';
+        $row->compareline = '';
+        $row->currentclass = 'stack-xml-compare-code stack-xml-compare-separator-cell';
+        $row->compareclass = 'stack-xml-compare-code stack-xml-compare-separator-cell';
+        $row->currenthtml = '...';
+        $row->comparehtml = '...';
+
+        return $row;
     }
 
     /**

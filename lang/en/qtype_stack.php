@@ -735,6 +735,8 @@ $string['comparexmlnootherversions'] = 'There are no other versions of this ques
 $string['comparexmlrefresh'] = 'Refresh current version';
 $string['comparexmlshowsplit'] = 'Show split display';
 $string['comparexmlshowunified'] = 'Show unified display';
+$string['comparexmlshowdifferencesonly'] = 'Show differences only';
+$string['comparexmlshowalllines'] = 'Show all lines';
 $string['xmldisplayerror'] = ' There was a problem displaying the XML.';
 $string['healthcheck'] = 'STACK healthcheck';
 $string['healthcheck_desc'] = 'The <a href="{$a->link}">healthcheck script</a> helps you verify that all aspects of STACK are working properly.';

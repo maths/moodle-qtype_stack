@@ -167,6 +167,11 @@ Feature: Test editing XML of a question.
     Then I should see "Compare question XML"
     And I should see "Current version 2"
     And I should see "Compared version 1"
+    And I should see "Latest"
+    And I set the field "Current version" to "1"
+    And I wait until "Current version 1" "text" exists
+    And I follow "Latest"
+    And I wait until "Current version 2" "text" exists
     And I should see "Compare with version"
     And I should see "<quiz>"
     And ".stack-xml-compare-diff" "css_element" should exist

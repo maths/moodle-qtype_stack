@@ -80,14 +80,15 @@ class stack_question_xml_compare {
      *
      * @param int|null $requestedcompareversion requested comparison version.
      * @param array $versions version number => question id.
-     * @param int $currentversion current/latest version number.
+     * @param int $currentversion current selected version number.
      * @return int selected comparison version.
      */
     public static function get_compare_version($requestedcompareversion, array $versions, int $currentversion): int {
         $versionnumbers = array_keys($versions);
-        // Here get_latest_question_version() returns versions newest first. The natural default is therefore
-        // the entry after the latest version, falling back to comparing the latest version with itself.
-        $defaultcompareversion = $versionnumbers[1] ?? $currentversion;
+        // Here get_latest_question_version() returns versions newest first. The natural default is the
+        // entry after the selected current version, falling back to comparing the version with itself.
+        $currentindex = array_search($currentversion, $versionnumbers, true);
+        $defaultcompareversion = $versionnumbers[$currentindex + 1] ?? $currentversion;
         if ($requestedcompareversion === null) {
             return $defaultcompareversion;
         }
@@ -96,6 +97,25 @@ class stack_question_xml_compare {
         }
 
         return $requestedcompareversion;
+    }
+
+    /**
+     * Select the current/base version to compare from.
+     *
+     * @param int|null $requestedcurrentversion requested current/base version.
+     * @param array $versions version number => question id.
+     * @param int $latestversion latest version number.
+     * @return int selected current/base version.
+     */
+    public static function get_current_version($requestedcurrentversion, array $versions, int $latestversion): int {
+        if ($requestedcurrentversion === null) {
+            return $latestversion;
+        }
+        if (!array_key_exists($requestedcurrentversion, $versions)) {
+            throw new invalid_parameter_exception('currentversion');
+        }
+
+        return $requestedcurrentversion;
     }
 
     /**

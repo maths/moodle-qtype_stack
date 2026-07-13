@@ -46,15 +46,18 @@
         "editquestionlink": "http://example.com",
         "editxmllink": "http://example.com",
         "formaction": "http://example.com",
-        "refreshlink": "http://example.com",
+        "latestlink": "http://example.com",
         "displaytogglelink": "http://example.com",
         "diffonlytogglelink": "http://example.com",
         "formparams": [
           {"name": "id", "value": 1}
         ]
       },
+      "currentversions": [
+        {"version": 2, "label": 2, "selected": true}
+      ],
       "versions": [
-        {"version": 1, "label": "Version 1", "selected": true}
+        {"version": 1, "label": 1, "selected": true}
       ],
       "rows": [
         {
@@ -94,16 +97,6 @@
 
   <h2>{{#str}} comparexmltitle, qtype_stack {{/str}}</h2>
   <h3>{{question.name}}</h3>
-  <p>
-    <strong>
-      {{#str}} comparexmlcurrentversion, qtype_stack, {{question.currentversion}} {{/str}}
-      <a class="d-inline-block p-0 ml-2 ms-2" href="{{{general.refreshlink}}}"
-          title="{{#str}} comparexmlrefresh, qtype_stack {{/str}}"
-          aria-label="{{#str}} comparexmlrefresh, qtype_stack {{/str}}">
-        <i class="fa fa-rotate-left" aria-hidden="true"></i>
-      </a>
-    </strong>
-  </p>
 
   {{#nootherversions}}
     <div class="alert alert-info">{{#str}} comparexmlnootherversions, qtype_stack {{/str}}</div>
@@ -116,6 +109,16 @@
     {{#general.formparams}}
       <input type="hidden" name="{{name}}" value="{{value}}">
     {{/general.formparams}}
+    <label for="id_currentversion">{{#str}} comparexmlselectcurrentversion, qtype_stack {{/str}}</label>
+    <select id="id_currentversion" class="custom-select form-select"
+        name="currentversion" onchange="this.form.submit();">
+      {{#currentversions}}
+        <option value="{{version}}" {{#selected}}selected="selected"{{/selected}}>{{label}}</option>
+      {{/currentversions}}
+    </select>
+    <a class="btn btn-secondary" href="{{{general.latestlink}}}">
+      {{#pix}}a/refresh, core{{/pix}}{{#str}} comparexmllatest, qtype_stack {{/str}}
+    </a>
     <label for="id_compareversion">{{#str}} comparexmlselectversion, qtype_stack {{/str}}</label>
     <select id="id_compareversion" class="custom-select form-select"
         name="compareversion" onchange="this.form.submit();">

@@ -43,6 +43,12 @@ final class questionxmlcompare_test extends \advanced_testcase {
         $this->assertSame(2, \stack_question_xml_compare::get_compare_version(null, $versions, 3));
     }
 
+    public function test_get_compare_version_defaults_to_previous_selected_version(): void {
+        $versions = [3 => 103, 2 => 102, 1 => 101];
+
+        $this->assertSame(1, \stack_question_xml_compare::get_compare_version(null, $versions, 2));
+    }
+
     public function test_get_compare_version_defaults_to_current_version_when_no_previous_exists(): void {
         $versions = [1 => 101];
 
@@ -60,6 +66,25 @@ final class questionxmlcompare_test extends \advanced_testcase {
 
         $this->expectException(\invalid_parameter_exception::class);
         \stack_question_xml_compare::get_compare_version(4, $versions, 3);
+    }
+
+    public function test_get_current_version_defaults_to_latest_version(): void {
+        $versions = [3 => 103, 2 => 102, 1 => 101];
+
+        $this->assertSame(3, \stack_question_xml_compare::get_current_version(null, $versions, 3));
+    }
+
+    public function test_get_current_version_accepts_requested_version(): void {
+        $versions = [3 => 103, 2 => 102, 1 => 101];
+
+        $this->assertSame(1, \stack_question_xml_compare::get_current_version(1, $versions, 3));
+    }
+
+    public function test_get_current_version_rejects_unknown_version(): void {
+        $versions = [3 => 103, 2 => 102, 1 => 101];
+
+        $this->expectException(\invalid_parameter_exception::class);
+        \stack_question_xml_compare::get_current_version(4, $versions, 3);
     }
 
     public function test_get_display_mode_defaults_to_unified(): void {

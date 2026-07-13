@@ -31,11 +31,14 @@ require_login();
 
 // Get the parameters from the URL.
 $questionid = required_param('id', PARAM_INT);
+$requestedcurrentversion = optional_param('currentversion', null, PARAM_INT);
 $requestedcompareversion = optional_param('compareversion', null, PARAM_INT);
 $requesteddisplay = optional_param('display', null, PARAM_ALPHA);
 $requesteddiffonly = optional_param('diffonly', stack_question_xml_compare::FILTER_ALL, PARAM_BOOL);
 
-[$qversion, $questionid, , $versions] = get_latest_question_version($questionid);
+[$latestversion, , , $versions] = get_latest_question_version($questionid);
+$currentversion = stack_question_xml_compare::get_current_version($requestedcurrentversion, $versions, $latestversion);
+$questionid = $versions[$currentversion];
 $questiondata = question_bank::load_question_data($questionid);
 if (!$questiondata) {
     throw new stack_exception('questiondoesnotexist');
@@ -46,7 +49,7 @@ $question = question_bank::load_question($questionid);
 // Check permissions. Raw XML compare uses the same capability as XML edit.
 question_require_capability_on($questiondata, 'edit');
 
-$compareversion = stack_question_xml_compare::get_compare_version($requestedcompareversion, $versions, $qversion);
+$compareversion = stack_question_xml_compare::get_compare_version($requestedcompareversion, $versions, $currentversion);
 $displaymode = stack_question_xml_compare::get_display_mode($requesteddisplay);
 $diffonly = stack_question_xml_compare::get_diff_only($requesteddiffonly);
 $comparequestionid = $versions[$compareversion];
@@ -61,15 +64,20 @@ unset($editparams['questionid']);
 unset($editparams['seed']);
 $editparams['id'] = $question->id;
 $pageparams = $editparams;
+$pageparams['currentversion'] = $currentversion;
 $pageparams['compareversion'] = $compareversion;
 $pageparams['display'] = $displaymode;
 $pageparams['diffonly'] = $diffonly ? stack_question_xml_compare::FILTER_DIFFERENCES : stack_question_xml_compare::FILTER_ALL;
+if ($requestedcurrentversion === null) {
+    unset($pageparams['currentversion']);
+}
 
 $PAGE->set_context($context);
 $PAGE->set_url('/question/type/stack/questionxmlcompare.php', $pageparams);
 $title = stack_string('comparexmltitle');
 $PAGE->set_title($title);
 $PAGE->set_heading($title);
+$PAGE->set_pagelayout('popup');
 
 $currentxml = stack_question_xml_compare::export_question_version_xml($questiondata);
 $comparexml = stack_question_xml_compare::export_question_version_xml($comparequestiondata);
@@ -98,7 +106,9 @@ $formparams = $editparams;
 $formparams['display'] = $displaymode;
 $formparams['diffonly'] = $pageparams['diffonly'];
 $general->formparams = stack_question_xml_compare::form_params($formparams);
-$general->refreshlink = (new moodle_url('/question/type/stack/questionxmlcompare.php', $pageparams))->out();
+$latestparams = $pageparams;
+unset($latestparams['currentversion']);
+$general->latestlink = (new moodle_url('/question/type/stack/questionxmlcompare.php', $latestparams))->out();
 $toggleparams = $pageparams;
 $toggleparams['display'] = stack_question_xml_compare::toggle_display_mode($displaymode);
 $general->displaytogglelink = (new moodle_url('/question/type/stack/questionxmlcompare.php', $toggleparams))->out();
@@ -109,7 +119,7 @@ $general->diffonlytogglelink = (new moodle_url('/question/type/stack/questionxml
 $output = new stdClass();
 $output->question = new stdClass();
 $output->question->name = $question->name;
-$output->question->currentversion = $qversion;
+$output->question->currentversion = $currentversion;
 $output->question->compareversion = $compareversion;
 $output->displaymode = $displaymode;
 $output->displayunified = ($displaymode === stack_question_xml_compare::DISPLAY_UNIFIED);
@@ -120,6 +130,7 @@ $output->general = $general;
 $output->hasnotices = $notices !== '';
 $output->notices = $notices;
 $output->nootherversions = count($versions) < 2;
+$output->currentversions = stack_question_xml_compare::version_options($versions, $currentversion);
 $output->versions = stack_question_xml_compare::version_options($versions, $compareversion);
 $output->rows = stack_question_xml_compare::diff_rows($currentxml, $comparexml, $displaymode, $diffonly);
 

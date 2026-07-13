@@ -62,6 +62,44 @@ final class questionxmlcompare_test extends \advanced_testcase {
         \stack_question_xml_compare::get_compare_version(4, $versions, 3);
     }
 
+    public function test_get_display_mode_defaults_to_unified(): void {
+        $this->assertSame(
+            \stack_question_xml_compare::DISPLAY_UNIFIED,
+            \stack_question_xml_compare::get_display_mode(null)
+        );
+        $this->assertSame(
+            \stack_question_xml_compare::DISPLAY_UNIFIED,
+            \stack_question_xml_compare::get_display_mode('')
+        );
+    }
+
+    public function test_get_display_mode_accepts_split_and_unified(): void {
+        $this->assertSame(
+            \stack_question_xml_compare::DISPLAY_SPLIT,
+            \stack_question_xml_compare::get_display_mode('split')
+        );
+        $this->assertSame(
+            \stack_question_xml_compare::DISPLAY_UNIFIED,
+            \stack_question_xml_compare::get_display_mode('unified')
+        );
+    }
+
+    public function test_get_display_mode_rejects_unknown_mode(): void {
+        $this->expectException(\invalid_parameter_exception::class);
+        \stack_question_xml_compare::get_display_mode('sideways');
+    }
+
+    public function test_toggle_display_mode_returns_the_other_mode(): void {
+        $this->assertSame(
+            \stack_question_xml_compare::DISPLAY_SPLIT,
+            \stack_question_xml_compare::toggle_display_mode(\stack_question_xml_compare::DISPLAY_UNIFIED)
+        );
+        $this->assertSame(
+            \stack_question_xml_compare::DISPLAY_UNIFIED,
+            \stack_question_xml_compare::toggle_display_mode(\stack_question_xml_compare::DISPLAY_SPLIT)
+        );
+    }
+
     public function test_version_options_mark_selected_version(): void {
         $options = \stack_question_xml_compare::version_options([3 => 103, 2 => 102, 1 => 101], 2);
 
@@ -173,6 +211,47 @@ final class questionxmlcompare_test extends \advanced_testcase {
         $this->assertStringContainsString('stack-xml-compare-inline-added', $rows[1]->currenthtml);
         $this->assertStringContainsString('new', strip_tags($rows[1]->currenthtml));
         $this->assertSame('', $rows[1]->comparehtml);
+    }
+
+    public function test_diff_rows_split_mode_keeps_changed_lines_side_by_side(): void {
+        $rows = \stack_question_xml_compare::diff_rows(
+            'value new tail',
+            'value old tail',
+            \stack_question_xml_compare::DISPLAY_SPLIT
+        );
+
+        $this->assertCount(1, $rows);
+        $this->assertEquals('changed', $rows[0]->type);
+        $this->assertStringContainsString('stack-xml-compare-inline-added', $rows[0]->currenthtml);
+        $this->assertStringContainsString('new', strip_tags($rows[0]->currenthtml));
+        $this->assertStringContainsString('stack-xml-compare-inline-deleted', $rows[0]->comparehtml);
+        $this->assertStringContainsString('old', strip_tags($rows[0]->comparehtml));
+    }
+
+    public function test_diff_rows_split_mode_keeps_unchanged_compared_content(): void {
+        $rows = \stack_question_xml_compare::diff_rows(
+            '<quiz>',
+            '<quiz>',
+            \stack_question_xml_compare::DISPLAY_SPLIT
+        );
+
+        $this->assertSame('&lt;quiz&gt;', $rows[0]->currenthtml);
+        $this->assertSame('&lt;quiz&gt;', $rows[0]->comparehtml);
+        $this->assertStringNotContainsString('stack-xml-compare-empty', $rows[0]->compareclass);
+    }
+
+    public function test_diff_rows_split_mode_shows_deleted_only_content_in_compared_column(): void {
+        $rows = \stack_question_xml_compare::diff_rows(
+            "same\nlast",
+            "same\ndeleted\nlast",
+            \stack_question_xml_compare::DISPLAY_SPLIT
+        );
+
+        $this->assertEquals('deleted', $rows[1]->type);
+        $this->assertSame('', $rows[1]->currenthtml);
+        $this->assertStringContainsString('stack-xml-compare-empty', $rows[1]->currentclass);
+        $this->assertStringContainsString('deleted', $rows[1]->comparehtml);
+        $this->assertStringContainsString('stack-xml-compare-inline-deleted', $rows[1]->comparehtml);
     }
 
     public function test_diff_rows_escapes_changed_xml_text_inside_inline_highlights(): void {

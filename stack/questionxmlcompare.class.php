@@ -28,6 +28,12 @@ require_once($CFG->dirroot . '/question/format/xml/format.php');
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 class stack_question_xml_compare {
+    /** @var string unified diff display mode. */
+    public const DISPLAY_UNIFIED = 'unified';
+
+    /** @var string split diff display mode. */
+    public const DISPLAY_SPLIT = 'split';
+
     /**
      * Export one question version as Moodle XML.
      *
@@ -84,6 +90,37 @@ class stack_question_xml_compare {
         }
 
         return $requestedcompareversion;
+    }
+
+    /**
+     * Select the diff display mode.
+     *
+     * @param string|null $requesteddisplay requested display mode.
+     * @return string selected display mode.
+     */
+    public static function get_display_mode(?string $requesteddisplay): string {
+        if ($requesteddisplay === null || $requesteddisplay === '') {
+            return self::DISPLAY_UNIFIED;
+        }
+        if ($requesteddisplay === self::DISPLAY_UNIFIED || $requesteddisplay === self::DISPLAY_SPLIT) {
+            return $requesteddisplay;
+        }
+
+        return self::DISPLAY_UNIFIED;
+    }
+
+    /**
+     * Get the other display mode.
+     *
+     * @param string $displaymode current display mode.
+     * @return string toggled display mode.
+     */
+    public static function toggle_display_mode(string $displaymode): string {
+        if ($displaymode === self::DISPLAY_SPLIT) {
+            return self::DISPLAY_UNIFIED;
+        }
+
+        return self::DISPLAY_SPLIT;
     }
 
     /**
@@ -280,7 +317,26 @@ class stack_question_xml_compare {
      * @param string $comparexml the selected version XML.
      * @return stdClass[] template rows.
      */
-    public static function diff_rows(string $currentxml, string $comparexml): array {
+    public static function diff_rows(
+        string $currentxml,
+        string $comparexml,
+        string $displaymode = self::DISPLAY_UNIFIED
+    ): array {
+        if (self::get_display_mode($displaymode) === self::DISPLAY_SPLIT) {
+            return self::split_diff_rows($currentxml, $comparexml);
+        }
+
+        return self::unified_diff_rows($currentxml, $comparexml);
+    }
+
+    /**
+     * Build template-ready unified diff rows.
+     *
+     * @param string $currentxml the current version XML.
+     * @param string $comparexml the selected version XML.
+     * @return stdClass[] template rows.
+     */
+    protected static function unified_diff_rows(string $currentxml, string $comparexml): array {
         $rows = [];
         foreach (self::compare_rows($currentxml, $comparexml) as $row) {
             if ($row->type === 'changed') {
@@ -313,6 +369,36 @@ class stack_question_xml_compare {
                     'currenttext' => null,
                     'comparetext' => null,
                 ], $currenthtml, null);
+                continue;
+            }
+
+            $rows[] = self::template_row($row);
+        }
+
+        return $rows;
+    }
+
+    /**
+     * Build template-ready split diff rows.
+     *
+     * @param string $currentxml the current version XML.
+     * @param string $comparexml the selected version XML.
+     * @return stdClass[] template rows.
+     */
+    protected static function split_diff_rows(string $currentxml, string $comparexml): array {
+        $rows = [];
+        foreach (self::compare_rows($currentxml, $comparexml) as $row) {
+            if ($row->type === 'changed') {
+                [$currenthtml, $comparehtml] = self::inline_changed_separate($row->currenttext, $row->comparetext);
+                $rows[] = self::template_row($row, $currenthtml, $comparehtml);
+                continue;
+            } else if ($row->type === 'deleted') {
+                $comparehtml = html_writer::tag(
+                    'span',
+                    s($row->comparetext),
+                    ['class' => 'stack-xml-compare-inline-deleted']
+                );
+                $rows[] = self::template_row($row, null, $comparehtml);
                 continue;
             }
 

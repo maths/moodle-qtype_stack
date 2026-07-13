@@ -459,10 +459,16 @@ body.path-question-type-stack .stack-xml-compare-diff-wrap {
 }
 body.path-question-type-stack table.stack-xml-compare-diff {
     width: 100%;
-    min-width: 90rem;
     margin-bottom: 0;
     border-collapse: collapse;
+    table-layout: fixed;
     background: #fff;
+}
+body.path-question-type-stack table.stack-xml-compare-diff-unified {
+    min-width: 55rem;
+}
+body.path-question-type-stack table.stack-xml-compare-diff-split {
+    min-width: 90rem;
 }
 body.path-question-type-stack .stack-xml-compare-diff th,
 body.path-question-type-stack .stack-xml-compare-diff td {
@@ -475,15 +481,23 @@ body.path-question-type-stack .stack-xml-compare-diff th {
 }
 body.path-question-type-stack .stack-xml-compare-line {
     width: 4rem;
-    min-width: 4rem;
     color: #5f6b76;
     text-align: right;
     user-select: none;
 }
 body.path-question-type-stack .stack-xml-compare-code {
-    width: 50%;
     font-family: monospace;
-    white-space: pre;
+}
+body.path-question-type-stack .stack-xml-compare-diff-unified .stack-xml-compare-code {
+    width: auto;
+}
+body.path-question-type-stack .stack-xml-compare-diff-split .stack-xml-compare-code {
+    width: calc((100% - 8rem) / 2);
+}
+body.path-question-type-stack .stack-xml-compare-code-wrap {
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+    word-break: break-word;
 }
 body.path-question-type-stack .stack-xml-compare-empty {
     background: #f8f9fa;
@@ -492,6 +506,14 @@ body.path-question-type-stack .stack-xml-compare-row-added .stack-xml-compare-co
     background: #e7f6e7;
 }
 body.path-question-type-stack .stack-xml-compare-row-deleted .stack-xml-compare-code-current {
+    background: #fdeaea;
+}
+body.path-question-type-stack .stack-xml-compare-diff-split
+    .stack-xml-compare-row-deleted .stack-xml-compare-code-current {
+    background: #f8f9fa;
+}
+body.path-question-type-stack .stack-xml-compare-diff-split
+    .stack-xml-compare-row-deleted .stack-xml-compare-code-compared {
     background: #fdeaea;
 }
 body.path-question-type-stack .stack-xml-compare-inline-added,

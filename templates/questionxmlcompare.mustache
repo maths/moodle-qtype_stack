@@ -17,7 +17,7 @@
 {{!
     @template qtype_stack/questionxmlcompare
 
-    Displays side-by-side Moodle XML comparison for two versions of a STACK question.
+    Displays Moodle XML comparison for two versions of a STACK question.
 
     Classes required for JS:
     * none
@@ -35,6 +35,9 @@
         "currentversion": 2,
         "compareversion": 1
       },
+      "displaymode": "unified",
+      "displayunified": true,
+      "displaysplit": false,
       "general": {
         "testquestionlink": "http://example.com",
         "previewquestionlink": "http://example.com",
@@ -42,6 +45,7 @@
         "editxmllink": "http://example.com",
         "formaction": "http://example.com",
         "refreshlink": "http://example.com",
+        "displaytogglelink": "http://example.com",
         "formparams": [
           {"name": "id", "value": 1}
         ]
@@ -116,17 +120,34 @@
         <option value="{{version}}" {{#selected}}selected="selected"{{/selected}}>{{label}}</option>
       {{/versions}}
     </select>
+    <a class="btn btn-secondary" href="{{{general.displaytogglelink}}}">
+      {{#displayunified}}{{#str}} comparexmlshowsplit, qtype_stack {{/str}}{{/displayunified}}
+      {{#displaysplit}}{{#str}} comparexmlshowunified, qtype_stack {{/str}}{{/displaysplit}}
+    </a>
   </form>
 
   <div class="stack-xml-compare-diff-wrap">
-    <table class="stack-xml-compare-diff">
+    <table class="stack-xml-compare-diff stack-xml-compare-diff-{{displaymode}}">
       <tbody>
         {{#rows}}
           <tr class="stack-xml-compare-row-{{type}}">
-            <td class="stack-xml-compare-line">{{currentline}}</td>
-            <td class="{{currentclass}}">{{{currenthtml}}}</td>
-            <td class="stack-xml-compare-line">{{compareline}}</td>
-            <td class="{{compareclass}}">{{{comparehtml}}}</td>
+            {{#displayunified}}
+              <td class="stack-xml-compare-line">{{currentline}}</td>
+              <td class="stack-xml-compare-line">{{compareline}}</td>
+              <td class="{{currentclass}}">
+                <div class="stack-xml-compare-code-wrap">{{{currenthtml}}}</div>
+              </td>
+            {{/displayunified}}
+            {{#displaysplit}}
+              <td class="stack-xml-compare-line">{{currentline}}</td>
+              <td class="{{currentclass}}">
+                <div class="stack-xml-compare-code-wrap">{{{currenthtml}}}</div>
+              </td>
+              <td class="stack-xml-compare-line">{{compareline}}</td>
+              <td class="{{compareclass}}">
+                <div class="stack-xml-compare-code-wrap">{{{comparehtml}}}</div>
+              </td>
+            {{/displaysplit}}
           </tr>
         {{/rows}}
       </tbody>

@@ -31,7 +31,6 @@
     Example context (json):
     {
       "question": {
-        "name": "Question name",
         "currentversion": 2,
         "compareversion": 1
       },
@@ -49,8 +48,12 @@
         "latestlink": "http://example.com",
         "displaytogglelink": "http://example.com",
         "diffonlytogglelink": "http://example.com",
+        "isstackquestion": true,
         "formparams": [
           {"name": "id", "value": 1}
+        ],
+        "questionformparams": [
+          {"name": "courseid", "value": 1}
         ]
       },
       "currentversions": [
@@ -58,6 +61,9 @@
       ],
       "versions": [
         {"version": 1, "label": 1, "selected": true}
+      ],
+      "questionoptions": [
+        {"id": 1, "label": "Question name (stack, v2)", "selected": true}
       ],
       "rows": [
         {
@@ -75,11 +81,13 @@
 
 <div class="qtype_stack_question_report">
   <ul class="nav">
-    <li class="nav-item" role="presentation">
-      <a class="nav-link" href="{{{general.testquestionlink}}}">
-        <i class="fa fa-wrench"></i> {{#str}} runquestiontests, qtype_stack {{/str}}
-      </a>
-    </li>
+    {{#general.isstackquestion}}
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" href="{{{general.testquestionlink}}}">
+          <i class="fa fa-wrench"></i> {{#str}} runquestiontests, qtype_stack {{/str}}
+        </a>
+      </li>
+    {{/general.isstackquestion}}
     <li class="nav-item" role="presentation">
       <a class="nav-link" href="{{{general.previewquestionlink}}}">
         <i class="fa fa-plus-circle"></i> {{#str}} questionpreview, qtype_stack {{/str}}
@@ -90,13 +98,26 @@
         {{#str}} editquestioninthequestionbank, qtype_stack {{/str}}
       </a>
     </li>
-    <li class="nav-item" role="presentation">
-      <a class="nav-link" href="{{{general.editxmllink}}}">{{#str}} editxml, qtype_stack {{/str}}</a>
-    </li>
+    {{#general.isstackquestion}}
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" href="{{{general.editxmllink}}}">{{#str}} editxml, qtype_stack {{/str}}</a>
+      </li>
+    {{/general.isstackquestion}}
   </ul>
 
   <h2>{{#str}} comparexmltitle, qtype_stack {{/str}}</h2>
-  <h3>{{question.name}}</h3>
+
+  <form method="get" action="{{{general.formaction}}}" class="stack-xml-compare-controls">
+    {{#general.questionformparams}}
+      <input type="hidden" name="{{name}}" value="{{value}}">
+    {{/general.questionformparams}}
+    <label for="id_question">{{#str}} comparexmlselectquestion, qtype_stack {{/str}}</label>
+    <select id="id_question" class="custom-select form-select" name="id" onchange="this.form.submit();">
+      {{#questionoptions}}
+        <option value="{{id}}" {{#selected}}selected="selected"{{/selected}}>{{label}}</option>
+      {{/questionoptions}}
+    </select>
+  </form>
 
   {{#nootherversions}}
     <div class="alert alert-info">{{#str}} comparexmlnootherversions, qtype_stack {{/str}}</div>

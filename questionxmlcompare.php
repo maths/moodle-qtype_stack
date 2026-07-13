@@ -25,6 +25,7 @@
 require_once(__DIR__ . '/../../../config.php');
 require_once(__DIR__ . '/locallib.php');
 require_once($CFG->libdir . '/questionlib.php');
+require_once(__DIR__ . '/stack/utils.class.php');
 require_once(__DIR__ . '/stack/questionxmlcompare.class.php');
 
 require_login();
@@ -44,7 +45,27 @@ if (!$questiondata) {
     throw new stack_exception('questiondoesnotexist');
 }
 $question = question_bank::load_question($questionid);
-[$context, , $urlparams] = qtype_stack_setup_question_test_page($question);
+$isstackquestion = ($questiondata->qtype === 'stack');
+$urlparams = [];
+if ($cmid = optional_param('cmid', 0, PARAM_INT)) {
+    $cm = get_coursemodule_from_id(false, $cmid);
+    require_login($cm->course, false, $cm);
+    $context = context_module::instance($cmid);
+    $urlparams['cmid'] = $cmid;
+} else if ($courseid = optional_param('courseid', 0, PARAM_INT)) {
+    require_login($courseid);
+    $context = context_course::instance($courseid);
+    $urlparams['courseid'] = $courseid;
+} else {
+    $context = $question->get_context();
+    if ($context->contextlevel == CONTEXT_MODULE) {
+        $urlparams['cmid'] = $context->instanceid;
+    } else if ($context->contextlevel == CONTEXT_COURSE) {
+        $urlparams['courseid'] = $context->instanceid;
+    } else {
+        $urlparams['courseid'] = SITEID;
+    }
+}
 
 // Check permissions. Raw XML compare uses the same capability as XML edit.
 question_require_capability_on($questiondata, 'edit');
@@ -88,9 +109,12 @@ if (!$currentxml || !$comparexml) {
     $comparexml = $comparexml ?: '';
 }
 
-$qtype = new qtype_stack();
 $general = new stdClass();
-$general->testquestionlink = $qtype->get_question_test_url($question)->out();
+$general->isstackquestion = $isstackquestion;
+if ($isstackquestion) {
+    $qtype = new qtype_stack();
+    $general->testquestionlink = $qtype->get_question_test_url($question)->out();
+}
 $general->previewquestionlink = qbank_previewquestion\helper::question_preview_url(
     $questionid,
     null,
@@ -100,12 +124,19 @@ $general->previewquestionlink = qbank_previewquestion\helper::question_preview_u
     $context
 )->out();
 $general->editquestionlink = (new moodle_url('/question/type/stack/questioneditlatest.php', $editparams))->out();
-$general->editxmllink = (new moodle_url('/question/type/stack/questionxmledit.php', $editparams))->out();
+if ($isstackquestion) {
+    $general->editxmllink = (new moodle_url('/question/type/stack/questionxmledit.php', $editparams))->out();
+}
 $general->formaction = (new moodle_url('/question/type/stack/questionxmlcompare.php'))->out(false);
 $formparams = $editparams;
 $formparams['display'] = $displaymode;
 $formparams['diffonly'] = $pageparams['diffonly'];
 $general->formparams = stack_question_xml_compare::form_params($formparams);
+$questionformparams = $editparams;
+unset($questionformparams['id']);
+$questionformparams['display'] = $displaymode;
+$questionformparams['diffonly'] = $pageparams['diffonly'];
+$general->questionformparams = stack_question_xml_compare::form_params($questionformparams);
 $latestparams = $pageparams;
 unset($latestparams['currentversion']);
 $general->latestlink = (new moodle_url('/question/type/stack/questionxmlcompare.php', $latestparams))->out();
@@ -132,6 +163,7 @@ $output->notices = $notices;
 $output->nootherversions = count($versions) < 2;
 $output->currentversions = stack_question_xml_compare::version_options($versions, $currentversion);
 $output->versions = stack_question_xml_compare::version_options($versions, $compareversion);
+$output->questionoptions = stack_question_xml_compare::questions_in_category($questiondata->category, $questionid);
 $output->rows = stack_question_xml_compare::diff_rows($currentxml, $comparexml, $displaymode, $diffonly);
 
 echo $OUTPUT->header();

@@ -156,6 +156,47 @@ final class questionxmlcompare_test extends \advanced_testcase {
         $this->assertFalse($options[2]->selected);
     }
 
+    public function test_question_options_mark_selected_question(): void {
+        $question1 = (object) ['id' => 10, 'name' => 'Stack question', 'qtype' => 'stack', 'version' => 2];
+        $question2 = (object) ['id' => 20, 'name' => 'True false question', 'qtype' => 'truefalse', 'version' => 1];
+
+        $options = \stack_question_xml_compare::question_options([$question1, $question2], 20);
+
+        $this->assertCount(2, $options);
+        $this->assertSame(10, $options[0]->id);
+        $this->assertSame('Stack question', $options[0]->label);
+        $this->assertFalse($options[0]->selected);
+        $this->assertSame(20, $options[1]->id);
+        $this->assertSame('True false question', $options[1]->label);
+        $this->assertTrue($options[1]->selected);
+    }
+
+    public function test_questions_in_category_returns_latest_questions_for_all_question_types(): void {
+        $this->resetAfterTest();
+        $this->setAdminUser();
+
+        $generator = $this->getDataGenerator()->get_plugin_generator('core_question');
+        $category = $generator->create_question_category();
+        $stackquestion = $generator->create_question(
+            'stack',
+            'test3',
+            ['category' => $category->id, 'name' => 'Stack question']
+        );
+        $truefalsequestion = $generator->create_question(
+            'truefalse',
+            null,
+            ['category' => $category->id, 'name' => 'True false question']
+        );
+
+        $options = \stack_question_xml_compare::questions_in_category($category->id, $truefalsequestion->id);
+
+        $this->assertCount(2, $options);
+        $this->assertEqualsCanonicalizing([$stackquestion->id, $truefalsequestion->id], array_column($options, 'id'));
+        $selected = array_values(array_filter($options, fn($option) => $option->selected));
+        $this->assertCount(1, $selected);
+        $this->assertSame($truefalsequestion->id, $selected[0]->id);
+    }
+
     public function test_lines_normalises_newline_styles_and_preserves_trailing_empty_line(): void {
         $lines = \stack_question_xml_compare::lines("one\r\ntwo\rthree\n");
 

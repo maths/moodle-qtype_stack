@@ -194,6 +194,53 @@ class stack_question_xml_compare {
     }
 
     /**
+     * Build template data for the question selector.
+     *
+     * @param int $categoryid question category id.
+     * @param int $selectedquestionid selected latest question id.
+     * @return stdClass[] question selector options.
+     */
+    public static function questions_in_category(int $categoryid, int $selectedquestionid): array {
+        global $DB;
+
+        $records = $DB->get_records_sql("
+            SELECT q.id, q.name, q.qtype, qv.version
+              FROM {question} q
+              JOIN {question_versions} qv ON qv.questionid = q.id
+              JOIN {question_bank_entries} qbe ON qbe.id = qv.questionbankentryid
+             WHERE qbe.questioncategoryid = :categoryid
+               AND q.parent = 0
+               AND qv.version = (
+                    SELECT MAX(v.version)
+                      FROM {question_versions} v
+                     WHERE v.questionbankentryid = qbe.id
+               )
+          ORDER BY q.name, q.id", ['categoryid' => $categoryid]);
+
+        return self::question_options($records, $selectedquestionid);
+    }
+
+    /**
+     * Build template data for the question selector from question records.
+     *
+     * @param array $questions question records.
+     * @param int $selectedquestionid selected latest question id.
+     * @return stdClass[] question selector options.
+     */
+    public static function question_options(array $questions, int $selectedquestionid): array {
+        $options = [];
+        foreach ($questions as $question) {
+            $option = new stdClass();
+            $option->id = (int) $question->id;
+            $option->label = $question->name;
+            $option->selected = ((int) $question->id === $selectedquestionid);
+            $options[] = $option;
+        }
+
+        return $options;
+    }
+
+    /**
      * Build template data for hidden form parameters.
      *
      * @param array $params URL parameters to preserve.

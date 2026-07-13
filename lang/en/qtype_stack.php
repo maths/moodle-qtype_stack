@@ -731,6 +731,7 @@ $string['comparexmltitle'] = 'Compare question XML';
 $string['comparexmlcurrentversion'] = 'Current version {$a}';
 $string['comparexmlselectedversion'] = 'Compared version {$a}';
 $string['comparexmlselectcurrentversion'] = 'Version';
+$string['comparexmlselectquestion'] = 'Question';
 $string['comparexmlselectversion'] = 'Compared with version';
 $string['comparexmlnootherversions'] = 'There are no other versions of this question to compare.';
 $string['comparexmlrefresh'] = 'Refresh current version';

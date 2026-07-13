@@ -21,6 +21,7 @@ Feature: Test editing XML of a question.
     And the following "questions" exist:
       | questioncategory | qtype | name                  | template |
       | Test questions   | stack | Simple STACK question | test1    |
+      | Test questions   | truefalse | Simple true false question | true |
 
   @javascript
   Scenario: Update XML with bad XML - requires importasversion update
@@ -168,6 +169,7 @@ Feature: Test editing XML of a question.
     And I should see "Current version 2"
     And I should see "Compared version 1"
     And I should see "Latest"
+    And I should see "Question"
     And I set the field "Current version" to "1"
     And I wait until "Current version 1" "text" exists
     And I follow "Latest"
@@ -181,6 +183,13 @@ Feature: Test editing XML of a question.
     And ".stack-xml-compare-row-deleted" "css_element" should exist in the "0.4" "table_row"
     And I should see "<penalty>" in the "0.4" "table_row"
     And ".stack-xml-compare-inline-deleted" "css_element" should exist in the "0.4" "table_row"
+    And I set the field "Question" to "Simple true false question"
+    And I wait until "Simple true false question" "text" exists
+    And I should see "<question type=\"truefalse\">"
+    And I should not see "STACK question dashboard"
+    And I should not see "Edit question XML"
+    And I set the field "Question" to "Simple STACK question"
+    And I wait until "Simple STACK question" "text" exists
     And I follow "Show differences only"
     And I should see "Show all lines"
     And I should not see "<quiz>"

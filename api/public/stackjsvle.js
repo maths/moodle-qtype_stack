@@ -59,6 +59,9 @@
      */
     let VALIDATION_STATE_EVENT = {};
 
+    /* For scroll synchronisation, lists of IFRAMES listening particular inputs. */
+    let INPUTS_SCROLL_EVENT = {};
+
     /**
      * Returns an element with a given id, if an only if that element exists
      * inside a portion of DOM that represents a question or its feedback.
@@ -254,6 +257,47 @@
      * @param {HTMLElement} modifiedsubtreerootelement element under which changes may have happened.
      */
     function vle_update_dom(modifiedsubtreerootelement) {
+    }
+
+    /**
+     * Return the current fractional scroll position for an input.
+     *
+     * @param {HTMLElement} inputelement element to inspect.
+     * @return {number} a value in the range 0..1.
+     */
+    function vle_get_scroll_position(inputelement) {
+        const maxscroll = inputelement.scrollHeight - inputelement.clientHeight;
+        if (maxscroll <= 0) {
+            return 0;
+        }
+        return inputelement.scrollTop / maxscroll;
+    }
+
+    /**
+     * Broadcast the current input scroll position to every subscribed iframe.
+     *
+     * @param {HTMLElement} inputelement element being synced.
+     * @param {String} inputname logical STACK input name.
+     * @param {?String} skipframe iframe id to skip when broadcasting.
+     */
+    function vle_sync_scroll_listeners(inputelement, inputname, skipframe) {
+        if (!(inputelement.id in INPUTS_SCROLL_EVENT)) {
+            return;
+        }
+        const scrollposition = vle_get_scroll_position(inputelement);
+        let response = {
+            version: 'STACK-JS:1.6.0',
+            type: 'input-scroll-position',
+            name: inputname,
+            position: scrollposition
+        };
+        for (let tgt of INPUTS_SCROLL_EVENT[inputelement.id]) {
+            if (skipframe !== null && skipframe !== undefined && tgt === skipframe) {
+                continue;
+            }
+            response.tgt = tgt;
+            IFRAMES[tgt].contentWindow.postMessage(JSON.stringify(response), '*');
+        }
     }
 
     /**
@@ -541,6 +585,35 @@
             }
 
             break;
+        case 'track-input-scroll':
+            input = vle_get_input_element(msg.name, msg.src, !msg['limit-to-question']);
+
+            if (input === null) {
+                response.type = 'error';
+                response.msg = 'Failed to connect to input: "' + msg.name + '"';
+                response.tgt = msg.src;
+                IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(response), '*');
+                return;
+            }
+
+            response.type = 'input-scroll-position';
+            response.name = msg.name;
+            response.tgt = msg.src;
+            response.position = vle_get_scroll_position(input);
+
+            if (input.id in INPUTS_SCROLL_EVENT) {
+                if (!(msg.src in INPUTS_SCROLL_EVENT[input.id])) {
+                    INPUTS_SCROLL_EVENT[input.id].push(msg.src);
+                }
+            } else {
+                INPUTS_SCROLL_EVENT[input.id] = [msg.src];
+                input.addEventListener('scroll', () => {
+                    vle_sync_scroll_listeners(input, msg.name, null);
+                });
+            }
+
+            IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(response), '*');
+            break;
         case 'track-validation-state':
             // 1. Find the input.
             input = vle_get_input_element(msg.name, msg.src, !msg['limit-to-question']);
@@ -617,7 +690,6 @@
                     });
                 }
             }
-
             break;
         case 'changed-input':
             // 1. Find the input.

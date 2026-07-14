@@ -734,54 +734,6 @@ class stack_question_xml_compare {
     }
 
     /**
-     * Render an inline character diff for two changed lines.
-     *
-     * @param string $currenttext current version line.
-     * @param string $comparetext selected version line.
-     * @return string[] current and compared HTML.
-     */
-    public static function inline_changed(string $currenttext, string $comparetext): array {
-        $current = self::chars($currenttext);
-        $compare = self::chars($comparetext);
-        $currentcount = count($current);
-        $comparecount = count($compare);
-
-        // Character LCS gives precise inline highlighting, but its matrix is O(n*m). Very long XML lines
-        // can come from encoded content, so switch to a cheaper prefix/suffix highlighter above this limit.
-        if ($currentcount * $comparecount > 40000) {
-            return self::inline_changed_region($current, $compare);
-        }
-
-        $currenthtml = '';
-        $comparehtml = '';
-        foreach (self::inline_chunks($current, $compare) as $chunk) {
-            if ($chunk['changed']) {
-                if ($chunk['currenttext'] !== '') {
-                    $currenthtml .= html_writer::tag(
-                        'span',
-                        s($chunk['currenttext']),
-                        ['class' => 'stack-xml-compare-inline-added']
-                    );
-                }
-                if ($chunk['comparetext'] !== '') {
-                    $currenthtml .= self::missing_html($chunk['comparetext']);
-                    $comparehtml .= html_writer::tag(
-                        'span',
-                        s($chunk['comparetext']),
-                        ['class' => 'stack-xml-compare-inline-deleted']
-                    );
-                }
-                continue;
-            }
-
-            $currenthtml .= s($chunk['currenttext']);
-            $comparehtml .= s($chunk['comparetext']);
-        }
-
-        return [$currenthtml, $comparehtml];
-    }
-
-    /**
      * Render inline character changes for two changed lines shown as separate rows.
      *
      * @param string $currenttext current version line.
@@ -935,53 +887,6 @@ class stack_question_xml_compare {
     }
 
     /**
-     * Render inline changed regions for long lines without building an LCS matrix.
-     *
-     * @param string[] $current current version characters.
-     * @param string[] $compare selected version characters.
-     * @return string[] current and compared HTML.
-     */
-    public static function inline_changed_region(array $current, array $compare): array {
-        $currentcount = count($current);
-        $comparecount = count($compare);
-        $prefix = 0;
-        // For long lines, preserve the exact unchanged prefix and suffix, then mark the middle ranges.
-        // This is less precise than full character LCS but avoids allocating a huge matrix.
-        while ($prefix < $currentcount && $prefix < $comparecount && $current[$prefix] === $compare[$prefix]) {
-            $prefix++;
-        }
-
-        $suffix = 0;
-        while (
-            $suffix < $currentcount - $prefix &&
-            $suffix < $comparecount - $prefix &&
-            $current[$currentcount - $suffix - 1] === $compare[$comparecount - $suffix - 1]
-        ) {
-            $suffix++;
-        }
-
-        $currenthtml = s(implode('', array_slice($current, 0, $prefix)));
-        $comparehtml = s(implode('', array_slice($compare, 0, $prefix)));
-        $currentmiddle = implode('', array_slice($current, $prefix, $currentcount - $prefix - $suffix));
-        $comparemiddle = implode('', array_slice($compare, $prefix, $comparecount - $prefix - $suffix));
-        if ($currentmiddle !== '') {
-            $currenthtml .= html_writer::tag('span', s($currentmiddle), ['class' => 'stack-xml-compare-inline-added']);
-        }
-        if ($comparemiddle !== '') {
-            $currenthtml .= self::missing_html($comparemiddle);
-            $comparehtml .= html_writer::tag(
-                'span',
-                s($comparemiddle),
-                ['class' => 'stack-xml-compare-inline-deleted']
-            );
-        }
-        $currenthtml .= s(implode('', array_slice($current, $currentcount - $suffix)));
-        $comparehtml .= s(implode('', array_slice($compare, $comparecount - $suffix)));
-
-        return [$currenthtml, $comparehtml];
-    }
-
-    /**
      * Render separate-row inline changed regions for long lines without building an LCS matrix.
      *
      * @param string[] $current current version characters.
@@ -1023,19 +928,5 @@ class stack_question_xml_compare {
         $comparehtml .= s(implode('', array_slice($compare, $comparecount - $suffix)));
 
         return [$currenthtml, $comparehtml];
-    }
-
-    /**
-     * Render text missing from current line.
-     *
-     * @param string $text deleted text.
-     * @return string HTML.
-     */
-    protected static function missing_html(string $text): string {
-        return html_writer::tag(
-            'span',
-            s($text),
-            ['class' => 'stack-xml-compare-inline-deleted stack-xml-compare-inline-missing']
-        );
     }
 }

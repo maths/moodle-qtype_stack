@@ -31,6 +31,7 @@ class qtype_stack_question_xml_compare_form extends moodleform {
      * Define the filepicker controls.
      */
     protected function definition() {
+        $this->set_display_vertical();
         $mform = $this->_form;
         $mform->disable_form_change_checker();
         $filepickeroptions = [

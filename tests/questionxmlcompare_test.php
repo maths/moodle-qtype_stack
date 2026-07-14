@@ -459,32 +459,7 @@ final class questionxmlcompare_test extends \advanced_testcase {
         $this->assertSame('abc11abcdef22ghi', strip_tags($comparehtml));
     }
 
-    public function test_inline_changed_treats_identical_single_character_lines_as_unchanged(): void {
-        [$currenthtml, $comparehtml] = \stack_question_xml_compare::inline_changed('a', 'a');
-
-        $this->assertSame('a', $currenthtml);
-        $this->assertSame('a', $comparehtml);
-    }
-
-    public function test_inline_changed_marks_insertions_only_on_current_side(): void {
-        [$currenthtml, $comparehtml] = \stack_question_xml_compare::inline_changed('abcXYZdef', 'abcdef');
-
-        $this->assertStringContainsString('stack-xml-compare-inline-added', $currenthtml);
-        $this->assertSame('abcXYZdef', strip_tags($currenthtml));
-        $this->assertStringNotContainsString('stack-xml-compare-inline-deleted', $currenthtml);
-        $this->assertSame('abcdef', $comparehtml);
-    }
-
-    public function test_inline_changed_marks_deletions_on_both_sides(): void {
-        [$currenthtml, $comparehtml] = \stack_question_xml_compare::inline_changed('abcdef', 'abcXYZdef');
-
-        $this->assertStringContainsString('stack-xml-compare-inline-missing', $currenthtml);
-        $this->assertSame('abcXYZdef', strip_tags($currenthtml));
-        $this->assertStringContainsString('stack-xml-compare-inline-deleted', $comparehtml);
-        $this->assertSame('abcXYZdef', strip_tags($comparehtml));
-    }
-
-    public function test_inline_changed_flags_edited_lines_shorter_than_five_characters(): void {
+    public function test_diff_rows_flags_edited_lines_shorter_than_five_characters(): void {
         $rows = \stack_question_xml_compare::diff_rows(
             'abcd',
             'abxd',
@@ -496,34 +471,6 @@ final class questionxmlcompare_test extends \advanced_testcase {
         $this->assertStringContainsString('stack-xml-compare-inline-deleted', $rows[0]->comparehtml);
         $this->assertSame('abcd', strip_tags($rows[0]->currenthtml));
         $this->assertSame('abxd', strip_tags($rows[0]->comparehtml));
-    }
-
-    public function test_inline_changed_joins_changes_across_short_unchanged_gaps(): void {
-        [$currenthtml, $comparehtml] = \stack_question_xml_compare::inline_changed(
-            'abcXXabcdeYYghi',
-            'abc11abcde22ghi'
-        );
-
-        $this->assertSame(1, substr_count($currenthtml, 'stack-xml-compare-inline-added'));
-        $this->assertSame(1, substr_count($currenthtml, 'stack-xml-compare-inline-missing'));
-        $this->assertSame(1, substr_count($comparehtml, 'stack-xml-compare-inline-deleted'));
-        $this->assertStringContainsString('XXabcdeYY', strip_tags($currenthtml));
-        $this->assertStringContainsString('11abcde22', strip_tags($comparehtml));
-    }
-
-    public function test_inline_changed_region_marks_middle_changes_for_long_lines(): void {
-        [$currenthtml, $comparehtml] = \stack_question_xml_compare::inline_changed_region(
-            str_split('prefix-CURRENT-suffix'),
-            str_split('prefix-COMPARED-suffix')
-        );
-
-        $this->assertStringStartsWith('prefix-', $currenthtml);
-        $this->assertStringEndsWith('-suffix', $currenthtml);
-        $this->assertStringContainsString('stack-xml-compare-inline-added', $currenthtml);
-        $this->assertStringContainsString('URRENT', $currenthtml);
-        $this->assertStringContainsString('stack-xml-compare-inline-missing', $currenthtml);
-        $this->assertStringContainsString('OMPARED', $currenthtml);
-        $this->assertStringContainsString('stack-xml-compare-inline-deleted', $comparehtml);
     }
 
     public function test_inline_changed_separate_region_marks_middle_changes_for_long_lines(): void {
@@ -542,18 +489,6 @@ final class questionxmlcompare_test extends \advanced_testcase {
         $this->assertStringContainsString('stack-xml-compare-inline-deleted', $comparehtml);
         $this->assertStringContainsString('OMPARED', $comparehtml);
         $this->assertStringNotContainsString('stack-xml-compare-inline-added', $comparehtml);
-    }
-
-    public function test_inline_changed_uses_long_line_fallback(): void {
-        $current = str_repeat('a', 201) . 'current';
-        $compared = str_repeat('a', 201) . 'compared';
-
-        [$currenthtml, $comparehtml] = \stack_question_xml_compare::inline_changed($current, $compared);
-
-        $this->assertStringContainsString('urrent', $currenthtml);
-        $this->assertStringContainsString('ompared', $currenthtml);
-        $this->assertStringContainsString('stack-xml-compare-inline-added', $currenthtml);
-        $this->assertStringContainsString('stack-xml-compare-inline-deleted', $comparehtml);
     }
 
     public function test_chars_handles_multibyte_characters(): void {

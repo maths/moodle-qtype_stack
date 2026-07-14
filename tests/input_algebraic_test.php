@@ -3151,6 +3151,25 @@ final class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->errors);
     }
 
+    public function test_decimal_output_6(): void {
+
+        $options = new stack_options();
+        $options->set_option('decimals', ',');
+        $el = stack_input_factory::make('algebraic', 'state', '2*e', $options);
+        $el->set_parameter('insertStars', 7);
+
+        $state = $el->validate_student_response(
+            ['state' => '2e'],
+            $options,
+            '2*e',
+            new stack_cas_security()
+            );
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('2*e', $state->contentsmodified);
+        $this->assertEquals('\[ 2\cdot e \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
+    }
+
     public function test_decimal_output_matrix_1(): void {
 
         $options = new stack_options();

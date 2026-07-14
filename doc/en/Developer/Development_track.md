@@ -5,19 +5,11 @@ past development history is documented on [Development history](Development_hist
 
 We use the [github issue tracker](https://github.com/maths/moodle-qtype_stack/issues) to track "milestones".
 
-## Version 4.13.0
+## Version 4.14.0
 
-Issues with [github milestone 4.13.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.13.0) include
+Issues with [github milestone 4.14.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.14.0) include
 
 1. Remove all "cte" code from Maxima - mostly install.
-2. Support for Maxima 5.47.0, 5.48.0, and 5.49.0.  This includes a fix for issue #1281 from 5.48.0.
-3. Question tests can now test the whole route through a PRT, rather than just the final node.  This is a significant improvement on the ability to test questions.  This is back-compatible with older questions.
-4. Add in a new ["free-text" input](../Specialist_tools/Free_text_input/index.md) to allow students to input typed free-text proof.
-5. Allow most input types to use the extra option 'manualgraded'.
-6. Expand the use of "align" and "monospace" input options to textarea and equiv inputs.
-7. Move chemistry data and some core functions into the Maxima supported code.  Load these with `stack_chemistry_declare(true);` in the question variables.
-8. Redesign of question dashboard layout.
-
 
 ## Better testing
 

@@ -2,7 +2,7 @@
 <quiz>
   <question type="stack">
     <name>
-      <text>3.5.1.4 True_False (copy)</text>
+      <text>3.5.1.4 True_False</text>
     </name>
     <questiontext format="html">
       <text><![CDATA[<p class="HELM_exercise">Exercise</p>

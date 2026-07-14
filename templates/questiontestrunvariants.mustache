@@ -129,26 +129,29 @@
           <input type="hidden" name="seed" value="{{seed}}">
         <table id="deployed-variants-table" class="generaltable stacktestsuite table table-striped">
           <!-- Table of variants and question notes -->
-          <tr>
-            <th class="stack-sortable-header" data-sort-index="0" data-sort-type="number" tabindex="0" aria-sort="none">
-              <button type="button" class="btn btn-link p-0 stack-toggle-variants-btn"
-                  aria-label="{{#str}} invertvariantselection, qtype_stack {{/str}}" title="{{#str}} invertvariantselection, qtype_stack {{/str}}" aria-pressed="false">
-              {{#pix}}i/switch, core{{/pix}}
-              </button>{{#str}} seednumber, qtype_stack {{/str}}
-              <span class="stack-sort-arrow" aria-hidden="true">{{#pix}}t/sort, core{{/pix}}</span>
-            </th>
-            <th class="stack-sortable-header" data-sort-index="1" data-sort-type="text" tabindex="0" aria-sort="ascending">
-              {{#str}} questionnote, qtype_stack {{/str}}
-              <span class="stack-sort-arrow" aria-hidden="true">{{#pix}}t/sort, core{{/pix}}</span>
-            </th>
-            <th></th>
-            <th class="stack-sortable-header" data-sort-index="3" data-sort-type="text" tabindex="0" aria-sort="none">
-              {{#hastests}}
-                {{#str}} testpassesandfails, qtype_stack, {"passes":"{{passed}}", "fails":"{{failed}}"} {{/str}}
+          <thead>
+            <tr>
+              <th class="stack-sortable-header" data-sort-index="0" data-sort-type="number" tabindex="0" aria-sort="none">
+                <button type="button" class="btn btn-link p-0 stack-toggle-variants-btn"
+                    aria-label="{{#str}} invertvariantselection, qtype_stack {{/str}}" title="{{#str}} invertvariantselection, qtype_stack {{/str}}" aria-pressed="false">
+                {{#pix}}i/switch, core{{/pix}}
+                </button>{{#str}} seednumber, qtype_stack {{/str}}
                 <span class="stack-sort-arrow" aria-hidden="true">{{#pix}}t/sort, core{{/pix}}</span>
-              {{/hastests}}
-            </th>
-          </tr>
+              </th>
+              <th class="stack-sortable-header" data-sort-index="1" data-sort-type="text" tabindex="0" aria-sort="ascending">
+                {{#str}} questionnote, qtype_stack {{/str}}
+                <span class="stack-sort-arrow" aria-hidden="true">{{#pix}}t/sort, core{{/pix}}</span>
+              </th>
+              <th></th>
+              <th class="stack-sortable-header" data-sort-index="3" data-sort-type="text" tabindex="0" aria-sort="none">
+                {{#hastests}}
+                  {{#str}} testpassesandfails, qtype_stack, {"passes":"{{passed}}", "fails":"{{failed}}"} {{/str}}
+                  <span class="stack-sort-arrow" aria-hidden="true">{{#pix}}t/sort, core{{/pix}}</span>
+                {{/hastests}}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
       {{/notes.0}}
 
       {{#notes}}
@@ -185,6 +188,7 @@
         </tr>
       {{/notes}}
       {{#notes.0}}
+          </tbody>
         </table>
           <!-- Delete selected -->
           {{#canedit}}

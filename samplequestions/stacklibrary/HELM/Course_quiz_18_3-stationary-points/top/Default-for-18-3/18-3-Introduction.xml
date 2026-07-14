@@ -2,7 +2,7 @@
 <quiz>
   <question type="description">
     <name>
-      <text>18.3 Introduction (copy)</text>
+      <text>18.3 Introduction</text>
     </name>
     <questiontext format="html">
       <text><![CDATA[<p>The calculation of the optimum value of a function of two variables is a common requirement in many areas of engineering, for example in thermodynamics. Unlike the case of a function of one variable we have to use more complicated criteria to distinguish

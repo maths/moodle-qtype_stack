@@ -28,7 +28,7 @@
 ta2: %pi;
 ta3: i/n*e^(i*n*t);
 ta4: sinh(%pi)/%pi;
-ta5: (-1)^n * (1 + in)/(1 + n^2) * e^(i*n*t);</text>
+ta5: (-1)^n * (1 + i*n)/(1 + n^2) * e^(i*n*t);</text>
     </questionvariables>
     <specificfeedback format="html">
       <text/>

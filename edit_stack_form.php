@@ -303,7 +303,7 @@ class qtype_stack_edit_form extends question_edit_form {
                 ['target' => '_blank']
             );
         if (isset($this->question->id)) {
-            $out = '<i class="fa fa-wrench"></i> ' . stack_string('runquestiontests');
+            $out = stack_string('runquestiontests_icon') . stack_string('runquestiontests');
             if (
                 empty($this->question->deployedseeds) &&
                     qtype_stack_question::random_variants_check($this->question->options->questionvariables)

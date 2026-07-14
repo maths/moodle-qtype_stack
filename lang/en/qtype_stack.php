@@ -615,6 +615,7 @@ $string['questiontestslast'] = 'Expected last node of {$a->expected} but got {$a
 $string['questiontestsmissing'] = 'Expected node: {$a}.';
 $string['questiontestslong'] = 'Expected notes are truncated at 1000 characters in the database.  PRT {$a->prt} was {$a->len} characters.  Testcase not saved.';
 $string['runquestiontests'] = 'STACK question dashboard';
+$string['runquestiontests_icon'] = '<i class="fa fa-wrench"></i> ';
 $string['runquestiontests_help'] = 'The dashboard runs question tests which unit-test the questions to ensure the behaviour matches expectations expressed by the teacher, and deployed variants ensure random versions seen by a student are pre-tested against the question tests. These are tools to help you create and test reliable questions and should be used in all cases a question will be used by students.  The dashboard also has numerous other STACK specific functions.';
 $string['runquestiontests_alert'] = 'Question is missing tests or variants.';
 $string['runquestiontests_auto'] = 'Automatically adding one test case assuming the teacher\'s input gets full marks.  Please check the answer note carefully.';
@@ -810,6 +811,34 @@ $string['healthcheckparsonssample'] = '<div class="formulation">
 ]) #}
 [[/parsons]]
 <br/><p>input=<input id="_fakeparsonsinput" style="width:70vw;margin:auto"/></p></div>';
+$string['healthcheckfreetext'] = 'Free-text question block';
+$string['healthcheckfreetextintro'] = 'There should be a free-text display panel below linked to a textarea input block. The ASCIIMaths in the input box should be fully-rendered LaTeX in the display box with the first line left-justifed and the other equations centred and aligned around their equals signs. The result should be the ASCIIMath matrix representation.';
+$string['healthcheckfreetextsample'] = '<div class="que stack">
+<div class="content">
+<div class="formulation clearfix">
+<div class="qtext">
+<div class="free-text-container">
+<textarea id="_ans1" cols="60">
+`prod_(k=0)^(n+1)(1+x^(2^k))=sum_(k=0)^(2^((n+1)+1)-1) x^k.`
+
+`
+a = b
+c = d
+[[2,1],[3,2]] [[2,-1],[-3,2]] =[[1,0],[0,1]]
+`
+
+This line is NOT the result
+</textarea>
+[[ascii input="ans1" width="100%"]]
+  [[extractor targetinput="ans2" type="lastexpr"/]]
+[[/ascii]]
+</div>
+</div>
+<p>Result = <input id="_ans2"/></p>
+</div>
+</div>
+</div>
+</div>';
 $string['healthcheckgeogebra'] = 'GeoGebra block';
 $string['healthcheckgeogebraintro'] = 'There should be a GeoGebra plot and input below. Interacting with the plot should affect the input.';
 $string['healthcheckgeogebrasample'] = '<div class="formulation" style="width:36vw;margin:auto;">

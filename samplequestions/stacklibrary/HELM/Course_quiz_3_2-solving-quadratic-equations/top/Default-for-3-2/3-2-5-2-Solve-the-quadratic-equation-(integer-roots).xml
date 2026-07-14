@@ -2,14 +2,14 @@
 <quiz>
   <question type="stack">
     <name>
-      <text>3.2.5.3 Solve the quadratic equation (rationals) (copy for end)</text>
+      <text>3.2.5.2 Solve the quadratic equation (integer roots)</text>
     </name>
     <questiontext format="html">
       <text><![CDATA[<p class="HELM_exercise">Exercise</p><p>Solve the quadratic equation \({@exp@}=0\). If there is a repeated root, enter this twice.</p>
-<p><nowrap>\(x = \)[[input:ans1]] [[validation:ans1]] or \(x = \)[[input:ans2]][[validation:ans2]]<nowrap></nowrap></nowrap></p>]]></text>
+<p><nowrap>\(x = \) [[input:ans1]] [[validation:ans1]] or \(x = \) [[input:ans2]][[validation:ans2]]<nowrap></nowrap></nowrap></p>]]></text>
     </questiontext>
     <generalfeedback format="html">
-      <text><![CDATA[<p>We are given the quadratic equation \({@exp@}=0.\)</p><p>First factorise the left-hand side:</p><p>\[{@exp@}={@exp1@}.\]</p><p>Equate each factor is then equated to zero to obtain the two solutions:</p><p>Solution 1: \(x=&nbsp;{@ta1@}\)</p><p>Solution 2: \(x= {@ta2@}\).</p>]]></text>
+      <text><![CDATA[<p>We are given the&nbsp;quadratic equation \({@exp@}=0.\)</p><p>First factorise the left-hand side:</p><p>\[{@exp@}={@exp1@}.\]</p><p>Equate each factor is then equated to zero to obtain the two solutions:</p><p>Solution 1: \(x=&nbsp;{@aa@}\)</p><p>Solution 2: \(x= {@dd@}\).</p>]]></text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>
@@ -21,10 +21,12 @@
     <questionvariables>
       <text>aa:1+rand(5)
 bb:1+rand(5)
-exp1: (2*x-aa)*(3*x-bb)
+cc : (-1)^(bb)
+dd : cc*bb
+exp1: (x-aa)*(x-dd)
 exp : expand(exp1)
-ta1:aa/2
-ta2:bb/3</text>
+ta1:aa
+ta2:dd</text>
     </questionvariables>
     <specificfeedback format="html">
       <text>[[feedback:prt1]]</text>
@@ -117,16 +119,16 @@ ta2:bb/3</text>
         </falsefeedback>
       </node>
     </prt>
-    <deployedseed>296953638</deployedseed>
-    <deployedseed>200420641</deployedseed>
-    <deployedseed>1741041881</deployedseed>
-    <deployedseed>2140628164</deployedseed>
-    <deployedseed>225101550</deployedseed>
-    <deployedseed>1431006916</deployedseed>
-    <deployedseed>419462610</deployedseed>
-    <deployedseed>1605014443</deployedseed>
-    <deployedseed>519137390</deployedseed>
-    <deployedseed>888782538</deployedseed>
+    <deployedseed>1470381115</deployedseed>
+    <deployedseed>453228709</deployedseed>
+    <deployedseed>890019434</deployedseed>
+    <deployedseed>1097053271</deployedseed>
+    <deployedseed>906065685</deployedseed>
+    <deployedseed>1293116957</deployedseed>
+    <deployedseed>2023237909</deployedseed>
+    <deployedseed>2097390860</deployedseed>
+    <deployedseed>834929282</deployedseed>
+    <deployedseed>1582930439</deployedseed>
     <qtest>
       <testcase>1</testcase>
       <description/>
@@ -150,11 +152,11 @@ ta2:bb/3</text>
       <description/>
       <testinput>
         <name>ans1</name>
-        <value>ta1+1</value>
+        <value>ta1+1/2</value>
       </testinput>
       <testinput>
         <name>ans2</name>
-        <value>ta2+2</value>
+        <value>ta2+1/2</value>
       </testinput>
       <expected>
         <name>prt1</name>

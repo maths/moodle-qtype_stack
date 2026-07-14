@@ -2,39 +2,29 @@
 <quiz>
   <question type="stack">
     <name>
-      <text>18.3.2.2 T Verify stationary point (copy)</text>
+      <text><![CDATA[23.2.2.7 int sin nt & sin mt]]></text>
     </name>
     <questiontext format="html">
       <text><![CDATA[<p class="HELM_exercise">Exercise</p>
-<p>Verify that \((0,2)\) is a stationary of the function \(f(x,y) = {@f@}\) and find the stationary value \(f(0,2)\).</p>
-<p>First, find the partial derivatives:</p>
-<p>\(f_x(x,y) = \) [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</p>
-<p>\(f_y(x,y) = \) [[input:ans2]] [[validation:ans2]] [[feedback:prt2]]</p>
-<p>Now find the values of these partial derivatives at \(x = 0\), \(y = 2\):</p>
-<p>\(f_x(0,2) = \) [[input:ans3]] [[validation:ans3]] [[feedback:prt3]]</p>
-<p>\(f_y(0,2) = \) [[input:ans4]] [[validation:ans4]] [[feedback:prt4]]</p>
-<p>Laslty, evaluate \(f\) at this point:</p>
-<p>\(f(0,2) = \) [[input:ans5]] [[validation:ans5]] [[feedback:prt5]]</p>]]></text>
+Proceeding in a similar way to the above, evaluate
+\[ I = \displaystyle{ \int _{-\pi}^\pi } \sin nt \sin mt \hspace{0.15cm} dt \]
+for integers \(m\) and \(n\).
+<p></p>
+<ol class="HELM_parts_inline">
+<li>\( n \neq m \)</li>
+<p></p>
+ \( I = \) [[input:ans1]] [[validation:ans1]][[feedback:prt1]]
+<p></p>
+<li>\( n = m \neq 0 \)</li>
+<p></p>
+ \( I = \) [[input:ans2]] [[validation:ans2]][[feedback:prt2]]
+<p></p>
+<li>\( n = m = 0 \)</li>
+<p></p>
+ \( I = \) [[input:ans3]] [[validation:ans3]][[feedback:prt3]]&nbsp;<p></p><br></ol>]]></text>
     </questiontext>
     <generalfeedback format="html">
-      <text><![CDATA[<p>We are given the function \(f(x,y) = {@f@}\) and are asked to verify that the point \((0,2)\)
-    is a stationary point, and find the value of \(f\) there.</p>
-<p>First, we find the partial derivatives:</p>
-\[\begin{aligned}
-    f_x(x,y) &amp;= {@ta1@} \\
-    f_y(x,y) &amp;= {@ta2@}
-\end{aligned}\]
-<p>Now we evaluate them at \(x = 0\), \(y = 0\).</p>
-\[\begin{aligned}
-    f_x(0,2) &amp;= {@ta3@} \\
-    f_y(0,2) &amp;= {@ta4@}
-\end{aligned}\]
-<p>Since both partial derivatives are zero, we conclude that \((0,2)\) is indeed a stationary
-    point. Lastly, we find the value of \(f\) there:
-</p>
-\[
-    f(0,2) = {@ta5@}
-\]]]></text>
+      <text/>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
     <penalty>0.1</penalty>
@@ -44,17 +34,9 @@
       <text>2021120900</text>
     </stackversion>
     <questionvariables>
-      <text>ordergreat(x, y);
-
-f: 8*x^2 + 6*y^2 - 2*y^3 + 5;
-f_x: diff(f, x);
-f_y: diff(f, y);
-
-ta1: f_x;
-ta2: f_y;
-ta3: ev(f_x, x=0, y=2);
-ta4: ev(f_y, x=0, y=2);
-ta5: ev(f, x=0, y=2);</text>
+      <text>ta1:0;
+ta2:pi;
+ta3:0;</text>
     </questionvariables>
     <specificfeedback format="html">
       <text/>
@@ -69,7 +51,7 @@ ta5: ev(f, x=0, y=2);</text>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
     <scientificnotation>*10</scientificnotation>
-    <multiplicationsign>none</multiplicationsign>
+    <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
     <inversetrig>cos-1</inversetrig>
@@ -79,16 +61,16 @@ ta5: ev(f, x=0, y=2);</text>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>
-      <type>algebraic</type>
+      <type>numerical</type>
       <tans>ta1</tans>
-      <boxsize>7</boxsize>
+      <boxsize>3</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
       <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
       <forbidwords/>
       <allowwords/>
-      <forbidfloat>1</forbidfloat>
+      <forbidfloat>0</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
@@ -97,16 +79,16 @@ ta5: ev(f, x=0, y=2);</text>
     </input>
     <input>
       <name>ans2</name>
-      <type>algebraic</type>
+      <type>numerical</type>
       <tans>ta2</tans>
-      <boxsize>7</boxsize>
+      <boxsize>3</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
       <syntaxhint/>
       <syntaxattribute>0</syntaxattribute>
       <forbidwords/>
       <allowwords/>
-      <forbidfloat>1</forbidfloat>
+      <forbidfloat>0</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
@@ -117,42 +99,6 @@ ta5: ev(f, x=0, y=2);</text>
       <name>ans3</name>
       <type>numerical</type>
       <tans>ta3</tans>
-      <boxsize>2</boxsize>
-      <strictsyntax>1</strictsyntax>
-      <insertstars>0</insertstars>
-      <syntaxhint/>
-      <syntaxattribute>0</syntaxattribute>
-      <forbidwords/>
-      <allowwords/>
-      <forbidfloat>1</forbidfloat>
-      <requirelowestterms>0</requirelowestterms>
-      <checkanswertype>0</checkanswertype>
-      <mustverify>1</mustverify>
-      <showvalidation>3</showvalidation>
-      <options/>
-    </input>
-    <input>
-      <name>ans4</name>
-      <type>numerical</type>
-      <tans>ta4</tans>
-      <boxsize>2</boxsize>
-      <strictsyntax>1</strictsyntax>
-      <insertstars>0</insertstars>
-      <syntaxhint/>
-      <syntaxattribute>0</syntaxattribute>
-      <forbidwords/>
-      <allowwords/>
-      <forbidfloat>1</forbidfloat>
-      <requirelowestterms>0</requirelowestterms>
-      <checkanswertype>0</checkanswertype>
-      <mustverify>1</mustverify>
-      <showvalidation>3</showvalidation>
-      <options/>
-    </input>
-    <input>
-      <name>ans5</name>
-      <type>numerical</type>
-      <tans>ta5</tans>
       <boxsize>3</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
@@ -160,7 +106,7 @@ ta5: ev(f, x=0, y=2);</text>
       <syntaxattribute>0</syntaxattribute>
       <forbidwords/>
       <allowwords/>
-      <forbidfloat>1</forbidfloat>
+      <forbidfloat>0</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
@@ -197,7 +143,9 @@ ta5: ev(f, x=0, y=2);</text>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt1-1-F</falseanswernote>
         <falsefeedback format="html">
-          <text/>
+          <text>Using the identity \( \sin nt \sin mt \equiv \dfrac{1}{2} \left\{ \cos(n - m)t - \cos(n + m)t \right\} \) and integrating the right-hand side terms, we get,
+\[ I = \displaystyle{ \int _{-\pi}^\pi } \sin nt \sin mt \hspace{0.15cm} dt = 0\]
+for the case with \(n\), \(m\) integers, \(n \neq m\)</text>
         </falsefeedback>
       </node>
     </prt>
@@ -231,7 +179,8 @@ ta5: ev(f, x=0, y=2);</text>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt2-1-F</falseanswernote>
         <falsefeedback format="html">
-          <text/>
+          <text>Using the identity \( \cos 2\theta = 1 - 2 \sin^2 \theta\) with \(\theta = nt\) gives for \(n = m \neq 0\), we have
+\[  I = \displaystyle{ \int _{-\pi}^\pi } \sin^2 nt \hspace{0.15cm} dt = \dfrac{1}{2} \displaystyle{ \int _{-\pi}^\pi } (1 - \cos 2nt)dt = \pi \]</text>
         </falsefeedback>
       </node>
     </prt>
@@ -265,75 +214,8 @@ ta5: ev(f, x=0, y=2);</text>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt3-1-F</falseanswernote>
         <falsefeedback format="html">
-          <text/>
-        </falsefeedback>
-      </node>
-    </prt>
-    <prt>
-      <name>prt4</name>
-      <value>1.0000000</value>
-      <autosimplify>1</autosimplify>
-      <feedbackstyle>1</feedbackstyle>
-      <feedbackvariables>
-        <text/>
-      </feedbackvariables>
-      <node>
-        <name>0</name>
-        <description/>
-        <answertest>AlgEquiv</answertest>
-        <sans>ans4</sans>
-        <tans>ta4</tans>
-        <testoptions/>
-        <quiet>0</quiet>
-        <truescoremode>=</truescoremode>
-        <truescore>1.0000000</truescore>
-        <truepenalty/>
-        <truenextnode>-1</truenextnode>
-        <trueanswernote>prt4-1-T</trueanswernote>
-        <truefeedback format="html">
-          <text/>
-        </truefeedback>
-        <falsescoremode>=</falsescoremode>
-        <falsescore>0.0000000</falsescore>
-        <falsepenalty/>
-        <falsenextnode>-1</falsenextnode>
-        <falseanswernote>prt4-1-F</falseanswernote>
-        <falsefeedback format="html">
-          <text/>
-        </falsefeedback>
-      </node>
-    </prt>
-    <prt>
-      <name>prt5</name>
-      <value>1.0000000</value>
-      <autosimplify>1</autosimplify>
-      <feedbackstyle>1</feedbackstyle>
-      <feedbackvariables>
-        <text/>
-      </feedbackvariables>
-      <node>
-        <name>0</name>
-        <description/>
-        <answertest>AlgEquiv</answertest>
-        <sans>ans5</sans>
-        <tans>ta5</tans>
-        <testoptions/>
-        <quiet>0</quiet>
-        <truescoremode>=</truescoremode>
-        <truescore>1.0000000</truescore>
-        <truepenalty/>
-        <truenextnode>-1</truenextnode>
-        <trueanswernote>prt5-1-T</trueanswernote>
-        <truefeedback format="html">
-          <text/>
-        </truefeedback>
-        <falsescoremode>=</falsescoremode>
-        <falsescore>0.0000000</falsescore>
-        <falsepenalty/>
-        <falsenextnode>-1</falsenextnode>
-        <falseanswernote>prt5-1-F</falseanswernote>
-        <falsefeedback format="html">
-          <text/>
+          <text>When \(n = m = 0\), we have
+\[  I = \displaystyle{ \int _{-\pi}^\pi } \sin nt \sin mt \hspace{0.15cm} dt = 0 \]</text>
         </falsefeedback>
       </node>
     </prt>
@@ -351,14 +233,6 @@ ta5: ev(f, x=0, y=2);</text>
       <testinput>
         <name>ans3</name>
         <value>ta3</value>
-      </testinput>
-      <testinput>
-        <name>ans4</name>
-        <value>ta4</value>
-      </testinput>
-      <testinput>
-        <name>ans5</name>
-        <value>ta5</value>
       </testinput>
       <expected>
         <name>prt1</name>
@@ -378,18 +252,6 @@ ta5: ev(f, x=0, y=2);</text>
         <expectedpenalty>0.0000000</expectedpenalty>
         <expectedanswernote>prt3-1-T</expectedanswernote>
       </expected>
-      <expected>
-        <name>prt4</name>
-        <expectedscore>1.0000000</expectedscore>
-        <expectedpenalty>0.0000000</expectedpenalty>
-        <expectedanswernote>prt4-1-T</expectedanswernote>
-      </expected>
-      <expected>
-        <name>prt5</name>
-        <expectedscore>1.0000000</expectedscore>
-        <expectedpenalty>0.0000000</expectedpenalty>
-        <expectedanswernote>prt5-1-T</expectedanswernote>
-      </expected>
     </qtest>
     <qtest>
       <testcase>2</testcase>
@@ -405,14 +267,6 @@ ta5: ev(f, x=0, y=2);</text>
       <testinput>
         <name>ans3</name>
         <value>ta3+1</value>
-      </testinput>
-      <testinput>
-        <name>ans4</name>
-        <value>ta4+1</value>
-      </testinput>
-      <testinput>
-        <name>ans5</name>
-        <value>ta5+1</value>
       </testinput>
       <expected>
         <name>prt1</name>
@@ -431,18 +285,6 @@ ta5: ev(f, x=0, y=2);</text>
         <expectedscore>0.0000000</expectedscore>
         <expectedpenalty>0.1000000</expectedpenalty>
         <expectedanswernote>prt3-1-F</expectedanswernote>
-      </expected>
-      <expected>
-        <name>prt4</name>
-        <expectedscore>0.0000000</expectedscore>
-        <expectedpenalty>0.1000000</expectedpenalty>
-        <expectedanswernote>prt4-1-F</expectedanswernote>
-      </expected>
-      <expected>
-        <name>prt5</name>
-        <expectedscore>0.0000000</expectedscore>
-        <expectedpenalty>0.1000000</expectedpenalty>
-        <expectedanswernote>prt5-1-F</expectedanswernote>
       </expected>
     </qtest>
   </question>

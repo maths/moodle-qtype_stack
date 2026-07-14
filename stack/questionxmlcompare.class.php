@@ -28,6 +28,9 @@ require_once($CFG->dirroot . '/question/format/xml/format.php');
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 class stack_question_xml_compare {
+    /** @var int unchanged character gap below which nearby inline changes are joined. */
+    protected const INLINE_JOIN_GAP = 6;
+
     /** @var string unified diff display mode. */
     public const DISPLAY_UNIFIED = 'unified';
 
@@ -749,64 +752,30 @@ class stack_question_xml_compare {
             return self::inline_changed_region($current, $compare);
         }
 
-        $lcs = array_fill(0, $currentcount + 1, array_fill(0, $comparecount + 1, 0));
-        for ($i = $currentcount - 1; $i >= 0; $i--) {
-            for ($j = $comparecount - 1; $j >= 0; $j--) {
-                if ($current[$i] === $compare[$j]) {
-                    $lcs[$i][$j] = $lcs[$i + 1][$j + 1] + 1;
-                } else {
-                    $lcs[$i][$j] = max($lcs[$i + 1][$j], $lcs[$i][$j + 1]);
-                }
-            }
-        }
-
         $currenthtml = '';
         $comparehtml = '';
-        $i = 0;
-        $j = 0;
-        while ($i < $currentcount && $j < $comparecount) {
-            if ($current[$i] === $compare[$j]) {
-                $currenthtml .= s($current[$i]);
-                $comparehtml .= s($compare[$j]);
-                $i++;
-                $j++;
-            } else if ($lcs[$i + 1][$j] > $lcs[$i][$j + 1]) {
-                // Character exists only in the current/latest line: highlight as inserted content.
-                $currenthtml .= html_writer::tag(
-                    'span',
-                    s($current[$i]),
-                    ['class' => 'stack-xml-compare-inline-added']
-                );
-                $i++;
-            } else {
-                // Character exists only in the compared/older line: render it on both sides. The current
-                // side gets a "missing" strike-through marker so deletions are visible while reading
-                // the current column, not only the compared column.
-                $currenthtml .= self::missing_html($compare[$j]);
-                $comparehtml .= html_writer::tag(
-                    'span',
-                    s($compare[$j]),
-                    ['class' => 'stack-xml-compare-inline-deleted']
-                );
-                $j++;
+        foreach (self::inline_chunks($current, $compare) as $chunk) {
+            if ($chunk['changed']) {
+                if ($chunk['currenttext'] !== '') {
+                    $currenthtml .= html_writer::tag(
+                        'span',
+                        s($chunk['currenttext']),
+                        ['class' => 'stack-xml-compare-inline-added']
+                    );
+                }
+                if ($chunk['comparetext'] !== '') {
+                    $currenthtml .= self::missing_html($chunk['comparetext']);
+                    $comparehtml .= html_writer::tag(
+                        'span',
+                        s($chunk['comparetext']),
+                        ['class' => 'stack-xml-compare-inline-deleted']
+                    );
+                }
+                continue;
             }
-        }
-        while ($i < $currentcount) {
-            $currenthtml .= html_writer::tag(
-                'span',
-                s($current[$i]),
-                ['class' => 'stack-xml-compare-inline-added']
-            );
-            $i++;
-        }
-        while ($j < $comparecount) {
-            $currenthtml .= self::missing_html($compare[$j]);
-            $comparehtml .= html_writer::tag(
-                'span',
-                s($compare[$j]),
-                ['class' => 'stack-xml-compare-inline-deleted']
-            );
-            $j++;
+
+            $currenthtml .= s($chunk['currenttext']);
+            $comparehtml .= s($chunk['comparetext']);
         }
 
         return [$currenthtml, $comparehtml];
@@ -829,6 +798,44 @@ class stack_question_xml_compare {
             return self::inline_changed_separate_region($current, $compare);
         }
 
+        $currenthtml = '';
+        $comparehtml = '';
+        foreach (self::inline_chunks($current, $compare) as $chunk) {
+            if ($chunk['changed']) {
+                if ($chunk['currenttext'] !== '') {
+                    $currenthtml .= html_writer::tag(
+                        'span',
+                        s($chunk['currenttext']),
+                        ['class' => 'stack-xml-compare-inline-added']
+                    );
+                }
+                if ($chunk['comparetext'] !== '') {
+                    $comparehtml .= html_writer::tag(
+                        'span',
+                        s($chunk['comparetext']),
+                        ['class' => 'stack-xml-compare-inline-deleted']
+                    );
+                }
+                continue;
+            }
+
+            $currenthtml .= s($chunk['currenttext']);
+            $comparehtml .= s($chunk['comparetext']);
+        }
+
+        return [$currenthtml, $comparehtml];
+    }
+
+    /**
+     * Build inline diff chunks and join changes separated by very small unchanged gaps.
+     *
+     * @param string[] $current current version characters.
+     * @param string[] $compare selected version characters.
+     * @return array[] chunks with currenttext, comparetext, and changed keys.
+     */
+    protected static function inline_chunks(array $current, array $compare): array {
+        $currentcount = count($current);
+        $comparecount = count($compare);
         $lcs = array_fill(0, $currentcount + 1, array_fill(0, $comparecount + 1, 0));
         for ($i = $currentcount - 1; $i >= 0; $i--) {
             for ($j = $comparecount - 1; $j >= 0; $j--) {
@@ -840,50 +847,91 @@ class stack_question_xml_compare {
             }
         }
 
-        $currenthtml = '';
-        $comparehtml = '';
+        $chunks = [];
         $i = 0;
         $j = 0;
         while ($i < $currentcount && $j < $comparecount) {
             if ($current[$i] === $compare[$j]) {
-                $currenthtml .= s($current[$i]);
-                $comparehtml .= s($compare[$j]);
+                self::append_inline_chunk($chunks, $current[$i], $compare[$j], false);
                 $i++;
                 $j++;
             } else if ($lcs[$i + 1][$j] > $lcs[$i][$j + 1]) {
-                $currenthtml .= html_writer::tag(
-                    'span',
-                    s($current[$i]),
-                    ['class' => 'stack-xml-compare-inline-added']
-                );
+                self::append_inline_chunk($chunks, $current[$i], '', true);
                 $i++;
             } else {
-                $comparehtml .= html_writer::tag(
-                    'span',
-                    s($compare[$j]),
-                    ['class' => 'stack-xml-compare-inline-deleted']
-                );
+                self::append_inline_chunk($chunks, '', $compare[$j], true);
                 $j++;
             }
         }
         while ($i < $currentcount) {
-            $currenthtml .= html_writer::tag(
-                'span',
-                s($current[$i]),
-                ['class' => 'stack-xml-compare-inline-added']
-            );
+            self::append_inline_chunk($chunks, $current[$i], '', true);
             $i++;
         }
         while ($j < $comparecount) {
-            $comparehtml .= html_writer::tag(
-                'span',
-                s($compare[$j]),
-                ['class' => 'stack-xml-compare-inline-deleted']
-            );
+            self::append_inline_chunk($chunks, '', $compare[$j], true);
             $j++;
         }
 
-        return [$currenthtml, $comparehtml];
+        return self::join_inline_change_gaps($chunks);
+    }
+
+    /**
+     * Append text to the current inline chunk list.
+     *
+     * @param array[] $chunks inline chunks.
+     * @param string $currenttext current-side text.
+     * @param string $comparetext compared-side text.
+     * @param bool $changed whether the text should be highlighted.
+     */
+    protected static function append_inline_chunk(
+        array &$chunks,
+        string $currenttext,
+        string $comparetext,
+        bool $changed
+    ): void {
+        $last = array_key_last($chunks);
+        if ($last !== null && $chunks[$last]['changed'] === $changed) {
+            $chunks[$last]['currenttext'] .= $currenttext;
+            $chunks[$last]['comparetext'] .= $comparetext;
+            return;
+        }
+
+        $chunks[] = [
+            'currenttext' => $currenttext,
+            'comparetext' => $comparetext,
+            'changed' => $changed,
+        ];
+    }
+
+    /**
+     * Join changed chunks separated by fewer than INLINE_JOIN_GAP unchanged characters.
+     *
+     * @param array[] $chunks inline chunks.
+     * @return array[] merged inline chunks.
+     */
+    protected static function join_inline_change_gaps(array $chunks): array {
+        for ($i = 1; $i < count($chunks) - 1; $i++) {
+            if (
+                !$chunks[$i]['changed'] &&
+                $chunks[$i - 1]['changed'] &&
+                $chunks[$i + 1]['changed'] &&
+                count(self::chars($chunks[$i]['currenttext'])) < self::INLINE_JOIN_GAP
+            ) {
+                $chunks[$i]['changed'] = true;
+            }
+        }
+
+        $merged = [];
+        foreach ($chunks as $chunk) {
+            self::append_inline_chunk(
+                $merged,
+                $chunk['currenttext'],
+                $chunk['comparetext'],
+                $chunk['changed']
+            );
+        }
+
+        return $merged;
     }
 
     /**

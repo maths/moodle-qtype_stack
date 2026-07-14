@@ -20,7 +20,7 @@ export default function aligneq(lines, rule) {
         case 'asciimath_block':
         case 'math_block':
             break;
-        case 'code_inline':
+        case 'asciimath_inline':
         case 'math_inline':
             return lines;
         default:

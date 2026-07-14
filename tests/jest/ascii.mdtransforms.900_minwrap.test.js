@@ -2,11 +2,11 @@ import minwrap from '../../corsscripts/ascii/markdownittransforms/900_minwrap.js
 
 describe('minwrap transform', () => {
     test('returns empty string, rather than empty math environment, for empty input', () => {
-        expect(minwrap([], 'code_inline')).toEqual([""]);
+        expect(minwrap([], 'asciimath_inline')).toEqual([""]);
     });
 
     test('ignores code inlint and does not wrap', () => {
-        expect(minwrap(['x = y'], 'code_inline')).toEqual([
+        expect(minwrap(['x = y'], 'asciimath_inline')).toEqual([
             '\\(x = y\\)',
         ]);
     });

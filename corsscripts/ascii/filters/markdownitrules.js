@@ -33,30 +33,38 @@ export default function markdownitrules(mdit, options) {
     });
 
     /**
-     * Inline AsciiMath: a single backtick expression, e.g. `x^2 + 1`.
+     * Inline AsciiMath: text between matching delimiter runs.
      */
-    mdit.renderer.rules.code_inline = function(tokens, idx, options, env, self) {
-        const code = tokens[idx].content;
+    mdit.renderer.rules.asciimath_inline = function(tokens, idx, options, env, self) {
+        const token = tokens[idx];
+        const code = token.content;
+        const openingDelimiter = token.markup || state.delimiter;
+        const closingDelimiter = token.meta?.closingMarkup || state.closingdelimiter || openingDelimiter;
         let rendered = '';
-        if (state.transforms.length === 0) {
+        if (state.transforms.length === 0 && openingDelimiter === '`' && closingDelimiter === '`') {
             rendered = originalCodeRule(tokens, idx, options, env, self);
+        } else if (state.transforms.length === 0) {
+            rendered = openingDelimiter + mdit.utils.escapeHtml(code) + closingDelimiter;
         } else {
-            rendered = applyTransforms(code, 'code_inline');
+            rendered = applyTransforms(code, 'asciimath_inline');
         }
         if (state.collector) {
-            state.collector.blocks.push({ type: 'code_inline', raw: code, rendered });
+            state.collector.blocks.push({ type: 'asciimath_inline', raw: code, rendered });
         }
         return rendered;
     };
 
     /**
-     * Multi-line AsciiMath block: opened and closed by a solitary backtick on its own line.
+     * Multi-line AsciiMath block: opened and closed by a solitary delimiter on its own line.
      */
     mdit.renderer.rules.asciimath_block = function(tokens, idx) {
-        const code = tokens[idx].content;
+        const token = tokens[idx];
+        const code = token.content;
+        const openingDelimiter = token.markup || state.delimiter;
+        const closingDelimiter = token.meta?.closingMarkup || state.closingdelimiter || openingDelimiter;
         let rendered = '';
         if (state.transforms.length === 0) {
-            rendered = '`' + mdit.render(code) + '`';
+            rendered = openingDelimiter + mdit.render(code) + closingDelimiter;
         } else {
             rendered = applyTransforms(code, 'asciimath_block');
         }

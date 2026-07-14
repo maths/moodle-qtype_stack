@@ -60,6 +60,55 @@ describe('laststringremainderwhitespace extractor', () => {
         expect(laststringremainderwhitespace(raw, null, operation)).toBe('x^3+1');
     });
 
+    test('returns basic match with asymmetric configured delimiters', () => {
+        const raw = ' f(x) = << x^4 >>  ';
+        const operation = { search: 'f(x) =' };
+        const blockCollector = { blocks: [], delimiter: '<<', closingdelimiter: '>>' };
+        expect(laststringremainderwhitespace(raw, blockCollector, operation)).toBe('x^4');
+    });
+
+    test('returns external match with asymmetric configured delimiters', () => {
+        const raw = '<< f(x)=x^5 >>';
+        const operation = { search: 'f(x)=' };
+        const blockCollector = { blocks: [], delimiter: '<<', closingdelimiter: '>>' };
+        expect(laststringremainderwhitespace(raw, blockCollector, operation)).toBe('x^5');
+    });
+
+    test('returns external match with symmetric configured delimiters', () => {
+        const raw = '## f(x)=x^5 ##';
+        const operation = { search: 'f(x)=' };
+        const blockCollector = { blocks: [], delimiter: '##', closingdelimiter: '##' };
+        expect(laststringremainderwhitespace(raw, blockCollector, operation)).toBe('x^5');
+    });
+
+    test('returns external match with regex-special configured delimiters', () => {
+        const raw = '[ f(x)=x^6 ]';
+        const operation = { search: 'f(x)=' };
+        const blockCollector = { blocks: [], delimiter: '[', closingdelimiter: ']' };
+        expect(laststringremainderwhitespace(raw, blockCollector, operation)).toBe('x^6');
+    });
+
+    test('returns match with asymmetric custom delimiters and inner whitespace', () => {
+        const raw = ' f(x) = <<  x^4 + 1  >> ';
+        const operation = { search: 'f(x) =' };
+        const blockCollector = { blocks: [], delimiter: '<<', closingdelimiter: '>>' };
+        expect(laststringremainderwhitespace(raw, blockCollector, operation)).toBe('x^4 + 1');
+    });
+
+    test('returns external match with symmetric custom delimiters and outer whitespace', () => {
+        const raw = '  ##  f(x)=x^5 + 1  ## ';
+        const operation = { search: 'f(x)=' };
+        const blockCollector = { blocks: [], delimiter: '##', closingdelimiter: '##' };
+        expect(laststringremainderwhitespace(raw, blockCollector, operation)).toBe('x^5 + 1');
+    });
+
+    test('returns custom-delimited match with trailing full stop and whitespace', () => {
+        const raw = ' <<  f(x) = x^6 + 1  >> . ';
+        const operation = { search: 'f(x) =' };
+        const blockCollector = { blocks: [], delimiter: '<<', closingdelimiter: '>>' };
+        expect(laststringremainderwhitespace(raw, blockCollector, operation)).toBe('x^6 + 1');
+    });
+
     test('Fail to match because of previous text', () => {
         const raw = 'hence `f(x)=x^2`.';
         const operation = { search: 'f(x) =' };

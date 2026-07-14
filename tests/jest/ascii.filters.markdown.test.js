@@ -29,6 +29,15 @@ describe('markdown filter', () => {
         expect(collector.blocks.length).toBe(2);
     });
 
+    test('uses delimiter settings from the collector when the filter op does not provide them', () => {
+        const collector = { blocks: [], delimiter: '<<', closingdelimiter: '>>' };
+        const html = markdown('<<x^2>>', collector, {});
+
+        expect(typeof html).toBe('string');
+        expect(collector.delimiter).toBe('<<');
+        expect(collector.closingdelimiter).toBe('>>');
+    });
+
     test('handles empty transforms', () => {
         const html = markdown('plain', null, { transforms: '' });
         expect(typeof html).toBe('string');

@@ -1,6 +1,7 @@
 // Extractor: lastcalc
 // Returns the trimmed content of the last calculation block.
-export default function lastcalc(raw, blocks) {
+export default function lastcalc(raw, blockCollector) {
+    const blocks = Array.isArray(blockCollector) ? blockCollector : blockCollector?.blocks;
     if (blocks) {
         for (let i = blocks.length - 1; i >= 0; i--) {
             if (blocks[i].type === 'calculation') {

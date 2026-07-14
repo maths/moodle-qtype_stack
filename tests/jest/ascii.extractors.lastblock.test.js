@@ -5,54 +5,54 @@ describe('lastblock extractor', () => {
     // ── Block-mode tests ──────────────────────────────────────────────────────
 
     describe('with blocks', () => {
-        test('returns raw of a single code_inline block', () => {
-            const blocks = [{ type: 'code_inline', raw: 'x^2' }];
-            expect(lastblock('', blocks)).toBe('x^2');
+        test('returns raw of a single asciimath_inline block', () => {
+            const blockCollector = { blocks: [{ type: 'asciimath_inline', raw: 'x^2' }] };
+            expect(lastblock('', blockCollector)).toBe('x^2');
         });
 
         test('returns raw of a single asciimath_block', () => {
-            const blocks = [{ type: 'asciimath_block', raw: 'x + 1\ny = 2' }];
-            expect(lastblock('', blocks)).toBe('x + 1\ny = 2');
+            const blockCollector = { blocks: [{ type: 'asciimath_block', raw: 'x + 1\ny = 2' }] };
+            expect(lastblock('', blockCollector)).toBe('x + 1\ny = 2');
         });
 
-        test('returns raw of the last code_inline when multiple blocks exist', () => {
-            const blocks = [
-                { type: 'code_inline', raw: 'first' },
-                { type: 'code_inline', raw: 'last' }
-            ];
-            expect(lastblock('', blocks)).toBe('last');
+        test('returns raw of the last asciimath_inline when multiple blocks exist', () => {
+            const blockCollector = { blocks: [
+                { type: 'asciimath_inline', raw: 'first' },
+                { type: 'asciimath_inline', raw: 'last' }
+            ]};
+            expect(lastblock('', blockCollector)).toBe('last');
         });
 
         test('returns raw of the last asciimath_block when it is the last relevant block', () => {
-            const blocks = [
-                { type: 'code_inline', raw: 'first' },
+            const blockCollector = { blocks: [
+                { type: 'asciimath_inline', raw: 'first' },
                 { type: 'asciimath_block', raw: 'second block' }
-            ];
-            expect(lastblock('', blocks)).toBe('second block');
+            ]};
+            expect(lastblock('', blockCollector)).toBe('second block');
         });
 
-        test('scans bottom-up: last code_inline after an asciimath_block wins', () => {
-            const blocks = [
+        test('scans bottom-up: last asciimath_inline after an asciimath_block wins', () => {
+            const blockCollector = { blocks: [
                 { type: 'asciimath_block', raw: 'math block' },
-                { type: 'code_inline', raw: 'inline after' }
-            ];
-            expect(lastblock('', blocks)).toBe('inline after');
+                { type: 'asciimath_inline', raw: 'inline after' }
+            ]};
+            expect(lastblock('', blockCollector)).toBe('inline after');
         });
 
-        test('ignores blocks that are not code_inline or asciimath_block', () => {
-            const blocks = [
+        test('ignores blocks that are not asciimath_inline or asciimath_block', () => {
+            const blockCollector = { blocks: [
                 { type: 'paragraph', raw: 'ignored' },
                 { type: 'heading', raw: 'also ignored' },
-            ];
-            expect(lastblock('', blocks)).toBe('ERROR');
+            ]};
+            expect(lastblock('', blockCollector)).toBe('ERROR');
         });
 
         test('mixes eligible and non-eligible blocks, returns last eligible', () => {
-            const blocks = [
-                { type: 'code_inline', raw: 'inline' },
+            const blockCollector = { blocks: [
+                { type: 'asciimath_inline', raw: 'inline' },
                 { type: 'paragraph', raw: 'para' }
-            ];
-            expect(lastblock('', blocks)).toBe('inline');
+            ]};
+            expect(lastblock('', blockCollector)).toBe('inline');
         });
     });
 

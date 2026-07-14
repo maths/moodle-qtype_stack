@@ -178,10 +178,24 @@ class stack_cas_castext2_commonstring extends stack_cas_castext2_block {
         castext2_processor $processor,
         castext2_placeholder_holder $holder
     ): string {
-        if (count($params) === 2) {
+        $args = [];
+        if ($params[1] === 'free_text_fact') {
+            $config = stack_utils::get_config();
+            $open = $config->freetextdelimiter ?? '`';
+            $close = $config->freetextclosingdelimiter ?? $open;
+
+            if ($close === '') {
+                $close = $open;
+            }
+
+            $args = [
+                'open' => s($open),
+                'close' => s($close),
+            ];
+        } else if (count($params) === 2) {
             return stack_string($params[1]);
         }
-        $args = [];
+
         for ($i = 2; $i < count($params); $i += 2) {
             $val = '';
             if (is_array($params[$i + 1])) {

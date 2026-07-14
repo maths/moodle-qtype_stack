@@ -58,6 +58,16 @@ const extractorlib = {
     allregexremainder
 };
 
+function getAsciiDelimiters(inputId) {
+    const input = inputId ? document.getElementById(inputId) : null;
+    const delimiter = input?.dataset?.stackDelimiter || '`';
+
+    return {
+        delimiter,
+        closingdelimiter: input?.dataset?.stackClosingdelimiter || delimiter
+    };
+}
+
 /**
  * Initialise the ASCII block for one question instance.
  * Called by the PHP-compiled [[ascii]] block once all required input elements
@@ -72,25 +82,25 @@ const extractorlib = {
  *    { operation:'extractor', type:'lastexpr', targetinput:'ans2'     }]
  */
 export default function init(inputIds, operations) {
-    const markdownContainerId = inputIds.length ? inputIds[0] : null;
+    const sourceInputId = inputIds.length ? inputIds[0] : null;
     const suppliedText = document.getElementById('asciiSuppliedText').innerHTML;
     // inputIds[1..N] correspond to each extractor's target answer input in order.
     const alloperations = operations;
     // blockCollector is populated by the active filter's renderer rules and then
     // read by each extractor.  It is reset at the start of every filter render pass.
-    const blockCollector = { blocks: [], isHTML: false };
+    const blockCollector = {
+        blocks: [],
+        isHTML: false,
+        delimiter: delimiters.delimiter,
+        closingdelimiter: delimiters.closingdelimiter
+    };
 
     /**
      * Re-render the display and re-run all extractors from the current textarea value.
      * Called on every `change` event (debounced) and once immediately on load.
      */
     function renderMath() {
-        let raw = '';
-        if (markdownContainerId) {
-            raw = document.getElementById(markdownContainerId).value;
-        } else {
-            raw = suppliedText;
-        }
+        const raw = sourceInputId ? document.getElementById(sourceInputId).value : suppliedText;
         const output = document.getElementById('asciiContainerRow');
 
         let processedOutput = raw;
@@ -99,16 +109,13 @@ export default function init(inputIds, operations) {
         let answerIndex = 1;      // tracks which inputIds entry the next extractor writes to
 
         if (alloperations) {
-            alloperations.forEach((currentop, i) => {
+            alloperations.forEach((currentop) => {
                 if (currentop.operation === 'filter') {
                     const filter = filterlib[currentop.type];
                     if (filter) {
                         // reset:'true' re-processes the original raw input rather than
                         // the output of the previous filter in the chain.
-                        let filterInput = processedOutput;
-                        if (currentop.reset === 'true') {
-                            filterInput = raw;
-                        }
+                        const filterInput = currentop.reset === 'true' ? raw : processedOutput;
                         // The filter is responsible for resetting blockCollector.blocks
                         // at the start of its own render pass (see markdownitrules.js).
                         const filterOutput = filter(filterInput, blockCollector, currentop);
@@ -128,7 +135,7 @@ export default function init(inputIds, operations) {
                     const answerEl = document.getElementById(inputIds[answerIndex]);
                     answerIndex++;
                     if (extractor && answerEl) {
-                        let value = extractor(raw, blockCollector.blocks, currentop);
+                        const value = extractor(raw, blockCollector, currentop);
                         const oldValue = answerEl.value;
                         // Clear the input on extraction failure rather than leaving a stale value.
                         if (value === 'ERROR') {
@@ -147,7 +154,7 @@ export default function init(inputIds, operations) {
         }
 
         if (!isHTML) {
-            output.classList.add("plaintext")
+            output.classList.add('plaintext');
         }
         output.innerHTML = processedOutput;
 
@@ -158,10 +165,10 @@ export default function init(inputIds, operations) {
             MathJax.Hub.Queue(["Typeset", MathJax.Hub, 'asciiContainerRow']); // MathJax 2
         }
     }
-    if (markdownContainerId) {
+    if (sourceInputId) {
         // Debounce rendering so rapid keystrokes don't trigger multiple MathJax typesets.
         let debounceTimer;
-        document.getElementById(markdownContainerId).addEventListener('change', () => {
+        document.getElementById(sourceInputId).addEventListener('change', () => {
             clearTimeout(debounceTimer);
             debounceTimer = setTimeout(renderMath, 100); // debounce 100ms
         });

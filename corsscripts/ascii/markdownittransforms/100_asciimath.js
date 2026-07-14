@@ -7,7 +7,7 @@
 export default function asciimath(lines, rule) {
     switch (rule) {
         case 'asciimath_block':
-        case 'code_inline':
+        case 'asciimath_inline':
             if (isLaTeX(lines)) {
                 return lines;
             } else {

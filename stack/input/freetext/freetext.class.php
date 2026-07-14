@@ -40,6 +40,8 @@ class stack_freetext_input extends stack_string_input {
         'align' => 'left',
         'monospace' => false,
         'manualgraded' => true,
+        'delimiter' => null,
+        'closingdelimiter' => null,
     ];
 
     /**
@@ -62,6 +64,32 @@ class stack_freetext_input extends stack_string_input {
             'sameType'        => true,
             'options'         => '',
         ];
+    }
+
+    /**
+     * Build the extra-options string used to seed new freetext inputs.
+     *
+     * These defaults are copied from the STACK admin settings at authoring time
+     * so the saved question does not depend on later site-level delimiter changes.
+     *
+     * @return string
+     */
+    public static function get_default_extra_options($config = null): string {
+        if ($config === null) {
+            $config = stack_utils::get_config();
+        }
+
+        $delimiter = $config->freetextdelimiter ?? null;
+        if (!is_string($delimiter) || $delimiter === '') {
+            $delimiter = '`';
+        }
+
+        $closingdelimiter = $config->freetextclosingdelimiter ?? null;
+        if (!is_string($closingdelimiter) || $closingdelimiter === '') {
+            $closingdelimiter = $delimiter;
+        }
+
+        return 'delimiter:' . $delimiter . ',closingdelimiter:' . $closingdelimiter;
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -105,6 +133,9 @@ class stack_freetext_input extends stack_string_input {
 
         // Metadata for JS users.
         $attributes['data-stack-input-type'] = 'freetext';
+        [$delimiter, $closingdelimiter] = $this->get_ascii_delimiters();
+        $attributes['data-stack-delimiter'] = $delimiter;
+        $attributes['data-stack-closingdelimiter'] = $closingdelimiter;
         $attributes['maxlength'] = $this->freetextmaxinputlength + 1000;
 
         return html_writer::tag('textarea', htmlspecialchars($value, ENT_COMPAT), $attributes);
@@ -121,8 +152,33 @@ class stack_freetext_input extends stack_string_input {
         $data['type'] = 'freetext';
         $data['boxWidth'] = $this->parameters['boxWidth'];
         $data['syntaxHint'] = $this->parameters['syntaxHint'];
+        [$delimiter, $closingdelimiter] = $this->get_ascii_delimiters();
+        $data['delimiter'] = $delimiter;
+        $data['closingdelimiter'] = $closingdelimiter;
 
         return $data;
+    }
+
+    /**
+     * Get the delimiter pair used by AsciiMath inside this input.
+     *
+     * Missing or empty extra options fall back to backticks so legacy questions
+     * and questions without explicit freetext options keep their historic behaviour.
+     *
+     * @return array [opening delimiter, closing delimiter]
+     */
+    public function get_ascii_delimiters(): array {
+        $delimiter = $this->get_extra_option('delimiter', null);
+        if (!is_string($delimiter) || $delimiter === '') {
+            $delimiter = '`';
+        }
+
+        $closingdelimiter = $this->get_extra_option('closingdelimiter', null);
+        if (!is_string($closingdelimiter) || $closingdelimiter === '') {
+            $closingdelimiter = $delimiter;
+        }
+
+        return [$delimiter, $closingdelimiter];
     }
 
     /**

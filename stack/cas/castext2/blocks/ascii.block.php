@@ -108,7 +108,6 @@ class stack_cas_castext2_ascii extends stack_cas_castext2_block {
         $height = $existsuserheight ? $xpars['height'] : "400px";
         $xpars['width'] = $width;
         $xpars['height'] = $height;
-
         // Set a title.
         $xpars['title'] = 'STACK ASCII ///ASCII_COUNT///';
 
@@ -154,7 +153,7 @@ class stack_cas_castext2_ascii extends stack_cas_castext2_block {
             return 'stack_js.request_access_to_input("' . $item . '"' . $extra . ')';
         }, $inputs, array_keys($inputs)));
         $linkcode = 'Promise.all([' . $answercalls . '])';
-        $linkcode .= ".then((inputIds) => {init(inputIds," . json_encode($operations) . ");});";
+        $linkcode .= '.then((inputIds) => {init(inputIds,' . json_encode($operations) . ');});';
 
         $r->items[] = new MP_String($linkcode);
         $r->items[] = new MP_String("\n</script>");
@@ -166,7 +165,6 @@ class stack_cas_castext2_ascii extends stack_cas_castext2_block {
 
         return $r;
     }
-
     /**
      * Ensure the markdown filter transforms have the correct defaults.
      * @param mixed $transforms

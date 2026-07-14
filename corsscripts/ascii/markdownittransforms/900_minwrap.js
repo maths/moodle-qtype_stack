@@ -13,7 +13,7 @@ export default function minwrap(lines, rule) {
         case 'asciimath_block':
         case 'math_block':
             return wraplatex(lines);
-        case 'code_inline':
+        case 'asciimath_inline':
         case 'math_inline':
             return [`\\(${lines[0]}\\)`];
         default:

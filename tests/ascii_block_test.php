@@ -60,6 +60,33 @@ final class ascii_block_test extends qtype_stack_testcase {
         return $strings;
     }
 
+    /**
+     * Decode iframe parameters from a compiled block.
+     * @param \MP_List $compiled
+     * @return array
+     */
+    private function get_iframe_parameters(\MP_List $compiled): array {
+        $this->assertInstanceOf(\MP_String::class, $compiled->items[1]);
+        $parameters = json_decode($compiled->items[1]->value, true);
+        $this->assertIsArray($parameters);
+        return $parameters;
+    }
+
+    /**
+     * Decode the operations array passed to init(inputIds, ...).
+     * @param \MP_List $compiled
+     * @return array
+     */
+    private function get_operations(\MP_List $compiled): array {
+        $strings = $this->get_string_items($compiled);
+        $joined = implode("\n", $strings);
+        $this->assertMatchesRegularExpression('/init\(inputIds,(.+?)\);\}\);/s', $joined);
+        preg_match('/init\(inputIds,(.+?)\);\}\);/s', $joined, $matches);
+        $operations = json_decode($matches[1], true);
+        $this->assertIsArray($operations);
+        return $operations;
+    }
+
     public function test_basic_ascii_block(): void {
         stack_cas_castext2_iframe::register_counter('///IFRAME_COUNT///');
 
@@ -98,8 +125,7 @@ final class ascii_block_test extends qtype_stack_testcase {
         $this->assertInstanceOf(\MP_String::class, $compiled->items[0]);
         $this->assertEquals('iframe', $compiled->items[0]->value);
 
-        $this->assertInstanceOf(\MP_String::class, $compiled->items[1]);
-        $xpars = json_decode($compiled->items[1]->value, true);
+        $xpars = $this->get_iframe_parameters($compiled);
         $this->assertEquals('100%', $xpars['width']);
         $this->assertEquals('400px', $xpars['height']);
         $this->assertStringContainsString('STACK ASCII', $xpars['title']);
@@ -107,8 +133,13 @@ final class ascii_block_test extends qtype_stack_testcase {
         $strings = $this->get_string_items($compiled);
         $joined = implode("\n", $strings);
         $this->assertStringContainsString('stack_js.request_access_to_input("ans1",true)', $joined);
-        $expectedlinkcode = '{init(inputIds,[{"operation":"filter","type":"markdown","transforms":"asciimath,aligneq,minwrap"}]);}';
-        $this->assertStringContainsString($expectedlinkcode, $joined);
+        $this->assertStringNotContainsString('STACK_ASCII_OPERATIONS', $joined);
+        $this->assertArrayNotHasKey('stack-ascii-operations', $xpars);
+        $this->assertEquals([[
+            'operation' => 'filter',
+            'type' => 'markdown',
+            'transforms' => 'asciimath,aligneq,minwrap',
+        ]], $this->get_operations($compiled));
         $this->assertStringContainsString(
             'id="asciiContainerRow" style="width:calc(100% - 20px);height:calc(100vh - 30px);min-height:calc(400px - 30px);"',
             $joined
@@ -127,8 +158,11 @@ final class ascii_block_test extends qtype_stack_testcase {
         $this->assertStringNotContainsString('stack_js.request_access_to_input(', $joined);
         $this->assertStringContainsString('<textarea id="asciiSuppliedText" style="display:none;">', $joined);
         $this->assertStringContainsString('</textarea>', $joined);
-        $expectedlinkcode = '{init(inputIds,[{"operation":"filter","type":"markdown","transforms":"asciimath,aligneq,minwrap"}]);}';
-        $this->assertStringContainsString($expectedlinkcode, $joined);
+        $this->assertEquals([[
+            'operation' => 'filter',
+            'type' => 'markdown',
+            'transforms' => 'asciimath,aligneq,minwrap',
+        ]], $this->get_operations($compiled));
     }
 
     public function test_ascii_compile_uses_child_filter_and_extractor_operations(): void {
@@ -149,7 +183,7 @@ final class ascii_block_test extends qtype_stack_testcase {
         $compiled = $block->compile(null, []);
 
         $this->assertInstanceOf(\MP_List::class, $compiled);
-        $xpars = json_decode($compiled->items[1]->value, true);
+        $xpars = $this->get_iframe_parameters($compiled);
         $this->assertEquals('80%', $xpars['width']);
         $this->assertEquals('300px', $xpars['height']);
 
@@ -157,9 +191,19 @@ final class ascii_block_test extends qtype_stack_testcase {
         $joined = implode("\n", $strings);
         $this->assertStringContainsString('stack_js.request_access_to_input("ans1",true)', $joined);
         $this->assertStringContainsString('stack_js.request_access_to_input("ans2")', $joined);
-        $expectedlinkcode = '{init(inputIds,[{"type":"markdown","transforms":"aligneq","display":"true","operation":"filter"}' .
-            ',{"type":"lastexpr","targetinput":"ans2","operation":"extractor"}]);}';
-        $this->assertStringContainsString($expectedlinkcode, $joined);
+        $this->assertEquals([
+            [
+                'type' => 'markdown',
+                'transforms' => 'aligneq',
+                'display' => 'true',
+                'operation' => 'filter',
+            ],
+            [
+                'type' => 'lastexpr',
+                'targetinput' => 'ans2',
+                'operation' => 'extractor',
+            ],
+        ], $this->get_operations($compiled));
         $this->assertStringContainsString(
             'id="asciiContainerRow" style="width:calc(80% - 20px);height:calc(100vh - 30px);min-height:calc(300px - 30px);"',
             $joined
@@ -185,7 +229,7 @@ final class ascii_block_test extends qtype_stack_testcase {
         $compiled = $block->compile(null, []);
 
         $this->assertInstanceOf(\MP_List::class, $compiled);
-        $xpars = json_decode($compiled->items[1]->value, true);
+        $xpars = $this->get_iframe_parameters($compiled);
         $this->assertEquals('80%', $xpars['width']);
         $this->assertEquals('300px', $xpars['height']);
 
@@ -193,15 +237,52 @@ final class ascii_block_test extends qtype_stack_testcase {
         $joined = implode("\n", $strings);
         $this->assertStringContainsString('stack_js.request_access_to_input("ans1",true)', $joined);
         $this->assertStringContainsString('stack_js.request_access_to_input("ans2")', $joined);
-        $expectedlinkcode = '{init(inputIds,[{"type":"markdown","transforms":"asciimath,aligneq,minwrap",' .
-            '"display":"true","operation":"filter"}' .
-            ',{"type":"lastexpr","targetinput":"ans2","operation":"extractor"}]);}';
-        $this->assertStringContainsString($expectedlinkcode, $joined);
+        $this->assertEquals([
+            [
+                'type' => 'markdown',
+                'transforms' => 'asciimath,aligneq,minwrap',
+                'display' => 'true',
+                'operation' => 'filter',
+            ],
+            [
+                'type' => 'lastexpr',
+                'targetinput' => 'ans2',
+                'operation' => 'extractor',
+            ],
+        ], $this->get_operations($compiled));
         $this->assertStringContainsString(
             'id="asciiContainerRow" style="width:calc(80% - 20px);height:calc(100vh - 30px);min-height:calc(300px - 30px);"',
             $joined
         );
         $this->assertStringNotContainsString('"transforms":"aligneq,boldfilter"', $joined);
+    }
+
+    public function test_ascii_compile_does_not_embed_site_delimiters(): void {
+        set_config('freetextdelimiter', '<<', 'qtype_stack');
+        set_config('freetextclosingdelimiter', '>>', 'qtype_stack');
+
+        $filter = new \stack_cas_castext2_filter([
+            'type' => 'markdown',
+            'transforms' => 'aligneq',
+        ]);
+
+        $defaultblock = new \stack_cas_castext2_ascii(['input' => 'ans1'], []);
+        $childfilterblock = new \stack_cas_castext2_ascii(['input' => 'ans1'], [$filter]);
+
+        $defaultoperations = $this->get_operations($defaultblock->compile(null, []));
+        $childoperations = $this->get_operations($childfilterblock->compile(null, []));
+
+        $this->assertEquals([[
+            'operation' => 'filter',
+            'type' => 'markdown',
+            'transforms' => 'asciimath,aligneq,minwrap',
+        ]], $defaultoperations);
+
+        $this->assertEquals([[
+            'type' => 'markdown',
+            'transforms' => 'aligneq',
+            'operation' => 'filter',
+        ]], $childoperations);
     }
 
     public function test_ascii_validate_width_unit_and_number(): void {

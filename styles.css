@@ -478,6 +478,10 @@ body.path-question-type-stack .stack-xml-compare-filepickers {
 body.path-question-type-stack .stack-xml-compare-filepickers .filepicker-filelist {
     min-height: 200px;
 }
+body.path-question-type-stack.dndsupported .stack-xml-compare-filepickers
+    .filepicker-filelist.dndupload-ready:not(.dndupload-over) .dndupload-target {
+    display: none;
+}
 @media (max-width: 768px) {
     body.path-question-type-stack .stack-xml-compare-filepickers {
         grid-template-columns: minmax(0, 1fr);

@@ -53,8 +53,6 @@
         "filesopen": false,
         "currentversionlabel": "Version",
         "compareversionlabel": "Compared with version",
-        "currentversiononchange": "this.form.submit();",
-        "compareversiononchange": "this.form.submit();",
         "questionselectmuted": false,
         "formparams": [
           {"name": "id", "value": 1}
@@ -136,8 +134,8 @@
       <input type="hidden" name="{{name}}" value="{{value}}">
     {{/general.formparams}}
     <label for="id_currentversion">{{#str}} comparexmlselectcurrentversion, qtype_stack {{/str}}</label>
-    <select id="id_currentversion" class="custom-select form-select"
-        name="currentversion" onchange="{{{general.currentversiononchange}}}">
+    <select id="id_currentversion" name="currentversion" class="custom-select form-select"
+        onchange="const f=this.form.querySelector('input[name=currentfile]'); if (f) { f.value = '' } this.form.submit();">
       {{#currentversions}}
         <option value="{{version}}" {{#selected}}selected="selected"{{/selected}}
             {{#disabled}}disabled="disabled"{{/disabled}}>{{label}}</option>
@@ -147,8 +145,8 @@
       {{#pix}}a/refresh, core{{/pix}}{{#str}} comparexmllatest, qtype_stack {{/str}}
     </a>
     <label for="id_compareversion">{{#str}} comparexmlselectversion, qtype_stack {{/str}}</label>
-    <select id="id_compareversion" class="custom-select form-select"
-        name="compareversion" onchange="{{{general.compareversiononchange}}}">
+    <select id="id_compareversion" name="compareversion" class="custom-select form-select"
+        onchange="const f=this.form.querySelector('input[name=comparefile]'); if (f) { f.value = '' } this.form.submit();">
       {{#versions}}
         <option value="{{version}}" {{#selected}}selected="selected"{{/selected}}
             {{#disabled}}disabled="disabled"{{/disabled}}>{{label}}</option>
@@ -200,37 +198,20 @@
 
 {{#js}}
 (function() {
-    var submitUploadForm = function(form) {
-        if (!form) {
-            return;
-        }
-
-        form.dataset.formSubmitted = 'true';
-        form.dataset.formDirty = 'false';
-
-        if (form.requestSubmit) {
-            form.requestSubmit();
-            return;
-        }
-
-        form.submit();
-    };
-
     document.querySelectorAll('.stack-xml-compare-upload .filepickerhidden').forEach(function(input) {
+        const form = input.form;
         input.setAttribute('data-form-change-checker-override', 'true');
         input.addEventListener('change', function() {
-            input.setAttribute('data-form-change-checker-override', 'true');
-            if (typeof require === 'function') {
-                require(['core_form/changechecker'], function(changeChecker) {
-                    if (changeChecker && changeChecker.disableAllChecks) {
-                        changeChecker.disableAllChecks();
-                    }
-                    submitUploadForm(input.form);
-                });
-                return;
-            }
-
-            submitUploadForm(input.form);
+            require(['core_form/changechecker'], function(changeChecker) {
+                changeChecker.disableAllChecks();
+                form.dataset.formSubmitted = 'true';
+                form.dataset.formDirty = 'false';
+                if (form.requestSubmit) {
+                    form.requestSubmit();
+                } else {
+                    form.submit();
+                }
+            });
         });
     });
 })();

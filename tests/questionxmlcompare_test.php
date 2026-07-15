@@ -435,6 +435,36 @@ final class questionxmlcompare_test extends \advanced_testcase {
         $this->assertSame('value old tail', strip_tags($comparehtml));
     }
 
+    public function test_inline_changed_separate_keeps_cdata_sections_atomic(): void {
+        $current = '<text><![CDATA[<p>Remember that \(x^0=1\) for all \(x \neq 0\). Therefore \({@e@}^0=1\).</p>]]></text>';
+        $compare = '<text></text>';
+
+        [$currenthtml, $comparehtml] = \stack_question_xml_compare::inline_changed_separate($current, $compare);
+
+        $this->assertSame($current, strip_tags($currenthtml));
+        $this->assertSame($compare, strip_tags($comparehtml));
+        $this->assertStringContainsString(
+            '<span class="stack-xml-compare-inline-added">&lt;![CDATA[&lt;p&gt;Remember that \(x^0=1\) for all \(x \neq 0\). Therefore \({@e@}^0=1\).&lt;/p&gt;]]&gt;</span>',
+            $currenthtml
+        );
+        $this->assertSame(0, substr_count($comparehtml, 'stack-xml-compare-inline-deleted'));
+    }
+
+    public function test_inline_changed_separate_keeps_comments_atomic(): void {
+        $current = '<text><!-- note --></text>';
+        $compare = '<text></text>';
+
+        [$currenthtml, $comparehtml] = \stack_question_xml_compare::inline_changed_separate($current, $compare);
+
+        $this->assertSame($current, strip_tags($currenthtml));
+        $this->assertSame($compare, strip_tags($comparehtml));
+        $this->assertStringContainsString(
+            '<span class="stack-xml-compare-inline-added">&lt;!-- note --&gt;</span>',
+            $currenthtml
+        );
+        $this->assertSame(0, substr_count($comparehtml, 'stack-xml-compare-inline-deleted'));
+    }
+
     public function test_inline_changed_separate_joins_changes_across_short_unchanged_gaps(): void {
         [$currenthtml, $comparehtml] = \stack_question_xml_compare::inline_changed_separate(
             'abcXXabcdeYYghi',

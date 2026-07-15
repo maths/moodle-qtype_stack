@@ -173,12 +173,6 @@ $general->isstackquestion = $isstackquestion;
 $general->filesopen = $hasfiles;
 $general->currentversionlabel = stack_string('comparexmlselectcurrentversion');
 $general->compareversionlabel = stack_string('comparexmlselectversion');
-$general->currentversiononchange = $hascurrentfile
-    ? "var f=this.form.querySelector('input[name=currentfile]'); if (f) { f.parentNode.removeChild(f); } this.form.submit();"
-    : "this.form.submit();";
-$general->compareversiononchange = $hascomparefile
-    ? "var f=this.form.querySelector('input[name=comparefile]'); if (f) { f.parentNode.removeChild(f); } this.form.submit();"
-    : "this.form.submit();";
 $general->questionselectmuted = $hascurrentfile && $hascomparefile;
 
 if ($isstackquestion) {
@@ -199,6 +193,8 @@ if ($isstackquestion) {
 }
 $general->formaction = (new moodle_url('/question/type/stack/questionxmlcompare.php'))->out(false);
 $formparams = $editparams;
+unset($formparams['currentversion']);
+unset($formparams['compareversion']);
 $formparams['display'] = $displaymode;
 $formparams['diffonly'] = $pageparams['diffonly'];
 if ($currentfile) {

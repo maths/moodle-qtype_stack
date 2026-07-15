@@ -734,6 +734,38 @@ class stack_question_xml_compare {
     }
 
     /**
+     * Split text into inline-diff units, keeping XML special constructs intact.
+     *
+     * Plain text still falls back to character-level diffing, but CDATA sections,
+     * comments, processing instructions, entity references, and declarations stay
+     * atomic so they are not split across unrelated highlights.
+     *
+     * @param string $text text to split.
+     * @return string[] diff units.
+     */
+    protected static function inline_units(string $text): array {
+        $pattern = '/(<!\\[CDATA\\[.*?\\]\\]>|<!--.*?-->|<\\?.*?\\?>|<![^>]*>|&(#[0-9]+|#x[0-9A-Fa-f]+|[A-Za-z][A-Za-z0-9]+);)/s';
+
+        $units = [];
+        $offset = 0;
+        $length = strlen($text);
+        while ($offset < $length && preg_match($pattern, $text, $match, PREG_OFFSET_CAPTURE, $offset)) {
+            $matchoffset = $match[0][1];
+            $matchtext = $match[0][0];
+            if ($matchoffset > $offset) {
+                $units = array_merge($units, self::chars(substr($text, $offset, $matchoffset - $offset)));
+            }
+            $units[] = $matchtext;
+            $offset = $matchoffset + strlen($matchtext);
+        }
+        if ($offset < $length) {
+            $units = array_merge($units, self::chars(substr($text, $offset)));
+        }
+
+        return $units;
+    }
+
+    /**
      * Render inline character changes for two changed lines shown as separate rows.
      *
      * @param string $currenttext current version line.
@@ -741,8 +773,8 @@ class stack_question_xml_compare {
      * @return string[] current-added HTML and compared-deleted HTML.
      */
     public static function inline_changed_separate(string $currenttext, string $comparetext): array {
-        $current = self::chars($currenttext);
-        $compare = self::chars($comparetext);
+        $current = self::inline_units($currenttext);
+        $compare = self::inline_units($comparetext);
         $currentcount = count($current);
         $comparecount = count($compare);
 

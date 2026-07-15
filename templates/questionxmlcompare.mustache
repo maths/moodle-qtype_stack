@@ -30,15 +30,12 @@
 
     Example context (json):
     {
-      "question": {
-        "currentversion": 2,
-        "compareversion": 1
-      },
       "displaymode": "unified",
       "displayunified": true,
       "displaysplit": false,
       "diffonly": false,
       "showalllines": true,
+      "notices": [],
       "general": {
         "testquestionlink": "http://example.com",
         "previewquestionlink": "http://example.com",
@@ -51,8 +48,6 @@
         "uploadform": "<form></form>",
         "isstackquestion": true,
         "filesopen": false,
-        "currentversionlabel": "Version",
-        "compareversionlabel": "Compared with version",
         "questionselectmuted": false,
         "formparams": [
           {"name": "id", "value": 1}
@@ -125,9 +120,9 @@
     </select>
   </form>
 
-  {{#hasnotices}}
-    <div class="alert alert-warning">{{notices}}</div>
-  {{/hasnotices}}
+  {{#notices}}
+    <div class="alert alert-warning">{{.}}</div>
+  {{/notices}}
 
   <form method="get" action="{{{general.formaction}}}" class="stack-xml-compare-controls">
     {{#general.formparams}}

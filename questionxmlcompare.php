@@ -50,6 +50,7 @@ if (!$questiondata) {
 $question = question_bank::load_question($questionid);
 $isstackquestion = ($questiondata->qtype === 'stack');
 $urlparams = [];
+// Preserve the current course or module context so generated links stay anchored to this page.
 if ($cmid = optional_param('cmid', 0, PARAM_INT)) {
     $cm = get_coursemodule_from_id(false, $cmid);
     require_login($cm->course, false, $cm);
@@ -73,16 +74,12 @@ if ($cmid = optional_param('cmid', 0, PARAM_INT)) {
 // Check permissions. Raw XML compare uses the same capability as XML edit.
 question_require_capability_on($questiondata, 'edit');
 
+// The comparison version defaults to the version before the current one unless the user picked one.
 $compareversion = stack_question_xml_compare::get_compare_version($requestedcompareversion, $versions, $currentversion);
 $displaymode = stack_question_xml_compare::get_display_mode($requesteddisplay);
 $diffonly = stack_question_xml_compare::get_diff_only($requesteddiffonly);
-$comparequestionid = $versions[$compareversion];
-$comparequestiondata = question_bank::load_question_data($comparequestionid);
-if (!$comparequestiondata) {
-    throw new stack_exception('questiondoesnotexist');
-}
-question_require_capability_on($comparequestiondata, 'edit');
 
+// Keep the selected versions and context parameters in the URL so the page can be refreshed safely.
 $editparams = $urlparams;
 unset($editparams['questionid']);
 unset($editparams['seed']);
@@ -102,6 +99,7 @@ $uploadform = new qtype_stack_question_xml_compare_form(
     new moodle_url('/question/type/stack/questionxmlcompare.php', $uploadformparams)
 );
 if ($fromform = $uploadform->get_data()) {
+    // The form posts draft ids, so only keep ids that still resolve to an uploaded file.
     $requestedcurrentfile = !empty($fromform->currentfile) ? (int) $fromform->currentfile : 0;
     $requestedcomparefile = !empty($fromform->comparefile) ? (int) $fromform->comparefile : 0;
     $redirectparams = $pageparams;
@@ -114,12 +112,12 @@ if ($fromform = $uploadform->get_data()) {
     redirect(new moodle_url('/question/type/stack/questionxmlcompare.php', $redirectparams));
 }
 
+// Start with the exported XML for each version, then replace either side with uploaded draft content.
 $currentfile = $requestedcurrentfile;
 $comparefile = $requestedcomparefile;
-$notices = [];
+$noticeitems = [];
 
-$currentxml = stack_question_xml_compare::export_question_version_xml($questiondata);
-$comparexml = stack_question_xml_compare::export_question_version_xml($comparequestiondata);
+$currentxml = '';
 if ($currentfile) {
     $uploadedxml = stack_question_xml_compare::draft_file_content($currentfile);
     if ($uploadedxml === null) {
@@ -130,7 +128,12 @@ if ($currentfile) {
     } else {
         $currentxml = $uploadedxml;
     }
+} else {
+    // Fall back to the exported XML for the selected version when no upload is present.
+    $currentxml = stack_question_xml_compare::export_question_version_xml($questiondata);
 }
+
+$comparexml = '';
 if ($comparefile) {
     $uploadedxml = stack_question_xml_compare::draft_file_content($comparefile);
     if ($uploadedxml === null) {
@@ -141,9 +144,20 @@ if ($comparefile) {
     } else {
         $comparexml = $uploadedxml;
     }
+} else {
+    // Mirror the same fallback on the comparison side.
+    $comparequestionid = $versions[$compareversion];
+    $comparequestiondata = question_bank::load_question_data($comparequestionid);
+    if (!$comparequestiondata) {
+        throw new stack_exception('questiondoesnotexist');
+    }
+    question_require_capability_on($comparequestiondata, 'edit');
+    $comparexml = stack_question_xml_compare::export_question_version_xml($comparequestiondata);
 }
+
 if (!$currentxml || !$comparexml) {
-    $notices[] = stack_string('xmldisplayerror');
+    // Keep the page rendering even if one export or upload fails, and surface a warning instead.
+    $noticeitems[] = stack_string('xmldisplayerror');
     $currentxml = $currentxml ?: '';
     $comparexml = $comparexml ?: '';
 }
@@ -171,8 +185,6 @@ $hasfiles = $hascurrentfile || $hascomparefile;
 $general = new stdClass();
 $general->isstackquestion = $isstackquestion;
 $general->filesopen = $hasfiles;
-$general->currentversionlabel = stack_string('comparexmlselectcurrentversion');
-$general->compareversionlabel = stack_string('comparexmlselectversion');
 $general->questionselectmuted = $hascurrentfile && $hascomparefile;
 
 if ($isstackquestion) {
@@ -220,24 +232,21 @@ $diffonlytoggleparams['diffonly'] = stack_question_xml_compare::toggle_diff_only
 $general->diffonlytogglelink = (new moodle_url('/question/type/stack/questionxmlcompare.php', $diffonlytoggleparams))->out();
 $general->uploadform = $uploadform->render();
 
-$output = new stdClass();
-$output->question = new stdClass();
-$output->question->name = $question->name;
-$output->question->currentversion = $currentversion;
-$output->question->compareversion = $compareversion;
-$output->displaymode = $displaymode;
-$output->displayunified = ($displaymode === stack_question_xml_compare::DISPLAY_UNIFIED);
-$output->displaysplit = ($displaymode === stack_question_xml_compare::DISPLAY_SPLIT);
-$output->diffonly = $diffonly;
-$output->showalllines = !$diffonly;
-$output->general = $general;
-$output->hasnotices = $notices !== [];
-$output->notices = implode(' ', $notices);
-$output->currentversions = stack_question_xml_compare::version_options($versions, $currentversion, $hascurrentfile);
-$output->versions = stack_question_xml_compare::version_options($versions, $compareversion, $hascomparefile);
-$output->questionoptions = stack_question_xml_compare::questions_in_category($questiondata->category, $questionid);
-$output->rows = stack_question_xml_compare::diff_rows($currentxml, $comparexml, $displaymode, $diffonly);
+// Template data is intentionally flat: the page template reads the view state directly.
+$viewdata = new stdClass();
+$viewdata->displaymode = $displaymode;
+$viewdata->displayunified = ($displaymode === stack_question_xml_compare::DISPLAY_UNIFIED);
+$viewdata->displaysplit = ($displaymode === stack_question_xml_compare::DISPLAY_SPLIT);
+$viewdata->diffonly = $diffonly;
+$viewdata->showalllines = !$diffonly;
+$viewdata->general = $general;
+$viewdata->notices = $noticeitems;
+$viewdata->currentversions = stack_question_xml_compare::version_options($versions, $currentversion, $hascurrentfile);
+$viewdata->versions = stack_question_xml_compare::version_options($versions, $compareversion, $hascomparefile);
+$viewdata->questionoptions = stack_question_xml_compare::questions_in_category($questiondata->category, $questionid);
+// Diff rows are built last so they reflect the final XML, display mode, and row-filter choice.
+$viewdata->rows = stack_question_xml_compare::diff_rows($currentxml, $comparexml, $displaymode, $diffonly);
 
 echo $OUTPUT->header();
-echo $OUTPUT->render_from_template('qtype_stack/questionxmlcompare', $output);
+echo $OUTPUT->render_from_template('qtype_stack/questionxmlcompare', $viewdata);
 echo $OUTPUT->footer();

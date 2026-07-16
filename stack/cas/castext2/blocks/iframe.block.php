@@ -43,9 +43,15 @@ use api\util\StackIframeHolder;
  * that allow targetted content within this block.
  */
 class stack_cas_castext2_iframe extends stack_cas_castext2_block {
-    // This is intentionally replaced during postprocessing, not compilation,
-    // so the JSON uses the current user's language rather than the author's.
+    /**
+     * This is intentionally replaced during postprocessing, not compilation,
+     * so messages use the current user's language rather than the author's.
+     * @var string JSON containing strings needing to be passed to JS.
+     */
     public const ASCII_STRINGS_PLACEHOLDER = '///STACK_ASCII_STRINGS///';
+    /**
+     * @var string Identifier of ascii strings needing to be passed to JS.
+     */
     private const ASCII_STRING_PREFIX = 'asciistring';
 
     // All frames need unique (at request level) identifiers,

@@ -24,7 +24,7 @@ Feature: Test editing XML of a question.
       | Test questions   | truefalse | Simple true false question | true |
 
   @javascript
-  Scenario: Update XML with bad XML - requires importasversion update
+  Scenario: Update XML with bad XML
     When I am on the "Course 1" "core_question > course question bank" page logged in as "teacher"
     And I choose "STACK question dashboard" action for "Simple STACK question" in the question bank
     And I follow "Edit question XML"
@@ -70,10 +70,10 @@ Feature: Test editing XML of a question.
       <text>[[feedback:PotResTree_1]]</text>
     </specificfeedback>
     <questionnote format="html">
-      <text>{@p@}, {@ta@}.</text>
+      <text>{@p@}, {@ta@}, updated.</text>
     </questionnote>
     <questiondescription format="html">
-      <text>This is a basic test question.</text>
+      <text>This is a revised test question.</text>
     </questiondescription>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
@@ -166,16 +166,16 @@ Feature: Test editing XML of a question.
     And I follow "STACK question dashboard"
     And I follow "Compare question XML"
     Then I should see "Compare question XML"
-    And I should see "Current version 2"
-    And I should see "Compared version 1"
+    And the field "Version" matches value "2"
+    And the field "Compared with version" matches value "1"
     And I should see "Latest"
     And I should see "Question"
-    And I set the field "Current version" to "1"
-    And I wait until "Current version 1" "text" exists
+    And I set the field "Version" to "1"
+    And the field "Version" matches value "1"
     And I follow "Latest"
-    And I wait until "Current version 2" "text" exists
-    And I should see "Compare with version"
-    And I should see "<quiz>"
+    And the field "Version" matches value "2"
+    And I should see "Compared with version"
+    And I should see "</quiz>"
     And ".stack-xml-compare-diff" "css_element" should exist
     And ".stack-xml-compare-row-added" "css_element" should exist in the "-1" "table_row"
     And I should see "<penalty>" in the "-1" "table_row"
@@ -190,9 +190,10 @@ Feature: Test editing XML of a question.
     And I should not see "Edit question XML"
     And I set the field "Question" to "Simple STACK question"
     And I wait until "Simple STACK question" "text" exists
+    And I should see "</quiz>"
     And I follow "Show differences only"
     And I should see "Show all lines"
-    And I should not see "<quiz>"
+    And I should not see "</quiz>"
     And ".stack-xml-compare-row-same" "css_element" should exist
     And ".stack-xml-compare-row-added" "css_element" should exist in the "-1" "table_row"
     And ".stack-xml-compare-row-deleted" "css_element" should exist in the "0.4" "table_row"
@@ -201,18 +202,22 @@ Feature: Test editing XML of a question.
     And ".stack-xml-compare-row-same" "css_element" should exist
     And I follow "Show split display"
     And I should see "Show unified display"
-    And ".stack-xml-compare-row-changed" "css_element" should exist in the "<penalty>" "table_row"
     And I should see "-1" in the "<penalty>" "table_row"
     And I should see "0.4" in the "<penalty>" "table_row"
     And ".stack-xml-compare-inline-added" "css_element" should exist in the "<penalty>" "table_row"
     And ".stack-xml-compare-inline-deleted" "css_element" should exist in the "<penalty>" "table_row"
     And ".stack-xml-compare-code-compared" "css_element" should exist in the "<penalty>" "table_row"
+    And I should see "This is a basic test question." in the "This is a revised test question." "table_row"
+    And ".stack-xml-compare-inline-added" "css_element" should exist in the "This is a revised test question." "table_row"
+    And ".stack-xml-compare-inline-deleted" "css_element" should exist in the "This is a revised test question." "table_row"
+    And I should see "{@p@}, {@ta@}." in the "{@p@}, {@ta@}, updated." "table_row"
+    And ".stack-xml-compare-inline-added" "css_element" should exist in the "{@p@}, {@ta@}, updated." "table_row"
     And I follow "Show unified display"
     And I should see "Show split display"
-    And I set the field "Compare with version" to "2"
-    And I wait until "Compared version 2" "text" exists
-    And I set the field "Compare with version" to "1"
-    And I wait until "Compared version 1" "text" exists
+    And I set the field "Compared with version" to "2"
+    And the field "Compared with version" matches value "2"
+    And I set the field "Compared with version" to "1"
+    And the field "Compared with version" matches value "1"
     And I wait until ".stack-xml-compare-row-added" "css_element" exists
     And ".stack-xml-compare-row-added" "css_element" should exist in the "-1" "table_row"
     And I should see "<penalty>" in the "-1" "table_row"

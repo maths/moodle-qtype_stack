@@ -479,9 +479,10 @@ body.path-question-type-stack .stack-xml-compare-filepickers .filepicker-filelis
     min-height: 200px;
 }
 body.path-question-type-stack.dndsupported .stack-xml-compare-filepickers
-    .filepicker-filelist.dndupload-ready:not(.dndupload-over) .dndupload-target {
+.filepicker-filelist.dndupload-ready:not(.dndupload-over) .dndupload-target {
     display: none;
 }
+
 @media (max-width: 768px) {
     body.path-question-type-stack .stack-xml-compare-filepickers {
         grid-template-columns: minmax(0, 1fr);
@@ -543,7 +544,7 @@ body.path-question-type-stack .stack-xml-compare-code-wrap {
 }
 body.path-question-type-stack .stack-xml-compare-empty,
 body.path-question-type-stack .stack-xml-compare-diff-split
-    .stack-xml-compare-row-deleted .stack-xml-compare-code-current {
+.stack-xml-compare-row-deleted .stack-xml-compare-code-current {
     background: #f8f9fa;
 }
 body.path-question-type-stack .stack-xml-compare-row-separator td {

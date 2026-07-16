@@ -736,33 +736,64 @@ class stack_question_xml_compare {
     /**
      * Split text into inline-diff units, keeping XML special constructs intact.
      *
-     * Plain text still falls back to character-level diffing, but CDATA sections,
-     * comments, processing instructions, entity references, and declarations stay
-     * atomic so they are not split across unrelated highlights.
+     * Ordinary text is tokenised as words, whitespace runs, and punctuation runs so
+     * insertions like "hello " do not get fragmented into character-level quirks.
+     * CDATA sections stay atomic, while comments keep their delimiters but still
+     * diff the comment body. Processing instructions, entity references,
+     * declarations, simple XML tags, and STACK inline markers stay atomic.
      *
      * @param string $text text to split.
      * @return string[] diff units.
      */
     protected static function inline_units(string $text): array {
-        $pattern = '/(<!\\[CDATA\\[.*?\\]\\]>|<!--.*?-->|<\\?.*?\\?>|<![^>]*>|&(#[0-9]+|#x[0-9A-Fa-f]+|[A-Za-z][A-Za-z0-9]+);)/s';
-
+        $specialpattern = '/(<!\\[CDATA\\[.*?\\]\\]>|<!--.*?-->|<\\?.*?\\?>|<![^>]*>|&(#[0-9]+|#x[0-9A-Fa-f]+|[A-Za-z][A-Za-z0-9]+);|<\\/?[A-Za-z][A-Za-z0-9:-]*(?:\\s*)?>|\\[\\[\\/?[A-Za-z][^\\]]*\\]\\]|\\{@[^@]*@\\})/us';
         $units = [];
         $offset = 0;
         $length = strlen($text);
-        while ($offset < $length && preg_match($pattern, $text, $match, PREG_OFFSET_CAPTURE, $offset)) {
+
+        while ($offset < $length && preg_match($specialpattern, $text, $match, PREG_OFFSET_CAPTURE, $offset)) {
             $matchoffset = $match[0][1];
             $matchtext = $match[0][0];
             if ($matchoffset > $offset) {
-                $units = array_merge($units, self::chars(substr($text, $offset, $matchoffset - $offset)));
+                $units = array_merge($units, self::inline_text_units(substr($text, $offset, $matchoffset - $offset)));
             }
-            $units[] = $matchtext;
+
+            if (str_starts_with($matchtext, '<!--')) {
+                $units[] = '<!--';
+                $units = array_merge($units, self::inline_text_units(substr($matchtext, 4, -3)));
+                $units[] = '-->';
+            } else {
+                $units[] = $matchtext;
+            }
+
             $offset = $matchoffset + strlen($matchtext);
         }
         if ($offset < $length) {
-            $units = array_merge($units, self::chars(substr($text, $offset)));
+            $units = array_merge($units, self::inline_text_units(substr($text, $offset)));
         }
 
         return $units;
+    }
+
+    /**
+     * Split plain text into word, whitespace, and punctuation units.
+     *
+     * @param string $text text to split.
+     * @return string[] text units.
+     */
+    protected static function inline_text_units(string $text): array {
+        if ($text === '') {
+            return [];
+        }
+
+        $pattern = '/[\\p{L}\\p{N}_\\p{M}]+|\\s+|[^\\p{L}\\p{N}_\\p{M}\\s]+/us';
+        $matches = [];
+        $count = preg_match_all($pattern, $text, $matches);
+        if ($count === false || $count === 0) {
+            return self::chars($text);
+        }
+
+        return $matches[0];
     }
 
     /**

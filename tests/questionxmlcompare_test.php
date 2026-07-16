@@ -441,28 +441,116 @@ final class questionxmlcompare_test extends \advanced_testcase {
 
         [$currenthtml, $comparehtml] = \stack_question_xml_compare::inline_changed_separate($current, $compare);
 
-        $this->assertSame($current, strip_tags($currenthtml));
-        $this->assertSame($compare, strip_tags($comparehtml));
+        $this->assertSame($current, html_entity_decode(strip_tags($currenthtml)));
+        $this->assertSame($compare, html_entity_decode(strip_tags($comparehtml)));
         $this->assertStringContainsString(
-            '<span class="stack-xml-compare-inline-added">&lt;![CDATA[&lt;p&gt;Remember that \(x^0=1\) for all \(x \neq 0\). Therefore \({@e@}^0=1\).&lt;/p&gt;]]&gt;</span>',
+            '<span class="stack-xml-compare-inline-added">&lt;![CDATA[&lt;p&gt;Remember that \(x^0=1\) for all \(x \neq 0\). ' .
+            'Therefore \({@e@}^0=1\).&lt;/p&gt;]]&gt;</span>',
             $currenthtml
         );
         $this->assertSame(0, substr_count($comparehtml, 'stack-xml-compare-inline-deleted'));
     }
 
-    public function test_inline_changed_separate_keeps_comments_atomic(): void {
+    public function test_inline_changed_separate_prefers_word_insertions_over_character_fragments(): void {
+        [$currenthtml, $comparehtml] = \stack_question_xml_compare::inline_changed_separate(
+            'corresponding eigenvectors',
+            'corresponding hello eigenvectors'
+        );
+
+        $this->assertSame('corresponding eigenvectors', html_entity_decode(strip_tags($currenthtml)));
+        $this->assertSame('corresponding hello eigenvectors', html_entity_decode(strip_tags($comparehtml)));
+        $this->assertSame(0, substr_count($currenthtml, 'stack-xml-compare-inline-added'));
+        $this->assertSame(0, substr_count($currenthtml, 'stack-xml-compare-inline-deleted'));
+        $this->assertStringContainsString(
+            '<span class="stack-xml-compare-inline-deleted">hello </span>',
+            $comparehtml
+        );
+        $this->assertSame(0, substr_count($comparehtml, 'stack-xml-compare-inline-added'));
+    }
+
+    public function test_inline_changed_separate_highlights_comment_body_changes(): void {
+        $current = '<text><!-- question: 445  --></text>';
+        $compare = '<text><!-- question: 411  --></text>';
+
+        [$currenthtml, $comparehtml] = \stack_question_xml_compare::inline_changed_separate($current, $compare);
+
+        $this->assertSame($current, html_entity_decode(strip_tags($currenthtml)));
+        $this->assertSame($compare, html_entity_decode(strip_tags($comparehtml)));
+        $this->assertStringContainsString('&lt;!-- question: ', $currenthtml);
+        $this->assertStringContainsString('stack-xml-compare-inline-added">445</span>', $currenthtml);
+        $this->assertStringContainsString('stack-xml-compare-inline-deleted">411</span>', $comparehtml);
+        $this->assertSame(1, substr_count($currenthtml, 'stack-xml-compare-inline-added'));
+        $this->assertSame(1, substr_count($comparehtml, 'stack-xml-compare-inline-deleted'));
+    }
+
+    public function test_inline_changed_separate_keeps_comment_delimiters_atomic(): void {
         $current = '<text><!-- note --></text>';
         $compare = '<text></text>';
 
         [$currenthtml, $comparehtml] = \stack_question_xml_compare::inline_changed_separate($current, $compare);
 
-        $this->assertSame($current, strip_tags($currenthtml));
-        $this->assertSame($compare, strip_tags($comparehtml));
+        $this->assertSame($current, html_entity_decode(strip_tags($currenthtml)));
+        $this->assertSame($compare, html_entity_decode(strip_tags($comparehtml)));
         $this->assertStringContainsString(
             '<span class="stack-xml-compare-inline-added">&lt;!-- note --&gt;</span>',
             $currenthtml
         );
         $this->assertSame(0, substr_count($comparehtml, 'stack-xml-compare-inline-deleted'));
+    }
+
+    public function test_inline_changed_separate_keeps_ascii_wrappers_atomic(): void {
+        $current = '<text>[[ascii]]{@ta1@}[[/ascii]]</text>';
+        $compare = '<text></text>';
+
+        [$currenthtml, $comparehtml] = \stack_question_xml_compare::inline_changed_separate($current, $compare);
+
+        $this->assertSame($current, html_entity_decode(strip_tags($currenthtml)));
+        $this->assertSame($compare, html_entity_decode(strip_tags($comparehtml)));
+        $this->assertStringContainsString(
+            '<span class="stack-xml-compare-inline-added">[[ascii]]{@ta1@}[[/ascii]]</span>',
+            $currenthtml
+        );
+        $this->assertSame(0, substr_count($comparehtml, 'stack-xml-compare-inline-deleted'));
+    }
+
+    public function test_inline_changed_separate_keeps_processing_instructions_atomic(): void {
+        $current = '<text><?stack one?></text>';
+        $compare = '<text><?stack two?></text>';
+
+        [$currenthtml, $comparehtml] = \stack_question_xml_compare::inline_changed_separate($current, $compare);
+
+        $this->assertSame($current, html_entity_decode(strip_tags($currenthtml)));
+        $this->assertSame($compare, html_entity_decode(strip_tags($comparehtml)));
+        $this->assertStringContainsString(
+            '<span class="stack-xml-compare-inline-added">&lt;?stack one?&gt;</span>',
+            $currenthtml
+        );
+        $this->assertStringContainsString(
+            '<span class="stack-xml-compare-inline-deleted">&lt;?stack two?&gt;</span>',
+            $comparehtml
+        );
+        $this->assertSame(1, substr_count($currenthtml, 'stack-xml-compare-inline-added'));
+        $this->assertSame(1, substr_count($comparehtml, 'stack-xml-compare-inline-deleted'));
+    }
+
+    public function test_inline_changed_separate_keeps_entity_references_atomic(): void {
+        $current = '<text>&alpha; value</text>';
+        $compare = '<text>&beta; value</text>';
+
+        [$currenthtml, $comparehtml] = \stack_question_xml_compare::inline_changed_separate($current, $compare);
+
+        $this->assertSame($current, html_entity_decode(strip_tags($currenthtml)));
+        $this->assertSame($compare, html_entity_decode(strip_tags($comparehtml)));
+        $this->assertStringContainsString(
+            '<span class="stack-xml-compare-inline-added">&amp;alpha;</span>',
+            $currenthtml
+        );
+        $this->assertStringContainsString(
+            '<span class="stack-xml-compare-inline-deleted">&amp;beta;</span>',
+            $comparehtml
+        );
+        $this->assertSame(1, substr_count($currenthtml, 'stack-xml-compare-inline-added'));
+        $this->assertSame(1, substr_count($comparehtml, 'stack-xml-compare-inline-deleted'));
     }
 
     public function test_inline_changed_separate_joins_changes_across_short_unchanged_gaps(): void {
@@ -479,14 +567,14 @@ final class questionxmlcompare_test extends \advanced_testcase {
 
     public function test_inline_changed_separate_keeps_changes_separate_across_six_character_gaps(): void {
         [$currenthtml, $comparehtml] = \stack_question_xml_compare::inline_changed_separate(
-            'abcXXabcdefYYghi',
-            'abc11abcdef22ghi'
+            'a!!!!!!b',
+            'c!!!!!!d'
         );
 
         $this->assertSame(2, substr_count($currenthtml, 'stack-xml-compare-inline-added'));
         $this->assertSame(2, substr_count($comparehtml, 'stack-xml-compare-inline-deleted'));
-        $this->assertSame('abcXXabcdefYYghi', strip_tags($currenthtml));
-        $this->assertSame('abc11abcdef22ghi', strip_tags($comparehtml));
+        $this->assertSame('a!!!!!!b', strip_tags($currenthtml));
+        $this->assertSame('c!!!!!!d', strip_tags($comparehtml));
     }
 
     public function test_diff_rows_flags_edited_lines_shorter_than_five_characters(): void {
@@ -552,6 +640,29 @@ final class questionxmlcompare_test extends \advanced_testcase {
         $this->assertEquals('display', $params[1]->name);
     }
 
+    public function test_export_question_version_xml_wraps_a_real_question_export(): void {
+        $this->resetAfterTest();
+        $this->setAdminUser();
+
+        $generator = $this->getDataGenerator()->get_plugin_generator('core_question');
+        $category = $generator->create_question_category();
+        $question = $generator->create_question(
+            'stack',
+            'test3',
+            ['category' => $category->id, 'name' => 'Stack question']
+        );
+
+        $question = \question_bank::load_question_data($question->id);
+
+        $xml = \stack_question_xml_compare::export_question_version_xml($question);
+
+        $this->assertIsString($xml);
+        $this->assertStringStartsWith('<?xml version="1.0" encoding="UTF-8"?>' . "\n<quiz>\n", $xml);
+        $this->assertStringEndsWith('</quiz>', $xml);
+        $this->assertStringContainsString('<question type="stack">', $xml);
+        $this->assertStringContainsString('<!-- question:', $xml);
+    }
+
     public function test_draft_file_content_reads_current_users_filepicker_file(): void {
         global $USER;
 
@@ -602,5 +713,13 @@ final class questionxmlcompare_test extends \advanced_testcase {
 
         $this->assertNull(\stack_question_xml_compare::draft_file_content(123456789));
         $this->assertNull(\stack_question_xml_compare::draft_file_name(123456789));
+    }
+
+    public function test_draft_file_returns_null_for_empty_item_id(): void {
+        $this->resetAfterTest();
+        $this->setAdminUser();
+
+        $this->assertNull(\stack_question_xml_compare::draft_file(null));
+        $this->assertNull(\stack_question_xml_compare::draft_file(0));
     }
 }

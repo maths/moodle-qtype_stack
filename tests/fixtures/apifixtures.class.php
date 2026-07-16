@@ -40,9 +40,11 @@ class stack_api_test_data {
                 </name>
                 <questiontext format="html">
                   <text><![CDATA[[[ascii]]
-!!plot
+[[filter type="plot" /]]
+[[filter type="markdown-math" /]]
+!!p
 plot y=x
-!!plot
+!!p
 [[/ascii]]]]></text>
                 </questiontext>
                 <specificfeedback format="html">

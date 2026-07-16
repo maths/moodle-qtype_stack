@@ -43,7 +43,6 @@ describe('markdownitrules filter', () => {
         expect(typeof mdit.renderer.rules.asciimath_block).toBe('function');
         expect(typeof mdit.renderer.rules.math_inline).toBe('function');
         expect(typeof mdit.renderer.rules.math_block).toBe('function');
-        expect(typeof mdit.renderer.rules.plot_block).toBe('function');
         expect(mdit.core.ruler.push).toHaveBeenCalledWith('reset_collector', expect.any(Function));
     });
 
@@ -140,20 +139,6 @@ describe('markdownitrules filter', () => {
         expect(collector.blocks).toEqual([
             { type: 'math_block', raw, rendered: 'A\nB\n' }
         ]);
-    });
-
-    test('plot_block renders a graph placeholder and pushes collector block', () => {
-        const collector = { blocks: [] };
-        const { mdit } = setup({ collector });
-
-        const rendered = mdit.renderer.rules.plot_block([{ content: 'plot y=x^2' }], 0);
-
-        expect(rendered).toContain('stack-plot');
-        expect(collector.blocks).toHaveLength(1);
-        expect(collector.blocks[0]).toMatchObject({
-            type: 'plot_block',
-            raw: 'plot y=x^2'
-        });
     });
 
     test('splitBlock trims lines and removes blank lines before transforms', () => {

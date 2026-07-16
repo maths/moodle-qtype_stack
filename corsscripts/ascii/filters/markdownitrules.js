@@ -19,8 +19,6 @@
  * @param {Object} mdit    - the markdownit instance to extend.
  * @param {Object} options - plugin options; must contain options.state (see markdown.js).
  */
-import { renderPlotPlaceholder } from '../plot.js';
-
 export default function markdownitrules(mdit, options) {
     "use strict";
     const state = options.state;
@@ -100,18 +98,6 @@ export default function markdownitrules(mdit, options) {
         }
         if (state.collector) {
             state.collector.blocks.push({ type: 'math_block', raw: code, rendered });
-        }
-        return rendered;
-    };
-
-    /**
-     * JSXGraph plot block: opened and closed by !!plot on its own line.
-     */
-    mdit.renderer.rules.plot_block = function(tokens, idx) {
-        const code = tokens[idx].content;
-        const rendered = renderPlotPlaceholder(code);
-        if (state.collector) {
-            state.collector.blocks.push({ type: 'plot_block', raw: code, rendered });
         }
         return rendered;
     };

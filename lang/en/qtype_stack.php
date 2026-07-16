@@ -1914,8 +1914,8 @@ $string['free_text_fact'] = 'This input allows you to type in free text, e.g. yo
 <p>More specific documentation on markdown, AsciiMath and LaTeX is available online.</p>';
 $string['free_text_calc'] = 'This input allows you embed simple calculations between <code>{@...@}</code>, rather than reaching for an external calculator.';
 $string['free_text_calc_min'] = '{@...@}';
-$string['free_text_plot'] = 'You can plot graphs using <code>!!plot</code> blocks.
-<pre>!!plot<br>x: -5..5<br>y: -3..10<br>plot y=x^2-1<br>plot x=y^2<br>point (2,3) A<br>fit line (1,2), (2,4), (3,5) as trend<br>!!plot</pre>
+$string['free_text_plot'] = 'You can plot graphs using <code>!!p</code> blocks.
+<pre>!!p<br>x: -5..5<br>y: -3..10<br>plot y=x^2-1<br>plot x=y^2<br>point (2,3) A<br>fit line (1,2), (2,4), (3,5) as trend<br>!!p</pre>
 <p>Use <code>x: a..b</code> and <code>y: c..d</code> to set the visible range. Add curves with <code>plot y=...</code> or <code>plot x=...</code>, add points with <code>point (x,y)</code>, and fit data points using <code>fit line</code>, <code>fit quadratic</code>, <code>fit cubic</code>, or <code>fit polynomial n</code>.</p>';
 $string['asciistringplotempty'] = 'Plot block needs at least one curve or point.';
 $string['asciistringplotfitdegree'] = 'Polynomial fit degree must be between 1 and 6.';

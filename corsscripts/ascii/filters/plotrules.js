@@ -21,7 +21,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-import math from './mathjs.min.js';
+import math from '../mathjs.min.js';
 
 // Student syntax is intentionally small:
 //   x: -5..5
@@ -30,7 +30,7 @@ import math from './mathjs.min.js';
 //   plot x=y^2
 //   point (2,3) A
 //   fit line (1,2), (2,3), (3,5) as trend
-// Each !!plot block is parsed into one of these config objects, then rendered
+// Each !!p block is parsed into one of these config objects, then rendered
 // by JSXGraph after markdown has inserted the placeholder HTML into the page.
 const defaultConfig = {
     xmin: -10,

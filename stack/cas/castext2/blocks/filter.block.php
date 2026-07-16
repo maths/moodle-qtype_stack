@@ -34,6 +34,7 @@ class stack_cas_castext2_filter extends stack_cas_castext2_block {
         'markdown',
         'markdown-math',
         'plain',
+        'plot',
     ];
 
     /** @var array valid transform types. */

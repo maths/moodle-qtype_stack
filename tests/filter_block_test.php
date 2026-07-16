@@ -53,6 +53,17 @@ final class filter_block_test extends qtype_stack_testcase {
         $this->assertEquals('', $at1->get_errors());
     }
 
+    public function test_filter_accepts_plot_type(): void {
+        $raw = '[[ascii input="ans1"]]'
+            . '[[filter type="plot"]][[/filter]]'
+            . '[[/ascii]]';
+
+        $at1 = castext2_evaluatable::make_from_source($raw, 'test-case');
+
+        $this->assertTrue($at1->get_valid());
+        $this->assertEquals('', $at1->get_errors());
+    }
+
     public function test_filter_requires_type(): void {
         $raw = '[[ascii input="ans1"]]'
             . '[[filter transforms="asciimath"]][[/filter]]'

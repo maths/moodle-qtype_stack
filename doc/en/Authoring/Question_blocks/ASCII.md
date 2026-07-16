@@ -35,7 +35,7 @@ Functionality and styling can be customized through the use of block parameters.
 
 ## Filters
 
-Filters control how the student's text input is processed and displayed. If no `[[filter]]` block is provided, the default `markdown-math` filter with transform `aligneq` is applied automatically by default.
+Filters control how the student's text input is processed and displayed. If no `[[filter]]` block is provided, the default `markdown-math` behaviour with transform `aligneq` is applied.
 
 A filter is specified with a `[[filter]]` child block inside the `[[ascii]]` block:
 
@@ -50,7 +50,7 @@ A filter is specified with a `[[filter]]` child block inside the `[[ascii]]` blo
 
 ### Filter block parameters
 
-1. `type` (required): the filter type. Currently available: `markdown`, `calculation`, `cas`.
+1. `type` (required): the filter type. Currently available: `markdown`, `markdown-math`, `plot`, `plain`, `calculation`, `cas`.
 2. `transforms` (for `markdown` type): a comma-separated list of transforms to apply. Available transforms: `aligneq`, `asciimath`, `boldfilter`, `minwrap`.
 3. `reset`: if `"true"`, this filter operates on the original raw input rather than the output of any preceding filter(s).
 4. `display`: if `"true"`, the output of this filter is used as the final display and subsequent filters cannot modify the display.
@@ -59,7 +59,7 @@ A filter is specified with a `[[filter]]` child block inside the `[[ascii]]` blo
 
 #### `markdown-math` filter
 
-This is the default behaviour. If you do not specify a filter then `[[filter type="markdown-math" tansforms="aligneq"/]]` will be used.
+This is part of the default behaviour. If you do not specify a filter then `[[filter type="markdown-math" transforms="aligneq" /]]` will be used.
 
 The `markdown-math` filter processes the student's text as markdown and renders mathematical content. The following rendering rules are applied to recognized token types:
 
@@ -159,21 +159,22 @@ Filters are defined in `corsscripts/ascii/filters`. This has been designed to ad
 
 ## Plot blocks
 
-Students can include simple graphs in their free-text response using a `!!plot` block. Plot blocks are identified by the markdown filter, so the ASCII block must include a markdown filter (either explicitly or by default).
+Students can include simple graphs in their free-text response using a `!!p` block. Plot blocks are identified by the `plot` filter. If you want to use plot blocks, add the `plot` filter explicitly before the markdown filter.
 
-TO-DO: Should plots be a separate filter rather than a markdown extension? What delimiter do we actually want? What syntax/functionality do we want available?
+    [[filter type="plot" /]]
+    [[filter type="markdown-math" /]]
 
 The opening and closing markers must each be on a line by themselves.
 
 ```
-!!plot
+!!p
 x: -5..5
 y: -3..10
 plot y=x^2-1
 plot x=y^2
 point (2,3) A
 fit line (1,2), (2,4), (3,5) as trend
-!!plot
+!!p
 ```
 ![Plot example output](../../../content/plot_block.png)
 

@@ -1,6 +1,7 @@
 const mockMarkdown = jest.fn();
 const mockCalculation = jest.fn();
 const mockCas = jest.fn();
+const mockPlot = jest.fn();
 const mockLastexpr = jest.fn();
 const mockLastblock = jest.fn();
 const mockLastcalc = jest.fn();
@@ -25,6 +26,11 @@ jest.mock('../../corsscripts/ascii/filters/calculation.js', () => ({
 jest.mock('../../corsscripts/ascii/filters/cas.js', () => ({
     __esModule: true,
     default: (...args) => mockCas(...args)
+}));
+
+jest.mock('../../corsscripts/ascii/filters/plot.js', () => ({
+    __esModule: true,
+    default: (...args) => mockPlot(...args)
 }));
 
 jest.mock('../../corsscripts/ascii/extractors/lastblock.js', () => ({
@@ -67,7 +73,7 @@ jest.mock('../../corsscripts/ascii/extractors/allregexremainder.js', () => ({
     default: (...args) => mockRegexallremainder(...args)
 }));
 
-jest.mock('../../corsscripts/ascii/plot.js', () => ({
+jest.mock('../../corsscripts/ascii/filters/plotrules.js', () => ({
     __esModule: true,
     renderPlots: (...args) => mockRenderPlots(...args),
     setPlotStrings: (...args) => mockSetPlotStrings(...args)
@@ -138,6 +144,7 @@ describe('stackascii init', () => {
         mockMarkdown.mockReset();
         mockCalculation.mockReset();
         mockCas.mockReset();
+        mockPlot.mockReset();
         mockLastexpr.mockReset();
         mockLastblock.mockReset();
         mockLastcalc.mockReset();
@@ -253,6 +260,28 @@ describe('stackascii init', () => {
         init(['markdownInput'], [], { asciistrings });
 
         expect(mockSetPlotStrings).toHaveBeenCalledWith(asciistrings);
+    });
+
+    test('runs the plot filter when requested', () => {
+        const env = setupEnvironment('!!p\nplot y=x\n!!p', 0);
+
+        mockPlot.mockImplementation((text, blockCollector) => {
+            blockCollector.blocks = [{ type: 'plot_block', raw: 'plot y=x' }];
+            blockCollector.isHTML = true;
+            return '<plot>plot y=x</plot>';
+        });
+        mockMarkdown.mockImplementation((text) => `MD:${text}`);
+
+        const operations = [
+            { operation: 'filter', type: 'plot' },
+            { operation: 'filter', type: 'markdown' }
+        ];
+
+        init(['markdownInput'], operations);
+
+        expect(mockPlot).toHaveBeenCalledWith('!!p\nplot y=x\n!!p', expect.any(Object), operations[0]);
+        expect(mockMarkdown).toHaveBeenCalledWith('<plot>plot y=x</plot>', expect.any(Object), operations[1]);
+        expect(env.output.innerHTML).toBe('MD:<plot>plot y=x</plot>');
     });
 
     test('debounces and rerenders when the input changes', () => {

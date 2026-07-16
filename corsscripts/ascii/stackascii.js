@@ -33,9 +33,10 @@ import calculation from './filters/calculation.js';
 import cas from './filters/cas.js';
 import markdown from './filters/markdown.js';
 import plain from './filters/plain.js';
-import { renderPlots, setPlotStrings } from './plot.js';
+import plot from './filters/plot.js';
+import { renderPlots, setPlotStrings } from './filters/plotrules.js';
 
-const filterlib = { calculation, cas, markdown, plain };
+const filterlib = { calculation, cas, markdown, plain, plot };
 
 import lastblock from './extractors/lastblock.js';
 import lastcalc from './extractors/lastcalc.js';

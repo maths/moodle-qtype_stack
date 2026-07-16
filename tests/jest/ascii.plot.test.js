@@ -7,7 +7,7 @@ import {
     renderPlotPlaceholder,
     renderPlots,
     setPlotStrings
-} from '../../corsscripts/ascii/plot.js';
+} from '../../corsscripts/ascii/filters/plotrules.js';
 
 const testStrings = {
     asciistringplotempty: 'Plot block needs at least one curve or point.',

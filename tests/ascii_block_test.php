@@ -100,7 +100,7 @@ final class ascii_block_test extends qtype_stack_testcase {
         $this->assertEquals($expected, $at1->apply_placeholder_holder($at1->get_rendered()));
     }
 
-    public function test_ascii_compile_adds_default_filter_and_input_request(): void {
+    public function test_ascii_compile_adds_default_markdown_filter_and_input_request(): void {
         $block = new \stack_cas_castext2_ascii(['input' => 'ans1'], []);
         $compiled = $block->compile(null, []);
 
@@ -120,6 +120,7 @@ final class ascii_block_test extends qtype_stack_testcase {
         $expectedlinkcode = '{init(inputIds,[{"operation":"filter","type":"markdown","transforms":"asciimath,aligneq,minwrap"}]' .
             ',{"asciistrings":///STACK_ASCII_STRINGS///});}';
         $this->assertStringContainsString($expectedlinkcode, $joined);
+        $this->assertStringNotContainsString('"type":"plot"', $joined);
         $this->assertStringNotContainsString('Plot x range must increase.', $joined);
         $this->assertStringContainsString(
             'id="asciiContainerRow" style="width:calc(100% - 20px);height:calc(100vh - 30px);min-height:calc(400px - 30px);"',
@@ -142,6 +143,7 @@ final class ascii_block_test extends qtype_stack_testcase {
         $expectedlinkcode = '{init(inputIds,[{"operation":"filter","type":"markdown","transforms":"asciimath,aligneq,minwrap"}]' .
             ',{"asciistrings":///STACK_ASCII_STRINGS///});}';
         $this->assertStringContainsString($expectedlinkcode, $joined);
+        $this->assertStringNotContainsString('"type":"plot"', $joined);
     }
 
     public function test_ascii_compile_uses_child_filter_and_extractor_operations(): void {

@@ -68,6 +68,11 @@ const createEditor = (textarea) => {
         textarea.value = editor.getValue();
     });
 
+    const resizeObserver = new ResizeObserver(() => {
+        editor.resize();
+    });
+    resizeObserver.observe(wrapper);
+
     textarea.dataset.fieldtype = 'editor';
     textarea.style.display = 'none';
     editor.resize();

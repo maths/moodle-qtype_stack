@@ -146,21 +146,12 @@ class behat_qtype_stack extends behat_base {
     }
 
     /**
-     * Scroll a form field into view by focusing it. Browsers will normally
-     * bring the focused element into the viewport, which avoids clicks being
-     * intercepted by sticky page chrome.
+     * Scroll to the end of the page.
      *
-     * @param string $fieldname the visible label of the field.
-     *
-     * @When /^I scroll to the "(?P<fieldname>[^"]*)" "field"$/
+     * @When /^I scroll to the end of the page$/
      */
-    public function i_scroll_to_the_field(string $fieldname): void {
-        $field = $this->getSession()->getPage()->findField($fieldname);
-        if ($field === null) {
-            throw new \Exception("Field '$fieldname' not found.");
-        }
-
-        $field->focus();
+    public function i_scroll_to_the_end_of_the_page(): void {
+        $this->execute_script('window.scrollTo(0, document.body.scrollHeight);');
     }
 
     /**

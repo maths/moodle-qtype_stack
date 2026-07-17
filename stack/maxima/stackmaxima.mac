@@ -2430,7 +2430,7 @@ FacForm_UnPick(SA, SO) := block([negdistrib, partswitch, fb, kloop, irred, res, 
   if op(SA) = "+" then return(irred_Q(SA, SO)) else
   if op(SA) = "^" then return(irred_Q(part(SA, 1), SO)),
   /* So we have a *, or a / */
-  for kloop:1 step 1 while ev(part(SA, kloop), simp)#end do block(
+  for kloop:1 step 1 while part(SA, ev(kloop,simp))#end do block(
     /* We just need to go one level down! */
     irred:block([SB],
       SB:part(SA, ev(kloop, simp)),

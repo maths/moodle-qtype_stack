@@ -146,6 +146,24 @@ class behat_qtype_stack extends behat_base {
     }
 
     /**
+     * Scroll a form field into view by focusing it. Browsers will normally
+     * bring the focused element into the viewport, which avoids clicks being
+     * intercepted by sticky page chrome.
+     *
+     * @param string $fieldname the visible label of the field.
+     *
+     * @When /^I scroll to the "(?P<fieldname>[^"]*)" "field"$/
+     */
+    public function i_scroll_to_the_field(string $fieldname): void {
+        $field = $this->getSession()->getPage()->findField($fieldname);
+        if ($field === null) {
+            throw new \Exception("Field '$fieldname' not found.");
+        }
+
+        $field->focus();
+    }
+
+    /**
      * Check an iframe element value
      *
      * @param string $id id of element

@@ -402,8 +402,7 @@ Feature: Create, preview, test, tidy and edit STACK questions
       | Model answer         |                       |
     And I press "id_submitbutton"
     Then I should not see "Broken question"
-    And I scroll to the end of the page
-    And I set the field "Save as broken" to "1"
+    And I set the checkbox "Save as broken" to "1"
     And I press "id_submitbutton"
     Then I should see "Broken question"
 
@@ -454,8 +453,7 @@ Feature: Create, preview, test, tidy and edit STACK questions
     And I should not see "Input: ans2"
     And I set the following fields to these values:
       | Question name        | Fixed question  |
-      | Model answer         | diff(p,x)       |
-    And I scroll to the end of the page
-    And I set the field "Save as broken" to "0"
+      | Model answer         | diff(p,x)       |0
+    And I set the checkbox "Save as broken" to "0"
     And I press "id_submitbutton"
     Then I should see "Fixed question"

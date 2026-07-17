@@ -146,12 +146,37 @@ class behat_qtype_stack extends behat_base {
     }
 
     /**
-     * Scroll to the end of the page.
+     * Set a checkbox without clicking it.
      *
-     * @When /^I scroll to the end of the page$/
+     * @param string $fieldname the visible label of the checkbox.
+     * @param string $value 1 to check the box, 0 to uncheck it.
+     *
+     * @When /^I set the checkbox "(?P<fieldname>[^"]*)" to "(?P<value>[01])"$/
      */
-    public function i_scroll_to_the_end_of_the_page(): void {
-        $this->execute_script('window.scrollTo(0, document.body.scrollHeight);');
+    public function i_set_the_checkbox_to(string $fieldname, string $value): void {
+        $field = $this->getSession()->getPage()->findField($fieldname);
+        if ($field === null) {
+            throw new \Exception("Field '$fieldname' not found.");
+        }
+
+        $checked = $value === '1';
+
+        $xpath = json_encode($this->prepare_xpath_for_javascript($field->getXpath()));
+        $checkedjs = $checked ? 'true' : 'false';
+        $js = <<<EOF
+            (function() {
+                const field = document.evaluate({$xpath}, document, null,
+                        XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+                if (!field) {
+                    return;
+                }
+
+                field.checked = {$checkedjs};
+                field.dispatchEvent(new Event('input', {bubbles: true}));
+                field.dispatchEvent(new Event('change', {bubbles: true}));
+            })();
+        EOF;
+        $this->execute_script($js);
     }
 
     /**

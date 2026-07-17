@@ -16,7 +16,7 @@ We cannot use the `EMPTYANSWER` tag for the teacher's answer with the matrix inp
 
     ta:transpose(matrix([null,null,null]));
 
-The shape of the parentheses surrounding the brackets is taken from the question level options, except matrix inputs cannont display curly brackets `{`.  (If you can create CSS to do this, please contact the developers!)
+The shape of the parentheses surrounding the brackets is taken from the question level options, except matrix inputs cannot display curly brackets `{`.  (If you can create CSS to do this, please contact the developers!)
 
 ## Matrix of variable size input ###
 

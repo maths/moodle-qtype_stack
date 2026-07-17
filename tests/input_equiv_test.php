@@ -148,6 +148,22 @@ final class input_equiv_test extends qtype_stack_testcase {
         );
     }
 
+    public function test_render_monospace(): void {
+        $el = stack_input_factory::make('equiv', 'ans1', '[]');
+        $el->set_parameter('options', 'monospace:true');
+        $this->assertEquals(
+            '<textarea class="equivinput input-monospace" name="stack1__ans1" id="stack1__ans1" rows="3" cols="25" ' .
+            'autocapitalize="none" spellcheck="false" data-stack-input-type="equiv" ' .
+            'data-stack-input-decimal-separator="." data-stack-input-list-separator=","></textarea>',
+            $el->render(
+                new stack_input_state(stack_input::VALID, [], '', '', '', '', ''),
+                'stack1__ans1',
+                false,
+                '[x^2=4,x=2 or x=-2]'
+            )
+        );
+    }
+
     public function test_validate_student_response_1(): void {
 
         $options = new stack_options();
@@ -282,6 +298,9 @@ final class input_equiv_test extends qtype_stack_testcase {
             $state->contentsdisplayed
         );
         $this->assertEquals('missingLeftBracket', $state->note);
+        $validation = $el->render_validation($state, 'q140:1_ans1', 'en');
+        $this->assertStringContainsString('<span class="alert alert-danger stackinputerror">', $validation);
+        $this->assertStringNotContainsString('<div class="alert alert-danger stackinputerror">', $validation);
     }
 
     public function test_validate_student_response_invalid_5(): void {

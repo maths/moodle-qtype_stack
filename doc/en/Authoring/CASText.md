@@ -77,15 +77,13 @@ The question description field can be used by the teacher for any purpose they c
 This field can be used for various purposes.
 
 1. Extra "worked solution", or related mathematics, to help tutors.
-2. Educational rationale, or design descussion.
+2. Educational rationale, or design discussion.
 3. Requests to colleagues for help improving the question, so that notes about the question remain within the question itself.
 4. An audit trail in bespoke multi-author workflows.  Workflows might include designer, technical author, reviewer, etc.  The tags in `[[todo]]` blocks can help alert the next person in this workflow to questions needing attention.
 
 Note, the bulk tester has an option to add `[[todo]]` blocks to this field indicating potential problems.  See the [authoring workflow](../STACK_question_admin/Authoring_workflow.md) for more details.
 
 This is CASText, and so can contain variable values etc.  The dashboard shows both the generated text (with variable values) and the raw description field (so `[[todo]]` blocks remain, and are not stripped out).
-
-
 
 ## CASText and currency {#currency}
 

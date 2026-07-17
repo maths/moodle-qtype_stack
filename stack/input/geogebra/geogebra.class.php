@@ -34,6 +34,7 @@ class stack_geogebra_input extends stack_input {
         'align' => 'left',
         'consolidatesubscripts' => false,
         'checkvars' => 0,
+        'manualgraded' => false,
     ];
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

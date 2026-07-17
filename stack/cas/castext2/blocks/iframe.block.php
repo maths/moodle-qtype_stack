@@ -193,7 +193,7 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
         if (get_config('qtype_stack', 'stackapi')) {
             $code = str_replace(
                 '!ploturl!',
-                '/plots/',
+                '/plot.php/',
                 $code
             );
         } else {

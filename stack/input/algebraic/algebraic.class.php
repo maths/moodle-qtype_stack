@@ -36,6 +36,7 @@ class stack_algebraic_input extends stack_input {
         'feedback' => false,
         'monospace' => false,
         'basen' => false,
+        'manualgraded' => false,
     ];
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

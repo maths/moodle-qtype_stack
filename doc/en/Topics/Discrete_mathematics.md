@@ -43,8 +43,7 @@ Now use the CASText:
 
 Notice we plot a list, containing `p1` twice, once with style `points` and once with `lines`.
 
-The following takes a list of edge connections, `[a,b]`, and a list of co-ordinate points of the form `[x,y]` and produces the discrete plots of the edge connections. 
-Note the two stage process.
+The following takes a list of edge connections, `[a,b]`, and a list of co-ordinate points of the form `[x,y]` and produces the discrete plots of the edge connections.  Note the two stage process.
 
 1. Turn the list of edge connections (`edgel`) into lists of points to connect. (The inner `maplist`)
 2. Turn two points to connect into a discrete plot of the form `[discrete [x1, x2], [y1, y2]]`.

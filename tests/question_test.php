@@ -52,6 +52,7 @@ final class question_test extends qtype_stack_testcase {
 
         $q = $this->get_test_stack_question();
         $this->assertEquals(['ans1' => PARAM_RAW, 'ans1_val' => PARAM_RAW, 'step_lang' => PARAM_RAW], $q->get_expected_data());
+        $this->assertFalse($q->is_manually__graded());
     }
 
     public function test_get_expected_data_test3(): void {

@@ -2,13 +2,9 @@
 
 ## How are my answers assessed? ##
 
-A STACK question may have one or more _parts_. Each part may have one or more _inputs_,
-such as typing in a mathematical expression as your answer. An individual mathematical expression
-you type might be used in more than one part. This sounds complicated, but since there are many
-possibilities it is difficult to make general statements. The question should be clear.  If not, please ask your teacher.
+A STACK question may have one or more _parts_. Each part may have one or more _inputs_, such as typing in a mathematical expression as your answer. An individual mathematical expression you type might be used in more than one part. This sounds complicated, but since there are many possibilities it is difficult to make general statements. The question should be clear.  If not, please ask your teacher.
 
-If you need to answer a part but have not then you will be told to do so.
-You should normally answer all the parts!
+If you need to answer a part but have not then you will be told to do so. You should normally answer all the parts!
 
 Your answers are assessed in a two-stage process.
 
@@ -29,19 +25,11 @@ Mathematical expressions are normally entered using a typed linear syntax. For m
 
 ## Repeated attempts ##
 
-STACK encourages repeated attempts if you do not get the correct answer first time.
-Normally, a small percentage (e.g. 10%) of the marks available for the question are deducted for each _valid_ but incorrect attempt.
-However, your final mark will be the maximum mark you achieve over all attempts.
-You are never worse off trying a partially correct question again.
+STACK encourages repeated attempts if you do not get the correct answer first time. Normally, a small percentage (e.g. 10%) of the marks available for the question are deducted for each _valid_ but incorrect attempt. However, your final mark will be the maximum mark you achieve over all attempts. You are never worse off trying a partially correct question again.
 
 ## Why is my answer invalid? ##
 
-Only when _all_ the interaction elements for a question part are valid do we consider
-assessing your answer to the question. The validation process is designed to help you
-express your mathematics in the correct form and in an unambiguous way.
-On paper we might "know what you meant" but with the computer you have to "say what you mean".
-You do not lose marks if one of your interaction elements is invalid so do not be afraid of typing
-in your answer. Feedback is always provided.
+Only when _all_ the interaction elements for a question part are valid do we consider assessing your answer to the question. The validation process is designed to help you express your mathematics in the correct form and in an unambiguous way. On paper we might "know what you meant" but with the computer you have to "say what you mean". You do not lose marks if one of your interaction elements is invalid so do not be afraid of typing in your answer. Feedback is always provided.
 
 There are a number of reasons why your answer could be considered to be invalid.
 
@@ -65,17 +53,13 @@ Think about the form your answer should have before you type it in.
 
 ## What are _mathematical properties_? ##
 
-When your answers are all valid you submit them again. This time they are assessed.
-The outcomes are a mark, and sometimes some written feedback. If you did not obtain full marks
-then you should try the question again.
+When your answers are all valid you submit them again. This time they are assessed. The outcomes are a mark, and sometimes some written feedback. If you did not obtain full marks then you should try the question again.
 
-Assessing your answer is not often a simple case of _correct_ or _incorrect_.
-Often we might want your answer to satisfy a number of different mathematical properties. For example:
+Assessing your answer is not often a simple case of _correct_ or _incorrect_. Often we might want your answer to satisfy a number of different mathematical properties. For example:
 
 * If your expression algebraically equivalent to the correct expression?
 * Is your expression fully simplified (e.g. have you gathered all like terms or factored your expression)?
 * does your expression _satisfy the equation_?
 * Is every element of your set a solution? Does your set of solutions contain them all?
 
-Answering the question is all about thinking about what properties your answer should have!
-If you are unsure then you need to ask the teacher.
+Answering the question is all about thinking about what properties your answer should have! If you are unsure then you need to ask the teacher.

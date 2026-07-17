@@ -54,6 +54,9 @@ class stack_equiv_input extends stack_input {
         'calculus' => false,
         'consolidatesubscripts' => false,
         'checkvars' => 0,
+        'align' => 'left',
+        'monospace' => false,
+        'manualgraded' => false,
     ];
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -110,6 +113,13 @@ class stack_equiv_input extends stack_input {
             'autocapitalize' => 'none',
             'spellcheck'     => 'false',
         ];
+        if ($this->extraoptions['align'] === 'right') {
+            $attributes['class'] .= ' algebraic-right';
+        }
+        if ($this->extraoptions['monospace']) {
+            $attributes['class'] .= ' input-monospace';
+        }
+
         if ($placeholder) {
             $attributes['placeholder'] = $placeholder;
         }
@@ -610,7 +620,7 @@ class stack_equiv_input extends stack_input {
 
         if (self::INVALID == $state->status) {
             $feedback .= html_writer::tag(
-                'div',
+                'span',
                 stack_string('studentValidation_invalidAnswer'),
                 ['class' => 'alert alert-danger stackinputerror']
             );

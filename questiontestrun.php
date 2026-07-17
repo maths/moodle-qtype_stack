@@ -43,8 +43,6 @@ require_once(__DIR__ . '/stack/questiontest.php');
 require_once(__DIR__ . '/stack/bulktester.class.php');
 require_once(__DIR__ . '/stack/questiondashboard.class.php');
 
-use stack_question_dashboard;
-
 // Get the parameters from the URL.
 $questionid = required_param('questionid', PARAM_INT);
 $courseid = optional_param('courseid', null, PARAM_INT);
@@ -63,6 +61,7 @@ if (!$questiondata) {
     throw new stack_exception('questiondoesnotexist');
 }
 $question = question_bank::load_question($questionid);
+$questioncategory = $DB->get_record('question_categories', ['id' => $questiondata->category], 'id,name');
 
 // Process any other URL parameters, and do require_login.
 [$context, $seed, $urlparams] = qtype_stack_setup_question_test_page($question);
@@ -172,6 +171,24 @@ $initialdata->general->courseid = $courseid;
 $initialdata->general->cmid = $cmid;
 $initialdata->general->questionid = $questionid;
 $initialdata->general->seed = $seed;
+$initialdata->general->categoryname = $questioncategory ? $questioncategory->name ?? '' : '';
+$coursefordisplayid = $courseid;
+if (!$coursefordisplayid && $context->contextlevel == CONTEXT_COURSE) {
+    $coursefordisplayid = $context->instanceid;
+}
+if (!$coursefordisplayid && $context->contextlevel == CONTEXT_MODULE) {
+    $cm = get_coursemodule_from_id('', $context->instanceid, 0, false, 'id,course');
+    if ($cm) {
+        $coursefordisplayid = $cm->course;
+    }
+}
+$initialdata->general->coursename = '';
+if ($coursefordisplayid) {
+    $courserecord = $DB->get_record('course', ['id' => $coursefordisplayid], 'id,fullname');
+    if ($courserecord) {
+        $initialdata->general->coursename = $courserecord->fullname ?? '';
+    }
+}
 $initialdata->general->hidetests = optional_param('hidetests', '', PARAM_INT);
 
 // Output the progress bars first.

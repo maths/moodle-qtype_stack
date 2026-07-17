@@ -71,6 +71,13 @@ class stack_maxima_student_preparser {
         $stringles = str_replace(array_keys(self::$symbols), array_values(self::$symbols), $stringles);
         $stringles = str_replace(array_keys(self::$letters), array_values(self::$letters), $stringles);
 
+        // Check for AsciiMath type input.  Remove outer backticks, but only outer ones.
+        // We only condone this for students' input, not in general.
+        // phpcs:ignore moodle.Strings.ForbiddenStrings.Found
+        if (strlen($stringles) > 1 && substr($stringles, 0, 1) === '`' && substr($stringles, -1, 1) === '`') {
+            $stringles = substr($stringles, 1, strlen($stringles) - 2);
+        }
+
         $stringles = preg_replace('!\s+!', ' ', $stringles);
 
         // Check for invalid chars at this point as they may prove to be difficult to

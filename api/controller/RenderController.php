@@ -45,6 +45,7 @@ class RenderController {
     public function __invoke(Request $request, Response $response, array $args): Response {
         // TO-DO: Validate.
         $data = $request->getParsedBody();
+        $language = current_language($data['lang'] ?? null);
         $question = StackQuestionLoader::loadxml($data["questionDefinition"])['question'];
 
         StackSeedHelper::initialize_seed($question, $data["seed"]);
@@ -69,8 +70,6 @@ class RenderController {
         $translate->search = '/(<span(\s+lang="[a-zA-Z0-9_-]+"|\s+class="multilang")' .
                              '{2}\s*>.*?<\/span>)(\s*<span(\s+lang="[a-zA-Z0-9_-]+"' .
                              '|\s+class="multilang"){2}\s*>.*?<\/span>)+/is';
-        $language = current_language();
-
         $renderresponse = new StackRenderResponse();
         $plots = [];
 
@@ -170,7 +169,7 @@ class RenderController {
                 );
                 $renderresponse->questionrender = str_replace(
                     "[[validation:{$tag}]]",
-                    "<span name='{$validationprefix}{$tag}'></span>",
+                    "<span name='{$validationprefix}{$tag}' class='stackinputfeedback empty'></span>",
                     $renderresponse->questionrender
                 );
             }
@@ -194,14 +193,18 @@ class RenderController {
                 );
             }
             foreach ($renderresponse->questionassets as $name => $file) {
-                $renderresponse->questionrender = str_replace($name, "{$baseurl}/plots/{$file}", $renderresponse->questionrender);
+                $renderresponse->questionrender = str_replace(
+                    $name,
+                    "{$baseurl}/plot.php/{$file}",
+                    $renderresponse->questionrender
+                );
                 $renderresponse->questionsamplesolutiontext = str_replace(
                     $name,
-                    "{$baseurl}/plots/{$file}",
+                    "{$baseurl}/plot.php/{$file}",
                     $renderresponse->questionsamplesolutiontext
                 );
                 foreach ($renderresponse->questioninputs as $input) {
-                    $input->samplesolutionrender = str_replace($name, "{$baseurl}/plots/{$file}", $input->samplesolutionrender);
+                    $input->samplesolutionrender = str_replace($name, "{$baseurl}/plot.php/{$file}", $input->samplesolutionrender);
                 }
             }
             $renderresponse->questionrender = $this->replace_feedback_tags($renderresponse->questionrender, $feedbackprefix);

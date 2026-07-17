@@ -56,10 +56,7 @@ Negative or fractional powers need brackets:
 
 ### Brackets  ###
 
-Brackets are important to group terms in an expression.
-This is particularly the case in STACK since we use a one-dimensional input rather than
-traditional written mathematics. Try to consciously develop a sense of when you need brackets
-and avoid putting in too many.
+Brackets are important to group terms in an expression. This is particularly the case in STACK since we use a one-dimensional input rather than traditional written mathematics. Try to consciously develop a sense of when you need brackets and avoid putting in too many.
 
 For example,
 
@@ -171,9 +168,6 @@ Sometimes you will be asked to reason line by line.  This is called [reasoning b
 * **Lists**: can be entered using square brackets. For example, to enter the list _1,2,2,3_ type `[1,2,2,3]`.
 * Note that you do **not** need a semicolon at the end, unlike when you are using a CAS directly.
 
-You can also learn about the right syntax by doing tests in practice mode and asking for the solutions;
-as well as displaying the right answers in ordinary mathematical notation, STACK will tell you how they
-could be entered. However, there are often several possible ways, and STACK will not always suggest the
-easiest one.
+You can also learn about the right syntax by doing tests in practice mode and asking for the solutions; as well as displaying the right answers in ordinary mathematical notation, STACK will tell you how they could be entered. However, there are often several possible ways, and STACK will not always suggest the easiest one.
 
 If you have difficulties in entering your answer into STACK you should contact your teacher.

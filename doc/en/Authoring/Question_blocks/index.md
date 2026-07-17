@@ -44,7 +44,8 @@ Question blocks are divided into three broad groups.
   * Geogebra
   * Parsons
   * JavaScript
-4. [System blocks](System_blocks.md), which are not realy intended for end-users.
+  * [ASCII](ASCII.md)
+4. [System blocks](System_blocks.md), which are not really intended for end-users.
 5. [Iframe blocks](Iframe_blocks.md), which allow creation of sandboxed iframes that can be included in the output.
   * Iframe
   * Style
@@ -81,4 +82,4 @@ But we think the following is much more direct, and clean.
 
 There are other kinds of `[[ emptyblocks /]]`, which are useful in certain cases and developers of new blocks might like to consider this as a possibility.
 
-While the define block does not generate any visible content, empty blocks may be used to generate output. For example `[[ debug /]]` does generate output.
+While the define block does not generate any visible content, empty blocks may be used to generate output. For example `[[ debug /]]` does generate output. 

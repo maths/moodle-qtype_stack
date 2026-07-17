@@ -35,6 +35,9 @@ class stack_textarea_input extends stack_input {
         'nounits' => true,
         'simp' => false,
         'consolidatesubscripts' => false,
+        'align' => 'left',
+        'monospace' => false,
+        'manualgraded' => false,
     ];
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -53,6 +56,12 @@ class stack_textarea_input extends stack_input {
             'spellcheck'     => 'false',
             'class'     => 'maxima-list',
         ];
+        if ($this->extraoptions['align'] === 'right') {
+            $attributes['class'] .= ' algebraic-right';
+        }
+        if ($this->extraoptions['monospace']) {
+            $attributes['class'] .= ' input-monospace';
+        }
 
         if ($this->is_blank_response($state->contents)) {
             $current = $this->maxima_to_raw_input($this->parameters['syntaxHint']);

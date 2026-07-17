@@ -67,8 +67,6 @@ Copy the following text into the editor.
 
 Fill in the answer for `ans1` (which exists by default) and remove the `feedback` tag from the "specific feedback" section.  We choose to embed feedback within parts of this question, so that relevant feedback is shown directly underneath the relevant part. Notice there is one potential response tree for each "part".
 
-
-
 Update the form by saving your changes, and then ensure the Model Answers are filled in as `ta1`, `ta2` and `ta3`.
 
 STACK creates three potential response trees by detecting the feedback tags automatically.  Next we need to edit potential response trees.  These will establish the properties of the student's answers.
@@ -115,4 +113,4 @@ Node 2: did they get part 1 correct?  if "yes" then this is the ideal situation,
 
 You should now be able to make a multipart question in STACK. If you have been following this quick-start guide, you should already know some steps you can take to improve this question. For example, you could add [more specific feedback](Authoring_quick_start_3.md), [randomise your question](Authoring_quick_start_4.md) and add [question tests](Authoring_quick_start_5.md).
 
-##### **The next part of the authoring quick start guide looks at [turning simplification off](Authoring_quick_start_8.md).**
+##### **The next part of the authoring quick start guide looks at [turning simplification off](Authoring_quick_start_8.md).** 

@@ -49,6 +49,7 @@ require_login();
           questionDefinition: yamlEditor.getDoc().getValue(),
           answers: collectAnswer(),
           seed: parseInt(document.getElementById('seed').value),
+          lang: document.getElementById('lang').value.trim(),
           renderInputs : inputPrefix,
           readOnly: document.getElementById('readOnly').checked,
         };
@@ -162,6 +163,7 @@ require_login();
         <h2>Question XML</h2>
         <textarea id="xml" cols="100" rows="10"></textarea>
         <h2>Seed <input id="seed" type="number"></h2>
+        <h2>Language <input id="lang" type="text"></h2>
         <div>
           <input type="button" onclick="send(); diff();" class="btn btn-primary" value="Display Question"/>
           <input type="checkbox" id="readOnly" style="margin-left: 10px"/> Read Only
@@ -186,12 +188,12 @@ require_login();
         </div>
         <h2 id="stackapi_score" style="display: none">Score: <span id="score"></span></h2>
         <div id="stackapi_summary" class="col-lg-10" style="display: none">
-          <h2><?php echo stack_string('api_response')?>:</h2>
+          <h2>Response summary:</h2>
           <div id="response_summary" class="feedback outcome"></div>
         </div>
         <div id="stackapi_correct" class="col-lg-10" style="display: none">
+          <h2>Correct response:</h2>
           <div class="noninfo">
-            <h2>Response summary:</h2>
             <div id="formatcorrectresponse" class="feedback outcome"></div>
           </div>
         </div>

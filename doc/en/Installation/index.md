@@ -20,7 +20,7 @@ On an existing Moodle site navigate to
 
 to confirm before adding this plug-in.
 
-On some Linux distros, you simply need to
+On some Linux distributions, you simply need to
 
     apt-get install php-mbstring
 
@@ -30,8 +30,8 @@ and then re-start the web server.
 
 Please ensure you have [installed Moodle](http://docs.moodle.org/en/Main_page).
 
-* STACK has been tested on Moodle 4.2 to Moodle 5.1 inclusive.
-* We intend to support STACK within the normal Moodle [release cycle](https://docs.moodle.org/dev/Releases).  We intend to support all future Moodle releases. If your version of Moodle is not listed here please contact the developers: we probably simply have not done the testing of future versions yet.  For longer support of older versions of Moodle please contact us, otherwise will will drop them from our list.
+* STACK has been tested on Moodle 4.2 to Moodle 5.2 inclusive.
+* We intend to support STACK within the normal Moodle [release cycle](https://docs.moodle.org/dev/Releases).  We intend to support all future Moodle releases. If your version of Moodle is not listed here please contact the developers: we probably simply have not done the testing of future versions yet.  For longer support of older versions of Moodle please contact us, otherwise will drop them from our list.
 
 Please ensure LaTeX can be displayed.  We currently support [MathJax](Mathjax.md) through the Moodle MathJax filter.
 
@@ -57,7 +57,7 @@ Please note:
 
 * STACK has been tested on Maxima 5.49.0 and 5.48.0, and earlier versions.
 * As of April 2026, the distributed version of Maxima 5.47.0, e.g. bundled with Debian, is missing the Grobner package which is essential.  You will need to compile Maxima from source. 
-* Maxima 5.40.0 changed the way subscripts were displayed.  We are no longer testing against versions before 5.40.0, so there may be inconsitencies with display of subscripts with other versions.
+* Maxima 5.40.0 changed the way subscripts were displayed.  We are no longer testing against versions before 5.40.0, so there may be inconsistencies with display of subscripts with other versions.
 
 Old notes:
 

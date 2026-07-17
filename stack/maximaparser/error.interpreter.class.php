@@ -106,7 +106,7 @@ class stack_parser_error_interpreter {
                                     $errors[] = stack_string(
                                         'stackCas_badhtmlelement',
                                         ['val' => htmlspecialchars($val), 'key' => stack_maxima_format_casstring($key)]
-                                        );
+                                    );
                                     $answernote[] = 'badhtmlelement';
                                 }
                             }

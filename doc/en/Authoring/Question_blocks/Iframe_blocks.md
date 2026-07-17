@@ -1,6 +1,6 @@
 # Iframe blocks
 
-The iframe block is the basis for most [dynamic blocks](Dynamic_blocks.md), with it one can construct a sandboxed iframe container within the question text and define freely what it contains. One can load almost anything into that iframe assuming no firewalls are blocking the traffic and the content is being served with sutiable CORS headers. The sandbox logic makes sure that even if the content loaded would turn out to be evil it cannot directly access the surrounding parts of the VLE.
+The iframe block is the basis for most [dynamic blocks](Dynamic_blocks.md), with it one can construct a sandboxed iframe container within the question text and define freely what it contains. One can load almost anything into that iframe assuming no firewalls are blocking the traffic and the content is being served with suitable CORS headers. The sandbox logic makes sure that even if the content loaded would turn out to be evil it cannot directly access the surrounding parts of the VLE.
 
 ## Iframe block ##
 
@@ -37,13 +37,9 @@ The `[[style]]` block only functions inside blocks of the `[[iframe]]` family (e
 
 ## Script block ##
 
-The `[[script]]` block only functions inside blocks of the `[[iframe]]` family (e.g., you could use it inside `[[jsxgraph]]`). Regardles on where inside the block it is it will generate its output as a script-element in the head of the generated document. You may set `type`, `blocking`, `src`, `integrity`, `nonce`, and `async` attributes to tune the same ones in the generated element. And naturally you may include contents as you wish.
+The `[[script]]` block only functions inside blocks of the `[[iframe]]` family (e.g., you could use it inside `[[jsxgraph]]`). Regardless of where inside the block it is it will generate its output as a script-element in the head of the generated document. You may set `type`, `blocking`, `src`, `integrity`, `nonce`, and `async` attributes to tune the same ones in the generated element. And naturally you may include contents as you wish.
 
 Do note that should you only want to do some JavaScripting with STACK-JS, you do not need to setup an `[[iframe]]` with `[[script]]` inside it yourself. You can use the `[[javascript]]` block which will automatically build a hidden iframe and load `stack_js`, it will also allow one to setup `input-refs` in the style of `[[jsxgraph]]`. In that block, the content will go directly into a `<script type="module">` element.
-
-
-
-
 
 # Somewhat complicated example #
 
@@ -92,6 +88,6 @@ stack_js.get_content("[[quid id='code'/]]").then((content) => {
 });
 [[/javascript]]
 ```
-In that example, we use `[[quid/]]` to produce a question level unique identifier, `[[entityescape]]` to avoid having to escape certain chars on our own, `[[javascript]]` to setup an `[[iframe]]` with certain handy features, e.g, `stack_js` already present. Then we use `[[style]]` and `[[script]]` to load some external libaries into that `[[iframe]]`, and `[[cors]]` to also load some local libraries. Finally, using `stack_js` we read the code from the VLE side and then push it back. Between reading and writing we usel highlight.js to syntax highlight the code and `stack_css_utils` to inline the styles applied so that we can transfer the content without the stylesheets.
+In that example, we use `[[quid/]]` to produce a question level unique identifier, `[[entityescape]]` to avoid having to escape certain chars on our own, `[[javascript]]` to setup an `[[iframe]]` with certain handy features, e.g, `stack_js` already present. Then we use `[[style]]` and `[[script]]` to load some external libaries into that `[[iframe]]`, and `[[cors]]` to also load some local libraries. Finally, using `stack_js` we read the code from the VLE side and then push it back. Between reading and writing we usel highlight.js to syntax highlight the code and `stack_css_utils` to inline the styles applied so that we can transfer the content without the style sheets.
 
-This example is possibly overly convoluted, one does not need to transfer code and style around, it can simply exist inside an iframe. But should one want to maximise accessibility and fail safe if the script logic fails the example shows one way of doing so.
+This example is possibly overly convoluted, one does not need to transfer code and style around, it can simply exist inside an iframe. But should one want to maximise accessibility and fail safe if the script logic fails the example shows one way of doing so. 

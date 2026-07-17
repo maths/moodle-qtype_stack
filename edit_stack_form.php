@@ -188,6 +188,7 @@ class qtype_stack_edit_form extends question_edit_form {
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function definition() {
+        global $PAGE;
         parent::definition();
         $mform = $this->_form;
         if (method_exists('MoodleQuickForm', 'set_sticky_footer')) {
@@ -217,6 +218,11 @@ class qtype_stack_edit_form extends question_edit_form {
         if ($closebeforebuttonarr !== false) {
             unset($mform->defaultRenderer()->_stopFieldsetElements[$closebeforebuttonarr]);
         }
+
+        $PAGE->requires->js_call_amd(
+            'qtype_stack/ace_editor',
+            'init'
+        );
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -344,7 +350,11 @@ class qtype_stack_edit_form extends question_edit_form {
             'textarea',
             'questionvariables',
             stack_string('questionvariables'),
-            ['rows' => 5, 'cols' => 80]
+            [
+                'rows' => 5,
+                'cols' => 80,
+                'data-ace' => '1',
+            ]
         );
         $mform->insertElementBefore($qvars, 'questiontext');
         $mform->addHelpButton('questionvariables', 'questionvariables', 'qtype_stack');
@@ -361,7 +371,7 @@ class qtype_stack_edit_form extends question_edit_form {
                 ['target' => '_blank']
             );
         if (isset($this->question->id)) {
-            $out = '<i class="fa fa-wrench"></i> ' . stack_string('runquestiontests');
+            $out = stack_string('runquestiontests_icon') . stack_string('runquestiontests');
             if (
                 empty($this->question->deployedseeds) &&
                     qtype_stack_question::random_variants_check($this->question->options->questionvariables)
@@ -728,7 +738,7 @@ class qtype_stack_edit_form extends question_edit_form {
             $inputname . 'insertstars',
             $inputname . 'type',
             'in',
-            ['radio', 'checkbox', 'dropdown', 'boolean', 'string', 'json', 'notes', 'parsons']
+            ['radio', 'checkbox', 'dropdown', 'boolean', 'string', 'json', 'notes', 'parsons', 'freetext']
         );
 
         $mform->addElement('text', $inputname . 'syntaxhint', stack_string('syntaxhint'), ['size' => 30]);
@@ -765,7 +775,7 @@ class qtype_stack_edit_form extends question_edit_form {
             $inputname . 'forbidwords',
             $inputname . 'type',
             'in',
-            ['radio', 'checkbox', 'dropdown', 'boolean', 'string', 'json', 'notes', 'parsons']
+            ['radio', 'checkbox', 'dropdown', 'boolean', 'string', 'json', 'notes', 'parsons', 'freetext']
         );
 
         $mform->addElement('text', $inputname . 'allowwords', stack_string('allowwords'), ['size' => 20]);
@@ -776,7 +786,7 @@ class qtype_stack_edit_form extends question_edit_form {
             $inputname . 'allowwords',
             $inputname . 'type',
             'in',
-            ['radio', 'checkbox', 'dropdown', 'boolean', 'string', 'json', 'notes', 'parsons']
+            ['radio', 'checkbox', 'dropdown', 'boolean', 'string', 'json', 'notes', 'parsons', 'freetext']
         );
 
         $mform->addElement(
@@ -790,7 +800,7 @@ class qtype_stack_edit_form extends question_edit_form {
             $inputname . 'forbidfloat',
             $inputname . 'type',
             'in',
-            ['radio', 'checkbox', 'dropdown', 'boolean', 'string', 'json', 'notes', 'parsons']
+            ['radio', 'checkbox', 'dropdown', 'boolean', 'string', 'json', 'notes', 'parsons', 'freetext']
         );
 
         $mform->addElement(
@@ -804,7 +814,7 @@ class qtype_stack_edit_form extends question_edit_form {
             $inputname . 'requirelowestterms',
             $inputname . 'type',
             'in',
-            ['radio', 'checkbox', 'dropdown', 'boolean', 'string', 'json', 'notes', 'parsons']
+            ['radio', 'checkbox', 'dropdown', 'boolean', 'string', 'json', 'notes', 'parsons', 'freetext']
         );
 
         $mform->addElement(
@@ -818,7 +828,9 @@ class qtype_stack_edit_form extends question_edit_form {
             $inputname . 'checkanswertype',
             $inputname . 'type',
             'in',
-            ['radio', 'checkbox', 'dropdown', 'boolean', 'textarea', 'equiv', 'string', 'json', 'notes', 'parsons']
+            ['radio', 'checkbox', 'dropdown', 'boolean', 'textarea',
+             'equiv', 'string', 'json', 'notes', 'parsons', 'freetext',
+            ]
         );
 
         $mform->addElement(
@@ -888,7 +900,11 @@ class qtype_stack_edit_form extends question_edit_form {
             'textarea',
             $prtname . 'feedbackvariables',
             stack_string('feedbackvariables'),
-            ['rows' => 4, 'cols' => 80]
+            [
+                'rows' => 4,
+                'cols' => 80,
+                'data-ace' => '1',
+            ]
         );
         $mform->addHelpButton($prtname . 'feedbackvariables', 'feedbackvariables', 'qtype_stack');
 

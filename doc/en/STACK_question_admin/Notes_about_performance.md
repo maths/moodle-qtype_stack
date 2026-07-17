@@ -35,7 +35,7 @@ This means that if you place big strings on the logic side without actually usin
 
 Typically one can end up in this type of situation if one converts materials from other systems and chooses to build their output on the logic side. Sometimes people do image inclusions, either SVG or base64 style content and end up slowing their systems if they add too many of them.
 
-The issue is not only about the transfer of large strings or other content taking bandwith, cache space, and parsing resources but also about transferring things not needed. Those question variables are always included in the evaluation session even when that session would not actually render question-text e.g. when doing input-validation.
+The issue is not only about the transfer of large strings or other content taking bandwidth, cache space, and parsing resources but also about transferring things not needed. Those question variables are always included in the evaluation session even when that session would not actually render question-text e.g. when doing input-validation.
 
 ## Number of inputs directly affects performance.
 

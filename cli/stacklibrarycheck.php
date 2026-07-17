@@ -34,6 +34,12 @@ require_once($CFG->libdir . '/clilib.php');
 const MAX_FILENAME_LENGTH = 120;
 /** @var int the Maximum allowable length of a directory name. */
 const MAX_DIRNAME_LENGTH = 100;
+/**
+ * Based on FHD, which is 1920*1200 pixels, a .jpg of this resolution will be up to about 1Mb.
+ * See https://en.wikipedia.org/wiki/Display_resolution for other common sizes.
+ * @var int the Maximum allowable size of a file, in Mb.
+ */
+const MAX_FILE_SIZE = 2.0;
 
 /**
  * This function cretes a report starting in a particular directory.
@@ -54,6 +60,17 @@ function report($d) {
         if ($dh = opendir($d)) {
             while (($f = readdir($dh)) !== false) {
                 $fpath = "$d/$f";
+
+                if (substr($fpath, -10) == '(copy).xml') {
+                    $a[] = [$fpath, 'C', 'Filename containts "copy".'];
+                }
+
+                // Check for maximum file size.
+                $fs = filesize($fpath);
+                if (substr($fpath, -4) != '.mbz' && $fs > MAX_FILE_SIZE * 1024 * 1024) {
+                    $fs = round($fs / (1024.0 * 1024.0), 1);
+                    $a[] = [$fpath, 'S', 'File size of ' . $fs .  'Mb exceeds limit of ' . MAX_FILE_SIZE . ' Mb'];
+                }
 
                 // Check for maximum filename length.
                 if (strlen($f) > MAX_FILENAME_LENGTH) {

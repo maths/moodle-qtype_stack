@@ -1109,6 +1109,7 @@ table.HELM_table th:last-child {
 .que.stack .equivinput,
 .que.stack .varmatrixinput,
 .que.stack .matrixtable,
+.que.stack .freetextinput,
 /* Question authoring form */
 #page-question-type-stack textarea#id_questionvariables,
 #page-question-type-stack input#id_variantsselectionseed,
@@ -1124,6 +1125,58 @@ table.HELM_table th:last-child {
 /* Properly display inversetrig values, in RTL mode */
 #page-question-type-stack #id_inversetrig option {
     unicode-bidi: plaintext;
+}
+
+/* Support for side by side style in free-text editors. */
+.free-text-container {
+    display: flex;
+    gap: 1rem;
+    align-items: stretch;  /* Make children same height. */
+    width: max-content;
+    max-width: 100%;
+}
+
+.free-text-container-vertical {
+    width: max-content;
+    max-width: 100%;
+}
+
+.free-text-container > * {
+    flex: 1;
+    min-width: 0;
+}
+
+.free-text-container iframe {
+    flex: 1 1 auto;
+    height: 100%;
+}
+
+.free-text-container [id^=stack-iframe-holder] {
+    height: auto;
+    display: flex;
+}
+
+#source {
+    resize: vertical;
+    box-sizing: border-box;
+}
+
+/* Stack vertically on narrow screens */
+@media (max-width: 768px) {
+    .free-text-container {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .free-text-container > * {
+        flex: none;
+        width: 100%;
+    }
+
+    .free-text-container > textarea {
+        box-sizing: border-box;
+        width: 100%;
+    }
 }
 
 /* Trees: https://codepen.io/ross-angus/pen/jwxMjL
@@ -1294,6 +1347,16 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
 .que .comment {
     color: #44331b;
 }
+.stack-ace-wrapper {
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    height: 250px;
+    min-height: 180px;
+    position: relative;
+    resize: vertical;
+    overflow: hidden;
+}
+
 .stack-dash-tab-load:hover {
     cursor: not-allowed;
 }

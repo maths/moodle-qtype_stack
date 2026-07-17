@@ -689,3 +689,37 @@ Feature: Test input of correct answers on various inputs in the Moodle app.
     And I press "Check" in the app
     And I press "OK" in the app
     And I wait until "Correct answer, well done" "text" exists
+
+  Scenario: Test Freetext input in app
+
+    Given the following "questions" exist:
+      | questioncategory | qtype | name                                     | template                  |
+      | Test questions   | stack | Freetext                                 | freetext_input            |
+    And quiz "Test quiz" contains the following questions:
+      | Freetext                                 | 1  |
+    When I entered the "quiz" activity "Test quiz" on course "Course 1" as "student" in the app
+    And I press "Attempt quiz now" in the app
+    And I set the STACK input "ans1" to multiline in app:
+    """
+    words
+    {@2+3@}
+    4+ 4
+    `
+    f(x) = 4sqrt(2x^2+1)+c
+    f(0) = 5 => c = 1
+    f(x) = 4sqrt(2x^2+1)+1
+    `
+    `f(x) = 4sqrt(2x^2+1)+1`
+    """
+    And I wait until "Your last answer was interpreted as follows" "text" exists
+    And I check the input "ans2" is '4sqrt(2x^2+1)+1'
+    And I check the input "ans3" is 'f(x) = 4sqrt(2x^2+1)+1'
+    And I check the input "ans4" is 'f(0) = 5 => c = 1'
+    And I check the input "ans5" is '5 => c = 1'
+    And I check the input "ans6" is '5 => c = 1'
+    And I check the input "ans7" is '{"matches":["f(x) = 4sqrt(2x^2+1)+c","f(x) = 4sqrt(2x^2+1)+1"]}'
+    And I check the input "ans8" is '{"matches":["4sqrt(2x^2+1)+c","4sqrt(2x^2+1)+1"]}'
+    And I check the input "ans9" is '5'
+    And I check the input "ans10" is 'f(x) = 4sqrt(2x^2+1)+1'
+    # MathJax 3 will have rendered, MathJax 2 probably won't. Moodle 5 gives us the flattened plain text. Sigh...
+    And I check the value of iframe element "asciiContainerRow" contains one of '\begin{align*}\n& & f(x)  & = 4sqrt(2x^2+1)+c\\\n& & f(0)  & = 5 => c = 1\\\n& & f(x)  & = 4sqrt(2x^2+1)+1\\\n\end{align*}\n' or '𝑓⁡(𝑥)=4⁢𝑠⁢𝑞⁢𝑟⁢𝑡⁢(2⁢𝑥2+1)+1' or 'f(x)=4sqrt(2x2+1)+1'

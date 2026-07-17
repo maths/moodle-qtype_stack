@@ -145,6 +145,23 @@ final class input_textarea_test extends qtype_stack_testcase {
         );
     }
 
+    public function test_render_monospace(): void {
+        $el = stack_input_factory::make('textArea', 'ans1', '[]');
+        $el->set_parameter('options', 'monospace:true');
+        $this->assertEquals(
+            '<textarea name="stack1__ans1" id="stack1__ans1" autocapitalize="none" spellcheck="false" ' .
+            'class="maxima-list input-monospace" ' .
+            'rows="5" cols="20" data-stack-input-type="textarea" data-stack-input-decimal-separator="." ' .
+            'data-stack-input-list-separator=","></textarea>',
+            $el->render(
+                new stack_input_state(stack_input::VALID, [], '', '', '', '', ''),
+                'stack1__ans1',
+                false,
+                null
+            )
+        );
+    }
+
     public function test_maxima_to_response_array_1(): void {
 
         $el = stack_input_factory::make('textArea', 'input', '[x=1,x=2]');

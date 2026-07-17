@@ -36,10 +36,7 @@ As the included content can be of a different format (Markdown etc.) than the co
 
 ## Inclusions within CAS-logic
 
-You can also include code into keyvals, i.e. question-variables or into feedback-variables.
-This type of an inclusion will act just as if written directly by the question author at that place in the code.
-If one writes this type of an inclusion within an if-statement it will simply get written open within
-an if-statement, the `if` will only decide if it executes, but it will still take that space and bandwidth.
+You can also include code into keyvals, i.e. question-variables or into feedback-variables. This type of an inclusion will act just as if written directly by the question author at that place in the code. If one writes this type of an inclusion within an if-statement it will simply get written open within an if-statement, the `if` will only decide if it executes, but it will still take that space and bandwidth.
 
 The included material must follow all the rules of normal STACK keyvals.
 
@@ -61,13 +58,9 @@ stack_include("http://example.com/fragments/mymatrixrand.txt");
 m: mymatrix_rand_integer_invertible(a);
 ```
 
-You may not use evaluation flags with `stack_include()` while the code included may
-have them the inclusion call cannot be used to apply flags to all the included content.
+You may not use evaluation flags with `stack_include()` while the code included may have them the inclusion call cannot be used to apply flags to all the included content.
 
-The function `stack_include_contrib()` will load the files contained in the
-[STACK maxima contrib folder](https://github.com/maths/moodle-qtype_stack/tree/master/stack/maxima/contrib) in the master branch in github.
-In particular the argument of `stack_include_contrib()` has this URL prepended:
-`https://raw.githubusercontent.com/maths/moodle-qtype_stack/master/stack/maxima/contrib/`
+The function `stack_include_contrib()` will load the files contained in the [STACK maxima contrib folder](https://github.com/maths/moodle-qtype_stack/tree/master/stack/maxima/contrib) in the master branch in github. In particular the argument of `stack_include_contrib()` has this URL prepended: `https://raw.githubusercontent.com/maths/moodle-qtype_stack/master/stack/maxima/contrib/`
 
 Hence, the following are completely equivalent
 
@@ -83,10 +76,6 @@ Notes.
 
 ### Sandbox testing
 
-Note, that `stack_include()` and has no Maxima-side equivalent so you cannot simply copy-paste
-your question-variables into Maxima to debug things. You will need to manually do that inclusion.
+Note, that `stack_include()` and has no Maxima-side equivalent so you cannot simply copy-paste your question-variables into Maxima to debug things. You will need to manually do that inclusion.
 
-`stack_include_contrib()` will load the packages from the local STACK files, when you set up the sandbox.
-Make sure you have the latest code in your sandbox as you may have stale versions of contributed
-(and other core) files on your local machine.
-
+`stack_include_contrib()` will load the packages from the local STACK files, when you set up the sandbox. Make sure you have the latest code in your sandbox as you may have stale versions of contributed (and other core) files on your local machine.

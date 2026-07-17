@@ -752,7 +752,9 @@ class stack_maxima_lexer_base {
             } else if ($c1->c === '.') {
                 if ($numbermode !== 'pre-dot') {
                     // No second dot nor dots in exponent.
-                    $token->set_end_position($last);
+                    if ($last !== null) {
+                        $token->set_end_position($last);
+                    }
                     $this->pushc($c1);
                     break;
                 } else {
@@ -763,12 +765,22 @@ class stack_maxima_lexer_base {
             } else if ($c1->c === 'e' || $c1->c === 'E') {
                 if ($numbermode === 'exponent') {
                     // Not an exponent in exponent.
-                    $token->set_end_position($last);
+                    if ($last !== null) {
+                        $token->set_end_position($last);
+                    }
                     $this->pushc($c1);
                     break;
                 }
                 // Is it a start of an exponent?
                 $c2 = $this->popc();
+                // End of stream after e/E => not an exponent.
+                if ($c2 === null) {
+                    $this->pushc($c1);
+                    if ($last !== null) {
+                        $token->set_end_position($last);
+                    }
+                    break;
+                }
                 if (isset(self::$DIGITS[$c2->c])) {
                     $numbermode = 'exponent';
                     $token->value .= $c1->c . $c2->c;
@@ -776,6 +788,15 @@ class stack_maxima_lexer_base {
                 } else if ($c2->c === '-' || $c2->c === '+') {
                     // Maybe a signed one?
                     $c3 = $this->popc();
+                    // End of stream after sign => not an exponent.
+                    if ($c3 === null) {
+                        $this->pushc($c2);
+                        $this->pushc($c1);
+                        if ($last !== null) {
+                            $token->set_end_position($last);
+                        }
+                        break;
+                    }
                     if (isset(self::$DIGITS[$c3->c])) {
                         $numbermode = 'exponent';
                         $token->value .= $c1->c . $c2->c . $c3->c;
@@ -785,14 +806,18 @@ class stack_maxima_lexer_base {
                         $this->pushc($c3);
                         $this->pushc($c2);
                         $this->pushc($c1);
-                        $token->set_end_position($last);
+                        if ($last !== null) {
+                            $token->set_end_position($last);
+                        }
                         break;
                     }
                 } else {
                     // Was not an exponent.
                     $this->pushc($c2);
                     $this->pushc($c1);
-                    $token->set_end_position($last);
+                    if ($last !== null) {
+                        $token->set_end_position($last);
+                    }
                     break;
                 }
             } else if (isset(self::$DIGITS[$c1->c])) {

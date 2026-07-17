@@ -386,6 +386,9 @@ class stack_options {
             '1' => get_string('inputtypenumerical', 'qtype_stack'),
             '2' => get_string('inputtypeunits', 'qtype_stack'),
             '3' => get_string('inputtypevarmatrix', 'qtype_stack'),
+            '4' => get_string('inputtypetextarea', 'qtype_stack'),
+            '5' => get_string('inputtypeequiv', 'qtype_stack'),
+            '6' => get_string('inputtypefreetext', 'qtype_stack'),
         ];
     }
 
@@ -405,6 +408,9 @@ class stack_options {
             '1' => 'numerical',
             '2' => 'units',
             '3' => 'varmatrix',
+            '4' => 'textarea',
+            '5' => 'equiv',
+            '6' => 'freetext',
         ];
         $optionkey = array_search(explode('_', $class)[1], $options);
         if ($optionkey === false) {

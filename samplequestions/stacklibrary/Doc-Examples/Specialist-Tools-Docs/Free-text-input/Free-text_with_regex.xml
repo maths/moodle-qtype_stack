@@ -1,0 +1,847 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+<!-- question: 5286  -->
+  <question type="stack">
+    <name>
+      <text>Free-text marking with regex.</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<ol>
+    <li>
+        <p>Complete the proof of the claim below.</p>
+        <p><strong>Claim:</strong>\(\displaystyle \sum_{k=1}^n k = \frac{n(n+1)}{2}\)</p>
+        <p><strong>Proof</strong></p>
+        <p>We have \(\displaystyle\sum_{k=1}^n k^2=\sum_{k=1}^n (k+1)^2+\) [[input:ans1]][[validation:ans1]][[feedback:prt1]]</p>
+        <p>By expanding \((k+1)^2\), the right-hand side can be rewritten as</p>
+        <div>\(\displaystyle\sum_{k=1}^n k^2+2\sum_{k=1}^n k+\) [[input:ans2]][[validation:ans2]][[feedback:prt2]]</div>
+        <p>Thus, after subtracting \(\displaystyle\sum_{k=1}^n k^2\) from both sides and rearranging, we are left with</p>
+        <div>\(\displaystyle 2\sum_{k=1}^n k=\) [[input:ans3]][[validation:ans3]][[feedback:prt3]]</div>
+        <p>from which the result follows.</p>
+    </li>
+<li>
+<p>Consider the series \(\displaystyle \sum_{k=1}^\infty ({@a*k+b@})\).</p>
+<ol >
+    <li>
+        <p>Using the result above, find an expression for \(s_n\), the \(n\)th partial sum of the series.</p>
+        <div style="margin-left:1cm;">\(s_n=\) [[input:ans4]][[validation:ans4]][[feedback:prt4]]</div>
+    </li>
+    <li>
+        <p>Does the series converge?</p>
+        <div>[[input:ans5]][[validation:ans5]] because</div>
+        <div>[[input:ans6]][[validation:ans6]]</div>
+        <div>[[reveal input="ans6" value="6" ]] [[input:ans7]][[validation:ans7]] [[/reveal]]</div>
+        <div>[[feedback:prt5]]</div>
+    </li>
+</ol>
+</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<ol class="HELM_parts">
+<li><p>We have \(\displaystyle\sum_{k=1}^n k^2=\sum_{k=1}^n (k+1)^2+{@ta1@}\).</p>
+<p>By expanding \((k+1)^2\), the right-hand side can be rewritten as</p>
+<div style="margin-left:1cm;">\(\displaystyle\sum_{k=1}^n k^2+2\sum_{k=1}^n k+\sum_{k=1}^n 1 + {@ta1@}\)</div>
+<div style="margin-left:1cm;">\(\displaystyle = \sum_{k=1}^n k^2+2\sum_{k=1}^n k+ n+1 - (n+1)^2, \)</div>
+<p>using the fact that \(\displaystyle\sum_{k=1}^n 1 = n\).</p>
+<p>Thus, after subtracting \(\displaystyle\sum_{k=1}^n k^2\) from both sides and rearranging, we are left with</p>
+<div style="margin-left:1cm;">\(\displaystyle 2\sum_{k=1}^n k={@ta3@}\)</div>
+<p>from which the result follows.</p>
+</li></ol>
+
+
+<p>For the series \(\displaystyle \sum_{k=1}^\infty ({@a*k+b@})\),</p>
+<ol class="HELM_parts">
+<li>\(\displaystyle s_n={@a@}\sum_{k=1}^n k + \sum_{k=1}^n {@b@} = {@ta4@}\). </li>
+<li>The series does not converge, because \(s_n\) diverges.
+</li></ol>
+<ol><li>
+</li>
+</ol>]]></text>
+    </generalfeedback>
+    <defaultgrade>3</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+    <stackversion>
+      <text>2026042402</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[a: rand([2,3,4,5]);
+b: rand_with_prohib(-a+1,4,[0]); /* Need a+b>0 for one MCQ option. */
+
+ta1: 1-(n+1)^2;
+ta2: n+1-(n+1)^2;
+ta3: n^2 + n;
+
+ta4: a*n*(n+1)/2 + b*n;
+ta5: [["Yes", false], ["No", true]];
+ta6: append(
+  random_permutation([
+    [castext("{@a*k+b <= (a+b)*k^2@}, so the series converges by comparison with a \\(p\\)-series"), false],
+    ["\\(s_n\\) converges to 0", false],
+    ["\\(s_{n+1}\\geq s_1\\) for all \\(n\\in\\mathbb{N}\\) so the partial sums are bounded below", false],
+    ["\\(s_n\\) is an increasing sequence", false],
+    ["\\(s_n\\) diverges", true]
+  ]),
+  [["some other reason (please type it below)", false]]
+);]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text></text>
+    </specificfeedback>
+    <questionnote format="html">
+      <text>\(\displaystyle \sum_{k=1}^\infty ({@a*k+b@})\)</text>
+    </questionnote>
+    <questiondescription format="html">
+      <text><![CDATA[<p>This question is described here: https://stack-assessment.org/CaseStudies/2026/Regular_expression_assessment/ </p>
+<p>Here are some sample responses you might like to try.</p>
+<pre>
+Sn is not bounded, by the boundedness test for series, the series is therefore divergent. 
+The partial sums go to infinity as n goes to infiinty
+Sn is an increasing sequence that is not bounded above
+The partial sums do not have bound.
+The partial sum converges so the series converges.
+</pre>]]></text>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>8</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>ta2</tans>
+      <boxsize>8</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>algebraic</type>
+      <tans>ta3</tans>
+      <boxsize>8</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>ans4</name>
+      <type>algebraic</type>
+      <tans>ta4</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>ans5</name>
+      <type>dropdown</type>
+      <tans>ta5</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>ans6</name>
+      <type>radio</type>
+      <tans>ta6</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options>nonotanswered</options>
+    </input>
+    <input>
+      <name>ans7</name>
+      <type>freetext</type>
+      <tans><![CDATA[""]]></tans>
+      <boxsize>40</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options>allowempty,manualgraded:false</options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>ta2</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>n</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.5</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text>You have correctly rewritten \(\displaystyle \sum_{k=1}^n (k+1)^2\) but have not included the other terms from the right-hand side.</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>ta3</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt4</name>
+      <value>3.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans4</sans>
+        <tans>ta4</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt4-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt4-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt5</name>
+      <value>3.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text><![CDATA[valid_reasons: [
+  "Sn is not bounded.*",
+  ".*(s_n|S_n|sn|Sn|partial sum).*(go to infinity|do not have bound|not bounded above|unbounded|unbouneded|grow without a bound|not bounded|no upper bound).*",
+  ".*(s_n|S_n|sn|Sn|partial sum).*(\\&rarr\\;|go(es)? to|tends? to|approach(es)?|diverge(s)?|going towards).*(infinity|inf)?.*",
+  ".*(terms|Terms|sequence|Sequence).*(does not|do not|doesn.?t).*(approach|approaches|tends? to).*(0|zero).*"
+];
+valid_reason_given: maplist(lambda([pat], regex_match_exactp(pat, ans7)), valid_reasons);]]></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description>Filter other reasons first</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans6</sans>
+        <tans><![CDATA["some other reason (please type it below)"]]></tans>
+        <testoptions></testoptions>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>3</truenextnode>
+        <trueanswernote>prt5-4-MANUAL</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt5-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans5</sans>
+        <tans>first(mcq_correct(ta5))</tans>
+        <testoptions></testoptions>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.5</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>prt5-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt5-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>The series does not converge, because \(s_n \geq n^2\) diverges.</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans6</sans>
+        <tans>first(mcq_correct(ta6))</tans>
+        <testoptions></testoptions>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.5</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt5-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt5-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>The series does not converge. The reason is that \(s_n \geq n^2\) diverges.</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>3</name>
+        <description>Use regex on other reasons.</description>
+        <answertest>AlgEquiv</answertest>
+        <sans><![CDATA[apply("or",valid_reason_given)]]></sans>
+        <tans>true</tans>
+        <testoptions></testoptions>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt5-4-RegexTrue</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt5-4-RegexFalse</falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>405689500</deployedseed>
+    <deployedseed>1742254960</deployedseed>
+    <deployedseed>1655932159</deployedseed>
+    <deployedseed>457770144</deployedseed>
+    <deployedseed>1308859048</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta3</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>ta4</value>
+      </testinput>
+      <testinput>
+        <name>ans5</name>
+        <value>first(mcq_correct(ta5))</value>
+      </testinput>
+      <testinput>
+        <name>ans6</name>
+        <value>first(mcq_correct(ta6))</value>
+      </testinput>
+      <testinput>
+        <name>ans7</name>
+        <value><![CDATA[""]]></value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt4-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt5</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt5-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description>Writing expressions in equivalent ways is fine</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ratsimp(ta1)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ratsimp(ta2)</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>factor(ta3)</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>ratsimp(ta4)</value>
+      </testinput>
+      <testinput>
+        <name>ans5</name>
+        <value></value>
+      </testinput>
+      <testinput>
+        <name>ans6</name>
+        <value></value>
+      </testinput>
+      <testinput>
+        <name>ans7</name>
+        <value></value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt4-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt5</name>
+        <expectedscore></expectedscore>
+        <expectedpenalty></expectedpenalty>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description></description>
+      <testinput>
+        <name>ans1</name>
+        <value></value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value></value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value></value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value></value>
+      </testinput>
+      <testinput>
+        <name>ans5</name>
+        <value>first(mcq_incorrect(ta5))</value>
+      </testinput>
+      <testinput>
+        <name>ans6</name>
+        <value>first(mcq_correct(ta6))</value>
+      </testinput>
+      <testinput>
+        <name>ans7</name>
+        <value></value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore></expectedscore>
+        <expectedpenalty></expectedpenalty>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore></expectedscore>
+        <expectedpenalty></expectedpenalty>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore></expectedscore>
+        <expectedpenalty></expectedpenalty>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore></expectedscore>
+        <expectedpenalty></expectedpenalty>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt5</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty></expectedpenalty>
+        <expectedanswernote>prt5-2-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description></description>
+      <testinput>
+        <name>ans1</name>
+        <value></value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value></value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value></value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value></value>
+      </testinput>
+      <testinput>
+        <name>ans5</name>
+        <value>first(mcq_correct(ta5))</value>
+      </testinput>
+      <testinput>
+        <name>ans6</name>
+        <value>first(mcq_incorrect(ta6))</value>
+      </testinput>
+      <testinput>
+        <name>ans7</name>
+        <value></value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore></expectedscore>
+        <expectedpenalty></expectedpenalty>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore></expectedscore>
+        <expectedpenalty></expectedpenalty>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore></expectedscore>
+        <expectedpenalty></expectedpenalty>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore></expectedscore>
+        <expectedpenalty></expectedpenalty>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt5</name>
+        <expectedscore>0.5000000</expectedscore>
+        <expectedpenalty></expectedpenalty>
+        <expectedanswernote>prt5-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>5</testcase>
+      <description>Alternative reason for the final part</description>
+      <testinput>
+        <name>ans1</name>
+        <value></value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value></value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value></value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value></value>
+      </testinput>
+      <testinput>
+        <name>ans5</name>
+        <value>first(mcq_correct(ta5))</value>
+      </testinput>
+      <testinput>
+        <name>ans6</name>
+        <value>first(reverse(mcq_incorrect(ta6)))</value>
+      </testinput>
+      <testinput>
+        <name>ans7</name>
+        <value><![CDATA["sn is unbounded"]]></value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore></expectedscore>
+        <expectedpenalty></expectedpenalty>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore></expectedscore>
+        <expectedpenalty></expectedpenalty>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore></expectedscore>
+        <expectedpenalty></expectedpenalty>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore></expectedscore>
+        <expectedpenalty></expectedpenalty>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt5</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>( prt5-4-MANUAL | prt5-4-RegexTrue ]</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+
+</quiz>

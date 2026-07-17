@@ -4,28 +4,28 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8acfad1aa7a7af2508ba3749070091b6",
+    "content-hash": "9f97238acec148855faca7808550a362",
     "packages": [
         {
             "name": "erusev/parsedown",
-            "version": "1.7.4",
+            "version": "1.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/erusev/parsedown.git",
-                "reference": "cb17b6477dfff935958ba01325f2e8a2bfa6dab3"
+                "reference": "96baaad00f71ba04d76e45b4620f54d3beabd6f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/erusev/parsedown/zipball/cb17b6477dfff935958ba01325f2e8a2bfa6dab3",
-                "reference": "cb17b6477dfff935958ba01325f2e8a2bfa6dab3",
+                "url": "https://api.github.com/repos/erusev/parsedown/zipball/96baaad00f71ba04d76e45b4620f54d3beabd6f7",
+                "reference": "96baaad00f71ba04d76e45b4620f54d3beabd6f7",
                 "shasum": ""
             },
             "require": {
                 "ext-mbstring": "*",
-                "php": ">=5.3.0"
+                "php": ">=7.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8.35"
+                "phpunit/phpunit": "^7.5|^8.5|^9.6"
             },
             "type": "library",
             "autoload": {
@@ -52,9 +52,15 @@
             ],
             "support": {
                 "issues": "https://github.com/erusev/parsedown/issues",
-                "source": "https://github.com/erusev/parsedown/tree/1.7.x"
+                "source": "https://github.com/erusev/parsedown/tree/1.8.0"
             },
-            "time": "2019-12-30T22:54:17+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/erusev",
+                    "type": "github"
+                }
+            ],
+            "time": "2026-02-16T11:41:01+00:00"
         },
         {
             "name": "fig/http-message-util",
@@ -532,16 +538,16 @@
         },
         {
             "name": "slim/psr7",
-            "version": "1.7.0",
+            "version": "1.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/slimphp/Slim-Psr7.git",
-                "reference": "753e9646def5ff4db1a06e5cf4ef539bfd30f467"
+                "reference": "76e7e3b1cdfd583e9035c4c966c08e01e45ce959"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/slimphp/Slim-Psr7/zipball/753e9646def5ff4db1a06e5cf4ef539bfd30f467",
-                "reference": "753e9646def5ff4db1a06e5cf4ef539bfd30f467",
+                "url": "https://api.github.com/repos/slimphp/Slim-Psr7/zipball/76e7e3b1cdfd583e9035c4c966c08e01e45ce959",
+                "reference": "76e7e3b1cdfd583e9035c4c966c08e01e45ce959",
                 "shasum": ""
             },
             "require": {
@@ -549,23 +555,20 @@
                 "php": "^8.0",
                 "psr/http-factory": "^1.1",
                 "psr/http-message": "^1.0 || ^2.0",
-                "ralouphie/getallheaders": "^3.0",
-                "symfony/polyfill-php80": "^1.29"
+                "ralouphie/getallheaders": "^3.0"
             },
             "provide": {
                 "psr/http-factory-implementation": "^1.0",
                 "psr/http-message-implementation": "^1.0 || ^2.0"
             },
             "require-dev": {
-                "adriansuter/php-autoload-override": "^1.4",
+                "adriansuter/php-autoload-override": "^1.5|| ^2.0",
                 "ext-json": "*",
-                "http-interop/http-factory-tests": "^1.1.0",
-                "php-http/psr7-integration-tests": "1.3.0",
-                "phpspec/prophecy": "^1.19",
-                "phpspec/prophecy-phpunit": "^2.2",
-                "phpstan/phpstan": "^1.11",
-                "phpunit/phpunit": "^9.6",
-                "squizlabs/php_codesniffer": "^3.10"
+                "http-interop/http-factory-tests": "^1.0 || ^2.0",
+                "php-http/psr7-integration-tests": "^1.5",
+                "phpstan/phpstan": "^2.1",
+                "phpunit/phpunit": "^9.6 || ^10",
+                "squizlabs/php_codesniffer": "^3.13"
             },
             "type": "library",
             "autoload": {
@@ -581,22 +584,22 @@
                 {
                     "name": "Josh Lockhart",
                     "email": "hello@joshlockhart.com",
-                    "homepage": "http://joshlockhart.com"
+                    "homepage": "https://joshlockhart.com"
                 },
                 {
                     "name": "Andrew Smith",
                     "email": "a.smith@silentworks.co.uk",
-                    "homepage": "http://silentworks.co.uk"
+                    "homepage": "https://silentworks.co.uk"
                 },
                 {
                     "name": "Rob Allen",
                     "email": "rob@akrabat.com",
-                    "homepage": "http://akrabat.com"
+                    "homepage": "https://akrabat.com"
                 },
                 {
                     "name": "Pierre Berube",
                     "email": "pierre@lgse.com",
-                    "homepage": "http://www.lgse.com"
+                    "homepage": "https://www.lgse.com"
                 }
             ],
             "description": "Strict PSR-7 implementation",
@@ -608,28 +611,28 @@
             ],
             "support": {
                 "issues": "https://github.com/slimphp/Slim-Psr7/issues",
-                "source": "https://github.com/slimphp/Slim-Psr7/tree/1.7.0"
+                "source": "https://github.com/slimphp/Slim-Psr7/tree/1.8.0"
             },
-            "time": "2024-06-08T14:48:17+00:00"
+            "time": "2025-11-02T17:51:19+00:00"
         },
         {
             "name": "slim/slim",
-            "version": "4.14.0",
+            "version": "4.15.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/slimphp/Slim.git",
-                "reference": "5943393b88716eb9e82c4161caa956af63423913"
+                "reference": "e12cb05ca2a14e8f459d019e87a31dc915b80470"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/slimphp/Slim/zipball/5943393b88716eb9e82c4161caa956af63423913",
-                "reference": "5943393b88716eb9e82c4161caa956af63423913",
+                "url": "https://api.github.com/repos/slimphp/Slim/zipball/e12cb05ca2a14e8f459d019e87a31dc915b80470",
+                "reference": "e12cb05ca2a14e8f459d019e87a31dc915b80470",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "nikic/fast-route": "^1.3",
-                "php": "^7.4 || ^8.0",
+                "php": "~7.4.0 || ~8.0.0 || ~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0",
                 "psr/container": "^1.0 || ^2.0",
                 "psr/http-factory": "^1.1",
                 "psr/http-message": "^1.1 || ^2.0",
@@ -638,7 +641,7 @@
                 "psr/log": "^1.1 || ^2.0 || ^3.0"
             },
             "require-dev": {
-                "adriansuter/php-autoload-override": "^1.4",
+                "adriansuter/php-autoload-override": "^1.4 || ^2",
                 "ext-simplexml": "*",
                 "guzzlehttp/psr7": "^2.6",
                 "httpsoft/http-message": "^1.1",
@@ -648,12 +651,12 @@
                 "nyholm/psr7-server": "^1.1",
                 "phpspec/prophecy": "^1.19",
                 "phpspec/prophecy-phpunit": "^2.1",
-                "phpstan/phpstan": "^1.11",
-                "phpunit/phpunit": "^9.6",
+                "phpstan/phpstan": "^1 || ^2",
+                "phpunit/phpunit": "^9.6 || ^10 || ^11 || ^12",
                 "slim/http": "^1.3",
                 "slim/psr7": "^1.6",
                 "squizlabs/php_codesniffer": "^3.10",
-                "vimeo/psalm": "^5.24"
+                "vimeo/psalm": "^5 || ^6"
             },
             "suggest": {
                 "ext-simplexml": "Needed to support XML format in BodyParsingMiddleware",
@@ -680,17 +683,17 @@
                 {
                     "name": "Andrew Smith",
                     "email": "a.smith@silentworks.co.uk",
-                    "homepage": "http://silentworks.co.uk"
+                    "homepage": "https://silentworks.co.uk"
                 },
                 {
                     "name": "Rob Allen",
                     "email": "rob@akrabat.com",
-                    "homepage": "http://akrabat.com"
+                    "homepage": "https://akrabat.com"
                 },
                 {
                     "name": "Pierre Berube",
                     "email": "pierre@lgse.com",
-                    "homepage": "http://www.lgse.com"
+                    "homepage": "https://www.lgse.com"
                 },
                 {
                     "name": "Gabriel Manricks",
@@ -726,20 +729,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-06-13T08:54:48+00:00"
+            "time": "2026-05-22T08:00:12+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
-            "version": "v3.6.0",
+            "version": "v3.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/deprecation-contracts.git",
-                "reference": "63afe740e99a13ba87ec199bb07bbdee937a5b62"
+                "reference": "50f59d1f3ca46d41ac911f97a78626b6756af35b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/63afe740e99a13ba87ec199bb07bbdee937a5b62",
-                "reference": "63afe740e99a13ba87ec199bb07bbdee937a5b62",
+                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/50f59d1f3ca46d41ac911f97a78626b6756af35b",
+                "reference": "50f59d1f3ca46d41ac911f97a78626b6756af35b",
                 "shasum": ""
             },
             "require": {
@@ -752,7 +755,7 @@
                     "name": "symfony/contracts"
                 },
                 "branch-alias": {
-                    "dev-main": "3.6-dev"
+                    "dev-main": "3.7-dev"
                 }
             },
             "autoload": {
@@ -777,7 +780,7 @@
             "description": "A generic function and convention to trigger deprecation notices",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/deprecation-contracts/tree/v3.6.0"
+                "source": "https://github.com/symfony/deprecation-contracts/tree/v3.7.0"
             },
             "funding": [
                 {
@@ -789,24 +792,28 @@
                     "type": "github"
                 },
                 {
+                    "url": "https://github.com/nicolas-grekas",
+                    "type": "github"
+                },
+                {
                     "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-09-25T14:21:43+00:00"
+            "time": "2026-04-13T15:52:40+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
-            "version": "v1.32.0",
+            "version": "v1.37.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-ctype.git",
-                "reference": "a3cc8b044a6ea513310cbd48ef7333b384945638"
+                "reference": "141046a8f9477948ff284fa65be2095baafb94f2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/a3cc8b044a6ea513310cbd48ef7333b384945638",
-                "reference": "a3cc8b044a6ea513310cbd48ef7333b384945638",
+                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/141046a8f9477948ff284fa65be2095baafb94f2",
+                "reference": "141046a8f9477948ff284fa65be2095baafb94f2",
                 "shasum": ""
             },
             "require": {
@@ -856,7 +863,7 @@
                 "portable"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-ctype/tree/v1.32.0"
+                "source": "https://github.com/symfony/polyfill-ctype/tree/v1.37.0"
             },
             "funding": [
                 {
@@ -868,83 +875,7 @@
                     "type": "github"
                 },
                 {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2024-09-09T11:45:10+00:00"
-        },
-        {
-            "name": "symfony/polyfill-php80",
-            "version": "v1.31.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/polyfill-php80.git",
-                "reference": "60328e362d4c2c802a54fcbf04f9d3fb892b4cf8"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php80/zipball/60328e362d4c2c802a54fcbf04f9d3fb892b4cf8",
-                "reference": "60328e362d4c2c802a54fcbf04f9d3fb892b4cf8",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.2"
-            },
-            "type": "library",
-            "extra": {
-                "thanks": {
-                    "url": "https://github.com/symfony/polyfill",
-                    "name": "symfony/polyfill"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "bootstrap.php"
-                ],
-                "psr-4": {
-                    "Symfony\\Polyfill\\Php80\\": ""
-                },
-                "classmap": [
-                    "Resources/stubs"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Ion Bazan",
-                    "email": "ion.bazan@gmail.com"
-                },
-                {
-                    "name": "Nicolas Grekas",
-                    "email": "p@tchwork.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony polyfill backporting some PHP 8.0+ features to lower PHP versions",
-            "homepage": "https://symfony.com",
-            "keywords": [
-                "compatibility",
-                "polyfill",
-                "portable",
-                "shim"
-            ],
-            "support": {
-                "source": "https://github.com/symfony/polyfill-php80/tree/v1.31.0"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
+                    "url": "https://github.com/nicolas-grekas",
                     "type": "github"
                 },
                 {
@@ -952,32 +883,32 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-09-09T11:45:10+00:00"
+            "time": "2026-04-10T16:19:22+00:00"
         },
         {
             "name": "symfony/yaml",
-            "version": "v7.3.1",
+            "version": "v7.4.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "0c3555045a46ab3cd4cc5a69d161225195230edb"
+                "reference": "a7ec3b1156faf8815db7683ec7c1e7338e6f977c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/0c3555045a46ab3cd4cc5a69d161225195230edb",
-                "reference": "0c3555045a46ab3cd4cc5a69d161225195230edb",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/a7ec3b1156faf8815db7683ec7c1e7338e6f977c",
+                "reference": "a7ec3b1156faf8815db7683ec7c1e7338e6f977c",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.2",
-                "symfony/deprecation-contracts": "^2.5|^3.0",
+                "symfony/deprecation-contracts": "^2.5|^3",
                 "symfony/polyfill-ctype": "^1.8"
             },
             "conflict": {
                 "symfony/console": "<6.4"
             },
             "require-dev": {
-                "symfony/console": "^6.4|^7.0"
+                "symfony/console": "^6.4|^7.0|^8.0"
             },
             "bin": [
                 "Resources/bin/yaml-lint"
@@ -1008,7 +939,7 @@
             "description": "Loads and dumps YAML files",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/yaml/tree/v7.3.1"
+                "source": "https://github.com/symfony/yaml/tree/v7.4.13"
             },
             "funding": [
                 {
@@ -1020,11 +951,15 @@
                     "type": "github"
                 },
                 {
+                    "url": "https://github.com/nicolas-grekas",
+                    "type": "github"
+                },
+                {
                     "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-06-03T06:57:57+00:00"
+            "time": "2026-05-25T06:06:12+00:00"
         }
     ],
     "packages-dev": [],

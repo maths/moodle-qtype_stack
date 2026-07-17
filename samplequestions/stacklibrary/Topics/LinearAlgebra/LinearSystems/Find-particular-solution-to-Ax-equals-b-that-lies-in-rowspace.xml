@@ -5,8 +5,7 @@
       <text>Find particular solution to Ax = b that lies in rowspace</text>
     </name>
     <questiontext format="plain_text">
-      <text><![CDATA[<script src="https://apps.canterbury.ac.nz/1/math/online_resources/EMTH118/latex.js"></script>
-<p>
+      <text><![CDATA[<p>
   Consider the equation \(A\,{@vx@} = {@vb@}\) where
   \[
   	A = {@AA@},\qquad {@vb@} = {@BB@}

@@ -113,7 +113,7 @@ simp:false;</text>
         <truescore>0.0000000</truescore>
         <truepenalty/>
         <truenextnode>-1</truenextnode>
-        <trueanswernote>1-1-T (naive adding of fractions)</trueanswernote>
+        <trueanswernote>1-1-T</trueanswernote>
         <truefeedback format="html">
           <text><![CDATA[<p>Remember that the first step in adding fractions is to make both denominators equal. It is not simply adding the numerators and the denominators.</p>]]></text>
         </truefeedback>
@@ -187,7 +187,7 @@ simp:false;</text>
         <name>prt1</name>
         <expectedscore>0.0000000</expectedscore>
         <expectedpenalty>0.1000000</expectedpenalty>
-        <expectedanswernote>1-1-T (naive adding of fractions)</expectedanswernote>
+        <expectedanswernote>1-1-T</expectedanswernote>
       </expected>
     </qtest>
   </question>

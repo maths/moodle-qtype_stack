@@ -1,6 +1,6 @@
 # Serving out data
 
-In some contexts one wants to generate random data for the students to act on, depending on the amount of data and whether one expects the students to transfer it to other tools for processing the methods used for serving that data data out vary. Here are some examples.
+In some contexts one wants to generate random data for the students to act on, depending on the amount of data and whether one expects the students to transfer it to other tools for processing the methods used for serving that data out vary. Here are some examples.
 
 ## HTML-tables
 

@@ -14,23 +14,15 @@ This option sets the value of [Maxima](../CAS/Maxima_background.md)'s
 
 variable.
 
-If `true` and the sign of a parameter \(x\) cannot be determined from the current context or
-other considerations, `sign` and `asksign(x)` return `true`. This may forestall some automatically-generated
-asksign queries, such as may arise from integrate or other computations
+If `true` and the sign of a parameter \(x\) cannot be determined from the current context or other considerations, `sign` and `asksign(x)` return `true`. This may forestall some automatically-generated asksign queries, such as may arise from integrate or other computations
 
 Default is False
 
 ### Question Penalty {#Question_penalty} ###
 
-This is the percentage of the marks deducted from each different and valid attempt which is not
-completely correct, when the penalty mark modification scheme is in use.
-The default is \(10\%\) of the marks available for this question, entered at \(0.1\).
+This is the percentage of the marks deducted from each different and valid attempt which is not completely correct, when the penalty mark modification scheme is in use. The default is \(10\%\) of the marks available for this question, entered at \(0.1\).
 
-Note that Moodle stores scores to 7 decimal places, so, \(1/3\) should be entered as \(0.3333333\),
-and \(2/3\) as \(0.6666667\). If you input any number close to \(1/3\), but with less precision,
-then the extra digits will automatically be added. The exact range affected is that
-any penalty \(\ge 0.33\) and \(\le 0.34\) is changed to \(0.3333333\), and
-any penalty \(\ge 0.66\) and \(\le 0.67\) is changed to \(0.6666667\).
+Note that Moodle stores scores to 7 decimal places, so, \(1/3\) should be entered as \(0.3333333\), and \(2/3\) as \(0.6666667\). If you input any number close to \(1/3\), but with less precision, then the extra digits will automatically be added. The exact range affected is that any penalty \(\ge 0.33\) and \(\le 0.34\) is changed to \(0.3333333\), and any penalty \(\ge 0.66\) and \(\le 0.67\) is changed to \(0.6666667\).
 
 ## Output ##
 
@@ -125,7 +117,7 @@ Do you really want to continue using \(\sqrt{}\) in your teaching?  In his *Elem
 
 A lot of elementary mathematics involves converting from one form to another and back again.  Sometimes these forms have important differences of use, e.g. factored form or completed square form for a quadratic.  However, sometimes these equivalent forms are more customary than because it *"manifestly corresponds with the nature of the thing"* in question.  I digress...
 
-STACK defines an \(n\)th root function `root(x,n)` which is a noun form for \(\sqrt[n]{x}\).  This can be used by students, but if teachers wish to use this in question variables etc. then they must prefix this with the apostophie to create the nounform `'root(x,n)` to prevent immediate evaluation to `x^(1/n)`.
+STACK defines an \(n\)th root function `root(x,n)` which is a noun form for \(\sqrt[n]{x}\).  This can be used by students, but if teachers wish to use this in question variables etc. then they must prefix this with the apostrophe to create the nounform `'root(x,n)` to prevent immediate evaluation to `x^(1/n)`.
 
 ### sqrt(-1) {#sqrt_minus_one} ###
 
@@ -188,4 +180,4 @@ Note, for CASText the display is controlled by the prevailing setting at the mom
 
 For scientific units we also have an input "extra option" `negpow` for student's input to be displayed as negative powers, e.g. \(m\,s^{-1}\).
 
-We do not, currently, have support for global display of fractions using negative powers (Dec 2024).  This is because the difference between displayed and inline fractions is purely notational, involving the TeX output from the division operator.  Converting division to negative powers is a mathematical re-write rule and is therefore significantly more complicated.  E.g. we would have to decide how to display \( \frac{1}{x^{-2}} \).
+We do not, currently, have support for global display of fractions using negative powers (Dec 2024).  This is because the difference between displayed and inline fractions is purely notational, involving the TeX output from the division operator.  Converting division to negative powers is a mathematical re-write rule and is therefore significantly more complicated.  E.g. we would have to decide how to display \( \frac{1}{x^{-2}} \). 

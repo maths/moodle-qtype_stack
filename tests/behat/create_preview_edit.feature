@@ -453,7 +453,7 @@ Feature: Create, preview, test, tidy and edit STACK questions
     And I should not see "Input: ans2"
     And I set the following fields to these values:
       | Question name        | Fixed question  |
-      | Model answer         | diff(p,x)       |0
+      | Model answer         | diff(p,x)       |
     And I set the checkbox "Save as broken" to "0"
     And I press "id_submitbutton"
     Then I should see "Fixed question"

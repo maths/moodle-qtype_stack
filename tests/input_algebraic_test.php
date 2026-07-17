@@ -3163,7 +3163,7 @@ final class input_algebraic_test extends qtype_stack_testcase {
             $options,
             '2*e',
             new stack_cas_security()
-            );
+        );
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('2*e', $state->contentsmodified);
         $this->assertEquals('\[ 2\cdot e \]', $state->contentsdisplayed);

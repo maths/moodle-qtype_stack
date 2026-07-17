@@ -138,7 +138,7 @@ class RenderController {
         $renderresponse->iframes = StackIframeHolder::$iframes;
         $renderresponse->isinteractive = $question->is_interactive();
         $renderresponse->questionnote = $question->get_question_summary();
-        StackPlotReplacer::replace_plots($plots, $renderresponse->questionnote, "note-" . $name, $storeprefix);
+        StackPlotReplacer::replace_plots($plots, $renderresponse->questionnote, 'note', $storeprefix);
         $renderresponse->questionassets = (object) $plots;
 
         if (!empty($data['fullRender'])) {

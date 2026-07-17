@@ -229,11 +229,11 @@ final class api_controller_test extends qtype_stack_testcase {
         $this->assertEquals(true, isset($this->output->questionassets->{'input-ans1-2-0.svg'}));
         $this->assertEquals(true, isset($this->output->questionassets->{'input-ans1-3-0.svg'}));
         $this->assertEquals(true, isset($this->output->questionassets->{'input-ans1-4-0.svg'}));
-        $this->assertEquals(true, isset($this->output->questionassets->{'note-ans1-0.svg'}));
-        $this->assertEquals(true, isset($this->output->questionassets->{'note-ans1-1.svg'}));
-        $this->assertEquals(true, isset($this->output->questionassets->{'note-ans1-2.svg'}));
-        $this->assertEquals(true, isset($this->output->questionassets->{'note-ans1-3.svg'}));
-        $this->assertEquals(true, isset($this->output->questionassets->{'note-ans1-4.svg'}));
+        $this->assertEquals(true, isset($this->output->questionassets->{'note-0.svg'}));
+        $this->assertEquals(true, isset($this->output->questionassets->{'note-1.svg'}));
+        $this->assertEquals(true, isset($this->output->questionassets->{'note-2.svg'}));
+        $this->assertEquals(true, isset($this->output->questionassets->{'note-3.svg'}));
+        $this->assertEquals(true, isset($this->output->questionassets->{'note-4.svg'}));
         $this->assertEquals(false, $this->output->isinteractive);
     }
 

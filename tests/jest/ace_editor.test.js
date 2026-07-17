@@ -11,6 +11,13 @@ describe('ace_editor.js Integration Layer', () => {
             }
         };
 
+        // Mock ResizeObserver for JSDOM environment
+        global.ResizeObserver = jest.fn().mockImplementation(() => ({
+            observe: jest.fn(),
+            unobserve: jest.fn(),
+            disconnect: jest.fn(),
+        }));
+
         // Mock the global Ace framework API exposed after shimming
         global.ace = {
             config: { set: jest.fn(), setModuleUrl: jest.fn() },

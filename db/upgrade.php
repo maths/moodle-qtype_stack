@@ -1047,7 +1047,7 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     }
 
 
-    if ($oldversion < 2026042600) {
+    if ($oldversion < 2026071700) {
         // Define field metadata to be added to qtype_stack_options.
         $table = new xmldb_table('qtype_stack_options');
         $field = new xmldb_field('metadata', XMLDB_TYPE_TEXT, null, null, null, null, null, 'isbroken');
@@ -1058,10 +1058,10 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         }
 
         // Stack savepoint reached.
-        upgrade_plugin_savepoint(true, 2026042600, 'qtype', 'stack');
+        upgrade_plugin_savepoint(true, 2026071700, 'qtype', 'stack');
     }
 
-    if ($oldversion < 2026042700) {
+    if ($oldversion < 2026071701) {
         // Define field prescribedmetadata to be added to qtype_stack_options.
         $table = new xmldb_table('qtype_stack_options');
         $field = new xmldb_field('prescribedmetadata', XMLDB_TYPE_TEXT, null, null, null, null, null, 'isbroken');
@@ -1072,7 +1072,7 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         }
 
         // Stack savepoint reached.
-        upgrade_plugin_savepoint(true, 2026042700, 'qtype', 'stack');
+        upgrade_plugin_savepoint(true, 2026071701, 'qtype', 'stack');
     }
     // Add new upgrade blocks just above here.
 

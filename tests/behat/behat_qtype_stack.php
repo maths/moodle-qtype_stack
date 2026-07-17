@@ -161,7 +161,7 @@ class behat_qtype_stack extends behat_base {
 
         $checked = $value === '1';
 
-        $xpath = json_encode($this->prepare_xpath_for_javascript($field->getXpath()));
+        $xpath = json_encode(str_replace(["\r\n", "\r", "\n"], ' ', $field->getXpath()));
         $checkedjs = $checked ? 'true' : 'false';
         $js = <<<EOF
             (function() {

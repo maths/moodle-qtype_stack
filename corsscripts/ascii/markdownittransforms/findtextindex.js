@@ -4,16 +4,17 @@
  * Tokens listed in `without` are ignored even when they match a `needle` entry.
  * Returns false if no unexcluded needle token is found at top level.
  *
- * @param {string}   str     - the string to search.
- * @param {string[]} needle  - tokens to search for (matched via String.startsWith).
- * @param {string[]} without - tokens to exclude from matches (default: []).
+ * @param {string}   str           - the string to search.
+ * @param {string[]} needle        - tokens to search for (matched via String.startsWith).
+ * @param {string[]} without       - tokens to exclude from matches (default: []).
+ * @param {boolean} [strend=false] - return the position of the end of the matched string.
  * @returns {number|false} index of the first matching token, or false if none found.
  *
  * @example
  * findtextindex('a = {b = c}', ['='])        // returns 2  (inner = is nested)
  * findtextindex('a = b',       ['='], ['='])  // returns false (excluded)
  */
-export default function findtextindex(str, needle, without = []) {
+export default function findtextindex(str, needle, without = [], strend = false) {
     let braceDepth = 0;
 
     for (let i = 0; i < str.length; i++) {
@@ -39,12 +40,19 @@ export default function findtextindex(str, needle, without = []) {
 
         // Only test needle tokens when at top level (braceDepth === 0).
         if (braceDepth === 0) {
-            const isIncluded = needle.some(token => str.startsWith(token, i));
-            if (!isIncluded) {
+            const isIncluded = needle.find(token => str.startsWith(token, i));
+            if (isIncluded == undefined) {
                 continue;
             }
             const isExcluded = without.some(token => str.startsWith(token, i));
             if (!isExcluded) {
+                if (strend) {
+                    // Check if last char is "{".
+                    if (isIncluded.slice(isIncluded.length - 1, isIncluded.length) == "{") {
+                        return i + isIncluded.length - 1;
+                    }
+                    return i + isIncluded.length;
+                }
                 return i;
             }
         }

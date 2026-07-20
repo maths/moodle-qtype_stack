@@ -402,8 +402,7 @@ Feature: Create, preview, test, tidy and edit STACK questions
       | Model answer         |                       |
     And I press "id_submitbutton"
     Then I should not see "Broken question"
-    And I set the following fields to these values:
-      | Save as broken        | 1 |
+    And I set the checkbox "Save as broken" to "1"
     And I press "id_submitbutton"
     Then I should see "Broken question"
 
@@ -455,6 +454,6 @@ Feature: Create, preview, test, tidy and edit STACK questions
     And I set the following fields to these values:
       | Question name        | Fixed question  |
       | Model answer         | diff(p,x)       |
-      | Save as broken       | 0               |
+    And I set the checkbox "Save as broken" to "0"
     And I press "id_submitbutton"
     Then I should see "Fixed question"

@@ -27,15 +27,31 @@ require_once(__DIR__ . '/../../lang/multilang.php');
 require_once(__DIR__ . '/Language.php');
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-function current_language() {
-    $requestheader = ($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : 'en';
-    static $language = ApiLanguage::api_current_language($requestheader);
+function current_language($requestlanguage = null) {
+    static $language = null;
+
+    if (!$language && $requestlanguage !== null) {
+        $requestlanguage = trim((string) $requestlanguage);
+        if ($requestlanguage) {
+            $language = ApiLanguage::api_current_language($requestlanguage);
+            return $language;
+        }
+    }
+
+    if ($language === null) {
+        $requestheader = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : 'en';
+        $language = ApiLanguage::api_current_language($requestheader);
+    }
+
     return $language;
 }
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Function
 function get_string($identifier, $component, $a = null) {
-    static $userlanguage = current_language();
+    static $userlanguage = null;
+    if ($userlanguage === null) {
+        $userlanguage = current_language();
+    }
     $string = stack_api_load_component_strings($component, $userlanguage);
 
     $localization = $string[$identifier];

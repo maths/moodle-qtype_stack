@@ -102,12 +102,14 @@ In the following example, the transform `aligneq` is applied to line up equation
 
 Available transforms (specified via the `transforms` parameter):
 
-- `aligneq`: This affects mathematics in the `asciimath_block` and `math_block` (but not inline mathematics). It formats multiple-line mathematics aligned on the first `=` sign, or similar operators such as inequality. (Shown in math_block and asciimath_block examples above.) The lines of a LaTeX expression are arranged in a 3-column aligned layout:
+- `aligneq`: This affects mathematics in the `asciimath_block` and `math_block` (but not inline mathematics). This is intended to automatically align mathematical derivations.  In particular, it formats multiple-line mathematics aligned on the first `=` sign, or similar operators such as inequality. (Shown in math_block and asciimath_block examples above.) The lines of a LaTeX expression are arranged in a 3-column aligned layout:
   - col 1 – leading logical connective, such as implies/therefore symbol (if present, e.g. `=>`, `:.` (therefore) in AsciiMath)
-  - col 2 – left-hand side up to (but not including) the relation symbol
-  - col 3 – relation symbol and right-hand side
+  - col 3 – left-hand side up to (and including) the relation symbol
+  - col 4 – the right-hand side
 
-  A `\text{…}` that is not `\text{or}`, `\text{and}`, or `\text{if}` is pushed into a 4th column.
+Column 2 is un-used (to right-align the lhs and left-align the rhs) of the main equation.
+
+  A `\text{…}` (that is not `\text{or}`, `\text{and}`, or `\text{if}`) is pushed into a 4th column along with anything which follows it.
 
 There are two internal transformations: `asciimath` and `minwrap`.  The `asciimath` transformation actually parses each expression/line from AsciiMath to LaTeX.  The `minwrap` transformation automatically adds LaTeX mathematics delimiters, e.g. `\(...\)` for inline and `\[...\]` if they are needed (noting some LaTeX maths do not need these), typically at the end of the chain of transformations.  
 

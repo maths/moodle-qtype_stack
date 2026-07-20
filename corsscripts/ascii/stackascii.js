@@ -79,6 +79,10 @@ export default function init(inputIds, operations, options = {}) {
 
     const markdownContainerId = inputIds.length ? inputIds[0] : null;
     const suppliedText = document.getElementById('asciiSuppliedText').innerHTML;
+    const output = document.getElementById('asciiContainerRow');
+    const frameId = (typeof FRAME_ID !== 'undefined') ? FRAME_ID : null;
+    const syncScrollPosition = createScrollSyncHandler(markdownContainerId, frameId, output);
+
     // inputIds[1..N] correspond to each extractor's target answer input in order.
     const alloperations = operations;
     // blockCollector is populated by the active filter's renderer rules and then
@@ -96,7 +100,6 @@ export default function init(inputIds, operations, options = {}) {
         } else {
             raw = suppliedText;
         }
-        const output = document.getElementById('asciiContainerRow');
 
         let processedOutput = raw;
         let isHTML = false;
@@ -156,12 +159,18 @@ export default function init(inputIds, operations, options = {}) {
         }
         output.innerHTML = processedOutput;
         renderPlots(output);
+        syncScrollPosition();
 
         // Tell MathJax to typeset only the output container element.
         if (typeof MathJax.typesetPromise === 'function') {
-            MathJax.typesetPromise([output]); // MathJax 3
-        } else {
+            MathJax.typesetPromise([output]).then(() => { // MathJax 3
+                syncScrollPosition();
+            });
+        } else if (MathJax.Hub && typeof MathJax.Hub.Queue === 'function') {
             MathJax.Hub.Queue(["Typeset", MathJax.Hub, 'asciiContainerRow']); // MathJax 2
+            MathJax.Hub.Queue(() => {
+                syncScrollPosition();
+            });
         }
     }
     if (markdownContainerId) {
@@ -172,5 +181,68 @@ export default function init(inputIds, operations, options = {}) {
             debounceTimer = setTimeout(renderMath, 100); // debounce 100ms
         });
     }
+
     renderMath(); // initial render on load
+}
+
+/**
+ * Scroll-sync helpers.
+ */
+
+/**
+ * Apply a fractional scroll position to an element.
+ *
+ * Sync updates temporarily force `scroll-behavior:auto` so CSS smooth scrolling
+ * does not animate the programmatic jump to the textarea's latest position.
+ *
+ * @param {HTMLElement} element scrollable element to update.
+ * @param {number} position fractional scroll position.
+ */
+function setScrollPosition(element, position) {
+    const maxScroll = element.scrollHeight - element.clientHeight;
+    const previousScrollBehavior = element.style.scrollBehavior;
+    element.style.scrollBehavior = 'auto';
+    element.scrollTop = maxScroll > 0 ? position * maxScroll : 0;
+    element.style.scrollBehavior = previousScrollBehavior;
+}
+
+/**
+ * Register iframe scroll syncing for the rendered ASCII output and return a
+ * callback that reapplies the last known input scroll position.
+ *
+ * @param {?string} markdownContainerId textarea element id.
+ * @param {?string} frameId parent frame id for postMessage coordination.
+ * @param {HTMLElement} output rendered output container.
+ * @returns {Function}
+ */
+function createScrollSyncHandler(markdownContainerId, frameId, output) {
+    // We don't have two containers so nothing to synch.
+    if (!markdownContainerId || !frameId) {
+        return () => undefined;
+    }
+
+    let syncedScrollPosition = 0;
+    const syncScrollPosition = () => {
+        setScrollPosition(output, syncedScrollPosition);
+    };
+
+    window.addEventListener('message', (event) => {
+        const message = JSON.parse(event.data);
+        if (message.tgt !== frameId || message.type !== 'input-scroll-position' || message.name !== markdownContainerId) {
+            return;
+        }
+        syncedScrollPosition = message.position;
+        syncScrollPosition();
+    });
+
+    const registration = {
+        version: 'STACK-JS:1.6.0',
+        type: 'track-input-scroll',
+        name: markdownContainerId,
+        'limit-to-question': true,
+        src: frameId
+    };
+    window.parent.postMessage(JSON.stringify(registration), '*');
+
+    return syncScrollPosition;
 }

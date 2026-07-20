@@ -41,7 +41,7 @@ $requestedcurrentfile = optional_param('currentfile', 0, PARAM_INT);
 $requestedcomparefile = optional_param('comparefile', 0, PARAM_INT);
 
 if ($questionid) {
-    [$latestversion, , , $versions] = get_latest_question_version($questionid);
+    [$latestversion, , $selectedquestionbankentryid, $versions] = get_latest_question_version($questionid);
     $currentversion = stack_question_xml_compare::get_current_version($requestedcurrentversion, $versions, $latestversion);
     $questionid = $versions[$currentversion];
     $questiondata = question_bank::load_question_data($questionid);
@@ -260,7 +260,10 @@ $viewdata->notices = $noticeitems;
 if ($questionid) {
     $viewdata->currentversions = stack_question_xml_compare::version_options($versions, $currentversion, $hascurrentfile);
     $viewdata->versions = stack_question_xml_compare::version_options($versions, $compareversion, $hascomparefile);
-    $viewdata->questionoptions = stack_question_xml_compare::questions_in_category($questiondata->category, $questionid);
+    $viewdata->questionoptions = stack_question_xml_compare::questions_in_category(
+        $questiondata->category,
+        $selectedquestionbankentryid
+    );
 }
 // Diff rows are built last so they reflect the final XML, display mode, and row-filter choice.
 $viewdata->rows = stack_question_xml_compare::diff_rows($currentxml, $comparexml, $displaymode, $diffonly);

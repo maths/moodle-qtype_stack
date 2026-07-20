@@ -209,14 +209,14 @@ class stack_question_xml_compare {
      * Build template data for the question selector.
      *
      * @param int $categoryid question category id.
-     * @param int $selectedquestionid selected latest question id.
+     * @param int $selectedquestionbankentryid selected question bank entry id.
      * @return stdClass[] question selector options.
      */
-    public static function questions_in_category(int $categoryid, int $selectedquestionid): array {
+    public static function questions_in_category(int $categoryid, int $selectedquestionbankentryid): array {
         global $DB;
 
         $records = $DB->get_records_sql("
-            SELECT q.id, q.name, q.qtype, qv.version
+            SELECT q.id, q.name, q.qtype, qv.version, qbe.id AS questionbankentryid
               FROM {question} q
               JOIN {question_versions} qv ON qv.questionid = q.id
               JOIN {question_bank_entries} qbe ON qbe.id = qv.questionbankentryid
@@ -229,23 +229,23 @@ class stack_question_xml_compare {
                )
           ORDER BY q.name, q.id", ['categoryid' => $categoryid]);
 
-        return self::question_options($records, $selectedquestionid);
+        return self::question_options($records, $selectedquestionbankentryid);
     }
 
     /**
      * Build template data for the question selector from question records.
      *
      * @param array $questions question records.
-     * @param int $selectedquestionid selected latest question id.
+     * @param int $selectedquestionbankentryid selected question bank entry id.
      * @return stdClass[] question selector options.
      */
-    public static function question_options(array $questions, int $selectedquestionid): array {
+    public static function question_options(array $questions, int $selectedquestionbankentryid): array {
         $options = [];
         foreach ($questions as $question) {
             $option = new stdClass();
             $option->id = (int) $question->id;
             $option->label = $question->name;
-            $option->selected = ((int) $question->id === $selectedquestionid);
+            $option->selected = ((int) $question->questionbankentryid === $selectedquestionbankentryid);
             $options[] = $option;
         }
 

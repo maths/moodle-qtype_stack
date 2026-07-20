@@ -172,10 +172,22 @@ final class questionxmlcompare_test extends \advanced_testcase {
     }
 
     public function test_question_options_mark_selected_question(): void {
-        $question1 = (object) ['id' => 10, 'name' => 'Stack question', 'qtype' => 'stack', 'version' => 2];
-        $question2 = (object) ['id' => 20, 'name' => 'True false question', 'qtype' => 'truefalse', 'version' => 1];
+        $question1 = (object) [
+            'id' => 10,
+            'name' => 'Stack question',
+            'qtype' => 'stack',
+            'version' => 2,
+            'questionbankentryid' => 100,
+        ];
+        $question2 = (object) [
+            'id' => 20,
+            'name' => 'True false question',
+            'qtype' => 'truefalse',
+            'version' => 1,
+            'questionbankentryid' => 200,
+        ];
 
-        $options = \stack_question_xml_compare::question_options([$question1, $question2], 20);
+        $options = \stack_question_xml_compare::question_options([$question1, $question2], 200);
 
         $this->assertCount(2, $options);
         $this->assertSame(10, $options[0]->id);
@@ -187,6 +199,8 @@ final class questionxmlcompare_test extends \advanced_testcase {
     }
 
     public function test_questions_in_category_returns_latest_questions_for_all_question_types(): void {
+        global $DB;
+
         $this->resetAfterTest();
         $this->setAdminUser();
 
@@ -203,7 +217,14 @@ final class questionxmlcompare_test extends \advanced_testcase {
             ['category' => $category->id, 'name' => 'True false question']
         );
 
-        $options = \stack_question_xml_compare::questions_in_category($category->id, $truefalsequestion->id);
+        $selectedquestionbankentryid = $DB->get_field(
+            'question_versions',
+            'questionbankentryid',
+            ['questionid' => $truefalsequestion->id],
+            MUST_EXIST
+        );
+
+        $options = \stack_question_xml_compare::questions_in_category($category->id, $selectedquestionbankentryid);
 
         $this->assertCount(2, $options);
         $this->assertEqualsCanonicalizing([$stackquestion->id, $truefalsequestion->id], array_column($options, 'id'));

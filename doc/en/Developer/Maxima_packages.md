@@ -32,17 +32,9 @@ Some notes.
 
 For use with STACK, Maxima needs to connect to the web server (PHP scripts) and this is actually done by passing text files back and forward.  So every expression to the CAS, and every result back, must have a simple string format.
 
-Some of the contributed packages, including the very nice graph theory package, have developed their own internal representation for mathematical objects.
+Some of the contributed packages, including the very nice graph theory package, have developed their own internal representation for mathematical objects.  
 
-[Finite Fields Computations in Maxima](https://sourceforge.net/p/maxima/code/ci/master/tree/share/contrib/gf/) can be done with the contributed `gf` package.  Given a prime number \(p\) and a polynomial \(m(x)\) you can create a field by using the command `gf_set_data(p, m(x))`, for example.
-
-    gf_set_data(2,x^4+x+1);
-
-returns
-
-    "Structure [GF-DATA]"
-
-As of July 2026, the STACK developers have not investigated what a "Structure [GF-DATA]" is or how that could be communicated between PHP and Maxima!  By way of contrast a simple polynomial x^4+x+1 has an internal (LISP) tree structure of
+For example, a simple polynomial x^4+x+1 has an internal (LISP) tree structure of
 
     ((MPLUS SIMP) 1 $X ((MEXPT SIMP) $X 4))
 
@@ -54,19 +46,5 @@ We must have some kind of string like that to communicate and STACK basically us
 
 ## Maxima gf package
 
-One possible solution is to use the preamble, as follows, to support the gf package.
+There is limited support for Maxima's `gf` package for [finite fields](../Topics/Finite_fields.md).
 
-```
-m:x^4+x+1;
-p:2;
-/* The gf_set_data() function tries to return a LISP structure, which we can't capture.  Return true instead. */
-f:(gf_set_data(p,m), true);
-%_stack_preamble_end
-
-a : x^3+x;
-b : x^3+x^2+1;
-
-ta1:gf_add(a, b);
-```
-
-    <p>Add \({@a@}\) to \({@b@}\) in \(\mathbb{F}_{@2@}[x]/m(x)\) where \(m(x)={@m@}\).</p><p>[[input:ans1]] [[validation:ans1]]</p>

@@ -1102,6 +1102,11 @@
         "description":"Comprehensive information on the equivalence reasoning answer type in STACK."
         },
         {
+        "file":"Finite_fields.md",
+        "title":"Finite fields - STACK Documentation",
+        "description":"Using Maxima's gf package for finite fields in STACK."
+        },
+        {
         "file":"Levenshtein_distance.md",
         "title":"Levenshtein distance and strings",
         "description":"Levenshtein distance is a metric on strings which can be used to assess short (typically single word) text strings."

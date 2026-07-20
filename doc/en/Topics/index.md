@@ -5,6 +5,7 @@ This section of the STACK documentation contains information on how to author qu
 * [Curve sketching](Curve_sketching.md)
 * [Differential equations](Differential_equations/index.md)
 * [Discrete mathematics](Discrete_mathematics.md)
+* [Finite fields](../Topics/Finite_fields.md)
 * String similarity via the [Levenshtein distance](Levenshtein_distance.md)
 * [Linear algebra](../Topics/Linear_algebra/index.md)
 * [Propositional Logic](Propositional_Logic.md)

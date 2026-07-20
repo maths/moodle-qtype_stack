@@ -45,6 +45,7 @@ class RenderController {
     public function __invoke(Request $request, Response $response, array $args): Response {
         // TO-DO: Validate.
         $data = $request->getParsedBody();
+        $language = current_language($data['lang'] ?? null);
         $question = StackQuestionLoader::loadxml($data["questionDefinition"])['question'];
 
         StackSeedHelper::initialize_seed($question, $data["seed"]);
@@ -69,8 +70,6 @@ class RenderController {
         $translate->search = '/(<span(\s+lang="[a-zA-Z0-9_-]+"|\s+class="multilang")' .
                              '{2}\s*>.*?<\/span>)(\s*<span(\s+lang="[a-zA-Z0-9_-]+"' .
                              '|\s+class="multilang"){2}\s*>.*?<\/span>)+/is';
-        $language = current_language();
-
         $renderresponse = new StackRenderResponse();
         $plots = [];
 

@@ -51,8 +51,26 @@ export default function aligneq(lines, rule) {
     }
     const output = [`\\begin{align*}`];
     for (let str of lines) {
-        // Remove any display style commands and trim the string.
+        // Step 0. Remove any display style commands and trim the string.
         str = str.replace(/^\s*(?:\\displaystyle\s*)?/, '');
+        str = str.trim();
+
+        // Step 1 (leftmost): if the line opens with a logical connective store it for later.
+        // (\Rightarrow, \therefore, etc.), move it into col 1.
+        const imptxt = [
+            `Rightarrow`, `Leftarrow`, `Leftrightarrow`,
+            `therefore`, `because`, `checkmark`,
+            `models`, `vdash`
+        ];
+        const imptxttk = imptxt.flatMap(token => [`\\${token}`, `\\${token}`, `\\${token}`]);
+        const matchimp = imptxttk.find(token => str.startsWith(token));
+        var connector = '';
+        if (matchimp !== undefined) {
+            // Connective found — insert '& &' after it to push the rest into col 2.
+            connector = str.slice(0, matchimp.length)
+            str = str.slice(matchimp.length);
+        }
+
         // Step 3 (rightmost): find the first \text{ that is not \text{or/and/if}
         // and push it into col 4 by inserting '& &' before it.
         const matchtxt = findtextindex(str, ['\\text{'], [`\\text{or}`, `\\text{and}`, `\\text{if}`]);
@@ -64,35 +82,25 @@ export default function aligneq(lines, rule) {
         // (=, >, <, \leq, \subset, etc.) and split col 2 from col 3 with '&'.
         // A trailing '&' is appended even when no relation is found so MathJax
         // still aligns the line correctly within the environment.
-        const bracest = [
+        const relst = [
             `in`, `notin`, `subset`, `subseteq`, `supset`, `supseteq`,
             `leq`, `lt`, `le`, `geq`, `gt`, `ge`,
             `preq`, `preqeq`, `succ`, `succeq`,
             `ne`, `neq`, `approx`, `equiv`, `propto`, `cong`,
         ];
-        const braces = [`=`, `>`, `<`].concat(bracest.flatMap(token => [`\\${token}{`, `\\${token} `]));
-        const matcheq = findtextindex(str, braces);
+        const relations = [`=`, `>`, `<`].concat(relst.flatMap(token => [`\\${token}{`, `\\${token} `]));
+        const matcheqed = findtextindex(str, relations, [], true);
         // findtextindex returns 0 (falsy) when the match is at position 0, so
         // compare strictly against false rather than using a truthiness check.
-        if (matcheq !== false) {
-            str = str.slice(0, matcheq) + ' & ' + str.slice(matcheq);
+        if (matcheqed !== false) {
+            str = str.slice(0, matcheqed) + ' &\\, ' + str.slice(matcheqed);
         } else {
-            str = str.trim() + ` & `;
+                str = ' &\\, ' + str;
         }
 
-        // Step 1 (leftmost): if the line opens with a logical connective
-        // (\Rightarrow, \therefore, etc.), move it into col 1.
-        const imptxt = [`Rightarrow`, `Leftarrow`, `Leftrightarrow`, `therefore`, `because`];
-        const imptxttk = imptxt.flatMap(token => [`\\${token}{`, `\\${token} `, `\\${token}\\`]);
-        const matchimp = imptxttk.find(token => str.startsWith(token));
-        if (matchimp === undefined) {
-            // No connective — leave col 1 empty with leading '& & '.
-            str = `& & ` + str.trim();
-        } else {
-            // Connective found — insert '& &' after it to push the rest into col 2.
-            str = str.slice(0, matchimp.length - 1) + ' & & ' + str.slice(matchimp.length - 1);
-        }
-        str += `\\\\`;   // LaTeX row separator
+        // Assemble final string, with any connector and LaTeX line separator.
+        str = connector + ' & & ' + str.trim() + `\\\\`;
+        str = str.trim();
         output.push(str);
     }
     output.push(`\\end{align*}`);

@@ -170,7 +170,6 @@ class behat_qtype_stack extends behat_base {
                 if (!field) {
                     return;
                 }
-
                 field.checked = {$checkedjs};
                 field.dispatchEvent(new Event('input', {bubbles: true}));
                 field.dispatchEvent(new Event('change', {bubbles: true}));

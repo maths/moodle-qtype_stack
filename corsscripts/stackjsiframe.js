@@ -157,6 +157,10 @@ window.addEventListener("message", (e) => {
             });
         }
         break;
+    case 'input-scroll-position':
+        // Some iframe apps listen for scroll sync messages directly.
+        // Ignore them here so they do not get reported as unknown message types.
+        break;
     case 'xfer-content':
         if (msg.target in FETCH_PROMISES) {
             FETCH_PROMISES[msg.target](msg.content);

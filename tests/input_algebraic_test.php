@@ -576,6 +576,24 @@ final class input_algebraic_test extends qtype_stack_testcase {
             '\[ 7 \times 10^{9} \]',
             $state->contentsdisplayed
         );
+
+        // As raised in issue #1659.
+        $el->set_parameter('insertStars', 7);
+        $el->set_parameter('forbidFloats', false);
+        $state = $el->validate_student_response(
+            ['sans1' => '-(1/2)(x-4)'],
+            $options,
+            '7E9',
+            new stack_cas_security(false, '', '', ['tans'])
+            );
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('missing_stars', $state->note);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('-(1/2)*(x-4)', $state->contentsmodified);
+        $this->assertEquals(
+            '\[ \left(-\frac{1}{2}\right)\cdot \left(x-4\right) \]',
+            $state->contentsdisplayed
+            );
     }
 
     public function test_validate_student_response_too_long(): void {
@@ -3163,7 +3181,7 @@ final class input_algebraic_test extends qtype_stack_testcase {
             $options,
             '2*e',
             new stack_cas_security()
-            );
+        );
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('2*e', $state->contentsmodified);
         $this->assertEquals('\[ 2\cdot e \]', $state->contentsdisplayed);

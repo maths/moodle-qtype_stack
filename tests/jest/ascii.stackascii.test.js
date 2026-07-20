@@ -1,3 +1,5 @@
+/** @jest-environment jsdom */
+
 const mockMarkdown = jest.fn();
 const mockCalculation = jest.fn();
 const mockCas = jest.fn();
@@ -68,6 +70,8 @@ jest.mock('../../corsscripts/ascii/extractors/allregexremainder.js', () => ({
 import init from '../../corsscripts/ascii/stackascii.js';
 
 describe('stackascii init', () => {
+    let getElementByIdSpy = null;
+
     function createElement(id, value = '') {
         const listeners = {};
         const classes = new Set();
@@ -75,6 +79,12 @@ describe('stackascii init', () => {
             id,
             value,
             innerHTML: '',
+            scrollTop: 0,
+            scrollHeight: 0,
+            clientHeight: 0,
+            style: {
+                scrollBehavior: ''
+            },
             listeners,
             classList: {
                 add: jest.fn((className) => {
@@ -107,11 +117,9 @@ describe('stackascii init', () => {
             elements[answer.id] = answer;
         }
 
-        global.document = {
-            getElementById: jest.fn((id) => elements[id] || null)
-        };
+        getElementByIdSpy = jest.spyOn(document, 'getElementById').mockImplementation((id) => elements[id] || null);
         global.MathJax = {
-            typesetPromise: jest.fn(),
+            typesetPromise: jest.fn(() => Promise.resolve()),
             Hub: { Queue: jest.fn() }
         };
         global.Event = function Event(type) {
@@ -138,14 +146,23 @@ describe('stackascii init', () => {
         mockLaststringremainder.mockReset();
         mockRegexallmatch.mockReset();
         mockRegexallremainder.mockReset();
+        Object.defineProperty(window, 'parent', {
+            value: {postMessage: jest.fn()},
+            configurable: true
+        });
+        global.FRAME_ID = 'frame-1';
     });
 
     afterEach(() => {
-        delete global.document;
+        if (getElementByIdSpy) {
+            getElementByIdSpy.mockRestore();
+            getElementByIdSpy = null;
+        }
         delete global.MathJax;
         delete global.Event;
         delete global.setTimeout;
         delete global.clearTimeout;
+        delete global.FRAME_ID;
     });
 
     test('runs filters and extractors, updates output, and dispatches change', () => {
@@ -253,5 +270,87 @@ describe('stackascii init', () => {
         expect(global.setTimeout).toHaveBeenCalledWith(expect.any(Function), 100);
         expect(mockMarkdown).toHaveBeenCalledTimes(2);
         expect(env.output.innerHTML).toBe('MD:gamma');
+    });
+
+    test('registers one-way scroll sync and applies inbound scroll positions', () => {
+        const env = setupEnvironment('delta', 0);
+        env.output.scrollHeight = 300;
+        env.output.clientHeight = 100;
+
+        init(['markdownInput'], []);
+
+        expect(window.parent.postMessage).toHaveBeenCalledWith(JSON.stringify({
+            version: 'STACK-JS:1.6.0',
+            type: 'track-input-scroll',
+            name: 'markdownInput',
+            'limit-to-question': true,
+            src: 'frame-1'
+        }), '*');
+
+        window.dispatchEvent(new MessageEvent('message', {
+            data: JSON.stringify({
+                version: 'STACK-JS:1.6.0',
+                type: 'input-scroll-position',
+                name: 'markdownInput',
+                position: 0.5,
+                tgt: 'frame-1'
+            })
+        }));
+
+        expect(env.output.scrollTop).toBe(100);
+
+        window.parent.postMessage.mockClear();
+        expect(env.output.listeners.scroll).toBeUndefined();
+        env.output.scrollTop = 150;
+
+        expect(window.parent.postMessage).not.toHaveBeenCalled();
+        expect(env.output.scrollTop).toBe(150);
+
+        window.dispatchEvent(new MessageEvent('message', {
+            data: JSON.stringify({
+                version: 'STACK-JS:1.6.0',
+                type: 'input-scroll-position',
+                name: 'markdownInput',
+                position: 0.25,
+                tgt: 'frame-1'
+            })
+        }));
+
+        expect(env.output.scrollTop).toBe(50);
+    });
+
+    test('reapplies synced scroll position after MathJax 2 queue typesetting changes height', () => {
+        const env = setupEnvironment('epsilon', 0);
+        env.output.scrollHeight = 200;
+        env.output.clientHeight = 100;
+        delete global.MathJax.typesetPromise;
+        global.MathJax.Hub.Queue.mockImplementation((entry) => {
+            if (Array.isArray(entry)) {
+                env.output.scrollHeight = 300;
+                return;
+            }
+            if (typeof entry === 'function') {
+                entry();
+            }
+        });
+
+        init(['markdownInput'], []);
+
+        window.dispatchEvent(new MessageEvent('message', {
+            data: JSON.stringify({
+                version: 'STACK-JS:1.6.0',
+                type: 'input-scroll-position',
+                name: 'markdownInput',
+                position: 0.5,
+                tgt: 'frame-1'
+            })
+        }));
+        expect(env.output.scrollTop).toBe(100);
+
+        env.output.scrollHeight = 200;
+        env.markdownInput.listeners.change();
+
+        expect(global.MathJax.Hub.Queue).toHaveBeenCalledWith(["Typeset", global.MathJax.Hub, 'asciiContainerRow']);
+        expect(env.output.scrollTop).toBe(100);
     });
 });

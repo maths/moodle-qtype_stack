@@ -1485,6 +1485,16 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
 .que .comment {
     color: #44331b;
 }
+.stack-ace-wrapper {
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    height: 250px;
+    min-height: 180px;
+    position: relative;
+    resize: vertical;
+    overflow: hidden;
+}
+
 .stack-dash-tab-load:hover {
     cursor: not-allowed;
 }

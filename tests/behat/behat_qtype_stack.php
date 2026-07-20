@@ -146,6 +146,39 @@ class behat_qtype_stack extends behat_base {
     }
 
     /**
+     * Set a checkbox without clicking it.
+     *
+     * @param string $fieldname the visible label of the checkbox.
+     * @param string $value 1 to check the box, 0 to uncheck it.
+     *
+     * @When /^I set the checkbox "(?P<fieldname>[^"]*)" to "(?P<value>[01])"$/
+     */
+    public function i_set_the_checkbox_to(string $fieldname, string $value): void {
+        $field = $this->getSession()->getPage()->findField($fieldname);
+        if ($field === null) {
+            throw new \Exception("Field '$fieldname' not found.");
+        }
+
+        $checked = $value === '1';
+
+        $xpath = json_encode(str_replace(["\r\n", "\r", "\n"], ' ', $field->getXpath()));
+        $checkedjs = $checked ? 'true' : 'false';
+        $js = <<<EOF
+            (function() {
+                const field = document.evaluate({$xpath}, document, null,
+                        XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+                if (!field) {
+                    return;
+                }
+                field.checked = {$checkedjs};
+                field.dispatchEvent(new Event('input', {bubbles: true}));
+                field.dispatchEvent(new Event('change', {bubbles: true}));
+            })();
+        EOF;
+        $this->execute_script($js);
+    }
+
+    /**
      * Check an iframe element value
      *
      * @param string $id id of element

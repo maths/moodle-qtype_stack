@@ -480,6 +480,16 @@
                 "description":"Information on using question blocks in STACK."
                 },
                 {
+                "file":"ASCII.md",
+                "title":"ASCII Block - STACK Documentation",
+                "description":"Information on using the ASCII block in STACK."
+                },
+                {
+                "file":"ASCII_extractors.md",
+                "title":"ASCII Extractor Blocks - STACK Documentation",
+                "description":"Information on using the ASCII Extractor blocks in STACK."
+                },
+                {
                 "file":"Conditional_blocks.md",
                 "title":"Conditional Blocks - STACK Documentation",
                 "description":"Information on using conditional question blocks in STACK."
@@ -493,6 +503,11 @@
                 "file":"Fact_sheets.md",
                 "title":"Fact Sheets - STACK Documentation",
                 "description":"STACK lets question authors easily embed standard facts into their questions."
+                },
+                {
+                "file":"Filter_calculations.md",
+                "title":"Filter blocks: calculations - STACK Documentation",
+                "description":"The ASCII block can filter and calculate, this is reference documentation."
                 },
                 {
                 "file":"Iframe_blocks.md",
@@ -1033,6 +1048,11 @@
         "description":"Answers to frequently asked questions aimed at students using STACK."
         },
         {
+        "file":"Free_text.md",
+        "title":"Students' Free text input - STACK Documentation",
+        "description":"How to use free-text input for proof in STACK."
+        },
+        {
         "file":"Answer_input.md",
         "title":"Answer Input for Students- STACK Documentation",
         "description":"Information about answer input for students using STACK."
@@ -1309,6 +1329,30 @@
             }
             ]
         },
+        {
+        "Free_text_input":[
+             {
+             "file":"index.md",
+             "title":"Free text input - STACK Documentation",
+             "description":"How to use free-text input for proof in STACK."
+             },
+             {
+             "file":"Authoring.md",
+             "title":"Authoring a free text input question - STACK Documentation",
+             "description":"How to use free-text input authoring an automatically asssessed STACK question."
+             },
+             {
+             "file":"Calculation.md",
+             "title":"Authoring a free text input question with optional calculation - STACK Documentation",
+             "description":"How to use free-text input question allowing students to include calculations."
+             },
+             {
+             "file":"Extractors.md",
+             "title":"Authoring free-text questions with extractors - STACK Documentation",
+             "description":"How to use regex to extract answer from free-text input questions."
+             }
+             ]
+         },
         {
        "GeoGebra":[
             {

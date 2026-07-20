@@ -33,6 +33,7 @@ class stack_json_input extends stack_string_input {
         'hideanswer' => false,
         'allowempty' => false,
         'validator' => false,
+        'manualgraded' => false,
     ];
 
     /**

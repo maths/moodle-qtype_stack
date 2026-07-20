@@ -1,7 +1,6 @@
 # Feedback
 
-The purpose of STACK is to assess students' answers to mathematical questions,
-and on the basis of the properties we establish to assign _feedback_.
+The purpose of STACK is to assess students' answers to mathematical questions, and on the basis of the properties we establish to assign _feedback_.
 
 This document describes the ways STACK provides feedback to students. It will not go into much depth on creating the feedback, which is documented under [potential response trees](Potential_response_trees.md).
 

@@ -43,6 +43,7 @@ class stack_units_input extends stack_input {
         'validator' => false,
         'feedback' => false,
         'monospace' => false,
+        'manualgraded' => false,
     ];
 
 

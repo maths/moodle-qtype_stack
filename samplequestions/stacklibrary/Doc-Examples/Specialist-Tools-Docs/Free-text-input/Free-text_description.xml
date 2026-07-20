@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+<!-- question: 1068  -->
+  <question type="description">
+    <name>
+      <text>Free-text description</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h2>Using free-text inputs</h2>
+<p>A free-text input allows you to type in free text, e.g. your complete working or mathematical proof.  You will see an immediate preview, with mathematics displayed.
+<ol>
+<li>You can type markdown text.</li>
+<li>You can type AsciiMath between backticks for mathematics: <code>`...`</code>.</li>
+<li>You can include LaTeX between brackets, <code>\(...\)</code> for inline mathematics and <code>\[...\]</code> displayed mathematics.</li>
+<li>If activated by the teacher, calculations between <code>{@...@}</code> will be automatically evaluated.</li>
+</ol>
+</p>
+<p>AsciiMath has two forms.  <em>Inline</em> AsciiMath starts and ends with a backtick, e.g. <code>`sum_(k=1)^oo 1/(n^2)=pi^2/6`</code>.</p>
+<p><em>Displayed</em> AsciiMath starts and ends with a backtick on an empty line, and mathematics lines in between.  E.g.
+<pre>
+`
+x^2-5x+6=0
+(x-3)(x-2)=0
+`
+</pre>
+ AsciiMath is considerably simpler than LaTeX and should be adequate for many common expressions.
+</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+  </question>
+
+</quiz>

@@ -311,16 +311,13 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             return question_engine::make_behaviour('informationitem', $qa, $preferredbehaviour);
         }
 
+        // This is an edge case to stop survey items automatically becoming manually graded.
         if (empty($this->prts)) {
             return question_engine::make_behaviour('manualgraded', $qa, $preferredbehaviour);
         }
 
-        if (!empty($this->inputs)) {
-            foreach ($this->inputs as $input) {
-                if ($input->get_extra_option('manualgraded')) {
-                    return question_engine::make_behaviour('manualgraded', $qa, $preferredbehaviour);
-                }
-            }
+        if ($this->is_manually__graded()) {
+            return question_engine::make_behaviour('manualgraded', $qa, $preferredbehaviour);
         }
 
         if ($preferredbehaviour == 'adaptive' || $preferredbehaviour == 'adaptivenopenalty') {
@@ -336,6 +333,21 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         }
 
         return parent::make_behaviour($qa, $preferredbehaviour);
+    }
+
+    /**
+     * Determine if this question is manually graded.
+     * @return bool
+     */
+    public function is_manually__graded() {
+        if (!empty($this->inputs)) {
+            foreach ($this->inputs as $input) {
+                if ($input->get_extra_option('manualgraded')) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -869,6 +881,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             }
         }
         // Add in the answer note for this response.
+        $finalscore = 0;
         foreach ($this->prts as $name => $prt) {
             $state = $this->get_prt_result($name, $response, false);
             $note = implode(' | ', array_map('trim', $state->get_answernotes()));
@@ -879,6 +892,9 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                 $score = "# = " . $state->get_score();
                 if ($prt->is_formative()) {
                     $score .= ' [formative]';
+                } else {
+                    // Record scores of non-formative PRTs to compute grade below.
+                    $finalscore += $state->get_fraction();
                 }
                 $score .= " | ";
             }
@@ -889,6 +905,14 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                 $score = '[RUNTIME_FV_ERROR] ' . $score . implode("|", $state->get_fverrors()) . ' | ';
             }
             $bits[] = $name . ": " . $score . $note;
+        }
+        // If we have a manually graded question, then the question summary is visible during manual grading.
+        // It will be very helpful to teachers to have a clear statement of the score in that summary.
+        if ($this->is_manually__graded()) {
+            // Write the score in terms of the question value (defaultmark), not between 0-1 as we do internally.
+            $finalscore = $finalscore * $this->defaultmark;
+            $finalscore = round(stack_utils::fix_to_continued_fraction($finalscore, 4), 3);
+            $bits = array_merge(['Raw Score: ' . $finalscore . '/' . $this->defaultmark], $bits);
         }
         return implode('; ', $bits);
     }
@@ -1099,16 +1123,12 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function is_gradable_response(array $response) {
         // Manually graded answers are always gradable.
-        if (!empty($this->inputs)) {
-            foreach ($this->inputs as $input) {
-                if ($input->get_extra_option('manualgraded')) {
-                    return true;
-                }
-            }
+        if ($this->is_manually__graded()) {
+            return true;
         }
         // If any PRT is gradable, then we can grade the question.
         $noprts = true;
-        foreach ($this->prts as $index => $prt) {
+        foreach ($this->prts as $prt) {
             $noprts = false;
             // Whether formative PRTs can be executed is not relevant to gradability.
             if (!$prt->is_formative() && $this->can_execute_prt($prt, $response, true)) {
@@ -1118,7 +1138,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // In the case of no PRTs,  questions are in state "is_gradable" if we have
         // at least one input in the "score" or "valid" state.
         if ($noprts) {
-            foreach ($this->inputstates as $key => $inputstate) {
+            foreach ($this->inputstates as $inputstate) {
                 if ($inputstate->status == 'score' || $inputstate->status == 'valid') {
                     return true;
                 }
@@ -1145,12 +1165,8 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $fraction = 0;
 
         // If we have one or more notes input which needs manual grading, then mark it as needs grading.
-        if (!empty($this->inputs)) {
-            foreach ($this->inputs as $input) {
-                if ($input->get_extra_option('manualgraded')) {
-                    return question_state::$needsgrading;
-                }
-            }
+        if ($this->is_manually__graded()) {
+            return question_state::$needsgrading;
         }
         foreach ($this->prts as $name => $prt) {
             if (!$prt->is_formative()) {
@@ -1806,8 +1822,10 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         }
 
         // Check for /*...*/ comments in castext in older questions.
+        // Only checking against pre-JSXGraph questions as multiline
+        // comments still valid there.
         // TO-DO Should this be here or in the validate_for_bulk function?
-        if ($stackversion < $checkpat['ver']) {
+        if ($stackversion < '2018073000') {
             $pat = '~/\*.*?\*/~s';
             foreach ($castextfields as $field) {
                 if (preg_match($pat, $this->$field ?? '')) {
@@ -1950,7 +1968,13 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             $warnings[] = stack_string_error('questionbroken');
         }
 
-        // 4. Language warning checks.
+        // 4. Warn if always maually graded.
+        // Teachers will expect auto-grading, and this is likey to be helpful.
+        if ($this->is_manually__graded()) {
+            $warnings[] = stack_string_error('alwaysmanuallygrade');
+        }
+
+        // 5. Language warning checks.
         // Put language warning checks last (see guard clause below).
         // Check multi-language versions all have the same languages.
         $ml = new stack_multilang();

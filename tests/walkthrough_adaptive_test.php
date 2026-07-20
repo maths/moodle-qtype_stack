@@ -2879,7 +2879,7 @@ final class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base 
             $this->get_does_not_contain_feedback_expectation(),
             $this->get_does_not_contain_num_parts_correct(),
             $this->get_no_hint_visible_expectation()
-            );
+        );
         // Process a submit of the correct answer.
         $this->process_submission(['ans1' => '(x-2)*(x+2)', 'ans1_val' => '(x-2)*(x+2)', '-submit' => 1]);
         // Verify.

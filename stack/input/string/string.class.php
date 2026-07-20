@@ -32,6 +32,7 @@ class stack_string_input extends stack_algebraic_input {
         'hideanswer' => false,
         'allowempty' => false,
         'validator' => false,
+        'manualgraded' => false,
     ];
 
     /**

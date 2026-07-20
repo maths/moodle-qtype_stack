@@ -42,6 +42,7 @@ class ValidationController {
     public function __invoke(Request $request, Response $response, array $args): Response {
         // TO-DO: Validate.
         $data = $request->getParsedBody();
+        $language = current_language($data['lang'] ?? null);
 
         $question = StackQuestionLoader::loadxml($data["questionDefinition"])['question'];
 
@@ -71,6 +72,13 @@ class ValidationController {
                 $data["inputName"],
                 null,
             );
+        $translate = new \stack_multilang();
+        // This is a hack, that restores the filter regex to the exact one used in moodle.
+        // The modifications done by the stack team prevent the filter funcitonality from working correctly.
+        $translate->search = '/(<span(\s+lang="[a-zA-Z0-9_-]+"|\s+class="multilang")' .
+                             '{2}\s*>.*?<\/span>)(\s*<span(\s+lang="[a-zA-Z0-9_-]+"' .
+                             '|\s+class="multilang"){2}\s*>.*?<\/span>)+/is';
+        $validationresponse->validation = $translate->filter($validationresponse->validation, $language);
 
         $validationresponse->iframes = StackIframeHolder::$iframes;
         $response->getBody()->write(json_encode($validationresponse));

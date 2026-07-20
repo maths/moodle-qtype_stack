@@ -133,7 +133,7 @@ ta:ratsimp((a*v)/d+(b*v)/d);</text>
         <truescore>0.0000000</truescore>
         <truepenalty/>
         <truenextnode>-1</truenextnode>
-        <trueanswernote>1-2-T (naive adding of fractions)</trueanswernote>
+        <trueanswernote>1-2-T</trueanswernote>
         <truefeedback format="html">
           <text><![CDATA[<p>You don't add fractions by adding the numerators and the denominators. When the denominators are equal it is a simple case of adding the numerators: \(\frac{a}{d}+\frac{b}{d}=\frac{a+b}{d}\)</p>]]></text>
         </truefeedback>
@@ -196,7 +196,7 @@ ta:ratsimp((a*v)/d+(b*v)/d);</text>
         <name>prt1</name>
         <expectedscore>0.0000000</expectedscore>
         <expectedpenalty>0.1000000</expectedpenalty>
-        <expectedanswernote>1-2-T (naive adding of fractions)</expectedanswernote>
+        <expectedanswernote>1-2-T</expectedanswernote>
       </expected>
     </qtest>
   </question>

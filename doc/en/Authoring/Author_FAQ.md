@@ -23,6 +23,7 @@ LaTeX is a document preparation system. For STACK questions we only need some si
 In particular STACK only really makes use of LaTeX for mathematical markup, and does not use the document structure tags.
 
 Useful LaTeX resources:
+
 * An introduction for those totally new to LaTeX, Andy Roberts' [Absolute Beginners](https://www.andy-roberts.net/latex/absolute_beginners/).
 * The [mathematics environment guidance](http://www.andy-roberts.net/writing/latex/mathematics_1).
 * Details about LaTeX are available from <www.latex-project.org/guides/>.

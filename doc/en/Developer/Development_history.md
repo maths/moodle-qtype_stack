@@ -2,6 +2,27 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## Version 4.13.0 (2026062900)
+
+Released June 2026.
+
+__Changes and new features.__
+
+This release has a major new feature: ["free-text" input](../Specialist_tools/Free_text_input/index.md) to allow students to input typed free-text proof.
+
+**NOTE** [STACK issue #1777](https://github.com/maths/moodle-qtype_stack/issues/1777) means that importing free-text questions can break the display of the worked solution.  To work around this issue, (1) import the question, (2) edit the question without making changes, (3) save the question, (4) test the worked solution is correctly displayed.  We will resolve this issue.
+
+Issues with [github milestone 4.13.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.13.0) include
+
+1. Support for Maxima 5.47.0, 5.48.0, and 5.49.0.  This includes a fix for issue #1281 from 5.48.0.
+2. Question tests can now test the whole route through a PRT, rather than just the final node.  This is a significant improvement on the ability to test questions.  This is back-compatible with older questions.
+3. Add in a new ["free-text" input](../Specialist_tools/Free_text_input/index.md) to allow students to input typed free-text proof.
+4. Allow most input types to use the extra option 'manualgraded'.
+5. Expand the use of "align" and "monospace" input options to textarea and equiv inputs.
+6. Move chemistry data and some core functions into the Maxima supported code.  Load these with `stack_chemistry_declare(true);` in the question variables.
+7. Redesign of question dashboard layout.
+
+
 ## Version 4.12.0 (2026042200)
 
 Released April 2026.

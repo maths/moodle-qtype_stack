@@ -80,8 +80,7 @@ You can thus check for the additive constant for the indefinite integral of \(x^
 The answer test will complain if the student answer does not contain *exactly one additional variable* besides the given list in the options.
 
 In its default mode, this test will only accept additive constants of the form `+c`, even though constant multiples of the constant (`+c/3`) and any surjective function on the reals (`+c^3`, `+ln(c)`) result in a mathematically correct parametrization of the family of antiderivatives.
-The constant does not have to be added explicitely:
-Testing `ln(x*exp(c))+k` with the given variables `[x,k]` will identify `c` as an additive constant, passing the answer test since `+c` can be extracted from the answer.
+The constant does not have to be added explicitly: testing `ln(x*exp(c))+k` with the given variables `[x,k]` will identify `c` as an additive constant, passing the answer test since `+c` can be extracted from the answer.
 
 If the word `NONSTRICT` is a list element of the options field, then the answer test will accept any additive term in the different variable.
 For example, the student answers `log(k*x)` or `x + C^3` with the options `[x, NONSTRICT]` (or `[NONSTRICT, x]`; the order does not matter) pass this answer test, whereas they will fail with the options `[x]`.

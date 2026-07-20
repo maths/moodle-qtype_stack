@@ -99,5 +99,5 @@ If you need to create a list of numbered variables use
 
 ## Next
 
-- [Assessing solutions to differeniial equations](../../Topics/Differential_equations/Assessing_Responses.md)
+- [Assessing solutions to differential equations](../../Topics/Differential_equations/Assessing_Responses.md)
 

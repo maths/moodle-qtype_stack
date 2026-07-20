@@ -89,7 +89,7 @@ However this result will fail, as `prt1-4-F` is expected to be the last note.
 
 ### Legacy test case construction (before v4.13.0)
 
-Before STACK 4.13.0, only the last answer note from each potential response tree was compared to that specified by the teacher.  Older questions with legacy question tests will continue to be tested in this way, and legacy test cases will behave as before.  (New questions, with new-style tests, will give rise to failed question tests.  This is a failure of the test, not neeccarily of the question: you will need to review, and update the question tests if using newer questions on older STACK installations, sorry.)
+Before STACK 4.13.0, only the last answer note from each potential response tree was compared to that specified by the teacher.  Older questions with legacy question tests will continue to be tested in this way, and legacy test cases will behave as before.  (New questions, with new-style tests, will give rise to failed question tests.  This is a failure of the test, not necessarily of the question: you will need to review, and update the question tests if using newer questions on older STACK installations, sorry.)
 
 ## Test case construction and Maxima evaluation
 

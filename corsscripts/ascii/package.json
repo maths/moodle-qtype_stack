@@ -1,0 +1,11 @@
+{
+  "name": "stack-ascii",
+  "private": true,
+  "scripts": {
+    "build": "esbuild stackascii.js --bundle --format=esm --minify-syntax --minify-whitespace --sourcemap=external --source-root=cors.php?name=ascii/ --footer:js=\"//# sourceMappingURL=cors.php?name=ascii/stackascii.bundle.js.map\" --outfile=stackascii.bundle.js --banner:js=\"// Generated – do not edit directly. Edit stackascii.js and its dependencies, then run: npm run build\" --tsconfig=tsconfig.json && esbuild ASCIIMathTeXImg.js --minify --tsconfig=tsconfig.json --outfile=ASCIIMathTeXImg.min.js",
+    "watch": "esbuild stackascii.js --bundle --format=esm --minify-syntax --minify-whitespace --sourcemap=external --source-root=cors.php?name=ascii/ --footer:js=\"//# sourceMappingURL=cors.php?name=ascii/stackascii.bundle.js.map\" --outfile=stackascii.bundle.js --tsconfig=tsconfig.json --watch"
+  },
+  "devDependencies": {
+    "esbuild": "*"
+  }
+}

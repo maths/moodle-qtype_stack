@@ -28,7 +28,6 @@
 require_once(__DIR__ . '/../../../../../lib/behat/behat_base.php');
 
 use Moodle\BehatExtension\Exception\SkippedException;
-use PHPUnit\Framework\Assert;
 
 /**
  * Steps definitions related with the question bank management.
@@ -126,6 +125,119 @@ class behat_qtype_stack extends behat_base {
     }
 
     /**
+     * Check an answer value
+     *
+     * @param string $name name of input
+     * @param string $value the expected
+     *
+     * @Given /^I check the input "(?P<name>[^"]*)" is '(?P<value>[^']*)'$/
+     */
+    public function i_check_input_value($name, $value) {
+        $js = <<<EOF
+            return (function() {
+                let value = document.querySelector('input[id$="$name"]').value;
+                return value;
+            })();
+        EOF;
+        $formvalue = $this->evaluate_script($js);
+        if ($formvalue !== $value) {
+            throw new \Exception("Expected input value '$value' but got '$formvalue'.");
+        }
+    }
+
+    /**
+     * Set a checkbox without clicking it.
+     *
+     * @param string $fieldname the visible label of the checkbox.
+     * @param string $value 1 to check the box, 0 to uncheck it.
+     *
+     * @When /^I set the checkbox "(?P<fieldname>[^"]*)" to "(?P<value>[01])"$/
+     */
+    public function i_set_the_checkbox_to(string $fieldname, string $value): void {
+        $field = $this->getSession()->getPage()->findField($fieldname);
+        if ($field === null) {
+            throw new \Exception("Field '$fieldname' not found.");
+        }
+
+        $checked = $value === '1';
+
+        $xpath = json_encode(str_replace(["\r\n", "\r", "\n"], ' ', $field->getXpath()));
+        $checkedjs = $checked ? 'true' : 'false';
+        $js = <<<EOF
+            (function() {
+                const field = document.evaluate({$xpath}, document, null,
+                        XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+                if (!field) {
+                    return;
+                }
+                field.checked = {$checkedjs};
+                field.dispatchEvent(new Event('input', {bubbles: true}));
+                field.dispatchEvent(new Event('change', {bubbles: true}));
+            })();
+        EOF;
+        $this->execute_script($js);
+    }
+
+    /**
+     * Check an iframe element value
+     *
+     * @param string $id id of element
+     * @param string $value the expected
+     *
+     * @Given /^I check the value of iframe element "(?P<id>[^"]*)" is '(?P<value>[^']*)'$/
+     */
+    public function i_check_element_value($id, $value) {
+        $generalcontext = behat_context_helper::get('behat_general');
+        $generalcontext->switch_to_iframe('stack-iframe-1');
+        $js = <<<EOF
+            return (function() {
+                let el = document.getElementById("$id");
+                return el ? el.textContent : null;
+            })();
+        EOF;
+        $formvalue = $this->evaluate_script($js);
+        $this->getSession()->switchToWindow();
+        $formvalue = str_replace(["\r\n", "\r", "\n"], '\n', $formvalue);
+        if ($formvalue !== $value) {
+            throw new \Exception("Expected element value '$value' but got '$formvalue'.");
+        }
+    }
+
+    /**
+     * Check an iframe element value contains one of three substrings.
+     *
+     * @param string $id id of element
+     * @param string $value1 first expected substring
+     * @param string $value2 second expected substring
+     * @param string $value3 third expected substring
+     *
+     * phpcs:disable moodle.Files.LineLength.TooLong
+     * @Given /^I check the value of iframe element "(?P<id>[^"]*)" contains one of '(?P<value1>[^']*)' or '(?P<value2>[^']*)' or '(?P<value3>[^']*)'$/
+     * phpcs:enable moodle.Files.LineLength.TooLong
+     */
+    public function i_check_element_value_contains_one_of($id, $value1, $value2, $value3) {
+        $generalcontext = behat_context_helper::get('behat_general');
+        $generalcontext->switch_to_iframe('stack-iframe-1');
+        $js = <<<EOF
+            return (function() {
+                let el = document.getElementById("$id");
+                return el ? el.textContent : null;
+            })();
+        EOF;
+        $formvalue = $this->evaluate_script($js);
+        $this->getSession()->switchToWindow();
+        $formvalue = str_replace(["\r\n", "\r", "\n"], '\n', $formvalue);
+        if (
+            strpos($formvalue, $value1) === false &&
+            strpos($formvalue, $value2) === false &&
+            strpos($formvalue, $value3) === false
+        ) {
+            throw new \Exception("Expected element value to contain one of '$value1'," .
+                " '$value2' or '$value3' but got '$formvalue'.");
+        }
+    }
+
+    /**
      * Set the response for a given input in the Moodle app.
      *
      * @param string $identifier the text of the item to drag. E.g. '2:answer'.
@@ -210,7 +322,9 @@ class behat_qtype_stack extends behat_base {
         foreach ($urls as $url) {
             $this->execute('behat_general::i_visit', [$url]);
         }
-        Assert::assertEquals(true, count($urls) === (int) $number);
+        if (count($urls) !== (int) $number) {
+            throw new \Exception("Expected $number images but found " . count($urls) . ".");
+        }
     }
 
     /**

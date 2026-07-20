@@ -37,6 +37,7 @@ class stack_matrix_input extends stack_input {
         'checkvars' => 0,
         'validator' => false,
         'feedback' => false,
+        'manualgraded' => false,
     ];
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

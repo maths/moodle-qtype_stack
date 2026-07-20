@@ -55,6 +55,10 @@ For example, using the question variables above you can define the following in 
 
     sa:regex_match_exactp(s1, ans1);
 
+An example question which uses regular expressions for assessment is 
+
+    Doc-Examples/Specialist-Tools-Docs/Free-text-input/Free-text_with_regex.xml
+
 Then you can use the `AlgEquiv` answer test to check the result is true/false, e.g. `ATAlgEquiv(sa, true)`.
 
 `(RegExp)` **NOTE:** this test was removed in STACK version 4.3.

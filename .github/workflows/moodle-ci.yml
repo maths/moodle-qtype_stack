@@ -69,7 +69,8 @@ jobs:
                https://sourceforge.net/projects/maxima/files/Maxima-Linux-RPM/5.42.2-Linux/maxima-${maxima}_5.42.2-1_amd64.deb
 
           sudo locale-gen en_AU.UTF-8
-          sudo apt-get install libtinfo5
+          sudo apt-get update
+          sudo apt-get install -y libtinfo5
           sudo dpkg -i libreadline7_7.0-3_amd64.deb maxima-common_5.42.2-1_all.deb maxima-${maxima}_5.42.2-1_amd64.deb
 
           echo "LANG=en_AU.UTF-8" >> $GITHUB_ENV
@@ -263,6 +264,13 @@ jobs:
         if: ${{ matrix.moodle-branch == 'main' || matrix.moodle-branch == 'MOODLE_405_STABLE'}}
         #if: ${{ always() }}
         run: moodle-plugin-ci phpunit
+
+      - name: JS unit tests
+        if: ${{matrix.moodle-branch == 'MOODLE_502_STABLE'}}
+        run: |
+          cd plugin/tests/jest
+          npm install
+          npm test
 
       - name: Behat features
         if: ${{ always() }}

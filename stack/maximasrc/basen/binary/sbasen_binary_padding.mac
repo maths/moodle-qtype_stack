@@ -12,7 +12,7 @@
  * @param[int] width, the digit width to aim for
  * @return[stackbasen] the padded stackbasen-object.
  */
-sbasen_pad(sbasen_number, width) := block([simp,digits,fmt,base,prefix,suffix],
+sbasen_pad(sbasen_number, width) := block([simp,digits,fmt,base,prefix,suffix,_x],
     simp: true,
 	[digits,fmt,base]: args(sbasen_number),
 	
@@ -25,7 +25,7 @@ sbasen_pad(sbasen_number, width) := block([simp,digits,fmt,base,prefix,suffix],
 
 	/* If already wide enough. */
 	if is(slength(digits) >= width) then return(sbasen_number),
-    digits: sconcat(simplode(makelist("0", x, 1, width - slength(digits))), digits),
+    digits: sconcat(simplode(makelist("0", _x, 1, width - slength(digits))), digits),
 
 	return(stackbasen(sconcat(prefix, digits, suffix), fmt, base))
 )$

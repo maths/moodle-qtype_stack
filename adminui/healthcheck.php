@@ -89,18 +89,20 @@ if (!extension_loaded('mbstring')) {
 $healthcheck = new stack_cas_healthcheck($config);
 $tab = '';
 foreach ($healthcheck->get_test_results() as $test) {
-    $tl   = '';
-    if (true === $test['result']) {
-        $tl  .= html_writer::tag('td', stack_string('testsuitepass'));
-    } else if (false === $test['result']) {
-        $tl  .= html_writer::tag('td', stack_string('testsuitefail'));
-    } else {
-        $tl  .= html_writer::tag('td', ' ');
+    if ($test['summary']) {
+        $tl   = '';
+        if (true === $test['result']) {
+            $tl  .= html_writer::tag('td', stack_string('testsuitepass'));
+        } else if (false === $test['result']) {
+            $tl  .= html_writer::tag('td', stack_string('testsuitefail'));
+        } else {
+            $tl  .= html_writer::tag('td', ' ');
+        }
+        $tl  .= html_writer::tag('td', $test['summary']);
+        $tab .= html_writer::tag('tr', $tl) . "\n";
     }
-    $tl  .= html_writer::tag('td', $test['summary']);
-    $tab .= html_writer::tag('tr', $tl) . "\n";
 }
-echo html_writer::tag('table', $tab);
+echo html_writer::tag('table', $tab, ['class' => 'generaltable table']);
 if ($healthcheck->get_overall_result()) {
     echo html_writer::tag('p', stack_string('healthcheckpass'), ['class' => 'overallresult pass']);
 } else {

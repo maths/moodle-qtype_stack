@@ -47,15 +47,15 @@ Equations and expressions are very different.  Two equations are equivalent if t
     else
       false.
 
-That is to say, we turn the equation `ex1` into an expression `x1:simplify(lhs(ex1)-rhs(ex1))` and the equation `ex2` into an expression `x2:simplify(lhs(ex2)-rhs(ex2))`, and then simplify the ratio of the two numerators of `x1` and `x2`:, i.e. `num(x1)/num(x2)` (with some edge case detection of course).  If this is a number then we have cancelled algebraic factors precicely, and roots match (with multiplicity).  Notice we do not actually "solve" the equations during this process, thereby side-stepping the decidability question.  (We would need a separate test to ignore multiplicity of roots.)
+That is to say, we turn the equation `ex1` into an expression `x1:simplify(lhs(ex1)-rhs(ex1))` and the equation `ex2` into an expression `x2:simplify(lhs(ex2)-rhs(ex2))`, and then simplify the ratio of the two numerators of `x1` and `x2`:, i.e. `num(x1)/num(x2)` (with some edge case detection of course).  If this is a number then we have cancelled algebraic factors precisely, and roots match (with multiplicity).  Notice we do not actually "solve" the equations during this process, thereby side-stepping the decidability question.  (We would need a separate test to ignore multiplicity of roots.)
 
-In calculating the ratio `x1/x2` we use Maxima's simplifer, which may be modified by commands like `assume`.  However, since we do not actually solve the equations we do not use `assume` to reject solutions themselves.  For example, in the following situation
+In calculating the ratio `x1/x2` we use Maxima's simplifier, which may be modified by commands like `assume`.  However, since we do not actually solve the equations we do not use `assume` to reject solutions themselves.  For example, in the following situation
 
     assume(x>0);
     eq1: a = (c*x^3)/x;
     eq2: a*x = c*x^3;
 
-`eq1` does not have \(0\) as a solution, whereas `eq2` does have \(0\) as a solution, the ratio simplifes to `1/x` indicating that `eq2` has a zero solution which is not balanced by a corresponding solution in `eq`.   Since the equations are never solved, the `assume(x>0)` never comes into play here.  (We would need a separate test to use `assume` statements and reject roots.)
+`eq1` does not have \(0\) as a solution, whereas `eq2` does have \(0\) as a solution, the ratio simplifies to `1/x` indicating that `eq2` has a zero solution which is not balanced by a corresponding solution in `eq`.   Since the equations are never solved, the `assume(x>0)` never comes into play here.  (We would need a separate test to use `assume` statements and reject roots.)
 
 Inequalities are turned into sets of real numbers they represent.  When this is done it is indicated by the answer note `ATInequality_solver.`  If you want `a>1` to be _not_ the same as `x>1` then you need to test in a more syntactic way, not using algebraic equivalence.
 

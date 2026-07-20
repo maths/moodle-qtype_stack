@@ -50,6 +50,7 @@ class stack_numerical_input extends stack_input {
         'align' => 'left',
         'validator' => false,
         'monospace' => false,
+        'manualgraded' => false,
     ];
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

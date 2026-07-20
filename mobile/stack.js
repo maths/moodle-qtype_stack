@@ -190,6 +190,10 @@ var result = {
             args[1] = args[1].replace(baseRef + 'sortable.min.css" rel="stylesheet">',
                 baseRef + 'sortable.min.css" rel="stylesheet">'
                 + '<link rel="stylesheet" href="' + baseRef + 'styles.css"></link>');
+            args[1] = args[1].replace(
+                'config=TeX-AMS-MML_HTMLorMML',
+                'config=TeX-MML-AM_CHTML'
+            );
             // Scripts are now being loaded cross origin and Chrome complains.
             // It may just be a dev environment issue.
             args[1] = args[1].replace(/<img/g, '<img crossorigin=\'anonymous\'');
@@ -204,8 +208,12 @@ var result = {
             // moving between pages of a quiz, the data is loaded dynamically
             // and even using afterRender triggers before the div is available.
             // Sigh... Add this observer to set up validation ASAP.
+            const iframeTargetIds = iframesArgs.map((args) => args[2]);
             const observer = new MutationObserver(() => {
-                if (document.querySelector('#' + this.question.divId)) {
+                const questionDivReady = document.querySelector('#' + this.question.divId);
+                const iframeTargetsReady = iframeTargetIds.every((targetId) => document.getElementById(targetId));
+
+                if (questionDivReady && iframeTargetsReady) {
                     observer.disconnect();
                     for (const args of inputInits) {
                         initInputs(...args);
@@ -267,6 +275,8 @@ var result = {
              * Called when the input contents changes. Will validate after TYPING_DELAY if nothing else happens.
              */
             function valueChanging() {
+                input.dispatchEvent(new CustomEvent('stack-validation', {
+                    detail: {inputname: name, completed: false, valid: null}}));
                 cancelTypingDelay();
                 showWaiting();
                 delayTimeoutHandle = setTimeout(valueChanged, TYPING_DELAY);
@@ -318,6 +328,8 @@ var result = {
                 })
                 .catch(function(response) {
                     showValidationFailure(response);
+                    input.dispatchEvent(new CustomEvent('stack-validation', {
+                        detail: {inputname: name, completed: true, valid: false}}));
                 });
                 showLoading();
             }
@@ -339,10 +351,14 @@ var result = {
             function validationReceived(response) {
                 if (response.status === 'invalid') {
                     showValidationFailure(response);
+                    input.dispatchEvent(new CustomEvent('stack-validation', {
+                        detail: {inputname: name, completed: true, valid: false}}));
                     return;
                 }
                 validationResults[response.input] = response;
                 showValidationResults();
+                input.dispatchEvent(new CustomEvent('stack-validation', {
+                    detail: {inputname: name, completed: true, valid: true}}));
             }
 
             /**
@@ -379,10 +395,6 @@ var result = {
                 lastValidatedValue = val;
                 var scriptCommands = [];
                 validationDiv.innerHTML = extractScripts(results.message, scriptCommands);
-                // Run script commands.
-                for (var i = 0; i < scriptCommands.length; i++) {
-                    eval(scriptCommands[i]);
-                }
                 removeAllClasses();
                 if (!results.message) {
                     validationDiv.classList.add('empty');
@@ -399,7 +411,8 @@ var result = {
              * @param {Object} response The data that came back from the ajax validation call.
              */
             function showValidationFailure(response) {
-                lastValidatedValue = '';
+                // ISS1757 - Change from blank to null so validation updates when answer cleared.
+                lastValidatedValue = null;
                 // Reponse usually contains backtrace, debuginfo, errorcode, link, message and moreinfourl.
                 validationDiv.innerHTML = response.message;
                 removeAllClasses();
@@ -474,6 +487,10 @@ var result = {
             this.getValue = function() {
                 return input.value.replace(/^\s+|\s+$/g, '');
             };
+
+            this.dispatchEvent = function(event) {
+                input.dispatchEvent(event);
+            };
         }
 
         /**
@@ -503,6 +520,10 @@ var result = {
             this.getValue = function() {
                 return input.value.replace(/^\s+|\s+$/g, '');
             };
+
+            this.dispatchEvent = function(event) {
+                input.dispatchEvent(event);
+            };
         }
 
         /**
@@ -531,7 +552,39 @@ var result = {
                 // Using <br> here is weird, but it gets sorted out at the PHP end.
                 return raw.split(/\s*[\r\n]\s*/).join('<br>');
             };
+
+            this.dispatchEvent = function(event) {
+                textarea.dispatchEvent(event);
+            };
         }
+
+    /**
+     * Input type for freetext inputs.
+     *
+     * @constructor
+     * @param {Object} freetext The input element wrapped in jquery.
+     */
+    function StackFreetextInput(freetext) {
+        /**
+         * Add the event handler to call when the user input changes.
+         *
+         * @param {Function} valueChanging the callback to call when we detect a value change.
+         */
+        this.addEventHandlers = function(valueChanging) {
+            freetext.addEventListener('input', valueChanging);
+        };
+
+        /**
+         * Get the current value of this input.
+         *
+         * @return {String}.
+         */
+        this.getValue = function() {
+            var raw = freetext.value.replace(/^\s+|\s+$/g, '');
+            // Using <br> here is weird, but it gets sorted out at the PHP end.
+            return raw.split(/\s*[\r\n]\s*/).join('<br>');
+        };
+    }
 
         /**
          * Input type for inputs that are a set of radio buttons.
@@ -563,6 +616,13 @@ var result = {
             this.getValue = function() {
                 var selected = document.querySelector('#' + questionDivId + ' ion-radio-group[name^="' + prefix + name + '"]');
                 return selected.value;
+            };
+
+            this.dispatchEvent = function(event) {
+                var target = document.querySelector('#' + questionDivId + ' ion-radio-group[name^="' + prefix + name + '"]');
+                if (target) {
+                    target.dispatchEvent(event);
+                }
             };
         }
 
@@ -605,6 +665,13 @@ var result = {
                     return result.join(',');
                 } else {
                     return '';
+                }
+            };
+
+            this.dispatchEvent = function(event) {
+                var target = document.querySelector('#' + questionDivId + ' [name^="' + prefix + name + '_"]');
+                if (target) {
+                    target.dispatchEvent(event);
                 }
             };
         }
@@ -655,6 +722,10 @@ var result = {
                     values[bits[0]][bits[1]] = element.value.replace(/^\s+|\s+$/g, '');
                 });
                 return JSON.stringify(values);
+            };
+
+            this.dispatchEvent = function(event) {
+                container.dispatchEvent(event);
             };
         }
 
@@ -729,7 +800,11 @@ var result = {
             var input = document.querySelector('#' + questionDivId + ' [name="' + prefix + name + '"]');
             if (input) {
                 if (input.nodeName === 'TEXTAREA') {
-                    return new StackTextareaInput(input);
+                    if (input.dataset.stackInputType === 'freetext') {
+                        return new StackFreetextInput(input);
+                    } else {
+                        return new StackTextareaInput(input);
+                    }
                 } else if (input.tagName === 'ION-RADIO-GROUP') {
                     return new StackRadioInput(questionDivId, prefix, name);
                 } else if (input.tagName === 'ION-SELECT') {
@@ -759,9 +834,9 @@ var result = {
         // Note the VLE specific include of logic.
 
         /* All the IFRAMES have unique identifiers that they give in their
-            * messages. But we only work with those that have been created by
-            * our logic and are found from this map.
-            */
+         * messages. But we only work with those that have been created by
+         * our logic and are found from this map.
+         */
         let IFRAMES = {};
 
         /* For event handling, lists of IFRAMES listening particular inputs.
@@ -777,6 +852,14 @@ var result = {
         /* A flag to disable certain things. */
         let DISABLE_CHANGES = false;
 
+        /* For validation state change events, lists of IFRAMES listening
+            * particular inputs.
+            */
+        let VALIDATION_STATE_EVENT = {};
+
+        /* For scroll synchronisation, lists of IFRAMES listening particular inputs. */
+        let INPUTS_SCROLL_EVENT = {};
+
         const abortController = new AbortController();
 
 
@@ -787,7 +870,6 @@ var result = {
          * If not found or exists outside the restricted area then returns `null`.
          *
          * @param {String} id the identifier of the element we want.
-         * @returns {null}
          */
         function vle_get_element(id) {
             /* In the case of Moodle we are happy as long as the element is inside
@@ -822,7 +904,7 @@ var result = {
          * @param {String} name the name of the input we want
          * @param {String} srciframe the identifier of the iframe wanting it
          * @param {boolean} outside do we expand the search beyound the src question?
-         * @returns {null}
+         * @returns {object|null}
          */
         // eslint-disable-next-line require-jsdoc, complexity
         function vle_get_input_element(name, srciframe, outside) {
@@ -937,7 +1019,7 @@ var result = {
          * Will only return the button of the question containing that iframe.
          *
          * @param {String} srciframe the identifier of the iframe wanting it
-         * @returns {null}
+         * @returns {object|null}
          */
         function vle_get_submit_button(srciframe) {
             let initialcandidate = document.getElementById(srciframe);
@@ -983,6 +1065,47 @@ var result = {
          */
         function vle_update_dom(modifiedsubtreerootelement) {
             CustomEvents.notifyFilterContentUpdated(modifiedsubtreerootelement);
+        }
+
+        /**
+         * Return the current fractional scroll position for an input.
+         *
+         * @param {HTMLElement} inputelement element to inspect.
+         * @returns {number}
+         */
+        function vle_get_scroll_position(inputelement) {
+            const maxscroll = inputelement.scrollHeight - inputelement.clientHeight;
+            if (maxscroll <= 0) {
+                return 0;
+            }
+            return inputelement.scrollTop / maxscroll;
+        }
+
+        /**
+         * Broadcast the current input scroll position to every subscribed iframe.
+         *
+         * @param {HTMLElement} inputelement element being synced.
+         * @param {String} inputname logical STACK input name.
+         * @param {?String} skipframe iframe id to skip when broadcasting.
+         */
+        function vle_sync_scroll_listeners(inputelement, inputname, skipframe) {
+            if (!(inputelement.id in INPUTS_SCROLL_EVENT)) {
+                return;
+            }
+            const scrollposition = vle_get_scroll_position(inputelement);
+            let response = {
+                version: 'STACK-JS:1.6.0',
+                type: 'input-scroll-position',
+                name: inputname,
+                position: scrollposition
+            };
+            for (let tgt of INPUTS_SCROLL_EVENT[inputelement.id]) {
+                if (skipframe !== null && skipframe !== undefined && tgt === skipframe) {
+                    continue;
+                }
+                response.tgt = tgt;
+                IFRAMES[tgt].contentWindow.postMessage(JSON.stringify(response), '*');
+            }
         }
 
         /**
@@ -1109,7 +1232,7 @@ var result = {
             let input = null;
 
             let response = {
-                version: 'STACK-JS:1.3.0'
+                version: 'STACK-JS:1.5.0'
             };
 
             switch (msg.type) {
@@ -1139,7 +1262,11 @@ var result = {
                     response['input-readonly'] = input.hasAttribute('disabled');
                 } else if (input.nodeName.toLowerCase() === 'textarea') {
                     response.value = input.value;
-                    response['input-type'] = 'textarea';
+                    if (input.dataset.stackInputType === 'freetext') {
+                        response['input-type'] = 'freetext';
+                    } else {
+                        response['input-type'] = 'textarea';
+                    }
                     response['input-readonly'] = input.hasAttribute('disabled');
                 } else if (input.tagName.toLowerCase() === 'ion-checkbox') {
                     response.value = input.checked;
@@ -1153,6 +1280,12 @@ var result = {
                 if (input.tagName.toLowerCase() === 'ion-radio-group') {
                     response['input-readonly'] = input.hasAttribute('disabled');
                     response.value = input.value;
+                }
+
+                // Transfer all data attributes of the input.
+                response['input-dataset'] = {};
+                for (var k in input.dataset) {
+                    response['input-dataset'][k] = input.dataset[k];
                 }
 
                 // 3. Add listener for changes of this input.
@@ -1223,6 +1356,72 @@ var result = {
                     IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(response), '*');
                 }
 
+                break;
+            case 'track-input-scroll':
+                input = vle_get_input_element(msg.name, msg.src, !msg['limit-to-question']);
+
+                if (input === null) {
+                    response.type = 'error';
+                    response.msg = 'Failed to connect to input: "' + msg.name + '"';
+                    response.tgt = msg.src;
+                    IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(response), '*');
+                    return;
+                }
+
+                response.type = 'input-scroll-position';
+                response.name = msg.name;
+                response.tgt = msg.src;
+                response.position = vle_get_scroll_position(input);
+
+                if (input.id in INPUTS_SCROLL_EVENT) {
+                    if (!(msg.src in INPUTS_SCROLL_EVENT[input.id])) {
+                        INPUTS_SCROLL_EVENT[input.id].push(msg.src);
+                    }
+                } else {
+                    INPUTS_SCROLL_EVENT[input.id] = [msg.src];
+                    input.addEventListener('scroll', () => {
+                        vle_sync_scroll_listeners(input, msg.name, null);
+                    });
+                }
+
+                IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(response), '*');
+                break;
+            case 'track-validation-state':
+                // 1. Find the input.
+                input = vle_get_input_element(msg.name, msg.src, !msg['limit-to-question']);
+
+                if (input === null) {
+                    // Requested something that is not available.
+                    response.type = 'error';
+                    response.msg = 'Failed to connect to input: "' + msg.name + '"';
+                    response.tgt = msg.src;
+                    IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(response), '*');
+                    return;
+                }
+
+                // 2. Add listener for validation state changes of this input.
+                if (input.id in VALIDATION_STATE_EVENT) {
+                    if (msg.src in VALIDATION_STATE_EVENT[input.id]) {
+                        // DO NOT BIND TWICE!
+                        return;
+                    }
+                    VALIDATION_STATE_EVENT[input.id].push(msg.src);
+                } else {
+                    VALIDATION_STATE_EVENT[input.id] = [msg.src];
+                    input.addEventListener('stack-validation', (e) => {
+                        let resp = {
+                            version: 'STACK-JS:1.5.0',
+                            type: 'validation-state',
+                            name: msg.name,
+                            valid: e.detail.valid,
+                            completed: e.detail.completed
+                        };
+                        for (let tgt of VALIDATION_STATE_EVENT[input.id]) {
+                            resp['tgt'] = tgt;
+                            IFRAMES[tgt].contentWindow.postMessage(JSON.stringify(resp), '*');
+                        }
+                    });
+                }
                 break;
             case 'changed-input':
                 // 1. Find the input.
@@ -1401,7 +1600,9 @@ var result = {
 
                 // 2. Set the wrapper size.
                 element.style.width = msg.width;
-                element.style.height = msg.height;
+                if (!element.closest('.free-text-container')) {
+                    element.style.height = msg.height;
+                }
 
                 // 3. Reset the frame size.
                 IFRAMES[msg.src].style.width = '100%';
@@ -1503,7 +1704,7 @@ var result = {
 
             @param {String} iframeid the id that the IFRAME has stored inside
                     it and uses for communication.
-            @param {String} content the full HTML content of that IFRAME.
+            @param {String} the full HTML content of that IFRAME.
             @param {String} targetdivid the id of the element (div) that will
                     hold the IFRAME.
             @param {String} title a descriptive name for the iframe.
@@ -1552,7 +1753,19 @@ var result = {
             // This allows that div to contain some sort of loading
             // indicator until we plug in the frame.
             // Naturally the frame will then start to load itself.
-            document.getElementById(targetdivid).replaceChildren(frm);
+            const targetdiv = document.getElementById(targetdivid);
+            targetdiv.replaceChildren(frm);
+
+            // In side-by-side free-text layout, keep wrapper height driven by flex.
+            if (targetdiv.closest('.free-text-container')) {
+                // Preserve the configured holder height as a floor (e.g. 400px default
+                // or an author-defined smaller/larger value), then allow growth.
+                if (targetdiv.style.height) {
+                    targetdiv.style.minHeight = targetdiv.style.height;
+                }
+                targetdiv.style.height = 'auto';
+                frm.style.height = 'auto';
+            }
             IFRAMES[iframeid] = frm;
         }
 

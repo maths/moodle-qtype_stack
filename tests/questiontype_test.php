@@ -206,14 +206,17 @@ final class questiontype_test extends qtype_stack_walkthrough_test_base {
 
         // This unit test runs a question test, accepting any score and penalty.
         $qtest = new stack_question_test('', ['ans2' => 'x^2']);
-        $qtest->add_expected_result('even', new stack_potentialresponse_tree_state(
-            1,
-            true,
-            -1,
-            -1,
-            '',
-            ['even-1-T']
-            ));
+        $qtest->add_expected_result(
+            'even',
+            new stack_potentialresponse_tree_state(
+                1,
+                true,
+                -1,
+                -1,
+                '',
+                ['even-1-T']
+            )
+        );
         $testcases[] = $qtest;
 
         foreach ($testcases as $testcase) {

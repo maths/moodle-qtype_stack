@@ -219,7 +219,8 @@ define([
          * @param {Object} response The data that came back from the ajax validation call.
          */
         function showValidationFailure(response) {
-            lastValidatedValue = '';
+            // ISS1757 - Change from blank to null so validation updates when answer cleared.
+            lastValidatedValue = null;
             // Reponse usually contains backtrace, debuginfo, errorcode, link, message and moreinfourl.
             validationDiv.innerHTML = response.message;
             removeAllClasses();
@@ -338,6 +339,43 @@ define([
          */
         this.dispatchEvent = function(event) {
             textarea.dispatchEvent(event);
+        };
+    }
+
+    /**
+     * Input type for freetext inputs.
+     *
+     * @constructor
+     * @param {Object} freetext The input element wrapped in jquery.
+     */
+    function StackFreetextInput(freetext) {
+        /**
+         * Add the event handler to call when the user input changes.
+         *
+         * @param {Function} valueChanging the callback to call when we detect a value change.
+         */
+        this.addEventHandlers = function(valueChanging) {
+            freetext.addEventListener('input', valueChanging);
+        };
+
+        /**
+         * Get the current value of this input.
+         *
+         * @return {String}.
+         */
+        this.getValue = function() {
+            var raw = freetext.value.replace(/^\s+|\s+$/g, '');
+            // Using <br> here is weird, but it gets sorted out at the PHP end.
+            return raw.split(/\s*[\r\n]\s*/).join('<br>');
+        };
+
+        /**
+         * Add event dispatch passthrough.
+         *
+         * @param {Event} event to pass onwards.
+         */
+        this.dispatchEvent = function(event) {
+            freetext.dispatchEvent(event);
         };
     }
 
@@ -560,7 +598,11 @@ define([
         var input = questionDiv.querySelector('[name="' + prefix + name + '"]');
         if (input) {
             if (input.nodeName === 'TEXTAREA') {
-                return new StackTextareaInput(input);
+                if (input.dataset.stackInputType === 'freetext') {
+                    return new StackFreetextInput(input);
+                } else {
+                    return new StackTextareaInput(input);
+                }
             } else if (input.type === 'radio') {
                 return new StackRadioInput(input.closest('.answer'));
             } else {

@@ -81,7 +81,7 @@ As a more complicated example, to typeset `u(A_k,k,1,inf)` as \({\bigcup_{k = 1}
     texput(u,lambda([ex],if length(ex)<4 then return("\\bigcup_{?=?}^{?} ? ") else
         sconcat("\\bigcup_{" ,tex1(second(ex)), " = ", tex1(third(ex)), "}^{", tex1(fourth(ex)), "} ", tex1(first(ex)))));
 
-Notice in this example how we check the length of the arguments supplied to the (inert) function `u`.  If there are fewer than the required number of arguments then this texput function returns something sensible.  Without this clause you get errors, which would be unhelpful to a student trying to type this in.
+Notice in this example how we check the length of the arguments supplied to the (inert) function `u`.  If there are fewer than the required number of arguments then this `texput` function returns something sensible.  Without this clause you get errors, which would be unhelpful to a student trying to type this in.
 
 Another example is to have the function `foo` displayed as traditional fractions.
 

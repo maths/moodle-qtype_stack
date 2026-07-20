@@ -5,16 +5,14 @@ past development history is documented on [Development history](Development_hist
 
 We use the [github issue tracker](https://github.com/maths/moodle-qtype_stack/issues) to track "milestones".
 
-## Version 4.13.0
+## Version 4.14.0
 
-Issues with [github milestone 4.13.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.13.0) include
+Issues with [github milestone 4.14.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.14.0) include
+
+1. Improve free-text blocks by matching scroll between textarea and preview block.
+2. Add in line numbering to question and feedback variables via the ace editor.
 
 1. Remove all "cte" code from Maxima - mostly install.
-2. Support for Maxima 5.47.0, 5.48.0, and 5.49.0.  This includes a fix for issue #1281 from 5.48.0.
-3. Question tests can now test the whole route through a PRT, rather than just the final node.  This is a significant improvement on the ability to test questions.  This is back-compatible with older questions.
-4. Move chemistry data and some core functions into the Maxima supported code.  Load these with `stack_chemistry_declare(true);` in the question variables.
-
---------------------------------------
 
 ## Better testing
 
@@ -43,6 +41,19 @@ So this requires a DB change as well.
 ## Future Adapt block development ideas
 
 1. Add in a "counter" option to the button.  If set to true, then the value of the counter changes from true/false to the number of times the button has been pressed.
+
+## Future ASCII block development ideas
+
+Note, there is an ecosystem for markdown extensions here: https://mdit-plugins.github.io/
+These include meta plugins like
+
+* Define inline rules: https://mdit-plugins.github.io/inline-rule.html#custom-syntax
+* Define block rules: https://mdit-plugins.github.io/field.html
+
+1. Support an option so that `#` can be used instead of backticks to delimit AsciiMath.
+2. DONE: Error messages for unknown filter/extractor names! (To help authors....)
+3. Write an AsciiMath to Maxima parser to ensure the `lastblock` and `lastexpr` extractors create correct syntax for the input.  Note math.js already has the necessary _parser_ so de-pasting the ast creates by math.js is the first line of attack here.  See calculator.js filter for an example of traversing this tree.
+4. Add options to calculator blocks for degrees, and to support physics with scientific units (which math.js supports).
 
 ## Future equivalence reasoning development track.
 

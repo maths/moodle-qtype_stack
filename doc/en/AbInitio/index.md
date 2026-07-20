@@ -1,6 +1,6 @@
 # Authoring quick start
 
-Those new to auhtoring STACK questions will probably prefer to begin with the [authoring quick start guide](Authoring_quick_start_1.md). These guides cover the most important topics of question authoring, and include embedded screencast videos to guide you.
+Those new to authoring STACK questions will probably prefer to begin with the [authoring quick start guide](Authoring_quick_start_1.md). These guides cover the most important topics of question authoring, and include embedded screen cast videos to guide you.
 
 * [Authoring quick start 1](Authoring_quick_start_1.md): A basic question.
 * [Authoring quick start 2](Authoring_quick_start_2.md): Question variables.

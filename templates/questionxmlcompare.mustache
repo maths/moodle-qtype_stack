@@ -80,45 +80,51 @@
 }}
 
 <div class="qtype_stack_question_report">
-  <ul class="nav">
-    {{#general.isstackquestion}}
+  {{#general.fromdashboard}}
+    <ul class="nav">
+      {{#general.isstackquestion}}
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" href="{{{general.testquestionlink}}}">
+            <i class="fa fa-wrench"></i> {{#str}} runquestiontests, qtype_stack {{/str}}
+          </a>
+        </li>
+      {{/general.isstackquestion}}
       <li class="nav-item" role="presentation">
-        <a class="nav-link" href="{{{general.testquestionlink}}}">
-          <i class="fa fa-wrench"></i> {{#str}} runquestiontests, qtype_stack {{/str}}
+        <a class="nav-link" href="{{{general.previewquestionlink}}}">
+          <i class="fa fa-plus-circle"></i> {{#str}} questionpreview, qtype_stack {{/str}}
         </a>
       </li>
-    {{/general.isstackquestion}}
-    <li class="nav-item" role="presentation">
-      <a class="nav-link" href="{{{general.previewquestionlink}}}">
-        <i class="fa fa-plus-circle"></i> {{#str}} questionpreview, qtype_stack {{/str}}
-      </a>
-    </li>
-    <li class="nav-item" role="presentation">
-      <a class="nav-link" href="{{{general.editquestionlink}}}">
-        {{#str}} editquestioninthequestionbank, qtype_stack {{/str}}
-      </a>
-    </li>
-    {{#general.isstackquestion}}
       <li class="nav-item" role="presentation">
-        <a class="nav-link" href="{{{general.editxmllink}}}">{{#str}} editxml, qtype_stack {{/str}}</a>
+        <a class="nav-link" href="{{{general.editquestionlink}}}">
+          {{#str}} editquestioninthequestionbank, qtype_stack {{/str}}
+        </a>
       </li>
-    {{/general.isstackquestion}}
-  </ul>
+      {{#general.isstackquestion}}
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" href="{{{general.editxmllink}}}">{{#str}} editxml, qtype_stack {{/str}}</a>
+        </li>
+      {{/general.isstackquestion}}
+    </ul>
+  {{/general.fromdashboard}}
+  {{^general.fromdashboard}}
+    <p><a href="{{{general.adminuilink}}}">{{#str}} settingusefullinks, qtype_stack {{/str}}</a></p>
+  {{/general.fromdashboard}}
 
   <h2>{{#str}} comparexmltitle, qtype_stack {{/str}}</h2>
-
-  <form method="get" action="{{{general.formaction}}}" class="stack-xml-compare-controls
-      {{#general.questionselectmuted}}stack-xml-compare-question-muted{{/general.questionselectmuted}}">
-    {{#general.questionformparams}}
-      <input type="hidden" name="{{name}}" value="{{value}}">
-    {{/general.questionformparams}}
-    <label for="id_question">{{#str}} comparexmlselectquestion, qtype_stack {{/str}}</label>
-    <select id="id_question" class="custom-select form-select" name="id" onchange="this.form.submit();">
-      {{#questionoptions}}
-        <option value="{{id}}" {{#selected}}selected="selected"{{/selected}}>{{label}}</option>
-      {{/questionoptions}}
-    </select>
-  </form>
+  {{#general.fromdashboard}}
+    <form method="get" action="{{{general.formaction}}}" class="stack-xml-compare-controls
+        {{#general.questionselectmuted}}stack-xml-compare-question-muted{{/general.questionselectmuted}}">
+      {{#general.questionformparams}}
+        <input type="hidden" name="{{name}}" value="{{value}}">
+      {{/general.questionformparams}}
+      <label for="id_question">{{#str}} comparexmlselectquestion, qtype_stack {{/str}}</label>
+      <select id="id_question" class="custom-select form-select" name="id" onchange="this.form.submit();">
+        {{#questionoptions}}
+          <option value="{{id}}" {{#selected}}selected="selected"{{/selected}}>{{label}}</option>
+        {{/questionoptions}}
+      </select>
+    </form>
+  {{/general.fromdashboard}}
 
   {{#notices}}
     <div class="alert alert-warning">{{.}}</div>
@@ -128,25 +134,27 @@
     {{#general.formparams}}
       <input type="hidden" name="{{name}}" value="{{value}}">
     {{/general.formparams}}
-    <label for="id_currentversion">{{#str}} comparexmlselectcurrentversion, qtype_stack {{/str}}</label>
-    <select id="id_currentversion" name="currentversion" class="custom-select form-select"
-        onchange="const f=this.form.querySelector('input[name=currentfile]'); if (f) { f.value = '' } this.form.submit();">
-      {{#currentversions}}
-        <option value="{{version}}" {{#selected}}selected="selected"{{/selected}}
-            {{#disabled}}disabled="disabled"{{/disabled}}>{{label}}</option>
-      {{/currentversions}}
-    </select>
-    <a class="btn btn-secondary" href="{{{general.latestlink}}}">
-      {{#pix}}a/refresh, core{{/pix}}{{#str}} comparexmllatest, qtype_stack {{/str}}
-    </a>
-    <label for="id_compareversion">{{#str}} comparexmlselectversion, qtype_stack {{/str}}</label>
-    <select id="id_compareversion" name="compareversion" class="custom-select form-select"
-        onchange="const f=this.form.querySelector('input[name=comparefile]'); if (f) { f.value = '' } this.form.submit();">
-      {{#versions}}
-        <option value="{{version}}" {{#selected}}selected="selected"{{/selected}}
-            {{#disabled}}disabled="disabled"{{/disabled}}>{{label}}</option>
-      {{/versions}}
-    </select>
+    {{#general.fromdashboard}}
+      <label for="id_currentversion">{{#str}} comparexmlselectcurrentversion, qtype_stack {{/str}}</label>
+      <select id="id_currentversion" name="currentversion" class="custom-select form-select"
+          onchange="const f=this.form.querySelector('input[name=currentfile]'); if (f) { f.value = '' } this.form.submit();">
+        {{#currentversions}}
+          <option value="{{version}}" {{#selected}}selected="selected"{{/selected}}
+              {{#disabled}}disabled="disabled"{{/disabled}}>{{label}}</option>
+        {{/currentversions}}
+      </select>
+      <a class="btn btn-secondary" href="{{{general.latestlink}}}">
+        {{#pix}}a/refresh, core{{/pix}}{{#str}} comparexmllatest, qtype_stack {{/str}}
+      </a>
+      <label for="id_compareversion">{{#str}} comparexmlselectversion, qtype_stack {{/str}}</label>
+      <select id="id_compareversion" name="compareversion" class="custom-select form-select"
+          onchange="const f=this.form.querySelector('input[name=comparefile]'); if (f) { f.value = '' } this.form.submit();">
+        {{#versions}}
+          <option value="{{version}}" {{#selected}}selected="selected"{{/selected}}
+              {{#disabled}}disabled="disabled"{{/disabled}}>{{label}}</option>
+        {{/versions}}
+      </select>
+    {{/general.fromdashboard}}
     <a class="btn btn-secondary" href="{{{general.displaytogglelink}}}">
       {{#displayunified}}{{#str}} comparexmlshowsplit, qtype_stack {{/str}}{{/displayunified}}
       {{#displaysplit}}{{#str}} comparexmlshowunified, qtype_stack {{/str}}{{/displaysplit}}

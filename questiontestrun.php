@@ -102,7 +102,7 @@ $sesskey = sesskey();
 
 $questionbanklinkedit = new moodle_url('/question/type/stack/questioneditlatest.php', $editparams);
 $questionxmllink = new moodle_url('/question/type/stack/questionxmledit.php', $editparams);
-$questionxmlcomparelink = new moodle_url('/question/type/stack/questionxmlcompare.php', $editparams);
+$questionxmlcomparelink = new moodle_url('/question/type/stack/adminui/questionxmlcompare.php', $editparams);
 $questionbanklink = new moodle_url('/question/edit.php', $qbankparams);
 $exportquestionlink = new moodle_url('/question/bank/exporttoxml/exportone.php', $exportparams);
 $exportquestionlink->param('sesskey', $sesskey);

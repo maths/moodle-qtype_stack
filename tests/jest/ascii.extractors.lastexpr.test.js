@@ -1,5 +1,5 @@
 import lastexpr from '../../corsscripts/ascii/extractors/lastexpr.js';
-import { setExtractorStrings } from '../../corsscripts/ascii/extractors/extractorresult.js';
+import { setExtractorStrings } from '../../corsscripts/ascii/extractors/extractorhelper.js';
 
 describe('lastexpr extractor', () => {
     beforeEach(() => {

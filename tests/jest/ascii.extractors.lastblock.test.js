@@ -1,5 +1,5 @@
 import lastblock from '../../corsscripts/ascii/extractors/lastblock.js';
-import { setExtractorStrings } from '../../corsscripts/ascii/extractors/extractorresult.js';
+import { setExtractorStrings } from '../../corsscripts/ascii/extractors/extractorhelper.js';
 
 describe('lastblock extractor', () => {
     beforeEach(() => {

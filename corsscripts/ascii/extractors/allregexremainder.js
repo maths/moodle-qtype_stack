@@ -1,4 +1,4 @@
-import { extractorError, extractorResult } from './extractorresult.js';
+import { extractorError, extractorResult } from './extractorhelper.js';
 
 // Extractor: allregexremainder
 // [[extractor targetinput="ans2" type="allregexremainder" regex="^f\\(x\\)\\s*=\\s*" /]]

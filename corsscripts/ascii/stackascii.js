@@ -45,7 +45,7 @@ import lastregexmatch from './extractors/lastregexmatch.js';
 import lastregexremainder from './extractors/lastregexremainder.js';
 import allregexmatch from './extractors/allregexmatch.js';
 import allregexremainder from './extractors/allregexremainder.js';
-import { setExtractorStrings } from './extractors/extractorresult.js';
+import { setExtractorStrings } from './extractors/extractorhelper.js';
 
 const extractorlib = {
     lastblock,
@@ -163,7 +163,7 @@ export default function init(inputIds, operations, options = {}) {
         }
 
         if (!isHTML) {
-            output.classList.add('plaintext');
+            renderedOutput.classList.add('plaintext');
         }
         renderedOutput.innerHTML = processedOutput;
         if (extractorErrors.length > 0) {

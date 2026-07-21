@@ -1,4 +1,4 @@
-import { extractorError, extractorResult } from './extractorresult.js';
+import { extractorError, extractorResult } from './extractorhelper.js';
 
 // Extractor: laststringremainder
 // [[extractor targetinput="ans2" type="laststringremainder" string="Answer =" /]]

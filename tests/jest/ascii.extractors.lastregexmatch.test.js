@@ -1,5 +1,5 @@
 import lastregexmatch from '../../corsscripts/ascii/extractors/lastregexmatch.js';
-import { setExtractorStrings } from '../../corsscripts/ascii/extractors/extractorresult.js';
+import { setExtractorStrings } from '../../corsscripts/ascii/extractors/extractorhelper.js';
 
 describe('lastregexmatch extractor', () => {
     beforeEach(() => {

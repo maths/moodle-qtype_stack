@@ -23,4 +23,3 @@ export function extractorError(key, detail = '') {
         error: message
     };
 }
-

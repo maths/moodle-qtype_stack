@@ -1,5 +1,5 @@
 import allregexremainder from '../../corsscripts/ascii/extractors/allregexremainder.js';
-import { setExtractorStrings } from '../../corsscripts/ascii/extractors/extractorresult.js';
+import { setExtractorStrings } from '../../corsscripts/ascii/extractors/extractorhelper.js';
 
 describe('allregexremainder extractor', () => {
     beforeEach(() => {

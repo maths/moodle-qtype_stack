@@ -133,6 +133,9 @@ class library_import extends \external_api {
             $requestedfile = $CFG->dirroot . '/question/type/stack/samplequestions/' . $params['filepath'];
             $basedir = $CFG->dirroot . '/question/type/stack/samplequestions/';
         }
+        if ($external) {
+            require_capability('qtype/stack:useexternallibraries', $thiscontext);
+        }
         if (
             !str_starts_with(realpath($requestedfile), "{$CFG->dataroot}/stack/sitelibrary") &&
             !str_starts_with(realpath($requestedfile), "{$CFG->dirroot}/question/type/stack/samplequestions/") &&

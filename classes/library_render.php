@@ -123,6 +123,9 @@ class library_render extends \external_api {
         $thiscontext = context::instance_by_id($context);
         self::validate_context($thiscontext);
         require_capability('moodle/question:add', $thiscontext);
+        if ($external) {
+            require_capability('qtype/stack:useexternallibraries', $thiscontext);
+        }
 
         // Check if we've already cached the answer.
         $cache = cache::make('qtype_stack', 'librarycache');

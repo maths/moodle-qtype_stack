@@ -49,6 +49,21 @@ define([
     let currentPath = null;
 
     /**
+     * Escape text before inserting it into innerHTML.
+     *
+     * @param {string} text text to escape
+     * @returns {string} escaped text
+     */
+    function escapeHtml(text) {
+        return String(text || '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
+    /**
      * Sets up event listeners.
      *
      */
@@ -126,9 +141,10 @@ define([
                         });
                   }
                 rawDiv.innerText = response.questiontext;
-                descriptionDiv.innerHTML = response.questiondescription;
-                variablesDiv.innerHTML = response.questionvariables.replace(/;/g, ";<br>");
-                displayedDiv.innerHTML = response.questionname + '<br>(' + filepath.split('/').pop() + ')';
+                descriptionDiv.textContent = response.questiondescription;
+                variablesDiv.innerHTML = response.questionvariables.split(';').map(escapeHtml).join(";<br>");
+                displayedDiv.innerHTML = escapeHtml(response.questionname) +
+                    '<br>(' + escapeHtml(filepath.split('/').pop()) + ')';
                 document.querySelectorAll('.library-secondary-info')
                     .forEach(el => el.removeAttribute('hidden'));
                 document.querySelector('.library-import-link').removeAttribute('disabled');
@@ -147,7 +163,7 @@ define([
             },
             fail: function(response) {
                 loading(false);
-                errorDetailsDiv.innerHTML = (response.message) ? response.message : '';
+                errorDetailsDiv.textContent = response.message || '';
                 errorDiv.hidden = false;
             }
         }]);
@@ -182,27 +198,28 @@ define([
                         let currentDashLink = dashLink + currentQuestion.questionid;
                         if (currentQuestion.isstack) {
                             importListDiv.innerHTML += '<br>' + '<a target="_blank" href="'
-                                + currentDashLink + '">' + currentQuestion.questionname + '</a>';
+                                + currentDashLink + '">' + escapeHtml(currentQuestion.questionname) + '</a>';
                         } else if (currentQuestion.filename.endsWith('_quiz.json')) {
                             importListDiv.innerHTML += '<br>' + '<a target="_blank" href="'
                                 + quizLink + '?id=' + currentQuestion.questionid + '">'
-                                + currentQuestion.questionname + '</a>';
+                                + escapeHtml(currentQuestion.questionname) + '</a>';
                         } else {
-                            importListDiv.innerHTML += '<br>' + currentQuestion.questionname;
+                            importListDiv.innerHTML += '<br>' + escapeHtml(currentQuestion.questionname);
                         }
                         importSuccessFileDiv.innerHTML += '<br>' +
-                            currentQuestion.filename.split('/').pop() + ' --> ' + currentQuestion.questionname;
+                            escapeHtml(currentQuestion.filename.split('/').pop()) + ' --> ' +
+                            escapeHtml(currentQuestion.questionname);
                         importSuccessDiv.removeAttribute('hidden');
                     } else {
                         importFailureFileDiv.innerHTML += '<br>' +
-                            currentQuestion.filename.split('/').pop();
+                            escapeHtml(currentQuestion.filename.split('/').pop());
                         importFailureDiv.removeAttribute('hidden');
                     }
                 }
             },
             fail: function(response) {
                 loading(false);
-                errorDetailsDiv.innerHTML = (response.message) ? response.message : '';
+                errorDetailsDiv.textContent = response.message || '';
                 errorDiv.hidden = false;
             }
         }]);

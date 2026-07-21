@@ -97,6 +97,7 @@ $string['boxsize_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring
 $string['bulktestindexintro_desc'] = 'The <a href="{$a->link}">bulk test script</a> lets you easily run all the STACK question tests in a given context. Not only does this test the questions. It is also a good way to re-populate the CAS cache after it has been cleared.';
 $string['todo_desc'] = 'The <a href="{$a->link}">"to do"</a> page finds questions with <tt>[[todo]]</tt> blocks and questions marked as broken.';
 $string['dependenciesintro_desc'] = 'The <a href="{$a->link}">dependencies</a>, checker finds questions with dependencies such as JSXGraph or inclusion of external maxima code.';
+$string['xmlcompare_desc'] = 'The <a href="{$a->link}">xml compare</a> page allows two XML files (such as STACK questions) to be compared.';
 $string['checkanswertype'] = 'Check the type of the response';
 $string['checkanswertype_help'] = 'If yes, answers which are of a different "type" (e.g. expression, equation, matrix, list, set) are rejected as invalid.';
 $string['checkanswertype_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Check_Type';
@@ -669,6 +670,7 @@ $string['tidyquestion'] = '<i class="fa fa-sort-amount-asc"></i> Tidy inputs and
 $string['tidyquestion_txt'] = 'Tidy inputs and PRTs';
 $string['sendgeneralfeedback'] = '<i class="fa fa-file-text"></i> Send general feedback to the CAS';
 $string['editxml'] = '<i class="fa fa-align-left"></i> Edit question XML';
+$string['comparexml'] = '<i class="fa fa-columns"></i> Compare question XML';
 $string['reloadsavedXML'] = '<i class="fa fa-rotate-left"></i> Reload saved version of question';
 $string['seetodolist'] = '<i class="fa fa-exclamation-triangle"></i> Find <tt>[[todo]]</tt> blocks';
 $string['seetodolist_desc'] = 'The purpose of this page is to find all questions containing <tt>[[todo]]</tt> blocks and to group them by any tags. Questions that have been marked as broken will also be found and displayed.';
@@ -726,6 +728,22 @@ $string['editxmlintro'] = 'You can edit the XML of the question here and then sa
 $string['editxmltitle'] = 'Edit question XML';
 $string['editxmlquestion'] = 'Question XML';
 $string['editxmlbutton'] = 'Save as new version and continue editing';
+$string['comparexmltitle'] = 'Compare question XML';
+$string['comparexmlcurrentversion'] = 'Current version {$a}';
+$string['comparexmlselectedversion'] = 'Compared version {$a}';
+$string['comparexmlselectcurrentversion'] = 'Version';
+$string['comparexmlselectquestion'] = 'Question';
+$string['comparexmlselectversion'] = 'Compared with version';
+$string['comparexmlrefresh'] = 'Refresh current version';
+$string['comparexmllatest'] = 'Latest';
+$string['comparexmlloadfiles'] = 'Load XML files';
+$string['comparexmlcurrentfile'] = 'XML file';
+$string['comparexmlcomparefile'] = 'Compared with';
+$string['comparexmlselectedfile'] = 'Selected file';
+$string['comparexmlshowsplit'] = 'Show split display';
+$string['comparexmlshowunified'] = 'Show unified display';
+$string['comparexmlshowdifferencesonly'] = 'Show differences only';
+$string['comparexmlshowalllines'] = 'Show all lines';
 $string['xmldisplayerror'] = ' There was a problem displaying the XML.';
 $string['healthcheck'] = 'STACK healthcheck';
 $string['healthcheck_desc'] = 'The <a href="{$a->link}">healthcheck script</a> helps you verify that all aspects of STACK are working properly.';

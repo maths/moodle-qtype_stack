@@ -70,6 +70,11 @@ $links = [
         'qtype_stack',
         ['link' => (string) new moodle_url('/question/type/stack/adminui/studentinputs.php')]
     ),
+    get_string(
+        'xmlcompare_desc',
+        'qtype_stack',
+        ['link' => (string) new moodle_url('/question/type/stack/adminui/questionxmlcompare.php')]
+    ),
 ];
 
 // These links are only for plugin admins, e.g. the healthcheck.  They are not part of the adminui collection.

@@ -118,7 +118,7 @@ if (str_starts_with($location, stack_question_library::SITELIB)) {
         $cacheid = stack_question_library::STACKLIB;
     }
 } else if (str_starts_with($location, stack_question_library::GITHUB)) {
-    require_capability('qtype/stack:useexternallibraries', $thiscontext);
+    require_capability('qtype/stack:useexternallibraries', \context_system::instance());
     $libparts = explode('/', $location);
     $librarytype = $libparts[0];
     $libraryid = $libparts[1];
@@ -133,7 +133,7 @@ if (str_starts_with($location, stack_question_library::SITELIB)) {
         $externaldetail = $allowedlibraries->{$libraryid}->url;
     }
 } else if (str_starts_with($location, stack_question_library::NRWSEARCH)) {
-    require_capability('qtype/stack:useexternallibraries', $thiscontext);
+    require_capability('qtype/stack:useexternallibraries', \context_system::instance());
     $cacheid = stack_question_library::NRWSEARCH;
     $libraryname = null;
     $external = stack_question_library::NRWSEARCH;

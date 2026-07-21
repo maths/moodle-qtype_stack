@@ -1,3 +1,5 @@
+import { extractorError, extractorResult } from './extractorresult.js';
+
 // Extractor: laststringremainderwhitespace
 // [[extractor targetinput="ans2" type="laststringremainderwhitespace" string="f(x) =" /]]
 // Remove the requirement to write a regex.
@@ -6,7 +8,7 @@
 // Scans lines in reverse order.
 export default function laststringremainderwhitespace(raw, blocks, operation) {
     if (!operation || !operation.search) {
-        return 'ERROR';
+        return extractorError('asciistringextractorsearchrequired');
     }
 
     var match = escaperegex(operation.search);
@@ -31,10 +33,10 @@ export default function laststringremainderwhitespace(raw, blocks, operation) {
         const matched = trimmed.match(pattern);
         if (matched) {
             const retmatch = matched[1];
-            return retmatch.trim();
+            return extractorResult(retmatch.trim());
         }
     }
-    return 'ERROR';
+    return extractorError('asciistringextractorsearchnotfound');
 }
 
 function escaperegex(str) {
@@ -43,4 +45,3 @@ function escaperegex(str) {
   // 2. Turn each whitespace character in the search pattern to match to zero or more spaces.
   return match.replace(/\s+/g, "\\s*");
 }
-

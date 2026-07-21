@@ -1,3 +1,5 @@
+import { extractorError, extractorResult } from './extractorresult.js';
+
 // Extractor: lastexpr
 // Returns the trimmed content of the last code_inline, or the last non-empty line
 // of the last asciimath_block, in document order.
@@ -7,14 +9,14 @@ export default function lastexpr(raw, blocks) {
         for (let i = blocks.length - 1; i >= 0; i--) {
             const block = blocks[i];
             if (block.type === 'code_inline') {
-                return block.raw.trim();
+                return extractorResult(block.raw.trim());
             }
             if (block.type === 'asciimath_block') {
                 const lines = block.raw.split(/\r?\n/);
                 for (let j = lines.length - 1; j >= 0; j--) {
                     const trimmed = lines[j].trim();
                     if (trimmed !== '') {
-                        return trimmed;
+                        return extractorResult(trimmed);
                     }
                 }
             }
@@ -26,8 +28,8 @@ export default function lastexpr(raw, blocks) {
     for (let i = lines.length - 1; i >= 0; i--) {
         const trimmed = lines[i].trim();
         if (trimmed !== '') {
-            return trimmed;
+            return extractorResult(trimmed);
         }
     }
-    return 'ERROR';
+    return extractorError('asciistringextractorlastexprnotfound');
 }

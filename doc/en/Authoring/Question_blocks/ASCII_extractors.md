@@ -8,8 +8,11 @@ Both client-side regular expressions and post-processing in Maxima have their me
 
 1. `type` (required): the extractor type. See available types below.
 2. `targetinput` (required): the name of the STACK input which receives the extracted value.
-5. `search`: a literal search term.  Required for the `laststringremainder` and `laststringremainderwhitespace` extractors described below.
-4. `regex`: a JavaScript regular expression string. Required for the various regex extractors types. (Note: backslashes in the regex need to be escaped with an additional backslash.)
+3. `errors`: set `errors="true"` to display extractor failures inside the ASCII panel instead of silently clearing the target input.
+4. `search`: a literal search term. Required for the `laststringremainder` and `laststringremainderwhitespace` extractors described below.
+5. `regex`: a JavaScript regular expression string. Required for the various regex extractor types. (Note: backslashes in the regex need to be escaped with an additional backslash.)
+
+When an extractor fails it still clears the target input, so stale extracted values are not left behind. With `errors="true"` the student also sees the translated reason for the failure, for example when no matching line can be found.
 
 ## Last expression/calculation extractors
 

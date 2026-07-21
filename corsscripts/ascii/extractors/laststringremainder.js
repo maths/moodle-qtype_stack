@@ -1,3 +1,5 @@
+import { extractorError, extractorResult } from './extractorresult.js';
+
 // Extractor: laststringremainder
 // [[extractor targetinput="ans2" type="laststringremainder" string="Answer =" /]]
 // Searches for a trimmed line (with or without backslashes) matching the given string.
@@ -5,7 +7,7 @@
 // Scans lines in reverse order.
 export default function laststringremainder(raw, blocks, operation) {
     if (!operation || !operation.string) {
-        return 'ERROR';
+        return extractorError('asciistringextractorsearchrequired');
     }
 
     const lines = raw.split('\n');
@@ -14,8 +16,8 @@ export default function laststringremainder(raw, blocks, operation) {
         let trimmed = line.replace(/^[\s`]+|[\s`]+$/g, '');
         if (trimmed.includes(operation.string)) {
             trimmed = trimmed.replace(operation.string, '');
-            return trimmed.replace(/^[\s`]+|[\s`]+$/g, '');
+            return extractorResult(trimmed.replace(/^[\s`]+|[\s`]+$/g, ''));
         }
     }
-    return 'ERROR';
+    return extractorError('asciistringextractorsearchnotfound');
 }

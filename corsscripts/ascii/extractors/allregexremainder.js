@@ -1,3 +1,5 @@
+import { extractorError, extractorResult } from './extractorresult.js';
+
 // Extractor: allregexremainder
 // [[extractor targetinput="ans2" type="allregexremainder" regex="^f\\(x\\)\\s*=\\s*" /]]
 // Searches the entire raw input for all lines matching operation.regex and returns
@@ -5,7 +7,7 @@
 // from the matches.
 export default function allregexremainder(raw, blocks, operation) {
     if (!operation || !operation.regex) {
-        return 'ERROR';
+        return extractorError('asciistringextractorregexrequired');
     }
     const pattern = new RegExp(operation.regex);
     const matches = [];
@@ -18,7 +20,7 @@ export default function allregexremainder(raw, blocks, operation) {
     }
 
     if (matches.length === 0) {
-        return 'ERROR';
+        return extractorError('asciistringextractorregexnotfound');
     }
-    return JSON.stringify({ matches });
+    return extractorResult(JSON.stringify({ matches }));
 }

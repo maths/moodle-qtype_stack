@@ -1,3 +1,5 @@
+import { extractorError, extractorResult } from './extractorresult.js';
+
 // Extractor: lastregexmatch
 // [[extractor targetinput="ans2" type="lastregexmatch" regex="^f\\(x\\)\\s*=\\s*" /]]
 // Note the escaped backslashes. Searches for a trimmed line matching the given expression.
@@ -5,7 +7,7 @@
 // Scans lines in reverse order.
 export default function lastregexmatch(raw, blocks, operation) {
     if (!operation || !operation.regex) {
-        return 'ERROR';
+        return extractorError('asciistringextractorregexrequired');
     }
     const pattern = new RegExp(operation.regex);
 
@@ -14,8 +16,8 @@ export default function lastregexmatch(raw, blocks, operation) {
     for (const line of lines) {
         const trimmed = line.trim();
         if (pattern.test(trimmed)) {
-            return trimmed;
+            return extractorResult(trimmed);
         }
     }
-    return 'ERROR';
+    return extractorError('asciistringextractorregexnotfound');
 }

@@ -1103,6 +1103,13 @@ $string['stackBlock_extractor_type_required'] = 'You must define the type of ext
 $string['stackBlock_extractor_unknown_param'] = 'Unknown parameter \'{$a}\' for the extractor block.';
 $string['stackBlock_extractor_param'] = 'Valid parameters are: {$a->param}.';
 $string['stackBlock_extractor_unknown'] = 'Unknown type \'{$a->type}\' for the extractor block. Valid types are: \'{$a->extractors}\'';
+$string['asciistringextractorlastblocknotfound'] = 'No AsciiMath expression or block was found to extract.';
+$string['asciistringextractorlastcalcnotfound'] = 'No calculation block was found to extract.';
+$string['asciistringextractorlastexprnotfound'] = 'No expression or non-empty line was found to extract.';
+$string['asciistringextractorsearchrequired'] = 'This extractor requires a search parameter.';
+$string['asciistringextractorsearchnotfound'] = 'No line matched the requested search text.';
+$string['asciistringextractorregexrequired'] = 'This extractor requires a regular expression.';
+$string['asciistringextractorregexnotfound'] = 'No line matched the requested regular expression.';
 
 $string['stackBlock_filter_type_required'] = 'You must define the type of filter you want to use.';
 $string['stackBlock_filter_unknown'] = 'Unknown type \'{$a->type}\' for the filter block. Valid types are: \'{$a->filters}\'';

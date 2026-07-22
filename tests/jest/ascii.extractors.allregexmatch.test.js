@@ -57,7 +57,7 @@ describe('allregexmatch extractor', () => {
         test('returns translated error when no lines match', () => {
             const operation = { regex: '^f\\(x\\)\\s*=\\s*' };
             expect(allregexmatch('y = x\na = 1', null, operation)).toEqual({
-                error: 'No line matched the requested regular expression.'
+                error: 'No line matched the requested regular expression. ^f\\(x\\)\\s*=\\s*'
             });
         });
     });

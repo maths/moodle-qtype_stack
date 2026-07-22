@@ -36,7 +36,7 @@ export default function laststringremainderwhitespace(raw, blocks, operation) {
             return extractorResult(retmatch.trim());
         }
     }
-    return extractorError('asciistringextractorsearchnotfound');
+    return extractorError('asciistringextractorsearchnotfound', operation.search);
 }
 
 function escaperegex(str) {

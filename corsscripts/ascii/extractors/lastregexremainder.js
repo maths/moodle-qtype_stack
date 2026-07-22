@@ -19,5 +19,5 @@ export default function lastregexremainder(raw, blocks, operation) {
             return extractorResult(trimmed.replace(pattern, ''));
         }
     }
-    return extractorError('asciistringextractorregexnotfound');
+    return extractorError('asciistringextractorregexnotfound', operation.regex);
 }

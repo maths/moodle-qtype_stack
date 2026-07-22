@@ -142,12 +142,12 @@ export default function init(inputIds, operations, options = {}) {
                         const value = extractor(raw, blockCollector.blocks, currentop);
                         const oldValue = answerEl.value;
                         // Clear the input on extraction failure rather than leaving a stale value.
-                        if (value.error) {
+                        if (Object.hasOwn(value, 'error')) {
                             answerEl.value = '';
                             if (currentop.errors === 'true') {
                                 extractorErrors.push(value.error);
                             }
-                        } else if (value.result) {
+                        } else if (Object.hasOwn(value, 'result')) {
                             answerEl.value = value.result;
                         } else {
                             answerEl.value = value;
@@ -168,7 +168,7 @@ export default function init(inputIds, operations, options = {}) {
         renderedOutput.innerHTML = processedOutput;
         if (extractorErrors.length > 0) {
             errorOutput.innerHTML =
-                extractorErrors.map((message) => '<p class="stackascii-error-message">' + message + '</p>').join('');
+                extractorErrors.map((message) => '<p class="stackascii-error-message">' + escapeHTML(message) + '</p>').join('');
             shell.classList.add('stackascii-has-errors');
             const errorHeight = Number(errorOutput.offsetHeight) || 0;
             renderedOutput.style.paddingBottom = `${errorHeight + 5}px`;
@@ -262,4 +262,13 @@ function createScrollSyncHandler(markdownContainerId, frameId, output) {
     window.parent.postMessage(JSON.stringify(registration), '*');
 
     return syncScrollPosition;
+}
+
+function escapeHTML(value) {
+    return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
 }

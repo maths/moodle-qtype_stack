@@ -19,7 +19,7 @@ export default function allregexmatch(raw, blocks, operation) {
     }
 
     if (matches.length === 0) {
-        return extractorError('asciistringextractorregexnotfound');
+        return extractorError('asciistringextractorregexnotfound', operation.regex);
     }
     return extractorResult(JSON.stringify({ matches }));
 }

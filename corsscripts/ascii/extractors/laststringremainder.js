@@ -6,7 +6,7 @@ import { extractorError, extractorResult } from './extractorhelper.js';
 // Returns the remainder of the line stripped of backslashes and leading/trailing spaces.
 // Scans lines in reverse order.
 export default function laststringremainder(raw, blocks, operation) {
-    if (!operation || !operation.string) {
+    if (!operation || !operation.search) {
         return extractorError('asciistringextractorsearchrequired');
     }
 
@@ -14,10 +14,10 @@ export default function laststringremainder(raw, blocks, operation) {
     lines.reverse();
     for (const line of lines) {
         let trimmed = line.replace(/^[\s`]+|[\s`]+$/g, '');
-        if (trimmed.includes(operation.string)) {
-            trimmed = trimmed.replace(operation.string, '');
+        if (trimmed.includes(operation.search)) {
+            trimmed = trimmed.replace(operation.search, '');
             return extractorResult(trimmed.replace(/^[\s`]+|[\s`]+$/g, ''));
         }
     }
-    return extractorError('asciistringextractorsearchnotfound');
+    return extractorError('asciistringextractorsearchnotfound', operation.search);
 }

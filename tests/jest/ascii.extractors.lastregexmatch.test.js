@@ -44,7 +44,7 @@ describe('lastregexmatch extractor', () => {
     test('returns translated error when there is no match', () => {
         const operation = { regex: '^f\\(x\\)\\s*=\\s*' };
         expect(lastregexmatch('a = 1\nb = 2', null, operation)).toEqual({
-            error: 'No line matched the requested regular expression.'
+            error: 'No line matched the requested regular expression. ^f\\(x\\)\\s*=\\s*'
         });
     });
 });

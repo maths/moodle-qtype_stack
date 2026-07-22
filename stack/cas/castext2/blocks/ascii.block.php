@@ -132,7 +132,6 @@ class stack_cas_castext2_ascii extends stack_cas_castext2_block {
         ]);
 
         // Size from the iframe viewport so the display area tracks frame resizing.
-        // Keep a configured minimum while leaving the rendered pane closer to the textarea height.
         $astyle = "width:{$xpars['width']};height:100vh;";
         $astyle .= "min-height:{$xpars['height']};";
         if (array_key_exists('aspect-ratio', $xpars)) {

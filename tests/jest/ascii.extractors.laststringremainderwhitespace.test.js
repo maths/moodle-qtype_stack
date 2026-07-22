@@ -11,7 +11,7 @@ describe('laststringremainderwhitespace extractor', () => {
     test('returns translated error when there is no match', () => {
         const operation = { search: 'f(x) =' };
         expect(laststringremainderwhitespace('a = 1\nb = 2', null, operation)).toEqual({
-            error: 'No line matched the requested search text.'
+            error: 'No line matched the requested search text. f(x) ='
         });
     });
 
@@ -73,7 +73,7 @@ describe('laststringremainderwhitespace extractor', () => {
         const raw = 'hence `f(x)=x^2`.';
         const operation = { search: 'f(x) =' };
         expect(laststringremainderwhitespace(raw, null, operation)).toEqual({
-            error: 'No line matched the requested search text.'
+            error: 'No line matched the requested search text. f(x) ='
         });
     });
 
@@ -93,7 +93,7 @@ describe('laststringremainderwhitespace extractor', () => {
         const raw = ' f(x) = x^2  ';
         const operation = { search: 'f(x)=' };
         expect(laststringremainderwhitespace(raw, null, operation)).toEqual({
-            error: 'No line matched the requested search text.'
+            error: 'No line matched the requested search text. f(x)='
         });
     });
 

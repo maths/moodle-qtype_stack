@@ -11,6 +11,7 @@ Issues with [github milestone 4.14.0](https://github.com/maths/moodle-qtype_stac
 
 1. Improve free-text blocks by matching scroll between textarea and preview block.
 2. Add in line numbering to question and feedback variables via the ace editor.
+3. Consolidate support for [surds](../CAS/Surds.md)2, and add in the `reroot` function..
 
 1. Remove all "cte" code from Maxima - mostly install.
 

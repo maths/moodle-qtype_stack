@@ -131,6 +131,30 @@ final class ascii_block_test extends qtype_stack_testcase {
         $this->assertStringContainsString($expectedlinkcode, $joined);
     }
 
+    public function test_ascii_compile_applies_right_alignment_class(): void {
+        $blockright = new \stack_cas_castext2_ascii(['align' => 'right'], []);
+        $compiledright = $blockright->compile(null, []);
+
+        $this->assertInstanceOf(\MP_List::class, $compiledright);
+
+        $strings = $this->get_string_items($compiledright);
+        $joined = implode("\n", $strings);
+        $this->assertStringContainsString(
+            '<div class="container row asciimath algebraic-right" id="asciiContainerRow"',
+            $joined
+        );
+
+        $blockleft = new \stack_cas_castext2_ascii(['align' => 'left'], []);
+        $compiledleft = $blockleft->compile(null, []);
+        $this->assertInstanceOf(\MP_List::class, $compiledleft);
+        $joinedleft = implode("\n", $this->get_string_items($compiledleft));
+        $this->assertStringContainsString(
+            '<div class="container row asciimath" id="asciiContainerRow"',
+            $joinedleft
+        );
+        $this->assertStringNotContainsString('algebraic-right', $joinedleft);
+    }
+
     public function test_ascii_compile_uses_child_filter_and_extractor_operations(): void {
         $filter = new \stack_cas_castext2_filter([
             'type' => 'markdown',
@@ -254,6 +278,22 @@ final class ascii_block_test extends qtype_stack_testcase {
         $this->assertEquals(stack_string('stackBlock_ascii_underdefined_dimension'), $atunder->get_errors());
     }
 
+    public function test_ascii_validate_alignment_parameter(): void {
+        $validleft = '[[ascii input="ans1" align="left"]][[/ascii]]';
+        $validright = '[[ascii input="ans1" align="right"]][[/ascii]]';
+        $invalid = '[[ascii input="ans1" align="center"]][[/ascii]]';
+
+        $atleft = castext2_evaluatable::make_from_source($validleft, 'test-case');
+        $this->assertTrue($atleft->get_valid());
+
+        $atright = castext2_evaluatable::make_from_source($validright, 'test-case');
+        $this->assertTrue($atright->get_valid());
+
+        $atinvalid = castext2_evaluatable::make_from_source($invalid, 'test-case');
+        $this->assertFalse($atinvalid->get_valid());
+        $this->assertEquals(stack_string('stackBlock_ascii_incorrect_alignment'), $atinvalid->get_errors());
+    }
+
     public function test_ascii_unknown_param_rejected(): void {
         $raw = '[[ascii input="ans1" bad_param="x"]][[/ascii]]';
 
@@ -262,7 +302,7 @@ final class ascii_block_test extends qtype_stack_testcase {
         $this->assertFalse($at1->get_valid());
         $this->assertStringContainsString(stack_string('stackBlock_ascii_unknown_param', 'bad_param'), $at1->get_errors());
         $this->assertStringContainsString(stack_string('stackBlock_ascii_param', [
-            'param' => 'width, height, aspect-ratio, input, hidden',
+            'param' => 'width, height, aspect-ratio, align, input, hidden',
         ]), $at1->get_errors());
     }
 }

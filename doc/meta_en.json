@@ -661,6 +661,11 @@
         "description":"How to display subscripts, and fine tune the LaTeX display."
         },
         {
+        "file":"Surds.md",
+        "title":"Surds in Maxima and STACK",
+        "description":"How to display surds, and fine tune the LaTeX display."
+        },
+        {
         "file":"Validator.md",
         "title":"Creating bespoke validation - STACK Documentation",
         "description":"How to create bespoke validation of student's input."

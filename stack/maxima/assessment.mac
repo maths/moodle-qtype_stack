@@ -350,7 +350,7 @@ calculusp(ex) := block(
 safe_setp(ex) := setp(ex) or safe_op(ex) = "{"$
 
 /* ********************************** */
-/* Logarithms and nth roots           */
+/* Logarithms                         */
 /* ********************************** */
 alias(ln, log);
 
@@ -386,17 +386,6 @@ logbaserem([ex]) := block(
   if length(ex) = 2 then return(log(first(ex))/log(second(ex))),
   error("STACK function 'lg' must have one or two arguments only.")
 )$
-
-/* Add in a flexible "nth" roots function. */
-root([ex]) := block(
-  if length(ex) > 2 then error("root: must have only two arguments"),
-  if length(ex) = 1 then return(sqrt(first(ex))),
-  if length(ex) = 2 then return(first(ex)^(1/second(ex)))
-)$
-texroot(ex) := if is(length(args(ex))=1) then concat("\\sqrt{", tex1(first(args(ex))), "}") else concat("\\sqrt[", tex1(second(args(ex))), "]{", tex1(first(args(ex))), "}")$
-texput(nounify(root), texroot)$
-texput(verbify(root), texroot)$
-
 
 /* Denominators of fractions should not contain sqrt, root, %i or fractional powers. */
 rational_fail(ex) := block(

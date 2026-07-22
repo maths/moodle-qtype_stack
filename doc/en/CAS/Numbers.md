@@ -32,8 +32,7 @@ The function `recursemod(ex, n)` recurses over an expression tree, and applies t
 
 ## Internal representation of numbers ##
 
-Maxima has two data types to represent numbers: integers and floats.  Rational numbers are expressed as a division of two integers not with a dedicated data type, and surds with fractional powers or the `sqrt` function.
-The option [Surd for Square Root](../Authoring/Question_options.md#surd) enables the question author to alter the way surds are displayed in STACK.
+Maxima has two data types to represent numbers: integers and floats.  Rational numbers are expressed as a division of two integers not with a dedicated data type, and [surds](Surds.md) with fractional powers or the `sqrt` function.
 
 Similarly, complex numbers are not represented as a single object, but as a sum of real and imaginary parts, or via the exponential function.
 The input and display of complex numbers is difficult, since differences exist between mathematics, physics and engineering about which symbols to use.

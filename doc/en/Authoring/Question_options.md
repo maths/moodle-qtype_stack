@@ -86,38 +86,7 @@ This option sets the value of [Maxima](../CAS/Maxima_background.md)'s
 
 When false the prefix function `sqrt(x)` will be displayed as \(x^{1/2}\).  This setting is _global_ to the question, and having both notations co-exist in one question is very tricky.  You need to have `simp:false` throughout the question.
 
-By default Maxima does not like to use the \(\sqrt{}\) symbol. The internal representation favours fractional powers, for very good reasons. In  Maxima we get:
-
-    (%i1) 4*sqrt(2);
-    (%o1) 2^(5/2)
-    (%i2) 6*sqrt(2);
-    (%o2) 3*2^(3/2)
-
-Furthermore, if you execute this in a Maxima session
-
-    simp:true;
-    p:1+sqrt(x);
-    ?print(p);
-
-Then the displayed value of `p` is \(\sqrt{x}+1\) whereas the internal representation of `p` is
-
-    ((MPLUS SIMP) 1 ((MEXPT SIMP) $X ((RAT SIMP) 1 2))) 
-
-This means that internally Maxima has converted `sqrt(x)` to `x^(1/2)`, even though it is by default displayed as `sqrt`.  This is an example where the displayed form (text and LaTeX) does not match Maxima's internal representation.
-
-Do you really want to continue using \(\sqrt{}\) in your teaching?  In his *Elements of Algebra*, L. Euler wrote the following.
-
-> \(\S 200\) We may therefore entirely reject the radical signs at present made use of, and employ in their stead
-> the fractional exponents which we have just explained: but as we have been long accustomed to
-> those signs, and meet with them in most books of Algebra, it might be wrong to banish them entirely from 
-> calculations; there is, however, sufficient reason also to employ, as is now frequently done, the other method of 
-> notation, because it manifestly corresponds with the nature of the thing. In fact we see immediately
-> that \(a^\frac12\) is the square root of \(a\), because we know that the square of \(a^\frac12\), that is to say 
-> \(a^\frac12\) multiplied by \(a^\frac12\) is equal to \(a^1\), or \(a\).
-
-A lot of elementary mathematics involves converting from one form to another and back again.  Sometimes these forms have important differences of use, e.g. factored form or completed square form for a quadratic.  However, sometimes these equivalent forms are more customary than because it *"manifestly corresponds with the nature of the thing"* in question.  I digress...
-
-STACK defines an \(n\)th root function `root(x,n)` which is a noun form for \(\sqrt[n]{x}\).  This can be used by students, but if teachers wish to use this in question variables etc. then they must prefix this with the apostrophe to create the nounform `'root(x,n)` to prevent immediate evaluation to `x^(1/n)`.
+More details are provided on the page about [surds](../CAS/Surds.md).
 
 ### sqrt(-1) {#sqrt_minus_one} ###
 

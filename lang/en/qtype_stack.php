@@ -831,6 +831,7 @@ $string['healthcheckparsonssample'] = '<div class="formulation">
 <br/><p>input=<input id="_fakeparsonsinput" style="width:70vw;margin:auto"/></p></div>';
 $string['healthcheckfreetext'] = 'Free-text question block';
 $string['healthcheckfreetextintro'] = 'There should be a free-text display panel below linked to a textarea input block. The ASCIIMaths in the input box should be fully-rendered LaTeX in the display box with the first line left-justifed and the other equations centred and aligned around their equals signs. The result should be the ASCIIMath matrix representation.';
+// phpcs:disable moodle.Strings.ForbiddenStrings.Found
 $string['healthcheckfreetextsample'] = '<div class="que stack">
 <div class="content">
 <div class="formulation clearfix">

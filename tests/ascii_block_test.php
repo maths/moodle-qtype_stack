@@ -121,7 +121,7 @@ final class ascii_block_test extends qtype_stack_testcase {
             ',{"asciistrings":///STACK_ASCII_STRINGS///});}';
         $this->assertStringContainsString($expectedlinkcode, $joined);
         $this->assertStringContainsString(
-            'id="asciiShell" class="stackascii-shell" style="width:calc(100% - 13px);height:calc(100vh - 4px);min-height:calc(400px - 4px);"',
+            'id="asciiShell" class="stackascii-shell" style="width:100%;height:100vh;min-height:400px;"',
             $joined
         );
         $this->assertStringContainsString('<div class="asciimath" id="asciiContainerRow">', $joined);
@@ -177,7 +177,7 @@ final class ascii_block_test extends qtype_stack_testcase {
             ',{"asciistrings":///STACK_ASCII_STRINGS///});}';
         $this->assertStringContainsString($expectedlinkcode, $joined);
         $this->assertStringContainsString(
-            'id="asciiShell" class="stackascii-shell" style="width:calc(80% - 13px);height:calc(100vh - 4px);min-height:calc(300px - 4px);"',
+            'id="asciiShell" class="stackascii-shell" style="width:80%;height:100vh;min-height:300px;"',
             $joined
         );
         $this->assertStringNotContainsString('"transforms":"aligneq,boldfilter"', $joined);
@@ -215,7 +215,7 @@ final class ascii_block_test extends qtype_stack_testcase {
             ',{"asciistrings":///STACK_ASCII_STRINGS///});}';
         $this->assertStringContainsString($expectedlinkcode, $joined);
         $this->assertStringContainsString(
-            'id="asciiShell" class="stackascii-shell" style="width:calc(80% - 13px);height:calc(100vh - 4px);min-height:calc(300px - 4px);"',
+            'id="asciiShell" class="stackascii-shell" style="width:80%;height:100vh;min-height:300px;"',
             $joined
         );
         $this->assertStringNotContainsString('"transforms":"aligneq,boldfilter"', $joined);

@@ -33,7 +33,7 @@ M=
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text>2025080100</text>
+      <text>2026062900</text>
     </stackversion>
     <questionvariables>
       <text><![CDATA[stack_chemistry_declare(true);
@@ -65,7 +65,7 @@ tt:apply(table, append([["Element", "Atomic Mass"]], tt));]]></text>
       <text>\(\require{mhchem} \ce{@CN@}\) has mass {@ta1@}.</text>
     </questionnote>
     <questiondescription format="html">
-      <text><![CDATA[[[todo tags="4.11.0,chemistry"]]Once released, replace with stack_include_contrib("chemistry.mac"); in the question variables.[[/todo]]]]></text>
+      <text/>
     </questiondescription>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>

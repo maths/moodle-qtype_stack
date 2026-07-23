@@ -275,6 +275,10 @@ final class api_controller_test extends qtype_stack_testcase {
         $this->assertEquals(5, $this->output->scoreweights->total);
         $this->assertEquals('<p>[[feedback:prt1]]</p>', $this->output->specificfeedback);
         $this->assertStringContainsString('correct', $this->output->prts->prt1);
+        $this->assertEquals(1, $this->output->prtresults->prt1->score);
+        $this->assertEquals(0, $this->output->prtresults->prt1->penalty);
+        $this->assertEquals(['1-0-T'], $this->output->prtresults->prt1->answernotes);
+        $this->assertEquals(['1-0-T'], $this->output->prtresults->prt1->prtanswernotes);
         $this->assertEquals(0, count((array)$this->output->gradingassets));
         $this->assertEquals(
             'Seed: 86; ans1: matrix([35,30],[28,24]) [score]; prt1: # = 1 | 1-0-T',
@@ -307,6 +311,10 @@ final class api_controller_test extends qtype_stack_testcase {
             '<p>Perhaps you could think of some non-polynomial examples as well?</p>',
             $this->output->prts->poly
         );
+        $this->assertEquals(['ODD', 'EVEN'], $this->output->prtresults->oddeven->answernotes);
+        $this->assertEquals(['ODD', 'EVEN'], $this->output->prtresults->oddeven->prtanswernotes);
+        $this->assertEquals(['ATLogic_True.', 'unique-0-T'], $this->output->prtresults->unique->answernotes);
+        $this->assertEquals(['unique-0-T'], $this->output->prtresults->unique->prtanswernotes);
         $this->assertEquals(0, count((array)$this->output->gradingassets));
         $this->assertEquals(
             'Seed: -1; ans1: x^3 [score]; ans2: x^2 [score]; ans3: 0 [score]; ans4: true [score]; ' .
@@ -435,6 +443,14 @@ final class api_controller_test extends qtype_stack_testcase {
         $this->assertEquals(0, $results->results->{'86'}->fails);
         $this->assertEquals('', $results->results->{'86'}->messages);
         $this->assertEquals(4, count(get_object_vars($results->results->{'86'}->outcomes)));
+        $this->assertEquals(
+            ['1-0-T'],
+            $results->results->{'86'}->outcomes->{'1'}->outcomes->prt1->answernotes
+        );
+        $this->assertEquals(
+            ['1-0-T'],
+            $results->results->{'86'}->outcomes->{'1'}->outcomes->prt1->prtanswernotes
+        );
     }
 
     public function test_test_controller_fail(): void {

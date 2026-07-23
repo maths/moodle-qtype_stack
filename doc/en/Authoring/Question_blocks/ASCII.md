@@ -17,9 +17,9 @@ The `[[ascii]]` castext block takes one or more optional `[[filter]]` child bloc
 ```
 The student's text is run through a markdown filter first which applies normal markdown display formatting.  In this example we also apply a special STACK transformation (`aligneq`) which aligns equations either surrounded by lone backticks or display mode LaTeX (`\[..\]`).
 
-Multiple `[[extractor]]` blocks may be used to [extract answers](ASCII_Extractors.md) from the block into multiple STACK inputs. Multiple `[[filter]]` blocks can also be used to translate the raw original input in different ways in succession. By default, the output of one filter is fed into the next filter as the 'raw' input. Extractors are supplied with the raw input and 'map' information from the most recent filter applied. For instance, the markdown filter supplies a list of all the identified occurrences of code and AsciiMath sections in the student's text (in order) and with both the initial contents of the block given to the filter and the transformed output.
+Multiple `[[extractor]]` blocks may be used to [extract answers](ASCII_extractors.md) from the block into multiple STACK inputs. Multiple `[[filter]]` blocks can also be used to translate the raw original input in different ways in succession. By default, the output of one filter is fed into the next filter as the 'raw' input. Extractors are supplied with the raw input and 'map' information from the most recent filter applied. For instance, the markdown filter supplies a list of all the identified occurrences of code and AsciiMath sections in the student's text (in order) and with both the initial contents of the block given to the filter and the transformed output.
 
-Filters and [extractors](ASCII_Extractors.md) are applied in the order listed in the `[[ascii]]` block. Filters have the option to break the chain and return to processing the initial raw student input and/or to display the output of the current filter even if there are later filters in the chain (which will thus be used for creating input for extractors, not display).
+Filters and [extractors](ASCII_extractors.md) are applied in the order listed in the `[[ascii]]` block. Filters have the option to break the chain and return to processing the initial raw student input and/or to display the output of the current filter even if there are later filters in the chain (which will thus be used for creating input for extractors, not display).
 
 Currently, it is only possible to link one source input.
 
@@ -102,12 +102,14 @@ In the following example, the transform `aligneq` is applied to line up equation
 
 Available transforms (specified via the `transforms` parameter):
 
-- `aligneq`: This affects mathematics in the `asciimath_block` and `math_block` (but not inline mathematics). It formats multiple-line mathematics aligned on the first `=` sign, or similar operators such as inequality. (Shown in math_block and asciimath_block examples above.) The lines of a LaTeX expression are arranged in a 3-column aligned layout:
+- `aligneq`: This affects mathematics in the `asciimath_block` and `math_block` (but not inline mathematics). This is intended to automatically align mathematical derivations.  In particular, it formats multiple-line mathematics aligned on the first `=` sign, or similar operators such as inequality. (Shown in math_block and asciimath_block examples above.) The lines of a LaTeX expression are arranged in a 3-column aligned layout:
   - col 1 – leading logical connective, such as implies/therefore symbol (if present, e.g. `=>`, `:.` (therefore) in AsciiMath)
-  - col 2 – left-hand side up to (but not including) the relation symbol
-  - col 3 – relation symbol and right-hand side
+  - col 3 – left-hand side up to (and including) the relation symbol
+  - col 4 – the right-hand side
 
-  A `\text{…}` that is not `\text{or}`, `\text{and}`, or `\text{if}` is pushed into a 4th column.
+Column 2 is un-used (to right-align the lhs and left-align the rhs) of the main equation.
+
+  A `\text{…}` (that is not `\text{or}`, `\text{and}`, or `\text{if}`) is pushed into a 4th column along with anything which follows it.
 
 There are two internal transformations: `asciimath` and `minwrap`.  The `asciimath` transformation actually parses each expression/line from AsciiMath to LaTeX.  The `minwrap` transformation automatically adds LaTeX mathematics delimiters, e.g. `\(...\)` for inline and `\[...\]` if they are needed (noting some LaTeX maths do not need these), typically at the end of the chain of transformations.  
 

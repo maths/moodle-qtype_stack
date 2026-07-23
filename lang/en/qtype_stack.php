@@ -97,6 +97,7 @@ $string['boxsize_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring
 $string['bulktestindexintro_desc'] = 'The <a href="{$a->link}">bulk test script</a> lets you easily run all the STACK question tests in a given context. Not only does this test the questions. It is also a good way to re-populate the CAS cache after it has been cleared.';
 $string['todo_desc'] = 'The <a href="{$a->link}">"to do"</a> page finds questions with <tt>[[todo]]</tt> blocks and questions marked as broken.';
 $string['dependenciesintro_desc'] = 'The <a href="{$a->link}">dependencies</a>, checker finds questions with dependencies such as JSXGraph or inclusion of external maxima code.';
+$string['xmlcompare_desc'] = 'The <a href="{$a->link}">xml compare</a> page allows two XML files (such as STACK questions) to be compared.';
 $string['checkanswertype'] = 'Check the type of the response';
 $string['checkanswertype_help'] = 'If yes, answers which are of a different "type" (e.g. expression, equation, matrix, list, set) are rejected as invalid.';
 $string['checkanswertype_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Check_Type';
@@ -615,6 +616,7 @@ $string['questiontestslast'] = 'Expected last node of {$a->expected} but got {$a
 $string['questiontestsmissing'] = 'Expected node: {$a}.';
 $string['questiontestslong'] = 'Expected notes are truncated at 1000 characters in the database.  PRT {$a->prt} was {$a->len} characters.  Testcase not saved.';
 $string['runquestiontests'] = 'STACK question dashboard';
+$string['runquestiontests_icon'] = '<i class="fa fa-wrench"></i> ';
 $string['runquestiontests_help'] = 'The dashboard runs question tests which unit-test the questions to ensure the behaviour matches expectations expressed by the teacher, and deployed variants ensure random versions seen by a student are pre-tested against the question tests. These are tools to help you create and test reliable questions and should be used in all cases a question will be used by students.  The dashboard also has numerous other STACK specific functions.';
 $string['runquestiontests_alert'] = 'Question is missing tests or variants.';
 $string['runquestiontests_auto'] = 'Automatically adding one test case assuming the teacher\'s input gets full marks.  Please check the answer note carefully.';
@@ -668,6 +670,7 @@ $string['tidyquestion'] = '<i class="fa fa-sort-amount-asc"></i> Tidy inputs and
 $string['tidyquestion_txt'] = 'Tidy inputs and PRTs';
 $string['sendgeneralfeedback'] = '<i class="fa fa-file-text"></i> Send general feedback to the CAS';
 $string['editxml'] = '<i class="fa fa-align-left"></i> Edit question XML';
+$string['comparexml'] = '<i class="fa fa-columns"></i> Compare question XML';
 $string['reloadsavedXML'] = '<i class="fa fa-rotate-left"></i> Reload saved version of question';
 $string['seetodolist'] = '<i class="fa fa-exclamation-triangle"></i> Find <tt>[[todo]]</tt> blocks';
 $string['seetodolist_desc'] = 'The purpose of this page is to find all questions containing <tt>[[todo]]</tt> blocks and to group them by any tags. Questions that have been marked as broken will also be found and displayed.';
@@ -725,6 +728,22 @@ $string['editxmlintro'] = 'You can edit the XML of the question here and then sa
 $string['editxmltitle'] = 'Edit question XML';
 $string['editxmlquestion'] = 'Question XML';
 $string['editxmlbutton'] = 'Save as new version and continue editing';
+$string['comparexmltitle'] = 'Compare question XML';
+$string['comparexmlcurrentversion'] = 'Current version {$a}';
+$string['comparexmlselectedversion'] = 'Compared version {$a}';
+$string['comparexmlselectcurrentversion'] = 'Version';
+$string['comparexmlselectquestion'] = 'Question';
+$string['comparexmlselectversion'] = 'Compared with version';
+$string['comparexmlrefresh'] = 'Refresh current version';
+$string['comparexmllatest'] = 'Latest';
+$string['comparexmlloadfiles'] = 'Load XML files';
+$string['comparexmlcurrentfile'] = 'XML file';
+$string['comparexmlcomparefile'] = 'Compared with';
+$string['comparexmlselectedfile'] = 'Selected file';
+$string['comparexmlshowsplit'] = 'Show split display';
+$string['comparexmlshowunified'] = 'Show unified display';
+$string['comparexmlshowdifferencesonly'] = 'Show differences only';
+$string['comparexmlshowalllines'] = 'Show all lines';
 $string['xmldisplayerror'] = ' There was a problem displaying the XML.';
 $string['healthcheck'] = 'STACK healthcheck';
 $string['healthcheck_desc'] = 'The <a href="{$a->link}">healthcheck script</a> helps you verify that all aspects of STACK are working properly.';
@@ -810,6 +829,34 @@ $string['healthcheckparsonssample'] = '<div class="formulation">
 ]) #}
 [[/parsons]]
 <br/><p>input=<input id="_fakeparsonsinput" style="width:70vw;margin:auto"/></p></div>';
+$string['healthcheckfreetext'] = 'Free-text question block';
+$string['healthcheckfreetextintro'] = 'There should be a free-text display panel below linked to a textarea input block. The ASCIIMaths in the input box should be fully-rendered LaTeX in the display box with the first line left-justifed and the other equations centred and aligned around their equals signs. The result should be the ASCIIMath matrix representation.';
+$string['healthcheckfreetextsample'] = '<div class="que stack">
+<div class="content">
+<div class="formulation clearfix">
+<div class="qtext">
+<div class="free-text-container">
+<textarea id="_ans1" cols="60">
+`prod_(k=0)^(n+1)(1+x^(2^k))=sum_(k=0)^(2^((n+1)+1)-1) x^k.`
+
+`
+a = b
+c = d
+[[2,1],[3,2]] [[2,-1],[-3,2]] =[[1,0],[0,1]]
+`
+
+This line is NOT the result
+</textarea>
+[[ascii input="ans1" width="100%"]]
+  [[extractor targetinput="ans2" type="lastexpr"/]]
+[[/ascii]]
+</div>
+</div>
+<p>Result = <input id="_ans2"/></p>
+</div>
+</div>
+</div>
+</div>';
 $string['healthcheckgeogebra'] = 'GeoGebra block';
 $string['healthcheckgeogebraintro'] = 'There should be a GeoGebra plot and input below. Interacting with the plot should affect the input.';
 $string['healthcheckgeogebrasample'] = '<div class="formulation" style="width:36vw;margin:auto;">

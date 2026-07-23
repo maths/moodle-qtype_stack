@@ -73,6 +73,10 @@ final class api_language_test extends \advanced_testcase {
         $language = fake_api_language::api_current_language('en');
         $this->assertEquals('en', $language);
 
+        // No setting. Empty request language.
+        $language = fake_api_language::api_current_language('');
+        $this->assertEquals('en', $language);
+
         // No setting. Other.
         $language = fake_api_language::api_current_language('pt');
         $this->assertEquals('en', $language);
@@ -81,6 +85,11 @@ final class api_language_test extends \advanced_testcase {
         \set_config('supportedlanguages', 'en,de', 'qtype_stack');
         $language = fake_api_language::api_current_language('en_us');
         $this->assertEquals('en', $language);
+
+        // No wildcard. Hyphenated request language.
+        \set_config('supportedlanguages', 'en,de', 'qtype_stack');
+        $language = fake_api_language::api_current_language('de-DE');
+        $this->assertEquals('de', $language);
 
         // Wildcard. Basic language.
         \set_config('supportedlanguages', 'en,de,*', 'qtype_stack');
@@ -105,6 +114,11 @@ final class api_language_test extends \advanced_testcase {
         // Variant. Region only.
         \set_config('supportedlanguages', 'en,de,pt_br', 'qtype_stack');
         $language = fake_api_language::api_current_language('pt_br_wp');
+        $this->assertEquals('pt_br', $language);
+
+        // Variant. Region only with hyphenated request language.
+        \set_config('supportedlanguages', 'en,de,pt_br', 'qtype_stack');
+        $language = fake_api_language::api_current_language('pt-BR-WP');
         $this->assertEquals('pt_br', $language);
     }
 }

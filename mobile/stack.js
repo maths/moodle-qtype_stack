@@ -190,7 +190,10 @@ var result = {
             args[1] = args[1].replace(baseRef + 'sortable.min.css" rel="stylesheet">',
                 baseRef + 'sortable.min.css" rel="stylesheet">'
                 + '<link rel="stylesheet" href="' + baseRef + 'styles.css"></link>');
-            args[1] = rewriteMathJax2ConfigForMobile(args[1]);
+            args[1] = args[1].replace(
+                'config=TeX-AMS-MML_HTMLorMML',
+                'config=TeX-MML-AM_CHTML'
+            );
             // Scripts are now being loaded cross origin and Chrome complains.
             // It may just be a dev environment issue.
             args[1] = args[1].replace(/<img/g, '<img crossorigin=\'anonymous\'');
@@ -205,8 +208,12 @@ var result = {
             // moving between pages of a quiz, the data is loaded dynamically
             // and even using afterRender triggers before the div is available.
             // Sigh... Add this observer to set up validation ASAP.
+            const iframeTargetIds = iframesArgs.map((args) => args[2]);
             const observer = new MutationObserver(() => {
-                if (document.querySelector('#' + this.question.divId)) {
+                const questionDivReady = document.querySelector('#' + this.question.divId);
+                const iframeTargetsReady = iframeTargetIds.every((targetId) => document.getElementById(targetId));
+
+                if (questionDivReady && iframeTargetsReady) {
                     observer.disconnect();
                     for (const args of inputInits) {
                         initInputs(...args);
@@ -224,15 +231,6 @@ var result = {
             observer.observe(document.body, {childList: true, subtree: true});
         });
 
-        function rewriteMathJax2ConfigForMobile(content) {
-            if (typeof MathJax !== 'undefined' && typeof MathJax.typesetPromise === 'function') {
-                return content;
-            }
-            return content.replace(
-                'config=TeX-AMS-MML_HTMLorMML',
-                'config=TeX-MML-AM_CHTML'
-            );
-        }
         // Mostly a cut and paste of input.js file with updates for multianswer.
         /**
          * Class constructor representing an input in a Stack question.
@@ -859,6 +857,9 @@ var result = {
             */
         let VALIDATION_STATE_EVENT = {};
 
+        /* For scroll synchronisation, lists of IFRAMES listening particular inputs. */
+        let INPUTS_SCROLL_EVENT = {};
+
         const abortController = new AbortController();
 
 
@@ -1064,6 +1065,47 @@ var result = {
          */
         function vle_update_dom(modifiedsubtreerootelement) {
             CustomEvents.notifyFilterContentUpdated(modifiedsubtreerootelement);
+        }
+
+        /**
+         * Return the current fractional scroll position for an input.
+         *
+         * @param {HTMLElement} inputelement element to inspect.
+         * @returns {number}
+         */
+        function vle_get_scroll_position(inputelement) {
+            const maxscroll = inputelement.scrollHeight - inputelement.clientHeight;
+            if (maxscroll <= 0) {
+                return 0;
+            }
+            return inputelement.scrollTop / maxscroll;
+        }
+
+        /**
+         * Broadcast the current input scroll position to every subscribed iframe.
+         *
+         * @param {HTMLElement} inputelement element being synced.
+         * @param {String} inputname logical STACK input name.
+         * @param {?String} skipframe iframe id to skip when broadcasting.
+         */
+        function vle_sync_scroll_listeners(inputelement, inputname, skipframe) {
+            if (!(inputelement.id in INPUTS_SCROLL_EVENT)) {
+                return;
+            }
+            const scrollposition = vle_get_scroll_position(inputelement);
+            let response = {
+                version: 'STACK-JS:1.6.0',
+                type: 'input-scroll-position',
+                name: inputname,
+                position: scrollposition
+            };
+            for (let tgt of INPUTS_SCROLL_EVENT[inputelement.id]) {
+                if (skipframe !== null && skipframe !== undefined && tgt === skipframe) {
+                    continue;
+                }
+                response.tgt = tgt;
+                IFRAMES[tgt].contentWindow.postMessage(JSON.stringify(response), '*');
+            }
         }
 
         /**
@@ -1315,6 +1357,35 @@ var result = {
                 }
 
                 break;
+            case 'track-input-scroll':
+                input = vle_get_input_element(msg.name, msg.src, !msg['limit-to-question']);
+
+                if (input === null) {
+                    response.type = 'error';
+                    response.msg = 'Failed to connect to input: "' + msg.name + '"';
+                    response.tgt = msg.src;
+                    IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(response), '*');
+                    return;
+                }
+
+                response.type = 'input-scroll-position';
+                response.name = msg.name;
+                response.tgt = msg.src;
+                response.position = vle_get_scroll_position(input);
+
+                if (input.id in INPUTS_SCROLL_EVENT) {
+                    if (!(msg.src in INPUTS_SCROLL_EVENT[input.id])) {
+                        INPUTS_SCROLL_EVENT[input.id].push(msg.src);
+                    }
+                } else {
+                    INPUTS_SCROLL_EVENT[input.id] = [msg.src];
+                    input.addEventListener('scroll', () => {
+                        vle_sync_scroll_listeners(input, msg.name, null);
+                    });
+                }
+
+                IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(response), '*');
+                break;
             case 'track-validation-state':
                 // 1. Find the input.
                 input = vle_get_input_element(msg.name, msg.src, !msg['limit-to-question']);
@@ -1351,7 +1422,6 @@ var result = {
                         }
                     });
                 }
-
                 break;
             case 'changed-input':
                 // 1. Find the input.

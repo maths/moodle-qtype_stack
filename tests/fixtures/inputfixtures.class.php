@@ -93,6 +93,8 @@ class stack_inputvalidation_test_data {
         ['-(a/b)', 'php_true', '-(a/b)', 'cas_true', '-\frac{a}{b}', '', ""],
         ['pi', 'php_true', 'pi', 'cas_true', '\pi', '', ""],
         ['e', 'php_true', 'e', 'cas_true', 'e', '', "Cannot easily make \(e\) a variable name."],
+        ['2e', 'php_true', '2*e', 'cas_true', '2\cdot e', 'missing_stars', ""],
+        ['-7e', 'php_true', '-7*e', 'cas_true', '-7\cdot e', 'missing_stars', ""],
         [
             'i', 'php_true', 'i', 'cas_true', '\mathrm{i}', '',
             "Options to make i a variable, or a vector unit.  Note this is not italic.",

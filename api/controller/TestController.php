@@ -47,6 +47,7 @@ class TestController {
     public function __invoke(Request $request, Response $response, array $args): Response {
         // TO-DO: Validate.
         $data = $request->getParsedBody();
+        current_language($data['lang'] ?? null);
 
         ['question' => $question, 'testcases' => $testcases] = StackQuestionLoader::loadxml($data["questionDefinition"], true);
         $question->castextprocessor = new \castext2_qa_processor(new \stack_outofcontext_process());

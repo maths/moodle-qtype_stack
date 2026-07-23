@@ -504,7 +504,17 @@ final class cassession2_test extends qtype_stack_testcase {
     public function test_multiplication_option_onum(): void {
 
         $s1 = [];
-        $cs = ['a:2*x', 'b:2*3*x', 'c:3*5^2', 'd:3*x^2', 's1:x*(-y)', 's2:3*(-4)*x*(-y)'];
+        $cs = [
+            'a:2*x',
+            'b:2*3*x',
+            'c:3*5^2',
+            'd:3*x^2',
+            's1:x*(-y)',
+            's2:3*(-4)*x*(-y)',
+            's3:2*(57-1)',
+            's4:2*(57-100)',
+            's5:(57-100)*2',
+        ];
         foreach ($cs as $s) {
             $s1[] = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), []);
         }
@@ -521,6 +531,9 @@ final class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('3\, x^2', $s1[3]->get_display());
         $this->assertEquals('x\, \left(-y\right)', $s1[4]->get_display());
         $this->assertEquals('3\times \left(-4\right)\, x\, \left(-y\right)', $s1[5]->get_display());
+        $this->assertEquals('2\times \left(57-1\right)', $s1[6]->get_display());
+        $this->assertEquals('2\times \left(57-100\right)', $s1[7]->get_display());
+        $this->assertEquals('\left(57-100\right)\times 2', $s1[8]->get_display());
 
         $s1 = [];
         $cs = [
@@ -545,7 +558,7 @@ final class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('3\cdot \frac{5}{2}', $s1[5]->get_display());
         $this->assertEquals('3\cdot \frac{4}{5}\, x', $s1[6]->get_display());
         $this->assertEquals('\left(\frac{3\cdot 4}{5}\right)\, x', $s1[7]->get_display());
-        $this->assertEquals('3\cdot \left(\frac{-4}{5}\right)\, x', $s1[8]->get_display());
+        $this->assertEquals('3\cdot \frac{-4}{5}\, x', $s1[8]->get_display());
         $this->assertEquals('\frac{7}{6}\, x+\frac{3}{4}\, y', $s1[9]->get_display());
     }
 

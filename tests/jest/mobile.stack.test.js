@@ -3,6 +3,8 @@
 const fs = require('fs');
 const path = require('path');
 
+let mutationObservers = [];
+
 function loadMobileStack(context) {
     const modulePath = path.resolve(__dirname, '../../mobile/stack.js');
     const source = fs.readFileSync(modulePath, 'utf8');
@@ -128,6 +130,34 @@ async function flushMicrotasks() {
     await Promise.resolve();
 }
 
+function setScrollMetrics(element, {scrollTop = 0, scrollHeight = 200, clientHeight = 100} = {}) {
+    let currentScrollTop = scrollTop;
+    element.style.scrollBehavior = '';
+    Object.defineProperty(element, 'scrollTop', {
+        configurable: true,
+        get: () => currentScrollTop,
+        set: (value) => {
+            currentScrollTop = value;
+        },
+    });
+    Object.defineProperty(element, 'scrollHeight', {
+        configurable: true,
+        get: () => scrollHeight,
+    });
+    Object.defineProperty(element, 'clientHeight', {
+        configurable: true,
+        get: () => clientHeight,
+    });
+}
+
+function triggerMutationObservers() {
+    mutationObservers.forEach((observer) => {
+        if (!observer.disconnected) {
+            observer.callback();
+        }
+    });
+}
+
 async function setupMessageHarness(frameIds = ['iframe-1']) {
     const scriptsCode = frameIds.map((frameId, index) =>
         `stackjsvle.create_iframe("${frameId}","<!doctype html><html><body>Frame</body></html>","frame-target${index === 0 ? '' : '-2'}","Author frame",true,false);});;`
@@ -175,6 +205,7 @@ describe('mobile/stack.js', () => {
     beforeEach(() => {
         jest.useFakeTimers();
         jest.restoreAllMocks();
+        mutationObservers = [];
 
         global.CustomEvents = {notifyFilterContentUpdated: jest.fn()};
         global.MathJax = {};
@@ -188,7 +219,11 @@ describe('mobile/stack.js', () => {
         global.MutationObserver = class {
             constructor(callback) {
                 this.callback = callback;
-                this.disconnect = jest.fn();
+                this.disconnected = false;
+                this.disconnect = jest.fn(() => {
+                    this.disconnected = true;
+                });
+                mutationObservers.push(this);
             }
 
             observe() {
@@ -236,7 +271,7 @@ describe('mobile/stack.js', () => {
         expect(context.question.text).toContain('style="width: 13em;"');
     });
 
-    test('rewrites MathJax 2 iframe config to common HTML on mobile', async() => {
+    test('rewrites MathJax iframe config to common HTML on mobile', async() => {
         const baseRef = 'https://example.test/question/type/stack/corsscripts/cors.php?name=';
         const iframeHtml = '<!doctype html><html><head>'
             + '<link href="' + baseRef + 'sortable.min.css" rel="stylesheet">'
@@ -262,30 +297,35 @@ describe('mobile/stack.js', () => {
         expect(iframe.srcdoc).not.toContain('MathJax.js?config=TeX-AMS-MML_HTMLorMML&delayStartupUntil=configured');
     });
 
-    test('does not rewrite iframe MathJax config when MathJax 3 is active', async() => {
-        const iframeHtml = '<!doctype html><html><head>'
-            + '<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>'
-            + '</head><body><div class="MathJax">Frame</div></body></html>';
-        global.MathJax = {
-            typesetPromise: jest.fn(),
-        };
+    test('waits for iframe targets before initialising iframes', async() => {
         const context = buildContext({
             question: {
                 html: buildQuestionHtml(),
-                scriptsCode: 'stackjsvle.create_iframe("iframe-1","' + iframeHtml.replace(/"/g, '\\"')
-                    + '","frame-target","Author frame",true,false);});;',
+                scriptsCode: 'stackjsvle.create_iframe("iframe-1","<!doctype html><html><body>Frame</body></html>",'
+                    + '"frame-target","Author frame",true,false);});;',
             },
         });
         const mobileStack = loadMobileStack(context);
 
         mobileStack.componentInit.call(context);
-        mountRenderedQuestion(context.question);
+        document.body.innerHTML = `
+            <div id="${context.question.divId}" class="formulation dfexplicitvaildate">
+                <div class="content"></div>
+                <input name="pfxstep_lang" value="fr" />
+            </div>
+        `;
         jest.runAllTimers();
         await flushMicrotasks();
 
-        const iframe = document.getElementById('iframe-1');
-        expect(iframe.srcdoc).toContain('MathJax.js?config=TeX-AMS-MML_HTMLorMML');
-        expect(iframe.srcdoc).not.toContain('MathJax.js?config=TeX-MML-AM_CHTML');
+        expect(document.getElementById('iframe-1')).toBeNull();
+        expect(mutationObservers[0].disconnect).not.toHaveBeenCalled();
+
+        mountRenderedQuestion(context.question);
+        triggerMutationObservers();
+        await flushMicrotasks();
+
+        expect(document.getElementById('iframe-1')).not.toBeNull();
+        expect(mutationObservers[0].disconnect).toHaveBeenCalledTimes(1);
     });
 
     test('initialises instant validation from scriptsCode and hides submit button', async() => {
@@ -579,6 +619,37 @@ describe('mobile/stack.js', () => {
         expect(responseToOther.type).toBe('changed-input');
         expect(responseToOther.name).toBe('ans');
         expect(responseToOther.value).toBe('from-frame');
+    });
+
+    test('scroll sync tracks textarea scrolling', async() => {
+        const {postMessageByFrame, sendMessage, latestResponse} = await setupMessageHarness(['iframe-1', 'iframe-2']);
+        const textarea = document.querySelector('#q1 textarea[name="pfxtxt"]');
+        setScrollMetrics(textarea, {scrollTop: 30, scrollHeight: 220, clientHeight: 100});
+
+        sendMessage({
+            version: 'STACK-JS:1.6.0',
+            src: 'iframe-1',
+            type: 'track-input-scroll',
+            name: 'txt',
+        });
+        sendMessage({
+            version: 'STACK-JS:1.6.0',
+            src: 'iframe-2',
+            type: 'track-input-scroll',
+            name: 'txt',
+        });
+
+        expect(latestResponse('iframe-1').position).toBeCloseTo(0.25);
+        expect(latestResponse('iframe-2').position).toBeCloseTo(0.25);
+
+        postMessageByFrame['iframe-1'].mockClear();
+        postMessageByFrame['iframe-2'].mockClear();
+
+        textarea.scrollTop = 60;
+        textarea.dispatchEvent(new Event('scroll'));
+
+        expect(latestResponse('iframe-1').position).toBeCloseTo(0.5);
+        expect(latestResponse('iframe-2').position).toBeCloseTo(0.5);
     });
 
     test('clear-input and submit button commands operate through message API', async() => {

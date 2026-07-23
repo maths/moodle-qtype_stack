@@ -23,14 +23,14 @@ describe('allregexmatch extractor', () => {
         });
 
         test('returns translated error when operation.regex is missing', () => {
-            expect(allregexmatch('any raw', null, {})).toEqual({
-                error: 'This extractor requires a regular expression.'
+            expect(allregexmatch('any raw', null, { type: 'allregexmatch' })).toEqual({
+                error: 'This extractor requires a regular expression. allregexmatch'
             });
         });
 
         test('returns translated error when operation.regex is empty', () => {
-            expect(allregexmatch('any raw', null, { regex: '' })).toEqual({
-                error: 'This extractor requires a regular expression.'
+            expect(allregexmatch('any raw', null, { type: 'allregexmatch', regex: '' })).toEqual({
+                error: 'This extractor requires a regular expression. allregexmatch'
             });
         });
     });

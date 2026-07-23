@@ -23,8 +23,14 @@ describe('lastregexmatch extractor', () => {
         });
 
         test('returns translated error when operation.regex is missing', () => {
-            expect(lastregexmatch('any raw', [], {})).toEqual({
-                error: 'This extractor requires a regular expression.'
+            expect(lastregexmatch('any raw', [], { type: 'lastregexmatch' })).toEqual({
+                error: 'This extractor requires a regular expression. lastregexmatch'
+            });
+        });
+
+        test('returns translated error when operation.regex is empty', () => {
+            expect(lastregexmatch('any raw', [], { type: 'lastregexmatch', regex: '' })).toEqual({
+                error: 'This extractor requires a regular expression. lastregexmatch'
             });
         });
     });

@@ -4,7 +4,39 @@ import { setExtractorStrings } from '../../corsscripts/ascii/extractors/extracto
 describe('laststringremainderwhitespace extractor', () => {
     beforeEach(() => {
         setExtractorStrings({
+            asciistringextractorsearchrequired: 'This extractor requires a search parameter.',
             asciistringextractorsearchnotfound: 'No line matched the requested search text.'
+        });
+    });
+
+    describe('guard clauses', () => {
+        test('returns translated error when operation is undefined', () => {
+            expect(laststringremainderwhitespace('any raw', null, undefined)).toEqual({
+                error: 'This extractor requires a search parameter.'
+            });
+        });
+
+        test('returns translated error when operation is null', () => {
+            expect(laststringremainderwhitespace('any raw', null, null)).toEqual({
+                error: 'This extractor requires a search parameter.'
+            });
+        });
+
+        test('returns translated error when operation.search is missing', () => {
+            expect(laststringremainderwhitespace('any raw', null, {
+                type: 'laststringremainderwhitespace'
+            })).toEqual({
+                error: 'This extractor requires a search parameter. laststringremainderwhitespace'
+            });
+        });
+
+        test('returns translated error when operation.search is empty', () => {
+            expect(laststringremainderwhitespace('any raw', null, {
+                type: 'laststringremainderwhitespace',
+                search: ''
+            })).toEqual({
+                error: 'This extractor requires a search parameter. laststringremainderwhitespace'
+            });
         });
     });
 

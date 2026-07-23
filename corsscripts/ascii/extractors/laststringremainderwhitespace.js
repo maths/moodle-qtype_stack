@@ -8,7 +8,7 @@ import { extractorError, extractorResult } from './extractorhelper.js';
 // Scans lines in reverse order.
 export default function laststringremainderwhitespace(raw, blocks, operation) {
     if (!operation || !operation.search) {
-        return extractorError('asciistringextractorsearchrequired');
+        return extractorError('asciistringextractorsearchrequired', operation ? operation.type : '');
     }
 
     var match = escaperegex(operation.search);

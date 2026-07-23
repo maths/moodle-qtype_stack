@@ -7,7 +7,7 @@ import { extractorError, extractorResult } from './extractorhelper.js';
 // Scans lines in reverse order.
 export default function lastregexremainder(raw, blocks, operation) {
     if (!operation || !operation.regex) {
-        return extractorError('asciistringextractorregexrequired');
+        return extractorError('asciistringextractorregexrequired', operation ? operation.type : '');
     }
     const pattern = new RegExp(operation.regex);
 

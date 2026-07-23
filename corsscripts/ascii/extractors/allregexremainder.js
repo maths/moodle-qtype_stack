@@ -7,7 +7,7 @@ import { extractorError, extractorResult } from './extractorhelper.js';
 // from the matches.
 export default function allregexremainder(raw, blocks, operation) {
     if (!operation || !operation.regex) {
-        return extractorError('asciistringextractorregexrequired');
+        return extractorError('asciistringextractorregexrequired', operation ? operation.type : '');
     }
     const pattern = new RegExp(operation.regex);
     const matches = [];

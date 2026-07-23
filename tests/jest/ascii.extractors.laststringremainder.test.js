@@ -16,9 +16,21 @@ describe('laststringremainder extractor', () => {
             });
         });
 
-        test('returns translated error when operation.search is missing', () => {
-            expect(laststringremainder('any raw', null, {})).toEqual({
+        test('returns translated error when operation is null', () => {
+            expect(laststringremainder('any raw', null, null)).toEqual({
                 error: 'This extractor requires a search parameter.'
+            });
+        });
+
+        test('returns translated error when operation.search is missing', () => {
+            expect(laststringremainder('any raw', null, { type: 'laststringremainder' })).toEqual({
+                error: 'This extractor requires a search parameter. laststringremainder'
+            });
+        });
+
+        test('returns translated error when operation.search is empty', () => {
+            expect(laststringremainder('any raw', null, { type: 'laststringremainder', search: '' })).toEqual({
+                error: 'This extractor requires a search parameter. laststringremainder'
             });
         });
     });
@@ -46,6 +58,18 @@ describe('laststringremainder extractor', () => {
             const raw = '  Answer =  x^2   ';
             const operation = { search: 'Answer =' };
             expect(laststringremainder(raw, null, operation)).toEqual({ result: 'x^2' });
+        });
+
+        test('supports legacy string option when search is not present', () => {
+            const raw = 'Answer = first\nother\nAnswer = last';
+            const operation = { string: 'Answer =' };
+            expect(laststringremainder(raw, null, operation)).toEqual({ result: 'last' });
+        });
+
+        test('prefers search over legacy string when both are present', () => {
+            const raw = 'String = legacy\nSearch = current';
+            const operation = { search: 'Search =', string: 'String =' };
+            expect(laststringremainder(raw, null, operation)).toEqual({ result: 'current' });
         });
     });
 

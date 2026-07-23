@@ -9,7 +9,7 @@ export default function laststringremainder(raw, blocks, operation) {
     // Original release had 'string' rather than 'search'. This is corrected here
     // but string option retained for back compat.
     if (!operation || (!operation.search && !operation.string)) {
-        return extractorError('asciistringextractorsearchrequired');
+        return extractorError('asciistringextractorsearchrequired', operation ? operation.type : '');
     }
 
     const lines = raw.split('\n');

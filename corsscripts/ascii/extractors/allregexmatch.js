@@ -6,7 +6,7 @@ import { extractorError, extractorResult } from './extractorhelper.js';
 // a JSON object of the form {"matches":[...]} set as answerEl.value.
 export default function allregexmatch(raw, blocks, operation) {
     if (!operation || !operation.regex) {
-        return extractorError('asciistringextractorregexrequired');
+        return extractorError('asciistringextractorregexrequired', operation ? operation.type : '');
     }
     const pattern = new RegExp(operation.regex);
     const matches = [];

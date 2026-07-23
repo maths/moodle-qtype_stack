@@ -4,7 +4,34 @@ import { setExtractorStrings } from '../../corsscripts/ascii/extractors/extracto
 describe('allregexremainder extractor', () => {
     beforeEach(() => {
         setExtractorStrings({
+            asciistringextractorregexrequired: 'This extractor requires a regular expression.',
             asciistringextractorregexnotfound: 'No line matched the requested regular expression.'
+        });
+    });
+
+    describe('guard clauses', () => {
+        test('returns translated error when operation is undefined', () => {
+            expect(allregexremainder('any raw', null, undefined)).toEqual({
+                error: 'This extractor requires a regular expression.'
+            });
+        });
+
+        test('returns translated error when operation is null', () => {
+            expect(allregexremainder('any raw', null, null)).toEqual({
+                error: 'This extractor requires a regular expression.'
+            });
+        });
+
+        test('returns translated error when operation.regex is missing', () => {
+            expect(allregexremainder('any raw', null, { type: 'allregexremainder' })).toEqual({
+                error: 'This extractor requires a regular expression. allregexremainder'
+            });
+        });
+
+        test('returns translated error when operation.regex is empty', () => {
+            expect(allregexremainder('any raw', null, { type: 'allregexremainder', regex: '' })).toEqual({
+                error: 'This extractor requires a regular expression. allregexremainder'
+            });
         });
     });
 

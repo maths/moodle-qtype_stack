@@ -35,6 +35,7 @@ use stack_options;
 use stack_secure_loader;
 use stack_multilang;
 use function stack_ast_container_silent\is_int;
+use api\util\StackIframeHolder;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -316,6 +317,7 @@ final class parsons_block_test extends qtype_stack_testcase {
         $validparameters = [
             'width', 'height', 'aspect-ratio', 'version', 'overridecss',
             'overridejs', 'input', 'clone', 'columns', 'rows', 'transpose', 'item-height', 'item-width', 'log', 'style',
+            'accessible',
         ];
 
         foreach ($invalidparameters as $param) {
@@ -338,6 +340,98 @@ final class parsons_block_test extends qtype_stack_testcase {
                 $at1->get_errors()
             );
         }
+    }
+
+    /**
+     * Check validation of the accessible Parsons mode.
+     * @covers \qtype_stack\stack_cas_castext2_parsons
+     */
+    public function test_parsons_validate_accessible(): void {
+        $validmodes = ['switch', 'only', 'off'];
+        $invalidmodes = ['true', 'false', 'keyboard', ''];
+
+        foreach ($validmodes as $mode) {
+            $raw = '[[parsons accessible="' . $mode . '"]]{' .
+                '"1":"Assume that \\(n\\) is odd.",' .
+                '"2":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).", ' .
+                '"3":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]", ' .
+                '"4":"Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).", ' .
+                '} [[/parsons]]';
+
+            $at1 = castext2_evaluatable::make_from_source($raw, 'test-case');
+            $session = new stack_cas_session2([$at1]);
+            $this->assertTrue($at1->get_valid());
+        }
+
+        foreach ($invalidmodes as $mode) {
+            $raw = '[[parsons accessible="' . $mode . '"]]{' .
+                '"1":"Assume that \\(n\\) is odd.",' .
+                '"2":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).", ' .
+                '"3":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]", ' .
+                '"4":"Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).", ' .
+                '} [[/parsons]]';
+
+            $at1 = castext2_evaluatable::make_from_source($raw, 'test-case');
+            $session = new stack_cas_session2([$at1]);
+            $this->assertFalse($at1->get_valid());
+            $this->assertEquals(stack_string('stackBlock_parsons_unknown_accessible_value'), $at1->get_errors());
+        }
+    }
+
+    /**
+     * Check accessible-only mode does not load Sortable.
+     * @covers \qtype_stack\stack_cas_castext2_parsons
+     */
+    public function test_parsons_accessible_only_render(): void {
+        StackIframeHolder::$islibrary = true;
+        StackIframeHolder::$iframes = [];
+        stack_cas_castext2_iframe::register_counter('///IFRAME_COUNT///');
+        $raw = '[[parsons accessible="only"]]{' .
+            '"1":"Assume that \\(n\\) is odd.",' .
+            '"2":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).", ' .
+            '} [[/parsons]]';
+
+        $at1 = castext2_evaluatable::make_from_source($raw, 'test-case');
+        $session = new stack_cas_session2([$at1]);
+        $session->instantiate();
+        $at1->apply_placeholder_holder($at1->get_rendered());
+        $iframe = StackIframeHolder::$iframes[0][1];
+
+        $this->assertStringContainsString('stackparsonsaccessible.js', $iframe);
+        $this->assertStringContainsString('parsons-accessible-container', $iframe);
+        $this->assertStringNotContainsString('sortablecore.min.js', $iframe);
+
+        StackIframeHolder::$iframes = [];
+        StackIframeHolder::$islibrary = false;
+    }
+
+    /**
+     * Check switch mode includes both versions and the switch controls.
+     * @covers \qtype_stack\stack_cas_castext2_parsons
+     */
+    public function test_parsons_accessible_switch_render(): void {
+        StackIframeHolder::$islibrary = true;
+        StackIframeHolder::$iframes = [];
+        stack_cas_castext2_iframe::register_counter('///IFRAME_COUNT///');
+        $raw = '[[parsons]]{' .
+            '"1":"Assume that \\(n\\) is odd.",' .
+            '"2":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).", ' .
+            '} [[/parsons]]';
+
+        $at1 = castext2_evaluatable::make_from_source($raw, 'test-case');
+        $session = new stack_cas_session2([$at1]);
+        $session->instantiate();
+        $at1->apply_placeholder_holder($at1->get_rendered());
+        $iframe = StackIframeHolder::$iframes[0][1];
+
+        $this->assertStringContainsString('stackparsonsaccessible.js', $iframe);
+        $this->assertStringContainsString('sortablecore.min.js', $iframe);
+        $this->assertStringContainsString('parsons-toggle-accessible', $iframe);
+        $this->assertStringNotContainsString('parsons-use-accessible', $iframe);
+        $this->assertStringNotContainsString('parsons-use-drag', $iframe);
+
+        StackIframeHolder::$iframes = [];
+        StackIframeHolder::$islibrary = false;
     }
 
     /**

@@ -101,6 +101,19 @@ Functionality and styling can be customised through the use of block parameters.
 11. `transpose` : `"true"` or `"false"`; `"false"` by default. While the student is able to re-orient between vertical and horizontal as they wish, the default on load is for columns to be vertical. If you wish them to default to being horizontal, then pass `transpose="true"`.
 12. `log` : `"true"` or `"false"`; `"false"` by default. When set to `"true"` the student's will contain their entire drag-and-drop move history for that attempt, along with the timestamp (number of seconds since 00:00 GMT 01/01/1970) of that move.
 13. `style`: string containing the base name of a local minimised CSS file contained in `question/type/stack/corsscripts/parsonsstyles` directory e.g `compact`. This parameter is unset by default.
+14. `accessible`: string of the form `"switch"`, `"only"` or `"off"`; `"switch"` by default. When set to `"switch"`, students can choose between the drag-and-drop version and a keyboard accessible version which uses buttons and menus rather than dragging. When set to `"only"`, only the keyboard accessible version is shown and Sortable.js is not loaded. When set to `"off"`, only the original drag-and-drop version is shown.
+
+## Keyboard accessible version
+
+The keyboard accessible version stores the same Parsons state as the drag-and-drop version, so no changes are needed to the input type, model answer or PRT. Students add items from the available list using a destination menu, then move, remove or reorder items with ordinary form controls. In grid questions, occupied cells are not offered as destinations until their current item is removed.
+
+For example, to force the accessible version for a question use:
+
+````
+[[parsons input="ans1" accessible="only"]]
+{# parsons_encode(proof_steps) #}
+[[/parsons]]
+````
 
 ## Sortable options
 

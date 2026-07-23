@@ -81,6 +81,9 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         // Whether to return full history or final answer.
         $log = 'false';
 
+        // Whether to provide the keyboard accessible editor.
+        $accessible = 'switch';
+
         foreach ($this->params as $key => $value) {
             if ($key === 'clone') {
                 $clone = $value;
@@ -96,6 +99,8 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
                 $itemwidth = $value;
             } else if ($key === 'log') {
                 $log = $value;
+            } else if ($key === 'accessible') {
+                $accessible = $value;
             } else if ($key !== 'input') {
                 $xpars[$key] = $value;
             } else {
@@ -145,6 +150,8 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         if (isset($this->params['style'])) {
             $css = 'cors://parsonsstyles/' . $this->params['style'] . '.min.css';
         }
+        $usedrag = ($accessible !== 'only');
+        $useaccessible = ($accessible !== 'off');
 
         $r->items[] = new MP_String(json_encode($xpars));
 
@@ -158,10 +165,18 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             new MP_String('style'),
             new MP_String(json_encode(['href' => $css])),
         ]);
-        $r->items[] = new MP_List([
-            new MP_String('script'),
-            new MP_String(json_encode(['type' => 'module', 'src' => $js])),
-        ]);
+        if ($useaccessible) {
+            $r->items[] = new MP_List([
+                new MP_String('style'),
+                new MP_String(json_encode(['href' => 'cors://parsonsaccessible.css'])),
+            ]);
+        }
+        if ($usedrag) {
+            $r->items[] = new MP_List([
+                new MP_String('script'),
+                new MP_String(json_encode(['type' => 'module', 'src' => $js])),
+            ]);
+        }
 
         // We need to define a size for the inner content.
         $aspectratio = false;
@@ -189,28 +204,63 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $columns = $transpose ? $ogrows : $ogcolumns;
         $rows = $transpose ? $ogcolumns : $ogrows;
 
+        $r->items[] = new MP_String('<div class="stack-parsons-controls">');
         $r->items[] = new MP_String("<button type='button' class='parsons-button' id='resize'>
             <i class='fa fa-expand'></i></button>");
-        if ($clone === 'true') {
-            $r->items[] = new MP_String('<div class="parsons-button parsons-bin">
+        if ($clone === 'true' && $usedrag) {
+            $r->items[] = new MP_String('<div class="parsons-button parsons-bin" id="parsons-bin-wrapper">
             <i class="fa fa-trash bin-icon"></i><div class="drop-zone" id="bin"></div></div>');
             $r->items[] = new MP_String('<div class="parsons-button" id="delete-all">
             <i class="fa fa-times-circle "></i></div>');
         }
+        if ($useaccessible) {
+            $hidden = $usedrag ? ' hidden' : '';
+            $r->items[] = new MP_String('<button type="button" class="parsons-button" id="parsons-accessible-reset"' .
+                $hidden . ' aria-label="' . s(stack_string('stackBlock_parsons_accessible_reset')) . '">
+                <i class="fa fa-undo"></i></button>');
+        }
+        if ($useaccessible && $usedrag) {
+            $r->items[] = new MP_String('<button type="button" class="parsons-button" id="parsons-toggle-accessible"
+                    aria-pressed="false"
+                    data-accessible-label="' . s(stack_string('stackBlock_parsons_accessible_mode')) . '"
+                    data-drag-label="' . s(stack_string('stackBlock_parsons_drag_mode')) . '">' .
+                stack_string('stackBlock_parsons_accessible_mode') . '</button>');
+        }
+        $r->items[] = new MP_String('</div>');
 
-        $r->items[] = new MP_String('<div class="container row" id="containerRow" style="' . $astyle . '"></div>');
+        if ($usedrag) {
+            $r->items[] = new MP_String('<div class="container row" id="containerRow" style="' . $astyle . '"></div>');
+        }
+        if ($useaccessible) {
+            $hidden = $usedrag ? ' hidden' : '';
+            $r->items[] = new MP_String('<div id="parsons-accessible-wrapper"' . $hidden . '>
+                <div id="parsons-accessible-container"></div>
+            </div>');
+        }
 
         // JS script.
         $r->items[] = new MP_String('<script type="module">');
 
         $importcode = "\nimport stack_js from '" . stack_cors_link('stackjsiframe.min.js') . "';\n";
-        $importcode .= "import Sortable from '" . stack_cors_link('sortablecore.min.js') . "';\n";
-        $importcode .= "import {preprocess_steps,
-                                stack_sortable,
-                                get_iframe_height,
-                                SUPPORTED_CALLBACK_FUNCTIONS
-                } from '" .
-            stack_cors_link('stacksortable.min.js') . "';\n";
+        if ($usedrag) {
+            $importcode .= "import Sortable from '" . stack_cors_link('sortablecore.min.js') . "';\n";
+            $importcode .= "import {preprocess_steps,
+                                    stack_sortable,
+                                    get_iframe_height,
+                                    SUPPORTED_CALLBACK_FUNCTIONS
+                    } from '" .
+                stack_cors_link('stacksortable.min.js') . "';\n";
+            if ($useaccessible) {
+                $importcode .= "import {stack_accessible_parsons} from '" .
+                    stack_cors_link('stackparsonsaccessible.js') . "';\n";
+            }
+        } else {
+            $importcode .= "import {preprocess_steps,
+                                    stack_accessible_parsons,
+                                    get_iframe_height
+                    } from '" .
+                stack_cors_link('stackparsonsaccessible.js') . "';\n";
+        }
         $r->items[] = new MP_String($importcode);
 
         // Add the resize button listener.
@@ -318,67 +368,193 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             $code .= 'var id;' . "\n";
         };
 
-        // Instantiate STACK sortable helper class.
-        $code .= 'const stackSortable = new stack_sortable(proofSteps, id, sortableUserOpts, "' .
-                $clone . '", "' . $columns . '", "' . $rows . '", "' . $orientation . '", index, "' . $gridmode . '",
-                "' . $itemheight . '", "' . $itemwidth . '", "' . $log . '");' . "\n";
-        // Generate the two lists, headers and index in HTML.
-        $code .= 'stackSortable.add_reorientation_button();' . "\n";
-        $code .= 'stackSortable.create_row_col_divs();' . "\n";
-        $code .= 'if (index !== undefined) {stackSortable.add_index(index);};' . "\n";
-        $code .= 'stackSortable.add_headers(headers, available_header);' . "\n";
-        $code .= 'stackSortable.generate_used();' . "\n";
-        $code .= 'stackSortable.generate_available();' . "\n";
-        // Update the empty placeholders in grid mode, which is required for non-empty start or fill in correct responses.
-        $code .= 'stackSortable.update_grid_empty_css();' . "\n";
+        $accessiblelabels = json_encode([
+            'add' => stack_string('stackBlock_parsons_accessible_add'),
+            'remove' => stack_string('stackBlock_parsons_accessible_remove'),
+            'move' => stack_string('stackBlock_parsons_accessible_move'),
+            'moveup' => stack_string('stackBlock_parsons_accessible_moveup'),
+            'movedown' => stack_string('stackBlock_parsons_accessible_movedown'),
+            'destination' => stack_string('stackBlock_parsons_accessible_destination'),
+            'available' => stack_string('stackBlock_parsons_available_header'),
+            'answer' => stack_string('stackBlock_parsons_used_header'),
+            'empty' => stack_string('stackBlock_parsons_accessible_empty'),
+            'added' => stack_string('stackBlock_parsons_accessible_added'),
+            'removed' => stack_string('stackBlock_parsons_accessible_removed'),
+            'moved' => stack_string('stackBlock_parsons_accessible_moved'),
+            'noemptycells' => stack_string('stackBlock_parsons_accessible_noemptycells'),
+            'addsection' => stack_string('stackBlock_parsons_accessible_addsection'),
+            'ordersection' => stack_string('stackBlock_parsons_accessible_ordersection'),
+            'reset' => stack_string('stackBlock_parsons_accessible_reset_done'),
+        ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 
-        // Create the Sortable objects.
-        // First, instantiate with default options first in order to extract all possible options for validation.
-        $code .= 'var sortableUsed =
-        stackSortable.ids.used.map((idList) =>
-            idList.map((usedId) => Sortable.create(document.getElementById(usedId))));' . "\n";
-        $code .= 'var possibleOptionKeys = Object.keys(sortableUsed[0][0].options).concat(SUPPORTED_CALLBACK_FUNCTIONS);' . "\n";
-        // Now set appropriate options.
+        if ($usedrag) {
+            // Instantiate STACK sortable helper class.
+            $code .= 'const stackSortable = new stack_sortable(proofSteps, id, sortableUserOpts, "' .
+                    $clone . '", "' . $columns . '", "' . $rows . '", "' . $orientation . '", index, "' . $gridmode . '",
+                    "' . $itemheight . '", "' . $itemwidth . '", "' . $log . '");' . "\n";
+            // Generate the two lists, headers and index in HTML.
+            $code .= 'stackSortable.add_reorientation_button();' . "\n";
+            if ($useaccessible) {
+                $code .= 'const parsonsControls = document.querySelector(".stack-parsons-controls");
+                    const parsonsToggleControl = document.getElementById("parsons-toggle-accessible");
+                    const parsonsOrientationControl = document.getElementById("orientation");
+                    if (parsonsControls && parsonsOrientationControl) {
+                        if (parsonsToggleControl) {
+                            parsonsControls.insertBefore(parsonsOrientationControl, parsonsToggleControl);
+                        } else {
+                            parsonsControls.append(parsonsOrientationControl);
+                        }
+                    }' . "\n";
+            }
+            $code .= 'stackSortable.create_row_col_divs();' . "\n";
+            $code .= 'if (index !== undefined) {stackSortable.add_index(index);};' . "\n";
+            $code .= 'stackSortable.add_headers(headers, available_header);' . "\n";
+            $code .= 'stackSortable.generate_used();' . "\n";
+            $code .= 'stackSortable.generate_available();' . "\n";
+            // Update the empty placeholders in grid mode, which is required for non-empty start or fill in correct responses.
+            $code .= 'stackSortable.update_grid_empty_css();' . "\n";
 
-        $code .= 'sortableUsed.forEach((sortableList) =>
-            sortableList.forEach((sortable) =>
-                Object.entries(stackSortable.options.used).forEach(
-            ([key, val]) => sortable.option(key, val))));' . "\n";
-        $code .= 'var sortableAvailable = Sortable.create(availableList, stackSortable.options.available);' . "\n";
-        // Add the onSort option in order to link up to input and overwrite user onSort if passed.
-        $code .= 'sortableUsed.forEach((sortableList) =>
-            sortableList.forEach((sortable) =>
-                sortable.option("onSort", () => {
+            // Create the Sortable objects.
+            // First, instantiate with default options first in order to extract all possible options for validation.
+            $code .= 'var sortableUsed =
+            stackSortable.ids.used.map((idList) =>
+                idList.map((usedId) => Sortable.create(document.getElementById(usedId))));' . "\n";
+            $code .= 'var possibleOptionKeys = Object.keys(sortableUsed[0][0].options).concat(SUPPORTED_CALLBACK_FUNCTIONS);' . "\n";
+            // Now set appropriate options.
+
+            $code .= 'sortableUsed.forEach((sortableList) =>
+                sortableList.forEach((sortable) =>
+                    Object.entries(stackSortable.options.used).forEach(
+                ([key, val]) => sortable.option(key, val))));' . "\n";
+            $code .= 'var sortableAvailable = Sortable.create(availableList, stackSortable.options.available);' . "\n";
+            // Add the onSort option in order to link up to input and overwrite user onSort if passed.
+            $code .= 'sortableUsed.forEach((sortableList) =>
+                sortableList.forEach((sortable) =>
+                    sortable.option("onSort", () => {
+                        stackSortable.update_state(sortableUsed, sortableAvailable);
+                        stackSortable.update_grid_empty_css();})
+                )
+            );' . "\n";
+
+            $code .= 'sortableAvailable.option("onSort",
+                () => {
                     stackSortable.update_state(sortableUsed, sortableAvailable);
-                    stackSortable.update_grid_empty_css();})
-            )
-        );' . "\n";
+                    stackSortable.update_grid_empty_css();});' . "\n";
 
-        $code .= 'sortableAvailable.option("onSort",
-            () => {
-                stackSortable.update_state(sortableUsed, sortableAvailable);
-                stackSortable.update_grid_empty_css();});' . "\n";
+            // Options can now be validated since sortable objects have been instantiated, we throw warnings only.
+            $code .= 'stackSortable.validate_options(
+                possibleOptionKeys,
+                "' . stack_string('stackBlock_unknown_sortable_option') . '",
+                "' . stack_string('stackBlock_overwritten_sortable_option') . '");' . "\n";
 
-        // Options can now be validated since sortable objects have been instantiated, we throw warnings only.
-        $code .= 'stackSortable.validate_options(
-            possibleOptionKeys,
-            "' . stack_string('stackBlock_unknown_sortable_option') . '",
-            "' . stack_string('stackBlock_overwritten_sortable_option') . '");' . "\n";
+            // Create bin and add delete-all button events for clone mode.
+            if ($clone === "true") {
+                $code .= 'var sortableBin = Sortable.create(bin, {group: {name: "sortableBin", pull: false, put: ' .
+                    '"sortableUsed"}, onAdd: (e) => {document.getElementById("bin").removeChild(e.item);}});' . "\n";
+                $code .= 'stackSortable.add_delete_all_listener("delete-all", sortableUsed, sortableAvailable);' . "\n";
+            }
 
-        // Create bin and add delete-all button events for clone mode.
-        if ($clone === "true") {
-            $code .= 'var sortableBin = Sortable.create(bin, {group: {name: "sortableBin", pull: false, put: ' .
-                '"sortableUsed"}, onAdd: (e) => {document.getElementById("bin").removeChild(e.item);}});' . "\n";
-            $code .= 'stackSortable.add_delete_all_listener("delete-all", sortableUsed, sortableAvailable);' . "\n";
+            // Add double-click events for proof.
+            if ($proofmode) {
+                $code .= 'stackSortable.add_dblclick_listeners(sortableUsed, sortableAvailable);' . "\n";
+            }
+
+            $code .= 'function syncSortableFromInput() {
+                if (!id || !document.getElementById(id) || !document.getElementById(id).value) {
+                    return;
+                }
+                try {
+                    stackSortable.state = JSON.parse(document.getElementById(id).value);
+                    stackSortable.history = stackSortable.state;
+                } catch (e) {
+                    return;
+                }
+                document.querySelectorAll("#containerRow li[data-id]").forEach((item) => item.remove());
+                stackSortable.generate_used();
+                stackSortable.generate_available();
+                stackSortable.update_grid_empty_css();
+                stackSortable.resize_grid_items();
+            }' . "\n";
+
+            // Resize grid-items if window size is changed.
+            $code .= 'window.addEventListener("resize", () => stackSortable.resize_grid_items());' . "\n";
         }
 
-        // Add double-click events for proof.
-        if ($proofmode) {
-            $code .= 'stackSortable.add_dblclick_listeners(sortableUsed, sortableAvailable);' . "\n";
+        if ($useaccessible) {
+            $code .= 'let accessibleParsons = null;
+                function renderAccessibleParsons() {
+                    if (accessibleParsons === null) {
+                        accessibleParsons = new stack_accessible_parsons(proofSteps, id, "' .
+                            $clone . '", "' . $columns . '", "' . $rows . '", "' . $orientation . '", index, "' .
+                            $gridmode . '", "' . $itemheight . '", "' . $itemwidth . '", "' . $log . '",
+                            headers, available_header, ' . $accessiblelabels . ');
+                    }
+                    accessibleParsons.render();
+                }
+                const parsonsAccessibleReset = document.getElementById("parsons-accessible-reset");
+                if (parsonsAccessibleReset) {
+                    parsonsAccessibleReset.addEventListener("click", () => {
+                        if (accessibleParsons === null) {
+                            renderAccessibleParsons();
+                        }
+                        accessibleParsons.reset();
+                    });
+                }
+                window.addEventListener("stack-parsons-accessible-rendered", () => {
+                    const wrapper = document.getElementById("parsons-accessible-wrapper");
+                    if (wrapper && !wrapper.hidden) {
+                        stack_js.resize_containing_frame("' . $width . '", get_iframe_height() + "px");
+                    }
+                });' . "\n";
         }
 
-        // Resize grid-items if window size is changed.
-        $code .= 'window.addEventListener("resize", () => stackSortable.resize_grid_items())' . "\n";
+        if ($useaccessible && !$usedrag) {
+            $code .= 'renderAccessibleParsons();' . "\n";
+        }
+
+        if ($useaccessible && $usedrag) {
+            $code .= 'const parsonsDragContainer = document.getElementById("containerRow");
+                const parsonsAccessibleWrapper = document.getElementById("parsons-accessible-wrapper");
+                const parsonsToggleAccessible = document.getElementById("parsons-toggle-accessible");
+                const parsonsBinWrapper = document.getElementById("parsons-bin-wrapper");
+                const parsonsDeleteAll = document.getElementById("delete-all");
+                function setDragModeHidden(hidden) {
+                    parsonsDragContainer.hidden = hidden;
+                    const orientation = document.getElementById("orientation");
+                    if (orientation) {
+                        orientation.hidden = hidden;
+                    }
+                    if (parsonsBinWrapper) {
+                        parsonsBinWrapper.hidden = hidden;
+                    }
+                    if (parsonsDeleteAll) {
+                        parsonsDeleteAll.hidden = hidden;
+                    }
+                    if (parsonsAccessibleReset) {
+                        parsonsAccessibleReset.hidden = !hidden;
+                    }
+                }
+                parsonsToggleAccessible.addEventListener("click", () => {
+                    const accessibleMode = parsonsAccessibleWrapper.hidden;
+                    setDragModeHidden(accessibleMode);
+                    parsonsAccessibleWrapper.hidden = !accessibleMode;
+                    parsonsToggleAccessible.setAttribute("aria-pressed", accessibleMode ? "true" : "false");
+                    parsonsToggleAccessible.textContent = accessibleMode ?
+                        parsonsToggleAccessible.dataset.dragLabel :
+                        parsonsToggleAccessible.dataset.accessibleLabel;
+                    if (accessibleMode) {
+                        renderAccessibleParsons();
+                        if (typeof MathJax !== "undefined" && MathJax.typesetPromise) {
+                            MathJax.typesetPromise([parsonsAccessibleWrapper]);
+                        } else if (typeof MathJax !== "undefined" && MathJax.Hub && MathJax.Hub.Queue) {
+                            MathJax.Hub.Queue(["Typeset", MathJax.Hub, parsonsAccessibleWrapper]);
+                        }
+                    } else {
+                        syncSortableFromInput();
+                    }
+                    stack_js.resize_containing_frame("' . $width . '", get_iframe_height() + "px");
+                });' . "\n";
+        }
 
         // Typeset MathJax. MathJax 2 uses Queue, whereas 3 works with promises.
         $code .= ($mathjaxversionmajor === "2") ?
@@ -387,12 +563,13 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
 
         // Resize the outer iframe if the author does not pre-define width. Method depends on MathJax 2 or MathJax 3.
         if (!$existsuserheight) {
+            $resizeitems = $usedrag ? 'stackSortable.resize_grid_items();' : '';
             $code .= ($mathjaxversionmajor === "2") ?
                 'MathJax.Hub.Queue(() => {
-                    stackSortable.resize_grid_items();
+                    ' . $resizeitems . '
                     stack_js.resize_containing_frame("' . $width . '", get_iframe_height() + "px");})' :
                 'mathJaxPromise.then(() => {
-                    stackSortable.resize_grid_items();
+                    ' . $resizeitems . '
                     stack_js.resize_containing_frame("' . $width . '", get_iframe_height() + "px");});';
             $code .= "\n";
         }
@@ -537,6 +714,14 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             }
         }
 
+        // Check value of accessible is only one of the supported modes.
+        if (array_key_exists('accessible', $this->params)) {
+            if (!in_array($this->params['accessible'], ['switch', 'only', 'off'])) {
+                $valid = false;
+                $err[] = stack_string('stackBlock_parsons_unknown_accessible_value');
+            }
+        }
+
         // Check value of columns is a string containing a numeric positive integer.
         if (array_key_exists("columns", $this->params)) {
             if (!(preg_match('/^\d+$/', $this->params["columns"]) && intval($this->params["columns"]) > 0)) {
@@ -610,7 +795,8 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
                 $key !== 'item-height' &&
                 $key !== 'item-width' &&
                 $key !== 'log' &&
-                $key !== 'style'
+                $key !== 'style' &&
+                $key !== 'accessible'
             ) {
                 $err[] = "Unknown parameter '$key' for Parson's block.";
                 $valid    = false;
@@ -618,7 +804,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
                     $valids = [
                         'width', 'height', 'aspect-ratio', 'version', 'overridecss',
                         'overridejs', 'input', 'clone', 'columns', 'rows', 'transpose', 'item-height',
-                        'item-width', 'log', 'style',
+                        'item-width', 'log', 'style', 'accessible',
                     ];
                     $err[] = stack_string('stackBlock_parsons_param', [
                         'block' => "Parson's",

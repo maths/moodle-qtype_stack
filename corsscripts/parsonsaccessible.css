@@ -1,0 +1,120 @@
+@import url("../styles.css");
+
+.stack-parsons-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem;
+    margin: 0 0 0.35rem 0;
+}
+
+.stack-parsons-accessible button,
+.stack-parsons-accessible select {
+    font: inherit;
+    margin: 0.125rem;
+}
+
+.stack-parsons-accessible button {
+    border: 1px solid #6c757d;
+    border-radius: 0.35rem;
+    background: #6c757d;
+    color: #fff;
+    padding: 0.25rem 0.45rem;
+}
+
+#parsons-toggle-accessible[aria-pressed="true"] {
+    background: #5a6268;
+    color: #fff;
+}
+
+.stack-parsons-accessible {
+    color: #1f2a33;
+}
+
+.stack-parsons-accessible-section {
+    margin: 0 0 0.55rem 0;
+}
+
+.stack-parsons-accessible-section h2 {
+    font-size: 1rem;
+    margin: 0 0 0.25rem 0;
+}
+
+.stack-parsons-answer-column h3,
+.stack-parsons-accessible-grid-cell h4 {
+    font-size: 1rem;
+    margin: 0 0 0.2rem 0;
+}
+
+.stack-parsons-answer-lists,
+.stack-parsons-answer-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.stack-parsons-answer-column {
+    min-width: min(100%, 12rem);
+    flex: 1 1 12rem;
+}
+
+.stack-parsons-accessible-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.stack-parsons-accessible-item,
+.stack-parsons-accessible-grid-cell,
+.stack-parsons-accessible-empty {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    margin: 0 0 0.3rem 0;
+    padding: 0.25rem 0.35rem;
+}
+
+.stack-parsons-used > .stack-parsons-accessible-item {
+    background-color: rgb(176, 221, 228);
+    border-left: thick solid rgb(155, 199, 206);
+}
+
+.stack-parsons-available > .stack-parsons-accessible-item {
+    background-color: rgb(243, 189, 88);
+    border-left: thick solid rgb(196, 131, 10);
+}
+
+.stack-parsons-accessible-grid-cell {
+    background-color: #fff;
+}
+
+.stack-parsons-accessible-content {
+    margin-bottom: 0.25rem;
+}
+
+.stack-parsons-accessible-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.15rem;
+}
+
+.stack-parsons-accessible-controls select {
+    max-width: 100%;
+}
+
+.stack-parsons-accessible-empty {
+    color: #53616f;
+    background: floralwhite;
+    border: 1px solid rgb(155, 199, 206);
+}
+
+.stack-parsons-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}

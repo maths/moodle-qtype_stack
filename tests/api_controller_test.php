@@ -178,6 +178,8 @@ final class api_controller_test extends qtype_stack_testcase {
             "2 & 4 \\\\ 5 & 2 \\end{array}\\right]}={\\left[\\begin{array}{cc} 35 & 30 \\\\ 28 & 24 \\end{array}\\right]}\\)",
             $this->output->questionnote
         );
+        $this->assertEquals(get_config('qtype_stack', 'stackmaximaversion'), $this->output->aboutapi->stackmaxima);
+        $this->assertEquals(get_config('qtype_stack', 'apiversion'), $this->output->aboutapi->stackapi);
     }
 
     public function test_full_render(): void {
@@ -198,6 +200,8 @@ final class api_controller_test extends qtype_stack_testcase {
             "scrolling=\"yes\" title=\"\" referrerpolicy=\"no-referrer\" allow-scripts allow-downloads srcdoc=",
             $this->output->questionrender
         );
+        $this->assertEquals(get_config('qtype_stack', 'stackmaximaversion'), $this->output->aboutapi->stackmaxima);
+        $this->assertEquals(get_config('qtype_stack', 'apiversion'), $this->output->aboutapi->stackapi);
     }
 
     public function test_render_specified_seed(): void {

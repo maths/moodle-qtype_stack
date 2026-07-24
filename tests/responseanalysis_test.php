@@ -821,11 +821,41 @@ final class responseanalysis_test extends qtype_stack_testcase {
     public function test_format_summary(): void {
 
         $this->set_question();
+        $this->report->notesummary['PotResTree_1']['PotResTree_1-0-1'] = 1;
+        $this->report->notesummary['PotResTree_1']['PotResTree_1-0-0'] = 6;
         $summary = $this->report->format_summary();
         $expected = "## PotResTree_1 (7)\n4 ( 57.14%); " . RESPONSEFF . "\n2 ( 28.57%); " . RESPONSEFT .
             "\n1 ( 14.29%); " . RESPONSET;
         $this->assertEquals($expected, $summary->prts[0]->sumout);
         $this->assertEquals(7, $summary->tot['PotResTree_1']);
+        $this->assertStringContainsString('1 (14.29%)', $summary->prts[0]->graph_svg);
+        $this->assertStringContainsString('6 (85.71%)', $summary->prts[0]->graph_svg);
+        $this->assertStringNotContainsString('=1</text>', $summary->prts[0]->graph_svg);
+        $this->assertStringNotContainsString('=0</text>', $summary->prts[0]->graph_svg);
+
+        $scoregraph = self::$question->prts['PotResTree_1']->get_prt_graph();
+        $this->assertEquals('=1', $scoregraph->get(1)->leftlabel);
+        $this->assertEquals('=0', $scoregraph->get(1)->rightlabel);
+    }
+
+    public function test_prt_graph_labels_leave_duplicate_notes_blank(): void {
+
+        $prt = new class {
+            public function get_nodes_summary(): array {
+                $node = new \stdClass();
+                $node->trueanswernote = 'duplicated-note';
+                $node->falseanswernote = 'duplicated-note';
+                return [$node];
+            }
+        };
+        $question = (object) ['prts' => ['prt1' => $prt]];
+        $this->report = $this->getMockBuilder(stack_question_report::class)
+            ->onlyMethods(['run_report'])
+            ->setConstructorArgs([$question, 2, 1])->getMock();
+        $this->report->notesummary = ['prt1' => ['duplicated-note' => 7]];
+
+        $labels = $this->report->get_prt_graph_labels('prt1', ['prt1' => 7]);
+        $this->assertSame('', $labels['duplicated-note']);
     }
 
     public function test_note_summary(): void {

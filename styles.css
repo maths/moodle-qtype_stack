@@ -1485,6 +1485,12 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
 .que .comment {
     color: #44331b;
 }
+
+#page-question-type-stack .stickyfooter,
+#page-question-type-stack .sticky-footer-content {
+    z-index: 1050; /* Overrides Ace's z-index 4 & 6 */
+}
+
 .stack-ace-wrapper {
     border: 1px solid #ced4da;
     border-radius: 4px;

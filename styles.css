@@ -1486,8 +1486,7 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
     color: #44331b;
 }
 
-#page-question-type-stack .stickyfooter,
-#page-question-type-stack .sticky-footer-content {
+[id^="page-question-type-stack"] .stickyfooter {
     z-index: 1050; /* Overrides Ace's z-index 4 & 6 */
 }
 

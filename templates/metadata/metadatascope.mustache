@@ -156,14 +156,27 @@
         </div>
     </summary>
     <div class="smd-scope-body">
-        <div class="row mb-1">
-            <div class="col-2"><span class="smd-col-label">{{#str}} property, qtype_stack {{/str}}</span></div>
-            <div class="col-2"><span class="smd-col-label">{{#str}} qualifier, qtype_stack {{/str}}</span></div>
-            <div class="col-4"><span class="smd-col-label">{{#str}} value, qtype_stack {{/str}}</span></div>
-        </div>
-        {{#properties}}
-            {{>qtype_stack/metadata/metadataadditional}}
-        {{/properties}}
+        <table class="smd-prop-table">
+            <colgroup>
+                <col style="width: 24%">
+                <col style="width: 20%">
+                <col>
+                <col style="width: 2rem">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>{{#str}} property, qtype_stack {{/str}}</th>
+                    <th>{{#str}} qualifier, qtype_stack {{/str}}</th>
+                    <th>{{#str}} value, qtype_stack {{/str}}</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#properties}}
+                    {{>qtype_stack/metadata/metadataadditional}}
+                {{/properties}}
+            </tbody>
+        </table>
         <div class="mt-2">
             <button type="button" class="btn btn-sm btn-outline-secondary smd-add-btn" name="smd_add"
                     id="smd_property_{{firstProp}}_add"

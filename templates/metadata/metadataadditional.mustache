@@ -48,37 +48,40 @@
             "id": "2"
         }
 }}
-<div class="row align-items-center mb-1" id="qtype-stack-metadata-additional-{{{id}}}">
-    <div class="col-2 inputcol">
+<tr class="smd-prop-row" id="qtype-stack-metadata-additional-{{{id}}}">
+    <td class="smd-cell">
+        <span class="smd-cell-text">{{property.element.value}}</span>
         {{#property}}
             <label class="sr-only" for="{{element.id}}">
                 {{#str}} additionalmetadata, qtype_stack {{/str}} {{#str}} property, qtype_stack {{/str}}
             </label>
             {{> core_form/element-text-inline }}
         {{/property}}
-    </div>
-    <div class="col-2 inputcol">
+    </td>
+    <td class="smd-cell">
+        <span class="smd-cell-text">{{qualifier.element.value}}</span>
         {{#qualifier}}
             <label class="sr-only" for="{{element.id}}">
                 {{#str}} additionalmetadata, qtype_stack {{/str}} {{#str}} qualifier, qtype_stack {{/str}}
             </label>
             {{> core_form/element-text-inline }}
         {{/qualifier}}
-    </div>
-    <div class="col-4 inputcol">
+    </td>
+    <td class="smd-cell">
+        <span class="smd-cell-text">{{value.element.value}}</span>
         {{#value}}
             <label class="sr-only" for="{{element.id}}">
                 {{#str}} additionalmetadata, qtype_stack {{/str}} {{#str}} value, qtype_stack {{/str}}
             </label>
             {{> core_form/element-text-inline }}
         {{/value}}
-    </div>
-    <div class="col-1 smd-delete">
+    </td>
+    <td class="smd-cell-actions">
         <button id="smd_additional_{{id}}_delete" name="smd_delete" type="button"
-                class="btn btn-sm btn-outline-danger"
+                class="btn btn-link btn-sm smd-row-delete p-0"
                 title="{{#str}} delete {{/str}} {{#str}} property, qtype_stack {{/str}}">
             <i class="fa fa-trash" aria-hidden="true"></i>
             <span class="sr-only">{{#str}} delete {{/str}} {{#str}} property, qtype_stack {{/str}}</span>
         </button>
-    </div>
-</div>
+    </td>
+</tr>

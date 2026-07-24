@@ -1391,7 +1391,7 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
     min-width: 0;
 }
 .stack-metadata .smd-scope-name-text {
-    font-weight: 600;
+    font-weight: 400;
     font-size: 0.95rem;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -1465,14 +1465,70 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
     padding: 0 !important;
 }
 
-/* --- Author row: pencil-to-edit pattern ------------------------------------ */
+/* --- Click-to-edit table (authors, property/qualifier/value) --------------- */
+.stack-metadata .smd-prop-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    margin-bottom: 0.25rem;
+}
+.stack-metadata .smd-prop-table th {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #495057;
+    padding: 0 0.5rem 0.3rem 0.25rem;
+    text-align: left;
+    white-space: nowrap;
+}
+.stack-metadata .smd-prop-table td {
+    padding: 0.1rem 0.25rem;
+    vertical-align: middle;
+}
+.stack-metadata .smd-cell {
+    cursor: text;
+}
+.stack-metadata .smd-cell-text {
+    font-size: 0.9rem;
+    font-weight: 400;
+    display: block;
+    min-height: 1.6rem;
+    line-height: 1.6rem;
+    padding: 0 0.25rem;
+    border-radius: 3px;
+    border: 1px solid transparent;
+}
+.stack-metadata .smd-prop-row:hover .smd-cell-text {
+    border-color: #dee2e6;
+    background: #fff;
+}
+.stack-metadata .smd-cell .fitem,
+.stack-metadata .smd-cell .felement {
+    display: none;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+.stack-metadata .smd-cell.editing .fitem {
+    display: block;
+}
+.stack-metadata .smd-cell.editing .felement {
+    display: flex;
+}
+.stack-metadata .smd-cell.editing .smd-cell-text {
+    display: none;
+}
+.stack-metadata .smd-cell-actions {
+    width: 2rem;
+    text-align: right;
+    vertical-align: middle;
+}
+
+/* --- Author row: pencil-to-edit -------------------------------------------- */
 .stack-metadata .smd-author-display {
     display: flex;
     align-items: center;
     gap: 0.25rem;
     min-width: 0;
     font-size: 0.9rem;
-    font-weight: 400;
 }
 .stack-metadata .smd-author-display-text {
     font-weight: 400;
@@ -1483,41 +1539,18 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
     transition: opacity 0.15s;
     flex-shrink: 0;
 }
-.stack-metadata .smd-author-pencil i {
-    pointer-events: none;
-}
-.stack-metadata .smd-author-row:hover .smd-author-pencil {
-    opacity: 0.6;
-}
-/* Edit fields hidden in read mode */
-.stack-metadata .smd-author-field {
-    display: none;
-}
-/* Edit mode: .editing class added by JS after making fields visible */
-.stack-metadata .smd-author-row.editing .smd-author-field {
-    display: block;
-}
-.stack-metadata .smd-author-row.editing .smd-author-display {
-    display: none;
-}
-/* Column headers: only shown when any author row is being edited */
-.stack-metadata .smd-author-col-headers {
-    display: none;
-}
-.stack-metadata .smd-section:has(.smd-author-row.editing) .smd-author-col-headers {
-    display: flex;
-    flex-wrap: wrap;
-}
-/* Add buttons: hidden when authors exist but none are being edited */
-.stack-metadata .smd-author-actions {
-    display: none;
-}
+.stack-metadata .smd-author-pencil i { pointer-events: none; }
+.stack-metadata .smd-author-row:hover .smd-author-pencil { opacity: 0.6; }
+.stack-metadata .smd-author-field { display: none; }
+.stack-metadata .smd-author-row.editing .smd-author-field { display: block; }
+.stack-metadata .smd-author-row.editing .smd-author-display { display: none; }
+.stack-metadata .smd-author-col-headers { display: none; }
+.stack-metadata .smd-section:has(.smd-author-row.editing) .smd-author-col-headers { display: flex; flex-wrap: wrap; }
+.stack-metadata .smd-author-actions { display: none; }
 .stack-metadata .smd-section:has(.smd-author-row.editing) .smd-author-actions,
-.stack-metadata .smd-section:not(:has(.smd-author-row)) .smd-author-actions {
-    display: flex;
-}
+.stack-metadata .smd-section:not(:has(.smd-author-row)) .smd-author-actions { display: flex; }
 
-/* --- Inline delete button (trash next to pencil in read mode) -------------- */
+/* --- Inline delete button -------------------------------------------------- */
 .stack-metadata .smd-row-delete {
     color: #dc3545;
     opacity: 0;
@@ -1525,6 +1558,7 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
     flex-shrink: 0;
 }
 .stack-metadata .smd-author-row:hover .smd-row-delete,
+.stack-metadata .smd-prop-row:hover .smd-row-delete,
 .stack-metadata .smd-lang-row:hover .smd-row-delete {
     opacity: 0.45;
 }
@@ -1574,6 +1608,12 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
 }
 .stack-metadata .smd-lang-row.editing .smd-lang-display {
     display: none;
+}
+
+/* --- License / isPartOf column divider ------------------------------------- */
+.stack-metadata .smd-col-divider {
+    border-left: 1px solid #dee2e6;
+    padding-left: 1.25rem !important;
 }
 
 /* --- isPartOf: pencil-to-edit (CSS :has approach, no JS class needed) ------ */

@@ -398,7 +398,7 @@
                     {{/license}}
                 </div>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-5 smd-col-divider">
                 <div class="smd-section-label">{{#str}} ispartof, qtype_stack {{/str}}</div>
                 <div class="smd-ispartof-wrap">
                     <span class="smd-ispartof-display-text">{{isPartOf.element.value}}</span>
@@ -549,7 +549,77 @@ if (!document._stackScopeEditInit) {
     });
 }());
 
-// Author row pencil edit (listeners added once per page load).
+// Unified click-to-edit for table cells (.smd-cell).
+document._smdCommitCell = document._smdCommitCell || function(cell) {
+    if (!cell.classList.contains('editing')) { return; }
+    cell.classList.remove('editing');
+    var inp = cell.querySelector('input');
+    var span = cell.querySelector('.smd-cell-text');
+    if (inp && span) { span.textContent = inp.value; }
+};
+
+if (!document._stackCellEditInit) {
+    document._stackCellEditInit = true;
+
+    document.addEventListener('click', function(e) {
+        var cell = e.target.closest('.smd-cell');
+        if (!cell || cell.classList.contains('editing')) { return; }
+        cell.classList.add('editing');
+        var inp = cell.querySelector('input');
+        if (inp) { inp.focus({preventScroll: true}); inp.select(); }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (!e.target.closest) { return; }
+        var cell = e.target.closest('.smd-cell');
+        if (!cell) { return; }
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            document._smdCommitCell(cell);
+        } else if (e.key === 'Tab') {
+            var row = cell.closest('tr');
+            if (!row) { return; }
+            var cells = Array.from(row.querySelectorAll('.smd-cell'));
+            var idx = cells.indexOf(cell);
+            var next = e.shiftKey ? cells[idx - 1] : cells[idx + 1];
+            if (next) {
+                e.preventDefault();
+                document._smdCommitCell(cell);
+                next.classList.add('editing');
+                var nInp = next.querySelector('input');
+                if (nInp) { nInp.focus({preventScroll: true}); nInp.select(); }
+            }
+        }
+    });
+
+    document.addEventListener('focusout', function(e) {
+        var cell = e.target.closest && e.target.closest('.smd-cell');
+        if (!cell || !cell.classList.contains('editing')) { return; }
+        setTimeout(function() {
+            if (!cell.classList.contains('editing')) { return; }
+            if (cell.contains(document.activeElement)) { return; }
+            document._smdCommitCell(cell);
+        }, 0);
+    });
+}
+
+// Auto-focus first cell of newly added table rows (all cells empty).
+(function() {
+    document.querySelectorAll('.smd-prop-row').forEach(function(row) {
+        var inputs = row.querySelectorAll('.smd-cell input');
+        var allEmpty = Array.from(inputs).every(function(i) { return !i.value.trim(); });
+        if (allEmpty) {
+            var first = row.querySelector('.smd-cell');
+            if (first) {
+                first.classList.add('editing');
+                var fInp = first.querySelector('input');
+                setTimeout(function() { if (fInp) { fInp.focus({preventScroll: true}); } }, 50);
+            }
+        }
+    });
+}());
+
+// Author row pencil edit.
 if (!document._stackAuthorEditInit) {
     document._stackAuthorEditInit = true;
     document.addEventListener('click', function(e) {
@@ -581,7 +651,6 @@ if (!document._stackAuthorEditInit) {
     });
 }
 
-// Auto-focus newly added author rows (all fields empty).
 (function() {
     document.querySelectorAll('.smd-author-row').forEach(function(row) {
         var inputs = row.querySelectorAll('.smd-author-field input');

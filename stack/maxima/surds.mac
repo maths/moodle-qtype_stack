@@ -1,0 +1,96 @@
+/*  Author Chris Sangwin
+    University of Edinburgh
+    Copyright (C) 2026 Chris Sangwin
+
+    This program is free software: you can redistribute it or modify
+    it under the terms of the GNU General Public License version two.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
+/* ************************************************************* */
+/* Surd related functions                                      . */
+/* ************************************************************* */
+
+/**
+ * A flexible "nth" roots function ex1^(1/ex2).
+ *
+ * @param[expression] subject of the function.
+ * @param[expression] "nth" root.
+ * @return[scalar expression] the Euclidean length of the vector.
+ */
+root([ex]) := block(
+  if length(ex) > 2 then error("root: must have only two arguments"),
+  if length(ex) = 1 then return(sqrt(first(ex))),
+  if length(ex) = 2 then return(first(ex)^(1/second(ex)))
+)$
+texroot(ex) := if is(length(args(ex))=1) then 
+                   concat("\\sqrt{", tex1(first(args(ex))), "}")
+               else 
+                   concat("\\sqrt[", tex1(second(args(ex))), "]{", tex1(first(args(ex))), "}")$
+texput(nounify(root), texroot)$
+texput(verbify(root), texroot)$
+
+s_test_case_simp(root(x), sqrt(x))$
+s_test_case_simp(root(x,3), x^(1/3))$
+
+/**
+ * Convert fractional powers to nth roots.
+ * This is primarily to display things like x^1/n as \sqrt[n]{x} in LaTeX.
+ *
+ * @param[expression] subject of the function.
+ * @param[expression] "nth" root.
+ * @return[scalar expression] the Euclidean length of the vector.
+ */
+reroot(ex) := block([rexs, rbase, rexp, _m, _n, _q, _r],
+    if atom(ex) then return(ex),
+    if not(is(safe_op(ex)="^")) then return(apply(op(ex), map(reroot, args(ex)))),
+
+    rexs:args(ex),
+    rbase:first(rexs),
+    rexp:ev(second(rexs), simp),
+    /* Only convert positive rational exponents. */
+    if not(ratnump(rexp) and is(rexp>0)) then return(ex),
+
+    _m:num(rexp),
+    _n:denom(rexp),
+    _q:ev(floor(_m/_n), simp),
+    _r:ev(mod(_m,_n), simp),
+    if is(_r=0) then
+        return(rbase^_q),
+
+    if is(_q=0) then block(
+        if is(_r=1) then block(
+            if is(_n=2) then
+                return('root(rbase))
+            else
+                return('root(rbase, _n))
+        ) else
+           return('root(rbase^_r, _n))
+    ) else  
+            if is(_r=1) then block(
+                if is(_n=2) then
+                    return(ev(rbase^_q, simp)*'root(rbase))
+                else
+                    return(ev(rbase^_q, simp)*'root(rbase, _n))
+    ) else
+      return(ev(rbase^_q,simp)*'root(rbase^_r,_n))
+ )$
+
+s_test_case_simp(reroot(x), x)$
+s_test_case_simp(reroot(x+1), x+1)$
+s_test_case_simp(reroot(x^0), x^0)$
+s_test_case_simp(reroot(x^(1/2)), 'root(x))$
+s_test_case_simp(reroot(x^(-1/2)), x^(-1/2))$
+s_test_case_simp(reroot(x^(1/2)+7), 'root(x)+7)$
+s_test_case_simp(reroot(x^(1/3)), 'root(x,3))$
+s_test_case_simp(reroot(x^(2/3)), 'root(x^2,3))$
+s_test_case_simp(reroot(x^(4/3)), x*'root(x,3))$
+s_test_case_simp(reroot(x^(7/3)), x^2*'root(x,3))$
+s_test_case_simp(reroot(x^(21/7)), x^3)$
+

@@ -162,6 +162,7 @@ load("noun_simp.mac");
 load("inequalities.mac");
 load("intervals.mac");
 load("geometry.mac");
+load("surds.mac");
 load("proof.mac");
 load("linearalgebra_core.mac");
 load("stackunits.mac");

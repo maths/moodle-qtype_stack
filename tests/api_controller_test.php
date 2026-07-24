@@ -27,6 +27,7 @@ namespace qtype_stack;
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '../../stack/cas/castext2/blocks/iframe.block.php');
+require_once(__DIR__ . '../../stack/cas/castext2/processor.class.php');
 require_once(__DIR__ . '/fixtures/apifixtures.class.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '../../api/controller/DiffController.php');
@@ -235,6 +236,21 @@ final class api_controller_test extends qtype_stack_testcase {
         $rc->__invoke($this->request, $this->response, []);
         $this->assertEquals(1, count($this->output->iframes));
         $this->assertEquals(true, $this->output->isinteractive);
+    }
+
+    public function test_iframe_scrolling_string_false_is_treated_as_false(): void {
+        $block = new \stack_cas_castext2_iframe([], []);
+        $processor = new \castext2_default_processor();
+        $holder = new \castext2_placeholder_holder();
+
+        $block->postprocess(
+            ['iframe', json_encode(['scrolling' => 'false']), '<p>Test</p>'],
+            $processor,
+            $holder
+        );
+
+        $this->assertCount(1, StackIframeHolder::$iframes);
+        $this->assertFalse(StackIframeHolder::$iframes[0][4]);
     }
 
     public function test_render_download(): void {

@@ -83,6 +83,12 @@ The response is again a JSON document, with the following fields:
 - an array of arrays `iframes` of arguments to create iframes to hold JS panels e.g. JSXGraph, GeoGebra
 - a boolean field `isinteractive`, indicating if the question contains elements preventing a static representation. If true, a printed version of the question would make no sense
 - a string field `questionnote`, containing the rendered questionnote of the question
+- an object field `aboutapi`, containing version metadata for the API and bundled Maxima instance
+
+The `aboutapi` object contains:
+
+- `stackmaxima`: The configured STACK Maxima version.
+- `stackapi`: The configured API version identifier.
 
 The input configuration consists of the following fields:
 

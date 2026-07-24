@@ -42,9 +42,7 @@ This means that internally Maxima has converted `sqrt(x)` to `x^(1/2)`, even tho
 ## Surds and STACK
 
 1. Maxima provides a boolean /flag, `sqrtdispflag`.  When `sqrtdispflag` is `false`, Maxima will display `sqrt` to with exponent 1/2.  Note, this is a function at Maxima's _display_ level only and the expression tree itself is unchanged.  STACK provides a [question level option](../Authoring/Question_options.md) to set this flag.
-2. STACK defines an \(n\)th root function `root(x,n)` which is a noun form for \(\sqrt[n]{x}\).  This can be used by students, but if teachers wish to use this in question variables etc. then they must prefix this with the apostrophe to create the nounform `'root(x,n)` to prevent immediate evaluation to `x^(1/n)`.
-
-STACK provides a function `reroot` which traverses the expression tree and turns positive integer fractional powers back into noun forms of the `root` function.  This is useful for display in feedback, etc.
+2. STACK has a [surd library](../CAS/Library/surds/index.md) for dealing with surd expressions.
 
 ## Surds and assessment
 

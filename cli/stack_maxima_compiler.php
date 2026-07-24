@@ -381,6 +381,12 @@ function comment_annotations(string $comment): array {
                     $r['param-block'] = "| Argument name | type | description |\n";
                     $r['param-block'] .= "| ------------- | ---- | ----------- |\n";
                 }
+                if ($matches[3][$i] === null) {
+                    throw new error("comment_annotations: did not match comment: \n" . $comment);
+                }
+                if (count(explode(',', $matches[3][$i])) < 2) {
+                    throw new error("comment_annotations: did not have two arguments: \n" . $comment);
+                }
                 $aname = trim(explode(',', $matches[3][$i], 2)[0]);
                 $adesc = trim(explode(',', $matches[3][$i], 2)[1]);
                 $r['params'][] = $aname;
@@ -590,6 +596,9 @@ foreach ($scripts as $filename) {
                     $lastcat = $categories[$path];
                 }
                 // Just plug the item to the content list of that directory.
+                if (!array_key_exists($ccat, $categories)) {
+                    throw new error("Category \"" . $ccat . "\" does not exit.");
+                }
                 $categories[$ccat]->content[] = $name;
 
                 if (isset($nametopath[$name])) {

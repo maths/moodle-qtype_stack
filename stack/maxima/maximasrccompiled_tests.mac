@@ -167,5 +167,31 @@ s_test_case(simp):=is(str_to_js_char("\\") = "\\\\")$
 s_exec_test("strings/escapes/str_to_js_char.mac:16",1)$
 s_test_case(simp):=is(str_to_js_char("'") = "\\'")$
 s_exec_test("strings/escapes/str_to_js_char.mac:17",2)$
+s_test_case(simp):=is(root(x) = sqrt(x))$
+s_exec_test("surds/surds.mac:39",1)$
+s_test_case(simp):=is(root(x,3) = x^(1/3))$
+s_exec_test("surds/surds.mac:40",2)$
+s_test_case(simp):=is(reroot(x) = x)$
+s_exec_test("surds/surds.mac:86",3)$
+s_test_case(simp):=is(reroot(x+1) = x+1)$
+s_exec_test("surds/surds.mac:87",4)$
+s_test_case(simp):=is(reroot(x^0) = x^0)$
+s_exec_test("surds/surds.mac:88",5)$
+s_test_case(simp):=is(reroot(x^(-1/2)) = x^(-1/2))$
+s_exec_test("surds/surds.mac:89",6)$
+s_test_case(simp):=is(reroot(x^(1/3)) = 'root(x,3))$
+s_exec_test("surds/surds.mac:90",7)$
+s_test_case(simp):=is(reroot(x^(2/3)) = 'root(x^2,3))$
+s_exec_test("surds/surds.mac:91",8)$
+s_test_case(simp):=is(reroot(x^(4/3)) = x*'root(x,3))$
+s_exec_test("surds/surds.mac:92",9)$
+s_test_case(simp):=is(reroot(x^(7/3)) = x^2*'root(x,3))$
+s_exec_test("surds/surds.mac:93",10)$
+s_test_case(simp):=is(reroot(x^(21/7)) = x^3)$
+s_exec_test("surds/surds.mac:94",11)$
+s_test_case(simp):=if is(simp = false) then is(reroot(x^(1/2)) = 'root(x)) else is(reroot(x^(1/2)) = x^(1/2))$
+s_exec_test("surds/surds.mac:96",12)$
+s_test_case(simp):=if is(simp = false) then is(reroot(x^(1/2)+7) = 'root(x)+7) else is(reroot(x^(1/2)+7) = x^(1/2)+7)$
+s_exec_test("surds/surds.mac:97",13)$
 simp:true$
 if s_test_fails = 0 then print("All tests successfully executed.")$

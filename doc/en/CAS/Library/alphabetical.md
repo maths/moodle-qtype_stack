@@ -8,6 +8,8 @@
 - [NULLUNITS](stackunits/index.md#NULLUNITS)
 - [backtosibase(expression)](stackunits/index.md#backtosibase)
 - [extract_matching_parts(predicate,expression)](expressions/extraction/index.md#extract_matching_parts)
+- [reroot(ex)](surds/index.md#reroot)
+- [root([ex])](surds/index.md#root)
 - [sbasen_bitwidth(expression)](basen/binary/index.md#sbasen_bitwidth)
 - [sbasen_bitwise_eval(basen_logic)](basen/binary/index.md#sbasen_bitwise_eval)
 - [sbasen_char_to_digit(char)](basen/index.md#sbasen_char_to_digit)

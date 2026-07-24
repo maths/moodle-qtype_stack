@@ -43,4 +43,7 @@
         - [str_to_html_char(c)](strings/escapes/index.md#str_to_html_char)
         - [str_to_js(string_to_escape)](strings/escapes/index.md#str_to_js)
         - [str_to_js_char(c)](strings/escapes/index.md#str_to_js_char)
+- [surds](surds/index.md) 
+    - [reroot(ex)](surds/index.md#reroot)
+    - [root([ex])](surds/index.md#root)
 

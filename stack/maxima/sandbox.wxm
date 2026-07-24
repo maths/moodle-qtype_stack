@@ -1,5 +1,5 @@
 /* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
-/* [ Created with wxMaxima version 23.05.1 ] */
+/* [ Created with wxMaxima version 24.02.1 ] */
 /* [wxMaxima: title   start ]
 STACK Sandbox
    [wxMaxima: title   end   ] */
@@ -93,6 +93,7 @@ load("stats")$
 load("distrib")$
 load("descriptive")$
 alias(stack_include_contrib, load)$
+kill(%_C,%_ce_rem)$
 
 print(sconcat("[ STACK-Maxima started, library version ", stackmaximaversion, " ]"))$
 /* [wxMaxima: input   end   ] */
@@ -113,4 +114,4 @@ debug:true;
 
 
 /* Old versions of Maxima abort on loading files that end in a comment. */
-"Created with wxMaxima 23.05.1"$
+"Created with wxMaxima 24.02.1"$

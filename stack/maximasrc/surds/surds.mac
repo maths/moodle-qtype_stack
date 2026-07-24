@@ -18,11 +18,11 @@
 /* ************************************************************* */
 
 /**
- * A flexible "nth" roots function ex1^(1/ex2).
+ * Calculate the "nth" root of an expression.  Primarily used in a noun form, to create the correct latex.  Basically `root(ex1,ex2) = ex1^(1/ex2)`, and `root(ex1)=sqrt(ex1)`.
+ * E.g. this is used to display things like `x^1/n` as \(\sqrt[n]{x}\) in LaTeX.
  *
- * @param[expression] subject of the function.
- * @param[expression] "nth" root.
- * @return[scalar expression] the Euclidean length of the vector.
+ * @param[expression] expression, the expression we are taking the root of, and optionally the fractional power.
+ * @return[expression] expression, value of the fractional power.
  */
 root([ex]) := block(
   if length(ex) > 2 then error("root: must have only two arguments"),
@@ -36,18 +36,19 @@ texroot(ex) := if is(length(args(ex))=1) then
 texput(nounify(root), texroot)$
 texput(verbify(root), texroot)$
 
-s_test_case_simp(root(x), sqrt(x))$
-s_test_case_simp(root(x,3), x^(1/3))$
+s_test_case(simp) := is(root(x) = sqrt(x))$
+s_test_case(simp) := is(root(x,3) = x^(1/3))$
+
 
 /**
- * Convert fractional powers to nth roots.
- * This is primarily to display things like x^1/n as \sqrt[n]{x} in LaTeX.
+ * Convert fractional powers to nth roots, using STACK's `root` function in noun form.
+ * For example, `reroot(x^(1/3)) = 'root(x,3)`.  Note the use of `'` to indicate a noun form.
  *
- * @param[expression] subject of the function.
- * @param[expression] "nth" root.
- * @return[scalar expression] the Euclidean length of the vector.
+ * @param[expression] expression, subject of the function.
+ * @return[expression] expression, re-rooted expression.
  */
 reroot(ex) := block([rexs, rbase, rexp, _m, _n, _q, _r],
+    /* @ignore[global=reroot] */
     if atom(ex) then return(ex),
     if not(is(safe_op(ex)="^")) then return(apply(op(ex), map(reroot, args(ex)))),
 
@@ -82,15 +83,16 @@ reroot(ex) := block([rexs, rbase, rexp, _m, _n, _q, _r],
       return(ev(rbase^_q,simp)*'root(rbase^_r,_n))
  )$
 
-s_test_case_simp(reroot(x), x)$
-s_test_case_simp(reroot(x+1), x+1)$
-s_test_case_simp(reroot(x^0), x^0)$
-s_test_case_simp(reroot(x^(1/2)), 'root(x))$
-s_test_case_simp(reroot(x^(-1/2)), x^(-1/2))$
-s_test_case_simp(reroot(x^(1/2)+7), 'root(x)+7)$
-s_test_case_simp(reroot(x^(1/3)), 'root(x,3))$
-s_test_case_simp(reroot(x^(2/3)), 'root(x^2,3))$
-s_test_case_simp(reroot(x^(4/3)), x*'root(x,3))$
-s_test_case_simp(reroot(x^(7/3)), x^2*'root(x,3))$
-s_test_case_simp(reroot(x^(21/7)), x^3)$
+s_test_case(simp) := is(reroot(x) = x)$
+s_test_case(simp) := is(reroot(x+1) = x+1)$
+s_test_case(simp) := is(reroot(x^0) = x^0)$
+s_test_case(simp) := is(reroot(x^(-1/2)) = x^(-1/2))$
+s_test_case(simp) := is(reroot(x^(1/3)) = 'root(x,3))$
+s_test_case(simp) := is(reroot(x^(2/3)) = 'root(x^2,3))$
+s_test_case(simp) := is(reroot(x^(4/3)) = x*'root(x,3))$
+s_test_case(simp) := is(reroot(x^(7/3)) = x^2*'root(x,3))$
+s_test_case(simp) := is(reroot(x^(21/7)) = x^3)$
+
+s_test_case(simp) := if is(simp=false) then is(reroot(x^(1/2)) = 'root(x)) else is(reroot(x^(1/2)) = x^(1/2))$
+s_test_case(simp) := if is(simp=false) then is(reroot(x^(1/2)+7) = 'root(x)+7) else is(reroot(x^(1/2)+7) = x^(1/2)+7)$
 

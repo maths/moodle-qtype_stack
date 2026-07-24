@@ -641,12 +641,13 @@ if (!document._stackAuthorEditInit) {
             row.classList.remove('editing');
             var f = row.querySelectorAll('.smd-author-field input');
             var name = [f[0] && f[0].value.trim(), f[1] && f[1].value.trim()].filter(Boolean).join(' ');
-            var parts = [];
-            if (name) { parts.push(name); }
-            if (f[2] && f[2].value.trim()) { parts.push(f[2].value.trim()); }
-            if (f[3] && f[3].value.trim()) { parts.push('(' + f[3].value.trim() + ')'); }
+            var institution = f[2] && f[2].value.trim();
+            var year = f[3] && f[3].value.trim();
+            var text = name;
+            if (institution) { text += (text ? ', ' : '') + institution; }
+            if (year) { text += (text ? ' ' : '') + '(' + year + ')'; }
             var span = row.querySelector('.smd-author-display-text');
-            if (span) { span.textContent = parts.join(', '); }
+            if (span) { span.textContent = text; }
         }, 0);
     });
 }

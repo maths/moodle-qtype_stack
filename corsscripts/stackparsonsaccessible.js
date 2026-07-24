@@ -126,7 +126,17 @@ export const stack_accessible_parsons = class stack_accessible_parsons {
             noemptycells: "No empty cells are available.",
             addsection: "Add to your solution",
             ordersection: "Order your solution",
-            reset: "Reset"
+            reset: "Reset",
+            additem: "Add: {item}",
+            moveitem: "Move: {item}",
+            removeitem: "Remove: {item}",
+            moveupitem: "Move up: {item}",
+            movedownitem: "Move down: {item}",
+            destinationitem: "Destination for {item}",
+            addeditem: "Added: {item}",
+            moveditem: "Moved: {item}",
+            moveditemtodestination: "Moved: {item} to {destination}",
+            removeditem: "Removed: {item}"
         }, labels);
         this.state = this._generate_state();
         this.history = this.state;
@@ -282,6 +292,9 @@ export const stack_accessible_parsons = class stack_accessible_parsons {
         const button = document.createElement("button");
         button.type = "button";
         button.textContent = from === null ? this.labels.add : this.labels.move;
+        button.setAttribute("aria-label", this._format(from === null ? this.labels.additem : this.labels.moveitem, {
+            item: this._item_label(key)
+        }));
         button.disabled = destinations.length === 0;
 
         if (destinations.length === 1) {
@@ -291,7 +304,7 @@ export const stack_accessible_parsons = class stack_accessible_parsons {
         }
 
         const select = document.createElement("select");
-        select.setAttribute("aria-label", this.labels.destination);
+        select.setAttribute("aria-label", this._format(this.labels.destinationitem, {item: this._item_label(key)}));
         destinations.forEach((destination) => {
             const option = document.createElement("option");
             option.value = JSON.stringify(destination);
@@ -316,12 +329,15 @@ export const stack_accessible_parsons = class stack_accessible_parsons {
         controls.className = "stack-parsons-accessible-controls";
 
         if (row !== 0) {
-            controls.append(this._button(this.labels.moveup, () => this._move_in_list(col, row, row - 1)));
+            controls.append(this._button(this.labels.moveup, () => this._move_in_list(col, row, row - 1), false,
+                this._format(this.labels.moveupitem, {item: this._item_label(key)})));
         }
         if (row !== this._current().used[col][0].length - 1) {
-            controls.append(this._button(this.labels.movedown, () => this._move_in_list(col, row, row + 1)));
+            controls.append(this._button(this.labels.movedown, () => this._move_in_list(col, row, row + 1), false,
+                this._format(this.labels.movedownitem, {item: this._item_label(key)})));
         }
-        const remove = this._button(this.labels.remove, () => this._remove_from_list(col, row));
+        const remove = this._button(this.labels.remove, () => this._remove_from_list(col, row), false,
+            this._format(this.labels.removeitem, {item: this._item_label(key)}));
 
         controls.append(remove);
         return controls;
@@ -330,7 +346,8 @@ export const stack_accessible_parsons = class stack_accessible_parsons {
     _grid_controls(key, col, row) {
         const controls = document.createElement("div");
         controls.className = "stack-parsons-accessible-controls";
-        controls.append(this._button(this.labels.remove, () => this._remove_from_grid(col, row)));
+        controls.append(this._button(this.labels.remove, () => this._remove_from_grid(col, row), false,
+            this._format(this.labels.removeitem, {item: this._item_label(key)})));
         return controls;
     }
 
@@ -359,6 +376,7 @@ export const stack_accessible_parsons = class stack_accessible_parsons {
 
     _place_item(key, from, destination) {
         const current = this._clone_current();
+        const itemLabel = this._item_label(key);
         if (from === null) {
             if (this.clone !== "true") {
                 const availableIndex = current.available.indexOf(key);
@@ -377,7 +395,11 @@ export const stack_accessible_parsons = class stack_accessible_parsons {
         } else {
             current.used[destination.col][destination.row] = [key];
         }
-        this._commit(current, from === null ? this.labels.added : this.labels.moved);
+        const destinationLabel = destination && destination.label ? destination.label : "";
+        const message = from === null ?
+            this._format(this.labels.addeditem, {item: itemLabel, destination: destinationLabel}) :
+            this._format(this.labels.moveditemtodestination, {item: itemLabel, destination: destinationLabel});
+        this._commit(current, message);
     }
 
     _move_in_list(col, fromRow, toRow) {
@@ -385,7 +407,7 @@ export const stack_accessible_parsons = class stack_accessible_parsons {
         const list = current.used[col][0];
         const item = list.splice(fromRow, 1)[0];
         list.splice(toRow, 0, item);
-        this._commit(current, this.labels.moved);
+        this._commit(current, this._format(this.labels.moveditem, {item: this._item_label(item)}));
     }
 
     _remove_from_list(col, row) {
@@ -394,7 +416,7 @@ export const stack_accessible_parsons = class stack_accessible_parsons {
         if (this.clone !== "true") {
             current.available.push(key);
         }
-        this._commit(current, this.labels.removed);
+        this._commit(current, this._format(this.labels.removeditem, {item: this._item_label(key)}));
     }
 
     _remove_from_grid(col, row) {
@@ -404,7 +426,7 @@ export const stack_accessible_parsons = class stack_accessible_parsons {
         if (this.clone !== "true") {
             current.available.push(key);
         }
-        this._commit(current, this.labels.removed);
+        this._commit(current, this._format(this.labels.removeditem, {item: this._item_label(key)}));
     }
 
     _commit(current, message) {
@@ -460,11 +482,14 @@ export const stack_accessible_parsons = class stack_accessible_parsons {
         return Math.floor(Date.now() / 1000);
     }
 
-    _button(label, callback, disabled = false) {
+    _button(label, callback, disabled = false, ariaLabel = null) {
         const button = document.createElement("button");
         button.type = "button";
         button.textContent = label;
         button.disabled = disabled;
+        if (ariaLabel !== null) {
+            button.setAttribute("aria-label", ariaLabel);
+        }
         button.addEventListener("click", callback);
         return button;
     }
@@ -510,6 +535,16 @@ export const stack_accessible_parsons = class stack_accessible_parsons {
         const div = document.createElement("div");
         div.innerHTML = html;
         return div.textContent || div.innerText || "";
+    }
+
+    _item_label(key) {
+        return this._plain_text(this.steps[key]).replace(/\s+/g, " ").trim();
+    }
+
+    _format(template, replacements) {
+        return template.replace(/\{([a-z]+)\}/g, (match, key) => {
+            return Object.prototype.hasOwnProperty.call(replacements, key) ? replacements[key] : match;
+        });
     }
 
     _typeset() {

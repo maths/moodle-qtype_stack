@@ -385,6 +385,16 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             'addsection' => stack_string('stackBlock_parsons_accessible_addsection'),
             'ordersection' => stack_string('stackBlock_parsons_accessible_ordersection'),
             'reset' => stack_string('stackBlock_parsons_accessible_reset_done'),
+            'additem' => stack_string('stackBlock_parsons_accessible_additem', '{item}'),
+            'moveitem' => stack_string('stackBlock_parsons_accessible_moveitem', '{item}'),
+            'removeitem' => stack_string('stackBlock_parsons_accessible_removeitem', '{item}'),
+            'moveupitem' => stack_string('stackBlock_parsons_accessible_moveupitem', '{item}'),
+            'movedownitem' => stack_string('stackBlock_parsons_accessible_movedownitem', '{item}'),
+            'destinationitem' => stack_string('stackBlock_parsons_accessible_destinationitem', '{item}'),
+            'addeditem' => stack_string('stackBlock_parsons_accessible_addeditem', '{item}'),
+            'moveditem' => stack_string('stackBlock_parsons_accessible_moveditem', '{item}'),
+            'moveditemtodestination' => stack_string('stackBlock_parsons_accessible_moveditem', '{item}'),
+            'removeditem' => stack_string('stackBlock_parsons_accessible_removeditem', '{item}'),
         ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 
         if ($usedrag) {

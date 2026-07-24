@@ -1166,6 +1166,15 @@ $string['stackBlock_parsons_accessible_addsection'] = 'Add to your solution';
 $string['stackBlock_parsons_accessible_ordersection'] = 'Order your solution';
 $string['stackBlock_parsons_accessible_reset'] = 'Reset accessible version';
 $string['stackBlock_parsons_accessible_reset_done'] = 'Accessible version reset.';
+$string['stackBlock_parsons_accessible_additem'] = 'Add: {$a}';
+$string['stackBlock_parsons_accessible_moveitem'] = 'Move: {$a}';
+$string['stackBlock_parsons_accessible_removeitem'] = 'Remove: {$a}';
+$string['stackBlock_parsons_accessible_moveupitem'] = 'Move up: {$a}';
+$string['stackBlock_parsons_accessible_movedownitem'] = 'Move down: {$a}';
+$string['stackBlock_parsons_accessible_destinationitem'] = 'Destination for {$a}';
+$string['stackBlock_parsons_accessible_addeditem'] = 'Added: {$a}';
+$string['stackBlock_parsons_accessible_moveditem'] = 'Moved: {$a}';
+$string['stackBlock_parsons_accessible_removeditem'] = 'Removed: {$a}';
 
 // Define the stackBlock GeoGebra strings.
 $string['stackBlock_geogebra_width']       = 'The width of a GeoGebra Applet must use a known CSS-length unit.';

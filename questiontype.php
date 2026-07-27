@@ -2602,6 +2602,21 @@ class qtype_stack extends question_type {
             return $errors;
         }
 
+        if (!stack_get_scripts_allowed()) {
+            $content = $castext->get_script_check_contents();
+            // Check for <script>.
+            // TODO: define these patterns somewhere shared with the render time check.
+            $pat1 = '/<\s*script[^>]*>/is'; // Might be a bit more strict to avoid false positives.
+            if (preg_match($pat1, $content)) {
+                $errors[$fieldname][] = stack_string('forbiddenscript');
+            }
+            // Check for "on..."-handlers.
+            $pat2 = '/<[^>]*\bon\w+\s*=\s*("[^"]*"|\'[^\']*\')[^>]*>/is';
+            if (preg_match($pat2, $content)) {
+                $errors[$fieldname][] = stack_string('forbiddenonscript');
+            }
+        }
+        
         // Validate any [[facts:...]] tags.
         $unrecognisedtags = stack_fact_sheets::get_unrecognised_tags($value);
         if ($unrecognisedtags) {

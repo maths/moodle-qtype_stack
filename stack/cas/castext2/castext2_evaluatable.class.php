@@ -368,4 +368,111 @@ class castext2_evaluatable implements cas_raw_value_extractor {
     public function apply_placeholder_holder(string $filtered): string {
         return $this->holder->replace($filtered);
     }
+
+
+    /**
+     * Extract content for `script` check. Use this to extract raw textual content
+     * that is not already considered safe, i.e., part of an sandbox or `entityescape`.
+     * 
+     * This uses the compiled version fo the CASText present after `get_valid()` if no
+     * options have been applied to it then it has not had static strings extracted. If
+     * you are doing this in a phase where they have been extracted do replace them
+     * by applying the replacement to the returned string.
+     * 
+     * In practice, this function is useful only in the `qtype->validate_cas_text()` context.
+     */
+    public function get_script_check_contents(): string {
+        // We start from the compiled form of the CASText.
+        //  1. Parse it
+        //  2. If it is a "string" then that is it.
+        //  3. If not, then recurse the tree and replace certain things with empty strings.
+        //    * ["iframe",...] represents something going to be a sandbox and thus ignorable.
+        //    * ["entityescape",...] represents something that will be turned to HTML-entities
+        //      and will thus be ignorable.
+        //    * For all others extract "strings", but ignore block names.
+        //  4. In the end join all the found "strings" in their order of extraction, using " " as
+        //     the glue.
+        //  *** Note that we intentionally do not use callbackRecurse here. ***
+
+        if ($this->compiled === null) {
+            return '';
+        } else if (mb_substr($this->compiled, 0, 1) === '"') {
+            return stack_utils::maxima_string_to_php_string($this->compiled);
+        }
+
+        // If it compiled it will parse.
+        $parsed = maxima_parser_utils::parse($this->compiled)->items[0]->statement;
+
+        $out = [];
+        $edge = [$parsed];
+        while (!empty($edge)) {
+            $newedge = [];
+            foreach ($edge as $item) {
+                if ($item instanceof MP_String) {
+                    if (empty($newedge)) {
+                        // If we have not yet expanded the next edge we can take this out.
+                        $out[] = $item->value;
+                    } else {
+                        $newedge[] = $item;
+                    }
+                } else if ($item instanceof MP_FunctionCall && $item->name->value === 'sconcat') {
+                    $newedge = array_merge($newedge, $item->arguments);
+                } else if ($item instanceof MP_FunctionCall && $item->name->value === 'castext_simplify') {
+                    $newedge[] = $item->arguments[0];
+                } else if ($item instanceof MP_FunctionCall && $item->name->value === 'block') {
+                    // `[[foreach]]` can produce these as can others. We ignore possible `local` or
+                    // args later.
+                    $newedge = array_merge($newedge, $item->arguments);
+                } else if ($item instanceof MP_Loop) {
+                    $newedge[] = $item->body;
+                } else if ($item instanceof MP_If) {
+                    // Suitably placed ifs could mess up tag-boundary detection,
+                    // but that is why we do the runtime verification.
+                    $newedge = array_merge($newedge, $item->branches);
+                } else if ($item instanceof MP_Group) {
+                    // Basically `[[define]]`, but could be other things.
+                    $newedge = array_merge($newedge, $item->items);
+                } else if ($item instanceof MP_List && count($item->items) > 1) {
+                    if ($item->items[0] instanceof MP_String) {
+                        switch ($item->items[0]->value) {
+                            case 'iframe':
+                            case 'entityescape':
+                            case 'ioblock':
+                                // These are going elsewhere.
+                                break;
+                            case '%cs':
+                            case 'commonstring':
+                            case 'quid':
+                                // In theory these could go somewhere but we cannot do static 
+                                // identification.
+                                break;
+                            case '%pfs':
+                                // The pluginfile context names would probably confuse logic.
+                                $newedge[] = $item->items[4];
+                                break;
+                            default:
+                                for ($i = 1; $i < count($item->items); $i++) {
+                                    $newedge[] = $item->items[$i];
+                                }
+                                break;
+                        }
+                    }
+                } else if ($item instanceof MP_Operation && $item->op === ':' && $item->lhs instanceof MP_Identifier && $item->lhs->value === '__ct2_foreach___tmp' && $item->rhs instanceof MP_FunctionCall) {
+                    // Very special `[[foreach]]` cases.
+                    if ($item->rhs->name->value === 'sconcat') {
+                        // The flat, direct to string case.
+                        $newedge = array_merge($newedge, $item->rhs->arguments);
+                        // The non flat to %root case.
+                    } else if ($item->rhs->name->value === 'append') {
+                        $newedge = array_merge($newedge, $item->rhs->arguments[1]->items);
+                    }
+                }
+            }
+            // Everything else was ignored or considered impossible to identify at this phase.
+            // The real verification happens at runtime.
+            $edge = $newedge;
+        }
+
+        return implode(' ', $out);
+    }
 }

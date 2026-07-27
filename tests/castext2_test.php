@@ -907,4 +907,37 @@ final class castext2_test extends qtype_stack_testcase {
         $output = '\({\left[ x , x^2 , x^3 , x^4 \right]}\)';
         $this->assertEquals($output, $this->evaluate($input));
     }
+
+    /**
+     * Verify function of `castext2_evaluatable->get_script_check_contents()`.
+     * @covers \qtype_stack\castext2_evaluatable
+     */
+    public function test_stack_castext_script_check_contents(): void {
+        $raw1 = 'Raw string';
+        $at1 = castext2_evaluatable::make_from_source($raw1, 'test-case');
+        $this->assertTrue($at1->get_valid());
+        $this->assertEquals('Raw string', $at1->get_script_check_contents());
+
+        $raw2 = 'Foo {@b@} test {#x#}';
+        $at2 = castext2_evaluatable::make_from_source($raw2, 'test-case');
+        $this->assertTrue($at2->get_valid());
+        $this->assertEquals('Foo   test ', $at2->get_script_check_contents());
+
+        $raw3 = '[[iframe]]<script>Ignore me!</script>[[/iframe]]';
+        $at3 = castext2_evaluatable::make_from_source($raw3, 'test-case');
+        $this->assertTrue($at3->get_valid());
+        $this->assertEquals('', $at3->get_script_check_contents());
+
+        $raw4 = '[[lang code="en"]]<script>Don\'t ignore me!</script>[[/lang]]';
+        $at4 = castext2_evaluatable::make_from_source($raw4, 'test-case');
+        $this->assertTrue($at4->get_valid());
+        // Note, the extra space comes from gluing in an extra empty string coming from `[[lang]]`...
+        // Could change `get_script_check_contents()` to drop it but not that necessary.
+        $this->assertEquals('<script>Don\'t ignore me!</script> ', $at4->get_script_check_contents());
+
+        $raw5 = '[[if test="t"]]Foo[[else]][[foreach z="[1,2,4]"]]bar{#z#}[[/foreach]][[/if]]';
+        $at5 = castext2_evaluatable::make_from_source($raw5, 'test-case');
+        $this->assertTrue($at5->get_valid());
+        $this->assertEquals('Foo  bar', $at5->get_script_check_contents());
+    }
 }

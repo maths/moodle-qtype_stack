@@ -375,3 +375,12 @@ function stack_fetch_included_content(string $url) {
 function stack_get_system_language(): string {
     return current_language();
 }
+
+
+/**
+ * Checks whether we allow scripts that are not sandboxed in the raw output.
+ * Will eventtualy be always `false` for now maps to an option for the transition period.
+ */
+function stack_get_scripts_allowed(): bool {
+    return false; // TODO: map to an option.
+}

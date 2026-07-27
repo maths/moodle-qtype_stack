@@ -336,116 +336,148 @@
 
 }}
 <form class="mform" data-boost-form-errors-enhanced="1" id="qtype-stack-metadata-content">
-    {{#author.0}}
-        <div class="row d-none d-md-flex">
-            <div class="col-2"></div>
-            <div class="col-2"><h6>{{#str}} firstname, qtype_stack {{/str}}</h6></div>
-            <div class="col-2"><h6>{{#str}} lastname, qtype_stack {{/str}}</h6></div>
-            <div class="col-3"><h6>{{#str}} institution, qtype_stack {{/str}}</h6></div>
-            <div class="col-1"><h6>{{#str}} year, qtype_stack {{/str}}</h6></div>
+
+    {{! Authors }}
+    <div class="smd-section">
+        <div class="smd-section-label">{{#str}} author, qtype_stack {{/str}}</div>
+        {{#author.0}}
+        <div class="row mb-1 smd-author-col-headers">
+            <div class="col-3"><span class="smd-col-label">{{#str}} firstname, qtype_stack {{/str}}</span></div>
+            <div class="col-3"><span class="smd-col-label">{{#str}} lastname, qtype_stack {{/str}}</span></div>
+            <div class="col-3"><span class="smd-col-label">{{#str}} institution, qtype_stack {{/str}}</span></div>
+            <div class="col-1"><span class="smd-col-label">{{#str}} year, qtype_stack {{/str}}</span></div>
         </div>
-    {{/author.0}}
-    {{#author}}
-        {{>qtype_stack/metadata/metadataauthor}}
-    {{/author}}
-    <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-10">
-            <button class="btn btn-secondary mb-1" type="button" name="smd_add" id="smd_author_0_add">
-                {{#str}} addauthor, qtype_stack {{/str}}
+        {{/author.0}}
+        {{#author}}
+            {{>qtype_stack/metadata/metadataauthor}}
+        {{/author}}
+        <div class="d-flex gap-2 mt-2 smd-author-actions">
+            <button class="btn btn-sm btn-outline-secondary smd-add-btn" type="button" name="smd_add"
+                    id="smd_author_0_add" title="{{#str}} addauthor, qtype_stack {{/str}}">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+                <span class="sr-only">{{#str}} addauthor, qtype_stack {{/str}}</span>
             </button>
-            <button class="btn btn-secondary mb-1" type="button" id="stack-metadata-make-author">
-                {{#str}} makemeauthor, qtype_stack {{/str}}
-            </button>
-        </div>
-    </div>
-    <br>
-    {{#language}}
-        {{>qtype_stack/metadata/metadatalanguage}}
-    {{/language}}
-    <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-10"><button type="button" class="btn btn-secondary" name="smd_add" id="smd_language_0_add">{{#str}} addlanguage, qtype_stack {{/str}}</button></div>
-    </div>
-    <br>
-    <div class="row">
-        <div class="col-md-2"><h5>{{#str}} ispartof, qtype_stack {{/str}}</h5></div>
-        <div class="col-2 inputcol">
-            {{#isPartOf}}
-                <label class="sr-only" for="{{element.id}}">
-                    {{#str}} ispartof, qtype_stack {{/str}}
-                </label>
-                {{> core_form/element-text-inline}}
-            {{/isPartOf}}
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-2"><h5>{{#str}} license {{/str}}</h5></div>
-        <div class="col-6 inputcol">
-            {{#license}}
-                <label class="sr-only" for="{{element.id}}">
-                    {{#str}} license {{/str}}
-                </label>
-                {{> core_form/element-autocomplete-inline}}
-            {{/license}}
-        </div>
-    </div>
-    <h5>{{#str}} additionalmetadata, qtype_stack {{/str}}</h5>
-    {{#scope}}
-        {{>qtype_stack/metadata/metadatascope}}
-    {{/scope}}
-    <div class="row" style="padding-top: 10px">
-        <div class="col-md-2"></div>
-        <div class="col-10"><button type="button" class="btn btn-secondary" name="smd_add" id="smd_scope_0_add">{{#str}} addscope, qtype_stack {{/str}}</button></div>
-    </div>
-    <br>
-    <div class="row">
-        <div class="col-md-2"><h5>{{#str}} freeformmetadata, qtype_stack {{/str}}</h5></div>
-        <div class="col-10">
-            {{#freeform}}
-                <label class="sr-only" for="{{element.id}}">
-                    {{#str}} freeformmetadata, qtype_stack {{/str}}
-                </label>
-                {{< core_form/element-template-inline }}
-                    {{$element}}
-                        <textarea
-                            id="{{element.id}}"
-                            name="{{element.name}}"
-                            class="form-control {{#error}}is-invalid{{/error}}"
-                            {{#error}}
-                                autofocus aria-describedby="{{element.iderror}}"
-                            {{/error}}
-                            {{{element.attributes}}}
-                        >{{element.value}}</textarea>
-                    {{/element}}
-                {{/ core_form/element-template-inline }}
-            {{/freeform}}
-        </div>
-    </div>
-    <br>
-    <div class="row">
-        <div class="col-10">
-            <button class="btn btn-primary mb-1" type="button" id="stack-metadata-update">
-                {{#str}} updateJSON, qtype_stack {{/str}}
-            </button>
-            <button class="btn btn-primary mb-1" type="button" id="stack-metadata-update-inputs">
-                {{#str}} updateinputs, qtype_stack {{/str}}
-            </button>
-            <button class="btn btn-primary mb-1" type="button" id="stack-metadata-revert">
-                {{#str}} reverttosaved, qtype_stack {{/str}}
-            </button>
-            <button class="btn btn-primary mb-1" type="button" id="stack-metadata-validate" onclick="document.querySelector('.stack-metadata .btn-close, .stack-metadata .close').click();">
-                {{#str}} validateandclose, qtype_stack {{/str}}
+            <button class="btn btn-sm btn-outline-secondary smd-add-btn" type="button"
+                    id="stack-metadata-make-author" title="{{#str}} makemeauthor, qtype_stack {{/str}}">
+                <i class="fa fa-user-plus" aria-hidden="true"></i>
+                <span class="sr-only">{{#str}} makemeauthor, qtype_stack {{/str}}</span>
             </button>
         </div>
     </div>
-    <br>
-    <p>
+
+    {{! Language }}
+    <div class="smd-section">
+        <div class="smd-section-label">{{#str}} language, core {{/str}}</div>
+        {{#language}}
+            {{>qtype_stack/metadata/metadatalanguage}}
+        {{/language}}
+        <div class="mt-2">
+            <button type="button" class="btn btn-sm btn-outline-secondary smd-add-btn" name="smd_add"
+                    id="smd_language_0_add" title="{{#str}} addlanguage, qtype_stack {{/str}}">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+                <span class="sr-only">{{#str}} addlanguage, qtype_stack {{/str}}</span>
+            </button>
+        </div>
+    </div>
+
+    {{! License + isPartOf }}
+    <div class="smd-section">
+        <div class="row">
+            <div class="col-md-7">
+                <div class="smd-section-label">{{#str}} license {{/str}}</div>
+                <div class="smd-license-wrap">
+                    <span class="smd-license-display-text">{{#license.element.options}}{{#selected}}{{text}}{{/selected}}{{/license.element.options}}</span>
+                    <button type="button" class="btn btn-link btn-sm smd-license-pencil p-0 ms-1"
+                            title="{{#str}} license {{/str}}">
+                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                        <span class="sr-only">{{#str}} license {{/str}}</span>
+                    </button>
+                    {{#license}}
+                        <label class="sr-only" for="{{element.id}}">{{#str}} license {{/str}}</label>
+                        {{> core_form/element-autocomplete-inline}}
+                    {{/license}}
+                </div>
+            </div>
+            <div class="col-md-5 smd-col-divider">
+                <div class="smd-section-label">{{#str}} ispartof, qtype_stack {{/str}}</div>
+                <div class="smd-ispartof-wrap">
+                    <span class="smd-ispartof-display-text">{{isPartOf.element.value}}</span>
+                    <button type="button" class="btn btn-link btn-sm smd-ispartof-pencil p-0 ms-1"
+                            title="{{#str}} ispartof, qtype_stack {{/str}}">
+                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                        <span class="sr-only">{{#str}} ispartof, qtype_stack {{/str}}</span>
+                    </button>
+                    {{#isPartOf}}
+                        <label class="sr-only" for="{{element.id}}">{{#str}} ispartof, qtype_stack {{/str}}</label>
+                        {{> core_form/element-text-inline}}
+                    {{/isPartOf}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{! Additional metadata }}
+    <div class="smd-section">
+        <div class="smd-section-label">{{#str}} additionalmetadata, qtype_stack {{/str}}</div>
+        {{#scope}}
+            {{>qtype_stack/metadata/metadatascope}}
+        {{/scope}}
+        <div class="mt-2">
+            <button type="button" class="btn btn-sm btn-outline-secondary smd-add-btn" name="smd_add"
+                    id="smd_scope_0_add" title="{{#str}} addscope, qtype_stack {{/str}}">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+                <span class="sr-only">{{#str}} addscope, qtype_stack {{/str}}</span>
+            </button>
+        </div>
+    </div>
+
+    {{! Freeform metadata }}
+    <div class="smd-section">
+        <div class="smd-section-label">{{#str}} freeformmetadata, qtype_stack {{/str}}</div>
+        {{#freeform}}
+            <label class="sr-only" for="{{element.id}}">
+                {{#str}} freeformmetadata, qtype_stack {{/str}}
+            </label>
+            {{< core_form/element-template-inline }}
+                {{$element}}
+                    <textarea
+                        id="{{element.id}}"
+                        name="{{element.name}}"
+                        class="form-control {{#error}}is-invalid{{/error}}"
+                        {{#error}}
+                            autofocus aria-describedby="{{element.iderror}}"
+                        {{/error}}
+                        {{{element.attributes}}}
+                    >{{element.value}}</textarea>
+                {{/element}}
+            {{/ core_form/element-template-inline }}
+        {{/freeform}}
+    </div>
+
+    {{! Utility buttons }}
+    <div class="d-flex gap-2 flex-wrap mb-3">
+        <button class="btn btn-sm btn-secondary" type="button" id="stack-metadata-update">
+            {{#str}} updateJSON, qtype_stack {{/str}}
+        </button>
+        <button class="btn btn-sm btn-secondary" type="button" id="stack-metadata-update-inputs">
+            {{#str}} updateinputs, qtype_stack {{/str}}
+        </button>
+        <button class="btn btn-sm btn-secondary" type="button" id="stack-metadata-revert">
+            {{#str}} reverttosaved, qtype_stack {{/str}}
+        </button>
+    </div>
+
+    <p class="text-muted small">
         {{#str}} metadataexplanation, qtype_stack {{/str}}
     </p>
-    <div class="row">
-        <div class="col-md-2"><h5>{{#str}} JSONmetadata, qtype_stack {{/str}}</h5></div>
-        <div class="col-10">
+
+    {{! JSON metadata — collapsible }}
+    <details class="smd-section">
+        <summary class="smd-section-label">
+            {{#str}} JSONmetadata, qtype_stack {{/str}}
+            <i class="fa fa-chevron-down fa-xs ms-1" aria-hidden="true"></i>
+        </summary>
+        <div class="mt-2">
             {{#json}}
                 <label class="sr-only" for="{{element.id}}">
                     {{#str}} JSONmetadata, qtype_stack {{/str}}
@@ -468,10 +500,273 @@
                 {{/ core_form/element-template-inline }}
             {{/json}}
         </div>
-    </div>
+    </details>
+
 </form>
 {{#js}}
 require(['qtype_stack/metadata/metadatacontent'], function(component) {
     component.init('#qtype-stack-metadata-content');
 });
+
+// Scope name inline-edit: pencil click → focus input; Enter/blur → confirm; update display span.
+// Listeners are added once per page load (flag guards against re-render duplicates).
+if (!document._stackScopeEditInit) {
+    document._stackScopeEditInit = true;
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.smd-scope-pencil')) {
+            e.preventDefault(); // prevent <summary> from toggling
+            var nameEl = e.target.closest('.smd-scope-name');
+            if (nameEl) {
+                var inp = nameEl.querySelector('input');
+                if (inp) { inp.focus({preventScroll: true}); inp.select(); }
+            }
+        }
+    });
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && e.target.matches && e.target.matches('.smd-scope-name input')) {
+            e.preventDefault();
+            e.target.blur();
+        }
+    });
+    document.addEventListener('focusout', function(e) {
+        if (e.target.matches && e.target.matches('.smd-scope-name input')) {
+            var nameEl = e.target.closest('.smd-scope-name');
+            if (nameEl) {
+                var span = nameEl.querySelector('.smd-scope-name-text');
+                if (span) { span.textContent = e.target.value || ''; }
+            }
+        }
+    });
+}
+
+// Auto-focus scope name input when name is empty (newly added scope).
+(function() {
+    document.querySelectorAll('.smd-scope-name-text').forEach(function(span) {
+        if (!span.textContent.trim()) {
+            var inp = span.closest('.smd-scope-name').querySelector('input');
+            if (inp) { setTimeout(function() { inp.focus(); }, 50); }
+        }
+    });
+}());
+
+// Unified click-to-edit for table cells (.smd-cell).
+document._smdCommitCell = document._smdCommitCell || function(cell) {
+    if (!cell.classList.contains('editing')) { return; }
+    cell.classList.remove('editing');
+    var inp = cell.querySelector('input');
+    var span = cell.querySelector('.smd-cell-text');
+    if (inp && span) { span.textContent = inp.value; }
+};
+
+if (!document._stackCellEditInit) {
+    document._stackCellEditInit = true;
+
+    document.addEventListener('click', function(e) {
+        var cell = e.target.closest('.smd-cell');
+        if (!cell || cell.classList.contains('editing')) { return; }
+        cell.classList.add('editing');
+        var inp = cell.querySelector('input');
+        if (inp) { inp.focus({preventScroll: true}); inp.select(); }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (!e.target.closest) { return; }
+        var cell = e.target.closest('.smd-cell');
+        if (!cell) { return; }
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            document._smdCommitCell(cell);
+        } else if (e.key === 'Tab') {
+            var row = cell.closest('tr');
+            if (!row) { return; }
+            var cells = Array.from(row.querySelectorAll('.smd-cell'));
+            var idx = cells.indexOf(cell);
+            var next = e.shiftKey ? cells[idx - 1] : cells[idx + 1];
+            if (next) {
+                e.preventDefault();
+                document._smdCommitCell(cell);
+                next.classList.add('editing');
+                var nInp = next.querySelector('input');
+                if (nInp) { nInp.focus({preventScroll: true}); nInp.select(); }
+            }
+        }
+    });
+
+    document.addEventListener('focusout', function(e) {
+        var cell = e.target.closest && e.target.closest('.smd-cell');
+        if (!cell || !cell.classList.contains('editing')) { return; }
+        setTimeout(function() {
+            if (!cell.classList.contains('editing')) { return; }
+            if (cell.contains(document.activeElement)) { return; }
+            document._smdCommitCell(cell);
+        }, 0);
+    });
+}
+
+// Auto-focus first cell of newly added table rows (all cells empty).
+(function() {
+    document.querySelectorAll('.smd-prop-row').forEach(function(row) {
+        var inputs = row.querySelectorAll('.smd-cell input');
+        var allEmpty = Array.from(inputs).every(function(i) { return !i.value.trim(); });
+        if (allEmpty) {
+            var first = row.querySelector('.smd-cell');
+            if (first) {
+                first.classList.add('editing');
+                var fInp = first.querySelector('input');
+                setTimeout(function() { if (fInp) { fInp.focus({preventScroll: true}); } }, 50);
+            }
+        }
+    });
+}());
+
+// Author row pencil edit.
+if (!document._stackAuthorEditInit) {
+    document._stackAuthorEditInit = true;
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.smd-author-pencil')) {
+            var row = e.target.closest('.smd-author-row');
+            if (row) {
+                row.classList.add('editing');
+                var first = row.querySelector('.smd-author-field input');
+                if (first) { first.focus({preventScroll: true}); first.select(); }
+            }
+        }
+    });
+    document.addEventListener('focusout', function(e) {
+        if (!e.target.matches || !e.target.matches('.smd-author-row input')) { return; }
+        var row = e.target.closest('.smd-author-row');
+        if (!row) { return; }
+        setTimeout(function() {
+            if (row.querySelector('input:focus')) { return; }
+            row.classList.remove('editing');
+            var f = row.querySelectorAll('.smd-author-field input');
+            var name = [f[0] && f[0].value.trim(), f[1] && f[1].value.trim()].filter(Boolean).join(' ');
+            var institution = f[2] && f[2].value.trim();
+            var year = f[3] && f[3].value.trim();
+            var text = name;
+            if (institution) { text += (text ? ', ' : '') + institution; }
+            if (year) { text += (text ? ' ' : '') + '(' + year + ')'; }
+            var span = row.querySelector('.smd-author-display-text');
+            if (span) { span.textContent = text; }
+        }, 0);
+    });
+}
+
+(function() {
+    document.querySelectorAll('.smd-author-row').forEach(function(row) {
+        var inputs = row.querySelectorAll('.smd-author-field input');
+        var allEmpty = Array.from(inputs).every(function(i) { return !i.value.trim(); });
+        if (allEmpty && inputs[0]) {
+            row.classList.add('editing');
+            setTimeout(function() { inputs[0].focus({preventScroll: true}); }, 50);
+        }
+    });
+}());
+
+// Language row pencil edit.
+if (!document._stackLangEditInit) {
+    document._stackLangEditInit = true;
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.smd-lang-pencil')) {
+            var row = e.target.closest('.smd-lang-row');
+            if (row) {
+                row.classList.add('editing');
+                var inp = row.querySelector('.smd-lang-field input');
+                if (inp) { inp.focus({preventScroll: true}); inp.select(); }
+            }
+        }
+    });
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && e.target.matches && e.target.matches('.smd-lang-row input')) {
+            e.preventDefault();
+            e.target.blur();
+        }
+    });
+    document.addEventListener('focusout', function(e) {
+        if (!e.target.matches || !e.target.matches('.smd-lang-row input')) { return; }
+        var row = e.target.closest('.smd-lang-row');
+        if (!row) { return; }
+        row.classList.remove('editing');
+        var inp = row.querySelector('.smd-lang-field input');
+        var span = row.querySelector('.smd-lang-display-text');
+        if (span && inp) { span.textContent = inp.value; }
+    });
+}
+
+// Auto-focus newly added language rows.
+(function() {
+    document.querySelectorAll('.smd-lang-row').forEach(function(row) {
+        var inp = row.querySelector('.smd-lang-field input');
+        if (inp && !inp.value.trim()) {
+            row.classList.add('editing');
+            setTimeout(function() { inp.focus({preventScroll: true}); }, 50);
+        }
+    });
+}());
+
+// isPartOf inline edit (CSS :has(input:focus) handles show/hide; JS handles pencil + confirm).
+if (!document._stackIsPartOfEditInit) {
+    document._stackIsPartOfEditInit = true;
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.smd-ispartof-pencil')) {
+            var wrap = e.target.closest('.smd-ispartof-wrap');
+            if (wrap) {
+                var inp = wrap.querySelector('input');
+                if (inp) { inp.focus({preventScroll: true}); inp.select(); }
+            }
+        }
+    });
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && e.target.matches && e.target.matches('.smd-ispartof-wrap input')) {
+            e.preventDefault();
+            e.target.blur();
+        }
+    });
+    document.addEventListener('focusout', function(e) {
+        if (!e.target.matches || !e.target.matches('.smd-ispartof-wrap input')) { return; }
+        var wrap = e.target.closest('.smd-ispartof-wrap');
+        if (!wrap) { return; }
+        var inp = wrap.querySelector('input');
+        var span = wrap.querySelector('.smd-ispartof-display-text');
+        if (span && inp) { span.textContent = inp.value; }
+    });
+}
+
+// License pencil edit (autocomplete: show via .editing class, close on change or focusout).
+if (!document._stackLicenseEditInit) {
+    document._stackLicenseEditInit = true;
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.smd-license-pencil')) {
+            var wrap = e.target.closest('.smd-license-wrap');
+            if (wrap) {
+                wrap.classList.add('editing');
+                var inp = wrap.querySelector('input[type="text"]');
+                if (inp) { setTimeout(function() { inp.focus(); inp.select(); }, 20); }
+            }
+        }
+    });
+    // Read from hidden <select> — reliable even if the visible input resets.
+    document.addEventListener('change', function(e) {
+        var wrap = e.target.closest && e.target.closest('.smd-license-wrap');
+        if (!wrap || !wrap.classList.contains('editing')) { return; }
+        setTimeout(function() {
+            if (!wrap.classList.contains('editing')) { return; }
+            var sel = wrap.querySelector('select');
+            var text = sel && sel.options[sel.selectedIndex] ? sel.options[sel.selectedIndex].text : '';
+            var span = wrap.querySelector('.smd-license-display-text');
+            if (span && text) { span.textContent = text; }
+            wrap.classList.remove('editing');
+        }, 100);
+    });
+    // Fallback: close if focus leaves without a selection change.
+    document.addEventListener('focusout', function(e) {
+        var wrap = e.target.closest && e.target.closest('.smd-license-wrap');
+        if (!wrap || !wrap.classList.contains('editing')) { return; }
+        setTimeout(function() {
+            if (!wrap.classList.contains('editing')) { return; } // change handler already closed
+            if (wrap.contains(document.activeElement)) { return; }
+            wrap.classList.remove('editing');
+        }, 400);
+    });
+}
 {{/js}}

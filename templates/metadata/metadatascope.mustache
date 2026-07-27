@@ -130,10 +130,23 @@
             }
         }
 }}
-<div class="scope">
-    <div class="row" id="qtype-stack-metadata-scope-{{{firstProp}}}">
-        <div class="col-lg-2"><h6>{{#str}} scope, qtype_stack {{/str}}</h6></div>
-        <div class="col-2 inputcol">
+<details class="smd-scope-card" id="qtype-stack-metadata-scope-{{{firstProp}}}" open>
+    <summary class="smd-scope-header">
+        <i class="fa fa-chevron-down smd-scope-chevron" aria-hidden="true"></i>
+        <span class="smd-col-label">{{#str}} scope, qtype_stack {{/str}}</span>
+        <div class="smd-scope-name flex-grow-1">
+            <span class="smd-scope-name-text">{{name}}</span>
+            <button type="button" class="btn btn-link btn-sm smd-scope-pencil p-0 ms-1"
+                    title="Edit scope name">
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+                <span class="sr-only">Edit scope name</span>
+            </button>
+            <button id="smd_scope_{{{firstProp}}}_delete" name="smd_delete" type="button"
+                    class="btn btn-link btn-sm smd-row-delete p-0 ms-1"
+                    title="{{#str}} delete {{/str}} {{#str}} scope, qtype_stack {{/str}}">
+                <i class="fa fa-trash" aria-hidden="true"></i>
+                <span class="sr-only">{{#str}} delete {{/str}} {{#str}} scope, qtype_stack {{/str}}</span>
+            </button>
             {{#input}}
                 <label class="sr-only" for="{{element.id}}">
                     {{#str}} scope, qtype_stack {{/str}}
@@ -141,22 +154,36 @@
                 {{> core_form/element-text-inline }}
             {{/input}}
         </div>
-        <div class="col-1">
-            <button id="smd_scope_{{{firstProp}}}_delete" name="smd_delete" type="button" class="btn btn-danger">
-                {{#str}} delete {{/str}} <span class="sr-only">{{#str}} scope, qtype_stack {{/str}}</span>
+    </summary>
+    <div class="smd-scope-body">
+        <table class="smd-prop-table">
+            <colgroup>
+                <col style="width: 24%">
+                <col style="width: 20%">
+                <col>
+                <col style="width: 2rem">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>{{#str}} property, qtype_stack {{/str}}</th>
+                    <th>{{#str}} qualifier, qtype_stack {{/str}}</th>
+                    <th>{{#str}} value, qtype_stack {{/str}}</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#properties}}
+                    {{>qtype_stack/metadata/metadataadditional}}
+                {{/properties}}
+            </tbody>
+        </table>
+        <div class="mt-2">
+            <button type="button" class="btn btn-sm btn-outline-secondary smd-add-btn" name="smd_add"
+                    id="smd_property_{{firstProp}}_add"
+                    title="{{#str}} addproperty, qtype_stack {{/str}}">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+                <span class="sr-only">{{#str}} addproperty, qtype_stack {{/str}}</span>
             </button>
         </div>
     </div>
-    <div class="row d-none d-md-flex">
-        <div class="col-2"><h6>{{#str}} property, qtype_stack {{/str}}</h6></div>
-        <div class="col-2"><h6>{{#str}} qualifier, qtype_stack {{/str}}</h6></div>
-        <div class="col-3"><h6>{{#str}} value, qtype_stack {{/str}}</h6></div>
-    </div>
-    {{#properties}}
-        {{>qtype_stack/metadata/metadataadditional}}
-    {{/properties}}
-</div>
-<div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-10"><button type="button" class="btn btn-secondary" name="smd_add" id="smd_property_{{firstProp}}_add">{{#str}} addproperty, qtype_stack {{/str}}</button></div>
-</div>
+</details>

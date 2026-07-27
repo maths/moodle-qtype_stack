@@ -29,19 +29,29 @@
         }
     }
 }}
-<div class="row" id="qtype-stack-metadata-language-{{{id}}}">
-    <div class="col-lg-2"><h5>{{#str}} language, core {{/str}}</h5></div>
-    <div class="col-2 inputcol">
+<div class="row align-items-center mb-2 smd-lang-row" id="qtype-stack-metadata-language-{{{id}}}">
+    {{! Read mode: compact display + pencil + delete }}
+    <div class="col smd-lang-display">
+        <span class="smd-lang-display-text">{{lang.element.value}}</span>
+        <button type="button" class="btn btn-link btn-sm smd-lang-pencil p-0 ms-1"
+                title="{{#str}} language, core {{/str}}">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+            <span class="sr-only">{{#str}} language, core {{/str}}</span>
+        </button>
+        <button id="smd_language_{{id}}_delete" name="smd_delete" type="button"
+                class="btn btn-link btn-sm smd-row-delete p-0 ms-1"
+                title="{{#str}} delete {{/str}} {{#str}} language, core {{/str}}">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+            <span class="sr-only">{{#str}} delete {{/str}} {{#str}} language, core {{/str}}</span>
+        </button>
+    </div>
+    {{! Edit mode: input field }}
+    <div class="col-4 inputcol smd-lang-field">
         {{#lang}}
             <label class="sr-only" for="{{element.id}}">
                 {{#str}} language, core {{/str}}
             </label>
             {{> core_form/element-text-inline }}
         {{/lang}}
-    </div>
-    <div class="col-1">
-        <button id="smd_language_{{id}}_delete" name="smd_delete" type="button" class="btn btn-danger">
-            {{#str}} delete {{/str}} <span class="sr-only">{{#str}} language, core {{/str}}</span>
-        </button>
     </div>
 </div>

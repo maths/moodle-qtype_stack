@@ -227,7 +227,7 @@ class qtype_stack_renderer extends qtype_renderer {
                     'name' => $fieldname, 'value' => $currentlang,
         ]);
 
-        return $result;
+        return $this->check_stack_script_rule($result);
     }
 
     /**
@@ -285,7 +285,7 @@ class qtype_stack_renderer extends qtype_renderer {
 
         $output .= parent::feedback($qa, $options);
 
-        return $output;
+        return $this->check_stack_script_rule($output);
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -339,7 +339,7 @@ class qtype_stack_renderer extends qtype_renderer {
             return '';
         }
 
-        return $feedbacktext;
+        return $this->check_stack_script_rule($feedbacktext);
     }
 
     /**
@@ -401,7 +401,7 @@ class qtype_stack_renderer extends qtype_renderer {
             return '';
         }
 
-        return $overallfeedback . $feedbacktext;
+        return $this->check_stack_script_rule($overallfeedback . $feedbacktext);
     }
 
     /**
@@ -533,7 +533,9 @@ class qtype_stack_renderer extends qtype_renderer {
                 echo "i is not equal to 0, 1 or 2";
         }
 
-        return html_writer::nonempty_tag($tag, $fb, ['class' => 'stackprtfeedback stackprtfeedback-' . $name]);
+        return $this->check_stack_script_rule(
+            html_writer::nonempty_tag($tag, $fb, ['class' => 'stackprtfeedback stackprtfeedback-' . $name])
+        );
     }
 
     /**
@@ -575,14 +577,15 @@ class qtype_stack_renderer extends qtype_renderer {
         $field = 'prt' . $class . 'instantiated';
         if ($question->$field) {
             // NOTE: assume that we have no holder related content here.
-            return html_writer::tag('div', $question->format_text(
+            return $this->check_stack_script_rule(
+                html_writer::tag('div', $question->format_text(
                 stack_maths::process_display_castext($question->$field->get_rendered($question->castextprocessor), $this),
                 FORMAT_HTML, // All CASText2 processed content has already been formatted to HTML.
                 $qa,
                 'qtype_stack',
                 $field,
                 $question->id
-            ), ['class' => $class]);
+            ), ['class' => $class]));
         }
         return '';
     }
@@ -644,11 +647,11 @@ class qtype_stack_renderer extends qtype_renderer {
             FORMAT_HTML // All CASText2 processed content has already been formatted to HTML.
         );
 
-        return html_writer::nonempty_tag(
+        return $this->check_stack_script_rule(html_writer::nonempty_tag(
             'div',
             $question->format_hint($newhint, $qa),
             ['class' => 'hint']
-        );
+        ));
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -681,7 +684,8 @@ class qtype_stack_renderer extends qtype_renderer {
             $question->id
         );
         // Replace the secured bits.
-        return $question->get_generalfeedback_castext()->apply_placeholder_holder($gf);
+        return $this->check_stack_script_rule(
+            $question->get_generalfeedback_castext()->apply_placeholder_holder($gf));
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -708,7 +712,8 @@ class qtype_stack_renderer extends qtype_renderer {
             $question->id
         );
         // Replace the secured bits.
-        return $question->get_questiondescription_castext()->apply_placeholder_holder($qd);
+        return $this->check_stack_script_rule(
+            $question->get_questiondescription_castext()->apply_placeholder_holder($qd));
     }
 
     /**
@@ -719,5 +724,23 @@ class qtype_stack_renderer extends qtype_renderer {
     public function fact_sheet($name, $fact) {
         $name = html_writer::tag('h5', $name);
         return html_writer::tag('div', $name . $fact, ['class' => 'factsheet']);
+    }
+
+    /**
+     * Verifies that the output follows <script>-rules.
+     * @param string HTML-output.
+     */
+    public function check_stack_script_rule(string $input): string {
+        if (!stack_get_scripts_allowed()) {
+            if (preg_match('/<\s*script[^>]*>/is', $input) 
+                || preg_match('/<[^>]*\bon\w+\s*=\s*("[^"]*"|\'[^\']*\')[^>]*>/is', $input)) {
+                return html_writer::tag(
+                    'span',
+                    stack_string('runtimeerror') . ' ' . stack_string('scriptsinoutput'),
+                    ['class' => 'stackruntimeerrror']
+                );
+            }
+        }
+        return $input;
     }
 }

@@ -606,27 +606,14 @@ class stack_question_report {
      */
     public function get_prt_graph_labels(string $prtname, array $tot): array {
         $labels = [];
-        $branchnotes = [];
+        $total = $tot[$prtname] ?? 0;
         foreach ($this->question->prts[$prtname]->get_nodes_summary() as $node) {
             foreach ([$node->trueanswernote, $node->falseanswernote] as $note) {
-                if (!array_key_exists($note, $branchnotes)) {
-                    $branchnotes[$note] = 0;
-                }
-                $branchnotes[$note]++;
+                $num = $this->notesummary[$prtname][$note] ?? 0;
+                $percentage = $total == 0 ? 0 : (float) 100 * $num / $total;
+                $labels[$note] = $num . ' (' . number_format($percentage, 2, '.', '') . '%)';
             }
         }
-
-        $total = $tot[$prtname] ?? 0;
-        foreach ($branchnotes as $note => $occurrences) {
-            if ($note === '' || $occurrences > 1 || $total == 0) {
-                $labels[$note] = '';
-                continue;
-            }
-
-            $num = $this->notesummary[$prtname][$note] ?? 0;
-            $labels[$note] = $num . ' (' . number_format((float) 100 * $num / $total, 2, '.', '') . '%)';
-        }
-
         return $labels;
     }
 

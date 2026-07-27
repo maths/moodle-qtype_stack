@@ -90,6 +90,12 @@ class stack_dropdown_input extends stack_input {
                     } else {
                         $this->extraoptions[$opt] = $arg;
                     }
+                    // ISS1824 - The extraoptions we're testing against here are just hideanswer and
+                    // allowempty because dropdown does not override base class extraoptions like other
+                    // inputs. This is a bit of a landmine and we should consider a refactor longer term.
+                    // For minimal code change now, continue allows multiple options but doesn't trigger the fall through
+                    // to error in the switch below for hideanswer and allowempty.
+                    continue;
                 }
 
                 switch ($option) {

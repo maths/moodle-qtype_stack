@@ -61,7 +61,7 @@ class stack_question_library {
      * NRW API base URL
      * @var string
      */
-    public const NRWAPIBASE = 'https://vmits1614.vm.ruhr-uni-bochum.de:8742';
+    public const NRWAPIBASE = 'https://vmits1614.vm.ruhr-uni-bochum.de/dev/api';
 
     /**
      * Wrapper for curl_exec to allow mocking in unit tests.

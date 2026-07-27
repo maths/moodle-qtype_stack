@@ -32,15 +32,18 @@ export default class extends BaseComponent {
             METADATACONTAINER: `[data-for='qtype-stack-metadata']`,
             UPDATEJSON: `#stack-metadata-update`,
             UPDATEINPUTS: `#stack-metadata-update-inputs`,
+            EDITTOGGLE: `#stack-metadata-edit-switch`,
             ADDITEM: `[name="smd_add"]`,
             DELETEITEM: `[name="smd_delete"]`,
             MAKEAUTHOR: `#stack-metadata-make-author`,
             REVERT: `#stack-metadata-revert`,
             FORMJSON: 'input[name="metadata"]',
+            FORM: '#qtype-stack-metadata-content',
             JSONINPUT: '#id_metadata_json',
             REQUIREDINPUTS: '#qtype-stack-metadata-content input[aria-required="true"]',
             ALLINPUTS: '#qtype-stack-metadata-content [id^="smdi"]',
         };
+        this.isEditing = false;
         metadata.container = this;
     }
 
@@ -111,6 +114,7 @@ export default class extends BaseComponent {
             isPartOf: this.createDataElement(false, 0, 'isPartOf_value', state.isPartOf.value),
             scope: [],
             freeform: this.createDataElement(false, 0, 'freeform_value', state.freeform.value || '{}'),
+            isEditing: this.isEditing,
         };
 
         // Need to copy licenses list as we modify to mark as selected.
@@ -187,8 +191,14 @@ export default class extends BaseComponent {
         }
 
         await this.renderComponent(metadataContainer, 'qtype_stack/metadata/metadatacontent', data);
+        this.syncEditToggle();
 
         // Add all the event listeners as all elements have been destroyed and rebuilt.
+        this.addEventListener(
+            this.getEditToggle(),
+            'change',
+            this.toggleEditing
+        );
         this.addEventListener(
             this.getElement(this.selectors.UPDATEJSON),
             'click',
@@ -239,6 +249,103 @@ export default class extends BaseComponent {
     }
 
     /**
+     * Switch the modal from read mode to edit mode.
+     *
+     * @param {Event} event
+     */
+    enableEditing(event) {
+        event?.preventDefault?.();
+        this.isEditing = true;
+        const form = this.getElement(this.selectors.FORM);
+        form?.classList.add('smd-editing');
+        this.syncEditToggle();
+    }
+
+    /**
+     * Toggle edit mode. Turning edit mode off validates and updates the state first.
+     *
+     * @param {Event} event
+     */
+    async toggleEditing(event) {
+        if (event.currentTarget.checked) {
+            this.enableEditing(event);
+            return;
+        }
+        if (!this.validateInputs()) {
+            event.currentTarget.checked = true;
+            return;
+        }
+        this.isEditing = false;
+        const result = await this.update(false);
+        if (result) {
+            this.syncEditToggle();
+        } else {
+            this.isEditing = true;
+            event.currentTarget.checked = true;
+        }
+    }
+
+    /**
+     * Switch the modal back to read mode.
+     */
+    disableEditing() {
+        this.isEditing = false;
+        const form = this.getElement(this.selectors.FORM);
+        form?.classList.remove('smd-editing');
+        this.syncEditToggle();
+    }
+
+    /**
+     * Keep the edit switch in step with the current edit state.
+     */
+    syncEditToggle() {
+        const toggle = this.getEditToggle();
+        if (toggle) {
+            toggle.checked = this.isEditing;
+        }
+    }
+
+    /**
+     * Get the edit toggle. It lives in the modal header, outside the refreshed content.
+     *
+     * @returns {HTMLElement|null}
+     */
+    getEditToggle() {
+        return this.getElement(this.selectors.EDITTOGGLE) ?? document.querySelector(this.selectors.EDITTOGGLE);
+    }
+
+    /**
+     * Validate visible metadata inputs without dispatching state changes.
+     *
+     * @returns {bool} Returns false on validation error.
+     */
+    validateInputs() {
+        const requiredElements = this.getElements(this.selectors.REQUIREDINPUTS);
+        let isError = false;
+        for (const element of requiredElements) {
+            if (element.value === '') {
+                isError = true;
+                notifyFieldValidationFailure(element, 'Required');
+            } else if (element.classList.contains('is-invalid')) {
+                // Reset warning as field no longer empty.
+                notifyFieldValidationFailure(element, '');
+            }
+        }
+        // Validate freeform JSON if non-empty.
+        const freeformElement = this.getElement('#smdi_0_freeform_value');
+        if (freeformElement && freeformElement.value.trim() !== '') {
+            try {
+                JSON.parse(freeformElement.value);
+                notifyFieldValidationFailure(freeformElement, '');
+            } catch(e) {
+                notifyFieldValidationFailure(freeformElement, e.message);
+                isError = true;
+            }
+        }
+        return !isError;
+    }
+
+    /**
      * Updates state based on contents of inputs.
      *
      * @param {bool} mustValidate Do we want validation to occur?
@@ -248,33 +355,8 @@ export default class extends BaseComponent {
      * @returns {bool} Returns false on validation error.
      */
     async update(mustValidate = true) {
-        if (mustValidate) {
-            // TO-DO Do we need other validation and/or different required fields.
-            const requiredElements = this.getElements(this.selectors.REQUIREDINPUTS);
-            let isError = false;
-            for (const element of requiredElements) {
-                if (element.value === '') {
-                    isError = true;
-                    notifyFieldValidationFailure(element, 'Required');
-                } else if (element.classList.contains('is-invalid')) {
-                    // Reset warning as field no longer empty.
-                    notifyFieldValidationFailure(element, '');
-                }
-            }
-            // Validate freeform JSON if non-empty.
-            const freeformElement = this.getElement('#smdi_0_freeform_value');
-            if (freeformElement && freeformElement.value.trim() !== '') {
-                try {
-                    JSON.parse(freeformElement.value);
-                    notifyFieldValidationFailure(freeformElement, '');
-                } catch(e) {
-                    notifyFieldValidationFailure(freeformElement, e.message);
-                    isError = true;
-                }
-            }
-            if (isError) {
-                return false;
-            }
+        if (mustValidate && !this.validateInputs()) {
+            return false;
         }
         // Elements have ids in form smdi_id_category_field e.g. smdi_1_author_year.
         // id is category entry id in state. 0 is used for single elements e.g. license.
@@ -302,7 +384,9 @@ export default class extends BaseComponent {
      * @param {*} event
      */
     async addItem(event) {
-        const result = await this.update(false);
+        event?.preventDefault?.();
+        event?.stopPropagation?.();
+        const result = await this.update(true);
         if (result) {
             const parts = event.currentTarget.id.split('_');
             this.reactive.dispatch('addItem', parts[1], parts[2]);
@@ -316,6 +400,8 @@ export default class extends BaseComponent {
      * @param {*} event
      */
     async deleteItem(event) {
+        event?.preventDefault?.();
+        event?.stopPropagation?.();
         const result = await this.update(false);
         if (result) {
             const parts = event.currentTarget.id.split('_');

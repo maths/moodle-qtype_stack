@@ -23,20 +23,9 @@
         }
 }}
 <div class="row align-items-center mb-2 smd-author-row" id="qtype-stack-metadata-author-{{{id}}}">
-    {{! Read mode: compact one-line display + pencil + delete }}
+    {{! Read mode: compact one-line display + delete }}
     <div class="col smd-author-display">
         <span class="smd-author-display-text">{{firstname.element.value}} {{lastname.element.value}}{{#institution.element.value}}, {{institution.element.value}}{{/institution.element.value}}{{#year.element.value}} ({{year.element.value}}){{/year.element.value}}</span>
-        <button type="button" class="btn btn-link btn-sm smd-author-pencil p-0 ms-1"
-                title="Edit author">
-            <i class="fa fa-pencil" aria-hidden="true"></i>
-            <span class="sr-only">Edit author</span>
-        </button>
-        <button id="smd_author_{{id}}_delete" name="smd_delete" type="button"
-                class="btn btn-link btn-sm smd-row-delete p-0 ms-1"
-                title="{{#str}} delete {{/str}} {{#str}} author, qtype_stack {{/str}}">
-            <i class="fa fa-trash" aria-hidden="true"></i>
-            <span class="sr-only">{{#str}} delete {{/str}} {{#str}} author, qtype_stack {{/str}}</span>
-        </button>
     </div>
     {{! Edit mode: four input columns }}
     <div class="col-3 inputcol smd-author-field">
@@ -62,5 +51,13 @@
             <label class="sr-only" for="{{element.id}}">{{#str}} year, qtype_stack {{/str}}</label>
             {{>qtype_stack/metadata/metadatayear}}
         {{/year}}
+    </div>
+    <div class="col-auto smd-row-actions">
+        <button id="smd_author_{{id}}_delete" name="smd_delete" type="button"
+                class="btn btn-link btn-sm smd-row-delete p-0 ms-1"
+                title="{{#str}} delete {{/str}} {{#str}} author, qtype_stack {{/str}}">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+            <span class="sr-only">{{#str}} delete {{/str}} {{#str}} author, qtype_stack {{/str}}</span>
+        </button>
     </div>
 </div>

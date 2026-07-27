@@ -112,6 +112,10 @@ async function openModal() {
         }
         addListener = true;
     } else {
+        if (metadata.container) {
+            metadata.container.disableEditing();
+            await metadata.container.reloadContainerComponent({state: metadata.state});
+        }
         modal.show();
     }
     if (addListener) {
@@ -119,4 +123,3 @@ async function openModal() {
         document.querySelector('#stackmetadata_save').addEventListener('click', () => modal.hide());
     }
 }
-

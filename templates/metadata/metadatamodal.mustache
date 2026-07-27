@@ -20,7 +20,18 @@
     Example context (json):  {}
 }}
 {{< core/modal }}
-    {{$title}}{{#str}} metadata, qtype_stack {{/str}}{{/title}}
+    {{$header}}
+        <h5 id="{{uniqid}}-modal-title" class="modal-title text-truncate" data-region="title">
+            {{#str}} metadata, qtype_stack {{/str}}
+        </h5>
+        <div class="smd-header-edit">
+            <input class="smd-edit-switch-input" type="checkbox" role="switch"
+                    id="stack-metadata-edit-switch">
+            <label class="smd-edit-switch-label" for="stack-metadata-edit-switch">
+                {{#str}} edit {{/str}}
+            </label>
+        </div>
+    {{/header}}
     {{$classes}}modal-xl stack-metadata{{/classes}}
     {{$body}}
         <div id="qtype-stack-metadata-main">

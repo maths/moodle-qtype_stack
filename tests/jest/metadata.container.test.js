@@ -196,17 +196,16 @@ describe('addItem', () => {
     test('does not dispatch when update() returns false', async () => {
         const {instance, reactive} = makeInstance();
         jest.spyOn(instance, 'update').mockResolvedValue(false);
-        await instance.addItem({target: {id: 'smd_language_0_add'}});
+        await instance.addItem({currentTarget: {id: 'smd_language_0_add'}});
         expect(reactive.dispatch).not.toHaveBeenCalled();
     });
 
-    test('dispatches addItem with type derived from event.target.id when update succeeds', async () => {
+    test('dispatches addItem with type derived from event.currentTarget.id when update succeeds', async () => {
         const {instance, reactive} = makeInstance();
         jest.spyOn(instance, 'update').mockResolvedValue(true);
         reactive.dispatch.mockResolvedValue(undefined);
-        await instance.addItem({target: {id: 'smd_add_author_user'}});
-        // id.split('_') → ['smd', 'add', 'author', 'user']; parts[1]='add', parts[2]='author'
-        expect(reactive.dispatch).toHaveBeenCalledWith('addItem', 'add', 'author');
+        await instance.addItem({currentTarget: {id: 'smd_author_0_add'}});
+        expect(reactive.dispatch).toHaveBeenCalledWith('addItem', 'author', '0');
     });
 });
 
@@ -216,16 +215,121 @@ describe('deleteItem', () => {
     test('does not dispatch when update() returns false', async () => {
         const {instance, reactive} = makeInstance();
         jest.spyOn(instance, 'update').mockResolvedValue(false);
-        await instance.deleteItem({target: {id: 'smd_author_1_delete'}});
+        await instance.deleteItem({currentTarget: {id: 'smd_author_1_delete'}});
         expect(reactive.dispatch).not.toHaveBeenCalled();
     });
 
-    test('dispatches deleteRow with id parts from event.target.id when update succeeds', async () => {
+    test('dispatches deleteRow with id parts from event.currentTarget.id when update succeeds', async () => {
         const {instance, reactive} = makeInstance();
         jest.spyOn(instance, 'update').mockResolvedValue(true);
         reactive.dispatch.mockResolvedValue(undefined);
-        await instance.deleteItem({target: {id: 'smd_author_1_delete'}});
+        await instance.deleteItem({currentTarget: {id: 'smd_author_1_delete'}});
         expect(reactive.dispatch).toHaveBeenCalledWith('deleteRow', 'author', '1');
+    });
+});
+
+// ── enableEditing ───────────────────────────────────────────────────────────────
+
+describe('enableEditing', () => {
+    test('sets edit mode and adds the edit class to the rendered form', () => {
+        const {instance} = makeInstance();
+        const event = {preventDefault: jest.fn()};
+        const form = {classList: {add: jest.fn()}};
+        instance.getElement.mockImplementation(sel => {
+            if (sel === instance.selectors.FORM) {
+                return form;
+            }
+            return null;
+        });
+        instance.enableEditing(event);
+        expect(event.preventDefault).toHaveBeenCalled();
+        expect(instance.isEditing).toBe(true);
+        expect(form.classList.add).toHaveBeenCalledWith('smd-editing');
+    });
+
+    test('still records edit mode when the form element is missing', () => {
+        const {instance} = makeInstance();
+        instance.getElement.mockReturnValue(null);
+        expect(() => instance.enableEditing()).not.toThrow();
+        expect(instance.isEditing).toBe(true);
+    });
+});
+
+// ── toggleEditing ───────────────────────────────────────────────────────────────
+
+describe('toggleEditing', () => {
+    test('enables editing when the switch is checked', async () => {
+        const {instance} = makeInstance();
+        const event = {
+            preventDefault: jest.fn(),
+            currentTarget: {checked: true},
+        };
+        jest.spyOn(instance, 'enableEditing');
+        await instance.toggleEditing(event);
+        expect(instance.enableEditing).toHaveBeenCalledWith(event);
+    });
+
+    test('validates and updates in read mode when the switch is unchecked', async () => {
+        const {instance} = makeInstance();
+        const event = {currentTarget: {checked: false}};
+        instance.isEditing = true;
+        jest.spyOn(instance, 'validateInputs').mockReturnValue(true);
+        jest.spyOn(instance, 'update').mockResolvedValue(true);
+        jest.spyOn(instance, 'syncEditToggle').mockImplementation(() => {});
+        await instance.toggleEditing(event);
+        expect(instance.validateInputs).toHaveBeenCalled();
+        expect(instance.update).toHaveBeenCalledWith(false);
+        expect(instance.isEditing).toBe(false);
+        expect(instance.syncEditToggle).toHaveBeenCalled();
+        expect(event.currentTarget.checked).toBe(false);
+    });
+
+    test('keeps edit mode switched on when validation fails', async () => {
+        const {instance} = makeInstance();
+        const event = {currentTarget: {checked: false}};
+        jest.spyOn(instance, 'validateInputs').mockReturnValue(false);
+        jest.spyOn(instance, 'update').mockResolvedValue(true);
+        await instance.toggleEditing(event);
+        expect(instance.update).not.toHaveBeenCalled();
+        expect(event.currentTarget.checked).toBe(true);
+    });
+
+    test('keeps edit mode switched on when update fails after validation', async () => {
+        const {instance} = makeInstance();
+        const event = {currentTarget: {checked: false}};
+        instance.isEditing = true;
+        jest.spyOn(instance, 'validateInputs').mockReturnValue(true);
+        jest.spyOn(instance, 'update').mockResolvedValue(false);
+        await instance.toggleEditing(event);
+        expect(instance.isEditing).toBe(true);
+        expect(event.currentTarget.checked).toBe(true);
+    });
+});
+
+// ── disableEditing ──────────────────────────────────────────────────────────────
+
+describe('disableEditing', () => {
+    test('clears edit mode and removes the edit class from the rendered form', () => {
+        const {instance} = makeInstance();
+        const form = {classList: {remove: jest.fn()}};
+        instance.isEditing = true;
+        instance.getElement.mockImplementation(sel => {
+            if (sel === instance.selectors.FORM) {
+                return form;
+            }
+            return null;
+        });
+        instance.disableEditing();
+        expect(instance.isEditing).toBe(false);
+        expect(form.classList.remove).toHaveBeenCalledWith('smd-editing');
+    });
+
+    test('still clears edit mode when the form element is missing', () => {
+        const {instance} = makeInstance();
+        instance.isEditing = true;
+        instance.getElement.mockReturnValue(null);
+        expect(() => instance.disableEditing()).not.toThrow();
+        expect(instance.isEditing).toBe(false);
     });
 });
 
@@ -381,14 +485,25 @@ describe('reloadContainerComponent', () => {
         await expect(instance.reloadContainerComponent({state})).rejects.toThrow('Missing metadata container');
     });
 
-    test('registers click listeners for add and delete buttons after render', async () => {
+    test('registers change listener for edit switch and click listeners for add and delete buttons after render', async () => {
         const {instance} = makeInstance();
         const state = makeState();
         metadata.jsonStringify.mockReturnValue('{}');
         const fakeContainer = {};
         const fakeButton = {};
-        mockQuerySelector.mockReturnValue({value: '{}'});
-        instance.getElement.mockReturnValue(fakeContainer);
+        const fakeToggle = {};
+        mockQuerySelector.mockImplementation(sel => {
+            if (sel === instance.selectors.EDITTOGGLE) {
+                return fakeToggle;
+            }
+            return {value: '{}'};
+        });
+        instance.getElement.mockImplementation(sel => {
+            if (sel === instance.selectors.METADATACONTAINER) {
+                return fakeContainer;
+            }
+            return null;
+        });
         instance.getElements.mockImplementation(sel => {
             if (sel === instance.selectors.ADDITEM || sel === instance.selectors.DELETEITEM) {
                 return [fakeButton];
@@ -396,8 +511,19 @@ describe('reloadContainerComponent', () => {
             return [];
         });
         await instance.reloadContainerComponent({state});
+        expect(instance.addEventListener).toHaveBeenCalledWith(fakeToggle, 'change', instance.toggleEditing);
         expect(instance.addEventListener).toHaveBeenCalledWith(fakeButton, 'click', instance.addItem);
         expect(instance.addEventListener).toHaveBeenCalledWith(fakeButton, 'click', instance.deleteItem);
+    });
+
+    test('passes the current edit state to the template data', async () => {
+        const {instance} = makeInstance();
+        setupForRender(instance);
+        let data = await captureData(instance, makeState());
+        expect(data.isEditing).toBe(false);
+        instance.isEditing = true;
+        data = await captureData(instance, makeState());
+        expect(data.isEditing).toBe(true);
     });
 
     // ── data.author ─────────────────────────────────────────────────────────────

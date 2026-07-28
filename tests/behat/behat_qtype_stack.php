@@ -28,6 +28,7 @@
 require_once(__DIR__ . '/../../../../../lib/behat/behat_base.php');
 
 use Moodle\BehatExtension\Exception\SkippedException;
+use PHPUnit\Framework\Assert;
 
 /**
  * Steps definitions related with the question bank management.

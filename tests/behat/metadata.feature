@@ -28,26 +28,26 @@ Feature: Create and edit STACK metadata
     And I click on "View and edit full metadata" "button"
     And I should see "STACK metadata is stored as a JSON object."
     And I click on "stack-metadata-edit-switch" "checkbox"
-    And I click on "Add author" "button"
+    And I click on "smd_author_0_add" "button"
     And I wait until "smdi_1_author_firstName" "field" exists
     And I set the field "smdi_1_author_firstName" in the "#qtype-stack-metadata-content" "css_element" to "Edmund"
     And I set the field "smdi_1_author_lastName" in the "#qtype-stack-metadata-content" "css_element" to "Farrow"
     And I set the field "smdi_1_author_institution" in the "#qtype-stack-metadata-content" "css_element" to "UoE"
     And I set the field "smdi_1_author_year" in the "#qtype-stack-metadata-content" "css_element" to "2025"
-    And I click on "Add author" "button"
+    And I click on "smd_author_0_add" "button"
     And I wait until "smdi_2_author_firstName" "field" exists
     And I set the field "smdi_2_author_firstName" in the "#qtype-stack-metadata-content" "css_element" to "Bob"
     And I set the field "smdi_2_author_lastName" in the "#qtype-stack-metadata-content" "css_element" to "Smith"
     And I set the field "smdi_2_author_institution" in the "#qtype-stack-metadata-content" "css_element" to "MIT"
     And I set the field "smdi_2_author_year" in the "#qtype-stack-metadata-content" "css_element" to "2026"
-    And I click on "Add language" "button"
+    And I click on "smd_language_0_add" "button"
     And I wait until "smdi_1_language_value" "field" exists
     And I set the field "smdi_1_language_value" in the "#qtype-stack-metadata-content" "css_element" to "en"
     And I set the field "smdi_0_isPartOf_value" in the "#qtype-stack-metadata-content" "css_element" to "HELM"
     And I open the autocomplete suggestions list in the "#qtype-stack-metadata-content" "css_element"
     Then "[data-value='cc-nc-4.0']" "css_element" should be visible
     And I click on "[data-value='cc-nc-4.0']" "css_element"
-    And I click on "Add scope" "button"
+    And I click on "smd_scope_0_add" "button"
     And I wait until "smdi_1_additional_scope" "field" exists
     And I set the field "smdi_1_additional_scope" in the "#qtype-stack-metadata-content" "css_element" to "Added data"
     And I set the field "smdi_1_additional_property" in the "#qtype-stack-metadata-content" "css_element" to "Dog info"
@@ -58,16 +58,16 @@ Feature: Create and edit STACK metadata
     And I click on "View and edit full metadata" "button"
     And I should see "STACK metadata is stored as a JSON object."
     And I click on "stack-metadata-edit-switch" "checkbox"
-    And I click on "Add me as an author" "button"
-    And I click on "Add language" "button"
+    And I click on "stack-metadata-make-author" "button"
+    And I click on "smd_language_0_add" "button"
     And I wait until "smdi_2_language_value" "field" exists
     And I set the field "smdi_2_language_value" in the "#qtype-stack-metadata-content" "css_element" to "fr"
-    And I click on "Add property" "button"
+    And I click on "smd_property_1_add" "button"
     And I wait until "smdi_2_additional_property" "field" exists
     And I set the field "smdi_2_additional_property" in the "#qtype-stack-metadata-content" "css_element" to "Cat info"
     And I set the field "smdi_2_additional_qualifier" in the "#qtype-stack-metadata-content" "css_element" to "Breed"
     And I set the field "smdi_2_additional_value" in the "#qtype-stack-metadata-content" "css_element" to "Tabby"
-    And I click on "Add scope" "button"
+    And I click on "smd_scope_0_add" "button"
     And I wait until "smdi_3_additional_scope" "field" exists
     And I set the field "smdi_3_additional_scope" in the "#qtype-stack-metadata-content" "css_element" to "More data"
     And I set the field "smdi_3_additional_property" in the "#qtype-stack-metadata-content" "css_element" to "Question"
@@ -95,7 +95,7 @@ Feature: Create and edit STACK metadata
     And I should not see "en-del"
     And I click on "smd_additional_2_delete" "button"
     And I should not see "Cat info"
-    And I click on "Add language" "button"
+    And I click on "smd_language_0_add" "button"
     And I wait until "smdi_3_language_value" "field" exists
     And I set the field "smdi_3_language_value" in the "#qtype-stack-metadata-content" "css_element" to "it"
     And I click on "Validate and close" "button"
@@ -115,7 +115,7 @@ Feature: Create and edit STACK metadata
     And I click on "View and edit full metadata" "button"
     And I should see "STACK metadata is stored as a JSON object."
     And I click on "stack-metadata-edit-switch" "checkbox"
-    And I click on "Add scope" "button"
+    And I click on "smd_scope_0_add" "button"
     And I wait until "smdi_5_additional_scope" "field" exists
     And I set the field "smdi_5_additional_scope" in the "#qtype-stack-metadata-content" "css_element" to "Another Scope"
     And I set the field "smdi_5_additional_property" in the "#qtype-stack-metadata-content" "css_element" to "Question2"
@@ -141,6 +141,7 @@ Feature: Create and edit STACK metadata
     And I click on "View and edit full metadata" "button"
     And I should see "STACK metadata is stored as a JSON object."
     And I click on "stack-metadata-edit-switch" "checkbox"
+    And I click on ".smd-json-section > summary" "css_element"
     And I set the field "id_metadata_json" to multiline:
     """
     {
@@ -184,7 +185,7 @@ Feature: Create and edit STACK metadata
       "freeform": {}
     }
     """
-    And I click on "Update inputs from JSON" "button"
+    And I click on "stack-metadata-update-inputs" "button"
     And I click on "Validate and close" "button"
     And I check the hidden input "metadata" is '{"author":[{"firstName":"Bob","lastName":"Smith","institution":"MIT","year":"2024"},{"firstName":"Mike","lastName":"Jones","institution":"Bath","year":"2023"}],"language":["en"],"isPartOf":"Everything","license":"cc-nc-4.1","additional":{"Added":{"Cat":{"Breed":"Al$%&^"},"Horse":"Dobbin","Dog":{"Teeth":"50","Tails":"1"}},"Added too":{"Fish":{"Gills":"2"}}},"freeform":{}}'
     And I click on "View and edit full metadata" "button"
@@ -212,6 +213,7 @@ Feature: Create and edit STACK metadata
     And I set the field "smdi_8_additional_value" in the "#qtype-stack-metadata-content" "css_element" to "Nessie"
     And I click on "Validate and close" "button"
     And I should see "Required" in the "#smde_7_additional_qualifier_error" "css_element"
+    And I click on ".smd-json-section > summary" "css_element"
     And I set the field "id_metadata_json" to multiline:
     """
     {
@@ -257,9 +259,9 @@ Feature: Create and edit STACK metadata
       "freeform": {}
     }
     """
-    And I click on "Update inputs from JSON" "button"
+    And I click on "stack-metadata-update-inputs" "button"
     And I wait until "smdi_2_author_firstName" "field" exists
-    And I click on "Revert current changes" "button"
+    And I click on "stack-metadata-revert" "button"
     And I should not see "Lowell"
     And I click on "Validate and close" "button"
     And I check the hidden input "metadata" is '{"author":[{"firstName":"Bob","lastName":"Smith","institution":"MIT","year":"2024"},{"firstName":"Mike","lastName":"Jones","institution":"Bath","year":"2023"}],"language":["en"],"isPartOf":"Everything","license":"cc-nc-4.1","additional":{"Added":{"Cat":{"Breed":"Al$%&^"},"Horse":["Dobbin","Champion"],"Dog":{"Teeth":"50","Tails":"1"}},"Added too":{"Fish":{"Gills":["2","3"]}}},"freeform":{}}'
@@ -277,6 +279,7 @@ Feature: Create and edit STACK metadata
     And I click on "View and edit full metadata" "button"
     And I should see "STACK metadata is stored as a JSON object."
     And I click on "stack-metadata-edit-switch" "checkbox"
+    And I click on ".smd-json-section > summary" "css_element"
     And I set the field "id_metadata_json" to multiline:
     """
     {
@@ -345,7 +348,7 @@ Feature: Create and edit STACK metadata
           }
     }
     """
-    And I click on "Update inputs from JSON" "button"
+    And I click on "stack-metadata-update-inputs" "button"
     And I should see "{\"license\":{\"Cat\":{\"Breed\":\"Al$%&^\"},\"Horse\":\"Dobbin\",\"Dog\":{\"Teeth\":\"50\",\"Tails\":\"1\"}},\"Freeform too\":{\"Fish\":{\"Gills\":\"2\"}}}"
     And I click on "Validate and close" "button"
     And I check the hidden input "metadata" is '{"author":[{"firstName":"Bob","lastName":"Smith","institution":"MIT","year":"2024"},{"firstName":"Mike","lastName":"Jones","institution":"Bath","year":"2023"}],"language":["en"],"isPartOf":"Everything","license":"cc-nc-4.1","additional":{"additional":{"Cat":{"Breed":"Al$%&^"},"Horse":"Dobbin","Dog":{"Teeth":"50","Tails":"1"},"Multi":["1","2","3"],"Multi1":{"Multi2":["4","5","6"]}},"Added too":{"Fish":{"Gills":"2"}}},"freeform":{"license":{"Cat":{"Breed":"Al$%&^"},"Horse":"Dobbin","Dog":{"Teeth":"50","Tails":"1"}},"Freeform too":{"Fish":{"Gills":"2"}}}}'

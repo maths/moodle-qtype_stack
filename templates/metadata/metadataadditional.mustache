@@ -45,9 +45,13 @@
                     "iderror": "smde_2_additional_value_error"
                 }
             },
-            "id": "2"
+            "id": "2",
+            "istest": true
         }
 }}
+{{#istest}}
+<table>
+{{/istest}}
 <tr class="smd-prop-row" id="qtype-stack-metadata-additional-{{{id}}}">
     <td class="smd-cell">
         <span class="smd-cell-text">{{property.element.value}}</span>
@@ -85,3 +89,6 @@
         </button>
     </td>
 </tr>
+{{#istest}}
+</table>
+{{/istest}}

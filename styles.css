@@ -1552,19 +1552,22 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
     white-space: nowrap;
 }
 
-.stack-metadata .smd-editing .smd-scope-name-text,
 .stack-metadata .smd-editing .smd-license-display-text,
 .stack-metadata .smd-editing .smd-ispartof-display-text,
 .stack-metadata .smd-editing .smd-freeform-display-text {
     display: none;
 }
 
-.stack-metadata .smd-editing .smd-scope-name .fitem {
-    flex: 1;
+.stack-metadata .smd-scope-name-table {
+    display: none;
 }
 
-.stack-metadata .smd-scope-card > summary input {
-    user-select: text;
+.stack-metadata .smd-editing .smd-scope-name-table {
+    display: table;
+}
+
+.stack-metadata .smd-prop-table.smd-scope-name-table {
+    width: 24%;
 }
 
 .stack-metadata .smd-scope-chevron {

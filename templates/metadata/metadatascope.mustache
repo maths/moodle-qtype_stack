@@ -134,7 +134,7 @@
     <summary class="smd-scope-header">
         <i class="fa fa-chevron-down smd-scope-chevron" aria-hidden="true"></i>
         <span class="smd-col-label">{{#str}} scope, qtype_stack {{/str}}</span>
-        <div class="smd-scope-name flex-grow-1">
+        <span class="smd-scope-name flex-grow-1">
             <span class="smd-scope-name-text">{{name}}</span>
             <button id="smd_scope_{{{firstProp}}}_delete" name="smd_delete" type="button"
                     class="btn btn-link btn-sm smd-row-delete p-0 ms-1"
@@ -142,16 +142,24 @@
                 <i class="fa fa-trash" aria-hidden="true"></i>
                 <span class="sr-only">{{#str}} delete {{/str}} {{#str}} scope, qtype_stack {{/str}}</span>
             </button>
-            {{#input}}
-                <label class="sr-only" for="{{element.id}}">
-                    {{#str}} scope, qtype_stack {{/str}}
-                </label>
-                {{> core_form/element-text-inline }}
-            {{/input}}
-        </div>
+        </span>
     </summary>
     <div class="smd-scope-body">
-        <table class="smd-prop-table table-borderless">
+        <table class="smd-scope-name-table smd-prop-table table">
+            <tbody>
+                <tr>
+                    <td class="smd-cell">
+                        {{#input}}
+                            <label class="smd-col-label" for="{{element.id}}">
+                                {{#str}} scopename, qtype_stack {{/str}}
+                            </label>
+                            {{> core_form/element-text-inline }}
+                        {{/input}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="smd-prop-table table">
             <colgroup>
                 <col style="width: 24%">
                 <col style="width: 20%">

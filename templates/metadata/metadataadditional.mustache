@@ -50,7 +50,7 @@
 }}
 <div class="smd-field-grid smd-additional-grid smd-field-row smd-prop-row" id="qtype-stack-metadata-additional-{{{id}}}">
     <div class="smd-cell">
-        <span class="smd-cell-text">{{property.element.value}}</span>
+        <span class="smd-cell-text smd-read-mode">{{property.element.value}}</span>
         {{#property}}
             <label class="sr-only" for="{{element.id}}">
                 {{#str}} additionalmetadata, qtype_stack {{/str}} {{#str}} property, qtype_stack {{/str}}
@@ -59,7 +59,7 @@
         {{/property}}
     </div>
     <div class="smd-cell">
-        <span class="smd-cell-text">{{qualifier.element.value}}</span>
+        <span class="smd-cell-text smd-read-mode">{{qualifier.element.value}}</span>
         {{#qualifier}}
             <label class="sr-only" for="{{element.id}}">
                 {{#str}} additionalmetadata, qtype_stack {{/str}} {{#str}} qualifier, qtype_stack {{/str}}
@@ -68,7 +68,7 @@
         {{/qualifier}}
     </div>
     <div class="smd-cell">
-        <span class="smd-cell-text">{{value.element.value}}</span>
+        <span class="smd-cell-text smd-read-mode">{{value.element.value}}</span>
         {{#value}}
             <label class="sr-only" for="{{element.id}}">
                 {{#str}} additionalmetadata, qtype_stack {{/str}} {{#str}} value, qtype_stack {{/str}}
@@ -78,7 +78,7 @@
     </div>
     <div class="smd-cell-actions">
         <button id="smd_additional_{{id}}_delete" name="smd_delete" type="button"
-                class="btn btn-link btn-sm smd-row-delete p-0"
+                class="btn btn-link btn-sm smd-row-delete smd-edit-inline-flex p-0"
                 title="{{#str}} delete {{/str}} {{#str}} property, qtype_stack {{/str}}">
             <i class="fa fa-trash" aria-hidden="true"></i>
             <span class="sr-only">{{#str}} delete {{/str}} {{#str}} property, qtype_stack {{/str}}</span>

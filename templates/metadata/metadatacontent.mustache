@@ -342,7 +342,7 @@
     <div class="smd-section">
         <div class="smd-section-label">{{#str}} author, qtype_stack {{/str}}</div>
         {{#author.0}}
-        <div class="smd-field-grid smd-author-grid smd-field-header smd-author-col-headers">
+        <div class="smd-field-grid smd-author-grid smd-field-header smd-author-col-headers smd-edit-grid">
             <div class="smd-col-label">{{#str}} firstname, qtype_stack {{/str}}</div>
             <div class="smd-col-label">{{#str}} lastname, qtype_stack {{/str}}</div>
             <div class="smd-col-label">{{#str}} institution, qtype_stack {{/str}}</div>
@@ -353,7 +353,7 @@
         {{#author}}
             {{>qtype_stack/metadata/metadataauthor}}
         {{/author}}
-        <div class="gap-2 mt-2 smd-author-actions">
+        <div class="gap-2 mt-2 smd-author-actions smd-edit-flex">
             <button class="btn btn-sm btn-outline-secondary smd-add-btn" type="button" name="smd_add"
                     id="smd_author_0_add" title="{{#str}} addauthor, qtype_stack {{/str}}">
                 <i class="fa fa-plus" aria-hidden="true"></i>
@@ -373,7 +373,7 @@
         {{#language}}
             {{>qtype_stack/metadata/metadatalanguage}}
         {{/language}}
-        <div class="mt-2 smd-lang-actions">
+        <div class="mt-2 smd-lang-actions smd-edit-block">
             <button type="button" class="btn btn-sm btn-outline-secondary smd-add-btn" name="smd_add"
                     id="smd_language_0_add" title="{{#str}} addlanguage, qtype_stack {{/str}}">
                 <i class="fa fa-plus" aria-hidden="true"></i>
@@ -388,7 +388,7 @@
             <div class="col-md-7">
                 <div class="smd-section-label">{{#str}} license {{/str}}</div>
                 <div class="smd-license-wrap">
-                    <span class="smd-license-display-text">{{#license.element.options}}{{#selected}}{{text}}{{/selected}}{{/license.element.options}}</span>
+                    <span class="smd-license-display-text smd-read-mode">{{#license.element.options}}{{#selected}}{{text}}{{/selected}}{{/license.element.options}}</span>
                     {{#license}}
                         <label class="sr-only" for="{{element.id}}">{{#str}} license {{/str}}</label>
                         {{> core_form/element-autocomplete-inline}}
@@ -398,7 +398,7 @@
             <div class="col-md-5 smd-col-divider">
                 <div class="smd-section-label">{{#str}} ispartof, qtype_stack {{/str}}</div>
                 <div class="smd-ispartof-wrap">
-                    <span class="smd-ispartof-display-text">{{isPartOf.element.value}}</span>
+                    <span class="smd-ispartof-display-text smd-read-mode">{{isPartOf.element.value}}</span>
                     {{#isPartOf}}
                         <label class="sr-only" for="{{element.id}}">{{#str}} ispartof, qtype_stack {{/str}}</label>
                         {{> core_form/element-text-inline}}
@@ -414,7 +414,7 @@
         {{#scope}}
             {{>qtype_stack/metadata/metadatascope}}
         {{/scope}}
-        <div class="mt-2 smd-scope-actions">
+        <div class="mt-2 smd-scope-actions smd-edit-block">
             <button type="button" class="btn btn-sm btn-outline-secondary smd-add-btn" name="smd_add"
                     id="smd_scope_0_add" title="{{#str}} addscope, qtype_stack {{/str}}">
                 <i class="fa fa-plus" aria-hidden="true"></i>
@@ -426,7 +426,7 @@
     {{! Freeform metadata }}
     <div class="smd-section">
         <div class="smd-section-label">{{#str}} freeformmetadata, qtype_stack {{/str}}</div>
-        <pre class="smd-freeform-display-text">{{freeform.element.value}}</pre>
+        <pre class="smd-freeform-display-text smd-read-mode">{{freeform.element.value}}</pre>
         {{#freeform}}
             <label class="sr-only" for="{{element.id}}">
                 {{#str}} freeformmetadata, qtype_stack {{/str}}
@@ -448,7 +448,7 @@
     </div>
 
     {{! Utility buttons }}
-    <div class="gap-2 flex-wrap mb-3 smd-utility-actions">
+    <div class="gap-2 flex-wrap mb-3 smd-utility-actions smd-edit-flex">
         <button class="btn btn-sm btn-secondary" type="button" id="stack-metadata-update">
             {{#str}} updateJSON, qtype_stack {{/str}}
         </button>
@@ -465,7 +465,7 @@
     </p>
 
     {{! JSON metadata — collapsible }}
-    <details class="smd-section smd-json-section">
+    <details class="smd-section smd-json-section smd-edit-block">
         <summary class="smd-section-label">
             {{#str}} JSONmetadata, qtype_stack {{/str}}
             <i class="fa fa-chevron-down fa-xs ms-1" aria-hidden="true"></i>

@@ -139,7 +139,7 @@
         </span>
     </summary>
     <div class="smd-scope-body">
-        <div class="smd-field-grid smd-scope-name-grid smd-scope-name-editor">
+        <div class="smd-field-grid smd-scope-name-grid smd-scope-name-editor smd-edit-grid">
             <div class="smd-cell">
                 {{#input}}
                     <label class="smd-col-label" for="{{element.id}}">
@@ -149,7 +149,7 @@
                 {{/input}}
             </div>
             <button id="smd_scope_{{{firstProp}}}_delete" name="smd_delete" type="button"
-                    class="btn btn-link btn-sm smd-row-delete p-0"
+                    class="btn btn-link btn-sm smd-row-delete smd-edit-inline-flex p-0"
                     title="{{#str}} delete {{/str}} {{#str}} scope, qtype_stack {{/str}}">
                 <i class="fa fa-trash" aria-hidden="true"></i>
                 <span class="sr-only">{{#str}} delete {{/str}} {{#str}} scope, qtype_stack {{/str}}</span>
@@ -164,7 +164,7 @@
         {{#properties}}
             {{>qtype_stack/metadata/metadataadditional}}
         {{/properties}}
-        <div class="mt-2 smd-property-actions">
+        <div class="mt-2 smd-property-actions smd-edit-block">
             <button type="button" class="btn btn-sm btn-outline-secondary smd-add-btn" name="smd_add"
                     id="smd_property_{{firstProp}}_add"
                     title="{{#str}} addproperty, qtype_stack {{/str}}">

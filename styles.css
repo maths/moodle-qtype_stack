@@ -1363,8 +1363,20 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
 .stacktestsuite .results-symbol {
     font-size: 1.5em;
 }
-.stack-metadata input,
-.stack-metadata textarea {
+.stack-metadata {
+    --smd-primary: #0f6cbf;
+    --smd-primary-bg: rgba(15, 108, 191, 0.03);
+    --smd-primary-bg-strong: rgba(15, 108, 191, 0.08);
+    --smd-primary-focus: rgba(15, 108, 191, 0.25);
+    --smd-border: #dee2e6;
+    --smd-control-border: #ced4da;
+    --smd-text: #343a40;
+    --smd-muted: #6c757d;
+    --smd-row-action-size: 2.25rem;
+    --smd-radius: 4px;
+}
+
+.stack-metadata :is(input, textarea) {
     width: 100%;
 }
 
@@ -1436,7 +1448,7 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
 }
 
 .stack-metadata .smd-edit-switch-input:checked + .smd-edit-switch-label::before {
-    background: #0f6cbf;
+    background: var(--smd-primary);
 }
 
 .stack-metadata .smd-edit-switch-input:checked + .smd-edit-switch-label::after {
@@ -1444,30 +1456,30 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
 }
 
 .stack-metadata .smd-edit-switch-input:focus + .smd-edit-switch-label::before {
-    box-shadow: 0 0 0 0.2rem rgba(15, 108, 191, 0.25);
+    box-shadow: 0 0 0 0.2rem var(--smd-primary-focus);
 }
 
 .stack-metadata .smd-section {
-    border-left: 3px solid #0f6cbf;
-    background: rgba(15, 108, 191, 0.03);
-    border-radius: 0 4px 4px 0;
+    border-left: 3px solid var(--smd-primary);
+    background: var(--smd-primary-bg);
+    border-radius: 0 var(--smd-radius) var(--smd-radius) 0;
     padding: 0.75rem 1rem 0.75rem 1.25rem;
     margin-bottom: 1rem;
 }
 
-.stack-metadata .smd-section-label {
+.stack-metadata :is(.smd-section-label, .smd-col-label) {
+    color: var(--smd-text);
     font-size: 0.9rem;
     font-weight: 700;
+}
+
+.stack-metadata .smd-section-label {
     text-transform: uppercase;
     letter-spacing: 0;
-    color: #343a40;
     margin-bottom: 0.6rem;
 }
 
 .stack-metadata .smd-col-label {
-    font-size: 0.9rem;
-    font-weight: 700;
-    color: #343a40;
     display: block;
     margin-bottom: 0.25rem;
 }
@@ -1481,45 +1493,45 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
     display: none;
 }
 
-.stack-metadata .smd-author-actions,
-.stack-metadata .smd-lang-actions,
-.stack-metadata .smd-scope-actions,
-.stack-metadata .smd-property-actions,
-.stack-metadata .smd-utility-actions,
-.stack-metadata .smd-json-section {
+.stack-metadata :is(.smd-edit-block, .smd-edit-flex, .smd-edit-grid, .smd-edit-inline-flex) {
     display: none;
 }
 
-.stack-metadata .smd-editing .smd-author-actions,
-.stack-metadata .smd-editing .smd-utility-actions {
+.stack-metadata .smd-editing .smd-edit-block {
+    display: block;
+}
+
+.stack-metadata .smd-editing .smd-edit-flex {
     display: flex;
     flex-wrap: wrap;
 }
 
-.stack-metadata .smd-editing .smd-lang-actions,
-.stack-metadata .smd-editing .smd-scope-actions,
-.stack-metadata .smd-editing .smd-property-actions,
-.stack-metadata .smd-editing .smd-json-section {
-    display: block;
+.stack-metadata .smd-editing .smd-edit-grid {
+    display: grid;
 }
 
-.stack-metadata details.smd-section > summary,
-.stack-metadata .smd-scope-card > summary {
+.stack-metadata .smd-editing .smd-edit-inline-flex {
+    display: inline-flex;
+}
+
+.stack-metadata .smd-editing .smd-read-mode {
+    display: none;
+}
+
+.stack-metadata :is(details.smd-section, .smd-scope-card) > summary {
     list-style: none;
     cursor: pointer;
     user-select: none;
 }
 
-.stack-metadata details.smd-section > summary::marker,
-.stack-metadata details.smd-section > summary::-webkit-details-marker,
-.stack-metadata .smd-scope-card > summary::marker,
-.stack-metadata .smd-scope-card > summary::-webkit-details-marker {
+.stack-metadata :is(details.smd-section, .smd-scope-card) > summary::marker,
+.stack-metadata :is(details.smd-section, .smd-scope-card) > summary::-webkit-details-marker {
     display: none;
 }
 
 .stack-metadata .smd-scope-card {
-    border: 1px solid #dee2e6;
-    border-radius: 4px;
+    border: 1px solid var(--smd-border);
+    border-radius: var(--smd-radius);
     margin-bottom: 0.75rem;
     overflow: hidden;
 }
@@ -1529,16 +1541,16 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
     align-items: center;
     gap: 0.75rem;
     padding: 0.5rem 0.75rem;
-    border-bottom: 1px solid #dee2e6;
+    border-bottom: 1px solid var(--smd-border);
 }
 
 .stack-metadata .smd-scope-card[open] > .smd-scope-header {
-    background: rgba(15, 108, 191, 0.08);
-    box-shadow: inset 4px 0 0 #0f6cbf;
+    background: var(--smd-primary-bg-strong);
+    box-shadow: inset 4px 0 0 var(--smd-primary);
 }
 
 .stack-metadata .smd-scope-card > .smd-scope-header:focus-visible {
-    outline: 3px solid #0f6cbf;
+    outline: 3px solid var(--smd-primary);
     outline-offset: -3px;
     background: rgba(15, 108, 191, 0.14);
 }
@@ -1563,12 +1575,6 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
     white-space: nowrap;
 }
 
-.stack-metadata .smd-editing .smd-license-display-text,
-.stack-metadata .smd-editing .smd-ispartof-display-text,
-.stack-metadata .smd-editing .smd-freeform-display-text {
-    display: none;
-}
-
 .stack-metadata .smd-field-grid {
     display: grid;
     column-gap: 0.5rem;
@@ -1587,7 +1593,7 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
 }
 
 .stack-metadata .smd-scope-name-grid {
-    grid-template-columns: minmax(0, 24%) 2.25rem;
+    grid-template-columns: minmax(0, 24%) var(--smd-row-action-size);
 }
 
 .stack-metadata .smd-field-header {
@@ -1598,21 +1604,13 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
     margin-bottom: 0;
 }
 
-.stack-metadata .smd-scope-name-editor {
-    display: none;
-}
-
-.stack-metadata .smd-editing .smd-scope-name-editor {
-    display: grid;
-}
-
 .stack-metadata .smd-scope-name-editor .smd-row-delete {
     margin-top: 1.75rem;
 }
 
 .stack-metadata .smd-scope-chevron {
     flex-shrink: 0;
-    color: #6c757d;
+    color: var(--smd-muted);
     pointer-events: none;
     transition: transform 0.2s ease;
     margin-right: 0.25rem;
@@ -1626,38 +1624,30 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
     padding: 0.75rem;
 }
 
-.stack-metadata .smd-section .row .fitem,
-.stack-metadata .smd-section .row .felement,
-.stack-metadata .smd-field-grid .fitem,
-.stack-metadata .smd-field-grid .felement,
-.stack-metadata .smd-scope-body .fitem,
-.stack-metadata .smd-scope-body .felement {
+.stack-metadata :is(.smd-section .row, .smd-field-grid, .smd-scope-body) :is(.fitem, .felement) {
     margin: 0;
     padding: 0;
 }
 
-.stack-metadata .smd-field-row,
-.stack-metadata .smd-cell,
-.stack-metadata .smd-cell-actions {
+.stack-metadata :is(.smd-field-row, .smd-cell, .smd-cell-actions) {
     border: 0;
-    border-color: transparent;
-    border-width: 0;
     box-shadow: none;
     outline: 0;
 }
 
-.stack-metadata .smd-cell,
-.stack-metadata .smd-cell-actions {
+.stack-metadata :is(.smd-cell, .smd-cell-actions) {
     padding: 0.05rem 0;
     vertical-align: top;
     background: transparent;
 }
 
-.stack-metadata .smd-cell-text,
-.stack-metadata .smd-author-display-text,
-.stack-metadata .smd-lang-display-text,
-.stack-metadata .smd-ispartof-display-text,
-.stack-metadata .smd-license-display-text {
+.stack-metadata :is(
+    .smd-cell-text,
+    .smd-author-display-text,
+    .smd-lang-display-text,
+    .smd-ispartof-display-text,
+    .smd-license-display-text
+) {
     font-size: 0.9rem;
     font-weight: 400;
 }
@@ -1669,31 +1659,28 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
     padding: 0;
 }
 
-.stack-metadata .smd-editing .smd-cell-text {
-    display: none;
-}
-
 .stack-metadata .smd-cell-actions {
-    width: 2.25rem;
+    width: var(--smd-row-action-size);
     text-align: right;
     vertical-align: top;
 }
 
-.stack-metadata .smd-editing .smd-cell .fitem {
+.stack-metadata .smd-editing .smd-cell :is(.fitem, .felement) {
     border: 0;
     box-shadow: none;
+}
+
+.stack-metadata .smd-editing .smd-cell .fitem {
     min-height: 0;
 }
 
 .stack-metadata .smd-editing .smd-cell .felement {
     align-items: flex-start;
-    border: 0;
-    box-shadow: none;
 }
 
 .stack-metadata .smd-editing .smd-cell .form-control {
     background-color: #fff;
-    border: 1px solid #ced4da;
+    border: 1px solid var(--smd-control-border);
     border-radius: 0.375rem;
     box-shadow: none;
     padding: 0.375rem 0.75rem;
@@ -1711,10 +1698,12 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
     min-height: 0;
 }
 
-.stack-metadata .smd-author-display,
-.stack-metadata .smd-lang-display,
-.stack-metadata .smd-license-wrap,
-.stack-metadata .smd-ispartof-wrap {
+.stack-metadata :is(
+    .smd-author-display,
+    .smd-lang-display,
+    .smd-license-wrap,
+    .smd-ispartof-wrap
+) {
     display: flex;
     align-items: center;
     gap: 0.25rem;
@@ -1725,34 +1714,12 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
     grid-column: 1 / -2;
 }
 
-.stack-metadata .smd-license-wrap,
-.stack-metadata .smd-ispartof-wrap {
+.stack-metadata :is(.smd-license-wrap, .smd-ispartof-wrap) {
     flex-wrap: wrap;
 }
 
-.stack-metadata .smd-license-wrap .fitem,
-.stack-metadata .smd-ispartof-wrap .fitem {
+.stack-metadata :is(.smd-license-wrap, .smd-ispartof-wrap) .fitem {
     width: 100%;
-}
-
-.stack-metadata .smd-author-field,
-.stack-metadata .smd-lang-field,
-.stack-metadata .smd-author-col-headers {
-    display: none;
-}
-
-.stack-metadata .smd-editing .smd-author-field,
-.stack-metadata .smd-editing .smd-lang-field {
-    display: block;
-}
-
-.stack-metadata .smd-editing .smd-author-display,
-.stack-metadata .smd-editing .smd-lang-display {
-    display: none;
-}
-
-.stack-metadata .smd-editing .smd-author-col-headers {
-    display: grid;
 }
 
 .stack-metadata .smd-editing .smd-author-row .smd-row-actions {
@@ -1761,13 +1728,12 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 .stack-metadata .smd-row-delete {
     color: #dc3545;
-    display: none;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    width: 2.25rem;
-    height: 2.25rem;
-    min-width: 2.25rem;
+    width: var(--smd-row-action-size);
+    height: var(--smd-row-action-size);
+    min-width: var(--smd-row-action-size);
     line-height: 1;
 }
 
@@ -1776,13 +1742,9 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
     line-height: 1;
 }
 
-.stack-metadata .smd-editing .smd-row-delete {
-    display: inline-flex;
-}
-
 .stack-metadata .smd-add-btn {
-    color: #343a40;
-    border-color: #343a40;
+    color: var(--smd-text);
+    border-color: var(--smd-text);
     width: 1.75rem;
     height: 1.75rem;
     padding: 0;
@@ -1796,12 +1758,12 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
 .stack-metadata .smd-add-btn:hover,
 .stack-metadata .smd-add-btn:focus-visible {
     color: #fff;
-    background-color: #343a40;
-    border-color: #343a40;
+    background-color: var(--smd-text);
+    border-color: var(--smd-text);
 }
 
 .stack-metadata .smd-col-divider {
-    border-left: 1px solid #dee2e6;
+    border-left: 1px solid var(--smd-border);
     padding-left: 1.25rem;
 }
 

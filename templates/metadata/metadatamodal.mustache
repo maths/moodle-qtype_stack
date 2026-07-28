@@ -24,12 +24,12 @@
         <h5 id="{{uniqid}}-modal-title" class="modal-title text-truncate" data-region="title">
             {{#str}} metadata, qtype_stack {{/str}}
         </h5>
-        <div class="smd-header-edit">
-            <input class="smd-edit-switch-input" type="checkbox" role="switch"
-                    id="stack-metadata-edit-switch">
-            <label class="smd-edit-switch-label" for="stack-metadata-edit-switch">
+        <div class="form-check form-switch smd-header-edit">
+            <label class="form-check-label" for="stack-metadata-edit-switch">
                 {{#str}} edit {{/str}}
             </label>
+            <input class="form-check-input" type="checkbox" role="switch"
+                    id="stack-metadata-edit-switch">
         </div>
     {{/header}}
     {{$classes}}modal-xl stack-metadata{{/classes}}

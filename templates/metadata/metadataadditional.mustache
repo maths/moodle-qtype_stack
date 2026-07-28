@@ -48,8 +48,8 @@
             "id": "2"
         }
 }}
-<div class="smd-field-grid smd-additional-grid smd-field-row smd-prop-row" id="qtype-stack-metadata-additional-{{{id}}}">
-    <div class="smd-cell">
+<div class="row align-items-start mb-2 smd-prop-row" id="qtype-stack-metadata-additional-{{{id}}}">
+    <div class="col-md-3">
         <span class="smd-cell-text smd-read-mode">{{property.element.value}}</span>
         {{#property}}
             <label class="sr-only" for="{{element.id}}">
@@ -58,7 +58,7 @@
             {{> core_form/element-text-inline }}
         {{/property}}
     </div>
-    <div class="smd-cell">
+    <div class="col-md-3">
         <span class="smd-cell-text smd-read-mode">{{qualifier.element.value}}</span>
         {{#qualifier}}
             <label class="sr-only" for="{{element.id}}">
@@ -67,7 +67,7 @@
             {{> core_form/element-text-inline }}
         {{/qualifier}}
     </div>
-    <div class="smd-cell">
+    <div class="col">
         <span class="smd-cell-text smd-read-mode">{{value.element.value}}</span>
         {{#value}}
             <label class="sr-only" for="{{element.id}}">
@@ -76,9 +76,9 @@
             {{> core_form/element-text-inline }}
         {{/value}}
     </div>
-    <div class="smd-cell-actions">
+    <div class="col-auto">
         <button id="smd_additional_{{id}}_delete" name="smd_delete" type="button"
-                class="btn btn-link btn-sm smd-row-delete smd-edit-inline-flex p-0"
+                class="btn btn-link btn-sm text-danger smd-row-delete smd-edit-inline-flex align-items-center justify-content-center p-0"
                 title="{{#str}} delete {{/str}} {{#str}} property, qtype_stack {{/str}}">
             <i class="fa fa-trash" aria-hidden="true"></i>
             <span class="sr-only">{{#str}} delete {{/str}} {{#str}} property, qtype_stack {{/str}}</span>

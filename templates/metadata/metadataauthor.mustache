@@ -22,39 +22,39 @@
             "id": "1"
         }
 }}
-<div class="smd-field-grid smd-author-grid smd-field-row smd-author-row" id="qtype-stack-metadata-author-{{{id}}}">
+<div class="row align-items-start mb-2 smd-author-row" id="qtype-stack-metadata-author-{{{id}}}">
     {{! Read mode: compact one-line display + delete }}
-    <div class="smd-author-display smd-read-mode">
+    <div class="col smd-author-display smd-read-mode">
         <span class="smd-author-display-text">{{firstname.element.value}} {{lastname.element.value}}{{#institution.element.value}}, {{institution.element.value}}{{/institution.element.value}}{{#year.element.value}} ({{year.element.value}}){{/year.element.value}}</span>
     </div>
     {{! Edit mode: four input columns }}
-    <div class="inputcol smd-cell smd-author-field smd-edit-block">
+    <div class="col-md smd-edit-block">
         {{#firstname}}
             <label class="sr-only" for="{{element.id}}">{{#str}} firstname, qtype_stack {{/str}}</label>
             {{> core_form/element-text-inline }}
         {{/firstname}}
     </div>
-    <div class="inputcol smd-cell smd-author-field smd-edit-block">
+    <div class="col-md smd-edit-block">
         {{#lastname}}
             <label class="sr-only" for="{{element.id}}">{{#str}} lastname, qtype_stack {{/str}}</label>
             {{> core_form/element-text-inline }}
         {{/lastname}}
     </div>
-    <div class="inputcol smd-cell smd-author-field smd-edit-block">
+    <div class="col-md smd-edit-block">
         {{#institution}}
             <label class="sr-only" for="{{element.id}}">{{#str}} institution, qtype_stack {{/str}}</label>
             {{> core_form/element-text-inline }}
         {{/institution}}
     </div>
-    <div class="inputcol smd-cell smd-author-field smd-edit-block">
+    <div class="col-md smd-edit-block">
         {{#year}}
             <label class="sr-only" for="{{element.id}}">{{#str}} year, qtype_stack {{/str}}</label>
             {{>qtype_stack/metadata/metadatayear}}
         {{/year}}
     </div>
-    <div class="smd-cell-actions smd-row-actions">
+    <div class="col-auto">
         <button id="smd_author_{{id}}_delete" name="smd_delete" type="button"
-                class="btn btn-link btn-sm smd-row-delete smd-edit-inline-flex p-0"
+                class="btn btn-link btn-sm text-danger smd-row-delete smd-edit-inline-flex align-items-center justify-content-center p-0"
                 title="{{#str}} delete {{/str}} {{#str}} author, qtype_stack {{/str}}">
             <i class="fa fa-trash" aria-hidden="true"></i>
             <span class="sr-only">{{#str}} delete {{/str}} {{#str}} author, qtype_stack {{/str}}</span>

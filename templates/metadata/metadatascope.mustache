@@ -130,42 +130,44 @@
             }
         }
 }}
-<details class="smd-scope-card" id="qtype-stack-metadata-scope-{{{firstProp}}}" open>
-    <summary class="smd-scope-header">
+<details class="smd-scope-card border rounded mb-2 overflow-hidden" id="qtype-stack-metadata-scope-{{{firstProp}}}" open>
+    <summary class="smd-scope-header d-flex align-items-center gap-2 p-2 border-bottom">
         <i class="fa fa-chevron-down smd-scope-chevron" aria-hidden="true"></i>
-        <span class="smd-col-label">{{#str}} scope, qtype_stack {{/str}}</span>
+        <span class="smd-col-label text-nowrap mb-0">{{#str}} scope, qtype_stack {{/str}}</span>
         <span class="smd-scope-name flex-grow-1">
             <span class="smd-scope-name-text">{{name}}</span>
         </span>
     </summary>
-    <div class="smd-scope-body">
-        <div class="smd-field-grid smd-scope-name-grid smd-scope-name-editor smd-edit-grid">
-            <div class="smd-cell">
+    <div class="smd-scope-body p-2">
+        <div class="row align-items-start mb-2 smd-scope-name-editor smd-edit-flex">
+            <div class="col-md-4">
                 {{#input}}
-                    <label class="smd-col-label" for="{{element.id}}">
+                    <label class="sr-only" for="{{element.id}}">
                         {{#str}} scopename, qtype_stack {{/str}}
                     </label>
                     {{> core_form/element-text-inline }}
                 {{/input}}
             </div>
-            <button id="smd_scope_{{{firstProp}}}_delete" name="smd_delete" type="button"
-                    class="btn btn-link btn-sm smd-row-delete smd-edit-inline-flex p-0"
-                    title="{{#str}} delete {{/str}} {{#str}} scope, qtype_stack {{/str}}">
-                <i class="fa fa-trash" aria-hidden="true"></i>
-                <span class="sr-only">{{#str}} delete {{/str}} {{#str}} scope, qtype_stack {{/str}}</span>
-            </button>
+            <div class="col-auto">
+                <button id="smd_scope_{{{firstProp}}}_delete" name="smd_delete" type="button"
+                        class="btn btn-link btn-sm text-danger smd-row-delete smd-edit-inline-flex align-items-center justify-content-center p-0"
+                        title="{{#str}} delete {{/str}} {{#str}} scope, qtype_stack {{/str}}">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                    <span class="sr-only">{{#str}} delete {{/str}} {{#str}} scope, qtype_stack {{/str}}</span>
+                </button>
+            </div>
         </div>
-        <div class="smd-field-grid smd-additional-grid smd-field-header">
-            <div class="smd-col-label">{{#str}} property, qtype_stack {{/str}}</div>
-            <div class="smd-col-label">{{#str}} qualifier, qtype_stack {{/str}}</div>
-            <div class="smd-col-label">{{#str}} value, qtype_stack {{/str}}</div>
-            <div></div>
+        <div class="row smd-field-header">
+            <div class="col-md-3 smd-col-label">{{#str}} property, qtype_stack {{/str}}</div>
+            <div class="col-md-3 smd-col-label">{{#str}} qualifier, qtype_stack {{/str}}</div>
+            <div class="col smd-col-label">{{#str}} value, qtype_stack {{/str}}</div>
+            <div class="col-auto"></div>
         </div>
         {{#properties}}
             {{>qtype_stack/metadata/metadataadditional}}
         {{/properties}}
         <div class="mt-2 smd-property-actions smd-edit-block">
-            <button type="button" class="btn btn-sm btn-outline-secondary smd-add-btn" name="smd_add"
+            <button type="button" class="btn btn-sm btn-outline-secondary" name="smd_add"
                     id="smd_property_{{firstProp}}_add"
                     title="{{#str}} addproperty, qtype_stack {{/str}}">
                 <i class="fa fa-plus" aria-hidden="true"></i>

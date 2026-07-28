@@ -1456,18 +1456,18 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
 }
 
 .stack-metadata .smd-section-label {
-    font-size: 0.7rem;
+    font-size: 0.9rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.09em;
-    color: #6c757d;
+    letter-spacing: 0;
+    color: #343a40;
     margin-bottom: 0.6rem;
 }
 
 .stack-metadata .smd-col-label {
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: #495057;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #343a40;
     display: block;
     margin-bottom: 0.25rem;
 }
@@ -1532,6 +1532,17 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
     border-bottom: 1px solid #dee2e6;
 }
 
+.stack-metadata .smd-scope-card[open] > .smd-scope-header {
+    background: rgba(15, 108, 191, 0.08);
+    box-shadow: inset 4px 0 0 #0f6cbf;
+}
+
+.stack-metadata .smd-scope-card > .smd-scope-header:focus-visible {
+    outline: 3px solid #0f6cbf;
+    outline-offset: -3px;
+    background: rgba(15, 108, 191, 0.14);
+}
+
 .stack-metadata .smd-scope-header .smd-col-label {
     white-space: nowrap;
     margin-bottom: 0;
@@ -1558,16 +1569,45 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
     display: none;
 }
 
-.stack-metadata .smd-scope-name-table {
+.stack-metadata .smd-field-grid {
+    display: grid;
+    column-gap: 0.5rem;
+    row-gap: 0.1rem;
+    align-items: flex-start;
+    width: 100%;
+    margin-bottom: 0.1rem;
+}
+
+.stack-metadata .smd-author-grid {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 3fr) minmax(0, 3fr) minmax(4.5rem, 1fr) 2.25rem;
+}
+
+.stack-metadata .smd-additional-grid {
+    grid-template-columns: minmax(0, 24%) minmax(0, 20%) minmax(0, 1fr) 2.25rem;
+}
+
+.stack-metadata .smd-scope-name-grid {
+    grid-template-columns: minmax(0, 24%) 2.25rem;
+}
+
+.stack-metadata .smd-field-header {
+    margin-bottom: 0.3rem;
+}
+
+.stack-metadata .smd-field-header .smd-col-label {
+    margin-bottom: 0;
+}
+
+.stack-metadata .smd-scope-name-editor {
     display: none;
 }
 
-.stack-metadata .smd-editing .smd-scope-name-table {
-    display: table;
+.stack-metadata .smd-editing .smd-scope-name-editor {
+    display: grid;
 }
 
-.stack-metadata .smd-prop-table.smd-scope-name-table {
-    width: 24%;
+.stack-metadata .smd-scope-name-editor .smd-row-delete {
+    margin-top: 1.75rem;
 }
 
 .stack-metadata .smd-scope-chevron {
@@ -1588,53 +1628,17 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 .stack-metadata .smd-section .row .fitem,
 .stack-metadata .smd-section .row .felement,
+.stack-metadata .smd-field-grid .fitem,
+.stack-metadata .smd-field-grid .felement,
 .stack-metadata .smd-scope-body .fitem,
 .stack-metadata .smd-scope-body .felement {
     margin: 0;
     padding: 0;
 }
 
-.stack-metadata .smd-prop-table {
-    width: 100%;
-    border-collapse: collapse;
-    border-spacing: 0;
-    table-layout: fixed;
-    margin-bottom: 0.25rem;
-    border: 0;
-    border-color: transparent;
-    outline: 0;
-    --bs-table-border-color: transparent;
-}
-
-.stack-metadata .smd-prop-table > :not(caption) > * > *,
-.stack-metadata .smd-prop-table thead,
-.stack-metadata .smd-prop-table tbody,
-.stack-metadata .smd-prop-table tr,
-.stack-metadata .smd-prop-table th,
-.stack-metadata .smd-prop-table td {
-    border: 0;
-    border-color: transparent;
-    border-width: 0;
-    box-shadow: none;
-    outline: 0;
-}
-
-.stack-metadata .smd-prop-table th {
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: #495057;
-    padding: 0 0.5rem 0.3rem 0;
-    text-align: left;
-    white-space: nowrap;
-    background: transparent;
-}
-
-.stack-metadata .smd-prop-table td,
+.stack-metadata .smd-field-row,
 .stack-metadata .smd-cell,
 .stack-metadata .smd-cell-actions {
-    padding: 0.1rem 0.5rem 0.1rem 0;
-    vertical-align: top;
-    background: transparent;
     border: 0;
     border-color: transparent;
     border-width: 0;
@@ -1642,10 +1646,11 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
     outline: 0;
 }
 
-.stack-metadata .smd-prop-row {
-    border: 0;
-    box-shadow: none;
-    outline: 0;
+.stack-metadata .smd-cell,
+.stack-metadata .smd-cell-actions {
+    padding: 0.05rem 0;
+    vertical-align: top;
+    background: transparent;
 }
 
 .stack-metadata .smd-cell-text,
@@ -1669,16 +1674,15 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
 }
 
 .stack-metadata .smd-cell-actions {
-    width: 2rem;
+    width: 2.25rem;
     text-align: right;
     vertical-align: top;
-    padding-right: 0;
 }
 
 .stack-metadata .smd-editing .smd-cell .fitem {
     border: 0;
     box-shadow: none;
-    min-height: 3.6rem;
+    min-height: 0;
 }
 
 .stack-metadata .smd-editing .smd-cell .felement {
@@ -1704,7 +1708,7 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
 .stack-metadata .smd-editing .smd-cell .invalid-feedback,
 .stack-metadata .smd-editing .smd-cell .form-control-feedback {
     margin-top: 0.2rem;
-    min-height: 1rem;
+    min-height: 0;
 }
 
 .stack-metadata .smd-author-display,
@@ -1715,6 +1719,10 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
     align-items: center;
     gap: 0.25rem;
     min-width: 0;
+}
+
+.stack-metadata .smd-author-display {
+    grid-column: 1 / -2;
 }
 
 .stack-metadata .smd-license-wrap,
@@ -1744,14 +1752,28 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
 }
 
 .stack-metadata .smd-editing .smd-author-col-headers {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+}
+
+.stack-metadata .smd-editing .smd-author-row .smd-row-actions {
+    align-self: flex-start;
 }
 
 .stack-metadata .smd-row-delete {
     color: #dc3545;
     display: none;
+    align-items: center;
+    justify-content: center;
     flex-shrink: 0;
+    width: 2.25rem;
+    height: 2.25rem;
+    min-width: 2.25rem;
+    line-height: 1;
+}
+
+.stack-metadata .smd-row-delete i {
+    font-size: 1.1rem;
+    line-height: 1;
 }
 
 .stack-metadata .smd-editing .smd-row-delete {
@@ -1759,6 +1781,8 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
 }
 
 .stack-metadata .smd-add-btn {
+    color: #343a40;
+    border-color: #343a40;
     width: 1.75rem;
     height: 1.75rem;
     padding: 0;
@@ -1767,6 +1791,13 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
     justify-content: center;
     border-radius: 50%;
     flex-shrink: 0;
+}
+
+.stack-metadata .smd-add-btn:hover,
+.stack-metadata .smd-add-btn:focus-visible {
+    color: #fff;
+    background-color: #343a40;
+    border-color: #343a40;
 }
 
 .stack-metadata .smd-col-divider {

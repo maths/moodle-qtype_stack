@@ -342,11 +342,12 @@
     <div class="smd-section">
         <div class="smd-section-label">{{#str}} author, qtype_stack {{/str}}</div>
         {{#author.0}}
-        <div class="row mb-1 smd-author-col-headers">
-            <div class="col-3"><span class="smd-col-label">{{#str}} firstname, qtype_stack {{/str}}</span></div>
-            <div class="col-3"><span class="smd-col-label">{{#str}} lastname, qtype_stack {{/str}}</span></div>
-            <div class="col-3"><span class="smd-col-label">{{#str}} institution, qtype_stack {{/str}}</span></div>
-            <div class="col-1"><span class="smd-col-label">{{#str}} year, qtype_stack {{/str}}</span></div>
+        <div class="smd-field-grid smd-author-grid smd-field-header smd-author-col-headers">
+            <div class="smd-col-label">{{#str}} firstname, qtype_stack {{/str}}</div>
+            <div class="smd-col-label">{{#str}} lastname, qtype_stack {{/str}}</div>
+            <div class="smd-col-label">{{#str}} institution, qtype_stack {{/str}}</div>
+            <div class="smd-col-label">{{#str}} year, qtype_stack {{/str}}</div>
+            <div></div>
         </div>
         {{/author.0}}
         {{#author}}

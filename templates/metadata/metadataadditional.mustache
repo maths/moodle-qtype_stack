@@ -45,15 +45,11 @@
                     "iderror": "smde_2_additional_value_error"
                 }
             },
-            "id": "2",
-            "istest": true
+            "id": "2"
         }
 }}
-{{#istest}}
-<table>
-{{/istest}}
-<tr class="smd-prop-row" id="qtype-stack-metadata-additional-{{{id}}}">
-    <td class="smd-cell">
+<div class="smd-field-grid smd-additional-grid smd-field-row smd-prop-row" id="qtype-stack-metadata-additional-{{{id}}}">
+    <div class="smd-cell">
         <span class="smd-cell-text">{{property.element.value}}</span>
         {{#property}}
             <label class="sr-only" for="{{element.id}}">
@@ -61,8 +57,8 @@
             </label>
             {{> core_form/element-text-inline }}
         {{/property}}
-    </td>
-    <td class="smd-cell">
+    </div>
+    <div class="smd-cell">
         <span class="smd-cell-text">{{qualifier.element.value}}</span>
         {{#qualifier}}
             <label class="sr-only" for="{{element.id}}">
@@ -70,8 +66,8 @@
             </label>
             {{> core_form/element-text-inline }}
         {{/qualifier}}
-    </td>
-    <td class="smd-cell">
+    </div>
+    <div class="smd-cell">
         <span class="smd-cell-text">{{value.element.value}}</span>
         {{#value}}
             <label class="sr-only" for="{{element.id}}">
@@ -79,16 +75,13 @@
             </label>
             {{> core_form/element-text-inline }}
         {{/value}}
-    </td>
-    <td class="smd-cell-actions">
+    </div>
+    <div class="smd-cell-actions">
         <button id="smd_additional_{{id}}_delete" name="smd_delete" type="button"
                 class="btn btn-link btn-sm smd-row-delete p-0"
                 title="{{#str}} delete {{/str}} {{#str}} property, qtype_stack {{/str}}">
             <i class="fa fa-trash" aria-hidden="true"></i>
             <span class="sr-only">{{#str}} delete {{/str}} {{#str}} property, qtype_stack {{/str}}</span>
         </button>
-    </td>
-</tr>
-{{#istest}}
-</table>
-{{/istest}}
+    </div>
+</div>

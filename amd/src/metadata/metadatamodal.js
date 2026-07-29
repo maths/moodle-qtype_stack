@@ -55,6 +55,7 @@ export class MetadataModal extends Modal {
      * Cancel button needs to close the modal without updating form.
      */
     cancel() {
+        metadata.container.revert();
         super.hide();
     }
 }

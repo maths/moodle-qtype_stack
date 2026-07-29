@@ -11,7 +11,10 @@ export const metadata = {
         ],
         placeholder: 'Select a license',
     },
-    container: {update: jest.fn()},
+    container: {
+        update: jest.fn(),
+        revert: jest.fn(),
+    },
     jsonStringify: jest.fn(),
     jsonToState: jest.fn(),
     state: {},

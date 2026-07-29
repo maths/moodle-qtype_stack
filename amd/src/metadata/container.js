@@ -453,7 +453,6 @@ export default class extends BaseComponent {
             notifyFieldValidationFailure(jsonElement, e.message);
             jsonElement.value = previousdataJSON;
             metadata.lib.brokenMetadata = e.message;
-            this.reactive.dispatch('updateFromJson', metadata.jsonToState('{}'));
             return;
         }
         jsonElement.value = metadata.jsonStringify(previousdata, 4);

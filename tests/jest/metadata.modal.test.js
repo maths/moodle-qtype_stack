@@ -24,10 +24,14 @@ beforeEach(() => {
 // ── cancel ─────────────────────────────────────────────────────────────────────
 
 describe('cancel', () => {
-    test('delegates directly to super.hide()', () => {
+    test('reverts metadata before delegating to super.hide()', () => {
         const modal = new MetadataModal();
         modal.cancel();
+        expect(metadata.container.revert).toHaveBeenCalledTimes(1);
         expect(Modal.prototype.hide).toHaveBeenCalledTimes(1);
+        expect(metadata.container.revert.mock.invocationCallOrder[0]).toBeLessThan(
+            Modal.prototype.hide.mock.invocationCallOrder[0]
+        );
     });
 });
 

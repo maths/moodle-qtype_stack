@@ -398,26 +398,21 @@ describe('revert', () => {
         expect(reactive.dispatch).toHaveBeenCalledWith('updateFromJson', parsed);
     });
 
-    test('notifies validation failure and sets brokenMetadata when saved value is invalid JSON', () => {
+    test('notifies validation failure and restores broken JSON when saved value is invalid', () => {
         const {instance, reactive} = makeInstance();
         const jsonEl = {value: ''};
         instance.getElement.mockReturnValue(jsonEl);
         mockQuerySelector.mockReturnValue({value: '{broken'});
         const parseError = new SyntaxError('Unexpected token');
-        let callCount = 0;
         metadata.jsonToState.mockImplementation(() => {
-            // First call: parsing the saved (invalid) JSON → throws.
-            // Second call: inside the catch block for the dispatch argument (valid '{}') → succeeds.
-            if (callCount++ === 0) {
-                throw parseError;
-            }
-            return {};
+            throw parseError;
         });
         reactive.dispatch.mockResolvedValue(undefined);
         instance.revert();
         expect(notifyFieldValidationFailure).toHaveBeenCalledWith(jsonEl, parseError.message);
+        expect(jsonEl.value).toBe('{broken');
         expect(metadata.lib.brokenMetadata).toBe(parseError.message);
-        expect(reactive.dispatch).toHaveBeenCalledWith('updateFromJson', {});
+        expect(reactive.dispatch).not.toHaveBeenCalled();
     });
 });
 

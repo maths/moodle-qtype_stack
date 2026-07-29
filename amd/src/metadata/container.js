@@ -41,11 +41,23 @@ export default class extends BaseComponent {
             FORM: '#qtype-stack-metadata-content',
             JSONINPUT: '#id_metadata_json',
             REQUIREDINPUTS: '#qtype-stack-metadata-content input[aria-required="true"]',
+            VALIDATIONERRORS: '#qtype-stack-metadata-content .is-invalid',
             ALLINPUTS: '#qtype-stack-metadata-content [id^="smdi"]',
             DETAILS: '#qtype-stack-metadata-content details[id]',
+            ADDAUTHOR: '[id^="smdi_"][id$="_author_firstName"]',
+            ADDLANGUAGE: '[id^="smdi_"][id$="_language_value"]',
+            ADDPROPERTY: '[id^="smdi_"][id$="_additional_property"]',
+            ADDSCOPE: '[id^="smdi_"][id$="_additional_scope"]',
+            ADDBUTTONS: '[name="smd_add"], #stack-metadata-make-author',
+            SCOPECARD: '.smd-scope-card',
+            DELETEADDITIONAL: '[id^="smd_property_"][id$="_add"]',
+            DELETEAUTHOR: '#smd_author_0_add',
+            DELETELANGUAGE: '#smd_language_0_add',
+            DELETESCOPE: '#smd_scope_0_add',
         };
         this.isEditing = false;
         this.detailsOpen = {};
+        this.pendingFocus = null;
         metadata.container = this;
     }
 
@@ -264,6 +276,8 @@ export default class extends BaseComponent {
             notifyFieldValidationFailure(jsonElement, metadata.lib.brokenMetadata);
             delete metadata.lib.brokenMetadata;
         }
+
+        this.restorePendingFocus();
     }
 
     /**
@@ -273,7 +287,6 @@ export default class extends BaseComponent {
      */
     async toggleEditing(event) {
         if (event.currentTarget.checked) {
-            event.preventDefault();
             this.isEditing = true;
             await this.reloadContainerComponent({state: this.reactive.state});
             return;
@@ -361,12 +374,11 @@ export default class extends BaseComponent {
      * @param {*} event
      */
     async addItem(event) {
-        event?.preventDefault?.();
-        event?.stopPropagation?.();
         const result = await this.update(true);
         if (result) {
             const parts = event.currentTarget.id.split('_');
-            this.reactive.dispatch('addItem', parts[1], parts[2]);
+            this.queueFocus('add', parts[1], event.currentTarget);
+            await this.reactive.dispatch('addItem', parts[1], parts[2]);
         }
     }
     /**
@@ -377,12 +389,11 @@ export default class extends BaseComponent {
      * @param {*} event
      */
     async deleteItem(event) {
-        event?.preventDefault?.();
-        event?.stopPropagation?.();
         const result = await this.update(false);
         if (result) {
             const parts = event.currentTarget.id.split('_');
-            this.reactive.dispatch('deleteRow', parts[1], parts[2]);
+            this.queueFocus('delete', parts[1], event.currentTarget);
+            await this.reactive.dispatch('deleteRow', parts[1], parts[2]);
         }
     }
 
@@ -409,7 +420,8 @@ export default class extends BaseComponent {
     async makeAuthor() {
         const result = await this.update(false);
         if (result) {
-            this.reactive.dispatch('addItem', 'author', 'user');
+            this.queueFocus('add', 'author', this.getElement(this.selectors.MAKEAUTHOR));
+            await this.reactive.dispatch('addItem', 'author', 'user');
         }
     }
 
@@ -444,5 +456,89 @@ export default class extends BaseComponent {
     setDetailsState(event) {
         const detail = event.currentTarget;
         this.detailsOpen[detail.id] = detail.open;
+    }
+
+    /**
+     * Remember where focus should move after adding or deleting an item.
+     *
+     * @param {string} action
+     * @param {string} category
+     * @param {HTMLElement} target
+     */
+    queueFocus(action, category, target) {
+        this.pendingFocus = null;
+        const selectorName = (action + category).toUpperCase();
+        const selector = this.selectors[selectorName];
+        if (!selector) {
+            return;
+        }
+
+        switch (action) {
+            case 'add':
+                this.pendingFocus = {selector, selection: 'last'};
+                break;
+            case 'delete':
+                this.pendingFocus = {selector, fallbackSelector: selectorName === 'DELETEADDITIONAL' ?
+                    this.selectors.DELETESCOPE : null};
+                break;
+        }
+        if (selectorName === 'ADDPROPERTY' || selectorName === 'DELETEADDITIONAL') {
+            const scopeCard = target?.closest?.(this.selectors.SCOPECARD);
+            this.pendingFocus.scopeName = scopeCard?.querySelector?.(this.selectors.ADDSCOPE)?.value ?? null;
+        }
+    }
+
+    /**
+     * Restore focus after reactive re-rendering.
+     */
+    restorePendingFocus() {
+        if (!this.pendingFocus) {
+            return;
+        }
+
+        const pendingFocus = this.pendingFocus;
+        this.pendingFocus = null;
+        if (this.getElements(this.selectors.VALIDATIONERRORS).length) {
+            return;
+        }
+        let focusTarget = null;
+
+        const scopeCard = pendingFocus.scopeName ? this.getScopeCard(pendingFocus.scopeName) : null;
+        if (pendingFocus.selection === 'last') {
+            const elements = Array.from(
+                scopeCard?.querySelectorAll?.(pendingFocus.selector) || this.getElements(pendingFocus.selector)
+            );
+            focusTarget = elements[elements.length - 1] || null;
+        } else {
+            focusTarget = scopeCard?.querySelector?.(pendingFocus.selector) ||
+                this.getElement(pendingFocus.fallbackSelector || pendingFocus.selector);
+        }
+
+        if (focusTarget?.focus) {
+            if (!focusTarget.matches?.(this.selectors.ADDBUTTONS)) {
+                focusTarget.focus();
+            } else {
+                try {
+                    focusTarget.focus({focusVisible: true});
+                } catch {
+                    focusTarget.focus();
+                }
+            }
+        }
+        if (focusTarget?.select) {
+            focusTarget.select();
+        }
+    }
+
+    /**
+     * Get a scope card from its scope name.
+     *
+     * @param {string} scopeName
+     * @returns {HTMLElement|null}
+     */
+    getScopeCard(scopeName) {
+        return Array.from(this.getElements(this.selectors.SCOPECARD)).find((scopeCard) => {
+            return scopeCard.querySelector?.(this.selectors.ADDSCOPE)?.value === scopeName;
+        }) ?? null;
     }
 }

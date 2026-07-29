@@ -228,30 +228,125 @@ describe('deleteItem', () => {
     });
 });
 
-// ── enableEditing ───────────────────────────────────────────────────────────────
+// ── focus handling ─────────────────────────────────────────────────────────────
 
-describe('enableEditing', () => {
-    test('sets edit mode and adds the edit class to the rendered form', () => {
+describe('focus handling', () => {
+    test('restorePendingFocus moves focus to the first input in the last added row', () => {
         const {instance} = makeInstance();
-        const event = {preventDefault: jest.fn()};
-        const form = {classList: {add: jest.fn()}};
+        const oldInput = {id: 'smdi_1_language_value', focus: jest.fn(), select: jest.fn()};
+        const newInput = {
+            id: 'smdi_2_language_value',
+            focus: jest.fn(),
+            select: jest.fn(),
+        };
+        instance.getElements.mockImplementation(sel => {
+            if (sel === instance.selectors.ADDLANGUAGE) {
+                return [oldInput, newInput];
+            }
+            return [];
+        });
+
+        instance.queueFocus('add', 'language', null);
+        instance.restorePendingFocus();
+
+        expect(newInput.focus).toHaveBeenCalled();
+        expect(newInput.select).toHaveBeenCalled();
+    });
+
+    test('restorePendingFocus moves focus to the corresponding add button after deletion', () => {
+        const {instance} = makeInstance();
+        const add = {
+            id: 'smd_language_0_add',
+            focus: jest.fn(),
+            matches: jest.fn(sel => sel === instance.selectors.ADDBUTTONS),
+        };
         instance.getElement.mockImplementation(sel => {
-            if (sel === instance.selectors.FORM) {
-                return form;
+            if (sel === instance.selectors.DELETELANGUAGE) {
+                return add;
             }
             return null;
         });
-        instance.enableEditing(event);
-        expect(event.preventDefault).toHaveBeenCalled();
-        expect(instance.isEditing).toBe(true);
-        expect(form.classList.add).toHaveBeenCalledWith('smd-editing');
+
+        instance.queueFocus('delete', 'language', {id: 'smd_language_1_delete'});
+        instance.restorePendingFocus();
+
+        expect(add.focus).toHaveBeenCalledWith({focusVisible: true});
     });
 
-    test('still records edit mode when the form element is missing', () => {
+    test('restorePendingFocus does not override validation errors', () => {
         const {instance} = makeInstance();
-        instance.getElement.mockReturnValue(null);
-        expect(() => instance.enableEditing()).not.toThrow();
-        expect(instance.isEditing).toBe(true);
+        const add = {
+            id: 'smd_language_0_add',
+            focus: jest.fn(),
+        };
+        instance.getElements.mockImplementation(sel => {
+            if (sel === instance.selectors.VALIDATIONERRORS) {
+                return [{id: 'smdi_1_language_value'}];
+            }
+            return [];
+        });
+        instance.getElement.mockImplementation(sel => {
+            if (sel === instance.selectors.DELETELANGUAGE) {
+                return add;
+            }
+            return null;
+        });
+
+        instance.queueFocus('delete', 'language', {id: 'smd_language_1_delete'});
+        instance.restorePendingFocus();
+
+        expect(add.focus).not.toHaveBeenCalled();
+    });
+
+    test('restorePendingFocus uses the scope add button for deleted additional metadata', () => {
+        const {instance} = makeInstance();
+        const add = {id: 'smd_property_1_add', focus: jest.fn()};
+        const oldScopeCard = {
+            querySelector: jest.fn(sel => {
+                if (sel === instance.selectors.ADDSCOPE) {
+                    return {value: 'dc'};
+                }
+                return null;
+            }),
+        };
+        const newScopeCard = {
+            id: 'qtype-stack-metadata-scope-2',
+            querySelector: jest.fn(sel => {
+                if (sel === instance.selectors.ADDSCOPE) {
+                    return {value: 'dc'};
+                }
+                if (sel === instance.selectors.DELETEADDITIONAL) {
+                    return add;
+                }
+                return null;
+            }),
+        };
+        const deleted = {
+            closest: jest.fn(() => oldScopeCard),
+        };
+        instance.getElements.mockImplementation(sel => {
+            if (sel === instance.selectors.SCOPECARD) {
+                return [newScopeCard];
+            }
+            return [];
+        });
+
+        instance.queueFocus('delete', 'additional', deleted);
+        instance.restorePendingFocus();
+
+        expect(add.focus).toHaveBeenCalled();
+    });
+
+    test('setDetailsState records scope open state', () => {
+        const {instance} = makeInstance();
+        const detail = {
+            id: 'qtype-stack-metadata-scope-1',
+            open: false,
+        };
+
+        instance.setDetailsState({currentTarget: detail});
+
+        expect(instance.detailsOpen['qtype-stack-metadata-scope-1']).toBe(false);
     });
 });
 
@@ -264,9 +359,10 @@ describe('toggleEditing', () => {
             preventDefault: jest.fn(),
             currentTarget: {checked: true},
         };
-        jest.spyOn(instance, 'enableEditing');
+        jest.spyOn(instance, 'reloadContainerComponent').mockResolvedValue(undefined);
         await instance.toggleEditing(event);
-        expect(instance.enableEditing).toHaveBeenCalledWith(event);
+        expect(instance.isEditing).toBe(true);
+        expect(instance.reloadContainerComponent).toHaveBeenCalledWith({state: undefined});
     });
 
     test('validates and updates in read mode when the switch is unchecked', async () => {
@@ -275,12 +371,10 @@ describe('toggleEditing', () => {
         instance.isEditing = true;
         jest.spyOn(instance, 'validateInputs').mockReturnValue(true);
         jest.spyOn(instance, 'update').mockResolvedValue(true);
-        jest.spyOn(instance, 'syncEditToggle').mockImplementation(() => {});
         await instance.toggleEditing(event);
         expect(instance.validateInputs).toHaveBeenCalled();
         expect(instance.update).toHaveBeenCalledWith(false);
         expect(instance.isEditing).toBe(false);
-        expect(instance.syncEditToggle).toHaveBeenCalled();
         expect(event.currentTarget.checked).toBe(false);
     });
 
@@ -300,36 +394,11 @@ describe('toggleEditing', () => {
         instance.isEditing = true;
         jest.spyOn(instance, 'validateInputs').mockReturnValue(true);
         jest.spyOn(instance, 'update').mockResolvedValue(false);
+        jest.spyOn(instance, 'reloadContainerComponent').mockResolvedValue(undefined);
         await instance.toggleEditing(event);
         expect(instance.isEditing).toBe(true);
         expect(event.currentTarget.checked).toBe(true);
-    });
-});
-
-// ── disableEditing ──────────────────────────────────────────────────────────────
-
-describe('disableEditing', () => {
-    test('clears edit mode and removes the edit class from the rendered form', () => {
-        const {instance} = makeInstance();
-        const form = {classList: {remove: jest.fn()}};
-        instance.isEditing = true;
-        instance.getElement.mockImplementation(sel => {
-            if (sel === instance.selectors.FORM) {
-                return form;
-            }
-            return null;
-        });
-        instance.disableEditing();
-        expect(instance.isEditing).toBe(false);
-        expect(form.classList.remove).toHaveBeenCalledWith('smd-editing');
-    });
-
-    test('still clears edit mode when the form element is missing', () => {
-        const {instance} = makeInstance();
-        instance.isEditing = true;
-        instance.getElement.mockReturnValue(null);
-        expect(() => instance.disableEditing()).not.toThrow();
-        expect(instance.isEditing).toBe(false);
+        expect(instance.reloadContainerComponent).toHaveBeenCalledWith({state: undefined});
     });
 });
 

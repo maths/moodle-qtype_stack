@@ -6269,6 +6269,8 @@ ta2:4*sqrt(2*x^2+1)+1;
         ];
         $formform->prt3trueanswernote[0] = 'prt3-1-T';
         $formform->prt3truenextnode[0] = '-1';
+        $formform->metadata = '';
+        $formform->prescribedmetadata = '';
         return $formform;
     }
 

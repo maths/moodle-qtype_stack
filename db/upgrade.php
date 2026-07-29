@@ -1046,7 +1046,6 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2026042402, 'qtype', 'stack');
     }
 
-
     if ($oldversion < 2026071700) {
         // Define field metadata to be added to qtype_stack_options.
         $table = new xmldb_table('qtype_stack_options');

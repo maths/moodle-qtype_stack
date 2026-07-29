@@ -202,7 +202,6 @@ export default class extends BaseComponent {
         }
 
         await this.renderComponent(metadataContainer, 'qtype_stack/metadata/metadatacontent', data);
-        this.syncEditToggle();
 
         // Add all the event listeners as all elements have been destroyed and rebuilt.
         const detailSections = this.getElements(this.selectors.DETAILS);
@@ -213,9 +212,8 @@ export default class extends BaseComponent {
                 this.setDetailsState
             );
         }
-
         this.addEventListener(
-            this.getEditToggle(),
+            document.querySelector(this.selectors.EDITTOGGLE),
             'change',
             this.toggleEditing
         );
@@ -269,26 +267,15 @@ export default class extends BaseComponent {
     }
 
     /**
-     * Switch the modal from read mode to edit mode.
-     *
-     * @param {Event} event
-     */
-    enableEditing(event) {
-        event?.preventDefault?.();
-        this.isEditing = true;
-        const form = this.getElement(this.selectors.FORM);
-        form?.classList.add('smd-editing');
-        this.syncEditToggle();
-    }
-
-    /**
      * Toggle edit mode. Turning edit mode off validates and updates the state first.
      *
      * @param {Event} event
      */
     async toggleEditing(event) {
         if (event.currentTarget.checked) {
-            this.enableEditing(event);
+            event.preventDefault();
+            this.isEditing = true;
+            await this.reloadContainerComponent({state: this.reactive.state});
             return;
         }
         if (!this.validateInputs()) {
@@ -297,41 +284,11 @@ export default class extends BaseComponent {
         }
         this.isEditing = false;
         const result = await this.update(false);
-        if (result) {
-            this.syncEditToggle();
-        } else {
+        if (!result) {
             this.isEditing = true;
             event.currentTarget.checked = true;
+            await this.reloadContainerComponent({state: this.reactive.state});
         }
-    }
-
-    /**
-     * Switch the modal back to read mode.
-     */
-    disableEditing() {
-        this.isEditing = false;
-        const form = this.getElement(this.selectors.FORM);
-        form?.classList.remove('smd-editing');
-        this.syncEditToggle();
-    }
-
-    /**
-     * Keep the edit switch in step with the current edit state.
-     */
-    syncEditToggle() {
-        const toggle = this.getEditToggle();
-        if (toggle) {
-            toggle.checked = this.isEditing;
-        }
-    }
-
-    /**
-     * Get the edit toggle. It lives in the modal header, outside the refreshed content.
-     *
-     * @returns {HTMLElement|null}
-     */
-    getEditToggle() {
-        return this.getElement(this.selectors.EDITTOGGLE) ?? document.querySelector(this.selectors.EDITTOGGLE);
     }
 
     /**

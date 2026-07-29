@@ -114,7 +114,8 @@ async function openModal() {
         addListener = true;
     } else {
         if (metadata.container) {
-            metadata.container.disableEditing();
+            metadata.container.isEditing = false;
+            document.querySelector(metadata.container.selectors.EDITTOGGLE).checked = false;
             await metadata.container.reloadContainerComponent({state: metadata.state});
         }
         modal.show();

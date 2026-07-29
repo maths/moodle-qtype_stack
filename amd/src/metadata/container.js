@@ -42,8 +42,10 @@ export default class extends BaseComponent {
             JSONINPUT: '#id_metadata_json',
             REQUIREDINPUTS: '#qtype-stack-metadata-content input[aria-required="true"]',
             ALLINPUTS: '#qtype-stack-metadata-content [id^="smdi"]',
+            DETAILS: '#qtype-stack-metadata-content details[id]',
         };
         this.isEditing = false;
+        this.detailsOpen = {};
         metadata.container = this;
     }
 
@@ -105,6 +107,11 @@ export default class extends BaseComponent {
     }
 
     async reloadContainerComponent({state}) {
+        const details = this.getElements(this.selectors.DETAILS);
+        for (const detail of details) {
+            this.detailsOpen[detail.id] = detail.open;
+        }
+
         // Mustache data is not fully compatible with state object so we need to convert it
         // into a plain object.
         const data = {
@@ -115,6 +122,7 @@ export default class extends BaseComponent {
             scope: [],
             freeform: this.createDataElement(false, 0, 'freeform_value', state.freeform.value || '{}'),
             isEditing: this.isEditing,
+            isJsonOpen: this.detailsOpen['qtype-stack-metadata-json-section'] ?? false,
         };
 
         // Need to copy licenses list as we modify to mark as selected.
@@ -164,11 +172,14 @@ export default class extends BaseComponent {
             scopeHolder[additional.scope].push(element);
         });
         for (const scope in scopeHolder) {
+            const scopeId = 'qtype-stack-metadata-scope-' + scopeHolder[scope][0].id;
             const current = {
+                id: scopeId,
                 name: scope,
                 firstProp: scopeHolder[scope][0].id,
                 properties: scopeHolder[scope],
-                input: this.createDataElement(true, scopeHolder[scope][0].id, 'additional_scope', scope)
+                input: this.createDataElement(true, scopeHolder[scope][0].id, 'additional_scope', scope),
+                isOpen: this.detailsOpen[scopeId] ?? true,
             };
             data.scope.push(current);
         }
@@ -194,6 +205,15 @@ export default class extends BaseComponent {
         this.syncEditToggle();
 
         // Add all the event listeners as all elements have been destroyed and rebuilt.
+        const detailSections = this.getElements(this.selectors.DETAILS);
+        for (const detailSection of detailSections) {
+            this.addEventListener(
+                detailSection,
+                'toggle',
+                this.setDetailsState
+            );
+        }
+
         this.addEventListener(
             this.getEditToggle(),
             'change',
@@ -457,5 +477,15 @@ export default class extends BaseComponent {
         }
         jsonElement.value = metadata.jsonStringify(previousdata, 4);
         this.reactive.dispatch('updateFromJson', previousdata);
+    }
+
+    /**
+     * Update stored state when a collapsible section is toggled.
+     *
+     * @param {Event} event
+     */
+    setDetailsState(event) {
+        const detail = event.currentTarget;
+        this.detailsOpen[detail.id] = detail.open;
     }
 }

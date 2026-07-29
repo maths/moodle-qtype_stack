@@ -465,7 +465,8 @@
     </p>
 
     {{! JSON metadata — collapsible }}
-    <details class="smd-section smd-json-section smd-edit-block">
+    <details class="smd-section smd-json-section smd-edit-block"
+            id="qtype-stack-metadata-json-section" {{#isJsonOpen}}open{{/isJsonOpen}}>
         <summary class="smd-section-label">
             {{#str}} JSONmetadata, qtype_stack {{/str}}
             <i class="fa fa-chevron-down fa-xs ms-1" aria-hidden="true"></i>

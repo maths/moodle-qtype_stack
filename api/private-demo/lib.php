@@ -15,9 +15,13 @@
  */
 
 define('STACK_PRIVATE_DEMO_ROOT', realpath(__DIR__ . '/../..'));
-define('STACK_PRIVATE_DEMO_LIBRARY_ROOT', realpath(STACK_PRIVATE_DEMO_ROOT . '/samplequestions/stacklibrary'));
+define('STACK_PRIVATE_DEMO_SAMPLEQUESTIONS_ROOT', realpath(STACK_PRIVATE_DEMO_ROOT . '/samplequestions'));
+define(
+    'STACK_PRIVATE_DEMO_LIBRARY_ROOT',
+    realpath(STACK_PRIVATE_DEMO_ROOT . '/samplequestions/' . trim(getenv('STACK_PRIVATE_DEMO_LIBRARY') ?: 'stacklibrary', '/'))
+);
 define('STACK_PRIVATE_DEMO_CORS_ROOT', realpath(STACK_PRIVATE_DEMO_ROOT . '/corsscripts'));
-define('STACK_PRIVATE_DEMO_MANIFEST', getenv('STACK_PRIVATE_DEMO_MANIFEST') ?: __DIR__ . '/question-manifest.json');
+define('STACK_PRIVATE_DEMO_MANIFEST', __DIR__ . '/assets/question-manifest.json');
 define('STACK_PRIVATE_DEMO_API_BASE', rtrim(getenv('STACK_PRIVATE_DEMO_API_URL') ?: 'http://api', '/'));
 
 /**
@@ -117,9 +121,9 @@ function stack_private_demo_question_definition($questionid) {
 }
 
 /**
- * Resolve a stacklibrary-relative path to a local XML question definition.
+ * Resolve a question-library-relative path to a local XML question definition.
  *
- * @param string $relativepath Relative path under samplequestions/stacklibrary.
+ * @param string $relativepath Relative path under the configured question library.
  * @param bool $manifestpath Whether the path came from the generated manifest.
  * @return string XML question definition.
  */

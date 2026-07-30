@@ -76,7 +76,7 @@ $idquestion = 'q_ae2a68e432c6de1b';
       <section class="notes-section">
         <h2>Embedded By File Location</h2>
         <p>
-          This embedded question is selected by a stacklibrary-relative file location:
+          This embedded question is selected by a configured question-library-relative file location:
           <code><?=htmlspecialchars($pathquestion)?></code>.
         </p>
         <iframe

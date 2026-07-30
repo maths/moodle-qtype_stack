@@ -10,7 +10,7 @@
  * Build the private demo question manifest.
  *
  * The browser receives opaque question ids from this manifest. Only the
- * frontend container maps those ids back to stacklibrary XML files.
+ * frontend container maps those ids back to question-library XML files.
  *
  * @package    qtype_stack
  * @copyright  2026 University of Edinburgh
@@ -22,11 +22,14 @@ if (PHP_SAPI !== 'cli') {
     die();
 }
 
-$root = realpath(__DIR__ . '/../../samplequestions/stacklibrary');
-$output = getenv('STACK_PRIVATE_DEMO_MANIFEST') ?: __DIR__ . '/question-manifest.json';
+require_once(__DIR__ . '/lib.php');
 
-if ($root === false) {
-    fwrite(STDERR, "Could not find stacklibrary.\n");
+$root = STACK_PRIVATE_DEMO_LIBRARY_ROOT;
+$output = __DIR__ . '/assets/question-manifest.json';
+$libraryroot = 'samplequestions/' . getenv('STACK_PRIVATE_DEMO_LIBRARY');
+
+if ($root === false || !is_dir($root)) {
+    fwrite(STDERR, "Could not find $libraryroot.\n");
     exit(1);
 }
 
@@ -117,7 +120,7 @@ if ($errors) {
 }
 
 $manifest = [
-    'root' => 'samplequestions/stacklibrary',
+    'root' => $libraryroot,
     'questions' => $questions,
 ];
 

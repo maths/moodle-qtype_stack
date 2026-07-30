@@ -8,6 +8,7 @@ RUN a2enmod rewrite
 
 ENV APACHE_DOCUMENT_ROOT=/srv/stack/api/private-demo/public
 ENV STACK_PRIVATE_DEMO_API_URL=http://api
+ENV STACK_PRIVATE_DEMO_LIBRARY=stacklibrary
 
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
@@ -19,5 +20,4 @@ RUN mkdir -p /srv/stack/api/private-demo/public/assets && \
     cp /srv/stack/api/public/api.css /srv/stack/api/private-demo/public/assets/api.css && \
     cp /srv/stack/api/public/stackjsvle.js /srv/stack/api/private-demo/public/assets/stackjsvle.js && \
     cp /srv/stack/api/public/stackshared.js /srv/stack/api/private-demo/public/assets/stackshared.js && \
-    cp /srv/stack/api/public/logo_large.png /srv/stack/api/private-demo/public/assets/logo_large.png && \
-    test -f /srv/stack/api/private-demo/question-manifest.json
+    cp /srv/stack/api/public/logo_large.png /srv/stack/api/private-demo/public/assets/logo_large.png

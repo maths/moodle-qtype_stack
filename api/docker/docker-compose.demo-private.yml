@@ -33,6 +33,7 @@ services:
     restart: unless-stopped
     environment:
       STACK_PRIVATE_DEMO_API_URL: http://api
+      STACK_PRIVATE_DEMO_LIBRARY: stacklibrary
     ports:
       - "80:80"
     depends_on:

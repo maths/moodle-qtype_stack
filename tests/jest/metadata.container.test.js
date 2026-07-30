@@ -481,17 +481,17 @@ describe('makeAuthor', () => {
 // ── updateInputs ───────────────────────────────────────────────────────────────
 
 describe('updateInputs', () => {
-    test('notifies validation failure and returns early when JSON is invalid', () => {
+    test('notifies validation failure and returns early when JSON is invalid', async () => {
         const {instance, reactive} = makeInstance();
         const jsonEl = {value: '{invalid json'};
         instance.getElement.mockReturnValue(jsonEl);
         metadata.jsonToState.mockImplementation(() => { throw new SyntaxError('Unexpected token'); });
-        instance.updateInputs();
+        await instance.updateInputs();
         expect(notifyFieldValidationFailure).toHaveBeenCalledWith(jsonEl, expect.any(String));
         expect(reactive.dispatch).not.toHaveBeenCalled();
     });
 
-    test('clears error, updates element value and dispatches updateFromJson on valid JSON', () => {
+    test('clears error, updates element value and dispatches updateFromJson on valid JSON', async () => {
         const {instance, reactive} = makeInstance();
         const jsonEl = {value: '{"language":[{"id":1,"value":"en"}]}'};
         instance.getElement.mockReturnValue(jsonEl);
@@ -499,7 +499,7 @@ describe('updateInputs', () => {
         metadata.jsonToState.mockReturnValue(parsed);
         metadata.jsonStringify.mockReturnValue('prettified');
         reactive.dispatch.mockResolvedValue(undefined);
-        instance.updateInputs();
+        await instance.updateInputs();
         expect(notifyFieldValidationFailure).toHaveBeenCalledWith(jsonEl, '');
         expect(jsonEl.value).toBe('prettified');
         expect(reactive.dispatch).toHaveBeenCalledWith('updateFromJson', parsed);
@@ -509,7 +509,7 @@ describe('updateInputs', () => {
 // ── revert ─────────────────────────────────────────────────────────────────────
 
 describe('revert', () => {
-    test('restores JSON and dispatches updateFromJson when saved value is valid', () => {
+    test('restores JSON and dispatches updateFromJson when saved value is valid', async () => {
         const {instance, reactive} = makeInstance();
         const jsonEl = {value: ''};
         instance.getElement.mockReturnValue(jsonEl);
@@ -519,12 +519,12 @@ describe('revert', () => {
         metadata.jsonToState.mockReturnValue(parsed);
         metadata.jsonStringify.mockReturnValue('pretty');
         reactive.dispatch.mockResolvedValue(undefined);
-        instance.revert();
+        await instance.revert();
         expect(jsonEl.value).toBe('pretty');
         expect(reactive.dispatch).toHaveBeenCalledWith('updateFromJson', parsed);
     });
 
-    test('notifies validation failure and restores broken JSON when saved value is invalid', () => {
+    test('notifies validation failure and restores broken JSON when saved value is invalid', async () => {
         const {instance, reactive} = makeInstance();
         const jsonEl = {value: ''};
         instance.getElement.mockReturnValue(jsonEl);
@@ -534,7 +534,7 @@ describe('revert', () => {
             throw parseError;
         });
         reactive.dispatch.mockResolvedValue(undefined);
-        instance.revert();
+        await instance.revert();
         expect(notifyFieldValidationFailure).toHaveBeenCalledWith(jsonEl, parseError.message);
         expect(jsonEl.value).toBe('{broken');
         expect(metadata.lib.brokenMetadata).toBe(parseError.message);
@@ -637,13 +637,16 @@ describe('reloadContainerComponent', () => {
         expect(instance.addEventListener).toHaveBeenCalledWith(fakeButton, 'click', instance.deleteItem);
     });
 
-    test('update inputs button queues focus and calls updateInputs', async () => {
+    test('update inputs button queues focus and awaits updateInputs', async () => {
         const {instance} = makeInstance();
         const state = makeState();
         metadata.jsonStringify.mockReturnValue('{}');
         const fakeContainer = {};
         const fakeUpdateInputs = {};
-        jest.spyOn(instance, 'updateInputs').mockImplementation(() => {});
+        let resolveUpdateInputs = null;
+        jest.spyOn(instance, 'updateInputs').mockImplementation(() => new Promise(resolve => {
+            resolveUpdateInputs = resolve;
+        }));
         mockQuerySelector.mockReturnValue({value: '{}'});
         instance.getElement.mockImplementation(sel => {
             if (sel === instance.selectors.METADATACONTAINER) {
@@ -661,10 +664,18 @@ describe('reloadContainerComponent', () => {
         const updateInputsListener = instance.addEventListener.mock.calls.find(
             call => call[0] === fakeUpdateInputs && call[1] === 'click'
         )[2];
-        updateInputsListener();
+        let completed = false;
+        const listenerPromise = updateInputsListener().then(() => {
+            completed = true;
+        });
 
         expect(instance.pendingFocus).toEqual({selector: instance.selectors.UPDATEINPUTS});
         expect(instance.updateInputs).toHaveBeenCalled();
+        await Promise.resolve();
+        expect(completed).toBe(false);
+        resolveUpdateInputs();
+        await listenerPromise;
+        expect(completed).toBe(true);
     });
 
     test('passes the current edit state to the template data', async () => {

@@ -232,9 +232,9 @@ export default class extends BaseComponent {
         this.addEventListener(
             this.getElement(this.selectors.UPDATEJSON),
             'click',
-            () => {
+            async() => {
                 this.pendingFocus = {selector: this.selectors.UPDATEJSON};
-                this.update();
+                await this.update();
             }
         );
         const addButtons = this.getElements(this.selectors.ADDITEM);
@@ -256,9 +256,9 @@ export default class extends BaseComponent {
         this.addEventListener(
             this.getElement(this.selectors.UPDATEINPUTS),
             'click',
-            () => {
+            async() => {
                 this.pendingFocus = {selector: this.selectors.UPDATEINPUTS};
-                this.updateInputs();
+                await this.updateInputs();
             }
         );
         this.addEventListener(
@@ -269,9 +269,9 @@ export default class extends BaseComponent {
         this.addEventListener(
             this.getElement(this.selectors.REVERT),
             'click',
-            () => {
+            async() => {
                 this.pendingFocus = {selector: this.selectors.REVERT};
-                this.revert();
+                await this.revert();
             }
         );
 
@@ -409,7 +409,7 @@ export default class extends BaseComponent {
     /**
      * Update state from the currently entered JSON if JSON is valid.
      */
-    updateInputs() {
+    async updateInputs() {
         const jsonElement = this.getElement(this.selectors.JSONINPUT);
         let data = null;
         try {
@@ -420,7 +420,7 @@ export default class extends BaseComponent {
             return;
         }
         jsonElement.value = metadata.jsonStringify(data, 4);
-        this.reactive.dispatch('updateFromJson', data);
+        await this.reactive.dispatch('updateFromJson', data);
     }
 
     /**
@@ -440,7 +440,7 @@ export default class extends BaseComponent {
      * If the JSON is valid, update the state so the inputs match. If invalid, setup as on initial failure
      * in metadata.js.
      */
-    revert() {
+    async revert() {
         const jsonElement = this.getElement(this.selectors.JSONINPUT);
         let previousdataJSON = document.querySelector(this.selectors.FORMJSON).value ?? null;
         let previousdata = null;
@@ -454,7 +454,7 @@ export default class extends BaseComponent {
             return;
         }
         jsonElement.value = metadata.jsonStringify(previousdata, 4);
-        this.reactive.dispatch('updateFromJson', previousdata);
+        await this.reactive.dispatch('updateFromJson', previousdata);
     }
 
     /**

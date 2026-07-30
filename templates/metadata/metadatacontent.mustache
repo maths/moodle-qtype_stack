@@ -385,8 +385,8 @@
     {{! License + isPartOf }}
     <div class="smd-section">
         <div class="row">
-            <div class="col-md-7">
-                <div class="smd-section-label">{{#str}} license {{/str}}</div>
+            <div class="col-md-7" role="group" aria-labelledby="smd-license-label">
+                <div class="smd-section-label" id="smd-license-label">{{#str}} license {{/str}}</div>
                 <div class="smd-license-wrap d-flex align-items-center flex-wrap">
                     <span class="smd-license-display-text smd-read-mode">{{#license.element.options}}{{#selected}}{{text}}{{/selected}}{{/license.element.options}}</span>
                     {{#license}}

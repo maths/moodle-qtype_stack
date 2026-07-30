@@ -1462,8 +1462,12 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
     white-space: nowrap;
 }
 
+.stack-metadata .smd-scope-header {
+    border-bottom: 1px solid var(--smd-border);
+}
+
 .stack-metadata .smd-scope-header:is(:focus, :focus-visible) {
-    border: 3px solid var(--smd-primary) !important;
+    border: 3px solid var(--smd-primary);
     outline: 0;
 }
 

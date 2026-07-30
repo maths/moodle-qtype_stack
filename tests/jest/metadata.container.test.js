@@ -233,7 +233,11 @@ describe('deleteItem', () => {
 describe('focus handling', () => {
     test('restorePendingFocus moves focus to the first input in the last added row', () => {
         const {instance} = makeInstance();
-        const oldInput = {id: 'smdi_1_language_value', focus: jest.fn(), select: jest.fn()};
+        const oldInput = {
+            id: 'smdi_1_language_value',
+            focus: jest.fn(),
+            select: jest.fn(),
+        };
         const newInput = {
             id: 'smdi_2_language_value',
             focus: jest.fn(),
@@ -251,6 +255,8 @@ describe('focus handling', () => {
 
         expect(newInput.focus).toHaveBeenCalled();
         expect(newInput.select).toHaveBeenCalled();
+        expect(oldInput.focus).not.toHaveBeenCalled();
+        expect(oldInput.select).not.toHaveBeenCalled();
     });
 
     test('restorePendingFocus moves focus to the corresponding add button after deletion', () => {
@@ -298,10 +304,10 @@ describe('focus handling', () => {
         expect(add.focus).not.toHaveBeenCalled();
     });
 
-    test('restorePendingFocus uses the scope add button for deleted additional metadata', () => {
+    test('restorePendingFocus uses the property add button after deleting additional metadata', () => {
         const {instance} = makeInstance();
         const add = {id: 'smd_property_1_add', focus: jest.fn()};
-        const oldScopeCard = {
+        const sourceScopeCard = {
             querySelector: jest.fn(sel => {
                 if (sel === instance.selectors.ADDSCOPE) {
                     return {value: 'dc'};
@@ -309,7 +315,7 @@ describe('focus handling', () => {
                 return null;
             }),
         };
-        const newScopeCard = {
+        const renderedScopeCard = {
             id: 'qtype-stack-metadata-scope-2',
             querySelector: jest.fn(sel => {
                 if (sel === instance.selectors.ADDSCOPE) {
@@ -321,20 +327,71 @@ describe('focus handling', () => {
                 return null;
             }),
         };
-        const deleted = {
-            closest: jest.fn(() => oldScopeCard),
+        const deletedPropertyButton = {
+            closest: jest.fn(() => sourceScopeCard),
         };
         instance.getElements.mockImplementation(sel => {
             if (sel === instance.selectors.SCOPECARD) {
-                return [newScopeCard];
+                return [renderedScopeCard];
             }
             return [];
         });
 
-        instance.queueFocus('delete', 'additional', deleted);
+        instance.queueFocus('delete', 'additional', deletedPropertyButton);
         instance.restorePendingFocus();
 
         expect(add.focus).toHaveBeenCalled();
+    });
+
+    test('restorePendingFocus moves focus to the add property button within the same scope', () => {
+        const {instance} = makeInstance();
+        const wrongScopeAdd = {
+            id: 'smd_property_1_add',
+            focus: jest.fn(),
+            matches: jest.fn(sel => sel === instance.selectors.ADDBUTTONS),
+        };
+        const matchingScopeAdd = {
+            id: 'smd_property_3_add',
+            focus: jest.fn(),
+            matches: jest.fn(sel => sel === instance.selectors.ADDBUTTONS),
+        };
+        const wrongScopeCard = {
+            querySelector: jest.fn(sel => {
+                if (sel === instance.selectors.ADDSCOPE) {
+                    return {value: 'dc'};
+                }
+                if (sel === instance.selectors.DELETEADDITIONAL) {
+                    return wrongScopeAdd;
+                }
+                return null;
+            }),
+        };
+        const matchingScopeCard = {
+            querySelector: jest.fn(sel => {
+                if (sel === instance.selectors.ADDSCOPE) {
+                    return {value: 'lom'};
+                }
+                if (sel === instance.selectors.DELETEADDITIONAL) {
+                    return matchingScopeAdd;
+                }
+                return null;
+            }),
+        };
+        const deletedPropertyButton = {
+            closest: jest.fn(() => matchingScopeCard),
+        };
+        instance.getElements.mockImplementation(sel => {
+            if (sel === instance.selectors.SCOPECARD) {
+                return [wrongScopeCard, matchingScopeCard];
+            }
+            return [];
+        });
+
+        instance.queueFocus('delete', 'additional', deletedPropertyButton);
+        instance.restorePendingFocus();
+
+        expect(matchingScopeAdd.focus).toHaveBeenCalledWith({focusVisible: true});
+        expect(wrongScopeAdd.focus).not.toHaveBeenCalled();
     });
 
     test('setDetailsState records scope open state', () => {
@@ -580,7 +637,7 @@ describe('reloadContainerComponent', () => {
         expect(instance.addEventListener).toHaveBeenCalledWith(fakeButton, 'click', instance.deleteItem);
     });
 
-    test('update inputs button focuses itself and applies JSON changes', async () => {
+    test('update inputs button queues focus and calls updateInputs', async () => {
         const {instance} = makeInstance();
         const state = makeState();
         metadata.jsonStringify.mockReturnValue('{}');
@@ -606,7 +663,7 @@ describe('reloadContainerComponent', () => {
         )[2];
         updateInputsListener();
 
-        expect(instance.pendingFocus).toBe(instance.selectors.UPDATEINPUTS);
+        expect(instance.pendingFocus).toEqual({selector: instance.selectors.UPDATEINPUTS});
         expect(instance.updateInputs).toHaveBeenCalled();
     });
 

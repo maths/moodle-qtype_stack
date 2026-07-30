@@ -14,24 +14,10 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 
-require_once(__DIR__ . '/../lib.php');
+require_once(__DIR__ . '/lib.php');
 
-$questionid = isset($_GET['questionId']) ? trim($_GET['questionId']) : '';
-$questionpath = isset($_GET['questionPath']) ? trim($_GET['questionPath']) : '';
-
-if (($questionid === '' && $questionpath === '') || ($questionid !== '' && $questionpath !== '')) {
-    http_response_code(400);
-    echo 'Exactly one of questionId or questionPath is required.';
-    die();
-}
-if ($questionid !== '') {
-    // Fail early for malformed embed URLs. The API request will still perform
-    // the authoritative manifest lookup.
-    $xml = stack_private_demo_question_definition($questionid);
-}
-if ($questionpath !== '') {
-    $xml = stack_private_demo_question_definition_from_path($questionpath);
-}
+$reference = stack_private_demo_question_reference($queryparams ?? []);
+$xml = stack_private_demo_question_definition_from_reference($reference);
 
 $title = 'Practice question';
 libxml_use_internal_errors(true);
@@ -44,14 +30,7 @@ if ($quiz !== false && isset($quiz->question[0]->name->text)) {
     }
 }
 
-$question = [
-    'name' => $title,
-];
-if ($questionid !== '') {
-    $question['questionId'] = $questionid;
-} else {
-    $question['questionPath'] = $questionpath;
-}
+$question = array_merge(['name' => $title], $reference);
 ?>
 <!doctype html>
 <html>

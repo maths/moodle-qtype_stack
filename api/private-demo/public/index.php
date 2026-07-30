@@ -15,131 +15,74 @@
  */
 
 require_once(__DIR__ . '/../lib.php');
+require_once(__DIR__ . '/../../vendor/autoload.php');
 
-$path = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
-$method = $_SERVER['REQUEST_METHOD'];
+use Psr\Http\Message\ResponseInterface;
+use Slim\Factory\AppFactory;
 
-if ($path === 'demo/questions' && $method === 'GET') {
-    stack_private_demo_json(stack_private_demo_catalogue());
+$app = AppFactory::create();
+$responsefactory = $app->getResponseFactory();
+
+$app->add(function($request, $handler) use ($responsefactory) {
+    try {
+        return $handler->handle($request);
+    } catch (stack_private_demo_http_exception $exception) {
+        $response = $responsefactory->createResponse();
+        if (str_starts_with($request->getUri()->getPath(), '/demo/')) {
+            return stack_private_demo_json_response(
+                $response,
+                ['message' => $exception->getMessage()],
+                $exception->get_status()
+            );
+        }
+        return stack_private_demo_text_response($response, $exception->getMessage(), $exception->get_status());
+    }
+});
+
+$app->get('/demo/questions', function($request, ResponseInterface $response) {
+    return stack_private_demo_json_response($response, stack_private_demo_catalogue());
+});
+
+foreach (['/cors.php', '/demo/cors.php'] as $route) {
+    $app->map(['GET', 'OPTIONS'], $route, function($request, ResponseInterface $response) {
+        $params = $request->getQueryParams();
+        return stack_private_demo_cors_asset($request, $response, $params['name'] ?? '');
+    });
 }
 
-if ($path === 'cors.php' || $path === 'demo/cors.php') {
-    stack_private_demo_cors_asset($_GET['name'] ?? '');
-}
+$app->get('/demo/plot.php/{filename:.+}', function($request, ResponseInterface $response, $args) {
+    return stack_private_demo_proxy_plot($response, $args['filename']);
+});
 
-if (preg_match('#^demo/plot\.php/(.+)$#', $path, $matches) && $method === 'GET') {
-    stack_private_demo_proxy_plot($matches[1]);
-}
-
-if (preg_match('#^demo/(render|validate|grade|download|diff)$#', $path, $matches) && $method === 'POST') {
-    $route = $matches[1];
-    $data = stack_private_demo_request_json();
+$app->post('/demo/{route:render|validate|grade|download|diff}', function($request, ResponseInterface $response, $args) {
+    $route = $args['route'];
+    $data = stack_private_demo_request_json($request);
     $payload = stack_private_demo_api_payload($data, $route);
     if ($route === 'diff') {
         $payload = ['questionDefinition' => $payload['questionDefinition']];
     }
-    stack_private_demo_proxy_json($route, $payload);
+    return stack_private_demo_proxy_json($request, $response, $route, $payload);
+});
+
+$app->get('/embed', function($request, ResponseInterface $response) {
+    return stack_private_demo_template_response(
+        $response,
+        __DIR__ . '/../embed.php',
+        ['queryparams' => $request->getQueryParams()]
+    );
+});
+
+foreach (['/', '/index.php'] as $route) {
+    $app->get($route, function($request, ResponseInterface $response) {
+        return stack_private_demo_template_response($response, __DIR__ . '/../home.php');
+    });
 }
 
-if ($path === 'embed' && $method === 'GET') {
-    require(__DIR__ . '/embed.php');
-    die();
-}
+$app->map(['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'], '/{routes:.+}', function($request, ResponseInterface $response) {
+    if (str_starts_with($request->getUri()->getPath(), '/demo/')) {
+        return stack_private_demo_json_response($response, ['message' => 'Not found'], 404);
+    }
+    return stack_private_demo_text_response($response, 'Not found', 404);
+});
 
-if ($path !== '' && $path !== 'index.php') {
-    http_response_code(404);
-    echo 'Not found';
-    die();
-}
-?>
-<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8"/>
-    <title>STACK Private API Demo</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="assets/api.css" />
-    <style>
-      .question-browser {
-        max-width: 48rem;
-        margin-bottom: 1rem;
-      }
-      .question-browser input,
-      .question-browser select {
-        width: 100%;
-      }
-      .question-browser select {
-        min-height: 16rem;
-      }
-      .question-meta {
-        color: #555;
-        font-size: 0.875rem;
-        margin-top: 0.35rem;
-      }
-      .private-demo-content {
-        margin-left: 0;
-        padding: 1px 16px;
-      }
-      .question-frame {
-        border: 0;
-        min-height: 46rem;
-        width: 100%;
-      }
-    </style>
-    <script src="private-demo.js"></script>
-  </head>
-  <body>
-    <div class="container-fluid que stack">
-      <div>
-        <a href="https://stack-assessment.org/" class="nav-link">
-          <span style="display: flex; align-items: center; font-size: 20px">
-            <span style="display: flex; align-items: center;">
-              <img src="assets/logo_large.png" style="height: 50px;" alt="STACK">
-              <span style="font-size: 50px;"><b>STACK</b></span>
-            </span>
-            &nbsp;| Online assessment
-          </span>
-        </a>
-      </div>
-      <h2>Private API Demonstration</h2>
-      <div class="col-lg-9">
-        <p>
-          This demo serves questions from the STACK library without sending question XML to the browser.
-        </p>
-        <hr>
-      </div>
-      <div id="errors"></div>
-      <div class="question-browser col-lg-9">
-        <input
-          id="question-search"
-          class="form-control"
-          type="search"
-          placeholder="Search by question name or filename"
-          autocomplete="off"
-        />
-        <select id="question-list" class="form-control" size="12"></select>
-        <div id="question-count" class="question-meta"></div>
-      </div>
-      <div>
-        <div class="main-content private-demo-content">
-          <br>
-          <div class="col-lg-10">
-            <iframe
-              id="question-frame"
-              class="question-frame"
-              title="Selected STACK question"
-            ></iframe>
-          </div>
-          <div class="col-lg-9">
-            <hr />
-            <p style="font-size: 0.875em;color:gray;">
-              The STACK source code, including this API, is licensed under the GNU General Public, License Version 3.
-              Documentation, sample questions and materials, are licensed under Creative Commons Attribution-ShareAlike 4.0 International.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </body>
-</html>
+$app->run();

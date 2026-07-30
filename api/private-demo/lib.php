@@ -15,7 +15,6 @@
  */
 
 define('STACK_PRIVATE_DEMO_ROOT', realpath(__DIR__ . '/../..'));
-define('STACK_PRIVATE_DEMO_SAMPLEQUESTIONS_ROOT', realpath(STACK_PRIVATE_DEMO_ROOT . '/samplequestions'));
 define(
     'STACK_PRIVATE_DEMO_LIBRARY_ROOT',
     realpath(STACK_PRIVATE_DEMO_ROOT . '/samplequestions/' . trim(getenv('STACK_PRIVATE_DEMO_LIBRARY') ?: 'stacklibrary', '/'))
@@ -25,26 +24,100 @@ define('STACK_PRIVATE_DEMO_MANIFEST', __DIR__ . '/assets/question-manifest.json'
 define('STACK_PRIVATE_DEMO_API_BASE', rtrim(getenv('STACK_PRIVATE_DEMO_API_URL') ?: 'http://api', '/'));
 
 /**
- * Send a JSON response and stop execution.
- *
- * @param mixed $data Response data.
- * @param int $status HTTP status.
+ * HTTP error for the private demo frontend.
  */
-function stack_private_demo_json($data, $status = 200) {
-    http_response_code($status);
-    header('Content-Type: application/json;charset=UTF-8');
-    echo json_encode($data, JSON_UNESCAPED_SLASHES);
-    die();
+class stack_private_demo_http_exception extends RuntimeException {
+    /**
+     * Get the HTTP status.
+     *
+     * @return int HTTP status.
+     */
+    public function get_status() {
+        return $this->getCode() ?: 500;
+    }
 }
 
 /**
- * Send an error JSON response and stop execution.
+ * Raise an HTTP error.
  *
  * @param string $message Error message.
  * @param int $status HTTP status.
+ * @throws stack_private_demo_http_exception
  */
 function stack_private_demo_error($message, $status = 400) {
-    stack_private_demo_json(['message' => $message], $status);
+    throw new stack_private_demo_http_exception($message, $status);
+}
+
+/**
+ * Write a JSON response.
+ *
+ * @param object $response Response.
+ * @param mixed $data Response data.
+ * @param int $status HTTP status.
+ * @return object Response.
+ */
+function stack_private_demo_json_response($response, $data, $status = 200) {
+    $json = json_encode($data, JSON_UNESCAPED_SLASHES);
+    if ($json === false) {
+        stack_private_demo_error('Could not encode JSON response.', 500);
+    }
+
+    $response->getBody()->write($json);
+    return $response
+        ->withStatus($status)
+        ->withHeader('Content-Type', 'application/json;charset=UTF-8');
+}
+
+/**
+ * Write a text response.
+ *
+ * @param object $response Response.
+ * @param string $text Response text.
+ * @param int $status HTTP status.
+ * @return object Response.
+ */
+function stack_private_demo_text_response($response, $text, $status = 200) {
+    $response->getBody()->write($text);
+    return $response
+        ->withStatus($status)
+        ->withHeader('Content-Type', 'text/plain;charset=UTF-8');
+}
+
+/**
+ * Render a local PHP template into a response.
+ *
+ * @param object $response Response.
+ * @param string $template Template path.
+ * @param array $data Template data.
+ * @return object Response.
+ */
+function stack_private_demo_template_response($response, $template, $data = []) {
+    extract($data, EXTR_SKIP);
+
+    ob_start();
+    require($template);
+    $response->getBody()->write(ob_get_clean());
+    return $response->withHeader('Content-Type', 'text/html;charset=UTF-8');
+}
+
+/**
+ * Resolve a relative path beneath a configured root directory.
+ *
+ * @param string|false $root Root directory.
+ * @param string $relativepath Relative path.
+ * @return string|false Resolved file path, or false if unavailable.
+ */
+function stack_private_demo_resolve_file($root, $relativepath) {
+    if (!is_string($root) || $root === '' || !is_dir($root) || !is_string($relativepath) || $relativepath === '') {
+        return false;
+    }
+
+    $fullpath = realpath($root . DIRECTORY_SEPARATOR . $relativepath);
+    if ($fullpath === false || !str_starts_with($fullpath, $root . DIRECTORY_SEPARATOR) || !is_file($fullpath)) {
+        return false;
+    }
+
+    return $fullpath;
 }
 
 /**
@@ -87,22 +160,46 @@ function stack_private_demo_catalogue() {
 }
 
 /**
- * Decode the current JSON request body.
+ * Decode a JSON request body.
  *
+ * @param object $request Request.
  * @return array Request data.
  */
-function stack_private_demo_request_json() {
-    $raw = file_get_contents('php://input');
-    $data = json_decode($raw, true);
+function stack_private_demo_request_json($request) {
+    $data = json_decode((string) $request->getBody(), true);
     if (!is_array($data)) {
         stack_private_demo_error('Expected a JSON object.');
     }
-
     if (array_key_exists('questionDefinition', $data)) {
         stack_private_demo_error('questionDefinition is not accepted by this demo.');
     }
 
     return $data;
+}
+
+/**
+ * Get exactly one question reference from request data.
+ *
+ * @param array $data Request data.
+ * @return array Question reference.
+ */
+function stack_private_demo_question_reference($data) {
+    $questionid = $data['questionId'] ?? null;
+    $questionid = is_string($questionid) ? trim($questionid) : null;
+    $questionid = $questionid === '' ? null : $questionid;
+
+    $questionpath = $data['questionPath'] ?? null;
+    $questionpath = is_string($questionpath) ? trim($questionpath) : null;
+    $questionpath = $questionpath === '' ? null : $questionpath;
+
+    if (($questionid === null && $questionpath === null) || ($questionid !== null && $questionpath !== null)) {
+        stack_private_demo_error('Exactly one of questionId or questionPath is required.');
+    }
+
+    if ($questionid !== null) {
+        return ['questionId' => $questionid];
+    }
+    return ['questionPath' => $questionpath];
 }
 
 /**
@@ -121,6 +218,18 @@ function stack_private_demo_question_definition($questionid) {
 }
 
 /**
+ * Resolve a question reference to a local XML question definition.
+ *
+ * @param array $reference Question reference.
+ * @return string XML question definition.
+ */
+function stack_private_demo_question_definition_from_reference($reference) {
+    return isset($reference['questionId']) ?
+        stack_private_demo_question_definition($reference['questionId']) :
+        stack_private_demo_question_definition_from_path($reference['questionPath']);
+}
+
+/**
  * Resolve a question-library-relative path to a local XML question definition.
  *
  * @param string $relativepath Relative path under the configured question library.
@@ -132,14 +241,13 @@ function stack_private_demo_question_definition_from_path($relativepath, $manife
         !is_string($relativepath) ||
         $relativepath === '' ||
         str_starts_with($relativepath, '/') ||
-        str_contains($relativepath, '..') ||
         strtolower(pathinfo($relativepath, PATHINFO_EXTENSION)) !== 'xml'
     ) {
         stack_private_demo_error($manifestpath ? 'Invalid question path in manifest.' : 'Invalid question path.', 400);
     }
 
-    $fullpath = realpath(STACK_PRIVATE_DEMO_LIBRARY_ROOT . '/' . $relativepath);
-    if ($fullpath === false || !str_starts_with($fullpath, STACK_PRIVATE_DEMO_LIBRARY_ROOT . DIRECTORY_SEPARATOR)) {
+    $fullpath = stack_private_demo_resolve_file(STACK_PRIVATE_DEMO_LIBRARY_ROOT, $relativepath);
+    if ($fullpath === false) {
         stack_private_demo_error('Question file is not available.', $manifestpath ? 500 : 404);
     }
 
@@ -159,18 +267,11 @@ function stack_private_demo_question_definition_from_path($relativepath, $manife
  * @return array API request.
  */
 function stack_private_demo_api_payload($data, $route) {
-    $questionid = $data['questionId'] ?? null;
-    $questionpath = $data['questionPath'] ?? null;
-    if (($questionid === null && $questionpath === null) || ($questionid !== null && $questionpath !== null)) {
-        stack_private_demo_error('Exactly one of questionId or questionPath is required.');
-    }
-
+    $reference = stack_private_demo_question_reference($data);
     $payload = $data;
     unset($payload['questionId']);
     unset($payload['questionPath']);
-    $payload['questionDefinition'] = $questionid !== null ?
-        stack_private_demo_question_definition($questionid) :
-        stack_private_demo_question_definition_from_path($questionpath);
+    $payload['questionDefinition'] = stack_private_demo_question_definition_from_reference($reference);
 
     if ($route === 'render') {
         unset($payload['answers']);
@@ -180,135 +281,136 @@ function stack_private_demo_api_payload($data, $route) {
 }
 
 /**
+ * Proxy a private STACK API container response.
+ *
+ * @param object $response Response.
+ * @param string $url API URL.
+ * @param array $options HTTP stream options.
+ * @param string $defaulttype Default content type.
+ * @param string $errormessage Message to show if the request fails.
+ * @param bool $forwardlength Whether to forward the content length header.
+ * @return object Response.
+ */
+function stack_private_demo_proxy_api($response, $url, $options, $defaulttype, $errormessage, $forwardlength = false) {
+    $context = stream_context_create(['http' => $options + [
+        'ignore_errors' => true,
+        'timeout' => 60,
+    ]]);
+    $body = file_get_contents($url, false, $context);
+    if ($body === false) {
+        stack_private_demo_error($errormessage, 502);
+    }
+
+    $status = 200;
+    $contenttype = $defaulttype;
+    $length = '';
+    foreach ($http_response_header ?? [] as $header) {
+        if (preg_match('/^HTTP\/\S+\s+([0-9]{3})\s/', $header, $matches)) {
+            $status = (int) $matches[1];
+            continue;
+        }
+        if (stripos($header, 'Content-Type:') === 0) {
+            $contenttype = trim(substr($header, strlen('Content-Type:')));
+            continue;
+        }
+        if (stripos($header, 'Content-Length:') === 0) {
+            $length = trim(substr($header, strlen('Content-Length:')));
+        }
+    }
+
+    $response = $response
+        ->withStatus($status)
+        ->withHeader('Content-Type', $contenttype);
+
+    if ($forwardlength && $length !== '') {
+        $response = $response->withHeader('Content-Length', $length);
+    }
+
+    $response->getBody()->write($body);
+    return $response;
+}
+
+/**
  * Proxy a JSON POST to the private STACK API container.
  *
+ * @param object $request Request.
+ * @param object $response Response.
  * @param string $route API route.
  * @param array $payload API payload.
+ * @return object Response.
  */
-function stack_private_demo_proxy_json($route, $payload) {
+function stack_private_demo_proxy_json($request, $response, $route, $payload) {
     $json = json_encode($payload, JSON_UNESCAPED_SLASHES);
     if ($json === false) {
         stack_private_demo_error('Could not encode API request.', 500);
     }
 
-    $headers = [
-        'Content-Type: application/json',
-    ];
-    $language = $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? '';
+    $headers = ['Content-Type: application/json'];
+    $language = $request->getHeaderLine('Accept-Language');
     if ($language !== '') {
         $headers[] = 'Accept-Language: ' . $language;
     }
 
-    $context = stream_context_create([
-        'http' => [
+    return stack_private_demo_proxy_api(
+        $response,
+        STACK_PRIVATE_DEMO_API_BASE . '/' . $route,
+        [
             'method' => 'POST',
             'header' => implode("\r\n", $headers),
             'content' => $json,
-            'ignore_errors' => true,
-            'timeout' => 60,
         ],
-    ]);
-
-    $url = STACK_PRIVATE_DEMO_API_BASE . '/' . $route;
-    $body = file_get_contents($url, false, $context);
-    if ($body === false) {
-        stack_private_demo_error('Private API request failed.', 502);
-    }
-
-    $status = stack_private_demo_response_status($http_response_header ?? []);
-    http_response_code($status);
-    header('Content-Type: ' . stack_private_demo_header_value($http_response_header ?? [], 'Content-Type', 'application/json'));
-    echo $body;
-    die();
+        'application/json',
+        'Private API request failed.'
+    );
 }
 
 /**
  * Proxy a generated plot/static question asset from the private API container.
  *
+ * @param object $response Response.
  * @param string $filename Asset filename.
+ * @return object Response.
  */
-function stack_private_demo_proxy_plot($filename) {
+function stack_private_demo_proxy_plot($response, $filename) {
     $filename = basename(urldecode($filename));
     if ($filename === '' || $filename === '.' || $filename === '..') {
         stack_private_demo_error('Invalid asset name.');
     }
 
-    $context = stream_context_create([
-        'http' => [
-            'method' => 'GET',
-            'ignore_errors' => true,
-            'timeout' => 60,
-        ],
-    ]);
-
-    $url = STACK_PRIVATE_DEMO_API_BASE . '/plot.php/' . rawurlencode($filename);
-    $body = file_get_contents($url, false, $context);
-    if ($body === false) {
-        stack_private_demo_error('Private API asset request failed.', 502);
-    }
-
-    $headers = $http_response_header ?? [];
-    http_response_code(stack_private_demo_response_status($headers));
-    header('Content-Type: ' . stack_private_demo_header_value($headers, 'Content-Type', 'application/octet-stream'));
-    $length = stack_private_demo_header_value($headers, 'Content-Length', '');
-    if ($length !== '') {
-        header('Content-Length: ' . $length);
-    }
-    echo $body;
-    die();
+    return stack_private_demo_proxy_api(
+        $response,
+        STACK_PRIVATE_DEMO_API_BASE . '/plot.php/' . rawurlencode($filename),
+        ['method' => 'GET'],
+        'application/octet-stream',
+        'Private API asset request failed.',
+        true
+    );
 }
 
 /**
  * Serve a static helper asset with CORS headers for iframe content.
  *
+ * @param object $request Request.
+ * @param object $response Response.
  * @param string $asset Relative asset path.
+ * @return object Response.
  */
-function stack_private_demo_cors_asset($asset) {
-    header('Access-Control-Allow-Origin: *');
-    header('Access-Control-Allow-Headers: *');
+function stack_private_demo_cors_asset($request, $response, $asset) {
+    $response = $response
+        ->withHeader('Access-Control-Allow-Origin', '*')
+        ->withHeader('Access-Control-Allow-Headers', '*');
 
-    if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-        header('HTTP/1.0 204 No Content');
-        header('Access-Control-Allow-Methods: GET, OPTIONS');
-        die();
+    if ($request->getMethod() === 'OPTIONS') {
+        return $response
+            ->withStatus(204)
+            ->withHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
     }
 
-    if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
-        stack_private_demo_error('Method not allowed.', 405);
+    $fullpath = stack_private_demo_resolve_file(STACK_PRIVATE_DEMO_CORS_ROOT, ltrim(urldecode($asset), '/'));
+    if ($fullpath === false) {
+        return stack_private_demo_text_response($response, 'No such script here.', 404);
     }
 
-    $asset = ltrim(urldecode($asset), '/');
-    if ($asset === '' || str_contains($asset, '..') || str_starts_with($asset, '/')) {
-        http_response_code(404);
-        echo 'No such script here.';
-        die();
-    }
-
-    $fullpath = realpath(STACK_PRIVATE_DEMO_CORS_ROOT . '/' . $asset);
-    if (
-        $fullpath === false ||
-        !str_starts_with($fullpath, STACK_PRIVATE_DEMO_CORS_ROOT . DIRECTORY_SEPARATOR) ||
-        !is_file($fullpath)
-    ) {
-        http_response_code(404);
-        echo 'No such script here.';
-        die();
-    }
-
-    header('Content-Type: ' . stack_private_demo_mimetype($fullpath));
-    header('Cache-Control: public, max-age=31104000, immutable');
-    readfile($fullpath);
-    die();
-}
-
-/**
- * Return a MIME type for a public static helper asset.
- *
- * @param string $path Asset path.
- * @return string MIME type.
- */
-function stack_private_demo_mimetype($path) {
-    $extension = strtolower(pathinfo($path, PATHINFO_EXTENSION));
     $types = [
         'css' => 'text/css;charset=UTF-8',
         'js' => 'text/javascript;charset=UTF-8',
@@ -316,35 +418,9 @@ function stack_private_demo_mimetype($path) {
         'json' => 'application/json;charset=UTF-8',
     ];
 
-    return $types[$extension] ?? 'application/octet-stream';
-}
-
-/**
- * Get the HTTP response status from wrapper response headers.
- *
- * @param array $headers Response headers.
- * @return int HTTP status.
- */
-function stack_private_demo_response_status($headers) {
-    if (!empty($headers[0]) && preg_match('/\s([0-9]{3})\s/', $headers[0], $matches)) {
-        return (int) $matches[1];
-    }
-    return 200;
-}
-
-/**
- * Get a response header value from wrapper response headers.
- *
- * @param array $headers Response headers.
- * @param string $name Header name.
- * @param string $default Default value.
- * @return string Header value.
- */
-function stack_private_demo_header_value($headers, $name, $default) {
-    foreach ($headers as $header) {
-        if (stripos($header, $name . ':') === 0) {
-            return trim(substr($header, strlen($name) + 1));
-        }
-    }
-    return $default;
+    $response->getBody()->write(file_get_contents($fullpath));
+    return $response
+        ->withHeader('Content-Type', $types[strtolower(pathinfo($fullpath, PATHINFO_EXTENSION))] ??
+            'application/octet-stream')
+        ->withHeader('Cache-Control', 'public, max-age=31104000, immutable');
 }

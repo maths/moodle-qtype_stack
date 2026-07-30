@@ -580,6 +580,36 @@ describe('reloadContainerComponent', () => {
         expect(instance.addEventListener).toHaveBeenCalledWith(fakeButton, 'click', instance.deleteItem);
     });
 
+    test('update inputs button focuses itself and applies JSON changes', async () => {
+        const {instance} = makeInstance();
+        const state = makeState();
+        metadata.jsonStringify.mockReturnValue('{}');
+        const fakeContainer = {};
+        const fakeUpdateInputs = {};
+        jest.spyOn(instance, 'updateInputs').mockImplementation(() => {});
+        mockQuerySelector.mockReturnValue({value: '{}'});
+        instance.getElement.mockImplementation(sel => {
+            if (sel === instance.selectors.METADATACONTAINER) {
+                return fakeContainer;
+            }
+            if (sel === instance.selectors.UPDATEINPUTS) {
+                return fakeUpdateInputs;
+            }
+            return null;
+        });
+        instance.getElements.mockReturnValue([]);
+
+        await instance.reloadContainerComponent({state});
+
+        const updateInputsListener = instance.addEventListener.mock.calls.find(
+            call => call[0] === fakeUpdateInputs && call[1] === 'click'
+        )[2];
+        updateInputsListener();
+
+        expect(instance.pendingFocus).toBe(instance.selectors.UPDATEINPUTS);
+        expect(instance.updateInputs).toHaveBeenCalled();
+    });
+
     test('passes the current edit state to the template data', async () => {
         const {instance} = makeInstance();
         setupForRender(instance);

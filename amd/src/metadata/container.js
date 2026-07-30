@@ -232,7 +232,10 @@ export default class extends BaseComponent {
         this.addEventListener(
             this.getElement(this.selectors.UPDATEJSON),
             'click',
-            this.update
+            () => {
+                this.pendingFocus = {selector: this.selectors.UPDATEJSON};
+                this.update();
+            }
         );
         const addButtons = this.getElements(this.selectors.ADDITEM);
         for (const addButton of addButtons) {
@@ -253,7 +256,10 @@ export default class extends BaseComponent {
         this.addEventListener(
             this.getElement(this.selectors.UPDATEINPUTS),
             'click',
-            this.updateInputs
+            () => {
+                this.pendingFocus = {selector: this.selectors.UPDATEINPUTS};
+                this.updateInputs();
+            }
         );
         this.addEventListener(
             this.getElement(this.selectors.MAKEAUTHOR),
@@ -263,7 +269,10 @@ export default class extends BaseComponent {
         this.addEventListener(
             this.getElement(this.selectors.REVERT),
             'click',
-            this.revert
+            () => {
+                this.pendingFocus = {selector: this.selectors.REVERT};
+                this.revert();
+            }
         );
 
         // Deal with case of brkon JSON in saved question. The errormessage is saved on initial setup.
@@ -479,7 +488,7 @@ export default class extends BaseComponent {
                 break;
             case 'delete':
                 this.pendingFocus = {selector, fallbackSelector: selectorName === 'DELETEADDITIONAL' ?
-                    this.selectors.DELETESCOPE : null};
+                    this.selectors.DELETESCOPE : null, selection: 'scope'};
                 break;
         }
         if (selectorName === 'ADDPROPERTY' || selectorName === 'DELETEADDITIONAL') {
@@ -509,9 +518,11 @@ export default class extends BaseComponent {
                 scopeCard?.querySelectorAll?.(pendingFocus.selector) || this.getElements(pendingFocus.selector)
             );
             focusTarget = elements[elements.length - 1] || null;
-        } else {
+        } else if (pendingFocus.selection === 'scope') {
             focusTarget = scopeCard?.querySelector?.(pendingFocus.selector) ||
                 this.getElement(pendingFocus.fallbackSelector || pendingFocus.selector);
+        } else {
+            focusTarget = this.getElements(pendingFocus.selector)[0];
         }
 
         if (focusTarget?.focus) {

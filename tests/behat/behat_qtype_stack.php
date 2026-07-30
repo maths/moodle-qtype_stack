@@ -260,6 +260,29 @@ class behat_qtype_stack extends behat_base {
     }
 
     /**
+     * Check that the active element matches a CSS selector.
+     *
+     * @Then /^the focused element should be "(?P<selector>[^"]*)" "css_element"$/
+     */
+    public function the_focused_element_should_be(string $selector): void {
+        $selectorjson = json_encode($selector);
+        $matches = $this->spin(function($context, $selectorjson) {
+            $js = <<<EOF
+                return (function() {
+                    const expected = document.querySelector({$selectorjson});
+                    const active = document.activeElement;
+                    if (!expected || !active) {
+                        return false;
+                    }
+                    return expected === active;
+                })();
+            EOF;
+            return (bool) $context->evaluate_script($js);
+        }, $selectorjson, 5, new \Exception('Expected focused element to match "' . $selector . '".'));
+        Assert::assertTrue((bool) $matches);
+    }
+
+    /**
      * Set the response for a given input in the Moodle app.
      *
      * @param string $identifier the text of the item to drag. E.g. '2:answer'.

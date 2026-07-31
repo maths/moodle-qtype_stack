@@ -510,6 +510,19 @@ export default class extends BaseComponent {
         if (this.getElements(this.selectors.VALIDATIONERRORS).length) {
             return;
         }
+
+        // Defer to deal with Moodle 4.2 issue.
+        window.setTimeout(() => {
+            this.focusPendingTarget(pendingFocus);
+        }, 0);
+    }
+
+    /**
+     * Find and focus the element requested by a stored focus instruction.
+     *
+     * @param {object} pendingFocus
+     */
+    focusPendingTarget(pendingFocus) {
         let focusTarget = null;
 
         const scopeCard = pendingFocus.scopeName ? this.getScopeCard(pendingFocus.scopeName) : null;

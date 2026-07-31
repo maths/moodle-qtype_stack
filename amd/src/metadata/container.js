@@ -511,10 +511,16 @@ export default class extends BaseComponent {
             return;
         }
 
-        // Defer to deal with Moodle 4.2 issue.
-        window.setTimeout(() => {
-            this.focusPendingTarget(pendingFocus);
-        }, 0);
+        // Defer in the browser to deal with Moodle 4.2 issue.
+        if (typeof window !== 'undefined' && window.setTimeout) {
+            window.setTimeout(() => {
+                this.focusPendingTarget(pendingFocus);
+            }, 0);
+            return;
+        }
+
+        // JEST test ends up here.
+        this.focusPendingTarget(pendingFocus);
     }
 
     /**

@@ -49,6 +49,7 @@ services:
       - ../../api/public/stackjsvle.js:/srv/stack/api/private-demo/public/assets/stackjsvle.js:ro
       - ../../api/public/stackshared.js:/srv/stack/api/private-demo/public/assets/stackshared.js:ro
       - ../../api/public/logo_large.png:/srv/stack/api/private-demo/public/assets/logo_large.png:ro
+      - ../../api/public/favicon.ico:/srv/stack/api/private-demo/public/assets/favicon.ico:ro
       - ../../samplequestions:/srv/stack/samplequestions:ro
       - ../../corsscripts:/srv/stack/corsscripts:ro
     ports:

@@ -30,4 +30,5 @@ RUN mkdir -p /srv/stack/api/private-demo/public/assets && \
     cp /srv/stack/api/public/api.css /srv/stack/api/private-demo/public/assets/api.css && \
     cp /srv/stack/api/public/stackjsvle.js /srv/stack/api/private-demo/public/assets/stackjsvle.js && \
     cp /srv/stack/api/public/stackshared.js /srv/stack/api/private-demo/public/assets/stackshared.js && \
-    cp /srv/stack/api/public/logo_large.png /srv/stack/api/private-demo/public/assets/logo_large.png
+    cp /srv/stack/api/public/logo_large.png /srv/stack/api/private-demo/public/assets/logo_large.png && \
+    cp /srv/stack/api/public/favicon.ico /srv/stack/api/private-demo/public/assets/favicon.ico

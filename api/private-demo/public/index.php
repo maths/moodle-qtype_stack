@@ -39,6 +39,8 @@ $app->add(function($request, $handler) use ($responsefactory) {
     }
 });
 
+// NB: This essentially allows access to all your questions.
+// It's used in the current home page with question search.
 $app->get('/demo/questions', function($request, ResponseInterface $response) {
     return stack_private_demo_json_response($response, stack_private_demo_catalogue());
 });
@@ -82,7 +84,9 @@ $app->map(['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'], '/{routes:.+}', 
     if (str_starts_with($request->getUri()->getPath(), '/demo/')) {
         return stack_private_demo_json_response($response, ['message' => 'Not found'], 404);
     }
-    return stack_private_demo_text_response($response, 'Not found', 404);
+    return $response
+        ->withStatus(302)
+        ->withHeader('Location', '/index.php');
 });
 
 $app->run();

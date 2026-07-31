@@ -57,7 +57,7 @@ function renderQuestionList() {
 
     count.innerText = visibleMatches.length === matches.length ?
         `${matches.length} matching questions` :
-        `${visibleMatches.length} of ${matches.length} matching questions`;
+        `Showing ${visibleMatches.length} of ${matches.length} matching questions`;
 }
 
 function goToPage(targetPage) {

@@ -68,6 +68,8 @@
       <div class="col-lg-9">
         <p>
           This demo serves questions from the STACK library without sending question XML to the browser.
+          You can search the library below. There is also a sample of a
+          <a href="notes.php">page with teaching notes and embedded questions.</a>.
         </p>
         <hr>
       </div>

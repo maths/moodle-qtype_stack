@@ -474,6 +474,15 @@ The demo exposes these frontend routes:
 - `GET /demo/plot.php/<filename>`: proxies generated plots and static question assets from the private API container.
 - `GET /cors.php?name=<asset>` and `GET /demo/cors.php?name=<asset>`: serve CORS helper assets needed by iframe content.
 
+To set up your own notes site, things you need to do include:
+
+- Add questions in a folder in `samplequestions`.
+- Set `STACK_PRIVATE_DEMO_LIBRARY` in Docker compose file.
+- Build the manifest by running Docker compose. That will create question ids.
+- Create pages similar to notes.php in the public folder.
+- Update home.php page to link to your notes.
+- If you don't want your questions searchable or the question manifest publicly available, comment out the `/demo/questions` route in `index.php`.
+
 ### Modifications of existing STACK code
 
 The implementation of the standalone api required some modifications to existing STACK code, which could cause issues with future upstream patches. All performed modifications are documented in this section.

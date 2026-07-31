@@ -56,6 +56,7 @@ $idquestionseeds = '1239251428, 505204816';
   </head>
   <body>
     <main class="notes-page">
+      <a href="index.php">Back</a>
       <h1>Integer Arithmetic: Sample Notes</h1>
       <p class="lead">
         These notes illustrate how a resource author can combine explanatory material with embedded STACK questions.

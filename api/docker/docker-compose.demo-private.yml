@@ -16,10 +16,7 @@ services:
     read_only: true
 
   api:
-    build:
-      context: ./../../
-      dockerfile: ./api/docker/DockerfileDemo
-      target: production
+    image: stackmaths/stackapi:2026062900-latest
     restart: unless-stopped
     expose:
       - "80"

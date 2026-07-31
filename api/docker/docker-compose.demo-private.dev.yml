@@ -20,7 +20,7 @@ services:
   api:
     build:
       context: ./../../
-      dockerfile: ./api/docker/DockerfileDemo
+      dockerfile: ./api/docker/Dockerfile
       target: development
     restart: unless-stopped
     expose:

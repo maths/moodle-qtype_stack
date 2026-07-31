@@ -1,10 +1,18 @@
 <?php
-// This file is part of Stack - http://stack.maths.ed.ac.uk/
+// This file is part of Moodle - http://moodle.org/
 //
-// Stack is free software: you can redistribute it and/or modify
+// Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
  * Unit tests for private demo helpers.
@@ -28,6 +36,7 @@ class api_private_demo_test_body {
     /** @var string Written body content. */
     public $contents = '';
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function write($text): void {
         $this->contents .= $text;
     }
@@ -46,20 +55,24 @@ class api_private_demo_test_response {
     /** @var api_private_demo_test_body Response body. */
     private $body;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct() {
         $this->body = new api_private_demo_test_body();
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function,moodle.NamingConventions.ValidFunctionName.LowercaseMethod
     public function getBody() {
         return $this->body;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function,moodle.NamingConventions.ValidFunctionName.LowercaseMethod
     public function withStatus($status) {
         $clone = clone $this;
         $clone->status = $status;
         return $clone;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function,moodle.NamingConventions.ValidFunctionName.LowercaseMethod
     public function withHeader($name, $value) {
         $clone = clone $this;
         $clone->headers[$name] = $value;
@@ -74,10 +87,12 @@ class api_private_demo_test_request {
     /** @var string Request body. */
     private $body;
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct($body) {
         $this->body = $body;
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function,moodle.NamingConventions.ValidFunctionName.LowercaseMethod
     public function getBody() {
         return $this->body;
     }
@@ -106,7 +121,10 @@ final class api_private_lib_test extends \advanced_testcase {
     public function test_resolve_file_accepts_only_files_beneath_root(): void {
         $parent = __DIR__;
 
-        $this->assertSame(realpath($parent . '/api_private_lib_test.php'), \stack_private_demo_resolve_file($parent, '/api_private_lib_test.php'));
+        $this->assertSame(
+            realpath($parent . '/api_private_lib_test.php'),
+            \stack_private_demo_resolve_file($parent, '/api_private_lib_test.php')
+        );
         $this->assertFalse(\stack_private_demo_resolve_file($parent, '../version.php'));
         $this->assertFalse(\stack_private_demo_resolve_file($parent, 'sub'));
         $this->assertFalse(\stack_private_demo_resolve_file(false, '/api_private_lib_test.php'));

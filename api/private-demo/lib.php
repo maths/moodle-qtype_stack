@@ -5,6 +5,14 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
+//
+// Stack is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
  * Shared helpers for the private STACK API demo frontend.
@@ -13,6 +21,7 @@
  * @copyright  2026 University of Edinburgh
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
+require_once('../config.php');
 
 define('STACK_PRIVATE_DEMO_ROOT', realpath(__DIR__ . '/../..'));
 define(
@@ -92,7 +101,7 @@ function stack_private_demo_text_response($response, $text, $status = 200) {
  * @return object Response.
  */
 function stack_private_demo_template_response($response, $template, $data = []) {
-    extract($data, EXTR_SKIP);
+    $queryparams = $data['queryparams'] ?? null;
 
     ob_start();
     require($template);
@@ -145,11 +154,11 @@ function stack_private_demo_manifest() {
  */
 function stack_private_demo_catalogue() {
     $questions = array_values(stack_private_demo_manifest()['questions']);
-    usort($questions, function($left, $right) {
+    usort($questions, function ($left, $right) {
         return [$left['category'], $left['name']] <=> [$right['category'], $right['name']];
     });
 
-    return array_map(function($question) {
+    return array_map(function ($question) {
         return [
             'questionId' => $question['id'],
             'name' => $question['name'],

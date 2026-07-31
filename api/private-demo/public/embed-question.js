@@ -5,13 +5,23 @@
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-const embeddedQuestion = window.stackEmbeddedQuestion || {};
-let questions = [{name: embeddedQuestion.name || 'Practice question'}];
+let embeddedQuestion = {};
+let questions = [{name: 'Practice question'}];
 let page = 0;
 let seed = null;
+let seedIndex = 0;
+let seedSequence = [];
+
+function configureEmbeddedQuestion(question) {
+    embeddedQuestion = question || {};
+    questions = [{name: embeddedQuestion.name || 'Practice question'}];
+    seedSequence = Array.isArray(embeddedQuestion.seeds) ? embeddedQuestion.seeds : [];
+    seedIndex = 0;
+    seed = seedSequence.length > 0 ? seedSequence[0] : null;
+}
 
 $(document).ready(function () {
-    document.getElementById('stackapi_variant').style.display = 'none';
+    document.getElementById('stackapi_variant').style.display = seedSequence.length > 1 ? '' : 'none';
     send();
 });
 
@@ -30,7 +40,11 @@ function collectData() {
 }
 
 function advanceVariant() {
-    seed = seed === null ? 1 : seed + 1;
+    if (seedSequence.length < 2) {
+        return;
+    }
+    seedIndex = (seedIndex + 1) % seedSequence.length;
+    seed = seedSequence[seedIndex];
     send();
 }
 

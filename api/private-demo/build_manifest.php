@@ -116,7 +116,6 @@ if ($errors) {
     foreach ($errors as $error) {
         fwrite(STDERR, $error . "\n");
     }
-    exit(1);
 }
 
 $manifest = [

@@ -18,11 +18,13 @@ require_once(__DIR__ . '/lib.php');
 
 $reference = stack_private_demo_question_reference($queryparams ?? []);
 $xml = stack_private_demo_question_definition_from_reference($reference);
-
-$title = 'Practice question';
 libxml_use_internal_errors(true);
 $quiz = simplexml_load_string($xml);
 libxml_clear_errors();
+$seedsequence = stack_private_demo_embed_seed_sequence($queryparams ?? [], $quiz);
+
+$title = 'Practice question';
+
 if ($quiz !== false && isset($quiz->question[0]->name->text)) {
     $questionname = trim((string) $quiz->question[0]->name->text);
     if ($questionname !== '') {
@@ -31,6 +33,9 @@ if ($quiz !== false && isset($quiz->question[0]->name->text)) {
 }
 
 $question = array_merge(['name' => $title], $reference);
+if ($seedsequence !== null) {
+    $question['seeds'] = $seedsequence;
+}
 ?>
 <!doctype html>
 <html>
@@ -50,9 +55,6 @@ $question = array_merge(['name' => $title], $reference);
         margin-left: 0;
         padding: 0;
       }
-      #stackapi_spinner {
-        display: none;
-      }
     </style>
     <script
       type="text/javascript"
@@ -64,10 +66,12 @@ $question = array_merge(['name' => $title], $reference);
         serverUrl: '/demo/',
         displayType: 'SAMPLE'
       };
-      window.stackEmbeddedQuestion = <?=json_encode($question, JSON_UNESCAPED_SLASHES)?>;
     </script>
     <script src="assets/stackshared.js"></script>
     <script src="embed-question.js"></script>
+    <script>
+      configureEmbeddedQuestion(<?=json_encode($question, JSON_UNESCAPED_SLASHES)?>);
+    </script>
   </head>
   <body>
     <div class="main-content que stack">

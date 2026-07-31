@@ -15,7 +15,9 @@
  */
 
 $pathquestion = 'Algebra-Refresher/01-Combinations-of-arithmetic-operations/AlgMap-1-1.xml';
+$pathquestionseeds = 'all';
 $idquestion = 'q_ae2a68e432c6de1b';
+$idquestionseeds = '1239251428, 505204816';
 ?>
 <!doctype html>
 <html>
@@ -82,7 +84,7 @@ $idquestion = 'q_ae2a68e432c6de1b';
         <iframe
           class="stack-embed"
           title="STACK question embedded by file location"
-          src="/embed?questionPath=<?=rawurlencode($pathquestion)?>"
+          src="/embed?questionPath=<?=rawurlencode($pathquestion)?>&seeds=<?=rawurlencode($pathquestionseeds)?>"
         ></iframe>
       </section>
 
@@ -95,7 +97,7 @@ $idquestion = 'q_ae2a68e432c6de1b';
         <iframe
           class="stack-embed"
           title="STACK question embedded by question id"
-          src="/embed?questionId=<?=rawurlencode($idquestion)?>"
+          src="/embed?questionId=<?=rawurlencode($idquestion)?>&seeds=<?=rawurlencode($idquestionseeds)?>"
         ></iframe>
       </section>
 

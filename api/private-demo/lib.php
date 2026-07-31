@@ -230,6 +230,40 @@ function stack_private_demo_question_definition_from_reference($reference) {
 }
 
 /**
+ * Get the seed sequence requested for an embedded question.
+ *
+ * @param array $data Query parameters.
+ * @param SimpleXMLElement $quiz Quiz XML.
+ * @return int[]|null Seed sequence, or null if no seed control was requested.
+ */
+function stack_private_demo_embed_seed_sequence($data, $quiz) {
+    if (empty($data['seeds']) || !is_string($data['seeds'])) {
+        return null;
+    }
+
+    $seeds = trim($data['seeds']);
+    if (strtolower($seeds) === 'all') {
+        return stack_private_demo_deployed_seeds_from_xml($quiz);
+    }
+
+    return array_map('intval', preg_split('/\s*,\s*/', $seeds, -1, PREG_SPLIT_NO_EMPTY));
+}
+
+/**
+ * Read deployed seeds from question XML.
+ *
+ * @param SimpleXMLElement $quiz .
+ * @return int[] Deployed seeds.
+ */
+function stack_private_demo_deployed_seeds_from_xml($quiz) {
+    $seeds = [];
+    foreach ($quiz->question[0]->deployedseed as $seed) {
+        $seeds[] = (int) $seed;
+    }
+    return $seeds;
+}
+
+/**
  * Resolve a question-library-relative path to a local XML question definition.
  *
  * @param string $relativepath Relative path under the configured question library.

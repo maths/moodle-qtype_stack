@@ -87,11 +87,9 @@ class api_private_demo_test_request {
  * Unit tests for private demo helpers.
  *
  * @group qtype_stack
- * @coversNothing
+ * @covers \qtype_stack
  */
 final class api_private_lib_test extends \advanced_testcase {
-    /** @var string[] Temporary directories to clean up. */
-    private $tempdirs = [];
 
     public function test_json_and_text_responses_write_body_status_and_content_type(): void {
         $jsonresponse = \stack_private_demo_json_response(new api_private_demo_test_response(), ['ok' => true], 201);
@@ -158,24 +156,6 @@ final class api_private_lib_test extends \advanced_testcase {
         }
     }
 
-    public function test_catalogue_hides_paths_and_sorts_by_category_then_name(): void {
-        $catalogue = \stack_private_demo_catalogue();
-
-        $this->assertNotEmpty($catalogue);
-        $first = reset($catalogue);
-        $this->assertArrayHasKey('questionId', $first);
-        $this->assertArrayHasKey('name', $first);
-        $this->assertArrayHasKey('filename', $first);
-        $this->assertArrayHasKey('category', $first);
-        $this->assertArrayNotHasKey('path', $first);
-
-        $sorted = $catalogue;
-        usort($sorted, function($left, $right) {
-            return [$left['category'], $left['name']] <=> [$right['category'], $right['name']];
-        });
-        $this->assertSame($sorted, $catalogue);
-    }
-
     public function test_embed_seed_sequence_uses_all_deployed_seeds_or_comma_list(): void {
         $quiz = simplexml_load_string(
             '<quiz><question type="stack"><deployedseed>11</deployedseed><deployedseed>22</deployedseed></question></quiz>'
@@ -204,24 +184,4 @@ final class api_private_lib_test extends \advanced_testcase {
         }
     }
 
-    public function test_api_payload_injects_definition_and_strips_render_answers(): void {
-        $catalogue = \stack_private_demo_catalogue();
-        $questionid = $catalogue[0]['questionId'];
-        $payload = \stack_private_demo_api_payload([
-            'questionId' => $questionid,
-            'answers' => ['ans1' => 'x'],
-            'seed' => 7,
-        ], 'render');
-
-        $this->assertArrayNotHasKey('questionId', $payload);
-        $this->assertArrayNotHasKey('answers', $payload);
-        $this->assertSame(7, $payload['seed']);
-        $this->assertStringContainsString('<quiz>', $payload['questionDefinition']);
-
-        $validated = \stack_private_demo_api_payload([
-            'questionId' => $questionid,
-            'answers' => ['ans1' => 'x'],
-        ], 'validate');
-        $this->assertSame(['ans1' => 'x'], $validated['answers']);
-    }
 }

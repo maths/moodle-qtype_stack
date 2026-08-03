@@ -24,14 +24,7 @@
  * @copyright  2026 University of Edinburgh
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
-
-require_once('../config.php');
-
-if (PHP_SAPI !== 'cli') {
-    http_response_code(404);
-    die();
-}
-
+defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/lib.php');
 
 $root = STACK_PRIVATE_DEMO_LIBRARY_ROOT;

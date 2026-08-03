@@ -36,7 +36,7 @@ class api_private_demo_test_body {
     /** @var string Written body content. */
     public $contents = '';
 
-    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     public function write($text): void {
         $this->contents .= $text;
     }
@@ -55,24 +55,24 @@ class api_private_demo_test_response {
     /** @var api_private_demo_test_body Response body. */
     private $body;
 
-    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     public function __construct() {
         $this->body = new api_private_demo_test_body();
     }
 
-    // phpcs:ignore moodle.Commenting.MissingDocblock.Function,moodle.NamingConventions.ValidFunctionName.LowercaseMethod
+    // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription,moodle.NamingConventions.ValidFunctionName.LowercaseMethod
     public function getBody() {
         return $this->body;
     }
 
-    // phpcs:ignore moodle.Commenting.MissingDocblock.Function,moodle.NamingConventions.ValidFunctionName.LowercaseMethod
+    // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription,moodle.NamingConventions.ValidFunctionName.LowercaseMethod
     public function withStatus($status) {
         $clone = clone $this;
         $clone->status = $status;
         return $clone;
     }
 
-    // phpcs:ignore moodle.Commenting.MissingDocblock.Function,moodle.NamingConventions.ValidFunctionName.LowercaseMethod
+    // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription,moodle.NamingConventions.ValidFunctionName.LowercaseMethod
     public function withHeader($name, $value) {
         $clone = clone $this;
         $clone->headers[$name] = $value;
@@ -87,12 +87,12 @@ class api_private_demo_test_request {
     /** @var string Request body. */
     private $body;
 
-    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     public function __construct($body) {
         $this->body = $body;
     }
 
-    // phpcs:ignore moodle.Commenting.MissingDocblock.Function,moodle.NamingConventions.ValidFunctionName.LowercaseMethod
+    // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription,moodle.NamingConventions.ValidFunctionName.LowercaseMethod
     public function getBody() {
         return $this->body;
     }
@@ -105,7 +105,6 @@ class api_private_demo_test_request {
  * @covers \qtype_stack
  */
 final class api_private_lib_test extends \advanced_testcase {
-
     public function test_json_and_text_responses_write_body_status_and_content_type(): void {
         $jsonresponse = \stack_private_demo_json_response(new api_private_demo_test_response(), ['ok' => true], 201);
         $this->assertSame(201, $jsonresponse->status);
@@ -201,5 +200,4 @@ final class api_private_lib_test extends \advanced_testcase {
             $this->assertSame('Question file is not available.', $exception->getMessage());
         }
     }
-
 }

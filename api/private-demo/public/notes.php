@@ -21,7 +21,11 @@
  * @copyright  2026 University of Edinburgh
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
-require_once('../../config.php');
+
+require_once('../config.php');
+require_once(__DIR__ . '../../emulation/MoodleEmulation.php');
+// Required to pass Moodle code check. Uses emulation stub.
+require_login();
 $pathquestion = 'Algebra-Refresher/01-Combinations-of-arithmetic-operations/AlgMap-1-1.xml';
 $pathquestionseeds = 'all';
 $idquestion = 'q_ae2a68e432c6de1b';

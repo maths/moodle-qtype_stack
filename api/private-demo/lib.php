@@ -21,7 +21,6 @@
  * @copyright  2026 University of Edinburgh
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
-require_once('../config.php');
 
 define('STACK_PRIVATE_DEMO_ROOT', realpath(__DIR__ . '/../..'));
 define(

@@ -88,7 +88,9 @@ if ($mform->is_cancelled()) {
         $errors = $e->getMessage();
     }
     // The import process spits out the question description somewhere. Clean output to remove.
-    ob_clean();
+    if (ob_get_level() > 0) {
+        ob_clean();
+    }
     // Refresh data with newly saved question.
     [$qversion, $questionid] = get_latest_question_version($questionid);
     $question = question_bank::load_question($questionid);

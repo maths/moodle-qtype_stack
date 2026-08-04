@@ -126,7 +126,7 @@ class library_import extends \external_api {
             $cache = \cache::make('qtype_stack', 'librarycache');
             $externalfiles = $cache->get($params['cacheid'] . '_flat_file_list');
         } else if (str_starts_with($params['cacheid'], stack_question_library::NRWSEARCH)) {
-            $requestedfile = $params['filepath'];
+            $requestedfile = make_request_directory() . "/importq.xml";
             $external = stack_question_library::NRWSEARCH;
             $apikey = get_config('qtype_stack', 'nrwapikey');
         } else {

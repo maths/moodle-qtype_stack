@@ -23,6 +23,8 @@
  */
 
 namespace api\controller;
+
+use stdClass;
 defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../util/StackIframeHolder.php');
 require_once(__DIR__ . '/../dtos/StackRenderResponse.php');
@@ -139,6 +141,10 @@ class RenderController {
         $renderresponse->questionnote = $question->get_question_summary();
         StackPlotReplacer::replace_plots($plots, $renderresponse->questionnote, "note-" . $name, $storeprefix);
         $renderresponse->questionassets = (object) $plots;
+        $renderresponse->aboutapi = new stdClass();
+        $renderresponse->aboutapi->stackmaxima = get_config('qtype_stack', 'stackmaximaversion');
+        $renderresponse->aboutapi->stackapi = get_config('qtype_stack', 'apiversion') ?? get_config('qtype_stack', 'version');
+
 
         if (!empty($data['fullRender'])) {
             // Request for full rendering. We replace placeholders with input renders and basic feedback and validation divs.

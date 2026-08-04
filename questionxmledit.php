@@ -30,6 +30,11 @@ require_once($CFG->dirroot . '/question/format/xml/format.php');
 require_once(__DIR__ . '/questionxmlform.php');
 use core_question\local\bank\question_edit_contexts;
 
+$PAGE->requires->js_call_amd(
+    'qtype_stack/ace_editor',
+    'init'
+);
+
 require_login();
 
 // Get the parameters from the URL.

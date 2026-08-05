@@ -147,6 +147,7 @@ describe('api/public/stackshared.js', () => {
         }));
 
         global.create_iframe = jest.fn();
+        global.initFreetextInputs = jest.fn();
         global.MathJax = {typesetPromise: jest.fn()};
 
         if (!global.CSS) {
@@ -285,6 +286,7 @@ describe('api/public/stackshared.js', () => {
         expect(document.getElementById('formatcorrectresponse').innerHTML).toContain('\\[{x+1}\\]');
         expect(document.getElementById('formatcorrectresponse').innerHTML).toContain('line 1<br>line 2');
         expect(document.getElementById('stack-iframe-holder-0_old')).not.toBeNull();
+        expect(global.initFreetextInputs).toHaveBeenCalledWith('output');
         expect(global.create_iframe).toHaveBeenCalledTimes(1);
         expect(global.MathJax.typesetPromise).toHaveBeenCalled();
 

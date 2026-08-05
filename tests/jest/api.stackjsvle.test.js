@@ -6,7 +6,7 @@ const path = require('path');
 function loadApiStackJsVleModule() {
     const modulePath = path.resolve(__dirname, '../../api/public/stackjsvle.js');
     const source = fs.readFileSync(modulePath, 'utf8');
-    const wrapped = new Function(`${source}\nreturn {create_iframe, register_iframe};`);
+    const wrapped = new Function(`${source}\nreturn {create_iframe, register_iframe, initFreetextInputs};`);
     return wrapped();
 }
 
@@ -98,6 +98,7 @@ describe('api/public/stackjsvle.js', () => {
                 <input id="input_valid" name="q1:1_valid" value="v" />
 
                 <textarea id="input_txt" name="q1:1_txt">line1</textarea>
+                <textarea id="input_free" name="q1:1_free" data-stack-input-type="freetext">abcdef</textarea>
                 <select id="input_sel" name="q1:1_sel">
                     <option value="">None</option>
                     <option value="A" selected>A</option>
@@ -188,6 +189,30 @@ describe('api/public/stackjsvle.js', () => {
         const response = JSON.parse(postMessage.mock.calls[0][0]);
         expect(response.type).toBe('ping');
         expect(response.tgt).toBe('iframe-manual');
+    });
+
+    test('initFreetextInputs adds token buttons that insert at the textarea cursor', () => {
+        stackjsvle.initFreetextInputs('qform');
+
+        const textarea = document.getElementById('input_free');
+        const buttons = textarea.previousElementSibling;
+        const seenInputEvents = [];
+        textarea.addEventListener('input', () => {
+            seenInputEvents.push(textarea.value);
+        });
+
+        expect(buttons.tagName).toBe('DIV');
+        expect(buttons.classList.contains('stack-freetext-insert-buttons')).toBe(true);
+        expect(Array.from(buttons.querySelectorAll('button')).map((button) => button.textContent))
+            .toEqual(['{@', '@}', '`', '\\(', '\\)', '\\[', '\\]']);
+
+        textarea.setSelectionRange(2, 4);
+        buttons.querySelectorAll('button')[0].click();
+
+        expect(textarea.value).toBe('ab{@ef');
+        expect(textarea.selectionStart).toBe(4);
+        expect(textarea.selectionEnd).toBe(4);
+        expect(seenInputEvents).toEqual(['ab{@ef']);
     });
 
     test('change-content sanitises script/style/event attributes before insertion', () => {

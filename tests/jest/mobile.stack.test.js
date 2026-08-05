@@ -384,7 +384,7 @@ describe('mobile/stack.js', () => {
         ]);
     });
 
-    test('adds freetext insert dropdown and validates inserted token', async() => {
+    test('adds freetext insert buttons and validates inserted token', async() => {
         const read = jest.fn().mockImplementation((method, args) => Promise.resolve({
             status: 'valid',
             input: args.input,
@@ -404,28 +404,23 @@ describe('mobile/stack.js', () => {
         jest.runAllTimers();
 
         const textarea = document.querySelector('#q1 [name="pfxfree"]');
-        const select = textarea.previousElementSibling;
+        const buttons = textarea.previousElementSibling;
         const seenInputEvents = [];
         textarea.addEventListener('input', () => {
             seenInputEvents.push(textarea.value);
         });
 
-        expect(select.tagName).toBe('ION-SELECT');
-        expect(select.classList.contains('stack-freetext-insert-select')).toBe(true);
-        expect(select.getAttribute('placeholder')).toBe('{@,`,\\[');
-        expect(Array.from(select.querySelectorAll('ion-select-option')).map((option) => option.value))
+        expect(buttons.tagName).toBe('DIV');
+        expect(buttons.classList.contains('stack-freetext-insert-buttons')).toBe(true);
+        expect(Array.from(buttons.querySelectorAll('button')).map((button) => button.textContent))
             .toEqual(['{@', '@}', '`', '\\(', '\\)', '\\[', '\\]']);
 
         textarea.setSelectionRange(2, 4);
-        select.dispatchEvent(new CustomEvent('ionChange', {
-            bubbles: true,
-            detail: {value: '\\]'},
-        }));
+        buttons.querySelectorAll('button')[6].click();
 
         expect(textarea.value).toBe('ab\\]ef');
         expect(textarea.selectionStart).toBe(4);
         expect(textarea.selectionEnd).toBe(4);
-        expect(select.value).toBe('');
         expect(seenInputEvents).toEqual(['ab\\]ef']);
 
         jest.runAllTimers();
@@ -439,7 +434,7 @@ describe('mobile/stack.js', () => {
         });
     });
 
-    test('adds freetext insert dropdown without validation init script', async() => {
+    test('adds freetext insert buttons without validation init script', async() => {
         const context = buildContext({
             question: {
                 html: buildQuestionHtml(),
@@ -454,10 +449,10 @@ describe('mobile/stack.js', () => {
         await flushMicrotasks();
 
         const textarea = document.querySelector('#q1 [name="pfxfree"]');
-        const select = textarea.previousElementSibling;
+        const buttons = textarea.previousElementSibling;
 
-        expect(select.tagName).toBe('ION-SELECT');
-        expect(select.classList.contains('stack-freetext-insert-select')).toBe(true);
+        expect(buttons.tagName).toBe('DIV');
+        expect(buttons.classList.contains('stack-freetext-insert-buttons')).toBe(true);
     });
 
     test('failed validation request sets error state and emits invalid event', async() => {

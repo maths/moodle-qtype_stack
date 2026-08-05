@@ -1279,8 +1279,8 @@ table.HELM_table th:last-child {
     max-width: 100%;
 }
 
-.que.stack select.stack-freetext-insert-select,
-.stack-freetext-insert-select {
+.que.stack .stack-freetext-insert-buttons,
+.stack-freetext-insert-buttons {
     display: none;
 }
 
@@ -1306,10 +1306,11 @@ table.HELM_table th:last-child {
 
 /* Stack vertically on narrow screens */
 @media (max-width: 768px) {
-    .que.stack select.stack-freetext-insert-select,
-    .stack-freetext-insert-select {
-        display: block;
-        width: auto;
+    .que.stack .stack-freetext-insert-buttons,
+    .stack-freetext-insert-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.25rem;
         max-width: 100%;
         margin: 0 0 0.35rem;
     }

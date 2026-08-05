@@ -148,6 +148,9 @@ function send() {
                 question = replaceFeedbackTags(question);
 
                 document.getElementById('output').innerHTML = question;
+                if (typeof initFreetextInputs === 'function') {
+                    initFreetextInputs('output');
+                }
                 // Only display results sections once question retrieved.
                 document.getElementById('stackapi_qtext').style.display = 'block';
                 if (displayType === FULLDISPLAY) {

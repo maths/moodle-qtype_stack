@@ -14,34 +14,34 @@ function insertAtTextareaSelection(textarea, text) {
     textarea.dispatchEvent(new Event('input', {bubbles: true}));
 }
 
-function addFreetextInsertDropdown(freetext) {
-    if (freetext.readOnly || freetext.disabled || freetext.dataset.stackFreetextInsertDropdown === 'true') {
+function addFreetextInsertButtons(freetext) {
+    if (freetext.readOnly || freetext.disabled || freetext.dataset.stackFreetextInsertButtons === 'true') {
         return;
     }
-    freetext.dataset.stackFreetextInsertDropdown = 'true';
+    freetext.dataset.stackFreetextInsertButtons = 'true';
 
-    const select = document.createElement('ion-select');
-    select.className = 'stack-freetext-insert-select';
-    select.setAttribute('placeholder', '{@,`,\\[');
-    select.setAttribute('interface', 'popover');
+    const buttons = document.createElement('div');
+    buttons.className = 'stack-freetext-insert-buttons';
+    buttons.setAttribute('role', 'group');
 
     FREETEXT_INSERT_TOKENS.forEach(function(token) {
-        const option = document.createElement('ion-select-option');
-        option.value = token;
-        option.textContent = token;
-        select.appendChild(option);
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'btn btn-secondary btn-sm';
+        button.textContent = token;
+        button.addEventListener('pointerdown', function(event) {
+            event.preventDefault();
+        });
+        button.addEventListener('mousedown', function(event) {
+            event.preventDefault();
+        });
+        button.addEventListener('click', function() {
+            insertAtTextareaSelection(freetext, token);
+        });
+        buttons.appendChild(button);
     });
 
-    select.addEventListener('ionChange', function(event) {
-        const value = event.detail && typeof event.detail.value === 'string' ? event.detail.value : select.value;
-        if (!value) {
-            return;
-        }
-        insertAtTextareaSelection(freetext, value);
-        select.value = '';
-    });
-
-    freetext.parentNode.insertBefore(select, freetext);
+    freetext.parentNode.insertBefore(buttons, freetext);
 }
 
 function initFreetextInputs(questionDivId) {
@@ -50,7 +50,7 @@ function initFreetextInputs(questionDivId) {
         return;
     }
     questionDiv.querySelectorAll('textarea[data-stack-input-type="freetext"]').forEach(function(freetext) {
-        addFreetextInsertDropdown(freetext);
+        addFreetextInsertButtons(freetext);
     });
 }
 
@@ -619,7 +619,7 @@ var result = {
      * @param {Object} freetext The input element wrapped in jquery.
      */
     function StackFreetextInput(freetext) {
-        addFreetextInsertDropdown(freetext);
+        addFreetextInsertButtons(freetext);
 
         /**
          * Add the event handler to call when the user input changes.

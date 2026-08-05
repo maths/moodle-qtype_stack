@@ -62,6 +62,75 @@
     /* For scroll synchronisation, lists of IFRAMES listening particular inputs. */
     let INPUTS_SCROLL_EVENT = {};
 
+    const FREETEXT_INSERT_TOKENS = ['{@', '@}', '`', '\\(', '\\)', '\\[', '\\]'];
+
+    /**
+     * Insert text into a textarea at the current selection.
+     *
+     * @param {HTMLTextAreaElement} textarea The textarea to update.
+     * @param {String} text Text to insert.
+     */
+    function insertAtTextareaSelection(textarea, text) {
+        let start = textarea.selectionStart;
+        let end = textarea.selectionEnd;
+
+        textarea.value = textarea.value.substring(0, start) + text + textarea.value.substring(end);
+        const caret = start + text.length;
+        textarea.focus();
+        textarea.setSelectionRange(caret, caret);
+        textarea.dispatchEvent(new Event('input', {bubbles: true}));
+    }
+
+    /**
+     * Add freetext token insertion buttons for a textarea.
+     *
+     * @param {HTMLTextAreaElement} freetext The freetext textarea.
+     */
+    function addFreetextInsertButtons(freetext) {
+        if (freetext.readOnly || freetext.disabled || freetext.dataset.stackFreetextInsertButtons === 'true') {
+            return;
+        }
+        freetext.dataset.stackFreetextInsertButtons = 'true';
+
+        const buttons = document.createElement('div');
+        buttons.className = 'stack-freetext-insert-buttons';
+        buttons.setAttribute('role', 'group');
+
+        FREETEXT_INSERT_TOKENS.forEach(function(token) {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'btn btn-secondary btn-sm';
+            button.textContent = token;
+            button.addEventListener('pointerdown', function(event) {
+                event.preventDefault();
+            });
+            button.addEventListener('mousedown', function(event) {
+                event.preventDefault();
+            });
+            button.addEventListener('click', function() {
+                insertAtTextareaSelection(freetext, token);
+            });
+            buttons.appendChild(button);
+        });
+
+        freetext.parentNode.insertBefore(buttons, freetext);
+    }
+
+    /**
+     * Initialise freetext insertion buttons in a question or container.
+     *
+     * @param {String} containerId id of the container with freetext inputs.
+     */
+    function initFreetextInputs(containerId) {
+        const container = document.getElementById(containerId);
+        if (!container) {
+            return;
+        }
+        container.querySelectorAll('textarea[data-stack-input-type="freetext"]').forEach(function(freetext) {
+            addFreetextInsertButtons(freetext);
+        });
+    }
+
     /**
      * Returns an element with a given id, if an only if that element exists
      * inside a portion of DOM that represents a question or its feedback.

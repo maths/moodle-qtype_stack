@@ -55,8 +55,6 @@ define([
     function insertAtTextareaSelection(textarea, text) {
         var start = textarea.selectionStart;
         var end = textarea.selectionEnd;
-        start = textarea.value.length;
-        end = textarea.value.length;
 
         textarea.value = textarea.value.substring(0, start) + text + textarea.value.substring(end);
         var caret = start + text.length;
@@ -66,44 +64,42 @@ define([
     }
 
     /**
-     * Add the mobile freetext token insertion dropdown for a textarea.
+     * Add the mobile freetext token insertion buttons for a textarea.
      *
      * @param {HTMLTextAreaElement} freetext The freetext textarea.
      */
-    function addFreetextInsertDropdown(freetext) {
-        if (freetext.readOnly || freetext.disabled || freetext.dataset.stackFreetextInsertDropdown === 'true') {
+    function addFreetextInsertButtons(freetext) {
+        if (freetext.readOnly || freetext.disabled || freetext.dataset.stackFreetextInsertButtons === 'true') {
             return;
         }
-        freetext.dataset.stackFreetextInsertDropdown = 'true';
+        freetext.dataset.stackFreetextInsertButtons = 'true';
 
-        var select = document.createElement('select');
-        select.className = 'stack-freetext-insert-select custom-select form-select';
-
-        var placeholder = document.createElement('option');
-        placeholder.value = '';
-        placeholder.textContent = '{@,`,\\[';
-        select.appendChild(placeholder);
+        var buttons = document.createElement('div');
+        buttons.className = 'stack-freetext-insert-buttons';
+        buttons.setAttribute('role', 'group');
 
         FREETEXT_INSERT_TOKENS.forEach(function(token) {
-            var option = document.createElement('option');
-            option.value = token;
-            option.textContent = token;
-            select.appendChild(option);
+            var button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'btn btn-secondary btn-sm';
+            button.textContent = token;
+            button.addEventListener('pointerdown', function(event) {
+                event.preventDefault();
+            });
+            button.addEventListener('mousedown', function(event) {
+                event.preventDefault();
+            });
+            button.addEventListener('click', function() {
+                insertAtTextareaSelection(freetext, token);
+            });
+            buttons.appendChild(button);
         });
 
-        select.addEventListener('change', function() {
-            if (select.value === '') {
-                return;
-            }
-            insertAtTextareaSelection(freetext, select.value);
-            select.value = '';
-        });
-
-        freetext.parentNode.insertBefore(select, freetext);
+        freetext.parentNode.insertBefore(buttons, freetext);
     }
 
     /**
-     * Initialise freetext insertion dropdowns in a question.
+     * Initialise freetext insertion buttons in a question.
      *
      * @param {String} questionDivId id of the outer div of the question.
      */
@@ -113,7 +109,7 @@ define([
             return;
         }
         questionDiv.querySelectorAll('textarea[data-stack-input-type="freetext"]').forEach(function(freetext) {
-            addFreetextInsertDropdown(freetext);
+            addFreetextInsertButtons(freetext);
         });
     }
 
@@ -422,7 +418,7 @@ define([
      * @param {Object} freetext The input element wrapped in jquery.
      */
     function StackFreetextInput(freetext) {
-        addFreetextInsertDropdown(freetext);
+        addFreetextInsertButtons(freetext);
 
         /**
          * Add the event handler to call when the user input changes.

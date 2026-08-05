@@ -233,7 +233,7 @@ describe('amd/src/input.js', () => {
         ]);
     });
 
-    test('freetext insert dropdown inserts tokens at the textarea cursor', () => {
+    test('freetext insert buttons insert tokens at the textarea cursor', () => {
         document.body.innerHTML = `
             <div id="question-freetext">
                 <textarea id="free1" name="pfxfree" data-stack-input-type="freetext">abcdef</textarea>
@@ -248,27 +248,25 @@ describe('amd/src/input.js', () => {
         module.initInputs('question-freetext', 'pfx', 'qa-free', ['free']);
 
         const textarea = document.getElementById('free1');
-        const select = textarea.previousElementSibling;
+        const buttons = textarea.previousElementSibling;
         const seenInputEvents = [];
         textarea.addEventListener('input', () => {
             seenInputEvents.push(textarea.value);
         });
 
-        expect(select.nodeName).toBe('SELECT');
-        expect(select.classList.contains('stack-freetext-insert-select')).toBe(true);
-        expect(Array.from(select.options).map((option) => option.value)).toEqual(['', '{@', '@}', '`', '\\(', '\\)', '\\[', '\\]']);
+        expect(buttons.nodeName).toBe('DIV');
+        expect(buttons.classList.contains('stack-freetext-insert-buttons')).toBe(true);
+        expect(Array.from(buttons.querySelectorAll('button')).map((button) => button.textContent))
+            .toEqual(['{@', '@}', '`', '\\(', '\\)', '\\[', '\\]']);
 
         textarea.setSelectionRange(2, 4);
-        select.value = '\\[';
-        select.dispatchEvent(new Event('change', {bubbles: true}));
+        buttons.querySelectorAll('button')[5].click();
 
         expect(textarea.value).toBe('ab\\[ef');
         expect(textarea.selectionStart).toBe(4);
         expect(textarea.selectionEnd).toBe(4);
-        expect(select.value).toBe('');
 
-        select.value = '@}';
-        select.dispatchEvent(new Event('change', {bubbles: true}));
+        buttons.querySelectorAll('button')[1].click();
 
         expect(textarea.value).toBe('ab\\[@}ef');
         expect(textarea.selectionStart).toBe(6);
@@ -277,7 +275,7 @@ describe('amd/src/input.js', () => {
         expect(ajaxMock.call).not.toHaveBeenCalled();
     });
 
-    test('freetext insert dropdown can initialise without validation handlers', () => {
+    test('freetext insert buttons can initialise without validation handlers', () => {
         document.body.innerHTML = `
             <div id="question-freetext-no-validation">
                 <textarea id="free2" name="pfxfree" data-stack-input-type="freetext">abc</textarea>
@@ -291,10 +289,10 @@ describe('amd/src/input.js', () => {
         module.initFreetextInputs('question-freetext-no-validation');
 
         const textarea = document.getElementById('free2');
-        const select = textarea.previousElementSibling;
+        const buttons = textarea.previousElementSibling;
 
-        expect(select.nodeName).toBe('SELECT');
-        expect(select.classList.contains('stack-freetext-insert-select')).toBe(true);
+        expect(buttons.nodeName).toBe('DIV');
+        expect(buttons.classList.contains('stack-freetext-insert-buttons')).toBe(true);
         expect(ajaxMock.call).not.toHaveBeenCalled();
     });
 

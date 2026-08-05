@@ -32,6 +32,9 @@ function buildQuestionHtml() {
                 <textarea id="input_txt" name="pfxtxt">line1</textarea>
                 <div id="pfxtxt_val"></div>
 
+                <textarea id="input_free" name="pfxfree" data-stack-input-type="freetext">abcdef</textarea>
+                <div id="pfxfree_val"></div>
+
                 <div class="answer" id="checkbox-answer">
                     <div class="option option-a">
                         <label for="pfxchk_1">Choice A</label>
@@ -379,6 +382,82 @@ describe('mobile/stack.js', () => {
             {inputname: 'ans', completed: false, valid: null},
             {inputname: 'ans', completed: true, valid: true},
         ]);
+    });
+
+    test('adds freetext insert dropdown and validates inserted token', async() => {
+        const read = jest.fn().mockImplementation((method, args) => Promise.resolve({
+            status: 'valid',
+            input: args.input,
+            message: '<span>Looks good</span>',
+        }));
+        const context = buildContext({
+            read,
+            question: {
+                html: buildQuestionHtml(),
+                scriptsCode: 'amd.initInputs("q1","pfx","qa-free",["free"]);',
+            },
+        });
+        const mobileStack = loadMobileStack(context);
+
+        mobileStack.componentInit.call(context);
+        mountRenderedQuestion(context.question);
+        jest.runAllTimers();
+
+        const textarea = document.querySelector('#q1 [name="pfxfree"]');
+        const select = textarea.previousElementSibling;
+        const seenInputEvents = [];
+        textarea.addEventListener('input', () => {
+            seenInputEvents.push(textarea.value);
+        });
+
+        expect(select.tagName).toBe('ION-SELECT');
+        expect(select.classList.contains('stack-freetext-insert-select')).toBe(true);
+        expect(select.getAttribute('placeholder')).toBe('{@,`,\\[');
+        expect(Array.from(select.querySelectorAll('ion-select-option')).map((option) => option.value))
+            .toEqual(['{@', '@}', '`', '\\(', '\\)', '\\[', '\\]']);
+
+        textarea.setSelectionRange(2, 4);
+        select.dispatchEvent(new CustomEvent('ionChange', {
+            bubbles: true,
+            detail: {value: '\\]'},
+        }));
+
+        expect(textarea.value).toBe('ab\\]ef');
+        expect(textarea.selectionStart).toBe(4);
+        expect(textarea.selectionEnd).toBe(4);
+        expect(select.value).toBe('');
+        expect(seenInputEvents).toEqual(['ab\\]ef']);
+
+        jest.runAllTimers();
+        await flushMicrotasks();
+
+        expect(read).toHaveBeenCalledWith('qtype_stack_validate_input', {
+            qaid: 'qa-free',
+            name: 'free',
+            input: 'ab\\]ef',
+            lang: 'fr',
+        });
+    });
+
+    test('adds freetext insert dropdown without validation init script', async() => {
+        const context = buildContext({
+            question: {
+                html: buildQuestionHtml(),
+                scriptsCode: '',
+            },
+        });
+        const mobileStack = loadMobileStack(context);
+
+        mobileStack.componentInit.call(context);
+        mountRenderedQuestion(context.question);
+        jest.runAllTimers();
+        await flushMicrotasks();
+
+        const textarea = document.querySelector('#q1 [name="pfxfree"]');
+        const select = textarea.previousElementSibling;
+
+        expect(select.tagName).toBe('ION-SELECT');
+        expect(select.classList.contains('stack-freetext-insert-select')).toBe(true);
     });
 
     test('failed validation request sets error state and emits invalid event', async() => {

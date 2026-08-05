@@ -59,6 +59,7 @@ class qtype_stack_renderer extends qtype_renderer {
 
         // Replace inputs.
         $inputstovaldiate = [];
+        $hasfreetextinput = false;
 
         // Get the list of placeholders before format_text.
         $originalinputplaceholders = array_unique(stack_utils::extract_placeholders($questiontext, 'input'));
@@ -166,6 +167,9 @@ class qtype_stack_renderer extends qtype_renderer {
             if ($input->requires_validation()) {
                 $inputstovaldiate[] = $name;
             }
+            if ($input instanceof stack_freetext_input) {
+                $hasfreetextinput = true;
+            }
         }
 
         // Replace PRTs.
@@ -188,8 +192,8 @@ class qtype_stack_renderer extends qtype_renderer {
             $questiontext = str_replace("[[feedback:{$index}]]", $feedback, $questiontext);
         }
 
-        // Initialise automatic validation, if enabled.
-        if (stack_utils::get_config()->ajaxvalidation) {
+        $questiondivid = null;
+        if (stack_utils::get_config()->ajaxvalidation || $hasfreetextinput) {
             // Once we cen rely on everyone being on a Moodle version that includes the fix for
             // MDL-65029 (3.5.6+, 3.6.4+, 3.7+) we can remove this if and just call the method.
             if (method_exists($qa, 'get_outer_question_div_unique_id')) {
@@ -197,6 +201,18 @@ class qtype_stack_renderer extends qtype_renderer {
             } else {
                 $questiondivid = 'q' . $qa->get_slot();
             }
+        }
+
+        if ($hasfreetextinput) {
+            $this->page->requires->js_call_amd(
+                'qtype_stack/input',
+                'initFreetextInputs',
+                [$questiondivid]
+            );
+        }
+
+        // Initialise automatic validation, if enabled.
+        if (stack_utils::get_config()->ajaxvalidation) {
             $this->page->requires->js_call_amd(
                 'qtype_stack/input',
                 'initInputs',

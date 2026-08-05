@@ -233,6 +233,71 @@ describe('amd/src/input.js', () => {
         ]);
     });
 
+    test('freetext insert dropdown inserts tokens at the textarea cursor', () => {
+        document.body.innerHTML = `
+            <div id="question-freetext">
+                <textarea id="free1" name="pfxfree" data-stack-input-type="freetext">abcdef</textarea>
+                <div id="pfxfree_val"></div>
+            </div>
+        `;
+
+        const ajaxMock = {call: jest.fn()};
+        const eventsMock = {notifyFilterContentUpdated: jest.fn()};
+        const module = loadInputModule(ajaxMock, eventsMock);
+
+        module.initInputs('question-freetext', 'pfx', 'qa-free', ['free']);
+
+        const textarea = document.getElementById('free1');
+        const select = textarea.previousElementSibling;
+        const seenInputEvents = [];
+        textarea.addEventListener('input', () => {
+            seenInputEvents.push(textarea.value);
+        });
+
+        expect(select.nodeName).toBe('SELECT');
+        expect(select.classList.contains('stack-freetext-insert-select')).toBe(true);
+        expect(Array.from(select.options).map((option) => option.value)).toEqual(['', '{@', '@}', '`', '\\(', '\\)', '\\[', '\\]']);
+
+        textarea.setSelectionRange(2, 4);
+        select.value = '\\[';
+        select.dispatchEvent(new Event('change', {bubbles: true}));
+
+        expect(textarea.value).toBe('ab\\[ef');
+        expect(textarea.selectionStart).toBe(4);
+        expect(textarea.selectionEnd).toBe(4);
+        expect(select.value).toBe('');
+
+        select.value = '@}';
+        select.dispatchEvent(new Event('change', {bubbles: true}));
+
+        expect(textarea.value).toBe('ab\\[@}ef');
+        expect(textarea.selectionStart).toBe(6);
+        expect(textarea.selectionEnd).toBe(6);
+        expect(seenInputEvents).toEqual(['ab\\[ef', 'ab\\[@}ef']);
+        expect(ajaxMock.call).not.toHaveBeenCalled();
+    });
+
+    test('freetext insert dropdown can initialise without validation handlers', () => {
+        document.body.innerHTML = `
+            <div id="question-freetext-no-validation">
+                <textarea id="free2" name="pfxfree" data-stack-input-type="freetext">abc</textarea>
+            </div>
+        `;
+
+        const ajaxMock = {call: jest.fn()};
+        const eventsMock = {notifyFilterContentUpdated: jest.fn()};
+        const module = loadInputModule(ajaxMock, eventsMock);
+
+        module.initFreetextInputs('question-freetext-no-validation');
+
+        const textarea = document.getElementById('free2');
+        const select = textarea.previousElementSibling;
+
+        expect(select.nodeName).toBe('SELECT');
+        expect(select.classList.contains('stack-freetext-insert-select')).toBe(true);
+        expect(ajaxMock.call).not.toHaveBeenCalled();
+    });
+
     test('strips script tags from validation message output', () => {
         document.body.innerHTML = `
             <div id="question-4">

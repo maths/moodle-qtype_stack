@@ -1151,6 +1151,13 @@ table.HELM_table th:last-child {
     max-width: 100%;
 }
 
+.stack-freetext-insert-select {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    margin: 0 0 0.35rem;
+}
+
 .free-text-container > * {
     flex: 1;
     min-width: 0;

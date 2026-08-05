@@ -44,6 +44,79 @@ define([
 
     "use strict";
 
+    var FREETEXT_INSERT_TOKENS = ['{@', '@}', '`', '\\(', '\\)', '\\[', '\\]'];
+
+    /**
+     * Insert text into a textarea at the current selection.
+     *
+     * @param {HTMLTextAreaElement} textarea The textarea to update.
+     * @param {String} text Text to insert.
+     */
+    function insertAtTextareaSelection(textarea, text) {
+        var start = textarea.selectionStart;
+        var end = textarea.selectionEnd;
+        start = textarea.value.length;
+        end = textarea.value.length;
+
+        textarea.value = textarea.value.substring(0, start) + text + textarea.value.substring(end);
+        var caret = start + text.length;
+        textarea.focus();
+        textarea.setSelectionRange(caret, caret);
+        textarea.dispatchEvent(new Event('input', {bubbles: true}));
+    }
+
+    /**
+     * Add the mobile freetext token insertion dropdown for a textarea.
+     *
+     * @param {HTMLTextAreaElement} freetext The freetext textarea.
+     */
+    function addFreetextInsertDropdown(freetext) {
+        if (freetext.readOnly || freetext.disabled || freetext.dataset.stackFreetextInsertDropdown === 'true') {
+            return;
+        }
+        freetext.dataset.stackFreetextInsertDropdown = 'true';
+
+        var select = document.createElement('select');
+        select.className = 'stack-freetext-insert-select custom-select form-select';
+
+        var placeholder = document.createElement('option');
+        placeholder.value = '';
+        placeholder.textContent = '{@,`,\\[';
+        select.appendChild(placeholder);
+
+        FREETEXT_INSERT_TOKENS.forEach(function(token) {
+            var option = document.createElement('option');
+            option.value = token;
+            option.textContent = token;
+            select.appendChild(option);
+        });
+
+        select.addEventListener('change', function() {
+            if (select.value === '') {
+                return;
+            }
+            insertAtTextareaSelection(freetext, select.value);
+            select.value = '';
+        });
+
+        freetext.parentNode.insertBefore(select, freetext);
+    }
+
+    /**
+     * Initialise freetext insertion dropdowns in a question.
+     *
+     * @param {String} questionDivId id of the outer div of the question.
+     */
+    function initFreetextInputs(questionDivId) {
+        var questionDiv = document.getElementById(questionDivId);
+        if (!questionDiv) {
+            return;
+        }
+        questionDiv.querySelectorAll('textarea[data-stack-input-type="freetext"]').forEach(function(freetext) {
+            addFreetextInsertDropdown(freetext);
+        });
+    }
+
     /**
      * Class constructor representing an input in a Stack question.
      *
@@ -349,6 +422,8 @@ define([
      * @param {Object} freetext The input element wrapped in jquery.
      */
     function StackFreetextInput(freetext) {
+        addFreetextInsertDropdown(freetext);
+
         /**
          * Add the event handler to call when the user input changes.
          *
@@ -635,6 +710,13 @@ define([
          * @param {String} qaid Moodle question_attempt id.
          * @param {String[]} inputs names of all the inputs that should have instant validation.
          */
-        initInputs: initInputs
+        initInputs: initInputs,
+
+        /**
+         * Initialise freetext input helpers in a STACK question.
+         *
+         * @param {String} questionDivId id of the outer div of the question.
+         */
+        initFreetextInputs: initFreetextInputs
     };
 });

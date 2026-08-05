@@ -1279,6 +1279,11 @@ table.HELM_table th:last-child {
     max-width: 100%;
 }
 
+.que.stack select.stack-freetext-insert-select,
+.stack-freetext-insert-select {
+    display: none;
+}
+
 .free-text-container > * {
     flex: 1;
     min-width: 0;
@@ -1301,6 +1306,14 @@ table.HELM_table th:last-child {
 
 /* Stack vertically on narrow screens */
 @media (max-width: 768px) {
+    .que.stack select.stack-freetext-insert-select,
+    .stack-freetext-insert-select {
+        display: block;
+        width: auto;
+        max-width: 100%;
+        margin: 0 0 0.35rem;
+    }
+
     .free-text-container {
         flex-direction: column;
         width: 100%;

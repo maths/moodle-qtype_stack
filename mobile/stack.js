@@ -1,6 +1,59 @@
 // Minified using uglifyjs stack.js > stack.min.js
 
 var that = this;
+const FREETEXT_INSERT_TOKENS = ['{@', '@}', '`', '\\(', '\\)', '\\[', '\\]'];
+
+function insertAtTextareaSelection(textarea, text) {
+    let start = textarea.selectionStart;
+    let end = textarea.selectionEnd;
+
+    textarea.value = textarea.value.substring(0, start) + text + textarea.value.substring(end);
+    const caret = start + text.length;
+    textarea.focus();
+    textarea.setSelectionRange(caret, caret);
+    textarea.dispatchEvent(new Event('input', {bubbles: true}));
+}
+
+function addFreetextInsertDropdown(freetext) {
+    if (freetext.readOnly || freetext.disabled || freetext.dataset.stackFreetextInsertDropdown === 'true') {
+        return;
+    }
+    freetext.dataset.stackFreetextInsertDropdown = 'true';
+
+    const select = document.createElement('ion-select');
+    select.className = 'stack-freetext-insert-select';
+    select.setAttribute('placeholder', '{@,`,\\[');
+    select.setAttribute('interface', 'popover');
+
+    FREETEXT_INSERT_TOKENS.forEach(function(token) {
+        const option = document.createElement('ion-select-option');
+        option.value = token;
+        option.textContent = token;
+        select.appendChild(option);
+    });
+
+    select.addEventListener('ionChange', function(event) {
+        const value = event.detail && typeof event.detail.value === 'string' ? event.detail.value : select.value;
+        if (!value) {
+            return;
+        }
+        insertAtTextareaSelection(freetext, value);
+        select.value = '';
+    });
+
+    freetext.parentNode.insertBefore(select, freetext);
+}
+
+function initFreetextInputs(questionDivId) {
+    const questionDiv = document.getElementById(questionDivId);
+    if (!questionDiv) {
+        return;
+    }
+    questionDiv.querySelectorAll('textarea[data-stack-input-type="freetext"]').forEach(function(freetext) {
+        addFreetextInsertDropdown(freetext);
+    });
+}
+
 var result = {
 
     componentInit: function() {
@@ -215,6 +268,7 @@ var result = {
 
                 if (questionDivReady && iframeTargetsReady) {
                     observer.disconnect();
+                    initFreetextInputs(this.question.divId);
                     for (const args of inputInits) {
                         initInputs(...args);
                     }
@@ -565,6 +619,8 @@ var result = {
      * @param {Object} freetext The input element wrapped in jquery.
      */
     function StackFreetextInput(freetext) {
+        addFreetextInsertDropdown(freetext);
+
         /**
          * Add the event handler to call when the user input changes.
          *
@@ -583,6 +639,10 @@ var result = {
             var raw = freetext.value.replace(/^\s+|\s+$/g, '');
             // Using <br> here is weird, but it gets sorted out at the PHP end.
             return raw.split(/\s*[\r\n]\s*/).join('<br>');
+        };
+
+        this.dispatchEvent = function(event) {
+            freetext.dispatchEvent(event);
         };
     }
 

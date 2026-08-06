@@ -1372,7 +1372,7 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
     --smd-radius: 4px;
 }
 
-.stack-metadata :is(input, textarea) {
+.stack-metadata :is(input:not([type="checkbox"]):not([type="radio"]), textarea) {
     width: 100%;
 }
 

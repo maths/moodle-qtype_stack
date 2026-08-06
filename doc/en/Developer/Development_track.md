@@ -9,9 +9,6 @@ We use the [github issue tracker](https://github.com/maths/moodle-qtype_stack/is
 
 Issues with [github milestone 4.14.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.14.0) include
 
-1. Improve free-text blocks by matching scroll between textarea and preview block.
-2. Add in syntax highlighting and line numbering to question and feedback variables via the ace editor. Contributed by Hieu Vu and team on behalf of The Open University (UK).
-        
 1. Remove all "cte" code from Maxima - mostly install.
 
 ## Better testing

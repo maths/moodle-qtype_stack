@@ -14,9 +14,7 @@ FROM php:8.4.5-apache-bookworm AS base
 #Install required php extensions
 RUN apt-get update && \
     apt-get -y install libicu-dev libyaml-dev libzip-dev zip && \
-    pecl install yaml && \
     docker-php-ext-configure intl && \
-    docker-php-ext-enable yaml && \
     docker-php-ext-install intl zip && \
     a2enmod rewrite && a2enmod actions
 

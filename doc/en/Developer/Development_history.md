@@ -2,6 +2,15 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## Version 4.13.1 (2026080600)
+
+Released August 2026.
+
+This release contains some useful bug fixes, and improvements.
+
+1. Improve free-text blocks by matching scroll between textarea and preview block.
+2. Add in syntax highlighting and line numbering to question and feedback variables via the ace editor. Contributed by Hieu Vu and team on behalf of The Open University (UK).
+
 ## Version 4.13.0 (2026062900)
 
 Released June 2026.

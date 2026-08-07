@@ -96,13 +96,13 @@ $CFG->inputshowvalidation = 1;
 
 // Stackmaximaversion and version must match. Set
 // them to the version of goemaxima in docker-compose.
-$CFG->stackmaximaversion = "2026062900";
-$CFG->version = "2026062900";
+$CFG->stackmaximaversion = "2026080600";
+$CFG->version = "2026080600";
 
 // This is an optional api identifier. In production, this should match stackmaths/stackapi version
 // in docker-compose.yml. Whatever is set here will be output by the render route. Output defaults to
 // $CFG->version if $CFG->apiversion not set.
-$CFG->apiversion = "2026062900-0";
+$CFG->apiversion = "2026080600-0";
 
 // Do not change this setting.
 $CFG->mathsdisplay = 'api';

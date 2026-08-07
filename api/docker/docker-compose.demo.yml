@@ -1,7 +1,7 @@
 # This is for building the University of Edinburgh STACK demo site only.
 services:
   maxima:
-    image: mathinstitut/goemaxima:2026010500-latest
+    image: mathinstitut/goemaxima:2026080600-latest
     tmpfs:
       - "/tmp"
     restart: unless-stopped

@@ -9,11 +9,8 @@ We use the [github issue tracker](https://github.com/maths/moodle-qtype_stack/is
 
 Issues with [github milestone 4.14.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.14.0) include
 
-1. Improve free-text blocks by matching scroll between textarea and preview block.
-2. Add in line numbering to question and feedback variables via the ace editor.
-3. Consolidate support for [surds](../CAS/Surds.md)2, and add in the `reroot` function..
-
-1. Remove all "cte" code from Maxima - mostly install.
+1. Add [metadata](../Authoring/Metadata.md) to STACK questions.  (Issue #1711).
+2. Consolidate support for [surds](../CAS/Surds.md)2, and add in the `reroot` function..
 
 ## Better testing
 

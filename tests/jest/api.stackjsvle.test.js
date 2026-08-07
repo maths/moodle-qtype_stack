@@ -47,6 +47,26 @@ describe('api/public/stackjsvle.js', () => {
         return JSON.parse(calls[calls.length - 1][0]);
     }
 
+    function setScrollMetrics(element, {scrollTop = 0, scrollHeight = 200, clientHeight = 100} = {}) {
+        let currentScrollTop = scrollTop;
+        element.style.scrollBehavior = '';
+        Object.defineProperty(element, 'scrollTop', {
+            configurable: true,
+            get: () => currentScrollTop,
+            set: (value) => {
+                currentScrollTop = value;
+            },
+        });
+        Object.defineProperty(element, 'scrollHeight', {
+            configurable: true,
+            get: () => scrollHeight,
+        });
+        Object.defineProperty(element, 'clientHeight', {
+            configurable: true,
+            get: () => clientHeight,
+        });
+    }
+
     beforeEach(() => {
         const addEventListenerSpy = jest.spyOn(window, 'addEventListener');
         stackjsvle = loadApiStackJsVleModule();
@@ -265,6 +285,40 @@ describe('api/public/stackjsvle.js', () => {
         expect(response.type).toBe('changed-input');
         expect(response.name).toBe('maininput');
         expect(response.value).toBe('typed');
+    });
+
+    test('track-input-scroll returns the initial position and broadcasts textarea scrolling', () => {
+        const textarea = document.getElementById('input_txt');
+        setScrollMetrics(textarea, {scrollTop: 30, scrollHeight: 220, clientHeight: 100});
+
+        sendMessage({
+            version: 'STACK-JS:1.6.0',
+            src: 'iframe-1',
+            type: 'track-input-scroll',
+            name: 'txt',
+        });
+        sendMessage({
+            version: 'STACK-JS:1.6.0',
+            src: 'iframe-2',
+            type: 'track-input-scroll',
+            name: 'txt',
+        });
+
+        expect(expectLatestResponse('iframe-1').position).toBeCloseTo(0.25);
+        expect(expectLatestResponse('iframe-2', 1).position).toBeCloseTo(0.25);
+
+        postMessageByFrame['iframe-1'].mockClear();
+        postMessageByFrame['iframe-2'].mockClear();
+
+        textarea.scrollTop = 60;
+        textarea.dispatchEvent(new Event('scroll'));
+
+        const response1 = expectLatestResponse('iframe-1');
+        const response2 = expectLatestResponse('iframe-2');
+        expect(response1.type).toBe('input-scroll-position');
+        expect(response1.position).toBeCloseTo(0.5);
+        expect(response2.type).toBe('input-scroll-position');
+        expect(response2.position).toBeCloseTo(0.5);
     });
 
     test('track-validation-state forwards stack-validation events', () => {

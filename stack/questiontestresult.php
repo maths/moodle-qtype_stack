@@ -180,7 +180,9 @@ class stack_question_test_result {
                     $actualpenalty = $this->round_prt_scores($actualpenalty + 0);
                 }
                 $state->penalty = $actualpenalty;
-                $state->answernote = implode(' | ', $actualresult->get_answernotes());
+                $state->answernotes = $actualresult->get_answernotes();
+                $state->prtanswernotes = $actualresult->get_answernotes(false);
+                $state->answernote = implode(' | ', $state->answernotes);
                 $state->trace = implode("\n", $actualresult->get_trace());
                 $state->feedback = $actualresult->get_feedback();
                 $state->debuginfo = $actualresult->get_debuginfo();
@@ -188,6 +190,8 @@ class stack_question_test_result {
                 $state->score = '';
                 $state->penalty = '';
                 $state->answernote = '';
+                $state->answernotes = [];
+                $state->prtanswernotes = [];
                 $state->trace = '';
                 $state->feedback = '';
                 $state->debuginfo = '';
@@ -400,6 +404,8 @@ class stack_question_test_result {
                     'score' => $state->score,
                     'penalty' => $state->penalty,
                     'answernote' => $state->answernote,
+                    'answernotes' => $state->answernotes,
+                    'prtanswernotes' => $state->prtanswernotes,
                     'expectedscore' => $state->expectedscore,
                     'expectedpenalty' => $state->expectedpenalty,
                     'expectedanswernote' => $state->expectedanswernote,

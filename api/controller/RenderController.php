@@ -23,6 +23,8 @@
  */
 
 namespace api\controller;
+
+use stdClass;
 defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../util/StackIframeHolder.php');
 require_once(__DIR__ . '/../dtos/StackRenderResponse.php');
@@ -45,6 +47,7 @@ class RenderController {
     public function __invoke(Request $request, Response $response, array $args): Response {
         // TO-DO: Validate.
         $data = $request->getParsedBody();
+        $language = current_language($data['lang'] ?? null);
         $question = StackQuestionLoader::loadxml($data["questionDefinition"])['question'];
 
         StackSeedHelper::initialize_seed($question, $data["seed"]);
@@ -69,8 +72,6 @@ class RenderController {
         $translate->search = '/(<span(\s+lang="[a-zA-Z0-9_-]+"|\s+class="multilang")' .
                              '{2}\s*>.*?<\/span>)(\s*<span(\s+lang="[a-zA-Z0-9_-]+"' .
                              '|\s+class="multilang"){2}\s*>.*?<\/span>)+/is';
-        $language = current_language();
-
         $renderresponse = new StackRenderResponse();
         $plots = [];
 
@@ -140,6 +141,9 @@ class RenderController {
         $renderresponse->questionnote = $question->get_question_summary();
         StackPlotReplacer::replace_plots($plots, $renderresponse->questionnote, "note-" . $name, $storeprefix);
         $renderresponse->questionassets = (object) $plots;
+        $renderresponse->aboutapi = new stdClass();
+        $renderresponse->aboutapi->stackmaxima = get_config('qtype_stack', 'stackmaximaversion');
+        $renderresponse->aboutapi->stackapi = get_config('qtype_stack', 'apiversion') ?? get_config('qtype_stack', 'version');
 
         if (!empty($data['fullRender'])) {
             // Request for full rendering. We replace placeholders with input renders and basic feedback and validation divs.

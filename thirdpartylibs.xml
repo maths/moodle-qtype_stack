@@ -30,5 +30,11 @@
         <version>1</version>
         <license>MIT License</license>
     </library>
+    <library>
+        <location>ace</location>
+        <name>Ace Editor</name>
+        <version>v1.44.0</version>
+        <license>BSD 3-Clause License</license>
+    </library>
 </libraries>
 

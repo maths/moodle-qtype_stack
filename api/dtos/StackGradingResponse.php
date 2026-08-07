@@ -38,6 +38,8 @@ class StackGradingResponse {
     public $specificfeedback;
     /** @var array */
     public $prts;
+    /** @var array */
+    public $prtresults = [];
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $gradingassets;
     /** @var string */

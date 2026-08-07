@@ -209,8 +209,12 @@ abstract class stack_input {
         if (trim($options ?? '') != '') {
             $options = explode(',', $options);
             foreach ($options as $option) {
-                $option = strtolower(trim($option));
                 [$option, $arg] = stack_utils::parse_option($option);
+                // Maintain back compatibility following fix to #1792.
+                $option = strtolower(trim($option));
+                if (!($option == 'validator' || $option == 'feedback')) {
+                    $arg = strtolower(trim($arg));
+                }
                 // Only accept those options specified in the array for this input type.
                 if (array_key_exists($option, $this->extraoptions)) {
                     if ($arg === '') {

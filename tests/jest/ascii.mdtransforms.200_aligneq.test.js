@@ -21,7 +21,7 @@ describe('aligneq transform', () => {
     test('wraps a simple relation line into align blocks', () => {
         expect(aligneq(['x = y'], 'asciimath_block')).toEqual([
             '\\begin{align*}',
-            '& & x  & = y\\\\',
+            '& & x = &\\,  y\\\\',
             '\\end{align*}'
         ]);
     });
@@ -29,7 +29,7 @@ describe('aligneq transform', () => {
     test('places leading implication text in the first column', () => {
         expect(aligneq(['\\Rightarrow x = y'], 'asciimath_block')).toEqual([
             '\\begin{align*}',
-            '\\Rightarrow & &  x  & = y\\\\',
+            '\\Rightarrow & & x = &\\,  y\\\\',
             '\\end{align*}'
         ]);
     });
@@ -37,7 +37,7 @@ describe('aligneq transform', () => {
     test('moves \text content into the fourth column when not excluded', () => {
         expect(aligneq(['a = b \\text{then} c'], 'asciimath_block')).toEqual([
             '\\begin{align*}',
-            '& & a  & = b  & & \\text{then} c\\\\',
+            '& & a = &\\,  b  & & \\text{then} c\\\\',
             '\\end{align*}'
         ]);
     });
@@ -45,15 +45,24 @@ describe('aligneq transform', () => {
     test('does not treat excluded \text tokens as a split point', () => {
         expect(aligneq(['a = b \\text{or} c'], 'asciimath_block')).toEqual([
             '\\begin{align*}',
-            '& & a  & = b \\text{or} c\\\\',
+            '& & a = &\\,  b \\text{or} c\\\\',
             '\\end{align*}'
         ]);
     });
 
-    test('adds an ampersand when no relation token is found', () => {
+    test('no relation token is found', () => {
         expect(aligneq(['plain content'], 'asciimath_block')).toEqual([
             '\\begin{align*}',
-            '& & plain content &\\\\',
+            '& & &\\, plain content\\\\',
+            '\\end{align*}'
+        ]);
+    });
+
+    test('simple expressions all left aligned', () => {
+        expect(aligneq(['x^2+1', 'y'], 'asciimath_block')).toEqual([
+            '\\begin{align*}',
+            '& & &\\, x^2+1\\\\',
+            '& & &\\, y\\\\',
             '\\end{align*}'
         ]);
     });
@@ -61,7 +70,7 @@ describe('aligneq transform', () => {
     test('handles brace-delimited relation tokens only at top level', () => {
         expect(aligneq(['a = {b > c}'], 'asciimath_block')).toEqual([
             '\\begin{align*}',
-            '& & a  & = {b > c}\\\\',
+            '& & a = &\\,  {b > c}\\\\',
             '\\end{align*}'
         ]);
     });
@@ -69,7 +78,7 @@ describe('aligneq transform', () => {
     test('handles relation token at index 0', () => {
         expect(aligneq(['= y'], 'asciimath_block')).toEqual([
             '\\begin{align*}',
-            '& & & = y\\\\',
+            '& & = &\\,  y\\\\',
             '\\end{align*}'
         ]);
     });
@@ -77,7 +86,7 @@ describe('aligneq transform', () => {
     test('splits at the first top-level relation token when multiple exist', () => {
         expect(aligneq(['a > b = c'], 'asciimath_block')).toEqual([
             '\\begin{align*}',
-            '& & a  & > b = c\\\\',
+            '& & a > &\\,  b = c\\\\',
             '\\end{align*}'
         ]);
     });
@@ -85,7 +94,7 @@ describe('aligneq transform', () => {
     test('ignores excluded text token and splits at a later non-excluded text token', () => {
         expect(aligneq(['a = b \\text{or} c \\text{then} d'], 'asciimath_block')).toEqual([
             '\\begin{align*}',
-            '& & a  & = b \\text{or} c  & & \\text{then} d\\\\',
+            '& & a = &\\,  b \\text{or} c  & & \\text{then} d\\\\',
             '\\end{align*}'
         ]);
     });
@@ -93,7 +102,7 @@ describe('aligneq transform', () => {
     test('ignores relation tokens inside \\lbrace...\\rbrace and splits at top-level relation', () => {
         expect(aligneq(['a \\lbrace b = c \\rbrace = d'], 'asciimath_block')).toEqual([
             '\\begin{align*}',
-            '& & a \\lbrace b = c \\rbrace  & = d\\\\',
+            '& & a \\lbrace b = c \\rbrace = &\\,  d\\\\',
             '\\end{align*}'
         ]);
     });
@@ -101,7 +110,19 @@ describe('aligneq transform', () => {
     test('handles implication token with brace form', () => {
         expect(aligneq(['\\Rightarrow{x = y}'], 'asciimath_block')).toEqual([
             '\\begin{align*}',
-            '\\Rightarrow & & {x = y} & \\\\',
+            '\\Rightarrow & & &\\, {x = y}\\\\',
+            '\\end{align*}'
+        ]);
+    });
+
+    test('handles equational reasoning', () => {
+        expect(aligneq([
+            '\\log_{4}\\left(64\\right)',
+            '\\checkmark \\log_{4}\\left(4^3\\right)'
+        ], 'asciimath_block')).toEqual([
+            '\\begin{align*}',
+            '& & &\\, \\log_{4}\\left(64\\right)\\\\',
+            '\\checkmark & & &\\,  \\log_{4}\\left(4^3\\right)\\\\',
             '\\end{align*}'
         ]);
     });
@@ -114,10 +135,10 @@ describe('aligneq transform', () => {
             '\\because p \\subseteq q'
         ], 'asciimath_block')).toEqual([
             '\\begin{align*}',
-            '\\Rightarrow & &  x  & = y\\\\',
-            '& & a  & = {b > c}  & & \\text{then} d\\\\',
-            '& & plain content &\\\\',
-            '\\because & &  p  & \\subseteq q\\\\',
+            '\\Rightarrow & & x = &\\,  y\\\\',
+            '& & a = &\\,  {b > c}  & & \\text{then} d\\\\',
+            '& & &\\, plain content\\\\',
+            '\\because & & p \\subseteq  &\\, q\\\\',
             '\\end{align*}'
         ]);
     });

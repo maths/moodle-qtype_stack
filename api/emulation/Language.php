@@ -179,8 +179,11 @@ class ApiLanguage {
      */
     public static function api_current_language($requestheader) {
         $locale = locale_parse($requestheader);
+        if (!is_array($locale) || empty($locale['language'])) {
+            return 'en';
+        }
         $languages = [];
-        $requestedlanguage = strtolower($locale['language']) ?? 'en';
+        $requestedlanguage = strtolower($locale['language']);
         $languages[] = $requestedlanguage;
         $requestedregion = null;
         if (!empty($locale['region'])) {

@@ -348,19 +348,14 @@ function stack_fetch_included_content(string $url) {
 
     if ($good) {
         if (!isset($cache[$translated])) {
-            // Feel free to apply any proxying here if you want.
-            // Just remember that $islocalfile might be true and you might do
-            // something else then.
             if ($islocalfile) {
                 $cache[$translated] = file_get_contents($translated);
             } else {
                 $translated = clean_param($translated, PARAM_URL);
-                $headers = get_headers($translated);
-                if (strpos($headers[0], '404') === false) {
-                    $cache[$translated] = download_file_content($translated);
-                } else {
-                    $cache[$translated] = false;
-                }
+                // ISS1830 - Remove header check for 404 and rely on
+                // download_file_content to return false if the file can't be obtained for any reason.
+                // Note if adapting this for other VLEs: download_file_content also handles proxying.
+                $cache[$translated] = download_file_content($translated);
             }
         }
         return $cache[$translated];

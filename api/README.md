@@ -64,8 +64,9 @@ The `POST /render` route is used to render a given question. It expects a JSON d
 - `questionDefinition`: The Moodle-XML-Export of a single STACK question. For all routes, the question does not need to be complete. The API will supply defaults
 for all fields so minimum required XML is `<quiz><question type="stack"></question></quiz>`. A YAML representation of the differences between the question and the defaults
 can also be used. (See [Diff Route](#diff-route).) Any non-empty YAML will do e.g. `name: YAML Question`.
-- `seed`: Seed to choose a question variant. Must be contained in the list of deployed variants. If  
+- `seed`: Seed to choose a question variant. Must be contained in the list of deployed variants. If
   no seed is provided, the first deployed variant is used.
+- `lang`: Optional language code used for STACK `[[lang]]` blocks and translated strings. If omitted, the `Accept-Language` HTTP header is used as before.
 - `renderInputs`: String. Response will include HTML renders of the inputs if value other than ''. The input divs will have the value added as a prefix to their name attribute.
 - `fullRender`: Array consisting of a string prefix for validation divs and a string prefix for feedback divs e.g. `['validationprefix','feedbackprefix']` (`renderInputs` must also be set.) Response `questionrender` and `questionsamplesolutiontext` will be the full HTML render of the question with the inputs inserted in the correct place, full plot URLs, placeholders replaced with HTML and iframes included. Iframes will still need to be registered on the front
 end to be displayed properly. (`stackjsvle.js->register_iframe()` using the first array entry for each iframe in the response as the iframeid.)
@@ -82,6 +83,12 @@ The response is again a JSON document, with the following fields:
 - an array of arrays `iframes` of arguments to create iframes to hold JS panels e.g. JSXGraph, GeoGebra
 - a boolean field `isinteractive`, indicating if the question contains elements preventing a static representation. If true, a printed version of the question would make no sense
 - a string field `questionnote`, containing the rendered questionnote of the question
+- an object field `aboutapi`, containing version metadata for the API and bundled Maxima instance
+
+The `aboutapi` object contains:
+
+- `stackmaxima`: The configured STACK Maxima version.
+- `stackapi`: The configured API version identifier.
 
 The input configuration consists of the following fields:
 
@@ -110,8 +117,9 @@ The following keys can be contained inside the input configuration options. The 
 The `POST /grade` route is used to score a given input for a question. The route expects a JSON document in the post body, which must contain the following fields:
 
 - `questionDefinition`: The Moodle-XML-Export of a single STACK question.
-- `seed`: Seed to choose a question variant. Must be contained in the list of deployed variants. If  
+- `seed`: Seed to choose a question variant. Must be contained in the list of deployed variants. If
   no seed is provided, the first deployed variant is used.
+- `lang`: Optional language code used for STACK `[[lang]]` blocks and translated strings. If omitted, the `Accept-Language` HTTP header is used.
 - `answers`: A map from string to string, containing the answers.
 
 For input rendered as single fields, one entry inside the `answers` map, with the input name as key is expected. More complex input types use multiple entries, with the input name as a prefix, e.g. matrix inputs.
@@ -124,6 +132,7 @@ The grading route returns the following fields:
 - a map from the PRT names to floats `scoreweights`, containing the weighting for each part. `scoreweights['total']` contains the default total mark for the question. The mark for a question part is its `score[prt] * scoreweights[prt] * scoreweights['total']`.
 - a string field `specificfeedback` containing the rendered specific feedback text
 - a map from the PRT names to strings `prts`, containing the rendered PRT feedback
+- a map from the PRT names to objects `prtresults`, containing structured PRT grading data. Each entry includes `score`, `penalty`, `answernotes` (the full answer-note path as an array), `prtanswernotes` (the PRT-node answer notes only), `errors`, and `fverrors`.
 - a string map `gradingassets`, containing a list of assets used in the grading response, see [Plots/Assets](#plotsassets)
 - a string field `responsesummary` containing a summary of response. (See [Reporting](../doc/en/Authoring/../STACK_question_admin/Reporting.md).)
 - an array of arrays `iframes` of arguments to create iframes to hold JS panels e.g. JSXGraph, GeoGebra
@@ -134,6 +143,7 @@ The `POST /validate` route is used to get validation feedback for a single input
 
 - `questionDefinition`: The Moodle-XML-Export of a single STACK question.
 - `inputName`: The name of the input to be validated.
+- `lang`: Optional language code used for STACK `[[lang]]` blocks and translated strings. If omitted, the `Accept-Language` HTTP header is used.
 - `answers`. A map from string to string, containing the answers.
 
 The validation route returns a string field `Validation` with the corresponding rendered output and an array of arrays `iframes` of arguments to create iframes to hold JS panels e.g. JSXGraph, GeoGebra.
@@ -155,8 +165,9 @@ The requested file is returned.
 The `POST /test` route is used to run a question's test cases.
 
 - `questionDefinition`: The Moodle-XML-Export of a single STACK question.
+- `lang`: Optional language code used for STACK `[[lang]]` blocks and translated strings. If omitted, the `Accept-Language` HTTP header is used.
 
-The grading route returns the following fields:
+The test route returns the following fields:
 
 - string: `name`: The name of the question.
 - string: `messages`: Question level error messages.
@@ -177,7 +188,7 @@ In the outcomes object, each test will key an object:
 - boolean: `passed`: Did the test pass?
 - string: `reason`: Reason for failure. A test empty message or the part of the output (e.g. score) which doesn't match the expected result.
 - object: `inputs`: Keyed by input name. Details of the inputs and their values.
-- object: `outcomes`: Keyed by PRT name. Details of the outcomes and expected outcomes for each PRT.
+- object: `outcomes`: Keyed by PRT name. Details of the outcomes and expected outcomes for each PRT. Each PRT outcome includes the legacy delimiter-separated `answernote` string, plus structured `answernotes` and `prtanswernotes` arrays.
 
 Example result object:
 ```
@@ -205,6 +216,8 @@ Example result object:
                     "score": 1,
                     "penalty": 0,
                     "answernote": "prt1-1-T",
+                    "answernotes": ["prt1-1-T"],
+                    "prtanswernotes": ["prt1-1-T"],
                     "expectedscore": 1,
                     "expectedpenalty": 0,
                     "expectedanswernote": "prt1-1-T",
@@ -335,7 +348,7 @@ Any plots generated by stack during rendering or grading, as well as static imag
 
 ### Multi language content
 
-The API currently supports outputting German and English localization, both for internal messages and as part of multi-language questions. To control which language is selected the `Accept-Language` HTTP header is parsed. If not present, the default language is English.  Note, in order to add additional languages, you will need to
+The API currently supports outputting German and English localization, both for internal messages and as part of multi-language questions. To control which language is selected for render, grade, validate, and test requests, include the `lang` property in the JSON request body. If not present, the `Accept-Language` HTTP header is parsed as before. If neither is present, the default language is English. Note, in order to add additional languages, you will need to
 set `$CFG->supportedlanguages`. For development you will need to include the Moodle language pack directly inside the appropriate `/lang/??`. These will be downloaded
 automatically on production build.
 

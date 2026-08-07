@@ -102,6 +102,7 @@ $sesskey = sesskey();
 
 $questionbanklinkedit = new moodle_url('/question/type/stack/questioneditlatest.php', $editparams);
 $questionxmllink = new moodle_url('/question/type/stack/questionxmledit.php', $editparams);
+$questionxmlcomparelink = new moodle_url('/question/type/stack/adminui/questionxmlcompare.php', $editparams);
 $questionbanklink = new moodle_url('/question/edit.php', $qbankparams);
 $exportquestionlink = new moodle_url('/question/bank/exporttoxml/exportone.php', $exportparams);
 $exportquestionlink->param('sesskey', $sesskey);
@@ -157,6 +158,7 @@ foreach ($versions as $v => $id) {
 };
 $initialdata->general->editquestionlink = $questionbanklinkedit->out();
 $initialdata->general->editxmllink = $questionxmllink->out();
+$initialdata->general->comparexmllink = $questionxmlcomparelink->out();
 $initialdata->general->questionbanklink = $questionbanklink->out();
 $initialdata->general->chatlink = $chatlink->out();
 $initialdata->general->tidylink = $question->qtype->get_tidy_question_url($question);

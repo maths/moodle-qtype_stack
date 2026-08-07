@@ -44,6 +44,7 @@ class GradingController {
     public function __invoke(Request $request, Response $response, array $args): Response {
         // TO-DO: Validate.
         $data = $request->getParsedBody();
+        $language = current_language($data['lang'] ?? null);
 
         $question = StackQuestionLoader::loadxml($data["questionDefinition"])['question'];
 
@@ -65,8 +66,6 @@ class GradingController {
         $translate->search = '/(<span(\s+lang="[a-zA-Z0-9_-]+"|\s+class="multilang")' .
                              '{2}\s*>.*?<\/span>)(\s*<span(\s+lang="[a-zA-Z0-9_-]+"' .
                              '|\s+class="multilang"){2}\s*>.*?<\/span>)+/is';
-        $language = current_language();
-
         // If an input explicitly allows empty answers, and the response data doesn't
         // contain a value for the input, set the input value to an empty string.
         foreach ($question->inputs as $name => $input) {
@@ -90,6 +89,7 @@ class GradingController {
         foreach ($question->prts as $index => $prt) {
             $result = $question->get_prt_result($index, $data['answers'], true);
             $scores[$index] = $result->get_score();
+            $gradingresponse->prtresults[$index] = $this->prt_result_summary($result);
 
             $errors = $result->get_errors();
             if ($errors) {
@@ -188,5 +188,17 @@ class GradingController {
         }
 
         return '';
+    }
+
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    private function prt_result_summary(\prt_evaluatable $result): array {
+        return [
+            'score' => $result->get_score(),
+            'penalty' => $result->get_penalty(),
+            'answernotes' => $result->get_answernotes(),
+            'prtanswernotes' => $result->get_answernotes(false),
+            'errors' => $result->get_errors(),
+            'fverrors' => $result->get_fverrors(),
+        ];
     }
 }

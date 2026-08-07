@@ -1,3 +1,5 @@
+import { extractorError, extractorResult } from './extractorhelper.js';
+
 // Extractor: lastblock
 // Returns the raw content of the last code_inline, or the full content
 // of the last asciimath_block, in document order.
@@ -7,13 +9,13 @@ export default function lastblock(raw, blocks) {
         for (let i = blocks.length - 1; i >= 0; i--) {
             const block = blocks[i];
             if (block.type === 'code_inline') {
-                return block.raw;
+                return extractorResult(block.raw);
             }
             if (block.type === 'asciimath_block') {
-                return block.raw;
+                return extractorResult(block.raw);
             }
         }
-        return 'ERROR';
+        return extractorError('asciistringextractorlastblocknotfound');
     }
 
     // Fallback: send the final non-empty line when blocks are unavailable.
@@ -21,8 +23,8 @@ export default function lastblock(raw, blocks) {
     for (let i = lines.length - 1; i >= 0; i--) {
         const trimmed = lines[i].trim();
         if (trimmed !== '') {
-            return lines[i];
+            return extractorResult(lines[i]);
         }
     }
-    return 'ERROR';
+    return extractorError('asciistringextractorlastblocknotfound');
 }

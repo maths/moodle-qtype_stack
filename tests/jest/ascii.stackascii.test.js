@@ -79,6 +79,7 @@ describe('stackascii init', () => {
             id,
             value,
             innerHTML: '',
+            offsetHeight: 0,
             scrollTop: 0,
             scrollHeight: 0,
             clientHeight: 0,
@@ -104,13 +105,19 @@ describe('stackascii init', () => {
 
     function setupEnvironment(inputValue, answerCount = 1) {
         const markdownInput = createElement('markdownInput', inputValue);
+        const shell = createElement('asciiShell');
         const output = createElement('asciiContainerRow');
+        const renderedOutput = createElement('asciiRenderedContent');
+        const errorOutput = createElement('asciiErrorRow');
         const supplied = createElement('asciiSuppliedText');
         const answers = Array.from({ length: answerCount }, (_, index) => createElement(`answer${index + 1}`));
 
         const elements = {
             markdownInput,
+            asciiShell: shell,
             asciiContainerRow: output,
+            asciiRenderedContent: renderedOutput,
+            asciiErrorRow: errorOutput,
             asciiSuppliedText: supplied
         };
         for (const answer of answers) {
@@ -131,7 +138,7 @@ describe('stackascii init', () => {
         });
         global.clearTimeout = jest.fn();
 
-        return { markdownInput, output, answers, elements };
+        return { markdownInput, shell, output, renderedOutput, errorOutput, answers, elements };
     }
 
     beforeEach(() => {
@@ -176,7 +183,9 @@ describe('stackascii init', () => {
             blockCollector.blocks.push({ type: 'calculation', raw: text });
             return `CALC:${text}`;
         });
-        mockLastexpr.mockImplementation((raw, blocks, op) => `EXTRACT:${raw}:${blocks.map((block) => block.type).join('|')}`);
+        mockLastexpr.mockImplementation((raw, blocks, op) => ({
+            result: `EXTRACT:${raw}:${blocks.map((block) => block.type).join('|')}`
+        }));
 
         const operations = [
             { operation: 'filter', type: 'markdown', reset: 'false', display: 'true' },
@@ -192,7 +201,7 @@ describe('stackascii init', () => {
             { type: 'markdown', raw: '  alpha  ' },
             { type: 'calculation', raw: '  alpha  ' }
         ], operations[2]);
-        expect(env.output.innerHTML).toBe('MD:  alpha  ');
+        expect(env.renderedOutput.innerHTML).toBe('MD:  alpha  ');
         expect(env.answers[0].value).toBe('EXTRACT:  alpha  :markdown|calculation');
         expect(env.answers[0].dispatchEvent).toHaveBeenCalledWith({ type: 'change' });
         expect(global.MathJax.typesetPromise).toHaveBeenCalledWith([env.output]);
@@ -209,8 +218,12 @@ describe('stackascii init', () => {
             blockCollector.blocks = [{ type: 'calculation', raw: text }];
             return `CALC:${text}`;
         });
-        mockLastexpr.mockImplementation((raw, blocks, op) => `EXTRACT:${raw}:${blocks.map((block) => block.type).join('|')}`);
-        mockLastcalc.mockImplementation((raw, blocks, op) => `EXTRACTCALC:${raw}:${blocks.map((block) => block.type).join('|')}`);
+        mockLastexpr.mockImplementation((raw, blocks, op) => ({
+            result: `EXTRACT:${raw}:${blocks.map((block) => block.type).join('|')}`
+        }));
+        mockLastcalc.mockImplementation((raw, blocks, op) => ({
+            result: `EXTRACTCALC:${raw}:${blocks.map((block) => block.type).join('|')}`
+        }));
 
         const operations = [
             { operation: 'filter', type: 'markdown' },
@@ -229,7 +242,7 @@ describe('stackascii init', () => {
         expect(mockLastcalc).toHaveBeenCalledWith('  alpha  ', [
             { type: 'calculation', raw: 'MD:  alpha  ' }
         ], operations[3]);
-        expect(env.output.innerHTML).toBe('CALC:MD:  alpha  ');
+        expect(env.renderedOutput.innerHTML).toBe('CALC:MD:  alpha  ');
         expect(env.answers[0].value).toBe('EXTRACT:  alpha  :markdown');
         expect(env.answers[0].dispatchEvent).toHaveBeenCalledWith({ type: 'change' });
         expect(env.answers[1].value).toBe('EXTRACTCALC:  alpha  :calculation');
@@ -237,10 +250,10 @@ describe('stackascii init', () => {
         expect(global.MathJax.typesetPromise).toHaveBeenCalledWith([env.output]);
     });
 
-    test('clears the answer input when an extractor returns ERROR', () => {
+    test('clears the answer input when an extractor returns an error object', () => {
         const env = setupEnvironment('beta', 1);
 
-        mockLaststringremainder.mockReturnValue('ERROR');
+        mockLaststringremainder.mockReturnValue({ error: 'No line matched the requested search text.' });
 
         const operations = [{ operation: 'extractor', type: 'laststringremainder' }];
 
@@ -249,7 +262,27 @@ describe('stackascii init', () => {
         expect(mockLaststringremainder).toHaveBeenCalledWith('beta', [], operations[0]);
         expect(env.answers[0].value).toBe('');
         expect(env.answers[0].dispatchEvent).not.toHaveBeenCalled();
-        expect(env.output.innerHTML).toBe('beta');
+        expect(env.renderedOutput.innerHTML).toBe('beta');
+        expect(env.errorOutput.innerHTML).toBe('');
+    });
+
+    test('shows extractor errors in the ASCII panel when enabled', () => {
+        const env = setupEnvironment('beta', 1);
+
+        mockLaststringremainder.mockReturnValue({ error: 'Translated extractor failure.' });
+
+        const operations = [{ operation: 'extractor', type: 'laststringremainder', errors: 'true' }];
+
+        init(['markdownInput', 'answer1'], operations, {
+            asciistrings: { asciistringextractorsearchnotfound: 'Translated extractor failure.' }
+        });
+
+        expect(env.answers[0].value).toBe('');
+        expect(env.errorOutput.innerHTML).toBe(
+            '<p class="stackascii-error-message">Translated extractor failure.</p>'
+        );
+        expect(env.shell.classList.add).toHaveBeenCalledWith('stackascii-has-errors');
+        expect(env.renderedOutput.style.paddingBottom).toBe('5px');
     });
 
     test('debounces and rerenders when the input changes', () => {
@@ -269,7 +302,7 @@ describe('stackascii init', () => {
         expect(global.clearTimeout).toHaveBeenCalled();
         expect(global.setTimeout).toHaveBeenCalledWith(expect.any(Function), 100);
         expect(mockMarkdown).toHaveBeenCalledTimes(2);
-        expect(env.output.innerHTML).toBe('MD:gamma');
+        expect(env.renderedOutput.innerHTML).toBe('MD:gamma');
     });
 
     test('registers one-way scroll sync and applies inbound scroll positions', () => {

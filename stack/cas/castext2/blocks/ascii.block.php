@@ -132,17 +132,16 @@ class stack_cas_castext2_ascii extends stack_cas_castext2_block {
         ]);
 
         // Size from the iframe viewport so the display area tracks frame resizing.
-        // Keep a configured minimum so default 400px frames start at 370px content height.
-        $astyle = "width:calc({$xpars['width']} - 13px);height:calc(100vh - 14px);";
-        $astyle .= "min-height:calc({$xpars['height']} - 14px);";
+        $astyle = "width:{$xpars['width']};height:100vh;";
+        $astyle .= "min-height:{$xpars['height']};";
         if (array_key_exists('aspect-ratio', $xpars)) {
             $aspectratio = $xpars['aspect-ratio'];
             // Unset the undefined dimension, if both are defined then we have a problem.
             if ($existsuserheight) {
-                $astyle = "height:calc(100vh - 14px);aspect-ratio:$aspectratio;";
-                $astyle .= "min-height:calc({$xpars['height']} - 14px);";
+                $astyle = "height:100vh;aspect-ratio:$aspectratio;";
+                $astyle .= "min-height:{$xpars['height']};";
             } else if ($existsuserwidth) {
-                $astyle = "width:calc({$xpars['width']} - 13px);aspect-ratio:$aspectratio;";
+                $astyle = "width:{$xpars['width']};aspect-ratio:$aspectratio;";
             }
         }
         $r->items[] = new MP_String('<script type="module">');
@@ -154,7 +153,10 @@ class stack_cas_castext2_ascii extends stack_cas_castext2_block {
             return 'stack_js.request_access_to_input("' . $item . '"' . $extra . ')';
         }, $inputs, array_keys($inputs)));
         $linkcode = 'Promise.all([' . $answercalls . '])';
-        $linkcode .= ".then((inputIds) => {init(inputIds," . json_encode($operations) . ");});";
+        // The ASCII strings placeholder is replaced by iframe.block.php during
+        // postprocessing, so strings are resolved in the current student's UI language.
+        $linkcode .= ".then((inputIds) => {init(inputIds," . json_encode($operations) .
+            ',{"asciistrings":' . stack_cas_castext2_iframe::ASCII_STRINGS_PLACEHOLDER . "});});";
 
         $r->items[] = new MP_String($linkcode);
         $r->items[] = new MP_String("\n</script>");
@@ -162,7 +164,12 @@ class stack_cas_castext2_ascii extends stack_cas_castext2_block {
         $r->items = array_merge($r->items, $suppliedtext);
         $r->items[] = new MP_String('</textarea>');
 
-        $r->items[] = new MP_String('<div class="container row asciimath" id="asciiContainerRow" style="' . $astyle . '"></div>');
+        $r->items[] = new MP_String('<div id="asciiShell" class="stackascii-shell" style="' . $astyle . '">');
+        $r->items[] = new MP_String('<div class="asciimath" id="asciiContainerRow">');
+        $r->items[] = new MP_String('<div id="asciiRenderedContent" class="stackascii-content"></div>');
+        $r->items[] = new MP_String('</div>');
+        $r->items[] = new MP_String('<div id="asciiErrorRow" class="stackascii-errors"></div>');
+        $r->items[] = new MP_String('</div>');
 
         return $r;
     }

@@ -61,6 +61,30 @@ final class ascii_block_test extends qtype_stack_testcase {
         return $strings;
     }
 
+    /**
+     * Render an ASCII block and return the generated iframe document.
+     * @param string $raw
+     * @return string
+     */
+    private function render_ascii_iframe_content(string $raw): string {
+        stack_cas_castext2_iframe::register_counter('///IFRAME_COUNT///');
+        StackIframeHolder::$islibrary = true;
+        StackIframeHolder::$iframes = [];
+
+        try {
+            $at1 = castext2_evaluatable::make_from_source($raw, 'test-case');
+            $session = new stack_cas_session2([$at1]);
+            $session->instantiate();
+            $at1->apply_placeholder_holder($at1->get_rendered());
+
+            $this->assertCount(1, StackIframeHolder::$iframes);
+            return StackIframeHolder::$iframes[0][1];
+        } finally {
+            StackIframeHolder::$islibrary = false;
+            StackIframeHolder::$iframes = [];
+        }
+    }
+
     public function test_basic_ascii_block(): void {
         stack_cas_castext2_iframe::register_counter('///IFRAME_COUNT///');
 
@@ -75,30 +99,29 @@ final class ascii_block_test extends qtype_stack_testcase {
     }
 
     public function test_ascii_iframe_document_uses_system_direction(): void {
-        stack_cas_castext2_iframe::register_counter('///IFRAME_COUNT///');
-        StackIframeHolder::$islibrary = true;
-        StackIframeHolder::$iframes = [];
+        $iframecontent = $this->render_ascii_iframe_content('[[ascii input="ans1"]][[/ascii]]');
 
-        try {
-            $raw = '[[ascii input="ans1"]][[/ascii]]';
-            $at1 = castext2_evaluatable::make_from_source($raw, 'test-case');
-            $session = new stack_cas_session2([$at1]);
-            $session->instantiate();
-            $at1->apply_placeholder_holder($at1->get_rendered());
+        $this->assertStringContainsString(
+            '<html xmlns="http://www.w3.org/TR/xhtml1/strict" lang="' . stack_get_system_language() .
+                '" dir="' . stack_get_system_direction() . '">',
+            $iframecontent
+        );
+        $this->assertStringContainsString('<div class="container row asciimath" id="asciiContainerRow"', $iframecontent);
+        $this->assertStringNotContainsString('id="asciiContainerRow" dir=', $iframecontent);
+    }
 
-            $this->assertCount(1, StackIframeHolder::$iframes);
-            $iframecontent = StackIframeHolder::$iframes[0][1];
-            $this->assertStringContainsString(
-                '<html xmlns="http://www.w3.org/TR/xhtml1/strict" lang="' . stack_get_system_language() .
-                    '" dir="' . stack_get_system_direction() . '">',
-                $iframecontent
-            );
-            $this->assertStringContainsString('<div class="container row asciimath" id="asciiContainerRow"', $iframecontent);
-            $this->assertStringNotContainsString('id="asciiContainerRow" dir=', $iframecontent);
-        } finally {
-            StackIframeHolder::$islibrary = false;
-            StackIframeHolder::$iframes = [];
-        }
+    public function test_ascii_align_parameter_overrides_iframe_document_direction(): void {
+        $leftcontent = $this->render_ascii_iframe_content('[[ascii input="ans1" align="left"]][[/ascii]]');
+        $rightcontent = $this->render_ascii_iframe_content('[[ascii input="ans1" align="right"]][[/ascii]]');
+
+        $this->assertStringContainsString(
+            '<html xmlns="http://www.w3.org/TR/xhtml1/strict" lang="' . stack_get_system_language() . '" dir="ltr">',
+            $leftcontent
+        );
+        $this->assertStringContainsString(
+            '<html xmlns="http://www.w3.org/TR/xhtml1/strict" lang="' . stack_get_system_language() . '" dir="rtl">',
+            $rightcontent
+        );
     }
 
     public function test_ascii_block_with_filter_and_extractor_children(): void {
@@ -130,7 +153,7 @@ final class ascii_block_test extends qtype_stack_testcase {
         $xpars = json_decode($compiled->items[1]->value, true);
         $this->assertEquals('100%', $xpars['width']);
         $this->assertEquals('400px', $xpars['height']);
-        $this->assertTrue($xpars['stack-ascii-direction']);
+        $this->assertEquals(stack_get_system_direction(), $xpars['stack-ascii-direction']);
         $this->assertStringContainsString('STACK ASCII', $xpars['title']);
 
         $strings = $this->get_string_items($compiled);
@@ -160,22 +183,27 @@ final class ascii_block_test extends qtype_stack_testcase {
         $this->assertStringContainsString($expectedlinkcode, $joined);
     }
 
-    public function test_ascii_compile_applies_right_alignment_class(): void {
+    public function test_ascii_align_parameter_sets_document_direction_only(): void {
         $blockright = new \stack_cas_castext2_ascii(['align' => 'right'], []);
         $compiledright = $blockright->compile(null, []);
 
         $this->assertInstanceOf(\MP_List::class, $compiledright);
 
+        $xparsright = json_decode($compiledright->items[1]->value, true);
+        $this->assertEquals('rtl', $xparsright['stack-ascii-direction']);
         $strings = $this->get_string_items($compiledright);
         $joined = implode("\n", $strings);
         $this->assertStringContainsString(
-            '<div class="container row asciimath algebraic-right" id="asciiContainerRow"',
+            '<div class="container row asciimath" id="asciiContainerRow"',
             $joined
         );
+        $this->assertStringNotContainsString('algebraic-right', $joined);
 
         $blockleft = new \stack_cas_castext2_ascii(['align' => 'left'], []);
         $compiledleft = $blockleft->compile(null, []);
         $this->assertInstanceOf(\MP_List::class, $compiledleft);
+        $xparsleft = json_decode($compiledleft->items[1]->value, true);
+        $this->assertEquals('ltr', $xparsleft['stack-ascii-direction']);
         $joinedleft = implode("\n", $this->get_string_items($compiledleft));
         $this->assertStringContainsString(
             '<div class="container row asciimath" id="asciiContainerRow"',

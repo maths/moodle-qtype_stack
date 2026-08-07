@@ -108,7 +108,13 @@ class stack_cas_castext2_ascii extends stack_cas_castext2_block {
         $height = $existsuserheight ? $xpars['height'] : "400px";
         $xpars['width'] = $width;
         $xpars['height'] = $height;
-        $xpars['stack-ascii-direction'] = true;
+        $direction = stack_get_system_direction();
+        if (($xpars['align'] ?? null) === 'left') {
+            $direction = 'ltr';
+        } else if (($xpars['align'] ?? null) === 'right') {
+            $direction = 'rtl';
+        }
+        $xpars['stack-ascii-direction'] = $direction;
 
         // Set a title.
         $xpars['title'] = 'STACK ASCII ///ASCII_COUNT///';
@@ -163,9 +169,8 @@ class stack_cas_castext2_ascii extends stack_cas_castext2_block {
         $r->items = array_merge($r->items, $suppliedtext);
         $r->items[] = new MP_String('</textarea>');
 
-        $alignment = (($xpars['align'] ?? null) == 'right') ? ' algebraic-right' : '';
-        $r->items[] = new MP_String('<div class="container row asciimath' . $alignment .
-            '" id="asciiContainerRow" style="' . $astyle . '"></div>');
+        $r->items[] = new MP_String('<div class="container row asciimath" id="asciiContainerRow" style="' .
+            $astyle . '"></div>');
 
         return $r;
     }

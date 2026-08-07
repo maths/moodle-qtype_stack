@@ -174,7 +174,10 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
         }
         $scrolling = true;
         if (isset($parameters['scrolling'])) {
-            $scrolling = $parameters['scrolling'];
+            // ISS1796 - Fix to convert 'false' (and strings other than 'true') to false
+            // when passed as manual parameter to bare iframe. JSXGraph, etc, set to false
+            // automatically.
+            $scrolling = filter_var($parameters['scrolling'], FILTER_VALIDATE_BOOLEAN);
         }
 
         // Construct the contents of the IFRAME.

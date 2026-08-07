@@ -463,6 +463,11 @@
         "description":"Information on writing STACK questions for several languages."
         },
         {
+        "file":"Metadata.md",
+        "title":"Question Metadata - STACK Documentation",
+        "description":"Information on STACK question metadata."
+        },
+        {
         "file":"Question_options.md",
         "title":"Options - STACK Documentation",
         "description":"Documentation for the Option section in a STACK question."

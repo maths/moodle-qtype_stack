@@ -90,26 +90,9 @@ E.g. "v4.10.0".
  * Linux: `git push`
  * Linux: `git push --tags`
 
-## 3. Moodle plugins database entry for the plugin
+## 3. Moodle marketplace entry for the plugin
 
-Add a new version to the Moodle plugins database entry for the plugin.
-
-* If version number does not appear in the dropdown, then upload it from GitHub.
- 
-* Version information
-* Upload zipfile
-* GitHub
-* Username = maths
-* Choose appropriate plugin
-* Choose tags
-* Choose tag number
-* Rename root directory +
-* Fix README filename +
-* Choose supported Moodle.
-
-Then check updated information on the form.
-
-(don't add "master" to branch info)
+Add a new version to the Moodle marketplace entry for the plugin.
 
 ### 4. Releasing a new verion of the API to take advantage of the new release
 

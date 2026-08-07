@@ -585,7 +585,7 @@ final class input_algebraic_test extends qtype_stack_testcase {
             $options,
             '7E9',
             new stack_cas_security(false, '', '', ['tans'])
-            );
+        );
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('missing_stars', $state->note);
         $this->assertEquals('', $state->errors);
@@ -593,7 +593,7 @@ final class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals(
             '\[ \left(-\frac{1}{2}\right)\cdot \left(x-4\right) \]',
             $state->contentsdisplayed
-            );
+        );
     }
 
     public function test_validate_student_response_too_long(): void {

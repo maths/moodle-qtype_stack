@@ -433,14 +433,15 @@ stack_chemistry_declare(ex) := block(
     ["Bh", "bohrium"],
     ["Hs", "hassium"],
     ["Mt", "meitnerium"],
-    ["Rg", "darmstadtium"],
-    ["Cn", sconcat("r", unicode(246), "ntgenium")],
-    ["Nh", "kopernikium"],
-    ["Fl", "nihonium"],
-    ["Mc", "flerovium"],
-    ["Lv", "moskovium"],
-    ["Ts", "livermorium"],
-    ["Og", "tennessiini"]]
+    ["Ds", "darmstadtium"],
+    ["Rg", sconcat("r", unicode(246), "ntgenium")],
+    ["Cn", "kopernikium"],
+    ["Nh", "nihonium"],
+    ["Fl", "flerovium"],
+    ["Mc", "moskovium"],
+    ["Lv", "livermorium"],
+    ["Ts", "tennessiini"],
+    ["Og", "oganesson"]]
   ]
 ]
 )$

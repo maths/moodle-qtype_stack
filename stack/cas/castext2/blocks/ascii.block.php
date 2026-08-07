@@ -169,8 +169,7 @@ class stack_cas_castext2_ascii extends stack_cas_castext2_block {
         $r->items = array_merge($r->items, $suppliedtext);
         $r->items[] = new MP_String('</textarea>');
 
-        $r->items[] = new MP_String('<div class="container row asciimath" id="asciiContainerRow" style="' .
-            $astyle . '"></div>');
+        $r->items[] = new MP_String('<div class="container row asciimath" id="asciiContainerRow" style="' . $astyle . '"></div>');
 
         return $r;
     }

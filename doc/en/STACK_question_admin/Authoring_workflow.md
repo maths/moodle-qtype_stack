@@ -69,7 +69,11 @@ In theory one test case should be created for each anticipated response which ge
 
 When updating a PRT at this stage we would _expect_ test cases added in step 2 to fail.  This is reassuring as it indicates something significant has changed!  You can easily confirm the new behaviour of the testcase is now what is intended.
 
-### 6. Use data obtained from one cycle of attempts by students.
+### 6. Add accurate metadata.
+
+Check and add accurate [question metadata](../Authoring/Metadata.md).
+
+### 7. Use data obtained from one cycle of attempts by students.
 
 Rather than second-guess what students _might_ get wrong it is more effective to look at what they _do_.  See the section on [reporting](Reporting.md) for documentation on how to review students' answers.  When feedback/marks are delayed (e.g. online exam) this can be done between students taking the assessment and results being released.  If feedback/marks are immediate then better quality feedback can still be usefully added later.
 

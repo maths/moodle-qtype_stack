@@ -171,27 +171,59 @@ s_test_case(simp):=is(root(x) = sqrt(x))$
 s_exec_test("surds/surds.mac:39",1)$
 s_test_case(simp):=is(root(x,3) = x^(1/3))$
 s_exec_test("surds/surds.mac:40",2)$
+s_test_case(simp):=is(reroot(1) = 1)$
+s_exec_test("surds/surds.mac:88",3)$
 s_test_case(simp):=is(reroot(x) = x)$
-s_exec_test("surds/surds.mac:86",3)$
+s_exec_test("surds/surds.mac:89",4)$
+s_test_case(simp):=is(reroot(x^2) = x^2)$
+s_exec_test("surds/surds.mac:90",5)$
 s_test_case(simp):=is(reroot(x+1) = x+1)$
-s_exec_test("surds/surds.mac:87",4)$
+s_exec_test("surds/surds.mac:91",6)$
 s_test_case(simp):=is(reroot(x^0) = x^0)$
-s_exec_test("surds/surds.mac:88",5)$
-s_test_case(simp):=is(reroot(x^(-1/2)) = x^(-1/2))$
-s_exec_test("surds/surds.mac:89",6)$
+s_exec_test("surds/surds.mac:92",7)$
+s_test_case(simp):=is(reroot(x) = x)$
+s_exec_test("surds/surds.mac:93",8)$
+s_test_case(simp):=is(reroot(sqrt(2)) = 'root(2))$
+s_exec_test("surds/surds.mac:94",9)$
+s_test_case(simp):=is(reroot(sqrt(6)/2) = 'root(6)/2)$
+s_exec_test("surds/surds.mac:95",10)$
+s_test_case(simp):=is(reroot(1/(1+sqrt(2))) = 1/(1+'root(2)))$
+s_exec_test("surds/surds.mac:96",11)$
+s_test_case(simp):=if is(simp = false) then is(reroot((3/2)^(1/2)) = 'root(3/2)) else is(reroot((3/2)^(1/2)) = 'root(3)/'root(2))$
+s_exec_test("surds/surds.mac:98",12)$
+s_test_case(simp):=if is(simp = false) then is(reroot(sqrt(3/2)) = 'root(3/2)) else is(reroot(sqrt(3/2)) = 'root(3)/'root(2))$
+s_exec_test("surds/surds.mac:99",13)$
+s_test_case(simp):=is(reroot(2^(7/2)/5^(3/2)) = 8*'root(2)/(5*'root(5)))$
+s_exec_test("surds/surds.mac:100",14)$
+s_test_case(simp):=is(reroot(2^(5/2)) = 4*'root(2))$
+s_exec_test("surds/surds.mac:102",15)$
+s_test_case(simp):=is(reroot(x^(1/2)) = 'root(x))$
+s_exec_test("surds/surds.mac:103",16)$
 s_test_case(simp):=is(reroot(x^(1/3)) = 'root(x,3))$
-s_exec_test("surds/surds.mac:90",7)$
+s_exec_test("surds/surds.mac:104",17)$
 s_test_case(simp):=is(reroot(x^(2/3)) = 'root(x^2,3))$
-s_exec_test("surds/surds.mac:91",8)$
+s_exec_test("surds/surds.mac:105",18)$
 s_test_case(simp):=is(reroot(x^(4/3)) = x*'root(x,3))$
-s_exec_test("surds/surds.mac:92",9)$
+s_exec_test("surds/surds.mac:106",19)$
 s_test_case(simp):=is(reroot(x^(7/3)) = x^2*'root(x,3))$
-s_exec_test("surds/surds.mac:93",10)$
+s_exec_test("surds/surds.mac:107",20)$
 s_test_case(simp):=is(reroot(x^(21/7)) = x^3)$
-s_exec_test("surds/surds.mac:94",11)$
-s_test_case(simp):=if is(simp = false) then is(reroot(x^(1/2)) = 'root(x)) else is(reroot(x^(1/2)) = x^(1/2))$
-s_exec_test("surds/surds.mac:96",12)$
-s_test_case(simp):=if is(simp = false) then is(reroot(x^(1/2)+7) = 'root(x)+7) else is(reroot(x^(1/2)+7) = x^(1/2)+7)$
-s_exec_test("surds/surds.mac:97",13)$
+s_exec_test("surds/surds.mac:108",21)$
+s_test_case(simp):=is(reroot(6^(3/2)) = 6*'root(6))$
+s_exec_test("surds/surds.mac:109",22)$
+s_test_case(simp):=is(reroot(5^(4/3)) = 5*'root(5,3))$
+s_exec_test("surds/surds.mac:110",23)$
+s_test_case(simp):=is(reroot(x^(1/2)+7) = 'root(x)+7)$
+s_exec_test("surds/surds.mac:112",24)$
+s_test_case(simp):=is(reroot(1/sqrt(5)) = 1/'root(5))$
+s_exec_test("surds/surds.mac:114",25)$
+s_test_case(simp):=is(reroot(2^(5/3)+3^(3/5)) = 2*'root(2^2,3)+'root(3^3,5))$
+s_exec_test("surds/surds.mac:117",26)$
+s_test_case(simp):=is(reroot((3^(3/2)+1/sqrt(2))/1) = (3*'root(3)+1/'root(2))/1)$
+s_exec_test("surds/surds.mac:119",27)$
+s_test_case(simp):=is(reroot(2^(7/2)*3^(2/3)*7^(5/4)) = (8*'root(2))*'root(3^2,3)*(7*'root(7,4)))$
+s_exec_test("surds/surds.mac:120",28)$
+s_test_case(simp):=if is(simp = false) then is(reroot(logarc(acosh(3))) = ln(3+'root(2)*'root(4))) else is(reroot(logarc(acosh(3))) = ln(3+2*'root(2)))$
+s_exec_test("surds/surds.mac:122",29)$
 simp:true$
 if s_test_fails = 0 then print("All tests successfully executed.")$

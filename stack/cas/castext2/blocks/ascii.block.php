@@ -108,6 +108,7 @@ class stack_cas_castext2_ascii extends stack_cas_castext2_block {
         $height = $existsuserheight ? $xpars['height'] : "400px";
         $xpars['width'] = $width;
         $xpars['height'] = $height;
+        $xpars['stack-ascii-direction'] = true;
 
         // Set a title.
         $xpars['title'] = 'STACK ASCII ///ASCII_COUNT///';

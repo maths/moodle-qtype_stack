@@ -23,6 +23,7 @@
 
 namespace qtype_stack;
 
+use api\util\StackIframeHolder;
 use castext2_evaluatable;
 use qtype_stack_testcase;
 use stack_cas_session2;
@@ -73,6 +74,33 @@ final class ascii_block_test extends qtype_stack_testcase {
         $this->assertEquals($expected, $at1->apply_placeholder_holder($at1->get_rendered()));
     }
 
+    public function test_ascii_iframe_document_uses_system_direction(): void {
+        stack_cas_castext2_iframe::register_counter('///IFRAME_COUNT///');
+        StackIframeHolder::$islibrary = true;
+        StackIframeHolder::$iframes = [];
+
+        try {
+            $raw = '[[ascii input="ans1"]][[/ascii]]';
+            $at1 = castext2_evaluatable::make_from_source($raw, 'test-case');
+            $session = new stack_cas_session2([$at1]);
+            $session->instantiate();
+            $at1->apply_placeholder_holder($at1->get_rendered());
+
+            $this->assertCount(1, StackIframeHolder::$iframes);
+            $iframecontent = StackIframeHolder::$iframes[0][1];
+            $this->assertStringContainsString(
+                '<html xmlns="http://www.w3.org/TR/xhtml1/strict" lang="' . stack_get_system_language() .
+                    '" dir="' . stack_get_system_direction() . '">',
+                $iframecontent
+            );
+            $this->assertStringContainsString('<div class="container row asciimath" id="asciiContainerRow"', $iframecontent);
+            $this->assertStringNotContainsString('id="asciiContainerRow" dir=', $iframecontent);
+        } finally {
+            StackIframeHolder::$islibrary = false;
+            StackIframeHolder::$iframes = [];
+        }
+    }
+
     public function test_ascii_block_with_filter_and_extractor_children(): void {
         stack_cas_castext2_iframe::register_counter('///IFRAME_COUNT///');
 
@@ -102,6 +130,7 @@ final class ascii_block_test extends qtype_stack_testcase {
         $xpars = json_decode($compiled->items[1]->value, true);
         $this->assertEquals('100%', $xpars['width']);
         $this->assertEquals('400px', $xpars['height']);
+        $this->assertTrue($xpars['stack-ascii-direction']);
         $this->assertStringContainsString('STACK ASCII', $xpars['title']);
 
         $strings = $this->get_string_items($compiled);

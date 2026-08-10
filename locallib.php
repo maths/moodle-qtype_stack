@@ -319,3 +319,12 @@ function stack_plot_url_base() {
     global $CFG;
     return $CFG->wwwroot . '/question/type/stack/plot.php/';
 }
+
+/**
+ * Get the directory path for the corsscripts directory.
+ * @return string
+ */
+function stack_cors_scripts_dir() {
+    global $CFG;
+    return $CFG->dirroot . '/question/type/stack/corsscripts/';
+}

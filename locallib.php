@@ -310,3 +310,12 @@ function get_latest_question_version($questionid) {
     $result = reset($result);
     return [$result->version, $result->questionid, $result->questionbankentryid, $versions];
 }
+
+/**
+ * Get the base URL for the plot.php script.
+ * @return string
+ */
+function stack_plot_url_base() {
+    global $CFG;
+    return $CFG->wwwroot . '/question/type/stack/plot.php/';
+}

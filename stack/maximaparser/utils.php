@@ -29,6 +29,7 @@ require_once(__DIR__ . '/../../locallib.php');
 require_once(__DIR__ . '/../../vle_specific.php');
 require_once(__DIR__ . '/../utils.class.php');
 require_once(__DIR__ . '/MP_classes.php');
+require_once(__DIR__ . '/../cas/contriblibrarytools.class.php');
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class maxima_parser_utils {
@@ -63,7 +64,7 @@ class maxima_parser_utils {
 
         $ast = self::do_parse($code, $po, $cachekey);
 
-        if ($cachekey && mb_strpos($code, 'stack_include') === false) {
+        if ($cachekey && mb_strpos($code, 'stack_include') === false && mb_strpos($code, 'stack_require') === false) {
             $cache[$cachekey] = clone $ast;
         }
 
@@ -260,7 +261,7 @@ class maxima_parser_utils {
             // Ok now seek for the inclusions if any are there.
             $includecount = 0;
             $errors = [];
-            $include = function ($node) use (&$includecount, &$errors) {
+            $include = function ($node) use (&$includecount, &$errors, &$root) {
                 if (
                     $node instanceof MP_FunctionCall && $node->name instanceof MP_Atom &&
                     ($node->name->value === 'stack_include' || $node->name->value === 'stack_include_contrib')
@@ -355,6 +356,120 @@ class maxima_parser_utils {
                             'it must be a top-level statement.';
                         return true;
                     }
+                } else if (
+                    $node instanceof MP_FunctionCall && $node->name instanceof MP_Atom &&
+                    $node->name->value === 'stack_require') {
+                    // The require logic is a bit more involved with the arguments, but essenttially the same.
+                    // Now the first requirement for this is that this must be a top level item
+                    // in this statement, this statement may not have flags or anythign else.
+                    if ($node->parentnode instanceof MP_Statement) {
+                        if ($node->parentnode->flags === null || count($node->parentnode->flags) === 0) {
+                            if (count($node->arguments) < 2 || (count($node->arguments) % 2 != 0)) {
+                                $node->name->value = 'failed_stack_require';
+                                $errors[] = 'stack_require must have an even number of arguments';
+                                return true;
+                            }
+                            // Keep track of what has been loaded at the level of the overall bit of code.
+                            // to avoid repeated loads.
+                            $srccode = '';
+                            $loaded = [];
+                            if (isset($root->position['requires-loaded'])) {
+                                $loaded = $root->position['requires-loaded'];
+                            }
+                            for ($i = 0; $i < count($node->arguments); $i += 2) {
+                                $lib = $node->arguments[$i];
+                                $rids = $node->arguments[$i + 1];
+
+                                if ($lib instanceof MP_String) {
+                                    $lib = $lib->value;
+                                } else {
+                                    $node->name->value = 'failed_stack_require';
+                                    $errors[] = 'stack_require-statement expected a string literal as an even-positioned argument but received something else.';
+                                    return true;
+                                }
+                                $ids = [];
+                                if ($rids instanceof MP_List) {
+                                    foreach ($rids->items as $r) {
+                                        if ($r instanceof MP_String) {
+                                            $ids[] = $r->value;
+                                        } else {
+                                            $node->name->value = 'failed_stack_require';
+                                            $errors[] = 'stack_require-statement expected a list of strings as an odd-positioned argument but received something else.';
+                                            return true;
+                                        }
+                                    }
+                                } else {
+                                    $node->name->value = 'failed_stack_require';
+                                    $errors[] = 'stack_require-statement expected a list of strings as an odd-positioned argument but received something else.';
+                                }
+
+                                // Now if the lib is not a `genmanifest: ` special case.
+                                try {
+                                    if (strpos($lib, 'genmanifest:')) {
+                                        $manifest = stack_cas_contrib_library_tools::generate_manifest($lib);
+                                        list($morecode, $moreloads) = stack_cas_contrib_library_tools::fetch_requirements(
+                                            'genmanifest', $manifest, $ids, $loaded
+                                        );
+                                        $loaded = array_merge($loaded, $moreloads);
+                                        $srccode .= $morecode;
+                                    } else {
+                                        list($morecode, $moreloads) = stack_cas_contrib_library_tools::fetch_requirements(
+                                            $lib, null, $ids, $loaded
+                                        );
+                                        $loaded = array_merge($loaded, $moreloads);
+                                        $srccode .= $morecode;
+                                    }
+                                } catch (stack_exception $e) {
+                                    $node->name->value = 'failed_stack_require';
+                                    $errors[] = 'stack_require: error ' . $e->getMessage();
+                                    return true;
+                                }
+                            }
+
+                            $includecount = $includecount + 1;
+                            // Then parse that and plug it in place.
+                            $src = self::parse_and_insert_missing_semicolons($srccode);
+                            if ($src instanceof MP_Root) {
+                                // Simply remove the include statement and inject the parsed ones
+                                // in its place, tag the statements with a source detail to help error tracking.
+                                $replacement = [];
+                                foreach ($node->parentnode->parentnode->items as $i) {
+                                    if ($i === $node->parentnode) {
+                                        foreach ($src->items as $item) {
+                                            $item->position['included-from'] = 'inclusion #' . $includecount;
+                                            $item->position['included-src'] = $node->toString();
+                                            $item->parentnode = $node->parentnode->parentnode;
+                                            $replacement[] = $item;
+                                        }
+                                    } else {
+                                        $replacement[] = $i;
+                                    }
+                                }
+                                // This is the root node, which has the comments and statements as its items.
+                                // We do include even the comments, maybe in the future they include annotations.
+                                $node->parentnode->parentnode->items = $replacement;
+                                return false;
+                            } else {
+                                // The libraries should always have been parsed already...
+                                $node->name->value = 'failed_stack_require';
+                                $errors[] = 'unexpected parsing issue with stack_require library';
+                                return true;
+                            }
+
+                            $root->position['requires-loaded'] = $loaded;
+                        } else {
+                            $node->name->value = 'failed_stack_require';
+                            $errors[] = 'stack_require-statements may not have evaluation-flags.';
+                            return true;
+                        }
+                    } else {
+                        // End this ones processing.
+                        $node->name->value = 'failed_stack_require';
+                        $errors[] = 'stack_require must not be wrapped in any complex processing, ' .
+                            'it must be a top-level statement.';
+                        return true;
+                    }
+
                 }
                 return true;
             };

@@ -108,6 +108,7 @@ The following keys can be contained inside the input configuration options. The 
 - `syntaxHintType`: If the Syntax hint should be displayed as a placeholder, or as initial value. Supported for the types `algebraic, numerical, string, units`
 - `options`: Key-Value Object containing the options for choice like input types. Supportet for the types `checkbox, dropdown, radio`
 - `matrixbrackets`: The desired matrix bracket style. One of `matrixroundbrackets`, `matrixsquarebrackets`, `matrixbarbrackets`, `matrixnobrackets`. Supported for the types `matrix` and  `varmatrix`
+- `casValueType`: The Maxima constructor returned by a fixed matrix grid: `matrix`, `c`, or `r`. Supported for the `matrix` type.
 - `width`: Width of the input matrix. Supported for the `matrix` type.
 - `height` Height of the input matrix. Supported for the `matrix` type.
 

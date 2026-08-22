@@ -26,8 +26,11 @@ class stack_matrix_input extends stack_input {
     protected $width;
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $height;
-    // The Maxima constructor generated from the grid: matrix, c, or r.
-    // phpcs:ignore moodle.Commenting.VariableComment.Missing
+    /**
+     * The Maxima constructor generated from the grid: matrix, c, or r.
+     *
+     * @var string
+     */
     protected $valuetype = 'matrix';
 
     // phpcs:ignore moodle.Commenting.VariableComment.Missing

@@ -18,7 +18,9 @@ We cannot use the `EMPTYANSWER` tag for the teacher's answer with the matrix inp
 
     ta:transpose(matrix([null,null,null]));
 
-The shape of the parentheses surrounding the brackets is taken from the question level options, except matrix inputs cannot display curly brackets `{`.  (If you can create CSS to do this, please contact the developers!)
+The brackets around the HTML input grid are taken from the question-level `matrixparens` option, except matrix inputs cannot display curly brackets `{`.  (If you can create CSS to do this, please contact the developers!)
+
+This setting is independent of the TeX display of the resulting expression. In particular, `stack_linear_algebra_declare(true)` currently displays `c(...)` and `r(...)` using `bmatrix`; authors can override their `texput` definitions when another vector notation is required.
 
 ## Matrix of variable size input ###
 

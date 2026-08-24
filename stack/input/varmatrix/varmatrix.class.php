@@ -439,12 +439,21 @@ class stack_varmatrix_input extends stack_input {
             'decimal' => $decimal,
             'listsep' => $listsep,
         ];
-        $cs = stack_ast_container::make_from_teacher_source($in);
-        $rawinput = $cs->ast_to_string(null, $tostringparams);
-        if ($this->valuetype === 'r') {
-            return str_replace("\n", ' ', $rawinput);
+        $trimmed = trim($in);
+        if ($this->valuetype !== 'matrix' && substr($trimmed, 0, 2) === $this->valuetype . '(') {
+            $entries = stack_utils::list_to_array('[' . substr($trimmed, 2, -1) . ']', false);
+            if ($this->valuetype === 'c') {
+                $rows = [];
+                foreach ($entries as $entry) {
+                    $rows[] = '[' . $entry . ']';
+                }
+                $in = 'matrix(' . implode(',', $rows) . ')';
+            } else {
+                $in = 'matrix([' . implode(',', $entries) . '])';
+            }
         }
-        return $rawinput;
+        $cs = stack_ast_container::make_from_teacher_source($in);
+        return $cs->ast_to_string(null, $tostringparams);
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

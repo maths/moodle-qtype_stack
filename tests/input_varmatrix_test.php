@@ -245,6 +245,10 @@ final class input_varmatrix_test extends qtype_stack_testcase {
             'ans1' => "1\n2\n3",
             'ans1_val' => 'c(1,2,3)',
         ], $el->maxima_to_response_array('c(1,2,3)'));
+        $this->assertEquals([
+            'ans1' => "f(1,2)\na+b",
+            'ans1_val' => 'c(f(1,2),a+b)',
+        ], $el->maxima_to_response_array('c(f(1,2),a+b)'));
     }
 
     public function test_row_vector_model_answer(): void {
@@ -268,6 +272,10 @@ final class input_varmatrix_test extends qtype_stack_testcase {
             'ans1' => '1 2 3',
             'ans1_val' => 'r(1,2,3)',
         ], $el->maxima_to_response_array('r(1,2,3)'));
+        $this->assertEquals([
+            'ans1' => 'f(1,2) a+b',
+            'ans1_val' => 'r(f(1,2),a+b)',
+        ], $el->maxima_to_response_array('r(f(1,2),a+b)'));
     }
 
     public function test_generated_vector_constructor_can_be_forbidden(): void {

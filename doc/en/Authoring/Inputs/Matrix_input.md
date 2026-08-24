@@ -20,7 +20,7 @@ We cannot use the `EMPTYANSWER` tag for the teacher's answer with the matrix inp
 
 The brackets around the HTML input grid are taken from the question-level `matrixparens` option, except matrix inputs cannot display curly brackets `{`.  (If you can create CSS to do this, please contact the developers!)
 
-This setting is independent of the TeX display of the resulting expression. In particular, `stack_linear_algebra_declare(true)` currently displays `c(...)` and `r(...)` using `bmatrix`; authors can override their `texput` definitions when another vector notation is required.
+With `stack_linear_algebra_declare(true)`, the TeX display of `c(...)` and `r(...)` also follows `matrixparens` through `stack_matrix_disp(...)`. This gives matrix and vector inputs and their resulting expressions one common delimiter choice. Independent matrix and vector delimiter settings are discussed in [#1848](https://github.com/maths/moodle-qtype_stack/issues/1848).
 
 ## Matrix of variable size input ###
 

@@ -10,7 +10,7 @@ for column vectors and
 
     r(1,2,3,4)
 
-for row vectors is provided.  By default, these will display as \(c(1,2,3)\) and \(r(1,2,3,4)\), but TeX support (e.g. for student input) is provided by the `stack_linear_algebra_declare(true)` function. If this function is included in the question variables, either by a teacher including it directly or by including one of the linear algebra contributed libraries, they will instead display as column or row vectors as expected. 
+for row vectors is provided.  By default, these will display as \(c(1,2,3)\) and \(r(1,2,3,4)\), but TeX support (e.g. for student input) is provided by the `stack_linear_algebra_declare(true)` function. If this function is included in the question variables, either by a teacher including it directly or by including one of the linear algebra contributed libraries, they will instead display as column or row vectors using the question's default shape of matrix parentheses.
 
 Once converted into matrices, the student's answer will be evaluated by PRTs as matrices.  Of course, this will not be reflected in the valuation.
 
@@ -68,5 +68,4 @@ If you turn the option "Multiplication sign" to none, this should display as
 Notice the use of the function `ordergreat`.  `ordergreat` can only be used once at the beginning of the question.
 
 If you use the special constant `%_stack_preamble_end;` then anything before this constant will be available everywhere in the question, including the inputs.
-
 

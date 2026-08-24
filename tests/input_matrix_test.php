@@ -427,6 +427,32 @@ final class input_matrix_test extends qtype_stack_testcase {
         );
     }
 
+    public function test_validate_student_response_valid_curly(): void {
+
+        $options = new stack_options();
+        $options->set_option('matrixparens', '{');
+        $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
+        $el->adapt_to_model_answer('matrix([1,2],[3,4])');
+        $inputvals = [
+            'ans1_sub_0_0' => '1',
+            'ans1_sub_0_1' => '2',
+            'ans1_sub_1_0' => '4',
+            'ans1_sub_1_1' => '5',
+        ];
+        $state = $el->validate_student_response($inputvals, $options, 'matrix([1,2],[3,4])', new stack_cas_security());
+
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals(
+            '\[ \left\{\begin{array}{cc} 1 & 2 \\\\ 4 & 5 \end{array}\right\} \]',
+            $state->contentsdisplayed
+        );
+        $this->assertStringStartsWith(
+            '<div class="matrixcurlybrackets">',
+            $el->render($state, 'ans1', false, null)
+        );
+        $this->assertEquals('matrixcurlybrackets', $el->render_api_data('matrix([1,2],[4,5])')['matrixbrackets']);
+    }
+
     public function test_validate_student_response_invalid_one_blank(): void {
 
         $options = new stack_options();

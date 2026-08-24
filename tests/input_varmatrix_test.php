@@ -133,6 +133,23 @@ final class input_varmatrix_test extends qtype_stack_testcase {
         );
     }
 
+    public function test_render_syntax_hint_curly(): void {
+
+        $options = new stack_options();
+        $options->set_option('matrixparens', '{');
+        $el = stack_input_factory::make('varmatrix', 'ans1', 'M', $options);
+        $el->set_parameter('syntaxHint', 'matrix([a,b],[?,d])');
+        $html = $el->render(
+            new stack_input_state(stack_input::BLANK, [], '', '', '', '', ''),
+            'ans1',
+            false,
+            null
+        );
+
+        $this->assertStringStartsWith('<div class="matrixcurlybrackets">', $html);
+        $this->assertEquals('matrixcurlybrackets', $el->render_api_data('matrix([1,2],[3,4])')['matrixbrackets']);
+    }
+
     public function test_render_monospace(): void {
 
         $el = stack_input_factory::make('varmatrix', 'ans1', 'M');

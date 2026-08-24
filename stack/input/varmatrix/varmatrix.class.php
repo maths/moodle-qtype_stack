@@ -119,6 +119,8 @@ class stack_varmatrix_input extends stack_input {
             $matrixparens = $this->options->get_option('matrixparens');
             if ($matrixparens == '(') {
                 $matrixbrackets = 'matrixroundbrackets';
+            } else if ($matrixparens == '{') {
+                $matrixbrackets = 'matrixcurlybrackets';
             } else if ($matrixparens == '|') {
                 $matrixbrackets = 'matrixbarbrackets';
             } else if ($matrixparens == '') {
@@ -157,6 +159,8 @@ class stack_varmatrix_input extends stack_input {
         $matrixparens = $this->options->get_option('matrixparens');
         if ($matrixparens == '[') {
             $matrixbrackets = 'matrixsquarebrackets';
+        } else if ($matrixparens == '{') {
+            $matrixbrackets = 'matrixcurlybrackets';
         } else if ($matrixparens == '|') {
             $matrixbrackets = 'matrixbarbrackets';
         } else if ($matrixparens == '') {

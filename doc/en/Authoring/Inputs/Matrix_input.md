@@ -24,11 +24,9 @@ With `stack_linear_algebra_declare(true)`, the TeX display of `c(...)` and `r(..
 
 ## Matrix of variable size input ###
 
-The matrix of variable size input is a textarea into which students type in their answer.
+The matrix of variable size input is a textarea into which students type in their answer. For a matrix, students separate entries in each row with spaces and separate rows with line breaks.
 
-Students must separate their matrix elements by spaces, and newline characters.
-
-As with the fixed grid, a `c(...)` or `r(...)` model answer makes the input return the same vector form. For a column vector the model and correct response are displayed with one component per line; a row vector is displayed on one line. Student input may use any whitespace between vector components.
+As with the fixed grid, a `c(...)` or `r(...)` model answer makes the input return the same vector form. For these vector types, the textarea is treated as a one-dimensional list of components, with spaces and line breaks as equivalent separators. Thus both `1 2 3` and the same three components on separate lines are interpreted as `c(1,2,3)` for a `c(...)` model answer, or `r(1,2,3)` for an `r(...)` model answer. The model-answer type, not the student's choice of whitespace, determines the vector orientation. STACK displays the interpreted column vector with one component per line and the interpreted row vector on one line.
 
 Input box size is used to determine the starting width of the input.
 

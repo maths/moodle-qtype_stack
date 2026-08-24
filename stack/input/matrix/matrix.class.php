@@ -48,6 +48,7 @@ class stack_matrix_input extends stack_input {
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function adapt_to_model_answer($teacheranswer) {
+        $this->valuetype = 'matrix';
 
         // Work out the size and value type from the INSTANTIATED VALUE of the teacher's answer.
         // c(...) and r(...) are STACK's convenient column- and row-vector forms.

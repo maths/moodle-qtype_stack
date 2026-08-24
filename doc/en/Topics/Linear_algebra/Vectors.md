@@ -14,7 +14,7 @@ for row vectors is provided.  By default, these will display as \(c(1,2,3)\) and
 
 Once converted into matrices, the student's answer will be evaluated by PRTs as matrices.  Of course, this will not be reflected in the valuation.
 
-A fixed grid can also collect either form: choose the matrix input and use `c(...)` or `r(...)` as its model answer. The grid dimensions are inferred from that answer and the student's response remains respectively `c(...)` or `r(...)`. This avoids converting a vector to a matrix merely to obtain one input box per component.
+Both matrix input types can also collect either form: use `c(...)` or `r(...)` as the model answer and the student's response remains respectively `c(...)` or `r(...)`. The fixed grid infers its dimensions from the answer. The variable-size input accepts whitespace-separated components without fixing their number. This avoids converting a vector to a matrix merely to use a structured matrix input.
 
 * `vec_convert(ex)` Attempts to convert `c` and `r` convenience functions into matrices. If the expression contains multiple `c` and `r` terms that do not conform, the original expression is returned.
 * `vec_convertedp(ex)` A predicate function that checks whether `c` or `r` is present. This is useful in a PRT to ensure that an earlier conversion was successful (i.e. everything conforms) before continuing.
@@ -68,6 +68,5 @@ If you turn the option "Multiplication sign" to none, this should display as
 Notice the use of the function `ordergreat`.  `ordergreat` can only be used once at the beginning of the question.
 
 If you use the special constant `%_stack_preamble_end;` then anything before this constant will be available everywhere in the question, including the inputs.
-
 
 

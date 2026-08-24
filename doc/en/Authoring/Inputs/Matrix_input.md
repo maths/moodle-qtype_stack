@@ -28,6 +28,8 @@ The matrix of variable size input is a textarea into which students type in thei
 
 Students must separate their matrix elements by spaces, and newline characters.
 
+As with the fixed grid, a `c(...)` or `r(...)` model answer makes the input return the same vector form. For a column vector the model and correct response are displayed with one component per line; a row vector is displayed on one line. Student input may use any whitespace between vector components.
+
 Input box size is used to determine the starting width of the input.
 
 If you use the `allowempty` option then an empty answer is indicated by the `EMPTYANSWER` tag.  This is a different _type_ than a matrix.  (We could have chosen `matrix()` as the empty matrix, but `EMPTYANSWER` is more in keeping with other inputs.)

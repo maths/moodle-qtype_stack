@@ -197,7 +197,7 @@ define([], function() {
             return false;
         }
         const roots = Array.from(document.querySelectorAll('.filter_mathjaxloader_equation')).filter((root) => {
-            return Array.from(root.querySelectorAll('.MathJax_Error')).some((error) => {
+            return Array.from(root.querySelectorAll('.MathJax_Error, .mjx-noError, merror')).some((error) => {
                 return /providecommand/i.test(error.textContent || '');
             });
         });

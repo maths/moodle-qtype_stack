@@ -163,8 +163,14 @@ describe('amd/src/mathjax_providecommand.js', () => {
 
     test('repairs only Moodle equations with MathJax 2 providecommand errors', () => {
         document.body.innerHTML = `
-            <span id="repair" class="filter_mathjaxloader_equation">
+            <span id="repair-classic" class="filter_mathjaxloader_equation">
                 <span class="MathJax_Error">Undefined control sequence \\providecommand</span>
+            </span>
+            <span id="repair-noerrors" class="filter_mathjaxloader_equation">
+                <span class="mjx-noError">\\providecommand{\\vect}</span>
+            </span>
+            <span id="repair-mathml" class="filter_mathjaxloader_equation">
+                <math><merror><mtext>\\providecommand{\\mat}</mtext></merror></math>
             </span>
             <span id="other" class="filter_mathjaxloader_equation">
                 <span class="MathJax_Error">Undefined control sequence \\other</span>
@@ -175,8 +181,16 @@ describe('amd/src/mathjax_providecommand.js', () => {
         const mathJax = {Hub: {Queue}};
 
         expect(module.repairTwo(mathJax)).toBe(true);
-        expect(Queue).toHaveBeenCalledWith(['Reprocess', mathJax.Hub, document.getElementById('repair')]);
-        expect(Queue).toHaveBeenCalledTimes(1);
+        expect(Queue).toHaveBeenCalledWith([
+            'Reprocess', mathJax.Hub, document.getElementById('repair-classic'),
+        ]);
+        expect(Queue).toHaveBeenCalledWith([
+            'Reprocess', mathJax.Hub, document.getElementById('repair-noerrors'),
+        ]);
+        expect(Queue).toHaveBeenCalledWith([
+            'Reprocess', mathJax.Hub, document.getElementById('repair-mathml'),
+        ]);
+        expect(Queue).toHaveBeenCalledTimes(3);
     });
 
     test('patches a Moodle configuration which replaces an earlier MathJax object', () => {

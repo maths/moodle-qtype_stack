@@ -133,13 +133,13 @@ class stack_cas_contrib_library_tools {
                 if ($item instanceof MP_Statement) {
                     if ($item->statement instanceof MP_Operation && $item->statement->op === ':=') {
                         // Function definition or a test definition.
-                        if ($item->statement->lhs->value === 's_test_case') {
+                        if ($item->statement->lhs->name->value === 's_test_case') {
                             $results['tests'][] = $item;
                         } else {
                             if ($prevcomment !== null) {
                                 // Keep the previous top level comment around for processing.
                                 $partdefs[$item->statement->lhs->name->value] = ['ast' => [$prevcomment, $item], 'requires' => []];
-                                $prevcomment = null;;
+                                $prevcomment = null;
                             } else {
                                 $partdefs[$item->statement->lhs->name->value] = ['ast' => [$item], 'requires' => []];
                             }
@@ -149,12 +149,16 @@ class stack_cas_contrib_library_tools {
                         if ($prevcomment !== null) {
                             // Keep the previous top level comment around for processing.
                             $partdefs[$item->statement->lhs->value] = ['ast' => [$prevcomment, $item], 'requires' => []];
-                            $prevcomment = null;;
+                            $prevcomment = null;
                         } else {
                             $partdefs[$item->statement->lhs->value] = ['ast' => [$item], 'requires' => []];
                         }
                     } else {
                         // Something for the preamble.
+                        if ($prevcomment !== null) {
+                            $preamble[] = $prevcomment;
+                            $prevcomment = null;
+                        }
                         $preamble[] = $item;
                     }
                 } else if ($item instanceof MP_Comment) {
@@ -184,7 +188,7 @@ class stack_cas_contrib_library_tools {
                 // "@require foo/bar" or even "@require foo/bar foo/baz foo/...".
                 // Identifiers can have `%` but for now lets keep the library names clean.
                 $matches = [];
-                preg_match_all('/@require((\s+[a-zA-Z0-9_]+/[a-zA-Z0-9_%]+)+)/', $node->value, $matches);
+                preg_match_all('#@require((\s+[a-zA-Z0-9_]+/[a-zA-Z0-9_%]+)+)#', $node->value, $matches);
                 if (!empty($matches)) {
                     for ($i = 0; $i < count($matches[1]); $i++) {
                         $reqs = array_map('trim', explode($matches[1][$i]));
@@ -281,6 +285,28 @@ class stack_cas_contrib_library_tools {
             ];
         }
 
+        // Duplicate definitions are a thing, we may wish to eliminate or remap them.
+        // The key example for such things is the `stack_linear_algebra_declare(true);` call
+        // in multiple component files of the original linear algebra library. While
+        // items in all component files refer to their local call that is still the same
+        // call so eliminating duplication makes the output cleaner.
+        $dupes = [];
+        foreach ($results['contents'] as $id => $value) {
+            if (isset($dupes[$value['code']])) {
+                $value2 = $results['contents'][$dupes[$value['code']]];
+                if ($value2['requires'] == $value['requires']) {
+                    // If the requirements are the same and the code is the same then it
+                    // is the same and we can simply replace its code with blank and its
+                    // requirements with the other one.
+                    $results['contents'][$id]['code'] = '';
+                    $results['contents'][$id]['requires'] = ['local/' . $dupes[$value['code']]];
+                }
+            } else {
+                $dupes[$value['code']] = $id;
+            }
+        }
+
+
         $cache[$address] = $results;
 
         return $results;
@@ -327,9 +353,10 @@ class stack_cas_contrib_library_tools {
      *      `genmanifest:` give the generated manifest here.
      * @param array list of the identifiers of that manifest to fetch
      * @param array list of the identifiers that have already been collected
-     * @return array with two elements if successful, first the concatenated code and second 
-     *      a list of identifiers that concatenation contains. If unsuccessful will contain 
-     *      an error message as the only element.
+     * @return array with three elements if successful, first the concatenated code and second 
+     *      being the concatenated preamble the third is a list of identifiers those 
+     *      concatenations contain. If unsuccessful will contain an error message as the only
+     *      element.
      */
     public static function fetch_requirements(string $libraryname, $preloadedmanifest, array $required, $alreadyloaded = null): array {
         $manifest = $preloadedmanifest;
@@ -349,6 +376,10 @@ class stack_cas_contrib_library_tools {
 
         $result = '';
 
+        // Note that "preamble", i.e., parts of the library that get executed on load needs
+        // to be last.
+        $preambles = '';
+
         // Start loading.
         foreach ($required as $req) {
             // These have no `local/` prefix these are raw requirements.
@@ -356,6 +387,7 @@ class stack_cas_contrib_library_tools {
                 return ['Failed to find requirement from library ' . $libraryname . '/' . $req];
             }
             if (!isset($alreadyloaded[$libraryname . '/' . $req])) {
+                // Note that preambles are not being directly loaded.
                 $result = $manifest['contents'][$req]['code'] . "\n" . $result;
                 $loaded[$libraryname . '/' . $req] = $libraryname . '/' . $req;
                 foreach ($manifest['contents'][$req]['requires'] as $req2) {
@@ -384,7 +416,11 @@ class stack_cas_contrib_library_tools {
                 list($lib, $id) = explode('/', $req, 2);
                 if ($lib === $libraryname) {
                     // Local.
-                    $result = $manifest['contents'][$id]['code'] . "\n" . $result;
+                    if (strpos($id, 'preamble ') === 0) {
+                        $preambles = $preambles . "\n" . $manifest['contents'][$id]['code'];
+                    } else {
+                        $result = $manifest['contents'][$id]['code'] . "\n" . $result;
+                    }
                     $loaded[$req] = $req;
                     foreach ($manifest['contents'][$id]['requires'] as $req2) {
                         $globalname = strpos($req2, 'local/') === 0 ? $libraryname . substr($req2, 5) : false;
@@ -416,9 +452,10 @@ class stack_cas_contrib_library_tools {
                 return $res;
             }
             $result = $res[0] . "\n" . $result;
-            $loaded = array_merge($loaded, $res[1]);
+            $preambles = $preambles . "\n" . $res[1];
+            $loaded = array_merge($loaded, $res[2]);
         }
 
-        return [$result, $loaded];
+        return [$result, $preambles, $loaded];
     }
 }

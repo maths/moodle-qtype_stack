@@ -407,17 +407,17 @@ class maxima_parser_utils {
                                 try {
                                     if (strpos($lib, 'genmanifest:')) {
                                         $manifest = stack_cas_contrib_library_tools::generate_manifest($lib);
-                                        list($morecode, $moreloads) = stack_cas_contrib_library_tools::fetch_requirements(
+                                        list($morecode, $preamble ,$moreloads) = stack_cas_contrib_library_tools::fetch_requirements(
                                             'genmanifest', $manifest, $ids, $loaded
                                         );
                                         $loaded = array_merge($loaded, $moreloads);
-                                        $srccode .= $morecode;
+                                        $srccode .= $morecode . $preamble;
                                     } else {
-                                        list($morecode, $moreloads) = stack_cas_contrib_library_tools::fetch_requirements(
+                                        list($morecode, $preamble, $moreloads) = stack_cas_contrib_library_tools::fetch_requirements(
                                             $lib, null, $ids, $loaded
                                         );
                                         $loaded = array_merge($loaded, $moreloads);
-                                        $srccode .= $morecode;
+                                        $srccode .= $morecode . $preamble;
                                     }
                                 } catch (stack_exception $e) {
                                     $node->name->value = 'failed_stack_require';

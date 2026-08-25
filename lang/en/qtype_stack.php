@@ -121,9 +121,17 @@ $string['logicsymbol_help'] = 'Controls how logical symbols should be displayed 
 $string['logicsymbol_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Question_options.md#logicsymbol';
 $string['logicsymbollang'] = 'Language';
 $string['logicsymbolsymbol'] = 'Symbolic';
+$string['matrixleftcurlybracket'] = 'Left curly bracket';
+$string['matrixleftparenthesis'] = 'Left parenthesis';
+$string['matrixleftsquarebracket'] = 'Left square bracket';
+$string['matrixleftverticalbar'] = 'Left vertical bar';
 $string['matrixparens'] = 'Default shape of matrix parentheses';
 $string['matrixparens_help'] = 'Controls the default shape of matrix parentheses when displayed in CAS output.';
 $string['matrixparens_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/CAS/Matrix.md#matrixparens';
+$string['matrixrightcurlybracket'] = 'Right curly bracket';
+$string['matrixrightparenthesis'] = 'Right parenthesis';
+$string['matrixrightsquarebracket'] = 'Right square bracket';
+$string['matrixrightverticalbar'] = 'Right vertical bar';
 $string['falsebranch'] = 'False branch';
 $string['falsebranch_help'] = 'These fields control what happens when the answer test does not pass
 <h3> Mod and score </h3>

@@ -349,22 +349,28 @@ class stack_cas_contrib_library_tools {
      * required identifiers. Optionally, does not fetch items listed already loaded.
      * Will also return a list of loaded things.
      * @param string the name of the library.
-     * @param array the manifest of that library, if `null` will fetch it, when working with 
-     *      `genmanifest:` give the generated manifest here.
+     * @param array already fetched cache of manifests
      * @param array list of the identifiers of that manifest to fetch
      * @param array list of the identifiers that have already been collected
+     * 
      * @return array with three elements if successful, first the concatenated code and second 
      *      being the concatenated preamble the third is a list of identifiers those 
      *      concatenations contain. If unsuccessful will contain an error message as the only
      *      element.
      */
-    public static function fetch_requirements(string $libraryname, $preloadedmanifest, array $required, $alreadyloaded = null): array {
-        $manifest = $preloadedmanifest;
-        if ($preloadedmanifest === null) {
+    public static function fetch_requirements(string $libraryname, array $preloadedmanifests, array $required, $alreadyloaded = null): array {
+        $manifest = false;
+        if (!isset($preloadedmanifests[$libraryname])) {
             $manifest = self::fetch_library($libraryname);
+        } else {
+            $manifest = $preloadedmanifests[$libraryname];
         }
         if ($manifest === false) {
             return ['Failed to load library ' . $libraryname];
+        }
+
+        if (!isset($manifest['contents'])) {
+            return ['The manifest for ' . $libraryname . ' lacks expected structure.'];
         }
 
         $extloaded = [];

@@ -267,7 +267,7 @@ class maxima_parser_utils {
                     ($node->name->value === 'stack_include' || $node->name->value === 'stack_include_contrib')
                 ) {
                     // Now the first requirement for this is that this must be a top level item
-                    // in this statement, this statement may not have flags or anythign else.
+                    // in this statement, this statement may not have flags or anything else.
                     if ($node->parentnode instanceof MP_Statement) {
                         if (count($node->arguments) === 1 && $node->arguments[0] instanceof MP_String) {
                             if ($node->parentnode->flags === null || count($node->parentnode->flags) === 0) {
@@ -359,6 +359,15 @@ class maxima_parser_utils {
                 } else if (
                     $node instanceof MP_FunctionCall && $node->name instanceof MP_Atom &&
                     $node->name->value === 'stack_require') {
+                    if (!isset($root->position['requires-manifests'])) {
+                        // Cache and local overrides.
+                        $root->position['requires-manifests'] = [];
+                        // Shared address to libname.
+                        $root->position['requires-addr-libnames'] = [];
+                        // Block other address from targetting libname.
+                        $root->position['requires-remotes'] = [];
+                    }
+
                     // The require logic is a bit more involved with the arguments, but essenttially the same.
                     // Now the first requirement for this is that this must be a top level item
                     // in this statement, this statement may not have flags or anythign else.
@@ -376,10 +385,9 @@ class maxima_parser_utils {
                             if (isset($root->position['requires-loaded'])) {
                                 $loaded = $root->position['requires-loaded'];
                             }
+                            // First fetch and check uniquenes of libs.
                             for ($i = 0; $i < count($node->arguments); $i += 2) {
                                 $lib = $node->arguments[$i];
-                                $rids = $node->arguments[$i + 1];
-
                                 if ($lib instanceof MP_String) {
                                     $lib = $lib->value;
                                 } else {
@@ -387,6 +395,67 @@ class maxima_parser_utils {
                                     $errors[] = 'stack_require-statement expected a string literal as an even-positioned argument but received something else.';
                                     return true;
                                 }
+
+                                $match = [];
+                                if (strpos($lib, 'genmanifest:')) {
+                                    $libname = ' genmanifest' . $includecount . '/' . $i;
+                                    if (isset($root->position['requires-addr-libnames'][$lib])) {
+                                        // Lets avoid regeneration of the same thing if we can.
+                                        $libname = $root->position['requires-addr-libnames'][$lib];
+                                    } else {
+                                        $manifest = false;
+                                        try {
+                                            $manifest = stack_cas_contrib_library_tools::generate_manifest($lib);
+                                        } catch (stack_exception $e) {
+                                            $node->name->value = 'failed_stack_require';
+                                            $errors[] = 'stack_require: error ' . $e->getMessage();
+                                            return true;
+                                        }
+                                        $root->position['requires-manifests'][$libname] = $manifest;
+                                        $root->position['requires-addr-libnames'][$lib] = $libname;
+                                    }
+                                    $node->arguments[$i]->value = $libname;
+                                } else if (preg_match('#http.*/([a-zA-Z0-9_]+)\.stacklib#', $lib, $match) === 1) {
+                                    $libname = $match[1];
+                                    if (isset($root->position['requires-remotes'][$libname])) {
+                                        if ($root->position['requires-remotes'][$libname] === $lib) {
+                                            $node->arguments[$i]->value = $libname;
+                                        } else {
+                                            $node->name->value = 'failed_stack_require';
+                                            $errors[] = 'stack_require: multiple sources for library ' . $libname;
+                                            return true;
+                                        }
+                                    } else {
+                                        $manifest = stack_fetch_included_content($lib);
+                                        if ($manifest === false) {
+                                            $node->name->value = 'failed_stack_require';
+                                            $errors[] = 'stack_require: failed fetching ' . $lib;
+                                            return true;
+                                        }
+                                        $manifest = json_decode($manifest, true);
+                                        $root->position['requires-addr-libnames'][$lib] = $libname;
+                                        $root->position['requires-manifests'][$libname] = $manifest;
+                                        $root->position['requires-remotes'][$libname] = $lib;
+                                        $node->arguments[$i]->value = $libname;
+                                    }
+                                } else {
+                                    $libname = $lib;
+                                    if (isset($root->position['requires-remotes'][$libname])) {
+                                        if ($root->position['requires-remotes'][$libname] !== $lib) {
+                                            $node->name->value = 'failed_stack_require';
+                                            $errors[] = 'stack_require: multiple sources for library ' . $libname;
+                                            return true;
+                                        }
+                                    } 
+                                    $root->position['requires-remotes'][$libname] = $lib;
+                                }
+                            }
+
+                            // Then do the composition
+                            for ($i = 0; $i < count($node->arguments); $i += 2) {
+                                $lib = $node->arguments[$i];
+                                $rids = $node->arguments[$i + 1];
+
                                 $ids = [];
                                 if ($rids instanceof MP_List) {
                                     foreach ($rids->items as $r) {
@@ -403,22 +472,14 @@ class maxima_parser_utils {
                                     $errors[] = 'stack_require-statement expected a list of strings as an odd-positioned argument but received something else.';
                                 }
 
-                                // Now if the lib is not a `genmanifest: ` special case.
+                                // Now the libnames were already converted and initial manifests retrieved,
+                                // so now we try to collect items from them.
                                 try {
-                                    if (strpos($lib, 'genmanifest:')) {
-                                        $manifest = stack_cas_contrib_library_tools::generate_manifest($lib);
-                                        list($morecode, $preamble ,$moreloads) = stack_cas_contrib_library_tools::fetch_requirements(
-                                            'genmanifest', $manifest, $ids, $loaded
-                                        );
-                                        $loaded = array_merge($loaded, $moreloads);
-                                        $srccode .= $morecode . $preamble;
-                                    } else {
-                                        list($morecode, $preamble, $moreloads) = stack_cas_contrib_library_tools::fetch_requirements(
-                                            $lib, null, $ids, $loaded
-                                        );
-                                        $loaded = array_merge($loaded, $moreloads);
-                                        $srccode .= $morecode . $preamble;
-                                    }
+                                    list($morecode, $preamble, $moreloads) = stack_cas_contrib_library_tools::fetch_requirements(
+                                        $lib->value, $root->position['requires-manifests'], $ids, $loaded
+                                    );
+                                    $loaded = array_merge($loaded, $moreloads);
+                                    $srccode .= $morecode . $preamble;
                                 } catch (stack_exception $e) {
                                     $node->name->value = 'failed_stack_require';
                                     $errors[] = 'stack_require: error ' . $e->getMessage();

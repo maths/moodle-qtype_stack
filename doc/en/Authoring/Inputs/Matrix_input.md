@@ -18,7 +18,7 @@ We cannot use the `EMPTYANSWER` tag for the teacher's answer with the matrix inp
 
     ta:transpose(matrix([null,null,null]));
 
-The brackets around the HTML input grid are taken from the question-level `matrixparens` option, except matrix inputs cannot display curly brackets `{`.  (If you can create CSS to do this, please contact the developers!)
+The brackets around the HTML input grid are taken from the question-level `matrixparens` option.
 
 With `stack_linear_algebra_declare(true)`, the TeX display of `c(...)` and `r(...)` also follows `matrixparens` through `stack_matrix_disp(...)`. This gives matrix and vector inputs and their resulting expressions one common delimiter choice. Independent matrix and vector delimiter settings are discussed in [#1848](https://github.com/maths/moodle-qtype_stack/issues/1848).
 

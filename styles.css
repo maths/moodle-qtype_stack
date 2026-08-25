@@ -148,6 +148,37 @@ body.pagelayout-embedded .que.stack .formulation .questiontestslink {
     padding: 0.5em;
 }
 
+.que.stack div.matrixcurlybrackets {
+    --stack-curly-bracket: url([[pix:qtype_stack|curlybracket]]);
+    position: relative;
+    display: inline-block;
+    /*rtl:ignore*/
+    direction: ltr;
+    border: 0;
+    padding: 0.5em;
+}
+
+.que.stack div.matrixcurlybrackets::before,
+.que.stack div.matrixcurlybrackets::after {
+    content: "";
+    position: absolute;
+    inset-block: 0;
+    width: 0.55em;
+    background-color: currentColor;
+    -webkit-mask: var(--stack-curly-bracket) center / 100% 100% no-repeat;
+    mask: var(--stack-curly-bracket) center / 100% 100% no-repeat;
+    pointer-events: none;
+}
+
+.que.stack div.matrixcurlybrackets::before {
+    inset-inline-start: 0;
+}
+
+.que.stack div.matrixcurlybrackets::after {
+    inset-inline-end: 0;
+    transform: scaleX(-1);
+}
+
 .que.stack div.matrixnobrackets {
     display: inline-block;
     border: 0;

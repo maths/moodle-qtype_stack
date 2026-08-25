@@ -26,22 +26,10 @@
 
 stack_linear_algebra_declare(mode) := block(
   texput(c,
-    lambda([ex], block([ns,str,ii],
-      ns: args(ex),
-      str: ["\\begin{bmatrix} "],
-      for ii: 1 thru length(ns) do (str: append(str, [ev(tex1(ns[ii]),simp), " \\\\ "])),
-      str[length(str)]: " \\end{bmatrix}",
-      simplode(str)
-    ))
+    lambda([ex], stack_matrix_disp(transpose(matrix(args(ex)))))
   ),
  texput(r,
-    lambda([ex], block([ns,str,ii],
-      ns: args(ex),
-      str: ["\\begin{bmatrix} "],
-      for ii: 1 thru length(ns) do (str: append(str, [ev(tex1(ns[ii]),simp), " & "])),
-      str[length(str)]: " \\end{bmatrix}",
-      simplode(str)
-    ))
+    lambda([ex], stack_matrix_disp(matrix(args(ex))))
   ),
   /* We can't have declarations like this in the STACK core. It will cause problems with existing questions! */
   declare([c,r],nonscalar),

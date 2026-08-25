@@ -26,6 +26,12 @@ class stack_matrix_input extends stack_input {
     protected $width;
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $height;
+    /**
+     * The Maxima constructor generated from the grid: matrix, c, or r.
+     *
+     * @var string
+     */
+    protected $valuetype = 'matrix';
 
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $extraoptions = [
@@ -42,9 +48,17 @@ class stack_matrix_input extends stack_input {
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function adapt_to_model_answer($teacheranswer) {
+        $this->valuetype = 'matrix';
 
-        // Work out how big the matrix should be from the INSTANTIATED VALUE of the teacher's answer.
-        $cs = stack_ast_container::make_from_teacher_source('matrix_size(' . $teacheranswer . ')');
+        // Work out the size and value type from the INSTANTIATED VALUE of the teacher's answer.
+        // c(...) and r(...) are STACK's convenient column- and row-vector forms.
+        $cs = stack_ast_container::make_from_teacher_source(
+            'block([v:' . $teacheranswer . ', vop], ' .
+            'vop:safe_op(v), ' .
+            'if is(vop="c") then [length(args(v)),1,1] ' .
+            'else if is(vop="r") then [1,length(args(v)),2] ' .
+            'else append(matrix_size(v),[0]))'
+        );
         $cs->get_valid();
         $at1 = new stack_cas_session2([$cs], null, 0);
         $at1->instantiate();
@@ -57,6 +71,12 @@ class stack_matrix_input extends stack_input {
         // These are ints...
         $this->height = $cs->get_list_element(0, true)->value;
         $this->width = $cs->get_list_element(1, true)->value;
+        $valuetype = $cs->get_list_element(2, true)->value;
+        if ($valuetype === 1) {
+            $this->valuetype = 'c';
+        } else if ($valuetype === 2) {
+            $this->valuetype = 'r';
+        }
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -142,6 +162,13 @@ class stack_matrix_input extends stack_input {
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function contents_to_maxima($contents) {
+        if ($this->valuetype === 'c') {
+            return 'c(' . implode(',', array_column($contents, 0)) . ')';
+        }
+        if ($this->valuetype === 'r') {
+            return 'r(' . implode(',', $contents[0] ?? []) . ')';
+        }
+
         $matrix = [];
         foreach ($contents as $row) {
             $matrix[] = '[' . implode(',', $row) . ']';
@@ -161,7 +188,13 @@ class stack_matrix_input extends stack_input {
 
         // Turn the student's answer, syntax hint, etc., into a PHP array.
         $t = trim($in);
-        if ('matrix(' == substr($t, 0, 7)) {
+        if ($this->valuetype === 'c' && 'c(' === substr($t, 0, 2)) {
+            foreach ($this->modinput_tokenizer(substr($t, 2, -1)) as $i => $entry) {
+                $tc[$i] = [$entry];
+            }
+        } else if ($this->valuetype === 'r' && 'r(' === substr($t, 0, 2)) {
+            $tc[0] = $this->modinput_tokenizer(substr($t, 2, -1));
+        } else if ('matrix(' == substr($t, 0, 7)) {
             // @codingStandardsIgnoreStart
             // E.g. array("[a,b]","[c,d]").
             // @codingStandardsIgnoreEnd
@@ -236,13 +269,13 @@ class stack_matrix_input extends stack_input {
         }
         // Construct one final "answer" as a single maxima object.
         // In the case of matrices (where $caslines are empty) create the object directly here.
-        // As this will create a matrix we need to check that 'matrix' is not a forbidden word.
+        // The generated top-level constructor must not itself be rejected as a forbidden word.
         // Should it be a forbidden word it gets still applied to the cells.
-        if (isset(stack_cas_security::list_to_map($this->get_parameter('forbidWords', ''))['matrix'])) {
+        if (isset(stack_cas_security::list_to_map($this->get_parameter('forbidWords', ''))[$this->valuetype])) {
             $modifiedforbid = str_replace('\,', 'COMMA_TAG', $this->get_parameter('forbidWords', ''));
             $modifiedforbid = explode(',', $modifiedforbid);
-            array_map('trim', $modifiedforbid);
-            unset($modifiedforbid[array_search('matrix', $modifiedforbid)]);
+            $modifiedforbid = array_map('trim', $modifiedforbid);
+            unset($modifiedforbid[array_search($this->valuetype, $modifiedforbid, true)]);
             $modifiedforbid = implode(',', $modifiedforbid);
             $modifiedforbid = str_replace('COMMA_TAG', '\,', $modifiedforbid);
             $secrules->set_forbiddenwords(trim($modifiedforbid));
@@ -307,7 +340,6 @@ class stack_matrix_input extends stack_input {
             $attr['data-stack-input-decimal-separator'] = ".";
             $attr['data-stack-input-list-separator'] = ",";
         }
-
         // Read matrix bracket style from options.
         $matrixbrackets = 'matrixsquarebrackets';
         $matrixparens = $this->options->get_option('matrixparens');
@@ -321,7 +353,9 @@ class stack_matrix_input extends stack_input {
             $matrixbrackets = 'matrixnobrackets';
         }
         // Build the html table to contain these values.
-        $xhtml = '<div class="' . $matrixbrackets . '"><table class="matrixtable" id="' . $fieldname .
+        $valueattr = $this->valuetype === 'matrix' ? '' : ' data-stack-input-value-type="' . $this->valuetype . '"';
+        $xhtml = '<div class="' . $matrixbrackets . '"' . $valueattr .
+                '><table class="matrixtable" id="' . $fieldname .
                 '_container" style="display:inline; vertical-align: middle;" ' .
                 'cellpadding="1" cellspacing="0"><tbody>';
         for ($i = 0; $i < $this->height; $i++) {
@@ -377,6 +411,7 @@ class stack_matrix_input extends stack_input {
         $data = [];
 
         $data['type'] = 'matrix';
+        $data['casValueType'] = $this->valuetype;
 
         $syntaxhint = $this->parameters['syntaxHint'];
         $data['syntaxHint'] = null;

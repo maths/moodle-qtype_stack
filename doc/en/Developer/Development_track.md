@@ -10,6 +10,7 @@ We use the [github issue tracker](https://github.com/maths/moodle-qtype_stack/is
 Issues with [github milestone 4.14.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.14.0) include
 
 1. Add [metadata](../Authoring/Metadata.md) to STACK questions.  (Issue #1711).
+2. Refactor display of matrices so that brackets for `matrix`, `c` and `r` can be separately controlled.  Issue #1848.
 
 ## Better testing
 

@@ -23,6 +23,13 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_varmatrix_input extends stack_input {
+    /**
+     * The Maxima constructor generated from the textarea: matrix, c, or r.
+     *
+     * @var string
+     */
+    protected $valuetype = 'matrix';
+
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $extraoptions = [
         'hideanswer' => false,
@@ -35,6 +42,35 @@ class stack_varmatrix_input extends stack_input {
         'monospace' => false,
         'manualgraded' => false,
     ];
+
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    public function adapt_to_model_answer($teacheranswer) {
+        $this->valuetype = 'matrix';
+
+        // Read the value type from the INSTANTIATED VALUE of the teacher's answer.
+        $cs = stack_ast_container::make_from_teacher_source(
+            'block([v:' . $teacheranswer . ', vop], ' .
+            'vop:safe_op(v), ' .
+            'if is(vop="c") then [1] ' .
+            'else if is(vop="r") then [2] ' .
+            'else [0])'
+        );
+        $cs->get_valid();
+        $at1 = new stack_cas_session2([$cs], null, 0);
+        $at1->instantiate();
+
+        if ('' != $at1->get_errors()) {
+            $this->errors[] = $at1->get_errors();
+            return;
+        }
+
+        $valuetype = $cs->get_list_element(0, true)->value;
+        if ($valuetype === 1) {
+            $this->valuetype = 'c';
+        } else if ($valuetype === 2) {
+            $this->valuetype = 'r';
+        }
+    }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function is_blank_response($contents) {
@@ -138,8 +174,12 @@ class stack_varmatrix_input extends stack_input {
             $attributes['data-stack-input-list-separator'] = ',';
         }
 
+        $wrapperattributes = ['class' => $matrixbrackets];
+        if ($this->valuetype !== 'matrix') {
+            $wrapperattributes['data-stack-input-value-type'] = $this->valuetype;
+        }
         $xhtml = html_writer::tag('textarea', htmlspecialchars($current, ENT_COMPAT), $attributes);
-        return html_writer::tag('div', $xhtml, ['class' => $matrixbrackets]);
+        return html_writer::tag('div', $xhtml, $wrapperattributes);
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -151,6 +191,7 @@ class stack_varmatrix_input extends stack_input {
         $data = [];
 
         $data['type'] = 'varmatrix';
+        $data['casValueType'] = $this->valuetype;
         $data['boxWidth'] = $this->parameters['boxWidth'];
         $data['syntaxHint'] = $this->maxima_to_raw_input($this->parameters['syntaxHint']);
 
@@ -192,6 +233,15 @@ class stack_varmatrix_input extends stack_input {
             $sans = $response[$this->name];
             if (trim($sans) === '' && $this->get_extra_option('allowempty')) {
                 return(['EMPTYANSWER']);
+            }
+            if ($this->valuetype !== 'matrix') {
+                $entries = preg_split('/\s+/', trim($sans), -1, PREG_SPLIT_NO_EMPTY);
+                if ($this->valuetype === 'c') {
+                    return array_map(function ($entry) {
+                        return [$entry];
+                    }, $entries);
+                }
+                return $entries === [] ? [] : [$entries];
             }
             $rowsin = explode("\n", $sans);
             foreach ($rowsin as $key => $row) {
@@ -246,6 +296,12 @@ class stack_varmatrix_input extends stack_input {
     public function contents_to_maxima($contents) {
         if ($contents == ['EMPTYANSWER']) {
             return 'EMPTYANSWER';
+        }
+        if ($this->valuetype === 'c') {
+            return 'c(' . implode(',', array_column($contents, 0)) . ')';
+        }
+        if ($this->valuetype === 'r') {
+            return 'r(' . implode(',', $contents[0] ?? []) . ')';
         }
         $matrix = [];
         foreach ($contents as $row) {
@@ -328,18 +384,16 @@ class stack_varmatrix_input extends stack_input {
             }
         }
 
-        // Construct one final "answer" as a single maxima object.
-        // In the case of matrices (where $caslines are empty) create the object directly here.
-        // As this will create a matrix we need to check that 'matrix' is not a forbidden word.
-        // Should it be a forbidden word it gets still applied to the cells.
-        if (isset(stack_cas_security::list_to_map($this->get_parameter('forbidWords', ''))['matrix'])) {
+        // Construct one final "answer" as a single Maxima object.
+        // The generated top-level constructor must not itself be rejected as a forbidden word.
+        if (isset(stack_cas_security::list_to_map($this->get_parameter('forbidWords', ''))[$this->valuetype])) {
             $modifiedforbid = str_replace('\,', 'COMMA_TAG', $this->get_parameter('forbidWords', ''));
             $modifiedforbid = explode(',', $modifiedforbid);
-            array_map('trim', $modifiedforbid);
-            unset($modifiedforbid[array_search('matrix', $modifiedforbid)]);
+            $modifiedforbid = array_map('trim', $modifiedforbid);
+            unset($modifiedforbid[array_search($this->valuetype, $modifiedforbid, true)]);
             $modifiedforbid = implode(',', $modifiedforbid);
             $modifiedforbid = str_replace('COMMA_TAG', '\,', $modifiedforbid);
-            $secrules->set_forbiddenwords($modifiedforbid);
+            $secrules->set_forbiddenwords(trim($modifiedforbid));
             // Cumbersome, and cannot deal with matrix being within an alias...
             // But first iteration and so on.
         }
@@ -389,6 +443,19 @@ class stack_varmatrix_input extends stack_input {
             'decimal' => $decimal,
             'listsep' => $listsep,
         ];
+        $trimmed = trim($in);
+        if ($this->valuetype !== 'matrix' && substr($trimmed, 0, 2) === $this->valuetype . '(') {
+            $entries = stack_utils::list_to_array('[' . substr($trimmed, 2, -1) . ']', false);
+            if ($this->valuetype === 'c') {
+                $rows = [];
+                foreach ($entries as $entry) {
+                    $rows[] = '[' . $entry . ']';
+                }
+                $in = 'matrix(' . implode(',', $rows) . ')';
+            } else {
+                $in = 'matrix([' . implode(',', $entries) . '])';
+            }
+        }
         $cs = stack_ast_container::make_from_teacher_source($in);
         return $cs->ast_to_string(null, $tostringparams);
     }

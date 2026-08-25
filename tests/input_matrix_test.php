@@ -315,6 +315,95 @@ final class input_matrix_test extends qtype_stack_testcase {
         $this->assertEquals('\( \left[ a , b \right]\) ', $state->lvars);
     }
 
+    public function test_column_vector_model_answer(): void {
+
+        $options = new stack_options();
+        $el = stack_input_factory::make('matrix', 'ans1', 'v', $options);
+        $el->adapt_to_model_answer('c(1,2,3)');
+
+        $api = $el->render_api_data('c(1,2,3)');
+        $this->assertEquals(1, $api['width']);
+        $this->assertEquals(3, $api['height']);
+        $this->assertEquals('c', $api['casValueType']);
+
+        $html = $el->render(
+            new stack_input_state(stack_input::BLANK, [], '', '', '', '', ''),
+            'ans1',
+            false,
+            null
+        );
+        $this->assertStringContainsString(
+            '<div class="matrixsquarebrackets" data-stack-input-value-type="c">',
+            $html
+        );
+        $this->assertStringContainsString('data-stack-input-type="matrix"', $html);
+
+        $inputvals = [
+            'ans1_sub_0_0' => '1',
+            'ans1_sub_1_0' => 'a',
+            'ans1_sub_2_0' => 'a+b',
+        ];
+        $state = $el->validate_student_response($inputvals, $options, 'c(1,2,3)', new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('c(1,a,a+b)', $state->contentsmodified);
+        $this->assertEquals([
+            'ans1_sub_0_0' => '1',
+            'ans1_sub_1_0' => '2',
+            'ans1_sub_2_0' => '3',
+            'ans1_val' => 'c(1,2,3)',
+        ], $el->maxima_to_response_array('c(1,2,3)'));
+    }
+
+    public function test_row_vector_model_answer(): void {
+
+        $options = new stack_options();
+        $el = stack_input_factory::make('matrix', 'ans1', 'v', $options);
+        $el->adapt_to_model_answer('r(1,2,3)');
+
+        $api = $el->render_api_data('r(1,2,3)');
+        $this->assertEquals(3, $api['width']);
+        $this->assertEquals(1, $api['height']);
+        $this->assertEquals('r', $api['casValueType']);
+
+        $inputvals = [
+            'ans1_sub_0_0' => '1',
+            'ans1_sub_0_1' => 'a',
+            'ans1_sub_0_2' => 'a+b',
+        ];
+        $state = $el->validate_student_response($inputvals, $options, 'r(1,2,3)', new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('r(1,a,a+b)', $state->contentsmodified);
+        $this->assertEquals([
+            'ans1_sub_0_0' => '1',
+            'ans1_sub_0_1' => '2',
+            'ans1_sub_0_2' => '3',
+            'ans1_val' => 'r(1,2,3)',
+        ], $el->maxima_to_response_array('r(1,2,3)'));
+    }
+
+    public function test_generated_vector_constructor_can_be_forbidden(): void {
+
+        $options = new stack_options();
+        $el = stack_input_factory::make('matrix', 'ans1', 'v', $options);
+        $el->set_parameter('forbidWords', 'c, sin');
+        $el->set_parameter('sameType', false);
+        $el->adapt_to_model_answer('c(1,2)');
+
+        $state = $el->validate_student_response([
+            'ans1_sub_0_0' => '1',
+            'ans1_sub_1_0' => '2',
+        ], $options, 'c(1,2)', new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('c(1,2)', $state->contentsmodified);
+
+        $state = $el->validate_student_response([
+            'ans1_sub_0_0' => '1',
+            'ans1_sub_1_0' => 'c(2,3)',
+        ], $options, 'c(1,2)', new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('forbiddenFunction', $state->note);
+    }
+
     public function test_validate_student_response_decimals(): void {
 
         $options = new stack_options();

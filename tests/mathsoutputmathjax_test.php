@@ -36,6 +36,30 @@ require_once(__DIR__ . '/../doc/docslib.php');
  * @covers \stack_maths_output_mathjax
  */
 final class mathsoutputmathjax_test extends qtype_stack_testcase {
+    /**
+     * Test that providecommand support is loaded only for content which needs it.
+     */
+    public function test_providecommand_support_is_conditional(): void {
+        $output = new class extends \stack_maths_output_mathjax {
+            /** @var bool whether compatibility was requested. */
+            public bool $providecommandrequired = false;
+
+            /** Record the request without changing the page requirements manager. */
+            protected function require_providecommand(): void {
+                $this->providecommandrequired = true;
+            }
+        };
+
+        $output->process_display_castext('What is \\(x^2\\)?', false);
+        $this->assertFalse($output->providecommandrequired);
+
+        $output->process_display_castext(
+            '\\(\\providecommand{\\stackmatrix}[3]{\\left#1#3\\right#2}\\)',
+            false
+        );
+        $this->assertTrue($output->providecommandrequired);
+    }
+
     public function test_maths_output_mathsjax(): void {
 
         // MathJax output is the default.

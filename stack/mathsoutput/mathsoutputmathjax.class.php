@@ -27,6 +27,31 @@ require_once(__DIR__ . '/mathsoutputfilterbase.class.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_maths_output_mathjax extends stack_maths_output_filter_base {
+    /**
+     * Register MathJax compatibility required by semantic STACK output.
+     */
+    protected function require_providecommand(): void {
+        global $PAGE;
+        if ($PAGE->requires->should_create_one_time_item_now('qtype_stack-mathjax-providecommand')) {
+            $PAGE->requires->js_call_amd('qtype_stack/mathjax_providecommand', 'init');
+        }
+    }
+
+    /**
+     * Process CASText and load fallback-definition support when the TeX needs it.
+     *
+     * @param string $text the CASText output.
+     * @param bool $replacedollars whether dollar delimiters should be replaced.
+     * @param qtype_stack_renderer|null $renderer optional question renderer.
+     * @return string processed CASText.
+     */
+    public function process_display_castext($text, $replacedollars, ?qtype_stack_renderer $renderer = null) {
+        if (str_contains($text, '\\providecommand')) {
+            $this->require_providecommand();
+        }
+        return parent::process_display_castext($text, $replacedollars, $renderer);
+    }
+
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function initialise_delimiters() {
         $this->displaywrapstart = '';

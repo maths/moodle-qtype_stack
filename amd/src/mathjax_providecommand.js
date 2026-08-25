@@ -9,7 +9,7 @@
  * Add LaTeX-compatible \providecommand support to MathJax used by STACK.
  *
  * @module     qtype_stack/mathjax_providecommand
- * @copyright  2026 The University of Edinburgh
+ * @copyright  2026 Oleksandr Kulkov
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 define([], function() {

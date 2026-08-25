@@ -405,6 +405,42 @@ final class castext2_test extends qtype_stack_testcase {
     }
 
     /**
+     * Test semantic matrix wrappers retain each configured delimiter as a fallback argument.
+     *
+     * @dataProvider matrix_wrapper_provider
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_options
+     *
+     * @param string $matrixparens the configured matrix delimiter.
+     * @param string $left the expected left delimiter argument.
+     * @param string $right the expected right delimiter argument.
+     */
+    public function test_latex_matrix_wrapper(string $matrixparens, string $left, string $right): void {
+
+        $input = '{@matrix([1,0],[0,1])@}';
+        $preamble = ['texput(matrix, lambda([m], stack_matrix_disp(m, "\\\\stackmatrix")))'];
+        $body = '\begin{array}{cc} 1 & 0 \\\\ 0 & 1 \end{array}';
+        $output = '\({\stackmatrix{' . $left . '}{' . $right . '}{' . $body . '}}\)';
+        $options = new stack_options(['matrixparens' => $matrixparens]);
+        $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
+    }
+
+    /**
+     * Matrix delimiters passed to a semantic TeX wrapper.
+     *
+     * @return array[] test cases.
+     */
+    public static function matrix_wrapper_provider(): array {
+        return [
+            'square' => ['[', '[', ']'],
+            'round' => ['(', '(', ')'],
+            'curly' => ['{', '\{', '\}'],
+            'vertical bars' => ['|', '|', '|'],
+            'none' => ['', '.', '.'],
+        ];
+    }
+
+    /**
      * Block-system "define"-block, functional requirements:
      *  1. Allow inline changes to any value.
      *  2. Handle simplification.

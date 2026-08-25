@@ -879,7 +879,7 @@ stack_matrix_pairs:[ ["[", "[", "]"], ["(", "(", ")"], ["\{", "\\{", "\\}"], ["{
 */
 stack_matrix_col(ex):=simplode(maplist(lambda([ex], "c"), first(args(ex))))$
 
-stack_matrix_disp(m):= block([ret, lp, rp, parens],
+stack_matrix_disp(m, [wrapper]):= block([ret, lp, rp, parens],
   if not(matrixp(m)) then error("stack_matrix_disp: argument must be a matrix."),
   if not(stringp(lmxchar)) then error("stack_matrix_disp requires lmxchar to be a string. "),
   parens: sublist(stack_matrix_pairs, lambda([ex], is(first(ex)=lmxchar))),
@@ -891,10 +891,17 @@ stack_matrix_disp(m):= block([ret, lp, rp, parens],
   ret: maplist(lambda([ex], simplode(ex, " & ")), ret),
   ret: simplode(ret, " \\\\ "),
   ret: sconcat("\\begin{array}{", stack_matrix_col(m), "} ", ret, " \\end{array}"),
-  if ""#lp then
-    ret: sconcat("\\left", lp, ret),
-  if ""#rp then
-    ret: sconcat(ret, "\\right", rp),
+  if emptyp(wrapper) then (
+    if ""#lp then
+      ret: sconcat("\\left", lp, ret),
+    if ""#rp then
+      ret: sconcat(ret, "\\right", rp)
+  ) else (
+    if not(length(wrapper)=1) or not(stringp(first(wrapper))) then
+      error("stack_matrix_disp: optional wrapper must be one string."),
+    if ""=lp then (lp:".", rp:"."),
+    ret: sconcat(first(wrapper), "{", lp, "}{", rp, "}{", ret, "}")
+  ),
   ret
 )$
 

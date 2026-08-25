@@ -82,6 +82,27 @@ There must be a more elegant way to do this!
 
 ## Display of matrices ## {#matrixparens}
 
+### Semantic TeX wrappers
+
+The optional second argument of `stack_matrix_disp` is a TeX command which wraps the matrix body and its
+configured delimiters.  For example,
+
+    texput(matrix, lambda([m], stack_matrix_disp(m, "\\stackmatrix")));
+
+with square `matrixparens` emits TeX of the form
+
+    \stackmatrix{[}{]}{\begin{array}{cc} ... \end{array}}
+
+The first two arguments are the question's configured left and right delimiters, and the third is the
+delimiter-free array.  Invisible delimiters are represented by `.`.  A TeX definition can therefore use
+the first two arguments as defaults, while another definition may ignore them.  Distinct wrapper commands
+may be used for semantic matrices, column vectors and row vectors.
+
+This option only changes the emitted TeX; it does not install the wrapper command.  The question or the
+surrounding renderer must define it.
+
+Without the optional wrapper, `stack_matrix_disp(m)` retains its existing output.
+
 You can set the type of parentheses used to surround matrices in a number of ways.  Firstly, the admin user should set the site default in the qtype_stack options page.
 
 For an individual question, the teacher can set the variable
@@ -113,4 +134,3 @@ You can control the alignment of the columns of the matrix using the function `s
 To change to right aligned columns, switch `"c"` to `"r"`.  This function takes the whole matrix and therefore potentially gives you full control.
 
 For this function to take effect in the whole question, including validation of students' input, place the redefinition before `%_stack_preamble_end;` in the question variables.
-

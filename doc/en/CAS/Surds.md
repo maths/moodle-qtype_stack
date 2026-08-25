@@ -95,3 +95,243 @@ Similarly, consider the output from these two examples.
     radcan(trigrat(p2));
 
 Why don't we always apply `trigrat` to expressions?  Without knowing something about the expression, we might "expand" out the terms which causes a practical failure of the test due to timeout.  E.g. `expand((x+y)^(2^100))` is never going to execute.  Similarly, `trigrat` causes some (trig) expressions to expand, see below.
+
+
+
+<ul>
+<li><code>radcan(expr)</code> Simplifies <code>expr</code>, which can contain logs, exponentials, and radicals, by converting it into a form which is canonical over a large class of expressions and a given ordering of variables; that is, all functionally equivalent forms are mapped into a unique form.</li>
+<li><code>radexpand</code> controls some simplifications of radicals. Notably <code>radexpand:all</code></li>
+<li><code>rootscontract(expr)</code> Converts products of roots into roots of products.</li>
+</ul>
+
+<table>
+<tr>
+<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+<td></td><td></td><td>
+<td><code>rootscontract</code></td>
+<td><code>rootscontract</code></td>
+<td><code>rootscontract</code></td>
+<td></td></td><td>
+<td><code>radcan</code></td>
+<td><code>radcan</code></td>
+<td><code>radcan</code></td>
+</tr>
+<tr>
+<td></td><td>simp</td><td>sqrtdispflag</td><td>radexpand</td><td>rootsconmode</td>
+<td>sqrt(x^2)</td><td>sqrt(x)</td><td>sqrt(x^5)</td><td>1/sqrt(x)</td><td>sqrt(x)/x</td>
+<td>sqrt(3)</td><td>sqrt(3^5)</td><td>3*sqrt(3)</td><td>1/sqrt(3)</td>
+<td>sqrt(-4)</td><td>1/sqrt(-3)</td>
+<td>x^n*x^m</td><td>(x^n)^m</td><td>sqrt(x^n)^m</td>
+<td>x^(1/2)*y^(3/2)</td><td>x^(1/2)*y^(1/4)</td><td>x^(1/2)*y^(1/3)</td>
+<td>sqrt((2*x+10)/10)</td>
+<td>sqrt(a*b)</td><td>sqrt(a*b)</td><td>sqrt(1/a)</td><td>(-3 + sqrt(9 + 48))/6</td>
+</tr>
+<tr>
+<td></td>
+<td>{@simp:false@}</td><td>{@sqrtdispflag@}</td><td>{@radexpand@}</td><td>{@rootsconmode@}</td>
+<td>{@sqrt(x^2)@}</td><td>{@sqrt(x)@}</td><td>{@sqrt(x^5)@}</td><td>{@1/sqrt(x)@}</td><td>{@sqrt(x)/x@}</td>
+<td>{@sqrt(3)@}</td><td>{@sqrt(3^5)@}</td><td>{@3*sqrt(3)@}</td><td>{@1/sqrt(3)@}</td>
+<td>{@sqrt(-4)@}</td><td>{@1/sqrt(-3)@}</td>
+<td>{@x^n*x^m@}</td><td>{@(x^n)^m@}</td><td>{@sqrt(x^n)^m@}</td>
+<td>{@rootscontract (x^(1/2)*y^(3/2))@}</td><td>{@rootscontract(x^(1/2)*y^(1/4))@}</td><td>{@rootscontract(x^(1/2)*y^(1/3))@}</td>
+<td>{@sqrt((2*x+10)/10)@}</td>
+<td>{@sqrt(a*b)@}</td><td>{@radcan(sqrt(a*b))@}</td><td>{@radcan(sqrt(1/a))@}</td><td>{@radcan((-3 + sqrt(9 + 48))/6)@}</td>
+</tr>
+<tr>
+<td>Default.</td>
+<td>{@simp:true@}</td><td>{@sqrtdispflag@}</td><td>{@radexpand@}</td><td>{@rootsconmode@}</td>
+<td>{@sqrt(x^2)@}</td><td>{@sqrt(x)@}</td><td>{@sqrt(x^5)@}</td><td>{@1/sqrt(x)@}</td><td>{@sqrt(x)/x@}</td>
+<td>{@sqrt(3)@}</td><td>{@sqrt(3^5)@}</td><td>{@3*sqrt(3)@}</td><td>{@1/sqrt(3)@}</td>
+<td>{@sqrt(-4)@}</td><td>{@1/sqrt(-3)@}</td>
+<td>{@x^n*x^m@}</td><td>{@(x^n)^m@}</td><td>{@sqrt(x^n)^m@}</td>
+<td>{@rootscontract (x^(1/2)*y^(3/2))@}</td><td>{@rootscontract(x^(1/2)*y^(1/4))@}</td><td>{@rootscontract(x^(1/2)*y^(1/3))@}</td>
+<td>{@sqrt((2*x+10)/10)@}</td>
+<td>{@sqrt(a*b)@}</td><td>{@radcan(sqrt(a*b))@}</td><td>{@radcan(sqrt(1/a))@}</td><td>{@radcan((-3 + sqrt(9 + 48))/6)@}</td>
+</tr>
+<tr>
+<td></td>
+<td>{@simp:true@}</td><td>{@sqrtdispflag:false@}</td><td>{@radexpand@}</td><td>{@rootsconmode@}</td>
+<td>{@sqrt(x^2)@}</td><td>{@sqrt(x)@}</td><td>{@sqrt(x^5)@}</td><td>{@1/sqrt(x)@}</td><td>{@sqrt(x)/x@}</td>
+<td>{@sqrt(3)@}</td><td>{@sqrt(3^5)@}</td><td>{@3*sqrt(3)@}</td><td>{@1/sqrt(3)@}</td>
+<td>{@sqrt(-4)@}</td><td>{@1/sqrt(-3)@}</td>
+<td>{@x^n*x^m@}</td><td>{@(x^n)^m@}</td><td>{@sqrt(x^n)^m@}</td>
+<td>{@rootscontract (x^(1/2)*y^(3/2))@}</td><td>{@rootscontract(x^(1/2)*y^(1/4))@}</td><td>{@rootscontract(x^(1/2)*y^(1/3))@}</td>
+<td>{@sqrt((2*x+10)/10)@}</td>
+<td>{@sqrt(a*b)@}</td><td>{@radcan(sqrt(a*b))@}</td><td>{@radcan(sqrt(1/a))@}</td><td>{@radcan((-3 + sqrt(9 + 48))/6)@}</td>
+</tr>
+<tr>
+<td></td>
+<td>{@simp:true@}</td><td>{@sqrtdispflag:true@}</td><td>{@radexpand:false@}</td><td>{@rootsconmode@}</td>
+<td>{@sqrt(x^2)@}</td><td>{@sqrt(x)@}</td><td>{@sqrt(x^5)@}</td><td>{@1/sqrt(x)@}</td><td>{@sqrt(x)/x@}</td>
+<td>{@sqrt(3)@}</td><td>{@sqrt(3^5)@}</td><td>{@3*sqrt(3)@}</td><td>{@1/sqrt(3)@}</td>
+<td>{@sqrt(-4)@}</td><td>{@1/sqrt(-3)@}</td>
+<td>{@x^n*x^m@}</td><td>{@(x^n)^m@}</td><td>{@sqrt(x^n)^m@}</td>
+<td>{@x^(1/2)*y^(3/2)@}</td><td>{@x^(1/2)*y^(1/4)@} </td><td>{@x^(1/2)*y^(1/3)@}</td><td>{@sqrt((2*x+10)/10)@}</td>
+<td>{@sqrt(a*b)@}</td><td>{@radcan(sqrt(a*b))@}</td><td>{@radcan(sqrt(1/a))@}</td><td>{@radcan((-3 + sqrt(9 + 48))/6)@}</td>
+</tr>
+<tr>
+<td></td>
+<td>{@simp:true@}</td><td>{@sqrtdispflag:true@}</td><td>{@radexpand:all@}</td><td>{@rootsconmode@}</td>
+<td>{@sqrt(x^2)@}</td><td>{@sqrt(x)@}</td><td>{@sqrt(x^5)@}</td><td>{@1/sqrt(x)@}</td><td>{@sqrt(x)/x@}</td>
+<td>{@sqrt(3)@}</td><td>{@sqrt(3^5)@}</td><td>{@3*sqrt(3)@}</td><td>{@1/sqrt(3)@}</td>
+<td>{@sqrt(-4)@}</td><td>{@1/sqrt(-3)@}</td>
+<td>{@x^n*x^m@}</td><td>{@(x^n)^m@}</td><td>{@sqrt(x^n)^m@}</td>
+<td>{@rootscontract (x^(1/2)*y^(3/2))@}</td><td>{@rootscontract(x^(1/2)*y^(1/4))@}</td><td>{@rootscontract(x^(1/2)*y^(1/3))@}</td>
+<td>{@sqrt((2*x+10)/10)@}</td>
+<td>{@sqrt(a*b)@}</td><td>{@radcan(sqrt(a*b))@}</td><td>{@radcan(sqrt(1/a))@}</td><td>{@radcan((-3 + sqrt(9 + 48))/6)@}</td>
+</tr>
+<tr>
+<td></td>
+<td>{@simp:true@}</td><td>{@sqrtdispflag:true@}</td><td>{@radexpand:all@}</td><td>{@rootsconmode:false@}</td>
+<td>{@sqrt(x^2)@}</td><td>{@sqrt(x)@}</td><td>{@sqrt(x^5)@}</td><td>{@1/sqrt(x)@}</td><td>{@sqrt(x)/x@}</td>
+<td>{@sqrt(3)@}</td><td>{@sqrt(3^5)@}</td><td>{@3*sqrt(3)@}</td><td>{@1/sqrt(3)@}</td>
+<td>{@sqrt(-4)@}</td><td>{@1/sqrt(-3)@}</td>
+<td>{@x^n*x^m@}</td><td>{@(x^n)^m@}</td><td>{@sqrt(x^n)^m@}</td>
+<td>{@rootscontract (x^(1/2)*y^(3/2))@}</td><td>{@rootscontract(x^(1/2)*y^(1/4))@}</td><td>{@rootscontract(x^(1/2)*y^(1/3))@}</td>
+<td>{@sqrt((2*x+10)/10)@}</td>
+<td>{@sqrt(a*b)@}</td><td>{@radcan(sqrt(a*b))@}</td><td>{@radcan(sqrt(1/a))@}</td><td>{@radcan((-3 + sqrt(9 + 48))/6)@}</td>
+</tr>
+<tr>
+<td></td>
+<td>{@simp:true@}</td><td>{@sqrtdispflag:true@}</td><td>{@radexpand:true@}</td><td>{@rootsconmode:all@}</td>
+<td>{@sqrt(x^2)@}</td><td>{@sqrt(x)@}</td><td>{@sqrt(x^5)@}</td><td>{@1/sqrt(x)@}</td><td>{@sqrt(x)/x@}</td>
+<td>{@sqrt(3)@}</td><td>{@sqrt(3^5)@}</td><td>{@3*sqrt(3)@}</td><td>{@1/sqrt(3)@}</td>
+<td>{@sqrt(-4)@}</td><td>{@1/sqrt(-3)@}</td>
+<td>{@x^n*x^m@}</td><td>{@(x^n)^m@}</td><td>{@sqrt(x^n)^m@}</td>
+<td>{@rootscontract (x^(1/2)*y^(3/2))@}</td><td>{@rootscontract(x^(1/2)*y^(1/4))@}</td><td>{@rootscontract(x^(1/2)*y^(1/3))@}</td>
+<td>{@sqrt((2*x+10)/10)@}</td>
+<td>{@sqrt(a*b)@}</td><td>{@radcan(sqrt(a*b))@}</td><td>{@radcan(sqrt(1/a))@}</td><td>{@radcan((-3 + sqrt(9 + 48))/6)@}</td>
+</tr>
+<tr>
+<td></td>
+<td>{@simp:true@}</td><td>{@sqrtdispflag:true@}</td><td>{@radexpand:true@}</td><td>{@rootsconmode:all@}</td>
+<td>{@sqrt(x^2)@}</td><td>{@sqrt(x)@}</td><td>{@sqrt(x^5)@}</td><td>{@1/sqrt(x)@}</td><td>{@sqrt(x)/x@}</td>
+<td>{@sqrt(3)@}</td><td>{@sqrt(3^5)@}</td><td>{@3*sqrt(3)@}</td><td>{@1/sqrt(3)@}</td>
+<td>{@sqrt(-4)@}</td><td>{@1/sqrt(-3)@}</td>
+<td>{@x^n*x^m@}</td><td>{@(x^n)^m@}</td><td>{@sqrt(x^n)^m@}</td>
+<td>{@rootscontract (x^(1/2)*y^(3/2))@}</td><td>{@rootscontract(x^(1/2)*y^(1/4))@}</td><td>{@rootscontract(x^(1/2)*y^(1/3))@}</td>
+<td>{@sqrt((2*x+10)/10)@}</td>
+<td>{@sqrt(a*b)@}</td><td>{@radcan(sqrt(a*b))@}</td><td>{@radcan(sqrt(1/a))@}</td><td>{@radcan((-3 + sqrt(9 + 48))/6)@}</td>
+</tr>
+</table>
+
+
+
+<ul>
+<li><code>radcan(expr)</code> Simplifies <code>expr</code>, which can contain logs, exponentials, and radicals, by converting it into a form which is canonical over a large class of expressions and a given ordering of variables; that is, all functionally equivalent forms are mapped into a unique form.</li>
+<li><code>radexpand</code> controls some simplifications of radicals. Notably <code>radexpand:all</code></li>
+<li><code>rootscontract(expr)</code> Converts products of roots into roots of products.</li>
+</ul>
+
+<table>
+<tr>
+<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+<td></td><td></td><td>
+<td><code>rootscontract</code></td>
+<td><code>rootscontract</code></td>
+<td><code>rootscontract</code></td>
+<td></td></td><td>
+<td><code>radcan</code></td>
+<td><code>radcan</code></td>
+<td><code>radcan</code></td>
+</tr>
+<tr>
+<td></td><td>simp</td><td>sqrtdispflag</td><td>radexpand</td><td>rootsconmode</td>
+<td>sqrt(x^2)</td><td>sqrt(x)</td><td>sqrt(x^5)</td><td>1/sqrt(x)</td><td>sqrt(x)/x</td>
+<td>sqrt(3)</td><td>sqrt(3^5)</td><td>3*sqrt(3)</td><td>1/sqrt(3)</td>
+<td>sqrt(-4)</td><td>1/sqrt(-3)</td>
+<td>x^n*x^m</td><td>(x^n)^m</td><td>sqrt(x^n)^m</td>
+<td>x^(1/2)*y^(3/2)</td><td>x^(1/2)*y^(1/4)</td><td>x^(1/2)*y^(1/3)</td>
+<td>sqrt((2*x+10)/10)</td>
+<td>sqrt(a*b)</td><td>sqrt(a*b)</td><td>sqrt(1/a)</td><td>(-3 + sqrt(9 + 48))/6</td>
+</tr>
+<tr>
+<td></td>
+<td><span class="nolink">\({\mathbf{False}}\)</span></td><td><span class="nolink">\({\mathbf{True}}\)</span></td><td><span class="nolink">\({\mathbf{True}}\)</span></td><td><span class="nolink">\({\mathbf{True}}\)</span></td>
+<td><span class="nolink">\({\sqrt{x^2}}\)</span></td><td><span class="nolink">\({\sqrt{x}}\)</span></td><td><span class="nolink">\({\sqrt{x^5}}\)</span></td><td><span class="nolink">\({\frac{1}{\sqrt{x}}}\)</span></td><td><span class="nolink">\({\frac{\sqrt{x}}{x}}\)</span></td>
+<td><span class="nolink">\({\sqrt{3}}\)</span></td><td><span class="nolink">\({\sqrt{3^5}}\)</span></td><td><span class="nolink">\({3\cdot \sqrt{3}}\)</span></td><td><span class="nolink">\({\frac{1}{\sqrt{3}}}\)</span></td>
+<td><span class="nolink">\({\sqrt{-4}}\)</span></td><td><span class="nolink">\({\frac{1}{\sqrt{-3}}}\)</span></td>
+<td><span class="nolink">\({x^{n}\cdot x^{m}}\)</span></td><td><span class="nolink">\({{\left(x^{n}\right)}^{m}}\)</span></td><td><span class="nolink">\({{\sqrt{x^{n}}}^{m}}\)</span></td>
+<td><span class="nolink">\({x^{\frac{1}{2}}\cdot y^{\frac{3}{2}}}\)</span></td><td><span class="nolink">\({x^{\frac{1}{2}}\cdot y^{\frac{1}{4}}}\)</span></td><td><span class="nolink">\({x^{\frac{1}{2}}\cdot y^{\frac{1}{3}}}\)</span></td>
+<td><span class="nolink">\({\sqrt{\frac{2\cdot x+10}{10}}}\)</span></td>
+<td><span class="nolink">\({\sqrt{a\cdot b}}\)</span></td><td><span class="nolink">\({\sqrt{a\cdot b}}\)</span></td><td><span class="nolink">\({\sqrt{\frac{1}{a}}}\)</span></td><td><span class="nolink">\({\frac{\sqrt{57}-3}{6}}\)</span></td>
+</tr>
+<tr>
+<td>Default.</td>
+<td><span class="nolink">\({\mathbf{True}}\)</span></td><td><span class="nolink">\({\mathbf{True}}\)</span></td><td><span class="nolink">\({\mathbf{True}}\)</span></td><td><span class="nolink">\({\mathbf{True}}\)</span></td>
+<td><span class="nolink">\({\left| x\right|}\)</span></td><td><span class="nolink">\({\sqrt{x}}\)</span></td><td><span class="nolink">\({x^{\frac{5}{2}}}\)</span></td><td><span class="nolink">\({\frac{1}{\sqrt{x}}}\)</span></td><td><span class="nolink">\({\frac{1}{\sqrt{x}}}\)</span></td>
+<td><span class="nolink">\({\sqrt{3}}\)</span></td><td><span class="nolink">\({3^{\frac{5}{2}}}\)</span></td><td><span class="nolink">\({3^{\frac{3}{2}}}\)</span></td><td><span class="nolink">\({\frac{1}{\sqrt{3}}}\)</span></td>
+<td><span class="nolink">\({2\cdot \mathrm{i}}\)</span></td><td><span class="nolink">\({-\frac{\mathrm{i}}{\sqrt{3}}}\)</span></td>
+<td><span class="nolink">\({x^{n+m}}\)</span></td><td><span class="nolink">\({{\left(x^{n}\right)}^{m}}\)</span></td><td><span class="nolink">\({{\left(x^{n}\right)}^{\frac{m}{2}}}\)</span></td>
+<td><span class="nolink">\({\sqrt{x\cdot y^3}}\)</span></td><td><span class="nolink">\({\sqrt{x}\cdot y^{\frac{1}{4}}}\)</span></td><td><span class="nolink">\({\sqrt{x}\cdot y^{\frac{1}{3}}}\)</span></td>
+<td><span class="nolink">\({\frac{\sqrt{2\cdot x+10}}{\sqrt{10}}}\)</span></td>
+<td><span class="nolink">\({\sqrt{a\cdot b}}\)</span></td><td><span class="nolink">\({\sqrt{a}\cdot \sqrt{b}}\)</span></td><td><span class="nolink">\({\frac{1}{\sqrt{a}}}\)</span></td><td><span class="nolink">\({\frac{\sqrt{3}\cdot \sqrt{19}-3}{6}}\)</span></td>
+</tr>
+<tr>
+<td></td>
+<td><span class="nolink">\({\mathbf{True}}\)</span></td><td><span class="nolink">\({\mathbf{False}}\)</span></td><td><span class="nolink">\({\mathbf{True}}\)</span></td><td><span class="nolink">\({\mathbf{True}}\)</span></td>
+<td><span class="nolink">\({\left| x\right|}\)</span></td><td><span class="nolink">\({x^{\frac{1}{2}}}\)</span></td><td><span class="nolink">\({x^{\frac{5}{2}}}\)</span></td><td><span class="nolink">\({\frac{1}{x^{\frac{1}{2}}}}\)</span></td><td><span class="nolink">\({\frac{1}{x^{\frac{1}{2}}}}\)</span></td>
+<td><span class="nolink">\({3^{\frac{1}{2}}}\)</span></td><td><span class="nolink">\({3^{\frac{5}{2}}}\)</span></td><td><span class="nolink">\({3^{\frac{3}{2}}}\)</span></td><td><span class="nolink">\({\frac{1}{3^{\frac{1}{2}}}}\)</span></td>
+<td><span class="nolink">\({2\cdot \mathrm{i}}\)</span></td><td><span class="nolink">\({-\frac{\mathrm{i}}{3^{\frac{1}{2}}}}\)</span></td>
+<td><span class="nolink">\({x^{n+m}}\)</span></td><td><span class="nolink">\({{\left(x^{n}\right)}^{m}}\)</span></td><td><span class="nolink">\({{\left(x^{n}\right)}^{\frac{m}{2}}}\)</span></td>
+<td><span class="nolink">\({{\left(x\cdot y^3\right)}^{\frac{1}{2}}}\)</span></td><td><span class="nolink">\({x^{\frac{1}{2}}\cdot y^{\frac{1}{4}}}\)</span></td><td><span class="nolink">\({x^{\frac{1}{2}}\cdot y^{\frac{1}{3}}}\)</span></td>
+<td><span class="nolink">\({\frac{{\left(2\cdot x+10\right)}^{\frac{1}{2}}}{10^{\frac{1}{2}}}}\)</span></td>
+<td><span class="nolink">\({{\left(a\cdot b\right)}^{\frac{1}{2}}}\)</span></td><td><span class="nolink">\({a^{\frac{1}{2}}\cdot b^{\frac{1}{2}}}\)</span></td><td><span class="nolink">\({\frac{1}{a^{\frac{1}{2}}}}\)</span></td><td><span class="nolink">\({\frac{3^{\frac{1}{2}}\cdot 19^{\frac{1}{2}}-3}{6}}\)</span></td>
+</tr>
+<tr>
+<td></td>
+<td><span class="nolink">\({\mathbf{True}}\)</span></td><td><span class="nolink">\({\mathbf{True}}\)</span></td><td><span class="nolink">\({\mathbf{False}}\)</span></td><td><span class="nolink">\({\mathbf{True}}\)</span></td>
+<td><span class="nolink">\({\sqrt{x^2}}\)</span></td><td><span class="nolink">\({\sqrt{x}}\)</span></td><td><span class="nolink">\({\sqrt{x^5}}\)</span></td><td><span class="nolink">\({\frac{1}{\sqrt{x}}}\)</span></td><td><span class="nolink">\({\frac{1}{\sqrt{x}}}\)</span></td>
+<td><span class="nolink">\({\sqrt{3}}\)</span></td><td><span class="nolink">\({3^{\frac{5}{2}}}\)</span></td><td><span class="nolink">\({3^{\frac{3}{2}}}\)</span></td><td><span class="nolink">\({\frac{1}{\sqrt{3}}}\)</span></td>
+<td><span class="nolink">\({2\cdot \mathrm{i}}\)</span></td><td><span class="nolink">\({\frac{1}{\sqrt{-3}}}\)</span></td>
+<td><span class="nolink">\({x^{n+m}}\)</span></td><td><span class="nolink">\({{\left(x^{n}\right)}^{m}}\)</span></td><td><span class="nolink">\({{\sqrt{x^{n}}}^{m}}\)</span></td>
+<td><span class="nolink">\({\sqrt{x}\cdot y^{\frac{3}{2}}}\)</span></td><td><span class="nolink">\({\sqrt{x}\cdot y^{\frac{1}{4}}}\)</span> </td><td><span class="nolink">\({\sqrt{x}\cdot y^{\frac{1}{3}}}\)</span></td><td><span class="nolink">\({\sqrt{\frac{2\cdot x+10}{10}}}\)</span></td>
+<td><span class="nolink">\({\sqrt{a\cdot b}}\)</span></td><td><span class="nolink">\({\sqrt{a}\cdot \sqrt{b}}\)</span></td><td><span class="nolink">\({\frac{1}{\sqrt{a}}}\)</span></td><td><span class="nolink">\({\frac{\sqrt{3}\cdot \sqrt{19}-3}{6}}\)</span></td>
+</tr>
+<tr>
+<td></td>
+<td><span class="nolink">\({\mathbf{True}}\)</span></td><td><span class="nolink">\({\mathbf{True}}\)</span></td><td><span class="nolink">\({all}\)</span></td><td><span class="nolink">\({\mathbf{True}}\)</span></td>
+<td><span class="nolink">\({x}\)</span></td><td><span class="nolink">\({\sqrt{x}}\)</span></td><td><span class="nolink">\({x^{\frac{5}{2}}}\)</span></td><td><span class="nolink">\({\frac{1}{\sqrt{x}}}\)</span></td><td><span class="nolink">\({\frac{1}{\sqrt{x}}}\)</span></td>
+<td><span class="nolink">\({\sqrt{3}}\)</span></td><td><span class="nolink">\({3^{\frac{5}{2}}}\)</span></td><td><span class="nolink">\({3^{\frac{3}{2}}}\)</span></td><td><span class="nolink">\({\frac{1}{\sqrt{3}}}\)</span></td>
+<td><span class="nolink">\({2\cdot \mathrm{i}}\)</span></td><td><span class="nolink">\({-\frac{\mathrm{i}}{\sqrt{3}}}\)</span></td>
+<td><span class="nolink">\({x^{n+m}}\)</span></td><td><span class="nolink">\({x^{m\cdot n}}\)</span></td><td><span class="nolink">\({x^{\frac{m\cdot n}{2}}}\)</span></td>
+<td><span class="nolink">\({\sqrt{x}\cdot y^{\frac{3}{2}}}\)</span></td><td><span class="nolink">\({\sqrt{x}\cdot y^{\frac{1}{4}}}\)</span></td><td><span class="nolink">\({\sqrt{x}\cdot y^{\frac{1}{3}}}\)</span></td>
+<td><span class="nolink">\({\frac{\sqrt{2\cdot x+10}}{\sqrt{10}}}\)</span></td>
+<td><span class="nolink">\({\sqrt{a}\cdot \sqrt{b}}\)</span></td><td><span class="nolink">\({\sqrt{a}\cdot \sqrt{b}}\)</span></td><td><span class="nolink">\({\frac{1}{\sqrt{a}}}\)</span></td><td><span class="nolink">\({\frac{\sqrt{3}\cdot \sqrt{19}-3}{6}}\)</span></td>
+</tr>
+<tr>
+<td></td>
+<td><span class="nolink">\({\mathbf{True}}\)</span></td><td><span class="nolink">\({\mathbf{True}}\)</span></td><td><span class="nolink">\({all}\)</span></td><td><span class="nolink">\({\mathbf{False}}\)</span></td>
+<td><span class="nolink">\({x}\)</span></td><td><span class="nolink">\({\sqrt{x}}\)</span></td><td><span class="nolink">\({x^{\frac{5}{2}}}\)</span></td><td><span class="nolink">\({\frac{1}{\sqrt{x}}}\)</span></td><td><span class="nolink">\({\frac{1}{\sqrt{x}}}\)</span></td>
+<td><span class="nolink">\({\sqrt{3}}\)</span></td><td><span class="nolink">\({3^{\frac{5}{2}}}\)</span></td><td><span class="nolink">\({3^{\frac{3}{2}}}\)</span></td><td><span class="nolink">\({\frac{1}{\sqrt{3}}}\)</span></td>
+<td><span class="nolink">\({2\cdot \mathrm{i}}\)</span></td><td><span class="nolink">\({-\frac{\mathrm{i}}{\sqrt{3}}}\)</span></td>
+<td><span class="nolink">\({x^{n+m}}\)</span></td><td><span class="nolink">\({x^{m\cdot n}}\)</span></td><td><span class="nolink">\({x^{\frac{m\cdot n}{2}}}\)</span></td>
+<td><span class="nolink">\({\sqrt{x}\cdot y^{\frac{3}{2}}}\)</span></td><td><span class="nolink">\({\sqrt{x}\cdot y^{\frac{1}{4}}}\)</span></td><td><span class="nolink">\({\sqrt{x}\cdot y^{\frac{1}{3}}}\)</span></td>
+<td><span class="nolink">\({\frac{\sqrt{2\cdot x+10}}{\sqrt{10}}}\)</span></td>
+<td><span class="nolink">\({\sqrt{a}\cdot \sqrt{b}}\)</span></td><td><span class="nolink">\({\sqrt{a}\cdot \sqrt{b}}\)</span></td><td><span class="nolink">\({\frac{1}{\sqrt{a}}}\)</span></td><td><span class="nolink">\({\frac{\sqrt{3}\cdot \sqrt{19}-3}{6}}\)</span></td>
+</tr>
+<tr>
+<td></td>
+<td><span class="nolink">\({\mathbf{True}}\)</span></td><td><span class="nolink">\({\mathbf{True}}\)</span></td><td><span class="nolink">\({\mathbf{True}}\)</span></td><td><span class="nolink">\({all}\)</span></td>
+<td><span class="nolink">\({\left| x\right|}\)</span></td><td><span class="nolink">\({\sqrt{x}}\)</span></td><td><span class="nolink">\({x^{\frac{5}{2}}}\)</span></td><td><span class="nolink">\({\frac{1}{\sqrt{x}}}\)</span></td><td><span class="nolink">\({\frac{1}{\sqrt{x}}}\)</span></td>
+<td><span class="nolink">\({\sqrt{3}}\)</span></td><td><span class="nolink">\({3^{\frac{5}{2}}}\)</span></td><td><span class="nolink">\({3^{\frac{3}{2}}}\)</span></td><td><span class="nolink">\({\frac{1}{\sqrt{3}}}\)</span></td>
+<td><span class="nolink">\({2\cdot \mathrm{i}}\)</span></td><td><span class="nolink">\({-\frac{\mathrm{i}}{\sqrt{3}}}\)</span></td>
+<td><span class="nolink">\({x^{n+m}}\)</span></td><td><span class="nolink">\({{\left(x^{n}\right)}^{m}}\)</span></td><td><span class="nolink">\({{\left(x^{n}\right)}^{\frac{m}{2}}}\)</span></td>
+<td><span class="nolink">\({\sqrt{x\cdot y^3}}\)</span></td><td><span class="nolink">\({\sqrt{\left| x\right| }\cdot y^{\frac{1}{4}}}\)</span></td><td><span class="nolink">\({\sqrt{x}\cdot {\left| y\right| }^{\frac{1}{3}}}\)</span></td>
+<td><span class="nolink">\({\frac{\sqrt{2\cdot x+10}}{\sqrt{10}}}\)</span></td>
+<td><span class="nolink">\({\sqrt{a\cdot b}}\)</span></td><td><span class="nolink">\({\sqrt{a}\cdot \sqrt{b}}\)</span></td><td><span class="nolink">\({\frac{1}{\sqrt{a}}}\)</span></td><td><span class="nolink">\({\frac{\sqrt{3}\cdot \sqrt{19}-3}{6}}\)</span></td>
+</tr>
+<tr>
+<td></td>
+<td><span class="nolink">\({\mathbf{True}}\)</span></td><td><span class="nolink">\({\mathbf{True}}\)</span></td><td><span class="nolink">\({\mathbf{True}}\)</span></td><td><span class="nolink">\({all}\)</span></td>
+<td><span class="nolink">\({\left| x\right|}\)</span></td><td><span class="nolink">\({\sqrt{x}}\)</span></td><td><span class="nolink">\({x^{\frac{5}{2}}}\)</span></td><td><span class="nolink">\({\frac{1}{\sqrt{x}}}\)</span></td><td><span class="nolink">\({\frac{1}{\sqrt{x}}}\)</span></td>
+<td><span class="nolink">\({\sqrt{3}}\)</span></td><td><span class="nolink">\({3^{\frac{5}{2}}}\)</span></td><td><span class="nolink">\({3^{\frac{3}{2}}}\)</span></td><td><span class="nolink">\({\frac{1}{\sqrt{3}}}\)</span></td>
+<td><span class="nolink">\({2\cdot \mathrm{i}}\)</span></td><td><span class="nolink">\({-\frac{\mathrm{i}}{\sqrt{3}}}\)</span></td>
+<td><span class="nolink">\({x^{n+m}}\)</span></td><td><span class="nolink">\({{\left(x^{n}\right)}^{m}}\)</span></td><td><span class="nolink">\({{\left(x^{n}\right)}^{\frac{m}{2}}}\)</span></td>
+<td><span class="nolink">\({\sqrt{x\cdot y^3}}\)</span></td><td><span class="nolink">\({\sqrt{\left| x\right| }\cdot y^{\frac{1}{4}}}\)</span></td><td><span class="nolink">\({\sqrt{x}\cdot {\left| y\right| }^{\frac{1}{3}}}\)</span></td>
+<td><span class="nolink">\({\frac{\sqrt{2\cdot x+10}}{\sqrt{10}}}\)</span></td>
+<td><span class="nolink">\({\sqrt{a\cdot b}}\)</span></td><td><span class="nolink">\({\sqrt{a}\cdot \sqrt{b}}\)</span></td><td><span class="nolink">\({\frac{1}{\sqrt{a}}}\)</span></td><td><span class="nolink">\({\frac{\sqrt{3}\cdot \sqrt{19}-3}{6}}\)</span></td>
+</tr>
+</table>

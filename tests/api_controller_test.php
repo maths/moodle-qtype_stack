@@ -162,7 +162,8 @@ final class api_controller_test extends qtype_stack_testcase {
         $this->assertEquals(86, $this->output->questionseed);
         $this->assertEquals('matrix([35,30],[28,24])', $this->output->questioninputs->ans1->samplesolution->_val);
         $this->assertMatchesRegularExpression(
-            '/^<div class="matrixsquarebrackets"><table class="matrixtable"/',
+            '/^<div class="matrixsquarebrackets"><span class="matrixbracketaccessibility"[^>]*><\/span>' .
+                '<table class="matrixtable"/',
             $this->output->questioninputs->ans1->render
         );
         $this->assertMatchesRegularExpression('/^<p>To multiply matrices/', $this->output->questionsamplesolutiontext);

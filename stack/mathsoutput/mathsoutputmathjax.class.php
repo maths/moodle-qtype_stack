@@ -40,16 +40,17 @@ class stack_maths_output_mathjax extends stack_maths_output_filter_base {
     /**
      * Process CASText and load fallback-definition support when the TeX needs it.
      *
-     * @param string $text the CASText output.
+     * @param string|null $text the CASText output.
      * @param bool $replacedollars whether dollar delimiters should be replaced.
      * @param qtype_stack_renderer|null $renderer optional question renderer.
      * @return string processed CASText.
      */
     public function process_display_castext($text, $replacedollars, ?qtype_stack_renderer $renderer = null) {
+        $text = parent::process_display_castext($text, $replacedollars, $renderer);
         if (str_contains($text, '\\providecommand')) {
             $this->require_providecommand();
         }
-        return parent::process_display_castext($text, $replacedollars, $renderer);
+        return $text;
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

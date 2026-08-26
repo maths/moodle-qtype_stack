@@ -53,6 +53,9 @@ final class mathsoutputmathjax_test extends qtype_stack_testcase {
         $output->process_display_castext('What is \\(x^2\\)?', false);
         $this->assertFalse($output->providecommandrequired);
 
+        $this->assertSame('', $output->process_display_castext(null, false));
+        $this->assertFalse($output->providecommandrequired);
+
         $output->process_display_castext(
             '\\(\\providecommand{\\stackmatrix}[3]{\\left#1#3\\right#2}\\)',
             false

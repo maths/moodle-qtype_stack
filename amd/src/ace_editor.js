@@ -45,9 +45,11 @@ const loadAce = () => {
 
 const createEditor = (textarea) => {
     const wrapper = document.createElement('div');
+    const height = textarea.getBoundingClientRect().height || textarea.offsetHeight || 180;
+
     wrapper.className = 'stack-ace-wrapper';
     wrapper.style.width = '100%';
-    wrapper.style.height = '180px';
+    wrapper.style.height = `${height}px`;
 
     textarea.parentNode.insertBefore(wrapper, textarea.nextSibling);
 
@@ -55,7 +57,7 @@ const createEditor = (textarea) => {
     const editor = ace.edit(wrapper);
     editor.session.setMode("ace/mode/stack");
     editor.setOptions({
-        fontSize: '14px',
+        fontSize: '16px',
         showPrintMargin: false,
         wrap: true,
         tabSize: 4,

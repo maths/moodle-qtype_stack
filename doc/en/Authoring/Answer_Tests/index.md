@@ -30,53 +30,53 @@ The feedback is only shown to a student if the quiet option is set to 'no'.  We 
 Documentation is grouped as follows.
 
 1. [Equivalence](Equivalence.md), e.g. algebraic equivalence (many variations).
-  * AlgEquiv
-  * AlgEquivNouns
-  * SubstEquiv
-  * CasEqual
-  * SameType
-  * SysEquiv
+    * AlgEquiv
+    * AlgEquivNouns
+    * SubstEquiv
+    * CasEqual
+    * SameType
+    * SysEquiv
 2. [Syntactic form](Form.md), e.g. checking the student's expression is in factored form.
-  * FacForm
-  * PartFrac
-  * SingleFrac
-  * CompSquare
-  * Expanded
-  * LowestTerms
+    * FacForm
+    * PartFrac
+    * SingleFrac
+    * CompSquare
+    * Expanded
+    * LowestTerms
 3. [Rules-based](Rule_based.md) tests, e.g. equivalence up to associativity and commutativity and advanced bespoke tests.
-  * EqualComAss
-  * EqualComAssRules
+    * EqualComAss
+    * EqualComAssRules
 4. [Numerical tests](Numerical.md) including accuracy, e.g. is written to 3 decimal places.
-  * NumRelative
-  * NumAbsolute
-  * NumSigFigs
-  * NumDecPlaces
-  * NumDecPlacesWrong
-  * SigFigsStrict
-  * GT
-  * GTE
+    * NumRelative
+    * NumAbsolute
+    * NumSigFigs
+    * NumDecPlaces
+    * NumDecPlacesWrong
+    * SigFigsStrict
+    * GT
+    * GTE
 5. [Scientific](../../Topics/Units.md), e.g. for dealing with dimensional numerical quantities.
-  * Units
-  * UnitsStrict
-  * UnitsRelative
-  * UnitsStrictRelative
-  * UnitsAbsolute
-  * UnitsStrictAbsolute
+    * Units
+    * UnitsStrict
+    * UnitsRelative
+    * UnitsStrictRelative
+    * UnitsAbsolute
+    * UnitsStrictAbsolute
 6. [Calculus](Calculus.md), e.g. for symbolic integration questions.
-  * Diff
-  * Int
-  * Antidiff
-  * AddConst
+    * Diff
+    * Int
+    * Antidiff
+    * AddConst
 7. [String match tests](String.md) and regular expressions.
-  * String
-  * StringSloppy
-  * [Levenshtein](../../Topics/Levenshtein_distance.md)
-  * SRegExp
+    * String
+    * StringSloppy
+    * [Levenshtein](../../Topics/Levenshtein_distance.md)
+    * SRegExp
 8. [Other](Other.md) specific subject tests, e.g. sets, logical expressions.
-  * Sets
-  * [Equiv](../../Specialist_tools/Equivalence_reasoning/index.md)
-  * [EquivFirst](../../Specialist_tools/Equivalence_reasoning/index.md)
-  * [PropLogic](../../Topics/Propositional_Logic.md)
+    * Sets
+    * [Equiv](../../Specialist_tools/Equivalence_reasoning/index.md)
+    * [EquivFirst](../../Specialist_tools/Equivalence_reasoning/index.md)
+    * [PropLogic](../../Topics/Propositional_Logic.md)
 
 ## Pre-processing students' answers ##
 

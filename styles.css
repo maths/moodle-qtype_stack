@@ -1493,7 +1493,6 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
 .stack-ace-wrapper {
     border: 1px solid #ced4da;
     border-radius: 4px;
-    height: 250px;
     min-height: 180px;
     position: relative;
     resize: vertical;
@@ -1505,4 +1504,203 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
 }
 .stacktestsuite .results-symbol {
     font-size: 1.5em;
+}
+.stack-metadata {
+    --smd-primary: #0f6cbf;
+    --smd-primary-bg: rgba(15, 108, 191, 0.03);
+    --smd-border: #dee2e6;
+    --smd-text: #343a40;
+    --smd-muted: #6c757d;
+    --smd-radius: 4px;
+}
+
+.stack-metadata :is(input:not([type="checkbox"]):not([type="radio"]), textarea) {
+    width: 100%;
+}
+
+.stack-metadata .smd-header-edit {
+    margin-left: auto;
+    margin-right: 1rem;
+}
+
+.stack-metadata .modal-header .btn-close {
+    margin-left: 0;
+}
+
+.stack-metadata .smd-section {
+    border-left: 3px solid var(--smd-primary);
+    background: var(--smd-primary-bg);
+    border-radius: 0 var(--smd-radius) var(--smd-radius) 0;
+    padding: 0.75rem 1rem 0.75rem 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.stack-metadata :is(.smd-section-label, .smd-col-label) {
+    color: var(--smd-text);
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.stack-metadata .smd-section-label {
+    text-transform: uppercase;
+    letter-spacing: 0;
+    margin-bottom: 0.6rem;
+}
+
+.stack-metadata .smd-col-label {
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.stack-metadata [name="smd_delete"] i,
+.stack-metadata [name="smd_add"] i {
+    pointer-events: none;
+}
+
+.stack-metadata #qtype-stack-metadata-content:not(.smd-editing) .fitem {
+    display: none;
+}
+
+.stack-metadata :is(.smd-edit-block, .smd-edit-flex, .smd-edit-inline-flex) {
+    display: none;
+}
+
+.stack-metadata .smd-editing .smd-edit-block {
+    display: block;
+}
+
+.stack-metadata .smd-editing .smd-edit-flex {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.stack-metadata .smd-editing .smd-edit-inline-flex {
+    display: inline-flex;
+}
+
+.stack-metadata .smd-editing .smd-read-mode {
+    display: none;
+}
+
+.stack-metadata :is(details.smd-section, .smd-scope-card) > summary {
+    list-style: none;
+    cursor: pointer;
+    user-select: none;
+}
+
+.stack-metadata :is(details.smd-section, .smd-scope-card) > summary::marker,
+.stack-metadata :is(details.smd-section, .smd-scope-card) > summary::-webkit-details-marker {
+    display: none;
+}
+
+.stack-metadata .smd-scope-name {
+    min-width: 0;
+}
+
+.stack-metadata .smd-scope-name-text {
+    font-size: 0.95rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.stack-metadata .smd-scope-header {
+    border-bottom: 1px solid var(--smd-border);
+}
+
+.stack-metadata .smd-scope-header:is(:focus, :focus-visible) {
+    border: 3px solid var(--smd-primary);
+    outline: 0;
+}
+
+.stack-metadata .smd-field-header {
+    margin-bottom: 0.3rem;
+}
+
+.stack-metadata .smd-field-header .smd-col-label {
+    margin-bottom: 0;
+}
+
+.stack-metadata .smd-scope-chevron {
+    flex-shrink: 0;
+    color: var(--smd-muted);
+    pointer-events: none;
+    transition: transform 0.2s ease;
+    margin-right: 0.25rem;
+}
+
+.stack-metadata .smd-scope-card:not([open]) .smd-scope-chevron {
+    transform: rotate(-90deg);
+}
+
+.stack-metadata :is(.row, .smd-scope-body) :is(.fitem, .felement) {
+    margin: 0;
+    padding: 0;
+}
+
+.stack-metadata :is(.fitem, .felement) {
+    border: 0;
+    box-shadow: none;
+    outline: 0;
+}
+
+.stack-metadata .smd-read-mode {
+    font-size: 0.9rem;
+}
+
+.stack-metadata .smd-cell-text {
+    display: block;
+    min-height: 1.6rem;
+    line-height: 1.6rem;
+    padding: 0;
+}
+
+.stack-metadata .smd-editing .fitem {
+    min-height: 0;
+}
+
+.stack-metadata .smd-editing .felement {
+    align-items: flex-start;
+}
+
+.stack-metadata .smd-editing :is(.invalid-feedback, .form-control-feedback) {
+    margin-top: 0.2rem;
+    min-height: 0;
+}
+
+.stack-metadata .smd-row-delete {
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+.stack-metadata .smd-row-delete i {
+    font-size: 1.25rem;
+}
+
+.stack-metadata :is([name="smd_add"], #stack-metadata-make-author) {
+    color: var(--smd-text);
+    border-color: var(--smd-text);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    padding: 0;
+    border-radius: 50%;
+}
+
+.stack-metadata :is(.smd-license-wrap, .smd-ispartof-wrap) .fitem {
+    width: 100%;
+}
+
+.stack-metadata .smd-col-divider {
+    border-left: 1px solid var(--smd-border);
+    padding-left: 1.25rem;
+}
+
+.stack-metadata .smd-freeform-display-text {
+    margin: 0;
+    white-space: pre-wrap;
+    word-break: break-word;
+    color: #495057;
 }

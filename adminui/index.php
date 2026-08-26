@@ -77,7 +77,7 @@ $links = [
         'xmlcompare_desc',
         'qtype_stack',
         ['link' => (string) new moodle_url('/question/type/stack/adminui/questionxmlcompare.php')]
-        ),
+    ),
 ];
 
 // Set up the page object.

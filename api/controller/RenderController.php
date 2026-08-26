@@ -145,7 +145,6 @@ class RenderController {
         $renderresponse->aboutapi->stackmaxima = get_config('qtype_stack', 'stackmaximaversion');
         $renderresponse->aboutapi->stackapi = get_config('qtype_stack', 'apiversion') ?? get_config('qtype_stack', 'version');
 
-
         if (!empty($data['fullRender'])) {
             // Request for full rendering. We replace placeholders with input renders and basic feedback and validation divs.
             // Iframes are rendered but will still need to be registered on the front end.

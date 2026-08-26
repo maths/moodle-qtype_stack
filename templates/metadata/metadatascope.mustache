@@ -1,0 +1,179 @@
+{{!
+    This file is part of Stack - http://stack.maths.ed.ac.uk/
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template qtype_stack/metadata/metadatascope
+    Example context (json):
+        {
+            "id": "qtype-stack-metadata-scope-1",
+            "name": "d",
+            "firstProp": "1",
+            "properties": [
+                {
+                    "property": {
+                        "required": true,
+                        "element": {
+                            "value": "e",
+                            "wrapperid": "fitem_smdi_1_additional_property",
+                            "id": "smdi_1_additional_property",
+                            "name": "smdi_1_additional_property",
+                            "iderror": "smde_1_additional_property_error"
+                        }
+                    },
+                    "qualifier": {
+                        "required": false,
+                        "element": {
+                            "value": "f",
+                            "wrapperid": "fitem_smdi_1_additional_qualifier",
+                            "id": "smdi_1_additional_qualifier",
+                            "name": "smdi_1_additional_qualifier",
+                            "iderror": "smde_1_additional_qualifier_error"
+                        }
+                    },
+                    "value": {
+                        "required": false,
+                        "element": {
+                            "value": "g",
+                            "wrapperid": "fitem_smdi_1_additional_value",
+                            "id": "smdi_1_additional_value",
+                            "name": "smdi_1_additional_value",
+                            "iderror": "smde_1_additional_value_error"
+                        }
+                    },
+                    "id": "1"
+                },
+                {
+                    "property": {
+                        "required": true,
+                        "element": {
+                            "value": "h",
+                            "wrapperid": "fitem_smdi_2_additional_property",
+                            "id": "smdi_2_additional_property",
+                            "name": "smdi_2_additional_property",
+                            "iderror": "smde_2_additional_property_error"
+                        }
+                    },
+                    "qualifier": {
+                        "required": false,
+                        "element": {
+                            "value": "i",
+                            "wrapperid": "fitem_smdi_2_additional_qualifier",
+                            "id": "smdi_2_additional_qualifier",
+                            "name": "smdi_2_additional_qualifier",
+                            "iderror": "smde_2_additional_qualifier_error"
+                        }
+                    },
+                    "value": {
+                        "required": false,
+                        "element": {
+                            "value": "j",
+                            "wrapperid": "fitem_smdi_2_additional_value",
+                            "id": "smdi_2_additional_value",
+                            "name": "smdi_2_additional_value",
+                            "iderror": "smde_2_additional_value_error"
+                        }
+                    },
+                    "id": "2"
+                },
+                {
+                    "property": {
+                        "required": true,
+                        "element": {
+                            "value": "k",
+                            "wrapperid": "fitem_smdi_3_additional_property",
+                            "id": "smdi_3_additional_property",
+                            "name": "smdi_3_additional_property",
+                            "iderror": "smde_3_additional_property_error"
+                        }
+                    },
+                    "qualifier": {
+                        "required": false,
+                        "element": {
+                            "value": "l",
+                            "wrapperid": "fitem_smdi_3_additional_qualifier",
+                            "id": "smdi_3_additional_qualifier",
+                            "name": "smdi_3_additional_qualifier",
+                            "iderror": "smde_3_additional_qualifier_error"
+                        }
+                    },
+                    "value": {
+                        "required": false,
+                        "element": {
+                            "value": "m",
+                            "wrapperid": "fitem_smdi_3_additional_value",
+                            "id": "smdi_3_additional_value",
+                            "name": "smdi_3_additional_value",
+                            "iderror": "smde_3_additional_value_error"
+                        }
+                    },
+                    "id": "3"
+                }
+            ],
+            "input": {
+                "required": true,
+                "element": {
+                    "value": "d",
+                    "wrapperid": "fitem_smdi_1_additional_scope",
+                    "id": "smdi_1_additional_scope",
+                    "name": "smdi_1_additional_scope",
+                    "iderror": "smde_1_additional_scope_error"
+                }
+            }
+        }
+}}
+<details class="smd-scope-card border rounded mb-2 overflow-hidden" id="{{{id}}}" {{#isOpen}}open{{/isOpen}}>
+    <summary class="smd-scope-header d-flex align-items-center gap-2 p-2">
+        <i class="fa fa-chevron-down smd-scope-chevron" aria-hidden="true"></i>
+        <span class="smd-col-label text-nowrap mb-0">{{#str}} scope, qtype_stack {{/str}}</span>
+        <span class="smd-scope-name flex-grow-1">
+            <span class="smd-scope-name-text">{{name}}</span>
+        </span>
+    </summary>
+    <div class="smd-scope-body p-2">
+        <div class="row align-items-start mb-2 smd-scope-name-editor smd-edit-flex">
+            <div class="col-md-4">
+                {{#input}}
+                    <label class="sr-only" for="{{element.id}}">
+                        {{#str}} scopename, qtype_stack {{/str}}
+                    </label>
+                    {{> core_form/element-text-inline }}
+                {{/input}}
+            </div>
+            <div class="col-auto">
+                <button id="smd_scope_{{{firstProp}}}_delete" name="smd_delete" type="button"
+                        class="btn btn-link btn-sm text-danger smd-row-delete smd-edit-inline-flex align-items-center justify-content-center p-0"
+                        title="{{#str}} delete {{/str}} {{#str}} scope, qtype_stack {{/str}}">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                    <span class="sr-only">{{#str}} delete {{/str}} {{#str}} scope, qtype_stack {{/str}}</span>
+                </button>
+            </div>
+        </div>
+        <div class="row smd-field-header">
+            <div class="col-md-3 smd-col-label">{{#str}} property, qtype_stack {{/str}}</div>
+            <div class="col-md-3 smd-col-label">{{#str}} qualifier, qtype_stack {{/str}}</div>
+            <div class="col smd-col-label">{{#str}} value, qtype_stack {{/str}}</div>
+            <div class="col-auto"></div>
+        </div>
+        {{#properties}}
+            {{>qtype_stack/metadata/metadataadditional}}
+        {{/properties}}
+        <div class="mt-2 smd-property-actions smd-edit-block">
+            <button type="button" class="btn btn-sm btn-outline-secondary" name="smd_add"
+                    id="smd_property_{{firstProp}}_add"
+                    title="{{#str}} addproperty, qtype_stack {{/str}}">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+                <span class="sr-only">{{#str}} addproperty, qtype_stack {{/str}}</span>
+            </button>
+        </div>
+    </div>
+</details>

@@ -828,6 +828,34 @@ final class responseanalysis_test extends qtype_stack_testcase {
         $this->assertEquals(7, $summary->tot['PotResTree_1']);
     }
 
+    public function test_prt_graph_labels_count_edge_traversals(): void {
+
+        $this->report = $this->getMockBuilder(stack_question_report::class)
+            ->onlyMethods(['run_report'])
+            ->setConstructorArgs([self::$question2, 2, 1])->getMock();
+        $this->report->notesummary = [
+            'oddeven' => [
+                'oddeven-0-1' => 1,
+                'oddeven-0-0' => 6,
+                'oddeven-1-1' => 2,
+                'oddeven-1-0' => 4,
+            ],
+        ];
+
+        $this->assertEquals([
+            'oddeven-0-1' => '1 (14.29%)',
+            'oddeven-0-0' => '6 (85.71%)',
+            'oddeven-1-1' => '2 (28.57%)',
+            'oddeven-1-0' => '4 (57.14%)',
+        ], $this->report->get_prt_graph_labels('oddeven', ['oddeven' => 7]));
+    }
+
+    public function test_prt_graph_default_labels_show_scores(): void {
+        $scoregraph = self::$question->prts['PotResTree_1']->get_prt_graph();
+        $this->assertEquals('=1', $scoregraph->get(1)->leftlabel);
+        $this->assertEquals('=0', $scoregraph->get(1)->rightlabel);
+    }
+
     public function test_note_summary(): void {
 
         $this->set_question();

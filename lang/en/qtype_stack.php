@@ -34,7 +34,6 @@ $string['cachedef_parsercache'] = 'STACK parsed Maxima expressions';
 $string['cachedef_librarycache'] = 'STACK question library renders and file structure';
 
 $string['mbstringrequired'] = 'Installing the MBSTRING library is required for STACK.';
-$string['yamlrecommended']  = 'Installing the YAML library is recommended for STACK.';
 
 // General strings.
 $string['errors']            = 'Errors';
@@ -422,6 +421,38 @@ $string['mustconfirm'] = 'You have changes to confirm.';
 $string['moodleerrors'] = 'You have errors related to Moodle\'s basic question setup.';
 $string['stackerrors'] = 'You have errors in your question.';
 $string['markedasbroken'] = 'The question has been marked as broken and will not be accessible to students.';
+$string['editmetadata'] = 'View and edit full metadata';
+$string['additionalmetadata'] = 'Additional metadata';
+$string['novalidmetadata'] = 'No valid metadata';
+$string['metadata'] = 'Metadata';
+$string['metadatahighlights'] = 'Metadata';
+$string['metadatachange'] = 'Please save your changes.';
+$string['firstname'] = 'First name';
+$string['lastname'] = 'Last name';
+$string['institution'] = 'Institution';
+$string['year'] = 'Year';
+$string['author'] = 'Author';
+$string['addauthor'] = 'Add author';
+$string['addscope'] = 'Add scope';
+$string['addproperty'] = 'Add property';
+$string['addlanguage'] = 'Add language';
+$string['updateJSON'] = 'Validate inputs and update JSON';
+$string['updateinputs'] = 'Update inputs from JSON';
+$string['makemeauthor'] = 'Add me as an author';
+$string['validateandclose'] = 'Validate and close';
+$string['JSONmetadata'] = 'JSON metadata';
+$string['JSONtoolong'] = 'There is too much metadata. Metadata should be under 32000 bytes.';
+$string['JSONbroken'] = 'Metadata is invalid JSON.';
+$string['metadataexplanation'] = 'STACK metadata is stored as a JSON object. You can edit metadata in the inputs above or directly edit the JSON below and then click \'Update inputs from JSON\'. On closing this metadata window, the inputs will be validated and, if this is successful, you will be returned to the main question edit form. You will still need to save the question as normal to save the metadata.';
+$string['scope'] = 'Scope';
+$string['scopename'] = 'Scope name';
+$string['property'] = 'Property';
+$string['qualifier'] = 'Qualifier';
+$string['value'] = 'Value';
+$string['ispartof'] = 'isPartOf';
+$string['freeformmetadata'] = 'Freeform metadata';
+$string['reverttosaved'] = 'Revert current changes';
+$string['licenseselect'] = 'Type or select license';
 $string['alwaysmanuallygrade'] = 'This question is always manually graded.';
 
 // Strings used by input elements.

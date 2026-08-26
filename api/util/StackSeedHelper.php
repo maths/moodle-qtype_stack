@@ -31,7 +31,7 @@ class StackSeedHelper {
         if ($question->has_random_variants()) {
             // We require the xml to include deployed variants.
             if (count($question->deployedseeds) === 0) {
-                throw new \stack_exception(get_string('api_no_deployed_variants', null));
+                throw new \stack_exception(get_string('api_no_deployed_variants', 'qtype_stack'));
             }
 
             // If no seed has been specified, use the first deployed variant.
@@ -40,7 +40,7 @@ class StackSeedHelper {
             }
 
             if (!in_array($seed, $question->deployedseeds)) {
-                throw new \stack_exception(get_string('api_seed_not_in_variants', null));
+                throw new \stack_exception(get_string('api_seed_not_in_variants', 'qtype_stack'));
             }
 
             $question->seed = $seed;

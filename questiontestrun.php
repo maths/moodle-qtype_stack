@@ -70,6 +70,8 @@ $questioncategory = $DB->get_record('question_categories', ['id' => $questiondat
 question_require_capability_on($questiondata, 'view');
 $caneditpermission = question_has_capability_on($questiondata, 'edit');
 $canedit = $caneditpermission && !$historic;
+$canexporttonrw = get_config('qtype_stack', 'nrwupload')
+    && has_capability('qtype/stack:exporttoexternallibraries', $context);
 
 // Initialise $PAGE.
 $PAGE->set_url('/question/type/stack/questiontestrun.php', $urlparams);
@@ -110,6 +112,7 @@ $todolink = new moodle_url('/question/type/stack/adminui/todo.php', $todoparams)
 $reportlink = new moodle_url('/question/type/stack/questiontestreport.php', $urlparams);
 $bulktestlink = new moodle_url('/question/type/stack/questionbulktest.php', $urlparams);
 $pagelink = new moodle_url('/question/type/stack/questiontestrun.php', $urlparams);
+$exportnrwlink = new moodle_url('/question/type/stack/questionexport.php', $urlparams);
 $historyparams = $urlparams;
 unset($historyparams['questionid']);
 $historyparams['entryid'] = $qbeid;
@@ -167,8 +170,10 @@ $initialdata->general->reportlink = $reportlink->out();
 $initialdata->general->todolink = $todolink->out();
 $initialdata->general->bulktestlink = $bulktestlink->out();
 $initialdata->general->historylink = $historylink->out();
+$initialdata->general->exportnrwlink = $exportnrwlink->out();
 $initialdata->general->caneditpermission = $caneditpermission;
 $initialdata->general->canedit = $canedit;
+$initialdata->general->canexporttonrw = $canexporttonrw;
 $initialdata->general->courseid = $courseid;
 $initialdata->general->cmid = $cmid;
 $initialdata->general->questionid = $questionid;

@@ -128,6 +128,11 @@
         <a class="nav-link" href="{{{general.exportquestionlink}}}">{{#str}} exportthisquestion, qtype_stack {{/str}}</a>
       </li>
     {{/general.caneditpermission}}
+    {{#general.canexporttonrw}}
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" href="{{{general.exportnrwlink}}}">{{#str}} exporttonrw, qtype_stack {{/str}}</a>
+      </li>
+    {{/general.canexporttonrw}}
     <li class="nav-item" role="presentation">
       <a class="nav-link" href="{{{general.reportlink}}}">{{#str}} basicquestionreport, qtype_stack {{/str}}</a>
     </li>

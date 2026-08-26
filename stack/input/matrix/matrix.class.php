@@ -352,10 +352,11 @@ class stack_matrix_input extends stack_input {
         } else if ($matrixparens == '') {
             $matrixbrackets = 'matrixnobrackets';
         }
+        [$leftbracket, $rightbracket] = $this->render_matrix_bracket_accessibility($matrixparens);
         // Build the html table to contain these values.
         $valueattr = $this->valuetype === 'matrix' ? '' : ' data-stack-input-value-type="' . $this->valuetype . '"';
         $xhtml = '<div class="' . $matrixbrackets . '"' . $valueattr .
-                '><table class="matrixtable" id="' . $fieldname .
+                '>' . $leftbracket . '<table class="matrixtable" id="' . $fieldname .
                 '_container" style="display:inline; vertical-align: middle;" ' .
                 'cellpadding="1" cellspacing="0"><tbody>';
         for ($i = 0; $i < $this->height; $i++) {
@@ -397,7 +398,7 @@ class stack_matrix_input extends stack_input {
             }
             $xhtml .= '</tr>';
         }
-        $xhtml .= '</tbody></table></div>';
+        $xhtml .= '</tbody></table>' . $rightbracket . '</div>';
 
         return $xhtml;
     }

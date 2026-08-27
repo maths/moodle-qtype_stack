@@ -73,6 +73,39 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
 		stack_js.register_external_button_listener('stack-repeatbutton-{$uid}', function() {
 			add_repeat();
 		});
+		// Attach the state-writeback change listener to a single, freshly created
+		// repeated input. Only ever called for new ids so listeners are not
+		// registered more than once on inputs that already exist.
+		function register_repeat_change_listener(new_id) {
+			stack_js.request_access_to_input(new_id, true).then((id) => {
+				let input = document.getElementById(id);
+				if (!input) {
+					return;
+				}
+				// Re-read the state fresh on every change and write only this
+				// field's slot back, so concurrent edits to sibling fields are
+				// not lost.
+				let writeback = function () {
+					let state = JSON.parse(window.state_input.value);
+					let parts = input.id.split('_');
+					let base_id = parts[0];
+					let count = parts[parts.length - 1];
+					if (!state['data'] || !state['data'][base_id]) {
+						return;
+					}
+					state['data'][base_id][count - 1] = input.value;
+					window.state_input.value = JSON.stringify(state);
+					window.state_input.dispatchEvent(new Event('change'));
+				};
+				input.addEventListener('change', writeback);
+				// request_access_to_input resolves over several async messages,
+				// so the student may already have typed into this field before
+				// the listener above was attached - capture that value now.
+				if (input.value !== '') {
+					writeback();
+				}
+			});
+		}
 		JS;
 
 		$list[] = new MP_String($code);
@@ -119,7 +152,6 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
 
 		// function construct_repeat()
 		$list[] = new MP_String("function construct_repeat() {");
-		$list[] = new MP_String("let state = JSON.parse(window.state_input.value);");
 
 		if (isset($this->params['repeat_ids'])) {
 			$splitrepeatid = preg_split ("/[\ \n\;]+/", $this->params['repeat_ids']);
@@ -137,8 +169,10 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
 				const containerPromise_{$id} = stack_js.get_content(repeatcontainer_id);
 
 				Promise.all([contentPromise_{$id}, containerPromise_{$id}]).then(([repeat_content, repeatcontainer_content]) => {
+					let state = JSON.parse(window.state_input.value);
 					const count = state.data[Object.keys(state.data)[0]].length;
 					let new_content = "";
+					let added_ids = [];
 					for (let num = 1; num <= count; num++) {
 						let tempContainer = document.createElement('div');
 						tempContainer.innerHTML = repeat_content;
@@ -146,29 +180,16 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
 							let base_id = el.id.split('_')[1];
 							let val = state['data'][base_id][num-1];
 							el.id = el.id + '_repeat_{$id}_' + num;
-							window.repeat_ids.add(el.id.split('_')[1] + '_repeat_{$id}_' + num);
+							let new_id = el.id.split('_')[1] + '_repeat_{$id}_' + num;
+							window.repeat_ids.add(new_id);
+							added_ids.push(new_id);
 							el.name = el.name + '_repeat_{$id}_' + num;
 							el.setAttribute("value", val);
 						});
 						new_content += tempContainer.innerHTML;
 					};
-					stack_js.switch_content(repeatcontainer_id, repeatcontainer_content + new_content);					
-					window.repeat_ids.forEach(new_id => {
-						stack_js.request_access_to_input(new_id, true).then((id) => {
-							let input = document.getElementById(id);
-							if (input) {
-								input.addEventListener('change', function () {
-									let state = JSON.parse(window.state_input.value);
-									let parts = this.id.split('_');
-									let base_id = parts[0];
-									let count = parts[parts.length - 1];
-									state['data'][base_id][count - 1] = this.value;
-									window.state_input.value = JSON.stringify(state);
-									window.state_input.dispatchEvent(new Event('change'));
-								});
-							}
-						});
-					});
+					stack_js.switch_content(repeatcontainer_id, repeatcontainer_content + new_content);
+					added_ids.forEach(register_repeat_change_listener);
 				});
 				JS;
 
@@ -181,7 +202,6 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
 
 		// function add_repeat()
 		$list[] = new MP_String("function add_repeat() {");
-		$list[] = new MP_String("let state = JSON.parse(window.state_input.value);");
 
 		if (isset($this->params['repeat_ids'])) {
 			$splitrepeatid = preg_split ("/[\ \n\;]+/", $this->params['repeat_ids']);
@@ -199,40 +219,48 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
 				const containerPromise_{$id} = stack_js.get_content(repeatcontainer_id);
 
 				Promise.all([contentPromise_{$id}, containerPromise_{$id}]).then(([repeat_content, repeatcontainer_content]) => {
+					// Re-read the state fresh: the student may have typed into
+					// other fields during the async round-trips above, and we
+					// must not write a stale snapshot back over those edits.
+					let state = JSON.parse(window.state_input.value);
+
+					// get_content only serialises markup, not the live .value of
+					// each field, so re-apply the stored values to the existing
+					// clones - otherwise earlier entries appear to vanish every
+					// time another field is added.
+					let existing = document.createElement('div');
+					existing.innerHTML = repeatcontainer_content;
+					existing.querySelectorAll('input').forEach(el => {
+						let parts = el.id.split('_');
+						let base_id = parts[1];
+						let idx = parseInt(parts[parts.length - 1], 10) - 1;
+						if (state['data'][base_id] && state['data'][base_id][idx] !== undefined) {
+							el.setAttribute('value', state['data'][base_id][idx]);
+						}
+					});
+
 					let tempContainer = document.createElement('div');
 					tempContainer.innerHTML = repeat_content;
+					let added_ids = [];
 
 					tempContainer.querySelectorAll('input').forEach(el => {
 						let base_id = el.id.split('_')[1];
 						let count = state['data'][base_id].length + 1;
 						state['data'][base_id].push("");
-						window.state_input.value = JSON.stringify(state);
-						window.state_input.dispatchEvent(new Event('change'));
 
 						el.id = el.id + '_repeat_{$id}_' + count;
-						window.repeat_ids.add(el.id.split('_')[1] + '_repeat_{$id}_' + count);
+						let new_id = el.id.split('_')[1] + '_repeat_{$id}_' + count;
+						window.repeat_ids.add(new_id);
+						added_ids.push(new_id);
 						el.name = el.name + '_repeat_{$id}_' + count;
 					});
 
-					repeat_content = tempContainer.innerHTML;
-					stack_js.switch_content(repeatcontainer_id, repeatcontainer_content + repeat_content);
+					window.state_input.value = JSON.stringify(state);
+					window.state_input.dispatchEvent(new Event('change'));
 
-					window.repeat_ids.forEach(new_id => {
-						stack_js.request_access_to_input(new_id, true).then((id) => {
-							let input = document.getElementById(id);
-							if (input) {
-								input.addEventListener('change', function () {
-									let state = JSON.parse(window.state_input.value);
-									let parts = this.id.split('_');
-									let base_id = parts[0];
-									let count = parts[parts.length - 1];
-									state['data'][base_id][count - 1] = this.value;
-									window.state_input.value = JSON.stringify(state);
-									window.state_input.dispatchEvent(new Event('change'));
-								});
-							}
-						});
-					});
+					stack_js.switch_content(repeatcontainer_id, existing.innerHTML + tempContainer.innerHTML);
+
+					added_ids.forEach(register_repeat_change_listener);
 				});
 				JS;
 

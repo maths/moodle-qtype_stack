@@ -1936,6 +1936,19 @@ abstract class stack_input {
     }
 
     /**
+     * Compound inputs may bind extra Maxima variables (beyond the input's own
+     * name) when their value is evaluated, e.g. the repeat input defines
+     * `repeatedans1` for each simple input it wraps. A PRT which reads one of
+     * these names needs the compound input to be evaluated for it, so this list
+     * is used during PRT compilation to work out the required inputs.
+     *
+     * @return string[] the names of any additional variables this input defines.
+     */
+    public function get_generated_variable_names() {
+        return [];
+    }
+
+    /**
      * Returns the definition of this input as it should appear in an API response
      * @return array
      */

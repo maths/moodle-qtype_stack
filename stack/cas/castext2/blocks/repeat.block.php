@@ -1,4 +1,3 @@
-
 <?php
 // This file is part of STACK
 //
@@ -38,7 +37,9 @@ class stack_cas_castext2_repeat extends stack_cas_castext2_block {
 
         $repeatid = $this->params['id'];
         $body = new MP_List([new MP_String('%root')]);
-        $body->items[] = new MP_String('<div id="');   // TODO: we want to make this hidden!
+        // This <div> only holds the template which the client-side JS clones into
+        // the repeatcontainer below; it is never shown to the student directly.
+        $body->items[] = new MP_String('<div style="display:none;" id="');
         // We use the quid block to make the ids unique.
         $body->items[] = new MP_List([new MP_String('quid'), new MP_String("repeat_" . $repeatid)]);
         $body->items[] = new MP_String('">');

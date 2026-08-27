@@ -41,6 +41,21 @@ class stack_repeat_input extends stack_json_input {
         return stack_input::SIMPLICITY_COMPOUND;
     }
 
+    /**
+     * When evaluated, this input defines one Maxima list `repeated<name>` per
+     * simple input used inside the corresponding `[[repeat]]` block. PRTs refer
+     * to those lists rather than to the raw input names.
+     *
+     * @return string[]
+     */
+    public function get_generated_variable_names() {
+        $names = [];
+        foreach (array_keys($this->simpleinputs) as $inputname) {
+            $names[] = 'repeated' . $inputname;
+        }
+        return $names;
+    }
+
     /*
      * This input type is always "typeless" because the teacher's answer is a JSON string,
      * but the eventual type will be a Maxima expression.

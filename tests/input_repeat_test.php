@@ -56,6 +56,20 @@ final class input_repeat_test extends qtype_stack_testcase {
                         'stack1__ans1', false, null));
     }
 
+    public function test_generated_variable_names(): void {
+
+        $el = stack_input_factory::make('repeat', 'sans1', '"{}"');
+        // Before the simple inputs are wired in there is nothing to report.
+        $this->assertEquals([], $el->get_generated_variable_names());
+
+        $simpleinputs = [];
+        $simpleinputs['ans1'] = stack_input_factory::make('algebraic', 'ans1', 'x');
+        $simpleinputs['ans2'] = stack_input_factory::make('numerical', 'ans2', 'x');
+        $el->add_simple_inputs($simpleinputs);
+
+        $this->assertEquals(['repeatedans1', 'repeatedans2'], $el->get_generated_variable_names());
+    }
+
     public function test_validate_broken_json(): void {
 
         $options = new stack_options();

@@ -564,6 +564,22 @@ class stack_potentialresponse_tree_lite {
             }
         }
 
+        // Compound inputs (e.g. repeat) bind extra Maxima variables such as
+        // `repeatedans1` when their value is evaluated. If a PRT reads one of
+        // those, mark the compound input as required so its defining statement
+        // runs, and pass the generated variable into the PRT function.
+        foreach ($inputs as $iname => $input) {
+            if (!is_object($input) || !method_exists($input, 'get_generated_variable_names')) {
+                continue;
+            }
+            foreach ($input->get_generated_variable_names() as $genname) {
+                if (isset($usage['read'][$genname])) {
+                    $r['required'][$iname] = true;
+                    $asarg[$genname] = true;
+                }
+            }
+        }
+
         // Deal with GCL... and the limited function args on it.
         if (count($asarg) > 40) {
             // Just cut down to less and hope no spooky interactions arise.

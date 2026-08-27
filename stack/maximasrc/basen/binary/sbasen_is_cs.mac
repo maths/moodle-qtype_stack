@@ -1,0 +1,25 @@
+/**
+ * Checks if the expression contains a `stackbasen` value and that all
+ * such values it contains are in traditional computer science bases, i.e,
+ * 2, 8 or 16.
+ *
+ * @param[expression] expression, an expression to check
+ * @return[bool] `false` if no `stackbasen` numbers were found or if even one
+ * of them is not in the expected bases.
+ */
+sbasen_is_cs(expression) := block([simp,tmp,sub_ex,good],
+ tmp: extract_matching_parts(lambda([_x],is(safe_op(_x)="stackbasen")), expression),
+ good: not emptyp(tmp),
+ simp:true,
+ for sub_ex in tmp do (
+  if is(third(sub_ex)#2) and is(third(sub_ex)#8) and is(third(sub_ex)#16) then good:false
+ ),
+ return(good)
+)$
+
+s_test_case(simp) := is(sbasen_is_cs(stackbasen("0001_2","S",2))=true)$
+s_test_case(simp) := is(sbasen_is_cs(stackbasen("FF_16","S",16))=true)$
+s_test_case(simp) := is(sbasen_is_cs(stackbasen("007","C",8))=true)$
+s_test_case(simp) := is(sbasen_is_cs(stackbasen("0001_3","S",3))=false)$
+s_test_case(simp) := is(sbasen_is_cs(stackbasen("007","C",8)+stackbasen("0001_3","S",3))=false)$
+s_test_case(simp) := is(sbasen_is_cs(x+1)=false)$

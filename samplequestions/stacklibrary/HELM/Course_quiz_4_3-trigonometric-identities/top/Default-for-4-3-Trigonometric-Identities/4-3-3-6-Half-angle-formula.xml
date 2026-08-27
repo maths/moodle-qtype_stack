@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>4.3.3.6 Half angle formula</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4> Half-angle formulae </h4>
+
+<p>If we replace \(A\) by <span class="math inline">\(\dfrac{A}{2}\)</span> and, consequently <span class="math inline">\(2A\)</span> by <span class="math inline">\(A\)</span>, in the double angle formula, we obtain <br></p><p><span class="math inline">\(\sin A\equiv 2\sin\left(\dfrac{A}{2}\right)\cos\left(\dfrac{A}{2}\right) \)</span></p>
+
+<p>Similarly for the cosine:<br></p>
+
+<p>\(\cos A\equiv 2\cos^2\left(\dfrac{A}{2}\right)-1\)</p>
+
+<p>These are examples of <span><strong>half-angle formulae</strong></span>. We can obtain a half-angle formula for <span class="math inline">\(\tan A\)</span> as well. Replacing <span class="math inline">\(A\)</span> by <span class="math inline">\(\dfrac{A}{2}\)</span> and <span class="math inline">\(2A\)</span> by <span class="math inline">\(A\)</span> in the double angle formula for \(\tan\) we obtain:</p><p> <span class="math inline">\(\tan A\equiv \dfrac{2\tan\left(\dfrac{A}{2}\right)}{1-\tan^2\left(\dfrac{A}{2}\right)} \)</span></p>
+
+<p>Other formulae, which can be obtained using the half-angle formulae and are useful for integration when trigonometric functions are present:</p><p><br></p>
+<div class="HELM_keypoint">
+<h4>Key Point<br></h4>
+<p>If <span class="math inline">\(t= \tan\left(\dfrac{A}{2}\right)\)</span> then <br>\(\sin A= \dfrac{2t}{1+t^2}\)
+<br> \(\cos A= \dfrac{1-t^2}{1+t^2}\)
+<br>\(\tan A= \dfrac{2t}{1-t^2}\)</p>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

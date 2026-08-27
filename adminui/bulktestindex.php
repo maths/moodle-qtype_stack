@@ -24,7 +24,7 @@
 
 define('NO_OUTPUT_BUFFERING', true);
 
-require_once(__DIR__.'/../../../../config.php');
+require_once(__DIR__ . '/../../../../config.php');
 
 require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/../locallib.php');
@@ -88,8 +88,11 @@ if (count($availablequestionsbycontext) == 0) {
         $numquestions = $info['numquestions'];
 
         $testallurl = new moodle_url('/question/type/stack/adminui/bulktest.php', ['contextid' => $contextid]);
-        $testalllink = html_writer::link($testallurl,
-            get_string('bulktestallincontext', 'qtype_stack'), ['title' => get_string('testalltitle', 'qtype_stack')]);
+        $testalllink = html_writer::link(
+            $testallurl,
+            get_string('bulktestallincontext', 'qtype_stack'),
+            ['title' => get_string('testalltitle', 'qtype_stack')]
+        );
         $litext = $name . ' (' . $numquestions . ') ' . $testalllink;
 
         echo html_writer::start_tag('details');
@@ -99,12 +102,17 @@ if (count($availablequestionsbycontext) == 0) {
         echo html_writer::start_tag('ul', ['class' => 'expandable']);
         foreach ($categories as $cat) {
             if ($cat->count > 0) {
-                $url = new moodle_url('/question/type/stack/adminui/bulktest.php',
-                    ['contextid' => $contextid, 'categoryid' => $cat->id]);
+                $url = new moodle_url(
+                    '/question/type/stack/adminui/bulktest.php',
+                    ['contextid' => $contextid, 'categoryid' => $cat->id]
+                );
                 $linktext = $cat->name . ' (' . $cat->count . ')';
                 $link = html_writer::link($url, $linktext);
-                echo html_writer::tag('li', $link,
-                    ['title' => get_string('testallincategory', 'qtype_stack')]);
+                echo html_writer::tag(
+                    'li',
+                    $link,
+                    ['title' => get_string('testallincategory', 'qtype_stack')]
+                );
             }
         }
         echo html_writer::end_tag('ul');
@@ -114,7 +122,9 @@ if (count($availablequestionsbycontext) == 0) {
 
     if (has_capability('moodle/site:config', context_system::instance())) {
         echo html_writer::tag('p', html_writer::link(
-            new moodle_url('/question/type/stack/adminui/bulktestall.php'), get_string('bulktestrun', 'qtype_stack')));
+            new moodle_url('/question/type/stack/adminui/bulktestall.php'),
+            get_string('bulktestrun', 'qtype_stack')
+        ));
     }
 }
 

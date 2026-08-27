@@ -9,14 +9,12 @@ RUN composer install
 RUN composer dump-autoload --optimize
 
 #Base Image
-FROM php:8.4.5-apache-bookworm AS base
+FROM php:8.4-apache-bookworm AS base
 
 #Install required php extensions
 RUN apt-get update && \
     apt-get -y install libicu-dev libyaml-dev libzip-dev zip && \
-    pecl install yaml && \
     docker-php-ext-configure intl && \
-    docker-php-ext-enable yaml && \
     docker-php-ext-install intl zip && \
     a2enmod rewrite && a2enmod actions
 
@@ -25,7 +23,7 @@ ENV APACHE_DOCUMENT_ROOT /srv/stack/api/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
-COPY ./api/docker/files/000-default.conf /etc/apache2/sites-available/000-default.conf
+COPY ./api/docker/files/sites/000-default.conf /etc/apache2/sites-available/000-default.conf
 
 #Create directories for stack
 RUN mkdir -p /var/data/api && \
@@ -57,4 +55,6 @@ FROM base as production
 #Enable opcache extension in production
 COPY /api/docker/files/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 RUN docker-php-ext-install opcache && \
-    docker-php-ext-enable opcache
+    docker-php-ext-enable opcache && \
+    php /srv/stack/api/docker/files/installlanguages.php && \
+    chmod -R 777 /srv/stack/lang

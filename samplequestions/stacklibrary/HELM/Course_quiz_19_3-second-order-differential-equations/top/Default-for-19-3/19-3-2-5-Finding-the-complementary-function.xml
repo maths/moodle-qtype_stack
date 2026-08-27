@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>19.3.2.5 Finding the complementary function</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Solving the auxiliary equation gives the values of <span class="math inline">\(k\)</span> which we need to find the complementary function. Clearly the nature of the roots will depend upon the values of <span class="math inline">\(a,\ b\)</span> and
+    <span class="math inline">\(c\)</span>.</p>
+<p><span><strong>Case 1</strong></span> \(\quad\)If <span class="math inline">\(b^2&gt;4ac\)</span> the roots will be real and distinct. The two values of <span class="math inline">\(k\)</span> thus obtained, <span class="math inline">\(k_1\)</span> and
+    <span class="math inline">\(k_2\)</span>, will allow us to write down two independent solutions: <span class="math inline">\(
+y_1(x)=\text{e}^{k_1x}\ \text{and}\ y_2(x)=\text{e}^{k_2x},\)</span> and so the general solution of the differential equation will be: <span class="math inline">\[ 
+y(x)=A\text{e}^{k_1x}+B\text{e}^{k_2x}\]</span></p>
+
+<div class="HELM_keypoint">
+    <h4>Key Point</h4>
+    <p>If the auxiliary equation has real, distinct roots <span class="math inline">\(k_1\)</span> and <span class="math inline">\(k_2\)</span>, the <span><strong>complementary function</strong></span> will be: <span class="math display">\[y_\text{cf}(x)=A\text{e}^{k_1x}+B\text{e}^{k_2x}\]</span></p>
+</div>
+
+<p><span><strong>Case 2</strong></span> \(\quad\) On the other hand, if <span class="math inline">\(b^2=4ac\)</span> the two roots of the auxiliary equation will be equal and this method will therefore only yield one independent solution. In this case, special
+    treatment is required.</p>
+<p><span><strong>Case 3</strong></span> \(\quad\) If <span class="math inline">\(b^2&lt;4ac\)</span> the two roots of the auxiliary equation will be complex, that is, <span class="math inline">\(k_1\)</span> and <span class="math inline">\(k_2\)</span> will
+    be complex numbers. The procedure for dealing with such cases will become apparent in the following examples.</p>
+
+<hr>
+
+<h4 class="HELM_example">Example</h4>
+<p>Find the general solution of: <span class="math inline">\( \displaystyle{ {\mathrm{d}^2y\over \mathrm{d}x^2}+3{\mathrm{d}y\over \mathrm{d}x}-10y=0 }.\)</span></p>
+
+<h4 class="HELM_solution">Solution</h4>
+<p>By letting <span class="math inline">\(y=\text{e}^{kx}\)</span>, so that <span class="math inline">\[
+{\mathrm{d}y\over \mathrm{d}x}=k\text{e}^{kx}\qquad\text{and}\qquad
+{\mathrm{d}^2y\over \mathrm{d}x^2}=k^2\text{e}^{kx}\]</span> the auxiliary equation is found to be: <span class="math inline">\[k^2+3k-10=0\qquad\text{and so}\qquad
+(k-2)(k+5)=0\]</span> so that <span class="math inline">\(k=2\)</span> and <span class="math inline">\(k=-5\)</span>. Thus there exist two solutions: <span class="math inline">\[y_1=\text{e}^{2x}\qquad\text{and}\qquad 
+y_2=\text{e}^{-5x}.\]</span> We can write the general solution as: <span class="math inline">\[\displaystyle{ y=A\text{e}^{2x}+B\text{e}^{-5x}}.\]</span></p>
+
+<hr>
+
+<h4 class="HELM_example">Example</h4>
+<p>Find the general solution of: <span class="math inline">\(\displaystyle{ {\mathrm{d}^2y\over \mathrm{d}x^2}+4y=0}\)</span></p>
+
+<h4 class="HELM_solution">Solution</h4>
+
+<p>As before, let <span class="math inline">\(y=\text{e}^{kx}\)</span> so that <span class="math inline">\[ 
+{{\mathrm{d}y\over \mathrm{d}x}=k\text{e}^{kx}}\qquad\text{and}\qquad
+{{\mathrm{d}^2y\over \mathrm{d}x^2}=k^2\text{e}^{kx}}.\]</span> The auxiliary equation is easily found to be: <span class="math inline">\(k^2+4=0\)</span> that is, <span class="math inline">\(k^2=-4\)</span> so that <span class="math inline">\(k=\pm 2\text{i}\)</span>,
+    that is, we have complex roots. The two independent solutions of the equation are thus <span class="math inline">\[ y_1(x)=\text{e}^{2\text{i}x}\qquad\qquad y_2(x)=\text{e}^{-2\text{i}x}\]</span> so that the general solution can be written in the
+    form <span class="math inline">\( y(x)=A\text{e}^{2\text{i}x}+B\text{e}^{-2\text{i}x}\)</span>. However, in cases such as this, it is usual to rewrite the solution in the following way. Recall that Euler’s relations give: <span class="math inline">\[\text{e}^{2\text{i}x}=\cos2x+\text{i}\sin 2x\qquad\text{and}
+\qquad \text{e}^{-2\text{i}x}=\cos 2x-\text{i}\sin 2x\]</span> so that <span class="math inline">\[ y(x)=A(\cos 2x+\text{i}\sin 2x)+B(\cos 2x-\text{i}\sin 2x)\]</span>&nbsp;If we now relabel the constants such that <span class="math inline">\(A+B=C\)</span>    and <span class="math inline">\(A\text{i}-B\text{i}=D\)</span> we can write the general solution in the form: <span class="math inline">\[ y(x)=C\cos 2x+D\sin 2x.\]</span></p>
+
+<hr>
+<p>Note: For the equation two examples ago we have expressed the solution as <span class="math inline">\(y=\dots\)</span> whereas in the example above we have expressed it as <span class="math inline">\(y(x)=\dots\)</span>. Either will do.</p>
+<hr>
+
+<h4 class="HELM_example">Example</h4>
+<p>Given <span class="math inline">\(ay''+by'+cy=0,\)</span> write down the auxiliary equation. If the roots of the auxiliary equation are complex (one root will always be the complex conjugate of the other) and are denoted by <span class="math inline">\(k_1=\alpha+\beta \text{i}\)</span>    and <span class="math inline">\(k_2=\alpha-\beta \text{i}\)</span> show that the general solution is: <span class="math inline">\[ 
+y(x)=\text{e}^{\alpha x}(A\cos \beta x+B\sin\beta x)\]</span></p>
+
+<h4 class="HELM_solution">Solution</h4>
+<p>Substitution of <span class="math inline">\(y=\text{e}^{kx}\)</span> into the differential equation yields <span class="math inline">\((ak^2+bk+c)\text{e}^{kx}=0\)</span> and so the auxiliary equation is: <span class="math inline">\[ 
+ak^2+bk+c=0\]</span> If <span class="math inline">\(k_1=\alpha+\beta \text{i},\
+k_2=\alpha-\beta \text{i}\)</span> then the general solution is <span class="math inline">\[ y=C\text{e}^{(\alpha+\beta \text{i})x}+D\text{e}^{(\alpha-\beta \text{i})x}\]</span> where <span class="math inline">\(C\)</span> and <span class="math inline">\(D\)</span>    are arbitrary constants. Using the laws of indices this is rewritten as: <span class="math inline">\[ y=C\text{e}^{\alpha x}\text{e}^{\beta \text{i}x}+D\text{e}^{\alpha x}\text{e}^{-\beta \text{i}x}=\text{e}^{\alpha
+x}(C\text{e}^{\beta \text{i}x}+D\text{e}^{-\beta \text{i}x})\]</span> Then, using Euler’s relations, we obtain: <span class="math display">\[\begin{aligned}
+ y &amp;=\text{e}^{\alpha x}(C\cos \beta x+C\text{i}\sin\beta x+D\cos \beta
+x-D\text{i}\sin \beta x) \\ &amp;= \text{e}^{\alpha x}\{(C+D)\cos\beta x+(C\text{i}-D\text{i})\sin \beta x\}\end{aligned}\]</span> Writing <span class="math inline">\(A=C+D\)</span> and <span class="math inline">\(B=C\text{i}-D\text{i},\)</span> we find
+    the required solution: <span class="math inline">\[ y=\text{e}^{\alpha x}(A\cos\beta x+B\sin \beta x)\]</span></p>
+
+<hr>
+
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+  <p>If the auxiliary equation has complex roots, <span class="math inline">\(\alpha+\beta \text{i}\)</span> and <span class="math inline">\(\alpha-\beta \text{i}\)</span>, then the <span><strong>complementary function</strong></span> is: <span class="math display">\[y_\text{cf}=\text{e}^{\alpha x}(A\cos \beta x+B\sin \beta x)\]</span></p>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

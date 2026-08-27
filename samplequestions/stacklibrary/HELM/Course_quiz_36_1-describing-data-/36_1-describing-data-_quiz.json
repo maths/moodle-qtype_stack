@@ -1,0 +1,250 @@
+{
+    "quiz": {
+        "name": "36_1 Describing Data ",
+        "intro": "<h3>Introduction<\/h3>\n<p>Statistics is a scientific method of data analysis applied throughout business, engineering and all of the social and physical sciences. Researchers have to experiment, analyse data and reach defensible conclusions about the outcomes of their experiments to determine how products behave when tested under real conditions. Work done on new products and processes may involve decisions that have to be made which can have a major economic impact on companies and their employees. Throughout industry, production and distribution processes must be organised and monitored to ensure maximum efficiency and reliability. One important branch of applied statistics is quality control. Quality control is an essential part of any production process which aims to ensure that high quality products are made, surely a principle aim of any practical engineer.<\/p>\n<p><\/p>\n<p>This quiz is intended to give you an introduction to the subject and to enable you to understand in reasonable depth the meaning and interpretation of numerical and diagrammatic statements involving data. The quiz concentrates on the basic tabular and diagrammatic techniques for displaying data and the calculation of elementary statistics representing location and spread.<\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Introduction to statistics",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "4",
+            "heading": "Representing data",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "13",
+            "heading": "Measures of location",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "21",
+            "heading": "Measures of spread",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "27",
+            "heading": "Exercises",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-36-1\/36-1-1-1-Introduction-to-statistics.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-36-1\/36-1-1-2-Variables,-population,-sample.xml"
+        },
+        {
+            "slot": "3",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-36-1\/36-1-2-1-Introduction-to-descriptive-statistics.xml"
+        },
+        {
+            "slot": "4",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-36-1\/36-1-3-1-Frequency-tables-Categorical-data.xml"
+        },
+        {
+            "slot": "5",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-36-1\/36-1-3-2-Frequency-tables-Discrete-data.xml"
+        },
+        {
+            "slot": "6",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-36-1\/36-1-3-3-Frequency-tables-Continuous-data.xml"
+        },
+        {
+            "slot": "7",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-36-1\/36-1-4-1-Graphical-representations-Bar-charts.xml"
+        },
+        {
+            "slot": "8",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-36-1\/36-1-4-2-Graphical-representations-Pie-charts.xml"
+        },
+        {
+            "slot": "9",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-36-1\/36-1-4-3-Pie-charts-exercise.xml"
+        },
+        {
+            "slot": "10",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-36-1\/36-1-4-4-Graphical-representations-Histograms.xml"
+        },
+        {
+            "slot": "11",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-36-1\/36-1-4-5-Frequency-table,-histogram.xml"
+        },
+        {
+            "slot": "12",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-36-1\/36-1-4-6-Histogram-Example.xml"
+        },
+        {
+            "slot": "13",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-36-1\/36-1-5-1-Location-and-spread.xml"
+        },
+        {
+            "slot": "14",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-36-1\/36-1-5-2-Measures-of-location-and-Mean.xml"
+        },
+        {
+            "slot": "15",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-36-1\/36-1-5-3-Mean-exercise.xml"
+        },
+        {
+            "slot": "16",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-36-1\/36-1-6-4-Exercise-3---Average-over-2-samples.xml"
+        },
+        {
+            "slot": "17",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-36-1\/36-1-5-4-Median-and-quartiles.xml"
+        },
+        {
+            "slot": "18",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-36-1\/36-1-5-5-Compute-median,-IQR.xml"
+        },
+        {
+            "slot": "19",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-36-1\/36-1-5-6-Cumulative-frequency-curve-or-ogive.xml"
+        },
+        {
+            "slot": "20",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-36-1\/36-1-5-7-Mode-and-comparison.xml"
+        },
+        {
+            "slot": "21",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-36-1\/36-1-5-8-Measures-of-spread.xml"
+        },
+        {
+            "slot": "22",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-36-1\/36-1-5-9-Variance-and-standard-deviation.xml"
+        },
+        {
+            "slot": "23",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-36-1\/36-1-5-10-Calculate-variance,-standard-deviation.xml"
+        },
+        {
+            "slot": "24",
+            "page": "7",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-36-1\/36-1-5-11-Variance-and-standard-deviation-calculations.xml"
+        },
+        {
+            "slot": "25",
+            "page": "7",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-36-1\/36-1-5-12-Further-comments.xml"
+        },
+        {
+            "slot": "26",
+            "page": "7",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-36-1\/36-1-5-13-Calculate-mean,-variance,-sd.xml"
+        },
+        {
+            "slot": "27",
+            "page": "8",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-36-1\/36-1-6-1-Exercise-1---Calculate-mean,-median,-sd,-IQR.xml"
+        },
+        {
+            "slot": "28",
+            "page": "8",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-36-1\/36-1-6-2-Exercise-1-(continued)---Calculate-mean,-median,-sd,-IQR.xml"
+        },
+        {
+            "slot": "29",
+            "page": "8",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-36-1\/36-1-6-3-Exercise-2---Frequency-table,-mean,-sd.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

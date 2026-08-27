@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>6.2.2.1 Hyperbolic Identities</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Hyperbolic Identities</h3><p>The hyperbolic functions <span class="math inline">\(\cosh x\) and \(\sinh x\)</span> satisfy similar (but not exactly equivalent) identities to those satisfied by <span class="math inline">\(\cos x\) and \(\sin x\)</span>. We note first some basic notation similar to that employed with trigonometric functions: <span class="math inline">\(\cosh^nx\)&nbsp;</span>means&nbsp;<span class="math inline">\((\cosh x)^n\), \(\sinh^nx\)&nbsp;</span>means&nbsp;<span class="math inline">\((\sinh x)^n\) for \(n\ne -1\).&nbsp;</span></p><p><span class="math inline">In</span>&nbsp;the special case that <span class="math inline">\(n=-1\)</span> we <span><strong>do not</strong></span> use <span class="math inline">\(\cosh^{-1}x\)</span> and <span class="math inline">\(\sinh^{-1}x\)</span> to mean the reciprocals of the expressions. The notation <span class="math inline">\(\cosh^{-1}x\)</span> and <span class="math inline">\(\sinh^{-1}x\)</span> is reserved for the <span><strong>inverse functions</strong></span> of <span class="math inline">\(\cosh x\)</span> and <span class="math inline">\(\sinh x\)</span> respectively.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

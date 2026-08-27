@@ -30,18 +30,25 @@ class StackPlotReplacer {
     public static function replace_plots(&$plots, &$text, $nameprefix, $storeprefix) {
         $i = 0;
 
-        $text = preg_replace_callback('/["\']!ploturl!([\w\-\.]*?)\.(\w+)["\']/m',
+        $text = preg_replace_callback(
+            '/["\']!ploturl!([\w\-\.]*?)\.(\w+)["\']/m',
             function ($matches) use (&$i, $nameprefix, &$plots) {
                 $name = $nameprefix . "-" . $i . "." . $matches[2];
-                $plots[$name] = $matches[1]. "." . $matches[2];
+                $plots[$name] = $matches[1] . "." . $matches[2];
                 $i++;
-                return "\"".$name."\"";
-            }, $text);
+                return "\"" . $name . "\"";
+            },
+            $text
+        );
 
-        $text = preg_replace_callback('/["\']@@PLUGINFILE@@\/([\w\-\.]*?)["\']/m', function ($matches) use ($storeprefix, &$plots) {
-            $plots[$matches[1]] = $storeprefix . "-" . $matches[1];
-            return "\"".$matches[1]."\"";
-        }, $text);
+        $text = preg_replace_callback(
+            '/["\']@@PLUGINFILE@@\/([\w\-\.\%]*?)["\']/m',
+            function ($matches) use ($storeprefix, &$plots) {
+                $plots[$matches[1]] = $storeprefix . "-" . $matches[1];
+                return "\"" . $matches[1] . "\"";
+            },
+            $text
+        );
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -51,5 +58,4 @@ class StackPlotReplacer {
             file_put_contents($CFG->dataroot . '/stack/plots/' . $storeprefix . '-' . $name, base64_decode($content));
         }
     }
-
 }

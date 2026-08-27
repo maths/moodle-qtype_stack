@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>22.2.1.1 Diagonalization with distinct evalues</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Diagonalization of a matrix with distinct eigenvalues</h3>
+
+<p>Diagonalization means transforming a non-diagonal matrix into an equivalent matrix which is diagonal and hence is simpler to deal with.</p>
+
+<p>A matrix <span class="math inline">\(A\)</span> with distinct eigenvalues has eigenvectors which are linearly independent. If we form a matrix \(P\) whose columns are these eigenvectors, it can be shown that \( \det (P)\neq 0\) so that <span class="math inline">\(P^{-1}\)</span> exists.</p>
+
+<p>The product <span class="math inline">\(P^{-1}AP\)</span> is then a <span><strong>diagonal</strong></span> matrix <span class="math inline">\(D\)</span> whose diagonal elements are the eigenvalues of <span class="math inline">\(A\)</span>. Thus if <span class="math inline">\(\lambda_1,\lambda_2,\ldots \lambda_n\)</span> are the distinct eigenvalues of <span class="math inline">\(A\)</span> with associated eigenvectors <span class="math inline">\(\underline{x}_1,\underline{x}_2,\ldots , \underline{x}_n\)</span> respectively, then</p>
+\[P = [\underline{x}_1 : \underline{x}_2 : \ \cdots\ : \underline{x}_n]\]
+<p>will produce a product</p>
+\[P^{-1}AP = D = \begin{bmatrix}
+\lambda_1 &amp; 0 &amp; \cdots &amp; 0 \\
+0 &amp; \lambda_2 &amp; \cdots &amp; 0 \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+0 &amp; \cdots &amp; \cdots &amp; \lambda_n
+\end{bmatrix}\]
+
+<p>We see that the order of the eigenvalues in \(D\) matches the order in which <span class="math inline">\(P\)</span> is formed from the eigenvectors.</p>
+<p>Note that:</p>
+<ol type="a">
+<li><p>The matrix \(P\) is called the <span><strong>modal matrix</strong></span> of <span class="math inline">\(A\)</span>.</p></li>
+<li><p>Since <span class="math inline">\(D\)</span> is a diagonal matrix with eigenvalues <span class="math inline">\(\lambda_1,\lambda_2,\ldots,\lambda_n\)</span> which are the same as those of <span class="math inline">\(A\)</span>, then the matrices <span class="math inline">\(D\)</span> and <span class="math inline">\(A\)</span> are said to be <span> <strong>similar</strong></span>.</p></li>
+<li><p>The transformation of \(A\) into \(D\) using  \(P^{-1}AP=D\) is said to be a <strong>similarity transformation.</strong></p></li>
+</ol>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+
+<p>Let <span class="math inline">\(A=\left[\begin{array}{cc}2&amp;3\\ 3&amp;2\end{array}\right]\)</span>. Obtain the modal matrix <span class="math inline">\(P\)</span> and calculate the product <span class="math inline">\(P^{-1}AP\)</span>.</p>
+
+<h4 class="HELM_solution">Solution</h4>
+<p>The matrix <span class="math inline">\(A\)</span> has two distinct eigenvalues <span class="math inline">\(\lambda_1=-1\)</span>, <span class="math inline">\(\lambda_2=5\)</span> with corresponding eigenvectors <span class="math inline">\(\underline{x_1}=\left[\begin{array}{r}x\\ -x\end{array}\right]\)</span> and <span class="math inline">\(\underline{x_2}=\left[\begin{array}{c}x\\
+x\end{array}\right]\)</span>. We can therefore form the modal matrix from the simplest eigenvectors of these forms:</p>
+\[ P=\left[\begin{array}{rr}1&amp;1\\ -1&amp;1\end{array}\right]\]
+<p>(Other eigenvectors would be acceptable e.g. we could use <span class="math inline">\(P=\left[\begin{array}{rr}2&amp;3\\
+-2&amp;3\end{array}\right]\)</span> but there is no reason to over complicate the calculation.)</p>
+<p>It is easy to obtain the inverse of this <span class="math inline">\(2\times 2\)</span> matrix <span class="math inline">\(P\)</span> and the reader should confirm that:</p>
+\[P^{-1}=\dfrac{1}{\text{det}(P)}\ \text{adj}
+(P)=\dfrac{1}{2}\left[\begin{array}{rr}1&amp;1\\
+-1&amp;1\end{array}\right]^T=\dfrac{1}{2}\left[\begin{array}{rr}1&amp;-1\\ 1&amp;1\end{array}\right]\]
+
+<p>We can now construct the product \(P^{-1}AP\):</p>
+\[\begin{aligned}
+P^{-1}AP&amp;=\dfrac{1}{2}\left[\begin{array}{rr}1&amp;-1\\
+1&amp;1\end{array}\right]\left[\begin{array}{cc}2&amp;3\\ 3&amp;2\end{array}\right]\left[\begin{array}{rr}1&amp;1\\
+-1&amp;1\end{array}\right]\\
+&amp;=\dfrac{1}{2}\left[\begin{array}{rr}1&amp;-1\\
+1&amp;1\end{array}\right]\left[\begin{array}{rr}-1&amp;5\\
+1&amp;5\end{array}\right]\\
+\\
+&amp;= \dfrac{1}{2}\left[\begin{array}{rr}-2&amp;0\\
+0&amp;10\end{array}\right]\\
+&amp;= \left[\begin{array}{rr}-1&amp;0\\ 0&amp;5\end{array}\right]\end{aligned}\]
+<p>which is a diagonal matrix with entries that are the eigenvalues, as expected. Show (by repeating the method outlined above) that had we defined <span class="math inline">\(P=\left[\begin{array}{rr}1&amp;1\\ 1&amp;-1\end{array}\right]\)</span> (i.e. interchanged the order in which the eigenvectors were taken) we would find <span class="math inline">\(P^{-1}AP=\left[\begin{array}{rr}5&amp;0\\ 0&amp;-1\end{array}\right]\)</span> (i.e. the resulting diagonal elements would also be interchanged.)</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

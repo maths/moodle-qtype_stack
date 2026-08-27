@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>2.1.3.1a- Domain of a function</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Domain, range and codomain</h3>
+<p>Many of the examples of functions we have met so far can be evaluated for any real number. However the function \(\displaystyle{ f(x)=\frac{1}{x}}\) cannot be evaluated at \(0\), and we say that \(f(x)\) is <b>not defined at</b> \(0\). In other cases the argument of a function might represent time so we only take non-negative input values.</p>
+<p><br></p>
+<p>We will often want to specify which values we allow as input values and which values the function will give as output values. By <b>domain </b>we mean the possible input values for a function. If we only have the expression for a function, such as \(\displaystyle{ f(x)=\frac{1}{x}}\), then we take as domain the collection of real numbers at which the function is defined; this can sometimes be called the maximum domain of definition.</p>
+<p><br></p>
+<p>The collection of all possible output values of a function is called the <b>range</b> of the function. Note that the possible output values will depend on the input values. In other words the range will depend on the domain. For example if \(f(t)=2t+1\) has domain \((0,\infty)\), all positive real numbers, then the range will be any real number greater than \(1\). We write this as <br></p>
+<p>\[f: (0,\infty) \rightarrow (1,\infty)\]<br></p>
+<p>with the domain on the left, and the range on the right.</p><p><br></p><p>In general the range of function with a given domain may be difficult to calculate. For a function \(f(x)\) with a given domain we define a <b>codomain </b>to be any collection of values which contains the range of \(f(x)\). A function can have many different codomains, but it will only have one range for each domain.</p>
+<p>The concept of the range of a function will be important when we try to reverse the direction and go from the output to the input. This is called the inverse of \(f(x)\) and we will return to this in another section.&nbsp;</p>
+<p><br></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

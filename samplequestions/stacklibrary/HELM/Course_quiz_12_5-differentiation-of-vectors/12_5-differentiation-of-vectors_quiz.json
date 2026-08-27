@@ -1,0 +1,69 @@
+{
+    "quiz": {
+        "name": "12_5 Differentiation of Vectors",
+        "intro": "<p>The area of mathematics known as vector calculus is used to model mathematically a vast range of\nengineering phenomena including electrostatics, electromagnetic fields, air flow around aircraft and\nheat flow in nuclear reactors. In this Section we introduce briefly the differential calculus of vectors.<br><\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "5.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Differentiation of Vectors",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-12-5\/12-5-1-1-Differentiation-of-Vectors.xml"
+        },
+        {
+            "slot": "2",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-12-5\/12-5-1-2-Exercise-1.xml"
+        },
+        {
+            "slot": "3",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-12-5\/12-5-1-3-Exercise-2.xml"
+        },
+        {
+            "slot": "4",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-12-5\/12-5-1-4-Exercise-3.xml"
+        },
+        {
+            "slot": "5",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-12-5\/12-5-1-5-Exercise-4.xml"
+        },
+        {
+            "slot": "6",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-12-5\/12-5-1-6-Exercise-5.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "6.00000"
+        }
+    ]
+}

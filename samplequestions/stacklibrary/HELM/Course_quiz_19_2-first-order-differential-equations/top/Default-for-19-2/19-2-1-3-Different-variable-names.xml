@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>19.2.1.3 Different variable names</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p></p><h4>Different variable names</h4><br>The variables involved in differential equations need not be <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>. Any symbols for variables may be used. Other first order differential equations are \[\dfrac{\mathrm{d}z}{\mathrm{d}t}=te^z,\quad
+    \dfrac{\mathrm{d}\theta}{\mathrm{d}t} =- \theta \quad \text{and} \quad \dfrac{\mathrm{d}v}{\mathrm{d}r}=v\left({\dfrac{1}{r^2}}\right). \] Given a differential equation in the form \[\dfrac{\mathrm{d}y}{\mathrm{d}x}=f(x)g(y),\] we can divide through by <span class="math inline">\(g(y)\)</span> to obtain \[\dfrac{1}{g(y)}\dfrac{\mathrm{d}y}{\mathrm{d}x}=f(x).
+    \] If we now integrate both sides of this equation with respect to <span class="math inline">\(x\)</span> we obtain \[ \int \dfrac{1}{g(y)}\dfrac{\mathrm{d}y}{\mathrm{d}x}\, \mathrm{d}x=f(x) \,\mathrm{d}x \] that is \[ \int \dfrac{1}{g(y)} \, \mathrm{d}y = f(x)\, \mathrm{d}x. \] We have <strong>seperated the variables</strong>    because the left-hand side contains only the variable <span class="math inline">\(y\)</span>, and the right-hand side contains only the variable <span class="math inline">\(x\)</span>. We can now try to integrate each side separately. If we can actually
+    perform the required integrations we will obtain a relationship between <span class="math inline">\(y\)</span> and <span class="math inline">\(x\)</span>. Examples of this process are given in the next subsection.<p></p>
+<p>Method of Separation of Variables:</p>
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p>The solution of the equation <span class="math display">\[ {\mathrm{d}y\over \mathrm{d}x}=f(x)g(y)
+\]</span> may be found from separating the variables and integrating: <span class="math display">\[
+\int {1\over g(y)}\,\mathrm{d}y=\int f(x)\,\mathrm{d}x
+\]</span></p>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

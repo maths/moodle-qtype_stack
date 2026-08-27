@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>7.1.4.1 Multiplication of a matrix by a number</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Multiplication of a matrix by a number</h3>
+<p>There is also a natural way of defining the product of a matrix with a number. Using the matrix \(A\) above, we note that&nbsp;&nbsp;</p><p>\[ A+A=\left[\begin{array}{cc}1&amp;2\\3&amp;4\end{array}\right]+\left[\begin{array}{cc}1&amp;2\\3&amp;4\end{array}\right]=\left[\begin{array}{cc}2&amp;4\\6&amp;8\end{array}\right].\]</p><p>What we see is that \(2A\) (which is the shorthand notation for \(A+A\)) is obtained by multiplying <span><i>every</i></span>&nbsp;element of \(A\) by \(2\).</p><p>In general if \(A\) is an \(m\times n\) matrix with typical element \(a_{ij}\) then the product of a number \(k\) with \(A\) is written \(kA\) and has the corresponding elements \(ka_{ij}\).</p><p>Hence, again using the matrix \(A\) above,&nbsp;</p><p>\[7A=7\left[\begin{array}{cc}1&amp;2\\3&amp;4\end{array}\right]=\left[\begin{array}{rr}7&amp;14\\ 21&amp;28\end{array}\right].\]</p><p>Similarly:</p><p>\[ -3A=\left[\begin{array}{rr}-3&amp;-6\\ -9&amp;-12\end{array}\right].\]</p><p></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,143 @@
+{
+    "quiz": {
+        "name": "7_3 Determinants",
+        "intro": "<p>Among other uses, determinants allow us to <b>determine<\/b> whether a system of linear equations has a unique solution or not. The evaluation of a determinant is a key skill in engineering mathematics and this quiz concentrates on the evaluation of small size determinants. For evaluating larger sizes we can often use some properties of determinants to help simplify the task.<\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Determinant of a 2x2 matrix",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "3",
+            "heading": "Laplace expansion",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "5",
+            "heading": "Cofactors",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "7",
+            "heading": "Evaluating general determinants",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "9",
+            "heading": "Properties of determinants",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "11",
+            "heading": "Exercises",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-7-3\/7-3-1-1-Determinant-of-a-2x2-matrix.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-7-3\/7-3-1-2-Task-compute-these-2x2-determinants.xml"
+        },
+        {
+            "slot": "3",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-7-3\/7-3-2-1-Laplace-expansion-along-the-top-row,-minors.xml"
+        },
+        {
+            "slot": "4",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-7-3\/7-3-2-2-Compute-a-2x2-minor.xml"
+        },
+        {
+            "slot": "5",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-7-3\/7-3-2-3-Introducing-cofactors.xml"
+        },
+        {
+            "slot": "6",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-7-3\/7-3-2-4-Compute-a-cofactor.xml"
+        },
+        {
+            "slot": "7",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-7-3\/7-3-2-5-Evaluating-general-determinants.xml"
+        },
+        {
+            "slot": "8",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-7-3\/7-3-2-6-Compute-a-3x3-determinant.xml"
+        },
+        {
+            "slot": "9",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-7-3\/7-3-3-1-Properties-of-determinants-1.xml"
+        },
+        {
+            "slot": "10",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-7-3\/7-3-3-2-Evaluate-a-4x4-determinant.xml"
+        },
+        {
+            "slot": "11",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-7-3\/7-3-4-1-Exercise-1.xml"
+        },
+        {
+            "slot": "12",
+            "page": "7",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-7-3\/7-3-4-3-Exercise-3.xml"
+        },
+        {
+            "slot": "13",
+            "page": "8",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-7-3\/7-3-4-4-Exercise-4.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

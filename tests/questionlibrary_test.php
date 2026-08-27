@@ -15,10 +15,10 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Unit tests for create repo command line script for gitsync
+ * Unit tests for the STACK question library
  *
  * @package    qtype_stack
- * @copyright  2023 The Open University
+ * @copyright  2025 The University of Edinburgh
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -52,10 +52,12 @@ final class questionlibrary_test extends qtype_stack_testcase {
         $qrender = stack_question_library::render_question($question);
         $this->assertStringContainsString('<div class="formulation"><span class="filter_mathjaxloader_equation">' .
             'Differentiate <span class="nolink">\({x}^{-7}\)</span>', $qrender);
-        $this->assertStringContainsString('<input type="text" name="stack_temp_R" id="stack_temp_R" size="16.5" ' .
+        $this->assertStringContainsString(
+            '<input type="text" name="stack_temp_R" id="stack_temp_R" size="16.5" ' .
             'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="algebraic" value="" ' .
             'data-stack-input-type="algebraic" data-stack-input-decimal-separator="." data-stack-input-list-separator="," />',
-            $qrender);
+            $qrender
+        );
     }
     /**
      * Test get file list.

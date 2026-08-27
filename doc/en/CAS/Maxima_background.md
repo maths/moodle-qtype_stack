@@ -36,7 +36,7 @@ Numbers are important in assessment, and there is more specific and detailed doc
 
 STACK defines the following function alias names
 
-    simplify := fullratsimp
+    simplify(ex) := ev(fullratsimp(ex), simp);
     int := integrate
 
 The absolute value function in Maxima is entered as `abs()`.  STACK also permits you to enter using `|` symbols, i.e.`|x|`.  This is an alias for `abs`.  Note that `abs(x)` will be displayed by STACK as \(|x|\).

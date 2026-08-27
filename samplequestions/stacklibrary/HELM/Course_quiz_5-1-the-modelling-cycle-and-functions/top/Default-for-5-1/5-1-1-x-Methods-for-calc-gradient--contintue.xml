@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>5.1.1.x Methods for calc gradient -contintue</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p dir="ltr" style="text-align: left;">
+</p><p>Linear functions may be useful in economics. A lot of attention is paid to the way in which <strong>demand</strong> for a product varies with its price. A measure of demand is the number of items sold, if available, in a given period.</p>
+
+<p>For example, the purpose might be to determine the best price for a product given certain details about costs and with certain assumptions about the way the number of items sold per month varies with price. The price affects the profit and hence, in turn, the number manufactured in response to the demand. The number of items manufactured in a given period is known as the <strong>supply</strong>. Information about the variation of demand or supply with price may be obtained from market surveys. Constant functions are not appropriate in this context since both demand and supply vary with price. In the absence of other information the simplest way to model the variation of either demand or supply with price is to use a linear function.
+<br></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

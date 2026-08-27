@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>36.1.5.11 Variance and standard deviation calculations</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h5>Calculations</h5>
+<p>To calculate either the sample variance or the sample standard deviation, we need 
+\(\sum(x_{i}-\bar{x})^{2}\). We can calculate this by subtracting the sample mean, \(\bar{x}\), from each observation and squaring the result then summing these. However we have the following result:
+\[\begin{align*}
+\sum_{i=1}^{n}(x_{i}-\bar{x})^{2} =\sum_{i=1}^n (x_i^2-2x_i\bar x+\bar x^2) &amp;= \sum_{i=1}^{n} x_{i}^{2} - 2 \bar{x} \sum_{i=1}^{n} x_{i} + n \bar{x}^{2} \\
+                                                           &amp; =  \sum_{i=1}^{n} x_{i}^{2} - 2 n \bar{x}^{2} + n \bar{x}^{2} \\
+                                                           &amp; =  \sum_{i=1}^{n} x_{i}^{2} -  n \bar{x}^{2}. 
+\end{align*}\]</p>
+<p>It might be more convenient to use the form
+\[ \sum_{i=1}^{n} x_{i}^{2} -  n \bar{x}^{2},  \]
+or
+\[  \sum_{i=1}^{n} x_{i}^{2} - \frac{1}{ n} \left[ \sum_{i=1}^{n} x_{i} \right]^{2},\]
+both of which are equal to \( \sum(x_{i}-\bar{x})^{2}\).</p>
+<p>For discrete data, where each value \( x_{(j)}\) of the variable has a frequency \(f_{j}\) in the sample, we can replace \( \sum x_{i}\) with \( \sum f_{j}  x_{(j)}\) and replace \( \sum x_{i}^{2}\) with \(\sum f_{j} x_{(j)}^{2}\).</p>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Consider the data recording the numbers of vehicles passing a point on a road in each of 100 intervals of length one minute, which are summarised in the frequency table below.</p>
+<table class="HELM_table" style="text-align: center; width: 80%;">
+<thead>
+<tr>
+<th>Numbers of <br> Vehicles <br> \(x\)</th>
+<th>Frequency<br>\(f\)</th>
+<th>\(fx\)</th>
+<th>\(fx^2\)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3</td> <td>4</td> <td>12</td> <td>36</td> 
+</tr>
+<tr>
+<td>4</td> <td>3</td> <td>12</td> <td>48</td> 
+</tr>
+<tr>
+<td>5</td> <td>5</td> <td>25</td> <td>125</td> 
+</tr>
+<tr>
+<td>6</td> <td>8</td> <td>48</td> <td>288</td> 
+</tr>
+<tr>
+<td>7</td> <td>10</td> <td>70</td> <td>490</td> 
+</tr>
+<tr>
+<td>8</td> <td>19</td> <td>152</td> <td>1216</td> 
+</tr>
+<tr>
+<td>9</td> <td>12</td> <td>108</td> <td>972</td> 
+</tr>
+<tr>
+<td>10</td> <td>13</td> <td>130</td> <td>1300</td>  
+</tr>
+<tr>
+<td>11</td> <td>7</td> <td>77</td> <td>847</td> 
+</tr>
+<tr>
+<td>12</td> <td>4</td> <td>48</td> <td>576</td>  
+</tr>
+<tr>
+<td>13</td> <td>11</td> <td>143</td> <td>1859</td> 
+</tr>
+<tr>
+<td>14</td> <td>0</td> <td>0</td> <td>0</td> 
+</tr>
+<tr>
+<td>15</td> <td>1</td> <td>15</td> <td>225</td>  
+</tr>
+<tr>
+<td>16</td> <td>2</td> <td>32</td> <td>512</td> 
+</tr>
+<tr>
+<td>17</td> <td>0</td> <td>0</td> <td>0.00</td> 
+</tr>
+<tr style="border-bottom: 1px solid #000;">
+<td>18</td> <td>1</td> <td>18</td> <td>324</td> 
+</tr>
+<tr>
+<td>Total</td> <td>100</td> <td>890</td> <td>8818</td> 
+</tr>
+</tbody>
+</table>
+<br>
+<p>Therefore the sample mean is
+\[ \bar{x} = \dfrac{890}{100} = 8.9. \]</p>
+<p>Recall that \[\sum(x_{i}-\bar{x})^{2} = \sum_{i=1}^{n} x_{i}^{2} -  n \bar{x}^{2} = \sum_{i=1}^{n} x_{i}^{2} - \frac{1}{ n} \left[ \sum_{i=1}^{n} x_{i} \right]^{2}.\] And since we are working with discrete data, where each value \( x_{(j)}\) of the variable has a frequency \(f_{j}\) in the sample, we can replace \( \sum x_{i}\) with \( \sum f_{j}  x_{(j)}\) and replace \( \sum x_{i}^{2}\) with \(\sum f_{j} x_{(j)}^{2}\). Therefore, we obtain
+</p>
+\[ \sum (x_i-\bar{x})^{2} = 8818 - 100 \times 8.9^{2} = 897.0 \]
+or
+\[ \sum (x_i-\bar{x})^{2} = 8818 - \dfrac{1}{100} \times 890^{2} = 897.0. \]<p></p>
+<p>So the sample variance is
+\[ s^{2} = \dfrac{897}{99} = 9.0606 \]
+and the sample standard deviation is
+\[ s = \sqrt{9.0606} = 3.010. \]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

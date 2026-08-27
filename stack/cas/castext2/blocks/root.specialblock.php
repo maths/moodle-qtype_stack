@@ -83,15 +83,18 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
         ], $filteroptions, false);
         // If we are within an include it is necessary to avoid static string-collection.
         if (isset($options['in include'])) {
-            $pipeline = stack_parsing_rule_factory::get_filter_pipeline([
+            $pipeline = stack_parsing_rule_factory::get_filter_pipeline(
+                [
                 '601_castext',
                 '602_castext_simplifier', '680_gcl_sconcat',
-            ],
-                 $filteroptions, false);
+                ],
+                $filteroptions,
+                false
+            );
         }
 
         // Enusre that the tree has been marked as CASText.
-        $mark = function($node) {
+        $mark = function ($node) {
             $node->position['castext'] = true;
             return true;
         };
@@ -159,8 +162,11 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
      * should execute whatever additional logic is needed. Register JavaScript and such
      * things it must then return the content that will take this blocks place.
      */
-    public function postprocess(array $params, castext2_processor $processor,
-        castext2_placeholder_holder $holder): string {
+    public function postprocess(
+        array $params,
+        castext2_processor $processor,
+        castext2_placeholder_holder $holder
+    ): string {
         if (count($params) < 2) {
             // Nothing at all.
             return '';
@@ -231,8 +237,12 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
             foreach ($node->parameters as $param) {
                 $params[] = ['key' => $param['key'], 'value' => $param['value']->value];
             }
-            $r = castext2_block_factory::make($node->name, $params, $children,
-                $node->mathmode);
+            $r = castext2_block_factory::make(
+                $node->name,
+                $params,
+                $children,
+                $node->mathmode
+            );
             $r->position = $node->position;
             $r->paintformat = $node->paintformat;
             return $r;
@@ -254,8 +264,12 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
                 $params[$key] = $value;
             }
         }
-        $r = castext2_block_factory::make($node->name, $params, $children,
-            $node->mathmode);
+        $r = castext2_block_factory::make(
+            $node->name,
+            $params,
+            $children,
+            $node->mathmode
+        );
         $r->position = $node->position;
         $r->paintformat = $node->paintformat;
         return $r;

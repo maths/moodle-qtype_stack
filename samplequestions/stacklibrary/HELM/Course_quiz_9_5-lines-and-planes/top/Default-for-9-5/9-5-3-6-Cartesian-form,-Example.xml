@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>9.5.3.6 Cartesian form, Example</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4 class="HELM_example">Example</h4>
+<ol class="HELM_parts_inline">
+<li>Write down the Cartesian form of the equation of the straight line which passes through the two points <span class="math inline">\((9,3,-2)\)</span> and <span class="math inline">\((4,5,-1)\)</span>.</li><p></p>
+<li>State the equivalent vector equation.</li>
+</ol>
+
+<h4 class="HELM_solution">Solution</h4>
+<ol class="HELM_parts">
+  <li>The Cartesian equation of the line is \(\dfrac{x-9}{4-9}=\dfrac{y-3}{5-3}= \dfrac{z-(-2)}{-1-(-2)},\) that is \(\dfrac{x-9}{-5}= \dfrac{y-3}{2} = \dfrac{z+2}{1}.\) </li>
+  <li>The vector equation of the line is \[
+\underline{ r}=\underline{ a} +t(\underline{ b}-\underline{ a})\]
+\[=
+\begin{bmatrix}
+9 \\  3 \\  -2 
+\end{bmatrix} + t\left(
+\begin{bmatrix}
+4 \\  5 \\  -1
+\end{bmatrix}-
+\begin{bmatrix}
+9 \\  3 \\  -2 
+\end{bmatrix}\right)\]\[=\begin{bmatrix}
+9 \\  3 \\  -2 
+\end{bmatrix} + t
+\begin{bmatrix}
+-5 \\ 2 \\1
+\end{bmatrix}.\]</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -164,7 +164,7 @@ A question note is required due to the random permutation of `steps`. We use:
 ### Input: ans1
 
 1. The _Input type_ field should be **Parsons**.
-2. The _Model answer_ field should be a list `[ta, steps, 3]` containing the teacher answer, all possible steps and the number of columns.
+2. The _Model answer_ field should be a list with three elements. If you are specifying the `headers` parameter, then you should use `[ta, steps, headers]`, where `ta` is the teacher answer and `steps` is the array containing key-string pairs of all possible steps. Otherwise, use `[ta, steps, cols]`, where `cols` is the number of columns (e.g., `[ta, steps, 3]`). 
 3. Set the option _Student must verify_ to "no".
 4. Set the option _Show the validation_ to "no".
 

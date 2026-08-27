@@ -30,9 +30,8 @@ require_once(__DIR__ . '/../../cas/castext2/utils.php');
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_dropdown_input extends stack_input {
-
     /**
-     * ddlvalues is an array of the types used.
+     * ddlvalues is an array of the evaluated answers used by this input.
      * @var array
      */
     protected $ddlvalues = [];
@@ -83,7 +82,7 @@ class stack_dropdown_input extends stack_input {
             foreach ($options as $option) {
                 $option = strtolower(trim($option));
 
-                list($opt, $arg) = stack_utils::parse_option($option);
+                [$opt, $arg] = stack_utils::parse_option($option);
                 if (array_key_exists($opt, $this->extraoptions)) {
                     if ($arg === '') {
                         // Extra options with no argument set a Boolean flag.
@@ -91,10 +90,15 @@ class stack_dropdown_input extends stack_input {
                     } else {
                         $this->extraoptions[$opt] = $arg;
                     }
-                    break;
+                    // ISS1824 - The extraoptions we're testing against here are just hideanswer and
+                    // allowempty because dropdown does not override base class extraoptions like other
+                    // inputs. This is a bit of a landmine and we should consider a refactor longer term.
+                    // For minimal code change now, continue allows multiple options but doesn't trigger the fall through
+                    // to error in the switch below for hideanswer and allowempty.
+                    continue;
                 }
 
-                switch($option) {
+                switch ($option) {
                     // Does a student see LaTeX or cassting values?
                     case 'latex':
                         $this->ddldisplay = 'LaTeX';
@@ -145,6 +149,7 @@ class stack_dropdown_input extends stack_input {
         $this->notanswered = stack_string('notanswered');
         // We need to reset the errors here, now we have a new teacher's answer.
         $this->errors = [];
+        $ddlvalues = [];
 
         /*
          * Sort out the ddlvalues.
@@ -158,14 +163,14 @@ class stack_dropdown_input extends stack_input {
         $str = $teacheranswer;
         $strings = stack_utils::all_substring_strings($str);
         foreach ($strings as $key => $string) {
-            $str = str_replace('"'.$string.'"', "[STR:$key]", $str);
+            $str = str_replace('"' . $string . '"', "[STR:$key]", $str);
             $strings[$key] = $string;
         }
         $values = stack_utils::list_to_array($str, false);
         if (empty($values)) {
             $this->errors[] = stack_string('ddl_badanswer', $teacheranswer);
             $this->teacheranswervalue = '[ERR]';
-            $this->teacheranswerdisplay = '<code>'.'[ERR]'.'</code>';
+            $this->teacheranswerdisplay = '<code>' . '[ERR]' . '</code>';
             $this->ddlvalues = [];
             return false;
         }
@@ -262,7 +267,7 @@ class stack_dropdown_input extends stack_input {
                     if ($cs->get_valid()) {
                         $display = $cs->get_inputform(false, 0, false, $decimal);
                     }
-                    $ddlvalues[$key]['display'] = '<code>'.$display.'</code>';
+                    $ddlvalues[$key]['display'] = '<code>' . $display . '</code>';
                 }
                 if ($ddlvalues[$key]['correct']) {
                     if (substr($display, 0, 9) === '["%root",') {
@@ -289,13 +294,13 @@ class stack_dropdown_input extends stack_input {
             $this->teacheranswervalue = 'EMPTYANSWER';
             $this->teacheranswerdisplay = stack_string('teacheranswerempty');
         } else if ($this->ddltype == 'checkbox') {
-            $this->teacheranswervalue = '['.implode(',', $correctanswer).']';
-            $this->teacheranswerdisplay = '<code>'.'['.implode(',', $correctanswerdisplay).']'.'</code>';
+            $this->teacheranswervalue = '[' . implode(',', $correctanswer) . ']';
+            $this->teacheranswerdisplay = '<code>' . '[' . implode(',', $correctanswerdisplay) . ']' . '</code>';
         } else {
             // As a correct answer we only take the first element.  If we create a list then when we seek the teacher's
             // answer later we throw an exception that the correct answer can't be found.
             $this->teacheranswervalue = $correctanswer[0];
-            $this->teacheranswerdisplay = '<code>'.implode(', ', $correctanswerdisplay).'</code>';
+            $this->teacheranswerdisplay = '<code>' . implode(', ', $correctanswerdisplay) . '</code>';
         }
 
         if ($this->ddldisplay === 'casstring') {
@@ -310,7 +315,7 @@ class stack_dropdown_input extends stack_input {
         foreach ($ddlvalues as $key => $value) {
             // We use the display term here because it might differ explicitly from the above "value".
             // So, we send the display form to LaTeX, and then replace it with the LaTeX below.
-            $csv = stack_ast_container::make_from_teacher_source('val'.$key.':'.$value['display']);
+            $csv = stack_ast_container::make_from_teacher_source('val' . $key . ':' . $value['display']);
             $csvs[] = $csv;
         }
 
@@ -344,7 +349,7 @@ class stack_dropdown_input extends stack_input {
                 // And now we need to care about holders.
                 $holder = new castext2_placeholder_holder();
                 $ddlvalues[$key]['display'] = castext2_parser_utils::postprocess_mp_parsed(
-                    $at1->get_by_key('val'.$key)->get_evaluated(),
+                    $at1->get_by_key('val' . $key)->get_evaluated(),
                     null,
                     $holder,
                 );
@@ -353,19 +358,19 @@ class stack_dropdown_input extends stack_input {
                 $ddlvalues[$key]['display'] = stack_utils::maxima_string_to_php_string($display);
             } else {
                 // Note, we've chosen to add LaTeX maths environments here.
-                $disp = $at1->get_by_key('val'.$key)->get_latex();
+                $disp = $at1->get_by_key('val' . $key)->get_latex();
                 switch ($this->ddldisplay) {
                     case 'LaTeX':
-                        $ddlvalues[$key]['display'] = '\('.$disp.'\)';
+                        $ddlvalues[$key]['display'] = '\(' . $disp . '\)';
                         break;
                     case 'LaTeXdisplay':
-                        $ddlvalues[$key]['display'] = '\['.$disp.'\]';
+                        $ddlvalues[$key]['display'] = '\[' . $disp . '\]';
                         break;
                     case 'LaTeXdisplaystyle':
-                        $ddlvalues[$key]['display'] = '\(\displaystyle '.$disp.'\)';
+                        $ddlvalues[$key]['display'] = '\(\displaystyle ' . $disp . '\)';
                         break;
                     default:
-                        $ddlvalues[$key]['display'] = '\(\displaystyle '.$disp.'\)';
+                        $ddlvalues[$key]['display'] = '\(\displaystyle ' . $disp . '\)';
                 }
             }
             if ($ddlvalues[$key]['correct']) {
@@ -426,7 +431,7 @@ class stack_dropdown_input extends stack_input {
         $notes = [];
         $caslines = [];
 
-        list ($secrules, $filterstoapply) = $this->validate_contents_filters($basesecurity);
+         [$secrules, $filterstoapply] = $this->validate_contents_filters($basesecurity);
 
         // Construct one final "answer" as a single maxima object.
         // In the case of dropdown create the object directly here.
@@ -509,8 +514,13 @@ class stack_dropdown_input extends stack_input {
             unset($values['']);
         }
 
-        $result .= html_writer::select($values, $fieldname, $select,
-            $notanswered, $inputattributes);
+        $result .= html_writer::select(
+            $values,
+            $fieldname,
+            $select,
+            $notanswered,
+            $inputattributes
+        );
 
         return $result;
     }
@@ -682,10 +692,14 @@ class stack_dropdown_input extends stack_input {
         if (array_key_exists(trim($key), $this->ddlvalues)) {
             return $this->ddlvalues[$key]['value'];
         }
+        // This is an edge case where we have both "nonotanswered" and "allowempty".
+        if (!$this->nonotanswered && $this->get_extra_option('allowempty') && $key === '') {
+            return('EMPTYANSWER');
+        }
         // The tidy question script returns the name of the input during tidying.
         // That is useful for figuring out where in the question this input occurs.
         if ($key !== $this->name) {
-            throw new stack_exception('stack_dropdown_input: could not find a value for key '.$key);
+            throw new stack_exception('stack_dropdown_input: could not find a value for key ' . $key);
         }
         return false;
     }

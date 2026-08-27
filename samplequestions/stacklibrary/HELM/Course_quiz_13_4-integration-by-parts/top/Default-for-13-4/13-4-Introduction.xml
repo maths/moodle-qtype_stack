@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>13.4 Introduction</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3><span>Integration by parts</span><br></h3>
+
+<p>Integration by Parts is a technique for integrating products of functions. In this Section you will learn to recognise when it is appropriate to use the technique and have the opportunity to practise using it for finding both definite and indefinite integrals.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

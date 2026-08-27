@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>25.4.1.5</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4 class="HELM_example">Example</h4>
+<p>Impose the derivative boundary conditions on this solution:</p>
+<h4 class="HELM_solution">Solution</h4>
+<p></p>
+<p>\(\qquad \dfrac{\partial u}{\partial x}=(-\lambda A \sin \lambda x +\lambda B\cos \lambda x)(Ce^{\lambda y}+D e^{-\lambda y})\)</p> <br> Hence\(\dfrac{\partial u}{\partial x}(0, y) = 0\) gives \(\lambda B(Ce^{\lambda y}+D e^{-\lambda y}) = 0\) for all
+\(y.\)
+<br>The possibility \(\lambda = 0\) can be excluded this would give a trivial constant solution in \((4)\). Hence we must choose \(B = 0\). <br> The condition \(\dfrac{\partial u}{\partial x}(1, y) = 0\) gives
+<p> \(\qquad -\lambda A\sin\lambda(Ce^{\lambda y}+D e^{-\lambda y}) = 0\)</p> Choosing \(A = 0\) would make \(u \equiv 0\) so we must force \(\sin \lambda\) to be zero i.e. choose \(\lambda = nπ\) where \(n\) is a positive integer.<br> Thus, at this stage \((4)\)
+becomes
+
+<table width="100%">
+    <tbody>
+        <tr>
+            <td>\(\qquad u = A \cos nπx(Ce^{nπy} + De^{-nπy})\)</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>\(&nbsp; &nbsp; &nbsp;\qquad = \cos nπx(Ee^{nπy} + F e^{−nπy})\)</td>
+            <td>\[(5)\]</td>
+        </tr>
+    </tbody>
+</table>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

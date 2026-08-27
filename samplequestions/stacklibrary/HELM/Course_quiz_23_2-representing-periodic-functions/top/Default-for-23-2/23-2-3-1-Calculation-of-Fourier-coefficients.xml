@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>23.2.3.1 Calculation of Fourier coefficients</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Calculation of Fourier coefficients</h4>
+Consider the Fourier series for a function \(f(t)\) of period \(2\pi\):
+\[ f(t) = \dfrac{a_0}{2} + \sum_{n = 1}^\infty ( a_n \cos nt  + b_n \sin nt). \]
+To obtain the coefficients \( a_n\) \( (n = 1, 2, 3, \dots ) \), we multiply both sides by \( \cos mt\) where \(m\) is some positive integer and integrate both sides from \( -\pi\) to \( \pi \). 
+<p></p>
+For the left-hand side we obtain 
+\[ \displaystyle{ \int _{-\pi}^\pi }f(t)\cos mt \hspace{0.15cm}dt. \]
+For the right-hand side we obtain
+\[ \dfrac{a_0}{2}  \displaystyle{ \int _{-\pi}^\pi } \cos mt \hspace{0.15cm}dt + \sum_{n=1}^\infty \left\{ a_n  \displaystyle{ \int _{-\pi}^\pi } \cos nt \cos mt \hspace{0.15cm}dt + \displaystyle{ \int _{-\pi}^\pi } \sin nt \cos mt \hspace{0.15cm}dt \right\} \]
+The first integral is zero. 
+<p></p>
+Using the orthogonality relations all the integrals in the summation give zero except for the case \(n = m\) when
+\[  \displaystyle{ \int _{-\pi}^\pi } \cos^2 mt \hspace{0.15cm}dt = \pi. \]
+Hence
+\[ \displaystyle{ \int _{-\pi}^\pi }f(t)\cos mt \hspace{0.15cm}dt = a_m \pi\]
+from which the coefficient  \(a_m\) can be obtained.
+<p></p>
+Rewriting \(m\) as \(n\) we get
+\[ a_n = \dfrac{1}{\pi} \displaystyle{ \int _{-\pi}^\pi }f(t)\cos nt \hspace{0.15cm}dt \hspace{1cm} \text{for } n = 1, 2, 3, \dots \]<p>Note that this formula works for \(n = 0\) (but we must remember that the constant term is \( \dfrac{a_0}{2}\).)</p><p>
+</p><p>
+Thus \(a_n = 2 \times \text{ average value of } f(t) \cos nt\) over one period.</p><p></p>
+A similar calculation can be performed to find the \(b_n\) coefficients.Instead of multiplying the Fourier series by \( \cos mt\) and integrating as above, we multiply by \(\sin mt\) and integrate. Indeed, we have
+\[ \displaystyle{ \int _{-\pi}^\pi }f(t)\sin mt \hspace{0.15cm}dt =  \dfrac{a_0}{2}  \displaystyle{ \int _{-\pi}^\pi } \sin mt \hspace{0.15cm}dt + \sum_{n=1}^\infty \left\{ a_n  \displaystyle{ \int _{-\pi}^\pi } \cos nt \sin mt \hspace{0.15cm}dt + \displaystyle{ \int _{-\pi}^\pi } \sin nt \sin mt \hspace{0.15cm}dt \right\} . \] 
+All terms on the right-hand side integrate to zero except for the case \(n = m\) where
+\[  \displaystyle{ \int _{-\pi}^\pi } b_m \sin^2 mt \hspace{0.15cm}dt = b_m \pi \]
+Relabelling \(m\) as \(n\) gives
+\[b_n = \dfrac{1}{\pi} \displaystyle{ \int _{-\pi}^\pi } f(t) \sin nt \hspace{0.15cm}dt \hspace{1cm} n = 1, 2, 3, \dots \]
+(There is no Fourier coefficient \(b_0\).)
+<p></p>
+Clearly \(b_n = 2 \times \text{ average value of } f(t)\sin nt\) over one period.]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

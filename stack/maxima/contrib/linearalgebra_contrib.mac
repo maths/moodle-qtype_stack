@@ -309,7 +309,7 @@ mat_solve(A,b,[lstsq]):= block([m,n,vars,eqns,sol,AT],
  * @param[matrix or list] v a list or a Mx1 or matrix. Row vectors also accepted but will return transposed
  * @return[matrix or list] v, but scaled by a constant such that all entries are the smallest possible integers
  */
-scale_nicely(v):= block([v_op],
+scale_nicely(v):= block([v_op, tmp],
   v_op: "list",
   if vectorp(v) then (v_op: "matrix", v: list_matrix_entries(v)),
   tmp: ev(lreduce(lambda([ex1,ex2],gcd(ex1,ex2)),v),simp),

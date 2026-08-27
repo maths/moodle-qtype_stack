@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>7.2.1.1 Multiplying row matrices and column matrices together</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Multiplying row matrices and column matrices together</h3>
+<p>Let \(A\) be a \(1\times 2\) row matrix and \(B\) be a \(2\times 1\) column matrix: \[ A = \begin{bmatrix} a &amp; b \end{bmatrix},\qquad B=\begin{bmatrix} c \\ d \end{bmatrix} \] The product of these two matrices is written \(AB\) and is the \(1\times 1\) matrix defined by: \[ AB = \begin{bmatrix} a &amp; b \end{bmatrix}\cdot \begin{bmatrix} c \\ d \end{bmatrix} = \begin{bmatrix} ac + bd \end{bmatrix} \] Note that corresponding elements are multiplied together and the results are then added together. For example \[\begin{bmatrix} 2 &amp; -3 \end{bmatrix} \cdot \begin{bmatrix} 6 \\ 5 \end{bmatrix} = \begin{bmatrix} 12-15 \end{bmatrix} = \begin{bmatrix} -3 \end{bmatrix} \] This matrix product is easily generalised to other row and column matrices. For example if \(C\) is a \(1\times 4\) row matrix and \(D\) is a \(4\times 1\) column matrix: \[ C = \begin{bmatrix} 2 &amp; -4 &amp; 3 &amp; 2 \end{bmatrix} \qquad D = \begin{bmatrix} 3 \\ 3 \\ -2 \\ 5 \end{bmatrix} \] then we define the product of \(C\) with \(D\) as \[ CD = \begin{bmatrix} 2 &amp; -4 &amp; 3 &amp; 2 \end{bmatrix}\cdot \begin{bmatrix} 3 \\ 3\\ -2\\ 5 \end{bmatrix} = \begin{bmatrix} 6-12-6+10 \end{bmatrix} = \begin{bmatrix} -2 \end{bmatrix} \] The only requirement is that the number of entries in the row matrix is the same as the number of entries in the column matrix.<br></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

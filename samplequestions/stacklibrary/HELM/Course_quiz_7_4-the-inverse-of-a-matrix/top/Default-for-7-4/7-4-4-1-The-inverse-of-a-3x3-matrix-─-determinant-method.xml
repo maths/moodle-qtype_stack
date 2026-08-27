@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>7.4.4.1 The inverse of a 3x3 matrix ─ determinant method</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>The inverse of a \(3\times 3\) matrix &ndash; determinant method</h3>
+
+<p>This method which employs determinants, is of importance from a theoretical perspective. The numerical computations involved are too heavy for matrices of higher order than <span class="math inline">\(3\times 3\)</span> and in such cases the Gauss elimination approach is preferred.&nbsp;</p><p>To obtain <span class="math inline">\(A^{-1}\)</span> using the determinant approach the steps in the following keypoint are followed:</p>
+
+<div class="HELM_keypoint">
+<h4>Key Point<br></h4>
+<h5 style="text-align: center;">Matrix Inverse &ndash; the Determinant Method</h5>
+<p>Given a square matrix \(A\), we first calculate \(|A|\). If&nbsp;\(|A|=0\) then&nbsp;\(A^{-1}\) does not exist.&nbsp;</p><p>If&nbsp;\(|A|\neq 0\) we can proceed to find the inverse matrix, as follows:</p><ul><li>Replace each element of&nbsp;\(A\) by its cofactor</li><li>Transpose the result to form the <b>adjoint matrix</b>, denoted by&nbsp;\(\mathrm{adj}(A)\)</li><li>Then calculate&nbsp;\(A^{-1}=\frac{1}{|A|}\mathrm{adj}(A)\).</li></ul></div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

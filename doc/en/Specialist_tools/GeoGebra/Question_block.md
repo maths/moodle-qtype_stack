@@ -268,6 +268,8 @@ The GeoGebra object value should not be set, this keyword is helpful, if you jus
 * `set="A__hide__novalue"` Hide A but do not set the value for \(A\)
 * `set="A__hide__novalue"` watch="A"` Watch \(A\), but hide it and do not set it.
 
+<!--- commented out until problems with commands inside the block are solved 
+
 ## Using commands inside `[[geogebra]][[/geogebra]]` blocks
 
 You can use the following commands inside the geogebra tag if the sub tags do not fit your task idea:
@@ -305,6 +307,8 @@ Please note that the STACK and GeoGebra syntax do not match perfectly.  For exam
 
 1. GeoGebra boolean types should come through to STACK as just return true/false (not 0,1).
 2. Suppport set/watch of more complex objects.
+
+--->
 
 ### Disclaimer
 

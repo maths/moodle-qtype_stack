@@ -43,7 +43,6 @@ class stack_radio_input extends stack_dropdown_input {
         if ($this->errors) {
             return $this->render_error($this->errors);
         }
-
         // Create html.
         $result = '';
         $values = $this->get_choices();
@@ -58,10 +57,10 @@ class stack_radio_input extends stack_dropdown_input {
                 'type' => 'radio',
                 'name' => $fieldname,
                 'value' => $key,
-                'id' => $fieldname.'_'.$key,
+                'id' => $fieldname . '_' . $key,
             ];
             $labelattributes = [
-                'for' => $fieldname.'_'.$key,
+                'for' => $fieldname . '_' . $key,
             ];
             if (array_key_exists($key, $selected)) {
                 $inputattributes['checked'] = 'checked';

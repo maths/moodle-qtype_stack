@@ -1,42 +1,40 @@
 # Guidelines for ensuring that a question works in the future
 
-Creating a great STACK question takes effort and often people worry about how updating STACK or Moodle or other components running those questions might affect their questions. While there are no guarantees you can increase the ongoing reliability of your questions by taking the following things into account.
+We are committed to long-term support for STACK questions.  The most important things are listed here.
 
-In some parts of this document we mention "Abacus". The Abacus project is a STACK material sharing organisation that seeks to develop high-quality materials to be implemented following these guidelines. This document ends with additional guidelines adopted by Abacus.  This is both good practice, and will be relevant if you ever intend to join Abacus.
-
-The most important things are listed here. More detail is below.
-
-1. All questions must have ["question tests"](Testing.md), which allow unit testing of each question variant.  You can test the question variables with the `s_assert` function.  Testing helps build questions that detect changes in the platform.
+1. All questions must have ["question tests"](Testing.md), which allow unit testing of each question variant.  You can test individual question variables with the `s_assert` function.  Testing helps build questions that detect changes in the platform.
 2. Use simple correct HTML with all closing tags, avoiding explicit style of your own.
-3. Use only simple core LaTeX Maths environments/commands, with only `\(...\)` and `\[...\]` as the maths delimiters.
+3. Use only simple core LaTeX Maths environments/commands, with only `\(...\)` and `\[...\]` as the maths delimiters.  *In many projects `$`-delimiters for LaTeX are strictly forbidden*.  (There is a simplistic auto-convert to help with a one-time conversion.)
 4. Avoid linking to externally hosted content, such as pictures and applets.
 5. End Maxima commands with a semi-colon `;`.
 6. Add comments to your Maxima code.
 7. **Do not use arbitrary Javascript!**  Future versions of STACK will not support arbitrary Javascript.  Please work with developers to create supported features, e.g. the `[[reveal]]` block is a prime example of this approach working.
+8. A STACK question stores the version of STACK with which it was last edited. If we need to make changes the bulk test will use this version number, and search within your question, to identify questions that might need attention.
 
 ## Writing CASText
 
-CASText is the definition of the visible parts of the question, the bit where you pose the problem to the student lay out the equations and inputs and possibly draw fancy graphics. Technically, CASText is an HTML-document fragment with inline LaTeX equations and possible logic in the form of CASText blocks.
+CASText is an HTML-document fragment with inline LaTeX equations, and special blocks.  E.g. special blocks indicate where the input boxes go.  CASText is the definition of the visible parts of the question.
 
-To ease parsing of CASText you should ensure that you are writing valid (X)HTML i.e. make sure that all the tags get closed and that you are not placing block level elements in places where they do not belong. `<span><div>...</div></span>` is bad while `<div><span>...</span></div>` might be less bad. In the case of LaTeX using `\(...\)` instead of `$...$` and `\[...\]` instead of `$$...$$`, *in Abacus `$`-delimiters for LaTeX are strictly forbidden*.  (There is a simplistic auto-convert to help with a one-time conversion.)
+You should ensure that you are writing valid (X)HTML.  Make sure that all the tags get closed and that you are not placing block level elements in places where they do not belong. `<span><div>...</div></span>` is bad while `<div><span>...</span></div>` might be less bad. 
 
-To ensure consistent presentation you should avoid using inline CSS styles in your CASText, as the styles of the surrounding system may change and cause conflicts. In general all styles are bad with the sole exception being `text-align` in the context of table cells. Otherwise:
+Avoid using inline CSS styles in your CASText which may change and cause conflicts.  In general all styles are bad with the sole exception being `text-align` in the context of table cells. Otherwise:
 
 * If at all possible remove all styles and the `<span>` tags related to them from the CASText. Most WYSIWYG editors have some **clear formatting** feature to do just that. You cannot have block level HTML elements inside a span tag, which is an inline element.
-* You should not define `font-size` anywhere. If you need a heading with big text then use the `<hX>...</hX>` tags, but not with too small or large values of X. *In Abacus `<h3>` and `<h4>` are recommended especially in model solutions.*
-* Likewise all other font stylings should be left to the surrounding system but feel free to use `<i>`, `<b>`, `<em>`, and `<strong>` if you need and assume that the surrounding system handles them correctly.
+* Do not define `font-size` anywhere. If you need a heading with big text then use the `<hX>...</hX>` tags, but not with too small or large values of X. *In Abacus `<h3>` and `<h4>` are recommended especially in model solutions.*
+* Other font style should be left to the surrounding system but feel free to use `<i>`, `<b>`, `<em>`, and `<strong>` if you need and assume that the surrounding system handles them correctly.
 * You can use the `<code>` tag to explain how to type in answers.
 * The top level of your CASText document should consist of `<p>`, `<table>`, `<div>`, or CASText block elements not of raw text. For the PRT be careful about using `<p>` tags (which editors hide).  If you use the compact PRT style then STACK then puts this into span tags, and you cannot have block level HTML elements such as `<p>` inside a span tag.
-* In the case of tables and images you may use a bit of styling, e.g. borders, paddings, margins, and sizes, but you should always use relative units when describing those sizes. Scale to match the current font-size or maybe to the width of the viewport or even to the maximum dimension of the display not to pixels as pixels have very different actual sizes on different screens and we cannot assume that the software displaying things will make the same scaling assumptions for them in the future.
-* STACK now uses SVG, and this is preferred if you can embed this within the CASText.
+* In the case of tables and images you may use a bit of styling, e.g. borders, padding, margins, and sizes, but you should always use relative units when describing those sizes. Scale to match the current font-size or maybe to the width of the viewport or even to the maximum dimension of the display not to pixels as pixels have very different actual sizes on different screens and we cannot assume that the software displaying things will make the same scaling assumptions for them in the future.
+* STACK now SVG, and this is preferred to embed images within the CASText.
 * Only use supported JavaScript libraries, like JSXGraph.
 * Avoid complex LaTeX constructions where you inject values into multiple places, instead try to tune Maxima LaTeX generation to meet your needs, e.g. [showing working](../CAS/Matrix.md#showing-working-showing_working), using `texput`, or changing other features of Maxima constructs.
 
 If your CASText document contains scripts like JSXGraph content definitions you should ensure that if they require some external files to be evaluated you include those files with the question as links to external files will be broken at some point or the external files themselves change. In the case of JSXGraph use the `jsxgraph` CASText block which will handle the scripts at STACK level.
 
-__All external files/links are bad!__ If you have images or other documents related to the question they should be included in the question. Avoid embedded frames, applets and other interactive content. To test inclusion you should be able to export the question and import it to a freshly installed raw system on a computer not connected to the internet and those questions should work. *There is nothing wrong with internal files of any type, as long as they come with the question.* Use of the [include](../Authoring/Inclusions.md) feature from 4.4 is also a bad thing, but you can make it less bad if the included file is present on a public server and if it is versioned so that one can link to a version that never changes.
+__All external files/links are bad!__ If you have images or other documents related to the question they should be included in the question. Avoid embedded frames, applets and other interactive content. To test inclusion you should be able to export the question and import it to a freshly installed raw system on a computer not connected to the internet and those questions should work. *There is nothing wrong with internal files of any type, as long as they come with the question.*
 
-STACK does provide the option for [inclusions](../Authoring/Inclusions.md) within questions.  If you regularly use `stack_inlude` in your questions please consider contributing your libraries to the STACK core code.  Contributing tested libraries is the best way to ensure longer term maintenance!
+STACK does provide the option for [inclusions](../Authoring/Inclusions.md) within questions.  If you regularly use `stack_include` in your questions please consider contributing your libraries to the STACK core code.  Contributing tested libraries is the best way to ensure longer term maintenance.  Use of the [include](../Authoring/Inclusions.md) feature with external source is also a bad thing, but you can make it less bad if the included file is present on a public server and link to a version that never changes.
+
 
 ## Writing CAS code
 
@@ -48,10 +46,10 @@ The CAS code (internally keyvals and CASStrings) consists of Maxima assignment s
 
 You should also heed to these general guidelines:
 
-* Teachers answers are generally stored in variables named `tAns`, `tans1`, or maybe `TAns3` this is a pretty widely spread convention and should be followed, in general the question variables should end with a listing of assignments defining the teachers answers for each input.
-* Should there be need to process the students answer it might make sense to store it to `sAns...`.
+* Correct answers are generally stored in variables named `ta1`, which match the corresponding input name.
+* Should there be need to process the student's answer it might make sense to store it to `sans1`, etc., which match the corresponding input name.
 * `texput` instead of manual string construction when generating LaTeX representations will keep your code readable.
-* Write comments! More complex code is more likely to break at some point and someone, probably you, will need to understand it and provide a replacement logic for it. Especially, long oneliners have tendency to mystically break.
+* Write comments! More complex code is more likely to break at some point and someone, probably you, will need to understand it and provide a replacement logic for it.
 
 
 ## Question tests & teacher's answers
@@ -68,12 +66,12 @@ Please note that the system administrator has access to a "bulk test" script whi
 There have been some changes, which have created broken questions between versions.
 
 * List instantiation in Maxima is now required by Maxima and writing to an un-instantiated list gives errors like 'ARRSTORE: use_fast_arrays=false; allocate a new property hash table'. Basically, this means that you cannot say `TAns[1]:x;` without first saying `TAns:[];`. So do not assume that Maxima knows you want to create a list by simply assigning to an index on an undefined variable.
-* Maxima has its own `addrow` command, that differs from STACKs version. Please check any questions using `addrow`. Eventually, a conversion will be made that will switch the arguments of function calls in old questions using the old STACK version of that function but the change process will be long.
-
 
 # Abacus guidelines
 
-Abacus materials are assumed to take into account the future proofing related comments above. In addition to this there are some other rules:
+The Abacus project is a STACK material sharing organisation that seeks to develop high-quality materials to be implemented following these guidelines. This document ends with additional guidelines adopted by Abacus. This is both good practice, and will be relevant if you ever intend to join Abacus.
+
+Abacus materials are assumed to take into account the comments above. In addition to this there are some other rules:
 
 ### Naming of questions
 

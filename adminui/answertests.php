@@ -28,11 +28,11 @@
 
 define('NO_OUTPUT_BUFFERING', true);
 
-require_once(__DIR__.'/../../../../config.php');
-require_once($CFG->dirroot .'/course/lib.php');
+require_once(__DIR__ . '/../../../../config.php');
+require_once($CFG->dirroot . '/course/lib.php');
 require_once($CFG->libdir . '/questionlib.php');
-require_once($CFG->libdir .'/filelib.php');
-require_once($CFG->libdir .'/tablelib.php');
+require_once($CFG->libdir . '/filelib.php');
+require_once($CFG->libdir . '/tablelib.php');
 
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/../stack/options.class.php');
@@ -109,7 +109,6 @@ $start = microtime(true);
 
 $oldtest = '';
 foreach ($tests as $test) {
-
     $notests++;
 
     if ($oldtest != $test->name) {
@@ -128,7 +127,7 @@ foreach ($tests as $test) {
     }
 
     set_time_limit(30);
-    list($passed, $error, $rawmark, $feedback, $ansnote, $expectednote, $trace)
+    [$passed, $error, $rawmark, $feedback, $ansnote, $expectednote, $trace]
         = stack_answertest_test_data::run_test($test);
     $allpassed = $allpassed && $passed;
 
@@ -187,14 +186,14 @@ if ($notests > 0) {
     $took = (microtime(true) - $start);
     $rtook = round($took, 5);
     $pertest = round($took / $notests, 5);
-    echo '<p>'.stack_string('testsuitenotests', ['no' => $notests]);
-    echo '<br/>'.stack_string('testsuiteteststook', ['time' => $rtook]);
-    echo '<br/>'.stack_string('testsuiteteststookeach', ['time' => $pertest]);
+    echo '<p>' . stack_string('testsuitenotests', ['no' => $notests]);
+    echo '<br/>' . stack_string('testsuiteteststook', ['time' => $rtook]);
+    echo '<br/>' . stack_string('testsuiteteststookeach', ['time' => $pertest]);
     echo '</p>';
 
     $config = get_config('qtype_stack');
     echo html_writer::tag('p', stack_string('healthcheckcache_' . $config->casresultscache));
-    echo html_writer::tag('p',  stack_string('settingcasmaximaversion').': '.$config->maximaversion);
+    echo html_writer::tag('p', stack_string('settingcasmaximaversion') . ': ' . $config->maximaversion);
 }
 
 if ($anstest) {

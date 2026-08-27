@@ -10,9 +10,9 @@ Direct connection to Maxima on windows/MS is not supported.  On windows/MS pleas
 
 ## 0. Set up PHP with mbstring
 
-STACK v4.3 and later require the PHP `mbstring` library.
+STACK requires PHP 8.1 and later.
 
-STACK requires PHP 7.4 and later.
+STACK requires the PHP `mbstring` library.
 
 On an existing Moodle site navigate to
 
@@ -20,7 +20,7 @@ On an existing Moodle site navigate to
 
 to confirm before adding this plug-in.
 
-On some Linux distros, you simply need to
+On some Linux distributions, you simply need to
 
     apt-get install php-mbstring
 
@@ -30,9 +30,8 @@ and then re-start the web server.
 
 Please ensure you have [installed Moodle](http://docs.moodle.org/en/Main_page).
 
-* STACK has been tested on Moodle 4.0 to Moodle 4.5 inclusive.
-* STACK will be available for Moodle 5.0 in a (near) future release.  Follow [issue #1496](https://github.com/maths/moodle-qtype_stack/issues/1496) for details.
-* We intend to support STACK within the normal Moodle [release cycle](https://docs.moodle.org/dev/Releases).  We intend to support all future Moodle releases. If your version of Moodle is not listed here please contact the developers: we probably simply have not done the testing of future versions yet.  For longer support of older versions of Moodle please contact us, otherwise will will drop them from our list.
+* STACK has been tested on Moodle 4.2 to Moodle 5.2 inclusive.
+* We intend to support STACK within the normal Moodle [release cycle](https://docs.moodle.org/dev/Releases).  We intend to support all future Moodle releases. If your version of Moodle is not listed here please contact the developers: we probably simply have not done the testing of future versions yet.  For longer support of older versions of Moodle please contact us, otherwise will drop them from our list.
 
 Please ensure LaTeX can be displayed.  We currently support [MathJax](Mathjax.md) through the Moodle MathJax filter.
 
@@ -46,7 +45,7 @@ to `filter_mathjaxloader | mathjaxconfig` in the filter settings: Dashboard > Si
 
 ## 2. Install gnuplot and Maxima
 
-Ensure gcc, gnuplot and [Maxima](http://maxima.sourceforge.net) are installed on your server.  Currently Maxima 5.38.1 to 5.47.0 are supported.  Please contact the developers to request support for other versions.  (Newer versions will be supported, and prompts to test them are welcome.)  We currently recommend that you use any version of Maxima after 5.43.0.
+Ensure gcc, gnuplot and [Maxima](http://maxima.sourceforge.net) are installed on your server.  We currently recommend that you use any version of Maxima after 5.43.0.
 
 Maxima can be installed via a package manager on most Linux distributions (e.g. `sudo apt-get install maxima` on Debian/Ubuntu), [downloaded](http://maxima.sourceforge.net/download.html), or compiled from source.  Please make sure you also have `maxima-share` installed.  (This is automatically installed on some distributions, but not others.)
 
@@ -54,7 +53,13 @@ To check your version of maxima, run `maxima --version`.  If Moodle is set up us
 
 Alternatively, Maxima can also be run on a separate server via [GoeMaxima](https://github.com/mathinstitut/goemaxima) or [MaximaPool](https://github.com/maths/stack_util_maximapool).
 
-Please note
+Please note:
+
+* STACK has been tested on Maxima 5.49.0 and 5.48.0, and earlier versions.
+* As of April 2026, the distributed version of Maxima 5.47.0, e.g. bundled with Debian, is missing the Grobner package which is essential.  You will need to compile Maxima from source. 
+* Maxima 5.40.0 changed the way subscripts were displayed.  We are no longer testing against versions before 5.40.0, so there may be inconsistencies with display of subscripts with other versions.
+
+Old notes:
 
 * Please avoid versions 5.37.x which are known to have a minor bug which affects STACK. In particular with `simp:false`, \(s^{-1}\) is transformed into \(1/s\).  This apparently minor change makes it impossible to distinguish between the two forms.  This causes all sorts of problems.  Do not use Maxima 5.37.1 to 5.37.3.
 * Older versions of Maxima:  in particular, Maxima 5.23.2 has some differences which result in \(1/\sqrt{x} \neq \sqrt{1/x}\), and similar problems.  This means that we have an inconsistency between questions between versions of maxima.   Of course, we can argue about which values of \(x\) make \(1/\sqrt{x} = \sqrt{1/x}\), but currently the unit tests and assumption is that these expressions should be considered to be algebraically equivalent!   So, older versions of Maxima are not supported for a reason.  Please test thoroughly if you try to use an older version, and expect some errors in the mathematical parts of the code.
@@ -62,7 +67,7 @@ Please note
 
 Instructions for installing a more recent version of Maxima on CentOS 6 are available on the [Moodle forum](https://moodle.org/mod/forum/discuss.php?d=270956)  (Oct 2014).
 
-## 3. Add some additional question behaviours
+## 3. Add some additional question behaviours and importasversion
 
 STACK requires these.
 
@@ -77,12 +82,17 @@ Alternatively, get the code using git by running the following command in the to
 Alternatively, get the code using git by running the following command in the top level folder of your Moodle install:
 
         git clone https://github.com/maths/moodle-qbehaviour_dfcbmexplicitvaildate.git question/behaviour/dfcbmexplicitvaildate
-2. Obtain adaptivemutlipart behaviour code. You can [download the zip file](https://github.com/maths/moodle-qbehaviour_adaptivemultipart/zipball/master), unzip it, and place it in the directory `moodle/question/behaviour/adaptivemultipart`. (You will need to rename the directory `moodle-qbehaviour_adaptivemultipart  -> adaptivemultipart`.)
+3. Obtain adaptivemutlipart behaviour code. You can [download the zip file](https://github.com/maths/moodle-qbehaviour_adaptivemultipart/zipball/master), unzip it, and place it in the directory `moodle/question/behaviour/adaptivemultipart`. (You will need to rename the directory `moodle-qbehaviour_adaptivemultipart  -> adaptivemultipart`.)
 
 Alternatively, get the code using git by running the following command in the top level folder of your Moodle install:
 
         git clone https://github.com/maths/moodle-qbehaviour_adaptivemultipart.git question/behaviour/adaptivemultipart
-3. Login to Moodle as the admin user and click on Notifications in the Site Administration panel.
+4. Obtain importasversion code. You can [download the zip file](https://github.com/maths/moodle-qbank_importasversion/archive/refs/heads/main.zip), unzip it, and place it in the directory `moodle/question/bank/importasversion`. (You will need to rename the directory `moodle-qbehaviour_importasversion  -> importasversion`.)
+
+Alternatively, get the code using git by running the following command in the top level folder of your Moodle install:
+
+        git clone https://github.com/maths/moodle-qbank_importasversion.git question/bank/importasversion
+5. Login to Moodle as the admin user and click on Notifications in the Site Administration panel.
 
 ## 4. Add the STACK question type
 
@@ -164,6 +174,12 @@ If STACK is already installed, as described above, it can be updated via git, li
         cd ..
         cd adaptivemultipart/
         git pull
+        cd ..
+        cd ..
+        cd bank/importasversion
+        git pull
+
+If upgrading from an older version of STACK, you may need to install the importasversion plugin as instructed in installation step 3.
 
 2. Then login as admin in your moodle and update the database.
 

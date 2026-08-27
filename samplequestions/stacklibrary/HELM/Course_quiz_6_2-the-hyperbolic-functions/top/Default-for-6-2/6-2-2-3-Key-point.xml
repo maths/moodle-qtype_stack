@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>6.2.2.3 Key point</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<div class="HELM_keypoint">
+<h4>Key Point: </h4>
+<p>The fundamental identity relating hyperbolic functions is:</p>
+<p style="text-align: center;">\(\rm cosh^2 x - \sinh^2 x \equiv 1\)</p>
+<p>This is the hyperbolic function equivalent of the trigonometric identity: \( \cos^2x + \sin^2 x \equiv 1 \)</p>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -35,7 +35,6 @@ require_once(__DIR__ . '/../stack/mathsoutput/mathsoutput.class.php');
  * @covers \stack_maths
  */
 final class mathsoutput_test extends advanced_testcase {
-
     public function test_replace_dollars_and_abacus(): void {
 
         $test0 = 'Test $\frac12$ $$\frac14$$ @1/8@ \(\frac{@a@}{2}\).';
@@ -71,4 +70,3 @@ final class mathsoutput_test extends advanced_testcase {
         $this->assertEquals($expected6, stack_maths::replace_dollars($test6));
     }
 }
-

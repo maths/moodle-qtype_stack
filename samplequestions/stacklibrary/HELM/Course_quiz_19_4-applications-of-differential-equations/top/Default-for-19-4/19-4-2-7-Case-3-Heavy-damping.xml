@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>19.4.2.7 Case 3: Heavy damping</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h5>Case 3: Heavy damping<br></h5>
+
+<p>If \(k^2-4mn&gt;0\), i.e. \(k^2&gt;4mn\), then there are two real roots of the auxiliary equation, \(\lambda_1\) and \(\lambda_2:\)</p>
+<p>\(\qquad \lambda_1= \dfrac{-k+\sqrt{k^2-4mn}}{2m} \qquad \lambda_2 = \dfrac{-k-\sqrt{k^2-4mn}}{2m}\)</p> 
+<p>Then</p>
+<p>\(\qquad x = A\text{e}^{\lambda_1t}+B\text{e}^{\lambda_2t}.\)</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

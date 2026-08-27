@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>25.3.1.1 Solution of important PDEs</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Solution of important PDEs</h3>
+<p>We shall just consider two analytic solution techniques for PDEs:</p>
+<ol type="a">
+    <ol type="a">
+        <li>
+            <p>Direct integration</p>
+        </li>
+        <li>
+            <p>Separation of variables</p>
+        </li>
+    </ol>
+
+</ol>
+<p>The method of direct integration is a straightforward extension of solving very simple ODEs by integration, and will be considered first. The method of separation of variables is more important and we will study it in detail shortly. <br>You should note
+    that many practical problems involving PDEs have to be solved by
+    <span><strong>numerical</strong></span> methods but that is another story (introduced in &nbsp;32 and &nbsp;33).</p>
+<div class="exercise"></div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

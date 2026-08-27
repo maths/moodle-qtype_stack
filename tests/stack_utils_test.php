@@ -37,7 +37,6 @@ require_once(__DIR__ . '/../stack/cas/cassession2.class.php');
  * @covers \stack_utils
  */
 final class stack_utils_test extends qtype_stack_testcase {
-
     public function test_check_bookends(): void {
 
         $this->assertSame('left', stack_utils::check_bookends('x+1)^2', '(', ')'));
@@ -85,8 +84,10 @@ final class stack_utils_test extends qtype_stack_testcase {
         $this->assertEquals(['$ $', 6, 8], stack_utils::substring_between('$hello$ $world$!', '$', '$', 1));
 
         $this->assertEquals(['[he[ll]o]', 0, 8], stack_utils::substring_between('[he[ll]o] world!', '[', ']'));
-        $this->assertEquals(['[[[]w[o]r[[l]d]]]', 6, 22],
-                stack_utils::substring_between('hello [[[]w[o]r[[l]d]]]!', '[', ']'));
+        $this->assertEquals(
+            ['[[[]w[o]r[[l]d]]]', 6, 22],
+            stack_utils::substring_between('hello [[[]w[o]r[[l]d]]]!', '[', ']')
+        );
     }
 
     public function test_all_substring_between(): void {
@@ -107,13 +108,17 @@ final class stack_utils_test extends qtype_stack_testcase {
 
         $this->assertEquals('hello world!', stack_utils::replace_between('hello world!', '[', ']', []));
         $this->assertEquals('[goodbye] world!', stack_utils::replace_between('[hello] world!', '[', ']', ['goodbye']));
-        $this->assertEquals('[goodbye] [all]!',
-                stack_utils::replace_between('[hello] [world]!', '[', ']', ['goodbye', 'all']));
+        $this->assertEquals(
+            '[goodbye] [all]!',
+            stack_utils::replace_between('[hello] [world]!', '[', ']', ['goodbye', 'all'])
+        );
 
         $this->assertEquals('hello world!', stack_utils::replace_between('hello world!', '$', '$', []));
         $this->assertEquals('$goodbye$ world!', stack_utils::replace_between('$hello$ world!', '$', '$', ['goodbye']));
-        $this->assertEquals('$goodbye$ $all$!',
-                stack_utils::replace_between('$hello$ $world$!', '$', '$', ['goodbye', 'all']));
+        $this->assertEquals(
+            '$goodbye$ $all$!',
+            stack_utils::replace_between('$hello$ $world$!', '$', '$', ['goodbye', 'all'])
+        );
 
         $this->expectException(stack_exception::class);
         $this->assertEquals('goodbye all!', stack_utils::replace_between('$hello$ $world$!', '$', '$', ['1', '2', '3']));
@@ -168,37 +173,61 @@ final class stack_utils_test extends qtype_stack_testcase {
         $strin = '[[1,2,3], {x^2,x^3}]';
         $a = [['1', '2', '3'], ' {x^2,x^3}'];
         $this->assertEquals($a, stack_utils::list_to_array($strin, true));
+
+        // Ignore strings within lists, especially those with commas.
+        $strin = '["Hello world", a, "Hello, world!"]';
+        $a = ['"Hello world"', ' a', ' "Hello, world!"'];
+        $this->assertEquals($a, stack_utils::list_to_array($strin, false));
+
+        $strin = '["Annoying things: [a,b)","{","Very annoying: \\" this one."]';
+        $a = ['"Annoying things: [a,b)"', '"{"', '"Very annoying: \\" this one."'];
+        $this->assertEquals($a, stack_utils::list_to_array($strin, false));
+
+        $strin = '[   "Annoying things: [a,b)" ,"{","Very annoying: \\" this one."   ,C]';
+        $a = ['   "Annoying things: [a,b)" ', '"{"', '"Very annoying: \\" this one."   ', 'C'];
+        $this->assertEquals($a, stack_utils::list_to_array($strin, false));
+
+        $strin = '[[],["","A"],A,"\""]';
+        $a = [[], ['""', '"A"'], 'A', '"\""'];
+        $this->assertEquals($a, stack_utils::list_to_array($strin, true));
     }
 
     public function test_decompose_rename_operation_identity(): void {
 
         $this->assertEquals([], stack_utils::decompose_rename_operation(
-                ['a' => 'a', 'b' => 'b']));
+            ['a' => 'a', 'b' => 'b']
+        ));
     }
 
     public function test_decompose_rename_operation_no_overlap(): void {
 
         $this->assertEquals(['a' => 'c', 'b' => 'd'], stack_utils::decompose_rename_operation(
-                ['a' => 'c', 'b' => 'd']));
+            ['a' => 'c', 'b' => 'd']
+        ));
     }
 
     public function test_decompose_rename_operation_shift(): void {
 
         $this->assertSame(['x3' => 'x4', 'x2' => 'x3', 'x1' => 'x2'], stack_utils::decompose_rename_operation(
-                ['x1' => 'x2', 'x2' => 'x3', 'x3' => 'x4']));
+            ['x1' => 'x2', 'x2' => 'x3', 'x3' => 'x4']
+        ));
     }
 
     public function test_decompose_rename_operation_simple_swap(): void {
 
         $this->assertEquals(['a' => 'temp1', 'b' => 'a', 'temp1' => 'b'], stack_utils::decompose_rename_operation(
-                ['a' => 'b', 'b' => 'a']));
+            ['a' => 'b', 'b' => 'a']
+        ));
     }
 
     public function test_decompose_rename_operation_cycle_temp_already_used(): void {
 
-        $this->assertEquals(['temp1' => 'temp4', 'temp3' => 'temp1', 'temp2' => 'temp3', 'temp4' => 'temp2'],
-                stack_utils::decompose_rename_operation(
-                ['temp1' => 'temp2', 'temp2' => 'temp3', 'temp3' => 'temp1']));
+        $this->assertEquals(
+            ['temp1' => 'temp4', 'temp3' => 'temp1', 'temp2' => 'temp3', 'temp4' => 'temp2'],
+            stack_utils::decompose_rename_operation(
+                ['temp1' => 'temp2', 'temp2' => 'temp3', 'temp3' => 'temp1']
+            )
+        );
     }
 
     public function test_decompose_rename_operation_complex(): void {
@@ -207,7 +236,8 @@ final class stack_utils_test extends qtype_stack_testcase {
             'i' => 'j', 'h' => 'i', 'a' => 'temp1', 'e' => 'a', 'g' => 'e', 'temp1' => 'g',
             'd' => 'temp2', 'f' => 'd', 'temp2' => 'f',
         ], stack_utils::decompose_rename_operation(
-                ['a' => 'g', 'b' => 'b', 'd' => 'f', 'e' => 'a', 'f' => 'd', 'g' => 'e', 'h' => 'i', 'i' => 'j']));
+            ['a' => 'g', 'b' => 'b', 'd' => 'f', 'e' => 'a', 'f' => 'd', 'g' => 'e', 'h' => 'i', 'i' => 'j']
+        ));
     }
 
     public function test_all_substring_strings(): void {
@@ -262,5 +292,43 @@ final class stack_utils_test extends qtype_stack_testcase {
      */
     public function test_count_missing_alttext(int $expectedcount, string $html): void {
         $this->assertEquals($expectedcount, stack_utils::count_missing_alttext($html));
+    }
+
+    /**
+     * Test cases for test_rational_approximation.
+     *
+     * @return array of test cases.
+     */
+    public static function rational_approximation_cases(): array {
+        return [
+            [0.1, 4, [1, 10]],
+            [1.3, 4, [13, 10]],
+            [0.25, 4, [1, 4]],
+            [0.37, 4, [37, 100]],
+            [0.33333, 4, [1, 3]],
+            [0.333, 4, [333, 1000]],
+            [-0.1, 4, [-1, 10]],
+            [3, 4, [3, 1]],
+            [-7, 4, [-7, 1]],
+            [2.718281828, 2, [19, 7]],
+            [2.718281828, 4, [193, 71]],
+            [2.718281828, 6, [2721, 1001]],
+            // Fibonacci numbers for good measure.
+            [1.618181818, 4, [89, 55]],
+            [1.618181818, 3, [34, 21]],
+            [1.618033963, 8, [6765, 4181]],
+        ];
+    }
+
+    /**
+     * Test rational_approximation
+     *
+     * @param float $n Number to be approximated.
+     * @param int $accuracy Number of places to be returned.$this
+     * @param array $expected Output of the test.
+     * @dataProvider rational_approximation_cases
+     */
+    public function test_rational_approximation(float $n, int $accuracy, array $expected): void {
+        $this->assertEquals($expected, stack_utils::rational_approximation($n, $accuracy));
     }
 }

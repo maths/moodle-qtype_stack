@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>37.1.1.2 Permutations of ABCD</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<hr>
+<h4 class="HELM_example">Example</h4>
+<p> Write out the possible permutations of the letters \(A, B, C\) and \(D\). </p>
+<h4 class="HELM_solution">Solution</h4>
+The possible permutations are 
+\[\begin{matrix}ABCD&	ABDC&	ADBC&	ADCB	&ACBD&	ACDB\\
+BADC&	BACD&	BCDA&	BCAD&	BDAC&	BDCA\\
+CABD&	CADB&	CDBA&	CDAB&	CBAD&	CBDA\\
+DABC&	DACB&	DCAB&	DCBA&	DBAC&	DBCA
+\end{matrix}\]
+There are \(4!=24\) permutations of the four letters \(A, B, C\) and \(D\).]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

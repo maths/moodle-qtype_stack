@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>25.2.2.2 Heat conduction equation</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p><span style="font-size: 0.9375rem;">The fact that \((3)\) is first order in \(t\) means that only one initial condition at \(t=0\) is needed, together with two boundary conditions, to obtain a unique solution. The usual initial condition specifies the initial temperature distribution in the
+    bar</span><br></p>
+<p>\(\qquad u(x,0)=f(x)\)</p> where \(f(x)\) is known. Various types of boundary conditions at \(x=0\) and \(x=L\) are possible. For example:
+<p></p>
+<ol type="a">
+
+    <ol type="a">
+        <li>\(u(0,t)=T_1\) and \(u(L,t)=T_2\) (ends of the bar are at constant temperatures \(T_1\) and \(T_2\)).</li>
+        <li>\(\dfrac{\partial u}{\partial x}(0,t)=\dfrac{\partial u}{\partial x}(L,t)=0\) which are <strong>insulation</strong> conditions since they tell us that there is no heat flow through the ends of the bar.</li>
+    </ol>
+
+</ol>
+<p>As you would expect, there are two-dimensional and three-dimensional forms of the heat conduction equation. The two dimensional version of \((3)\) is </p>
+
+<table width="100%">
+    <tbody>
+        <tr>
+            <td>\(\qquad \dfrac{\partial u}{\partial t}=k \ \left(\dfrac{\partial^2u}{\partial x^2}+\dfrac{\partial^2u}{\partial y^2}\right)\)</td>
+            <td>\((4)\)</td>
+        </tr>
+    </tbody>
+</table>
+
+
+where \(u(x,y,t)\) is the temperature in a flat plate. The plate is assumed to be thin and insulated on its top and bottom surface so that no heat flow occurs other than in the \(Oxy\) plane. Boundary conditions and an initial condition are needed to
+give unique solutions of \((4)\). For example if the plate is rectangular as in the figure below:<br><br>
+<p></p>
+<figure class="HELM_figure">
+    <img src="@@PLUGINFILE@@/workbook25fig4-1.svg?time=1689594981251" alt="A rectangle plate with dimensions x=a and y=b" width="257" height="156" class="img-responsive atto_image_button_text-bottom">
+</figure>
+
+<p>typical boundary conditions might be </p>
+<p>\(\qquad u(x,0)=T_1\qquad \ 0\le x\le a \qquad \) (bottom side at fixed temperature)</p>
+<p>\(\qquad \dfrac{\partial u}{\partial x}(a,y)=0\qquad 0\le y\le b \qquad \) (right-hand side insulated)</p>
+<p> \(\qquad u(x,b)=T_2\qquad \ 0\le x\le a \qquad\) (top side at fixed temperature)</p>
+<p> \(\qquad u(0,y)=0\qquad \ \ \;\!0\le y\le b \qquad \) (left hand side at zero fixed temperature).</p> An initial condition would have the form \(u(x,y,0)=f(x,y)\), where \(f\) is a given function.
+<p></p>]]></text>
+<file name="workbook25fig4-1.svg" path="/" encoding="base64">PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMTkzcHQiIGhlaWdodD0iMTU2IiB2aWV3Qm94PSIwIDAgMTkzIDExNyI+PGNsaXBQYXRoIGlkPSJhIj48cGF0aCB0cmFuc2Zvcm09Im1hdHJpeCgxIDAgMCAtMSAwIDExNykiIGQ9Ik0wIDBoMTkzdjExN0gweiIvPjwvY2xpcFBhdGg+PGcgY2xpcC1wYXRoPSJ1cmwoI2EpIj48Y2xpcFBhdGggaWQ9ImIiPjxwYXRoIHRyYW5zZm9ybT0ibWF0cml4KDEgMCAwIC0xIDAgMTE3KSIgZD0iTTAgMGgxOTIuNjE4djExNi44NzJIMHoiLz48L2NsaXBQYXRoPjxnIGNsaXAtcGF0aD0idXJsKCNiKSI+PHBhdGggc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjMxZjIwIiBkPSJNLjE3MiAxMDMuMzg5aDE3NS45MzQiLz48L2c+PHBhdGggZD0ibTE3NC4yMDcgMTAzLjI2NC0yLjE5LTMuNjA0LjEyMy0uMDgxIDUuODc1IDIuMzM0IDYuMTQgMS4zNTEtNi4xNCAxLjM1MS01Ljg3NSAyLjMzMy0uMTIzLS4wNjEgMi4xOS0zLjYyMyIgZmlsbD0iIzIzMWYyMCIvPjxzeW1ib2wgaWQ9ImMiPjxwYXRoIGQ9Ik0uNDQ2LjQxOEMuNDE0LjQxMi40MDIuMzg4LjQwMi4zNjljMC0uMDI0LjAxOS0uMDMyLjAzMy0uMDMyLjAzIDAgLjA1MS4wMjYuMDUxLjA1MyAwIC4wNDItLjA0OC4wNjEtLjA5LjA2MUMuMzM1LjQ1MS4zMDEuMzkxLjI5Mi4zNzJhLjEwNC4xMDQgMCAwIDEtLjEwMy4wNzlDLjA4Ny40NTEuMDMzLjMyLjAzMy4yOThjMC0uMDA0LjAwNC0uMDA5LjAxMS0uMDA5LjAwOCAwIC4wMS4wMDYuMDEyLjAxLjAzNC4xMTEuMTAxLjEzMi4xMy4xMzJDLjIzMS40MzEuMjQuMzg5LjI0LjM2NS4yNC4zNDMuMjM0LjMyLjIyMi4yNzJMLjE4OC4xMzVDLjE3My4wNzUuMTQ0LjAyLjA5MS4wMi4wODYuMDIuMDYxLjAyLjA0LjAzM2EuMDUyLjA1MiAwIDAgMSAuMDQ0LjA0OWMwIC4wMi0uMDE1LjAzMi0uMDM0LjAzMkEuMDUyLjA1MiAwIDAgMSAwIC4wNjFDMCAuMDE5LjA0NyAwIC4wOSAwYy4wNDggMCAuMDgyLjAzOC4xMDMuMDc5QS4xMDUuMTA1IDAgMCAxIC4yOTYgMGMuMTAyIDAgLjE1Ni4xMzEuMTU2LjE1MyAwIC4wMDUtLjAwNC4wMDktLjAxLjAwOUMuNDMzLjE2Mi40MzIuMTU3LjQyOS4xNDkuNDAyLjA2MS4zNDQuMDIuMjk5LjAyLjI2NC4wMi4yNDUuMDQ2LjI0NS4wODdjMCAuMDIyLjAwNC4wMzguMDIuMTA0TC4zLjMyN2MuMDE1LjA2LjA0OS4xMDQuMDk1LjEwNC4wMDIgMCAuMDMgMCAuMDUxLS4wMTN6Ii8+PC9zeW1ib2w+PHVzZSB4bGluazpocmVmPSIjYyIgdHJhbnNmb3JtPSJtYXRyaXgoMTEuOTU1IDAgMCAtMTEuOTU1IDE4Ni4zMDUgMTA3LjIxNCkiIGZpbGw9IiMyMzFmMjAiLz48dXNlIHhsaW5rOmhyZWY9IiNjIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgMTQ1LjgzNSAxMTQuMTE5KSIgZmlsbD0iIzIzMWYyMCIvPjxzeW1ib2wgaWQ9ImQiPjxwYXRoIGQ9Ik0uNjIxLjE4NmMuMDE0IDAgLjAzMiAwIC4wMzIuMDE4IDAgLjAxOS0uMDE3LjAxOS0uMDMyLjAxOUguMDMyQy4wMTguMjIzIDAgLjIyMyAwIC4yMDUgMCAuMTg2LjAxNy4xODYuMDMyLjE4NmguNTg5bTAtLjE4NmMuMDE0IDAgLjAzMiAwIC4wMzIuMDE4IDAgLjAxOS0uMDE3LjAxOS0uMDMyLjAxOUguMDMyQy4wMTguMDM3IDAgLjAzNyAwIC4wMTkgMCAwIC4wMTcgMCAuMDMyIDBoLjU4OXoiLz48L3N5bWJvbD48dXNlIHhsaW5rOmhyZWY9IiNkIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgMTUzLjY5NCAxMTIuMzUpIiBmaWxsPSIjMjMxZjIwIi8+PHN5bWJvbCBpZD0iZSI+PHBhdGggZD0iTS4yNjEuMTI5Qy4yNTYuMTEyLjI1Ni4xMS4yNDIuMDkxLjIyLjA2My4xNzYuMDIuMTI5LjAyLjA4OC4wMi4wNjUuMDU3LjA2NS4xMTZhLjcyLjcyIDAgMCAwIC4wNS4yMDljLjAzNC4wNy4wODEuMTA2LjEyLjEwNi4wNjYgMCAuMDc5LS4wODIuMDc5LS4wOUEuMTI0LjEyNCAwIDAgMCAuMzEuMzI1TC4yNjEuMTI5bS4wNjQuMjU2Qy4zMTQuNDExLjI4Ny40NTEuMjM1LjQ1MS4xMjIuNDUxIDAgLjMwNSAwIC4xNTcgMCAuMDU4LjA1OCAwIC4xMjYgMGMuMDU1IDAgLjEwMi4wNDMuMTMuMDc2QS4wODcuMDg3IDAgMCAxIC4zNDMgMGMuMDMgMCAuMDU0LjAxOC4wNzIuMDU0YS41MS41MSAwIDAgMSAuMDMuMDk5YzAgLjAwNS0uMDA0LjAwOS0uMDEuMDA5LS4wMDkgMC0uMDEtLjAwNS0uMDE0LS4wMkMuNDA2LjA4My4zODcuMDIuMzQ2LjAyLjMxNy4wMi4zMTUuMDQ2LjMxNS4wNjZjMCAuMDIzLjAwMy4wMzQuMDEyLjA3M2wuMDIuMDc2Yy4wMzcuMTUuMDQ2LjE4Ni4wNDYuMTkyYS4wMjUuMDI1IDAgMCAxLS4wMjYuMDI1Qy4zMzUuNDMyLjMyNy4zOTcuMzI1LjM4NXoiLz48L3N5bWJvbD48dXNlIHhsaW5rOmhyZWY9IiNlIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgMTY0LjU0IDExMy40ODYpIiBmaWxsPSIjMjMxZjIwIi8+PHBhdGggZD0iTTI3LjE3MiAzOC44NjdoMTM2LjUwMXY2NC4wMDFIMjcuMTcyeiIgZmlsbD0iI2JiYmRjMCIvPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzIzMWYyMCIgZD0iTTI3LjE3MiAzOC44NjdoMTM2LjUwMXY2NC4wMDFIMjcuMTcyeiIvPjxwYXRoIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzIzMWYyMCIgZD0iTTI2Ljc4OSAxMDcuMzY3VjEzLjgyIi8+PHBhdGggZD0ibTI2LjY2NCAxNS43Mi0zLjYwMyAyLjE5LS4wODItLjEyMyAyLjMzNC01Ljg3NSAxLjM1MS02LjE0IDEuMzUxIDYuMTQgMi4zMzMgNS44NzUtLjA2MS4xMjMtMy42MjMtMi4xOSIgZmlsbD0iIzIzMWYyMCIvPjxzeW1ib2wgaWQ9ImYiPjxwYXRoIGQ9Ik0uMjM2LjA5MkMuMjA5LjA1NC4xNy4wMi4xMjEuMDIuMTA5LjAyLjA2MS4wMjIuMDQ2LjA2OGwuMDEtLjAwMWMuMDMgMCAuMDUuMDI2LjA1LjA0OSAwIC4wMjMtLjAxOS4wMzEtLjAzNC4wMzFDLjA1Ni4xNDcuMDIxLjEzNS4wMjEuMDg2LjAyMS4wMzUuMDY0IDAgLjEyMSAwYy4xIDAgLjIwMS4wOTIuMjI5LjIwM2wuMDk4LjM5Qy40NDkuNTk4LjQ1MS42MDQuNDUxLjYxYzAgLjAxNS0uMDEyLjAyNS0uMDI3LjAyNUMuNDE1LjYzNS4zOTQuNjMxLjM4Ni42MDFMLjMxMi4zMDdDLjMwNy4yODkuMzA3LjI4Ny4yOTkuMjc2LjI3OS4yNDguMjQ2LjIxNC4xOTguMjE0LjE0Mi4yMTQuMTM3LjI2OS4xMzcuMjk2YzAgLjA1Ny4wMjcuMTM0LjA1NC4yMDYuMDExLjAyOS4wMTcuMDQzLjAxNy4wNjMgMCAuMDQyLS4wMy4wOC0uMDc5LjA4Qy4wMzcuNjQ1IDAgLjUgMCAuNDkyIDAgLjQ4OC4wMDQuNDgzLjAxMS40ODNjLjAwOSAwIC4wMS4wMDQuMDE0LjAxOC4wMjQuMDg0LjA2Mi4xMjQuMTAxLjEyNC4wMDkgMCAuMDI2IDAgLjAyNi0uMDMzQS4yNzUuMjc1IDAgMCAwIC4xMjYuNDk5Qy4wNzcuMzY4LjA3Ny4zMzUuMDc3LjMxMWMwLS4wOTUuMDY4LS4xMTcuMTE4LS4xMTcuMDI5IDAgLjA2NS4wMDkuMS4wNDZMLjI5Ni4yMzlhLjM4MS4zODEgMCAwIDAtLjA2LS4xNDd6Ii8+PC9zeW1ib2w+PHVzZSB4bGluazpocmVmPSIjZiIgdHJhbnNmb3JtPSJtYXRyaXgoMTEuOTU1IDAgMCAtMTEuOTU1IC4zMjMgNDQuOTM3KSIgZmlsbD0iIzIzMWYyMCIvPjx1c2UgeGxpbms6aHJlZj0iI2QiIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSA4LjE5NCA0MC44NDkpIiBmaWxsPSIjMjMxZjIwIi8+PHN5bWJvbCBpZD0iZyI+PHBhdGggZD0ibS4xODYuNjc5LjAwMy4wMTVjMCAuMDEtLjAxLjAxLS4wMTIuMDFMLjEyMi42OTkuMDcyLjY5NUMuMDQ4LjY5My4wNDEuNjkyLjA0MS42NzRjMC0uMDEuMDEtLjAxLjAyLS4wMS4wNTEgMCAuMDUxLS4wMDkuMDUxLS4wMTlDLjExMi42MzguMTA0LjYwOS4xLjU5MUwuMDc2LjQ5NS4wMDUuMjFDMCAuMTg1IDAgLjE2OCAwIC4xNTUgMCAuMDUzLjA1NyAwIC4xMjIgMGMuMTE2IDAgLjIzNi4xNDkuMjM2LjI5NCAwIC4wOTItLjA1Mi4xNTctLjEyNy4xNTdDLjE3OS40NTEuMTMyLjQwOC4xMTMuMzg4bC4wNzMuMjkxTS4xMjMuMDJDLjA5MS4wMi4wNTYuMDQ0LjA1Ni4xMjJjMCAuMDMzLjAwMy4wNTIuMDIxLjEyMkwuMS4zMzRjLjAwMi4wMDguMDYxLjA5Ny4xMjkuMDk3LjA0NCAwIC4wNjQtLjA0NC4wNjQtLjA5NkEuNjkzLjY5MyAwIDAgMCAuMjQuMTIyQy4yMTUuMDY4LjE2OS4wMi4xMjMuMDJ6Ii8+PC9zeW1ib2w+PHVzZSB4bGluazpocmVmPSIjZyIgdHJhbnNmb3JtPSJtYXRyaXgoMTEuOTU1IDAgMCAtMTEuOTU1IDE5LjEgNDEuOTg3KSIgZmlsbD0iIzIzMWYyMCIvPjx1c2UgeGxpbms6aHJlZj0iI2YiIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSAzMy4yOTMgMTEuNTMzKSIgZmlsbD0iIzIzMWYyMCIvPjwvZz48L3N2Zz4=</file>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

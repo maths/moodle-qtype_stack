@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.4.1.2 Introduction elimination</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3><span>Solving simultaneous equations by elimination</span><br></h3>
+
+
+<p>One way of solving simultaneous equations is by <strong>elimination</strong>. As the name implies, elimination, involves removing one or more of the unknowns. Note that if <strong>both</strong> sides of an equation are multiplied or divided by a non-zero
+    number an exactly equivalent equation results. For example, if we are given the equation</p>
+
+<p>\(x+4y=5\)</p>
+
+<p>then by multiplying both sides by 7 we find</p>
+
+<p>\(7x + 28y =35\)</p>
+
+<p>and this modified equation is equivalent to the original one.</p>
+
+<p>Given two simultaneous equations, elimination of one unknown can be achieved by modifying the equations so that the coefficients of that unknown in each equation are the same and then subtracting one modified equation from the other. Consider the following
+    example.</p>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p> Solve the simultaneous equations.</p>
+<p>\(3x + 5y=31\) &nbsp; (1)</p>
+<p>\(2x + 3y=20\) &nbsp; (2)</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>We first try to modify each equation so that the coefficient of \(x\) is the same in both equations. This can be achieved if Equation (1) is multiplied by 2 and Equation (2) is multiplied by 3. This gives</p>
+
+<p>\(6x + 10y = 62\)</p>
+<p>\(6x + 9y = 60\)</p>
+
+<p>Now the unknown \(x\) can be eliminated if the second equation is subtracted from the first:</p>
+
+<p>\(6x + 10y = 62\)</p>
+<p>\(6x + 9y = 60\) Subtract</p>
+<p>\(0x + 1y = 2\)</p>
+
+<p>The result implies that \(1y=2\) and we see immediately that \(y\) must equal 2. To find \(x\) we substitute the value found for \(y\) into either of the given Equations (1) or (2). For example, using Equation (1),</p>
+
+<p> \(3x + 5(2) = 31\) </p>
+<p> \(3x = 21\) </p>
+<p> \(x = 7\) </p>
+
+<p>Thus the solution of the simultaneous equations is \(x=7\), \(y=2\).
+
+</p>
+<p><strong>N.B.</strong>You should always check your solution by substituting back into both of the given equations.</p>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p> Solve the simultaneous equations.</p>
+<p>\(-3x+y=18\) &nbsp; (3)</p>
+<p>\(7x-3y=-44\) &nbsp; (4)</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>We modify the equations so that \(x\) can be eliminated. For example, by multiplying Equation (3) by 7 and Equation (4) by 3 we find</p>
+
+<p>\(-21x+7y=126\) </p>
+<p>\(21x-9y=-132\) </p>
+
+<p>If these equations are now added we can eliminate \(x\). Therefore</p>
+
+<p>\(-21x+7y=126\)</p>
+<p>\(21x-9y=-132\) &nbsp; Add</p>
+<p>\(0x + -2y = -6\)</p>
+<p>From which, \(-2y=-6\), so that \(y=-3\). Substituting this value of \(y\) into equation (3) we obtain: \(-3x+3=18\) so that \(-3x=15\) so \(x=-5\).
+
+</p>
+<p>The solution is \(x=-5\), \(y=3\).</p>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p> Solve the simultaneous equations.</p>
+<p>\(5x+3y=-74\) &nbsp; (5)</p>
+<p>\(-2x-3y=26\) &nbsp; (6)</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>Note that the coefficients of \(y\) differ only in sign.</p>
+<p>By adding equation (5) and equation (6) we find \(3x=-48\) so that \(x=-16\).</p>
+<p>It then follows that \(y=2\), and the solution is \(x=16\), \(y=2\).</p>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p> Solve the simultaneous equations.</p>
+<p>\(5x-7y=-80\) &nbsp; (7)</p>
+<p>\(2x+11y=106\) &nbsp; (8)</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>Modify the equations so that \(x\) can be eliminated. For example, by multiplying Equation (7) by 2 and Equation (8) by 5 we find</p>
+
+<p>\(10x-14y=-160\) </p>
+<p>\(10x+55y=530\) </p>
+
+<p>Now eliminate \(x\) by subtracting the first equation from the second.</p>
+
+<p>\(10x+55y=530\) </p>
+<p>\(10x-14y=-160\) &nbsp; Subtract</p>
+<p>\(0x + 69y = 690\)</p>
+<p>From which, \(69y=690\), so that \(y=10\). Substituting this value of \(y\) into equation (7) we obtain: \(5x-7(10)=-80\) so that \(5x=-10\) so \(x=-2\).
+
+</p>
+<p>The solution is \(x=-2\), \(y=10\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

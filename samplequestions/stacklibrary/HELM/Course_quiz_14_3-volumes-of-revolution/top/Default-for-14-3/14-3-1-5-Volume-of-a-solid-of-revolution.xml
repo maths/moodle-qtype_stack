@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>14.3.1.5 Volume of a solid of revolution</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p>If the graph of \(y(x)\), between \(x = a\) and \(x = b\), is rotated about the \(x\)-axis the volume of the solid formed is \[\int_a^b \pi y^2 \, \mathrm{d}x\]</p>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

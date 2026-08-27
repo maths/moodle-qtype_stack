@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>25.3.2.4  Method of separation of variables - general approach</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<b>Laplace’s equation</b>
+
+<table width="100%">
+    <tbody>
+        <tr>
+            <td>\(\qquad\displaystyle \dfrac{\partial^2u}{\partial x^2}+\dfrac{\partial^2u}{\partial y^2}=0\)
+            </td>
+            <td>\((9)\)</td>
+        </tr>
+    </tbody>
+</table>
+
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Separating the variables for Laplace’s equation follows similar lines to the previous Example. Obtain the ODEs satisfied by <span class="math inline">\(X(x)\)</span> and <span class="math inline">\(Y(y)\)</span>.</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>Assuming \(u(x, y) = X(x)Y(y)\) leads to: \(\displaystyle \dfrac{\partial^2u}{\partial x^2}=X''Y\) \(\qquad\displaystyle \dfrac{\partial^2u}{\partial y^2}=XY''\) so
+</p>
+<p>\(\qquad X''Y + XY''=0\) \(\qquad\) or \(\qquad\) \(\dfrac{X''}{X}=-\dfrac{Y''}{Y}\)
+    <br>Equating each side to a constant \(K\)
+</p>
+<table width="100%">
+    <tbody>
+        <tr>
+            <td>\(\qquad \dfrac{X''}{X}=K\)\(\qquad\) or\(\qquad\) \(\displaystyle \frac{\mathrm{d^2}X}{\mathrm{d}x^2}-KX=0\)</td>
+            <td>\((10a)\)</td>
+        </tr>
+        <tr>
+            <td>\(\qquad \dfrac{Y''}{Y}=-K\)\(\qquad\) or\(\qquad\)\(\displaystyle \frac{\mathrm{d^2}Y}{\mathrm{d}y^2}+KY=0\)</td>
+            <td>\((10b)\)</td>
+        </tr>
+    </tbody>
+</table>
+
+<p>(Note carefully the different signs in the two ODEs. Yet again the sign of the “separation constant” \(K\) will determine the solutions.)
+</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

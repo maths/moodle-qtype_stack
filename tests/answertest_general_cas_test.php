@@ -46,10 +46,14 @@ require_once(__DIR__ . '/../stack/answertest/at_general_cas.class.php');
  * @covers \stack_anstest
  */
 final class answertest_general_cas_test extends qtype_stack_testcase {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
-    public function stack_answertest_general_cas_builder($sans, $tans, $atname,
-            $atop = 'null', $options = null) {
+    public function stack_answertest_general_cas_builder(
+        $sans,
+        $tans,
+        $atname,
+        $atop = 'null',
+        $options = null
+    ) {
         $sa = stack_ast_container::make_from_teacher_source($sans, '', new stack_cas_security());
         $ta = stack_ast_container::make_from_teacher_source($tans, '', new stack_cas_security());
         $op = stack_ast_container::make_from_teacher_source($atop, '', new stack_cas_security());
@@ -104,15 +108,29 @@ final class answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertEquals("ATAlgEquiv_SA_not_list.", $at->get_at_answernote());
     }
 
+    public function test_is_false_for_expressions_with_different_type_algequiv_semi(): void {
+        $options = new stack_options();
+        $options->set_option('decimals', ',');
+        $at = $this->stack_answertest_general_cas_builder('(x+1)^2', '[a,b,c]', 'AlgEquiv', '', $options);
+        $this->assertFalse($at->do_test());
+        $this->assertEquals(0, $at->get_at_mark());
+        $this->assertEquals("Your answer should be a list, but is not. Note that the syntax to enter a list " .
+            "is to enclose the semicolon (;) separated values with square brackets.", $at->get_at_feedback());
+        // The note should not depend on the option for decimals.
+        $this->assertEquals("ATAlgEquiv_SA_not_list.", $at->get_at_answernote());
+    }
+
     public function test_algequivfeedback_1(): void {
 
         $at = $this->stack_answertest_general_cas_builder('[1,2]', '[1,2,3]', 'AlgEquiv');
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
-        $this->assertEquals('Your list should have <span class="filter_mathjaxloader_equation">' .
+        $this->assertEquals(
+            'Your list should have <span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\(3\)</span></span> elements, but it actually has ' .
                 '<span class="filter_mathjaxloader_equation"><span class="nolink">\(2\)</span></span>.',
-                $at->get_at_feedback());
+            $at->get_at_feedback()
+        );
         $this->assertEquals("ATList_wronglen.", $at->get_at_answernote());
     }
 
@@ -362,11 +380,11 @@ final class answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertEquals(0, $at->get_at_mark());
         $this->assertTrue(stack_ans_test_controller::required_atoptions('Int'));
 
-        list ($valid, $err) = $at->validate_atoptions('x');
+         [$valid, $err] = $at->validate_atoptions('x');
         $this->assertTrue($valid);
         $this->assertEquals('', $err);
 
-        list ($valid, $err) = $at->validate_atoptions('2x');
+         [$valid, $err] = $at->validate_atoptions('2x');
         $this->assertFalse($valid);
         $this->assertEquals('You seem to be missing * characters. Perhaps you meant to type ' .
                 '<span class="stacksyntaxexample">2<span class="stacksyntaxexamplehighlight">*</span>x</span>.', $err);
@@ -507,12 +525,22 @@ final class answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
 
-        $fb = 'stack_trans(\'ATMatrix_wrongentries\' , ' .
+        if ($this->adapt_to_new_maxima('5.48.0')) {
+            $fb = 'stack_trans(\'ATMatrix_wrongentries\' , ' .
+                '!quot!\[\left[\begin{array}{cc} 1 & 2 \\\\ {\color{red}{\underline{2}}} & 4 \end{array}\right]\]!quot! );';
+        } else {
+            $fb = 'stack_trans(\'ATMatrix_wrongentries\' , ' .
                 '!quot!\[ \left[\begin{array}{cc} 1 & 2 \\\\ {\color{red}{\underline{2}}} & 4 \end{array}\right]\]!quot! );';
+        }
         $this->assertEquals(stack_maxima_translate($fb), $at->get_at_feedback());
 
-        $fbt = 'The entries underlined in red below are those that are incorrect. ' .
+        if ($this->adapt_to_new_maxima('5.48.0')) {
+            $fbt = 'The entries underlined in red below are those that are incorrect. ' .
+                '\[\left[\begin{array}{cc} 1 & 2 \\\\ {\color{red}{\underline{2}}} & 4 \end{array}\right]\]';
+        } else {
+            $fbt = 'The entries underlined in red below are those that are incorrect. ' .
                 '\[ \left[\begin{array}{cc} 1 & 2 \\\\ {\color{red}{\underline{2}}} & 4 \end{array}\right]\]';
+        }
         $this->assert_content_with_maths_equals($fbt, $at->get_at_feedback());
     }
 
@@ -523,11 +551,21 @@ final class answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
 
-        $fbt = 'The derivative of your answer should be equal to the expression that you were asked to integrate, that was: '.
-               '\[\frac{e^{5\cdot x+7}}{5}+\frac{\left(5\cdot e^7\cdot x-e^7\right) \cdot e^{5\cdot x}}{5}\] '.
-               'In fact, the derivative of your answer, with respect to \(x\) is: '.
-               '\[5\cdot e^{5\cdot x+7}+5\cdot \left(5\cdot e^7\cdot x-e^7\right) \cdot e^{5\cdot x}\] '.
-               'so you must have done something wrong!';
+        if ($this->adapt_to_new_maxima('5.48.0')) {
+            $fbt = 'The derivative of your answer should be equal to the expression that you were ' .
+                'asked to integrate, that was: ' .
+                '\[\frac{e^{5\cdot x}\cdot \left(5\cdot e^7\cdot x-e^7\right)}{5}+\frac{e^{5\cdot x+7}}{5}\] '.
+                'In fact, the derivative of your answer, with respect to \(x\) is: '.
+                '\[5\cdot e^{5\cdot x}\cdot \left(5\cdot e^7\cdot x-e^7\right)+5\cdot e^{5\cdot x+7}\] '.
+                'so you must have done something wrong!';
+        } else {
+            $fbt = 'The derivative of your answer should be equal to the expression that you were ' .
+                'asked to integrate, that was: ' .
+                '\[\frac{e^{5\cdot x+7}}{5}+\frac{\left(5\cdot e^7\cdot x-e^7\right) \cdot e^{5\cdot x}}{5}\] '.
+                'In fact, the derivative of your answer, with respect to \(x\) is: '.
+                '\[5\cdot e^{5\cdot x+7}+5\cdot \left(5\cdot e^7\cdot x-e^7\right) \cdot e^{5\cdot x}\] '.
+                'so you must have done something wrong!';
+        }
         $this->assert_content_with_maths_equals($fbt, $at->get_at_feedback());
     }
 
@@ -538,10 +576,19 @@ final class answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
 
-        $fbt = 'The derivative of your answer should be equal to the expression that you were asked to integrate, that was: '.
-               '\[x\cdot e^{5\cdot x+7}\] In fact, the derivative of your answer, with respect to \(x\) is: '.
-               '\[5\cdot e^{5\cdot x+7}+5\cdot \left(5\cdot e^7\cdot x-e^7\right) \cdot e^{5\cdot x}\] '.
-               'so you must have done something wrong!';
+        if ($this->adapt_to_new_maxima('5.48.0')) {
+            $fbt = 'The derivative of your answer should be equal to the expression that you ' .
+                'were asked to integrate, that was: \[x\cdot e^{5\cdot x+7}\] ' .
+                'In fact, the derivative of your answer, with respect to \(x\) is: ' .
+                '\[5\cdot e^{5\cdot x}\cdot \left(5\cdot e^7\cdot x-e^7\right)+5\cdot e^{5\cdot x+7}\] '.
+                'so you must have done something wrong!';
+        } else {
+            $fbt = 'The derivative of your answer should be equal to the expression that you ' .
+                'were asked to integrate, that was: \[x\cdot e^{5\cdot x+7}\] ' .
+                'In fact, the derivative of your answer, with respect to \(x\) is: ' .
+                '\[5\cdot e^{5\cdot x+7}+5\cdot \left(5\cdot e^7\cdot x-e^7\right) \cdot e^{5\cdot x}\] ' .
+                'so you must have done something wrong!';
+        }
         $this->assert_content_with_maths_equals($fbt, $at->get_at_feedback());
     }
 
@@ -596,7 +643,7 @@ final class answertest_general_cas_test extends qtype_stack_testcase {
                 'Equiv', 'null');
         $this->assertTrue($at->do_test());
         $this->assertEquals(1, $at->get_at_mark());
-        $this->assertEquals('(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR)', $at->get_at_answernote());
+        $this->assertEquals('ATEquiv:(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR)', $at->get_at_answernote());
         $fbt = '\[\begin{array}{lll} &x^2-1=0& \cr \color{green}{\Leftrightarrow}&\left(x-1\right)\cdot \left(x+1\right)=0& '.
             '\cr \color{green}{\Leftrightarrow}&x=1\,{\text{ or }}\, x=-1& \cr \end{array}\]';
         $this->assert_content_with_maths_equals($fbt, $at->get_at_feedback());
@@ -608,7 +655,7 @@ final class answertest_general_cas_test extends qtype_stack_testcase {
                 'Equiv', 'null');
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
-        $this->assertEquals('(EMPTYCHAR,EQUIVCHAR,QMCHAR)', $at->get_at_answernote());
+        $this->assertEquals('ATEquiv:(EMPTYCHAR,EQUIVCHAR,QMCHAR)', $at->get_at_answernote());
         $fbt = '\[\begin{array}{lll} &x^2-1=0& \cr \color{green}{\Leftrightarrow}&\left(x-1\right)\cdot \left(x+1\right)=0&'.
             ' \cr \color{red}{?}&x=\mathrm{i}\,{\text{ or }}\, x=-1& \cr \end{array}\]';
         $this->assert_content_with_maths_equals($fbt, $at->get_at_feedback());
@@ -620,7 +667,7 @@ final class answertest_general_cas_test extends qtype_stack_testcase {
                 '[x^2-1=0,(x-1)*(x+1)=0,x=1 or x=-1]', 'Equiv', 'null');
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
-        $this->assertEquals('(EMPTYCHAR,EQUIVCHAR,EMPTYCHAR,EMPTYCHAR)', $at->get_at_answernote());
+        $this->assertEquals('ATEquiv:(EMPTYCHAR,EQUIVCHAR,EMPTYCHAR,EMPTYCHAR)', $at->get_at_answernote());
         $fbt = '\[\begin{array}{lll} &x^2-1=0& \cr \color{green}{\Leftrightarrow}&\left(x-1\right)\cdot \left(x+1\right)=0& '.
             '\cr &\text{Could be}& \cr &x=\mathrm{i}\,{\text{ or }}\, x=-1& \cr \end{array}\]';
         $this->assert_content_with_maths_equals($fbt, $at->get_at_feedback());

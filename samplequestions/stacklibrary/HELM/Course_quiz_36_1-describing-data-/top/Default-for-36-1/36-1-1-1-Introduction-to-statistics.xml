@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>36.1.1.1 Introduction to statistics</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Introduction to statistics</h3>
+<p>Many students taking degree courses involving the sciences and technology have to study statistics. This quiz will enable you to understand the meaning and interpretation of numerical and diagrammatic statements involving data.</p>
+<p>Many different definitions of statistics have been given. These include the following.</p><p></p><ul><li>"The collection, organisation, analysis and interpretation of numerical data''</li><li>"The methodological basis of the natural sciences''</li><li>"The study of uncertainty''
+</li></ul><p></p><p>Why is this of any interest?</p>
+<p>Consider the following two activities which we will describe as <i>experiments</i>. In statistics we use the word "experiment'' to refer to an activity which involves recording outcomes, even when this does not take place in a laboratory.</p><ol><li>We measure the breaking strength of ten 15-cm specimens of nylon cord.</li><li>We count the number of vehicles turning right at a road junction in a 30-minute period.
+</li></ol><p>The first of these involves <i>measurement</i>. The second involves <i>counting</i>.</p>
+<p>Now consider repeating the experiments. The results will most likely not be the same (cord specimen strengths will vary if measured very accurately; the numbers of vehicles turning right will probably differ). So the result of any one experiment will not be exactly representative of all samples of cord or all 30-minute periods. In this sense, no result is "true''. Even if the result happened to be "exactly representative'' we would have no way of knowing this.</p>
+<p>These problems are almost universal features of investigating the world around 
+us. We have:</p>
+<ol>
+<li>Measurement error.</li>
+<li>Differences between individuals. We (usually) can not observe all individuals and it is often more efficient not to do so anyway.</li>
+<li>Differences between samples of material or time and we can not observe all possible samples.</li>
+<li>Other variation which affects the results in an unpredictable way.</li>
+</ol>
+<p>So what can we do?</p>
+<p>Statistics deals with uncertainty. Its aims include the following:</p>
+<ol>
+<li>To keep uncertainty to a minimum.</li>
+<li>To quantify the remaining uncertainty.</li>
+<li>To make precise statements in situations involving uncertainty.</li>
+</ol>
+<p>These aims apply in all sorts of situations.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -30,7 +30,7 @@ require_once(__DIR__ . '/../stack/cas/castext2/utils.php');
 require_once(__DIR__ . '/../stack/maximaparser/utils.php');
 
 // Now get cli options.
-list($options, $unrecognized) = cli_get_params([
+[$options, $unrecognized] = cli_get_params([
     'help' => false,
     'string' => '{@foo@}', 'ast' => false,
 ], ['h' => 'help']);

@@ -1,0 +1,69 @@
+{
+    "quiz": {
+        "name": "22_2 Applications of Eigenvalues and Eigenvectors",
+        "intro": "Many applications of matrices in both engineering and science utilize eigenvalues and, sometimes, eigenvectors. Control theory, vibration analysis, electric circuits, advanced dynamics and quantum mechanics are just a few of the application areas. Many of the applications involve the use of eigenvalues and eigenvectors in the process of transforming a given matrix into a diagonal matrix and we discuss this process in this Quiz.&nbsp;<p><br><\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Diagonalization of a matrix",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-22-2\/22-2-1-1-Diagonalization-with-distinct-evalues.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-22-2\/22-2-1-2-Writing-down-products.xml"
+        },
+        {
+            "slot": "3",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-22-2\/22-2-1-3-Matrix-powers.xml"
+        },
+        {
+            "slot": "4",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-22-2\/22-2-1-4-Powers-of-matrices.xml"
+        },
+        {
+            "slot": "5",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-22-2\/22-2-1-5-Powers-of-Matrices.xml"
+        },
+        {
+            "slot": "6",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-22-2\/22-2-1-6-Finding-modal-matrices.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

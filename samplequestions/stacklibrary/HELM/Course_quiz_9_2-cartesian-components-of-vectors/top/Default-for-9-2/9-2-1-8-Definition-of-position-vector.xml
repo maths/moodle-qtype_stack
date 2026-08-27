@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="multichoice">
+    <name>
+      <text>9.2.1.8 Definition of position vector</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise<br></p>
+<p>Which of the below describes a <b>position</b> vector?<br></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <showstandardinstruction>1</showstandardinstruction>
+    <correctfeedback format="html">
+      <text>Your answer is correct.</text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="html">
+      <text>Your answer is partially correct.</text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="html">
+      <text>Your answer is incorrect.</text>
+    </incorrectfeedback>
+    <shownumcorrect/>
+    <answer fraction="0" format="html">
+      <text><![CDATA[<p>A vector which may be translated to any point in space provided their direction and length remain unchanged.<br></p>]]></text>
+      <feedback format="html">
+        <text><![CDATA[<p>A position vector describes the position of a point relative to the origin, and so needs to be fixed to start at the origin.<br></p>]]></text>
+      </feedback>
+    </answer>
+    <answer fraction="100" format="html">
+      <text><![CDATA[<p>A vector which always starts at the origin of the coordinate system.<br></p>]]></text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text><![CDATA[<p>A vector whose length may change as long as its direction remains the same.<br></p>]]></text>
+      <feedback format="html">
+        <text><![CDATA[<p>A vector is defined by both its magnitude and direction therefore by 
+changing either of these we change the vector we are defining.<br></p>]]></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text><![CDATA[<p>A vector whose direction may change as long as its length stays the same.<br></p>]]></text>
+      <feedback format="html">
+        <text><![CDATA[<p>A vector is defined by both its magnitude and direction therefore by 
+changing either of these we change the vector we are defining.<br></p>]]></text>
+      </feedback>
+    </answer>
+  </question>
+</quiz>

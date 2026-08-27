@@ -59,10 +59,10 @@ rand_invertible(n,[k]):= block([P1, P2, simp:true],
  */
 rand_orth(n,[k]):= block([rows, simp:true],
   if emptyp(k) then k: 1 else k: first(k),
-  rows: args(rand_invertible(n,k)),
+  rows: args(rand_invertible(n, k)),
   rows: gramschmidt(rows),
-  rows: map(lambda([ex],ex/sqrt(ex.ex)),rows),
-  return(transpose(apply(matrix,rows)))
+  rows: map(lambda([ex], ex/sqrt(ex.ex)), rows),
+  return(transpose(apply('matrix, rows)))
 );
 
 /**
@@ -76,10 +76,10 @@ rand_orth(n,[k]):= block([rows, simp:true],
  */
 rand_orthcols(m,n,[k]):= block([cols, simp:true],
   if is(n>m) then return(matrix([null])),
-  if emptyp(k) then k: 1 else k: first(k),
-  cols: args(transpose(rand_orth(m,k))),
+  if emptyp(k) then k:1 else k: first(k),
+  cols: args(transpose(rand_orth(m, k))),
   cols: firstn(cols,n),
-  return(transpose(apply(matrix,cols)))
+  return(transpose(apply('matrix, cols)))
 );
 
 /**

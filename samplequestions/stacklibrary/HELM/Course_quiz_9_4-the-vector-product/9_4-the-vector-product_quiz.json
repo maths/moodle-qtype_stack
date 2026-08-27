@@ -1,0 +1,140 @@
+{
+    "quiz": {
+        "name": "9_4 The Vector Product",
+        "intro": "<p>In this workshop we describe how to find the&nbsp;<b>vector product<\/b> of two vectors. Like the scalar product, its definition may seem strange when first met but the definition is chosen because of its many applications. When vectors are multiplied using the vector product the result is always a vector.<\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "The right-handed screw rule",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "2",
+            "heading": "Definition of the vector product",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "3",
+            "heading": "A formula for finding the vector product",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "5",
+            "heading": "Using determinants to evaluate a vector product",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-9-4\/9-4-1-1-The-right-handed-screw-rule.xml"
+        },
+        {
+            "slot": "2",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-9-4\/9-4-2-1-Definition-of-the-vector-product.xml"
+        },
+        {
+            "slot": "3",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-9-4\/9-4-3-1-A-formula-for-finding-the-vector-product.xml"
+        },
+        {
+            "slot": "4",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-9-4\/9-4-3-2-Evaluate-the-vector-product.xml"
+        },
+        {
+            "slot": "5",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-9-4\/9-4-4-Using-determinants-to-evaluate-a-vector-product.xml"
+        },
+        {
+            "slot": "6",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-9-4\/9-4-4-1-True-or-False.xml"
+        },
+        {
+            "slot": "7",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-9-4\/9-4-4-2-The-vector-product.xml"
+        },
+        {
+            "slot": "8",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-9-4\/9-4-4-3-Commutativity-of-the-vector-product.xml"
+        },
+        {
+            "slot": "9",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-9-4\/9-4-4-4-Find-the-vector-product.xml"
+        },
+        {
+            "slot": "10",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-9-4\/9-4-4-5-Vector-perpendicular-to-other-2.xml"
+        },
+        {
+            "slot": "11",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-9-4\/9-4-4-6-Vector-perpendicular-to-a-plane.xml"
+        },
+        {
+            "slot": "12",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-9-4\/9-4-4-7-Associativity-of-the-vector-product.xml"
+        },
+        {
+            "slot": "13",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-9-4\/9-4-4-8-Area-of-a-triangle.xml"
+        },
+        {
+            "slot": "14",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-9-4\/9-4-4-9-Distributivity-of-the-vector-product.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

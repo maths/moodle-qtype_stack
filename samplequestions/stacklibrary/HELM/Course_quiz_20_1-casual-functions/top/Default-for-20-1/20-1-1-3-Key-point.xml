@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>20.1.1.3 Key point</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>The integral \(\int_0^\infty \text{e}^{-st}f(t)\,dt\) is called the Laplace transform of \(f(t)\) and is denoted by \({\cal L}\{f(t)\}.\)
+
+</p><div class="HELM_keypoint">
+    <h4>Key Point</h4>
+    <p></p><center><strong>The Laplace Transform</strong></center><p></p>
+    <p>\[{\cal L}\{f(t)\} \equiv \int_0^\infty \text{e}^{-st}f(t)\,dt = F(s)\]</p>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

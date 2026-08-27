@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>28.3.3.3 Cylindrical polar coordinates</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Cylindrical polar coordinates</h3>
+<p>In cylindrical polar coordinates \((\rho,\phi,z)\), the three unit vectors are \(\underline{\hat{\rho}}\), \(\underline{\hat{\phi}}\) and \(\underline{\hat{z}}\) (see Figure 20(b) on page 38) with scale factors <br>
+\(\qquad\displaystyle h_{\rho}=1\), \(h_{\phi} = \rho\), \(h_z=1\).<br>
+The quantities \(\rho\) and \(\phi\) are related to \(x\) and \(y\) by \(x=\rho \cos \phi\) and \(y=\rho \sin \phi\). The unit vectors are \(\underline{\hat{\rho}}=\cos \phi \underline{i}+\sin \phi \underline{j}\) and \(\underline{\hat{\phi}}=-\sin \phi\underline{i}+\cos \phi\underline{j}\). In cylindrical polar coordinates,<br>
+grad \(\displaystyle f = {\underline \nabla} f = \frac{\partial f}{\partial \rho} \underline{\hat{\rho}} + \frac{1}{\rho} \frac{\partial f}{\partial \phi} \underline{\hat{\phi}} + \frac{\partial f}{\partial z} \underline{\hat{z}}\)<br>
+The scale factor \(\rho\) is necessary in the \(\phi\)-component because the derivatives with respect to \(\phi\) are distorted by the distance from the axis \(\rho = 0\).
+
+If \(\quad\underline{F} = F_{\rho} \underline{\hat{\rho}} + F_{\phi} \underline{\hat{\phi}} + F_z \underline{\hat{z}}\quad\) then<br>
+div \(\displaystyle \underline{F} = {\underline \nabla} \cdot \underline{F} = \frac{1}{\rho} \left[ \frac{\partial}{\partial \rho}(\rho F_{\rho}) + \frac{\partial}{\partial \phi}(F_{\phi}) + \frac{\partial}{\partial z}(\rho F_z) \right]\)<br>
+curl \(\displaystyle \underline{F} = {\underline \nabla} \times \displaystyle \underline{F} = \frac{1}{\rho} \left|\begin{array}{ccc} \underline{\hat{\rho}} &amp; \rho \underline{\hat{\phi}} &amp; \underline{\hat{z}} \\ \\ \displaystyle \frac{\partial}{\partial \rho} &amp; \displaystyle \frac{\partial}{\partial \phi} &amp; \displaystyle \frac{\partial}{\partial z} \\ \\ F_{\rho} &amp; \rho F_{\phi} &amp; F_z \end{array} \right|\).</p>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Working in cylindrical polar coordinates, find \({\underline \nabla} f\) for \(f = \rho^2 + z^2\)</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>If \(f= \rho^2 + z^2\) then
+\(\displaystyle \frac{\partial f}{\partial \rho} = 2 \rho\),\(\displaystyle \frac{\partial f}{\partial \phi} = 0\) and\(\displaystyle \frac{\partial f}{\partial z} = 2 z\) so \({\underline \nabla} f =
+2 \rho \underline{\hat{\rho}} + 2 z \underline{\hat{z}}\).</p>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Working in cylindrical polar coordinates find</p>
+    <ol class="HELM_parts">
+      <li>\({\underline \nabla}f\) for \(f=\rho^3\sin\phi\)</li>
+      <li> Show that the result for (a) is consistent with that found working in Cartesian coordinates. </li>
+    </ol>
+<h4 class="HELM_solution">Solution</h4>
+<ol class="HELM_parts">
+<li>If \(f = \rho^3 \sin \phi\) then \(\displaystyle \frac{\partial f}{\partial \rho} = 3 \rho^2 \sin \phi\),
+\(\displaystyle \frac{\partial f}{\partial \phi} = \rho^3 \cos
+\phi\) and \(\displaystyle \frac{\partial f}{\partial z} = 0\) and
+hence, \({\underline \nabla} f = 3 \rho^2 \sin \phi \underline{\hat{\rho}} +
+\rho^2 \cos \phi \underline{\hat{\phi}}\).</li>
+
+<li>\(f = \rho^3\sin\phi =\rho^2 \rho \sin \phi = (x^2 + y^2)y = x^2 y + y^3\) so
+\({\underline \nabla} f = 2 x y \underline{i} + (x^2 + 3 y^2) \underline{j}\).<br>
+Using cylindrical polar coordinates, from (a) we have
+\begin{eqnarray*} {\underline \nabla} f
+&amp;=&amp; 3 \rho^2 \sin \phi \underline{\hat{\rho}} + \rho^3 \cos \phi
+\underline{\hat{\phi}} \\ &amp;=&amp; 3 \rho^2 \sin \phi (\cos \phi
+\underline{i} + \sin \phi \underline{j}) + \rho^2 \cos \phi (-
+\sin \phi \underline{i} + \cos \phi \underline{j}) \\
+&amp;=&amp; \left[3 \rho^2 \sin \phi \cos \phi - \rho^2 \sin \phi \cos
+\phi \right]\underline{i} + \left[3 \rho^2 \sin^2 \phi  + \rho^2
+\cos^2 \phi \right]\underline{j} \\
+&amp;=&amp; \left[2 \rho^2 \sin \phi \cos \phi  \right]\underline{i} +
+\left[3 \rho^2 \sin^2 \phi  + \rho^2 \cos^2 \phi
+\right]\underline{j}= 2 x y \underline{i} + (3y^2 + x^2) \underline{j}\qquad\qquad
+\end{eqnarray*} So the results using Cartesian and cylindrical polar coordinates are consistent. </li>
+
+</ol>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Find \({\underline \nabla} \cdot \underline{F}\) for \(\underline{F} = F_{\rho} \underline{\hat{\rho}} + F_{\phi} \underline{\hat{\phi}} + F_z \underline{\hat{z}} = \rho^3 \underline{\hat{\rho}} + \rho z \underline{\hat{\phi}} + \rho z \sin \phi \underline{\hat{z}}\). Show that the results are consistent with those found using Cartesian coordinates.</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>Here, \(F_{\rho} = \rho^3\), \(F_{\phi} = \rho z\) and \(F_z= \rho z \sin \phi\) so
+\begin{eqnarray*}{\underline \nabla} \cdot \underline{F} &amp;=&amp; \frac{1}{\rho} \left[
+\frac{\partial}{\partial \rho}(\rho F_{\rho}) +\frac{\partial}{\partial \phi}(F_{\phi}) +
+\frac{\partial}{\partial z}(\rho F_z) \right] \\&amp;=&amp; \frac{1}{\rho} \left[ \frac{\partial}{\partial \rho}(\rho^4) +
+\frac{\partial}{\partial \phi}(\rho z) +\frac{\partial}{\partial z}(\rho^2 z \sin \phi) \right] \\
+&amp;=&amp; \frac{1}{\rho} \left[ 4 \rho^3 + 0 + \rho^2 \sin \phi \right]\\ &amp;=&amp; 4 \rho^2 + \rho \sin \phi\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad
+\end{eqnarray*}
+Converting to Cartesian coordinates,
+\begin{eqnarray*} \underline{F} &amp;=&amp; F_{\rho} \underline{\hat{\rho}} +
+F_{\phi} \underline{\hat{\phi}} + F_z \underline{\hat{z}} = \rho^3
+\underline{\hat{\rho}} + \rho z \underline{\hat{\phi}} + \rho z
+\sin \phi \underline{\hat{z}} \\
+&amp;=&amp; \rho^3 (\cos \phi \underline{i} + \sin \phi \underline{j}) +
+\rho z (-\sin \phi \underline{i} + \cos \phi \underline{j}) + \rho
+z \sin \phi \underline{k} \\
+&amp;=&amp; (\rho^3 \cos \phi - \rho z \sin \phi) \underline{i} + (\rho^3
+\sin \phi + \rho z \cos \phi) + \rho z \underline{k} \\
+&amp;=&amp; \left[\rho^2  (\rho \cos \phi) - \rho \sin \phi z \right]
+\underline{i} + \left[ \rho^2 (\rho \sin \phi) + \rho \cos \phi 
+z\right]\underline{j} + \rho \sin \phi z \underline{k} \\
+&amp;=&amp; \left[(x^2 + y^2) x  - y z \right] \underline{i} + \left[ (x^2
++ y^2) y + x z \right]\underline{j} + y z \underline{k} \\
+&amp;=&amp; (x^3 + x y^2  - y z ) \underline{i} + ( x^2 y + y^3 + x z )\underline{j} +
+y z \underline{k}\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad
+\end{eqnarray*}
+So \begin{eqnarray*} {\underline \nabla} \cdot \underline{F} &amp;=&amp;
+\frac{\partial}{\partial x}(x^3 + x y^2  - y z ) +
+\frac{\partial}{\partial y}(x^2 y + y^3 + x z ) +
+\frac{\partial}{\partial z}(y z ) \\
+&amp;=&amp; (3x^2 + y^2) + (x^2 + 3 y^2) + y = 4 x^2 + 4 y^2 + y\\
+&amp;=&amp;4(x^2+y^2)+y \\
+&amp;=&amp; 4 \rho^2 + \rho \sin \phi\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad
+\end{eqnarray*}
+So \({\underline \nabla}
+\cdot \underline{F}\) is the same in both
+coordinate systems.</p><p>
+
+</p><hr>
+<h4 class="HELM_example">Example</h4>
+<p>Find \({\underline \nabla} \times \underline{F}\) for \(\underline{F} = \rho^2 \underline{\hat{\rho}} + z \sin \phi \underline{\hat{\phi}} + 2 z \cos \phi \underline{\hat{z}}\).</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>\begin{eqnarray*}
+{\underline \nabla} \times \displaystyle \underline{F} &amp;=&amp; \frac{1}{\rho}
+\left|\begin{array}{ccc}
+   \underline{\hat{\rho}} &amp; \rho \underline{\hat{\phi}} &amp;  \underline{\hat{z}}
+   \\ \\
+   \displaystyle \frac{\partial}{\partial \rho} &amp; \displaystyle \frac{\partial}{\partial \phi} &amp;
+   \displaystyle \frac{\partial}{\partial z} \\ \\
+  F_{\rho} &amp; \rho F_{\phi} &amp; F_z
+\end{array} \right|
+= \frac{1}{\rho}\left|\begin{array}{ccc}
+   \underline{\hat{\rho}} &amp; \rho \underline{\hat{\phi}} &amp;  \underline{\hat{z}}
+   \\ \\
+   \displaystyle \frac{\partial}{\partial \rho} &amp; \displaystyle \frac{\partial}{\partial \phi} &amp;
+   \displaystyle \frac{\partial}{\partial z} \\ \\
+  \rho^2 &amp; \rho z \sin \phi &amp; 2 z \cos \phi
+\end{array} \right| \\
+&amp;=&amp; \!\frac{1}{\rho} \left[ \underline{\hat{\rho}} \left[
+\frac{\partial}{\partial \phi}2 z \cos \phi -
+\frac{\partial}{\partial z}\rho z \sin \phi \right]\! +\! \rho
+\underline{\hat{\phi}} \left[ \frac{\partial}{\partial z}\rho^2 -
+\frac{\partial}{\partial \rho }2 z \cos \phi \right]\! +\!
+\underline{\hat{z}} \left[ \frac{\partial}{\partial \rho}\rho z
+\sin \phi
+- \frac{\partial}{\partial \phi}\rho^2 \right] \right] \\
+&amp;=&amp; \frac{1}{\rho} \left[ \underline{\hat{\rho}} (-2 z \sin \phi -
+\rho \sin \phi ) + \rho \underline{\hat{\phi}} (0) +
+\underline{\hat{z}} (z \sin \phi) \right] \\
+&amp;=&amp; -\frac{(2 z \sin \phi)}{\rho} \underline{\hat{\rho}}  +
+\frac{z \sin \phi}{\rho} \underline{\hat{z}}\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad
+\end{eqnarray*}</p>
+
+<hr>
+<h4 class="HELM_example">Engineering Example</h4>
+<p><b>Divergence of a magnetic field</b></p>
+<p><strong>Introduction</strong> A magnetic field \({\underline B}\) must satisfy \({{\underline \nabla}}\cdot {\underline B}=0\). An associated current is given by: \(\qquad\displaystyle {\underline I}=\dfrac{1}{\mu_0}({ {\underline \nabla}}\times{\underline B})\)</p>
+<p><strong>Problem in words</strong> For the magnetic field (in cylindrical polar coordinates \(\rho,\phi, z)\) \(\displaystyle {\underline B}=B_0\dfrac{\rho}{1+\rho^2}{\underline {\hat\phi}}+\alpha {\underline {\hat z}}\) show that the divergence of \(\underline B\) is zero and find the associated current. </p>
+<p><strong>Mathematical statement of problem</strong> We must (a) show that \({ {\underline \nabla}}\cdot{\underline B}=0.\) (b) find the current \({\underline I}=\dfrac{1}{\mu_0}({ {\underline \nabla}}\times{\underline B})\)
+</p>
+<p>
+  <strong>Mathematical analysis</strong>
+</p>
+    <ol>
+      <li> Express \({\underline B}\) as \((B_{\rho},B_{\phi}, B_z)\); then 
+\[\begin{aligned}
+{{\underline \nabla}}\cdot {\underline B}&amp;=\dfrac{1}{{\rho}}\left[\dfrac{\partial}{\partial {\rho}}({\rho}B_{\rho}) +\dfrac{\partial }{\partial \phi}(B_{\phi}) +\dfrac{\partial }{\partial z}({\rho}B_z)\right]\\ 
+&amp;=\dfrac{1}{{\rho}}\left[\dfrac{\partial }{\partial {\rho}}(0)+\dfrac{\partial} {\partial\phi}\left(B_0\dfrac{{\rho}}{1+{\rho}^2}\right)+{\rho}\dfrac{\partial}{\partial z}(\alpha)\right]\\
+&amp;=\dfrac{1}{{\rho}}[0+0+0]=0\qquad\text{ as required.}\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad
+\end{aligned}\]</li>
+      <li> To find the current evaluate \[\begin{aligned} {\underline I}=\dfrac{1}{\mu_0}({ {\underline \nabla}}\times{\underline B})&amp;=\dfrac{1}{\mu_0}\dfrac{1}{{\rho}}\left| \begin{matrix}{\underline {\hat {\rho}}}&amp;{\rho}{\underline {\hat\phi}}&amp;{\underline {\hat z}}\\\\ \dfrac{\partial}{\partial {\rho}}&amp;\dfrac{\partial}{\partial\phi}&amp;\dfrac{\partial}{\partial z}\\\\ B_{\rho}&amp;{\rho}B_{\phi}&amp;B_z \end{matrix}\right|=\left| \begin{matrix}{\underline {\hat {\rho}}}&amp;{\rho}{\underline {\hat\phi}}&amp;{\underline {\hat z}}\\\\ \dfrac{\partial}{\partial {\rho}}&amp;\dfrac{\partial}{\partial\phi}&amp;\dfrac{\partial}{\partial z}\\\\ 0&amp;B_0\dfrac{{\rho}^2}{1+{\rho}^2}&amp;\alpha \end{matrix}\right|\\ &amp;=\dfrac{1}{\mu_0{\rho}}\left[0{\underline {\hat {\rho}}}+0{\rho}{\underline {\hat\phi}}+ B_0\dfrac{\partial}{\partial {\rho}}\left(\dfrac{{\rho}^2}{1+{\rho}^2}\right){\underline {\hat z}}\right]\\\\ &amp;=\dfrac{1}{\mu_0{\rho}}B_0\left[\dfrac{2{\rho}}{(1+{\rho}^2)^2}\right]{\underline {\hat z}}=\dfrac{2B_0}{\mu_0{(1+{\rho}^2)^2}}\;{\underline {\hat z}}\end{aligned}\]</li>
+    </ol>
+<p>
+  <strong>Interpretation</strong> The magnetic field is in the form of a helix with the current pointing along its axis. Such an arrangement is often used for the magnetic containment of charged particles in a fusion reactor.</p><p>&nbsp;<img src="@@PLUGINFILE@@/helix.svg" alt="The magnetic field forms a helix" width="420" height="149" class="img-fluid atto_image_button_text-bottom">
+</p>
+
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>A magnetic field \(\underline{B}\) is given by \(\underline{B} = \rho^{-2} \underline{\hat{\phi}} + k \underline{{\hat z}}\). Find \({\underline \nabla} \cdot \underline{B}\) and \({\underline \nabla} \times \underline{B}\).</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>\(\displaystyle {\underline \nabla} \cdot \underline{B} =
+\frac{1}{\rho}\left[\frac{\partial}{\partial \rho}0 +
+\frac{\partial}{\partial \phi}\rho^{-2} + \frac{\partial}{\partial
+z}k\rho \right] = \frac{1}{\rho} \left[ 0
++ 0 + 0 \right] = 0 \) 
+\(\displaystyle\qquad 
+{\underline \nabla} \times \displaystyle \underline{B} = \frac{1}{\rho}
+\left|\begin{array}{ccc}
+   \underline{\hat{\rho}} &amp; \rho \underline{\hat{\phi}} &amp;  \underline{\hat{z}}
+   \\ \\
+   \displaystyle \frac{\partial}{\partial \rho} &amp; \displaystyle \frac{\partial}{\partial \phi} &amp;
+   \displaystyle \frac{\partial}{\partial z} \\ \\
+  B_{\rho} &amp; B_{\phi} &amp; B_z
+\end{array} \right|
+= \frac{1}{\rho}\left|\begin{array}{ccc}
+   \underline{\hat{\rho}} &amp; \rho \underline{\hat{\phi}} &amp;  \underline{\hat{z}}
+   \\ \\
+   \displaystyle \frac{\partial}{\partial \rho} &amp; \displaystyle \frac{\partial}{\partial \phi} &amp;
+   \displaystyle \frac{\partial}{\partial z} \\ \\
+  \rho^{-2} &amp; 0 &amp; k
+\end{array} \right|\)
+\(\displaystyle = \underline{0}\) <br>
+All magnetic fields satisfy \({{\underline \nabla}}\cdot{\underline B}=0\) i.e. an absence of magnetic monopoles. 
+There is a class of magnetic fields known as potential fields that satisfy 
+\({{\underline \nabla}}\times{\underline B}={\underline 0}\)</p>]]></text>
+<file name="helix.svg" path="/" encoding="base64">PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjxzdmcKICAgeG1sbnM6ZGM9Imh0dHA6Ly9wdXJsLm9yZy9kYy9lbGVtZW50cy8xLjEvIgogICB4bWxuczpjYz0iaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbnMjIgogICB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiCiAgIHhtbG5zOnN2Zz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIKICAgdmlld0JveD0iMCAwIDQyMCAxNDkuMzMzMzMiCiAgIGhlaWdodD0iMTQ5LjMzMzMzIgogICB3aWR0aD0iNDIwIgogICB4bWw6c3BhY2U9InByZXNlcnZlIgogICBpZD0ic3ZnMiIKICAgdmVyc2lvbj0iMS4xIj48bWV0YWRhdGEKICAgICBpZD0ibWV0YWRhdGE4Ij48cmRmOlJERj48Y2M6V29yawogICAgICAgICByZGY6YWJvdXQ9IiI+PGRjOmZvcm1hdD5pbWFnZS9zdmcreG1sPC9kYzpmb3JtYXQ+PGRjOnR5cGUKICAgICAgICAgICByZGY6cmVzb3VyY2U9Imh0dHA6Ly9wdXJsLm9yZy9kYy9kY21pdHlwZS9TdGlsbEltYWdlIiAvPjwvY2M6V29yaz48L3JkZjpSREY+PC9tZXRhZGF0YT48ZGVmcwogICAgIGlkPSJkZWZzNiI+PGNsaXBQYXRoCiAgICAgICBpZD0iY2xpcFBhdGgyNCIKICAgICAgIGNsaXBQYXRoVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aAogICAgICAgICBpZD0icGF0aDIyIgogICAgICAgICBkPSJNIDAsMCBIIDMxNSBWIDExMiBIIDAgWiIgLz48L2NsaXBQYXRoPjxjbGlwUGF0aAogICAgICAgaWQ9ImNsaXBQYXRoMzQiCiAgICAgICBjbGlwUGF0aFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGgKICAgICAgICAgaWQ9InBhdGgzMiIKICAgICAgICAgZD0iTSAwLjA2LDAgSCAzMTQuMzg2MDIgViAxMTEuOTYgSCAwLjA2IFoiIC8+PC9jbGlwUGF0aD48Y2xpcFBhdGgKICAgICAgIGlkPSJjbGlwUGF0aDYyIgogICAgICAgY2xpcFBhdGhVbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoCiAgICAgICAgIGlkPSJwYXRoNjAiCiAgICAgICAgIGQ9Ik0gMC4wNiwwIEggMzE0LjM4NjAyIFYgMTExLjk2IEggMC4wNiBaIiAvPjwvY2xpcFBhdGg+PGNsaXBQYXRoCiAgICAgICBpZD0iY2xpcFBhdGg5NCIKICAgICAgIGNsaXBQYXRoVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aAogICAgICAgICBpZD0icGF0aDkyIgogICAgICAgICBkPSJNIDAuMDYsMCBIIDMxNC4zODYwMiBWIDExMS45NiBIIDAuMDYgWiIgLz48L2NsaXBQYXRoPjwvZGVmcz48ZwogICAgIHRyYW5zZm9ybT0ibWF0cml4KDEuMzMzMzMzMywwLDAsLTEuMzMzMzMzMywwLDE0OS4zMzMzMykiCiAgICAgaWQ9ImcxMCI+PGcKICAgICAgIGlkPSJnMTIiIC8+PGcKICAgICAgIGlkPSJnMTQiIC8+PGcKICAgICAgIGlkPSJnMTYiPjxnCiAgICAgICAgIGlkPSJnMTgiPjxnCiAgICAgICAgICAgY2xpcC1wYXRoPSJ1cmwoI2NsaXBQYXRoMjQpIgogICAgICAgICAgIGlkPSJnMjAiPjxnCiAgICAgICAgICAgICBpZD0iZzI2IiAvPjxnCiAgICAgICAgICAgICBpZD0iZzI4Ij48ZwogICAgICAgICAgICAgICBjbGlwLXBhdGg9InVybCgjY2xpcFBhdGgzNCkiCiAgICAgICAgICAgICAgIGlkPSJnMzAiPjxwYXRoCiAgICAgICAgICAgICAgICAgaWQ9InBhdGgzNiIKICAgICAgICAgICAgICAgICBzdHlsZT0iZmlsbDpub25lO3N0cm9rZTojMjMxZjIwO3N0cm9rZS13aWR0aDoxO3N0cm9rZS1saW5lY2FwOmJ1dHQ7c3Ryb2tlLWxpbmVqb2luOm1pdGVyO3N0cm9rZS1taXRlcmxpbWl0OjQ7c3Ryb2tlLWRhc2hhcnJheTpub25lO3N0cm9rZS1vcGFjaXR5OjEiCiAgICAgICAgICAgICAgICAgZD0ibSA0MS4zMzIwMDEsMTExLjAwMzAxIGMgMTAuMDUyMDAyLDAgMTguMiwtMTYuOTI0MDA4IDE4LjIsLTM3LjgwMDAwNyAwLC0xOC42MzM5OTkgLTYuNDkwOTk3LC0zNC4xMTggLTE1LjAzNCwtMzcuMjMgbSAwLjAwNSwtMC4wMzYgYyAtOS43NTg5OTgsLTEuMTg5MDAyIC0yMy45MjksMTAuMTkxOTk5IC0zMy43MDksMjcuODU4OTk4IEMgOS42NTEsNjUuODYxIDguNjEzMDAwOSw2Ny45MyA3LjY3OTk5OTgsNjkuOTg5MDA2IE0gNzQuMTg2MDA1LDM2LjEwMzAwMSBDIDY0LjQxNTAwMSwzMy45NzkgNDkuNjA3MDAyLDQ1LjUyNyAzOS40OTUwMDMsNjMuNzk2MDAxIDI4LjQwNjAwMiw4My44MjQwMDUgMjcuMTU4MDAxLDEwNC4zNDUgMzYuNzA4LDEwOS42MzMgYyAxLjQwMDAwMiwwLjc3NSAyLjk1NjAwMSwxLjE4IDQuNjI2MDAzLDEuMjQzMDEgbSAyOC40NjUwMDEsMC4xMjcgYyAxMC4wNTIwMDIsMCAxOC4xOTk5OTcsLTE2LjkyNDAwOCAxOC4xOTk5OTcsLTM3LjgwMDAwNyAwLC0xOC42MzM5OTkgLTYuNDkxOTk3LC0zNC4xMTggLTE1LjAzMzk5NywtMzcuMjMgbSAyOS42ODgwMDYsMC4xMjk5OTggQyA5Mi44ODIwMDQsMzMuOTc5IDc4LjA3NDAwNSw0NS41MjcgNjcuOTYxMDA2LDYzLjc5NjAwMSA1Ni44NzMwMDEsODMuODI0MDA1IDU1LjYyNTAwNCwxMDQuMzQ1IDY1LjE3NDAwNCwxMDkuNjMzIGMgMS40MDEwMDEsMC43NzUgMi45NTcsMS4xOCA0LjYyNjk5OSwxLjI0MzAxIG0gMjguOTMwOTk5LDAuMzYgYyAxMC4wNTE5OTgsMCAxOC4yMDEwMDgsLTE2LjkyNDAwNiAxOC4yMDEwMDgsLTM3LjgwMDAwNSAwLC0xOC42MzMwMDQgLTYuNDkyMDEsLTM0LjExODAwNCAtMTUuMDM1MDEsLTM3LjIzMDAwNCBtIDI5LjY4ODAxLDAuMTMwMDAxIEMgMTIxLjgxNSwzNC4yMTIwMDIgMTA3LjAwOCw0NS43NTk5OTggOTYuODk1MDA0LDY0LjAyODk5OSA4NS44MDYwMDcsODQuMDU3MDA3IDg0LjU1NzAwNywxMDQuNTc4IDk0LjEwNzAwMiwxMDkuODY2IGMgMS40MDEwMDEsMC43NzUwMSAyLjk1NzAwMSwxLjE4MDAxIDQuNjI2LDEuMjQzMDEgbSAyOC43MDAwMDgsMC4xMjggYyAxMC4wNTE5OSwwIDE4LjIsLTE2LjkyNDAwNiAxOC4yLC0zNy44MDEwMDUgMCwtMTguNjMzMDA0IC02LjQ5MiwtMzQuMTE4MDA0IC0xNS4wMzQwMSwtMzcuMjMwMDA0IG0gMjkuNjg3MDEsMC4xMzAwMDEgYyAtOS43NywtMi4xMjMwMDEgLTI0LjU3OCw5LjQyMzk5NiAtMzQuNjkxLDI3LjY5Mzk5NyBDIDExNC41MDYsODQuMDU3MDA3IDExMy4yNTgsMTA0LjU3OSAxMjIuODA4MDEsMTA5Ljg2NiBjIDEuNDAxLDAuNzc2MDEgMi45NTcsMS4xODEgNC42MjYsMS4yNDMwMSBtIDI5LjE2NSwwLjEyOCBjIDEwLjA1MTk5LDAgMTguMiwtMTYuOTI0MDA2IDE4LjIsLTM3LjgwMTAwNSAwLC0xOC42MzMwMDQgLTYuNDkyLC0zNC4xMTgwMDQgLTE1LjAzNCwtMzcuMjMwMDA0IG0gMjkuNjg3OTksMC4xMzAwMDEgYyAtOS43NzA5OSwtMi4xMjMwMDEgLTI0LjU3Nzk4LDkuNDIzOTk2IC0zNC42OTIsMjcuNjkzOTk3IC0xMS4wODg5OSwyMC4wMjcwMDggLTEyLjMzNjk5LDQwLjU0OTAwMSAtMi43ODU5OSw0NS44MzYwMDEgMS40MDEsMC43NzYwMSAyLjk1NTk5LDEuMTgxIDQuNjI2LDEuMjQzMDEgbSAyOC40NjU5OSwwLjEyOCBjIDEwLjA1MTAxLDAgMTguMTk5MDEsLTE2LjkyNDAwNiAxOC4xOTkwMSwtMzcuODAxMDA1IDAsLTE4LjYzMzAwNCAtNi40OTIwMSwtMzQuMTE4MDA0IC0xNS4wMzUwMSwtMzcuMjMwMDA0IG0gMjkuNjg5LDAuMTMwMDAxIGMgLTkuNzcwOTgsLTIuMTIzMDAxIC0yNC41OCw5LjQyMzk5NiAtMzQuNjkyOTksMjcuNjkzOTk3IC0xMS4wODgsMjAuMDI3MDA4IC0xMi4zMzYsNDAuNTQ5MDAxIC0yLjc4NTAxLDQ1LjgzNjAwMSAxLjQwMDAxLDAuNzc2MDEgMi45NTUsMS4xODEgNC42MjYwMSwxLjI0MzAxIG0gMjguOTMxLDAuMzYwOTkgYyAxMC4wNTA5OCwwIDE4LjIsLTE2LjkyMzk5NSAxOC4yLC0zNy44MDAwMDIgMCwtMTguNjMzOTk1IC02LjQ5MSwtMzQuMTE4OTk1IC0xNS4wMzI5OSwtMzcuMjMwOTk1IE0gMjQ2Ljg1MjAxLDM2LjU2OSBjIC05Ljc2OSwtMi4xMjI5OTcgLTI0LjU3Nzk5LDkuNDI0MDA0IC0zNC42OTAwMSwyNy42OTMwMDEgLTExLjA4ODk5LDIwLjAyODk5OSAtMTIuMzM3OTksNDAuNTQ5OTk5IC0yLjc4Nzk5LDQ1LjgzNzAwOSAxLjQwMSwwLjc3NiAyLjk1NywxLjE4MDk5IDQuNjI1OTksMS4yNDI5OSBtIDI4LjY5OTAxLDAuMTI4IGMgMTAuMDUwOTksMCAxOC4yMDAwMSwtMTYuOTIzOTk1IDE4LjIwMDAxLC0zNy44MDAwMDIgMCwtMTguNjMzOTk1IC02LjQ5MTAyLC0zNC4xMTg5OTUgLTE1LjAzMzAxLC0zNy4yMjk5OTkgTSAyNzUuNTUyLDM2LjU3IGMgLTkuNzY4OTgsLTIuMTIzOTk3IC0yNC41NzY5OSw5LjQyNDAwMyAtMzQuNjg5OTksMjcuNjkzIC0xMS4wODk5OSwyMC4wMjggLTEyLjMzNzk5LDQwLjU0OSAtMi43ODgsNDUuODM2MDEgMS40MDEsMC43NzYgMi45NTcsMS4xODA5OSA0LjYyNTk5LDEuMjQzOTkiIC8+PC9nPjwvZz48ZwogICAgICAgICAgICAgaWQ9ImczOCI+PHBhdGgKICAgICAgICAgICAgICAgaWQ9InBhdGg0MCIKICAgICAgICAgICAgICAgc3R5bGU9ImZpbGw6IzIzMWYyMDtmaWxsLW9wYWNpdHk6MTtmaWxsLXJ1bGU6bm9uemVybztzdHJva2U6bm9uZSIKICAgICAgICAgICAgICAgZD0ibSAyNzcuNjQzMDEsMzguMDcyMDAyIGMgLTEuNzIxOTksMC4xMzcwMDEgLTIuODcsMC4zNTc5OTggLTQuMjc5LDAuNTk3MDAxIGwgMS4wNzEwMiwtNC45MjkwMDUgYyAwLjQxNTk4LDAuMzIxMDAzIDIuMTM1OTgsMS40Nzk5OTkgMy42NDU5OSwyLjMxODAwNCAxLjYxNDk5LDAuODk4OTk5IDMuMTA0OTgsMS41OTYwMDEgNC4wOTQsMS45NDUgLTEuMDQ1MDIsLTAuMDkzIC0yLjY5LC0wLjA3NyAtNC41MzIwMSwwLjA2OSIgLz48cGF0aAogICAgICAgICAgICAgICBpZD0icGF0aDQyIgogICAgICAgICAgICAgICBzdHlsZT0iZmlsbDojZmZmZmZmO2ZpbGwtb3BhY2l0eToxO2ZpbGwtcnVsZTpub256ZXJvO3N0cm9rZTpub25lIgogICAgICAgICAgICAgICBkPSJtIDI5OC43MTUwMyw3MS4wMTMgYyAtMS42NTIwMSwwLjQ5OTAwMSAtMi43MjcwMiwwLjk1OSAtNC4wNTMwMSwxLjQ5MzAwNCB2IC01LjA0NDk5OCBjIDAuNDc0LDAuMjI0OTk5IDIuNDAxLDAuOTkyOTk2IDQuMDUzMDEsMS40OTA5OTcgMS43Njk5OSwwLjUzNDk5NyAzLjM3NDk3LDAuOTAwMDAyIDQuNDE0OTcsMS4wMzA5OTkgLTEuMDQsMC4xMzEwMDQgLTIuNjQ0OTgsMC40OTYwMDIgLTQuNDE0OTcsMS4wMjk5OTgiIC8+PHBhdGgKICAgICAgICAgICAgICAgaWQ9InBhdGg0NCIKICAgICAgICAgICAgICAgc3R5bGU9ImZpbGw6bm9uZTtzdHJva2U6IzIzMWYyMDtzdHJva2Utd2lkdGg6MTtzdHJva2UtbGluZWNhcDpidXR0O3N0cm9rZS1saW5lam9pbjptaXRlcjtzdHJva2UtbWl0ZXJsaW1pdDo0O3N0cm9rZS1kYXNoYXJyYXk6bm9uZTtzdHJva2Utb3BhY2l0eToxIgogICAgICAgICAgICAgICBkPSJNIDI1LjM1NDAwMiw2OS45ODkwMDYgSCAyOTYuMzU0IiAvPjxwYXRoCiAgICAgICAgICAgICAgIGlkPSJwYXRoNDYiCiAgICAgICAgICAgICAgIHN0eWxlPSJmaWxsOiMyMzFmMjA7ZmlsbC1vcGFjaXR5OjE7ZmlsbC1ydWxlOm5vbnplcm87c3Ryb2tlOm5vbmUiCiAgICAgICAgICAgICAgIGQ9Im0gMjk4LjcxNTAzLDcxLjAxMyBjIC0xLjY1MjAxLDAuNDk5MDAxIC0yLjcyNzAyLDAuOTU5IC00LjA1MzAxLDEuNDkzMDA0IHYgLTUuMDQ0OTk4IGMgMC40NzQsMC4yMjQ5OTkgMi40MDEsMC45OTI5OTYgNC4wNTMwMSwxLjQ5MDk5NyAxLjc2OTk5LDAuNTM0OTk3IDMuMzc0OTcsMC45MDAwMDIgNC40MTQ5NywxLjAzMDk5OSAtMS4wNCwwLjEzMTAwNCAtMi42NDQ5OCwwLjQ5NjAwMiAtNC40MTQ5NywxLjAyOTk5OCIgLz48cGF0aAogICAgICAgICAgICAgICBpZD0icGF0aDQ4IgogICAgICAgICAgICAgICBzdHlsZT0iZmlsbDojZmZmZmZmO2ZpbGwtb3BhY2l0eToxO2ZpbGwtcnVsZTpub256ZXJvO3N0cm9rZTpub25lIgogICAgICAgICAgICAgICBkPSJtIDI3LjM3ODAwMiw0LjYyNzAwMDMgYyAwLjQ5ODk5OSwxLjY1Mjk5OTQgMC45NTksMi43MjgwMDAyIDEuNDkxOTk3LDQuMDU0MDAwNCBoIC01LjA0NDk5OCBjIDAuMjI2LC0wLjQ3NTAwMDQgMC45OTMsLTIuNDAxMDAxIDEuNDkxMDAxLC00LjA1NDAwMDQgQyAyNS44NTIwMDEsMi44NTcwMDAxIDI2LjIxNzAwMSwxLjI1MyAyNi4zNDgwMDEsMC4yMTIwMDAwMSAyNi40NzkwMDIsMS4yNTMgMjYuODQ0MDAyLDIuODU3MDAwMSAyNy4zNzgwMDIsNC42MjcwMDAzIiAvPjxwYXRoCiAgICAgICAgICAgICAgIGlkPSJwYXRoNTAiCiAgICAgICAgICAgICAgIHN0eWxlPSJmaWxsOm5vbmU7c3Ryb2tlOiMyMzFmMjA7c3Ryb2tlLXdpZHRoOjE7c3Ryb2tlLWxpbmVjYXA6YnV0dDtzdHJva2UtbGluZWpvaW46bWl0ZXI7c3Ryb2tlLW1pdGVybGltaXQ6NDtzdHJva2UtZGFzaGFycmF5Om5vbmU7c3Ryb2tlLW9wYWNpdHk6MSIKICAgICAgICAgICAgICAgZD0iTSAyNi4zNTQwMDIsMTA4Ljk4OTAxIFYgNi45ODkwMDAzIiAvPjxwYXRoCiAgICAgICAgICAgICAgIGlkPSJwYXRoNTIiCiAgICAgICAgICAgICAgIHN0eWxlPSJmaWxsOiMyMzFmMjA7ZmlsbC1vcGFjaXR5OjE7ZmlsbC1ydWxlOm5vbnplcm87c3Ryb2tlOm5vbmUiCiAgICAgICAgICAgICAgIGQ9Im0gMjcuMzc4MDAyLDQuNjI3MDAwMyBjIDAuNDk4OTk5LDEuNjUyOTk5NCAwLjk1OSwyLjcyODAwMDIgMS40OTE5OTcsNC4wNTQwMDA0IGggLTUuMDQ0OTk4IGMgMC4yMjYsLTAuNDc1MDAwNCAwLjk5MywtMi40MDEwMDEgMS40OTEwMDEsLTQuMDU0MDAwNCBDIDI1Ljg1MjAwMSwyLjg1NzAwMDEgMjYuMjE3MDAxLDEuMjUzIDI2LjM0ODAwMSwwLjIxMjAwMDAxIDI2LjQ3OTAwMiwxLjI1MyAyNi44NDQwMDIsMi44NTcwMDAxIDI3LjM3ODAwMiw0LjYyNzAwMDMiIC8+PHBhdGgKICAgICAgICAgICAgICAgaWQ9InBhdGg1NCIKICAgICAgICAgICAgICAgc3R5bGU9ImZpbGw6I2ZmZmZmZjtmaWxsLW9wYWNpdHk6MTtmaWxsLXJ1bGU6bm9uemVybztzdHJva2U6bm9uZSIKICAgICAgICAgICAgICAgZD0ibSA3OC43NDgwMDEsMjAuMDQzMDAxIGMgLTAuODE1OTk0LDEuNTIyIC0xLjI1MDk5OSwyLjYwNjk5OSAtMS44MTA5OTcsMy45MjIwMDEgTCA3My4zNjkwMDMsMjAuMzk4MDAxIEMgNzMuODY0MDA2LDIwLjIyMiA3NS43NjkwMDUsMTkuNDAzMDAyIDc3LjI5MDAwMSwxOC41ODYgYyAxLjYyOTk5NywtMC44NzI5OTkgMy4wMjMwMDMsLTEuNzQ5IDMuODUxMDA1LC0yLjM5Mjk5OSAtMC42NDMwMDUsMC44MjkgLTEuNTE5MDA0LDIuMjIxIC0yLjM5MzAwNSwzLjg1IiAvPjwvZz48ZwogICAgICAgICAgICAgaWQ9Imc1NiI+PGcKICAgICAgICAgICAgICAgY2xpcC1wYXRoPSJ1cmwoI2NsaXBQYXRoNjIpIgogICAgICAgICAgICAgICBpZD0iZzU4Ij48cGF0aAogICAgICAgICAgICAgICAgIGlkPSJwYXRoNjQiCiAgICAgICAgICAgICAgICAgc3R5bGU9ImZpbGw6bm9uZTtzdHJva2U6IzIzMWYyMDtzdHJva2Utd2lkdGg6MTtzdHJva2UtbGluZWNhcDpidXR0O3N0cm9rZS1saW5lam9pbjptaXRlcjtzdHJva2UtbWl0ZXJsaW1pdDo0O3N0cm9rZS1kYXNoYXJyYXk6bm9uZTtzdHJva2Utb3BhY2l0eToxIgogICAgICAgICAgICAgICAgIGQ9Ik0gMC4zNTQsOTYuOTg5MDA2IDc2LjM1NDAwNCwyMC45ODkiIC8+PC9nPjwvZz48ZwogICAgICAgICAgICAgaWQ9Imc2NiI+PHBhdGgKICAgICAgICAgICAgICAgaWQ9InBhdGg2OCIKICAgICAgICAgICAgICAgc3R5bGU9ImZpbGw6IzIzMWYyMDtmaWxsLW9wYWNpdHk6MTtmaWxsLXJ1bGU6bm9uemVybztzdHJva2U6bm9uZSIKICAgICAgICAgICAgICAgZD0ibSA3OC43NDgwMDEsMjAuMDQzMDAxIGMgLTAuODE1OTk0LDEuNTIyIC0xLjI1MDk5OSwyLjYwNjk5OSAtMS44MTA5OTcsMy45MjIwMDEgTCA3My4zNjkwMDMsMjAuMzk4MDAxIEMgNzMuODY0MDA2LDIwLjIyMiA3NS43NjkwMDUsMTkuNDAzMDAyIDc3LjI5MDAwMSwxOC41ODYgYyAxLjYyOTk5NywtMC44NzI5OTkgMy4wMjMwMDMsLTEuNzQ5IDMuODUxMDA1LC0yLjM5Mjk5OSAtMC42NDMwMDUsMC44MjkgLTEuNTE5MDA0LDIuMjIxIC0yLjM5MzAwNSwzLjg1IiAvPjx0ZXh0CiAgICAgICAgICAgICAgIGlkPSJ0ZXh0NzIiCiAgICAgICAgICAgICAgIHN0eWxlPSJmb250LXZhcmlhbnQ6bm9ybWFsO2ZvbnQtd2VpZ2h0Om5vcm1hbDtmb250LXNpemU6MTEuOTU1MDAwODhweDtmb250LWZhbWlseTpDTU1JMTI7LWlua3NjYXBlLWZvbnQtc3BlY2lmaWNhdGlvbjpDTU1JMTI7d3JpdGluZy1tb2RlOmxyLXRiO2ZpbGw6IzIzMWYyMDtmaWxsLW9wYWNpdHk6MTtmaWxsLXJ1bGU6bm9uemVybztzdHJva2U6bm9uZSIKICAgICAgICAgICAgICAgdHJhbnNmb3JtPSJtYXRyaXgoMSwwLDAsLTEsMTIuMzUzNDk5LDIuOTg5MDAwMSkiPjx0c3BhbgogICAgICAgICAgICAgICAgIGlkPSJ0c3BhbjcwIgogICAgICAgICAgICAgICAgIHk9IjAiCiAgICAgICAgICAgICAgICAgeD0iMCI+eDwvdHNwYW4+PC90ZXh0Pgo8dGV4dAogICAgICAgICAgICAgICBpZD0idGV4dDc2IgogICAgICAgICAgICAgICBzdHlsZT0iZm9udC12YXJpYW50Om5vcm1hbDtmb250LXdlaWdodDpub3JtYWw7Zm9udC1zaXplOjExLjk1NTAwMDg4cHg7Zm9udC1mYW1pbHk6Q01NSTEyOy1pbmtzY2FwZS1mb250LXNwZWNpZmljYXRpb246Q01NSTEyO3dyaXRpbmctbW9kZTpsci10YjtmaWxsOiMyMzFmMjA7ZmlsbC1vcGFjaXR5OjE7ZmlsbC1ydWxlOm5vbnplcm87c3Ryb2tlOm5vbmUiCiAgICAgICAgICAgICAgIHRyYW5zZm9ybT0ibWF0cml4KDEsMCwwLC0xLDg1LjkyMzM3OCwxNi4wMjExNDUpIj48dHNwYW4KICAgICAgICAgICAgICAgICBpZD0idHNwYW43NCIKICAgICAgICAgICAgICAgICB5PSIwIgogICAgICAgICAgICAgICAgIHg9IjAiPnk8L3RzcGFuPjwvdGV4dD4KPHRleHQKICAgICAgICAgICAgICAgaWQ9InRleHQ4MCIKICAgICAgICAgICAgICAgc3R5bGU9ImZvbnQtdmFyaWFudDpub3JtYWw7Zm9udC13ZWlnaHQ6bm9ybWFsO2ZvbnQtc2l6ZToxMS45NTUwMDA4OHB4O2ZvbnQtZmFtaWx5OkNNTUkxMjstaW5rc2NhcGUtZm9udC1zcGVjaWZpY2F0aW9uOkNNTUkxMjt3cml0aW5nLW1vZGU6bHItdGI7ZmlsbDojMjMxZjIwO2ZpbGwtb3BhY2l0eToxO2ZpbGwtcnVsZTpub256ZXJvO3N0cm9rZTpub25lIgogICAgICAgICAgICAgICB0cmFuc2Zvcm09Im1hdHJpeCgxLDAsMCwtMSwyODYuOTYyMjUsNzUuMDIxNDYxKSI+PHRzcGFuCiAgICAgICAgICAgICAgICAgaWQ9InRzcGFuNzgiCiAgICAgICAgICAgICAgICAgeT0iMCIKICAgICAgICAgICAgICAgICB4PSIwIj56PC90c3Bhbj48L3RleHQ+Cjx0ZXh0CiAgICAgICAgICAgICAgIGlkPSJ0ZXh0ODQiCiAgICAgICAgICAgICAgIHN0eWxlPSJmb250LXZhcmlhbnQ6bm9ybWFsO2ZvbnQtd2VpZ2h0Om5vcm1hbDtmb250LXNpemU6MTEuOTU1MDAwODhweDtmb250LWZhbWlseTpDTU1JMTI7LWlua3NjYXBlLWZvbnQtc3BlY2lmaWNhdGlvbjpDTU1JMTI7d3JpdGluZy1tb2RlOmxyLXRiO2ZpbGw6IzIzMWYyMDtmaWxsLW9wYWNpdHk6MTtmaWxsLXJ1bGU6bm9uemVybztzdHJva2U6bm9uZSIKICAgICAgICAgICAgICAgdHJhbnNmb3JtPSJtYXRyaXgoMSwwLDAsLTEsMjg3Ljg1NjQ4LDMzLjQyMjg0KSI+PHRzcGFuCiAgICAgICAgICAgICAgICAgaWQ9InRzcGFuODIiCiAgICAgICAgICAgICAgICAgeT0iMCIKICAgICAgICAgICAgICAgICB4PSIwIj5CPC90c3Bhbj48L3RleHQ+CjxwYXRoCiAgICAgICAgICAgICAgIGlkPSJwYXRoODYiCiAgICAgICAgICAgICAgIHN0eWxlPSJmaWxsOiMyMzFmMjA7ZmlsbC1vcGFjaXR5OjE7ZmlsbC1ydWxlOm5vbnplcm87c3Ryb2tlOm5vbmUiCiAgICAgICAgICAgICAgIGQ9Im0gMjg3Ljg1OCwzMS45ODkwMDIgaCA5LjQ5NiB2IC0wLjQ3ODAwMSBoIC05LjQ5NiB6IiAvPjwvZz48ZwogICAgICAgICAgICAgaWQ9Imc4OCI+PGcKICAgICAgICAgICAgICAgY2xpcC1wYXRoPSJ1cmwoI2NsaXBQYXRoOTQpIgogICAgICAgICAgICAgICBpZD0iZzkwIj48dGV4dAogICAgICAgICAgICAgICAgIGlkPSJ0ZXh0OTgiCiAgICAgICAgICAgICAgICAgc3R5bGU9ImZvbnQtdmFyaWFudDpub3JtYWw7Zm9udC13ZWlnaHQ6bm9ybWFsO2ZvbnQtc2l6ZToxMS45NTUwMDA4OHB4O2ZvbnQtZmFtaWx5OkNNTUkxMjstaW5rc2NhcGUtZm9udC1zcGVjaWZpY2F0aW9uOkNNTUkxMjt3cml0aW5nLW1vZGU6bHItdGI7ZmlsbDojMjMxZjIwO2ZpbGwtb3BhY2l0eToxO2ZpbGwtcnVsZTpub256ZXJvO3N0cm9rZTpub25lIgogICAgICAgICAgICAgICAgIHRyYW5zZm9ybT0ibWF0cml4KDEsMCwwLC0xLDMwOS4yMzMsNjUuMDIxMzAxKSI+PHRzcGFuCiAgICAgICAgICAgICAgICAgICBpZD0idHNwYW45NiIKICAgICAgICAgICAgICAgICAgIHk9IjAiCiAgICAgICAgICAgICAgICAgICB4PSIwIj5JPC90c3Bhbj48L3RleHQ+CjwvZz48L2c+PC9nPjwvZz48L2c+PC9nPjwvc3ZnPg==</file>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>16.5.2.5 Example of product of functions</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4 class="HELM_example">Example</h4>
+<p dir="ltr">Find the Maclaurin expansion of \(e^x\ln(1+x)\).</p>
+<p dir="ltr">Here, instead of finding the derivatives of \(f(x)=e^x\ln(1+x)\),&nbsp;<span style="font-size: 0.9375rem;">we can more simply multiply together the&nbsp;</span><span style="font-size: 0.9375rem;">Maclaurin expansions for \(e^x\) and \(\ln (1+x)\) which&nbsp; we already know:</span></p>
+<p dir="ltr"><span style="font-size: 0.9375rem;">\[e^x=1+x+\dfrac{x^2}{2!}+\dfrac{x^3}{3!}+\cdots\qquad \text{all}\ x\]</span></p>
+<p dir="ltr">and</p>
+<p dir="ltr">\[ \ln(1+x)=x-\dfrac{x^2}{2}+\dfrac{x^3}{3}+\cdots\qquad -1&lt;x\leq 1.\]</p>
+<p dir="ltr">The resulting power series will only be convergent<span style="font-size: 0.9375rem;">&nbsp;if&nbsp;\(-1&lt;x \leq&nbsp;1\)&nbsp;</span><span style="font-size: 0.9375rem;">.</span></p>
+<p dir="ltr">Multiplying:</p>
+<p dir="ltr">\[\begin{aligned}e^x\ln(1+x)&amp;=\left(1+x+\dfrac{x^2}{2!}+\dfrac{x^3}{3!}+\cdots\right)\left(x-\dfrac{x^2}{2}+\dfrac{x^3}{3}+\cdots\right)\qquad\qquad\qquad\qquad\\&amp;=x-\dfrac{x^2}{2}+\dfrac{x^3}{3}-\dfrac{x^4}{4}+\cdots\\&amp;\quad +\ x^2-\dfrac{x^3}{2}+\dfrac{x^4}{3}+\cdots\\&amp;\qquad
+    \quad\&nbsp; +\ \dfrac{x^3}{2}-\dfrac{x^4}{4}\cdots\\&amp;\qquad \qquad\quad\quad&nbsp; +\dfrac{x^4}{6}\cdots\\&amp;=x+\dfrac{x^2}{2}+\dfrac{x^3}{3}+\dfrac{3x^5}{40}+\cdots\qquad -1&lt;x\leq 1\end{aligned}\]</p>
+<p dir="ltr">(You must take care not to miss relevant terms when carrying through the</p>
+<p dir="ltr">multiplication.)</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

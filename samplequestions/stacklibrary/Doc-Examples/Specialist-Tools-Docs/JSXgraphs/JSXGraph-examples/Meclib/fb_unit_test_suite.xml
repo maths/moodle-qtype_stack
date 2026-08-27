@@ -1,0 +1,1121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+<!-- question: 108354  -->
+  <question type="stack">
+    <name>
+      <text>fb_unit() test suite</text>
+    </name>
+    <questiontext format="markdown">
+      <text><![CDATA[**fb_unit() test suite**
+
+[[lang code="en,other"]]This is a unit test question for the function [`fb_unit`](https://github.com/mkraska/meclib/wiki/fb_unit).[[/lang]][[lang code="de"]]Das ist eine Testfrage für die Funktion [`fb_unit`](https://github.com/mkraska/meclib/wiki/fb_unit). [[/lang]]
+
+There is nothing to input for you. **Just submit the test** to see the results.
+
+In the question variables, we make the settings
+
+- `debug: true`
+- `simp: false`
+
+If a test fails, then the result and the expected result are displayed as below, otherwise just the actual result is displayed.
+
+R: # Result from the feedback function#<br>
+E: # Expected text#
+
+<p hidden>[[input:dummy]] [[validation:dummy]]</p>
+
+Report deviation in percent (with 1 decimal place) when tolerance is zero or deviation is less then tolerance.  Giving that precise feedback would enable the student to judge the result just from the deviation. That's why such feedback should only be given when the result was within tolerance.
+
+**T01**  `fb_unit(1.1*m, stackunits(1.11, m),0)`<br>
+  [[feedback:t01]]
+
+**T02**  `fb_unit(1.1*m, stackunits(1.101, m),0.005)`<br>
+  [[feedback:t02]]
+
+**T03**  `fb_unit(1.1*m, stackunits(1.1001, m),0.005)`<br>
+  [[feedback:t03]]
+
+**T03a**  `fb_unit((300*kg*m)/s^2, (300*kg*m)/s^2, 0.0)`<br>
+  [[feedback:t03a]]
+
+Nonzero sans, zero tans, specified as product.
+  
+If the correct answer is zero, then no feedback on relative deviation can be given. Yet, in order to avoid that expressions like `0*kg`  are marked correct when the actual unit would be m, we have to switch off simplification in order not to convey just `0` to the feedback function.
+
+**T04** `fb_unit(1.1*m, 0*m,0.005)` Auto-simplify: No<br>
+[[feedback:t04]]
+
+Nonzero sans, zero tans, specified with `stackunits()`
+
+**T05** `fb_unit(1.1*m, stackunits(0,m),0.005)` Auto-simplify: No<br>
+[[feedback:t05]]
+
+Zero sans with unit factor, zero tans, specified with `stackunits()`
+
+**T06** `fb_unit(0*m, stackunits(0,m),0.005)` Auto-simplify: No<br>
+[[feedback:t06]]
+
+Zero sans without unit, with correct or wrong unit, zero tans, specified with `stackunits()`
+
+**T07** `fb_unit(0, stackunits(zero, m),0.005)`  Auto-simplify: No<br>
+[[feedback:t07]]
+
+**T08** `fb_unit(0*m, stackunits(zero, m),0.005)`  Auto-simplify: No<br>
+[[feedback:t08]]
+
+**T09** `fb_unit(0*N, stackunits(zero, m),0.005)`  Auto-simplify: No<br>
+[[feedback:t09]]
+
+Zero sans (with correct, no or wrong unit), nonzero tans
+
+**T10** `fb_unit(0*m, stackunits(1, m),0.005)`  Auto-simplify: No<br>
+[[feedback:t10]]
+
+**T11** `fb_unit(0, stackunits(1, m),0.005)`  Auto-simplify: No<br>
+[[feedback:t11]]
+
+**T12** `fb_unit(0*kg, stackunits(1, m),0.005)`  Auto-simplify: No<br>
+[[feedback:t12]]
+
+Nonzero sans with missing unit
+
+**T13** `fb_unit(1, stackunits(1, m),0.005)`<br>
+[[feedback:t13]]
+
+Test for sign feedback
+
+**T14** `fb_unit(-1.1*m, stackunits(1.11, m),0.005)`<br>
+[[feedback:t14]]
+
+Mantissa correct, order of magnitude not correct
+
+**T15** `fb_unit(1.1*m, stackunits(11, m),0.005)`<br>
+[[feedback:t15]]
+
+Value too small
+
+**T16** `fb_unit(1.0*m, stackunits(11, m),0.005)`<br>
+[[feedback:t16]]
+
+Value too big
+
+**T17** `fb_unit(100*m, stackunits(11, m),0.005)`<br>
+[[feedback:t17]]
+
+
+Test with zero tans without unit
+
+**T18** `fb_unit(0*m, 0,0.005)` Auto-simplify: No<br>
+[[feedback:t18]]
+
+different but unitless values (because we might use it also for pure numeric comparisons)
+
+**T19** `fb_unit(0.1, 0.01,0.005)`<br>
+[[feedback:t19]]
+
+**T20** `fb_unit(1.0, 11, 0.005)`<br>
+[[feedback:t20]]
+
+**T21** `fb_unit(100, 11, 0.005)`<br>
+[[feedback:t21]]
+
+Deviation within tolerance
+
+**T22** `fb_unit(1, 1.001, 0.005)`<br>
+[[feedback:t22]]
+
+**T23** `fb_unit(-3.17, 3.17, 0.05)` [Issue #38](https://github.com/mkraska/meclib/issues/38)
+[[feedback:t23]]
+
+</details>]]></text>
+    </questiontext>
+    <generalfeedback format="markdown">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+    <stackversion>
+      <text>2025030600</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[/* history
+2025 03 04 multilingual version
+2023 05 08 add T23 (issue #38)
+2023 04 08 split into interactive and pre-defined (this one) tests
+2023 02 07 add test T03a
+2023 01 14 Automate the comparison by use of Answer tests (requires STACK 4.4.2);
+*/
+
+stack_unit_si_declare(true);
+
+zero: 0 ; 
+debug:true;
+
+
+stack_include("https://raw.githubusercontent.com/mkraska/meclib/main/Maxima/fb_value.mac" );
+
+
+
+simp:false; /* to convey argumentes into fb_unit() */
+
+E01: fb_unit(1.1*m, stackunits(1.11, m),0);
+E02: fb_unit(1.1*m, stackunits(1.101, m),0.005);
+E03: fb_unit(1.1*m, stackunits(1.1001, m),0.005);
+E03a: fb_unit((300*kg*m)/s^2, (300*kg*m)/s^2, 0.0);
+E13: fb_unit(1, stackunits(1, m),0.005);
+E14: fb_unit(-1.1*m, stackunits(1.11, m),0.005);
+E15: fb_unit(1.1*m, stackunits(11, m),0.005);
+E16: fb_unit(1.0*m, stackunits(11, m),0.005);
+E17: fb_unit(100*m, stackunits(11, m),0.005);
+E18: fb_unit(0*m, 0,0.005);
+E19: fb_unit(0.1, 0.01,0.005);
+E20: fb_unit(1.0, 11, 0.005);
+E21: fb_unit(100, 11, 0.005);
+E22: fb_unit(1, 1.001, 0.005);
+
+lbl: castext("[[lang code='en, other']]english[[/lang]][[lang code='ru']]русский[[/lang]]");
+
+/* language-specific strings for the feedback trees */
+  str_unexpected_base_unit: castext("[[lang code='de']]&nbsp;Unerwartete Basiseinheit [[/lang]][[lang code='en,other']]&nbsp;Unexpected base unit [[/lang]]");
+  str_not_dimensionless: castext("[[lang code='de']]&nbsp;Der Wert sollte nicht dimensionslos sein.[[/lang]][[lang code='en,other']]&nbsp;The value should not be dimensionless.[[/lang]]");
+  str_deviation: castext("[[lang code='de']]&nbsp;Abweichung: [[/lang]][[lang code='en,other']]&nbsp;Deviation: [[/lang]]");
+  str_value_too_large: castext("[[lang code='de']]&nbsp;Der Wert ist betragsm&auml;&szlig;ig zu gro&szlig;.[[/lang]][[lang code='en,other']]The absolute value is too large.[[/lang]]");
+  str_value_too_small: castext("[[lang code='de']]&nbsp;Der Wert ist betragsm&auml;&szlig;ig zu klein.[[/lang]][[lang code='en,other']]The absolute value is too small.[[/lang]]");
+  str_sign: castext("[[lang code='de']]&nbsp;Pr&uuml;fen Sie das Vorzeichen.[[/lang]][[lang code='en,other']]Check the sign.[[/lang]]");
+  str_mantissa: castext("[[lang code='de']]&nbsp;Die Mantisse stimmt, die Zehnerpotenz weicht aber um mindestens eine Gr&ouml;&szlig;enordnung ab. Pr&uuml;fen Sie Ihre Einheitenumrechnung. [[/lang]][[lang code='en,other']]The mantissa is correct but the value is off by at least one order of magnitude. Check your unit conversion.[[/lang]]");
+  str_small_1: castext("[[lang code='de']]&nbsp;Der Betrag ist um mindestens [[/lang]][[lang code='en,other']]&nbsp;The value is too small by at least [[/lang]]");
+  str_small_2: castext("[[lang code='de']]% zu klein.[[/lang]][[lang code='en,other']]%.[[/lang]]");
+  str_large_1: castext("[[lang code='de']]&nbsp;Der Betrag ist um mindestens [[/lang]][[lang code='en,other']]&nbsp;The value is too large by at least [[/lang]]");
+  str_large_2: castext("[[lang code='de']]% zu gro&szlig;.[[/lang]][[lang code='en,other']]%.[[/lang]]");
+
+]]></text>
+    </questionvariables>
+    <specificfeedback format="markdown">
+      <text></text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text></text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text></text>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="markdown">
+      <text>Correct answer, well done.</text>
+    </prtcorrect>
+    <prtpartiallycorrect format="markdown">
+      <text>Your answer is partially correct.</text>
+    </prtpartiallycorrect>
+    <prtincorrect format="markdown">
+      <text>Incorrect answer.</text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>dummy</name>
+      <type>algebraic</type>
+      <tans>a</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>t01</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text><![CDATA[R: fb_unit(1.1*m, stackunits(1.11, m),0);
+E: castext_concat(str_deviation,castext("{@-0.9@}%"));
+]]></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>R</sans>
+        <tans>E</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>t01-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@R@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>t01-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[{#R#}<br>
+{#E#}]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>t02</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text><![CDATA[R: fb_unit(1.1*m, stackunits(1.101, m),0.005);
+E: castext_concat(str_deviation,castext("{@-0.1@}% (display because debug=true. Would be empty otherwise.)"));
+]]></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>R</sans>
+        <tans>E</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>t02-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@R@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>t02-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[{#R#}<br>
+{#E#}]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>t03</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text><![CDATA[R: fb_unit(1.1*m, stackunits(1.1001, m),0.005);
+E: castext_concat(str_deviation,castext("{@0.0@}% (display because debug=true. Would be empty otherwise.)"));
+]]></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>R</sans>
+        <tans>E</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>t03-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@R@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>t03-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[{#R#}<br>
+{#E#}]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>t03a</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text><![CDATA[R: fb_unit((300*kg*m)/s^2, (300*kg*m)/s^2, 0.0);
+E: castext_concat(castext_concat(str_deviation,castext("{@0.0@}")),"%");]]></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>R</sans>
+        <tans>E</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>t03a-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@R@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>t03a-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[{#R#}<br>
+{#E#}]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>t04</name>
+      <value>1.0000000</value>
+      <autosimplify>0</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text>R: fb_unit(1.1*m, 0*m,0.005);
+E: str_value_too_large;
+</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>R</sans>
+        <tans>E</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>t04-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@R@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>t04-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[{#R#}<br>
+{#E#}]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>t05</name>
+      <value>1.0000000</value>
+      <autosimplify>0</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text>R: fb_unit(1.1*m, stackunits(0,m),0.005);
+E: str_value_too_large;</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>R</sans>
+        <tans>E</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>t05-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@R@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>t05-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[{#R#}<br>
+{#E#}]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>t06</name>
+      <value>1.0000000</value>
+      <autosimplify>0</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text>R: fb_unit(1.1*m, 0*m,0.005);
+E: str_value_too_large;</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>R</sans>
+        <tans>E</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>t06-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@R@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>t06-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[{#R#}<br>
+{#E#}]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>t07</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text><![CDATA[R: fb_unit(0, stackunits(zero, m),0.005);
+E: "tnum=0 and snum=0 (because debug=true. Would be empty otherwise.)";]]></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>R</sans>
+        <tans>E</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>t07-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@R@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>t07-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[{#R#}<br>
+{#E#}]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>t08</name>
+      <value>1.0000000</value>
+      <autosimplify>0</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text><![CDATA[R: fb_unit(0*m, stackunits(zero, m),0.005);
+E: "tnum=0 and snum=0 (because debug=true. Would be empty otherwise.)";]]></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>R</sans>
+        <tans>E</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>t08-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@R@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>t08-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[{#R#}<br>
+{#E#}]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>t09</name>
+      <value>1.0000000</value>
+      <autosimplify>0</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text><![CDATA[R: fb_unit(0*N, stackunits(zero, m),0.005);
+E: ["%root",str_unexpected_base_unit,["smlt","\\({\\mathrm{k}\\mathrm{g}\\cdot \\mathrm{m}\\cdot \\mathrm{s}^ {- 2 }}\\)"]];
+ 
+ ]]></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>R</sans>
+        <tans>E</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>t09-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@R@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>t09-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[{#R#}<br>
+{#E#}]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>t10</name>
+      <value>1.0000000</value>
+      <autosimplify>0</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text>R: fb_unit(0*m, stackunits(1, m),0.005);
+E: str_value_too_small;</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>R</sans>
+        <tans>E</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>t10-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@R@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>t10-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[{#R#}<br>
+{#E#}]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>t11</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text>R: fb_unit(0, stackunits(1, m),0.005);
+E: str_value_too_small;</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>R</sans>
+        <tans>E</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>t11-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@R@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>t11-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[{#R#}<br>
+{#E#}]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>t12</name>
+      <value>1.0000000</value>
+      <autosimplify>0</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text><![CDATA[str_unexpected_base_unit: castext("[[lang code='de']]&nbsp;Unerwartete Basiseinheit [[/lang]][[lang code='en,other']]&nbsp;Unexpected base unit [[/lang]]");
+R: fb_unit(0*kg, stackunits(1, m),0.005);
+E: ["%root",str_unexpected_base_unit,["smlt","\\({\\mathrm{k}\\mathrm{g}}\\)"]];]]></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>R</sans>
+        <tans>E</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>t12-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@R@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>t12-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[{#R#}<br>
+{#E#}]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>t13</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text>R: fb_unit(1, stackunits(1, m),0.005);
+E: str_not_dimensionless;
+</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>R</sans>
+        <tans>E</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>t13-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@R@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>t13-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[{#R#}<br>
+{#E#}]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>t14</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text>R: fb_unit(-1.1*m, stackunits(1.11, m),0.005);
+E: str_sign;
+  </text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>R</sans>
+        <tans>E</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>t14-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@R@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>t14-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[{#R#}<br>
+{#E#}]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>t15</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text>R: fb_unit(1.1*m, stackunits(11, m),0.005);
+E: str_mantissa;
+  </text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>R</sans>
+        <tans>E</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>t15-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@R@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>t15-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[{#R#}<br>
+{#E#}]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>t16</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text>R: fb_unit(1.0*m, stackunits(11, m),0.005);
+E: sconcat(str_small_1, 90 , str_small_2);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>R</sans>
+        <tans>E</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>t16-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@R@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>t16-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[{#R#}<br>
+{#E#}]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>t17</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text>R: fb_unit(100*m, stackunits(11, m),0.005);
+E: sconcat(str_large_1, 800 , str_large_2);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>R</sans>
+        <tans>E</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>t17-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@R@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>t17-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[{#R#}<br>
+{#E#}]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>t18</name>
+      <value>1.0000000</value>
+      <autosimplify>0</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text><![CDATA[R: fb_unit(0*m, 0,0.005);
+E: ["%root",str_unexpected_base_unit,["smlt","\\({\\mathrm{m}}\\)"]];
+]]></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>R</sans>
+        <tans>E</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>t18-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@R@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>t18-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[{#R#}<br>
+{#E#}]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>t19</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text>R: fb_unit(0.1, 0.01,0.005);
+E: str_mantissa;</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>R</sans>
+        <tans>E</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>t19-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@R@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>t19-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[{#R#}<br>
+{#E#}]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>t20</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text>R: fb_unit(1.0, 11, 0.005);
+E: sconcat(str_small_1, 90 , str_small_2);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>R</sans>
+        <tans>E</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>t20-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@R@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>t20-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[{#R#}<br>
+{#E#}]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>t21</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text>R: fb_unit(100, 11, 0.005);
+E: sconcat(str_large_1, 800 , str_large_2);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>R</sans>
+        <tans>E</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>t21-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@R@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>t21-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[{#R#}<br>
+{#E#}]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>t22</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text><![CDATA[R: fb_unit(1, 1.001, 0.005);
+E: castext_concat(str_deviation,castext("{@-0.1@}% (display because debug=true. Would be empty otherwise.)"));
+]]></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>R</sans>
+        <tans>E</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>t22-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@R@} {@lbl@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>t22-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[{#R#}<br>
+{#E#}]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>t23</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text>R: fb_unit(-3.17, 3.17, 0.05);
+E: str_sign;</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>R</sans>
+        <tans>E</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>t23-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@R@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>t23-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[{#R#}<br>
+{#E#}]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+  </question>
+
+</quiz>

@@ -60,5 +60,5 @@ The University of Edinburgh uses a learning management system called "Learn".  W
 
 We have developed an [enrolement plugin](https://github.com/maths/enrol_lticoursetemplate), [`enrol_lticoursetemplate`](https://github.com/maths/enrol_lticoursetemplate), which provides an LTI service which enables users to _clone a course template_ from a remote connection, automatically giving each teacher the ability to create a new clean course tied to their consumer content system.  This plugin removes the need to set up parallel courses in Moodle by hand.
 
-[Documention](https://github.com/maths/enrol_lticoursetemplate) on how to set up this plugin is available.
+[Documentation](https://github.com/maths/enrol_lticoursetemplate) on how to set up this plugin is available.
 

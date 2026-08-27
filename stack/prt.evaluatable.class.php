@@ -21,7 +21,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 
-defined('MOODLE_INTERNAL')|| die();
+defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/cas/evaluatable_object.interfaces.php');
 require_once(__DIR__ . '/cas/castext2/utils.php');
@@ -35,7 +35,6 @@ require_once(__DIR__ . '/cas/castext2/utils.php');
  * This is not entirely unlike the old PRT-state class.
  */
 class prt_evaluatable implements cas_raw_value_extractor {
-
     // The function to call.
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $signature;
@@ -224,7 +223,7 @@ class prt_evaluatable implements cas_raw_value_extractor {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function get_feedback($processor=null) {
+    public function get_feedback($processor = null) {
         if (!$this->is_evaluated()) {
             // If not procesed return undefined or any overrides.
             return $this->renderedfeedback;
@@ -259,7 +258,7 @@ class prt_evaluatable implements cas_raw_value_extractor {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function get_answernotes() {
+    public function get_answernotes($atnotes = true) {
         if ($this->score === null) {
             $this->unpack();
         }
@@ -273,8 +272,14 @@ class prt_evaluatable implements cas_raw_value_extractor {
         }
         $i = 0;
         foreach ($path as $atresult) {
-            if ($atresult[2] !== '""') {
-                $notes[] = trim($atresult[2]);
+            if ($atnotes) {
+                // Some answer test notes are a non-empty whitespace string, e.g. "    "; which we discard.
+                $note = trim($atresult[2]);
+                // Strip off "" and trim.
+                $note = trim(substr($note, 1, strlen($note) - 2));
+                if ($note !== '') {
+                    $notes[] = trim($atresult[2]);
+                }
             }
             // We need to check the array_key_exists because in the case of a guard clause it will not.
             // Do we actually want to ignore the missing note here or indicate the note is missing with a note?
@@ -291,8 +296,34 @@ class prt_evaluatable implements cas_raw_value_extractor {
         return $notes;
     }
 
+    /**
+     * This function creates a single answer note as a test case expectation.
+     * This ignores contributions from answer tests which might vary with the student's answer.
+     * @return array The single string containing the expected note.
+     */
+    public function get_answernotes_testcase() {
+        $allanswernotes = $this->get_answernotes(true);
+        $answernotes = $this->get_answernotes(false);
+        if ($this->bailed) {
+            return($this->bailed);
+        }
+        // ISS1657 - Handle case when PRT does not fire.
+        if (empty($answernotes)) {
+            return(['NULL']);
+        }
+        $anchorstart = '[ ';
+        // The answer test contributes a note which we ignore.
+        if (substr(trim(implode(' | ', $allanswernotes)), 0, 2) === 'AT') {
+            $anchorstart = '( ';
+        }
+        if (substr(trim(implode(' | ', $allanswernotes)), 0, 3) === '(AT') {
+            $anchorstart = '( ';
+        }
+        return([$anchorstart . implode(' | ', $answernotes) . ' ]']);
+    }
+
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function get_errors($format='strings') {
+    public function get_errors($format = 'strings') {
         // Apparently one wants to separate feedback-var errors?
         $err = [];
         foreach ($this->errors as $er) {
@@ -308,7 +339,7 @@ class prt_evaluatable implements cas_raw_value_extractor {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function get_fverrors($format='strings') {
+    public function get_fverrors($format = 'strings') {
         $err = [];
         foreach ($this->errors as $er) {
             if (strpos($er->get_context(), '/fv') !== false) {
@@ -340,5 +371,13 @@ class prt_evaluatable implements cas_raw_value_extractor {
             return $filtered;
         }
         return $this->holder->replace($filtered);
+    }
+
+    /**
+     * Needed for ILIAS, rather than Moodle.
+     * @return float Returns the weight of this prt.
+     */
+    public function get_weight(): float {
+        return $this->weight;
     }
 }

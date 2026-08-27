@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>16.2.3.3 Note</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Note that in all of these examples and exercises we have decided upon the convergence or divergence of various series; we have not been able to use the tests to discover what actual number the convergent series converges to.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

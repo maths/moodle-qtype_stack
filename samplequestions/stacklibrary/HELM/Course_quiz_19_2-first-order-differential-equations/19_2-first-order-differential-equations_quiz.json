@@ -1,0 +1,297 @@
+{
+    "quiz": {
+        "name": "19_2 First Order Differential Equations",
+        "intro": "<p><strong>Separation of variables<\/strong> is a technique commonly used to solve first-order ordinary differential equations. It is so-called because we rearrange the equation to be solved such that all terms involving the dependent variable appear on one side of the equation, and all terms involving the independent variable appear on the other. Integration completes the solution. Not all first-order equations can be rearranged in this way so this technique is not always appropriate. Further, it is not always possible to perform the integration even if the variables are separable.&nbsp;<\/p><p>In this section, you will learn how to decide whether the method is appropriate, and how to apply it in such cases.&nbsp;<\/p><p>An <strong>exact<\/strong> first-order differential equation is one which can be solved by simply integrating both sides. Only very few first-order differential equations are exact. You will learn how to recognise these and solve them. Some others may be converted simply to exact equations and that is also considered.<\/p><p>Whilst exact differential equations are few and far between an important class of differential equations can be converted into exact equations by multiplying through by a function known as the for the equation. In the last part of this section, you will learn how to decide whether an equation is capable of being transformed into an exact equation, how to determine the <strong>integrating factor<\/strong>, and how to obtain the solution of the original equation.<\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Seperable differential equations",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "12",
+            "heading": "Exact differential equations",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "24",
+            "heading": "Linear differential equations - the integrating factor",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "6",
+            "heading": "Exercises",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "19",
+            "heading": "Exercises",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "31",
+            "heading": "Exercises",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-19-2\/19-2-1-1-Separating-the-variables-in-first-order-ODEs.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-2\/19-2-1-2-Separable-Equations.xml"
+        },
+        {
+            "slot": "3",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-19-2\/19-2-1-3-Different-variable-names.xml"
+        },
+        {
+            "slot": "4",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-19-2\/19-2-2-1-Applying-the-method-of-separation-of-variables-to-ODEs.xml"
+        },
+        {
+            "slot": "5",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-2\/19-2-2-2-Separation-of-variables.xml"
+        },
+        {
+            "slot": "12",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-19-2\/19-2-3-1-Exact-equations.xml"
+        },
+        {
+            "slot": "13",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-2\/19-2-3-2-Exact-Equations.xml"
+        },
+        {
+            "slot": "14",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-19-2\/19-2-4-1-Solving-exact-equations.xml"
+        },
+        {
+            "slot": "15",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-2\/19-2-4-2-Solve-an-exact-equation.xml"
+        },
+        {
+            "slot": "16",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-19-2\/19-2-5-1-Recognising-an-exact-equation.xml"
+        },
+        {
+            "slot": "17",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-19-2\/19-2-5-2-Solve-an-exact-equation.xml"
+        },
+        {
+            "slot": "21",
+            "page": "7",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-2\/19-2-5-6-Solving-an-Exact-Equation-Ex3.xml"
+        },
+        {
+            "slot": "24",
+            "page": "8",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-19-2\/19-2-6-1-The-Integrating-factor.xml"
+        },
+        {
+            "slot": "25",
+            "page": "8",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-2\/19-2-6-2-Which-equation-uses-an-integrating-factor.xml"
+        },
+        {
+            "slot": "26",
+            "page": "9",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-19-2\/19-2-7-1-Finding-the-integrating-factor-for-linear-ODEs.xml"
+        },
+        {
+            "slot": "27",
+            "page": "9",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-2\/19-2-7-2-Find-the-integrating-factor.xml"
+        },
+        {
+            "slot": "28",
+            "page": "9",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-19-2\/19-2-8-1-Solving-equations-via-the-integrating-factor.xml"
+        },
+        {
+            "slot": "29",
+            "page": "9",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-2\/19-2-8-2-Solve-the-equation-using-the-integrating-factor.xml"
+        },
+        {
+            "slot": "18",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-2\/19-2-5-3-T-Recognising-an-Exact-Equation.xml"
+        },
+        {
+            "slot": "6",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-2\/19-2-2-3-Separation-of-Variables-Ex1.xml"
+        },
+        {
+            "slot": "7",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-2\/19-2-2-4-Separation-of-Variables-Ex2.xml"
+        },
+        {
+            "slot": "8",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-2\/19-2-2-5-Separation-of-Variables-Ex3.xml"
+        },
+        {
+            "slot": "9",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-2\/19-2-2-6-Separation-of-Variables-Ex4.xml"
+        },
+        {
+            "slot": "10",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-2\/19-2-2-7-Separation-of-Variables-Ex5.xml"
+        },
+        {
+            "slot": "11",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-2\/19-2-2-8-Separation-of-Variables-Ex6.xml"
+        },
+        {
+            "slot": "19",
+            "page": "7",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-2\/19-2-5-4-Solving-an-Exact-Equation-Ex1.xml"
+        },
+        {
+            "slot": "20",
+            "page": "7",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-2\/19-2-5-5-Solving-an-Exact-Equation-Ex2.xml"
+        },
+        {
+            "slot": "22",
+            "page": "7",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-2\/19-2-5-7-Solving-and-Exact-Equation-Ex4.xml"
+        },
+        {
+            "slot": "23",
+            "page": "7",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-2\/19-2-5-8-Solving-an-Exact-Equation-Ex5.xml"
+        },
+        {
+            "slot": "31",
+            "page": "11",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-2\/19-2-9-2-First-Order-DE-Ex1.xml"
+        },
+        {
+            "slot": "32",
+            "page": "11",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-2\/19-2-9-3-First-Order-DE-Ex2.xml"
+        },
+        {
+            "slot": "33",
+            "page": "11",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-2\/19-2-9-4-First-Order-DE-Ex3.xml"
+        },
+        {
+            "slot": "34",
+            "page": "11",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-2\/19-2-9-5-First-Order-DE-Ex4.xml"
+        },
+        {
+            "slot": "35",
+            "page": "11",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-2\/19-2-9-6-Temperature-ODE.xml"
+        },
+        {
+            "slot": "30",
+            "page": "10",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-19-2\/19-2-9-1-Engineering-Example.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

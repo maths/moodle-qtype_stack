@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>36.1.5.4 Median and quartiles</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Median and quartiles
+</h4><p>Some statistics are derived from quantitative data which are placed in <b> rank order</b>. Ranking data simply means that the data are placed in order from the smallest to the largest. The smallest observation thus gets rank 1, the second smallest gets rank 2 and so on. Such statistics are called <i> order statistics</i>. The median is an order statistic which is used as a measure of location. It divides a sample of data into two equally sized groups, one containing the smaller observations and the other containing the larger observations. Two other order statistics which we will describe here together with the median are the <b> Lower Quartile</b> and the <b>Upper Quartile</b>. The lower quartile, median and upper quartile are also called the first, second and third quartiles respectively. They divide a sample of data into four portions according to the sizes of the observations, each portion containing the same number of observations. As you will see the <i>Ogive</i>&nbsp;or <i>Cumulative Frequency Curve</i> enables us to find these statistics for large data sets. Definitions for the three sample quartiles are given below. A number of slightly different definitions are used for the lower and upper quartile. One version is given here. The different definitions will usually lead to only slightly different results.</p>
+<p><b>The Median</b>; this is the central value of a sample where the numbers of larger observations and smaller observations are equal.</p>
+<p><b>The Lower Quartile</b>; this is the value which divides the observations into a lower \(25\%\) and an upper \(75\%\).</p>
+<p><b>The Upper Quartile</b>; this is the value which divides the observations into a lower \(75\%\) and an upper \(25\%\).</p>
+<h5>Calculations</h5>
+<p>We calculate the median and the lower and upper quartiles as follows. Let the number of observations be \(n\). We sort the observations into increasing order and allocate ranks. If there are ties then we just use integer ranks as usual. For example, the data 3.1, 4.6, 5.3, 5.3, 7.8, 9.5 would get ranks 1, 2, 3, 4, 5, 6 so that the observations with ranks 3 and 4 are both 5.3.</p>
+<ul>
+<li>For <b>median</b>, calculate \( r_{2} = \dfrac{n+1}{2}\). If \( n \) is odd \(r_{2}\) is an integer and the sample median is the observation with rank \(r_{2}\). If \(n\) is even then \(r_{2}\) is not an integer and we average the values on either side. That is we average the observations with ranks \(\dfrac{n}{2}\) and \(\dfrac{n+2}{2}\). For example, if \(n=16\), then \(r_{2}=8.5\) and we average the values with ranks \(8\) and \(9\).</li>
+<li>For the <b>lower quartile</b>, calculate \(r_{1}=\dfrac{n+2}{4}\). If \(r_{1}\) is an integer, the sample lower quartile is the observation with rank \(r_{1}\). If \(r_{1}\) is not an integer then we average the values on either side. For example, if \(n=16\), then \(r_{1}=4.5\) and we average the values with ranks \(4\) and \(5\).</li>
+<li>For the <b>upper quartile</b>, calculate \(r_{3}=\dfrac{3n+2}{4}\). If \(r_{3}\) is an integer, the sample lower quartile is the observation with rank \(r_{3}\). If \(r_{3}\) is not an integer then we average the values on either side. For example, if \(n=16\), then \(r_{3}=12.5\) and we average the values with ranks \(12\) and \(13\).</li>
+</ul>
+<p>Note that \( r_{2}=\dfrac{2n+2}{4}\) so the three \(r\)-values are
+\[ r_{1}= \dfrac{n+2}{4},\ r_{2}=\dfrac{2n+2}{4}\ {\rm and}\ r_{3}=\dfrac{3n+2}{4}. \]</p>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>For the simple data set: 
+\[1.2, 3.0, 2.5, 5.1, 3.5, 4.1, 3.1, 2.4,\]
+the process is illustrated by placing the members of the data set in rank order:
+\[1.2, 2.4, 2.5, 3.0, 3.1, 3.5, 4.1, 5.1\]</p>
+<p>Here \( n=8 \) so</p>
+<ul>
+<li>\( r_{1}=2.5\) and the lower quartile is \(\dfrac{2.4+2.5}{2}=2.45\),</li><li> \( r_{2}=4.5\) and the median is \(\dfrac{3.0+3.1}{2}=3.05\),</li><li> \( r_{3}=6.5\) and the upper quartile is \(\dfrac{3.5+4.1}{2}=3.8\).
+</li></ul>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,1993 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+<!-- question: 0  -->
+  <question type="category">
+    <category>
+      <text>$course$/top/STACK/FBD-Workshop 2024</text>
+    </category>
+    <info format="markdown">
+      <text></text>
+    </info>
+    <idnumber></idnumber>
+  </question>
+
+<!-- question: 108081  -->
+  <question type="stack">
+    <name>
+      <text>FBD Workshop SP 0</text>
+    </name>
+    <questiontext format="markdown">
+      <text><![CDATA[<p hidden>[[input:objects]] [[validation:objects]]</p>
+<p hidden>[[input:names]] [[validation:names]] </p>
+<div style="float:right">
+[[jsxgraph width='500px' height='400px' input-ref-objects="stateRef" input-ref-names="fbd_names" ]]
+var mode  = "STACK";
+const initstring = {#init#};
+const centeredLabelStyle = {size:0, showInfobox:false, label:{offset:[-6,0], 
+  anchorX:'left', anchorY:'middle'}};
+// End of STACK header
+[[include src="https://raw.githubusercontent.com/mkraska/meclib/main/meclib.js" /]]
+[[/jsxgraph]]</div>]]></text>
+    </questiontext>
+    <generalfeedback format="markdown">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>0.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+    <stackversion>
+      <text>2024072400</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[initdata: [
+  [ "grid", "","",-2, 5,-4,4, 40],
+  [ "bar", "1", [0, 0], [1, -2], "show" ],
+  [ "beam","white", "gray80",[0, 0],[3,0],0.15, "show"],
+  [ "crosshair","", [3, -1] ],
+  [ "dim", "a", [3, 2], [4,2], 0 ],
+  [ "fix12", "C", [1, -2], 0 , "show"],
+  [ "fix13", "B", [3, 0], 180, "show"],
+  [ "node", "A", [0,0] ],
+  [ "q", "","q_0", [0, 0.2], [3,0.2], 0 , 1, 0, "show"],
+  [ "forceGen", "F_1", [-1, 3.5]],
+  [ "momentGen", "M_1", [1, 3.5]]
+];
+init: stackjson_stringify(initdata);
+stack_include("https://raw.githubusercontent.com/mkraska/meclib/main/Maxima/fb_fbd.mac");
+stack_include("https://raw.githubusercontent.com/mkraska/meclib/main/Maxima/fb_value.mac");]]></text>
+    </questionvariables>
+    <specificfeedback format="markdown">
+      <text></text>
+    </specificfeedback>
+    <questionnote format="markdown">
+      <text></text>
+    </questionnote>
+    <questiondescription format="markdown">
+      <text></text>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="markdown">
+      <text>Correct answer, well done.</text>
+    </prtcorrect>
+    <prtpartiallycorrect format="markdown">
+      <text>Your answer is partially correct.</text>
+    </prtpartiallycorrect>
+    <prtincorrect format="markdown">
+      <text>Incorrect answer.</text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>names</name>
+      <type>algebraic</type>
+      <tans>[]</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>objects</name>
+      <type>string</type>
+      <tans>[]</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options></options>
+    </input>
+  </question>
+
+<!-- question: 108105  -->
+  <question type="stack">
+    <name>
+      <text>FBD Workshop SP 1 Feedback for Free Body Diagram</text>
+    </name>
+    <questiontext format="markdown">
+      <text><![CDATA[<p>[[input:objects]] [[validation:objects]]</p>
+<p>[[input:names]] [[validation:names]] </p>
+<div style="float:right">
+[[jsxgraph width='500px' height='400px' input-ref-objects="stateRef" input-ref-names="fbd_names" ]]
+var mode  = "STACK";
+const initstring = {#init#};
+const centeredLabelStyle = {size:0, showInfobox:false, label:{offset:[-6,0], 
+  anchorX:'left', anchorY:'middle'}};
+// End of STACK header
+[[include src="https://raw.githubusercontent.com/mkraska/meclib/main/meclib.js" /]]
+[[/jsxgraph]]</div>
+
+Schneiden Sie den Balken frei. Ersetzen Sie die Lager durch Reaktionen und ersetzen Sie die Streckenlast durch eine resultierende Kraft. 
+
+Geben Sie als Name der resultierenden Kraft deren Wert als Formel an.
+
+Gegeben: Gitterweite \\(a\\), Streckenlast \\(q_0\\).
+
+[[lang code="de"]]
+<details><summary><strong>Bedienungshinweise</strong></summary>
+<ul>
+ <li>Objekte (de-)aktivieren: Doppelklick
+ <li>Kraft/Moment 
+ <ul>
+   <li>erzeugen: Name (oder Ausdruck für Wert) eintragen und grauen Pfeil auf die Skizze ziehen
+  <li>löschen: Doppelklicken
+  <li>Name ändern: Löschen und neu erzeugen. Sorry, etwas unbequem :(
+  <li>Position und Richtung ändern: Rote Kontrollpunkte ziehen
+ </ul>
+<li> Resultierende von Streckenlasten: Mindestens ein Kontrollpunkt muss auf der Streckenlast liegen
+<li> Reaktionskräfte: Anfangs- oder Endpunkt müssen auf dem Lagerpunkt liegen
+<li> Reaktionsmomente: Mittelpunkt muss auf dem Lager liegen
+</ul>
+</details>
+[[/lang]]
+[[lang code="other"]]
+<details><summary><strong>Hints for interactive input</strong></summary>
+<ul>
+<li>Activate/de-activate objects: double click 
+<li>Force/moment 
+  <ul>
+  <li>Create: Enter name (or expression indicating the value) in the text field and then drag the gray arrow onto the sketch. 
+  <li>Delete: Double click on the arrow
+  <li>Change name: Delete and create new with correct name. Sorry, somewhat inconvenient :(
+  <li>Change position and direction: Drag red control points 
+  </ul>
+<li>Resultants of line loads: At least one control point is on the line load area
+<li>Force reactions: Either of the two control points must be on the support point
+<li>Moment reactions: Center point must coincide with the support point.
+</ul>
+</details>
+
+[[/lang]]
+
+<p>[[feedback:fb_A]]</p>
+<p>[[feedback:fb_B]]</p>
+<p>[[feedback:fb_q]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="markdown">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>0.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+    <stackversion>
+      <text>2024072400</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[initdata: [
+  [ "grid", "","",-2, 5,-4,4, 40],
+  [ "bar", "1", [0, 0], [1, -2], "show" ],
+  [ "beam","white", "gray80",[0, 0],[3,0],0.15, "show"],
+  [ "crosshair","", [3, -1] ],
+  [ "dim", "a", [3, 2], [4,2], 0 ],
+  [ "fix12", "C", [1, -2], 0 , "show"],
+  [ "fix13", "B", [3, 0], 180, "show"],
+  [ "node", "A", [0,0] ],
+  [ "q", "","q_0", [0, 0.2], [3,0.2], 0 , 1, 0, "show"],
+  [ "forceGen", "F_1", [-1, 3.5]],
+  [ "momentGen", "M_1", [1, 3.5]]
+];
+init: stackjson_stringify(initdata);
+
+i_A: 2; i_B: 7; i_P: 4; i_q: 9;
+
+tansdata: [
+  ["grid","","",-2,5,-4,4,40],
+  ["bar","1",[0,0],[1,-2],"hide"],
+  ["beam","white","gray80",[0,0],[3,0],0.15,"show"],
+  ["crosshair","",[0,0]],
+  ["dim","a",[3,2],[4,2],0],
+  ["fix12","C",[1,-2],0,"show"],
+  ["fix13","B",[3,0],180,"hide"],
+  ["node","A",[0,0]],
+  ["q","","q_0",[0,0.2],[3,0.2],0,1,0,"hide"],
+  ["forceGen","F_2",[-1,3.5]],
+  ["momentGen","M_1",[1,3.5]],
+  ["force","F_1",[0.2,-0.4],[0.7800000000000001,-1.5600000000000003],10,"active"],
+  ["moment","M_B",[3,0],[2.7,-0.5],[3.5000000000000018,-0.5],"active"],
+  ["force","B",[3,0],[4,0],10,"active"],
+  ["force","3/2 q_0 a",[2,1.6],[2,0.5],10,"active"]
+]
+tans: stackjson_stringify(tansdata);
+
+
+
+stack_include("https://raw.githubusercontent.com/mkraska/meclib/main/Maxima/fb_fbd.mac");
+stack_include("https://raw.githubusercontent.com/mkraska/meclib/main/Maxima/fb_value.mac");
+
+]]></text>
+    </questionvariables>
+    <specificfeedback format="markdown">
+      <text></text>
+    </specificfeedback>
+    <questionnote format="markdown">
+      <text></text>
+    </questionnote>
+    <questiondescription format="markdown">
+      <text></text>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="markdown">
+      <text>Correct answer, well done.</text>
+    </prtcorrect>
+    <prtpartiallycorrect format="markdown">
+      <text>Your answer is partially correct.</text>
+    </prtpartiallycorrect>
+    <prtincorrect format="markdown">
+      <text>Incorrect answer.</text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>names</name>
+      <type>algebraic</type>
+      <tans>[]</tans>
+      <boxsize>80</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>objects</name>
+      <type>string</type>
+      <tans>tans</tans>
+      <boxsize>80</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>fb_A</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text>obj: stackjson_parse(objects);
+[text, isOK]: fb_bar(obj, names, i_A);
+[ntext, nOK]: fb_bar_name(obj, names, i_A);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>isOK</sans>
+        <tans>true</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>fb_A-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@text@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>fb_A-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>{@text@}</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>nOK</sans>
+        <tans>true</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>fb_A-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@ntext@}</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.5</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>fb_A-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>{@ntext@}</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>fb_B</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text><![CDATA[obj: stackjson_parse(objects);
+[text, isOK]: fb_fix13(obj, names, i_B, "Parallelführung bei B: ");
+[ntext, nOK]: fb_fix13_names(obj, names, i_B);
+]]></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>isOK</sans>
+        <tans>true</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>fb_B-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@text@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>fb_B-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>{@text@}</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>nOK</sans>
+        <tans>true</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>fb_B-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@ntext@}</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>fb_B-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>{@ntext@}</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>fb_q</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text><![CDATA[obj: stackjson_parse(objects);
+[text, isOK]: fb_q(obj, names, i_q, "Streckenlast: ", 0, q_0, a);
+]]></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>isOK</sans>
+        <tans>true</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>fb_q-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@text@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>fb_q-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>{@text@}</text>
+        </falsefeedback>
+      </node>
+    </prt>
+  </question>
+
+<!-- question: 108176  -->
+  <question type="stack">
+    <name>
+      <text>FBD Workshop SP 2 System of equations</text>
+    </name>
+    <questiontext format="markdown">
+      <text><![CDATA[<p hidden>[[input:objects]] [[validation:objects]]</p>
+<p hidden>[[input:names]] [[validation:names]] </p>
+<div style="float:right">
+[[jsxgraph width='500px' height='400px' input-ref-objects="stateRef" input-ref-names="fbd_names" ]]
+var mode  = "STACK";
+const initstring = {#init#};
+const centeredLabelStyle = {size:0, showInfobox:false, label:{offset:[-6,0], 
+  anchorX:'left', anchorY:'middle'}};
+// End of STACK header
+[[include src="https://raw.githubusercontent.com/mkraska/meclib/main/meclib.js"/]]
+[[/jsxgraph]]</div>
+
+
+**Freischnitt**
+
+Schneiden Sie den Balken frei. Ersetzen Sie die Lager durch Reaktionen und ersetzen Sie die Streckenlast durch eine resultierende Kraft. 
+
+Geben Sie als Name der resultierenden Kraft deren Wert als Formel an.
+
+Gegeben: Gitterweite \\(a\\), Streckenlast \\(q_0\\).
+
+[[lang code="de"]]
+<details><summary><strong>Bedienungshinweise</strong></summary>
+<ul>
+ <li>Objekte (de-)aktivieren: Doppelklick
+ <li>Kraft/Moment 
+ <ul>
+   <li>erzeugen: Name (oder Ausdruck für Wert) eintragen und grauen Pfeil auf die Skizze ziehen
+  <li>löschen: Doppelklicken
+  <li>Name ändern: Löschen und neu erzeugen. Sorry, etwas unbequem :(
+  <li>Position und Richtung ändern: Rote Kontrollpunkte ziehen
+ </ul>
+<li> Resultierende von Streckenlasten: Mindestens ein Kontrollpunkt muss auf der Streckenlast liegen
+<li> Reaktionskräfte: Anfangs- oder Endpunkt müssen auf dem Lagerpunkt liegen
+<li> Reaktionsmomente: Mittelpunkt muss auf dem Lager liegen
+</ul>
+</details>
+[[/lang]]
+[[lang code="other"]]
+<details><summary><strong>Hints for interactive input</strong></summary>
+<ul>
+<li>Activate/de-activate objects: double click 
+<li>Force/moment 
+  <ul>
+  <li>Create: Enter name (or expression indicating the value) in the text field and then drag the gray arrow onto the sketch. 
+  <li>Delete: Double click on the arrow
+  <li>Change name: Delete and create new with correct name. Sorry, somewhat inconvenient :(
+  <li>Change position and direction: Drag red control points 
+  </ul>
+<li>Resultants of line loads: At least one control point is on the line load area
+<li>Force reactions: Either of the two control points must be on the support point
+<li>Moment reactions: Center point must coincide with the support point.
+</ul>
+</details>
+
+[[/lang]]
+
+<p>[[feedback:fb_A]]</p>
+<p>[[feedback:fb_B]]</p>
+<p>[[feedback:fb_q]]</p>
+
+**Gleichgewichtsbedingungen**
+
+Geben Sie die Summe der Kräfte in \\\(x\\\)- und \\\(y\\\)-Richtung sowie die Summe der Momente um einen von Ihnen mit dem blauen Fadenkreuz gewählten Bezugspunkt an. Geprüft wird, ob das zu Ihrem Freischnitt passt.
+
+<p>\(\Sigma F_x=\) [[input:GGx]] [[validation:GGx]] [[feedback:GGx]]</p>
+<p>\(\Sigma F_y=\) [[input:GGy]] [[validation:GGy]] [[feedback:GGy]]</p>
+<p>\(\Sigma M_\oplus=\) [[input:GGM]] [[validation:GGM]] [[feedback:GGM]]</p>
+
+**Auflagerreaktionen**
+
+<p>Bestimmen Sie die Auflagerreaktionen. Geben Sie die Ergebnisse als Gleichungen <code>[Variable1=Wert1, Variable2=Wert2, Variable3=Wert3]</code> an. Geprüft wird, ob die von Ihnen angegebenen Gleichgewichtsbedingungen erfüllt sind.</p>
+
+<p>[[input:R]] [[validation:R]] <br>[[feedback:R]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="markdown">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>0.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+    <stackversion>
+      <text>2024072400</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[initdata: [
+  [ "grid", "","",-2, 5,-4,4, 40],
+  [ "bar", "1", [0, 0], [1, -2], "show" ],
+  [ "beam","white", "gray80",[0, 0],[3,0],0.15, "show"],
+  [ "crosshair","", [3, -1], [0,0], [1,1], [1,1], "grid" ],
+  [ "dim", "a", [3, 2], [4,2], 0 ],
+  [ "fix12", "C", [1, -2], 0 , "show"],
+  [ "fix13", "B", [3, 0], 180, "show"],
+  [ "node", "A", [0,0] ],
+  [ "q", "","q_0", [0, 0.2], [3,0.2], 0 , 1, 0, "show"],
+  [ "forceGen", "F_1", [-1, 3.5]],
+  [ "momentGen", "M_1", [1, 3.5]]
+];
+init: stackjson_stringify(initdata);
+
+i_A: 2; i_B: 7; i_P: 4; i_q: 9;
+
+tansdata: [
+  ["grid","","",-2,5,-4,4,40],
+  ["bar","1",[0,0],[1,-2],"hide"],
+  ["beam","white","gray80",[0,0],[3,0],0.15,"show"],
+  [ "crosshair","", [0, 0], [0,0], [1,1], [1,1], "grid" ],
+  ["dim","a",[3,2],[4,2],0],
+  ["fix12","C",[1,-2],0,"show"],
+  ["fix13","B",[3,0],180,"hide"],
+  ["node","A",[0,0]],
+  ["q","","q_0",[0,0.2],[3,0.2],0,1,0,"hide"],
+  ["forceGen","F_2",[-1,3.5]],
+  ["momentGen","M_1",[1,3.5]],
+  ["force","F_1",[0.2,-0.4],[0.7800000000000001,-1.5600000000000003],10,"active"],
+  ["moment","M_B",[3,0],[2.7,-0.5],[3.5000000000000018,-0.5],"active"],
+  ["force","B",[3,0],[4,0],10,"active"],
+  ["force","3/2 q_0 a",[2,1.6],[2,0.5],10,"active"]
+]
+tans: stackjson_stringify(tansdata);
+tansnames: [0,[12],"show",[0,0],"a","show",[13,14],"A",[15],0,0,F_1,M_B,B,3/2*q_0*a];
+
+stack_include("https://raw.githubusercontent.com/mkraska/meclib/main/Maxima/fb_fbd.mac");
+stack_include("https://raw.githubusercontent.com/mkraska/meclib/main/Maxima/fb_value.mac");
+
+
+unitvec(l):=block( [v] , v:round((l[4]-l[3])*10),ratexpand(v/sqrt(v[1]^2+v[2]^2)));
+msign(l):=block( [v1,v2] , v1:l[4]-l[3],v2:l[5]-l[3],round(signum(v1[1]*v2[2]-v1[2]*v2[1])));
+moment(p, f, fname, rname):=block([vf,vr],
+   vf: unitvec(f)*fname,
+   vr: round((f[3]-p)*10)/10*rname,
+   vr[1]*vf[2]-vr[2]*vf[1]);
+sum_xyM(o,n,p,lu):=block([f: 0,m: 0], 
+  for i:1 thru length(o)  do ( 
+    if (o[i][1]="force") then f: f+n[i]*unitvec(o[i]), 
+    if (o[i][1]="force") then m: m+moment(p, o[i], n[i],lu),
+    if (o[i][1]="moment") then m: m+n[i]*msign(o[i])
+  ),
+  [f[1],f[2],m]
+); 
+
+/* Equations from FBD and solution */
+rp: tansnames[i_P];
+lu:a;
+GG: sum_xyM(tansdata,tansnames,rp,lu);
+Rnames: listofvars(ev(GG,[a=1,q_0=1]));
+TR: solve(GG, Rnames)[1];
+
+
+
+
+
+]]></text>
+    </questionvariables>
+    <specificfeedback format="markdown">
+      <text><![CDATA[<p>Diese Gleichgewichtsbedingungen ergeben sich aus Ihrem Freischnitt.</p>
+<p>[[feedback:GGB]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="markdown">
+      <text></text>
+    </questionnote>
+    <questiondescription format="markdown">
+      <text></text>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="markdown">
+      <text>Correct answer, well done.</text>
+    </prtcorrect>
+    <prtpartiallycorrect format="markdown">
+      <text>Your answer is partially correct.</text>
+    </prtpartiallycorrect>
+    <prtincorrect format="markdown">
+      <text>Incorrect answer.</text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>GGM</name>
+      <type>algebraic</type>
+      <tans>ev(GG[3],simp)</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>3</insertstars>
+      <syntaxhint>Ausdruck</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>GGx</name>
+      <type>algebraic</type>
+      <tans>GG[1]</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>3</insertstars>
+      <syntaxhint>Ausdruck</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>GGy</name>
+      <type>algebraic</type>
+      <tans>GG[2]</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>3</insertstars>
+      <syntaxhint>Ausdruck</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>R</name>
+      <type>algebraic</type>
+      <tans>TR</tans>
+      <boxsize>50</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>3</insertstars>
+      <syntaxhint>[ Variable = Wert, ...]</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>names</name>
+      <type>algebraic</type>
+      <tans>[]</tans>
+      <boxsize>80</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>objects</name>
+      <type>string</type>
+      <tans>tans</tans>
+      <boxsize>80</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>fb_A</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text>obj: stackjson_parse(objects);
+[text, isOK]: fb_bar(obj, names, i_A);
+[ntext, nOK]: fb_bar_name(obj, names, i_A);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>isOK</sans>
+        <tans>true</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>fb_A-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@text@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>fb_A-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>{@text@}</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>nOK</sans>
+        <tans>true</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>fb_A-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@ntext@}</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.5</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>fb_A-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>{@ntext@}</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>fb_B</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text><![CDATA[obj: stackjson_parse(objects);
+[text, isOK]: fb_fix13(obj, names, i_B, "Parallelführung bei B: ");
+[ntext, nOK]: fb_fix13_names(obj, names, i_B);
+]]></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>isOK</sans>
+        <tans>true</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>fb_B-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@text@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>fb_B-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>{@text@}</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>nOK</sans>
+        <tans>true</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>fb_B-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@ntext@}</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>fb_B-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>{@ntext@}</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>fb_q</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text><![CDATA[obj: stackjson_parse(objects);
+[text, isOK]: fb_q(obj, names, i_q, "Streckenlast: ", 0, q_0, a);
+]]></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>isOK</sans>
+        <tans>true</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>fb_q-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@text@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>fb_q-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>{@text@}</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>GGB</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>0</feedbackstyle>
+      <feedbackvariables>
+        <text>obj: stackjson_parse(objects);
+GG: sum_xyM(obj,names,names[i_P],a);
+
+</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>GGx</sans>
+        <tans>GG[1]</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>GGB-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>\( \displaystyle \Sigma F_x={@GG[1]@}\) </p>
+<p>\( \displaystyle \Sigma F_y={@GG[2]@}\) </p>
+<p>\( \displaystyle \Sigma M_\oplus={@GG[3]@}\) </p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>GGB-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>GGM</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text>obj: stackjson_parse(objects);
+GG: sum_xyM(obj,names,names[i_P],a);
+
+</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>GGM</sans>
+        <tans>GG[3]</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>GGM-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>GGM-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>{@fb_vars(GGM,GG[3],listofvars(GGM))@}</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>GGx</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text>obj: stackjson_parse(objects);
+GG: sum_xyM(obj,names,names[i_P],a);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>GGx</sans>
+        <tans>GG[1]</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>GGx-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>GGx-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>{@fb_vars(GGx,GG[1],listofvars(GGx))@}</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>GGy</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text>obj: stackjson_parse(objects);
+GG: sum_xyM(obj,names,names[i_P],a);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>GGy</sans>
+        <tans>GG[2]</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>GGy-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>GGy-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>{@fb_vars(GGy,GG[2],listofvars(GGy))@}</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>R</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text>Sx: ev(GGx/(q_0*a), R);
+Sy: ev(GGy/(q_0*a), R);
+SM: ev(GGM/(q_0*a^2), R);
+</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>NumAbsolute</answertest>
+        <sans>Sx</sans>
+        <tans>0</tans>
+        <testoptions>0.01</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>R-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<br>\(\Sigma F_x=0\) ist erfüllt.]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>R-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<br>\(\Sigma F_x={@Sx*a*q_0@}\). Die Gleichgewichtsbedingung ist nicht erfüllt.]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description></description>
+        <answertest>NumAbsolute</answertest>
+        <sans>Sy</sans>
+        <tans>0</tans>
+        <testoptions>0.01</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>R-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<br>\(\Sigma F_y=0\) ist erfüllt.]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>R-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<br>\(\Sigma F_y={@Sy*a*q_0@}\). Die Gleichgewichtsbedingung ist nicht erfüllt.]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description></description>
+        <answertest>NumAbsolute</answertest>
+        <sans>SM</sans>
+        <tans>0</tans>
+        <testoptions>0.01</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>R-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<br>\(\Sigma M_\oplus=0\) ist erfüllt.]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>R-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<br>\(\Sigma M_\oplus={@SM*q_0*a^2@}\). Die Gleichgewichtsbedingung ist nicht erfüllt.]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+  </question>
+
+<!-- question: 108276  -->
+  <question type="stack">
+    <name>
+      <text>FBD Workshop SP 3 Reactions</text>
+    </name>
+    <questiontext format="markdown">
+      <text><![CDATA[<br>
+<p hidden>[[input:objects]] [[validation:objects]]</p>
+<p hidden>[[input:names]] [[validation:names]] </p>
+<div style="float:right">
+[[jsxgraph width='500px' height='400px' input-ref-objects="stateRef" input-ref-names="fbd_names" ]]
+var mode  = "STACK";
+const initstring = {#init#};
+const centeredLabelStyle = {size:0, showInfobox:false, label:{offset:[-6,0], 
+  anchorX:'left', anchorY:'middle'}};
+// End of STACK header
+[[include src="https://raw.githubusercontent.com/mkraska/meclib/main/meclib.js"/]]
+[[/jsxgraph]]</div>
+
+
+**Freischnitt**
+
+Schneiden Sie den Balken frei. Ersetzen Sie die Lager durch Reaktionen und ersetzen Sie die Streckenlast durch eine resultierende Kraft. 
+
+Geben Sie als Name der resultierenden Kraft deren Wert als Formel an.
+
+Gegeben: Gitterweite \\(a\\), Streckenlast \\(q_0\\).
+
+[[lang code="de"]]
+<details><summary><strong>Bedienungshinweise</strong></summary>
+<ul>
+ <li>Objekte (de-)aktivieren: Doppelklick
+ <li>Kraft/Moment 
+ <ul>
+   <li>erzeugen: Name (oder Ausdruck für Wert) eintragen und grauen Pfeil auf die Skizze ziehen
+  <li>löschen: Doppelklicken
+  <li>Name ändern: Löschen und neu erzeugen. Sorry, etwas unbequem :(
+  <li>Position und Richtung ändern: Rote Kontrollpunkte ziehen
+ </ul>
+<li> Resultierende von Streckenlasten: Mindestens ein Kontrollpunkt muss auf der Streckenlast liegen
+<li> Reaktionskräfte: Anfangs- oder Endpunkt müssen auf dem Lagerpunkt liegen
+<li> Reaktionsmomente: Mittelpunkt muss auf dem Lager liegen
+</ul>
+</details>
+[[/lang]]
+[[lang code="other"]]
+<details><summary><strong>Hints for interactive input</strong></summary>
+<ul>
+<li>Activate/de-activate objects: double click 
+<li>Force/moment 
+  <ul>
+  <li>Create: Enter name (or expression indicating the value) in the text field and then drag the gray arrow onto the sketch. 
+  <li>Delete: Double click on the arrow
+  <li>Change name: Delete and create new with correct name. Sorry, somewhat inconvenient :(
+  <li>Change position and direction: Drag red control points 
+  </ul>
+<li>Resultants of line loads: At least one control point is on the line load area
+<li>Force reactions: Either of the two control points must be on the support point
+<li>Moment reactions: Center point must coincide with the support point.
+</ul>
+</details>
+
+[[/lang]]
+
+<p>[[feedback:fb_A]]</p>
+<p>[[feedback:fb_B]]</p>
+<p>[[feedback:fb_q]]</p>
+<p>[[feedback:System]]</p>
+
+**Gleichgewichtsbedingungen**
+
+Geben Sie die Summe der Kräfte in \\\(x\\\)- und \\\(y\\\)-Richtung sowie die Summe der Momente um einen von Ihnen mit dem blauen Fadenkreuz gewählten Bezugspunkt an. Geprüft wird, ob das zu Ihrem Freischnitt passt.
+
+<p>\(\Sigma F_x=\) [[input:GGx]] [[validation:GGx]] [[feedback:GGx]]</p>
+<p>\(\Sigma F_y=\) [[input:GGy]] [[validation:GGy]] [[feedback:GGy]]</p>
+<p>\(\Sigma M_\oplus=\) [[input:GGM]] [[validation:GGM]] [[feedback:GGM]]</p>
+
+**Auflagerreaktionen**
+
+<p>Bestimmen Sie die Auflagerreaktionen. Geben Sie die Ergebnisse als Gleichungen <code>Variable1=Ausdruck</code> an, eine Gleichung in jedes Eingabefeld, die Reihenfolge ist egal. Geprüft wird, ob die von Ihnen angegebenen Gleichgewichtsbedingungen erfüllt sind.</p>
+
+<p>[[input:R]] [[validation:R]] <br>[[feedback:R]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="markdown">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>0.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+    <stackversion>
+      <text>2025012100</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[initdata: [
+  [ "grid", "","",-2, 5,-4,4, 40],
+  [ "bar", "1", [0, 0], [1, -2], "show" ],
+  [ "beam","white", "gray80",[0, 0],[3,0],0.15, "show"],
+  [ "crosshair","", [3, -1], [0,0], [1,1], [1,1], "grid" ],
+  [ "dim", "a", [3, 2], [4,2], 0 ],
+  [ "fix12", "C", [1, -2], 0 , "show"],
+  [ "fix13", "B", [3, 0], 180, "show"],
+  [ "node", "A", [0,0] ],
+  [ "q", "","q_0", [0, 0.2], [3,0.2], 0 , 1, 0, "show"],
+  [ "forceGen", "F_1", [-1, 3]],
+  [ "momentGen", "M_1", [1, 3]]
+];
+init: stackjson_stringify(initdata);
+
+i_A: 2; i_B: 7; i_P: 4; i_q: 9; i_beam: 3;
+sys: [i_beam]; env: [i_A, i_B, i_q];
+
+tansdata: [
+  ["grid","","",-2,5,-4,4,40],
+  ["bar","1",[0,0],[1,-2],"hide"],
+  ["beam","white","gray80",[0,0],[3,0],0.15,"show"],
+  [ "crosshair","", [0, 0], [0,0], [1,1], [1,1], "grid" ],
+  ["dim","a",[3,2],[4,2],0],
+  ["fix12","C",[1,-2],0,"show"],
+  ["fix13","B",[3,0],180,"hide"],
+  ["node","A",[0,0]],
+  ["q","","q_0",[0,0.2],[3,0.2],0,1,0,"hide"],
+  ["forceGen","F_2",[-1,3]],
+  ["momentGen","M_1",[1,3]],
+  ["force","F_1",[0.2,-0.4],[0.7800000000000001,-1.5600000000000003],10,"active"],
+  ["moment","M_B",[3,0],[2.7,-0.5],[3.5000000000000018,-0.5],"active"],
+  ["force","B",[3,0],[4,0],10,"active"],
+  ["force","3/2 q_0 a",[2,1.6],[2,0.5],10,"active"]
+];
+tans: stackjson_stringify(tansdata);
+tansnames: [0,[12],"show",[0,0],"a","show",[13,14],"A",[15],0,0,F_1,M_B,B,3/2*q_0*a];
+
+stack_include("https://raw.githubusercontent.com/mkraska/meclib/main/Maxima/fb_fbd.mac");
+stack_include("https://raw.githubusercontent.com/mkraska/meclib/main/Maxima/fb_value.mac");
+
+/* Equations from FBD and solution */
+rp: tansnames[i_P];
+lu:a;
+GG: sum_xyM(tansdata,tansnames,rp,lu);
+Rnames: listofvars(ev(GG,[a=1,q_0=1]));
+TR: solve(GG, Rnames)[1];
+
+
+
+
+
+]]></text>
+    </questionvariables>
+    <specificfeedback format="markdown">
+      <text><![CDATA[[[lang code="de"]]<p>Diese Gleichgewichtsbedingungen ergeben sich aus Ihrem Freischnitt.</p>[[/lang]]
+[[lang code="other"]]<p>These equillibrium conditions can be derived from your diagram.</p>[[/lang]]
+<p>[[feedback:GGB]]</p>]]></text>
+    </specificfeedback>
+    <questionnote format="markdown">
+      <text></text>
+    </questionnote>
+    <questiondescription format="markdown">
+      <text></text>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="markdown">
+      <text>Correct answer, well done.</text>
+    </prtcorrect>
+    <prtpartiallycorrect format="markdown">
+      <text>Your answer is partially correct.</text>
+    </prtpartiallycorrect>
+    <prtincorrect format="markdown">
+      <text>Incorrect answer.</text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens></matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>GGM</name>
+      <type>algebraic</type>
+      <tans>ev(GG[3],simp)</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>3</insertstars>
+      <syntaxhint>Ausdruck</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>GGx</name>
+      <type>algebraic</type>
+      <tans>GG[1]</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>3</insertstars>
+      <syntaxhint>Ausdruck</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>GGy</name>
+      <type>algebraic</type>
+      <tans>GG[2]</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>3</insertstars>
+      <syntaxhint>Ausdruck</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>R</name>
+      <type>matrix</type>
+      <tans>transpose(matrix(TR))</tans>
+      <boxsize>50</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>3</insertstars>
+      <syntaxhint>Variable = Wert</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>names</name>
+      <type>algebraic</type>
+      <tans>[]</tans>
+      <boxsize>80</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>objects</name>
+      <type>string</type>
+      <tans>tans</tans>
+      <boxsize>80</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>fb_A</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text>obj: stackjson_parse(objects);
+[text, isOK]: fb_bar(obj, names, i_A);
+[ntext, nOK]: fb_bar_name(obj, names, i_A);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>isOK</sans>
+        <tans>true</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>fb_A-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@text@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>fb_A-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>{@text@}</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>nOK</sans>
+        <tans>true</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>fb_A-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@ntext@}</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.5</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>fb_A-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>{@ntext@}</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>fb_B</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text><![CDATA[obj: stackjson_parse(objects);
+[text, isOK]: fb_fix13(obj, names, i_B, "Parallelführung bei B: ");
+[ntext, nOK]: fb_fix13_names(obj, names, i_B);
+]]></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>isOK</sans>
+        <tans>true</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>fb_B-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@text@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>fb_B-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>{@text@}</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>nOK</sans>
+        <tans>true</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>fb_B-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@ntext@}</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>fb_B-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>{@ntext@}</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>fb_q</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text><![CDATA[obj: stackjson_parse(objects);
+[text, isOK]: fb_q(obj, names, i_q, "Streckenlast: ", 0, q_0, a);
+]]></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>isOK</sans>
+        <tans>true</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>fb_q-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@text@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>fb_q-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>{@text@}</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>GGB</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>0</feedbackstyle>
+      <feedbackvariables>
+        <text>obj: stackjson_parse(objects);
+GG: sum_xyM(obj,names,names[i_P],a);
+
+</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>GGx</sans>
+        <tans>GG[1]</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>GGB-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>\( \displaystyle \Sigma F_x={@GG[1]@}=0\) </p>
+<p>\( \displaystyle \Sigma F_y={@GG[2]@}=0\) </p>
+<p>\( \displaystyle \Sigma M_\oplus={@GG[3]@}=0\) </p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>GGB-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>GGM</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text>obj: stackjson_parse(objects);
+GG: sum_xyM(obj,names,names[i_P],a);
+
+</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>GGM</sans>
+        <tans>GG[3]</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>GGM-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>GGM-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>{@fb_vars(GGM,GG[3],listofvars(GGM))@}</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>GGx</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text>obj: stackjson_parse(objects);
+GG: sum_xyM(obj,names,names[i_P],a);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>GGx</sans>
+        <tans>GG[1]</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>GGx-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>GGx-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>{@fb_vars(GGx,GG[1],listofvars(GGx))@}</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>GGy</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text>obj: stackjson_parse(objects);
+GG: sum_xyM(obj,names,names[i_P],a);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>GGy</sans>
+        <tans>GG[2]</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>GGy-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>GGy-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>{@fb_vars(GGy,GG[2],listofvars(GGy))@}</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>R</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text>RL: args(transpose(R));
+Sx: ev(GGx/(q_0*a), RL);
+Sy: ev(GGy/(q_0*a), RL);
+SM: ev(GGM/(q_0*a^2), RL);
+</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>NumAbsolute</answertest>
+        <sans>Sx</sans>
+        <tans>0</tans>
+        <testoptions>0.01</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>R-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<br>\(\Sigma F_x=0\) ist erfüllt.]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>R-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<br>\(\Sigma F_x={@Sx*a*q_0@}\). Die Gleichgewichtsbedingung ist nicht erfüllt.]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description></description>
+        <answertest>NumAbsolute</answertest>
+        <sans>Sy</sans>
+        <tans>0</tans>
+        <testoptions>0.01</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>R-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<br>\(\Sigma F_y=0\) ist erfüllt.]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>R-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<br>\(\Sigma F_y={@Sy*a*q_0@}\). Die Gleichgewichtsbedingung ist nicht erfüllt.]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <description></description>
+        <answertest>NumAbsolute</answertest>
+        <sans>SM</sans>
+        <tans>0</tans>
+        <testoptions>0.01</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>R-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<br>\(\Sigma M_\oplus=0\) ist erfüllt.]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>R-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<br>\(\Sigma M_\oplus={@SM*q_0*a^2@}\). Die Gleichgewichtsbedingung ist nicht erfüllt.]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>System</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text><![CDATA[[txt, OK]: fb_system(names, sys, env, " Der Balken gehört zum System, der Stab, das Lager und die Streckenlast gehören zur Umgebung." );
+obj: stackjson_parse(objects);
+[rtxt, rOK]: fb_reactions(obj, 2, 1);]]></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>OK</sans>
+        <tans>true</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>System-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<br>{@txt@}]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>System-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<br>{@txt@}]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>rOK</sans>
+        <tans>true</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>System-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<br>{@rtxt@}]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>System-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<br>{@rtxt@}]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>GGM</name>
+        <value>ev(GG[3],simp)</value>
+      </testinput>
+      <testinput>
+        <name>GGx</name>
+        <value>GG[1]</value>
+      </testinput>
+      <testinput>
+        <name>GGy</name>
+        <value>GG[2]</value>
+      </testinput>
+      <testinput>
+        <name>names</name>
+        <value>[]</value>
+      </testinput>
+      <testinput>
+        <name>objects</name>
+        <value>tans</value>
+      </testinput>
+      <testinput>
+        <name>R</name>
+        <value>transpose(matrix(TR))</value>
+      </testinput>
+      <expected>
+        <name>fb_A</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>fb_A-2-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>fb_B</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>fb_B-2-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>fb_q</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>fb_q-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>GGB</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>GGB-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>GGM</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>GGM-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>GGx</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>GGx-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>GGy</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>GGy-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>R</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>R-3-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>System</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>System-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+
+</quiz>

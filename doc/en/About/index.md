@@ -1,6 +1,6 @@
 # About the STACK Project
 
-STACK is an assessment system for mathematics, science and related disciplines, designed to enable students to answer questions with a mathematical expression, such as a polynomial.  STACK uses a Computer Algebra System and students are not limited to multiple choice.
+STACK is an assessment system for mathematics, science and related disciplines. Students answer questions with a mathematical expression, such as a polynomial, or with free-text input for complete mathematical arguments.
 
 There is a large, and growing, community of STACK users in many languages.
 
@@ -54,7 +54,7 @@ You can have follow-through marking for situations where, for example, the stude
 
 ### Support for many types of questions
 
-STACK has a large number of [inputs](../Authoring/Inputs/index.md) and [answer tests](../Authoring/Answer_Tests/index.md) to support the diverse needs of users across mathematics and science. This includes support for questions about [numerical accuracy](../Authoring/Answer_Tests/Numerical.md), [significant figures](../Authoring/Answer_Tests/Numerical.md#Significant_figure_testing) and [scientific units](../Topics/Units.md). You can also assess students' ability to reason line-by-line with [equivalence reasoning](../Specialist_tools/Equivalence_reasoning/index.md). 
+STACK has a large number of [inputs](../Authoring/Inputs/index.md) and [answer tests](../Authoring/Answer_Tests/index.md) to support the diverse needs of users across mathematics and science. This includes support for questions about [numerical accuracy](../Authoring/Answer_Tests/Numerical.md), [significant figures](../Authoring/Answer_Tests/Numerical.md#Significant_figure_testing) and [scientific units](../Topics/Units.md). You can also assess students' ability to reason line-by-line with [equivalence reasoning](../Specialist_tools/Equivalence_reasoning/index.md) and [free-text input](../Specialist_tools/Free_text_input/index.md), allowing students to enter a complete mathematical argument.
 
 # Further information
 

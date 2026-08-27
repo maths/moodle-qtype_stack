@@ -83,8 +83,15 @@ class stack_abstract_graph {
      * @param string $url if set, this node should be a link to that URL.
      */
     public function add_node($name, $description, $leftchild, $rightchild, $leftlabel = '', $rightlabel = '', $url = '') {
-        $this->nodes[$name] = new stack_abstract_graph_node($name, $description, $leftchild, $rightchild,
-                $leftlabel, $rightlabel, $url);
+        $this->nodes[$name] = new stack_abstract_graph_node(
+            $name,
+            $description,
+            $leftchild,
+            $rightchild,
+            $leftlabel,
+            $rightlabel,
+            $url
+        );
     }
 
     /**
@@ -99,8 +106,15 @@ class stack_abstract_graph {
      * @param string $url if set, this node should be a link to that URL.
      */
     public function add_prt_node($name, $description, $leftchild, $rightchild, $leftlabel = '', $rightlabel = '', $url = '') {
-        $this->nodes[$name] = new stack_prt_graph_node($name, $description, $leftchild, $rightchild,
-            $leftlabel, $rightlabel, $url);
+        $this->nodes[$name] = new stack_prt_graph_node(
+            $name,
+            $description,
+            $leftchild,
+            $rightchild,
+            $leftlabel,
+            $rightlabel,
+            $url
+        );
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -164,11 +178,15 @@ class stack_abstract_graph {
         reset($this->nodesbydepth);
         $maxdepth = key($this->nodesbydepth);
         foreach ($this->roots as $root) {
-            $this->compute_heuristic_xs($root, 1 << $maxdepth, 1 << $maxdepth);
+            $visited = [];
+            $this->compute_heuristic_xs($root, 1 << $maxdepth, 1 << $maxdepth, $visited);
         }
         foreach ($this->nodes as $node) {
-            $node->x = array_sum($node->heuristicxs) / count($node->heuristicxs);
-            $node->heuristicxs = null;
+            if ($node->heuristiccount > 0) {
+                $node->x = $node->heuristicsum / $node->heuristiccount;
+            }
+
+            unset($node->heuristicsum, $node->heuristiccount);
         }
         foreach ($this->nodesbydepth as $depth => $nodes) {
             uasort($this->nodesbydepth[$depth], ['stack_abstract_graph', 'compare_node_x_coords']);
@@ -181,19 +199,16 @@ class stack_abstract_graph {
                 if (is_null($node->left) && is_null($node->right)) {
                     // This is a leaf node, so it starts a new clump.
                     $this->clumps[] = new stack_abstract_graph_node_clump($node);
-
                 } else if (is_null($node->right)) {
                     // Only a left child, so tack it onto that clump.
                     $child = $this->get($node->left);
                     $clump = $this->find_clump_containing_node($child);
                     $clump->add_node($node, $child->x + 1, 2);
-
                 } else if (is_null($node->left)) {
                     // Only a right child, so tack it onto that clump.
                     $child = $this->get($node->right);
                     $clump = $this->find_clump_containing_node($child);
                     $clump->add_node($node, $child->x - 1, 2);
-
                 } else {
                     // Both children, either both in the same clump, or we need to merge clumps.
                     $leftchild = $this->get($node->left);
@@ -294,7 +309,7 @@ class stack_abstract_graph {
         }
 
         if (array_pop($this->stack) != $currentnode->name) {
-            throw new coding_exception('Something went wrong with the stack.');
+            throw new stack_exception('Something went wrong with the stack.');
         }
     }
 
@@ -308,16 +323,31 @@ class stack_abstract_graph {
      * @param int $x heuristic x-position to give that node.
      * @param float $dx the gap that should be left between the two child nodes.
      */
-    protected function compute_heuristic_xs(stack_abstract_graph_node $node, $x, $dx) {
-        $node->heuristicxs[] = $x;
+    protected function compute_heuristic_xs(stack_abstract_graph_node $node, $x, $dx, &$visited) {
+        $nodeid = spl_object_hash($node);
+
+        if (isset($visited[$nodeid])) {
+            return;
+        }
+        $visited[$nodeid] = true;
+
+        if (!isset($node->heuristicsum)) {
+            $node->heuristicsum = 0;
+            $node->heuristiccount = 0;
+        }
+
+        $node->heuristicsum += $x;
+        $node->heuristiccount++;
+
         $dx /= 2;
         if ($node->left) {
-            $this->compute_heuristic_xs($this->get($node->left), $x - $dx, $dx);
+            $this->compute_heuristic_xs($this->get($node->left), $x - $dx, $dx, $visited);
         }
         if ($node->right) {
-            $this->compute_heuristic_xs($this->get($node->right), $x + $dx, $dx);
+            $this->compute_heuristic_xs($this->get($node->right), $x + $dx, $dx, $visited);
         }
     }
+
 
     /**
      * Return the clump containing a given node.
@@ -330,7 +360,7 @@ class stack_abstract_graph {
                 return $clump;
             }
         }
-        throw new coding_exception($node->name . ' is not in any clump.');
+        throw new stack_exception($node->name . ' is not in any clump.');
     }
 
     /**
@@ -340,7 +370,7 @@ class stack_abstract_graph {
     protected function remove_clump(stack_abstract_graph_node_clump $clump) {
         $key = array_search($clump, $this->clumps);
         if (is_null($key)) {
-            throw new coding_exception('Unknown clump.');
+            throw new stack_exception('Unknown clump.');
         }
         unset($this->clumps[$key]);
     }
@@ -352,7 +382,7 @@ class stack_abstract_graph {
      */
     public function get($nodename) {
         if (!array_key_exists($nodename, $this->nodes)) {
-            throw new coding_exception('Node ' . $nodename . ' is not in the graph.');
+            throw new stack_exception('Node ' . $nodename . ' is not in the graph.');
         }
         return $this->nodes[$nodename];
     }
@@ -469,8 +499,10 @@ class stack_abstract_graph {
      * @param stack_abstract_graph_node $node the current node being visited by the algorithm.
      * @param array partial array of new node name - 1 => old node name with all the childern of $currentnode named.
      */
-    protected function suggested_names_worker(array $alreadynamed,
-            stack_abstract_graph_node $node) {
+    protected function suggested_names_worker(
+        array $alreadynamed,
+        stack_abstract_graph_node $node
+    ) {
         if (in_array($node->name, $alreadynamed)) {
             return $alreadynamed;
         }
@@ -479,18 +511,14 @@ class stack_abstract_graph {
 
         if (is_null($node->left) && is_null($node->right)) {
             return $alreadynamed;
-
         } else if (is_null($node->right)) {
             return $this->suggested_names_worker($alreadynamed, $this->get($node->left));
-
         } else if (is_null($node->left)) {
             return $this->suggested_names_worker($alreadynamed, $this->get($node->right));
-
         } else if ($this->get($node->right)->depth < $this->get($node->left)->depth) {
             $alreadynamed = $this->suggested_names_worker($alreadynamed, $this->get($node->right));
             $alreadynamed = $this->suggested_names_worker($alreadynamed, $this->get($node->left));
             return $alreadynamed;
-
         } else {
             $alreadynamed = $this->suggested_names_worker($alreadynamed, $this->get($node->left));
             $alreadynamed = $this->suggested_names_worker($alreadynamed, $this->get($node->right));

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>1.4.3.1 Addition and subtraction of algebraic fractions</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3><span style="color: inherit; font-family: inherit;">Addition and subtraction of algebraic fractions</span><br></h3>
+
+<p>To add two algebraic fractions the lowest common denominator must be found first. This is the simplest algebraic expression that has the given denominators as its factors. All fractions must be written with this lowest common denominator. Their sum is
+    found by adding the numerators and dividing the result by the lowest common denominator.</p>
+
+<p>To subtract two fractions the process is similar. The fractions are written with the lowest common denominator. The difference is found by subtracting the numerators and dividing the result by the lowest common denominator.
+</p>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>State the simplest expression which has \( x+1\) and \( x+4\) as its factors.</p>
+
+<h4 class="HELM_solution">Solution</h4>
+<p>The simplest expression is \((x+1)(x+4).\) Note that both \(x+1\) and \(x+4\) are factors.</p>
+
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>State the simplest expression which has \( x-1\) and \( (x-1)^2\) as its factors.</p>
+
+<h4 class="HELM_solution">Solution</h4>
+<p>The simplest expression is \( (x-1)^2.\) Clearly \( (x-1)^2 \) must be a factor of this expression. Also, because we can write \( (x-1)^2=(x-1)(x-1)\) it follows that \( x-1)\) is a factor too.</p>
+
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Express as a single fraction \( \dfrac{3}{x+1}+\dfrac{2}{x+4} \)</p>
+
+<h4 class="HELM_solution">Solution</h4>
+<p>The simplest expression which has both denominators as its factors is \( (x+1)(x+4).\)</p>
+<p>This is the lowest common denominator. Both fractions must be written using this denominator.</p>
+<p> Note that \( \dfrac{3}{x+1} \) is equivalent to \(\dfrac{3(x+4)}{(x+1)(x+4)}\) and \(\dfrac{2}{x+4}\) is equivalent to \(\dfrac{2(x+1)}{(x+1)(x+4)}. \)</p>
+<p>Thus writing both fractions with the same denominator we have \[ \dfrac{3}{x+1}+\dfrac{2}{x+4} = \dfrac{3(x+4)}{(x+1)(x+4)} + \dfrac{2(x+1)}{(x+1)(x+4)}\]</p>
+<p>The sum is found by adding the numerators and dividing the result by the lowest common denominator \[ \dfrac{3(x+4)}{(x+1)(x+4)} + \dfrac{2(x+1)}{(x+1)(x+4)} = \dfrac{3(x+4)+2(x+1)}{(x+1)(x+4)} = \dfrac{5x+14}{(x+1)(x+4)}\]</p>
+<p><br></p>
+
+<div class="HELM_keypoint">
+    <h4>Key Point</h4>
+    <p style="text-align:center"><strong>Addition of two algebraic fractions</strong></p>
+    <p>Step 1: Find the lowest common denominator</p>
+    <p>Step 2: Express each fraction with this denominator</p>
+    <p>Step 3: Add the numerators and divide the result by the lowest common denominator</p>
+</div>
+<p><br></p>
+
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Express \( \dfrac{1}{x-1}+\dfrac{5}{(x-1)^2} \) as a single fraction.</p>
+
+<h4 class="HELM_solution">Solution</h4>
+<p>The simplest expression which has both denominators as its factors is \( (x-1)^2.\) We write both fractions with this denominator.</p>
+<p>\[ \dfrac{1}{x-1}+\dfrac{5}{(x-1)^2} = \dfrac{x-1}{(x-1)^2} + \dfrac{5}{(x-1)^2} = \dfrac{x-1+5}{(x-1)^2} = \dfrac{x+4}{(x-1)^2}\]</p>
+
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Express \( \dfrac{5x}{7} - \dfrac{3x-4}{2} \) as a single fraction.</p>
+
+<h4 class="HELM_solution">Solution</h4>
+<p>In this example both denominators are simply numbers. The lowest common denominator is \(14\), and both fractions are re-written with this denominator. Thus</p>
+<p>\[ \dfrac{5x}{7} - \dfrac{3x-4}{2} = \dfrac{10x}{14} - \dfrac{7(3x-4)}{14} = \dfrac{10x-7(3x-4)}{14} = \dfrac{28-11x}{14}\]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

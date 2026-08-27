@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>22.2.2.1 Systems of first order differential equations</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3><span style="color: inherit; font-family: inherit;">Systems of first order differential equations</span><br></h3>
+
+<p>Systems of first order ordinary differential equations arise in many areas of mathematics and engineering, for example in control theory and in the analysis of electrical circuits. In each case the basic unknowns are each a function of the time variable <span class="math inline">\(t\)</span>. A number of techniques have been developed to solve such systems of equations; for example the Laplace transform. Here we shall use eigenvalues and eigenvectors to obtain the solution. Our first step will be to recast the system of ordinary differential equations in the <span><strong>matrix form</strong></span> <span class="math inline">\(\dot{\underline{x}}=A \underline{x}\)</span> where <span class="math inline">\(A\)</span> is an <span class="math inline">\(n\times n\)</span> coefficient matrix of constants, <span class="math inline">\(\underline{x}\)</span> is the <span class="math inline">\(n\times 1\)</span> column vector of unknown functions and <span class="math inline">\(\dot {\underline{x}}\)</span> is the <span class="math inline">\(n\times 1\)</span> column vector containing the <span><strong>derivatives</strong></span> of the unknowns. The main step will be to use the modal matrix of <span class="math inline">\(A\)</span> to diagonalise the system of differential equations. This process will transform <span class="math inline">\(\dot {\underline{x}}=A \underline{x}\)</span> into the form <span class="math inline">\(\dot{\underline{y}}=D \underline{x}\)</span> where <span class="math inline">\(D\)</span> is a <span><strong>diagonal matrix</strong></span>. We shall find that this new diagonal system of differential equations can be easily solved. This special solution will allow us to obtain the solution of the original system.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

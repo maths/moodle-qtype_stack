@@ -1,0 +1,215 @@
+{
+    "quiz": {
+        "name": "19_3 Second Order Differential Equations",
+        "intro": "<p>In this Section we start to learn how to solve second order differential equations of a particular type: those that are linear and have constant coefficients. Such equations are used widely in the modelling of physical phenomena, for example, in the analysis of vibrating systems and the analysis of electrical circuits. The solution of these equations is achieved in stages. The first stage is to find what is called a \u2018complementary function\u2019. The second stage is to find a \u2018particular integral\u2019. Finally, the complementary function and the particular integral are combined to form the general solution.<\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Constant coefficient second order linear ODEs",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "3",
+            "heading": "Finding the complementary function",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "13",
+            "heading": "The particular integral",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "18",
+            "heading": "Finding the general solution",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "20",
+            "heading": "Inhomogeneous term in the complementary function",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-19-3\/19-3-1-1-Constant-Coefficient-2nd-Order-ODEs.xml"
+        },
+        {
+            "slot": "3",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-19-3\/19-3-2-1-Finding-the-Complementary-Function.xml"
+        },
+        {
+            "slot": "5",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-19-3\/19-3-2-3-Finding-the-complementary-function.xml"
+        },
+        {
+            "slot": "7",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-19-3\/19-3-2-5-Finding-the-complementary-function.xml"
+        },
+        {
+            "slot": "9",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-19-3\/19-3-2-7-Repeated-Roots.xml"
+        },
+        {
+            "slot": "13",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-19-3\/19-3-3-1-The-Particular-Integral.xml"
+        },
+        {
+            "slot": "14",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-19-3\/19-3-4-1-Finding-a-particular-integral.xml"
+        },
+        {
+            "slot": "16",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-19-3\/19-3-4-3-Particular-integral-example.xml"
+        },
+        {
+            "slot": "18",
+            "page": "7",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-19-3\/19-3-5-1-Finding-the-general-solution-of-a-snd-order-linear-inhomogeneous-ODE.xml"
+        },
+        {
+            "slot": "19",
+            "page": "7",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-19-3\/19-3-5-2-Engineering-example.xml"
+        },
+        {
+            "slot": "20",
+            "page": "8",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-19-3\/19-3-6-1-Inhomogeneous-term-in-the-complementary-function.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-3\/19-3-1-2-Constant-and-Homogeneous.xml"
+        },
+        {
+            "slot": "12",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-3\/19-3-2-10-Complementary-Func-Ex3.xml"
+        },
+        {
+            "slot": "4",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-3\/19-3-2-2-Aux-and-Gen-Solution.xml"
+        },
+        {
+            "slot": "6",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-3\/19-3-2-4-Auxiliary-Equations.xml"
+        },
+        {
+            "slot": "8",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-3\/19-3-2-6-Complex-Roots-of-Aux.xml"
+        },
+        {
+            "slot": "10",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-3\/19-3-2-8-Complementary-Func-Ex1.xml"
+        },
+        {
+            "slot": "11",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-3\/19-3-2-9-Complementary-Func-Ex2.xml"
+        },
+        {
+            "slot": "15",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-3\/19-3-4-2-Find-particular-integral.xml"
+        },
+        {
+            "slot": "17",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-3\/19-3-4-4-Find-particular-integral.xml"
+        },
+        {
+            "slot": "21",
+            "page": "9",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-3\/19-3-6-2-Exercise-1.xml"
+        },
+        {
+            "slot": "22",
+            "page": "9",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-3\/19-3-6-3-Exercise-5.xml"
+        },
+        {
+            "slot": "23",
+            "page": "9",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-3\/19-3-6-4-Exercise-6.xml"
+        },
+        {
+            "slot": "24",
+            "page": "9",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-19-3\/19-3-6-5-Exercise-7b.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

@@ -1,0 +1,10 @@
+.asciimath {
+    background-color: ivory;
+    border-radius: 5px;
+    border: solid 1px;
+    padding: 5px;
+    overflow: auto;
+}
+.plaintext {
+    white-space: pre-line;
+}

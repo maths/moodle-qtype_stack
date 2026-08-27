@@ -7,7 +7,8 @@ STACK is the world-leading open-source (GPL) automatic assessment system for mat
 * Random generation of questions is highly structured with computer algebra support.
 * STACK has a wide variety of input types, including line by line working  and interaction with mathematical diagrams.
 * STACK has support for multipart questions.
-* STACK has support for scientific units and significant figures.
+* STACK has support for scientific units, significant figures and libraries of chemical data.
+* STACK is distributed with a [question library](STACK_question_admin/Library/index.md) of over 4200 tested questions, including templates, examples (linked to the docs) and comprehensive question banks for engineering mathematics.
 
 This is the official user documentation for STACK.
 
@@ -19,7 +20,7 @@ This is the official user documentation for STACK.
 
 Documentation for question authors, including:
 
-* An [authoring quick start guide](AbInitio/Authoring_quick_start_1.md), which can be used in conjunction with the "Getting started with STACK" [guide](../content/2019-STACK-Guide.pdf).
+* An [authoring quick start guide](AbInitio/Authoring_quick_start_1.md), which can be used in conjunction with the "Getting started with STACK" [guide](../static/2019-STACK-Guide.pdf).
 * Reference documentation on [question authoring](Authoring/index.md), such as [answer tests](Authoring/Answer_Tests/index.md), [inputs](Authoring/Inputs/index.md), [potential response trees](Authoring/Potential_response_trees.md) and [translations](Authoring/Languages.md).
 * Detailed guides for using [specialist tools](Specialist_tools/index.md), such as drag and drop questions.
 * Information on using the [CAS Maxima](CAS/index.md) for question authoring, including [randomisation](CAS/Random.md).

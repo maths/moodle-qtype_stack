@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>25.1.1.1 Introduction to PDEs</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Introduction</h3>
+<p>You have already studied ordinary differential equations (ODEs) and have learnt how to obtain the solution of certain types.  Since a knowledge of the solution of certain ODEs (i.e. those with constant coefficients) will be required in solving partial differential equations (PDEs), we will begin this unit reminding you of some important results.</p>
+<br>
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p>The first order ODE \[\dfrac{dy}{dx}=ky\] has general solution \[y=Ae^{kx}\] Here \(k\) is a constant which can be positive or negative and \(A\) is an arbitrary constant.</p>
+</div>
+<br>
+<p>In the above Key Point the quantity \(A\) in the general solution is a constant. To obtain the value of \(A\) we  have to know the value of \(y\) at some value of \(x\), perhaps \(x=0\).  In other words, we need to know an <strong>initial condition</strong>.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

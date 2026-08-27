@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>27.3.4.7 engineering example</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4 class="HELM_example">Engineering Example</h4>
+<h5> Radioactive  decay</h5>
+
+<h6> Introduction</h6>
+
+A cube of an impure radioactive ore is of side 10 cm. The number of radioactive decays taking place per cubic metre per second is given by \(R = 10^{23}(0.1-z)e^{-t/1000}\). The dependence on time represents a half-life of \(693\) seconds while the dependence on the vertical coordinate \(z\) represents some gravitational stratification. The value \(z=0\) represents the bottom of the cube and \(z=0.1\) represents the top of the cube. (Note that the dimensions are in metres so 10 cm becomes 0.1 m.) </p>
+<p>What is the total number of decays taking place over the cube in the 100 seconds between \(t=0\) and \(t=100\)?</p> 
+
+
+<h4 class="HELM_solution">Solution</h4>
+
+The total number of decays is given by the quadruple
+integral
+\[\displaystyle 
+N = \displaystyle\int_{x=0}^{0.1} \displaystyle\int_{y=0}^{0.1} \displaystyle\int_{z=0}^{0.1}
+\displaystyle\int_{t=0}^{100} 10^{23}(0.1-z)e^{-t/1000} \mathrm{d} t \,\mathrm{d}z \,\mathrm{d}y\,\mathrm{d}x\]  which may be evaluated as follows
+\begin{align*}
+N &= \displaystyle\int_{x=0}^{0.1} \displaystyle\int_{y=0}^{0.1} \displaystyle\int_{z=0}^{0.1}
+\displaystyle\int_{t=0}^{100} 10^{23}(0.1-z)e^{-t/1000} \mathrm{d} t \,\mathrm{d}z \,\mathrm{d}y\,\mathrm{d}x
+\\
+&= \displaystyle\int_{x=0}^{0.1} \displaystyle\int_{y=0}^{0.1} \displaystyle\int_{z=0}^{0.1} \bigg[  -
+1000 \times 10^{23}(0.1-z)e^{-t/1000} \bigg]_{t=0}^{100}  \;\mathrm{d}z\,\mathrm{d}y\,\mathrm{d}x \\
+ &= \displaystyle\int_{x=0}^{0.1} \displaystyle\int_{y=0}^{0.1} \displaystyle\int_{z=0}^{0.1} \left[
+  10^{26}(0.1-z)(1-e^{-0.1}) \right]  \;\mathrm{d}z \,\mathrm{d}y\,\mathrm{d}x \\
+ &= \displaystyle\int_{x=0}^{0.1} \displaystyle\int_{y=0}^{0.1} \displaystyle\int_{z=0}^{0.1} \left[
+  9.5 \times 10^{24}(0.1-z) \right]  \;\mathrm{d}z \,\mathrm{d}y\,\mathrm{d}x \\
+ &= 9.5 \times 10^{24}\displaystyle\int_{x=0}^{0.1} \displaystyle\int_{y=0}^{0.1}  \bigg[
+  (0.1z-0.5z^2) \bigg]_{z=0}^{0.1}  \;\mathrm{d}y\,\mathrm{d}x \\
+ &= 9.5 \times 10^{24}\displaystyle\int_{x=0}^{0.1} \displaystyle\int_{y=0}^{0.1}  \left[
+  0.005 \right]  \;\mathrm{d}y\,\mathrm{d}x \\
+ &= 0.005 \times 9.5 \times 10^{24}\displaystyle\int_{x=0}^{0.1} \displaystyle\int_{y=0}^{0.1}    \;\mathrm{d}y\,\mathrm{d}x \\
+&= 0.005 \times 9.5 \times 10^{24} \times 0.1 \times 0.1 = 4.75
+\times 10^{20}
+\end{align*}
+Thus the number of decays is approximately equal to \(4.75 \times
+10^{20}\)]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

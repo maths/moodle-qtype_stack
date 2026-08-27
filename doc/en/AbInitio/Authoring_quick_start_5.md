@@ -13,8 +13,8 @@ In the last couple of parts, we have been working with a simple integration ques
 a1 : 1+rand(6);
 a2 : 1+rand(6);
 nn : 2+rand(4);
-exp : a1*(x-a2)^(-nn);
-ta: int(exp, x)+c;
+ex1 : a1*(x-a2)^(-nn);
+ta1: int(ex1, x)+c;
 ```
 
 Testing questions is time consuming and tedious, but important to ensure questions work.  To help with this process, STACK enables teachers to define "question tests".  The principle is the same as "unit testing" in software engineering.
@@ -30,7 +30,7 @@ The penalty is a number deducted from the total mark for each incorrect attempt 
 Fill in the following information for your first test case:
 
 ```
-ans1 = ta
+ans1 = ta1
 score = 1
 penalty = 0
 answernote = prt1-2-T
@@ -38,14 +38,14 @@ answernote = prt1-2-T
 
 I.e., if the student puts in the model answer they should pass the first node (checks if they have integrated correctly) and pass the second node (tests that their answer is factored) and end up with a score of 1 and no penalty. 
 
-Note that the input is evaluated before the test is conducted. Students are not allowed to enter the variable  `ta` because it is a teacher-defined variable, however the evaluated form, fx.  `-1*(x-1)^(-3)+c`, is an allowed input. For each test case, you can see the un-evaluated input under `Test input`, and the actual input tested under `Value entered`. 
+Note that the input is evaluated before the test is conducted. Students are not allowed to enter the variable  `ta1` because it is a teacher-defined variable, however the evaluated form, fx.  `-1*(x-1)^(-3)+c`, is an allowed input. For each test case, you can see the un-evaluated input under `Test input`, and the actual input tested under `Value entered`. 
 
 You can run the test on all deployed versions by clicking on  `Run all tests on all deployed variants` .
 
 You can add as many tests as you think is needed, and it is usually a sensible idea to add one for each case you anticipate.  Add in another test case for
 
 ```
-ans1 = int(exp,x)
+ans1 = int(ex1,x)
 score = 0
 penalty = 0.1
 answernote = prt1-1-F

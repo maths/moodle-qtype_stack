@@ -21,6 +21,6 @@ For example, you have to define Maxima strings such as "\&#8203;\&#8203;( f(&#82
 
 To help with this there is a tool to automatically add in these extra slashes as a one-off process.
 
-The adminui tools have a chat page.  ou can find the tool under the "STACK question dashboard" -> "Send general feedback to the CAS".  At the bottom of this page is an option "Protect slashes within Maxima string variables".
+The adminui tools have a chat page.  You can find the tool under the "STACK question dashboard" -> "Send general feedback to the CAS".  At the bottom of this page is an option "Protect slashes within Maxima string variables".
 
 The "Protect slashes within Maxima string variables" option will add slashes _every time_ the option is selected, so this is effectively a one-off process.  However, you can write the strings in normal LaTeX and proof-read. Move these to maxima strings, before converting to Maxima strings.

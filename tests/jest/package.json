@@ -1,0 +1,19 @@
+{
+  "scripts": {
+    "test": "jest"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "^core/(.*)$": "<rootDir>/__mocks__/core/$1.js",
+      "^core_form/(.*)$": "<rootDir>/__mocks__/core_form/$1.js",
+      "^qtype_stack/(.*)$": "<rootDir>/__mocks__/qtype_stack/$1.js"
+    }
+  },
+  "devDependencies": {
+    "@babel/core": "^7.29.6",
+    "@babel/preset-env": "^7.29.5",
+    "babel-jest": "^30.4.1",
+    "jest": "^30.4.2",
+    "jest-environment-jsdom": "^30.4.1"
+  }
+}

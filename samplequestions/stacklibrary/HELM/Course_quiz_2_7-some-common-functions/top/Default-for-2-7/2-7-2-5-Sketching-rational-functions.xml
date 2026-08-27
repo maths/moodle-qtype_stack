@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>2.7.2.5 Sketching rational functions</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>The previous exercises are intended to give you some guidance so that you will be able to sketch rational functions yourself. Each function must be looked at individually but some general guidelines are given in the following KeyPoint.</p>
+<br>
+<br>
+<div class="HELM_keypoint">
+<h4>Key Point</h4><p><b>Sketching rational functions</b><br></p><ul><li>Find the value of the function when the independent variable is zero. This is generally easy to evaluate and gives you a point on the graph.</li><li>Find values of the independent variable which make the denominator zero. These values must be excluded from the domain of the function and give rise to vertical asymptotes.</li><li>Find the values of the independent variable which make the dependent variable zero. This gives you points where the graph cuts the horizontal axis (if at all).</li><li>Study the behaviour of the function when the independent variable is large and positive and when it is large and negative.</li><li>Are there any vertical or horizontal asymptotes? (Oblique asymptotes may also occur but these are beyond the scope of this section).<br></li></ul></div><br>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

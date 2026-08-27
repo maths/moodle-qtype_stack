@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>16.2.3.1 The ratio test</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>The ratio test (also known as d'Alembert's ratio test)</h4>
+<p>The below test, which is one of the most useful and widely used convergence tests, applies only to series of <b>positive</b> <b>terms</b>.<br></p>
+<div class="HELM_keypoint">
+    <h4>Key Point</h4>
+    <p><b><u>The Ratio Test</u></b>&nbsp;</p>
+    <p>Let \(\displaystyle{\sum_{p=1}^{\infty} a_p} \) be a series of <b>positive</b> terms such that, as \(p\) increases, the limit of \(\dfrac{a_{p+1}}{a_p}\) equals a number \(\lambda\). That is \(\displaystyle{\lim_{p \to \infty} \dfrac{a_{p+1}}{a_p}
+        = \lambda}\). </p>It can be shown that:
+    <p></p>
+    <p></p>
+    <p></p>
+    <ul>
+        <li>if \(\lambda &gt;1 \quad\) then&nbsp;&nbsp;\(\displaystyle{\sum_{p=1}^{\infty} a_p }\) diverges.</li>
+        <li>if \(\lambda&lt;1 \quad \) then&nbsp;&nbsp;\(\displaystyle{\sum_{p=1}^{\infty} a_p }\) converges.&nbsp;</li>
+        <li>if \(\lambda = 1 \quad\) then&nbsp;&nbsp;\(\displaystyle{\sum_{p=1}^{\infty} a_p} \) may converge or diverge.
+            <p>That is, the test is inconclusive in this case.</p>
+        </li>
+    </ul>
+    <p></p>
+</div>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Use the ratio test to examine the convergence of the series<br></p>
+<ol class="HELM_parts">
+    <li>\(\displaystyle{\sum_{p=1}^\infty a_p=} 1 + \dfrac{1}{2!} + \dfrac{1}{3!} + \dfrac{1}{4!}+ \dots\)</li>
+    <li>\( \displaystyle{\sum_{p=1}^\infty b_p=}1 + x^2 + x^3&nbsp; + \dots\)</li>&nbsp;</ol>
+
+<h4 class="HELM_solution">Solution</h4>
+<ol class="HELM_parts">
+    <li>The general term in this series is \(\dfrac{1}{p!}\) i.e. \[ 1+ \dfrac{1}{2!} + \dfrac{1}{3!} + \dots = \sum_{p=1}^{\infty} \dfrac{1}{p!} \] So \[ a_p = \dfrac{1}{p^2} \quad \therefore \quad a_{p+1} = \dfrac{1}{(p+1)!}\] and the ratio \[\dfrac{a_{p+1}}{a_p}
+        = \dfrac{p!}{(p+1)!}= \dfrac{p(p-1) \dots (3)(2)(1)}{(p+1)p(p_1) \dots (3)(2)(1)}= \dfrac{1}{p+1}\] \[\therefore \quad \lim_{p \to \infty} \dfrac{a_{p+1}}{a_p} = \lim_{p \to \infty} \dfrac{1}{p+1} = 0\] Since \(0&lt;1\) the series is convergent.
+        In fact, it can be shown that \[1 + \dfrac{1}{2!} + \dfrac{1}{3!} + \dots = e - 1 \approx 1.718\]</li>
+    <li>Here we must assume that \(x &gt; 0\) since we can only apply the ratio test to a series of positive terms. Now \[ 1 + x + x^2 + x^3 + \dots = \sum_{p=1}^{\infty} x^{p-1}\] so that \[b_p=x^{p-1}, \quad a_{p+1} = x^p\] and \[ \lim_{p \to \infty} \dfrac{b_{p+1}}{a_p}
+        =&nbsp;\lim_{p \to \infty} \dfrac{x^p}{x^{p+1}} =&nbsp;\lim_{p \to \infty} x = x\]&nbsp;Thus, using the ratio test we deduce that (if \(x\) is a positive number) this series will only converge if \(x &lt; 1\). We will see in a later Section that \[1+x+x^2+x^3+\dots = \dfrac{1}{1-x} \qquad \text{provided} \; 0&lt;x&lt;1\]<br></li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

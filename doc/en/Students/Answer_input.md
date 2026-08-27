@@ -22,14 +22,15 @@ It might also forgive some errors you make.
 You should type in numbers without spaces, and use fractions rather than decimals where possible.
 For example, \(1/4\) should be entered as `1/4`, not as `0.25`. Also,
 
-* \(\pi\) is entered as either `pi` or `%pi`,
-* \(e\), the base of the natural logarithms, is entered as either `e` or `%e`,
+* You can also use scientific notation for large numbers, e.g. \(1000\) can be entered as either `1E+3`, or as `1e3`.
+  * Note, that in many situations floating point numbers are forbidden.
+* \(\pi\) is entered as either `pi` or `%pi`.
+
 * \(i\) is entered as either `i` or `%i`.
   * \(i\) is also sometimes entered as `j` if you are an engineer. If in doubt ask your teacher.
   * You could also use `sqrt(-1)`, or `(-1)^(1/2)`, being careful with the brackets.
   * STACK modifies Maxima's normal input rules so that you don't get caught out with a variable `i` when you meant `%i`.
-* You can also use scientific notation for large numbers, e.g. \(1000\) can be entered as `1E+3`.
-  Note, however, that in many situations floating point numbers are forbidden.
+* \(e\), the base of the natural logarithms, is entered as either `e` or `%e`.   Note that scientific notation can be written using `e` or `E`, e.g. `6.02e23`.  Preference is given to scienfic notation, rather than interpreting `e` as the base of the natural logaithms.  Use explicit multiplication signs to remove this ambiguity, e.g. if you want the base of the natural logarithm, then type `6.02*e*23` instead.
 
 ### Multiplication  ###
 
@@ -55,10 +56,7 @@ Negative or fractional powers need brackets:
 
 ### Brackets  ###
 
-Brackets are important to group terms in an expression.
-This is particularly the case in STACK since we use a one-dimensional input rather than
-traditional written mathematics. Try to consciously develop a sense of when you need brackets
-and avoid putting in too many.
+Brackets are important to group terms in an expression. This is particularly the case in STACK since we use a one-dimensional input rather than traditional written mathematics. Try to consciously develop a sense of when you need brackets and avoid putting in too many.
 
 For example,
 
@@ -170,9 +168,6 @@ Sometimes you will be asked to reason line by line.  This is called [reasoning b
 * **Lists**: can be entered using square brackets. For example, to enter the list _1,2,2,3_ type `[1,2,2,3]`.
 * Note that you do **not** need a semicolon at the end, unlike when you are using a CAS directly.
 
-You can also learn about the right syntax by doing tests in practice mode and asking for the solutions;
-as well as displaying the right answers in ordinary mathematical notation, STACK will tell you how they
-could be entered. However, there are often several possible ways, and STACK will not always suggest the
-easiest one.
+You can also learn about the right syntax by doing tests in practice mode and asking for the solutions; as well as displaying the right answers in ordinary mathematical notation, STACK will tell you how they could be entered. However, there are often several possible ways, and STACK will not always suggest the easiest one.
 
 If you have difficulties in entering your answer into STACK you should contact your teacher.

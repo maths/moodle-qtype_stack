@@ -1,0 +1,163 @@
+{
+    "quiz": {
+        "name": "10_2 The Argand Diagram and Polar form",
+        "intro": "<p>In the first part of this Section we introduce a geometrical interpretation of a complex number. Since a complex number <span class=\"math inline\">\\(z=x+i y\\)<\/span> is defined by two real numbers <span class=\"math inline\">\\(x\\)<\/span> and <span class=\"math inline\">\\(y\\)<\/span> it is natural to consider a plane in which to place a complex number. We shall see that there is a close connection between complex numbers and two-dimensional vectors. In the second part of this Section we introduce an alternative form, called the polar form, for representing complex numbers. We shall see that the polar form is particularly advantageous when multiplying and dividing complex numbers.<\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "The Argand Diagram",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "5",
+            "heading": "Polar Form",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "12",
+            "heading": "Multiplication and Division",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-10-2\/10-2-1-1-The-Argand-Diagram.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-10-2\/10-2-1-2-Argand-diagram.xml"
+        },
+        {
+            "slot": "3",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-10-2\/10-2-1-3-Argand-Diagram.xml"
+        },
+        {
+            "slot": "4",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-10-2\/10-2-1-4-Argand-Diagram(Algebraic-Operations).xml"
+        },
+        {
+            "slot": "5",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-10-2\/10-2-2-1-The-polar-form-of-a-complex-number.xml"
+        },
+        {
+            "slot": "6",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-10-2\/10-2-2-2-Key-Point--Polar-form.xml"
+        },
+        {
+            "slot": "7",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-10-2\/10-2-2-3-Example-Polar-form.xml"
+        },
+        {
+            "slot": "8",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-10-2\/10-2-2-4-Polar-form.xml"
+        },
+        {
+            "slot": "9",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-10-2\/10-2-2-5-Argument.xml"
+        },
+        {
+            "slot": "10",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-10-2\/10-2-2-6-Polar-form.xml"
+        },
+        {
+            "slot": "11",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-10-2\/10-2-2-7-Reals-and-Im-to-polar.xml"
+        },
+        {
+            "slot": "12",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-10-2\/10-2-3-1-Multiplication-and-division-using-polar-coordinates.xml"
+        },
+        {
+            "slot": "13",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-10-2\/10-2-3-3-Key-Point-Multiplication-and-division.xml"
+        },
+        {
+            "slot": "14",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-10-2\/10-2-3-4-Complex-numbers-and-rotations.xml"
+        },
+        {
+            "slot": "15",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-10-2\/10-2-3-5-Modulus-and-argument.xml"
+        },
+        {
+            "slot": "16",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-10-2\/10-2-3-7-Modulus.xml"
+        },
+        {
+            "slot": "17",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-10-2\/10-2-3-8-Find-z1^2-z2.xml"
+        },
+        {
+            "slot": "18",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-10-2\/10-2-3-10-Polar-form.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

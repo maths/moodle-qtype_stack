@@ -55,14 +55,17 @@ require_once(__DIR__ . '/../stack/options.class.php');
  * @covers \qtype_stack
  */
 final class castext2_test extends qtype_stack_testcase {
-
     // This function maps a given set of CASText code, CASString
     // style preamble statements and STACK options to the current
     // implementation and generates the end result.
     // Validation is not being tested, here.
     // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
-    private function evaluate(string $code, array $preamble=[], ?stack_options $options=null,
-            $context='castext-test-case'): string {
+    private function evaluate(
+        string $code,
+        array $preamble = [],
+        ?stack_options $options = null,
+        $context = 'castext-test-case'
+    ): string {
         $statements = [];
         foreach ($preamble as $statement) {
             $statements[] = stack_ast_container::make_from_teacher_source($statement, 'castext-test-case');
@@ -694,16 +697,29 @@ final class castext2_test extends qtype_stack_testcase {
         $this->assertEquals($output, $this->evaluate($input, $preamble));
     }
 
-    // Inline fractions using stack_disp_fractions("i").
     /**
-     * Add description here.
+     * Inline fractions using stack_disp_fractions("i").
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_stack_disp_fractions(): void {
-
         $input = '{@(stack_disp_fractions("i"),a/b)@}, {@(stack_disp_fractions("d"),a/b)@}';
         $output = '\({{a}/{b}}\), \({\frac{a}{b}}\)';
         $this->assertEquals($output, $this->evaluate($input));
+    }
+
+    /**
+     * Option error trapping.
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
+    public function test_stack_disp_error(): void {
+        $input = '{@stack_disp(x^2,"di")@}';
+
+        $statements[] = castext2_evaluatable::make_from_source($input, 'castext-test-case');
+        $session = new stack_cas_session2($statements, new \stack_options());
+
+        $session->instantiate();
+        $this->assertTrue($session->get_valid());
+        $this->assertEquals('ERROR: stack_disp illegal delimiter option found: di', $session->get_errors());
     }
 
     // JavaScript string generation.

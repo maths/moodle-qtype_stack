@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>35.3.1.3 Addition Law of Probability</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<div class="HELM_keypoint"><h4>Key Point</h4>
+<p style="text-align: center;"><b>The Addition Law of Probability - Simple Case</b></p><p style="text-align: left;"><span><span style="">I</span>f</span> two events \(A\) and \(B\) are mutually exclusive then&nbsp;<br>\[\text{P}(A\cup B)=\text{P}(A)+\text{P}(B).\]<br></p>
+</div>
+<p></p>
+<div class="HELM_keypoint"><h4>Key Point</h4>
+<p style="text-align: center;"><b>The Addition Law of Probability - General Case</b></p><p style="text-align: center;"></p><p style="text-align: left;">If two events are \(A\) and \(B\) then</p><span><p style="text-align: left;">\[\text{P}(A\cup B)=\text{P}(A)+\text{P}(B)-\text{P}(A\cap B).\]</p><p style="text-align: left;">If \(A\cap B= \emptyset\), i.e. \(A\) and \(B\) are mutually exclusive, then \(\text{P}(A\cap B)=\text{P}(\emptyset )=0\), and this general expression reduces to the simpler case.</p><p style="text-align: left;">This rule can be extended to three or more events, for example:</p><p style="text-align: left;">\[\text{P}(A\cup B\cup C)= \text{P}(A)+\text{P}(B)+\text{P}(C) - \text{P}(A\cap B)-\text{P}(A\cap C) -\text{P}(B\cap C)+\text{P}(A\cap B\cap C)\]</p></span><p></p></div>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Consider a pack of \(52\) playing cards. A card is selected at random.&nbsp; What is the probability that the card is&nbsp;<b>either</b>&nbsp;a diamond&nbsp;<b>or</b>&nbsp;a ten?&nbsp;</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>If \(A\) is the event <i>a diamond is selected</i>&nbsp;and \(B\) is the event <i>a ten is selected</i>&nbsp;then obviously \(\text{P}(A)=\dfrac{13}{52}\) and \(\text{P}(B)=\dfrac{4}{52}\).&nbsp;</p><p>The intersection event \(A\cap B\) consists of only one member - the ten of diamonds - which gets counted twice hence \(\text{P}(A\cap B)=\dfrac{1}{52}\).&nbsp;</p><p>Therefore \(\text{P}(A\cup B)=\dfrac{13}{52}+\dfrac{4}{52}-\dfrac{1}{52}=\dfrac{16}{52}\).</p><p></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

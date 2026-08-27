@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>16.2.2.2 The alternating series test</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>The alternating series test</h4><p>An alternating series is a special type of series in which the sign changes from one term to the next.
+They have the form<br></p><p>\[a_1 - a_2 + a_3 - a_4 + \dots\]</p><p>(in which \(a_i, \; i = 1,2,3,\dots\) is a <b>positive </b>number).</p><p>Examples are:</p><p></p><ol class="HELM_parts">
+  <li>\(1-1+1-1+\dots\)</li>
+  <li>\(\dfrac{1}{3} - \dfrac{2}{4} + \dfrac{3}{5} - \dfrac{4}{6} + \dots\)</li>
+  <li>\(1-\dfrac{1}{2} + \dfrac{1}{3} - \dfrac{1}{4}+\dots\)</li></ol><p><br></p><p>For this type of series there is a simple criterion for convergence:</p><p></p><div class="HELM_keypoint">
+<h4>Key Point:&nbsp;</h4>
+<p><b><u>The Alternating Series Test</u></b></p><p>The alternating series \[a_1-a_2+a_3-a_4+\dots\]&nbsp;(in which \(a_i, \; i = 1,2,3,\dots\) are&nbsp;<b>positive&nbsp;</b>numbers) is convergent if both</p><p></p><ul><li>the terms continually decrease: \[a_1&gt;a_2&gt;a_3&gt;\dots\]</li><li>and the terms decrease to zero: \[a_p \to 0 \: \mathrm{as \;} p \mathrm{\: increases} \qquad \left(\mathrm{mathematically \:} \lim_{p \to \infty} a_p=0\right)\]</li></ul><p></p>
+</div><br><p></p>Note that if the series fails the alternating series test then it may still be convergent, you simply are not equipped to determine the outcome.<br><p></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

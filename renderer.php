@@ -66,11 +66,66 @@ class qtype_stack_renderer extends qtype_renderer {
         $originalfeedbackplaceholders = array_unique(stack_utils::extract_placeholders($questiontext, 'feedback'));
         sort($originalfeedbackplaceholders);
 
+        // Salt input and prt names for moodle glossary auto-link filter protection.
+        foreach ($question->inputs as $name => $input) {
+            $questiontext = str_replace(
+                "[[input:{$name}]]",
+                "<span class=\"nolink\">[[InMNEYMWDx:{$name}]]</span>",
+                $questiontext
+            );
+            $questiontext = str_replace(
+                "[[validation:{$name}]]",
+                "<span class=\"nolink\">[[VnMNEYMWDx:{$name}]]</span>",
+                $questiontext
+            );
+        }
+        foreach ($question->prts as $index => $prt) {
+            $questiontext = str_replace(
+                "[[feedback:{$index}]]",
+                "<span class=\"nolink\">[[GDBBdLBJLg:{$index}]]</span>",
+                $questiontext
+            );
+        }
         // Now format the questiontext.
         $questiontext = $question->format_text(
-                stack_maths::process_display_castext($questiontext, $this),
-                FORMAT_HTML, // All CASText2 processed content has already been formatted to HTML.
-                $qa, 'question', 'questiontext', $question->id);
+            stack_maths::process_display_castext($questiontext, $this),
+            FORMAT_HTML, // All CASText2 processed content has already been formatted to HTML.
+            $qa,
+            'question',
+            'questiontext',
+            $question->id
+        );
+        // Restore inputnames.
+        foreach ($question->inputs as $name => $input) {
+            // ISS1752 - The Mathjax filter is mangling the nolink spans if they're between
+            // curly braces so we have to do an extra search.
+            $questiontext = str_replace(
+                [
+                    "<span class=\"nolink\">[[InMNEYMWDx:{$name}]]</span>",
+                    "&lt;span class=\"nolink\"&gt;[[InMNEYMWDx:{$name}]]&lt;/span&gt;",
+                ],
+                "[[input:{$name}]]",
+                $questiontext
+            );
+            $questiontext = str_replace(
+                [
+                    "<span class=\"nolink\">[[VnMNEYMWDx:{$name}]]</span>",
+                    "&lt;span class=\"nolink\"&gt;[[VnMNEYMWDx:{$name}]]&lt;/span&gt;",
+                ],
+                "[[validation:{$name}]]",
+                $questiontext
+            );
+        }
+        foreach ($question->prts as $index => $prt) {
+            $questiontext = str_replace(
+                [
+                    "<span class=\"nolink\">[[GDBBdLBJLg:{$index}]]</span>",
+                    "&lt;span class=\"nolink\"&gt;[[GDBBdLBJLg:{$index}]]&lt;/span&gt;",
+                ],
+                "[[feedback:{$index}]]",
+                $questiontext
+            );
+        }
         // Replace the secured bits.
         $questiontext = $question->questiontextinstantiated->apply_placeholder_holder($questiontext);
 
@@ -84,9 +139,13 @@ class qtype_stack_renderer extends qtype_renderer {
         // Have we lost some of the placeholders entirely?
         // Duplicates may have been removed by multi-lang,
         // No duplicates should remain.
-        if ($formatedinputplaceholders !== $originalinputplaceholders ||
-                $formatedfeedbackplaceholders !== $originalfeedbackplaceholders) {
-            throw new coding_exception('Inconsistent placeholders. Possibly due to multi-lang filtter not being active.');
+        if (
+            $formatedinputplaceholders !== $originalinputplaceholders ||
+                $formatedfeedbackplaceholders !== $originalfeedbackplaceholders
+        ) {
+            throw new coding_exception('Inconsistent placeholders. Possibly due to multi-lang filter not being active. ' .
+                ' Original placeholders: ' . implode(', ', $originalfeedbackplaceholders) . '.' .
+                ' Formatted placeholders: ' . implode(', ', $formatedfeedbackplaceholders));
         }
 
         foreach ($question->inputs as $name => $input) {
@@ -96,9 +155,11 @@ class qtype_stack_renderer extends qtype_renderer {
             $fieldname = $qa->get_qt_field_name($name);
             $state = $question->get_input_state($name, $response);
 
-            $questiontext = str_replace("[[input:{$name}]]",
-                    $input->render($state, $fieldname, $options->readonly, $tavalue),
-                    $questiontext);
+            $questiontext = str_replace(
+                "[[input:{$name}]]",
+                $input->render($state, $fieldname, $options->readonly, $tavalue),
+                $questiontext
+            );
 
             $questiontext = $input->replace_validation_tags($state, $fieldname, $questiontext);
 
@@ -112,15 +173,17 @@ class qtype_stack_renderer extends qtype_renderer {
             $feedback = '';
             if ($options->feedback) {
                 $feedback = $this->prt_feedback($index, $response, $qa, $options, $prt->get_feedbackstyle());
-
             } else if (in_array($qa->get_behaviour_name(), ['interactivecountback', 'adaptivemulipart'])) {
                 // The behaviour name test here is a hack. The trouble is that interactive
                 // behaviour or adaptivemulipart does not show feedback if the input
                 // is invalid, but we want to show the CAS errors from the PRT.
                 $result = $question->get_prt_result($index, $response, $qa->get_state()->is_finished());
                 $errors = implode(' ', $result->get_errors());
-                $feedback = html_writer::nonempty_tag('span', $errors,
-                        ['class' => 'stackprtfeedback stackprtfeedback-' . $name]);
+                $feedback = html_writer::nonempty_tag(
+                    'span',
+                    $errors,
+                    ['class' => 'stackprtfeedback stackprtfeedback-' . $name]
+                );
             }
             $questiontext = str_replace("[[feedback:{$index}]]", $feedback, $questiontext);
         }
@@ -134,20 +197,25 @@ class qtype_stack_renderer extends qtype_renderer {
             } else {
                 $questiondivid = 'q' . $qa->get_slot();
             }
-            $this->page->requires->js_call_amd('qtype_stack/input', 'initInputs',
-                    [
+            $this->page->requires->js_call_amd(
+                'qtype_stack/input',
+                'initInputs',
+                [
                         $questiondivid, $qa->get_field_prefix(),
                         $qa->get_database_id(), $inputstovaldiate,
-                    ]);
+                ]
+            );
         }
 
         $result = '';
         $result .= $this->question_tests_link($question, $options) . $questiontext;
 
         if ($qa->get_state() == question_state::$invalid) {
-            $result .= html_writer::nonempty_tag('span',
-                    $question->get_validation_error($response),
-                    ['class' => 'validationerror']);
+            $result .= html_writer::nonempty_tag(
+                'span',
+                $question->get_validation_error($response),
+                ['class' => 'validationerror']
+            );
         }
 
         // ISS879 - Output current language
@@ -185,15 +253,19 @@ class qtype_stack_renderer extends qtype_renderer {
         // Alert a teacher to questions without tests or deployed variants.
         $testscases = question_bank::get_qtype('stack')->load_question_tests($question->id);
         $links = [];
-        if (($question->has_random_variants() && empty($question->deployedseeds)) ||
-            count($testscases) == 0) {
+        if (
+            ($question->has_random_variants() && empty($question->deployedseeds)) ||
+            count($testscases) == 0
+        ) {
             $links[] = html_writer::link(
                 $question->qtype->get_question_test_url($question),
-                stack_string_error('runquestiontests_alert'));
+                stack_string_error('runquestiontests_alert')
+            );
         } else {
             $links[] = html_writer::link(
-                    $question->qtype->get_question_test_url($question),
-                    stack_string('runquestiontests'));
+                $question->qtype->get_question_test_url($question),
+                stack_string('runquestiontests_icon') . stack_string('runquestiontests')
+            );
         }
 
         return html_writer::tag('div', implode(' | ', $links), ['class' => 'questiontestslink']);
@@ -204,7 +276,6 @@ class qtype_stack_renderer extends qtype_renderer {
         $output = '';
         if ($options->feedback) {
             $output .= $this->stack_specific_feedback($qa, $options);
-
         } else if ($qa->get_behaviour_name() == 'interactivecountback') {
             // The behaviour name test here is a hack. The trouble is that interactive
             // behaviour does not show feedback if the input is invalid, but we want
@@ -236,9 +307,14 @@ class qtype_stack_renderer extends qtype_renderer {
         }
 
         $feedbacktext = stack_maths::process_display_castext($feedbacktext, $this);
-        $feedbacktext = $question->format_text($feedbacktext,
-                FORMAT_HTML, // All CASText2 processed content has already been formatted to HTML.
-                $qa, 'qtype_stack', 'specificfeedback', $question->id);
+        $feedbacktext = $question->format_text(
+            $feedbacktext,
+            FORMAT_HTML, // All CASText2 processed content has already been formatted to HTML.
+            $qa,
+            'qtype_stack',
+            'specificfeedback',
+            $question->id
+        );
         // Replace the secured bits.
         $feedbacktext = $question->specificfeedbackinstantiated->apply_placeholder_holder($feedbacktext);
 
@@ -249,8 +325,11 @@ class qtype_stack_renderer extends qtype_renderer {
             $result = $question->get_prt_result($name, $response, $qa->get_state()->is_finished());
             if ($result->get_errors() != []) {
                 $errors = implode(' ', $result->get_errors());
-                $feedback = html_writer::nonempty_tag('span', $errors,
-                        ['class' => 'stackprtfeedback stackprtfeedback-' . $name]);
+                $feedback = html_writer::nonempty_tag(
+                    'span',
+                    $errors,
+                    ['class' => 'stackprtfeedback stackprtfeedback-' . $name]
+                );
             }
             $allempty = $allempty && !$feedback;
             $feedbacktext = str_replace("[[feedback:{$name}]]", $feedback, $feedbacktext);
@@ -288,9 +367,14 @@ class qtype_stack_renderer extends qtype_renderer {
         }
 
         $feedbacktext = stack_maths::process_display_castext($feedbacktext, $this);
-        $feedbacktext = $question->format_text($feedbacktext,
-                FORMAT_HTML, // All CASText2 processed content has already been formatted to HTML.
-                $qa, 'qtype_stack', 'specificfeedback', $question->id);
+        $feedbacktext = $question->format_text(
+            $feedbacktext,
+            FORMAT_HTML, // All CASText2 processed content has already been formatted to HTML.
+            $qa,
+            'qtype_stack',
+            'specificfeedback',
+            $question->id
+        );
         // Replace the secured bits.
         $feedbacktext = $question->specificfeedbackinstantiated->apply_placeholder_holder($feedbacktext);
 
@@ -306,8 +390,11 @@ class qtype_stack_renderer extends qtype_renderer {
         foreach ($question->prts as $index => $prt) {
             $feedback = $this->prt_feedback($index, $response, $qa, $options, $prt->get_feedbackstyle());
             $allempty = $allempty && !$feedback;
-            $feedbacktext = str_replace("[[feedback:{$index}]]",
-                    stack_maths::process_display_castext($feedback, $this), $feedbacktext);
+            $feedbacktext = str_replace(
+                "[[feedback:{$index}]]",
+                stack_maths::process_display_castext($feedback, $this),
+                $feedbacktext
+            );
         }
 
         if ($allempty && !$overallfeedback) {
@@ -355,8 +442,13 @@ class qtype_stack_renderer extends qtype_renderer {
      *      'Your answer is partially correct' bit at the start of the feedback.
      * @return string nicely formatted feedback, for display.
      */
-    protected function prt_feedback($name, $response, question_attempt $qa,
-            question_display_options $options, int $feedbackstyle) {
+    protected function prt_feedback(
+        $name,
+        $response,
+        question_attempt $qa,
+        question_display_options $options,
+        int $feedbackstyle
+    ) {
         $question = $qa->get_question();
 
         $relevantresponse = $this->get_applicable_response_for_prt($name, $response, $qa);
@@ -377,29 +469,43 @@ class qtype_stack_renderer extends qtype_renderer {
      * @param feedbackstyle styles the type of feedback.
      * @return string nicely formatted feedback, for display.
      */
-    protected function prt_feedback_display($name, question_attempt $qa,
-            question_definition $question, prt_evaluatable $result,
-            question_display_options $options, $feedbackstyle) {
+    protected function prt_feedback_display(
+        $name,
+        question_attempt $qa,
+        question_definition $question,
+        prt_evaluatable $result,
+        question_display_options $options,
+        $feedbackstyle
+    ) {
         $err = '';
         if ($result->get_errors()) {
-            $err = stack_string('prtruntimeerror',
-                ['prt' => $name, 'error' => implode(' ', $result->get_errors())]);
+            $err = stack_string(
+                'prtruntimeerror',
+                ['prt' => $name, 'error' => implode(' ', $result->get_errors())]
+            );
         }
 
         $feedback = $result->get_feedback(new castext2_qa_processor($qa));
         // The feedback does not come as bits anymore the whole thing is concatenated in CAS
         // and CASText converts any formats to HTML already, pluginfiles as well.
-        $feedback = format_text(stack_maths::process_display_castext($feedback, $this),
-            FORMAT_HTML, ['noclean' => true, 'para' => false, 'allowid' => true]);
+        $feedback = format_text(
+            stack_maths::process_display_castext($feedback, $this),
+            FORMAT_HTML,
+            ['noclean' => true, 'para' => false, 'allowid' => true]
+        );
         // Replace the secured bits.
         $feedback = $result->apply_placeholder_holder($feedback);
 
         $gradingdetails = '';
-        if ($result->get_valid() && $qa->get_behaviour_name() == 'adaptivemultipart'
-                && $options->marks >= question_display_options::MARK_AND_MAX) {
+        if (
+            $result->get_valid() && $qa->get_behaviour_name() == 'adaptivemultipart'
+                && $options->marks >= question_display_options::MARK_AND_MAX
+        ) {
             $renderer = $this->page->get_renderer('qbehaviour_adaptivemultipart');
             $gradingdetails = $renderer->render_adaptive_marks(
-                $qa->get_behaviour()->get_part_mark_details($name), $options);
+                $qa->get_behaviour()->get_part_mark_details($name),
+                $options
+            );
         }
 
         $standardfeedback = $this->standard_prt_feedback($qa, $question, $result, $feedbackstyle);
@@ -438,8 +544,12 @@ class qtype_stack_renderer extends qtype_renderer {
      * @param feedbackstyle styles the type of feedback.
      * @return string nicely standard feedback, for display.
      */
-    protected function standard_prt_feedback(question_attempt $qa, question_definition $question,
-            prt_evaluatable $result, $feedbackstyle) {
+    protected function standard_prt_feedback(
+        question_attempt $qa,
+        question_definition $question,
+        prt_evaluatable $result,
+        $feedbackstyle
+    ) {
         if (!$result->is_evaluated()) {
             return '';
         }
@@ -466,9 +576,13 @@ class qtype_stack_renderer extends qtype_renderer {
         if ($question->$field) {
             // NOTE: assume that we have no holder related content here.
             return html_writer::tag('div', $question->format_text(
-                    stack_maths::process_display_castext($question->$field->get_rendered($question->castextprocessor), $this),
-                    FORMAT_HTML, // All CASText2 processed content has already been formatted to HTML.
-                    $qa, 'qtype_stack', $field, $question->id), ['class' => $class]);
+                stack_maths::process_display_castext($question->$field->get_rendered($question->castextprocessor), $this),
+                FORMAT_HTML, // All CASText2 processed content has already been formatted to HTML.
+                $qa,
+                'qtype_stack',
+                $field,
+                $question->id
+            ), ['class' => $class]);
         }
         return '';
     }
@@ -481,8 +595,11 @@ class qtype_stack_renderer extends qtype_renderer {
      * @param array $response the current response.
      * @return string HTML fragment.
      */
-    protected function overall_standard_prt_feedback(question_attempt $qa,
-            qtype_stack_question $question, $response) {
+    protected function overall_standard_prt_feedback(
+        question_attempt $qa,
+        qtype_stack_question $question,
+        $response
+    ) {
 
         $fraction = null;
         foreach ($question->prts as $name => $prt) {
@@ -521,19 +638,23 @@ class qtype_stack_renderer extends qtype_renderer {
             $question->castextprocessor = new castext2_qa_processor($qa);
         }
 
-        $newhint = new question_hint($hint->id,
-                stack_maths::process_display_castext($hinttext->get_rendered($question->castextprocessor), $this),
-                FORMAT_HTML // All CASText2 processed content has already been formatted to HTML.
-            );
+        $newhint = new question_hint(
+            $hint->id,
+            stack_maths::process_display_castext($hinttext->get_rendered($question->castextprocessor), $this),
+            FORMAT_HTML // All CASText2 processed content has already been formatted to HTML.
+        );
 
-        return html_writer::nonempty_tag('div',
-            $question->format_hint($newhint, $qa), ['class' => 'hint']);
+        return html_writer::nonempty_tag(
+            'div',
+            $question->format_hint($newhint, $qa),
+            ['class' => 'hint']
+        );
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function correct_response(question_attempt $qa) {
         $question = $qa->get_question();
-        return '<hr />'.$question->format_correct_response($qa);
+        return '<hr />' . $question->format_correct_response($qa);
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -548,10 +669,17 @@ class qtype_stack_renderer extends qtype_renderer {
             $question->castextprocessor = new castext2_qa_processor($qa);
         }
 
-        $gf = $qa->get_question()->format_text(stack_maths::process_display_castext(
-                $question->get_generalfeedback_castext()->get_rendered($question->castextprocessor), $this),
-                FORMAT_HTML, // All CASText2 processed content has already been formatted to HTML.
-                $qa, 'question', 'generalfeedback', $question->id);
+        $gf = $qa->get_question()->format_text(
+            stack_maths::process_display_castext(
+                $question->get_generalfeedback_castext()->get_rendered($question->castextprocessor),
+                $this
+            ),
+            FORMAT_HTML, // All CASText2 processed content has already been formatted to HTML.
+            $qa,
+            'question',
+            'generalfeedback',
+            $question->id
+        );
         // Replace the secured bits.
         return $question->get_generalfeedback_castext()->apply_placeholder_holder($gf);
     }
@@ -568,10 +696,17 @@ class qtype_stack_renderer extends qtype_renderer {
             $question->castextprocessor = new castext2_qa_processor($qa);
         }
 
-        $qd = $qa->get_question()->format_text(stack_maths::process_display_castext(
-            $question->get_questiondescription_castext()->get_rendered($question->castextprocessor), $this),
+        $qd = $qa->get_question()->format_text(
+            stack_maths::process_display_castext(
+                $question->get_questiondescription_castext()->get_rendered($question->castextprocessor),
+                $this
+            ),
             FORMAT_HTML, // All CASText2 processed content has already been formatted to HTML.
-            $qa, 'qtype_stack', 'questiondescription', $question->id);
+            $qa,
+            'qtype_stack',
+            'questiondescription',
+            $question->id
+        );
         // Replace the secured bits.
         return $question->get_questiondescription_castext()->apply_placeholder_holder($qd);
     }
@@ -583,6 +718,6 @@ class qtype_stack_renderer extends qtype_renderer {
      */
     public function fact_sheet($name, $fact) {
         $name = html_writer::tag('h5', $name);
-        return html_writer::tag('div', $name.$fact, ['class' => 'factsheet']);
+        return html_writer::tag('div', $name . $fact, ['class' => 'factsheet']);
     }
 }

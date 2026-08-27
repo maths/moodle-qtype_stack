@@ -1,0 +1,152 @@
+{
+    "quiz": {
+        "name": "17.2 Polar Coordinates",
+        "intro": "The conic sections (or conics ) - the ellipse , the parabola and the hyperbola - play an important role both in mathematics and in the application of mathematics to engineering. In this Section we look in detail at the equations of the conics in both standard form and general form.\r\n\r\nAlthough there are various ways that can be used to define a conic, we concentrate in this Section on defining conics using Cartesian coordinates \\((x,y)\\). However, at the end of this Section we examine an alternative way to obtain the conics. ",
+        "introformat": "0",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Polar Coordinates",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "6",
+            "heading": "Simple curves in polar coordinates",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "4",
+            "heading": "Exercises",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "9",
+            "heading": "Standard conics in polar coordinates",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "11",
+            "heading": "Exercises",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-17-2\/17-2-1-1-Basics-of-polar-Coordinates.xml"
+        },
+        {
+            "slot": "3",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-17-2\/17-2-1-3-continued-basics-of-polar-coordinates.xml"
+        },
+        {
+            "slot": "6",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-17-2\/17-2-2-6-Simple-curves-in-polar-coordinates.xml"
+        },
+        {
+            "slot": "9",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-17-2\/17-2-3-9-Simple-curves-in-polar-coordinates-continued.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-17-2\/17-2-1-2-Polar-to-Cartesian-coordinates.xml"
+        },
+        {
+            "slot": "4",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-17-2\/17-2-1-4-Cartesian-to-polar-coordinates.xml"
+        },
+        {
+            "slot": "5",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-17-2\/17-2-1-5-Polar-points-forming-a-line.xml"
+        },
+        {
+            "slot": "7",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-17-2\/17-2-2-7-Match-cartesian-equations-with-graphs.xml"
+        },
+        {
+            "slot": "8",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-17-2\/17-2-2-8-Match-polar-equations-with-graphs.xml"
+        },
+        {
+            "slot": "10",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-17-2\/17-2-3-10-ellipsis-vertices.xml"
+        },
+        {
+            "slot": "14",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-17-2\/17-2-3-14-polar-to-Cartesian-exercise.xml"
+        },
+        {
+            "slot": "15",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-17-2\/17-2-3-15-Polar-to-Cartesian-exercise.xml"
+        },
+        {
+            "slot": "11",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-17-2\/17-2-3-11-Polar-curve-creation.xml"
+        },
+        {
+            "slot": "13",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-17-2\/17-2-3-13-Polar-curve-creation.xml"
+        },
+        {
+            "slot": "12",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-17-2\/17-2-3-12-Polar-curve-creation.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

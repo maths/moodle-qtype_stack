@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>22.3.2.3 About complex eigenvalues</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Calculating the eigenvalues of an \(n\times n\) matrix with real elements involves, in principle at least, solving an \(n^{\text{th}}\) order polynomial equation, a quadratic equation if \(n=2\), a cubic equation if \(n=3\), and so on. As is well known, such equations sometimes have only real solutions, but complex solutions (occurring as complex conjugate pairs) can also arise. This situation can therefore arise with the eigenvalues of matrices.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

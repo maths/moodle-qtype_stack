@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>16.3.1.1 The Binomial Series</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>The binomial series</h4><p>The binomial series is a more general form of the binomial theorem, that is, the expansion of \((x+1)^n\). When \(n\) is a natural number then we can expand \((x+1)^n\) using the usual laws of algebra and get a finite sum of terms. If \(n\) is not a natural number then the binomial theorem does not apply but we can get a series expansion. It is important to note that the series typically won't converge for all \(x\).</p><p>A very important infinite series which occurs often in applications and in algebra has the form: <br>\[ <br>1+p x+\dfrac{p(p-1)}{2!}x^2+\dfrac{p(p-1)(p-2)}{3!}x^3+\cdots<br>\]<br>in which \(p\) is a given number and \(x\) is a variable. By using the ratio test it can be shown that this series converges, irrespective of the value of \(p\), as long as \(|x|&lt;1\). In fact, as we shall see in Maclaurin and Taylor series that the given series converges to the value \((1+x)^p\) as long as \(|x|&lt;1\).</p> 
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p><b>The Binomial Series</b></p><p>\[ (1+x)^p = 1+px+\frac{p(p-1)}{2!}x^2+\frac{p(p-1)(p-2)}{3!}x^3+\cdots \qquad |x|&lt;1 \]<br></p>
+</div><p>The binomial theorem can be obtained directly from the binomial series if \(p\) is chosen to be a <strong>positive integer</strong> (here we need not demand that \(|x|&lt;1\) as the series is now finite and so is always convergent irrespective of the value of \(x\)). For example, with \(p=2\) we obtain <br>\[<br>\begin{aligned}<br> (1+x)^2&amp;=&amp; 1+2x+\dfrac{2(1)}{2}x^2+0+0+\cdots\\ &amp;=&amp;1+2x+x^2\ \ \ \text{as is well known.} <br>\end{aligned}<br>\]</p> <p>With \(p=3\) we get<br>\[<br>\begin{aligned} (1+x)^3&amp;=&amp; 1+3x+\dfrac{3(2)}{2}x^2+\dfrac{3(2)(1)}{3!}x^3+0+0+\cdots &amp;=&amp;1+3x+3x^2+x^3<br>\end{aligned}<br>\] <br>Generally if \(p=n\) (a positive integer) then</p><p>\[ (1+x)^n=1+nx+\dfrac{n(n-1)}{2!}x^2+\dfrac{n(n-1)(n-2)}{3!}x^3+\cdots +x^n \]</p><p>which is a form of the binomial theorem. If \(x\) is replaced by \(\dfrac{b}{a}\) then <br>\[<br>\left(1+\dfrac{b}{a}\right)^n=1+n\left(\dfrac{b}{a}\right)+\dfrac{n(n-1)}{2!}\left(\dfrac{b}{a}\right)^2+\cdots +\left(\dfrac{b}{a}\right)^n<br>\]<br>Now multiplying both sides by \(a^n\) we have the following Key Point:</p><p>A generalisation of the third law of indices states:</p>
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p>If \(n\) is a positive integer then the expansion of \( (a+b) \) raised to the power \(n\) is given by:</p><p>\[ (a+b)^n=a^n+na^{n−1}b+\frac{n(n−1)}{2!}a^{n−2}b^2+ \cdots +b^n.\]</p><p>This is known as <b>the binomial theorem</b>.<br></p>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

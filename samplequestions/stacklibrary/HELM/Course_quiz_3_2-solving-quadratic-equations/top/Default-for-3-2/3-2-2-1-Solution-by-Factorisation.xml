@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.2.2.1 Solution by Factorisation</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Solution by Factorisation</h3>
+<p>It may be possible to solve a quadratic equation by factorisation, essentially being able to spot the roots. You should be aware that not all quadratic equations can be easily factorised but some simple cases can occur.</p>
+<hr>
+<h4 class="HELM_example">Example</h4><p>Solve the equation \(x^2+5x=0.\)</p>
+<h4 class="HELM_solution">Solution</h4>
+<p></p><p>Factorising and equating each factor to zero we find</p><p>\[x^2+5x =0\quad \text{is equivalent to}\quad x(x+5) = 0\]</p><p>so that \(x=0\) and \(x=-5\) are the two solutions. We know this since the product of two numbers (the factors, in this case) will be zero if at least one of them is zero.<br></p>
+<hr>
+<h4 class="HELM_example">Example</h4><p>Solve the quadratic equation \(x^2+x-6=0\).</p>
+<h4 class="HELM_solution">Solution</h4>
+<p></p><p>Factorising the left hand side we find \(x^2+x-6=(x+3)(x-2)\) so that</p><p>\[x^2+x-6=0 \quad \text{is equivalent to}\quad (x+3)(x-2) = 0.\]</p><p>When the product of two quantities equals zero, at least one of the two must equal zero. In this case either \((x+3)\) is zero or \((x-2)\) is zero. It follows that</p>\[x+3=0, \qquad \hbox{ giving } \qquad x = -3\] <p>or</p>\[x-2 = 0,\qquad&nbsp; \hbox{ giving } \qquad x=2\]<p>Here there are two solutions, \(x=-3\) and \(x=2\). These solutions can be checked quite easily by substitution back into the given equation.</p>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p></p><p>Solve the quadratic equation \(2x^2-7x-4=0\) by factorising the left-hand side.</p><p></p>
+<h4 class="HELM_solution">Solution</h4>
+<p></p><p>Factorising the left hand side: \(2x^2-7x-4=(2x+1)(x-4)\) so \(2x^2-7x-4=0\) \(\text{is equivalent to}\ \&nbsp; (2x+1)(x-4) = 0.\)</p><p>In this case either \((2x+1)\) is zero or \((x-4)\) is zero. It follows that \(2x+1=0, \quad \text{giving } \quad x = -\dfrac{1}{2}\quad\) or \( x-4 = 0,\quad&nbsp; \text{giving } \quad x=4\).</p><p>There are two solutions, \(x=-\dfrac{1}{2}\) and \(x=4\).</p><p></p>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Solve the equation \(4x^2+12x+9=0\).</p>
+<h4 class="HELM_solution">Solution</h4>
+<p></p><p>Factorising we find \(4x^2+12x+9 = (2x+3)(2x+3) = (2x+3)^2\). This time the factor \((2x+3)\) occurs twice. The original equation \(4x^2+12x+9=0\) becomes</p><p>\[(2x+3)^2=0\]</p><p>so that \(2x+3 = 0\) and we obtain the solution \(x=-\dfrac{3}{2}\). Because the factor \(2x+3\) appears twice in the equation \((2x+3)^2=0\) we say that this root is a <b>repeated solution</b>&nbsp;or <b>double root</b>.</p><p></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

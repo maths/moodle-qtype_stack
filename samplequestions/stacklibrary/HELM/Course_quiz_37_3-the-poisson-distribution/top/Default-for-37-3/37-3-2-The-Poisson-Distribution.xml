@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>37.3.2 The Poisson Distribution</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>The Poisson Distribution</h4><p><br></p>
+<p>The Poisson distribution is a probability model which can be used to find the probability of a single event occurring a given number of times in an interval of (usually) time. The occurrence of these events must be determined by chance alone which implies that information about the occurrence of any one event cannot be used to predict the occurrence of any other event. It is worth noting that only the <span><em>occurrence</em></span> of an event can be counted; the <span><em>non-occurrence</em></span> of an event cannot be counted. This contrasts with Bernoulli trials where we know the number of trials, the number of events occurring and therefore the number of events not occurring.</p>
+
+<p>The Poisson distribution has widespread applications in areas such as analysing traffic flow, fault prediction in electric cables, defects occurring in manufactured objects such as castings, email messages arriving at a computer and in the prediction of randomly occurring events or accidents. One well known series of accidental events concerns russian cavalry who were killed by horse kicks. Although not discussed here (death by horse kick is hardly an engineering application of statistics!) you will find accounts in many statistical texts. One example of the use of a Poisson distribution where the events are not necessarily time related is in the prediction of fault occurrence along a long weld - faults may occur anywhere along the length of the weld. A similar argument applies when scanning castings for faults - we are looking for faults occurring in a volume of material, not over an interval if time.</p>
+
+<p>The following definition gives a theoretical underpinning to the Poisson distribution.</p><h5><br></h5><h5>Definition of a Poisson process</h5>
+
+<p>Suppose that events occur at random throughout an interval. Suppose further that the interval can be divided into subintervals which are so small that:</p>
+<ol>
+<li><p>the probability of more than one event occurring in the subinterval is zero</p></li>
+<li><p>the probability of one event occurring in a subinterval is proportional to the length of the subinterval</p></li>
+<li><p>an event occurring in any given subinterval is independent of any other subinterval</p></li>
+</ol>
+<p>then the random experiment is known as a <span><strong>Poisson process</strong></span>.</p>
+<p>The word ‘process’ is used to suggest that the experiment takes place over time, which is the usual case. If the average number of events occurring in the interval (not subinterval) is <span class="math inline">\(\lambda
+\ (&gt;0)\)</span> then the random variable <span class="math inline">\(X\)</span> representing the actual number of events occurring in the interval is said to have a Poisson distribution and it can be shown (we omit the derivation) that</p>
+<p><span class="math inline">\(\qquad \text{P}(X=r)=e^{-\lambda}\frac{\lambda^r}{r!}\qquad r=0,1,2,3,\dots\)</span></p>
+<p>The following Key point provides a summary.</p>
+
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p style="text-align: center; "><b>The Poisson Probabilities&nbsp;</b></p><p>If <span class="math inline">\(X\)</span> is the random variable&nbsp;</p><p style="text-align: center; ">‘number of occurrences in a given interval’</p>
+<p>for which the average rate of occurrence is <span class="math inline">\(\lambda\)</span> then, according to the model, the probability of <span class="math inline">\(r\)</span> occurrences in that interval is given by</p>
+<p><span class="math display">\[\text{P}(X=r)=e^{-\lambda} \dfrac{\lambda^r}{r!}\qquad r=0,1,2,3,\dots\]</span></p>
+</div>
+
+<p></p>
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p style="text-align: center; "><b>Recurrence Relation for Poisson Probabilities&nbsp;</b></p><p>In general, for ease of calculation the <span><strong>recurrence relation</strong></span> below can be used</p><p><br></p>
+
+<p style="text-align: center; "><span class="math display">\(\text{P}(X=r)=\dfrac{\lambda}{r}\ \text{P}(X=r-1)\ \qquad&nbsp; &nbsp; &nbsp;\text{for}\ \ r\ge 1.\)</span></p>
+</div>
+
+<hr style="text-align: center; ">
+<h4 class="HELM_example">Example</h4>
+<p>Using the Poisson distribution <span class="math inline">\(\text{P}(X=r)=e^{-\lambda}\frac{\lambda^r}{r!}\)</span> write down the formulae for <span class="math inline">\(\text{P}(X=0),\ \text{P}(X=1),\ \text{P}(X=2)\)</span> and <span class="math inline">\(\text{P}(X=6),\)</span> noting that <span class="math inline">\(0!=1.\)</span></p>
+
+<h4 class="HELM_solution">Solution</h4>
+<p><span class="math display">\(\text{P}(X=0)=e^{-\lambda}\times\dfrac{\lambda^0}{0!}=e^{-\lambda}\times\dfrac{1}{1} = e^{-\lambda}\)</span></p><p><span class="math display">\(\text{P}(X=1)=e^{-\lambda}\times \dfrac{\lambda}{1!}=\lambda e^{-\lambda}\)</span></p><p><span class="math display">\(\text{P}(X=2)=e^{-\lambda}\times\dfrac{\lambda^2}{2!}=\dfrac{\lambda^2}{2}e^{-\lambda}\)</span></p><p><span class="math display">\(\text{P}(X=6)=e^{-\lambda}\times \dfrac{\lambda^6}{6!}=\dfrac{\lambda^6}{720}e^{-\lambda}\)</span></p><p><br></p>
+
+
+<hr style="text-align: center; ">
+<h4 class="HELM_example">Example</h4>
+<p>Calculate the value for <span class="math inline">\(\text{P}(X=6)\)</span> to extend the Table in the previous Task using the recurrence relation and the value for \(\text{P}(X=5)\).</p>
+
+<h4 class="HELM_solution">Solution</h4>
+<p>The recurrence relation gives the formula</p>
+
+<p>\(\text{P}(X=6)= \dfrac{2}{6}\ \text{P}(X=5)= \dfrac{1}{3} \times 0.0361=0.0120\)</p><p><br></p><p><br></p>
+
+<p>We now look further at the Poisson distribution by considering an example based on traffic flow.</p>
+
+<hr style="text-align: center; ">
+<h4 class="HELM_example">Example</h4>
+<p>Suppose it has been observed that, on average, 180 cars per hour pass a specified point on a particular road in the morning rush hour. Due to impending roadworks, it is estimated that congestion will occur closer to the city centre if more than 5 cars pass the point in any one minute. What is the probability of congestion occurring?</p>
+
+<h4 class="HELM_solution">Solution</h4>
+<p>We note that we cannot use the binomial model since we have no values of <span class="math inline">\(n\)</span> and <span class="math inline">\(p\)</span>. Essentially we are saying that there is no fixed number (<span class="math inline">\(n\)</span>) of cars passing the specified point and that we have no way of estimating <span class="math inline">\(p\)</span>. The only information available is the average rate at which cars pass the specified point.</p>
+<p>Let <span class="math inline">\(X\)</span> be the random variable <span class="math inline">\(X\)</span> = number of cars arriving in any minute. We need to calculate the probability that more than 5 cars arrive in any one minute. Note that in order to do this we need to convert the information given on the average rate (cars arriving per hour) into a value for <span class="math inline">\(\lambda\)</span> (cars arriving per minute).</p>
+<p>This gives the value <span class="math inline">\(\lambda=3\)</span>.</p>
+<p>Using <span class="math inline">\(\lambda=3\)</span> to calculate the required probabilities gives:</p>
+<table class="HELM_table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"><span class="math inline">\(r\)</span></th>
+<th style="text-align: center;">0</th>
+<th style="text-align: center;">1</th>
+<th style="text-align: center;">2</th>
+<th style="text-align: center;">3</th>
+<th style="text-align: center;">4</th>
+<th style="text-align: center;">5</th>
+<th style="text-align: center;">Sum</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(\text{P}(X=r)\)</span></td>
+<td style="text-align: center;">&nbsp;0.04979&nbsp;</td>
+<td style="text-align: center;">&nbsp;0.149361&nbsp;</td>
+<td style="text-align: center;">&nbsp;0.22404&nbsp;</td>
+<td style="text-align: center;">&nbsp;0.22404&nbsp;</td>
+<td style="text-align: center;">&nbsp;0.168031&nbsp;</td>
+<td style="text-align: center;">&nbsp;0.10082&nbsp;</td>
+<td style="text-align: center;">&nbsp;0.91608&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<p><br></p><p>To calculate the required probability we note that&nbsp;</p><p><span class="math inline">\(\text{P}(\text{more than 5 cars arrive in one minute})=1-\text{P}(\text{5 cars or less arrive in one minute})\)</span>&nbsp;</p><p>Thus \(\text{P}(X&gt;5) = 1 - \text{P}(X \leq 5) = 1 - \sum_{x=0}^{5} \text{P}(X = x)\)</p><p>Then \(\text{P}(\text{more than 5}) = 1 - 0.91608 = 0.08392 = 0.0839\) (4 d.p.).</p>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>The mean number of bacteria per millilitre of a liquid is known to be 6. Find the probability that in 1 ml of the liquid, there will be:</p>
+<ol class="HELM_parts_inline">
+<li>\(0\)</li>
+<li>\(1\)</li>
+<li>\(2\)</li>
+<li>\(3\)</li>&nbsp;l<li>ess&nbsp; than&nbsp; \(4\)</li>
+<li>\(6\) bacteria</li></ol>
+
+<h4 class="HELM_solution">Solution</h4>
+
+<p>Here we have an <span><em>average rate of occurrences</em></span> but no estimate of the probability so it looks as though we have a Poisson distribution with <span class="math inline">\(\lambda =6\)</span>. Using the formula in Key point about Poisson probabilities, we have:</p><p><br></p>
+
+<ol class="HELM_parts">
+  <li><span class="math inline">\(\text{P}(X=0)= e^{-6}\dfrac{6^0}{0!}=0.00248\)</span></li>
+<p>That is, the probability of having no bacteria in 1 ml of liquid is 0.00248</p><p><br></p>
+  <li><span class="math inline">\(\text{P}(X=1)=\dfrac{\lambda}{1}\times \text{P}(X=0)=6\times 0.00248=0.0149\)</span>.
+<p>That is, the probability of having 1 bacteria in 1 ml of liquid is 0.0149</p>
+  </li><li><span class="math inline">\(\text{P}(X=2)=\dfrac{\lambda}{2}\times \text{P}(X=1)=\dfrac{6}{2}\times 0.01487=0.0446\)</span>.</li>
+<p>That is, the probability of having 2 bacteria in 1 ml of liquid is 0.0446</p><p><br></p>
+<li><span class="math inline">\(\text{P}(X=3)=\dfrac{\lambda}{3}\times \text{P}(X=2)=\dfrac{6}{3}\times 0.04462=0.0892\)</span>.</li>
+<p>That is, the probability of having 3 bacteria in 1 ml of liquid is 0.0892</p><p><br></p>
+<li><span class="math inline">\(\text{P}(X&lt;4)=\text{P}(X=0)+\text{P}(X=1)+\text{P}(X=2)+\text{P}(X=3)=0.1512\)</span>.</li>
+<li><span class="math inline">\(\text{P}(X=6)=e^{-6}\dfrac{6^6}{6!}=0.1606\)</span>.</li>
+</ol>
+
+<p>Note that in working out the first 6 answers, which link together, all the digits were kept in the calculator to ensure accuracy. Answers were rounded off only when written down.</p>
+
+<p>Never copy down answers correct to, say, 4 decimal places and then use those rounded figures to calculate the next figure as rounding-off errors will become greater at each stage. If you did so here you would get answers 0.0025, 0.0150, 0.0450, 0.9000 and <span class="math inline">\(\text{P}(X&lt;4) = 0.1525\)</span>. The difference is not great but could be significant.</p>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>A Council is considering whether to base a recovery vehicle on a stretch of road to help clear incidents as quickly as possible. The road concerned carries over 5000 vehicles during the peak rush hour period. Records show that, on average, the number of incidents during the morning rush hour is 5. The Council won’t base a vehicle on the road if the probability of having more than 5 incidents in any one morning is less than 30%. Based on this information should the Council provide a vehicle?</p>
+
+<h4 class="HELM_solution">Solution</h4>
+
+<ol class="HELM_parts">
+
+<p>We need to calculate the probability that more than 5 incidents occur i.e. <span class="math inline">\(\text{P}(X&gt;5)\)</span>.&nbsp;</p><p>To find this we use the fact that <span class="math inline">\(\text{P}(X&gt;5)=1-\text{P}(X\le 5)\)</span>. Now, for this problem:&nbsp;</p>
+<p><span class="math inline">\(\text{P}(X=r)=e^{-5}\dfrac{5^r}{r!}\)</span></p>
+<p>Writing answers to 5 d.p. gives:&nbsp;</p><p>\(\text{P}(X=0) = e^{-5} \dfrac{5^0}{0!} = 0.00674\)</p><p><span style="font-size: 0.9375rem;">\(\text{P}(X=1) = 5\times\text{P}(X=0) = 0.03369\)</span><br></p><p><span class="math display">\(\text{P}(X=2) = \dfrac{5}{2}\times \text{P}(X=1) =0.08422\)</span></p><p><span class="math display">\(\text{P}(X=3) = \dfrac{5}{3}\times\text{P}(X=2) =0.14037\)</span></p><p><span class="math display">\(\text{P}(X=4) = \dfrac{5}{4}\times \text{P}(X=3) =0.17547\)</span></p><p><span class="math display">\(\text{P}(X=5) = \dfrac{5}{5}\times\text{P}(X=4) =0.17547\)</span></p><p><span class="math display">This means that \(\text{P}(X\le 5) = \sum_{x=0}^5 \text{P}(X=x) = 0.61596\).</span></p>
+
+<p><span style="font-size: 0.9375rem;">The probability of more than 5 incidents is </span><span class="math inline" style="font-size: 0.9375rem;">\(\text{P}(X&gt;5)=1-\text{P}(X\le5)=0.38403\)</span><span style="font-size: 0.9375rem;">, which is 38.4%, so the Council should provide a vehicle.</span><br></p><p></p>
+  </ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

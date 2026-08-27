@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>16.2.2.1 General tests for convergence</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>The alternating series&nbsp;test and ratio test</h4><p>The techniques we have applied to analyse the harmonic and the alternating harmonic series are
+‘one-off’:- they cannot be applied to infinite series in general. However, there are many tests that
+can be used to determine the convergence properties of many infinite series. Of the large number available
+we shall only consider two such tests in detail, namely the ratio test and alternating series test.<br></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

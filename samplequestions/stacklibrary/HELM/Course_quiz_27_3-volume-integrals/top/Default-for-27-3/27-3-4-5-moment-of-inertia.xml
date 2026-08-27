@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>27.3.4.5 moment of inertia</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4> Moment of inertia</h4>
+<p>The moment of inertia \(I\) of a particle of mass \(M\) about an axis \(PQ\) is defined as \(\displaystyle I = \mbox{Mass}\times\mbox{Distance}^2\mbox{or} I=Md^2\) where \(d\) is the perpendicular distance from the particle to the axis.<br> 
+To find the moment of inertia of a larger object, it is necessary to carry out a volume integration over all such particles. The distance of a particle at \((x,y,z)\) from the \(z\)-axis is given by \(\sqrt{x^2+y^2}\) so the moment of inertia of an object about the \(z\)-axis is given by 
+\[\displaystyle I_z = \displaystyle\int_V \rho(x,y,z) (x^2+y^2) \;\mathrm{d}z.\]
+Similarly, the moments of inertia about the \(x\)-axis and \(y\)-axis are given by 
+\[\displaystyle I_x = \displaystyle\int_V \rho(x,y,z) (y^2+z^2) \;\mathrm{d}x \quad\text{ and }\quad I_y = \displaystyle\int_V \rho(x,y,z) (x^2+z^2) \;\mathrm{d}y\] 
+In the case where the density is constant over the object, so \(\rho (x,y,z)=\rho\), these formulae reduce to \[\displaystyle I_x = \rho \displaystyle\int_V (y^2+z^2) \;\mathrm{d}x \quad\text{ , }\quad I_y = \rho \displaystyle\int_V (x^2+z^2) \;\mathrm{d}y\quad\text{ and }\quad I_z = \rho \displaystyle\int_V (x^2+y^2) \;\mathrm{d}z\]
+When possible, the moment of inertia is expressed in terms of \(M\), the mass of the object.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

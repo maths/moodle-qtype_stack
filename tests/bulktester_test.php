@@ -53,18 +53,42 @@ final class bulktester_test extends \advanced_testcase {
         $question5 = $generator->create_question('stack', 'test3', ['category' => $cat->id]);
         $question6 = $generator->create_question('stack', 'test3', ['category' => $cat->id]);
 
-        $DB->set_field('question', 'questiontext', 'Block %_[[todo]] in the middle',
-                ['id' => $question1->id]);
-        $DB->set_field('question', 'generalfeedback', '[[todo]]Block at %%the beginning',
-                ['id' => $question2->id]);
-        $DB->set_field('qtype_stack_options', 'questionnote', 'Block at the end[[todo]]',
-                ['questionid' => $question3->id]);
-        $DB->set_field('qtype_stack_options', 'specificfeedback', 'Block%[[todo]]%in the middle',
-                ['questionid' => $question4->id]);
-        $DB->set_field('qtype_stack_options', 'questiondescription', 'Block [[todo]] in the middle',
-                ['questionid' => $question5->id]);
-        $DB->set_field('qtype_stack_options', 'questiondescription', 'Block [todo] in the middle',
-                ['questionid' => $question6->id]);
+        $DB->set_field(
+            'question',
+            'questiontext',
+            'Block %_[[todo]] in the middle',
+            ['id' => $question1->id]
+        );
+        $DB->set_field(
+            'question',
+            'generalfeedback',
+            '[[todo]]Block at %%the beginning',
+            ['id' => $question2->id]
+        );
+        $DB->set_field(
+            'qtype_stack_options',
+            'questionnote',
+            'Block at the end[[todo]]',
+            ['questionid' => $question3->id]
+        );
+        $DB->set_field(
+            'qtype_stack_options',
+            'specificfeedback',
+            'Block%[[todo]]%in the middle',
+            ['questionid' => $question4->id]
+        );
+        $DB->set_field(
+            'qtype_stack_options',
+            'questiondescription',
+            'Block [[todo]] in the middle',
+            ['questionid' => $question5->id]
+        );
+        $DB->set_field(
+            'qtype_stack_options',
+            'questiondescription',
+            'Block [todo] in the middle',
+            ['questionid' => $question6->id]
+        );
 
         $bulktester = new \stack_bulk_tester();
         $result = (array) $bulktester->stack_questions_in_category_with_todo($cat->id);

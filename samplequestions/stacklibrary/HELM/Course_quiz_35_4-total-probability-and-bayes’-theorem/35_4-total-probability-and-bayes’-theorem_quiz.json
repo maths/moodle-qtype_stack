@@ -1,0 +1,114 @@
+{
+    "quiz": {
+        "name": "35_4 Total Probability and Bayes\u2019 Theorem",
+        "intro": "<p>When the ideas of probability are applied to science and engineering (and many other areas) there are occasions\nwhen we need to calculate conditional probabilities other than those already known. For example, if\nproduction runs of ball bearings involve say, four machines, we might know the probability that any\ngiven machine produces faulty ball bearings. If we are inspecting the total output prior to distribution\nto users, we might need to know the probability that a faulty ball bearing came from a particular\nmachine. Even though we do not address the area of statistics known as Bayesian Statistics here, it\nis worth noting that Bayes\u2019 theorem is the basis of this branch of the subject.<br><\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "35.4.1 The theorem of total probability and Bayes' theorem",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "3",
+            "heading": "35.4.3 Special cases",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "6",
+            "heading": "35.4.4 Exercises",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-35-4\/35-4-1-1-The-theorem-of-total-probability.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-35-4\/35-4-2-1-Bayes-theorem.xml"
+        },
+        {
+            "slot": "3",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-35-4\/35-4-3-1-Special-cases.xml"
+        },
+        {
+            "slot": "4",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-35-4\/35-4-3-2-Bayes-theorem-special-case.xml"
+        },
+        {
+            "slot": "5",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-35-4\/35-4-3-3-Jobs.xml"
+        },
+        {
+            "slot": "6",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-35-4\/35-4-4-1-Four-coin-tosses.xml"
+        },
+        {
+            "slot": "7",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-35-4\/35-4-4-2-Duration-of-employment.xml"
+        },
+        {
+            "slot": "8",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-35-4\/35-4-4-3-Indepent-events-and-complements.xml"
+        },
+        {
+            "slot": "9",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-35-4\/35-4-4-4-Independent-vs-mutually-exclusive-events.xml"
+        },
+        {
+            "slot": "10",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-35-4\/35-4-4-7-Conditional-outcomes-in-a-coin-toss.xml"
+        },
+        {
+            "slot": "11",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-35-4\/35-4-4-8-Defective-items-from-a-production-line.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

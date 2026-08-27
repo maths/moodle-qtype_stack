@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>Instructions_2</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<ul>
+<li>Use a star for multiplication. For example, \(3x\) should be entered as <code>3*x</code>.</li>
+<li>Use a caret (^) for raising something to a power: for example, \(x^2\) should be entered as <code>x^2</code>
+<ul>
+<li>\(x^{-2}\) should be entered as <code>x^(-2)</code></li>
+<li>\(x^{1/3}\) should be entered as <code>x^(1/3)</code></li>
+</ul>
+</li>
+<li>Brackets are important to group terms in an expression.</li>
+</ul>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

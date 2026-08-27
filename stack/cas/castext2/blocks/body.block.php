@@ -31,7 +31,6 @@ require_once(__DIR__ . '/../../../utils.class.php');
  * A block for dealing with non script content in IFRAME blocks.
  */
 class stack_cas_castext2_body extends stack_cas_castext2_block {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
         $r = new MP_List([
@@ -68,8 +67,11 @@ class stack_cas_castext2_body extends stack_cas_castext2_block {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function postprocess(array $params, castext2_processor $processor,
-        castext2_placeholder_holder $holder): string {
+    public function postprocess(
+        array $params,
+        castext2_processor $processor,
+        castext2_placeholder_holder $holder
+    ): string {
 
         $content    = '';
         for ($i = 1; $i < count($params); $i++) {

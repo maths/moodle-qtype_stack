@@ -70,7 +70,7 @@ class stack_abstract_graph_svg_renderer {
      */
     public static function render(stack_abstract_graph $g, $id) {
         $renderer = new self($g);
-        list($minx, $maxx) = $g->x_range();
+        [$minx, $maxx] = $g->x_range();
         $width = ceil((5 + $maxx - $minx) * self::SCALE / 2);
         $height = ceil((0.3 + $g->max_depth()) * self::SCALE);
 
@@ -98,7 +98,7 @@ class stack_abstract_graph_svg_renderer {
      * @return string SVG code. Can be embedded straight into a HTML page.
      */
     protected function to_svg() {
-        list($minx) = $this->g->x_range();
+        [$minx] = $this->g->x_range();
         $this->dx = self::SCALE * (2.5 - $minx) / 2;
 
         foreach ($this->g->get_nodes() as $node) {
@@ -137,8 +137,8 @@ class stack_abstract_graph_svg_renderer {
             $child = $this->g->get($parent->right);
         }
 
-        list($px, $py) = $this->position($parent);
-        list($cx, $cy) = $this->position($child);
+        [$px, $py] = $this->position($parent);
+        [$cx, $cy] = $this->position($child);
         $initialdirection = $direction / 2;
 
         $midx = null;
@@ -146,7 +146,6 @@ class stack_abstract_graph_svg_renderer {
             // A bit narrow, use a curve.
             $midy = $py + 3 * (1 - pow(5 / 6, $child->depth - $parent->depth)) * self::SCALE;
             $midx = $px + $initialdirection * ($midy - $py);
-
         } else if ($this->g->edge_hits_another_node($parent, $child)) {
             // This line goes straight through another node, bend it.
             $midy = $py + self::SCALE;
@@ -184,7 +183,7 @@ class stack_abstract_graph_svg_renderer {
             $class = 'right';
         }
 
-        list($px, $py) = $this->position($parent);
+        [$px, $py] = $this->position($parent);
         $initialdirection = $direction / 2;
         $cx = $px + self::STUB_LENGTH * $initialdirection * self::NODE_RADIUS;
         $cy = $py + self::STUB_LENGTH * self::NODE_RADIUS;
@@ -218,7 +217,7 @@ class stack_abstract_graph_svg_renderer {
      * @param stack_abstract_graph_node $node
      */
     protected function node(stack_abstract_graph_node $node) {
-        list($x, $y) = $this->position($node);
+        [$x, $y] = $this->position($node);
         if ($node->url) {
             $this->svg[] = html_writer::start_tag('a', ['xlink:href' => $node->url]);
         }

@@ -4,22 +4,7 @@ This is reference documentation for the equivalence reasoning input.
 
 ##  What is reasoning by equivalence and this input type?
 
-Reasoning by equivalence is a particularly important activity in elementary algebra.  
-It is an iterative formal symbolic procedure where algebraic expressions, or terms within an expression, 
-are replaced by an equivalent until a "solved" form is reached.
-An example of solving a quadratic equation is shown below.
-\[\begin{array}{cc} \  & x^2-x=30 & \\
-\color{green}{\Leftrightarrow} & x^2-x-30=0 & \\
-\color{green}{\Leftrightarrow} & \left(x-6\right)\cdot \left(x+5\right)=0 \\
-\color{green}{\Leftrightarrow} & x-6=0\lor x+5=0 \\
-\color{green}{\Leftrightarrow} & x=6\lor x=-5
-\end{array}\]
-
-The point is that replacing an expression or a sub-expression in a problem by an equivalent expression provides a new problem having the same solutions.
-This input type enables us to capture and evaluate student's line-by-line reasoning, i.e. their steps in working, during this kind of activity.
-
-Reasoning by equivalence is very common in elementary mathematics.  It is either the entire task (such as when solving a quadratic)
-or it is an important part of a bigger problem.  E.g. proving the induction step is often achieved by reasoning by equivalence.  
+This input type enables us to capture and evaluate student's line-by-line reasoning.
 
 ## How do students use this input?
 
@@ -44,8 +29,6 @@ Note that students may not take square roots of both sides of an equation.  This
 
 But should students really use logical connectives?  Yes, I (CJS) believe they should but to require this from the input type now would be too big a step for students and their teachers. Students are already being expected to use connectives such as `and` and `or` correctly.  The input type uses these connectives and in the future options may be added to this input type which require students to be explicit about logical connectives, especially when we add support for implication in addition to equivalence.  As we gain confidence in teaching with equivalence reasoning, we will add more options to this input type.
 
-__If you have strong views on how this input type should behave, please contact the developers.__
-
 ## Validation and correctness
 
 STACK carefully separates out *validation* of a student's answer from the *correctness*.
@@ -55,6 +38,10 @@ which is tied to inputs, from the potential response trees which establish the m
 Each line of a student's answer must be a valid expression, just as with the algebraic input type.  
 However, sets, lists and matrices are not permitted in this input type.  
 The internal result is a *list* of expressions (equations or inequalities).
+
+### Validation symbols and their meaning
+
+Validation typically gives immediate feedback using symbols, which are documented in the [mathematics of equivalence reasoning](Equivalence_reasoning.md) page.
 
 ## Example use cases for this input type
 

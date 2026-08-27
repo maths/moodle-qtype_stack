@@ -1,0 +1,34 @@
+{
+    "quiz": {
+        "name": "5_4 Inverse Square Law Modelling",
+        "intro": "<p><h4>Introduction<\/h4><p>This Section describes how functions involving a constant numerator and a squared variable denominator can be used in adding sound energies of different sources.<\/p><\/p><p><br><\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "0.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-5-4\/5-4-1-1-Engineering-Case-Study---Sound-Intensity.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "0.00000"
+        }
+    ]
+}

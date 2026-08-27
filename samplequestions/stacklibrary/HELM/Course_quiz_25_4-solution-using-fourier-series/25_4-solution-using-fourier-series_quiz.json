@@ -1,0 +1,46 @@
+{
+    "quiz": {
+        "name": "25_4 Solution Using Fourier Series",
+        "intro": "<p dir=\"ltr\" style=\"text-align: left;\">In this Section we continue to use the separation of variables method for solving PDEs but you will\nfind that, to be able to fit certain boundary conditions, Fourier series methods have to be used leading\nto the final solution being in the (rather complicated) form of an infinite series. The techniques will be\nillustrated using the two-dimensional Laplace equation but similar situations often arise in connection\nwith other important PDEs.<br><\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "0.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Solution Using Fourier Series",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "2",
+            "heading": "Examples",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-25-4\/25-4-1-1-Solutions-involving-infinite-Fourier-series.xml"
+        },
+        {
+            "slot": "2",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-25-4\/25-4-1-2-Solutions-involving-infinite-Fourier-series.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "1.00000"
+        }
+    ]
+}

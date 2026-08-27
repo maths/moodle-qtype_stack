@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>23.6.4.2 Parseval’s theorem in FS coeffs</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[Parseval's theorem can also be written in terms of the Fourier coefficients \(a_n\), \(b_n\) of the
+trigonometric Fourier series.
+Recall that 
+\[
+ \begin{array}{lll}
+c_0=\dfrac{a_0}{2}\qquad c_n={\frac{a_n- ib_n}{2}}\quad n=1,2,3,\ldots\qquad\qquad c_n={\frac{a_n+ ib_n}{2}}\quad
+n=-1,-2,-3,\ldots
+\end{array}
+\]
+so
+\[ |c_n|^2=\frac{a_n^2+b_n^2}{4}\qquad\quad n=\pm 1,\pm 2,\pm 3,\ldots \]
+so
+\[  \sum_{n=-\infty}^\infty |c_n|^2=\frac{a_0^2}{4}+2\sum_{n=1}^\infty \frac{a_n^2+b_n^2}{4} \]
+and hence Parseval's theorem becomes
+\[ \frac{1}{T}\int_{-\frac{T}{2}}^{\frac{T}{2}} f^2(t)dt
+=\frac{a_0^2}{4}+\frac{1}{2}\sum_{n=1}^\infty (a_n^2+b_n^2) \]
+<p></p>
+The engineering interpretation of this theorem is as follows. Suppose \(f(t)\) denotes an electrical
+signal (current or voltage), then from elementary circuit theory \(f^2(t)\) is the instantaneous power (in a 1 ohm resistor) so that
+\[ \frac{1}{T} \int_{-\frac{T}{2}}^{\frac{T}{2}} f^2(t)\,dt \]
+is the energy dissipated in the resistor during one period.
+<p></p>
+Now a sinusoid wave of the form
+\[ A\cos \omega t\qquad (\text{ or}\ A\sin\omega t) \]
+has a mean square value \(\dfrac{A^2}{2}\) so a purely sinusoidal signal would dissipate a
+power \(\dfrac{A^2}{2}\) in a 1 ohm resistor. Hence Parseval's theorem states that the average power dissipated over 1 period equals the sum of the powers of the constant (or d.c.) components and of all the
+sinusoidal (or alternating) components.]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

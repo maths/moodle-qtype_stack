@@ -87,6 +87,8 @@ define([
          * Called when the input contents changes. Will validate after TYPING_DELAY if nothing else happens.
          */
         function valueChanging() {
+            input.dispatchEvent(new CustomEvent('stack-validation', {
+                detail: {inputname: name, completed: false, valid: null}}));
             cancelTypingDelay();
             showWaiting();
             delayTimeoutHandle = setTimeout(valueChanged, TYPING_DELAY);
@@ -129,11 +131,13 @@ define([
             Ajax.call([{
                 methodname: 'qtype_stack_validate_input',
                 args: {qaid: qaid, name: name, input: getInputValue(), lang: language},
-                done: function(response) {
+                done: (response) => {
                     validationReceived(response);
                 },
-                fail: function(response) {
+                fail: (response) => {
                     showValidationFailure(response);
+                    input.dispatchEvent(new CustomEvent('stack-validation', {
+                        detail: {inputname: name, completed: true, valid: false}}));
                 }
             }]);
             showLoading();
@@ -156,10 +160,14 @@ define([
         function validationReceived(response) {
             if (response.status === 'invalid') {
                 showValidationFailure(response);
+                input.dispatchEvent(new CustomEvent('stack-validation', {
+                    detail: {inputname: name, completed: true, valid: false}}));
                 return;
             }
             validationResults[response.input] = response;
             showValidationResults();
+            input.dispatchEvent(new CustomEvent('stack-validation', {
+                detail: {inputname: name, completed: true, valid: true}}));
         }
 
         /**
@@ -196,10 +204,6 @@ define([
             lastValidatedValue = val;
             var scriptCommands = [];
             validationDiv.innerHTML = extractScripts(results.message, scriptCommands);
-            // Run script commands.
-            for (var i = 0; i < scriptCommands.length; i++) {
-                eval(scriptCommands[i]);
-            }
             removeAllClasses();
             if (!results.message) {
                 validationDiv.classList.add('empty');
@@ -215,7 +219,8 @@ define([
          * @param {Object} response The data that came back from the ajax validation call.
          */
         function showValidationFailure(response) {
-            lastValidatedValue = '';
+            // ISS1757 - Change from blank to null so validation updates when answer cleared.
+            lastValidatedValue = null;
             // Reponse usually contains backtrace, debuginfo, errorcode, link, message and moreinfourl.
             validationDiv.innerHTML = response.message;
             removeAllClasses();
@@ -289,6 +294,15 @@ define([
         this.getValue = function() {
             return input.value.replace(/^\s+|\s+$/g, '');
         };
+
+        /**
+         * Add event dispatch passthrough.
+         *
+         * @param {Event} event to pass onwards.
+         */
+        this.dispatchEvent = function(event) {
+            input.dispatchEvent(event);
+        };
     }
 
     /**
@@ -316,6 +330,52 @@ define([
             var raw = textarea.value.replace(/^\s+|\s+$/g, '');
             // Using <br> here is weird, but it gets sorted out at the PHP end.
             return raw.split(/\s*[\r\n]\s*/).join('<br>');
+        };
+
+        /**
+         * Add event dispatch passthrough.
+         *
+         * @param {Event} event to pass onwards.
+         */
+        this.dispatchEvent = function(event) {
+            textarea.dispatchEvent(event);
+        };
+    }
+
+    /**
+     * Input type for freetext inputs.
+     *
+     * @constructor
+     * @param {Object} freetext The input element wrapped in jquery.
+     */
+    function StackFreetextInput(freetext) {
+        /**
+         * Add the event handler to call when the user input changes.
+         *
+         * @param {Function} valueChanging the callback to call when we detect a value change.
+         */
+        this.addEventHandlers = function(valueChanging) {
+            freetext.addEventListener('input', valueChanging);
+        };
+
+        /**
+         * Get the current value of this input.
+         *
+         * @return {String}.
+         */
+        this.getValue = function() {
+            var raw = freetext.value.replace(/^\s+|\s+$/g, '');
+            // Using <br> here is weird, but it gets sorted out at the PHP end.
+            return raw.split(/\s*[\r\n]\s*/).join('<br>');
+        };
+
+        /**
+         * Add event dispatch passthrough.
+         *
+         * @param {Event} event to pass onwards.
+         */
+        this.dispatchEvent = function(event) {
+            freetext.dispatchEvent(event);
         };
     }
 
@@ -350,6 +410,15 @@ define([
             } else {
                 return '';
             }
+        };
+
+        /**
+         * Add event dispatch passthrough.
+         *
+         * @param {Event} event to pass onwards.
+         */
+        this.dispatchEvent = function(event) {
+            container.dispatchEvent(event);
         };
     }
 
@@ -388,6 +457,15 @@ define([
             } else {
                 return '';
             }
+        };
+
+        /**
+         * Add event dispatch passthrough.
+         *
+         * @param {Event} event to pass onwards.
+         */
+        this.dispatchEvent = function(event) {
+            container.dispatchEvent(event);
         };
     }
 
@@ -437,6 +515,15 @@ define([
                 values[bits[0]][bits[1]] = element.value.replace(/^\s+|\s+$/g, '');
             });
             return JSON.stringify(values);
+        };
+
+        /**
+         * Add event dispatch passthrough.
+         *
+         * @param {Event} event to pass onwards.
+         */
+        this.dispatchEvent = function(event) {
+            container.dispatchEvent(event);
         };
     }
 
@@ -511,7 +598,11 @@ define([
         var input = questionDiv.querySelector('[name="' + prefix + name + '"]');
         if (input) {
             if (input.nodeName === 'TEXTAREA') {
-                return new StackTextareaInput(input);
+                if (input.dataset.stackInputType === 'freetext') {
+                    return new StackFreetextInput(input);
+                } else {
+                    return new StackTextareaInput(input);
+                }
             } else if (input.type === 'radio') {
                 return new StackRadioInput(input.closest('.answer'));
             } else {

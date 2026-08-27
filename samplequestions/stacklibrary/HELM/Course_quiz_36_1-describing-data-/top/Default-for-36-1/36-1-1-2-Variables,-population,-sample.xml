@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>36.1.1.2 Variables, population, sample</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Variables</h4>
+<p>A <b>variable</b> is a quantity which can take different values, perhaps in different experiments. For example this could be the breaking strength of a nylon cord or the number of right-turning vehicles in a 30-minute period.</p>
+<p>Variables may be:</p>
+<p><b>Quantitative</b>: i.e. numerical, e.g. breaking strengths of cords, numbers of vehicles.</p>
+<p><b>Qualitative</b>: usually categorical, e.g. make of a car, voting intention of a voter, cause of failure in a machine.</p>
+<p>Quantitative variables may be:</p>
+<p><b>Continuous</b>: i.e. measured on a continuous scale. E.g. height of a student, breaking strength of a cord.</p>
+<p><b>Discrete</b>: i.e. only certain separate values, e.g. integers, are possible. E.g. number of right-turning vehicles, goal difference of a football team.</p>
+<p>When we do an experiment we observe a value taken by a variable. This value is called an <b>observation</b> (e.g. the breaking strength of a particular cord specimen). We may make several observations and collectively these are known as <b>data</b> (e.g. the breaking strengths of ten particular cord specimens).</p>
+<p>Variables are often denoted by upper case letters such as \(X\). Observations are often denoted by the corresponding lower case letters such as \(x\).</p>
+<h4>Population and sample</h4>
+<p><b>Population</b>: Suppose, for example, we are interested in individuals who belong to a certain group (e.g. students in the first year of UK Engineering degree courses or all TV sets made at a particular factory during October 2015). We call the group a <b>population</b>.</p> 
+<p><b>Sample</b>: Often it is not possible to observe every member of a population and it is usually not sensible to try. Instead we observe only some members of the population. The members which we observe are called a <b>sample</b>. For example we might observe a sample of 15 cm long nylon cord specimens. Clearly it would not be sensible to try to test to destruction all possible 15 cm long nylon cord specimens. The nylon cord example illustrates the point that, in some cases, there are so many potential members of a population that the size of the population may be treated as infinite.  We could always take more sample specimens and the result for one specimen does not affect the properties of any future specimens which we might take.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

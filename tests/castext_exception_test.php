@@ -46,7 +46,6 @@ require_once(__DIR__ . '/../stack/cas/castext2/castext2_evaluatable.class.php');
  * @group qtype_stack
  */
 final class castext_exception_test extends qtype_stack_testcase {
-
     /**
      * Add description here.
      * @covers \qtype_stack\castext2_evaluatable::make_from_source

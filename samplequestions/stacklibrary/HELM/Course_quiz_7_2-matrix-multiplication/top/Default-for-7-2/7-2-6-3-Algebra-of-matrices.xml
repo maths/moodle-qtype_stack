@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>7.2.6.3 Algebra of matrices</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>We now list some properties of matrix multiplication and compare them with corresponding
+properties for multiplication of numbers.</p>
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+\(
+\begin{array}{ccc}
+\textbf{Matrix algebra} && \textbf{Number algebra} \\
+A(B+C) = AB+AC && a(b+c)=ab+ac \\
+AB\neq BA\text{ in general} && ab=ba \\
+A(BC)=(AB)C && a(bc)=(ab)c \\
+AI = IA = A && 1\cdot a=a\cdot1=a \\
+A\underline{0} = \underline{0}A=\underline{0} && 0\cdot a=a\cdot0=0 \\
+AB\text{ may not be defined} && ab\text{ is always defined} \\
+AB=\underline{0}\text{ does not imply }A=\underline{0}\text{ or }B=\underline{0} && ab=0\text{ implies }a=0\text{ or }b=0
+\end{array}
+\)
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

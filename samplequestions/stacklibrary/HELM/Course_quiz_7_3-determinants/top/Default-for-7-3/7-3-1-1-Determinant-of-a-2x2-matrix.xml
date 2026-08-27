@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>7.3.1.1 Determinant of a 2x2 matrix</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Determinant of a \(2\times2\) matrix</h4>
+<p>The <b>determinant</b> of the matrix \(A=\begin{bmatrix} a &amp; b \\ c &amp; d \end{bmatrix}\) is denoted by \(\begin{vmatrix} a &amp; b \\ c &amp; d \end{vmatrix}\) (note the change from square brackets to vertical lines) and is defined to be the number \(ad-bc\). That is: \[\begin{vmatrix} a &amp; b \\ c &amp; d \end{vmatrix} = ad-bc.\] </p>
+
+<p>We can use the notation \(\det(A)\) or \(\lvert A \rvert\) to denote the determinant of \(A\). A common symbol used to represent the determinant of a given matrix is \(\Delta.\)</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>16.4.1 Power Series</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Power series</h4><p>A power series is simply a sum of terms each of which contains a variable raised to a non-negative integer power. To illustrate: \[ x - x^3 +x^5-x^7 + \cdots\] \[1 + x + \dfrac{x^2}{2!} + \dfrac{x^3}{3!} + \cdots \] are examples of power series. In a pervious workbook we encountered an important example of a power series, the binomial series: \[1 + px + \dfrac{p(p-1)}{2!}x^2 + \dfrac{p(p-1)(p-2)}{3!}x^3 + \cdots \] which, as we have already noted, represents the function \((1 + x)^p\) as long as the variable \(x\) satisfies \(|x| &lt; 1\). </p>
+
+<p> A power series has the general form \[b_0 + b_1 x + b_2 x^2 + \cdots = \sum_{p=0}^\infty b_p x^p \] where \(b_0, b_1, b_2, \dots\) are constants. Note that, in the summation notation, we have chosen to start the series at \(p = 0\). This is to ensure that the power series can include a constant term \(b_0\) since \(x^0 = 1\).</p>
+
+<p> The convergence, or otherwise, of a power series, clearly depends upon the value of \(x\) chosen. For example, the power series \[1 + \dfrac{x}{2} + \dfrac{x^2}{3} + \dfrac{x^3}{4} + \cdots \] is convergent if \(x = -1\) (for then it is the alternating harmonic series) and divergent if \(x = +1\) (for then it is the harmonic series).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

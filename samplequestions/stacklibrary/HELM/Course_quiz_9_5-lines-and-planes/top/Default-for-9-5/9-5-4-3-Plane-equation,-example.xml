@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>9.5.4.3 Plane equation, example</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4 class="HELM_example">Example</h4>
+<ol class="HELM_parts_inline">
+<li>Find the vector equation of the plane which passes through the point with position vector \(3\underline{ i}+2\underline{ j}+5\underline{ k}\) and which is perpendicular to \(\underline{i}+\underline{k}.\)</li><p></p>
+<p>
+</p><li>Find the Cartesian equation of this plane.</li>
+</ol>
+<p></p>
+<h4 class="HELM_solution">Solution</h4>
+<ol class="HELM_parts">
+  <li>Using the previous results we can write down the equation <span class="math inline">\(\qquad 
+\underline{ r}\cdot(\underline{i}+\underline{k})=
+(3\underline{ i}+2\underline{ j}+5\underline{ k})\cdot(\underline{i}+\underline{k})=3+5=8.\)</span> </li>
+  <li> Writing <span class="math inline">\(\underline{ r}\)</span> as <span class="math inline">\(x\underline{ i}+y\underline{ j}+z\underline{ k}\)</span> we have the Cartesian form: <span class="math inline">\(\qquad
+(x\underline{ i}+y\underline{ j}+z\underline{ k})\cdot
+(\underline{i}+\underline{k})=8\)</span> so that <span class="math inline">\(\qquad 
+x+z=8\)</span>.</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

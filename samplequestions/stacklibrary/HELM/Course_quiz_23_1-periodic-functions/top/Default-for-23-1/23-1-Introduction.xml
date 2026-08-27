@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>23.1 Introduction</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Introduction</h4>
+You should already know how to take a function of a single variable \(f(x)\) and represent it by a power series in \(x\) about any point \(x_0\) of interest. Such a series is known as a Taylor series or Taylor expansion or, if \(x_0 = 0\), as a Maclaurin series. Such an expansion is only possible if the function is sufficiently smooth (that is, if it can be differentiated as often as required). Geometrically this means that there are no jumps or spikes in the curve \(y = f(x)\) near the point of expansion. However, in many practical situations the functions we have to deal with are not as well behaved as this and so no power series expansion in \(x\) is possible. Nevertheless, if the function is <b>periodic</b>, so that it repeats over and over again at regular intervals, then, irrespective of
+the function's behaviour (that is, no matter how many <i>jumps</i> or <i>spikes</i> it has), the function may be
+expressed as a series of sines and cosines. Such a series is called a <b>Fourier series</b>.
+<p></p>
+Fourier series have many applications in mathematics, in physics and in engineering. For example
+they are sometimes essential in solving problems (in heat conduction, wave propagation etc) that
+involve partial differential equations. Also, using Fourier series the analysis of many engineering
+systems (such as electric circuits or mechanical vibrating systems) can be extended from the case
+where the input to the system is a sinusoidal function to the more general case where the input is
+periodic but non-sinusoidal.]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -22,6 +22,7 @@ defined('MOODLE_INTERNAL') || die();
  * @package    qtype_stack
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * phpcs:disable PSR1.Classes.ClassDeclaration.MultipleClasses
  */
 
 /**
@@ -32,7 +33,6 @@ defined('MOODLE_INTERNAL') || die();
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 interface stack_debug_log {
-
     /**
      * Add description here.
      * @return string the contents of the log.
@@ -91,7 +91,6 @@ class stack_debug_log_base implements stack_debug_log {
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_debug_log_null implements stack_debug_log {
-
     /**
      * Add description here.
      * @return string the contents of the log.
@@ -191,7 +190,6 @@ class stack_utils {
             $char = $string[$i];
             if (strpos($lefts, $char) !== false) {
                 array_push($openstack, $char);
-
             } else if (($closerpos = strpos($rights, $char)) !== false) {
                 $opener = array_pop($openstack); // NULL if array is empty, which works.
                 if ($opener !== $lefts[$closerpos]) {
@@ -230,7 +228,6 @@ class stack_utils {
                 return ['', $start, -1];
             }
             $end += 1;
-
         } else {
             $length = strlen($string);
             $nesting = 1;
@@ -344,7 +341,7 @@ class stack_utils {
             } else {
                 // Found startchar, looking for end.
                 if ($char[$i] == $right) {
-                    // @codingStandardsIgnoreStart
+                    // phpcs:disable
                     if ($skipempty && $empty) {
                         // Do nothing.
                     } else if (!isset($replacements[$matches])) {
@@ -353,7 +350,7 @@ class stack_utils {
                         $result .= $replacements[$matches];
                         $matches++;
                     }
-                    // @codingStandardsIgnoreEnd
+                    // phpcs:enable
                     $searching = true;
                     $result .= $char[$i];
                 }
@@ -398,10 +395,10 @@ class stack_utils {
         if (!empty($patharray)) {
             $newpath = $patharray[0];
             for ($i = 1; $i < count($patharray); $i++) {
-                $newpath .= "/".$patharray[$i];
+                $newpath .= "/" . $patharray[$i];
             }
             if ($trailingslash == true) {
-                return $newpath.'/';
+                return $newpath . '/';
             } else {
                 return $newpath;
             }
@@ -546,9 +543,24 @@ class stack_utils {
      * Strict checking on nesting.
      * Helper for list_to_array_workhorse()
      */
-    private static function next_element($list) {
+    private static function next_element($list, $delim) {
         if ($list == '') {
             return null;
+        }
+        // Do we have a string, which might contain commas, protected quotes and random brackets?
+        if (substr(trim($list), 0, 1) === '"') {
+            $startchar = strpos($list, '"'); // Start of the string.
+            $foundend = false;
+            for ($i = $startchar + 1; $i < strlen($list); $i++) {
+                if ($list[$i] == '"' && $list[$i - 1] != '\\') {
+                    $foundend = true;
+                }
+                if ($foundend && $list[$i] == $delim) {
+                    return substr($list, 0, $i);
+                }
+            }
+            // We started a string, but never ended with a comma.
+            return $list;
         }
         // Delimited by next comma at same degree of nesting.
         $startdelimiter = "[({";
@@ -563,14 +575,14 @@ class stack_utils {
                 $nesting[$startchar]++;
             } else if ($endchar !== false) {
                 $nesting[$endchar]--;
-            } else if ($list[$i] == ',' && $nesting[0] == 0 && $nesting[1] == 0 &&$nesting[2] == 0) {
+            } else if ($list[$i] == $delim && $nesting[0] == 0 && $nesting[1] == 0 && $nesting[2] == 0) {
                 // Otherwise, return element if all nestings are zero.
                 return substr($list, 0, $i);
             }
         }
 
         // End of list reached.
-        if ($nesting[0] == 0 && $nesting[1] == 0 &&$nesting[2] == 0) {
+        if ($nesting[0] == 0 && $nesting[1] == 0 && $nesting[2] == 0) {
             return $list;
         } else {
             return null;
@@ -578,15 +590,15 @@ class stack_utils {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    private static function list_to_array_workhorse($list, $rec = true) {
+    private static function list_to_array_workhorse($list, $rec = true, $delim = ',') {
         $array = [];
         $list = trim($list);
         $list = substr($list, 1, strlen($list) - 2); // Trims outermost [] only.
-        $e = self::next_element($list);
+        $e = self::next_element($list, $delim);
         while ($e !== null) {
             if ($e[0] == '[') {
                 if ($rec) {
-                    $array[] = self::list_to_array_workhorse($e, $rec);
+                    $array[] = self::list_to_array_workhorse($e, $rec, $delim);
                 } else {
                     $array[] = $e;
                 }
@@ -594,7 +606,7 @@ class stack_utils {
                 $array[] = $e;
             }
             $list = substr($list, strlen($e) + 1);
-            $e = self::next_element($list);
+            $e = self::next_element($list, $delim);
         }
         return $array;
     }
@@ -603,8 +615,8 @@ class stack_utils {
      * Converts a list structure into an array.
      * Handles nested lists, sets and functions with help from next_element().
      */
-    public static function list_to_array($string, $rec = true) {
-        return self::list_to_array_workhorse($string, $rec);
+    public static function list_to_array($string, $rec = true, $delim = ',') {
+        return self::list_to_array_workhorse($string, $rec, $delim);
     }
 
     /**
@@ -620,8 +632,11 @@ class stack_utils {
         if (!$text) {
             return [];
         }
-        preg_match_all('~\[\[' . $type . ':(' . self::VALID_NAME_REGEX . ')\]\]~',
-                $text, $matches);
+        preg_match_all(
+            '~\[\[' . $type . ':(' . self::VALID_NAME_REGEX . ')\]\]~',
+            $text,
+            $matches
+        );
         return $matches[1];
     }
 
@@ -635,10 +650,16 @@ class stack_utils {
      * @return array of placeholdernames.
      */
     public static function extract_placeholders_sloppy($text, $type) {
-        preg_match_all('~\[\[' . $type . ':(' . self::VALID_NAME_REGEX . ')\]\]~',
-                $text, $matches1);
-        preg_match_all('~\[\[\s*' . $type . '\s*:(\s*' . self::VALID_NAME_REGEX . ')\s*\]\]~',
-                $text, $matches2);
+        preg_match_all(
+            '~\[\[' . $type . ':(' . self::VALID_NAME_REGEX . ')\]\]~',
+            $text,
+            $matches1
+        );
+        preg_match_all(
+            '~\[\[\s*' . $type . '\s*:(\s*' . self::VALID_NAME_REGEX . ')\s*\]\]~',
+            $text,
+            $matches2
+        );
 
         $ret = [];
         foreach ($matches2[1] as $key => $name) {
@@ -852,56 +873,58 @@ class stack_utils {
      * @param float $n
      * @param int $accuracy Stop when we get within this many decimal places of $n
      */
-    public static function rational_approximation($n, $accuracy) {
+    public static function rational_approximation(float $n, int $accuracy) {
         $accuracy = pow(10, -$accuracy);
 
-        $i = floor($n);
-        if ($i == $n) { // If n is an integer, its rational representation is obvious.
-            return [$n, 1];
+        // Handle sign.
+        $sign = ($n < 0) ? -1 : 1;
+        $n = abs($n);
+
+        // Handle integers directly.
+        if (floor($n) == $n) {
+            return [$sign * $n, 1];
         }
 
-        // Take away the integer part of n.
-        // From now on, we can assume 0 < n < 1.
-        $nint = $i;
-        $n = $n - $i;
+        // Continued fraction expansion with convergents.
+        $p0 = 1;
+        $q0 = 0;
+        $p1 = floor($n);
+        $q1 = 1;
 
-        // We'll keep track of our working as (numx*n +numc)/(denx*n+denc).
-        $numx = 0;
-        $numc = 1;
-        $denx = 1;
-        $denc = 0;
-
-        $frac = []; // Continued fraction coefficients.
-        $diff = $n - $i; // Difference between current approximation and n.
-
+        $x1 = $n;
         $steps = 0;
-        $onum = 0;
-        $oden = 1;
-        while (abs($diff) > $accuracy && $steps < 1000) {
-            $steps = $steps + 1;
 
-            // Evaluate current working to a fraction.
-            $nume = $numx * $n + $numc;
-            $dene = $denx * $n + $denc;
-            $div = $nume / $dene; // Then to a float.
-            $i = floor($div); // Integer part - this is the next coefficient in the continued fraction.
-            if ($dene <= $nume) {
-                // If i>=1.
-                array_unshift($frac, $i);
+        // The algorithm converges quickly, so no need for more than 100 here.
+        while ($steps < 100) {
+            $steps++;
+
+            // Current approximation.
+            $approx = $p1 / $q1;
+            if (abs($approx - $n) <= $accuracy) {
+                break;
             }
 
-            // Reduce the continued fraction.
-            $onum = 0;
-            $oden = 1;
-            foreach ($frac as $c) {
-                list($oden, $onum) = [$oden * $c + $onum, $oden];
+            // Prevent division by zero.
+            $frac = $x1 - floor($x1);
+            if ($frac == 0.0) {
+                break;
             }
-            $diff = $n - $onum / $oden;
 
-            // Subtract i from our working, and then take its reciprocal.
-            list($numx, $numc, $denx, $denc) = [$denx, $denc, $numx - $denx * $i, $numc - $denc * $i];
+            // Next term in continued fraction.
+            $x1 = 1.0 / $frac;
+            $a = floor($x1);
+
+            // Recurrence.
+            $p2 = $a * $p1 + $p0;
+            $q2 = $a * $q1 + $q0;
+
+            // Shift.
+            $p0 = $p1;
+            $q0 = $q1;
+            $p1 = $p2;
+            $q1 = $q2;
         }
-        return [$nint * $oden + $onum, $oden];
+        return [$sign * $p1, $q1];
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -993,7 +1016,6 @@ class stack_utils {
 
         preg_match_all($matchentireimagetags, $text, $imgtags);
         foreach ($imgtags[0] as $imgtag) {
-
             preg_match_all($matchkeyattributes, $imgtag, $attributes);
 
             $missingaltlocal = true;
@@ -1236,7 +1258,7 @@ class stack_utils {
      * additional safety measure to ensure we do not dehash other strings.
      */
     public static function validate_parsons_contents($contents) {
-        $strings = function($node) use (&$answernotes, &$errors) {
+        $strings = function ($node) use (&$answernotes, &$errors) {
             if ($node instanceof MP_String && self::validate_parsons_string($node->value)) {
                 $node->value = stack_utils::unhash_parsons_string($node->value);
             }

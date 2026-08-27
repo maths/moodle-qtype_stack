@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>19.3.1.1 Constant Coefficient 2nd Order ODEs</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Constant coefficient second order linear ODEs</h4>
+
+<p>We now proceed to study those second order linear equations which have constant coefficients. The general form of such an equation is: <span class="math inline">\[
+a{\mathrm{d}^2y\over \mathrm{d}x^2}+b{\mathrm{d}y\over \mathrm{d}x}+cy=f(x) \qquad (3)\]</span></p>
+<p>where <span class="math inline">\(a,b,c\)</span> are constants. The <span><strong>homogeneous</strong></span> form of (3) is the case when <span class="math inline">\(f(x)\equiv 0\)</span>: <span class="math inline">\[
+a{\mathrm{d}^2y\over \mathrm{d}x^2}+b{\mathrm{d}y\over \mathrm{d}x}+cy=0 \qquad (4)\]</span></p>
+<p>The <span><strong>inhomogeneous</strong></span> form of (3) is the case when <span class="math inline">\(f(x)\not\equiv 0\)</span>. To find the general solution of (3), it is first necessary to solve (4). The general solution of (4) is called the <span><strong>complementary function</strong></span>    and will always contain two arbitrary constants. We will denote this solution by <span class="math inline">\(y_\text{cf}\)</span>. The technique for finding the complementary function is described in this Section.</p>
+
+<p>Note: A complementary function is the general solution of a homogeneous, linear
+  differential equation.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

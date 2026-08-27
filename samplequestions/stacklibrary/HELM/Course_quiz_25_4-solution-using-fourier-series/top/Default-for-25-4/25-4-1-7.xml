@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>25.4.1.7</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4 class="HELM_example">Example</h4>
+<p>Finally, use Fourier series techniques to deal with the final boundary condition \(u(x,0)=f(x)\):</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>Superposing solutions of the form \((5)\) (with \(E = 0\)) gives
+</p>
+
+<table width="100%">
+    <tbody>
+        <tr>
+            <td>\(\qquad u(x, y) = \sum_{n=0}^\infty F_n\cos(n\pi x)e^{-n\pi x}\)</td>
+            <td>\((6)\)</td>
+        </tr>
+    </tbody>
+</table>
+
+
+so the boundary condition gives
+<p>\(\qquad f(x) = \sum_{n=0}^\infty F_n\cos(n\pi x)\)</p>
+We have here a half-range Fourier cosine series representation of a function \(f(x)\) defined over \(0 &lt; x &lt; 1\). Extending \(f(x)\) as an even periodic function with period 2 and using standard Fourier series theory gives
+
+<table width="80%">
+    <tbody>
+        <tr>
+            <td>\(\qquad F_n=2\int_0^{1}f(x)\cos(n\pi x) \;dx\)</td>
+            <td>\[n = 1,2,...\]</td>
+        </tr>
+    </tbody>
+</table>
+
+
+with
+<p>\(\qquad \dfrac{F_0}{2}=\int_0^{1}f(x) \;dx\) </p>
+Hence \((6)\) is the solution of this given boundary value problem, the integrals giving us in principle the Fourier coefficients \(F_n\) for a given function \(f(x)\).
+<p></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

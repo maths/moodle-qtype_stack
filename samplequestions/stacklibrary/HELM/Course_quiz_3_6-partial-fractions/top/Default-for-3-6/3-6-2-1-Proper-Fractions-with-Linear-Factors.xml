@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.6.2.1 Proper Fractions with Linear Factors</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Proper Fractions with Linear Factors</h4>
+<br>
+<p>Firstly we describe how to calculate partial fractions for proper fractions where the denominator may be written as a product of linear factors. The steps are as follows:</p>
+<ul>
+    <li> Factorise the denominator.</li>
+    <li> Each factor will produce a partial fraction. A factor such as <span class="math inline">\(3x+2\)</span> will produce a partial fraction of the form <span class="math inline">\(\dfrac{A}{3x+2}\)</span> where <span class="math inline">\(A\)</span> is
+        an unknown constant. In general a linear factor <span class="math inline">\(ax+b\)</span> will produce a partial fraction <span class="math inline">\(\dfrac{A}{ax+b}\)</span>. The unknown constants for each partial fraction may be different and
+        so we will call them <span class="math inline">\(A\)</span>, <span class="math inline">\(B\)</span>, <span class="math inline">\(C\)</span> and so on.
+    </li>
+    <li> Evaluate the unknown constants by equating coefficients or using specific values of <span class="math inline">\(x\)</span>.</li>
+</ul>
+<p>The sum of the partial fractions is identical to the original algebraic fraction for all values of <span class="math inline">\(x\)</span>.</p>
+<br>
+<div class="HELM_keypoint">
+    <h4>Key Point</h4>
+    <p>A linear factor <span class="math inline">\(ax+b\)</span> in the denominator gives rise to a single partial fraction of the form <span class="math inline">\(\dfrac{A}{ax+b}\)</span>.</p>
+</div>
+<br>
+<p>The steps involved in expressing a proper fraction as partial fractions are illustrated in the following Example.</p>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Express \(\dfrac{7x+10}{ 2x^2+5x+3}\) in terms of partial fractions.</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>Note that this fraction is proper. The denominator is factorised to give <span class="math inline">\((2x+3)(x+1)\)</span>. Each of the linear factors produces a partial fraction. The factor <span class="math inline">\(2x+3\)</span> produces a partial
+    fraction of the form <span class="math inline">\(\dfrac{A}{2x+3}\)</span> and the factor <span class="math inline">\(x+1\)</span> produces a partial fraction <span class="math inline">\(\dfrac{B}{x+1}\)</span>, where <span class="math inline">\(A\)</span>    and <span class="math inline">\(B\)</span> are constants which we need to find. We write </p>
+<p>\[\dfrac{7x+10}{(2x+3)(x+1)} = \dfrac{A}{2x+3} + \dfrac{B}{x+1}\]</p>By multiplying both sides by <span class="math inline">\((2x+3)(x+1)\)</span> we obtain
+<p></p>
+<p>\[7x+10 = A(x+1) + B(2x+3)\qquad(*)\] </p>
+<p>We may now let <span class="math inline">\(x\)</span> take <b>any value we choose</b>. By an appropriate choice we can simplify the right-hand side. Let <span class="math inline">\(x=-1\)</span> because this choice eliminates <span class="math inline">\(A\)</span>.
+    We find <span class="math display">\[\begin{aligned}
+7(-1) + 10 &amp;= A(0) + B(-2+3)\\
+3&amp;=B
+\end{aligned}\]</span> so that the constant <span class="math inline">\(B\)</span> must equal 3. The constant <span class="math inline">\(A\)</span> can be found either by substituting some other value for <span class="math inline">\(x\)</span> or alternatively
+    by ‘equating coefficients’. Observe that, by rearranging the right-hand side, Equation <b>(*)</b> can be written as </p>
+<p>\[7x+10 = (A+2B)x + (A+3B)\]</p>
+<p>Comparing the coefficients of <span class="math inline">\(x\)</span> on both sides we see that <span class="math inline">\(7=A+2B\)</span>. We already know <span class="math inline">\(B=3\)</span> and so <span class="math display">\[\begin{aligned}
+7&amp;=A + 2(3)\\
+&amp;= A+ 6\end{aligned}\]</span> from which <span class="math inline">\(A=1\)</span>. We can therefore write </p>
+<p>\[\dfrac{7x+10}{2x^2+5x+3} = \dfrac{1}{2x+3} + \dfrac{3}{x+1}\]</p>
+<p>We have succeeded in expressing the given fraction as the sum of its partial fractions. The result can always be checked by adding the fractions on the right.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

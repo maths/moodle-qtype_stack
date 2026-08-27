@@ -14,7 +14,7 @@ If you use a string input, and want to trim whitespace from each end before usin
 
 ### ATStringSloppy ###
 
-This test removes all spaces, newlines and tabs within the string and then performs a string match.
+This test removes all spaces, new lines and tabs within the string and then performs a string match.
 
 ### ATSRegExp ###
 
@@ -54,6 +54,10 @@ Currently this is not provided as a separate answer test so you will need to use
 For example, using the question variables above you can define the following in the feedback variables.
 
     sa:regex_match_exactp(s1, ans1);
+
+An example question which uses regular expressions for assessment is 
+
+    Doc-Examples/Specialist-Tools-Docs/Free-text-input/Free-text_with_regex.xml
 
 Then you can use the `AlgEquiv` answer test to check the result is true/false, e.g. `ATAlgEquiv(sa, true)`.
 

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>23.6.4.1 Parseval’s theorem</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Parseval’s theorem</h4>
+
+This is essentially a mathematical theorem but has, as we shall see, an important
+engineering interpretation particularly in electrical engineering. Parseval's theorem states that if \(f(t)\) is a periodic function with period \(T\) and if \(c_n\) \( (n=0,\pm 1,\pm 2,\ldots)\) denotes the complex Fourier coefficients of \(f(t)\), then
+\[ \frac{1}{T}\int_{-\frac{T}{2}}^{\frac{T}{2}} f^2(t)\, dt=\sum_{n=-\infty}^\infty
+|c_n|^2.\]
+In words the theorem states that the mean square value of the signal \(f(t)\) over one period
+equals the sum of the squared magnitudes of all the complex Fourier coefficients.
+<p></p>
+<b>Proof of Parseval’s theorem</b>
+<p></p>
+Assume \(f(t)\) has a complex Fourier series of the usual form:
+\[ f(t)=\sum_{n=-\infty}^{\infty} c_n e^{ in\omega_0t}\qquad
+\left(\omega_0=\frac{2\pi}{T}\right) \]
+where
+\[  c_n=\frac{1}{T}\int_{-\frac{T}{2}}^{\frac{T}{2}} f(t)e^{- in\omega_0t}dt \]
+Then
+\[ f^2(t)=f(t)f(t)=f(t)\sum c_n e^{ in\omega_0t}=\sum c_n f(t) e^{in\omega_0t} \]
+Hence
+\[
+\begin{eqnarray*}
+\frac{1}{T}\int_{-\frac{T}{2}}^{\frac{T}{2}} f^2(t)\,dt&amp;=&amp;
+\frac{1}{T}\int_{-\frac{T}{2}}^{\frac{T}{2}}\sum c_n f(t) e^{ in\omega_0t}dt\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\quad\\
+\\
+&amp;=&amp;\frac{1}{T}\sum c_n \int_{-\frac{T}{2}}^{\frac{T}{2}} f(t) e^{ in\omega_0t}dt\\
+\\
+&amp;=&amp;\sum c_n {c^*_n}\\
+\\
+&amp;=&amp;\sum_{n=-\infty}^\infty |c_n|^2
+\end{eqnarray*}
+\]
+which completes the proof.]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

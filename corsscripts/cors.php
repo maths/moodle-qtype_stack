@@ -30,9 +30,8 @@
 
 $scriptname = urldecode($_GET['name']);
 
-if (strpos($scriptname, '..') !== false
-    || strpos($scriptname, '/') !== false
-    || strpos($scriptname, '\\') !== false) {
+// ISS1633 Only allow files from this directory and below.
+if (!str_starts_with(realpath($scriptname), __DIR__)) {
     die("No such script here.");
 }
 
@@ -50,6 +49,8 @@ if (file_exists($scriptname)) {
             header('Content-Type: text/javascript;charset=UTF-8');
         } else if (strrpos($scriptname, '.css') === strlen($scriptname) - 4) {
             header('Content-Type: text/css;charset=UTF-8');
+        } else if (strrpos($scriptname, '.map') === strlen($scriptname) - 4) {
+            header('Content-Type: application/json;charset=UTF-8');
         }
         header('Cache-Control: public, max-age=31104000, immutable');
         header('Access-Control-Allow-Origin: *');

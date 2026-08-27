@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.6.3.1 Proper fractions with repeated linear factors</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Proper fractions with repeated linear factors</h4>
+<br>
+<p>Sometimes a linear factor appears more than once. For example in</p>
+<p> \(\dfrac{1}{x^2+2x+1}=\dfrac{1}{(x+1)(x+1)}\) which equals \(\dfrac{1}{(x+1)^2}\) </p>
+<p>the factor <span class="math inline">\((x+1)\)</span> occurs twice. We call it a <b>repeated linear factor</b>. The repeated linear factor <span class="math inline">\((x+1)^2\)</span> produces two partial fractions of the form <span class="math inline">\(\dfrac{A}{x+1} + \dfrac{B}{(x+1)^2}\)</span>.
+    In general, a repeated linear factor of the form <span class="math inline">\((ax+b)^2\)</span> generates two partial fractions of the form </p>
+<p>\[\dfrac{A}{ax+b} + \dfrac{B}{(ax+b)^2}\]</p>
+<p>This is reasonable since the sum of two such fractions <b>always</b> gives rise to a <b>proper</b> fraction: </p>
+<p>\[\dfrac{A}{ax+b} + \dfrac{B}{(ax+b)^2}=\dfrac{A(ax+b)}{(ax+b)^2}+\dfrac{B}{(ax+b)^2}= \dfrac{x(Aa)+Ab+B}{(ax+b)^2}\]
+</p>
+<br>
+<div class="HELM_keypoint">
+    <h4>Key Point</h4>
+    <p>A repeated linear factor <span class="math inline">\((ax+b)^2\)</span> in the denominator produces two partial fractions:</p>
+    <p>\[\dfrac{A}{ax+b} + \dfrac{B}{(ax+b)^2}\]</p>
+</div>
+<br>
+<p>Once again the unknown constants are found by either equating coefficients and/or substituting specific values for \(x\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

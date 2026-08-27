@@ -26,7 +26,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(__DIR__.'/../../../config.php');
+require_once(__DIR__ . '/../../../config.php');
 require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/vle_specific.php');
 require_once(__DIR__ . '/stack/questionreport.class.php');
@@ -34,6 +34,7 @@ require_login();
 
 // Get the parameters from the URL.
 $questionid = required_param('questionid', PARAM_INT);
+[$qversion, $questionid] = get_latest_question_version($questionid);
 $quizcontext = optional_param('context', null, PARAM_INT);
 // Load the necessary data.
 $questiondata = question_bank::load_question_data($questionid);
@@ -43,7 +44,7 @@ if (!$questiondata) {
 $question = question_bank::load_question($questionid);
 
 // Process any other URL parameters, and do require_login.
-list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($question);
+[$context, $seed, $urlparams] = qtype_stack_setup_question_test_page($question);
 
 // Check permissions.
 question_require_capability_on($questiondata, 'view');
@@ -61,6 +62,11 @@ $PAGE->set_pagelayout('popup');
 
 $testquestionlink = new moodle_url('/question/type/stack/questiontestrun.php', $urlparams);
 $qurl = qbank_previewquestion\helper::question_preview_url($questionid, null, null, null, null, $context);
+$editparams = $urlparams;
+unset($editparams['questionid']);
+unset($editparams['seed']);
+$editparams['id'] = $question->id;
+$questioneditlatesturl = new moodle_url('/question/type/stack/questioneditlatest.php', $editparams);
 
 require_login();
 
@@ -72,8 +78,10 @@ echo $OUTPUT->header();
 $quizzes = stack_question_report::get_relevant_quizzes($questionid, (int) $question->contextid);
 $quizoutput = [];
 foreach ($quizzes as $contextid => $quiz) {
-    $quiz->url = new moodle_url('/question/type/stack/questiontestreport.php',
-            $urlparams + ['context' => $quiz->quizcontextid]);
+    $quiz->url = new moodle_url(
+        '/question/type/stack/questiontestreport.php',
+        $urlparams + ['context' => $quiz->quizcontextid]
+    );
     $quiz->url = $quiz->url->out();
     $quiz->active = ($contextid === $quizcontext) ? true : false;
     $quizoutput[] = $quiz;
@@ -89,11 +97,14 @@ if ($quizcontext === null) {
     $outputdata = $report->outputdata;
 }
 
+$outputdata->question->version = $qversion;
+
 // Add additional page creation data.
 $outputdata->quizzes = $quizoutput;
 $outputdata->general = new Stdclass();
 $outputdata->general->testquestionlink = $testquestionlink->out();
 $outputdata->general->previewquestionlink = $qurl->out();
+$outputdata->general->editquestionlink = $questioneditlatesturl->out();
 
 // Rennder report.
 echo $OUTPUT->render_from_template('qtype_stack/questionreport', $outputdata);

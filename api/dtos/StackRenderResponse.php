@@ -15,11 +15,12 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This script handles the various deploy/undeploy actions from questiontestrun.php.
+ * Response to a question render request.
  *
  * @package    qtype_stack
  * @copyright  2023 RWTH Aachen
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ * phpcs:disable PSR1.Classes.ClassDeclaration.MultipleClasses
  */
 
 namespace api\dtos;
@@ -43,6 +44,10 @@ class StackRenderResponse {
     public $iframes;
     /** @var bool */
     public $isinteractive;
+    /** @var string */
+    public $questionnote;
+    /** @var stdClass */
+    public $aboutapi;
 }
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class

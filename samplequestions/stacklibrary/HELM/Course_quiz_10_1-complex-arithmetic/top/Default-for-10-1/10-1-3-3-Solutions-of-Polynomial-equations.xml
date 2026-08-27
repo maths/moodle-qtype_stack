@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>10.1.3.3 Solutions of Polynomial equations</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4 class="HELM_example">Example </h4>
+<p>Given that <span class="math inline">\(x=3-2i\)</span> is one root of the cubic equation <span class="math inline">\(x^3-7x^2+19x-13=0\)</span>, find the other two roots.</p>
+
+<h4 class="HELM_solution">Solution</h4>
+<p>Since the coefficients of the equation are real and <span class="math inline">\(3-2i\)</span> is a root then its complex conjugate <span class="math inline">\(3+2i\)</span> is also a root which implies that <span class="math inline">\(x-(3-2i)\)</span>    and <span class="math inline">\(x-(3+2i)\)</span> are factors of the given cubic expression. Multiplying together these two factors: <span class="math inline">\[(x-(3-2i))(x-(3+2i))=x^2-x(3-2i)-x(3+2i)+13=x^2-6x+13\]</span> so <span class="math inline">\(x^2-6x+13\)</span>    is a quadratic factor of the cubic equation. <br></p>
+<p>The remaining factor <span><strong>must</strong></span> take the form <span class="math inline">\((x+a)\)</span> where <span class="math inline">\(a\)</span> is real, since only one more linear factor of the cubic equation is required, and so we write:
+    <span class="math inline">\[ x^3-7x^2+19x-13=(x^2-6x+13)(x+a).\]</span> By inspection (consider for example the constant terms), it is clear that <span class="math inline">\(a=-1\)</span> so that the final factor is <span class="math inline">\((x-1)\)</span>,
+    implying that the original cubic equation has a root at <span class="math inline">\(x=1\)</span>.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

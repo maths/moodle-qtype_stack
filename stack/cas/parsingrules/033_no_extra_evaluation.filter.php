@@ -28,11 +28,10 @@ require_once(__DIR__ . '/filter.interface.php');
  * AST filter that looks for the Maxima '' operator for extra evaluation, which is not supported.
  */
 class stack_ast_filter_033_no_extra_evaluation implements stack_cas_astfilter {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 
-        $process = function($node) use (&$errors, &$answernotes) {
+        $process = function ($node) use (&$errors, &$answernotes) {
             if ($node instanceof MP_PrefixOp && $node->op === "''") {
                 $node->position['invalid'] = true;
                 if (array_search('Illegal_extraevaluation', $answernotes) === false) {

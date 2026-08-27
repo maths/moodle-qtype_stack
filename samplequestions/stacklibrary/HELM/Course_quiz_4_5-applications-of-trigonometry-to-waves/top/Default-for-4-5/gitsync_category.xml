@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category>
+      <text>top/Default for 4.5</text>
+    </category>
+    <info format="html">
+      <text>The default category for questions shared in context '4.5 Applications of Trigonometry Waves'.</text>
+    </info>
+    <idnumber/>
+  </question>
+</quiz>

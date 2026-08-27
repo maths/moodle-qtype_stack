@@ -1,0 +1,31 @@
+/**
+ * Returns the maximum bitwidth of all the base 2, 8 or 16 `stackbasen` objects
+ * present in the expression. Should none be found returns -1.
+ *
+ * @param[expression] expression, an expression to check
+ * @return[integer] `-1` if no `stackbasen` numbers of the relevant bases were
+ * found
+ */
+ sbasen_bitwidth(expression) := block([simp,bit_width,sub_ex],
+ bit_width: -1,
+ for sub_ex in 
+  extract_matching_parts(lambda([_x],is(safe_op(_x)="stackbasen")), expression)
+ do (
+  if is(third(sub_ex) = 2) then (
+   bit_width: ev(max(bit_width, length(sbasen_convert_to_digits(sub_ex))),simp)
+  ) elseif is(third(sub_ex) = 8) then (
+   bit_width: ev(max(bit_width, 3*length(sbasen_convert_to_digits(sub_ex))),simp)
+  ) elseif is(third(sub_ex) = 16) then (
+   bit_width: ev(max(bit_width, 4*length(sbasen_convert_to_digits(sub_ex))),simp)
+  )
+ ),
+ return(bit_width)
+)$
+
+s_test_case(simp) := is(sbasen_bitwidth(stackbasen("0001_2","S",2))=4)$
+s_test_case(simp) := is(sbasen_bitwidth(stackbasen("1_2","S",2))=1)$
+s_test_case(simp) := is(sbasen_bitwidth(stackbasen("0001_2","S",2)+stackbasen("1_2","S",2))=4)$
+s_test_case(simp) := ev(is(sbasen_bitwidth(x+1)=-1),simp=true)$
+s_test_case(simp) := is(sbasen_bitwidth(stackbasen("6_8","S",8))=3)$
+s_test_case(simp) := is(sbasen_bitwidth(stackbasen("007","C",8))=6)$
+s_test_case(simp) := is(sbasen_bitwidth(stackbasen("0x0AB","C",16))=12)$

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>28.2.2.8 The divergence of a vector field</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>The divergence of a vector field</h3>
+
+ <p>Consider the vector field \(\underline{F} = F_1 \underline{i} + F_2 \underline{j} + F_3 \underline{k}.\) <br> In 3D cartesian coordinates the <strong>divergence</strong> of \(\underline{F}\) is defined to be \(\quad \displaystyle \text{div} \; \underline{F} = \frac{\partial F_1}{\partial x} + \frac{\partial F_2}{\partial y} + \frac{\partial F_3}{\partial z}.\)</p>
+<p> Note that \(\underline{F}\) is a vector field but div \(\underline{F}\) is a scalar. <br> In terms of the differential operator \({\underline \nabla}\), div \(\underline{F} = {\underline \nabla} \cdot \underline{F}\) since \(\qquad \displaystyle {\underline \nabla} \cdot \underline{F} = (\underline{i}\frac{\partial}{\partial x} + \underline{j}\frac{\partial}{\partial y} + \underline{k}\frac{\partial}{\partial z}) \cdot (F_1 \underline{i} + F_2 \underline{j} + F_3 \underline{k}) = \frac{\partial F_1}{\partial x} + \frac{\partial F_2}{\partial y} + \frac{\partial F_3}{\partial z}.\)</p>
+
+<p><strong>Physical Significance of the Divergence</strong><br></p>
+<p>The meaning of the divergence is most easily understood by considering the behaviour of a fluid and hence is relevant to engineering topics such as thermodynamics. The divergence (of the vector field representing velocity) at a point in a fluid (liquid or gas) is a measure of the rate per unit volume at which the fluid is flowing away from the point. A negative divergence is a convergence indicating a flow towards the point. Physically positive divergence means that either the fluid is expanding or that fluid is being supplied by a source external to the field. Conversely convergence means a contraction or the presence of a sink through which fluid is removed from the field. The lines of flow diverge from a source and converge to a sink. </p>
+<p> If there is no gain or loss of fluid anywhere then div \(\underline{v} = 0\) which is the equation of continuity for an incompressible fluid.</p>
+<p>The divergence also enters engineering topics such as electromagnetism. A magnetic field \((\underline B)\) has the property \({\underline \nabla} \cdot \underline{B} = 0,\) that is there are no isolated sources or sinks of magnetic field (no magnetic monopoles). <br></p>
+
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p>\(\underline{F}\) is a vector field but div \(\underline{F}\) is a scalar field.</p>
+</div>
+ </p>
+<hr>
+<h4 class="HELM_example">Example</h4>
+ <p>Find the divergence of the following vector fields.</p>
+     <ol>
+       <li>\(\underline{F} = x^2 \underline{i} + y^2 \underline{j} + z^2 \underline{k}\)</li>
+       <li>\(\underline{r} = x \underline{i} + y \underline{j} + z \underline{k}\)</li>
+       <li>\(\underline{v} = -x \underline{i} + y \underline{j} + 2 \underline{k}\)</li>
+     </ol>
+<h4 class="HELM_solution">Solution</h4>
+     <ol>
+       <li> div \(\underline{F} = \dfrac{\partial}{\partial x}(x^2) + \dfrac{\partial}{\partial y}(y^2) + \dfrac{\partial}{\partial z}(z^2) = 2x + 2y + 2z\)</li>
+       <li>div \(\underline{r} = \dfrac{\partial}{\partial x}(x) + \dfrac{\partial}{\partial y}(y) + \dfrac{\partial}{\partial z}(z) = 1 + 1 + 1 = 3\)</li>
+       <li>div \(\underline{v} = \dfrac{\partial}{\partial x}(-x) + \dfrac{\partial}{\partial y}(y) + \dfrac{\partial}{\partial z}(2) = -1 +1 + 0 = 0\)</li>
+     </ol>
+<hr>
+<h4 class="HELM_example">Example</h4>
+ <p> Find the value of \(a\) for which \(\underline{v} = (2x^2 y + z^2)\underline{i} + (x y^2 - x^2 z) \underline{j} + (a x y z - 2x^2 y^2) \underline{k}\) is the vector field of an incompressible fluid.</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>\(\underline{v}\) is incompressible if div \(\underline{v} = 0\). <br>
+\(\underline{\nabla} \underline{v} = \dfrac{\partial}{\partial x}(2x^2y+z^2) + \dfrac{\partial}{\partial y}(xy^2-x^2z) + \dfrac{\partial}{\partial z}(axyz-2x^2y^2) = 4xy + 2xy + axy\) which is zero if \(a = -6 \). </p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

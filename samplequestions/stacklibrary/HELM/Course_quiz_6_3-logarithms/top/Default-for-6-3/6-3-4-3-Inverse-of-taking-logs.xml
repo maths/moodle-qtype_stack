@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>6.3.4.3 Inverse of taking logs</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<hr>
+<h4 class="HELM_example">Example&nbsp;</h4><p>Simplify the expression \(10^{\log_{10} x}\).</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>Let \(y=10^{\log_{10} x}\), then take logs (to base \(10\)) of both sides:
+\[\log_{10} y =\log_{10} (10^{\log_{10} x}) =(\log_{10} x)\log_{10} 10,\]
+where we have used: \(\log_{10} A^k=k\log_{10} A\). However, since we are using logs to base \(10\), 
+\(\log_{10} 10=1\) and so \(\log_{10} y=\log_{10} x\), which implies \(y=x\).</p>
+<p>Therefore, finally we conclude that \(10^{\log_{10} x}=x\).</p>
+<p>This is an important result, true for logarithms of any base. It follows from the basic definition of the logarithm.</p>
+<div class="HELM_keypoint">
+<h4>Key Point&nbsp;</h4>
+<p>Raising to the power and taking logs are <b>inverse</b> operations:\[a^{\log_a x}=x,\\ \log_a(a^x) =x.\]
+</p></div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

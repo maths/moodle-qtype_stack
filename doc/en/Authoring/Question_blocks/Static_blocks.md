@@ -51,6 +51,12 @@ The special "debug" block allows question authors to see all the values of varia
 
     [[ debug /]]
 
+Note, when asking for markdown the rows in the table are generated with code such as
+
+    | `$key` | `{#$key,simp#}` | `{#$key,simp=false#}` | {@$key,simp@} | {@$key,simp=false@} |
+
+or the HTML equivalent.  This means that if your variable is a complex string, with line breaks, then the markdown will likely be broken.
+
 ## Format blocks ##
 
 In general CASText is assumed to be written in the format (Markdown, raw HTML, Moodle auto-format) that Moodle defines and which can be selected in the editor if one uses the plain text area editor. However, there are cases where one might need to mix formats within the CASText itself, one of those cases is the inclusion of content written in another format. In these cases one can wrap the differing part in blocks that declare the format to use for that portion. The blocks used for this are named `[[moodleformat]]`, `[[markdownformat]]`, and `[[htmlformat]]`. In the end all CASText evaluates down to HTML, even if it were written in Markdown-format it will be rendered down to HTML.
@@ -86,3 +92,12 @@ The template block has two parameters, the first being a name which should be a 
 
 Note in the background templates are just functions with CASText values. You can do the same with inline CASText and more importantly building your own functions allows you to use arguments for them and thus makes repetition with varying parameters simpler. For templates no arguments exist, for them the values come from the context where they get placed in, and must therefore be controlled though other means.
 
+Note that if you wish to use a template in both the question text and in the PRT feedback, you will need to define it in the question variables (in particular, if you define the template in the question text, it will not work in the PRT feedback since the PRT feedback is evaluated in a different scope from the question text). For instance:
+
+    define_my_template: castext("[[template name="foobar"]]Whatever is {@whatever@}[[/template]]");
+
+You can then use `[[template name="foobar"/]]` throughout the question.
+
+## Entity escape block ##
+
+Sometimes one needs to author content that uses characters that are sensitive in HTML syntax. If one wraps that content in this block those characters will be automatically converted to HTML-entities during output. Can be very useful when including sample blocks of code, that includes certain operators. `[[entityescape]] code with some less than chars [[/entityescape]]`.

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>1.2.2.3 Laws of indices cont</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Two important results which can be derived from the laws of indices state:</p>
+<div class="HELM_keypoint">
+<h4>Key Point <br></h4>
+
+<ul>
+<li>Any non-zero number raised to the power \(0\) has the value \(1\) , that is \(a^0=1\).</li>
+<li>Any number raised to power \(1\) is itself, that is \(a^1=a\).</li>
+</ul>
+</div>
+<p>A generalisation of the third law of indices states:</p>
+<div class="HELM_keypoint">
+<h4>Key Point <br></h4>
+<p>\((a^mb^n)^k = a^{mk}b^{nk}\) .</p>
+</div>
+
+
+<hr>
+<h4 class="HELM_example">Example <br></h4>
+<p>Remove the brackets from</p>
+<ol class="HELM_parts_inline">
+<li>\((3x)^2\)</li>
+<li>\((x^3y^7)^4\)</li>
+</ol>
+<h4 class="HELM_solution">Solution</h4>
+<ol class="HELM_parts">
+  <li>Noting that \(3=3^1\) and \(x=x^1\) then \((3x)^2= (3^1x^1)^2 = 3^2x^2=9x^2\). <br> Alternatively \((3x)^2=(3x)\times (3x) = 9x^2\).</li>
+  <li>\((x^3y^7)^4 = x^{3\times 4}y^{7\times 4} = x^{12}y^{28}\).</li>
+  </ol><p>&nbsp;</p>
+<hr>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

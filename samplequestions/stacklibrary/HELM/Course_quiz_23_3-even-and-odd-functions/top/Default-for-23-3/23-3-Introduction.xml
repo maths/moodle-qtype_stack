@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>23.3 Introduction</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Introduction</h4>
+In this Section we examine how to obtain Fourier series of periodic functions which are either even
+or odd. We show that the Fourier series for such functions is considerably easier to obtain as, if the
+signal is even only cosines are involved whereas if the signal is odd then only sines are involved. We
+also show that if a signal reverses after half a period then the Fourier series will only contain odd
+harmonics.]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

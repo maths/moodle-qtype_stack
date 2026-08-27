@@ -1,0 +1,102 @@
+{
+    "quiz": {
+        "name": "5_2 Quadratic Functions and Modelling",
+        "intro": "<p><h4>Introduction<\/h4><p>This Section describes forms of equations for quadratic functions (also called parabolas), ways in\nwhich quadratic functions can be used to model motion involving projectiles, and certain kinds of\nproblems involving a single maximum or minimum.<br><\/p><\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "3.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Quadratic functions",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "7",
+            "heading": "Optimisation",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-5-2\/5-2-1-1-Quadratic-functions.xml"
+        },
+        {
+            "slot": "2",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-5-2\/5-2-2-1-Modelling-with-parabolas.xml"
+        },
+        {
+            "slot": "3",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-5-2\/5-2-2-2-Modelling-with-parabolas.xml"
+        },
+        {
+            "slot": "4",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-5-2\/5-2-2-3-Modelling-with-parabolas_2.xml"
+        },
+        {
+            "slot": "5",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-5-2\/5-2-2-4-Modelling-with-parabolas.xml"
+        },
+        {
+            "slot": "6",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-5-2\/5-2-2-5-Modelling-with-parabolas.xml"
+        },
+        {
+            "slot": "7",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-5-2\/5-2-3-1-Parabolas-and-optimisation.xml"
+        },
+        {
+            "slot": "8",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-5-2\/5-2-4-1-Finding-the-equation-of-a-parabola.xml"
+        },
+        {
+            "slot": "9",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-5-2\/5-2-4-2-Finding-the-equation-of-a-parabola.xml"
+        },
+        {
+            "slot": "10",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-5-2\/5-2-4-3-Volume-of-a-carton.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "4.00000"
+        }
+    ]
+}

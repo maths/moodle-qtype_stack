@@ -35,18 +35,21 @@ require_once(__DIR__ . '/../../maximaparser/utils.php');
  * Tags the stars and adds 'missing_stars' and the specific 'Variable_function' answernote.
  */
 class stack_ast_filter_406_split_implied_variable_names implements stack_cas_astfilter {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 
         $usage = maxima_parser_utils::variable_usage_finder($ast);
 
-        $process = function($node) use (&$answernotes, $usage) {
-            if ($node instanceof MP_FunctionCall &&
-                $node->name instanceof MP_Identifier) {
+        $process = function ($node) use (&$answernotes, $usage) {
+            if (
+                $node instanceof MP_FunctionCall &&
+                $node->name instanceof MP_Identifier
+            ) {
                 // Is it something that has also been used as variable?
-                if (array_key_exists($node->name->value, $usage['read']) ||
-                    array_key_exists($node->name->value, $usage['write'])) {
+                if (
+                    array_key_exists($node->name->value, $usage['read']) ||
+                    array_key_exists($node->name->value, $usage['write'])
+                ) {
                     $nop = new MP_Operation('*', $node->name, new MP_Group($node->arguments));
                     $nop->position['insertstars'] = true;
                     $node->parentnode->replace($node, $nop);

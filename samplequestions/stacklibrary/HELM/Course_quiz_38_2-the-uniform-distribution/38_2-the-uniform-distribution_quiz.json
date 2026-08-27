@@ -1,0 +1,60 @@
+{
+    "quiz": {
+        "name": "38_2 The Uniform Distribution",
+        "intro": "<p>This Quiz introduces the simplest type of continuous probability distribution which features a continuous random variable \\( X \\) with probability density function \\( f(x) \\) which assumes a constant value over a finite interval.<br><\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "1.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "The Uniform Distribution",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "2",
+            "heading": "Exercises",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-38-2\/38-2-1-1-The-uniform-distribution.xml"
+        },
+        {
+            "slot": "2",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-38-2\/38-2-1-2-Find-the-mean,-standard-deviation-and-cumulative-distribution-function.xml"
+        },
+        {
+            "slot": "3",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-38-2\/38-2-2-1-Expected-net-profit.xml"
+        },
+        {
+            "slot": "4",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-38-2\/38-2-2-2-Exercise-2-Weight-of-packages-(short).xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "2.00000"
+        }
+    ]
+}

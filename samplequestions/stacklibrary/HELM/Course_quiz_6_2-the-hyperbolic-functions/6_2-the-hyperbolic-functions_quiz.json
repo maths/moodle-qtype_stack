@@ -1,0 +1,147 @@
+{
+    "quiz": {
+        "name": "6_2 The Hyperbolic Functions",
+        "intro": "<h3>Introduction<\/h3><p>The hyperbolic functions <span class=\"math inline\">\\(\\sinh x, \\cosh x\\)<\/span>, <span class=\"math inline\">\\(\\tanh x\\)<\/span> etc are certain combinations of the exponential functions <span class=\"math inline\">\\(e^x\\)<\/span> and <span class=\"math inline\">\\(e^{-x}\\)<\/span>. The notation implies a close relationship between these functions and the trigonometric functions <span class=\"math inline\">\\(\\sin x, \\cos x\\)<\/span>, <span class=\"math inline\">\\(\\tan x\\)<\/span> etc. The close relationship is algebraic rather than geometrical. For example, the functions <span class=\"math inline\">\\(\\cosh x\\)<\/span> and <span class=\"math inline\">\\(\\sinh x\\)<\/span> satisfy the relation <span class=\"math inline\">\\(\\cosh^2x-\\sinh^2x\\equiv 1\\)<\/span>; which is very similar to the trigonometric identity <span class=\"math inline\">\\( \\cos^2x+\\sin^2x \\equiv 1\\)<\/span>. (In fact every trigonometric identity has an equivalent hyperbolic function identity.) The hyperbolic functions are not introduced because they are a mathematical nicety. They arise naturally and sufficiently often to warrant sustained study. For example, the shape of a chain hanging under gravity is well described by <span class=\"math inline\">\\( \\cosh \\)<\/span> and the deformation of uniform beams can be expressed in terms of <span class=\"math inline\">\\( \\tanh \\)<\/span>.<\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Hyperbolic Functions",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "4",
+            "heading": "Hyperbolic Identities",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "10",
+            "heading": "Related Hyperbolic Functions",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "13",
+            "heading": "Exercises",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-6-2\/6-2-1-1-Even-and-odd-functions.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-6-2\/6-2-1-2-Separate-odd-and-even-parts.xml"
+        },
+        {
+            "slot": "3",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-6-2\/6-2-1-3-Hyperbolic-functions.xml"
+        },
+        {
+            "slot": "13",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-6-2\/6-2-4-2-Express-sinh,-cosh-in-terms-of-exp-(exercise-1(b)).xml"
+        },
+        {
+            "slot": "14",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-6-2\/6-2-4-3-Express-exp-in-terms-of-sinh,-cosh-(exercise-2(a)).xml"
+        },
+        {
+            "slot": "4",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-6-2\/6-2-2-1-Hyperbolic-Identities.xml"
+        },
+        {
+            "slot": "5",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-6-2\/6-2-2-2-cosh^2-sinh^2.xml"
+        },
+        {
+            "slot": "7",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-6-2\/6-2-2-3-cosh(x+y).xml"
+        },
+        {
+            "slot": "8",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-6-2\/6-2-2-4-Compute-cosh(x+y)-knowing-sinhx,-sinhy.xml"
+        },
+        {
+            "slot": "9",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-6-2\/6-2-2-7-Common-hyperbolic-identities.xml"
+        },
+        {
+            "slot": "10",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-6-2\/6-2-3-1-Related-hyperbolic-functions.xml"
+        },
+        {
+            "slot": "11",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-6-2\/6-2-3-2-tanh^2.xml"
+        },
+        {
+            "slot": "12",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-6-2\/6-2-3-3-Compute-sech-given-tanh.xml"
+        },
+        {
+            "slot": "15",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-6-2\/6-2-4-4-Express-exp-in-terms-of-coth-(exercise-2(b)).xml"
+        },
+        {
+            "slot": "6",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-6-2\/6-2-2-3-Key-point.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

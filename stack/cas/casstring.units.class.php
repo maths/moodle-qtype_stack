@@ -29,7 +29,6 @@ require_once(__DIR__ . '/../utils.class.php');
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_cas_casstring_units {
-
     /**
      * Entries in this array are supported prefix mulipliers.
      * They are in the form of array(label, multiplier, TeX, fullname).
@@ -92,6 +91,7 @@ class stack_cas_casstring_units {
         ['Wh', '3600*(kg*m^2)/s^2', 'Wh', 'Watts hours'],
         ['A', 'A', 'A', 'Ampere'],
         ['ohm', '(kg*m^2)/(s^3*A^2)', '\Omega', 'ohm'],
+        ['Omega', '(kg*m^2)/(s^3*A^2)', '\Omega', 'ohm'],
         ['C', 's*A', 'C', 'Coulomb'],
         ['V', '(kg*m^2)/(s^3*A)', 'V', 'Volt'],
         ['F', '(s^4*A^2)/(kg*m^2)', 'F', 'Farad'],
@@ -198,9 +198,9 @@ class stack_cas_casstring_units {
             $multiplier[] = $unit[1];
             $tex[] = self::maximalocal_units_tex($unit[2]);
         }
-        $maximalocal .= '    stack_unit_si_prefix_code:['. implode(', ', $code). "],\n";
-        $maximalocal .= '    stack_unit_si_prefix_multiplier:['. implode(', ', $multiplier). "],\n";
-        $maximalocal .= '    stack_unit_si_prefix_tex:['. implode(', ', $tex). "],\n";
+        $maximalocal .= '    stack_unit_si_prefix_code:[' . implode(', ', $code) . "],\n";
+        $maximalocal .= '    stack_unit_si_prefix_multiplier:[' . implode(', ', $multiplier) . "],\n";
+        $maximalocal .= '    stack_unit_si_prefix_tex:[' . implode(', ', $tex) . "],\n";
 
         $code = [];
         $conversions = [];
@@ -211,9 +211,9 @@ class stack_cas_casstring_units {
             $tex[] = self::maximalocal_units_tex($unit[2]);
         }
 
-        $maximalocal .= '    stack_unit_si_unit_code:['. implode(', ', $code). "],\n";
-        $maximalocal .= '    stack_unit_si_unit_conversions:['. implode(', ', $conversions). "],\n";
-        $maximalocal .= '    stack_unit_si_unit_tex:['. implode(', ', $tex). "],\n";
+        $maximalocal .= '    stack_unit_si_unit_code:[' . implode(', ', $code) . "],\n";
+        $maximalocal .= '    stack_unit_si_unit_conversions:[' . implode(', ', $conversions) . "],\n";
+        $maximalocal .= '    stack_unit_si_unit_tex:[' . implode(', ', $tex) . "],\n";
 
         $code = [];
         $conversions = [];
@@ -224,9 +224,9 @@ class stack_cas_casstring_units {
             $tex[] = self::maximalocal_units_tex($unit[2]);
         }
 
-        $maximalocal .= '    stack_unit_other_unit_code:['. implode(', ', $code). "],\n";
-        $maximalocal .= '    stack_unit_other_unit_conversions:['. implode(', ', $conversions). "],\n";
-        $maximalocal .= '    stack_unit_other_unit_tex:['. implode(', ', $tex). "],\n";
+        $maximalocal .= '    stack_unit_other_unit_code:[' . implode(', ', $code) . "],\n";
+        $maximalocal .= '    stack_unit_other_unit_conversions:[' . implode(', ', $conversions) . "],\n";
+        $maximalocal .= '    stack_unit_other_unit_tex:[' . implode(', ', $tex) . "],\n";
 
         return $maximalocal;
     }
@@ -236,9 +236,9 @@ class stack_cas_casstring_units {
      */
     private static function maximalocal_units_tex($texstr) {
         if (substr($texstr, 0, 1) === '\\') {
-            return('"\\'.$texstr.'"');
+            return('"\\' . $texstr . '"');
         } else {
-            return('"\\\\mathrm{'.$texstr.'}"');
+            return('"\\\\mathrm{' . $texstr . '}"');
         }
     }
 
@@ -260,7 +260,7 @@ class stack_cas_casstring_units {
         foreach (self::$supportedunits as $unit) {
             $units[$unit[0]] = true;
             foreach (self::$supportedprefix as $prefix) {
-                $cmd = $prefix[0].$unit[0];
+                $cmd = $prefix[0] . $unit[0];
                 // By default, the student is allowed to type in any two letter string.
                 // We have an option to ignore short stings.
                 if (strlen($cmd) > $len) {
@@ -291,7 +291,8 @@ class stack_cas_casstring_units {
             $identifiernode->value = 'torr';
         } else if ($identifiernode->value == 'kgm') {
             // TO-DO: Do we actually care if there is that '/s' or is that some regexp thing?
-            if ($identifiernode->parent instanceof MP_Operation &&
+            if (
+                $identifiernode->parent instanceof MP_Operation &&
                 (($identifiernode->parent->op === '/' &&
                   $identifiernode->parent->lhs === $identifiernode &&
                   $identifiernode->parent->rhs instanceof MP_Identifier &&
@@ -299,7 +300,8 @@ class stack_cas_casstring_units {
                  ($identifiernode->parent->rhs === $identifiernode &&
                   $identifiernode->parent->operationOnRight() === '/' &&
                   $identifiernode->parent->operandOnRight() instanceof MP_Identifier &&
-                  $identifiernode->parent->operandOnRight()->value === 's')) {
+                  $identifiernode->parent->operandOnRight()->value === 's')
+            ) {
                 $identifiernode->value = 'kg';
                 $identifiernode->parent->replace($identifiernode, new MP_Operation('*', $identifiernode, new MP_Identifier('s')));
             }
@@ -328,11 +330,13 @@ class stack_cas_casstring_units {
             if ($cache[strtolower($key)] != $key) {
                 $fndsynonym = true;
                 $answernote = 'unitssynonym';
-                $synonymerr = stack_string('stackCas_unitssynonym',
-                        [
+                $synonymerr = stack_string(
+                    'stackCas_unitssynonym',
+                    [
                             'forbid' => stack_maxima_format_casstring($key),
                             'unit' => stack_maxima_format_casstring($cache[strtolower($key)]),
-                        ]);
+                    ]
+                );
             }
         }
 
@@ -356,7 +360,7 @@ class stack_cas_casstring_units {
             foreach (self::$supportedunits as $unit) {
                 $valid[$unit[0]] = true;
                 foreach (self::$supportedprefix as $prefix) {
-                    $valid[$prefix[0].$unit[0]] = true;
+                    $valid[$prefix[0] . $unit[0]] = true;
                 }
             }
             foreach ($valid as $k => $noop) {
@@ -380,10 +384,12 @@ class stack_cas_casstring_units {
             return false;
         }
 
-        return(stack_string('stackCas_unknownUnitsCase',
+        return(stack_string(
+            'stackCas_unknownUnitsCase',
             [
                 'forbid' => stack_maxima_format_casstring($key),
-                'unit' => stack_maxima_format_casstring('['.implode(', ', $invalid[strtolower($key)]).']'),
-            ]));
+                'unit' => stack_maxima_format_casstring('[' . implode(', ', $invalid[strtolower($key)]) . ']'),
+            ]
+        ));
     }
 }

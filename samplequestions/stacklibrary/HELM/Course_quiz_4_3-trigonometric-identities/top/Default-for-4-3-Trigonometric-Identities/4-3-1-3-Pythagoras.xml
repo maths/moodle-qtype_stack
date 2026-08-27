@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>4.3.1.3 Pythagoras</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p>For any value of <span class="math inline">\(\theta\)</span> <span class="math display">\[\sin^2\theta+\cos^2\theta\equiv1\]</span></p>
+</div>
+
+<p>One way of proving the result in the Key Point is to use the definitions of <span class="math inline">\(\sin\theta\)</span> and <span class="math inline">\(\cos\theta\)</span> obtained from the circle of unit radius.</p>
+
+<p>Recall that  <span class="math inline">\(\cos\theta=OQ\)</span>, <span class="math inline">\(\ \sin\theta=OR=QP\)</span>. By Pythagoras’ theorem:<span class="math inline">\((OQ)^2+(QP)^2=(OP)^2=1\)</span></p>
+
+<p>hence <span class="math inline">\(\cos^2\theta+\sin^2\theta=1.\)</span></p>
+
+<p>We have demonstrated the Key Point using an angle <span class="math inline">\(\theta\)</span> in the first quadrant but the result is true for any <span class="math inline">\(\theta\)</span> i.e. it is indeed an identity.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

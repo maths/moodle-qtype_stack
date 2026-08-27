@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>36.1.5.2 Measures of location and Mean</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4><span>Measures of location</span></h4>
+<p>There are three widely used measures of location, these are:</p>
+<ul><li>The Mean, the arithmetic average of the data;</li>
+<li>The Median, the central value of the data;</li>
+<li>The Mode, the most frequently occurring value in the data set.</li>
+</ul>
+<h4><span>Mean</span></h4>
+<p>This section of the booklet will show you how to calculate the mean. Strictly, we should say that this is the <i>arithmetic mean</i>. There are other kinds of means as well. This is by far the most common, though, and so we often just say "mean''.</p>
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p>If we take a set of numbers \(x_1,x_2,\dots , x_n\), its arithmetic mean is defined as:
+\[\bar x =\dfrac{ x_1+x_2+x_3+\cdots+x_n}{n} = \dfrac{1}{n}\sum_{i=1}^nx_i.\]</p>
+<p>This is often shortened to: \[\bar x=\frac{1}{n}\sum x.\]</p>
+</div>
+<p> </p>
+<p>In words, this formula says:&nbsp;<i>sum the values of \(x\) and divide by the number of values you have summed.</i></p>
+<p><span style="font-size: calc(0.90375rem + 0.045vw);">In the case of discrete data, we have a frequency for each possible value of the variable and we can express the calculation in terms of these frequencies. Suppose that the data \(x_1, x_2, \ldots, x_n\) consists of \(J\) unique values denoted by \(k_1, k_2, \ldots, k_J\) (where we could have \(J \rightarrow \infty\)) and that these values have observed frequencies \(f_1,f_2,\ldots,f_J\). The it is easily seen that the overall count is: \[\sum_{i=1}^n x_i = \sum_{j=1}^J f_j k_j.\]</span><br></p>
+<p>A common case is when the possible values are the nonnegative integers, \( 0, 1, 2, \ldots\). Then
+\[ \bar{x} = \dfrac{1}{n} \sum_{j=0}^{\infty} k_j f_{j} = \dfrac{\sum k f_{k}}{\sum f_{k}}. \]</p>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>The numbers of telephone calls made on a particular day by 500 subscribers to a mobile telephone network gave the following frequency table, from which we can calculate the sample mean.</p>
+<p></p><table class="HELM_table" style="text-align: center; width: 75%;">
+<thead>
+<tr><th>Number of <br>Calls \(x\)</th> <th>Frequency<br>\(f\)</th> <th>Count<br>\(f x\)</th></tr> 
+</thead>
+<tbody>
+<tr><td> 0</td> <td> 13</td><td> 0</td></tr>
+<tr><td>1</td> <td> 30</td><td> 30</td></tr>  
+<tr><td> 2</td> <td> 85</td> <td> 170 </td></tr>
+<tr><td>3</td> <td>  98</td> <td> 294</td></tr>
+<tr><td>4</td> <td> 96</td> <td> 384</td></tr>
+<tr><td>5</td> <td> 81</td> <td>405 </td></tr>
+<tr><td>6</td> <td>42</td> <td>252</td></tr>
+<tr><td>7</td> <td>32</td> <td>224</td></tr>
+<tr><td>8</td> <td>17</td> <td>136</td></tr>
+<tr><td>9</td><td> 4</td> <td> 36</td></tr>
+<tr><td>10</td> <td> 1 </td> <td> 10</td> </tr>
+<tr style="border-bottom: 1px solid #000;"><td>11</td> <td> 1 </td> <td> 11</td></tr> 
+<tr><td></td><td>\(\sum f = 500\)</td><td>\( \sum f x = 1952 \)</td></tr>
+</tbody>
+</table>
+<p> </p>	 	 
+<p>The sample mean is given by
+\(\bar x=\dfrac{\sum fx}{\sum f}=\dfrac{1952}{500}=3.904\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

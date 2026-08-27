@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>1.4.1.5 Cancelling Common Factors</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4 class="HELM_example">Example</h4>
+<p>Simplify \(\dfrac{3x+6}{6x+12}\)</p>
+
+<h4 class="HELM_solution">Solution</h4>
+<p>First we factorise the numerator and the denominator to see if there are any common factors.</p>
+<p>\(\qquad \dfrac{3x+6}{6x+12} = \dfrac{3(x+2)}{6(x+2)} = \dfrac{3}{6} = \dfrac{1}{2}\)</p>
+<p>The factors \(x + 2\) and 3 have been cancelled.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

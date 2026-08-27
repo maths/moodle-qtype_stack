@@ -28,14 +28,15 @@ require_once(__DIR__ . '/filter.interface.php');
  * AST filter that ensures that 'i(x)' will always be split.
  */
 class stack_ast_filter_005_i_is_never_a_function implements stack_cas_astfilter {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 
-        $process = function($node) use (&$valid, &$errors, &$answernotes) {
-            if ($node instanceof MP_Functioncall &&
+        $process = function ($node) use (&$valid, &$errors, &$answernotes) {
+            if (
+                $node instanceof MP_Functioncall &&
                 $node->name instanceof MP_Identifier &&
-                 $node->name->value === 'i') {
+                 $node->name->value === 'i'
+            ) {
                 $replacement = new MP_Operation('*', $node->name, new MP_Group($node->arguments));
                 $replacement->position['insertstars'] = true;
                 $node->parentnode->replace($node, $replacement);

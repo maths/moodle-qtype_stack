@@ -36,7 +36,6 @@ require_once(__DIR__ . '/../../../utils.class.php');
  *
  */
 class stack_cas_castext2_script extends stack_cas_castext2_block {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
         $r = new MP_List([
@@ -74,8 +73,11 @@ class stack_cas_castext2_script extends stack_cas_castext2_block {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function postprocess(array $params, castext2_processor $processor,
-        castext2_placeholder_holder $holder): string {
+    public function postprocess(
+        array $params,
+        castext2_processor $processor,
+        castext2_placeholder_holder $holder
+    ): string {
 
         $parameters = json_decode($params[1], true);
         $content    = '';

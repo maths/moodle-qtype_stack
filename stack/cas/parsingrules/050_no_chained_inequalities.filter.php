@@ -28,21 +28,27 @@ require_once(__DIR__ . '/filter.interface.php');
  * AST filter that spots inequalities that are chained.
  */
 class stack_ast_filter_050_no_chained_inequalities implements stack_cas_astfilter {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 
         $ops = [
-            '<' => '<', '<=' => '<=', '>' => '>', '>=' => '>=',
-            '#' => '#', '=' => '=',
+            '<' => '<', '<=' => '\leq ', '>' => '>', '>=' => '\geq',
+            '#' => '\neq ', '=' => '=',
         ];
 
-        $process = function($node) use (&$valid, &$errors, &$answernotes, $ops) {
+        $process = function ($node) use (&$valid, &$errors, &$answernotes, $ops) {
             if ($node instanceof MP_Operation && isset($ops[$node->op])) {
-                if (($node->lhs instanceof MP_Operation && isset($ops[$node->lhs->op])) ||
-                    ($node->rhs instanceof MP_Operation && isset($ops[$node->rhs->op]))) {
+                if (
+                    ($node->lhs instanceof MP_Operation && isset($ops[$node->lhs->op])) ||
+                    ($node->rhs instanceof MP_Operation && isset($ops[$node->rhs->op]))
+                ) {
                     $node->position['invalid'] = true;
-                    $errors[] = stack_string('stackCas_chained_inequalities');
+                    // The error message only uses the first operator (the need not be the same).
+                    // But this is a modest improvement.
+                    $errors[] = stack_string(
+                        'stackCas_chained_inequalities',
+                        ['op' => $ops[$node->op]]
+                    );
                     if (array_search('chained_inequalities', $answernotes) === false) {
                         $answernotes[] = 'chained_inequalities';
                     }

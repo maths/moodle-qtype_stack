@@ -1,0 +1,147 @@
+{
+    "quiz": {
+        "name": "11_4 Differentiating Products and Quotients",
+        "intro": "<p>In this Section we see how more complicated functions may be differentiated. We concentrate, for the moment, on products and quotients of standard functions like \\(x^n e^{ax}\\), \\( \\dfrac{e^{ax} \\ln x}{\\sin x}\\).<\/p><p>We will see that two simple rules may be consistently employed to obtain the derivatives of such functions.<\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Product rule",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "7",
+            "heading": "Product rule with three factors",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "9",
+            "heading": "Quotient Rule",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "11",
+            "heading": "Quotient Rule: Exercises",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-11-4\/11-4-1-1-Differentiating-a-product.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-11-4\/11-4-1-2-Product-example.xml"
+        },
+        {
+            "slot": "3",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-11-4\/11-4-1-3-T1a-2_prod_intro.xml"
+        },
+        {
+            "slot": "4",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-11-4\/11-4-1-4-T1b-2_prod_intro.xml"
+        },
+        {
+            "slot": "5",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-11-4\/11-4-1-5.xml"
+        },
+        {
+            "slot": "6",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-11-4\/11-4-1-6.xml"
+        },
+        {
+            "slot": "7",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-11-4\/11-4-1-7-Three-Product-example.xml"
+        },
+        {
+            "slot": "8",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-11-4\/11-4-1-8-T2-3_prod_intro.xml"
+        },
+        {
+            "slot": "9",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-11-4\/11-4-2-1-Differentiating-a-quotient.xml"
+        },
+        {
+            "slot": "10",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-11-4\/11-4-2-2-T1-quot_intro.xml"
+        },
+        {
+            "slot": "11",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-11-4\/11-4-2-3-1a-quotient-rule.xml"
+        },
+        {
+            "slot": "12",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-11-4\/11-4-2-4-1b-quotient-rule.xml"
+        },
+        {
+            "slot": "13",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-11-4\/11-4-2-5-1c-quotient-rule.xml"
+        },
+        {
+            "slot": "14",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-11-4\/11-4-2-6-1d-quotient-rule.xml"
+        },
+        {
+            "slot": "15",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-11-4\/11-4-2-7-1e-quotient-rule.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

@@ -51,8 +51,11 @@ class stack_maths {
      * @return string the content ready to pass to format_text.
      */
     public static function process_display_castext($text, ?qtype_stack_renderer $renderer = null) {
-        return self::get_output()->process_display_castext($text,
-                stack_utils::get_config()->replacedollars, $renderer);
+        return self::get_output()->process_display_castext(
+            $text,
+            stack_utils::get_config()->replacedollars,
+            $renderer
+        );
     }
 
     /**
@@ -100,8 +103,10 @@ class stack_maths {
      *      configuration options.
      */
     protected static function get_output() {
-        if (!(property_exists(stack_utils::get_config(), 'mathsdisplay'))
-                || '' == trim(stack_utils::get_config()->mathsdisplay)) {
+        if (
+            !(property_exists(stack_utils::get_config(), 'mathsdisplay'))
+                || '' == trim(stack_utils::get_config()->mathsdisplay)
+        ) {
             return self::get_output_instance('mathjax');
         }
         return self::get_output_instance(stack_utils::get_config()->mathsdisplay);

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>41.2.2.2 Tests for population means</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Tests for population means</h3>
+<p><br></p>
+<h4>Tests concerning a single mean</h4>
+<p><strong>Introduction</strong></p>
+<p> In cases where tests involving measurements are performed, it is often possible to statistically hypothesize about the results. Suppose that the boiling point of a particular coolant used in car engines is claimed by a manufacturer to be \(110^{\circ}\)C. Further suppose that a series of accurate measurements made in a laboratory using 8 random samples of the coolant are recorded as:</p>
+<p> \(\qquad\displaystyle 110.2^{\circ},\ 110.3^{\circ},\ 110.1^{\circ},\ 109.8^{\circ},\ 109.9^{\circ},\ 110.0^{\circ},\ 110.4^{\circ},\ 110.1^{\circ},\ \)</p>
+<p> The mean of these results is \(110.1^{\circ}\)C.<p>
+<p> It is reasonable to ask whether, on the basis of the results obtained, we may claim that the boiling point of the coolant is greater than the assumed true boiling point of \(110^{\circ}\)C. We will return to this problem later in this Workbook after looking at some general results.<p>
+ <p><strong>General results</strong></p>
+ <p>In general terms, we need to make predictions, based on calculation, about the parameters of the population from which the random sample is drawn. As illustrated above we calculate the sample mean \(\bar x\). The statistical tests used to answer the above question depend on whether the variance of the population is known or not.</p>
+
+<p><br></p>
+<p><strong>Case (i) - Population variance known</strong></p>
+ <p>Firstly we form the null hypothesis that there is no difference between the true population mean \(\mu\) and the theoretical value \(\mu_{0}.\) That is:</p>
+ <p>\[H_{0}:\ \mu=\mu_{0}\]
+ Secondly we consider drawing samples of size \(n\) from the population. If \(n\) is <strong>large</strong> (say \(n \geq 30)\) then, because of the central limit theorem, we can often assume that the sample means approximately follow a normal distribution with mean \(\mu\) and standard deviation (standard error of the mean) \(\sigma_{n}\) given by </p>
+ <p>\[\sigma_{n} = \frac{\sigma}{\sqrt{n}}\]</p>
+ <p>It follows that</p>
+ <p>\[Z = \frac{\bar{x}- \mu_{0}}{\sigma/\sqrt{n}}\]
+ has a standard normal distribution when the null hypothesis is true. That is, when \(\mu=\mu_{0},\) \(Z \sim N(0,1).\)</p>
+ <p>We may now set up an alternative hypothesis which can take one of the three forms:</p>
+ <p>\[\begin{array}{cc} H_{1} : &amp; \mu \neq \mu_{0} \\ H_{1} : &amp; \mu &gt; \mu_{0} \\ H_{1} : &amp; \mu &lt; \mu_{0} \end{array}\]
+ depending on the form of deviation from the null hypothesis for which we wish to test. Then we will reject the null hypothesis at the 5% level of significance if</p>
+ <p>\(|Z| &gt; 1.96\) for a two-tailed test</p>
+ <p>\(Z &gt; 1.645\) for a (right) one-tailed test</p>
+ <p>\(Z &lt; -1.645\) for a (left) one-tailed test</p>
+ <p>In each case we reject \(H_{0}\) in favour of the alternative hypothesis when \(Z\) lies in the remote tail of the standard normal distribution.</p>
+ 
+ <hr>
+<h4 class="HELM_example">Example</h4>
+ <p>Dishwasher powder is poured into the cartons in which it is sold by an automatic dispensing machine which is set to dispense 3 kg of powder into each carton. In order to check that the dispensing machine is working to an acceptable standard (i.e. does not need adjustment), a production engineer takes a random samples of 40 cartons and weighs them. It is found that the mean weight of the sample is 3.005 kg. It is known that the dispensing machine operates with a standard deviation of 0.015 kg and that the manufacturer of the powder is willing to rely on a 5% level of significance. Does the sample provide the engineer with sufficient evidence that the true mean is not 3.00 kg and so the machine requires adjustment?</p>
+ <h4 class="HELM_solution">Solution</h4>
+ <p>Given that the dispensing machine can over-fill or under-fill the containers, the null and
+alternative hypotheses are:
+\(\qquad\displaystyle H_0:\ \ \mu=3\qquad H_1:\ \ \mu\ne 3\)
+Since the sample size is large (\(\ge 30)\)  and we can regard the population as infinite but with a known
+variance, we can calculate the relevant value of the test statistic \(Z\) by using the formula:
+\(\qquad\displaystyle Z=\frac{\bar x-\mu_0}{\sigma/\sqrt{n}}\)
+Hence, in this case:
+\(\qquad\displaystyle Z=\frac{\bar x-\mu_0}{\sigma/\sqrt{n}}=\frac{3.005-3}{0.015/\sqrt{40}}=2.108\)
+and since we are performing a two-tailed test at the 5\% level of significance and have found that 
+\(|Z|>1.96\), that is, \(Z\) is outside the range  \([-1.96, 1.96]\), we must reject the null hypothesis and
+conclude that the machine is not operating acceptably and needs adjustment.</p>
+ 
+<p><br></p>
+ <p><strong>Case (ii) - Population variance unknown</strong></p>
+ <p>We have exactly the same situation as that described in Case (i) but do not know the value of the population variance \(\sigma^{2}.\) Therefore we estimate it using</p>
+ <p>\[s^{2} = \frac{1}{n-1} \sum_{i=1}^{n} (x_{i}- \bar{x})^{2}\]
+ and calculate the test statistic</p>
+ <p>\[T= \frac{\bar{x}-\mu_{0}}{\sqrt{s^{2}/n}}.\]
+ However, because we are now dividing by an estimate, which is itself random, this test statistic does not have a standard normal distribution under the null hypothesis. Instead it has a distribution called <strong>Student’s</strong> \(t\) <strong>-distribution</strong> on \(n-1\) degrees of freedom. The number of degrees of freedom is the same as that which we have already seen when we looked at the \(\chi^{2}\) distribution in connection with sample variances in Workbook 40. So, for example, instead of comparing \(Z\) with \(\pm 1.96\) for a two-sided test at the 5% level, when \(\sigma^{2}\) is known, we compare \(T\) with a value from the \(t\)-distribution which depends on the sample size through the number of degrees of freedom. The \(t\)-distribution is symmetric, centred at zero and, for all but very small numbers of degrees of freedom, has a shape similar to that of a standard normal distribution but with a larger variance. A table which gives the values which we need is provided at the back of this Workbook. For example, if we have a two-sided test at the 5% level of significance and a sample size \(n=15,\) then the number of degrees of freedom is 14 and we compare \(|T|\) with the upper 2.5% point which is 2.145. </p>
+ <p>Looking at the table and comparing it with the values for a standard normal distribution we can see that, as the number of degrees of freedom becomes large, the \(t\)-distribution gets closer to the standard normal distribution so that, for large samples, it makes little difference which we use. It is also true that, under most circumstances, even if we do not know that the distribution from which data are drawn is normal, a \(t\)-test provides a good approximation when the sample size is reasonably large. In other circumstances, for example when normality cannot be assumed and the sample is small, we need to use other procedures, often non-parametric tests.</p>
+ <p>In summary we have the following.</p>
+ 
+ <table class="HELM_table">
+  <thead>
+    <tr>
+ <th><strong>Population</strong></th>
+ <th><strong>Variance</strong></th>
+ <th><strong>Sample size</strong></th>
+ <th><strong>Test</strong></th></tr>
+  </thead>
+ <tbody>
+    <tr><td>Normal</td> <td>Known</td> <td>Small</td> <td>Normal (\(Z\))</td></tr>
+	  <tr><td>Normal</td> <td>Known</td> <td>Large</td> <td>Normal (\(Z\))</td></tr>
+	  <tr><td>Normal</td> <td>Unknown</td> <td>Small</td> <td>\(t\)</td></tr>
+	  <tr><td>Normal</td> <td>Unknown</td> <td>Large</td> <td>\(t\) but \(Z\) approximates</td></tr>
+	  <tr><td>Not Normal</td> <td>Either</td> <td>Small</td> <td>Non-parametric</td></tr>
+	  <tr><td>Not Normal</td> <td>Known</td> <td>Large</td> <td>\(Z\) approximates</td></tr>
+	  <tr><td>Not Normal</td> <td>Unknown</td> <td>Large</td> <td>\(Z\) and \(t\) approximate</td></tr></tbody>
+</table>
+	  <p>Non-parametric testing is covered in 45.</p>
+ 
+ <hr>
+<h4 class="HELM_example">Example</h4>
+ <p>The average useful life of a random sample of 33 similar calculator batteries made on a production line is found to be 99.5 hours continuous use. The sample variance is 18.49 hours\(^{2}\). Test the null hypothesis that the population mean lifetime is 100 hours against the alternative that it is less. Use the 5% level of significance.</p>
+ <h4 class="HELM_solution">Solution</h4>
+ <p>The null and alternative hypotheses are:
+
+\[ H_{0}:\ \mu=100 \hspace{1cm} H_{1}:\ \mu < 100 \]
+
+Our test statistic is
+
+\[ T = \frac{\bar{x} - \mu_{0}}{\sqrt{s^{2}/n}} \]
+
+In this case
+
+\begin{eqnarray*}
+T & = & \frac{99.5 - 100.0}{\sqrt{18.49/33}} \\
+  & = & -0.668
+\end{eqnarray*}
+
+and the number of degrees of freedom is \( n-1=33-1=32. \) The table does not give values for 32 degrees of freedom but it does give values for 30 degrees of freedom and for 40 and the values for 32 must be in between. The lower 5% points for 30 and 40 degrees of freedom are \( -1.697 \) and \( -1.684 \) respectively. Clearly our observed value of \( -0.668 \) is not significant and we do not have sufficient evidence to reject the null hypothesis that \( \mu=100. \)</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

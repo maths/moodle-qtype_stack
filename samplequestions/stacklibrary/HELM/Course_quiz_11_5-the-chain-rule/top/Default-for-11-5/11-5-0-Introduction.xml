@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>11.5.0 Introduction</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>The Chain Rule</h4>
+
+In this Section we will see how to obtain the derivative of a composite function (often referred to as
+a `function of a function'). To do this we use the chain rule. This rule can be used to obtain the
+derivatives of functions such as \(e^{x^2+3x}\) (the exponential function of a polynomial); \( \sin( \ln x)\) (the sine function of the natural logarithm function); \(\sqrt{x^3 + 4}\) (the square root function of a polynomial).]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.6.4.1 Proper fractions with quadratic factors</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4> Proper fractions with quadratic factors</h4>
+<br>
+<p>Sometimes when a denominator is factorised it produces a quadratic term which cannot be factorised into linear factors. One such quadratic factor is <span class="math inline">\(x^2+x+1\)</span>. This factor produces a partial fraction of the form
+    <span class="math inline">\(\dfrac{Ax+B}{x^2+x+1}\)</span>. In general a quadratic factor of the form <span class="math inline">\(ax^2+bx+c\)</span> produces a single partial fraction of the form <span class="math inline">\(\dfrac{Ax+B}{ax^2+bx+c}\)</span>.</p>
+<br>
+<div class="HELM_keypoint">
+    <h4>Key Point</h4>
+    <p>A quadratic factor <span class="math inline">\(ax^2+bx+c\)</span> in the denominator produces a partial fraction of the form <span class="math display">\[\dfrac{Ax+B}{ax^2+bx+c}\]</span></p>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

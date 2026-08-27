@@ -68,23 +68,23 @@ tap:proof_display(proof_ans, proof_steps);
 */
 proof_alternatives(ex):=block([p1,p2],
     p2:proof_one_alternatives(ex),
-    do (p1:p2, p2:proof_one_distrib(p1), if is(p1=p2) then return(map(proof_remove_nullproof, proof_ensure_list(p2))))
+    do (p1:p2, p2:proof_one_distrib(p1), if is(p1=p2) then return(map('proof_remove_nullproof, proof_ensure_list(p2))))
 );
 
 proof_one_alternatives(pr) := block(
   if atom(pr) then return(pr),
-  if proof_commutep(pr) then return(apply(pf_one, map(lambda([ex], apply(op(pr), map(proof_one_alternatives, ex))), listify(permutations(args(pr)))))),
+  if proof_commutep(pr) then return(apply('pf_one, map(lambda([ex], apply(op(pr), map('proof_one_alternatives, ex))), listify(permutations(args(pr)))))),
   /* In a proof by exhaustive cases the first element is fixed. */
   if op(pr)=proof_opt then return(pf_one(first(pr), nullproof)),
   /* In a proof by exhaustive cases the first element is fixed. */
-  if op(pr)=proof_cases then return(apply(pf_one, map(lambda([ex], apply(op(pr), append([first(args(pr))], map(proof_one_alternatives, ex)))), listify(permutations(rest(args(pr))))))),
+  if op(pr)=proof_cases then return(apply('pf_one, map(lambda([ex], apply(op(pr), append([first(args(pr))], map('proof_one_alternatives, ex)))), listify(permutations(rest(args(pr))))))),
   /* In a proof establishing a goal the last element is fixed. */
-  if op(pr)=proof_goal then return(apply(pf_one, map(lambda([ex], apply(op(pr), append(map(proof_one_alternatives, ex), [first(reverse(args(pr)))]))), 
+  if op(pr)=proof_goal then return(apply('pf_one, map(lambda([ex], apply(op(pr), append(map('proof_one_alternatives, ex), [first(reverse(args(pr)))]))), 
                         listify(permutations(rest(reverse(args(pr)))))))),
   /* In a proof by induction cases the first element and last elents are fixed. */
-  if op(pr) = proof_ind then return(apply(pf_one, map(lambda([ex], apply(op(pr), append([first(args(pr))],
-      map(proof_one_alternatives, ex), [fourth(args(pr))]))), listify(permutations([second(args(pr)), third(args(pr))]))))),
-  apply(op(pr), map(proof_one_alternatives, args(pr)))
+  if op(pr) = proof_ind then return(apply('pf_one, map(lambda([ex], apply(op(pr), append([first(args(pr))],
+      map('proof_one_alternatives, ex), [fourth(args(pr))]))), listify(permutations([second(args(pr)), third(args(pr))]))))),
+  apply(op(pr), map('proof_one_alternatives, args(pr)))
 );
 
 proof_one_distribp(ex):= not(atom(ex)) and is(op(ex)=pf_one);
@@ -94,16 +94,16 @@ proof_one_distrib(ex):= block([_a,_i,_l],
    if freeof(pf_one, ex) then return(ex),
    /* If pf_one has worked its way to the top we return the list of options. */ 
    if is(op(ex)=pf_one) then return(args(ex)),
-   if (listp(ex)) then return(flatten(map(proof_one_distrib, ex))),
+   if (listp(ex)) then return(flatten(map('proof_one_distrib, ex))),
    /* Pull out first argument to have pf_one */
    _i:sublist_indices(args(ex), proof_one_distribp),
    /* If none of the arguments need distribution, then go one level down. */
-   if emptyp(_i) then return(apply(op(ex), map(proof_one_distrib, args(ex)))),
+   if emptyp(_i) then return(apply(op(ex), map('proof_one_distrib, args(ex)))),
    _i:first(_i),
    _a:args(part(args(ex),_i)),
    _l:ev(makelist(k,k,1,length(_a)),simp),
     /* This list is not free of pf_one, so we take the first. */
-   apply(pf_one, map(lambda([ex2], block([_aa], _aa:copy(args(ex)), _aa[_i]:_a[ex2], return(apply(op(ex),_aa)))), _l))
+   apply('pf_one, map(lambda([ex2], block([_aa], _aa:copy(args(ex)), _aa[_i]:_a[ex2], return(apply(op(ex), _aa)))), _l))
 );
 
 proof_ensure_list(ex):= if listp(ex) then ex else [ex];
@@ -111,7 +111,7 @@ proof_ensure_list(ex):= if listp(ex) then ex else [ex];
 proof_remove_nullproof(ex):= block(
    if atom(ex) then return(ex),
    if freeof(nullproof, ex) then return(ex),
-   apply(op(ex), map(proof_remove_nullproof, sublist(args(ex), lambda([ex2], not(is(ex2=nullproof)))))) 
+   apply(op(ex), map('proof_remove_nullproof, sublist(args(ex), lambda([ex2], not(is(ex2=nullproof)))))) 
 );
 
 /******************************************************************/
@@ -125,7 +125,7 @@ proof_remove_nullproof(ex):= block(
  */
 proof_parsons_interpret(st) := block([pf],
   pf:first(stackjson_parse(st)),
-  pf:apply(proof, first(first(stackmap_get(pf, "used"))))
+  pf:apply('proof, first(first(stackmap_get(pf, "used"))))
 );
 
 /* Construct the "used" and "available" keys when the teacher's answer is used. */
@@ -141,7 +141,7 @@ proof_parsons_key_json(proof_ans, proof_steps) := block([pkeys],
  * Needed to create a "teacher's answer" in JSON block, including unused text.
 */
 proof_parsons_keys_used_unused(proof_ans, proof_steps) := block([tkeys, skeys],
-  tkeys:map(first, proof_steps),
+  tkeys:map('first, proof_steps),
   skeys:ev(proof_ans, map(lambda([ex], ex="["), proof_types), simp),
   /* TO-DO: update this when we deal with trees (and have examples) */
   skeys:map(lambda([skey], skey), flatten(skeys)),
@@ -207,7 +207,7 @@ proof_inline_maths(st) := ssubst("\\)", "\\]", ssubst("\\(", "\\[", st));
  * Prune out any narrative from the proof steps: used to display a proof without narrative.
 */
 proof_line_prune(pfs) := [first(pfs), second(pfs)];
-proof_steps_prune(proof_steps) := map(proof_line_prune, proof_steps);
+proof_steps_prune(proof_steps) := map('proof_line_prune, proof_steps);
 
 /*
  *  Return the step "k" from the proof "pf" wrapped in html divs, and with any narrative.
@@ -254,7 +254,7 @@ proof_display(p_ans, p_steps) := block([p1],
 
 /* Make use of the existing styles.  See https://docs.stack-assessment.org/en/Topics/Proof/ */
 dispproof([ex]) := block([ex1],
-    apply(sconcat, flatten(append(["<div class=\"proof-block\">"], [simplode(ex)], ["</div>"])))
+    apply('sconcat, flatten(append(["<div class=\"proof-block\">"], [simplode(ex)], ["</div>"])))
 );
 
 /**
@@ -264,12 +264,12 @@ proof_display_para(proof_ans, proof_steps) := ev(proof_disp_replacesteps(proof_a
 
 /* Flatten to a paragraph. */
 dispproof_para([ex]) := block([ex1],
-    apply(sconcat, flatten(append(["<p>"], [simplode(ex, " ")], ["</p>"])))
+    apply('sconcat, flatten(append(["<p>"], [simplode(ex, " ")], ["</p>"])))
 );
 
 /* Use the summary/details HTML tag.
 dispproof([ex]) := block([ex1],
-    apply(sconcat, flatten(append(["<summary><details><div class=\"proof-block\">"], [simplode(ex, "<br/>")], ["</div></details></summary>"])))
+    apply('sconcat, flatten(append(["<summary><details><div class=\"proof-block\">"], [simplode(ex, "<br/>")], ["</div></details></summary>"])))
 );
 */
 
@@ -310,7 +310,7 @@ proof_damerau_levenstein(s, t) := block([c, m, n, XY, XYaction, i, j, d, temp, L
             if is(i<m and j<n) and not(is(s[i]=s[i+1]))
                                and is(s[i]=t[j+1])
                                and is(s[i+1]=t[j]) then L:append(L,[XY[1][j]]),
-            lm:apply(min,L),
+            lm:apply('min, L),
             li:last(sublist_indices(L, lambda([ex], is(ex=lm)))),
             dl_tags:[append(XYaction[2][j],[dl_add(t[j])]),
                           append(XYaction[1][j+1],[dl_delete(s[i])]),
@@ -346,7 +346,7 @@ proof_assessment(sa, tal) := block([sal, L, m, l],
   L:map(lambda([ex], args(proof_flatten(ex))), copy(tal)),
   /* Find distance from each proof, and the narrative */
   L:map(lambda([ex], proof_damerau_levenstein(sal, ex)), L),
-  m:apply(min, map(first, L)),
+  m:apply('min, map('first, L)),
   l:first(sublist_indices(L, lambda([ex], is(first(ex)=m)))),
   return(L[l]) 
  );
@@ -388,7 +388,7 @@ proof_assessment_display(saa, pf) := block([st, k],
   for k:1 thru length(saa) do block(
      st[k]:proof_line_disp(proof_column_disp(first(st[k])), proof_column_disp(second(st[k])))
   ),
-  st:apply(sconcat, st),  
+  st:apply('sconcat, st),  
   sconcat("<div class='proof'>", st, "</div>")
 );
 
@@ -456,6 +456,6 @@ proof_dag_check_list(sa, l1) := block([li1,li2,m1],
   li1:sublist_indices(sa, lambda([ex], ex=first(l1))),
   li2:sublist_indices(sa, lambda([ex], ex=second(l1))),
   /* Check if both steps appear. */
-  if not(emptyp(li1) or emptyp(li2)) and apply(max, li1) > apply(min,li2) then m1:[proof_step_must(first(l1), second(l1))],
+  if not(emptyp(li1) or emptyp(li2)) and apply('max, li1) > apply('min, li2) then m1:[proof_step_must(first(l1), second(l1))],
   append(m1, proof_dag_check_list(sa, rest(l1)))
 )$

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>35.2.1.2 Sample space of a single coin toss</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p> If the sample space can be written in the form of a list (possibly infinite) then it is called a <strong>discrete sample space</strong> (e.g. number of tosses of a fair coin before Heads occurs). If this is not possible then it is called a <strong>continuous sample space</strong> (e.g. positions where shells land in a tank battle). The following example, therefore, concerns a discrete sample space.</p>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Obtain the sample space of the experiment <em>throwing a single coin</em>.</p>
+<h4 class="HELM_solution">Solution</h4>
+<p> Consider the experiment of throwing a coin which can land Heads up \((H)\) or Tails up \((T)\). We list the outcomes as a set \(\{H, T\}\) − the order being unimportant. This set, \(\{H, T\}\), is the sample space. On any particular throw of a coin, Heads or Tails are equally likely to occur. We say that, for a <strong>fair</strong> coin, \(H\) and \(T\) are <strong>equally likely outcomes</strong>. </p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

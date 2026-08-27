@@ -11,7 +11,7 @@ Then include the following question text, which includes a simple `[[jsxgraph]]`
 
     <p>Type in an algebraic expression which has the graph shown below.</p>
     [[jsxgraph]]
-      /* boundingbox:[left, top, right, bottom] */
+      // boundingbox:[left, top, right, bottom]
       var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-10, 5, 10, -5], axis: true, showCopyright: false});
       var f = board.jc.snippet('{#fx#}', true, 'x', true);
       board.create('functiongraph', [f,-10,10]);

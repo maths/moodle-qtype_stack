@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>7.3.3.1 Properties of determinants 1</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Properties of determinants</h3>
+<p>Often, especially with determinants of large order, we can simplify the evaluation rules. Let's discuss some useful
+    properties of determinants in general.</p>
+
+<ol type="1">
+<li>
+    <p><b>If two rows (or two columns) of a determinant are interchanged then the value of the determinant is
+        multiplied by \(-1\).</b></p>
+    <p>For example, \(\begin{vmatrix}4&amp;3\\ 1&amp;2\end{vmatrix}=8-3=5\), but (interchanging columns) \(\begin{vmatrix}3&amp;4\\2&amp;1\end{vmatrix}=3-8=-5\) and (interchanging rows) \(\begin{vmatrix}1&amp;2\\ 4&amp;3\end{vmatrix}=3-8=-5\).</p>
+</li>
+<li>
+    <p><b>The determinant of a matrix \(A\) and the determinant of its transpose \(A^T\) are equal.</b></p>
+    <p>\[ \begin{vmatrix} 1 &amp; 2 \\ 3 &amp; 4 \end{vmatrix} = 4 - 6 = -2 = \begin{vmatrix} 1 &amp; 3 \\ 2 &amp; 4 \end{vmatrix} \]</p>
+</li>
+<li>
+    <p><b>If two rows (or two columns) of a matrix \(A\) are equal, then it has zero determinant.</b></p>
+    <p>For example, the following determinant has two identical rows:</p>
+    <p>
+        \[\begin{aligned}
+        \begin{vmatrix} 1 &amp; 2 &amp; 3 \\ 1 &amp; 2 &amp; 3 \\ 4 &amp; 5 &amp; 6 \end{vmatrix} 
+        &amp;= 1 \times \begin{vmatrix} 2 &amp; 3 \\ 5 &amp; 6 \end{vmatrix} + 2 \times \left(- \begin{vmatrix} 1 &amp; 3 \\ 4 &amp; 6 \end{vmatrix} \right) + 3 \times \begin{vmatrix} 1 &amp; 2 \\ 4 &amp; 5 \end{vmatrix} \\
+        &amp; = -3 + 2 \times 6 + 3 \times (-3) = 0. 
+        \end{aligned}\]
+    </p>
+</li>
+<li>
+    <p><b>If the elements of one row (or one column) of a determinant are multiplied by \(k\), then the resulting determinant is \(k\) times the given determinant.</b></p>
+    <p>\[\begin{vmatrix} 1 &amp; 2 &amp; 3 \\ 4 &amp; 8 &amp; 6 \\ 7 &amp; 8 &amp;&nbsp; 9 \end{vmatrix} = 2 \begin{vmatrix}
+    1 &amp; 2 &amp; 3 \\ 2 &amp; 4 &amp; 3 \\ 7 &amp; 8 &amp; 9 \end{vmatrix}.\]</p>
+    <p>Note that if one row (or column) of a determinant is a multiple of another row (or column) then the value of the determinant is zero. (This follows from properties 3 and 4.)</p>
+    <p>For example:</p>
+    <p>\[\begin{aligned}
+        \begin{vmatrix} 2 &amp; 4 &amp; -1 \\ 4 &amp; 2 &amp; 1 \\ -4 &amp; -8 &amp; 2 \end{vmatrix} &amp; = 2
+    \times \begin{vmatrix} 2 &amp; 1 \\ -8 &amp; 2 \end{vmatrix} +4 \times \left( -\begin{vmatrix} 4 &amp; 1 \\ -4 &amp;
+    2 \end{vmatrix} \right) - 1 \times \begin{vmatrix} 4 &amp; 2 \\ -4 &amp; -8 \end{vmatrix} \\ &amp; =
+    2(12)+4(-12)-(-24)=0.
+        \end{aligned}\]</p>
+    <p>This is predictable as the 3rd row is \(-2\) times the first row.</p>
+</li>
+<li>
+    <p><b>If we add (or subtract) a multiple of one row (or column) to another, the value of the determinant is unchanged.</b></p>
+    <p>Given \(\begin{vmatrix}1&amp;2\\ 4&amp;5\end{vmatrix}\), adding (2 \(\times\) row 1) to (row 2) gives</p>
+    <p>
+        \[\begin{vmatrix} 1 &amp; 2 \\ 4 + 2 \times 1 &amp; 5 + 2 \times 2 \end{vmatrix} = \begin{vmatrix} 1 &amp; 2 \\ 6
+    &amp; 9 \end{vmatrix} = 9 - 12 = -3 = \begin{vmatrix} 1 &amp; 2 \\ 4 &amp; 5 \end{vmatrix} \]
+    </p>
+</li>
+<li>
+    <p><b>The determinant of a lower triangular matrix, an upper triangular matrix
+        or a diagonal matrix is the product of the elements on the leading
+        diagonal.</b></p>
+    <p>As an example, it is easily confirmed that each of the following determinants has the same value \(1 \times 4 \times 6 = 24\).</p>
+    <p>\[
+        \begin{vmatrix} 1 &amp; 2 &amp; 3 \\ 0 &amp; 4 &amp; 5 \\ 0 &amp; 0 &amp; 6 \end{vmatrix},\qquad 
+        \begin{vmatrix} 1 &amp; 0 &amp; 0 \\ 2 &amp; 4 &amp; 0 \\ 3 &amp; 5 &amp; 6 \end{vmatrix},\qquad
+        \begin{vmatrix} 1 &amp; 0 &amp; 0 \\ 0 &amp; 4 &amp; 0 \\ 0 &amp; 0 &amp; 6 \end{vmatrix},\qquad
+        \begin{vmatrix} 4 &amp; 2 &amp; 3 \\ 0 &amp; 1 &amp; 5 \\ 0 &amp; 0 &amp; 6 \end{vmatrix}
+    \]</p>
+</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

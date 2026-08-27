@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>16.1.4.1 Summing series</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Summing series</h3><br>
+
+<h4>The arithmetic series</h4>
+<p>Consider the finite <strong>arithmetic series</strong> with 14 terms \[ 1+3+5+\cdots +23+25+27\]</p> 
+
+<p>A simple way of working out the value of the sum is to create a second series which is the first written in reverse order. Thus we have two series, each with the same value \(A\): \[ A=1+3+5+\cdots +23+25+27\]and \[ A=27+25+23+\cdots +5+3+1\]Now, adding the terms of these series in pairs \[ 2A=28+28+28+\cdots +28+28+28=28\times 14=392\qquad \text{so}\quad A=196.\]We can use this approach to find the sum of \(n\) terms of a general arithmetic series.</p> 
+
+<p>If \[ A=[a]+[a+d]+[a+2d]+\cdots +[a+(n-2)d]+[a+(n-1)d]\]then again simply writing the terms in reverse order: \[ A=[a+(n-1)d]+[a+(n-2)d]+\cdots+[a+2d]+[a+d]+[a]\]Adding these two identical equations together we have \[ 2A=[2a+(n-1)d]+[2a+(n-1)d]+\cdots +[2a+(n-1)d]\]That is, every one of the \(n\) terms on the right-hand side has the same value: \([2a+(n-1)d].\) Hence \[ 2A=n[2a+(n-1)d]\qquad \text{so}\qquad A=\dfrac{1}{2}n[2a+(n-1)d].\]</p>
+
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p>The <strong>arithmetic series</strong> \[ [a] +[a+d] + [a+2d] + \ldots + [a+(n-1)d]\]having \(n\) terms has sum \(A\) where: \[ A = \dfrac{1}{2} n [2a + (n-1)d]. \]</p>
+</div><br>
+
+<p>As an example \[ 1+3+5+\cdots+27\ \ \ \ \text{has}\ \ \ a=1,\ d=2,\ n=14\]So \(A=1+3+\cdots+27=\dfrac{14}{2}[2+(13)2]=196\).</p><br>
+
+<h4>The geometric series</h4>
+<p>We can also sum a general <strong>geometric series</strong>.</p>
+
+<p>Let \[ G=a+ar+ar^2+\cdots+ar^{n-1}\]be a geometric series having exactly \(n\) terms. To obtain the value of \(G\) in a more convenient form we first multiply through by the common ratio \(r\): \[ rG=ar+ar^2+ar^3+\cdots +ar^n\]Now, writing the two series together: \[ G=a+ar+ar^2+\cdots+ar^{n-1}\]\[ rG=ar+ar^2+ar^3+\cdots ar^{n-1}+ar^n\]</p> 
+
+<p>Subtracting the second expression from the first we see that all terms on the right-hand side cancel out, except for the first term of the first expression and the last term of the second expression so that \[ G-rG= (1-r)G=a-ar^n\]Hence (assuming \(r\ne 1\)) \[ G=\dfrac{a(1-r^n)}{1-r}\](Of course, if \(r=1\) the geometric series simplifies to a simple arithmetic series with \(d=0\) and has sum \(G=na\).)</p>
+
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p>The <strong>geometric series</strong> \[ a +ar + ar^2 + \ldots + ar^{n-1}\]having \(n\) terms has sum \(G\) where: \[ G = \dfrac{a(1-r^n)}{1-r}, \quad \text{if} \quad r \ne 1 \qquad \text{and} \qquad G = na, \quad \text{if} \quad r = 1.\]</p>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

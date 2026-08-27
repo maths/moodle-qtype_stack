@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>35.2.2.4 The complement rule</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p> Not surprisingly, the probabilities of an event \(A\) and its complement are related. The probability of the event \(A'\) is easily found from the identity\[\frac{\text{number of outcomes in }A}{\text{total number of outcomes}} + \frac{\text{number of outcomes not in }A}{\text{total number of outcomes}} \equiv 1\]so that \(\text{P}(A) + \text{P}(A') \equiv 1\). </p>
+<div class="HELM_keypoint">
+<h4> Key Point </h4>
+<h5> The Complement Rule </h5>
+\[\text{P}(A') = 1 - \text{P}(A)\]In words: The probability of the complement of \(A\) occurring is equal to 1 minus the probability of \(A\) occurring.
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

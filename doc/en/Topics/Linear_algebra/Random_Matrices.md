@@ -48,6 +48,6 @@ Under the hood, all of these functions with optional `k` are produced by first m
 
 Careful use of [deployed variants](../../STACK_question_admin/Deploying.md) are key to success here. The "level of complexity" `k` is quite volatile, and unexpectedly complicated or simple matrices can appear with some regularity. In general, the author believes it is better to err on the side of higher `k` and then aggressively trim the variants. 
 
-Don't forget to check that intermediate steps of working are appopriate too! It's quite common in linear algebra to generate a problem that has "nice" numbers at the beginning and "nice" numbers in the final answer, but with some horrid working in the middle.
+Don't forget to check that intermediate steps of working are appropriate too! It's quite common in linear algebra to generate a problem that has "nice" numbers at the beginning and "nice" numbers in the final answer, but with some horrid working in the middle.
 
 A good general principle is to work backwards from a solution.  E.g. if you want to randomly generate a linear system with "nice" row-reduction steps, consider randomly generating elementary matrices and multiplying the answer by these. This ensures an answer with the desired properties (e..g unique integer solutions), finely controls the steps needed, and the intermediate working complexity.

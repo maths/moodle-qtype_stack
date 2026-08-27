@@ -31,7 +31,6 @@ require_once(__DIR__ . '/filter.interface.php');
  * Note, given 022 is always applied by the pipeline, nothing should get this far.
  */
 class stack_ast_filter_120_no_arc implements stack_cas_astfilter {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 
@@ -49,17 +48,21 @@ class stack_ast_filter_120_no_arc implements stack_cas_astfilter {
             'arcoth' => 'acoth', 'arcsch' => 'acsch',
         ];
 
-        $process = function($node) use (&$errors, &$answernotes, $selectednames) {
-            if ($node instanceof MP_Functioncall &&
-                $node->name instanceof MP_Identifier) {
+        $process = function ($node) use (&$errors, &$answernotes, $selectednames) {
+            if (
+                $node instanceof MP_Functioncall &&
+                $node->name instanceof MP_Identifier
+            ) {
                 if (array_key_exists($node->name->value, $selectednames)) {
                     $node->position['invalid'] = true;
 
-                    $errors[] = stack_string('stackCas_triginv',
+                    $errors[] = stack_string(
+                        'stackCas_triginv',
                         [
                             'badinv' => stack_maxima_format_casstring($node->name->value),
                             'goodinv' => stack_maxima_format_casstring($selectednames[$node->name->value]),
-                        ]);
+                        ]
+                    );
                     if (array_search('triginv', $answernotes) === false) {
                         $answernotes[] = 'triginv';
                     }

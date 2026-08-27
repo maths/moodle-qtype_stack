@@ -32,7 +32,7 @@ class stack_cas_castext2_escape extends stack_cas_castext2_block {
     public $content;
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function __construct($params, $children=[], $mathmode=false) {
+    public function __construct($params, $children = [], $mathmode = false) {
         parent::__construct($params, $children, $mathmode);
         if (count($children) > 0) {
             $this->content = $children[0]->content; // The child is a different type of RAW.
@@ -65,13 +65,15 @@ class stack_cas_castext2_escape extends stack_cas_castext2_block {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function validate(&$errors=[], $options=[]): bool {
+    public function validate(&$errors = [], $options = []): bool {
         // Due to escape block needing some backwards compatibility we still need to support
         // the old way of defining the value as an parameter but not both ways at the same time.
 
         if ($this->content !== null && array_key_exists('value', $this->params)) {
-            $errors[] = new $options['errclass']('Cannot use both old value-attribute and block-content in escape-block.',
-                $options['context'] . '/' . $this->position['start'] . '-' . $this->position['end']);
+            $errors[] = new $options['errclass'](
+                'Cannot use both old value-attribute and block-content in escape-block.',
+                $options['context'] . '/' . $this->position['start'] . '-' . $this->position['end']
+            );
             return false;
         }
 

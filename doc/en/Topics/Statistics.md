@@ -155,9 +155,6 @@ rnd(x,dp):=float((round(x*10^dp)/10^dp));
 /* Randomise a mean and standard deviation*/
 me:rand([48,49,50,51]);
 sd:1+rand(2);
-/* Randomise a mean and standard deviation*/
-me:rand([48,49,50,51]);
-sd:1+rand(2);
 nn:50;
 /*randomise dataset*/
 AA:rnd(random_normal(me,sd,nn),2);
@@ -224,4 +221,5 @@ Give your answer to an appropriate number of significant figures.</p>
 **TAns:** UB
 **Test options:** 0.01
 **Node 1 when true:** **Mod** + **Score** 0.5
+
 **Node 1 false feedback:** Your upper bound is incorrect.

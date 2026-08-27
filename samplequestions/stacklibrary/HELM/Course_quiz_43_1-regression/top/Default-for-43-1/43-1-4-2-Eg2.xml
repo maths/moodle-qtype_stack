@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>43.1.4.2 Eg2</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4 class="HELM_example">Example</h4>
+<p>Test to determine whether a simple linear model is appropriate for the data previously given in the drum and cable. The data is printed again here.</p>
+
+<table border="1"><caption>&nbsp;</caption><thead><tr><th scope="col">Weight of drum and cable \( (x) \) kg</th><th scope="col">Measured length of cable \( (y) \) m</th></tr></thead><tbody><tr><td style="text-align: center;">\(30\)</td><td style="text-align: center;">\(70\)</td></tr><tr><td style="text-align: center;">\(40\)</td><td style="text-align: center;">\(90\)</td></tr><tr><td style="text-align: center;">\(40\)</td><td style="text-align: center;">\(100\)</td></tr><tr><td style="text-align: center;">\(50\)</td><td style="text-align: center;">\(120\)</td></tr><tr><td style="text-align: center;">\(50\)</td><td style="text-align: center;">\(130\)</td></tr><tr><td style="text-align: center;">\(50\)</td><td style="text-align: center;">\(150\)</td></tr><tr><td style="text-align: center;">\(60\)</td><td style="text-align: center;">\(160\)</td></tr><tr><td style="text-align: center;">\(70\)</td><td style="text-align: center;">\(190\)</td></tr><tr><td style="text-align: center;">\(70\)</td><td style="text-align: center;">\(200\)</td></tr><tr><td style="text-align: center;">\(80\)</td><td style="text-align: center;">\(200\)</td></tr><tr><td style="text-align: center;">\(80\)</td><td style="text-align: center;">\(220\)</td></tr><tr><td style="text-align: center;">\(80\)</td><td style="text-align: center;">\(230\)</td></tr></tbody></table>
+
+<h4 class="HELM_solution">Solution</h4>
+<p>We know that 
+\[ SS_T =SS_R + SS_E, \]
+where \( SS_T =  \sum y^2 - \dfrac{\left( \sum y \right) ^2}{n} \) is the total sum of squares (of \(y\)) so that (from the spreadsheet given previously) we have:
+\[ SS_R = 31500 - 1200 = 30300. \]
+Hence 
+\[ F_{test} = \dfrac{SS_R}{SS_E/(n-2)} = \dfrac{30300}{1200/(12-2)} = 252.5. \]
+</p><p>From the \(F\) table, the critical value is \(f_{0.05,1,10} = 241.9,\)&nbsp;</p><p>Hence, since&nbsp; \(F_{test} &gt; f_{0.05,1,10}\), we reject the null hypothesis and conclude that \( \beta \neq 0\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

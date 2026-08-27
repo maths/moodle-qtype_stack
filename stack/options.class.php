@@ -23,7 +23,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_options {
-
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $options;
 
@@ -137,7 +136,7 @@ class stack_options {
         // Overright them from any input.
         foreach ($settings as $key => $val) {
             if (!array_key_exists($key, $this->options)) {
-                throw new stack_exception('stack_options construct: $key '.$key.' is not a valid option name.');
+                throw new stack_exception('stack_options construct: $key ' . $key . ' is not a valid option name.');
             } else {
                 $this->options[$key]['value'] = $val;
             }
@@ -167,19 +166,19 @@ class stack_options {
      */
     private function validate_key($key, $val) {
         if (!array_key_exists($key, $this->options)) {
-            throw new stack_exception('stack_options set_option: $key '.$key.' is not a valid option name.');
+            throw new stack_exception('stack_options set_option: $key ' . $key . ' is not a valid option name.');
         }
         $optiontype = $this->options[$key]['type'];
-        switch($optiontype) {
+        switch ($optiontype) {
             case 'boolean':
                 if (!is_bool($val)) {
-                    throw new stack_exception('stack_options: set: boolean option '.$key.' Recieved non-boolean value '.$val);
+                    throw new stack_exception('stack_options: set: boolean option ' . $key . ' Recieved non-boolean value ' . $val);
                 }
                 break;
 
             case 'list':
                 if (!in_array($val, $this->options[$key]['values'])) {
-                    throw new stack_exception('stack_options set option '.$val.' for '.$key.' is invalid');
+                    throw new stack_exception('stack_options set option ' . $val . ' for ' . $key . ' is invalid');
                 }
                 break;
         }
@@ -189,7 +188,7 @@ class stack_options {
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_option($key) {
         if (!array_key_exists($key, $this->options)) {
-            throw new stack_exception('stack_options get_option: $key '.$key.' is not a valid option name.');
+            throw new stack_exception('stack_options get_option: $key ' . $key . ' is not a valid option name.');
         } else {
             return $this->options[$key]['value'];
         }
@@ -220,15 +219,15 @@ class stack_options {
                 }
 
                 if ('ex' == $opt['castype']) {
-                    $names      .= ', '.$opt['caskey'];
-                    $commands   .= stack_cas_session2::SEP . $opt['caskey'].':'.$value;
+                    $names      .= ', ' . $opt['caskey'];
+                    $commands   .= stack_cas_session2::SEP . $opt['caskey'] . ':' . $value;
                 } else if ('exs' == $opt['castype']) {
-                    $names      .= ', '.$opt['caskey'];
-                    $commands   .= stack_cas_session2::SEP . $opt['caskey'].':"'.$value.'"';
+                    $names      .= ', ' . $opt['caskey'];
+                    $commands   .= stack_cas_session2::SEP . $opt['caskey'] . ':"' . $value . '"';
                 } else if ('fun' == $opt['castype']) {
                     // Make sure these options are *strings*, otherwise they clash
                     // with Maxim names, particularly alias.
-                    $commands   .= stack_cas_session2::SEP . $opt['caskey'].'("'.$value.'")';
+                    $commands   .= stack_cas_session2::SEP . $opt['caskey'] . '("' . $value . '")';
                 }
             }
         }
@@ -387,6 +386,9 @@ class stack_options {
             '1' => get_string('inputtypenumerical', 'qtype_stack'),
             '2' => get_string('inputtypeunits', 'qtype_stack'),
             '3' => get_string('inputtypevarmatrix', 'qtype_stack'),
+            '4' => get_string('inputtypetextarea', 'qtype_stack'),
+            '5' => get_string('inputtypeequiv', 'qtype_stack'),
+            '6' => get_string('inputtypefreetext', 'qtype_stack'),
         ];
     }
 
@@ -406,6 +408,9 @@ class stack_options {
             '1' => 'numerical',
             '2' => 'units',
             '3' => 'varmatrix',
+            '4' => 'textarea',
+            '5' => 'equiv',
+            '6' => 'freetext',
         ];
         $optionkey = array_search(explode('_', $class)[1], $options);
         if ($optionkey === false) {

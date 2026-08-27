@@ -70,6 +70,30 @@ class stack_question_test {
     }
 
     /**
+     * Update testcase expectations from question tidy.
+     * @param array $prtrenames maps old PRT names to new names.
+     * @param array $notedata maps old PRT note data to new data.
+     */
+    public function update_expected_testcase(array $prtrenames, array $notedata) {
+        $expectedresults = $this->expectedresults;
+        $this->expectedresults = [];
+        foreach ($expectedresults as $oldprtname => $prtstate) {
+            $oldanswernotes = $prtstate->__get('answernotes');
+            // Expected answer notes are always a string, first element in the array.
+            $note = $oldanswernotes[0];
+            if (array_key_exists($oldprtname, $notedata) && is_array($notedata[$oldprtname])) {
+                foreach (stack_utils::decompose_rename_operation($notedata[$oldprtname]) as $onote => $nnote) {
+                    $note = str_replace($onote, $nnote, $note);
+                }
+            }
+            $newanswernotes = [$note];
+            $prtstate->answernotes = $newanswernotes;
+            // Use the new name of the PRT for this updated expected result.
+            $this->add_expected_result($prtrenames[$oldprtname], $prtstate);
+        }
+    }
+
+    /**
      * Run this test against a particular question.
      * @param int $questionid The database id of the question to test.
      * @param int $seed the random seed to use.
@@ -107,8 +131,7 @@ class stack_question_test {
     }
 
     /**
-     * Seperate out from Moodle-specific parts of test_question() to allow
-     * use in the API
+     * Seperate out from Moodle-specific parts of test_question() to allow use in the API.
      *
      * @param question_definition $question
      * @param array $response
@@ -131,14 +154,24 @@ class stack_question_test {
                 $inputresponse = '';
                 if (array_key_exists($inputname, $response)) {
                     $inputresponse = $response[$inputname];
-                } else if (array_key_exists($inputname.'_val', $response)) {
-                    $inputresponse = $response[$inputname.'_val'];
+                } else if (array_key_exists($inputname . '_val', $response)) {
+                    $inputresponse = $response[$inputname . '_val'];
                 }
                 if ($inputresponse != '') {
                     $emptytestcase = false;
                 }
-                $results->set_input_state($inputname, $inputresponse, $inputstate->contentsmodified,
-                    $inputstate->contentsdisplayed, $inputstate->status, $inputstate->errors);
+                $inputerrors = $inputstate->errors;
+                if (!empty($question->runtimeerrors)) {
+                    $inputerrors = implode('; ', array_keys($question->runtimeerrors));
+                }
+                $results->set_input_state(
+                    $inputname,
+                    $inputresponse,
+                    $inputstate->contentsmodified,
+                    $inputstate->contentsdisplayed,
+                    $inputstate->status,
+                    $inputerrors
+                );
             }
         }
 
@@ -149,14 +182,17 @@ class stack_question_test {
             $result = $question->get_prt_result($prtname, $response, false);
             // Adapted from renderer.php prt_feedback_display.
             $feedback = $result->get_feedback(new \castext2_qa_processor(new \stack_outofcontext_process()));
-            $feedback = format_text(stack_maths::process_display_castext($feedback),
-                    FORMAT_HTML, ['noclean' => true, 'para' => false, 'allowid' => true]);
+            $feedback = format_text(
+                stack_maths::process_display_castext($feedback),
+                FORMAT_HTML,
+                ['noclean' => true, 'para' => false, 'allowid' => true]
+            );
 
             $result->override_feedback($feedback);
             $results->set_prt_result($prtname, $result);
-
         }
 
+        $results->runtimeerrors = $question->runtimeerrors;
         $results->emptytestcase = $emptytestcase;
         return $results;
     }
@@ -178,14 +214,17 @@ class stack_question_test {
 
         // Add the correct answer for all inputs.
         foreach ($question->inputs as $name => $input) {
-            $cs = stack_ast_container::make_from_teacher_source($name . ':' . $input->get_teacher_answer(),
-                    '', new stack_cas_security());
+            $cs = stack_ast_container::make_from_teacher_source(
+                $name . ':' . $input->get_teacher_answer(),
+                '',
+                new stack_cas_security()
+            );
             $cascontext->add_statement($cs);
         }
 
         // Turn off simplification - we need test cases to be unsimplified, even if the question option is true.
         $vars = [];
-        $cs = stack_ast_container::make_from_teacher_source('simp:false' , '', new stack_cas_security());
+        $cs = stack_ast_container::make_from_teacher_source('simp:false', '', new stack_cas_security());
         $vars['simp'] = $cs;
         // Now add the expressions we want evaluated.
         foreach ($inputs as $name => $value) {
@@ -200,9 +239,9 @@ class stack_question_test {
                     // The input will simplify again.
                     // We may need to create test cases which will generate errors, such as makelist.
                     if ($input->get_extra_option('simp')) {
-                        $val = 'testresponse_' . $name . ':ev(' . $value .',simp)';
+                        $val = 'testresponse_' . $name . ':ev(' . $value . ',simp)';
                     }
-                    $cs = stack_ast_container::make_from_teacher_source($val , '', new stack_cas_security());
+                    $cs = stack_ast_container::make_from_teacher_source($val, '', new stack_cas_security());
                 }
                 if ($cs->get_valid() && substr($value, 0, 4) != 'RAW:') {
                     $vars[$name] = $cs;
@@ -260,13 +299,18 @@ class stack_question_test {
      * @param qtype_stack_question $question the question being tested.
      * @param stack_question_test_result $result the test result.
      */
-    protected function save_result(qtype_stack_question $question,
-            stack_question_test_result $result) {
+    protected function save_result(
+        qtype_stack_question $question,
+        stack_question_test_result $result
+    ) {
         global $DB;
 
-        $existingresult = $DB->get_record('qtype_stack_qtest_results',
-                ['questionid' => $question->id, 'testcase' => $this->testcase, 'seed' => $question->seed],
-                '*', IGNORE_MISSING);
+        $existingresult = $DB->get_record(
+            'qtype_stack_qtest_results',
+            ['questionid' => $question->id, 'testcase' => $this->testcase, 'seed' => $question->seed],
+            '*',
+            IGNORE_MISSING
+        );
 
         if ($existingresult) {
             $existingresult->result = (int) $result->passed();

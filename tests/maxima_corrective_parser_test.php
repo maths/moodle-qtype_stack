@@ -41,7 +41,6 @@ require_once(__DIR__ . '/fixtures/maximacorrectiveparser.class.php');
  * @covers \maxima_corrective_parser
  */
 final class maxima_corrective_parser_test extends qtype_stack_testcase {
-
     /**
      * Add description
      * @codingStandardsIgnoreStart
@@ -58,5 +57,4 @@ final class maxima_corrective_parser_test extends qtype_stack_testcase {
         $this->assertEquals($test->expectnotes, $result->notes);
         $this->assertEquals($test->expecterrs, $result->errors);
     }
-
 }

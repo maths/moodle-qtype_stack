@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>4.3.2.1 Engineering example</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4 class="HELM_example">Example</h4>
+<h4>Amplitude modulation</h4>
+
+<h5>Introduction</h5>
+<p>Amplitude Modulation (the AM in AM radio) is a method of sending electromagnetic signals of a certain frequency (signal frequency) at another frequency (carrier frequency) which may be better for transmission. Modulation can be represented by the multiplication together of the carrier and modulating signals. To <span><strong>demodulate</strong></span> the signal the carrier frequency must be removed from the modulated signal.</p>
+
+<h5>Problems in words</h5>
+<ol class="HELM_parts">
+<li><p>A single frequency of \(200\ \mathrm{Hz}\) (message signal) is amplitude modulated with a carrier frequency of \(2\ \mathrm{MHz}\). Show that the modulated signal can be represented by the sum of two frequencies at \(2 \times 10^6 \pm 200\ \mathrm{Hz}\)</p></li>
+<li><p>Show that the modulated signal can be demodulated by using a locally generated carrier and applying a low-pass filter.</p></li>
+</ol>
+
+<h5>Mathematical statement of problem</h5>
+<ol class="HELM_parts">
+<li><p>Express the message signal as <span class="math inline">\(m=a\cos(\omega_mt)\)</span> and the carrier as <span class="math inline">\(c=b\cos(\omega_c t)\)</span>.</p>
+<p>Assume that the modulation gives the product <span class="math inline">\(mc=ab\cos(\omega_ct)\cos(\omega_mt)\)</span>.</p>
+<p>Use trigonometric identities to show that</p>
+\[mc=ab\cos(\omega_ct)\cos( \omega_mt)=k_1\cos((\omega_c- \omega_m)t)+k_2\cos((\omega_c+ \omega_m)t),\]
+<p>where <span class="math inline">\(k_1\)</span> and <span class="math inline">\(k_2\)</span> are constants.</p>
+<p>Then substitute <span class="math inline">\( \omega_c= 2 \times 10^6 \times 2\pi \)</span> and <span class="math inline">\( \omega_m= 200 \times 2\pi \)</span> to calculate the two resulting frequencies.</p></li>
+<li><p>Use trigonometric identities to show that multiplying the modulated signal by <span class="math inline">\(b\cos ( \omega_ct)\)</span> results in the lowest frequency component of the output having a frequency equal to the original message signal.</p></li>
+</ol>
+
+<h5>Mathematical analysis</h5>
+<ol class="HELM_parts">
+<li><p>The message signal has a frequency of \(f_m=200\ \mathrm{Hz}\) so \( \omega_m = 2\pi f_c= 2\pi \times 200 = 400\pi \) radians per second.</p>
+<p>The carrier signal has a frequency of \(f_c=2 \times 10^6\ \mathrm{Hz}\).</p>
+<p>Hence <span class="math inline">\(\omega_c = 2\pi f_c=2\pi\times 2 \times10^6 = 4\times 10^6\pi\)</span> radians per second.</p>
+<p>So <span class="math inline">\(mc=ab\cos(4\times 10^6\pi t)\cos(400\pi t)\)</span>.</p><p>We know the identity</p>
+\[\cos(A+B)+\cos(A-B)\equiv 2\cos(A)\cos(B)\]
+<p>Rearranging gives the identity:</p>
+\[\cos(A)\cos(B)\equiv \frac{1}{2}(\cos(A+B)+\cos(A-B)) \tag{1}\]
+<p>Using \((1)\) with <span class="math inline">\(A=4\times 10^6\pi t\)</span> and <span class="math inline">\(B=  400\pi t\)</span> gives</p> 
+\[\begin{aligned}
+mc =&amp; ab(\cos(4\times10^6\pi t)\cos (400\pi t))\\
+=&amp;\frac{1}{2}ab(\cos(4\times 10^6\pi t+400\pi t)+
+\cos(4\times 10^6\pi t-400\pi t))\\
+=&amp;\frac{1}{2}ab(\cos(4000400\pi t)+\cos(3999600\pi t)).
+\end{aligned}\]
+
+<p>So the modulated signal is the <span><strong>sum of two waves</strong></span> with angular frequency of \(4000400\)\(\pi\) and \(3999600\)\(\pi\) radians per second corresponding to frequencies of \(4000400\pi/(2\pi)\) and \(39996000\pi /(2\pi)\), that is \(2000200\ \mathrm{Hz}\) and \(1999800\ \mathrm{Hz}\), i.e. <span class="math inline">\(2 \times 10^6 \pm 200\ \mathrm{Hz}\)</span>.</p></li>
+
+<li><p>Taking identity \((1)\) and multiplying through by <span class="math inline">\(\cos(A)\)</span> gives</p>
+\[\cos(A)\cos(A)\cos(B)\equiv  \frac{1}{2}\cos (A)(\cos(A+B)+\cos(A-B))\]
+<p>so</p>
+\[\cos(A)\cos(A)\cos(B)\equiv \frac{1}{2}(\cos (A)\cos(A+B)+\cos (A)\cos(A-B)) \tag{2}\]
+<p>Identity \((1)\) can be applied to both expressions in the right-hand side of \((2)\). In the first expression, using ‘<span class="math inline">\(A+B\)</span>’ instead of ‘<span class="math inline">\(B\)</span>’, gives</p>
+\[\cos(A)\cos(A+B)\equiv \frac{1}{2}(\cos(A+A+B)+\cos(A-A-B))\equiv \frac{1}{2}(\cos (2A+B)+\cos (B)),\]
+<p>where we have used <span class="math inline">\(\cos(-B)\equiv \cos(B).\)</span>.</p>
+<p>Similarly, in the second expression, using ‘<span class="math inline">\(A-B\)</span>’ instead of ‘<span class="math inline">\(B\)</span>’, gives</p>
+\[\cos(A)\cos(A-B)\equiv \frac{1}{2}(\cos(2A-B)+\cos(B))\]
+<p>Together these give:</p>
+\[\begin{aligned}
+\cos(A)\cos(A)\cos(B) \equiv &amp;
+\textstyle\frac{1}{4}(\cos(2A+B)+\cos(B)+\cos(2A-B)+\cos(B))\\
+\equiv&amp;\textstyle\frac{1}{2}\cos(B)+\textstyle\frac{1}{4}(\cos(2A+B)+\cos(2A-B))\qquad\qquad\qquad\qquad
+\end{aligned}\]
+<p>With <span class="math inline">\(A=4\times 10^6\pi t\)</span> (carrier) and <span class="math inline">\(B=400\pi t\)</span> (message) and substituting for the given frequencies, the modulated signal multiplied by the original carrier signal gives</p>
+\[ab^2\cos(4\times 10^6\pi t)\cos(4\times 10^6\pi t)\cos(400\pi t)=\]
+\[\frac{1}{2}ab^2\cos(2\pi\times 200t)+\frac{1}{4}ab^2(\cos(2\times 4\times10^6\pi t+400\pi t) + \cos(2\times 4\times 10^6\pi t-400\pi t))\]
+<p>The last two terms have frequencies of <span class="math inline">\(4\times  10^6 \pm 200\ \mathrm{Hz}\)</span> which are sufficiently high that a low-pass filter would remove them and leave only the term</p>
+\[ab^2\cos(2\pi\times 200 t)\]
+<p>which is the original message signal multiplied by a constant term.</p>
+</li>
+</ol>
+
+<h5>Interpretation</h5>
+<p>Amplitude modulation of a single frequency message signal <span class="math inline">\((f_m)\)</span> with a single frequency carrier signal <span class="math inline">\((f_c)\)</span> can be shown to be equal to the sum of two cosines with frequencies <span class="math inline">\(f_c\pm f_m\)</span>. Multiplying the modulated signal by a locally generated carrier signal and applying a low-pass filter can reproduce the frequency, <span class="math inline">\(f_m\)</span>, of the message signal.</p>
+<p>This is known as <span><strong>double side band amplitude modulation</strong></span>.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

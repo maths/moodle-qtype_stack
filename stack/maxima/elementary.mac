@@ -17,7 +17,6 @@
 /* THIS IS EXPERIMENTAL CODE */
 /* Most of the code is now in noun_simp.mac.  This is the remainder. */
 
-
 /*******************************************/
 /* Control functions                       */
 /*******************************************/
@@ -27,19 +26,22 @@ POW_TRANS:["powLaw"]$
 BUG_RULES:["buggyPow","buggyNegDistAdd"]$
 
 /* Is the rule applicable at the top level? */
-trans_topp(ex,rl):=apply(parse_string(sconcat(rl,"p")),[ex])$
-
-/* Is the rule applicable anywhere in the expression? */
-trans_anyp(ex, rl):=block(
-  if atom(ex) then return(trans_topp(ex,rl)),
-  if trans_topp(ex,rl) then return(true),
-  apply("or",maplist(lambda([ex2],trans_anyp(ex2,rl)),args(ex)))    
+trans_topp(ex, rl) := block(
+    %_C(sconcat(rl, "p")),
+    apply(parse_string(sconcat(rl, "p")), [ex])
 )$
 
-/* Identify applicable rules at the top level */
-trans_top(ex):=sublist(ALL_TRANS, lambda([ex2],trans_topp(ex,ex2)))$
+/* Is the rule applicable anywhere in the expression? */
+trans_anyp(ex, rl) := block(
+  if atom(ex) then return(trans_topp(ex, rl)),
+  if trans_topp(ex, rl) then return(true),
+  apply("or", maplist(lambda([ex2], trans_anyp(ex2, rl)), args(ex)))
+)$
 
-/* Identify applicable rules */
+/* Identify applicable rules at the top level. */
+trans_top(ex) := sublist(ALL_TRANS, lambda([ex2],trans_topp(ex, ex2)))$
+
+/* Identify applicable rules. */
 trans_any(ex):=sublist(ALL_TRANS, lambda([ex2],trans_anyp(ex,ex2)))$
 
 /*******************************************/
@@ -48,42 +50,43 @@ trans_any(ex):=sublist(ALL_TRANS, lambda([ex2],trans_anyp(ex,ex2)))$
  
 /* Very inefficient! */
 /* Has the advantage that the whole expression is always visible at the top level */
-step_through(ex):=block([rls],
- rls:trans_any(ex),
- if emptyp(rls) then return(ex),
+step_through(ex):=block([_rls],
+ _rls:trans_any(ex),
+ if emptyp(_rls) then return(ex),
  print(string(ex)),
- print(rls),
- step_through(transr(ex,first(rls)))
+ print(_rls),
+ step_through(transr(ex, first(rls)))
 )$
 
 /* This only looks at the top level for rules which apply.  If none, we look deeper. */
 /* This is much more efficient */
-step_through2(ex):=block([rls,rl,ex2],
+step_through2(ex):=block([rls, rl, ex2],
  if atom(ex) then return(ex),
  rls:trans_top(ex),
- if emptyp(rls) then return(block([ex2],  ex2:map(step_through2,ex), if ex=ex2 then ex else step_through2(ex2))),
+ if emptyp(rls) then return(block([ex2],  ex2:map('step_through2, ex), if ex=ex2 then ex else step_through2(ex2))),
  rl:first(rls),
- ex2:apply(parse_string(rl),[ex]), 
+ %_C(rl),
+ ex2:apply(parse_string(rl), [ex]), 
  print([ex,rl,ex2]),
  if ex=ex2 then ex else step_through2(ex2)  
 )$
 
-/* Assume some rules are just applied in the background */
+/* Assume some rules are just applied in the background. */
 step_through3(ex):=block([rls],
- rls:sublist(ALG_TRANS, lambda([ex2],trans_anyp(ex,ex2))),
- if not(emptyp(rls)) then return(step_through3(transr(ex,first(rls)))),
+ rls:sublist(ALG_TRANS, lambda([ex2], trans_anyp(ex,ex2))),
+ if not(emptyp(rls)) then return(step_through3(transr(ex, first(rls)))),
  rls:trans_any(ex),
  if emptyp(rls) then return(ex),
  print(string(ex)),
  print(rls),
- step_through3(transr(ex,first(rls)))
+ step_through3(transr(ex, first(rls)))
 )$
 
 /* removes elements of l1 from l2. */
 removeoncelist(l1,l2):=block(
  if listp(l2)#true or emptyp(l2) then return([]),
  if listp(l1)#true or emptyp(l1) then return(l2),
- if element_listp(first(l1),l2) then return(removeoncelist(rest(l1),removeonce(first(l1),l2))),
+ if element_listp(first(l1),l2) then return(removeoncelist(rest(l1), removeonce(first(l1), l2))),
  removeoncelist(rest(l1),l2)
 )$
 
@@ -109,7 +112,7 @@ negMinusOnep(ex):=block(
 
 negMinusOne(ex):=block(
   if negMinusOnep(ex)#true then return(ex),
-  if length(args(ex))>2 then "-"(apply("*",rest(args(ex)))) else -second(args(ex))
+  if length(args(ex))>2 then "-"(apply("*", rest(args(ex)))) else -second(args(ex))
 )$
 
 /* a-a -> 0 */
@@ -119,18 +122,18 @@ negMinusOne(ex):=block(
 */
 negDefp(ex):=block([a0,a1,a2,a3],
   if safe_op(ex)#"+" then return(false),
-  a1:maplist(first,sublist(args(ex), lambda([ex2],safe_op(ex2)="-"))),
+  a1:maplist('first, sublist(args(ex), lambda([ex2], safe_op(ex2)="-"))),
   a2:sublist(args(ex), lambda([ex2],safe_op(ex2)#"-")),
-  any_listp(lambda([ex2],element_listp(ex2,a2)),a1)
+  any_listp(lambda([ex2], element_listp(ex2,a2)),a1)
 )$
 
 negDef(ex):=block([a0,a1,a2,a3],
   if negDefp(ex)#true then return(ex),
   a0:args(ex),
-  a1:maplist(first,sublist(args(ex), lambda([ex2],safe_op(ex2)="-"))),
-  a2:sublist(args(ex), lambda([ex2],safe_op(ex2)#"-")),
-  a3:removeoncelist_negDef(a1,a0),  
-  if emptyp(a3) then 0 else apply("+",a3)
+  a1:maplist(first, sublist(args(ex), lambda([ex2],safe_op(ex2)="-"))),
+  a2:sublist(args(ex), lambda([ex2], safe_op(ex2)#"-")),
+  a3:removeoncelist_negDef(a1, a0),  
+  if emptyp(a3) then 0 else apply("+", a3)
 )$
 
 /* Distributes "-" over addition */
@@ -188,8 +191,8 @@ powLaw(ex):= block([B,l1,l2],
    l1:sublist(args(ex), lambda([ex], is(ex=B) or (is(safe_op(ex)="^") and is(first(args(ex))=B)))),
    l1:maplist(lambda([ex], if is(ex=B) then 1 else second(args(ex))), l1),
    l2:sublist(args(ex), lambda([ex], not(is(ex=B) or (is(safe_op(ex)="^") and is(first(args(ex))=B))))),
-   if l2=[] then return(B^apply("+",l1)),
-   if length(l2)=1 then l2:first(l2) else l2:apply("*",l2),
-   return(B^apply("+",l1)*l2)
+   if l2=[] then return(B^apply("+", l1)),
+   if length(l2)=1 then l2:first(l2) else l2:apply("*", l2),
+   return(B^apply("+", l1)*l2)
 );
 

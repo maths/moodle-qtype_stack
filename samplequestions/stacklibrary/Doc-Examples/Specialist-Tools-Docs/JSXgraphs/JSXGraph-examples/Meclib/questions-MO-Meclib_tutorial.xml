@@ -1,0 +1,1525 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+<!-- question: 0  -->
+  <question type="category">
+    <category>
+      <text>$course$/top/Standard für MO</text>
+    </category>
+    <info format="moodle_auto_format">
+      <text></text>
+    </info>
+    <idnumber></idnumber>
+  </question>
+
+<!-- question: 0  -->
+  <question type="category">
+    <category>
+      <text>$course$/top/Standard für MO/Meclib tutorial</text>
+    </category>
+    <info format="moodle_auto_format">
+      <text></text>
+    </info>
+    <idnumber></idnumber>
+  </question>
+
+<!-- question: 44492  -->
+  <question type="stack">
+    <name>
+      <text>MK: Meclib workshop P1 Minimum version</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>[[input:S_Ha]] [[validation:S_Ha]] [[feedback:Ha]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="markdown">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+    <stackversion>
+      <text>2024012900</text>
+    </stackversion>
+    <questionvariables>
+      <text></text>
+    </questionvariables>
+    <specificfeedback format="markdown">
+      <text></text>
+    </specificfeedback>
+    <questionnote format="html">
+      <text></text>
+    </questionnote>
+    <questiondescription format="html">
+      <text></text>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="markdown">
+      <text>Correct answer, well done.</text>
+    </prtcorrect>
+    <prtpartiallycorrect format="markdown">
+      <text>Your answer is partially correct.</text>
+    </prtpartiallycorrect>
+    <prtincorrect format="markdown">
+      <text>Incorrect answer.</text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>S_Ha</name>
+      <type>algebraic</type>
+      <tans>Ha</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>3</insertstars>
+      <syntaxhint>expression</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>Ha</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>S_Ha</sans>
+        <tans>Ha</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Ha-1-T</trueanswernote>
+        <truefeedback format="markdown">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Ha-1-F</falseanswernote>
+        <falsefeedback format="markdown">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+  </question>
+
+<!-- question: 44493  -->
+  <question type="stack">
+    <name>
+      <text>MK: Meclib workshop P1b Extended version</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Give the general formula for the length of the hypotenuse \(c\) of a right-angled triangle with sides \(a\) and \(b\).</p>
+
+<p>[[input:S_Ha]] [[validation:S_Ha]] [[feedback:Ha]]</p>]]></text>
+<file name="31330603739004493_image.png" path="/" encoding="base64">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</file>
+    </questiontext>
+    <generalfeedback format="markdown">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+    <stackversion>
+      <text>2024012900</text>
+    </stackversion>
+    <questionvariables>
+      <text>Ha: sqrt(a^2+b^2);</text>
+    </questionvariables>
+    <specificfeedback format="markdown">
+      <text></text>
+    </specificfeedback>
+    <questionnote format="html">
+      <text></text>
+    </questionnote>
+    <questiondescription format="html">
+      <text></text>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="markdown">
+      <text>Correct answer, well done.</text>
+    </prtcorrect>
+    <prtpartiallycorrect format="markdown">
+      <text>Your answer is partially correct.</text>
+    </prtpartiallycorrect>
+    <prtincorrect format="markdown">
+      <text>Incorrect answer.</text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>S_Ha</name>
+      <type>algebraic</type>
+      <tans>Ha</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>3</insertstars>
+      <syntaxhint>expression</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>Ha</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>S_Ha</sans>
+        <tans>Ha</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Ha-1-T</trueanswernote>
+        <truefeedback format="markdown">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Ha-1-F</falseanswernote>
+        <falsefeedback format="markdown">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+  </question>
+
+<!-- question: 44505  -->
+  <question type="stack">
+    <name>
+      <text>MK: Meclib workshop P2 Meclib image</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Give the general formula for the length of the hypotenuse \(c\) of a right-angled triangle with sides \(a\) and \(b\).</p>
+
+[[lang code="de"]] [[/lang]][[lang code="other"]] [[/lang]]
+<div style="float:right">
+[[jsxgraph width='250px' height='250px' ]] 
+var mode  = "STACK";  // as opposed to "jsfiddle" which is used in the test environment
+var stateRef;         // is empty in the non-interactive case
+const initstring = {#init#}; // injection of the list of objects
+var decsep = {#stackfltsep#};  // injection of the decimal separator setting
+const centeredLabelStyle = {size:0, showInfobox:false, label:{offset:[-6,0], 
+  anchorX:'left', anchorY:'middle'}};
+// End of STACK header
+[[include src="https://raw.githubusercontent.com/mkraska/meclib/main/meclib.js" /]]
+[[/jsxgraph]]</div>
+
+<p>[[input:S_Ha]] [[validation:S_Ha]] [[feedback:Ha]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="markdown">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+    <stackversion>
+      <text>2025040100</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[Ha: sqrt(a^2+b^2);
+
+aa:4; bb: 3;
+pB: [0,0]; pC: [aa,0]; pA: [aa,bb];
+
+initdata: [
+  [ "grid", "","", -1,aa+1,-1,bb+1, 40 ],
+  [ "polygon", "", pA, pB, pC ],
+  [ "label", "\\(a\\)", (pB+pC)/2 +[ 0,-0.4] ],
+  [ "label", "\\(b\\)", (pA+pC)/2 +[0.2,0] ],
+  [ "label", "\\(c\\)", (pA+pB)/2 +[-0.4,0.4] ]
+];
+init: stackjson_stringify(initdata);]]></text>
+    </questionvariables>
+    <specificfeedback format="markdown">
+      <text></text>
+    </specificfeedback>
+    <questionnote format="html">
+      <text></text>
+    </questionnote>
+    <questiondescription format="html">
+      <text></text>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="markdown">
+      <text>Correct answer, well done.</text>
+    </prtcorrect>
+    <prtpartiallycorrect format="markdown">
+      <text>Your answer is partially correct.</text>
+    </prtpartiallycorrect>
+    <prtincorrect format="markdown">
+      <text>Incorrect answer.</text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>S_Ha</name>
+      <type>algebraic</type>
+      <tans>Ha</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>3</insertstars>
+      <syntaxhint>expression</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>Ha</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>S_Ha</sans>
+        <tans>Ha</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Ha-1-T</trueanswernote>
+        <truefeedback format="markdown">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Ha-1-F</falseanswernote>
+        <falsefeedback format="markdown">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+  </question>
+
+<!-- question: 44506  -->
+  <question type="stack">
+    <name>
+      <text>MK: Meclib workshop P3 Randomization</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Give the general formula for the length of the hypotenuse \(c\) of a right-angled triangle with sides \(a\) and \(b\).</p>
+
+[[lang code="de"]] [[/lang]][[lang code="other"]] [[/lang]]
+<div style="float:right">
+[[jsxgraph width='250px' height='250px' ]] 
+var mode  = "STACK";  // as opposed to "jsfiddle" which is used in the test environment
+var stateRef;         // is empty in the non-interactive case
+const initstring = {#init#}; // injection of the list of objects
+var decsep = {#stackfltsep#};  // injection of the decimal separator setting
+const centeredLabelStyle = {size:0, showInfobox:false, label:{offset:[-6,0], 
+  anchorX:'left', anchorY:'middle'}};
+// End of STACK header
+[[include src="https://raw.githubusercontent.com/mkraska/meclib/main/meclib.js" /]]
+[[/jsxgraph]]</div>
+
+
+<p>[[input:S_Ha]] [[validation:S_Ha]] [[feedback:Ha]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="markdown">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+    <stackversion>
+      <text>2025040100</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[Ha: sqrt(a^2+b^2);
+
+aa:4; bb: 3;
+[aa,bb]: rand([ [1,4], [1,3], [2,4], [2,3], [2,2], [3,3], [3,2], [3,1], [4,2], [4,1] ]);
+
+pB: [0,0]; pC: [aa,0]; pA: [aa,bb];
+
+initdata: [
+  [ "grid", "","", -1,aa+1,-1,bb+1, 40 ],
+  [ "polygon", "", pA, pB, pC ],
+  [ "label", "\\(a\\)", (pB+pC)/2 +[ 0,-0.4] ],
+  [ "label", "\\(b\\)", (pA+pC)/2 +[0.2,0] ],
+  [ "label", "\\(c\\)", (pA+pB)/2 +[-0.4,0.4] ]
+];
+init: stackjson_stringify(initdata);]]></text>
+    </questionvariables>
+    <specificfeedback format="markdown">
+      <text></text>
+    </specificfeedback>
+    <questionnote format="html">
+      <text>{@'a=aa@}, {@'b=bb@}</text>
+    </questionnote>
+    <questiondescription format="html">
+      <text></text>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="markdown">
+      <text>Correct answer, well done.</text>
+    </prtcorrect>
+    <prtpartiallycorrect format="markdown">
+      <text>Your answer is partially correct.</text>
+    </prtpartiallycorrect>
+    <prtincorrect format="markdown">
+      <text>Incorrect answer.</text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>S_Ha</name>
+      <type>algebraic</type>
+      <tans>Ha</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>3</insertstars>
+      <syntaxhint>expression</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>Ha</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>S_Ha</sans>
+        <tans>Ha</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Ha-1-T</trueanswernote>
+        <truefeedback format="markdown">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Ha-1-F</falseanswernote>
+        <falsefeedback format="markdown">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+  </question>
+
+<!-- question: 44507  -->
+  <question type="stack">
+    <name>
+      <text>MK: Meclib workshop P4 Input 2</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Give the general formula for the length of the hypotenuse \(c\) of a right-angled triangle with sides \(a\) and \(b\).</p>
+
+[[lang code="de"]] [[/lang]][[lang code="other"]] [[/lang]]
+<div style="float:right">
+[[jsxgraph width='250px' height='250px' ]] 
+var mode  = "STACK";  // as opposed to "jsfiddle" which is used in the test environment
+var stateRef;         // is empty in the non-interactive case
+const initstring = {#init#}; // injection of the list of objects
+var decsep = {#stackfltsep#};  // injection of the decimal separator setting
+const centeredLabelStyle = {size:0, showInfobox:false, label:{offset:[-6,0], 
+  anchorX:'left', anchorY:'middle'}};
+// End of STACK header
+[[include src="https://raw.githubusercontent.com/mkraska/meclib/main/meclib.js" /]]
+[[/jsxgraph]]</div>
+
+
+<p>[[input:S_Ha]] [[validation:S_Ha]] [[feedback:Ha]]</p>
+
+<p>What is the exact length of the hypotenuse if the grid width is \(L\)?
+<p>[[input:S_H]] [[validation:S_H]] [[feedback:H]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="markdown">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+    <stackversion>
+      <text>2025040100</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[Ha: sqrt(a^2+b^2);
+
+aa:4; bb: 3;
+[aa,bb]: rand([ [1,4], [1,3], [2,4], [2,3], [2,2], [3,3], [3,2], [3,1], [4,2], [4,1] ]);
+
+H: sqrt(aa^2+bb^2)*L;
+Hnum: float(sqrt(aa^2+bb^2));
+
+pB: [0,0]; pC: [aa,0]; pA: [aa,bb];
+
+initdata: [
+  [ "grid", "","", -1,aa+1,-1,bb+1, 40 ],
+  [ "polygon", "", pA, pB, pC ],
+  [ "label", "\\(a\\)", (pB+pC)/2 +[ 0,-0.4] ],
+  [ "label", "\\(b\\)", (pA+pC)/2 +[0.2,0] ],
+  [ "label", "\\(c\\)", (pA+pB)/2 +[-0.4,0.4] ]
+];
+init: stackjson_stringify(initdata);]]></text>
+    </questionvariables>
+    <specificfeedback format="markdown">
+      <text></text>
+    </specificfeedback>
+    <questionnote format="html">
+      <text>{@'a=aa@}, {@'b=bb@}</text>
+    </questionnote>
+    <questiondescription format="html">
+      <text></text>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="markdown">
+      <text>Correct answer, well done.</text>
+    </prtcorrect>
+    <prtpartiallycorrect format="markdown">
+      <text>Your answer is partially correct.</text>
+    </prtpartiallycorrect>
+    <prtincorrect format="markdown">
+      <text>Incorrect answer.</text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>S_H</name>
+      <type>algebraic</type>
+      <tans>H</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>3</insertstars>
+      <syntaxhint>expression</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>S_Ha</name>
+      <type>algebraic</type>
+      <tans>Ha</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>3</insertstars>
+      <syntaxhint>expression</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>H</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>S_H</sans>
+        <tans>H</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>H-1-T</trueanswernote>
+        <truefeedback format="markdown">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>H-1-F</falseanswernote>
+        <falsefeedback format="markdown">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>Ha</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>S_Ha</sans>
+        <tans>Ha</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Ha-1-T</trueanswernote>
+        <truefeedback format="markdown">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Ha-1-F</falseanswernote>
+        <falsefeedback format="markdown">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+  </question>
+
+<!-- question: 44508  -->
+  <question type="stack">
+    <name>
+      <text>MK: Meclib workshop P5 Input 3</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Give the general formula for the length of the hypotenuse \(c\) of a right-angled triangle with sides \(a\) and \(b\).</p>
+
+[[lang code="de"]] [[/lang]][[lang code="other"]] [[/lang]]
+<div style="float:right">
+[[jsxgraph width='250px' height='250px' ]] 
+var mode  = "STACK";  // as opposed to "jsfiddle" which is used in the test environment
+var stateRef;         // is empty in the non-interactive case
+const initstring = {#init#}; // injection of the list of objects
+var decsep = {#stackfltsep#};  // injection of the decimal separator setting
+const centeredLabelStyle = {size:0, showInfobox:false, label:{offset:[-6,0], 
+  anchorX:'left', anchorY:'middle'}};
+// End of STACK header
+[[include src="https://raw.githubusercontent.com/mkraska/meclib/main/meclib.js" /]]
+[[/jsxgraph]]</div>
+
+<p>[[input:S_Ha]] [[validation:S_Ha]] [[feedback:Ha]]</p>
+
+<p>What is the exact length of the hypotenuse if the grid width is \(L\)?
+<p>[[input:S_H]] [[validation:S_H]] [[feedback:H]]</p>
+
+<p>What is the length of the hypotenuse if the grid width is \(1\,\rm{cm}\)?
+<p>[[input:S_Hnum]] [[validation:S_Hnum]] [[feedback:Hnum]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="markdown">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+    <stackversion>
+      <text>2025040100</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[Ha: sqrt(a^2+b^2);
+
+aa:4; bb: 3;
+[aa,bb]: rand([ [1,4], [1,3], [2,4], [2,3], [2,2], [3,3], [3,2], [3,1], [4,2], [4,1] ]);
+
+H: sqrt(aa^2+bb^2)*L;
+Hnum: float(sqrt(aa^2+bb^2));
+
+pB: [0,0]; pC: [aa,0]; pA: [aa,bb];
+
+initdata: [
+  [ "grid", "","", -1,aa+1,-1,bb+1, 40 ],
+  [ "polygon", "", pA, pB, pC ],
+  [ "label", "\\(a\\)", (pB+pC)/2 +[ 0,-0.4] ],
+  [ "label", "\\(b\\)", (pA+pC)/2 +[0.2,0] ],
+  [ "label", "\\(c\\)", (pA+pB)/2 +[-0.4,0.4] ]
+];
+init: stackjson_stringify(initdata);]]></text>
+    </questionvariables>
+    <specificfeedback format="markdown">
+      <text></text>
+    </specificfeedback>
+    <questionnote format="html">
+      <text>{@'a=aa@}, {@'b=bb@}</text>
+    </questionnote>
+    <questiondescription format="html">
+      <text></text>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="markdown">
+      <text>Correct answer, well done.</text>
+    </prtcorrect>
+    <prtpartiallycorrect format="markdown">
+      <text>Your answer is partially correct.</text>
+    </prtpartiallycorrect>
+    <prtincorrect format="markdown">
+      <text>Incorrect answer.</text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>S_H</name>
+      <type>algebraic</type>
+      <tans>H</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>3</insertstars>
+      <syntaxhint>expression</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>nounits</options>
+    </input>
+    <input>
+      <name>S_Ha</name>
+      <type>algebraic</type>
+      <tans>Ha</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>3</insertstars>
+      <syntaxhint>expression</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>nounits</options>
+    </input>
+    <input>
+      <name>S_Hnum</name>
+      <type>units</type>
+      <tans>Hnum*cm</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>3</insertstars>
+      <syntaxhint>number with unit</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords>+,-,sqrt</forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>H</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>S_H</sans>
+        <tans>H</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>H-1-T</trueanswernote>
+        <truefeedback format="markdown">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>H-1-F</falseanswernote>
+        <falsefeedback format="markdown">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>Ha</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>S_Ha</sans>
+        <tans>Ha</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Ha-1-T</trueanswernote>
+        <truefeedback format="markdown">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Ha-1-F</falseanswernote>
+        <falsefeedback format="markdown">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>Hnum</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>UnitsRelative</answertest>
+        <sans>S_Hnum</sans>
+        <tans>Hnum*cm</tans>
+        <testoptions>0.05</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Hnum-1-T</trueanswernote>
+        <truefeedback format="markdown">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Hnum-1-F</falseanswernote>
+        <falsefeedback format="markdown">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+  </question>
+
+<!-- question: 44509  -->
+  <question type="stack">
+    <name>
+      <text>MK: Meclib workshop P6 Feedback on unit input</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Give the general formula for the length of the hypotenuse \(c\) of a right-angled triangle with sides \(a\) and \(b\).</p>
+
+[[lang code="de"]] [[/lang]][[lang code="other"]] [[/lang]]
+<div style="float:right">
+[[jsxgraph width='250px' height='250px' ]] 
+var mode  = "STACK";  // as opposed to "jsfiddle" which is used in the test environment
+var stateRef;         // is empty in the non-interactive case
+const initstring = {#init#}; // injection of the list of objects
+var decsep = {#stackfltsep#};  // injection of the decimal separator setting
+const centeredLabelStyle = {size:0, showInfobox:false, label:{offset:[-6,0], 
+  anchorX:'left', anchorY:'middle'}};
+// End of STACK header
+[[include src="https://raw.githubusercontent.com/mkraska/meclib/main/meclib.js" /]]
+[[/jsxgraph]]</div>
+
+
+<p>[[input:S_Ha]] [[validation:S_Ha]] [[feedback:Ha]]</p>
+
+<p>What is the exact length of the hypotenuse if the grid width is \(L\)?
+<p>[[input:S_H]] [[validation:S_H]] [[feedback:H]]</p>
+
+<p>What is the length of the hypotenuse if the grid width is \(1\,\rm{cm}\)?
+<p>[[input:S_Hnum]] [[validation:S_Hnum]] [[feedback:Hnum]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="markdown">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+    <stackversion>
+      <text>2025040100</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[Ha: sqrt(a^2+b^2);
+
+aa:4; bb: 3;
+[aa,bb]: rand([ [1,4], [1,3], [2,4], [2,3], [2,2], [3,3], [3,2], [3,1], [4,2], [4,1] ]);
+
+H: sqrt(aa^2+bb^2)*L;
+Hnum: float(sqrt(aa^2+bb^2));
+
+pB: [0,0]; pC: [aa,0]; pA: [aa,bb];
+
+initdata: [
+  [ "grid", "","", -1,aa+1,-1,bb+1, 40 ],
+  [ "polygon", "", pA, pB, pC ],
+  [ "label", "\\(a\\)", (pB+pC)/2 +[ 0,-0.4] ],
+  [ "label", "\\(b\\)", (pA+pC)/2 +[0.2,0] ],
+  [ "label", "\\(c\\)", (pA+pB)/2 +[-0.4,0.4] ]
+];
+init: stackjson_stringify(initdata);
+
+stack_include("https://raw.githubusercontent.com/mkraska/meclib/main/Maxima/fb_value_EN.mac");]]></text>
+    </questionvariables>
+    <specificfeedback format="markdown">
+      <text></text>
+    </specificfeedback>
+    <questionnote format="html">
+      <text>{@'a=aa@}, {@'b=bb@}</text>
+    </questionnote>
+    <questiondescription format="html">
+      <text></text>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="markdown">
+      <text>Correct answer, well done.</text>
+    </prtcorrect>
+    <prtpartiallycorrect format="markdown">
+      <text>Your answer is partially correct.</text>
+    </prtpartiallycorrect>
+    <prtincorrect format="markdown">
+      <text>Incorrect answer.</text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>S_H</name>
+      <type>algebraic</type>
+      <tans>H</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>3</insertstars>
+      <syntaxhint>expression</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>nounits</options>
+    </input>
+    <input>
+      <name>S_Ha</name>
+      <type>algebraic</type>
+      <tans>Ha</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>3</insertstars>
+      <syntaxhint>expression</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>nounits</options>
+    </input>
+    <input>
+      <name>S_Hnum</name>
+      <type>units</type>
+      <tans>Hnum*cm</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>3</insertstars>
+      <syntaxhint>number with unit</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords>+,-,sqrt</forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>H</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>S_H</sans>
+        <tans>H</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>H-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>H-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>{@fb_vars(S_H,H)@}</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>Ha</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>S_Ha</sans>
+        <tans>Ha</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Ha-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Ha-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>{@fb_vars(S_Ha,Ha)@}</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>Hnum</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>UnitsRelative</answertest>
+        <sans>S_Hnum</sans>
+        <tans>Hnum*cm</tans>
+        <testoptions>0.05</testoptions>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Hnum-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Hnum-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>{@fb_unit(S_Hnum, Hnum*cm, 0.05)@}</text>
+        </falsefeedback>
+      </node>
+    </prt>
+  </question>
+
+<!-- question: 44513  -->
+  <question type="stack">
+    <name>
+      <text>MK: Meclib workshop P7 Interactive Input</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Give the general formula for the length of the hypotenuse \(c\) of a right-angled triangle with sides \(a\) and \(b\).</p>
+
+<p hidden>[[input:objects]] [[validation:objects]]</p>
+<p hidden>[[input:names]] [[validation:names]] </p>
+<div style="float:right">
+[[jsxgraph width='500px' height='400px' input-ref-objects="stateRef" input-ref-names="fbd_names" ]]
+var mode  = "STACK";
+const initstring = {#init#};
+const centeredLabelStyle = {size:0, showInfobox:false, label:{offset:[-6,0], 
+  anchorX:'left', anchorY:'middle'}};
+// End of STACK header
+[[include src="https://raw.githubusercontent.com/mkraska/meclib/main/meclib.js" /]]
+[[/jsxgraph]]</div>
+
+<p>[[input:S_Ha]] [[validation:S_Ha]] [[feedback:Ha]]</p>
+
+<p>What is the exact length of the hypotenuse if the grid width is \(L\)?
+<p>[[input:S_H]] [[validation:S_H]] [[feedback:H]]</p>
+
+<p>What is the length of the hypotenuse if the grid width is \(1\,\rm{cm}\)?
+<p>[[input:S_Hnum]] [[validation:S_Hnum]] [[feedback:Hnum]]</p>
+
+<p>Indicate the center of gravity using the blue crosshair.</p>
+<p>[[feedback:CG]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="markdown">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+    <stackversion>
+      <text>2025040100</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[Ha: sqrt(a^2+b^2);
+
+aa:4; bb: 3;
+[aa,bb]: rand([ [1,4], [1,3], [2,4], [2,3], [2,2], [3,3], [3,2], [3,1], [4,2], [4,1] ]);
+
+H: sqrt(aa^2+bb^2)*L;
+Hnum: float(sqrt(aa^2+bb^2));
+
+pB: [0,0]; pC: [aa,0]; pA: [aa,bb];
+
+initdata: [
+  [ "grid", "","", -1,aa+1,-1,bb+1, 40 ],
+  [ "crosshair", "", [0, bb], [0,0], [1,1], [2,2] ],
+  [ "polygon", "", pA, pB, pC ],
+  [ "label", "\\(a\\)", (pB+pC)/2 +[ 0,-0.4] ],
+  [ "label", "\\(b\\)", (pA+pC)/2 +[0.2,0] ],
+  [ "label", "\\(c\\)", (pA+pB)/2 +[-0.4,0.4] ]
+];
+init: stackjson_stringify(initdata);
+ic: 2;
+CG: [2/3*aa, 1/3*bb];
+
+tansdata: initdata;
+tansdata[ic][3]: CG;
+tans: stackjson_stringify(tansdata);
+
+stack_include("https://raw.githubusercontent.com/mkraska/meclib/main/Maxima/fb_value_EN.mac");]]></text>
+    </questionvariables>
+    <specificfeedback format="markdown">
+      <text></text>
+    </specificfeedback>
+    <questionnote format="html">
+      <text>{@'a=aa@}, {@'b=bb@}</text>
+    </questionnote>
+    <questiondescription format="html">
+      <text></text>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="markdown">
+      <text>Correct answer, well done.</text>
+    </prtcorrect>
+    <prtpartiallycorrect format="markdown">
+      <text>Your answer is partially correct.</text>
+    </prtpartiallycorrect>
+    <prtincorrect format="markdown">
+      <text>Incorrect answer.</text>
+    </prtincorrect>
+    <decimals>,</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>names</name>
+      <type>algebraic</type>
+      <tans>[]</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>objects</name>
+      <type>string</type>
+      <tans>tans</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>S_H</name>
+      <type>algebraic</type>
+      <tans>H</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>3</insertstars>
+      <syntaxhint>expression</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>nounits</options>
+    </input>
+    <input>
+      <name>S_Ha</name>
+      <type>algebraic</type>
+      <tans>Ha</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>3</insertstars>
+      <syntaxhint>expression</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>nounits</options>
+    </input>
+    <input>
+      <name>S_Hnum</name>
+      <type>units</type>
+      <tans>Hnum*cm</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>3</insertstars>
+      <syntaxhint>number with unit</syntaxhint>
+      <syntaxattribute>1</syntaxattribute>
+      <forbidwords>+,-,sqrt</forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>CG</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text>S_CG: names[ic];
+vec: CG-S_CG;
+dist: sqrt(vec[1]^2+vec[2]^2);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>NumAbsolute</answertest>
+        <sans>dist</sans>
+        <tans>0</tans>
+        <testoptions>0.05</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>CG-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>The distance to the actual CG is {@dispdp(dist,2)@} grid units.</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>CG-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>The distance to the actual CG is {@dispdp(dist,2)@} grid units. Must be smaller than {@0.05@}.</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>H</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>S_H</sans>
+        <tans>H</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>H-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>H-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>{@fb_vars(S_H,H)@}</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>Ha</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>S_Ha</sans>
+        <tans>Ha</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Ha-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Ha-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>{@fb_vars(S_Ha,Ha)@}</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>Hnum</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>UnitsRelative</answertest>
+        <sans>S_Hnum</sans>
+        <tans>Hnum*cm</tans>
+        <testoptions>0.05</testoptions>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Hnum-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Hnum-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>{@fb_unit(S_Hnum, Hnum*cm, 0.05)@}</text>
+        </falsefeedback>
+      </node>
+    </prt>
+  </question>
+
+</quiz>

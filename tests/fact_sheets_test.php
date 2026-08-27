@@ -39,7 +39,6 @@ require_once(__DIR__ . '/fixtures/test_base.php');
  * @covers \stack_fact_sheets
  */
 final class fact_sheets_test extends qtype_stack_testcase {
-
     public function test_basic_castext_instantiation(): void {
 
         $this->assertEquals([], stack_fact_sheets::get_unrecognised_tags('Hello world'));
@@ -47,15 +46,20 @@ final class fact_sheets_test extends qtype_stack_testcase {
 
     public function test_trap_bad_fact_sheet_names(): void {
 
-        $this->assertEquals([0 => 'bad_hint', 1 => 'badder_hint'],
-                stack_fact_sheets::get_unrecognised_tags(
-                        "This is some CAStext with a [[facts:bad_hint]] " .
-                        "and yet another [[facts:badder_hint]]"));
+        $this->assertEquals(
+            [0 => 'bad_hint', 1 => 'badder_hint'],
+            stack_fact_sheets::get_unrecognised_tags(
+                "This is some CAStext with a [[facts:bad_hint]] " .
+                "and yet another [[facts:badder_hint]]"
+            )
+        );
     }
 
     public function test_legacy_convert(): void {
 
-        $this->assertEquals("An [[facts:old_hint]] and [[facts:older_hint]].",
-                stack_fact_sheets::convert_legacy_tags("An <hint>old_hint</hint> and <hint>older_hint</hint>."));
+        $this->assertEquals(
+            "An [[facts:old_hint]] and [[facts:older_hint]].",
+            stack_fact_sheets::convert_legacy_tags("An <hint>old_hint</hint> and <hint>older_hint</hint>.")
+        );
     }
 }

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>36.1.3.2 Frequency tables/ Discrete data</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Discrete data</h4>
+<p>A frequency table for discrete data is very similar to one for categorical data except that we put the values of the variable in increasing order.</p>
+<p>For example, the numbers of vehicles passing a point on a road in each of 100 intervals of length one minute are recorded. These data are summarised in the frequency table below.</p>
+<table class="HELM_table" style="text-align: center; width: 90%;">
+<thead>
+<tr style="border-bottom: 1px solid #000;">
+<th>Numbers of <br> Vehicles <br> \(x\) </th>
+<th>Frequency</th>
+<th>Cumulative <br> Frequency </th>
+<th>Relative <br> Frequency </th>
+<th>Cumulative <br> Relative <br> Frequency</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td> <td>0</td> <td>0</td> <td>0.00</td> <td>0.00</td>
+</tr>
+<tr>
+<td>1</td> <td>0</td> <td>0</td> <td>0.00</td> <td>0.00</td>
+</tr>
+<tr>
+<td>2</td> <td>0</td> <td>0</td> <td>0.00</td> <td>0.00</td> 
+</tr>
+<tr>
+<td>3</td> <td>4</td> <td>4</td> <td>0.04</td> <td>0.04</td> 
+</tr>
+<tr>
+<td>4</td> <td>3</td> <td>7</td> <td>0.03</td> <td>0.07</td>
+</tr>
+<tr>
+<td>5</td> <td>5</td> <td>12</td> <td>0.05</td> <td>0.12</td>
+</tr>
+<tr>
+<td>6</td> <td>8</td> <td>20</td> <td>0.08</td> <td>0.20</td>
+</tr>
+<tr>
+<td>7</td> <td>10</td> <td>30</td> <td>0.10</td> <td>0.30</td>
+</tr>
+<tr>
+<td>8</td> <td>19</td> <td>49</td> <td>0.19</td> <td>0.49</td>
+</tr>
+<tr>
+<td>9</td> <td>12</td> <td>61</td> <td>0.12</td> <td>0.61</td> 
+</tr>
+<tr>
+<td>10</td> <td>13</td> <td>74</td> <td>0.13</td> <td>0.74</td> 
+</tr>
+<tr>
+<td>11</td> <td>7</td> <td>81</td> <td>0.07</td> <td>0.81</td>
+</tr>
+<tr>
+<td>12</td> <td>4</td> <td>85</td> <td>0.04</td> <td>0.85</td> 
+</tr>
+<tr>
+<td>13</td> <td>11</td> <td>96</td> <td>0.11</td> <td>0.96</td> 
+</tr>
+<tr>
+<td>14</td> <td>0</td> <td>96</td> <td>0.00</td> <td>0.96</td>
+</tr>
+<tr>
+<td>15</td> <td>1</td> <td>97</td> <td>0.01</td> <td>0.97</td> 
+</tr>
+<tr>
+<td>16</td> <td>2</td> <td>99</td> <td>0.02</td> <td>0.99</td> 
+</tr>
+<tr>
+<td>17</td> <td>0</td> <td>99</td> <td>0.00</td> <td>0.99</td>
+</tr>
+<tr>
+<td>18</td> <td>1</td> <td>100</td> <td>0.01</td> <td>1.00</td>
+</tr>
+<tr style="border-bottom: 1px solid #000;">
+<td>\(x &gt; 18\)</td> <td>0</td> <td>100</td> <td>0.00</td> <td>1.00</td>
+</tr>
+<tr>
+<td>Total</td> <td>100</td> <td></td> <td>1.00</td> <td></td> 
+</tr>
+</tbody>
+</table>
+<br>
+<p>We have also included the <b>cumulative frequency</b> and the <b>cumulative relative frequency</b>.</p>
+<p><b>Cumulative frequency</b>: The <b>cumulative frequency</b> for a value \( x_{i}\) of a discrete variable \(X\) is the total frequency for values of \(X\) where \(X \leq x_{i}\).</p>
+<p><b>Cumulative relative frequency</b>: The <b>cumulative relative frequency</b> is the cumulative frequency divided by the total frequency.</p>
+<p>Notice that we have also included a category "\(x&gt;18\)'' since there is not a definite upper limit to the number of vehicles which we might observe.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

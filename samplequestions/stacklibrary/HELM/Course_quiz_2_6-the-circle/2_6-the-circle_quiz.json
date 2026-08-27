@@ -1,0 +1,170 @@
+{
+    "quiz": {
+        "name": "2_6 The Circle",
+        "intro": "<p dir=\"ltr\" style=\"text-align: left;\">A circle is one of the most familiar geometrical figures and has been around a long time! In this brief Section we discuss the basic coordinate geometry of a circle - in particular the basic equation representing a circle in terms of its centre and radius.<br><\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Equations for circles in the Oxy plane",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "11",
+            "heading": "Annuli between circles",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "12",
+            "heading": "Exercises",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-2-6\/2-6-1-1-Equations-for-circles-in-the-Oxy-plane.xml"
+        },
+        {
+            "slot": "11",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-2-6\/2-6-2-1-Annuli-between-circles.xml"
+        },
+        {
+            "slot": "8",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-2-6\/2-6-1-8-Expanded-equation-of-the-circle.xml"
+        },
+        {
+            "slot": "5",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-2-6\/2-6-1-5-Example-distance-between-any-2-points.xml"
+        },
+        {
+            "slot": "10",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-2-6\/2-6-1-10-Circles-and-functions.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-2-6\/2-6-1-2-Circles-with-centre-at-the-origin.xml"
+        },
+        {
+            "slot": "3",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-2-6\/2-6-1-3-Task-write-eq-of-circle.xml"
+        },
+        {
+            "slot": "4",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-2-6\/2-6-1-4-Distance-between-2-points.xml"
+        },
+        {
+            "slot": "7",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-2-6\/2-6-1-7-Write-eq-of-cirlce.xml"
+        },
+        {
+            "slot": "6",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-2-6\/2-6-1-6-Find-eq-of-circles.xml"
+        },
+        {
+            "slot": "9",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-2-6\/2-6-1-9-Find-centre-and-radious.xml"
+        },
+        {
+            "slot": "12",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-2-6\/2-6-3-1-Find-centre-and-radious.xml"
+        },
+        {
+            "slot": "13",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-2-6\/2-6-3-2-Find-eq-of-circles.xml"
+        },
+        {
+            "slot": "14",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-2-6\/2-6-3-3-Find-centre-and-radious.xml"
+        },
+        {
+            "slot": "15",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-2-6\/2-6-3-4-Describe-regions.xml"
+        },
+        {
+            "slot": "16",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-2-6\/2-6-3-5-State-inequality-outside-circle.xml"
+        },
+        {
+            "slot": "17",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-2-6\/2-6-3-6-State-inequality-inside-circle.xml"
+        },
+        {
+            "slot": "19",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-2-6\/2-6-3-8-State-eq-of-circle---advanced.xml"
+        },
+        {
+            "slot": "18",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-2-6\/2-6-3-7-State-circle-eq.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

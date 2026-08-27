@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>19.3.5.1 Finding the general solution of a snd order linear inhomogeneous ODE</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Finding the general solution of a second order linear inhomogeneous ODE</h4>
+<p>The general solution of a second order linear inhomogeneous equation is the sum of its particular integral and the complementary function. In previous subsections you learned how to find a complementary function, and just before you learnt how to find a particular integral. We now put these together to find the general solution.</p>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Find the general solutions of</p>
+\[\frac{\mathrm{d}^2y}{\mathrm{d}x^2} + 3 \frac{\mathrm{d}y}{\mathrm{d}x} - 10y = 3x^2.\]
+<h4 class="HELM_solution">Solution</h4>
+<p>The complementary function was found in a previous example to be</p>
+\[y_\text{cf} = Ae^{2x} + Be^{-5x}.\]
+<p>The particular integral is found by trying a solution of the form \(y = ax^2 + bx + c\), so that</p>
+\[\frac{\mathrm{d}y}{\mathrm{d}x} = 2ax + b \qquad \text{and} \qquad \frac{\mathrm{d}^2y}{\mathrm{d}x^2} 2a.\]
+<p>Substituting into the differential equation gives:</p>
+\[2a + 3(2ax + b) - 10(ax^2 + bx + c) = 3x^2.\]
+<p>Comparing constants: &emsp; \(2a + 3b - 10c = 0\)</p>
+<p>Comparing \(x\) terms: &emsp; \(6a - 10b = 0\)</p>
+<p>Comparing \(x^2\) terms: &emsp; \(-10a = 3\)</p>
+<p>So</p>
+\[a = - \frac{3}{10}, \quad b = -\frac{9}{50}, \quad c = -\frac{57}{500},\]
+<p>and</p>
+\[y_\text{p}(x) = -\frac{3}{10}x^2 - \frac{9}{50}x - \frac{57}{500}.\]
+<p>Thus, the general solution is</p>
+\[y = y_\text{p}(x) + y_\text{cf}(x) = -\frac{3}{10}x^2 - \frac{9}{50}x - \frac{57}{500} + Ae^{2x} + Be^{-5x}.\]
+<hr>
+
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p>The general solution of a second order constant coefficient ordinary differential equation</p>
+\[a\frac{\mathrm{d}^2y}{\mathrm{d}x^2} + b \frac{\mathrm{d}y}{\mathrm{d}x} + cy = f(x)\]
+<p>is</p>
+\[y = y_\text{p} + y_\text{cf},\]
+<p>being the sum of the particular integral and the complementary function.</p>
+<p>\(y_\text{p}\) contains no arbitrary contants; \(y_\text{cf}\) contains two arbitrary constants.</p>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

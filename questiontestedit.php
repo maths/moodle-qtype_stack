@@ -22,7 +22,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(__DIR__.'/../../../config.php');
+require_once(__DIR__ . '/../../../config.php');
 
 require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/vle_specific.php');
@@ -34,6 +34,7 @@ require_once(__DIR__ . '/stack/potentialresponsetreestate.class.php');
 
 // Get the parameters from the URL.
 $questionid = required_param('questionid', PARAM_INT);
+[$qversion, $questionid] = get_latest_question_version($questionid);
 $testcase = optional_param('testcase', null, PARAM_INT);
 $confirmthistestcase = optional_param('confirmthistestcase', null, PARAM_INT);
 
@@ -45,17 +46,20 @@ $question->options->set_option('decimals', '.');
 if ($testcase || $confirmthistestcase) {
     $qtest = question_bank::get_qtype('stack')->load_question_test($questionid, $testcase);
 }
+$errors = [];
 
 // Process any other URL parameters, and do require_login.
-list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($question);
+[$context, $seed, $urlparams] = qtype_stack_setup_question_test_page($question);
 
 // Check permissions.
 question_require_capability_on($questiondata, 'edit');
 
 // Work out whether we are adding or editing.
 if (!is_null($testcase)) {
-    $title = stack_string('editingtestcase',
-            ['no' => $testcase, 'question' => format_string($question->name)]);
+    $title = stack_string(
+        'editingtestcase',
+        ['no' => $testcase, 'question' => format_string($question->name)]
+    );
     $submitlabel = get_string('savechanges');
 } else {
     $title = stack_string('addingatestcase', format_string($question->name));
@@ -70,6 +74,9 @@ if (!is_null($seed)) {
     // even if it is not one of the deployed seeds.
     $question->seed = $seed;
 }
+
+// Prepare the display options.
+$options = question_display_options();
 
 $slot = $quba->add_question($question, $question->defaultmark);
 $quba->start_question($slot);
@@ -86,14 +93,34 @@ $PAGE->set_heading($title);
 $PAGE->set_pagelayout('popup');
 
 require_login();
+$questionrender = $quba->render_question($slot, $options) ?? "";
+$questionvariables = html_writer::start_tag('div', ['class' => 'questionvariables']) .
+    html_writer::tag('pre', $question->questionvariables) .
+    html_writer::end_tag('div');
+$questionvariablevalues = html_writer::start_tag('div', ['class' => 'questionvariables']) .
+    html_writer::tag('pre', $question->get_question_session_keyval_representation()) .
+    html_writer::end_tag('div');
+// Display the question text.
+// We need this as well as the rendered view above so that teachers can see the names of variables used.
+// This helps when writing question tests using those variables to reflect randomization.
+$questiontext = html_writer::tag('pre', $question->questiontext, ['class' => 'questiontext']);
 
 // Create the editing form.
-$mform = new qtype_stack_question_test_form($PAGE->url,
-        ['submitlabel' => $submitlabel, 'question' => $question]);
+$mform = new qtype_stack_question_test_form(
+    $PAGE->url,
+    ['submitlabel' => $submitlabel,
+    'question' => $question,
+    'questionrender' => $questionrender,
+    'questionvariables' => $questionvariables,
+    'questionvariablevalues' => $questionvariablevalues,
+    'questiontext' => $questiontext,
+    ]
+);
+
+$currentdata = new stdClass();
 
 // Send current data to the form.
 if ($testcase) {
-    $currentdata = new stdClass();
     $currentdata->description = $qtest->description;
 
     foreach ($qtest->inputs as $name => $value) {
@@ -113,9 +140,9 @@ if ($testcase) {
         }
         $currentdata->{$prtname . 'answernote'} = $expected->answernotes[0];
     }
-
-    $mform->set_data($currentdata);
 }
+
+$mform->set_data($currentdata);
 
 // Process the form.
 if ($mform->is_cancelled()) {
@@ -131,11 +158,14 @@ if ($mform->is_cancelled()) {
 
     foreach ($question->prts as $prtname => $prt) {
         $result = $question->get_prt_result($prtname, $response, false);
-        // For testing purposes we just take the last note.
-        $answernotes = $result->get_answernotes();
-        $answernote = [end($answernotes)];
         $qtest->add_expected_result($prtname, new stack_potentialresponse_tree_state(
-            1, true, $result->get_score(), $result->get_penalty(), '', $answernote));
+            1,
+            true,
+            $result->get_score(),
+            $result->get_penalty(),
+            '',
+            $result->get_answernotes_testcase()
+        ));
     }
     question_bank::get_qtype('stack')->save_question_test($questionid, $qtest, $testcase);
     redirect($backurl);
@@ -149,41 +179,35 @@ if ($mform->is_cancelled()) {
 
     foreach ($question->prts as $prtname => $notused) {
         $qtest->add_expected_result($prtname, new stack_potentialresponse_tree_state(
-                1, true, $data->{$prtname . 'score'}, $data->{$prtname . 'penalty'},
-                '', [$data->{$prtname . 'answernote'}]));
+            1,
+            true,
+            $data->{$prtname . 'score'},
+            $data->{$prtname . 'penalty'},
+            '',
+            [$data->{$prtname . 'answernote'}]
+        ));
+    }
+    if (strlen($data->{$prtname . 'answernote'}) > 1000) {
+        $errors[] = stack_string(
+            'questiontestslong',
+            ['prt' => $prtname, 'len' => strlen($data->{$prtname . 'answernote'})]
+        );
     }
     question_bank::get_qtype('stack')->save_question_test($questionid, $qtest, $testcase);
-    redirect($backurl);
+    if (empty($errors)) {
+        redirect($backurl);
+    }
 }
 
-// Prepare the display options.
-$options = question_display_options();
 
 // Display the page.
 echo $OUTPUT->header();
+echo html_writer::tag('h2', $title);
+echo html_writer::tag('p', stack_string('version') . ' ' . $qversion);
 
-// Show the question read-only.
-echo $quba->render_question($slot, $options);
-
-// Display the question variables.
-echo $OUTPUT->heading(stack_string('questionvariables'), 3);
-echo html_writer::start_tag('div', ['class' => 'questionvariables']);
-echo html_writer::tag('pre', $question->questionvariables);
-echo html_writer::end_tag('div');
-
-echo $OUTPUT->heading(stack_string('questionvariablevalues'), 3);
-echo html_writer::start_tag('div', ['class' => 'questionvariables']);
-echo html_writer::tag('pre', $question->get_question_session_keyval_representation());
-echo html_writer::end_tag('div');
-
-// Display the question text.
-// We need this as well as the rendered view above so that teachers can see the names of variables used.
-// This helps when writing question tests using those variables to reflect randomization.
-echo $OUTPUT->heading(stack_string('questiontext'), 3);
-echo html_writer::tag('pre', $question->questiontext, ['class' => 'questiontext']);
-
-echo html_writer::tag('p', stack_string('testinputsimpwarning'));
-
+if (!empty($errors)) {
+    echo html_writer::tag('div', implode(' ', $errors), ['class' => 'alert alert-danger']);
+}
 // Show the form.
 $mform->display();
 echo $OUTPUT->footer();

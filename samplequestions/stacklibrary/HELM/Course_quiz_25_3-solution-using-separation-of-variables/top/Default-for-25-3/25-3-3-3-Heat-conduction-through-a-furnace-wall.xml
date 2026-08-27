@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>25.3.3.3 Heat conduction through a furnace wall</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4 class="HELM_example">Engineering Example</h4>
+
+<p></p>
+<h4>Heat conduction through a furnace wall</h4>
+
+<p><strong>Introduction</strong></p>
+<br>Conduction is a mode of heat transfer through molecular collision inside a material without any motion of the material as a whole. If one end of a solid material is at a higher temperature, then heat will be transferred towards the colder end because
+of the relative movement of the particles. They will collide with the each other with a net transfer of energy.
+<p></p>
+<p>Energy flows through heat conductive materials by a thermal process generally known as ’gradient heat transport’. Gradient heat transport depends on three quantities: the heat conductivity of the material, the cross-sectional area of the material which
+    is available for heat transfer and the spatial gradient of temperature (driving force for the process). The larger the conductivity, the gradient, and the cross section, the faster the heat flows.</p>
+<p>The temperature profile within a body depends upon the rate of heat transfer to the atmosphere, its capacity to store some of this heat, and its rate of thermal conduction to its boundaries (where the heat is transferred to the surrounding environment).
+    Mathematically this is stated by the heat equation</p>
+
+<table width="100%">
+    <tbody>
+        <tr>
+            <td><span class="math inline">\(\qquad\displaystyle
+     \dfrac{\partial}{\partial x}\left( k \dfrac{\partial T}{\partial x}
+    \right)= \rho c \dfrac {\partial T}{\partial x}\)</span></td>
+            <td>\((1)\)</td>
+        </tr>
+    </tbody>
+</table>
+
+<p>The thermal diffusivity <span class="math inline">\(\alpha\)</span> is related to the thermal conductivity <span class="math inline">\(k\)</span>, the specific heat <span class="math inline">\(c\)</span>, and the density of solid material
+    <span class="math inline">\(\rho\)</span>, by </p>
+<p><span class="math inline">\(\qquad\displaystyle
+\alpha = \dfrac{k}{\rho c}\)</span></p>
+<p><span><strong>Problem in Words</strong></span>
+</p>
+<p>The wall (thickness
+    <span class="math inline">\(L\)</span>) of a furnace, with inside temperature <span class="math inline">\(800^{\circ}\)</span> C, is comprised of brick material [thermal conductivity <span class="math inline">\(= 0.02\)</span> W m<span class="math inline">\(^{-1}\)</span>    K<span class="math inline">\(^{-1}\)</span>)]. Given that the wall thickness is
+    <span class="math inline">\(12\)</span> cm, the atmospheric temperature is <span class="math inline">\(0^{\circ}\)</span> C, the density and heat capacity of the brick material are <span class="math inline">\(1.9\)</span> <span class="math inline">\(^{-3}\)</span>    and <span class="math inline">\(6.0\ \text{J}\ \text{kg}^{-1}\
+\text{K}^{-1}\)</span> respectively, estimate the temperature profile within the brick wall after <span class="math inline">\(2\)</span> hours.
+</p>
+<p><strong>Mathematical statement of problem</strong></p>
+<p>Solve the partial differential equation
+
+</p>
+<table width="100%">
+    <tbody>
+        <tr>
+            <td>
+                <p><span class="math inline">\(\qquad\displaystyle
+\dfrac{\partial}{\partial x}\left( k \dfrac{\partial T}{\partial x}
+    \right)= \rho c \dfrac {\partial T}{\partial t}\)</span></p>
+            </td>
+            <td>\((2)\)</td>
+        </tr>
+    </tbody>
+</table>
+
+subject to the initial condition
+
+<table width="100%">
+    <tbody>
+        <tr>
+            <td><span class="math inline">\(\qquad\displaystyle
+  T(x,0) = 800 \sin \dfrac{\pi x}{2 L}\)</span></td>
+            <td>\((3)\)</td>
+        </tr>
+    </tbody>
+</table>
+
+
+and boundary conditions at the inner (<span class="math inline">\(x = L\)</span>) and outer (<span class="math inline">\(x = 0\)</span>) walls of
+
+<table width="97%">
+    <tbody>
+        <tr>
+            <td><span class="math inline">\(\qquad\displaystyle
+T = 0 \hspace{2.0cm} \text{at} \hspace{1.0cm} x = 0\)</span></td>
+            <td>\((4)\)</td>
+        </tr>
+    </tbody>
+</table>
+
+and
+
+<table width="100%">
+    <tbody>
+        <tr>
+            <td><span class="math inline">\(\qquad\displaystyle
+\frac{\partial T}{\partial x} = 0 \hspace{1.5cm} \text{at}
+\hspace{1.0cm} x = L\)</span></td>
+            <td>\((4b)\)</td>
+        </tr>
+    </tbody>
+</table>
+
+Find the temperature profile at <span class="math inline">\(T = 7200 \hspace{0.1cm} \text{seconds} = 2
+\hspace{0.1cm} \text{hours}.\)</span>
+
+<p><strong>Mathematical analysis</strong></p>
+
+<p>Using separation of variables
+
+</p>
+<table width="100%">
+    <tbody>
+        <tr>
+            <td> <span class="math inline">\(\qquad\displaystyle
+T(x,t) = X(x) \times Y(t)\)</span></td>
+            <td>\((5)\)</td>
+        </tr>
+    </tbody>
+</table>
+
+so Equation \((2)\) becomes
+
+<table width="100%">
+    <tbody>
+        <tr>
+            <td><span class="math inline">\(\qquad\displaystyle
+\dfrac{Y'}{Y} = \alpha \dfrac{X''}{X} = K\)</span></td>
+            <td>\((6)\)</td>
+        </tr>
+    </tbody>
+</table>
+
+Using values of <span class="math inline">\(K\)</span> which are zero or positive does not allow a solution which satisfies the initial and boundary conditions. Thus, <span class="math inline">\(K\)</span> is assumed to be negative i.e. <span class="math inline">\(K =
+-\lambda^2\)</span>. Equation \((6)\) separates into the two ordinary differential equations
+<p>\(\qquad \dfrac{dY}{dt} = -\lambda^2 Y \)</p>
+<p>\(\qquad \dfrac{d^2X}{dx^2} = -\lambda^2 \alpha X\)
+</p>
+
+with solutions
+<p>\(\qquad Y = C e^{-\lambda^2 t}\)</p>
+<p>\(\qquad X = A^* \cos \dfrac{\lambda}{\sqrt{\alpha}}x + B^* \sin \dfrac{\lambda}{\sqrt{\alpha}}x\)
+</p>
+
+and
+
+<table width="100%">
+    <tbody>
+        <tr>
+            <td><span class="math inline">\(\qquad\displaystyle
+T = X \times Y \qquad = e^{-\lambda^2 t} \left\{ A \cos
+\dfrac{\lambda}{\sqrt{\alpha}}x + B \sin
+\dfrac{\lambda}{\sqrt{\alpha}}x \right\}\)</span></td>
+            <td>\[(8)\]</td>
+        </tr>
+    </tbody>
+</table>
+
+where <span class="math inline">\(A = A^* \times C\)</span> and <span class="math inline">\(B = B^*\times C\)</span>.
+<p>Setting <span class="math inline">\(T=0\)</span> where <span class="math inline">\(x=0\)</span> (Equation \((4a)\)) gives <span class="math inline">\(A = 0\)</span> i.e.</p>
+
+<table width="100%">
+    <tbody>
+        <tr>
+            <td><span class="math inline">\(\qquad\displaystyle
+T = B e^{-\lambda^2 t}  \sin
+\dfrac{\lambda}{\sqrt{\alpha}}x\)</span></td>
+            <td>\((9)\)</td>
+        </tr>
+    </tbody>
+</table>
+
+<p>and hence</p>
+
+<table width="100%">
+    <tbody>
+        <tr>
+            <td><span class="math inline">\(\qquad\displaystyle
+\dfrac{dT}{dx} = B \dfrac{\lambda}{\sqrt{\alpha}} e^{-\lambda^2 t}
+\cos \dfrac{\lambda}{\sqrt{\alpha}}x\)</span></td>
+            <td>\((10)\)</td>
+        </tr>
+    </tbody>
+</table>
+
+Setting <span class="math inline">\(\dfrac{dT}{dx}=0\)</span> where <span class="math inline">\(x=L\)</span> (and for all <span class="math inline">\(t\)</span>), Equation \((4b)\) gives one of the conclusions,
+
+<p>\(\qquad B = 0\)</p>
+<p>\(\qquad \lambda = 0\)</p>
+<p>\(\qquad \cos \dfrac{\lambda}{\sqrt{\alpha}}L = 0\)
+</p>
+
+The first two possibilities (<span class="math inline">\(B=0\)</span> and <span class="math inline">\(\lambda=0\)</span>) can be discounted as they leave <span class="math inline">\(T = 0\)</span> for all <span class="math inline">\(x\)</span> and
+<span class="math inline">\(t\)</span> and it is not possible to satisfy the initial condition \((3)\). Hence <span class="math inline">\(\cos
+\dfrac{\lambda}{\sqrt{\alpha}}L = 0\)</span> so <span class="math inline">\(\dfrac{\lambda}{\sqrt{\alpha}}L = (n +
+\frac{1}{2})\pi\)</span> and we deduce that
+
+<table width="100%">
+    <tbody>
+        <tr>
+            <td><span class="math inline">\(\qquad\displaystyle
+\lambda = \dfrac{\sqrt{\alpha}}{L}(n + \frac{1}{2})\pi\)</span></td>
+            <td>\((11)\)</td>
+        </tr>
+    </tbody>
+</table>
+
+and so the temperature <span class="math inline">\(T\)</span> satisfies
+
+<table width="100%">
+    <tbody>
+        <tr>
+            <td><span class="math inline">\(\qquad\displaystyle
+T = B e^{-\dfrac{\alpha}{L^2}(n+\frac{1}{2})^2 t}\sin\left\{(n+\frac{1}{2})\dfrac{\pi x}{L}\right\}\)</span></td>
+            <td>\((12)\)</td>
+        </tr>
+    </tbody>
+</table>
+
+However, this must also satisfy Equation \((2)\) i.e.
+
+<table width="100%">
+    <tbody>
+        <tr>
+            <td><span class="math inline">\(\qquad\displaystyle
+800 \sin \dfrac{\pi x}{2 L} = B
+  \sin
+\left\{(n+\frac{1}{2})\dfrac{\pi x}{L}\right\}\)</span></td>
+            <td>\((13)\)</td>
+        </tr>
+    </tbody>
+</table>
+
+Equating the arguments of the sine terms
+<p><span class="math inline">\(\qquad\displaystyle
+\dfrac{\pi x}{2 L} = (n+\frac{1}{2})\dfrac{\pi x}{L}
+  \hspace{1.0cm} \text{so} \hspace{0.5cm} n = 0\)</span> </p>
+Equating the coefficients of the sine terms
+<p><span class="math inline">\(\qquad\displaystyle
+  800 = B\)</span></p>
+So the temperature profile is
+
+<table width="100%">
+    <tbody>
+        <tr>
+            <td><span class="math inline">\(\qquad\displaystyle
+T = 800 e^{-\frac{\alpha t}{2 L^2}} \sin \dfrac{\pi x}{2 L}\)</span></td>
+            <td>\((14)\)</td>
+        </tr>
+    </tbody>
+</table>
+
+where <span class="math inline">\(\alpha = \dfrac{k}{\rho c} =
+\dfrac{0.02}{1900 \times 6} =
+1.764 \times 10^{-6}m^2s^{-1}\)</span>.
+<p>After two hours, <span class="math inline">\(t = 7200\)</span> so <span class="math inline">\(-\dfrac{\alpha t}{2L^2} = -0.438\)</span> so </p>
+
+<table width="100%">
+    <tbody>
+        <tr>
+            <td><span class="math inline">\(\qquad\displaystyle
+T = 800 \times e^{-0.438} \sin  \dfrac{\pi x}{2 L} = 516 \sin \dfrac{\pi
+x}{2 L}\)</span></td>
+            <td>\[(15)\]</td>
+        </tr>
+    </tbody>
+</table>
+
+so the inner wall of the furnace has cooled from
+<span class="math inline">\(800 ^{\circ}\)</span>C to <span class="math inline">\(516 ^{\circ}\)</span>C.
+
+<p><strong>Interpretation</strong></p>
+
+The boundary conditions \((2)\) and \((3)\) represent approximations to the true boundary conditions, approximations made to enable solution by separation of variables. More realistic conditions would be
+<p>\(\qquad -k \dfrac{\partial T(0,t)}{\partial x} = h_{outside} \left\{T_{\infty} - T(0,t) \right\}\)</p>
+<p>\(\qquad -k \dfrac{\partial T(L,t)}{\partial x} = h_{inside} \left\{T(0,t) - T_{s} \right\}\)</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

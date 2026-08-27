@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>10.1.1.10 Complex Conjugate</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>If <span class="math inline">\(z=a+i b\)</span> is any complex number then the complex conjugate of <span class="math inline">\(z\)</span> is denoted by <span class="math inline">\(z^*\)</span> and is defined by <span class="math inline">\[z^*=a-i b.\]</span>(Sometimes the notation <span class="math inline">\(\bar z\)</span> is used instead of <span class="math inline">\(z^*\)</span> to denote the conjugate). </p>
+
+<p>For example if <span class="math inline">\(z=2-3i\)</span> then <span class="math inline">\(z^*=2+3i\)</span>.
+</p>
+
+<p> If <span class="math inline">\(z\)</span> is entirely real then <span class="math inline">\(z^*=z\)</span> whereas if <span class="math inline">\(z\)</span> is entirely imaginary then <span class="math inline">\(z^*=-z\)</span>. E.g. if <span class="math inline">\(z=17i\)</span> then <span class="math inline">\(z^*=-17i\)</span>.
+</p>
+
+<p> In fact the following relationships are easily obtained: <span class="math inline">\[\qquad \text{Re}(z)={z+z^*\over 2}\qquad \text{and}\qquad \text{Im}(z)={i(z^*-z)\over {2}}\]</span></p>
+
+<p>Complex numbers are added, subtracted, multiplied and divided in much the same way as these operations are carried out for real numbers.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

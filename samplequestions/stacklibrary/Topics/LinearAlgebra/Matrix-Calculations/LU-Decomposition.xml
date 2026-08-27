@@ -62,16 +62,6 @@ AA: sol_L . sol_U;]]></text>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <prtcorrect format="html">
-      <text><![CDATA[<p><i class="fa fa-check"></i> Correct answer, well done.</p>]]></text>
-    </prtcorrect>
-    <prtpartiallycorrect format="html">
-      <text><![CDATA[<p><i class="fa fa-adjust"></i> Your answer is partially correct.</p>]]></text>
-    </prtpartiallycorrect>
-    <prtincorrect format="html">
-      <text><![CDATA[<p><i class="fa fa-times"></i> Incorrect answer.</p>]]></text>
-    </prtincorrect>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>onum</multiplicationsign>
     <sqrtsign>1</sqrtsign>

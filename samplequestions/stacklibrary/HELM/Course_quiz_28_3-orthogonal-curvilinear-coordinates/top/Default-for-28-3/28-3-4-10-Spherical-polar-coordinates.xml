@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>28.3.4.10 Spherical polar coordinates</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Spherical polar coordinates</h3>
+<p>In spherical polar coordinates \((r,\theta,\phi)\), the 3 unit vectors are \(\underline{\hat{r}}\), \(\underline{\hat{\theta}}\) and \(\underline{\hat{\phi}}\) with scale factors \(h_{r}=1\), \(h_{\theta} = r\), \(h_{\phi}=r \sin \theta\). The quantities \(r\), \(\theta\) and \(\phi\) are related to \(x\), \(y\) and \(z\) by \(x=r \sin \theta \cos \phi\), \(y=r \sin \theta \sin \phi\) and \(z=r \cos \theta\). In spherical polar coordinates,</p>
+<p>grad \(\displaystyle f = {\underline \nabla} f = \frac{\partial f}{\partial r} \underline{\hat{r}} + \frac{1}{r} \frac{\partial f}{\partial \theta} \underline{\hat{\theta}} + \frac{1}{r \sin \theta} \frac{\partial f}{\partial \phi} \underline{\hat{\phi}}\)</p>
+<p>If \(\underline{F} = F_{r} \underline{\hat{r}} + F_{\theta} \underline{\hat{\theta}} + F_{\phi} \underline{\hat{\phi}}\)<br> then</p>
+<p>div \(\displaystyle \underline{F} = {\underline \nabla} \cdot \underline{F} = \frac{1}{r^2 \sin \theta} \left[ \frac{\partial}{\partial r}(r^2 \sin \theta F_{r}) + \frac{\partial}{\partial \theta}(r \sin \theta F_{\theta}) + \frac{\partial}{\partial \phi}(r F_{\phi}) \right]\)<br> curl \(\displaystyle \underline{F} = {\underline \nabla} \times \displaystyle \underline{F} = \frac{1}{r^2 \sin \theta} \left|\begin{array}{ccc} \underline{\hat{r}} &amp; r \underline{\hat{\theta}} &amp; r \sin \theta \underline{\hat{\phi}} \\ \\ \displaystyle \frac{\partial}{\partial r} &amp; \displaystyle \frac{\partial}{\partial \theta} &amp; \displaystyle \frac{\partial}{\partial \phi} \\ \\ F_{r} &amp; r F_{\theta} &amp; r \sin \theta F_{\phi} \end{array} \right|\) </p>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>In spherical polar coordinates, find \({\underline \nabla} f\) for
+<ol class="HELM_parts_inline">
+<li> \(f = r\) </li><li> \(\displaystyle f = \frac{1}{r}\) </li>
+<li> \(f = r^2 \sin(\phi + \theta)\)</li></ol></p>
+<h4 class="HELM_solution">Solution</h4>
+<ol class="HELM_parts">
+<li><p>
+\[
+\begin{aligned} {\underline \nabla} f &=
+\frac{\partial f}{\partial r} \underline{\hat{r}} + \frac{1}{r}
+\frac{\partial f}{\partial \theta} \underline{\hat{\theta}} +
+\frac{1}{r \sin \theta} \frac{\partial f}{\partial \phi}
+\underline{\hat{\phi}}
+\\
+&=\frac{\partial (r)}{\partial r} \underline{\hat{r}} +
+\frac{1}{r}  \frac{\partial (r)}{\partial
+\theta} \underline{\hat{\theta}} + \frac{1}{r \sin \theta} 
+\frac{\partial (r)}{\partial \phi} \underline{\hat{\phi}} \\
+&= 1 \underline{\hat{r}} = \underline{\hat{r}}
+\end{aligned}
+\]</p></li>
+<li><p>
+\[\begin{aligned} {\underline \nabla} f &=
+\frac{\partial f}{\partial r} \underline{\hat{r}} + \frac{1}{r}
+\frac{\partial f}{\partial \theta} \underline{\hat{\theta}} +
+\frac{1}{r \sin \theta} \frac{\partial f}{\partial \phi}
+\underline{\hat{\phi}}
+\\
+&=  \frac{\partial (\frac{1}{r})}{\partial r} \underline{\hat{r}} +
+\frac{1}{r}  \frac{\partial (\frac{1}{r})}{\partial
+\theta} \underline{\hat{\theta}} + \frac{1}{r \sin \theta}
+\frac{\partial (\frac{1}{r})}{\partial \phi} \underline{\hat{\phi}} \\
+&= -\frac{1}{r^2} \underline{\hat{r}}
+\end{aligned}\]</p></li>
+<li><p> \[\begin{aligned}\qquad\quad {\underline \nabla} f &=
+\frac{\partial f}{\partial r} \underline{\hat{r}} + \frac{1}{r}
+\frac{\partial f}{\partial \theta} \underline{\hat{\theta}} +
+\frac{1}{r \sin \theta} \frac{\partial f}{\partial \phi}
+\underline{\hat{\phi}}
+\\
+&= \frac{\partial (r \sin(\phi
++ \theta)}{\partial r} \underline{\hat{r}}  + \frac{1}{r} 
+\frac{\partial (r \sin(\phi + \theta)}{\partial \theta} \underline{\hat{\theta}} +
+\frac{1}{r \sin \theta} 
+\frac{\partial (r^2 \sin(\phi + \theta)}{\partial \phi} \underline{\hat{\phi}} \\
+&=  2r \sin(\phi + \theta)\underline{\hat{r}} + \frac{1}{r}
+ r^2 \cos(\phi + \theta)\underline{\hat{\theta}}  + \frac{1}{r
+\sin \theta} 
+ r^2 \cos(\phi + \theta) \underline{\hat{\phi}} \\
+ &= 2r \sin(\phi + \theta) \underline{\hat{r}} + r \cos(\phi +
+ \theta) \underline{\hat{\theta}} + \frac{r\cos (\phi + \theta)}{\sin
+ \theta} \underline{\hat{\phi}} \end{aligned}\]
+</p></li>
+<hr>
+<h4 class="HELM_example">Engineering Example</h4>
+<p><b>Electric potential</b></p>
+<p><strong>Introduction</strong></p>
+<p>There is a scalar quantity \(V\), called the electric potential, which satisfies \(\qquad {\underline \nabla}V=-{\underline E}\) where \(\underline{E}\) is the electric field.</p>
+<p>It is often easier to handle scalar fields rather than vector fields. It is therefore convenient to work with \(V\) and then derive \(\underline{E}\) from it.</p>
+<p><strong>Problem in words</strong></p>
+<p>Given the electric potential, find the electric field.</p>
+<p><strong>Mathematical statement of problem</strong></p>
+<p>For a point charge, \(Q\), the potential \(V\) is given by</p>
+ <p>\(\qquad\displaystyle V=\dfrac{Q}{4\pi\epsilon_0 r}\)</p>
+<p>Verify, using spherical polar coordinates, that \({\underline E}= -{\underline \nabla}V=\dfrac{Q}{4\pi\epsilon_0r^2}{\underline {\hat r}}\)</p>
+<p><strong>Mathematical analysis</strong></p>
+<p>In spherical polar coordinates:
+\[\begin{aligned} {{\underline \nabla}}V&=\dfrac{\partial V}{\partial r}{\underline {\hat r}} +\dfrac{1}{r}\dfrac{\partial V}{\partial \theta} {\underline {\hat\theta}}+\dfrac{1}{r\sin \theta}\dfrac{\partial V}{\partial \phi}{\underline {\hat \phi}}\\
+&=\dfrac{\partial V}{\partial r}{\underline {\hat r}}\quad\text{ as the other partial derivatives are zero}\\
+&=\dfrac{\partial}{\partial r}\left[\dfrac{Q}{4\pi\epsilon_0r}\right]{\underline {\hat r}}\\
+&=-\dfrac{Q}{4\pi\epsilon_0r^2}{\underline {\hat r}}\end{aligned}\]</p>
+<p><strong>Interpretation</strong></p>
+<p>So \({\underline E}=\dfrac{Q}{4\pi\epsilon_0r^2}{\underline {\hat r}}\) as required.
+</p>
+<p>This is a form of Coulomb’s Law. A positive charge will experience a positive repulsion radially <em>outwards</em> in the field of another positive charge. </p>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Using spherical polar coordinates, find \({\underline \nabla} \cdot \underline{F}\) for the following vector functions.
+<ol class="HELM_parts"> 
+<li>\(\displaystyle \underline{F} = r\underline{\hat{r}}\) </li>
+<li> \(\underline{F} = r^2 \sin \theta \underline{\hat{r}}\) </li>
+<li> \(\underline{F} = r \sin \theta \; \underline{\hat{r}} + r^2 \sin \phi \; \underline{\hat{\theta}} + r \cos \theta \; \underline{\hat{\phi}}\)</li></ol></p>
+<h4 class="HELM_solution">Solution</h4>
+<ol class="HELM_parts"><li>
+\[\begin{aligned}
+{\underline \nabla} \cdot \underline{F} &= \frac{1}{r^2 \sin \theta} \left[
+\frac{\partial}{\partial r}(r^2 \sin \theta F_{r}) +
+\frac{\partial}{\partial \theta}(r \sin \theta F_{\theta}) +
+\frac{\partial}{\partial \phi}(r  F_{\phi})  \right]\\
+&= \frac{1}{r^2 \sin \theta} \left[ \frac{\partial}{\partial
+r}(r^2 \sin \theta \times r) + \frac{\partial}{\partial \theta}(r
+\sin \theta \times 0) + \frac{\partial}{\partial \phi}(r \times 0)
+\right]\\
+&= \frac{1}{r^2 \sin \theta} \left[ \frac{\partial}{\partial r}(r^3
+\sin \theta) + \frac{\partial}{\partial \theta}(0) +
+\frac{\partial}{\partial \phi}(0) \right]\\
+&= \frac{1}{r^2 \sin \theta} \left[ 3 r^2 \sin \theta + 0 + 0
+\right]= 3\end{aligned}\]
+Note :- in Cartesian coordinates, the corresponding vector is
+\(\underline{F} = x\underline{i} + y\underline{j}+z\underline{k}\)
+with \({\underline \nabla} \cdot \underline{F} = 1+1+1 = 3\) (hence consistency). </li>
+
+<li>\[\begin{aligned} {\underline \nabla} \cdot \underline{F} &= \frac{1}{r^2 \sin \theta} \left[
+\frac{\partial}{\partial r}(r^2 \sin \theta \; F_{r}) +
+\frac{\partial}{\partial \theta}(r \sin \theta \; F_{\theta}) +
+\frac{\partial}{\partial \phi}(r  F_{\phi})  \right]\\
+&= \frac{1}{r^2 \sin \theta} \left[ \frac{\partial}{\partial
+r}(r^2 \sin \theta \; r^2 \sin \theta) + \frac{\partial}{\partial
+\theta}(r \sin \theta \times 0) + \frac{\partial}{\partial \phi}(r
+\times 0) \right]
+\\ &= \frac{1}{r^2 \sin \theta} \left[ \frac{\partial}{\partial
+r}(r^4 \sin^2 \theta) + \frac{\partial}{\partial \theta}(0) +
+\frac{\partial}{\partial \phi}(0) \right]\\&= \frac{1}{r^2 \sin \theta} \left[ 4 r^3 \sin^2 \theta + 0 + 0
+\right]= 4 r \sin \theta
+\end{aligned}\]</li>
+
+<li>\[\begin{aligned} {\underline \nabla} \cdot \underline{F} &= \frac{1}{r^2 \sin \theta} \left[
+\frac{\partial}{\partial r}(r^2 \sin \theta \; F_{r}) +
+\frac{\partial}{\partial \theta}(r \sin \theta \; F_{\theta}) +
+\frac{\partial}{\partial \phi}(r  F_{\phi})  \right]\\
+&= \frac{1}{r^2 \sin \theta} \left[ \frac{\partial}{\partial
+r}(r^2 \sin \theta \; r \sin \theta) + \frac{\partial}{\partial
+\theta}(r \sin \theta \times r^2 \sin \phi) +
+\frac{\partial}{\partial \phi}(r \times \; r \cos \theta) \right]
+\\ &= \frac{1}{r^2 \sin \theta} \left[ \frac{\partial}{\partial
+r}(r^3 \sin^2 \theta) + \frac{\partial}{\partial \theta}(r^3 \sin
+\theta \sin \phi ) +
+\frac{\partial}{\partial \phi}(r^2 \cos \phi) \right]\\ &= \frac{1}{r^2 \sin \theta} \left[ 3 r^2 \sin^2 \theta + r^3
+\cos \theta \; \sin \phi + 0
+\right]=3 \sin \theta + r \cot \theta \; \sin \phi
+\end{aligned}\]</li>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Using spherical polar coordinates, find \({\underline \nabla} \times \underline{F}\) for the following vector fields \(\underline{F}\).
+<ol class="HELM_parts">
+<li>\(\underline{F} = r^k \underline{\hat{r}}\), where \(k\) is a constant</li>
+<li>\(\underline{F} = r^2 \cos \theta \; \underline{\hat{r}} + \sin \theta \; \underline{\hat{\theta}} + \sin^2 \theta \; \underline{\hat{\phi}}\)</li>
+</ol></p>
+<h4 class="HELM_solution">Solution</h4>
+<ol class="HELM_parts">
+<li>\[\begin{aligned}
+{\underline \nabla}\! \times\! \displaystyle \underline{F} &= \frac{1}{r^2 \sin
+\theta} \left|\begin{array}{ccc}
+   \underline{\hat{r}} & r \underline{\hat{\theta}} & r^2 \sin \theta \; \underline{\hat{\phi}}
+   \\
+   \displaystyle \frac{\partial}{\partial r} & \displaystyle \frac{\partial}{\partial \theta} &
+   \displaystyle \frac{\partial}{\partial \phi} \\ \\
+  F_{r} & r F_{\theta} & r^2 \sin \theta F_{\phi}
+\end{array} \right|\\ &=
+\frac{1}{r^2 \sin \theta} \left|\begin{array}{ccc}
+   \underline{\hat{r}} & r \underline{\hat{\theta}} & r^2 \sin \theta \; \underline{\hat{\phi}}
+   \\
+   \displaystyle \frac{\partial}{\partial r} & \displaystyle \frac{\partial}{\partial \theta} &
+   \displaystyle \frac{\partial}{\partial \phi} \\
+  r^k & r \times 0 & r^2 \sin \theta \times 0
+\end{array} \right| \\
+&= \frac{1}{r^2 \sin \theta} \left[ \left(
+\frac{\partial}{\partial \theta}(0) - \frac{\partial}{\partial
+\phi}(0) \right) \underline{\hat{r}} + \left(
+\frac{\partial}{\partial \phi}(r^k) - \frac{\partial}{\partial
+r}(0) \right) r \underline{\hat{\theta}} + \left( \frac{\partial}{\partial r}(0) - \frac{\partial}{\partial \theta}(r^k) \right)
+r^2 \sin \theta \underline{\hat{\phi}} \right] \\
+&= 0 \; \underline{\hat{r}} + 0 \; \underline{\hat{\theta}} + 0
+\; \underline{\hat{\phi}} = \underline{0}
+\end{aligned}\]</li>
+<li>\[\begin{aligned} {\underline \nabla} \times \displaystyle \underline{F} &= \frac{1}{r^2 \sin \theta} \left|\begin{array}{ccc}
+   \underline{\hat{r}} & r \underline{\hat{\theta}} & r \sin \theta \; \underline{\hat{\phi}}
+   \\
+   \displaystyle \frac{\partial}{\partial r} & \displaystyle \frac{\partial}{\partial \theta} &
+   \displaystyle \frac{\partial}{\partial \phi} \\
+  F_{r} & r F_{\theta} & r \sin \theta F_{\phi}
+\end{array} \right| \\
+&=\frac{1}{r^2 \sin \theta} \left|\begin{array}{ccc}
+   \underline{\hat{r}} & r \underline{\hat{\theta}} & r \sin \theta \; \underline{\hat{\phi}}
+   \\
+   \displaystyle \frac{\partial}{\partial r} & \displaystyle \frac{\partial}{\partial \theta} &
+   \displaystyle \frac{\partial}{\partial \phi} \\
+  r^2 \cos \theta & r \times \sin \theta & r \sin \theta \times \sin^2
+  \theta
+\end{array} \right| \\
+&= \frac{1}{r^2 \sin \theta} \left[ \left(
+\frac{\partial}{\partial \theta}(r \sin^3 \theta) -
+\frac{\partial}{\partial \phi}(r \sin \theta) \right)
+\underline{\hat{r}} + \left( \frac{\partial}{\partial \phi}(r^2
+\cos \theta) - \frac{\partial}{\partial r}(r \sin^3 \theta)
+\right) r \underline{\hat{\theta}} + \left( \frac{\partial}{\partial r}(r \sin \theta) -
+\frac{\partial}{\partial \theta}(r^2 \cos \theta) \right)
+r \sin \theta \underline{\hat{\phi}} \right] \\
+&= \frac{1}{r^2 \sin \theta} \left[ \left( 3 r \sin^2 \theta
+\cos \theta +0 \right) \underline{\hat{r}} + \left( 0 -  \sin^3
+\theta \right) r \underline{\hat{\theta}} \left( \sin \theta + r \sin \theta \right) r \sin \theta \underline{\hat{\phi}} \right] \\
+&= \dfrac{3 \sin \theta \cos \theta}{r} \underline{\hat{r}} - \dfrac{ \sin^2\theta}{r}
+\underline{\hat{\theta}} + \dfrac{(1 + r^2)}{r} \sin \theta
+\underline{\hat{\phi}}
+\end{aligned}\]</li>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

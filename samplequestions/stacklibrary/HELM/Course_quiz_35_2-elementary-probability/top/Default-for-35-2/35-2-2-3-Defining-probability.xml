@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>35.2.2.3 Defining probability</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h5> Notation </h5>
+<p> If \(A\) is an event associated with a sample space \(S\) then the probability of \(A\) occurring is denoted by \(\mathbb{P}(A)\). Referring to the examples above we may immediately deduce that</p>
+<ol type="a">
+<li> \(\displaystyle \text{P}(H) = \text{P}(T) =\frac12\) </li>
+<li> \(\displaystyle \text{P}(1) = \text{P}(2) = \text{P}(3) = \text{P}(4) = \text{P}(5) = \text{P}(6) = \frac16\) </li>
+<li> \(\displaystyle \text{P}(HHH) = \text{P}(HHT) = \text{P}(HTH) = \text{P}(THH)= \text{P}(HTT)\)\[ =\text{P}(THT) = \text{P}(TTH) = \text{P}(TTT) = \frac18\] </li>
+</ol>
+<h5> Definition </h5>
+<p> We can now define probability using the Principle of Equally Likely Outcomes as follows:
+If a sample space \(S\) consists of \(n\) simple outcomes which are equally likely and an event \(A\) consists of \(m\) of those simple outcomes, then\[\text{P}(A) = \frac{m}{n} = \frac{\text{the number of simple outcomes in }A}{\text{the number of simple outcomes in }S}.\]It follows from definition that \(0\leq\text{P}(A)\leq1\).</p>
+<ul>
+<li> If \(\text{P}(A) = 1\) we say that the event \(A\) is <strong>certain</strong> because \(A\) is identical to \(S\). </li>
+<li> If \(\text{P}(A) = 0\) we say that the event \(A\) is <strong>impossible</strong> because \(A\) is empty. </li>
+</ul>
+<p> The set with no outcomes in it is called the <strong>empty set</strong> and is written \(\varnothing\); therefore \(\text{P}(\varnothing)=0\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

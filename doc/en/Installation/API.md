@@ -17,7 +17,7 @@ To use the API look at `http://localhost:3080/stack.php` (or perhaps `http://172
 
 To stop the docker container try `docker compose -f docker-compose.yml down`
 
-The API alos provides a bulk test option `http://localhost:3080/bulktest.php`
+The API also provides a bulk test option `http://localhost:3080/bulktest.php`
 
 ## Building the image locally
 

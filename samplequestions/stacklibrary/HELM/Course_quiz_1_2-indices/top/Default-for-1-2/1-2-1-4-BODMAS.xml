@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>1.2.1.4 BODMAS</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p wiid="N1150">Recall that when several operations are involved we can make use of the BODMAS rule for
+deciding the order in which operations must be carried out. The BODMAS rule makes no mention of
+exponentiation. Exponentiation should be carried out immediately after any brackets have been dealt
+with and before multiplication and division. Consider the following examples.</p>
+
+<hr wiid="C1151">
+<h4 class="HELM_example" wiid="C1152">Example <br></h4>
+<p wiid="C1153"> Evaluate \(7\times 3^2\).</p>
+<h4 class="HELM_solution" wiid="C1154">Solution</h4>
+<p wiid="C1155">There are two operations involved here, exponentiation and multiplication. The
+exponentiation should be carried out before the multiplication. So \(7\times 3^2 = 7\times 9 = 63
+\).</p>
+
+
+<hr wiid="C1156">
+
+<h4 class="HELM_example" wiid="C1157">Example <br></h4>
+<p wiid="C1158">Write out fully </p>
+<ol class="HELM_parts_inline" wiid="C1159">
+<li wiid="C1160">\(3m^4\)</li>
+<li wiid="C1161">\((3m)^4\)</li>
+</ol>
+<h4 class="HELM_solution" wiid="C1162">Solution</h4>
+<ol class="HELM_parts" wiid="C1163">
+  <li wiid="C1164"><p wiid="C1165">In the expression \(3m^4\) the exponentiation is carried
+out before the multiplication by 3. So
+ \(   3m^4\) means \(3\times(m\times m\times
+m\times m)\)
+that is \( 3\times m \times m \times m
+\times m
+\)</p></li>
+  <li wiid="C1166"><p wiid="C1167">Here the bracketed expression is raised to the power 4 and so
+should be multiplied by itself four times:
+ \(   (3m)^4 = (3m)\times (3m)\times  (3m)\times (3m)
+\)</p>
+<p wiid="C1168">Because of the associativity of multiplication we can write
+this as \(   3\times 3\times 3\times 3 \times m\times m \times m
+\times m \) or simply \(81m^4\).</p>
+<p wiid="C1169">Note the important distinction between \((3m)^4\) and \(3m^4\).</p></li>
+</ol>
+<hr wiid="C1170">]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

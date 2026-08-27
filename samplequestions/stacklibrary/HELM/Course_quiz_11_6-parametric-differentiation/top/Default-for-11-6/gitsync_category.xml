@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category>
+      <text>top/Default for 11.6</text>
+    </category>
+    <info format="html">
+      <text>The default category for questions shared in context '11.6 Parametric Differentiation'.</text>
+    </info>
+    <idnumber/>
+  </question>
+</quiz>

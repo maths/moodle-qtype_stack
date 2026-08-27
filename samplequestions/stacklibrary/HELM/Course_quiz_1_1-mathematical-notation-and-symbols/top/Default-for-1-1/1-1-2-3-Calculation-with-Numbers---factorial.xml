@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>1.1.2.3 Calculation with Numbers - factorial</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h5><span style="color: inherit; font-family: inherit;">The factorial symbol (\(!\))</span><br></h5>
+<p>Another commonly used notation is the <strong>factorial</strong>, denoted by the exclamation mark ‘!’. The number \(5!\), read ‘five factorial’, or ‘factorial five’, is a shorthand notation for the expression \(5\times 4 \times 3 \times 2 \times 1\), and the number \(7!\) is shorthand for \(7\times 6\times 5\times 4 \times 3 \times 2 \times 1\). Note that \(1!\) equals 1, and by convention \(0!\) is defined as 1 also. Your scientific calculator is probably able to evaluate factorials of small integers. It is important to note that factorials only apply to positive integers.
+
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p><strong>Factorial notation</strong></p>
+<p>If n is a positve integer then \(\qquad  n! = n\times (n-1)\times (n-2)\times ... \times 4 \times 3 \times 2 \times 1\)</p>
+</div>
+<br>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p></p>
+<ol class="HELM_parts">
+<li>Evaluate 4! and 5! without using a calculator.</li>
+<li>Use your calculator to find \(10\)!.</li>
+</ol>
+
+<h4 class="HELM_solution">Solution</h4>
+<p></p>
+<ol class="HELM_parts">
+<li>\(4! = 4 \times 3 \times 2 \times 1 = 24\) Similarly, 5! = 5 \times 4 \times 3 \times 2 \times 1 = 120 Note that 5! = 5 \times 4! = 5 \times 24 = 120</li>
+<li>\(10! = 3, 628, 800\)</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

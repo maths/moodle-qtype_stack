@@ -43,12 +43,30 @@ class stack_question_library {
      * @return string HTML render of question text
      */
     public static function render_question(object $question): string {
+        global $CFG;
         StackSeedHelper::initialize_seed($question, null);
 
         // Handle Pluginfiles.
         $storeprefix = uniqid();
         StackPlotReplacer::persist_plugin_files($question, $storeprefix);
-
+        switch ($question->questiontextformat) {
+            case 'html':
+                $format = FORMAT_HTML;
+                break;
+            case 'plain':
+                $format = FORMAT_PLAIN;
+                break;
+            case 'markdown':
+                $format = FORMAT_MARKDOWN;
+                break;
+            case 'moodle':
+                $format = FORMAT_MOODLE;
+                break;
+            default:
+                $format = $question->questiontextformat;
+                break;
+        }
+        $question->questiontextformat = $format;
         $question->initialise_question_from_seed();
 
         $question->castextprocessor = new \castext2_qa_processor(new \stack_outofcontext_process());
@@ -80,11 +98,6 @@ class stack_question_library {
         );
 
         StackPlotReplacer::replace_plots($plots, $questiontext, 'render', $storeprefix);
-        $formatoptions = new stdClass();
-        $formatoptions->noclean = true;
-        $formatoptions->para = false;
-        $formatoptions->allowid = true;
-        $questiontext = format_text($questiontext, FORMAT_HTML, $formatoptions);
 
         foreach ($question->inputs as $name => $input) {
             $tavalue = $question->get_ta_for_input($name);
@@ -93,14 +106,29 @@ class stack_question_library {
             // ISS1436 - As far as I can tell, only equiv input is using $tavalue
             // and that's expecting a string not an array.
             $render = $input->render($state, $fieldname, false, $tavalue);
-            StackPlotReplacer::replace_plots($plots, $render, "answer-".$name, $storeprefix);
-            $questiontext = str_replace("[[input:{$name}]]",
+            StackPlotReplacer::replace_plots($plots, $render, "answer-" . $name, $storeprefix);
+            $questiontext = str_replace(
+                "[[input:{$name}]]",
                 $render,
-                $questiontext);
-            $questiontext = str_replace("[[validation:{$name}]]",
+                $questiontext
+            );
+            $questiontext = str_replace(
+                "[[validation:{$name}]]",
                 '',
-                $questiontext);
+                $questiontext
+            );
         }
+
+        foreach ($plots as $original => $new) {
+            $questiontext = str_replace($original, $CFG->wwwroot . '/question/type/stack/plot.php/' . $new, $questiontext);
+        }
+
+        $formatoptions = new stdClass();
+        $formatoptions->noclean = true;
+        $formatoptions->para = false;
+        $formatoptions->allowid = true;
+        $formatoptions->filter = true;
+        $questiontext = format_text($questiontext, FORMAT_HTML, $formatoptions);
 
         return '<div class="formulation">' . $questiontext . '</div>';
     }
@@ -109,10 +137,12 @@ class stack_question_library {
      * Gets the structure of folders and files within a given directory
      * See questionfolder.mustache for output and usage.
      * We sanitise the structure a bit to remove gitsync files and folders.
-     * @param string directory within samplequestions to be examined
+     * @param string sanitised search string e.g. '/srv/stack/samplequestions/stacklibrary/*'
+     * with the full real path of the folder and search criteria.
      * @return object StdClass Representation of the file system
      */
     public static function get_file_list(string $dir): object {
+        global $CFG;
         $files = glob($dir);
         $results = new stdClass();
         $labels = explode('/', $dir);
@@ -126,11 +156,11 @@ class stack_question_library {
                 if (
                     (pathinfo($path, PATHINFO_EXTENSION) === 'xml' && strrpos($path, 'gitsync_category') === false)
                     || (pathinfo($path, PATHINFO_EXTENSION) === 'json' && strrpos($path, '_quiz.json') !== false)
-                 ) {
+                ) {
                     $childless = new StdClass();
-                    // Get the path relative to the samplequestions folder.
-                    $pathfromsq = str_replace('samplequestions/', '', $path);
-                    $pathfromsq = str_replace('../', '', $pathfromsq);
+                    // Get the path relative to the samplequestions or stack dataroot folder.
+                    $pathfromsq = str_replace(dirname(__DIR__) . '/samplequestions/', '', $path);
+                    $pathfromsq = str_replace("{$CFG->dataroot}/stack/", '', $pathfromsq);
                     $childless->path = $pathfromsq;
                     $labels = explode('/', $path);
                     $childless->label = end($labels);
@@ -145,8 +175,10 @@ class stack_question_library {
                         $topquizzes = [];
                         $topfolders = [];
                         foreach ($topchildren as $topchild) {
-                            if (isset($topchild->path) && pathinfo($topchild->path, PATHINFO_EXTENSION) === 'json'
-                                    && strrpos($topchild->path, '_quiz.json') !== false) {
+                            if (
+                                isset($topchild->path) && pathinfo($topchild->path, PATHINFO_EXTENSION) === 'json'
+                                    && strrpos($topchild->path, '_quiz.json') !== false
+                            ) {
                                 $topquizzes[] = $topchild;
                             } else if ($topchild->isdirectory) {
                                 $topfolders[] = $topchild;

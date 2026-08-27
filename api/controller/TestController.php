@@ -47,8 +47,9 @@ class TestController {
     public function __invoke(Request $request, Response $response, array $args): Response {
         // TO-DO: Validate.
         $data = $request->getParsedBody();
+        current_language($data['lang'] ?? null);
 
-        list('question' => $question, 'testcases' => $testcases) = StackQuestionLoader::loadxml($data["questionDefinition"], true);
+        ['question' => $question, 'testcases' => $testcases] = StackQuestionLoader::loadxml($data["questionDefinition"], true);
         $question->castextprocessor = new \castext2_qa_processor(new \stack_outofcontext_process());
 
         $testresponse = new StackTestResponse();
@@ -83,14 +84,20 @@ class TestController {
             $question->initialise_question_from_seed();
         }
 
-        // Check for upgrade errors and return response immediately if so.
+        // Check for upgrade and validation errors and return response immediately if so.
+        // We maybe don't want to be this harsh with all validation issues but they
+        // do include 'marked as broken'.
         // Errors will be listed in overall response messages.
         $dummycontext = new \stdClass(); // Required for unit tests.
         $dummycontext->id = 0;
         $upgradeerrors = $question->validate_against_stackversion($dummycontext);
-        if ($upgradeerrors != '') {
+        $validationerrors = $question->validate_for_bulk($dummycontext);
+        if ($upgradeerrors != '' || $validationerrors != '') {
             $testresponse->isupgradeerror = true;
-            $testresponse->messages = $upgradeerrors;
+            $testresponse->messages =
+                ($upgradeerrors != '' && $validationerrors != '') ?
+                $upgradeerrors . ' ' . $validationerrors :
+                $upgradeerrors . $validationerrors;
             $testresponse->results = [];
             $response->getBody()->write(json_encode($testresponse));
             return $response->withHeader('Content-Type', 'application/json');
@@ -182,10 +189,14 @@ class TestController {
                 // We could just check if score === 1 at this point but by creating
                 // a test and running it we get the full outcomes in the same
                 // format as above.
-                $answernotes = $result->get_answernotes();
-                $answernote = [end($answernotes)];
                 $qtest->add_expected_result($prtname, new \stack_potentialresponse_tree_state(
-                    1, true, 1, 0, '', $answernote));
+                    1,
+                    true,
+                    1,
+                    0,
+                    '',
+                    $result->get_answernotes_testcase()
+                ));
             }
             $results = $qtest->process_results($question, $response);
             $summary = $results->passed_with_reasons();

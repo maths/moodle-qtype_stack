@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>13.2.2.3 Work done by a spring</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Note from the previous question that interchanging the limits of integration, changes the sign of the answer.</p>
+
+<p>If you interchange the limits, you must change the sign:</p>
+<div class="HELM_keypoint">
+    <h4>Key Point</h4>
+    <p>\({\displaystyle\int_a^bf(x) \,\mathrm{d}x}= -{\displaystyle\int_b^af(x) \,\mathrm{d}x}\)</p>
+</div>
+
+<hr>
+<h3><span>The work done by a spring</span><br></h3>
+<h4 class="HELM_example">Example</h4>
+<p>When a spring is fixed at one end and stretched at the free end it exerts a restoring force that is proportional to the displacement of the free end. The constant of proportionality \(k \ (\mathrm{Nm}^{-1})\) is known as the <strong>stiffness</strong>    of the spring. Calculate the work done in stretching a spring with stiffness \(k\) from displacement \(x_1 \ \mathrm{m}\) to displacement \(x_2 \ \mathrm{m}\) (\(x_2 &gt; x_1\)) given that the work done \((W)\) is the product of force and displacement.</p>
+
+<h4 class="HELM_solution">Solution</h4>
+<p>The restoring force varies during the displacement. So the work done during the extension cannot be determined from a single simple product. Consider a small element \(\delta x\) of the extension beyond an arbitrary displacement \(x\) The element is sufficiently
+    small that the force during the displacement can be regarded as constant and equal to the force at displacement \(x\) is \(kx\). So the work done \(\delta W\) in extending the spring from displacement \(x\) to displacement \(x+\delta x\) is approximately
+    \(kx\delta x\).Using the idea of integration as a limit of a sum, in this case as \(\delta x\) tends to zero, \( W={\displaystyle\int_{x_1}^{x_2}kx \,\mathrm{d}x} = \left[\dfrac{1}{2}kx^2\right]_{x_1}^{x_2}=\dfrac{1}{2}k(x_2^2-x_1^2)\)</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

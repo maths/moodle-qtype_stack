@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>19.3.3.1 The Particular Integral</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>The Particular Integral</h4>
+
+<p>Given a second order ODE \[ a{\mathrm{d}^2y\over \mathrm{d}x^2}+b{\mathrm{d}y\over \mathrm{d}x}+c\ y=f(x),\]
+</p>
+<p>a <strong>particular integral </strong>is any function, \(y_\text{p}(x)\), which satisfies the ODE. That is, any function which when substituted into the left-hand side, results in the expression on the right-hand side.</p>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p> Show that \( y = -\dfrac{1}{4}e^{2x}\) is a particular integral of \[ \dfrac{d^2y}{dx^2} - \dfrac{dy}{dx} - 6y = e^{2x} \]</p>
+
+<h4 class="HELM_solution">Solution</h4>
+<p>Starting with \( y = -\dfrac{1}{4}e^{2x}\) we find \[ \dfrac{dy}{dx} = - \dfrac{1}{2}e^{2x}, \qquad \dfrac{d^2y}{dx^2} =-e^{2x} \]</p>
+<p>Substitution into the ODE yields \[ - e^{2x} - (- \dfrac{1}{2}e^{2x}) - 6 (- \dfrac{1}{2}e^{2x})\]</p>
+<p>which simplifies to \(e^{2x},\) the same as the right-hand side.
+</p>
+<p>Therefore \( y = -\dfrac{1}{4}e^{2x}\) is a particular integral and we write (attaching a subscript p):</p>
+<p>\( y_{p}(x) = -\dfrac{1}{4}e^{2x}.\)</p>
+<p>A particular integral is <strong>any</strong> solution of a differential equation.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

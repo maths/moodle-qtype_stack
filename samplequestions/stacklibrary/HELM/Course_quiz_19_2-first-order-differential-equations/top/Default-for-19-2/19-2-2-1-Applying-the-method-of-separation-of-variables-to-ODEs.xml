@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>19.2.2.1 Applying the method of separation of variables to ODEs</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Applying the method of separation of variables to ODEs</h4>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Use the method of separation of variables to solve the differential equation
+\[ \dfrac{\mathrm{d}y}{\mathrm{d}x}=\dfrac{3x^2}{y}.\]</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>The equation already has the form \[\dfrac{\mathrm{d}y}{\mathrm{d}x}=f(x)g(y)\] where\[f(x)=3x^2\quad \text{and} \quad g(y)=1/y.\] Dividing both sides by <span class="math inline">\(g(y)\)</span> we find \[y\dfrac{\mathrm{d}y}{\mathrm{d}x} = 3x^2. \] Integrating both sides with respect to <span class="math inline">\(x\)</span> gives \[ \int y\dfrac{\mathrm{d}y}{\mathrm{d}x} \,\mathrm{d}x = 3x^2 \,\mathrm{d}x\] that is \[ \int y\ \mathrm{d}y = \int 3x^2 \, \mathrm{d}x.\] Note that the left-hand side is an integral involving just <span class="math inline">\(y\)</span>; the right-hand side is an integral involving just <span class="math inline">\(x\)</span>. After integrating both sides with respect to the stated variables we find \[ \dfrac{1}{2} y^2 = x^3 + c \] where <span class="math inline">\(c\)</span> is a constant of integration. (You might think that there would be a constant on the left-hand side too. You are quite right but the two constants can be combined into a single constant and so we need only write one.) We now have a relationship between <span class="math inline">\(y\)</span> and <span class="math inline">\(x\)</span> as required. Often it is sufficient to leave your answer in this form but you may also be required to obtain an explicit relation for <span class="math inline">\(y\)</span> in terms of <span class="math inline">\(x\)</span>. In this particular case \[y^2=2x^3+2c\]  so that \[y=\pm \sqrt{2x^3+2c} .\]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -39,7 +39,6 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
  * @covers \stack_dropdown_input
  */
 final class input_dropdown_exception_test extends qtype_stack_testcase {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     protected function make_dropdown($parameters = []) {
         $el = stack_input_factory::make('dropdown', 'ans1', $this->make_ta(), null, $parameters);

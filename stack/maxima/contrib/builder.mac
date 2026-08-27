@@ -33,14 +33,14 @@ builder_correct(opts) := block(
  [oo,o],
  oo : sublist(opts,lambda([o],o[3] > 0)),
  oo : sort(oo,lambda([p,q],ev(p[3] < q[3],pred))),
- return(map(first,oo))
+ return(map('first, oo))
 )$
 
 builder_sol(opts) := block(
  [oo,o],
  oo : sublist(opts,lambda([o],o[3] > 0)),
  oo : sort(oo,lambda([p,q],ev(p[3] < q[3],pred))),
- return(simplode(map(second,oo)," "))
+ return(simplode(map('second, oo)," "))
 )$
 
 builder_say_includes(phrase) := sconcat(

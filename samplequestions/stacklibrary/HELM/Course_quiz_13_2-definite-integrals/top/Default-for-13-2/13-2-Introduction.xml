@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>13.2 Introduction</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>When you were first introduced to integration as the reverse of differentiation, the integrals you dealt with were <strong>indefinite integrals</strong>. The result of finding an indefinite integral is usually a function plus a constant of integration. In this Section we introduce <strong>definite integrals</strong>, so called because the result will be a definite answer, usually a number, with no constant of integration. Definite integrals have many applications, for example in finding areas bounded by curves, and finding volumes of solids.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

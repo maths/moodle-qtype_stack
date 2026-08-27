@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>22.1.4.2 Solutions</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>If <span class="math inline">\(\lambda_1,\lambda_2,\ldots \lambda_n\)</span> are the eigenvalues of a matrix <span class="math inline">\(A,\)</span>, get a piece of paper and prove the following:<br></p>
+<ol class="HELM_parts">
+<li><p><span class="math inline">\(A^T\)</span> has eigenvalues <span class="math inline">\(\lambda_1,\lambda_2,\ldots
+\lambda_n\)</span>.</p></li>
+<li><p>If <span class="math inline">\(A\)</span> is upper triangular, then its eigenvalues are exactly the main diagonal entries.</p></li>
+<li><p>The inverse matrix <span class="math inline">\(A^{-1}\)</span> has eigenvalues <span class="math inline">\({{1\over
+\lambda_1}},\ {{1\over \lambda_2}},\ldots {{1\over
+\lambda_n}}\)</span>.</p></li>
+<li><p>The matrix <span class="math inline">\(A-kI\)</span> has eigenvalues <span class="math inline">\(\lambda_1-k,\lambda_2-k,\ldots \lambda_n-k\)</span>.</p></li>
+<li><p>(Harder) The matrix <span class="math inline">\(A^2\)</span> has eigenvalues <span class="math inline">\(\lambda_1^2,\lambda_2^2,\ldots \lambda_n^2\)</span>.</p></li>
+<li><p>(Harder) The matrix <span class="math inline">\(A^k\)</span> (<span class="math inline">\(k\)</span> a non-negative integer) has eigenvalues <span class="math inline">\(\lambda_1^k,\lambda_2^k,\ldots \lambda_n^k.\)</span></p></li>
+</ol>
+<p>N.B. Some of these results are useful in the numerical calculation of eigenvalues.&nbsp;</p><p><b>We give the solution below. Please try to complete the problem before referencing the solution.</b></p><hr>
+<h4 class="HELM_solution">Solution</h4>
+<ol class="HELM_parts">
+<li><p>Using the property that for any square matrix <span class="math inline">\(A\)</span>, <br>\[\text{det}(A) = \text{det}(A^T),\]<br>we see that if&nbsp;<br><span class="math inline">\[ \text{ det}(A-\lambda I)=0\] <br>then <br>\[ \text{ det}(A-\lambda I)^T=0.\]</span>&nbsp;<br>This immediately tells us that <span class="math inline">\(\text{ det}(A^T-\lambda I)=0\)</span> which shows that <span class="math inline">\(\lambda\)</span> is also an eigenvalue of <span class="math inline">\(A^T\)</span>.</p></li>
+<li><p>Here simply write down a typical upper triangular matrix <span class="math inline">\(U\)</span> which has terms on the leading diagonal <span class="math inline">\(u_{11}, u_{22},\dots , u_{nn}\)</span> and above it. Then construct <span class="math inline">\((U-\lambda I)\)</span>. Finally imagine how you would then obtain <span class="math inline">\(\text{ det}(U-\lambda I)=0\)</span>. <br><br>You should see that the determinant is obtained by multiplying together those terms on the leading diagonal. Here the characteristic equation is: <br><span class="math inline">\[(u_{11}-\lambda)(u_{22}-\lambda)\dots (u_{nn}-\lambda)=0.\]</span>&nbsp;<br>This polynomial has the obvious roots <br><span class="math inline">\[\lambda_1=u_{11},\ \lambda_2=u_{22},\ \dots ,
+\lambda_n=u_{nn}.\]</span></p></li>
+<li><p>Here we begin with the usual eigenvalue problem <span class="math inline">\(A\underline{x}=\lambda \underline{x}\)</span>. <br>If <span class="math inline">\(A\)</span> has an inverse <span class="math inline">\(A^{-1}\)</span> we can multiply both sides by <span class="math inline">\(A^{-1}\)</span> on the left to give <br><span class="math inline">\[A^{-1}(A\underline{x})=A^{-1}\lambda \underline{x}\]<br>&nbsp;which gives <br>\[\underline{x}=\lambda A^{-1}\underline{x}\]</span><br>or, dividing through by the scalar <span class="math inline">\(\lambda\)</span> we get <br><span class="math inline">\[ A^{-1}\underline{x}=\frac{1}{\lambda}\underline{x}\]</span>&nbsp;<br>which shows that if <span class="math inline">\(\lambda\)</span> and <span class="math inline">\(\underline{x}\)</span> are respectively eigenvalue and eigenvector of <span class="math inline">\(A\)</span> then <span class="math inline">\(\lambda^{-1}\)</span> and <span class="math inline">\(\underline{x}\)</span> are respectively eigenvalue and eigenvector of <span class="math inline">\(A^{-1}\)</span>. <br><br>As an example consider <span class="math inline">\(A=\left[\begin{array}{cc}2&amp;3\\ 3&amp;2\end{array}\right]\)</span>. This matrix has eigenvalues <br>\[\lambda_1=-1,\quad \lambda_2=5\]<br>with corresponding eigenvectors <br>\[\underline{x}_1=\left[ \begin{array}{r} 1\\-1 \end{array} \right]\quad \text{and} \quad \underline{x}_2=\left[ \begin{array}{c}1\\1\end{array} \right].\]<br><br>The reader should verify (by direct multiplication) that <span class="math inline">\(A^{-1}=-\dfrac{1}{5}\left[\begin{array}{cc}\hfill 2&amp;\hfill -3\\ \hfill
+-3&amp;\hfill 2\end{array}\right]\)</span> has eigenvalues <br>\[\lambda_1=-1\quad \text{and} \quad \lambda_2=\frac{1}{5} \]<br>with respective eigenvectors <br><span class="math inline"></span>\[\underline{x}_1=\left[ \begin{array}{r} 1\\-1 \end{array} \right]\quad \text{and} \quad \underline{x}_2=\left[ \begin{array}{c}1\\1\end{array} \right].\]</p></li>
+
+<li><p>Proved in similar way to the proof outlined in (c).</p></li>
+
+<li><p>Proved in similar way to the proof outlined in (c).</p></li>
+
+<li><p>Proved in similar way to the proof outlined in (c).</p></li>
+
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

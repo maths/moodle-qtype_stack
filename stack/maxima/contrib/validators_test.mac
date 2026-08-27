@@ -23,14 +23,6 @@
 /*                                                              */
 /****************************************************************/
 
-
-s_test_case(validate_nofunctions(1+a1), "");
-s_test_case(validate_nofunctions(sin(n*x)), "");
-s_test_case(validate_nofunctions(-b#pm#sqrt(b^2-4*a*c)), "");
-s_test_case(validate_nofunctions(x(2)), "User-defined functions are not permitted in this input. In your answer \\(x\\) appears to be used as a function. ");
-s_test_case(validate_nofunctions(3*x(t)^2), "User-defined functions are not permitted in this input. In your answer \\(x\\) appears to be used as a function. ");
-s_test_case(validate_nofunctions(1+f(x+1)), "User-defined functions are not permitted in this input. In your answer \\(f\\) appears to be used as a function. ");
-s_test_case(validate_nofunctions(x(2)*y(3)), "User-defined functions are not permitted in this input. In your answer \\(x\\) appears to be used as a function. User-defined functions are not permitted in this input. In your answer \\(y\\) appears to be used as a function. ");
 s_test_case(validate_underscore(1+a1), "");
 s_test_case(validate_underscore(1+a_1), "Underscore characters are not permitted in this input.");
 

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>38.3.1.1 The exponential distribution</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>The exponential distribution<br></h3><p>The exponential distribution is defined by\[&nbsp; f(t)=\lambda e^{-\lambda t}\qquad t\ge 0\qquad \lambda \text{ a constant} \]or sometimes by\[ f(t)=\frac{1}{\mu} e^{- t/\mu}\qquad t\ge 0\qquad \mu \text{ a constant} \]The&nbsp; advantage of this latter representation is that it may be shown that the mean of the distribution is&nbsp; \(\mu\).</p><p>
+
+
+</p><hr>
+<h4 class="HELM_example">Example <br></h4>
+<p><span>The lifetime \(T\) (years) of an electronic component is a continuous random variable with a probability density function given by \[ f(t)=e^{-t}\qquad t\ge 0 \qquad (\text{i.e. } \lambda=1 \text{ or } \mu=1)\] Find the lifetime \(L\) which a typical component is \(60\%\) certain to exceed.&nbsp; If five components are sold to a manufacturer, find the probability that at least one of them will have a lifetime less than \(L\) years.</span><span class="math inline"></span><span class="math inline"></span></p>
+<h4 class="HELM_solution">Solution</h4><p>We require&nbsp; \(\text{P}(T&gt;L)=0.6\).&nbsp; We know that this probability is given by the relationship \[ \text{P}(T&gt;L)=\int_L^{\infty} e^{-t}\,dt=\left[\phantom{\dfrac{1}{1}}\!\!\!-e^{-t}\right]_L^{\infty}=e^{-L}\] Solving \(e^{-L}=0.6\)&nbsp; for the least value of \(L\) we obtain \(L=0.51\) &nbsp; years.</p><p>Assuming that the lifetime of each component is independent we have \[\text{P} (\text{at least one component has a lifetime less than&nbsp; 0.51 years})\] \[ =1-\text{P} (\text{no component has a lifetime less than&nbsp; 0.51 years})\] \[ =1-0.6^5 =0.92\]<br></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

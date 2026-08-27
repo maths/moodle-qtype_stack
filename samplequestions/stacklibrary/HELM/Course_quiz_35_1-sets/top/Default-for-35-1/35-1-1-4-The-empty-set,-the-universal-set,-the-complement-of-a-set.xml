@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>35.1.1.4 The empty set, the universal set, the complement of a set</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>The empty set and the universal set</h4>
+<p>Sometimes a set will contain no elements. For example, suppose we define the set \(K\) by
+\[ K = \{\hbox{all odd numbers which are divisible by 4}\}. \]
+Since there are no odd numbers which are divisible by 4, then \(K\) has no elements. The set with no elements is called the <b>empty set</b>, and it is denoted by \(\emptyset\).</p>
+<p>On the other hand, the set containing all the objects of interest in a particular situation is called the <b>universal set</b>, denoted by \(S\). The precise universal set will depend upon the context. If, for example, we are concerned only with whole numbers then \(S\) will be the set of whole numbers. If we are concerned only with the decimal digits then we take \(S = \{0,1,2,3,4,5,6,7,8,9\}\).</p>
+<h4>The complement of a set</h4>
+<p>Given a set \(A\) and a universal set \(S\) we can define a new set, called the <b>complement</b> of \(A\) and denoted by \(A'\).  The complement of \(A\) contains all the elements of the universal set that are not in \(A\).</p>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Given \(A = \{2,3,7\}\), \(B = \{0,1,2,3,4\}\) and \(S = \{0,1,2,3,4,5,6,7,8,9\}\) state</p>
+<ol class="HELM_parts_inline">
+<li> \(A'\)</li>
+<li> \(B'\)</li>
+</ol>
+<h4 class="HELM_solution">Solution</h4>
+<ol class="HELM_parts">
+<li>The elements of \(A'\) are those which belong to \(S\) but not to \(A\):
+\[A'= \{0,1,4,5,6,8,9\}.\]</li>
+<li>\(B' = \{5,6,7,8,9\}\).</li>
+</ol>
+<p>Sometimes a set is described in a mathematical way. Suppose the set \(Q\) contains all numbers which are divisible by 4 and 7. We can write
+\[Q = \{x: x \hbox{ is divisible by 4 and }x \hbox{ is divisible by 7}\}.\]</p>
+<p>The symbol : stands for 'such that '. We read the above as '\(Q\) is the set comprising all elements \(x\), such that \(x\) is divisible by 4  and  by 7'.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

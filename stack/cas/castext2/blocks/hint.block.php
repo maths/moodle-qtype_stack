@@ -27,14 +27,13 @@ require_once(__DIR__ . '/../block.interface.php');
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_cas_castext2_hint extends stack_cas_castext2_block {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
 
         $body = new MP_List([new MP_String('%root')]);
 
         $body->items[] = new MP_String('<details class="stack-hint">');
-        $body->items[] = new MP_String('<summary class="btn btn-secondary" >'.$this->params['title'].'</summary>');
+        $body->items[] = new MP_String('<summary class="btn btn-secondary" >' . $this->params['title'] . '</summary>');
         $body->items[] = new MP_String('<div class="stack-hint-content">');
 
         foreach ($this->children as $item) {
@@ -64,7 +63,7 @@ class stack_cas_castext2_hint extends stack_cas_castext2_block {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function validate(&$errors=[], $options=[]): bool {
+    public function validate(&$errors = [], $options = []): bool {
         if (!array_key_exists('title', $this->params)) {
             $errors[] = new $options['errclass']('Hint block requires a title parameter.', $options['context'] . '/' .
                 $this->position['start'] . '-' . $this->position['end']);

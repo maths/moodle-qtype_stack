@@ -21,7 +21,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(__DIR__.'/../../../../config.php');
+require_once(__DIR__ . '/../../../../config.php');
 
 require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/../locallib.php');
@@ -43,14 +43,13 @@ if (!$questionid) {
     $context = context_system::instance();
     require_capability('qtype/stack:usediagnostictools', $context);
     $urlparams = [];
-
 } else {
     // Load the necessary data.
     $questiondata = $DB->get_record('question', ['id' => $questionid], '*', MUST_EXIST);
     $question = question_bank::load_question($questionid);
 
     // Process any other URL parameters, and do require_login.
-    list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($question);
+    [$context, $seed, $urlparams] = qtype_stack_setup_question_test_page($question);
 
     // Check permissions.
     question_require_capability_on($questiondata, 'view');
@@ -101,9 +100,6 @@ if (array_key_exists('fail', $_GET)) {
     $onlyarg = false;
 };
 $verbose = $debug;
-/* Just consider the last in the array. */
-$sa = array_reverse($samplearguments);
-$samplearguments2 = [$sa[0]];
 
 $timestart = microtime(true);
 foreach ($samplearguments as $argument) {
@@ -114,7 +110,7 @@ foreach ($samplearguments as $argument) {
     } else {
         $i++;
         if (false === $onlyarg || $i == $onlyarg) {
-            $cskey = 'A'.$i;
+            $cskey = 'A' . $i;
 
             $val = 'false';
             if (array_key_exists('assumepos', $argument)) {
@@ -134,13 +130,16 @@ foreach ($samplearguments as $argument) {
             }
             $ac = stack_ast_container::make_from_teacher_source('stack_calculus:' . $val, '', new stack_cas_security());
 
-            $cs1 = stack_ast_container::make_from_student_source($cskey . ':' . $argument['casstring'],
-                '', new stack_cas_security(),
+            $cs1 = stack_ast_container::make_from_student_source(
+                $cskey . ':' . $argument['casstring'],
+                '',
+                new stack_cas_security(),
                 // The filters below match the input base class protectfilters.
-                ['910_inert_float_for_display', '912_inert_string_for_display']);
+                ['910_inert_float_for_display', '912_inert_string_for_display']
+            );
 
             $casstrings[$cskey] = $cs1->get_inputform(false, 1);
-            $casstrings['D'.$i] = $argument['debuglist'];
+            $casstrings['D' . $i] = $argument['debuglist'];
             if (array_key_exists('debuglist', $argument)) {
                 $val = "DL:" . $argument['debuglist'];
                 $cs2 = stack_ast_container::make_from_teacher_source($val, '', new stack_cas_security());
@@ -150,16 +149,19 @@ foreach ($samplearguments as $argument) {
             }
             if ($debug) {
                 // Print debug information and show logical connectives on this page.
-                $val = "S1:stack_eval_equiv_arg(" . $cskey. ", true, true, true, DL)";
+                $val = "S1:stack_eval_equiv_arg(" . $cskey . ", true, true, true, DL)";
             } else {
                 // Print only logical connectives on this page.
-                $val = "S1:stack_eval_equiv_arg(" . $cskey. ", true, true, false, DL)";
+                $val = "S1:stack_eval_equiv_arg(" . $cskey . ", true, true, false, DL)";
             }
             $cs3 = stack_ast_container::make_from_teacher_source($val, '', new stack_cas_security());
 
+            /* This is the value of the answer test. */
             $cs4 = stack_ast_container::make_from_teacher_source("R1:first(S1)", '', new stack_cas_security());
+            /* This is the note from the answer test. */
+            $cs5 = stack_ast_container::make_from_teacher_source("R3:third(S1)", '', new stack_cas_security());
 
-            $session = new stack_cas_session2([$ap, $ar, $ac, $cs1, $cs2, $cs3, $cs4], $options);
+            $session = new stack_cas_session2([$ap, $ar, $ac, $cs1, $cs2, $cs3, $cs4, $cs5], $options);
             $expected = $argument['outcome'];
             if (true === $argument['outcome']) {
                 $expected = 'true';
@@ -194,7 +196,10 @@ foreach ($samplearguments as $argument) {
             }
             if ($verbose) {
                 $displaytext .= $overall;
-                $displaytext .= "\n<br>Time taken: ".$rtook;
+                if ($cs5->is_correctly_evaluated()) {
+                    $displaytext .= "\n<br>" . $cs5->get_value();
+                }
+                $displaytext .= "\n<br>Time taken: " . $rtook;
             }
             $errs = '';
             if ($ct->get_errors() != '') {
@@ -222,16 +227,16 @@ foreach ($samplearguments as $argument) {
                 $displayargs = false;
             }
             if ($displayargs) {
-                echo html_writer::tag('h3', $cskey . ": ". $title).
+                echo html_writer::tag('h3', $cskey . ": " . $title) .
                     html_writer::tag('p', $argument['narrative']);
                 if (!$debug && $verbose) {
-                    echo html_writer::tag('pre', htmlspecialchars($argument['casstring'], ENT_COMPAT)).
+                    echo html_writer::tag('pre', htmlspecialchars($argument['casstring'], ENT_COMPAT)) .
                     html_writer::tag('p', $errs);
                 }
                 echo html_writer::tag('p', stack_ouput_castext($displaytext));
                 if ($debug) {
-                    echo html_writer::tag('pre', $cskey . ": ". htmlspecialchars($cs1->get_inputform(), ENT_COMPAT) .
-                        ";\nDL:" . htmlspecialchars($argument['debuglist'], ENT_COMPAT) . ";").
+                    echo html_writer::tag('pre', $cskey . ": " . htmlspecialchars($cs1->get_inputform(), ENT_COMPAT) .
+                        ";\nDL:" . htmlspecialchars($argument['debuglist'], ENT_COMPAT) . ";") .
                         html_writer::tag('p', $errs);
                 }
                 echo "\n<hr/>\n\n\n";
@@ -262,11 +267,14 @@ if ($debug) {
     $script .= "\n";
     $settings = get_config('qtype_stack');
     if ($settings->platform == 'linux-optimised') {
-        $script .= 'load("stackmaxima.mac")$'."\n";
+        $script .= 'load("stackmaxima.mac")$' . "\n";
     }
     $script .= "simp:false;\n";
-    echo html_writer::tag('textarea', $script,
-            ['readonly' => 'readonly', 'wrap' => 'virtual', 'rows' => '32', 'cols' => '100']);
+    echo html_writer::tag(
+        'textarea',
+        $script,
+        ['readonly' => 'readonly', 'wrap' => 'virtual', 'rows' => '32', 'cols' => '100']
+    );
     echo '<hr />';
 
     // Have a second text area to facilitate pasting the arguments into separate lines in Maxima.
@@ -274,9 +282,12 @@ if ($debug) {
     foreach ($casstrings as $key => $val) {
         $script .= $val . "\$\n";
     }
-    $script .= "\n".'disp_stack_eval_arg(' . $key .', true, true, true, DL);';
-    echo html_writer::tag('textarea', $script,
-            ['readonly' => 'readonly', 'wrap' => 'virtual', 'rows' => '32', 'cols' => '100']);
+    $script .= "\n" . 'disp_stack_eval_arg(' . $key . ', true, true, true, DL);';
+    echo html_writer::tag(
+        'textarea',
+        $script,
+        ['readonly' => 'readonly', 'wrap' => 'virtual', 'rows' => '32', 'cols' => '100']
+    );
     echo '<hr />';
 }
 

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.6.1.2 Last Paragraph</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>The denominator of an algebraic fraction can often be factorised into a product of linear and/or irreducible quadratic factors. Before we can separate algebraic fractions into simpler (partial) fractions we need to completely factorise the denominators into linear and irreducible quadratic factors.&nbsp;</p><p><b>Linear factors</b> are those of the form <span class="math inline">\(ax+b\)</span>; for example <span class="math inline">\(2x+7\)</span>, <span class="math inline">\(3x-2\)</span> and <span class="math inline">\(4-x\)</span>.&nbsp;</p><p><span><strong>Irreducible quadratic factors</strong></span> are those of the form <span class="math inline">\(ax^2+bx+c\)</span> such as <span class="math inline">\(x^2+x+1\)</span>, and <span class="math inline">\(4x^2-2x+3\)</span>, which cannot be factorised into linear factors (these are real quadratics with complex roots).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

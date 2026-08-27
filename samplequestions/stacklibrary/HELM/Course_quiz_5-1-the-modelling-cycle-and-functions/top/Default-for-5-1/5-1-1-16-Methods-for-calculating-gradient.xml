@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>5.1.1.16 Methods for calculating gradient</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p></p>
+<h4>Methods for calculating gradient</h4>
+<p></p>
+<p>Occasionally you may be faced with two different pairs of values or <em>coordinates</em> with which to determine the parameters of a linear function. Put another way, two pairs of values are needed to determine the two (unknown) parameters. Perhaps, unconsciously,
+    you might have used this result already when carrying out the rain barrel task. The gradient, written as \(\dfrac{1.5}{20}\) in the answer, may be expressed also as \(\dfrac{1.5-0}{20-0}\) since the line connects the (time, level of water) coordinates
+    \((20, 1.5)\) with \((0, 0).\)</p>
+<p>In general the gradient is given by \[\dfrac{\text{the change in the dependent variable}}{\text{the corresponding change in the independent variable}}\]</p>
+<p>Once the gradient of the line has been calculated, it can be used with one of the known points to determine the intercept. If one of the points is (0, 0) the intercept is zero.</p>
+
+<p>Suppose that a new type of automatic car is being road tested. The measuring team wants to know the maximum acceleration between \(0\) and \(30 \, \textrm{ms}^{-1}\). It plans to calculate this by assuming that it is constant and measuring the time taken
+    from rest to achieve a speed of \(30 \, \textrm{ms}^{-1}\) at maximum acceleration. In their first test the speedometer reading is \(30 \, \textrm{ms}^{-1}\) after \(12 \, \textrm{s}\) from start of timing and motion. We can think of these values
+    in terms of (time, velocity) coordinates. At the start of timing the coordinates are \((0, 0)\). When the speedometer reads \(30 \, \textrm{ms}^{-1}\) the coordinates are \((12, 30)\). If the acceleration is constant then its magnitude will be given
+    by the gradient of the line joining these two points. Using the ‘change in variable idea’, the gradient is \(\dfrac{30-0}{ 12-0} = 2.5\), and so the magnitude of the acceleration is \(2.5 \, \textrm{ms}^{-2}\). The ’change in variable’ route to calculating
+    the gradient is an abridged version of a more general method. The two pairs of coordinates may be used with the general equation of a line to work out the parameters of the particular line that passes through these two points. The assumption of constant
+    acceleration leads to a linear relationship between the velocity (\(v \, \textrm{m s}^{-1}\)) and time (\(t \, \textrm{s} \)) of the form \(v = at + b\) where \(a\) and \(b\) are the parameters corresponding to gradient and intercept respectively.
+    The road test gives \(v\) = 0 when \(t\) = 12. These may be substituted into the general form to give</p>
+<p>\(\quad 0 = 0 + b \,\) and \(\, 30 = 12 a + b.\)</p>
+
+<p>You may recognise that these are simultaneous equations. The first gives \(b = 0\) which may be substituted into the second to give \(a = 2.5,\) corresponding to an acceleration of \(2.5 \, \textrm{m s}^{-2}\) as before.</p>
+
+<p>Suppose that the test team carry out a second test. In this test they note when speeds of \(15 \, \textrm{m s}^{-1}\) and \(27 \, \textrm{m s}^{-1}\) are reached and assume constant acceleration between these times and speeds. The speedometer reads \(15 \, \textrm{m s}^{-1}\), after \(4 \, \textrm{s}\) from the start of motion and \(27 \, \textrm{m s}^{-1}\) after \(9 \, \textrm{s}\) from the start of motion. We apply the general method to the data from this test. The (time, velocity) coordinates corresponding to the readings are \((4,15)\) and \((9,27)\). The equations resulting from substitutions in the general form are </p>
+<p> \(\qquad 15 = 4a + b\) </p>
+<p>\(\qquad 27 = 9a + b\) </p>
+
+<p>We use the elimination method of solving these simultaneous equations. The first of these equations may be subtracted from the second to eliminate \(b\).</p>
+<p> \(\qquad 27 - 15 = 9a+b-4a-b\)</p>
+<p> or </p>
+<p>\(\qquad a = 2.4.\) </p>
+
+<p>The resulting value of \(a\) may be substituted into either of the equations expressing the data to calculate \(b\). In the first, \(15 = 4\times 2.5 + b\), so \(b = 5.\) The resulting model is</p>
+<p>\(\qquad v = 2.4t + 5\qquad (4\le t\le 9).\)</p>
+
+<p>This model predicts an acceleration of \(2.4 \, \textrm{m s}^{-2}\), which is fairly close to the previous result of \(2.5 \, \textrm{m s}^{-2}\) but if we try to use this model at \(t = 0,\) what do we predict? The model predicts that \(v = 5\) when \(t = 0.\) This is not consistent with \(t = 0\) being the time at which the vehicle starts to move! So, even if the acceleration is constant between \(15\) and \(27 \, \textrm{m s}^{-1}\), it does not have the same values between \(0 \, \textrm{m s}^{-1}\) and \(15 \, \textrm{m s}^{-1}\) as either between \(15 \, \textrm{m s}^{-1}\) and \(27 \, \textrm{m s}^{-1}\) and \(30 \, \textrm{m s}^{-1}\).</p>
+<p>A more general principle is illustrated by this example. It may be dangerous to use a model based on certain data at points other than those given by these data! The business of using a model outside the range of data for which is is known to be valid is called <strong>extrapolation</strong>. Use of the model between the data points on which it is based is called <strong>interpolation</strong>. So the general principle may also be stated as that <strong>it is very risky to extrapolate</strong> and <strong>it can be risky to interpolate</strong>. Nevertheless extrapolation or interpolation may be part of the purpose for a mathematical model in the first place.</p> 
+  
+<p>The method of finding gradient and intercept just exemplified may be generalised. Suppose that we are specifying a linear function \(y = ax + b\) where the dependent variable is \(y\) and the independent variable is \(x\). We represent two known points by \((p,q)\) and \((r,s).\) The gradient, \(a\), for the straight line, may be calculated either from \(\dfrac{p-r}{q-s}\) or by substituting \(y = q\) when \(x = r\) in \(y = ax + b\) to obtain two simultaneous equations. Subtraction of these eliminates \(b\) and
+    allows \(a\) to be calculated. The intercept of the line on the y-axis, \(b\), may be found by substitution in \(y = ax + b\), of either \(p, q\) and \(a\) or \(r,s\) and \(a\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

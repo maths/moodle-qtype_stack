@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>7.2.5.1 Multiplying non-square matrices together</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Multiplying non-square matrices together</h3>
+<p>So far, we have just looked at multiplying \(2\times
+2\) matrices and \(3\times 3\) matrices. However, products between non-square matrices may be possible.</p>
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p style="text-align:center;"><b>General Matrix Products</b></p>
+<p>The general rule is that an \(n \times p\) matrix \(A\) can be multiplied by a \(p \times m\) matrix \(B\) to form an \(n \times m\) matrix \(AB = C.\)</p>
+
+<p>In words:</p>
+<p style="text-align:center;">For the matrix product \(AB\) to be defined the number
+of columns of \(A\) must equal the number of rows of \(B\).</p>
+
+<p>The elements of \(C\) are found in the usual way:</p>
+<p style="text-align:center;">The element in the \(i^{\text{th}}\) row and \(j^{\text{th}}\) column of \(C\) is obtained
+by multiplying the \(i^{\text{th}}\) row of \(A\) with the \(j^{\text{th}}\) column of \(B\).</p>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>2.1.2.1 The argument of a function</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3><span style="color: inherit; font-family: inherit;">The Argument of a Function</span><br></h3>
+<p>The input to a function is sometimes called its <span><strong>argument</strong></span> or <b>independent variable</b>. It is frequently necessary to obtain the output from a function if we are given its argument. For example, given the function \(g(t)=3t+2\) we may require the value of the output when the argument is \(4\). We write this as \(g(t=4)\) or more usually and compactly as \(g(4)\). In this case the value of \(g(4)\) is \(3\times 4+2=14\).</p>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Given the function \(f(x)=3x+1\) find</p>
+
+<ol class="HELM_parts_inline">
+<li>\(f(2)\)</li>
+<li>\(f(-1)\)</li>
+<li>\(f(6)\)</li>
+</ol>
+
+<h4 class="HELM_solution">Solution</h4>
+<ol class="HELM_parts">
+  <li><p>The output from the function needs to be found when the argument or input is \(2\). We 
+  need to replace \(x\) by \(2\) in the expression for the function. We find \( f(2)=3\times 2 + 1 = 7\).</p>
+  </li>
+  <li><p>Here the argument is \(-1\). We find \(f(-1)=3\times (-1) +1 = -2\).</p>
+  </li>
+  <li> <p>\(f(6)=3\times 6+1=19\).</p></li>
+</ol>
+
+<p>It is possible to obtain the value of a function when the argument is an algebraic expression. Consider the following Example.</p>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Given the function <span class="math inline">\(y(x)=3x+2\)</span> find</p>
+
+<ol class="HELM_parts_inline">
+<li>\(y(t)\)</li>
+<li>\(y(2t)\)</li>
+<li>\(y(z+2)\)</li>
+<li>\(y(5x)\)</li>
+</ol>
+
+<h4 class="HELM_solution">Solution</h4>
+<p>The rule for this function is ‘multiply the input by \(3\) and then add \(2\)’. We can apply this rule whatever the argument.</p>
+<ol class="HELM_parts">
+  <li><p>In this case the argument is \(t\). Multiplying this by \(3\) and adding \(2\) we find 
+   \(y(t)=3t+2\). Equivalently we can replace \(x\) by \(t\) in the expression for the function, so, \(y(t)=3t+2\).</p>
+  </li>
+  <li><p>In this case the argument is \(2t\). We need to replace \(x\) by \(2t\) in the expression 
+   for the function. So \(y(2t)=3(2t)+2=6t+2\).</p>
+  </li>
+  <li><p>In this case the argument is \(z+2\). We find \(y(z+2)=3(z+2)+2=3z+8\). It is important 
+   to note that \(y(z+2)\) is <span><strong>not</strong></span> \(y\times (z+2)=yz+2y\) but 
+   instead reads ‘\(y\) of \((z+2)\)’ where ‘ of’ means ‘take the function of’.</p>
+  </li>
+  <li><p>Here we have a complication. The argument is \(5x\) and so there appears to be a 
+   clash of notation with the original expression for the function. There is no problem if we 
+   remember that the rule is to multiply the input by \(3\) and then add \(2\). The input now is \(5x\). 
+   So \(y(5x)=3(5x)+2=15x+2\).</p>
+  </li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

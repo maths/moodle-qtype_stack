@@ -1,0 +1,138 @@
+{
+    "quiz": {
+        "name": "3_6 Partial Fractions",
+        "intro": "<h4>Introduction<\/h4>\n<p>It is often helpful to break down a complicated algebraic fraction into a sum of simpler fractions. For example it can be shown that <span class=\"math inline\">\\[\\dfrac{4x+7}{x^2+3x+2}\\]<\/span>&nbsp;has the same value as <span class=\"math inline\">\\[\\dfrac{1}{x+2} +\\dfrac{3}{x+1}\\]<\/span>&nbsp;for any value of <span class=\"math inline\">\\(x\\)<\/span>. We say that <span class=\"math inline\">\\( \\dfrac{4x+7}{ x^2+3x+2}\\) <b> is identically equal to <\/b> \\(\\dfrac{1}{ x+2} + \\dfrac{3}{ x+1}\\)<\/span> and that the <span><strong>partial fractions<\/strong><\/span> of <span class=\"math inline\">\\(\\dfrac{4x+7}{ x^2+3x+2}\\)<\/span> are <span class=\"math inline\">\\(\\dfrac{1}{ x+2}\\)<\/span> and <span class=\"math inline\">\\(\\dfrac{3}{ x+1}\\)<\/span>. The ability to express a fraction as its partial fractions is particularly useful in the study of Laplace transforms, <span class=\"math inline\">\\(Z\\)<\/span>-transforms, Control Theory and Integration. In this Section we explain how partial fractions are found.<\/p>\n<br>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Proper and improper fractions",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "4",
+            "heading": "Proper fractions with linear factors",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "7",
+            "heading": "Proper fractions with repeated linear factors",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "10",
+            "heading": "Proper fractions with quadratic factors",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "12",
+            "heading": "Improper fractions",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-3-6\/3-6-1-1-Proper-and-improper-fractions.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-3-6\/3-6-1-2_Task_State-the-degree-of-the-numerator-and-denominator.xml"
+        },
+        {
+            "slot": "3",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-3-6\/3-6-1-2-Last-Paragraph.xml"
+        },
+        {
+            "slot": "4",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-3-6\/3-6-2-1-Proper-Fractions-with-Linear-Factors.xml"
+        },
+        {
+            "slot": "5",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "6.0000000",
+            "quizfilepath": "\/top\/Default-for-3-6\/3-6-2-2_Task_Express-in-partial-fractions.xml"
+        },
+        {
+            "slot": "6",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-3-6\/3-6-2-3_Find-the-partial-fractions-(short).xml"
+        },
+        {
+            "slot": "7",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-3-6\/3-6-3-1-Proper-fractions-with-repeated-linear-factors.xml"
+        },
+        {
+            "slot": "8",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-3-6\/3-6-3-2-Task_express-in-partial-fractions.xml"
+        },
+        {
+            "slot": "9",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-3-6\/3-6-3-3-Exercises_Express-in-partial-fractions-(short).xml"
+        },
+        {
+            "slot": "10",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-3-6\/3-6-4-1-Proper-fractions-with-quadratic-factors.xml"
+        },
+        {
+            "slot": "12",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-3-6\/3-6-5-1-Improper-fractions.xml"
+        },
+        {
+            "slot": "13",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-3-6\/3-6-5-2-Improper-Fractions.xml"
+        },
+        {
+            "slot": "11",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-3-6\/3-6-4-2-Ireducible-quadratic-Task_Express-partial-fractions-(copy).xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

@@ -24,7 +24,7 @@
 
 define('NO_OUTPUT_BUFFERING', true);
 
-require_once(__DIR__.'/../../../../config.php');
+require_once(__DIR__ . '/../../../../config.php');
 
 require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/../locallib.php');
@@ -57,8 +57,9 @@ foreach ($counts as $contextid => $numstackquestions) {
         $params['preview'] = 0;
     }
     echo html_writer::tag('li', html_writer::link(
-            new moodle_url('/question/type/stack/adminui/replacedollars.php', $params),
-            context::instance_by_id($contextid)->get_context_name(true, true) . ' (' . $numstackquestions . ')'));
+        new moodle_url('/question/type/stack/adminui/replacedollars.php', $params),
+        context::instance_by_id($contextid)->get_context_name(true, true) . ' (' . $numstackquestions . ')'
+    ));
 }
 echo html_writer::end_tag('ul');
 echo $OUTPUT->footer();

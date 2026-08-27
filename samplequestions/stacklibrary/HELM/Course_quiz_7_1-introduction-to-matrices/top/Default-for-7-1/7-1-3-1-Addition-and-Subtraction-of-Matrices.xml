@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>7.1.3.1 Addition and Subtraction of Matrices</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Addition and subtraction of matrices</h3>
+<p></p><p>Under what circumstances can we add two matrices i.e. define \(A+B\) for given matrices \(A\),\(B\)?</p><p>Consider&nbsp;</p><p>\[A=\left[\begin{array}{cc}1&amp;2\\ 3&amp;4\end{array}\right]\qquad\text{and}\qquad B=\left[\begin{array}{rrr}5&amp;6&amp;9\\ 7&amp;8&amp;10\end{array}\right].\]</p><p>There is no sensible way to define \(A+B\) in this case since \(A\) and \(B\) are different sizes. However, if we consider matrices of the same size then addition can be defined in a very natural way.&nbsp;</p><p>Consider \(A=\left[\begin{array}{cc}1&amp;2\\ 3&amp;4\end{array}\right]\) and \(B=\left[\begin{array}{cc}5&amp;6\\ 7&amp;8\end{array}\right]\).&nbsp; The 'natural' way to add \(A\) and \(B\) is to add corresponding elements together:</p><p>\[A+B=\left[\begin{array}{cc}1+{ 5}&amp;2+{ 6}\\3+{ 7}&amp;4+{ 8}\end{array}\right]=\left[\begin{array}{rr}6&amp;8\\10&amp;12\end{array}\right].\]</p><p>In general if \(A\) and \(B\) are both&nbsp; \(m\times n\) matrices, with elements \(a_{ij}\) and \(b_{ij}\) respectively, then their sum is a matrix \(C\), also \(m\times n\), such that the elements of \(C\) are</p><p>\[c_{ij}=a_{ij}+b_{ij}\qquad i=1,2,\dots ,m\quad j=1,2,\dots ,n.\]</p><p>In the above example</p><p>\[c_{11}=a_{11}+b_{11}= 1+5=6\qquad c_{21}=a_{21}+b_{21}=3+7=10\quad \text{and so on.}\]</p><p>Subtraction of matrices follows along similar lines:</p><p>\[D=A-B=\left[\begin{array}{cc}1-{ 5}&amp;2-{ 6}\\3-{ 7}&amp;4-{ 8}\end{array}\right]=\left[\begin{array}{rr}-4&amp;-4\\-4&amp;-4\end{array}\right].\]</p><p></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

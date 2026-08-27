@@ -1,0 +1,119 @@
+{
+    "quiz": {
+        "name": "11_5 The Chain Rule",
+        "intro": "In this Section we will see how to obtain the derivative of a composite function (often referred to as\na `function of a function'). To do this we use the <b>chain rule<\/b>. This rule can be used to obtain the\nderivatives of functions such as \\(e^{x^2+3x}\\) (the exponential function of a polynomial); \\( \\sin( \\ln x)\\) (the sine function of the natural logarithm function); \\( \\sqrt{x^3 + 4}\\) (the square root function of a polynomial).",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "The chain rule",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "3",
+            "heading": "Differentiating a function of function",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "7",
+            "heading": "Differentiating powers of a function",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "10",
+            "heading": "Exercises",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-11-5\/11-5-1-The-meaning-of-a-function-of-a-function.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-11-5\/11-5-1-specify-f(g).xml"
+        },
+        {
+            "slot": "3",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-11-5\/11-5-2-The-derivative-of-a-function-of-a-function.xml"
+        },
+        {
+            "slot": "4",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-11-5\/11-5-2a-task-diff-f(g).xml"
+        },
+        {
+            "slot": "5",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-11-5\/11-5-2b-task-diff-f(g).xml"
+        },
+        {
+            "slot": "6",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-11-5\/11-5-2c-task-diff-f(g).xml"
+        },
+        {
+            "slot": "7",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-11-5\/11-5-3-Power-functions.xml"
+        },
+        {
+            "slot": "8",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-11-5\/11-5-3a-task-diff-f^k(g).xml"
+        },
+        {
+            "slot": "9",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-11-5\/11-5-3b-task-diff-f^k(g).xml"
+        },
+        {
+            "slot": "10",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-11-5\/11-5-3c-ex.xml"
+        },
+        {
+            "slot": "11",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-11-5\/11-5-3d-ex.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

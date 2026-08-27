@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>12.2.3.1 water wheel example</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4 class="HELM_example">Example</h4><br>
+
+<h5>Water wheel efficiency</h5><br>
+
+<h6>Introduction</h6>
+<p>A water wheel is constructed with symmetrical curved vanes of angle of curvature \(\theta\). Assuming that friction can be taken as negligible, the efficiency, \(\eta\), i.e. the ratio of output power to input power, is calculated as \[ \eta=\frac{2(V-v)(1+\cos\theta
+    )v}{V^2}\]where \(V\) is the velocity of the jet of water as it strikes the vane, \(v\) is the velocity of the vane in the direction of the jet and \(\theta\) is constant. Find the ratio, \(v/V\), which gives maximum efficiency and find the maximum
+    efficiency.
+</p><br>
+
+<h6>Mathematical statement of the problem</h6>
+<p>We need to express the efficiency in terms of a single variable so that we can find the maximum value. \[ \text{Efficiency} =\frac{2(V-v)(1+\cos\theta )v}{V^2}=2\left(1-\frac{v}{V}\right)\frac{v}{V}(1+\cos\theta ).\]Let \(\eta=\) Efficiency and \(x =
+    \dfrac{v}{V}\) then \(\eta = 2x(1 - x)(1 + \cos\theta ).\) We must find the value of \(x\) which maximises \(\eta\) and we must find the maximum value of \(\eta\). To do this we differentiate \(\eta\) with respect to \(x\) and solve \(\dfrac{\mathrm{d}\eta}{\mathrm{d}x}=0\)
+    in order to find the stationary points.</p><br>
+
+<h6>Mathematical analysis</h6>
+<p>Now \(\eta = 2x(1 - x)(1 + \cos\theta ) = (2x- 2x^2)(1 + \cos\theta )\).</p>
+<p>So \(\dfrac{\mathrm{d}\eta}{\mathrm{d}x} =(2-4x)(1+\cos\theta )\).</p>
+<p>Now \(\dfrac{\mathrm{d}\eta}{\mathrm{d}x} = 0 \Rightarrow 2-4x = 0\Rightarrow x = \dfrac{1}{2}\) and the value of \(\eta\) when \(x = \dfrac{1}{2}\) is \[ \eta= 2\left(\frac{1}{2}\right)\left(1-\frac{1}{2}\right)(1+\cos\theta )=\frac{1}{2}(1+\cos\theta ).\]This is clearly
+    a maximum not a minimum, but to check we calculate \(\dfrac{\mathrm{d}^2\eta}{\mathrm{d}x^2}=-4(1+\cos\theta)\) which is negative which provides confirmation.</p><br>
+
+<h6>Interpretation</h6>
+<p>Maximum efficiency occurs when \(\dfrac{v}{V}=\dfrac{1}{2}\) and the maximum efficiency is given by \[ \eta =\frac{1}{2}(1+\cos\theta ).\]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

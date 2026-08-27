@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>20.3.2.2 Example Laplace with Derivatives</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h4 class="HELM_example">Example</h4>
+<p>If \(\displaystyle{{\cal L}\{f(t)\}=F(s)\quad \text{ and}\quad {d^2f\over {dt^2}}-{df\over {dt}}=3t}\) with initial conditions \(f(0)=1,\quad f'(0)=0\), find the explicit expression for \(F(s)\).</p><br>
+<ol class="HELM_parts">
+<li>
+<p>Begin by finding \(\displaystyle{{\cal L}\biggl\{{d^2f\over {dt^2}}\biggr\},\ \ {\cal L}\biggl\{{df\over {dt}}\biggr\}\  \text{ and}\ {\cal L}\{3t\}}\)</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>\[\begin{eqnarray*}
+{\cal L}\{3t\}&amp;=&amp;3/s^2\\
+{\cal L}\biggl\{{df\over
+{dt}}\biggr\}&amp;=&amp;-f(0)+sF(s)=-1+sF(s)\\
+{\cal L}\biggl\{{d^2f\over
+{dt^2}}\biggr\}&amp;=&amp;-f'(0)-sf(0)+s^2F(s)=-s+s^2F(s)
+\end{eqnarray*}\]</p>
+</li>
+<li>
+<p>Now complete the calculation to find \(F(s)\):</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>You should find \(\quad\displaystyle {F(s)={s^3-s^2+3\over s^3(s-1)}}\)<br />
+since, using the transforms we have found: \[\begin{eqnarray*}
+-s+s^2F(s)-(-1+sF(s))&amp;=&amp;{3\over {s^2}}\\\text{ so}\qquad
+F(s)[s^2-s]&amp;=&amp;{3\over {s^2}}+s-1={s^3-s^2+3\over {s^2}}
+\end{eqnarray*}\] leading to \( \displaystyle F(s)={s^3-s^2+3\over s^3(s-1)}\)</p>
+</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

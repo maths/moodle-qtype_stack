@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>16.5.2.7 Example of product of functions</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4 class="HELM_example">Example</h4>
+<p>Find the Maclaurin expansion of <span class="math inline">\(\tanh x\)</span> up to powers of <span class="math inline">\(x^5\)</span>.</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>The first three derivatives of <span class="math inline">\(f(x)=\tanh x\)</span> are <span class="math inline">\[ f'(x)=\text{sech}^2x\qquad f''(x)= -2\text{sech}^2 x\tanh x\qquad f'''(x)= 4\text{sech}^2x\tanh^2 x-2\text{sech}^4x\]</span> giving
+    <span class="math inline">\[f(0)=0,\quad f'(0)=1,\quad f''(0)=0,\quad f'''(0)=-2.\]</span></p>
+<p>This leads directly to the Maclaurin expansion as <span class="math inline">\[\tanh x = x -\dfrac{1}{3}x^3+\dfrac{2}{15}x^5\quad\cdots\]</span></p>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>The relationship between the wavelength, <span class="math inline">\(L\)</span>, the wave period, <span class="math inline">\(T\)</span>, and the water depth, <span class="math inline">\(d\)</span>, for a surface wave in water is given by:<span class="math inline">\[ L=\dfrac{gT^2}{2\pi}\tanh\left(\dfrac{2\pi d}{L}\right)\]</span>&nbsp;In
+    a particular case the wave period was 10 s and the water depth was 6.1 m. Taking the acceleration due to gravity, <span class="math inline">\(g\)</span>, as 9.81 m s<span class="math inline">\(^{-2}\)</span> determine the wave length. [Hint: Use the
+    series expansion for <span class="math inline">\(\tanh x\)</span> developed in the example above.]</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>Substituting for the wave period, water depth and <span class="math inline">\(g\)</span> we get \[L=\dfrac{9.81\times 10^2}{2\pi}\tanh\left(\dfrac{2\pi\times 6.1}{L}\right)=\dfrac{490.5}{\pi}\tanh\left(\dfrac{12.2\pi}{L}\right).\] The series expansion
+    of <span class="math inline">\(\tanh x\)</span> is given by <span class="math inline">\(\tanh x=x-\dfrac{x^3}{3}+\dfrac{2x^5}{15}+\cdots\)</span>.</p>
+<p> Using the series expansion of <span class="math inline">\(\tanh x\)</span> we can approximate the equation as \[L=\dfrac{490.5}{\pi}\left\{\left(\dfrac{12.2\pi}{L}\right)-\dfrac{1}{3}\left(\dfrac{12.2\pi}{L}\right)^3+\cdots\right\}.\]</p>
+<p>Multiplying through by <span class="math inline">\(\pi L^3\)</span> the equation becomes <span class="math inline">\[\pi L^4=490.5\times 12.2\pi L^2-\dfrac{490.5}{3}\times (12.2\pi)^3\]</span></p>
+<p>This equation can be rewritten as <span class="math inline">\(L^4-5984.1L^2+2930198=0.\)</span>&nbsp;</p>
+<p>Solving this as a quadratic in <span class="math inline">\(L^2\)</span> we get <span class="math inline">\(L=74\)</span> m.&nbsp;</p>
+<p>Using Newton-Raphson iteration this can be further refined to give a wave length of 73.9 m.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

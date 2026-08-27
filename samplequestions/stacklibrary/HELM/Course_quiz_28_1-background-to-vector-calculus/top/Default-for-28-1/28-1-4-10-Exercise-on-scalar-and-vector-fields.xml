@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="multichoice">
+    <name>
+      <text>28.1.4.10 Exercise on scalar and vector fields</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text>Which of the following are vector fields?</text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text>\(F\), \(G\), and \(H\) are scalar fields as the quantities defined are scalars.
+\(\underline{f}\) and \(\underline{g}\)are vector fields as the quantities defined are vectors.</text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <single>false</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <showstandardinstruction>0</showstandardinstruction>
+    <correctfeedback format="html">
+      <text>Your answer is correct.</text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="html">
+      <text>Your answer is partially correct.</text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="html">
+      <text>Your answer is incorrect.</text>
+    </incorrectfeedback>
+    <shownumcorrect/>
+    <answer fraction="0" format="html">
+      <text>\(F = x^2 - yz\)</text>
+      <feedback format="html">
+        <text>This is not a vector field as all quantities are defined as scalars.</text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text>\(G = \dfrac{2x-z}{\sqrt{x^2+y^2+z^2+1}}\)</text>
+      <feedback format="html">
+        <text>This is not a vector field as all quantities are defined as scalars.</text>
+      </feedback>
+    </answer>
+    <answer fraction="50" format="html">
+      <text>\(\underline{f} = x\underline{i} + y\underline{j} + z\underline{k}\)</text>
+      <feedback format="html">
+        <text>This is a vector field as the quantities are defined as vectors.</text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text>\(H = \dfrac{y-1}{z^2+1}x + \dfrac{z-1}{x^2+1}y + \dfrac{x-1}{y^2 + 1}z\)</text>
+      <feedback format="html">
+        <text>This is not a vector field as all quantities are defined as scalars.</text>
+      </feedback>
+    </answer>
+    <answer fraction="50" format="html">
+      <text>\(\underline{g} = (y+z)\underline{i}\)</text>
+      <feedback format="html">
+        <text>This is a vector field as the quantities are defined as vectors.</text>
+      </feedback>
+    </answer>
+  </question>
+</quiz>

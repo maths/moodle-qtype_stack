@@ -38,7 +38,6 @@ require_once(__DIR__ . '/fixtures/test_base.php');
  * @covers \qtype_stack
  */
 final class walkthrough_survey_test extends qtype_stack_walkthrough_test_base {
-
     public function test_neither_inputs_nor_prts(): void {
 
         // Create the stack question 'test0'.
@@ -55,9 +54,9 @@ final class walkthrough_survey_test extends qtype_stack_walkthrough_test_base {
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Process a submit.
@@ -69,9 +68,9 @@ final class walkthrough_survey_test extends qtype_stack_walkthrough_test_base {
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Submit all and finish.
@@ -84,9 +83,9 @@ final class walkthrough_survey_test extends qtype_stack_walkthrough_test_base {
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_general_feedback_expectation($q),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_general_feedback_expectation($q),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
     }
 
@@ -118,9 +117,9 @@ final class walkthrough_survey_test extends qtype_stack_walkthrough_test_base {
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
     }
 
@@ -152,9 +151,9 @@ final class walkthrough_survey_test extends qtype_stack_walkthrough_test_base {
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Submit all and finish.
@@ -169,9 +168,9 @@ final class walkthrough_survey_test extends qtype_stack_walkthrough_test_base {
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
     }
 }

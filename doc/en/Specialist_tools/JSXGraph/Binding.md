@@ -29,40 +29,36 @@ You can use that input field to store the state of the graph as a string, for ex
 
 
     [[jsxgraph input-ref-stateStore="stateRef"]]
-      /* Note that the input-ref-X attribute above will store the element identifier of the input X in
-         a variable named in the attribute, you can have multiple references to multiple inputs. */
+      // Note that the input-ref-X attribute above will store the element identifier of the input X in
+      // a variable named in the attribute, you can have multiple references to multiple inputs.
 
-      /* Create a normal board. */
+      // Create a normal board.
       var board = JXG.JSXGraph.initBoard(divid, {axis: true, showCopyright: false});
 
-      /* State represented as a JS-object, first define default then try loading the stored values. */
+      // State represented as a JS-object, first define default then try loading the stored values.
       var state = {'x':4, 'y':3};
       var stateInput = document.getElementById(stateRef);
       if (stateInput.value && stateInput.value != '') {
         state = JSON.parse(stateInput.value);
       }
 
-      /* Then make the graph represent the state */
+      // Then make the graph represent the state.
       var p = board.create('point',[state['x'],state['y']]);
 
-      /* And finally the most important thing, update the stored state when things change. */
+      // And finally the most important thing, update the stored state when things change.
       p.on('drag', function() {
         var newState = {'x':p.X(), 'y':p.Y()};
-        /* Encode the state as JSON for storage and store it */
+        // Encode the state as JSON for storage and store it.
         stateInput.value = JSON.stringify(newState);
-        /* Since the STACK-JS system one needs to also remember to tell others
-           about the changed value. Do this by dispatching an event. */
+        // Since the STACK-JS system one needs to also remember to tell others
+        // about the changed value. Do this by dispatching an event.
         stateInput.dispatchEvent(new Event('change'));
       });
     [[/jsxgraph]]
 
 Note, in the above example in `[[jsxgraph input-ref-stateStore="stateRef"]]` the `stateStore` part of this tag directly relates to, and must match, the name of the input.
 
-In that trivial example you only have one point that you can drag around but the position of that point will be stored and it will be where
-you left it when you return to the page. However, the position has been stored in a String encoded in JSON format and cannot directly be
-used in STACK-side logic. The JSON format is however very handy if you create objects to store dynamically and want to represent things
-of more complex nature, but in this example we could have just as well have had two separate Numeric inputs storing just the raw 'x'
-and 'y' coordinates separately as raw numbers and in that case we could have used them directly in STACK's grading logic.
+In that trivial example you only have one point that you can drag around but the position of that point will be stored and it will be where you left it when you return to the page. However, the position has been stored in a String encoded in JSON format and cannot directly be used in STACK-side logic. The JSON format is however very handy if you create objects to store dynamically and want to represent things of more complex nature, but in this example we could have just as well have had two separate Numeric inputs storing just the raw 'x' and 'y' coordinates separately as raw numbers and in that case we could have used them directly in STACK's grading logic.
 
 If needed, JSON is not impossible to parse in STACK, but it is not easy (as in JavaScript) because Maxima has no map
 data-structures and is not object oriented. In any case, the JSON string generated in the previous example would look like this:
@@ -85,13 +81,13 @@ The previous section covered the general case of storing the state of the graph 
 The example in the previous section about moving the point around and storing the points position as an JSON object can be redone with the convenience functions in much simpler form. The only major differences being that the value is stored as a raw list of float values, and the input field should not be of the String type instead we can store it as Algebraic input and directly access the values, just make sure you allow float values in that input.
 
     [[jsxgraph input-ref-stateStore="stateRef"]]
-      /* Create a board like normal. */
+      // Create a board like normal.
       var board = JXG.JSXGraph.initBoard(divid, {axis: true, showCopyright: false});
 
-      /* Create a point, its initial position will be the default position if no state is present. */
+      // Create a point, its initial position will be the default position if no state is present.
       var p = board.create('point', [4, 3]);
 
-      /* Bind it to the input and state stored in it. */
+      // Bind it to the input and state stored in it.
       stack_jxg.bind_point(stateRef, p);
     [[/jsxgraph]]
 
@@ -125,24 +121,29 @@ One use case of this could be tying together a STACK `[[input]]` with an Input o
     <p>Enter \(\sin(x)\)</p>
     <span hidden="">[[input:ans1]]</span><span>[[validation:ans1]]</span><br>
     [[jsxgraph width="200px" height="100px" input-ref-ans1="ans1Ref"]]
-    	let board = JXG.JSXGraph.initBoard(divid, {
+        let board = JXG.JSXGraph.initBoard(divid, {
           boundingbox: [-1,1,1,-1], axis: false
         });
-      	let inputBox = board.create('input',[0,0,'',''],{}); /*Create input box we want to bind to the STACK input*/
+        // Create input box we want to bind to the STACK input.
+        let inputBox = board.create('input',[0,0,'',''],{});
 
-        /* We want to create our own binding function using custom_bind as a base.
-           Our function, inputBinder, will take the reference to the STACK input and the object we want to bind to it as inputs.
-           The serializer function doesn't take any inputs, but will refer to the object given to inputBinder directly.
-           The deserializer function takes exactly one input: the data with which it will update the graph.
-           Lastly, we run the custom_bind function. */
+        // We want to create our own binding function using custom_bind as a base.
+        // Our function, inputBinder, will take the reference to the STACK input
+        // and the object we want to bind to it as inputs.
+        // The serializer function doesn't take any inputs, but will refer to the 
+        // object given to inputBinder directly.
+        // The deserializer function takes exactly one input: the data with which 
+        // it will update the graph.  Lastly, we run the custom_bind function.
 
         let inputBinder = function(inputRef, object) {
-            let serializer = function() {return object.Value()} /*Simply returns the value in the inputBox*/
-            let deserializer = function(data) {object.set(data)} /*Given some data, put this data into the inputBox*/
+            // Simply returns the value in the inputBox.
+            let serializer = function() {return object.Value()}
+            // Given some data, put this data into the inputBox.
+            let deserializer = function(data) {object.set(data)}
             stack_jxg.custom_bind(inputRef, serializer, deserializer, [object])
         }
 
-        /* Now we run the function */
+        // Now we run the function.
         inputBinder(ans1Ref, inputBox)
 	[[/jsxgraph]]
 
@@ -172,13 +173,14 @@ Now we can create the question text. Firstly, we state the instructions for the 
         var points = [];
         var sectors = [];
 
-        /* Create 7 points (doubling up the start and end) and then between each pair of adjacent points, define a sector. */
+        // Create 7 points (doubling up the start and end) and then between
+        // each pair of adjacent points, define a sector.
 
-        var sectorAttr = {strokeColor:plotColours[0],strokeOpacity:0.5,strokeWidth: 2,fillColor:plotColours[1],fillOpacity:0, highlight: false}
-        for(let ii=0;ii<numSectors+1;ii++) {
-            points[ii] = board.create('point',[Math.cos(ii*2*Math.PI / numSectors),Math.sin(ii*2*Math.PI / numSectors)],{visible:false});
+        var sectorAttr = {strokeColor:plotColours[0], strokeOpacity:0.5, strokeWidth: 2, fillColor:plotColours[1], fillOpacity:0, highlight: false}
+        for(let ii=0; ii<numSectors+1; ii++) {
+            points[ii] = board.create('point',[Math.cos(ii*2*Math.PI / numSectors), Math.sin(ii*2*Math.PI / numSectors)],{visible:false});
             if (ii>0) {
-                sectors[ii-1] = board.create('sector',[origin,points[ii-1],points[ii]],sectorAttr);
+                sectors[ii-1] = board.create('sector', [origin,points[ii-1], points[ii]], sectorAttr);
             }
         }
 
@@ -186,16 +188,18 @@ Now that the graph has been drawn, we need to initialise the shading based on ex
 
     var shading = [0,0,0,0,0,0];
     var shadingInput = document.getElementById(ans1Ref);
-    if (shadingInput.value && shadingInput.value != '') { /* If the student has given an input and it is not an empty string: */
-        shading = JSON.parse(shadingInput.value) /* Over-write the current shading array with the student input */
-        for (var ii=0;ii<numSectors;ii++) { /* and then update the shading to match. */
+    if (shadingInput.value && shadingInput.value != '') {
+        // If the student has given an input and it is not an empty string:
+        shading = JSON.parse(shadingInput.value) // Over-write the current shading array with the student input.
+        for (var ii=0;ii<numSectors;ii++) { // and then update the shading to match.
             sectors[ii].setAttribute({fillOpacity:0.3*shading[ii]})
         }
     }
 
 The graph should now have the appropriate shading applied. We have completed the first two out of three steps as outlined above. To accomplish the last step we will write three functions; one that will return the coordinates of a location that is clicked, another that will update the graph given those coordinates, and a third that will listen to a click event and then run these functions.
 
-    /* The below code is adapted from an example found at https://jsxgraph.org/wiki/index.php/Browser_event_and_coordinates */
+    // The below code is adapted from an example found at 
+    // https://jsxgraph.org/wiki/index.php/Browser_event_and_coordinates
 
     var getMouseCoords = function(e, i) {
         var cPos = board.getCoordsTopLeftCorner(e, i),
@@ -207,18 +211,24 @@ The graph should now have the appropriate shading applied. We have completed the
         return [coords.usrCoords[1], coords.usrCoords[2]]
     };
 
-    var shadeSectors = function(x,y) { /* Given a coordinate pair x,y */
-        var r = Math.sqrt(x**2 + y**2); /* convert to polar form r,angle */
+    var shadeSectors = function(x,y) {
+        // Given a coordinate pair (x,y) convert to polar form r,angle.
+        var r = Math.sqrt(x**2 + y**2);
         var angle = Math.atan2(y,x);
-        if (angle<0) {angle = angle + 2*Math.PI} /* Ensure argument is from 0 to 2π */
+        // Ensure argument is from 0 to 2π.
+        if (angle<0) {angle = angle + 2*Math.PI}
 
-        if (r<1) { /* If inside the unit circle */
-            var whichSector = Math.floor(angle*numSectors/(2*Math.PI)); /* read which sextant the coordinates are in */
+        // If inside the unit circle.
+        if (r<1) {
+            // Read which sextant the coordinates are in.
+            var whichSector = Math.floor(angle*numSectors/(2*Math.PI));
             shading[whichSector] = 1 - shading[whichSector]
             sectors[whichSector].setAttribute({fillOpacity:0.3*shading[whichSector]})
 
-            shadingInput.value = JSON.stringify(shading); /* Update the input value */
-            shadingInput.dispatchEvent(new Event('change')); /* Tell the STACK input outside the JSXGraph to look for this updated value */
+            // Update the input value.
+            shadingInput.value = JSON.stringify(shading);
+            // Tell the STACK input outside the JSXGraph to look for this updated value.
+            shadingInput.dispatchEvent(new Event('change'));
         }
     }
 

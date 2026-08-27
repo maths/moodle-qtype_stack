@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>16.2.4.1 Absolute and conditional convergence</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Conditional vs absolute convergence</h4>
+<p>The ratio test applies to series of positive terms. Indeed this is true of many related tests for convergence. However, as we have seen, not all series are series of positive terms. To apply the ratio test such series must first be converted into series
+    of positive terms. This is easily done. </p>
+
+<p> Consider two series \[\sum_{p=1}^{\infty} a_p \qquad \mathrm{and} \qquad&nbsp; \sum_{p=1}^{\infty} |a_p|.\] The latter series, obviously directly related to the first, is a series of positive terms. Note that is by the use of absolute values that the
+    we have the name absolute convergence, as we'll soon define.</p>
+
+<p>Using imprecise language, it is harder for the second series to converge than it is for the first, since, in the first, some of the terms may be negative and cancel out part of the contribution from the positive terms. No such cancellations can take place
+    in the second series since they are all positive terms. Thus it is plausible that if \(\displaystyle{\sum_{p=1}^{\infty} |a_p|}\) converges then so does \(\displaystyle{\sum_{p=1}^{\infty} a_p}\). </p>
+
+<p> This leads to the following definition.</p>
+<div class="HELM_keypoint">
+    <h4>Key Point</h4>
+    <p> A convergent series \(\displaystyle{\sum_{p=1}^{\infty} a_p}\) is said to be <b>conditionally convergent </b>if \(\displaystyle{\sum_{p=1}^{\infty} |a_p|}\) is divergent. </p>
+    <p> A convergent series \(\displaystyle{\sum_{p=1}^{\infty} a_p}\) is said to be <b>absolutely convergent </b>if \(\displaystyle{\sum_{p=1}^{\infty} |a_p|}\) is convergent. </p>
+</div><br>
+
+<p> For example, the alternating harmonic series: \[ \sum_{p=1}^{\infty} \dfrac{(-1)^{p+1}}{p} = 1 - \dfrac{1}{2} + \dfrac{1}{3} - \dfrac{1}{4} + \dots \] is <b>conditionally convergent</b> since the series of positive terms (the harmonic series): \[ \sum_{p=1}^{\infty}
+    \left|\dfrac{(-1)^{p+1}}{p}\right| \equiv \sum_{p=1}^{\infty} \dfrac{1}{p} = 1 +\dfrac{1}{2} + \dfrac{1}{3} + \dots\] is divergent.</p>
+<p>For any series we have three possibilities; absolutely convergent, conditionally convergent, or divergent. Every series will fall into exactly one of these categories.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

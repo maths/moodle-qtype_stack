@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>25.4.1.6</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4 class="HELM_example">Example</h4>
+<p>Now impose the condition that this solution should be bounded: </p>
+<h4 class="HELM_solution">Solution</h4>
+<p>The region over which we are solving Laplace’s equation is semi-infinite i.e. the \(y\) coordinate increases without limit. The solution for \(u(x, y)\) in \((5)\) will increase without limit as \(y → \infty\) due to the term \(e^{nπy}\) (\(n\) being
+    a positive integer.) This can be avoided i.e. the solution will be bounded if the constant \(E\) is chosen as zero.
+</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

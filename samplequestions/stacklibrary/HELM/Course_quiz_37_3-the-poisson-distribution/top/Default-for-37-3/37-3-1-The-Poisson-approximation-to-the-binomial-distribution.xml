@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>37.3.1. The Poisson approximation to the binomial distribution</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>The Poisson Approximation to the Binomial Distribution</h4>
+<p>The probability of the outcome <span class="math inline">\(X=r\)</span> of a set of Bernoulli trials can always be calculated by using the formula</p><p><span class="math inline">\(\qquad \text{P}(X=r)=\ ^nC_rq^{n-r}p^r\)</span></p><p>given above. Clearly, for very large values of \(n\) the calculation can be rather tedious, this is particularly
+so when very small values of \(p\) are also present. In the situation when \(n\) is large and \(p\) is small and the
+product \(np\) is constant we can take a different approach to the problem of calculating the probability
+that \(X = r\). In the table below the values of \(\text{P}(X = r)\) have been calculated for various combinations
+of \(n\) and \(p\) under the constraint that \(np = 1\). You should try some of the calculations for yourself
+using the formula given above for some of the <b>smaller</b> values of \(n\).<br></p><p style="text-align: center; ">Probability of X successes</p>
+<table class="HELM_table">
+<thead>
+<tr><th>\(n\)</th><th>\(p\)</th><th>\(X = 0\)</th><th>\(X = 1\)</th><th>\(X = 2\)</th><th>\(X = 3\)</th><th>\(X = 4\)</th><th>\(X = 5\)</th><th>\(X = 6\)</th></tr>
+</thead>
+<tbody>
+<tr><td>\(4\)</td><td>\(0.25\)</td><td>\(0.316\)</td><td>\(0.422\)</td><td>\(0.211\)</td><td>\(0.047\)</td><td>\(0.004\)</td><td></td><td></td></tr>       
+<tr><td>\(5\)</td><td>\(0.20\)</td><td>\(0.328\)</td><td>\(0.410\)</td><td>\(0.205\)</td><td>\(0.051\)</td><td>\(0.006\)</td><td>\(0.000\)</td><td></td></tr>    
+<tr><td>\(10\)</td><td>\(0.10\)</td><td>\(0.349\)</td><td>\(0.387\)</td><td>\(0.194\)</td><td>\(0.058\)</td><td>\(0.011\)</td><td>\(0.001\)</td><td>\(0.000\)</td></tr>
+<tr><td>\(20\)</td><td>\(0.05\)</td><td>\(0.359\)</td><td>\(0.377\)</td><td>\(0.189\)</td><td>\(0.060\)</td><td>\(0.013\)</td><td>\(0.002\)</td><td>\(0.000\)</td></tr>
+<tr><td>\(100\)</td><td>\(0.01\)</td><td>\(0.366\)</td><td>\(0.370\)</td><td>\(0.185\)</td><td>\(0.061\)</td><td>\(0.014\)</td><td>\(0.003\)</td><td>\(0.001\)</td></tr>
+<tr><td>\(1000\)</td><td>\(0.001\)</td><td>\(0.368\)</td><td>\(0.368\)</td><td>\(0.184\)</td><td>\(0.061\)</td><td>\(0.015\)</td><td>\(0.003\)</td><td>\(0.001\)</td></tr>
+<tr><td>\(10000\)</td><td>\(0.0001\)</td><td>\(0.368\)</td><td>\(0.368\)</td><td>\(0.184\)</td><td>\(0.061\)</td><td>\(0.015\)</td><td>\(0.003\)</td><td>\(0.001\)</td></tr>
+</tbody>
+</table>
+<p></p><p>Each of the binomial distributions given has a mean given by \(np=1\). Notice that the probabilities that \(X = 0, 1, 2, 3, 4,\dots\) approach the values \(0.368, 0.368, 0.184,\dots\) as \(n\) increases.&nbsp;&nbsp;</p><p>If we have to determine the probabilities of success when large values of \(n\) and small values of \(p\) are involved it would be very convenient if we could do so without having to construct tables. In fact, we can do such calculations by using the Poisson distribution which, under certain constraints, may be considered as an approximation to the binomial distribution.&nbsp;</p><p><span class="math inline"></span></p><p>By considering simplifications applied to the binomial distribution subject to the conditions</p><p></p><ol><li>\(n\) is large</li><li>\(p\) is small</li><li>\(np=\lambda\) (\(\lambda\) is a constant)</li></ol>we can derive the formula<p></p><p><span class="math inline">\(\qquad \text{P}(X=r)= e^{-\lambda}\dfrac{\lambda^r}{r!}\)</span>as an approximation to <span class="math inline">\(\text{P}(X=r)=\ ^nC_rq^{n-r}p^r\)</span>.</p>
+<p>This is the Poisson distribution given previously. We now show how this is done. We know that the binomial distribution is given by</p>
+<p><span class="math inline">\(\qquad (q+p)^n=q^n+nq^{n-1}p+\dfrac{n(n-1)}{2!}q^{n-2}p^2+\dots +\dfrac{n(n-1)\dots(n-r+1)}{r!}q^{n-r}p^r+\dots +p^n\)</span></p>
+<p>Condition (2) tells us that since <span class="math inline">\(p\)</span> is small, <span class="math inline">\(q=1-p\)</span> is approximately equal to 1. Applying this to the terms of the binomial expansion above we see that the right-hand side becomes</p>
+<p><span class="math inline">\(\qquad 1+np+\dfrac{n(n-1)}{2!}p^2+\dots +\dfrac{n(n-1)\dots(n-r+1)}{r!}p^r+\dots +p^n\)</span></p>
+<p>Applying condition (1) allows us to approximate terms such as <span class="math inline">\((n-1), (n-2),\dots\)</span> to <span class="math inline">\(n\)</span> (mathematically, we are allowing <span class="math inline">\(n\rightarrow\infty\)</span>) and the right-hand side of our expansion becomes</p>
+<p><span class="math inline">\(\qquad 1+np+\dfrac{n^2}{2!}p^2+\dots +\dfrac{n^r}{r!}p^r+\dots\)</span></p>
+<p>Note that the term <span class="math inline">\(p^n\rightarrow 0\)</span> under these conditions and hence has been omitted.</p>
+<p>We now have the series</p>
+<p><span class="math inline">\(\qquad 1+np+\dfrac{(np)^2}{2!}+\dots +\dfrac{(np)^r}{r!}+\dots\)</span></p>
+<p>which, using condition (3) may be written as</p>
+<p><span class="math inline">\(\qquad 1+\lambda +\dfrac{(\lambda)^2}{2!}+\dots +\dfrac{(\lambda)^r}{r!}+\dots\)</span></p>
+<p>You may recognise this as the expansion of <span class="math inline">\(e^{\lambda}\)</span>.</p>
+<p>If we are to be able to claim that the terms of this expansion represent probabilities, we must be sure that the sum of the terms is 1. We divide by <span class="math inline">\(e^{\lambda}\)</span> to satisfy this condition. This gives the result <span class="math inline">\(\qquad \dfrac{e^{\lambda}}{e^{\lambda}}=1=\dfrac{1}{e^{\lambda}} (1+\lambda +\dfrac{(\lambda)^2}{2!}+\dots+\dfrac{(\lambda)^r}{r!}+\dots )\)</span> <span class="math inline">\(\qquad\qquad =e^{-\lambda}+e^{-\lambda}\lambda+e^{-\lambda}\dfrac{\lambda^2}{2!}+e^{-\lambda}\dfrac{\lambda^3}{3!}+\dots +e^{-\lambda}\dfrac{\lambda^r}{r!}+\dots +\)</span></p>
+<p>The terms of this expansion are very good approximations to the corresponding binomial expansion under the conditions</p><p></p><ol><li>\(n\) is large</li><li>\(p\) is small</li><li>\(np=\lambda\) (\(\lambda\) constant)</li></ol><p></p><p>The Poisson approximation to the binomial distribution is summarized below.<br></p><div class="HELM_keypoint">
+<h4>Key Point</h4><p><b>Poisson approximation to the Binomial Distribution</b></p><p><span>Assuming that \(n\) is large, \(p\) is small and that \(np\) is constant, the terms<br></span></p><p style="text-align: center; "><span class="math inline">\(\text{P}(X=r)=\ ^nC_r(1-p)^{n-r}p^r\)</span></p><p><span>of a binomial distribution may be closely approximated by the terms<br></span></p>
+<p style="text-align: center; ">\(\text{P}(X=r)=e^{-\lambda}\dfrac{\lambda^r}{r!}\) .</p><p style="text-align: left;">of the Poisson distribution for corresponding values of \(r\).</p>
+</div>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>We introduced the binomial distribution by considering the following scenario. A worn machine is known to produce 10% defective components. If the random variable <span class="math inline">\(X\)</span> is the number of defective components produced in a run of 3 components, find the probabilities that <span class="math inline">\(X\)</span> takes the values 0 to 3.&nbsp;</p><p>&nbsp;Suppose now that a similar machine which is known to produce 1% defective components is used for a production run of 40 components. We wish to calculate the probability that two defective items are produced. Essentially we are assuming that <span class="math inline">\(X\sim B(40,0.01)\)</span> and are asking for <span class="math inline">\(\text{P}(X=2)\)</span>. We use both the binomial distribution and its Poisson approximation for comparison.</p>
+
+<h4 class="HELM_solution">Solution</h4>
+<p>Using the binomial distribution we have the solution</p><p>&nbsp; 
+<span class="math inline">\(\qquad\text{P}(X=2)=\  ^{40}C_2(0.99)^{40-2}(0.01)^2=\dfrac{40\times 39}{1\times2}\times0.99^{38}\times 0.01^2=0.0532\)</span>&nbsp;</p><p>&nbsp;Note that the arithmetic involved is unwieldy. Using the Poisson approximation we have the solution&nbsp;</p><p><span class="math inline">\(\qquad\text{P}(X=2)= e^{-0.4}\dfrac{0.4^2}{2!}=0.0536\)</span>&nbsp;</p><p><br></p><p>Note that the arithmetic involved is simpler and the approximation is reasonable.</p><h5><br></h5><h5>
+
+
+Practical Considerations
+
+</h5><p>In practice, we can use the Poisson distribution to very closely approximate the binomial distribution provided that the product <span class="math inline">\(np\)</span> is constant with</p>
+<p><span class="math inline">\(\qquad n\ge 100\qquad\text{and}\qquad p\le 0.05\)</span></p>
+
+<p>Note that this is not a hard-and-fast rule and we simply say that&nbsp;</p><p style="text-align: center; ">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;‘the larger <span class="math inline">\(n\)</span> is the better and the smaller <span class="math inline">\(p\)</span> is the better provided that <span class="math inline">\(np\)</span> is a sensible size.’ </p>
+
+<p>The approximation remains good provided that <span class="math inline">\(np&lt;5\)</span> for values of <span class="math inline">\(n\)</span> as low as 20.</p>
+
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>In the manufacture of glassware, bubbles can occur in the glass which reduces the status of the glassware to that of a ‘second’. If, on average, one in every 1000 items produced has a bubble, calculate the probability that exactly six items in a batch of three thousand are seconds.</p>
+
+<h4 class="HELM_solution">Solution</h4>
+<p>Suppose that <span class="math inline">\(X\)</span> = number of items with bubbles, then <span class="math inline">\(\quad X\sim B(3000,0.001)\)</span></p>
+<p>Since <span class="math inline">\(n=3000&gt;100\)</span> and <span class="math inline">\(p=0.001&lt;0.005\)</span> we can use the Poisson distribution with <span class="math inline">\(\lambda=np=3000\times 0.001=3\)</span>. The calculation is:</p>
+<p><span class="math inline">\(\qquad \text{P}(X=6)= e^{-3}\dfrac{3^6}{6!}\approx 0.0498\times 1.0125\approx 0.05\)</span></p>
+<p>The result means that we have about a 5% chance of finding exactly six seconds in a batch of three thousand items of glassware.</p>
+
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>A manufacturer produces light-bulbs that are packed into boxes of 100. If quality control studies indicate that 0.5% of the light-bulbs produced are defective, what percentage of the boxes will contain:</p>
+<p>(a) no defective? (b) 2 or more detectives?</p>
+
+<h4 class="HELM_solution">Solution</h4>
+<p>As <span class="math inline">\(n\)</span> is large and <span class="math inline">\(p\)</span>, the <span class="math inline">\(\text{P}\)</span>(defective bulb), is small, use the Poisson approximation to the binomial probability distribution. If <span class="math inline">\(X\)</span> = number of defective bulbs in a box, then</p>
+<p><span class="math inline">&nbsp; &nbsp; &nbsp;\(\qquad\ X\sim  \text{P}(\mu)\)</span> where <span class="math inline">\(\mu = n \times p = 100 \times 0.005 = 0.5\)</span></p>
+<p>(a) <span class="math inline">\(\text{P}(X=0)=\dfrac{e^{-0.5}(0.5)^0}{0!}=\dfrac{e^{-0.5}(1)}{1}=0.6065\approx  61\%\)</span></p>
+<p>(b) <span class="math inline">\(\text{P}(X = 2\)</span> or more) <span class="math inline">\(= \text{P}(X = 2) + \text{P}(X = 3) + \text{P}(X = 4) +\dots\)</span> but it is easier to consider:</p>
+<p><span class="math inline">\(\qquad \text{P}(X \ge 2) = 1-[\text{P}(X = 0) + \text{P}(X = 1)]\)</span> <span class="math inline">\(\qquad \text{P}(X=1)=\dfrac{e^{-0.5}(0.5)^1}{1!}=\dfrac{e^{-0.5}(0.5)}{1}=0.3033\)</span></p><p> i.e.&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<span class="math inline">\(\text{P}(X \ge  2) = 1-[0.6065 + 0.3033] = 0.0902 \approx 9\%\)</span></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

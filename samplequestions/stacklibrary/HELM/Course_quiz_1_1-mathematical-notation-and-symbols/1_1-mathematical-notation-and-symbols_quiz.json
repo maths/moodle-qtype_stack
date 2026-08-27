@@ -1,0 +1,281 @@
+{
+    "quiz": {
+        "name": "1_1 Mathematical Notation and Symbols",
+        "intro": "This introductory Section reminds you of important notations and conventions used throughout engineering mathematics. We discuss the arithmetic of numbers, the plus or minus sign, \\(\\pm\\), the modulus notation | |, and the factorial notation \\(!\\). We examine the order in which arithmetical operations are carried out. Symbols are introduced to represent physical quantities in formulae and equations. The topic of algebra deals with the manipulation of these symbols. The Section closes with an introduction to algebraic conventions. In what follows a working knowledge of the addition, subtraction, multiplication and division of numerical fractions is essential.",
+        "introformat": "1",
+        "questionsperpage": "0",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "NUMBERS, OPERATIONS AND COMMON NOTATIONS",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "2",
+            "heading": "CALCULATION WITH NUMBERS",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "8",
+            "heading": "ROUNDING TO n DECIMAL PLACES",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "10",
+            "heading": "ROUNDING TO n SIGNIFICANT FIGURES",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "24",
+            "heading": "USING SYMBOLS",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "25",
+            "heading": "COMBINING NUMBERS TOGETHER USING +,\u2212,\u00d7,\u00f7",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "17",
+            "heading": "EXERCISES",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-1-1\/1-1-1-1-Numbers,-operations-and-common-notations.xml"
+        },
+        {
+            "slot": "2",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-1-1\/1-1-2-1-Calculation-with-Numbers.xml"
+        },
+        {
+            "slot": "4",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-1-1\/1-1-2-2-Calculation-with-Numbers---modulus.xml"
+        },
+        {
+            "slot": "6",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-1-1\/1-1-2-3-Calculation-with-Numbers---factorial.xml"
+        },
+        {
+            "slot": "8",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-1-1\/1-1-3-1-Rounding-to-n-Decimal-Places.xml"
+        },
+        {
+            "slot": "10",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-1-1\/1-1-4-1-Rounding-to-n-Significant-Figures.xml"
+        },
+        {
+            "slot": "12",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-1-1\/1-1-4-2-BODMAS.xml"
+        },
+        {
+            "slot": "15",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-1-1\/1-1-4-3-BODMAS_2.xml"
+        },
+        {
+            "slot": "24",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-1-1\/1-1-5-1-Using-Symbols.xml"
+        },
+        {
+            "slot": "25",
+            "page": "7",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-1-1\/1-1-6-1-Combining-Numbers-Together.xml"
+        },
+        {
+            "slot": "27",
+            "page": "7",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-1-1\/1-1-6-2-Combining-Numbers-Together.xml"
+        },
+        {
+            "slot": "3",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-1\/1-1-2-T1-Reciprocal.xml"
+        },
+        {
+            "slot": "5",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-1\/1-1-2-T2-Modulus.xml"
+        },
+        {
+            "slot": "7",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-1\/1-1-2-T3-Factorial.xml"
+        },
+        {
+            "slot": "9",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-1\/1-1-3-T1-Rounding-to-n-Decimal-Places.xml"
+        },
+        {
+            "slot": "17",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-1\/1-1-4-2-Multiplication-and-Division-with-Negative-Numbers.xml"
+        },
+        {
+            "slot": "18",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-1\/1-1-4-3-BODMAS.xml"
+        },
+        {
+            "slot": "19",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-1\/1-1-4-4-Modulus-and-Factorials.xml"
+        },
+        {
+            "slot": "20",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-1\/1-1-4-5-Addition-and-Subtraction-with-Negatives.xml"
+        },
+        {
+            "slot": "21",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-1\/1-1-4-6-Reciprocals.xml"
+        },
+        {
+            "slot": "22",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-1\/1-1-4-7-Plus-or-Minus-Sign.xml"
+        },
+        {
+            "slot": "23",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-1\/1-1-4-8-Inequalities.xml"
+        },
+        {
+            "slot": "11",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-1\/1-1-4-T1-Rounding-to-n-Significant-Figures.xml"
+        },
+        {
+            "slot": "13",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-1\/1-1-4-T2-BODMAS.xml"
+        },
+        {
+            "slot": "14",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-1\/1-1-4-T3-BODMAS.xml"
+        },
+        {
+            "slot": "16",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-1\/1-1-4-T4-BODMAS.xml"
+        },
+        {
+            "slot": "28",
+            "page": "8",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-1\/1-1-6-1-Reciprocal.xml"
+        },
+        {
+            "slot": "29",
+            "page": "8",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-1\/1-1-6-2-Calculating-Change-with-Units.xml"
+        },
+        {
+            "slot": "30",
+            "page": "8",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-1\/1-1-6-3-Simplifying-Multiplication.xml"
+        },
+        {
+            "slot": "31",
+            "page": "8",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-1\/1-1-6-4-Simplifying-Multiplication.xml"
+        },
+        {
+            "slot": "32",
+            "page": "8",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-1\/1-1-6-6-Maximum-and-Minimum-Values.xml"
+        },
+        {
+            "slot": "26",
+            "page": "7",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-1\/1-1-6-T1.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

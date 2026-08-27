@@ -422,7 +422,7 @@ The following rule allows one to find the derivative of a composition of two fun
 Assume we have a function \(f(g(x))\), then defining \(u=g(x)\), the derivative with respect to \(x\) is given by:
 \[\frac{\mathrm{d}f(g(x))}{\mathrm{d}x} = \frac{\mathrm{d}g(x)}{\mathrm{d}x}\cdot\frac{\mathrm{d}f(u)}{\mathrm{d}u}.\]
 Alternatively, we can write:
-\[\frac{\mathrm{d}f(x)}{\mathrm{d}x} = f'(g(x))\cdot g'(x).\]
+\[f(g(x)))' = f'(g(x))\cdot g'(x).\]
 
 
 
@@ -595,5 +595,22 @@ d}x}\left\{\int g(x)\mathrm{d}x\right\}\mathrm{d}x.\]
 \int u{\mathrm{d}v\over \mathrm{d}x}\mathrm{d}x=uv- \int{\mathrm{d}u\over \mathrm{d}x}v\,\mathrm{d}x\]
 or alternatively: \[\int f(x)g(x)\,\mathrm{d}x=f(x)\,\int
 g(x)\mathrm{d}x -\int {\mathrm{d}f\over \mathrm{d}x}\left\{\int g(x)\mathrm{d}x\right\}\mathrm{d}x.\]
+
+
+### Free-text inputs
+
+<code>[[facts:free_text]]</code>
+
+This input allows you to type in free text, e.g. your complete working or mathematical proof.
+<ol>
+<li>You can type markdown text.</li>
+<li>You can type AsciiMath between backticks for mathematics: <code>`...`</code></li>
+<li>You can include LaTeX between brackets, <code>\(...\)</code> for inline mathematics and <code>\[...\]</code> displayed mathematics.</li>
+<li>If activated by the teacher, calculations between <code>{@...@}</code> will be automatically evaluated.</li>
+</ol>
+<p>AsciiMath has two forms.  <em>Inline</em> AsciiMath starts and ends with a backtick, e.g. <code>`sum_(k=1)^oo 1/(n^2)=pi^2/6`</code>.</p>
+<p><em>Displayed</em> AsciiMath starts and ends with a backtick on an empty line, and mathematics lines in between.  E.g.
+<pre>`<br>x^2-5x+6=0<br>(x-3)(x-2)=0<br>`</pre>
+<p>More specific documentation on markdown, AsciiMath and LaTeX is available online.</p>
 
 

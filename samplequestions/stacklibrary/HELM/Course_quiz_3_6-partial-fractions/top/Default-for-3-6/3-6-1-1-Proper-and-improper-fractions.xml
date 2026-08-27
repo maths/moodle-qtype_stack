@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.6.1.1 Proper and improper fractions</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Proper and improper fractions</h4>
+<br>
+<p>Frequently we find that an algebraic fraction appears in the form</p>
+<p>\[\text{algebraic fraction} = {\hbox{numerator}\over \hbox{denominator}}\]
+</p>
+<p> where both numerator and denominator are polynomials. For example:
+</p>
+<p>\(\displaystyle{{x^3+x^2+3x+7\over x^2+1}; \qquad {3x^2-2x+5\over x^2-7x+2}; \qquad {x\over x^4+1}.}\)</p>
+<p> The <span><strong>degree</strong></span> of the numerator, <span class="math inline">\(n\)</span> say, is the highest power occurring in the numerator. The degree of the denominator, <span class="math inline">\(d\)</span> say, is the highest power occurring
+    in the denominator.&nbsp;</p>
+<p>If <span class="math inline">\(d&gt;n\)</span> the fraction is said to be <span><strong>proper</strong></span>; the third expression above is such an example.&nbsp;</p>
+<p>If <span class="math inline">\(d\le n\)</span> the fraction is said to be <span><strong>improper</strong></span>; the first and second expressions above are examples of this type.&nbsp;</p>
+<p>Before calculating the partial fractions of an algebraic fraction it is important to decide whether the fraction is proper or improper.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

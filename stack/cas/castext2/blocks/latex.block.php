@@ -28,7 +28,6 @@ require_once(__DIR__ . '/../../ast.container.class.php');
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_cas_castext2_latex extends stack_cas_castext2_raw {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
         // Convert possible simplification flags.
@@ -82,13 +81,15 @@ class stack_cas_castext2_latex extends stack_cas_castext2_raw {
 
         $epos = $options['context'] . '/' . $this->position['start'] . '-' . $this->position['end'];
 
-        $r->arguments[] = new MP_FunctionCall(new MP_Identifier('_EC'),
+        $r->arguments[] = new MP_FunctionCall(
+            new MP_Identifier('_EC'),
             [
                 new MP_FunctionCall(new MP_Identifier('errcatch'), [
                     new MP_Operation(':', new MP_Identifier('_ct2_tmp'), $ast),
                 ]),
                 new MP_String($epos),
-            ]);
+            ]
+        );
 
         // If there is a possibility of the simp value leaking to global context we need to identify it.
         if ($simps['out-of-ev-write']) {
@@ -96,8 +97,11 @@ class stack_cas_castext2_latex extends stack_cas_castext2_raw {
             $r->arguments[] = new MP_Operation(':', new MP_Identifier('_ct2_simp'), new MP_Identifier('simp'));
         }
         $r->arguments[] = new MP_Operation(':', new MP_Identifier('simp'), new MP_Boolean(false));
-        $r->arguments[] = new MP_Operation(':', new MP_Identifier('_ct2_tmp'),
-            new MP_FunctionCall(new MP_Identifier('ct2_latex'), [new MP_Identifier('_ct2_tmp'), $mode, $simp]));
+        $r->arguments[] = new MP_Operation(
+            ':',
+            new MP_Identifier('_ct2_tmp'),
+            new MP_FunctionCall(new MP_Identifier('ct2_latex'), [new MP_Identifier('_ct2_tmp'), $mode, $simp])
+        );
         $r->arguments[] = new MP_Operation(':', new MP_Identifier('simp'), new MP_Identifier('_ct2_simp'));
         $r->arguments[] = new MP_Identifier('_ct2_tmp');
 

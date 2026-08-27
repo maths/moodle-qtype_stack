@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.4.1.3 Introduction no solution</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3><span>Equations with no solution</span><br></h3>
+
+<p>On occasions we may encounter a pair of simultaneous equations which have no solution. Consider the following example.</p> 
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Show that the following pair of simultaneous equations have no solution.</p>
+<p>\(10x - 2y = -3\) &nbsp; (9)</p> 
+<p>\(-5x + y = 1\) &nbsp; (10)</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>Leaving equation (9) unaltered and multiplying equation (10) by 2 we find</p>
+
+<p>\(10x - 2y = -3\)</p>
+<p>\(-10x + 2y = 2\)</p>
+
+<p>Adding these equations to eliminate \(x\) we find that \(y\) is eliminated as well:</p>
+
+<p>\(10x - 2y = -3\)</p>
+<p>\(-10x + 2y = 2\) &nbsp; Add</p>
+<p>\(0x + 0y = -1\)</p>
+
+<p>The last line '\(0=-1\)' is clearly nonsense.</p>
+
+<p>We say that Equations (9) and (10) are <strong>inconsistent</strong> and they have <strong>no solution</strong>.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

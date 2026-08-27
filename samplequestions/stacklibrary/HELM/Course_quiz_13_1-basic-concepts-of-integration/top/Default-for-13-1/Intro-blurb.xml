@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>Intro blurb</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3><span>Basic Concepts of Integration</span><br></h3>
+
+<p>When a function \(f(x)\) is known we can differentiate it to obtain its derivative \(\dfrac{df}{dx}\). The reverse process is to obtain the function \(f(x)\) from knowledge of its derivative. This process is called <strong>integration</strong>. Applications of integration are numerous and some of these will be explored in subsequent Sections. First, what is important is to practise basic techniques and learn a variety of methods for integrating functions.</p><br>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

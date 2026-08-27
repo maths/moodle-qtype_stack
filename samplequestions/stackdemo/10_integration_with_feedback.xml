@@ -45,15 +45,6 @@
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <prtcorrect format="html">
-      <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
-    </prtcorrect>
-    <prtpartiallycorrect format="html">
-      <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
-    </prtpartiallycorrect>
-    <prtincorrect format="html">
-      <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
-    </prtincorrect>
     <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
@@ -138,7 +129,7 @@
         <name>prt1</name>
         <expectedscore>1.0000000</expectedscore>
         <expectedpenalty>0.0000000</expectedpenalty>
-        <expectedanswernote>1-0-T</expectedanswernote>
+        <expectedanswernote>[ ATInt_true. | 1-0-T ]</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
@@ -152,7 +143,7 @@
         <name>prt1</name>
         <expectedscore>0.0000000</expectedscore>
         <expectedpenalty>0.1000000</expectedpenalty>
-        <expectedanswernote>1-0-F</expectedanswernote>
+        <expectedanswernote>[ ATInt_const. | 1-0-F ]</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
@@ -166,7 +157,7 @@
         <name>prt1</name>
         <expectedscore>0.0000000</expectedscore>
         <expectedpenalty>0.1000000</expectedpenalty>
-        <expectedanswernote>1-0-F</expectedanswernote>
+        <expectedanswernote>[ ATInt_diff. | 1-0-F ]</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
@@ -180,7 +171,7 @@
         <name>prt1</name>
         <expectedscore>0.0000000</expectedscore>
         <expectedpenalty>0.1000000</expectedpenalty>
-        <expectedanswernote>1-0-F</expectedanswernote>
+        <expectedanswernote>[ ATInt_generic. | 1-0-F ]</expectedanswernote>
       </expected>
     </qtest>
     <qtest>

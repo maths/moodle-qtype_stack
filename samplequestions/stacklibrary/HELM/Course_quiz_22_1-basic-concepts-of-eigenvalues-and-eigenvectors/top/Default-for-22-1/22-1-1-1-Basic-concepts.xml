@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>22.1.1.1 Basic concepts</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Initial concepts</h3>
+<h4>Determinants reminder</h4>
+<p>A square matrix possesses an associated determinant. Unlike a matrix, which is an array of numbers, a determinant has a single value.</p>
+<p>A two by two matrix \(C=\left[\begin{array}{ll}c_{11}&amp;c_{12}\\
+c_{21}&amp;c_{22}\end{array}\right]\) has an associated determinant</p>
+\[\mathrm{det}(C)=\begin{vmatrix}c_{11}&amp;c_{12}\\
+c_{21}&amp;c_{22}\end{vmatrix} = c_{11}c_{22}-c_{21}c_{12}\]
+<p>(Note square or round brackets denote a matrix, straight vertical lines denote a determinant.)</p>
+<p>A three by three matrix has an associated determinant</p>
+\[\det (C)=\begin{vmatrix}c_{11}&amp;c_{12}&amp;c_{13}\\
+c_{21}&amp;c_{22}&amp;c_{23}\\
+c_{31}&amp;c_{32}&amp;c_{33}\end{vmatrix}\]
+<p>Among other ways, this determinant can be evaluated by an “expansion about the top row”:</p>
+\[\det(C)=c_{11}\begin{vmatrix}c_{22}&amp;c_{23}\\
+c_{32}&amp;c_{33}\end{vmatrix} - c_{12}\begin{vmatrix}c_{21}&amp;c_{23}\\
+c_{31}&amp;c_{33}\end{vmatrix} + c_{13}\begin{vmatrix}c_{21}&amp;c_{22}\\ c_{31}&amp;c_{32}\end{vmatrix}\]
+<p>Note the minus sign in the second term.</p>
+
+<p>A matrix such as <span class="math inline">\(A=\left[\begin{array}{cc}4&amp;8\\ 1&amp;2\end{array}\right]\)</span>&nbsp; which has zero determinant is called a <span><strong>singular</strong></span> matrix. Matrices with a non-zero determinant&nbsp;are <span><strong>non-singular</strong></span>. The key factor to be aware of is as follows:</p>
+
+<div class="HELM_keypoint">
+<h4>Key Point<br></h4>
+<p>Any non-singular \(n\times n\) matrix \(C\), for which \(\text{det}(C)\neq 0 \), possesses an inverse \(C^{-1}\) i.e.</p><p>\[CC^{-1}=C^{-1}C=I \quad \text{where } I \text{ denotes the } n\times n \text{ identity matrix.}\]</p><p>A singular matrix does <b>not</b>&nbsp;possess an inverse.</p>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

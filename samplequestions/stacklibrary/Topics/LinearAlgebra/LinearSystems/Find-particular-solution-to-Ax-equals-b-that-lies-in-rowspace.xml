@@ -5,8 +5,7 @@
       <text>Find particular solution to Ax = b that lies in rowspace</text>
     </name>
     <questiontext format="plain_text">
-      <text><![CDATA[<script src="https://apps.canterbury.ac.nz/1/math/online_resources/EMTH118/latex.js"></script>
-<p>
+      <text><![CDATA[<p>
   Consider the equation \(A\,{@vx@} = {@vb@}\) where
   \[
   	A = {@AA@},\qquad {@vb@} = {@BB@}
@@ -95,16 +94,6 @@ texput(vb, "\\underline{\\mathbf{b}}");]]></text>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
-    <prtcorrect format="html">
-      <text><![CDATA[<p><i class="fa fa-check"></i> Correct answer, well done.</p>]]></text>
-    </prtcorrect>
-    <prtpartiallycorrect format="html">
-      <text><![CDATA[<p><i class="fa fa-adjust"></i> Your answer is partially correct.</p>]]></text>
-    </prtpartiallycorrect>
-    <prtincorrect format="html">
-      <text><![CDATA[<p><i class="fa fa-times"></i> Incorrect answer.</p>]]></text>
-    </prtincorrect>
-    <decimals>.</decimals>
     <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>

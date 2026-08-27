@@ -63,3 +63,11 @@ Validation does some simple checks, so that mal-formed intervals such as `oo(1)`
 The algebraic equivalence answer test will apply `interval_tidy` as needed and compare the results. Currently the feedback in this situation provided by this answer test is minimal.
 
 If the student input is an interval, it is possible to access the upper and lower boundary through the `first` and `last` Maxima functions. For example, a PRT node checking whether the boundaries of an interval are correct (but not necessarily the interval type, like `co` or `oo`) can be done checking the algebraic equivalence of the student answer `[first(ans1), last(ans1)]` and the teacher answer `[first(ta1), last(ta1)]`.
+
+Students will sometimes enter a closed interval as `[a, b]` or an open interval as `(a, b)`, appealing to common notation. In STACK the answer `[a,b]` is interpreted as a list however, and it can be convert into `cc(a,b)` using 
+
+    ans1interval : if listp(ans1) then cc(first(ans1), last(ans1)) else ans1;
+
+Similary, the answer `(a,b)` is interpreted as `ntuple(a,b)`, see [Sets, lists, sequences n-tuples](Maxima_background.md#sets-lists-sequences-n-tuples). There is no direct predicate function for n-tuples, but this answer can be converted into `oo(a,b)` using
+
+    ans1interval : if is(safe_op(ans1) = "ntuple") then oo(first(ans1), last(ans1)) else ans1;

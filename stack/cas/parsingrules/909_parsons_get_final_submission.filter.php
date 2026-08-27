@@ -29,7 +29,7 @@ require_once(__DIR__ . '/../../utils.class.php');
 class stack_ast_filter_909_parsons_get_final_submission implements stack_cas_astfilter {
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
-        $strings = function($node) use (&$answernotes, &$errors) {
+        $strings = function ($node) use (&$answernotes, &$errors) {
             // We validate the node to check that it is a string that represents a Parson's state.
             // This is not strictly required as it is prevented by `$node instanceof MP_String`, but it is an additional safety
             // measure to ensure we do not dehash other strings.

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>27.1.5.1 Special Cases of Double Integrals Information</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Special cases</h3>
+<p>If the integrand can be written as</p>
+<p>\(\qquad\displaystyle f\left( x,y\right) =g\left( x\right) h\left( y\right)\)</p>
+<p>then the double integral</p>
+<p>\(\qquad\displaystyle I=\displaystyle\int_{a}^{b}\displaystyle\int_{c}^{d}g\left( x\right) h\left( y\right)\, \mathrm{d}y \mathrm{d}x \)</p>
+<p>can be written as</p>
+<p>\(\qquad\displaystyle I=\displaystyle\int_{a}^{b}g\left( x\right) \mathrm{d}x \times \displaystyle\int_{c}^{d}h\left( y\right) \, \mathrm{d}y \)</p>
+<p>i.e. the <strong>product</strong> of the two individual integrals. </p>
+<p>For example, the integral</p>
+<p>\(\qquad\displaystyle I=\displaystyle\int_{x=-1}^{2}\displaystyle\int_{y=-2}^{3}x^{2}y\, \mathrm{d}y \mathrm{d}x\)</p>
+<p>which was evaluated earlier, can be written as</p>
+<p>\(\qquad\displaystyle I =\displaystyle\int_{x=-1}^{2}x^{2}\mathrm{d}x \times \displaystyle\int_{y=-2}^{3}y\, \mathrm{d}y \quad =\left[ \dfrac{x^{3}}{3} \right] _{-1}^{2}\left[ \dfrac{y^{2}}{2}\right] _{-2}^{3} = \quad \left[ \dfrac{8}{3} -\dfrac{\left( -1\right) }{3}\right] \left[ \dfrac{9}{2}-\dfrac{4}{2}\right]\)</p>
+<p>\(\qquad\displaystyle =3\times \dfrac{5}{2}=\dfrac{15}{2},\)</p>
+<p>the same result as before.</p>
+<div class="HELM_keypoint">
+
+
+<h4>Key Point</h4>
+<p><strong> Double Integral as a Product </strong></p>
+<p>The integral \(\displaystyle I=\displaystyle\int_{a}^{b}\displaystyle\int_{c}^{d}g\left( x\right) h\left( y\right)\, \mathrm{d}y \mathrm{d}x\, \) can be written as </p>
+<p>\(\qquad\displaystyle I=\displaystyle\int_{a}^{b}g\left( x\right) \mathrm{d}x \times \displaystyle\int_{c}^{d}h\left( y\right) \, \mathrm{d}y \)
+</div>
+
+<p></p>
+<p>Imagine the integral</p>
+<p>\(\qquad \displaystyle I=\displaystyle\int_{-1}^1\displaystyle\int_0^1xe^{-y^2}\ \, \mathrm{d}y \mathrm{d}x \)</p>
+<p>Approached directly, this would involve evaluating the integral</p>
+<p>\(\qquad\displaystyle\int_0^1xe^{-y^2}\, \mathrm{d}y \)</p>
+<p>which cannot be done by algebraic means (i.e. it can only be determined numerically).</p>
+<p>However, the integral can be re-written as</p>
+<p>\(\qquad\displaystyle I=\displaystyle\int_{-1}^1x\mathrm{d}x \times \displaystyle\int_0^1e^{-y^2}\, \mathrm{d}y =\left[\phantom{\dfrac{}{}}\frac{1}{2}x^2\right]_{-1}^1\times\displaystyle\int_0^1e^{-y^2}\, \mathrm{d}y =0\times\displaystyle\int_0^1e^{-y^2}\, \mathrm{d}y =0\)</p>
+<p>and the result can be found without the need to evaluate the difficult integral.</p>
+<p></p>
+<p>If the integrand is independent of one of the variables and is simply a function of the other variable, then only one integration need be carried out.</p>
+<p>The integral \(\qquad\displaystyle I_{1}=\displaystyle\int_{a}^{b}\displaystyle\int_{c}^{d}h\left( y\right) \ \, \mathrm{d}y \mathrm{d}x \) may be written as \(\qquad\displaystyle I_{1}=\left( b-a\right) \displaystyle\int_{c}^{d}h\left( y\right) \, \mathrm{d}y. \)</p>
+<p>And the integral \(\qquad\displaystyle I_{2}=\displaystyle\int_{a}^{b}\displaystyle\int_{c}^{d}g\left( x\right) \ \, \mathrm{d}y \mathrm{d}x \) may be written as \(\qquad\displaystyle I_{2}=\left( d-c\right) \displaystyle\int_{a}^{b}g\left( x\right)\, \mathrm{d}x \) i.e. the integral in the variable upon which the integrand depends multiplied by the length of the range of integration for the other variable.</p>
+
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Evaluate the double integral</p>
+<p>\(\qquad\displaystyle I=\displaystyle\int_{0}^{2}\displaystyle\int_{-1}^{2}y^{2}\, \mathrm{d}y \mathrm{d}x.\)</p>
+
+<h4 class="HELM_solution">Solution</h4>
+<p>As the integral in \(y\) can be multiplied by the range of integration in \(x\), the double integral will equal</p>
+<p>\(\qquad\displaystyle I=\left( 2-0\right) \displaystyle\int_{-1}^{2}y^{2} \, \mathrm{d}y =2\left[ \frac{y^{3}}{3}\right]_{-1}^{2}=2\left[ \frac{2^{3}}{3}-\frac{\left( -1\right) ^{3}}{3}\right] =6 \)</p>
+<p>Note that the two integrations can be carried out in either order as long as the limits are associated with the correct variable. For example</p>
+<p>\(\qquad\displaystyle I =\displaystyle\int_{x=0}^{1}\displaystyle\int_{y=-1}^{2}x^{4}y\, \mathrm{d}y \mathrm{d}x =\displaystyle\int_{x=0}^{1}\left[ \frac{ x^{4}y^{2}}{2}\right] _{-1}^{2}\, \mathrm{d}x =\displaystyle\int_{x=0}^{1}\left[ 2x^{4}-\frac{1}{2} x^{4}\right]\, \mathrm{d}x \)</p>
+<p>\(\qquad\quad\displaystyle =\displaystyle\int_{0}^{1}\frac{3}{2}x^{4}\, \mathrm{d}x =\left[ \frac{3}{10}x^{5}\right] _{0}^{1}= \frac{3}{10}\times 1-\frac{3}{10}\times 0=\frac{3}{10},\)</p>
+<p>and</p>
+<p>\(\qquad\displaystyle I =\displaystyle\int_{y=-1}^{2}\displaystyle\int_{x=0}^{1}x^{4}y\, \mathrm{d}x \mathrm{d}y=\displaystyle\int_{y=-1}^{2}\left[ \frac{ x^{5}y}{5}\right] _{0}^{1}\, \mathrm{d}y =\displaystyle\int_{-1}^{2}\left[ \frac{y}{5}-0\right] \, \mathrm{d}y \)</p>
+<p>\(\qquad\displaystyle =\displaystyle\int_{-1}^{2}\frac{y}{5}\, \mathrm{d}y =\left[ \frac{y^{2}}{10}\right] _{-1}^{2}=\frac{ 4}{10}-\frac{1}{10}=\frac{3}{10}.\)</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

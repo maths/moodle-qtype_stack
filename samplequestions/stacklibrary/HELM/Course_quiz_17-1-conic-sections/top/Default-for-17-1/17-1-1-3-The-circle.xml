@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>17.1.1.3 The circle</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3> The circle </h3>
+The circle is a special case of the ellipse; it occurs when \(a=b=r\) so the equation becomes
+<br>\[\frac{x^2}{r^2}+\frac{y^2}{r^2}=1\qquad \text{or, more commonly}\quad x^2+y^2=r^2.\]<br>Here, the <strong>centre</strong> of the circle is located at the origin \((0,0)\) and the <strong>radius</strong> of the circle is \(r\). If the centre of the circle at a point \((\alpha ,\beta )\) then the equation takes the form:
+<br>\[(x-\alpha)^2+(y-\beta)^2=r^2\]<br><div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p>The equation of a circle with centre at \((\alpha,\beta)\) and radius \(r\) is \[(x-\alpha)^2+(y-\beta)^2=r^2.\]</p>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

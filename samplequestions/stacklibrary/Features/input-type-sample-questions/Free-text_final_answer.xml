@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+<!-- question: 48  -->
+  <question type="stack">
+    <name>
+      <text>Free-text with final answer (calculus)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p> Let \(f'(x)= {@fx@}\). Given that \(f(0)={@y0@}\), find \(f(x)\).</p>
+<p>Work line by line below, justifying your answer fully.  Your last line should be your answer \(f(x)=...\).</p>
+
+<p>[[input:ans1]] [[validation:ans1]]</p>
+[[ascii input="ans1"]]
+  [[extractor type="lastregexremainder" targetinput="ans2" regex="^f\\(x\\)\\s*=\\s*" /]]
+[[/ascii]]
+<p>[[hint title="Input help"]][[commonstring key="free_text_fact"/]][[/hint]]</p>
+<p style="display:none">[[input:ans2]]</p>
+<p>[[validation:ans2]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>4</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+    <stackversion>
+      <text>2026042402</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[fx:8*x/sqrt(2*x^2+1);
+y0:5;
+
+ta1:"Let `u=x^2+1 => (du)/(dx) = 4x`. Then
+`
+f(x) = int (8x)/sqrt(2x^2+1) dx
+     = int 2/sqrt(u) du.
+     = 4sqrt(u)+c
+     = 4sqrt(2x^2+1)+c
+`
+Using the given values `5 = 4sqrt(1)+c => c=1`, we have
+`
+f(x) = 4sqrt(2x^2+1)+1
+`";
+ta2:4*sqrt(2*x^2+1)+1;
+
+
+]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]
+[[feedback:prt2]]</text>
+    </specificfeedback>
+    <questionnote format="html">
+      <text>{@ta1@}</text>
+    </questionnote>
+    <questiondescription format="html">
+      <text></text>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] [[commonstring key="defaultprtpartiallycorrectfeedback"/]]]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>ans1</name>
+      <type>freetext</type>
+      <tans>ta1</tans>
+      <boxsize>80</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options>monospace:true</options>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>f(x)=ta2</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>5</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>3.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>3</feedbackstyle>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description>This PRT fires, but is a place holder for the marks for working.</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>null</tans>
+        <testoptions></testoptions>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty>0</truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty>0</falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text>sa2:if equationp(ans2) then rhs(ans2) else ans2;
+</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description>f(0)=y0</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>ev(sa2,x=0)</sans>
+        <tans>y0</tans>
+        <testoptions></testoptions>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.5</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>When we evaluate \(f(0)\) with your answer we get {@y0@}, which is correct, well done.</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>When we evaluate \(f(0)\) with your answer we get \({@ev(sa2,x=0)@}\neq {@y0@}\), so you must have done something wrong.</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description>Partial credit for f'(x)</description>
+        <answertest>AlgEquiv</answertest>
+        <sans>diff(sa2,x)</sans>
+        <tans>fx</tans>
+        <testoptions></testoptions>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.5</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text>When we differentiate your answer with respect to \(x\) we get
+\[ f'(x) = \frac{\mathrm{d}}{\mathrm{d}x} {@sa2@} = {@diff(sa2,x)@} \]
+so you have found the correct anti-derviative, well done.</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>When we differentiate your answer with respect to \(x\) we get
+\[ f'(x) = \frac{\mathrm{d}}{\mathrm{d}x} {@sa2@} = {@diff(sa2,x)@} \neq {@fx@}\]
+so you must have done something wrong.</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>f(x)=ta2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>( prt1-1-F ]</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>[ prt2-1-T | prt2-2-T ]</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description>Partial credit for correct derivative only.</description>
+      <testinput>
+        <name>ans1</name>
+        <value><![CDATA[""]]></value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2+1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore></expectedscore>
+        <expectedpenalty></expectedpenalty>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.5000000</expectedscore>
+        <expectedpenalty></expectedpenalty>
+        <expectedanswernote>[ prt2-1-F | prt2-2-T ]</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description>Partial credit for correct evaluation only.</description>
+      <testinput>
+        <name>ans1</name>
+        <value></value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>2*fx+5</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore></expectedscore>
+        <expectedpenalty></expectedpenalty>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.5000000</expectedscore>
+        <expectedpenalty></expectedpenalty>
+        <expectedanswernote>[ prt2-1-T | prt2-2-F ]</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description>Misses out f(x)= bit</description>
+      <testinput>
+        <name>ans1</name>
+        <value></value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore></expectedscore>
+        <expectedpenalty></expectedpenalty>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>[ prt2-1-T | prt2-2-T ]</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+
+</quiz>

@@ -20,6 +20,7 @@
  * @package    qtype_stack
  * @copyright  2017 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * phpcs:disable PSR1.Classes.ClassDeclaration.MultipleClasses
  */
 
 namespace qtype_stack;
@@ -70,12 +71,14 @@ final class restore_logic_test_class extends \restore_qtype_stack_plugin {
         return $this->log;
     }
 
-    // @codingStandardsIgnoreLine
+    // phpcs:disable Generic.CodeAnalysis.UselessOverridingMethod.Found
+    // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     public function after_execute_question(): void {
 
         // Make method public.
         parent::after_execute_question();
     }
+    // phpcs:enable Generic.CodeAnalysis.UselessOverridingMethod.Found
 }
 
 
@@ -88,7 +91,6 @@ final class restore_logic_test_class extends \restore_qtype_stack_plugin {
  * @covers \qtype_stack
  */
 final class restore_logic_test extends \advanced_testcase {
-
     public function test_fix_prt_roots(): void {
 
         global $DB;
@@ -101,10 +103,18 @@ final class restore_logic_test extends \advanced_testcase {
         $question = $generator->create_question('stack', 'test3', ['category' => $cat->id]);
 
         // Break one of its PRTs.
-        $DB->set_field('qtype_stack_prts', 'firstnodename', -1,
-                ['questionid' => $question->id, 'name' => 'oddeven']);
-        $DB->set_field('qtype_stack_prt_nodes', 'truenextnode', 7,
-                ['questionid' => $question->id, 'prtname' => 'oddeven', 'nodename' => 0]);
+        $DB->set_field(
+            'qtype_stack_prts',
+            'firstnodename',
+            -1,
+            ['questionid' => $question->id, 'name' => 'oddeven']
+        );
+        $DB->set_field(
+            'qtype_stack_prt_nodes',
+            'truenextnode',
+            7,
+            ['questionid' => $question->id, 'prtname' => 'oddeven', 'nodename' => 0]
+        );
 
         $restoreplugin = new restore_logic_test_class();
         $restoreplugin->after_execute_question();

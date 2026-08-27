@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>7.2.6.1 The rules of matrix manipulation</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>The rules of matrix manipulation</h3>
+<p>It is worth noting that the process of multiplication can be continued to form products of more than two matrices.</p>
+<p>Although two matrices may not commute (i.e. in general \(AB\neq BA\)) the <b>associative law</b> always holds i.e. for matrices which <b>can</b> be multiplied, \[A( BC)=( A B)C.\] The general principle is <b>keep the left to right order</b>, but within that limitation any two adjacent matrices can be multiplied.</p>
+<p>It is important to note that it is not always possible to multiply together any two given matrices.</p>
+<p>For example if \(A=\begin{bmatrix}1 & 2\\ 3 & 4\end{bmatrix}\) and \(B=\begin{bmatrix}a & b & c\\ d & e & f\end{bmatrix}\) then \[AB=\begin{bmatrix} a+2d & b+2e & c+2f\\ 3a+4d & 3b+4e & 3c+4f\end{bmatrix}\]</p>
+<p>However \(BA=\begin{bmatrix}a & b & c\\
+d & e & f\end{bmatrix}\begin{bmatrix}1 & 2\\ 3 & 4\end{bmatrix}\) is <b>not defined</b> since each row of \(B\) has three elements whereas each column of \(A\) has two elements and we cannot multiply these elements in the manner described.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

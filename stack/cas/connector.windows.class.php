@@ -23,11 +23,10 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_cas_connection_windows extends stack_cas_connection_base {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function guess_maxima_command($path) {
         if ('default' == stack_connection_helper::get_maximaversion()) {
-            throw new stack_exception("stack_cas_connection: maxima cannot be set to default on Windows platform. ".
+            throw new stack_exception("stack_cas_connection: maxima cannot be set to default on Windows platform. " .
                     "Please choose an explicit version via the administration settings page.");
         }
         $cmd = $path . '/maxima.bat';
@@ -48,7 +47,7 @@ class stack_cas_connection_windows extends stack_cas_connection_base {
             2 => ['file', $this->logs . "cas_errors.txt", 'a'],
         ];
 
-        $cmd = '"'.$this->command.'"';
+        $cmd = '"' . $this->command . '"';
         $this->debug->log('Command line', $cmd);
 
         $casprocess = proc_open($cmd, $descriptors, $pipes);

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>13.5 Introduction</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>The first technique described here involves making a substitution to simplify an integral. We let a new variable equal a complicated part of the function we are trying to integrate. Choosing the correct substitution often requires experience. This skill develops with practice.</p>
+<p> Often the technique of partial fractions can be used to write an algebraic fraction as the sum of simpler fractions. On occasions this means that we can then integrate a complicated algebraic fraction. We shall explore this approach in the second half of the section.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

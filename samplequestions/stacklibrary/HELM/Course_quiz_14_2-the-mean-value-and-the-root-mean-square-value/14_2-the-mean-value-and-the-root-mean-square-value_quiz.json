@@ -1,0 +1,116 @@
+{
+    "quiz": {
+        "name": "14_2 The Mean Value and the Root-Mean-Square Value",
+        "intro": "<p>Currents and voltages often vary with time and engineers may wish to know the mean value of such a current or voltage over some particular time interval. The mean value of a time-varying function is defined in terms of an integral. An associated quantity is the root-mean-square (r.m.s). For example, the r.m.s. value of a current is used in the calculation of the power dissipated by a resistor.<br><br>This workbook has many exercises but please complete only as many as you feel you need for practice.<\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Mean value of a function",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "8",
+            "heading": "Root mean square value of a function",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-14-2\/14-2-1-1-Average-value-of-a-function.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-14-2\/14-2-1-2-Mean-value-of-a-function.xml"
+        },
+        {
+            "slot": "3",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-14-2\/14-2-1-3-Engineering-example.xml"
+        },
+        {
+            "slot": "4",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-14-2\/14-2-1-4-Finding-means-of-functions.xml"
+        },
+        {
+            "slot": "5",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-14-2\/14-2-1-5-Finding-more-means-of-functions.xml"
+        },
+        {
+            "slot": "6",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-14-2\/14-2-1-6-Finding-means-of-trig-functions.xml"
+        },
+        {
+            "slot": "7",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-14-2\/14-2-1-7-Finding-more-means-of-more-functions.xml"
+        },
+        {
+            "slot": "8",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-14-2\/14-2-2-1-Root-mean-square-value-of-a-function.xml"
+        },
+        {
+            "slot": "9",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-14-2\/14-2-2-2-Finding-r-m-s-of-functions.xml"
+        },
+        {
+            "slot": "10",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-14-2\/14-2-2-3-Finding-more-r-m-s-of-functions.xml"
+        },
+        {
+            "slot": "11",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-14-2\/14-2-2-4-Finding-r-m-s-of-trig-functions.xml"
+        },
+        {
+            "slot": "12",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-14-2\/14-2-2-5-Finding-more-r-m-s-of-more-functions.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>23.6 Introduction</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Introduction</h4>
+
+In this Section we show how a Fourier series can be expressed more concisely if we introduce the
+complex number \(i\) where \(i^2 = -1\). By utilising the Euler relation:
+\[ e^{i\theta} \equiv \cos \theta  + i \sin \theta \]
+we can replace the trigonometric functions by complex exponential functions. By also combining the
+Fourier coefficients \(a_n\) and \(b_n\) into a complex coefficient \(c_n\) through
+\[ c_n = \dfrac{1}{2} \left( a_n - i b_n \right) \]
+we find that, for a given periodic signal, both sets of constants can be found in one operation.
+<p></p>
+We also obtain Parseval's theorem which has important applications in electrical engineering.
+<p></p>
+The complex formulation of a Fourier series is an important precursor of the Fourier transform which
+attempts to Fourier analyse non-periodic functions.]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>28.1.2.3 vector function of 1 variable rules and examples</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>In general, a three-dimensional vector function of one variable \(t\) is of the form</p>
+<p>\(\underline{u}=x(t)\underline{i} +y(t)\underline{j}+z(t)\underline{k}\).</p>
+<p>Such functions may be differentiated one or more times and the rules of differentiation are derived from those for ordinary scalar functions. In particular, if \(\underline{u}\) and \(\underline{v}\) are vector functions of \(t\) and if \(c\) is a constant, then:</p>
+<table>
+<tbody>
+<tr>
+<td>Rule 1.</td>
+<td>\(\displaystyle \dfrac{\mathrm{d}}{\mathrm{d}t} (\underline{u}+\underline{v})=\dfrac{\mathrm{d}\underline{u}}{\mathrm{d}t} + \frac{\mathrm{d}\underline{v}}{\mathrm{d}t}\)</td>
+</tr>
+<tr>
+<td>Rule 2.</td>
+<td>\(\displaystyle\frac{\mathrm{d}}{\mathrm{d}t} (c\underline{u})=c\frac{\mathrm{d}\underline{u}}{\mathrm{d}t}\)</td>
+</tr>
+<tr>
+<td>Rule 3.</td>
+<td>\(\displaystyle\frac{\mathrm{d}}{\mathrm{d}t} (\underline{{u}}\cdot\underline{v})=\underline{u} \cdot \frac{\mathrm{d}\underline{v}}{\mathrm{d}t} + \frac{\mathrm{d}\underline{u}}{\mathrm{d}t} \cdot \underline{v}\)</td>
+</tr>
+<tr>
+<td>Rule 4.</td>
+<td>\(\displaystyle\frac{\mathrm{d}}{\mathrm{d}t} (\underline{u}\times\underline{v})=\underline{u} \times \frac{\mathrm{d}\underline{v}}{\mathrm{d}t} + \frac{\mathrm{d}\underline{u}}{\mathrm{d}t} \times \underline{v}\)</td>
+</tr>
+</tbody>
+</table>
+<p>Also, if a particle moves so that its position vector at time \(t\) is \[\underline{r}(t) = x(t)\underline{i} + y(t)\underline{j} +z(t)\underline{k}\] then the velocity of the particle is \[\qquad\displaystyle \underline{v} = \dfrac{d\underline{r}}{dt} = \underline{\dot{r}} = \dfrac{dx(t)}{dt}\underline{i} + \dfrac{dy(t)}{dt}\underline{j} +\dfrac{dz(t)}{dt}\underline{k}=\dot x{\underline i}+ \dot y{\underline j}+ \dot z{\underline k}\]</p>
+<p>and its acceleration is</p>
+<p>\[\qquad\displaystyle \underline{a} = \dfrac{d\underline{v}}{dt} = \dfrac{d^2\underline{r}}{dt^2} = \underline{\ddot{r}} = \dfrac{d^2x(t)}{dt^2}\underline{i} + \dfrac{d^2y(t)}{dt^2}\underline{j} +\dfrac{d^2z(t)}{dt^2}\underline{k}= \ddot x{\underline i}+ \ddot y{\underline j}+ \ddot z{\underline k}\]</p>
+<div><hr>
+<h4 class="HELM_example">Example</h4>
+<p>Find the derivative (with respect to \(t\)) of the position vector \(\underline{r} = t^2 \underline{i} + 3t \underline{j} +4 \underline{k}\). Also find a unit vector tangential to the curve traced out by the position vector at the point where \(t = 2\).</p>
+<h4 class="HELM_solution">Solution</h4>
+Differentiating \(\underline{r}\) with respect to \(t\), \[\underline{\dot{r}} = \dfrac{\mathrm{d}\underline{r}}{\mathrm{d}t} = 2t\underline{i} + 3\underline{j}\] so \[\underline{\dot{r}}(2) = 4\underline{i} + 3\underline{j}.\] A unit vector in this direction, which is tangential to the curve, is \[\dfrac{\underline{\dot{r}}(2)}{|\underline{\dot{r}}|} = \dfrac{4\underline{i} + 3\underline{j}}{\sqrt{4^2+3^2}} = \dfrac{4}{5}\underline{i}+\dfrac{3}{5}\underline{j}.\]</div>
+<div><hr>
+<h4 class="HELM_example">Example</h4>
+<p>For the position vectors (i) \({\underline r}=3{\underline i}+2t{\underline j}\) and (ii) \({\underline r}=2t{\underline i}+t^2{\underline j}\) use the general expressions for velocity and acceleration to confirm the values of \(\underline{v}\) and \(\underline{a}\) found earlier in the first two examples.</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>(i) \(\underline{r} = 3\underline{i} + 2t\underline{j}\). Then \[\underline{v} = \dfrac{\mathrm{d} \underline{r}}{dt} = \underline{\dot{r}} = \dfrac{\mathrm{d}}{\mathrm{d}t}(3\underline{i} + 2t\underline{j}) = \dfrac{\mathrm{d}(3)}{\mathrm{d}t}\underline{i} + \dfrac{\mathrm{d}(2t)}{\mathrm{d}t}\underline{j} = 0\underline{i} + 2\underline{j} = 2\underline{j}\] and \[\underline{a} = \dfrac{\mathrm{d\underline{r}}}{\mathrm{d}t} = \underline{\ddot{r}} = \dfrac{\mathrm{d}}{\mathrm{d}t}(2\underline{j} =\dfrac{\mathrm{d}(2)}{\mathrm{d}t}\underline{j} = 0\underline{j} = \underline{0}\] which agrees with those found earlier.</p>
+<p>(ii) \(\underline{r} = 2t\underline{i} + t^2\underline{j}\). Then \[\underline{v} = \dfrac{\mathrm{d}\underline{r}}{\mathrm{d}t} = \underline{\dot{r}} = \dfrac{\mathrm{d}}{\mathrm{d}t}(2t\underline{i}+t^2\underline{j}) = \dfrac{\mathrm{d}(2t)}{\mathrm{d}t}\underline{i} + \dfrac{\mathrm{d}(t^2)}{\mathrm{d}t}\underline{j} = 2\underline{i} + 2t\underline{j}\] and \[\underline{a} = \dfrac{\mathrm{d}\underline{v}}{\mathrm{d}t} = \underline{\ddot{r}} = \dfrac{\mathrm{d}}{\mathrm{d}t}(2\underline{i}+2t\underline{j}) = \dfrac{\mathrm{d}(2)}{\mathrm{d}t}\underline{i} + \dfrac{\mathrm{d}(2t)}{\mathrm{d}t}\underline{j} = 0\underline{i} + 2\underline{j} = 2\underline{j}\] which agree with those found earlier.</p>
+</div>
+<div><hr>
+<h4 class="HELM_example">Example</h4>
+<p>A particle of mass \(m = 1\) kg has position vector \(\underline{r}\). The torque (moment of force) \(\underline{H}\) relative to the origin acting on the particle as a result of a force \(\underline{F}\) is defined as \(\underline{H} = \underline{r} \times \underline{F}\), where, by Newton's second law, \(\underline{F} = m \underline{\ddot{r}}\). The angular momentum (moment of momentum) \(\underline{L}\) of the particle is defined as \(\underline{L}=\underline{r} \times m \underline{\dot{r}}\) . Find \(\underline{L}\) and \(\underline{H}\) for the particle where (i) \(\underline{r}=3\underline{i}+2t\underline{j}\) and (ii) \(\underline{r}=2t\underline{i}+t^2\underline{j}\), and show that in each case the torque law \(\underline{H} = \underline{\dot{L}}\) is satisfied.</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>(i) Here \(\underline{r} = 3\underline{i} + 2t\underline{j}\) so \(\underline{\dot{r}} = 2\underline{j}\) and \(\underline{a} = \underline{0}\). Then \[\underline{L} = \underline{r}\times m \underline{\dot{r}} = (3\underline{i} + 2t\underline{j}) \times 2\underline{j} = 6\underline{k} \text{ so } \underline{\dot{L}} = \dfrac{\mathrm{d}}{\mathrm{d}t}(6)\underline{k} = \underline{0}\] and \[\underline{H} = \underline{r}\times\underline{F} = \underline{r}\times m \underline{\ddot{r}} = (3\underline{i}+2t\underline{j}) \times \underline{0} = \underline{0} \text{ giving } \underline{H} = \underline{\dot{L}} \text{ as required.}\]</p>
+<p>(ii) Here \(\underline{r} = 2t\underline{i} + t^2\underline{j} so \underline{\dot{r}} = 2\underline{i} 2t\underline{j}\) and \(\underline{a} = 2\underline{j}\). Then \[\underline{L} = \underline{r}\times m \underline{\dot{r}} = (2t\underline{i} + t^2\underline{j}) \times (2\underline{i} + 2t\underline{j}) = (4t^2-2t^2)\underline{k} = 2t^2\underline{k} \text{ so } \underline{\dot{L}} = 4t\underline{k}\] and \[\underline{H} = \underline{r}\times\underline{F} = \underline{r}\times m \underline{\ddot{r}} = (2t\underline{i}+t^2\underline{j}) \times 2\underline{j} = 4t\underline{k} \text{ giving } \underline{H} = \underline{\dot{L}} \text{ as required.}\]</p>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

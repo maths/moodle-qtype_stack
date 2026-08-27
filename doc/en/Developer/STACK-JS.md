@@ -121,7 +121,7 @@ in a following release. Until that following release, keep your eyes open.
 ## Minimal example for access to an input
 
 Given a STACK question with an input named `ans1` you can create an IFRAME
-that executes arbitrary code that can refrence that input like this:
+that executes arbitrary code that can reference that input like this:
 
 ```
 [[iframe]]
@@ -157,4 +157,4 @@ Also if your only purpose is to run JavaScript you might want to hide
 the IFRAME, you can simply place it inside something that is not being
 displayed or use `hidden="true"` as an argument to the `[[iframe]]`-block.
 If it needs to be visible, all the dimension options of `[[jsxgraph]]` also
-work here. 
+work here. Or you could simply use the [`[[javascript]]`-block](../../Authoring/Question_blocks/Dynamic_blocks.md#javascript-block), which also imports STACK-JS by default.

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>11.7.3 Beam Curvature</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Engineering Example</h4>
+Here we shall find a formula for the curvature of a bent beam.
+<p></p>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>When a horizontal beam is acted on by forces which bend it, each small segment of the beam will be slightly curved and can be regarded as an arc of a circle. The radius \(R\) of that circle is called the <b>radius of curvature</b> of the beam at the point concerned. If the shape of the beam is described by an equation of the form \(y = f(x)\) then there is a formula for the radius of curvature \(R\) which involves only the first and second derivatives \( \dfrac{dy}{dx}\) and \( \dfrac{d^2y}{dx^2}\). </p>
+<p></p>
+The equation is found as follows.
+<p></p>
+Start with the equation of a circle in the simple implicit form
+\[x^2 + y^2 = R^2\]
+and perform implicit differentiation twice. Now use the result of the first implicit
+differentiation to find a simple expression for the quantity \(1+ \left( \dfrac{dy}{dx}\right)^2\) in terms of
+\(R\) and \(y\); this can then be used to simplify the result of the second differentiation,
+and will lead to a formula for \( \dfrac{1}{R}\) (called the <b>curvature</b>) in terms of \( \dfrac{dy}{dx}\) and \( \dfrac{d^2y}{dx^2}\).
+<p></p>
+Have a go before looking at the solution below.
+<h4 class="HELM_solution">Solution</h4>
+Differentiating \( x^2 + y^2 = R^2\) gives
+\[ 2x + 2y\dfrac{dy}{dx} = 0. \hspace{5cm} (1)\]
+Differentiating again gives 
+\[ 2 + 2 \left( \dfrac{dy}{dx} \right)^2 + 2y \dfrac{d^2y}{dx^2} = 0. \hspace{3cm} (2)\]
+From \( (1)\),
+\[ \dfrac{dy}{dx} = -\dfrac{x}{y} \hspace{0.5cm} \therefore \hspace{0.5cm} 1 + \left( \dfrac{dy}{dx} \right) ^2 = 1 + \dfrac{x^2}{y^2} = \dfrac{y^2 + x^2}{y^2} = \left( \dfrac{R}{y} \right)^2. \hspace{2cm} (3) \]
+So 
+\[1 + \left( \dfrac{dy}{dx} \right)^2 = \left( \dfrac{R}{y} \right)^2.\]
+Thus \( (2) \) becomes
+\[ 2 \left( \dfrac{R}{y} \right)^2 + 2y \left( \dfrac{d^2y}{dx^2} \right) = 0 \hspace{0.5cm} \therefore \hspace{0.5cm}  \dfrac{d^2y}{dx^2} = \dfrac{R^2}{y^3} = \left( \dfrac{1}{R} \right) \left( \dfrac{R}{y} \right) ^3 \]
+so
+\[  \dfrac{d^2y}{dx^2} = -\dfrac{1}{R} \left( \dfrac{R}{y} \right)^3. \hspace{4cm} (4) \]
+Rearranging \( (4) \) to make \( \dfrac{1}{R} \) the subject and substituting for \( \left( \dfrac{R}{y} \right) \) from \( (3) \) gives the result:
+\[ \dfrac{1}{R} = \dfrac{\dfrac{d^2y}{dx^2}}{ \left[ 1 + \left( \dfrac{dy}{dx} \right)^2 \right] ^{3/2}} \]
+The equation usually found in textbooks omits the minus sign but the sign indicates whether the circle is above or below the curve, as you will see by sketching a few examples. When the gradient is small (as for a slightly deflected horizontal beam), i.e. \( \dfrac{dy}{dx}\) is small, the denominator in the equation for \( (1/R)\) is close to \(1\), and so the second derivative alone is often used to estimate the radius of curvature in the theory of bending beams.]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

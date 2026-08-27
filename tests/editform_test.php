@@ -20,6 +20,7 @@
  * @package    qtype_stack
  * @copyright  2012 The Open University.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ * phpcs:disable PSR1.Classes.ClassDeclaration.MultipleClasses
  */
 
 namespace qtype_stack;
@@ -36,7 +37,6 @@ require_once(__DIR__ . '/../edit_stack_form.php');
  * @covers \qtype_stack_edit_form
  */
 final class editform_test_class extends \qtype_stack_edit_form {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     public function __construct($questiontext, $specificfeedback, $quizmoduleid) {
         global $USER;
@@ -89,7 +89,6 @@ final class editform_test_class extends \qtype_stack_edit_form {
     public function prepare_text_field($field, $text, $format, $itemid, $filearea = '') {
         return parent::prepare_text_field($field, $text, $format, $itemid, $filearea);
     }
-
 }
 
 /**
@@ -102,7 +101,6 @@ final class editform_test_class extends \qtype_stack_edit_form {
  * @covers \qtype_stack_edit_form
  */
 final class editform_test extends \advanced_testcase {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     protected function get_form($questiontext, $specificfeedback) {
         $this->setAdminUser();
@@ -117,28 +115,40 @@ final class editform_test extends \advanced_testcase {
 
     public function test_get_input_names_from_question_text_default(): void {
 
-        $form = $this->get_form(\qtype_stack_edit_form::DEFAULT_QUESTION_TEXT,
-                \qtype_stack_edit_form::DEFAULT_SPECIFIC_FEEDBACK);
+        $form = $this->get_form(
+            \qtype_stack_edit_form::DEFAULT_QUESTION_TEXT,
+            \qtype_stack_edit_form::DEFAULT_SPECIFIC_FEEDBACK
+        );
         $qtype = new \qtype_stack();
 
-        $this->assertEquals(['ans1' => [1, 1]],
-                $qtype->get_input_names_from_question_text(\qtype_stack_edit_form::DEFAULT_QUESTION_TEXT));
+        $this->assertEquals(
+            ['ans1' => [1, 1]],
+            $qtype->get_input_names_from_question_text(\qtype_stack_edit_form::DEFAULT_QUESTION_TEXT)
+        );
     }
 
     public function test_get_prt_names_from_question_default(): void {
 
-        $form = $this->get_form(\qtype_stack_edit_form::DEFAULT_QUESTION_TEXT,
-                \qtype_stack_edit_form::DEFAULT_SPECIFIC_FEEDBACK);
+        $form = $this->get_form(
+            \qtype_stack_edit_form::DEFAULT_QUESTION_TEXT,
+            \qtype_stack_edit_form::DEFAULT_SPECIFIC_FEEDBACK
+        );
         $qtype = new \qtype_stack();
 
-        $this->assertEquals(['prt1' => 1],
-                $qtype->get_prt_names_from_question(\qtype_stack_edit_form::DEFAULT_QUESTION_TEXT,
-                \qtype_stack_edit_form::DEFAULT_SPECIFIC_FEEDBACK));
+        $this->assertEquals(
+            ['prt1' => 1],
+            $qtype->get_prt_names_from_question(
+                \qtype_stack_edit_form::DEFAULT_QUESTION_TEXT,
+                \qtype_stack_edit_form::DEFAULT_SPECIFIC_FEEDBACK
+            )
+        );
     }
 
     public function test_text_format(): void {
-        $form = $this->get_form(\qtype_stack_edit_form::DEFAULT_QUESTION_TEXT,
-                \qtype_stack_edit_form::DEFAULT_SPECIFIC_FEEDBACK);
+        $form = $this->get_form(
+            \qtype_stack_edit_form::DEFAULT_QUESTION_TEXT,
+            \qtype_stack_edit_form::DEFAULT_SPECIFIC_FEEDBACK
+        );
         // No script. Leave format alone.
         $data = $form->prepare_text_field('questiontext', 'hello', FORMAT_HTML, 1);
         $this->assertEquals(FORMAT_HTML, $data['format']);

@@ -24,11 +24,11 @@
 
 define('NO_OUTPUT_BUFFERING', true);
 
-require_once(__DIR__.'/../../../../config.php');
-require_once($CFG->dirroot .'/course/lib.php');
+require_once(__DIR__ . '/../../../../config.php');
+require_once($CFG->dirroot . '/course/lib.php');
 require_once($CFG->libdir . '/questionlib.php');
-require_once($CFG->libdir .'/filelib.php');
-require_once($CFG->libdir .'/tablelib.php');
+require_once($CFG->libdir . '/filelib.php');
+require_once($CFG->libdir . '/tablelib.php');
 
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/../stack/cas/cassession2.class.php');
@@ -83,7 +83,6 @@ $notests = 0;
 $start = microtime(true);
 
 foreach ($tests as $test) {
-
     $notests++;
 
     if ($test->notes) {
@@ -116,7 +115,7 @@ foreach ($tests as $test) {
 
     $display = '';
     if ('' != $casdisplay) {
-        $display = '\('.$casdisplay.'\)';
+        $display = '\(' . $casdisplay . '\)';
     }
     $row = [
         'passed'             => $passedcol,
@@ -141,9 +140,9 @@ $table->finish_output();
 $took = (microtime(true) - $start);
 $rtook = round($took, 5);
 $pertest = round($took / $notests, 5);
-echo '<p>'.stack_string('testsuitenotests', ['no' => $notests]);
-echo '<br/>'.stack_string('testsuiteteststook', ['time' => $rtook]);
-echo '<br/>'.stack_string('testsuiteteststookeach', ['time' => $pertest]);
+echo '<p>' . stack_string('testsuitenotests', ['no' => $notests]);
+echo '<br/>' . stack_string('testsuiteteststook', ['time' => $rtook]);
+echo '<br/>' . stack_string('testsuiteteststookeach', ['time' => $pertest]);
 echo '</p>';
 
 $config = get_config('qtype_stack');

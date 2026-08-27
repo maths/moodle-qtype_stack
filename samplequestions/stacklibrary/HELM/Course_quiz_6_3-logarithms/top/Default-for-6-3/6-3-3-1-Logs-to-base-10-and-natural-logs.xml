@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>6.3.3.1 Logs to base 10 and natural logs</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Logs to base 10 and natural logs</h3>
+<p>In practice only two kinds of logarithms are commonly used, those to base 10, written 
+\(\log_{10}\) and those to base \(e\), written \(\log_{e}\) or more usually \(\ln\) or \(\log\) (called <b>natural logarithms</b>).</p>
+<p>Most scientific calculators will determine the logarithm to base \(10\) and to base \(e\).</p>
+<p>For example, \(\log_{10} 13=1.11394\) (implying \(10^{1.11394}=13\)), \(\log 23 =\ln 23=3.13549\) (implying 
+\(e^{3.13549}=23\)).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

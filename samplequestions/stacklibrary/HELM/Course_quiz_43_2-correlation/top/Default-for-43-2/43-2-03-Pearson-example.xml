@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>43.2.03 Pearson example</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>The calculation of Pearson’s \(r\)</h3>
+<p>The worked example below shows the setting out of a table which will facilitate the easy calculation of Pearson's \(r\).</p>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Find the value of Pearson's \(r\) for the following set of data obtained by reading seven torque values \( (x)\) from an electric motor using current \( (y)\)</p>
+<p>&nbsp;</p>
+<table style="text-align: center; width: 5px; height: 5px;" border="1" cellspacing="5"><caption>&nbsp;</caption>
+<tbody>
+<tr>
+<th scope="row"><strong>Student</strong></th>
+<td>\(\hspace{0.4cm}1 \hspace{0.4cm}\)</td>
+<td>\(\hspace{0.4cm}2\hspace{0.4cm}\)</td>
+<td>\(\hspace{0.4cm}3\hspace{0.4cm}\)</td>
+<td>\(\hspace{0.4cm}4\hspace{0.4cm}\)</td>
+<td>\(\hspace{0.4cm}5\hspace{0.4cm}\)</td>
+<td>\(\hspace{0.4cm}6\hspace{0.4cm}\)</td>
+<td>\(\hspace{0.4cm}7\hspace{0.4cm}\)</td>
+</tr>
+<tr>
+<th scope="row"><strong>\(x\)-Value</strong></th>
+<td>\(16\)</td>
+<td>\(14\)</td>
+<td>\(12\)</td>
+<td>\(10\)</td>
+<td>\(8\)</td>
+<td>\(6\)</td>
+<td>\(4\)</td>
+</tr>
+<tr>
+<th scope="row"><strong>\(y\)-Value</strong></th>
+<td>\(12\)</td>
+<td>\(8\)</td>
+<td>\(16\)</td>
+<td>\(14\)</td>
+<td>\(4\)</td>
+<td>\(10\)</td>
+<td>\(6\)</td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: center;">&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>The calculation is done as follows:</p>
+<table style="height: 232px;" border="1" width="400">
+<tbody>
+<tr>
+<td style="width: 72px; text-align: center;">\(x\)</td>
+<td style="width: 73px; text-align: center;">\(y\)</td>
+<td style="width: 73px; text-align: center;">\(x^2\)</td>
+<td style="width: 73px; text-align: center;">\(y^2\)</td>
+<td style="width: 75px; text-align: center;">\(xy\)</td>
+</tr>
+<tr style="text-align: center;">
+<td style="width: 72px;">16</td>
+<td style="width: 73px;">12</td>
+<td style="width: 73px;">256</td>
+<td style="width: 73px;">144</td>
+<td style="width: 75px;">192</td>
+</tr>
+<tr style="text-align: center;">
+<td style="width: 72px;">14</td>
+<td style="width: 73px;">8</td>
+<td style="width: 73px;">196</td>
+<td style="width: 73px;">64</td>
+<td style="width: 75px;">112</td>
+</tr>
+<tr style="text-align: center;">
+<td style="width: 72px;">12</td>
+<td style="width: 73px;">16</td>
+<td style="width: 73px;">144</td>
+<td style="width: 73px;">256</td>
+<td style="width: 75px;">192</td>
+</tr>
+<tr style="text-align: center;">
+<td style="width: 72px;">10</td>
+<td style="width: 73px;">14</td>
+<td style="width: 73px;">100</td>
+<td style="width: 73px;">196</td>
+<td style="width: 75px;">140</td>
+</tr>
+<tr style="text-align: center;">
+<td style="width: 72px;">8</td>
+<td style="width: 73px;">4</td>
+<td style="width: 73px;">64</td>
+<td style="width: 73px;">16</td>
+<td style="width: 75px;">32</td>
+</tr>
+<tr style="text-align: center;">
+<td style="width: 72px;">6</td>
+<td style="width: 73px;">10</td>
+<td style="width: 73px;">36</td>
+<td style="width: 73px;">100</td>
+<td style="width: 75px;">60</td>
+</tr>
+<tr style="text-align: center;">
+<td style="width: 72px;">4</td>
+<td style="width: 73px;">6</td>
+<td style="width: 73px;">16</td>
+<td style="width: 73px;">36</td>
+<td style="width: 75px;">24</td>
+</tr>
+<tr>
+<td style="width: 72px; text-align: center;">\( \sum x = 70 \)</td>
+<td style="width: 73px; text-align: center;">\( \sum y = 70 \)</td>
+<td style="width: 73px; text-align: center;">\( \sum x^2 = 812 \)</td>
+<td style="width: 73px; text-align: center;">\( \sum y^2 = 812 \)</td>
+<td style="width: 75px; text-align: center;">\( \sum xy = 752 \)</td>
+</tr>
+</tbody>
+</table>
+
+Substituting in the formula we developed for \(r\) gives the result:
+\[ r = \dfrac{752 \times 7 - 70 \times 70}{\sqrt{(7 \times 812 - 70^2)(7 \times 812 - 70^2)}} = 0.46 \]
+
+<p></p>In practice, one would set up a spreadsheet or use a specialist statistical software package to do the
+calculations.
+
+<hr>
+<b>Comment</b>&nbsp;<p>Any value of \(r\) calculated says something about the degree of correlation present between the two
+independent random variables present in the calculation. In order to give real meaning to the value
+of the correlation coefficient we should test the significance of the value of \(r\), in this case \(0.46\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

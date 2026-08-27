@@ -38,7 +38,6 @@ require_once(__DIR__ . '/fixtures/test_base.php');
  * @covers \qtype_stack
  */
 final class walkthrough_interactive_test extends qtype_stack_walkthrough_test_base {
-
     public function test_test3_partially_right_the_right(): void {
 
         // Create a stack question.
@@ -64,10 +63,10 @@ final class walkthrough_interactive_test extends qtype_stack_walkthrough_test_ba
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), '', true),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), '', true),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Save a partially correct response for validation.
@@ -90,10 +89,10 @@ final class walkthrough_interactive_test extends qtype_stack_walkthrough_test_ba
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', true),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', true),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Re-submit after validation.
@@ -122,9 +121,9 @@ final class walkthrough_interactive_test extends qtype_stack_walkthrough_test_ba
         $this->check_output_contains_prt_feedback('unique');
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', false),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_contains_hint_expectation('This is the first hint.')
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', false),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_contains_hint_expectation('This is the first hint.')
         );
 
         // Try again.
@@ -145,10 +144,10 @@ final class walkthrough_interactive_test extends qtype_stack_walkthrough_test_ba
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', true),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', true),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Now change to a correct response.
@@ -169,10 +168,10 @@ final class walkthrough_interactive_test extends qtype_stack_walkthrough_test_ba
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'true', true),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'true', true),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Resubmit after validation.
@@ -205,9 +204,9 @@ final class walkthrough_interactive_test extends qtype_stack_walkthrough_test_ba
         $this->check_output_contains_prt_feedback('unique');
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', false),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', false),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
     }
 
@@ -237,10 +236,10 @@ final class walkthrough_interactive_test extends qtype_stack_walkthrough_test_ba
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), '', true),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), '', true),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Submit a wrong response.
@@ -265,9 +264,9 @@ final class walkthrough_interactive_test extends qtype_stack_walkthrough_test_ba
         $this->check_output_contains_prt_feedback('unique');
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', false),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_contains_hint_expectation('This is the first hint.')
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', false),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_contains_hint_expectation('This is the first hint.')
         );
 
         // Try again.
@@ -286,10 +285,10 @@ final class walkthrough_interactive_test extends qtype_stack_walkthrough_test_ba
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', true),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', true),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Submit a partially correct response.
@@ -314,9 +313,9 @@ final class walkthrough_interactive_test extends qtype_stack_walkthrough_test_ba
         $this->check_output_contains_prt_feedback('unique');
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', false),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_contains_hint_expectation('This is the second hint.')
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', false),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_contains_hint_expectation('This is the second hint.')
         );
 
         // Try again.
@@ -335,10 +334,10 @@ final class walkthrough_interactive_test extends qtype_stack_walkthrough_test_ba
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', true),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', true),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Submit a partially correct response.
@@ -375,11 +374,10 @@ final class walkthrough_interactive_test extends qtype_stack_walkthrough_test_ba
         $this->check_output_contains_prt_feedback('unique');
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', false),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', false),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
-
     }
 
     public function test_test3_sumbit_and_finish_before_validating(): void {
@@ -404,10 +402,10 @@ final class walkthrough_interactive_test extends qtype_stack_walkthrough_test_ba
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), '', true),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), '', true),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Save a partially correct response.
@@ -426,10 +424,10 @@ final class walkthrough_interactive_test extends qtype_stack_walkthrough_test_ba
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', true),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', true),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Submit all and finish.
@@ -451,9 +449,9 @@ final class walkthrough_interactive_test extends qtype_stack_walkthrough_test_ba
         $this->check_output_contains_prt_feedback('unique');
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', false),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', false),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
     }
 
@@ -473,9 +471,9 @@ final class walkthrough_interactive_test extends qtype_stack_walkthrough_test_ba
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Validate the response 0.
@@ -552,10 +550,10 @@ final class walkthrough_interactive_test extends qtype_stack_walkthrough_test_ba
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), '', true),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), '', true),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Save a response with three parts incorrect and one part not answered.
@@ -577,10 +575,10 @@ final class walkthrough_interactive_test extends qtype_stack_walkthrough_test_ba
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), '', true),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), '', true),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
 
         // Resubmit after validation.
@@ -606,9 +604,9 @@ final class walkthrough_interactive_test extends qtype_stack_walkthrough_test_ba
         $this->check_output_does_not_contain_prt_feedback('unique');
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), '', false),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), '', false),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
         );
     }
 }

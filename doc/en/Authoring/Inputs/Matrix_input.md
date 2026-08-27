@@ -16,7 +16,7 @@ We cannot use the `EMPTYANSWER` tag for the teacher's answer with the matrix inp
 
     ta:transpose(matrix([null,null,null]));
 
-The shape of the parentheses surrounding the brackets is taken from the question level options, except matrix inputs cannont display curly brackets `{`.  (If you can create CSS to do this, please contact the developers!)
+The shape of the parentheses surrounding the brackets is taken from the question level options, except matrix inputs cannot display curly brackets `{`.  (If you can create CSS to do this, please contact the developers!)
 
 ## Matrix of variable size input ###
 
@@ -25,3 +25,5 @@ The matrix of variable size input is a textarea into which students type in thei
 Students must separate their matrix elements by spaces, and newline characters.
 
 Input box size is used to determine the starting width of the input.
+
+If you use the `allowempty` option then an empty answer is indicated by the `EMPTYANSWER` tag.  This is a different _type_ than a matrix.  (We could have chosen `matrix()` as the empty matrix, but `EMPTYANSWER` is more in keeping with other inputs.)

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>2.7.2.3 Vertical asymptotes</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>Note from the answers to parts (b) and (c) that we must exclude the value \(t = -3/2\) from the domain of this function because division by zero is not defined. At this point, as you can see, the graph shoots off towards very large postive values (we say it tends to positive infinity) if the point is approached from the left, and towards very large negative values (we say it tends to negative infinity) if the point is approached from the right. The dotted line in the graph of \(R_2(x)\) has equation \(t = -3/2\). It is approached by the curve as \(t\) approaches \(-3/2\) and is known as a <strong>vertical asymptote</strong>.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

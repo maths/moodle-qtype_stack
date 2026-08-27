@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>6.2.2.7 Common hyperbolic identities</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p>The fundamental identity relating hyperbolic functions is:\[\cosh^2x - \sinh^2x \equiv 1.\] This is the hyperbolic function equivalence of the trigonometric identity: \(\cos^2x + \sin^2x \equiv 1\).</p></div><br><br>
+<div class="HELM_keypoint">
+
+<h4>Key Point: More hyperbolic identities</h4>
+\[\begin{align*} \cosh(x+y) &amp;\equiv \cosh x \cosh y+\sinh x \sinh y \\ \sinh(x+y) &amp;\equiv \sinh x \cosh y+\cosh x\sinh y \\ \sinh2x &amp;\equiv 2\sinh x \cosh x \\ \cosh2x &amp;\equiv \cosh^2x+\sinh^2x \equiv 2\cosh^2x-1 \equiv 1+2\sinh^2x \end{align*} \]
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,65 @@
+# Support for chemistry
+
+STACK provides a comprehensive chemical data sheet for use in numerical problems.
+
+To include chemical data use the following within your STACK question (question variables).
+
+    stack_chemistry_declare(true);
+
+(Older questions used an optional library `stack_include_contrib("chemistry.mac");` which has been moved to the core.)
+
+## Using chemical data
+
+Chemical data is stored in a (large) associative array `%_STACK_CHEM_ELEMENTS` using the standard chemical symbols as keys in the array. (See [https://en.wikipedia.org/wiki/Chemical_symbol](https://en.wikipedia.org/wiki/Chemical_symbol).)
+
+For example, the entry for `"H"`, hydrogen, is
+
+````
+["H", [
+        ["Name", [ ["en", "hydrogen"], ["fi", "vety"] ]],
+        ["AtomicNumber", 1],
+        ["AtomicMass", 1.008],
+        ["CPKHexColor", "FFFFFF"],
+        ["ElectronConfiguration", "1s1"],
+        ["Electronegativity", 2.2],
+        ["AtomicRadius", 120],
+        ["IonizationEnergy", 13.598],
+        ["ElectronAffinity", 0.754],
+        ["OxidationStates","+1, -1"],
+        ["StandardState", "Gas"],
+        ["MeltingPoint", 13.81],
+        ["BoilingPoint", 20.28],
+        ["Density", 0.00008988],
+        ["GroupBlock", "Nonmetal"],
+        ["YearDiscovered", 1766],
+ ]]
+````
+
+There are convenience functions which access this data.
+
+* `chem_units(dp)` Returns the units addociated with `dp`. E.g. `chem_units("AtomicMass")` gives `g*mol^(-1)`.
+* `chem_data_all(element)` returns all the data associated with `element`.  E.g. `chem_data_all("H")`.
+* `chem_data(element, dp)` returns the data `dp` associated with `element`.  E.g. `chem_data("H", "AtomicMass")` gives `1.008`.
+* `chem_data_units(element, dp)` returns the data `dp` associated with `element` using the `stackunits` function.  E.g. `chem_data_units("H", "AtomicMass")` gives `stackunits(1.008,g*mol^(-1))`.
+
+Notes.
+
+1. Names of elements are always given as strings.  E.g. to access data for hydrogen use `"H"`.
+2. Field names are always given as strings, e.g. `"AtomicMass"` is a string (not an atom `AtomicMass`).
+3. The utility functions filter the `"Name"` field to give the name of the element with the local language selection.  STACK uses the global `%_STACK_LANG` variable.  If no local name is defined the `"Name"` in English is returned.   If you really want _all_ the data, just use `assoc(element, %_STACK_CHEM_ELEMENTS)` rather than ` chem_data_all(element)`.
+4. Note that, for efficiency reasons, data is stored in flat table and the above arrays are reconstructed from the flat table, the list of field names and any languages available.  Language data is separated which makes it easier to add a new language.  Chemical names are _not_ part of Moodle's normal language pack and need to be added explicitly to `chemistry.mac`.  See [github](https://github.com/maths/moodle-qtype_stack/blob/master/stack/maxima/chemistry.mac) for examples. As of Nov 2025, English, Finnish and German names are available.
+
+TODO: write a maxima function which gives an annotated atomic symbol in LaTeX, based on the chemical data e.g. \(^{25}_{12}\mbox{Mg}^{2+}\).
+
+
+## Display of chemical formula in LaTeX
+
+For pure display of chemical formula in LaTeX, the [`mhcem` package](https://mhchem.github.io/MathJax-mhchem/) is already available in MathJaX.  Here is a minial example:
+
+```
+\(\require{mhchem}\)
+\(\ce{C6H5-CHO}\),
+\(\ce{SO4^2- + Ba^2+ -> BaSO4 v}\)
+```
+
+

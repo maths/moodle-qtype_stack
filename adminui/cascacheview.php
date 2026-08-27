@@ -23,13 +23,13 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(__DIR__.'/../../../../config.php');
+require_once(__DIR__ . '/../../../../config.php');
 
 require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/../stack/utils.class.php');
 require_once(__DIR__ . '/../stack/options.class.php');
-require_once(__DIR__ . '/../stack/maximaparser/utils.php');
+require_once(__DIR__ . '/../stack/maximaparser/parser.options.class.php');
 
 
 require_login();
@@ -50,6 +50,9 @@ $data = $DB->get_recordset_sql('SELECT * FROM {qtype_stack_cas_cache} ORDER BY i
 echo $OUTPUT->header();
 echo $OUTPUT->heading($title);
 
+$po = stack_parser_options::get_cas_config();
+$parser = $po->get_parser();
+
 $i = 0;
 foreach ($data as $item) {
     $i++;
@@ -57,7 +60,7 @@ foreach ($data as $item) {
     echo '<pre>';
     // Ends with $ which is bad.
     // Now can contain $ signs elsewhere as well...
-    $ast = maxima_parser_utils::parse(str_replace('$', ';', $item->command));
+    $ast = $parser->parse($po->get_lexer($item->command));
     $str = $ast->toString(['pretty' => true]);
     $str = str_replace('&', '&amp;', $str);
     $str = str_replace('<', '&lt;', $str);

@@ -29,11 +29,11 @@ require_once(__DIR__ . '../../stack/potentialresponsetreestate.class.php');
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 final class qtype_stack_test_helper extends question_test_helper {
     // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
-    const DEFAULT_CORRECT_FEEDBACK          = '<p>Correct answer, well done.</p>';
+    const DEFAULT_CORRECT_FEEDBACK          = '<p>[[commonstring key="defaultprtcorrectfeedback"/]]</p>';
     // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
-    const DEFAULT_PARTIALLYCORRECT_FEEDBACK = '<p>Your answer is partially correct.</p>';
+    const DEFAULT_PARTIALLYCORRECT_FEEDBACK = '<p>[[commonstring key="defaultprtpartiallycorrectfeedback"/]]</p>';
     // phpcs:ignore moodle.Commenting.MissingDocblock.Constant
-    const DEFAULT_INCORRECT_FEEDBACK        = '<p>Incorrect answer.</p>';
+    const DEFAULT_INCORRECT_FEEDBACK        = '<p>[[commonstring key="defaultprtincorrectfeedback"/]]</p>';
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function get_test_questions() {
@@ -47,41 +47,42 @@ final class qtype_stack_test_helper extends question_test_helper {
             'test8', // 1 input, 1 PRT with 3 nodes. Roots of unity. Input has a syntax hint.
             'test9', // 2 inputs, 1 PRT, randomised, worked solution with CAS & plot. Make function continuous.
             'test_boolean', // 2 inputs, 1 PRT, randomised, worked solution with CAS & plot. Make function continuous.
-            'divide',       // One input, one PRT, tests 1 / ans1 - useful for testing CAS errors like divide by 0.
-            'numsigfigs',   // One input, one PRT, tests 1 / ans1 - uses the NumSigFigs test.
-            'numsigfigszeros',  // One input, one PRT, tests 1 / ans1 - uses the NumSigFigs test with trailing zeros.
-            'numdpsfeedbackvars',   // Two numerical inputs, one PRT, uses ATNumDPs and feedback variables (illustrates problem).
-            '1input2prts',  // Contrived example with one input, 2 prts, all feedback in the specific feedback area.
-            'information',  // Neither inputs nor PRTs.
+            'divide', // One input, one PRT, tests 1 / ans1 - useful for testing CAS errors like divide by 0.
+            'numsigfigs', // One input, one PRT, tests 1 / ans1 - uses the NumSigFigs test.
+            'numsigfigszeros', // One input, one PRT, tests 1 / ans1 - uses the NumSigFigs test with trailing zeros.
+            'numdpsfeedbackvars', // Two numerical inputs, one PRT, uses ATNumDPs and feedback variables (illustrates problem).
+            '1input2prts', // Contrived example with one input, 2 prts, all feedback in the specific feedback area.
+            'information', // Neither inputs nor PRTs.
             'variable_grade', // Variables in grade.
-            'survey',       // Inputs, but no PRTs.
-            'single_char_vars',   // Tests the insertion of * symbols between letter names.
-            'runtime_prt_err',    // This generates an error in the PRT at runtime.  With and without guard clause.
-            'runtime_ses_err',    // This generates an invalid session.
-            'runtime_cas_err',    // This generates a 1/0 in the CAS at run time.
-            'units',              // This question has units inputs, and a numerical test.
-            'unitsoptions',       // This question has units inputs, and a numerical test with the accuracy in a variable.
-            'unitsmulti',         // This question has units inputs, and an algebraic input.
-            'equiv_quad',         // This question uses equivalence reasoning to solve a quadratic equation.
+            'survey', // Inputs, but no PRTs.
+            'single_char_vars', // Tests the insertion of * symbols between letter names.
+            'runtime_prt_err', // This generates an error in the PRT at runtime.  With and without guard clause.
+            'runtime_ses_err', // This generates an invalid session.
+            'runtime_cas_err', // This generates a 1/0 in the CAS at run time.
+            'runtime_s_assert_err', // This generates an error via s_assess function.
+            'units', // This question has units inputs, and a numerical test.
+            'unitsoptions', // This question has units inputs, and a numerical test with the accuracy in a variable.
+            'unitsmulti', // This question has units inputs, and an algebraic input.
+            'equiv_quad', // This question uses equivalence reasoning to solve a quadratic equation.
             'checkbox_all_empty', // Creates a checkbox input with none checked as the correct answer: edge case.
-            'checkbox_union',     // Creates a checkbox input with %union functions: noun edge case.
+            'checkbox_union', // Creates a checkbox input with %union functions: noun edge case.
             'checkbox_noun_diff', // Creates a checkbox input with noun  diff ('diff) functions.
-            'addrow',             // This question has addrows, in an older version.
-            'mul',                // This question has mul in the options which is no longer permitted.
-            'contextvars',        // This question makes use of the context variables.
-            'stringsloppy',       // Uses the StringSloppy answer test, and string input.
-            'sregexp',            // Uses the SRegExp answer test, and string input.
-            'feedbackstyle',      // Test the various feedbackstyle options.
-            'multilang',          // Check for mismatching languages.
-            'lang_blocks',        // Check for mismatching languages using STACK's [[lang...]] block mechanism.
-            'block_locals',       // Make sure local variables within a block are still permitted student input.
-            'validator',          // Test teacher-defined input validators and language.
-            'validator_seed',     // Test validators have access to the random seed.
-            'feedback',           // Test teacher-defined input feedback and complex numbers.
-            'ordergreat',         // Test the ordergreat function at the question level, e.g. keyvals.
-            'exdowncase',         // Test the ordergreat function with exdowncase.
-            'bailout',            // Test the ability to bail out of a PRT using %stack_prt_stop_p.
-            'adaptblock',         // Test the adapt blocks.
+            'addrow', // This question has addrows, in an older version.
+            'mul', // This question has mul in the options which is no longer permitted.
+            'contextvars', // This question makes use of the context variables.
+            'stringsloppy', // Uses the StringSloppy answer test, and string input.
+            'sregexp', // Uses the SRegExp answer test, and string input.
+            'feedbackstyle', // Test the various feedbackstyle options.
+            'multilang', // Check for mismatching languages.
+            'lang_blocks', // Check for mismatching languages using STACK's [[lang...]] block mechanism.
+            'block_locals', // Make sure local variables within a block are still permitted student input.
+            'validator', // Test teacher-defined input validators and language.
+            'validator_seed', // Test validators have access to the random seed.
+            'feedback', // Test teacher-defined input feedback and complex numbers.
+            'ordergreat', // Test the ordergreat function at the question level, e.g. keyvals.
+            'exdowncase', // Test the ordergreat function with exdowncase.
+            'bailout', // Test the ability to bail out of a PRT using %stack_prt_stop_p.
+            'adaptblock', // Test the adapt blocks.
             // Test questions for all the various input types.
             'algebraic_input',
             'algebraic_input_right',
@@ -96,6 +97,8 @@ final class qtype_stack_test_helper extends question_test_helper {
             'dropdown_input',
             'equiv_input_compact',
             'equiv_input',
+            'freetext_input',
+            'freetext_input_ascii_no_input',
             'matrix_input',
             'varmatrix_input',
             'matrix_multi_input',
@@ -110,6 +113,10 @@ final class qtype_stack_test_helper extends question_test_helper {
             'true_false_input',
             'units_input',
             'jsx_graph_input',
+            'response_test',
+            'response_test_2',
+            'dashboard_test',
+            'dashboard_test_2',
         ];
     }
 
@@ -134,7 +141,8 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->questiondescriptionformat = FORMAT_HTML;
         $q->penalty = 0.1; // The default.
 
-        $q->prtcorrect = self::DEFAULT_CORRECT_FEEDBACK;;
+        $q->prtcorrect = self::DEFAULT_CORRECT_FEEDBACK;
+        ;
         $q->prtcorrectformat = FORMAT_HTML;
         $q->prtpartiallycorrect = self::DEFAULT_PARTIALLYCORRECT_FEEDBACK;
         $q->prtpartiallycorrectformat = FORMAT_HTML;
@@ -173,11 +181,16 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.3; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', '2', null, ['boxWidth' => 5]);
+            'algebraic',
+            'ans1',
+            '2',
+            null,
+            ['boxWidth' => 5]
+        );
 
         $q->options->set_option('simplify', false);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -187,7 +200,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -244,8 +257,12 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.25; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                        'algebraic', 'ans1', 'ta+c', null,
-                ['boxWidth' => 20, 'forbidWords' => 'int, [[BASIC-ALGEBRA]]', 'allowWords' => 'popup, boo, Sin']);
+            'algebraic',
+            'ans1',
+            'ta+c',
+            null,
+            ['boxWidth' => 20, 'forbidWords' => 'int, [[BASIC-ALGEBRA]]', 'allowWords' => 'popup, boo, Sin']
+        );
 
         // By making the input to the answer test differ from ans1 in a trivial way, we use the "value" of this variable
         // and not the raw student input.  This is to make sure the student's answer is evaluated in the context of
@@ -394,9 +411,19 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->specificfeedback = '[[feedback:PotResTree_1]]';
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                    'algebraic', 'ans1', '5', null, ['boxWidth' => 3]);
+            'algebraic',
+            'ans1',
+            '5',
+            null,
+            ['boxWidth' => 3]
+        );
         $q->inputs['ans2'] = stack_input_factory::make(
-                    'algebraic', 'ans2', '6', null, ['boxWidth' => 3]);
+            'algebraic',
+            'ans2',
+            '6',
+            null,
+            ['boxWidth' => 3]
+        );
 
         $prt = json_decode('{"name":"PotResTree_1","id":"0","value":1,"feedbackstyle":1,"autosimplify":true,
             "feedbackvariables":"",
@@ -446,16 +473,31 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.4;
 
         $options = new stack_options();
-        $q->inputs['ans1'] = stack_input_factory::make('algebraic', 'ans1', 'x^3', $options,
-                        ['boxWidth' => 15, 'lowestTerms' => false, 'sameType' => false]);
-        $q->inputs['ans2'] = stack_input_factory::make('algebraic', 'ans2', 'x^4', $options,
-                        ['boxWidth' => 15, 'lowestTerms' => false, 'sameType' => false]);
-        $q->inputs['ans3'] = stack_input_factory::make('algebraic', 'ans3', '0', $options,
-                        ['boxWidth' => 15, 'lowestTerms' => false, 'sameType' => false]);
+        $q->inputs['ans1'] = stack_input_factory::make(
+            'algebraic',
+            'ans1',
+            'x^3',
+            $options,
+            ['boxWidth' => 15, 'lowestTerms' => false, 'sameType' => false]
+        );
+        $q->inputs['ans2'] = stack_input_factory::make(
+            'algebraic',
+            'ans2',
+            'x^4',
+            $options,
+            ['boxWidth' => 15, 'lowestTerms' => false, 'sameType' => false]
+        );
+        $q->inputs['ans3'] = stack_input_factory::make(
+            'algebraic',
+            'ans3',
+            '0',
+            $options,
+            ['boxWidth' => 15, 'lowestTerms' => false, 'sameType' => false]
+        );
         $q->inputs['ans4'] = stack_input_factory::make('boolean', 'ans4', 'true', $options);
         $q->prts = [];
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'odd';
         $prt->id                = 0;
         $prt->value             = 0.25;
@@ -465,7 +507,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -492,7 +534,7 @@ final class qtype_stack_test_helper extends question_test_helper {
 
         $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'even';
         $prt->id                = 1;
         $prt->value             = 0.25;
@@ -502,7 +544,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -529,7 +571,7 @@ final class qtype_stack_test_helper extends question_test_helper {
 
         $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'oddeven';
         $prt->id                = 2;
         $prt->value             = 0.25;
@@ -539,7 +581,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -563,7 +605,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $newnode->falseanswernote     = 'oddeven-0-0';
         $newnode->falsenextnode       = '1';
         $prt->nodes[] = $newnode;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '1';
         $newnode->nodename            = '1';
         $newnode->description         = 'Descript of node 1';
@@ -590,7 +632,7 @@ final class qtype_stack_test_helper extends question_test_helper {
 
         $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'unique';
         $prt->id                = 3;
         $prt->value             = 0.25;
@@ -600,7 +642,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -665,19 +707,37 @@ final class qtype_stack_test_helper extends question_test_helper {
                                   [[feedback:unique]]</p>';
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                        'algebraic', 'ans1', 'x^3', null, ['boxWidth' => 15]);
+            'algebraic',
+            'ans1',
+            'x^3',
+            null,
+            ['boxWidth' => 15]
+        );
         $q->inputs['ans2'] = stack_input_factory::make(
-                        'algebraic', 'ans2', 'x^4', null, ['boxWidth' => 15]);
+            'algebraic',
+            'ans2',
+            'x^4',
+            null,
+            ['boxWidth' => 15]
+        );
         $q->inputs['ans3'] = stack_input_factory::make(
-                        'algebraic', 'ans3', '0', null, ['boxWidth' => 15]);
+            'algebraic',
+            'ans3',
+            '0',
+            null,
+            ['boxWidth' => 15]
+        );
         $q->inputs['ans4'] = stack_input_factory::make(
-                        'boolean',   'ans4', 'true');
+            'boolean',
+            'ans4',
+            'true'
+        );
 
         $q->penalty = 0.1;
 
         $q->prts = [];
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'odd';
         $prt->id                = 0;
         $prt->value             = 0.25;
@@ -687,7 +747,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -714,7 +774,7 @@ final class qtype_stack_test_helper extends question_test_helper {
 
         $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'even';
         $prt->id                = 1;
         $prt->value             = 0.25;
@@ -724,7 +784,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -751,7 +811,7 @@ final class qtype_stack_test_helper extends question_test_helper {
 
         $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'oddeven';
         $prt->id                = 2;
         $prt->value             = 0.25;
@@ -761,7 +821,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -785,7 +845,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $newnode->trueanswernote      = 'oddeven-0-1';
         $newnode->truenextnode        = '1';
         $prt->nodes[] = $newnode;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '1';
         $newnode->nodename            = '1';
         $newnode->description         = '';
@@ -812,7 +872,7 @@ final class qtype_stack_test_helper extends question_test_helper {
 
         $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'unique';
         $prt->id                = 3;
         $prt->value             = 0.25;
@@ -822,7 +882,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -878,9 +938,14 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->qtype = question_bank::get_qtype('stack');
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                        'algebraic', 'ans1', 'x^2', null, ['boxWidth' => 15]);
+            'algebraic',
+            'ans1',
+            'x^2',
+            null,
+            ['boxWidth' => 15]
+        );
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'plots';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -889,7 +954,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->firstnodename     = '0';
         $prt->nodes             = [];
         $prt->autosimplify      = true;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -940,7 +1005,7 @@ final class qtype_stack_test_helper extends question_test_helper {
 
         $q->options->set_option('simplify', true);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -949,7 +1014,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->firstnodename     = '0';
         $prt->nodes             = [];
         $prt->autosimplify      = true;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -999,14 +1064,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->questionnote = '{@ta@}';
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                        'algebraic', 'ans1', 'ta', null,
-                        ['boxWidth' => 20, 'syntaxHint' => '{?,?,...,?}']);
+            'algebraic',
+            'ans1',
+            'ta',
+            null,
+            ['boxWidth' => 20, 'syntaxHint' => '{?,?,...,?}']
+        );
 
         $feedbackvars = 'a1 : listify(ans1);' .
                         'a1 : maplist(lambda([x],x^n-p^n),a1);' .
                         'a1 : setify(a1)';
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'ans';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -1015,7 +1084,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->firstnodename     = '0';
         $prt->nodes             = [];
         $prt->autosimplify      = true;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -1039,7 +1108,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $newnode->trueanswernote      = 'ans-0-T';
         $newnode->truenextnode        = '-1';
         $prt->nodes[] = $newnode;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '1';
         $newnode->nodename            = '1';
         $newnode->description         = '';
@@ -1064,7 +1133,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $newnode->trueanswernote      = 'ans-1-T';
         $newnode->truenextnode        = '-1';
         $prt->nodes[] = $newnode;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '2';
         $newnode->nodename            = '2';
         $newnode->description         = '';
@@ -1142,11 +1211,21 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->questionnote = '\[ a_1={@ta1@},\ a_2={@ta2@}.\]';
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                                    'algebraic', 'ans1', 'ta1', null, ['boxWidth' => 4]);
+            'algebraic',
+            'ans1',
+            'ta1',
+            null,
+            ['boxWidth' => 4]
+        );
         $q->inputs['ans2'] = stack_input_factory::make(
-                                    'algebraic', 'ans2', 'ta2', null, ['boxWidth' => 4]);
+            'algebraic',
+            'ans2',
+            'ta2',
+            null,
+            ['boxWidth' => 4]
+        );
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'prt1';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -1155,7 +1234,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->firstnodename     = '0';
         $prt->nodes             = [];
         $prt->autosimplify      = true;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -1201,9 +1280,14 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.3333333;
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', '1/2', null, ['boxWidth' => 5]);
+            'algebraic',
+            'ans1',
+            '1/2',
+            null,
+            ['boxWidth' => 5]
+        );
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'prt1';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -1214,7 +1298,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->firstnodename     = '0';
         $prt->nodes             = [];
         $prt->autosimplify      = true;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -1260,11 +1344,16 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.1;
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', '3.14', null, ['boxWidth' => 5, 'forbidFloats' => false]);
+            'algebraic',
+            'ans1',
+            '3.14',
+            null,
+            ['boxWidth' => 5, 'forbidFloats' => false]
+        );
 
         $q->options->set_option('simplify', false);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -1273,7 +1362,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->firstnodename     = '0';
         $prt->nodes             = [];
         $prt->autosimplify      = false;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -1319,11 +1408,16 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.2;
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'numerical', 'ans1', '0.040', null, ['boxWidth' => 5, 'forbidFloats' => false]);
+            'numerical',
+            'ans1',
+            '0.040',
+            null,
+            ['boxWidth' => 5, 'forbidFloats' => false]
+        );
 
         $q->options->set_option('simplify', false);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -1332,7 +1426,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->firstnodename     = '0';
         $prt->nodes             = [];
         $prt->autosimplify      = false;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -1378,14 +1472,24 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.3;
 
         $q->inputs['ans1'] = stack_input_factory::make(
-            'numerical', 'ans1', '0.356', null, ['boxWidth' => 5]);
+            'numerical',
+            'ans1',
+            '0.356',
+            null,
+            ['boxWidth' => 5]
+        );
         $q->inputs['ans2'] = stack_input_factory::make(
-            'numerical', 'ans2', '3.14', null, ['boxWidth' => 5]);
+            'numerical',
+            'ans2',
+            '3.14',
+            null,
+            ['boxWidth' => 5]
+        );
 
         $feedbackvars = new stack_cas_keyval('sa:min(ans1,ans2);', null, null);
 
         // Check if the smallest of the two random numbers is within 3dps of pi.
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'prt1';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -1394,7 +1498,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->firstnodename     = '0';
         $prt->nodes             = [];
         $prt->autosimplify      = true;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -1440,11 +1544,16 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.2; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'units', 'ans1', '9.81*m/s^2', null, ['boxWidth' => 5, 'forbidFloats' => false]);
+            'units',
+            'ans1',
+            '9.81*m/s^2',
+            null,
+            ['boxWidth' => 5, 'forbidFloats' => false]
+        );
 
         $q->options->set_option('simplify', false);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -1454,7 +1563,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -1501,11 +1610,16 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.2; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'units', 'ans1', '9.81*m/s^2', null, ['boxWidth' => 5, 'forbidFloats' => false]);
+            'units',
+            'ans1',
+            '9.81*m/s^2',
+            null,
+            ['boxWidth' => 5, 'forbidFloats' => false]
+        );
 
         $q->options->set_option('simplify', false);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -1515,7 +1629,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -1563,13 +1677,23 @@ final class qtype_stack_test_helper extends question_test_helper {
 
         // This example illsutrated the extra "nounits" option.
         $q->inputs['ans1'] = stack_input_factory::make(
-            'algebraic', 'ans1', 'A*k', null, ['boxWidth' => 5, 'options' => 'nounits']);
+            'algebraic',
+            'ans1',
+            'A*k',
+            null,
+            ['boxWidth' => 5, 'options' => 'nounits']
+        );
         $q->inputs['ans2'] = stack_input_factory::make(
-            'units', 'ans2', '0.0061/s', null, ['boxWidth' => 5, 'forbidFloats' => false]);
+            'units',
+            'ans2',
+            '0.0061/s',
+            null,
+            ['boxWidth' => 5, 'forbidFloats' => false]
+        );
 
         $q->options->set_option('simplify', false);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -1579,7 +1703,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -1626,11 +1750,16 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.2; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'equiv', 'ans1', 'ta', null, ['boxWidth' => 20, 'forbidFloats' => false]);
+            'equiv',
+            'ans1',
+            'ta',
+            null,
+            ['boxWidth' => 20, 'forbidFloats' => false]
+        );
 
         $q->options->set_option('simplify', false);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -1640,7 +1769,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = false;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -1688,9 +1817,14 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.25;
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                        'algebraic', 'ans1', '6', null, ['boxWidth' => 15]);
+            'algebraic',
+            'ans1',
+            '6',
+            null,
+            ['boxWidth' => 15]
+        );
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'prt1';
         $prt->id                = 0;
         $prt->value             = 0.2;
@@ -1699,7 +1833,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->firstnodename     = '0';
         $prt->nodes             = [];
         $prt->autosimplify      = true;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -1725,7 +1859,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes[] = $newnode;
         $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'prt2';
         $prt->id                = 1;
         $prt->value             = 0.8;
@@ -1734,7 +1868,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->firstnodename     = '0';
         $prt->nodes             = [];
         $prt->autosimplify      = true;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -1893,7 +2027,13 @@ final class qtype_stack_test_helper extends question_test_helper {
 
         $qtest = new stack_question_test('Basic test of question', ['ans1' => '2']);
         $qtest->add_expected_result('firsttree', new stack_potentialresponse_tree_state(
-                1, true, 1, 0, '', ['firsttree-1-T']));
+            1,
+            true,
+            1,
+            0,
+            '',
+            ['firsttree-1-T']
+        ));
         $qdata->testcases[1] = $qtest;
 
         return $qdata;
@@ -1916,7 +2056,12 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->defaultmark = 0;
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', '2', null, ['boxWidth' => 15, 'sameType' => false]);
+            'algebraic',
+            'ans1',
+            '2',
+            null,
+            ['boxWidth' => 15, 'sameType' => false]
+        );
 
         return $q;
     }
@@ -1938,11 +2083,16 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.3; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                    'algebraic', 'ans1', '2', null, ['boxWidth' => 5, 'insertStars' => 2]);
+            'algebraic',
+            'ans1',
+            '2',
+            null,
+            ['boxWidth' => 5, 'insertStars' => 2]
+        );
 
         $q->options->set_option('simplify', false);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -1951,7 +2101,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->firstnodename     = '0';
         $prt->nodes             = [];
         $prt->autosimplify      = false;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -1994,12 +2144,17 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->questionnote = '';
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', '[x+y=1,x-y=1]', null, ['boxWidth' => 25]);
+            'algebraic',
+            'ans1',
+            '[x+y=1,x-y=1]',
+            null,
+            ['boxWidth' => 25]
+        );
 
         // This will generate a runtime error in the feedback variables.
         $feedbackvars = new stack_cas_keyval('');
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'Result';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -2008,7 +2163,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->firstnodename     = '0';
         $prt->nodes             = [];
         $prt->autosimplify      = true;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -2032,7 +2187,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $newnode->trueanswernote      = 'Result-0-T';
         $newnode->truenextnode        = '1';
         $prt->nodes[] = $newnode;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '1';
         $newnode->nodename            = '1';
         $newnode->description         = '';
@@ -2056,7 +2211,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $newnode->trueanswernote      = 'Result-1-T';
         $newnode->truenextnode        = '-2';
         $prt->nodes[] = $newnode;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '2';
         $newnode->nodename            = '2';
         $newnode->description         = '';
@@ -2100,9 +2255,14 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->questionnote = '';
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', 'ta', null, ['boxWidth' => 25]);
+            'algebraic',
+            'ans1',
+            'ta',
+            null,
+            ['boxWidth' => 25]
+        );
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'Result';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -2111,7 +2271,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->firstnodename     = '0';
         $prt->nodes             = [];
         $prt->autosimplify      = true;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -2154,9 +2314,14 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->questionnote = '';
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', 'ta', null, ['boxWidth' => 25]);
+            'algebraic',
+            'ans1',
+            'ta',
+            null,
+            ['boxWidth' => 25]
+        );
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'Result';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -2165,7 +2330,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->firstnodename     = '0';
         $prt->nodes             = [];
         $prt->autosimplify      = true;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -2187,6 +2352,66 @@ final class qtype_stack_test_helper extends question_test_helper {
         $newnode->truefeedback        = 'Correct.';
         $newnode->truefeedbackformat  = '1';
         $newnode->trueanswernote      = 'Result-0-T';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
+
+        return $q;
+    }
+
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    public static function make_stack_question_runtime_s_assert_err() {
+        $q = self::make_a_stack_question();
+
+        $q->stackversion = '2019072900';
+        $q->name = 'runtime_s_assert_err';
+        // Checks the stack_seed is a perfect square.
+        $q->questionvariables = "ta1:factor(x^2-stack_seed);s_assert(integerp(sqrt(stack_seed)), true);";
+        $q->questiontext = '<p>Factor {@expand(ta1)@}.</p>' .
+            '<p>[[input:ans1]] [[validation:ans1]]</p>';
+
+        $q->specificfeedback = '[[feedback:prt1]]';
+        $q->questionnote = '';
+
+        $q->inputs['ans1'] = stack_input_factory::make(
+            'algebraic',
+            'ans1',
+            'ta1',
+            null,
+            ['boxWidth' => 25]
+        );
+
+        $prt = new stdClass();
+        $prt->name              = 'prt1';
+        $prt->id                = 0;
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = '';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = true;
+        $newnode = new stdClass();
+        $newnode->id                  = '0';
+        $newnode->nodename            = '0';
+        $newnode->description         = '';
+        $newnode->sans                = 'ans1';
+        $newnode->tans                = 'ta1';
+        $newnode->answertest          = 'FacForm';
+        $newnode->testoptions         = 'x';
+        $newnode->quiet               = true;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = 'Not quite.';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'prt1-0-F';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = 'Correct.';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'prt1-0-T';
         $newnode->truenextnode        = '-1';
         $prt->nodes[] = $newnode;
         $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
@@ -2304,7 +2529,13 @@ final class qtype_stack_test_helper extends question_test_helper {
 
         $qtest = new stack_question_test('Basic test of question', ['ans1' => '2']);
         $qtest->add_expected_result('firsttree', new stack_potentialresponse_tree_state(
-                1, true, 1, 0, '', ['firsttree-1-T']));
+            1,
+            true,
+            1,
+            0,
+            '',
+            ['firsttree-1-T']
+        ));
         $qdata->testcases[1] = $qtest;
 
         return $qdata;
@@ -3126,11 +3357,16 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.3; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'checkbox', 'ans1', '[[x^2+1<0,false],[A,false,"Generalizations are false"],[clcr(a,b), false]]', null, null);
+            'checkbox',
+            'ans1',
+            '[[x^2+1<0,false],[A,false,"Generalizations are false"],[clcr(a,b), false]]',
+            null,
+            null
+        );
 
         $q->options->set_option('simplify', false);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -3140,7 +3376,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = false;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -3187,11 +3423,16 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.3; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-            'checkbox', 'ans1', 'ta', null, null);
+            'checkbox',
+            'ans1',
+            'ta',
+            null,
+            null
+        );
 
         $q->options->set_option('simplify', false);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -3201,7 +3442,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = false;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -3248,11 +3489,16 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.3; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-            'checkbox', 'ans1', 'ta', null, null);
+            'checkbox',
+            'ans1',
+            'ta',
+            null,
+            null
+        );
 
         $q->options->set_option('simplify', false);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -3262,7 +3508,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = false;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -3310,11 +3556,16 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.3; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', '2', null, ['boxWidth' => 5]);
+            'algebraic',
+            'ans1',
+            '2',
+            null,
+            ['boxWidth' => 5]
+        );
 
         $q->options->set_option('simplify', false);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -3325,7 +3576,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = false;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -3371,11 +3622,16 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.5; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'units', 'ans1', 'stackunits(9.81,m*s^-2)', null, ['boxWidth' => 5, 'options' => 'mul']);
+            'units',
+            'ans1',
+            'stackunits(9.81,m*s^-2)',
+            null,
+            ['boxWidth' => 5, 'options' => 'mul']
+        );
 
         $q->options->set_option('simplify', false);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -3385,7 +3641,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -3432,11 +3688,16 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.4; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'string', 'ans1', 'ta1', null, ['boxWidth' => 25]);
+            'string',
+            'ans1',
+            'ta1',
+            null,
+            ['boxWidth' => 25]
+        );
 
         $q->options->set_option('simplify', false);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -3446,7 +3707,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = false;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -3470,7 +3731,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $newnode->trueanswernote      = 'firsttree-1-T';
         $newnode->truenextnode        = '-1';
         $prt->nodes[] = $newnode;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '1';
         $newnode->nodename            = '1';
         $newnode->description         = '';
@@ -3518,11 +3779,16 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.4; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'string', 'ans1', 'ta', null, ['boxWidth' => 25]);
+            'string',
+            'ans1',
+            'ta',
+            null,
+            ['boxWidth' => 25]
+        );
 
         $q->options->set_option('simplify', false);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -3532,7 +3798,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = false;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -3583,13 +3849,23 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.4; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', 'x^3', null, ['boxWidth' => 10, 'showValidation' => 3]);
+            'algebraic',
+            'ans1',
+            'x^3',
+            null,
+            ['boxWidth' => 10, 'showValidation' => 3]
+        );
         $q->inputs['ans2'] = stack_input_factory::make(
-                'algebraic', 'ans2', 'sin(x)', null, ['boxWidth' => 10, 'showValidation' => 3]);
+            'algebraic',
+            'ans2',
+            'sin(x)',
+            null,
+            ['boxWidth' => 10, 'showValidation' => 3]
+        );
 
         $q->options->set_option('simplify', true);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'prt1';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -3600,7 +3876,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -3626,7 +3902,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes[] = $newnode;
         $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'prt2';
         $prt->id                = 1;
         $prt->value             = 1;
@@ -3637,7 +3913,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -3663,7 +3939,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes[] = $newnode;
         $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'prt3';
         $prt->id                = 2;
         $prt->value             = 1;
@@ -3674,7 +3950,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -3723,11 +3999,16 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.35; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', 'blob', null, ['boxWidth' => 5, 'allowWords' => 'blob,vec,tup']);
+            'algebraic',
+            'ans1',
+            'blob',
+            null,
+            ['boxWidth' => 5, 'allowWords' => 'blob,vec,tup']
+        );
 
         $q->options->set_option('simplify', true);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -3737,7 +4018,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -3761,7 +4042,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $newnode->trueanswernote      = 'firsttree-1-T';
         $newnode->truenextnode        = '-1';
         $prt->nodes[] = $newnode;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '1';
         $newnode->nodename            = '1';
         $newnode->description         = 'Description of node 1';
@@ -3816,15 +4097,19 @@ final class qtype_stack_test_helper extends question_test_helper {
 
         // Also test the castext syntax hint for matrix question.
         $q->inputs['ans1'] = stack_input_factory::make(
-            'matrix', 'ans1', 'ta', new stack_options(),
+            'matrix',
+            'ans1',
+            'ta',
+            new stack_options(),
             ['boxWidth' => 5,
              'allowWords' => 'blob',
              'syntaxHint' => '{#zeromatrix(2,2)#}',
-            ]);
+            ]
+        );
 
         $q->options->set_option('simplify', false);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -3834,7 +4119,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -3858,7 +4143,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $newnode->trueanswernote      = 'firsttree-1-T';
         $newnode->truenextnode        = '-1';
         $prt->nodes[] = $newnode;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '1';
         $newnode->nodename            = '1';
         $newnode->description         = 'Description of node 1';
@@ -3907,16 +4192,20 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.35; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-            'algebraic', 'ans1', 'ta2', new stack_options(),
+            'algebraic',
+            'ans1',
+            'ta2',
+            new stack_options(),
             ['boxWidth' => 5,
              'allowWords' => '',
              'syntaxHint' => "[[lang code='en']]An expression, e.g. {#ex1#}[[/lang]]" .
                              "[[lang code='da']]Et udtryk, f.eks. {#ex1#[[/lang]]",
-            ]);
+            ]
+        );
 
         $q->options->set_option('simplify', true);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'prt1';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -3926,7 +4215,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -3978,10 +4267,14 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.25; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', 'p^2+p+1', null,
-                ['boxWidth' => 20, 'forbidWords' => '', 'allowWords' => '']);
+            'algebraic',
+            'ans1',
+            'p^2+p+1',
+            null,
+            ['boxWidth' => 20, 'forbidWords' => '', 'allowWords' => '']
+        );
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -3991,7 +4284,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -4032,7 +4325,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         // We need to check that local variable names within the block are not invalid for student's input.
         // We need to chack mathematics within the castext is correctly displayed.
         $q->questionvariables = 'texput(foo,lambda([e],[a,b]:args(e), sconcat("\\\\frac{", tex1(a), "}{", tex1(b), "}")));' .
-            'ta:phi^2-1;myvalidityidea(ex):=block(if ev(subsetp(setify(listofvars(ex)),' .
+            'ta:phi^2-1;myvalidityIdea(ex):=block(if ev(subsetp(setify(listofvars(ex)),' .
             'setify(listofvars(ta))), simp) then return(""),castext("[[lang code=\'fi\']]Vastauksesi sisältää ' .
             'vääriä muuttujia.[[/lang]][[lang code=\'en,other\']]Your answer {@ex@} contains the wrong variables.[[/lang]]"));';
         // This question is also used to test the lang blocks at the top level.
@@ -4047,13 +4340,17 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.25; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-            'algebraic', 'ans1', 'ta', null,
+            'algebraic',
+            'ans1',
+            'ta',
+            null,
             [
                 'boxWidth' => 20, 'forbidWords' => '', 'allowWords' => 'foo',
-                'options' => 'validator:myvalidityidea',
-            ]);
+                'options' => 'validator:myvalidityIdea',
+            ]
+        );
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -4063,7 +4360,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -4113,13 +4410,17 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.25; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-            'algebraic', 'ans1', 'ta', null,
+            'algebraic',
+            'ans1',
+            'ta',
+            null,
             [
                 'boxWidth' => 20, 'forbidWords' => '', 'allowWords' => 'foo',
                 'options' => 'validator:validator_returnta',
-            ]);
+            ]
+        );
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -4129,7 +4430,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -4186,18 +4487,21 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->questionnote = '{@ta@}';
 
         $q->inputs['ans1'] = stack_input_factory::make(
-            'algebraic', 'ans1', 'ta', null,
+            'algebraic',
+            'ans1',
+            'ta',
+            null,
             [
                 'boxWidth' => 20, 'syntaxHint' => '{@sh@}',
                 'options' => 'feedback:feedback_fn',
             ]
-            );
+        );
 
             $feedbackvars = 'a1 : listify(ans1);' .
                 'a1 : maplist(lambda([x],x^n-p^n),a1);' .
                 'a1 : setify(a1)';
 
-            $prt = new stdClass;
+            $prt = new stdClass();
             $prt->name              = 'ans';
             $prt->id                = 0;
             $prt->value             = 1;
@@ -4206,7 +4510,7 @@ final class qtype_stack_test_helper extends question_test_helper {
             $prt->firstnodename     = '0';
             $prt->nodes             = [];
             $prt->autosimplify      = true;
-            $newnode = new stdClass;
+            $newnode = new stdClass();
             $newnode->id                  = '0';
             $newnode->nodename            = '0';
             $newnode->description         = '';
@@ -4230,7 +4534,7 @@ final class qtype_stack_test_helper extends question_test_helper {
             $newnode->trueanswernote      = 'ans-0-T';
             $newnode->truenextnode        = '-1';
             $prt->nodes[] = $newnode;
-            $newnode = new stdClass;
+            $newnode = new stdClass();
             $newnode->id                  = '1';
             $newnode->nodename            = '1';
             $newnode->description         = '';
@@ -4255,7 +4559,7 @@ final class qtype_stack_test_helper extends question_test_helper {
             $newnode->trueanswernote      = 'ans-1-T';
             $newnode->truenextnode        = '-1';
             $prt->nodes[] = $newnode;
-            $newnode = new stdClass;
+            $newnode = new stdClass();
             $newnode->id                  = '2';
             $newnode->nodename            = '2';
             $newnode->description         = '';
@@ -4304,15 +4608,19 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.25; // Non-zero and not the default.
 
         $q->inputs['ansq'] = stack_input_factory::make(
-            'algebraic', 'ansq', 'ta', null,
+            'algebraic',
+            'ansq',
+            'ta',
+            null,
             [
                 'boxWidth' => 20, 'forbidWords' => '',
-            ]);
+            ]
+        );
 
         // By setting simp:true (the default) we check the re-ordering really happens.
         $q->options->set_option('simplify', true);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -4322,7 +4630,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = false;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = '';
@@ -4369,15 +4677,19 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.25; // Non-zero and not the default.
 
         $q->inputs['ansq'] = stack_input_factory::make(
-            'algebraic', 'ansq', 'veq', null,
+            'algebraic',
+            'ansq',
+            'veq',
+            null,
             [
                 'boxWidth' => 20, 'forbidWords' => '',
-            ]);
+            ]
+        );
 
         // By setting simp:true (the default) we check the re-ordering really happens.
         $q->options->set_option('simplify', true);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -4387,7 +4699,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = 'Use CasEqual as the test';
@@ -4411,7 +4723,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $newnode->trueanswernote      = 'firsttree-0-1';
         $newnode->truenextnode        = '1';
         $prt->nodes[] = $newnode;
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '1';
         $newnode->nodename            = '1';
         $newnode->description         = 'Use AlgEquiv as the test';
@@ -4458,15 +4770,19 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.25; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-            'algebraic', 'ans1', '3', null,
+            'algebraic',
+            'ans1',
+            '3',
+            null,
             [
                 'boxWidth' => 20, 'forbidWords' => '',
-            ]);
+            ]
+        );
 
         // By setting simp:true (the default) we check the re-ordering really happens.
         $q->options->set_option('simplify', true);
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'firsttree';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -4477,7 +4793,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = 'Use the test ability to bail out';
@@ -4530,12 +4846,16 @@ final class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.25; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-            'algebraic', 'ans1', 'false', null,
+            'algebraic',
+            'ans1',
+            'false',
+            null,
             [
                 'boxWidth' => 20, 'forbidWords' => '',
-            ]);
+            ]
+        );
 
-        $prt = new stdClass;
+        $prt = new stdClass();
         $prt->name              = 'prt1';
         $prt->id                = 0;
         $prt->value             = 1;
@@ -4545,7 +4865,7 @@ final class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
 
-        $newnode = new stdClass;
+        $newnode = new stdClass();
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->description         = 'Use the test adapt blocks';
@@ -4633,18 +4953,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -4668,7 +4988,7 @@ final class qtype_stack_test_helper extends question_test_helper {
                 'format' => '1',
             ],
         ];
-        $formform->prt1value = 1;
+        $formform->prt1value = 3;
         $formform->prt1feedbackstyle = '1';
         $formform->prt1feedbackvariables = '';
         $formform->prt1autosimplify = '1';
@@ -4759,18 +5079,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -5026,18 +5346,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -5152,18 +5472,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -5313,18 +5633,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -5439,18 +5759,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -5504,6 +5824,456 @@ final class qtype_stack_test_helper extends question_test_helper {
         ];
         $formform->prt1trueanswernote[0] = 'prt1-1-T';
         $formform->prt1truenextnode[0] = '-1';
+        return $formform;
+    }
+
+    /**
+     * Make the data what would be received from the editing form for Freetext input question.
+     *
+     * @return stdClass the data that would be returned by $form->get_data();
+     */
+    public static function get_stack_question_form_data_freetext_input() {
+        $formform = new stdClass();
+        $formform->stackversion = '2026042402';
+        $formform->name = 'Freetext';
+        // phpcs:disable moodle.Strings.ForbiddenStrings.Found
+        $formform->questionvariables = 'fx:8*x/sqrt(2*x^2+1);
+y0:5;
+
+ta1:"Let
+`
+u=x^2+1 => (du)/(dx) = 4x
+`
+Hence
+`
+f(x) = int (8x)/sqrt(2x^2+1) dx
+     = int 2/sqrt(u) du.
+     = 4sqrt(u)+c
+     = 4sqrt(2x^2+1)+c
+`
+Using the given values `5 = 4sqrt(1)+c => c=1`, we have
+`
+f(x) = 4sqrt(2x^2+1)+1
+`";
+ta2:4*sqrt(2*x^2+1)+1;
+
+';
+        // phpcs:enable moodle.Strings.ForbiddenStrings.Found
+        $formform->questiontext = [
+            'text' => '<p> Let \(f\'(x)= {@fx@}\). Given that \(f(0)={@y0@}\), find \(f(x)\).</p>
+<p>Work line by line below, justifying your answer fully.  Your last line should be your answer \(f(x)=...\).</p>
+
+<p>[[input:ans1]] [[validation:ans1]]</p>
+[[ascii input="ans1"]]
+[[filter type="calculation" /]]
+[[extractor targetinput="ans9" type="lastcalc" /]]
+[[filter type="markdown" transforms="aligneq" /]]
+[[extractor targetinput="ans2" type="lastregexremainder" regex="^f\\\\(x\\\\)\\\\s*=\\\\s*" /]]
+[[extractor targetinput="ans3" type="lastexpr" /]]
+[[extractor targetinput="ans4" type="lastregexmatch" regex="^f\\\\(0\\\\)\\\\s*=\\\\s*" /]]
+[[extractor targetinput="ans5" type="lastregexremainder" regex="^f\\\\(0\\\\)\\\\s*=\\\\s*" /]]
+[[extractor targetinput="ans6" type="laststringremainder" string="f(0) =" /]]
+[[extractor targetinput="ans7" type="allregexmatch" regex="^f\\\\(x\\\\)\\\\s*=\\\\s*" /]]
+[[extractor targetinput="ans8" type="allregexremainder" regex="^f\\\\(x\\\\)\\\\s*=\\\\s*" /]]
+[[extractor targetinput="ans10" type="lastblock" /]]
+[[/ascii]]
+<p>[[hint title="Input help"]][[commonstring key="free_text_fact"/]][[/hint]]</p>
+<p style="display:none">[[input:ans2]]</p>
+<p>[[validation:ans2]]</p>
+<p style="display:none">[[input:ans3]]</p>
+<p>[[validation:ans3]]</p>
+<p style="display:none">[[input:ans4]]</p>
+<p>[[validation:ans4]]</p>
+<p style="display:none">[[input:ans5]]</p>
+<p>[[validation:ans5]]</p>
+<p style="display:none">[[input:ans6]]</p>
+<p>[[validation:ans6]]</p>
+<p style="display:none">[[input:ans7]]</p>
+<p>[[validation:ans7]]</p>
+<p style="display:none">[[input:ans8]]</p>
+<p>[[validation:ans8]]</p>
+<p style="display:none">[[input:ans9]]</p>
+<p>[[validation:ans9]]</p>
+<p style="display:none">[[input:ans10]]</p>
+<p>[[validation:ans10]]</p>',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questiondescription = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->specificfeedback = [
+            'text' => "[[feedback:prt1]]\n[[feedback:prt2]]\n[[feedback:prt3]]",
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->generalfeedback = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questionnote = [
+            'text' => '{@ta1@}',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->penalty = 0.1;
+        $formform->variantsselectionseed = '';
+        $formform->defaultmark = '4';
+        $formform->ans1type = 'freetext';
+        $formform->ans1modelans = 'ta1';
+        $formform->ans1boxsize = '80';
+        $formform->ans1strictsyntax = '1';
+        $formform->ans1insertstars = '0';
+        $formform->ans1syntaxhint = '';
+        $formform->ans1syntaxattribute = '0';
+        $formform->ans1forbidwords = '';
+        $formform->ans1allowwords = '';
+        $formform->ans1forbidfloat = '1';
+        $formform->ans1requirelowestterms = '0';
+        $formform->ans1checkanswertype = '0';
+        $formform->ans1mustverify = '0';
+        $formform->ans1showvalidation = '0';
+        $formform->ans1options = 'monospace:true';
+        $formform->ans2type = 'algebraic';
+        $formform->ans2modelans = 'f(x)=ta2';
+        $formform->ans2boxsize = '15';
+        $formform->ans2strictsyntax = '1';
+        $formform->ans2insertstars = '5';
+        $formform->ans2syntaxhint = '';
+        $formform->ans2syntaxattribute = '0';
+        $formform->ans2forbidwords = '';
+        $formform->ans2allowwords = '';
+        $formform->ans2forbidfloat = '1';
+        $formform->ans2requirelowestterms = '0';
+        $formform->ans2checkanswertype = '0';
+        $formform->ans2mustverify = '1';
+        $formform->ans2showvalidation = '1';
+        $formform->ans2options = '';
+        $formform->ans3type = 'algebraic';
+        $formform->ans3modelans = 'f(x)=ta2';
+        $formform->ans3boxsize = '15';
+        $formform->ans3strictsyntax = '1';
+        $formform->ans3insertstars = '5';
+        $formform->ans3syntaxhint = '';
+        $formform->ans3syntaxattribute = '0';
+        $formform->ans3forbidwords = '';
+        $formform->ans3allowwords = '';
+        $formform->ans3forbidfloat = '1';
+        $formform->ans3requirelowestterms = '0';
+        $formform->ans3checkanswertype = '0';
+        $formform->ans3mustverify = '1';
+        $formform->ans3showvalidation = '1';
+        $formform->ans3options = '';
+        $formform->ans4type = 'string';
+        $formform->ans4modelans = '""';
+        $formform->ans4boxsize = '15';
+        $formform->ans4strictsyntax = '1';
+        $formform->ans4insertstars = '0';
+        $formform->ans4syntaxhint = '';
+        $formform->ans4syntaxattribute = '0';
+        $formform->ans4forbidwords = '';
+        $formform->ans4allowwords = '';
+        $formform->ans4forbidfloat = '1';
+        $formform->ans4requirelowestterms = '0';
+        $formform->ans4checkanswertype = '0';
+        $formform->ans4mustverify = '0';
+        $formform->ans4showvalidation = '0';
+        $formform->ans4options = '';
+        $formform->ans5type = 'string';
+        $formform->ans5modelans = '""';
+        $formform->ans5boxsize = '15';
+        $formform->ans5strictsyntax = '1';
+        $formform->ans5insertstars = '0';
+        $formform->ans5syntaxhint = '';
+        $formform->ans5syntaxattribute = '0';
+        $formform->ans5forbidwords = '';
+        $formform->ans5allowwords = '';
+        $formform->ans5forbidfloat = '1';
+        $formform->ans5requirelowestterms = '0';
+        $formform->ans5checkanswertype = '0';
+        $formform->ans5mustverify = '0';
+        $formform->ans5showvalidation = '0';
+        $formform->ans5options = '';
+        $formform->ans6type = 'string';
+        $formform->ans6modelans = '""';
+        $formform->ans6boxsize = '15';
+        $formform->ans6strictsyntax = '1';
+        $formform->ans6insertstars = '0';
+        $formform->ans6syntaxhint = '';
+        $formform->ans6syntaxattribute = '0';
+        $formform->ans6forbidwords = '';
+        $formform->ans6allowwords = '';
+        $formform->ans6forbidfloat = '1';
+        $formform->ans6requirelowestterms = '0';
+        $formform->ans6checkanswertype = '0';
+        $formform->ans6mustverify = '0';
+        $formform->ans6showvalidation = '0';
+        $formform->ans6options = '';
+        $formform->ans7type = 'string';
+        $formform->ans7modelans = '""';
+        $formform->ans7boxsize = '15';
+        $formform->ans7strictsyntax = '1';
+        $formform->ans7insertstars = '0';
+        $formform->ans7syntaxhint = '';
+        $formform->ans7syntaxattribute = '0';
+        $formform->ans7forbidwords = '';
+        $formform->ans7allowwords = '';
+        $formform->ans7forbidfloat = '1';
+        $formform->ans7requirelowestterms = '0';
+        $formform->ans7checkanswertype = '0';
+        $formform->ans7mustverify = '0';
+        $formform->ans7showvalidation = '0';
+        $formform->ans7options = '';
+        $formform->ans8type = 'string';
+        $formform->ans8modelans = '""';
+        $formform->ans8boxsize = '15';
+        $formform->ans8strictsyntax = '1';
+        $formform->ans8insertstars = '0';
+        $formform->ans8syntaxhint = '';
+        $formform->ans8syntaxattribute = '0';
+        $formform->ans8forbidwords = '';
+        $formform->ans8allowwords = '';
+        $formform->ans8forbidfloat = '1';
+        $formform->ans8requirelowestterms = '0';
+        $formform->ans8checkanswertype = '0';
+        $formform->ans8mustverify = '0';
+        $formform->ans8showvalidation = '0';
+        $formform->ans8options = '';
+        $formform->ans9type = 'string';
+        $formform->ans9modelans = '""';
+        $formform->ans9boxsize = '15';
+        $formform->ans9strictsyntax = '1';
+        $formform->ans9insertstars = '0';
+        $formform->ans9syntaxhint = '';
+        $formform->ans9syntaxattribute = '0';
+        $formform->ans9forbidwords = '';
+        $formform->ans9allowwords = '';
+        $formform->ans9forbidfloat = '1';
+        $formform->ans9requirelowestterms = '0';
+        $formform->ans9checkanswertype = '0';
+        $formform->ans9mustverify = '0';
+        $formform->ans9showvalidation = '0';
+        $formform->ans9options = '';
+        $formform->ans10type = 'string';
+        $formform->ans10modelans = '""';
+        $formform->ans10boxsize = '15';
+        $formform->ans10strictsyntax = '1';
+        $formform->ans10insertstars = '0';
+        $formform->ans10syntaxhint = '';
+        $formform->ans10syntaxattribute = '0';
+        $formform->ans10forbidwords = '';
+        $formform->ans10allowwords = '';
+        $formform->ans10forbidfloat = '1';
+        $formform->ans10requirelowestterms = '0';
+        $formform->ans10checkanswertype = '0';
+        $formform->ans10mustverify = '0';
+        $formform->ans10showvalidation = '0';
+        $formform->ans10options = '';
+        $formform->questionsimplify = '1';
+        $formform->assumepositive = '';
+        $formform->assumereal = '0';
+        $formform->prtcorrect = [
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtpartiallycorrect = [
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtincorrect = [
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
+        $formform->multiplicationsign = 'dot';
+        $formform->sqrtsign = '1';
+        $formform->complexno = 'i';
+        $formform->inversetrig = 'cos-1';
+        $formform->logicsymbol = 'lang';
+        $formform->matrixparens = '[';
+        $formform->qtype = 'stack';
+        $formform->numhints = 2;
+        $formform->hint = [
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+        ];
+        $formform->prt1value = 1;
+        $formform->prt1feedbackstyle = '3';
+        $formform->prt1feedbackvariables = '';
+        $formform->prt1autosimplify = '1';
+        $formform->prt1description[0] = 'This PRT fires, but is a place holder for the marks for working.';
+        $formform->prt1sans[0] = 'ans1';
+        $formform->prt1tans[0] = 'null';
+        $formform->prt1answertest[0] = 'AlgEquiv';
+        $formform->prt1testoptions[0] = '';
+        $formform->prt1quiet[0] = '1';
+        $formform->prt1falsescore[0] = '0';
+        $formform->prt1falsescoremode[0] = '=';
+        $formform->prt1falsepenalty[0] = '0';
+        $formform->prt1falsefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1falseanswernote[0] = 'prt1-1-F';
+        $formform->prt1falsenextnode[0] = '-1';
+        $formform->prt1truescore[0] = '1';
+        $formform->prt1truescoremode[0] = '=';
+        $formform->prt1truepenalty[0] = '0';
+        $formform->prt1truefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1trueanswernote[0] = 'prt1-1-T';
+        $formform->prt1truenextnode[0] = '-1';
+        $formform->prt2value = 1;
+        $formform->prt2feedbackstyle = '1';
+        $formform->prt2feedbackvariables = 'sa2:if equationp(ans2) then rhs(ans2) else ans2;';
+        $formform->prt2autosimplify = '1';
+        $formform->prt2description[0] = 'f(0)=y0';
+        $formform->prt2sans[0] = 'ev(sa2,x=0)';
+        $formform->prt2tans[0] = 'y0';
+        $formform->prt2answertest[0] = 'AlgEquiv';
+        $formform->prt2testoptions[0] = '';
+        $formform->prt2quiet[0] = '1';
+        $formform->prt2falsescore[0] = '0';
+        $formform->prt2falsescoremode[0] = '-';
+        $formform->prt2falsepenalty[0] = '';
+        $formform->prt2falsefeedback[0] = [
+            'text' => 'When we evaluate \(f(0)\) with your answer we get \({@ev(sa2,x=0)@}\\neq {@y0@}\),' .
+                ' so you must have done something wrong.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt2falseanswernote[0] = 'prt2-1-F';
+        $formform->prt2falsenextnode[0] = '1';
+        $formform->prt2truescore[0] = '0.5';
+        $formform->prt2truescoremode[0] = '+';
+        $formform->prt2truepenalty[0] = '';
+        $formform->prt2truefeedback[0] = [
+            'text' => 'When we evaluate \(f(0)\) with your answer we get {@y0@}, which is correct, well done.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt2trueanswernote[0] = 'prt2-1-T';
+        $formform->prt2truenextnode[0] = '1';
+        $formform->prt2description[1] = 'Partial credit for f\'(x)';
+        $formform->prt2sans[1] = 'diff(sa2,x)';
+        $formform->prt2tans[1] = 'fx';
+        $formform->prt2answertest[1] = 'AlgEquiv';
+        $formform->prt2testoptions[1] = '';
+        $formform->prt2quiet[1] = '1';
+        $formform->prt2falsescore[1] = '0';
+        $formform->prt2falsescoremode[1] = '-';
+        $formform->prt2falsepenalty[1] = '';
+        $formform->prt2falsefeedback[1] = [
+            'text' => 'When we differentiate your answer with respect to \(x\) we get' . "\n" .
+                '\\[ f\'(x) = \\frac{\\mathrm{d}}{\\mathrm{d}x} {@sa2@} = {@diff(sa2,x)@} \\neq {@fx@}\\]' . "\n" .
+                'so you must have done something wrong.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt2falseanswernote[1] = 'prt2-2-F';
+        $formform->prt2falsenextnode[1] = '-1';
+        $formform->prt2truescore[1] = '0.5';
+        $formform->prt2truescoremode[1] = '+';
+        $formform->prt2truepenalty[1] = '';
+        $formform->prt2truefeedback[1] = [
+            'text' => 'When we differentiate your answer with respect to \(x\) we get' . "\n" .
+                '\\[ f\'(x) = \\frac{\\mathrm{d}}{\\mathrm{d}x} {@sa2@} = {@diff(sa2,x)@} \\]' . "\n" .
+                'so you have found the correct anti-derviative, well done.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt2trueanswernote[1] = 'prt2-2-T';
+        $formform->prt2truenextnode[1] = '-1';
+        $formform->prt3value = 1;
+        $formform->prt3feedbackstyle = '1';
+        $formform->prt3feedbackvariables = 'sa3:if equationp(ans3) then rhs(ans3) else ans3;';
+        $formform->prt3autosimplify = '1';
+        $formform->prt3description[0] = 'Check final function via lastexpr';
+        $formform->prt3sans[0] = 'ev(sa3,x=0)';
+        $formform->prt3tans[0] = 'y0';
+        $formform->prt3answertest[0] = 'AlgEquiv';
+        $formform->prt3testoptions[0] = '';
+        $formform->prt3quiet[0] = '1';
+        $formform->prt3falsescore[0] = '0';
+        $formform->prt3falsescoremode[0] = '=';
+        $formform->prt3falsepenalty[0] = '';
+        $formform->prt3falsefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt3falseanswernote[0] = 'prt3-1-F';
+        $formform->prt3falsenextnode[0] = '-1';
+        $formform->prt3truescore[0] = '1';
+        $formform->prt3truescoremode[0] = '=';
+        $formform->prt3truepenalty[0] = '';
+        $formform->prt3truefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt3trueanswernote[0] = 'prt3-1-T';
+        $formform->prt3truenextnode[0] = '-1';
+        return $formform;
+    }
+
+    /**
+     * Make the data what would be received from the editing form for Freetext input question
+     * where [[ascii]] has no input and displays teacher answer markdown.
+     *
+     * @return stdClass the data that would be returned by $form->get_data();
+     */
+    public static function get_stack_question_form_data_freetext_input_ascii_no_input() {
+        $formform = self::get_stack_question_form_data_freetext_input();
+        $formform->name = 'Freetext (ASCII no input)';
+        $formform->questiontext = [
+            'text' => '<p> Let \(f\'(x)= {@fx@}\). Given that \(f(0)={@y0@}\), find \(f(x)\).</p>
+<p>Work line by line below, justifying your answer fully.  Your last line should be your answer \(f(x)=...\).</p>
+
+<p>[[input:ans1]] [[validation:ans1]]</p>
+[[ascii]]
+{@ta1@}
+[[/ascii]]
+<p>[[hint title="Input help"]][[commonstring key="free_text_fact"/]][[/hint]]</p>
+<p style="display:none">[[input:ans2]]</p>
+<p>[[validation:ans2]]</p>
+<p style="display:none">[[input:ans3]]</p>
+<p>[[validation:ans3]]</p>
+<p style="display:none">[[input:ans4]]</p>
+<p>[[validation:ans4]]</p>
+<p style="display:none">[[input:ans5]]</p>
+<p>[[validation:ans5]]</p>
+<p style="display:none">[[input:ans6]]</p>
+<p>[[validation:ans6]]</p>
+<p style="display:none">[[input:ans7]]</p>
+<p>[[validation:ans7]]</p>
+<p style="display:none">[[input:ans8]]</p>
+<p>[[validation:ans8]]</p>
+<p style="display:none">[[input:ans9]]</p>
+<p>[[validation:ans9]]</p>
+<p style="display:none">[[input:ans10]]</p>
+<p>[[validation:ans10]]</p>',
+            'format' => '1',
+            'itemid' => 0,
+        ];
         return $formform;
     }
 
@@ -5568,18 +6338,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -5696,18 +6466,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -5842,18 +6612,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -6026,18 +6796,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -6155,18 +6925,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -6280,18 +7050,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -6407,18 +7177,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -6558,18 +7328,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -6703,18 +7473,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -6925,18 +7695,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -7050,18 +7820,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -7176,18 +7946,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -7304,18 +8074,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -7432,18 +8202,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -7557,18 +8327,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -7701,18 +8471,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -7826,18 +8596,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -7951,18 +8721,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -8076,18 +8846,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -8201,18 +8971,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -8388,18 +9158,18 @@ final class qtype_stack_test_helper extends question_test_helper {
         $formform->assumepositive = '';
         $formform->assumereal = '0';
         $formform->prtcorrect = [
-            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'text' => '[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
-                Your answer is partially correct.',
+            'text' => '[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] ' .
+            '[[commonstring key="defaultprtpartiallycorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
         $formform->prtincorrect = [
-            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'text' => '[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]',
             'format' => '1',
             'itemid' => 0,
         ];
@@ -8479,6 +9249,136 @@ final class qtype_stack_test_helper extends question_test_helper {
         ];
         $formform->prt1trueanswernote[1] = 'prt1-2-T';
         $formform->prt1truenextnode[1] = '-1';
+        return $formform;
+    }
+
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    public function get_stack_question_form_data_response_test() {
+        $formform = new stdClass();
+
+        $formform->name = 'response-test';
+        $formform->stackversion = get_config('qtype_stack', 'version');
+        $formform->questionvariables = 'n : rand(5)+3; ta:"thing1_true"; ta2:"thing2_true";';
+        $formform->variantsselectionseed = '';
+        $formform->questiontext = [
+            'text' => 'Find
+                       \[ \int {@p@} d{@v@}\]
+                       [[input:ans1]]
+                       [[validation:ans1]]',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->defaultmark = 4;
+        $formform->specificfeedback = [
+            'text' => '[[feedback:PotResTree_1]]',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->penalty = 0.40000000000000002;
+        $formform->generalfeedback = [
+            'text' => 'We can either do this question by inspection (i.e. spot the answer)
+                               or in a more formal manner by using the substitution
+                               \[ u = ({@v@}-{@a@}).\]
+                               Then, since $\frac{d}{d{@v@}}u=1$ we have
+                               \[ \int {@p@} d{@v@} = \int u^{@n@} du = \frac{u^{@n+1@}}{@n+1@}+c = {@ta@}+c.\]',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questionnote = [
+            'text' => '{@n@}, {@ta@}.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questiondescription = [
+            'text' => 'This is a basic test question.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->ans1type = 'string';
+        $formform->ans1modelans = 'ta';
+        $formform->ans1boxsize = 20;
+        $formform->ans1strictsyntax = '1';
+        $formform->ans1insertstars = '0';
+        $formform->ans1syntaxhint = '';
+        $formform->ans1syntaxattribute = '0';
+        $formform->ans1forbidwords = 'int, [[BASIC-ALGEBRA]]';
+        $formform->ans1allowwords = 'popup, boo, Sin';
+        $formform->ans1forbidfloat = '1';
+        $formform->ans1requirelowestterms = '0';
+        $formform->ans1checkanswertype = '0';
+        $formform->ans1mustverify = '1';
+        $formform->ans1showvalidation = '1';
+        $formform->ans1options = '';
+
+        $formform->PotResTree_1value = 1;
+        $formform->PotResTree_1autosimplify = '1';
+        $formform->PotResTree_1feedbackstyle     = 1;
+        $formform->PotResTree_1feedbackvariables = 'sa:subst(x=-x,ans1)+ans1';
+        $formform->PotResTree_1answertest = [0 => 'String', 1 => 'String'];
+        $formform->PotResTree_1description = [0 => 'Anti-derivative test', 1 => ''];
+        $formform->PotResTree_1sans = [0 => 'ans1', 1 => 'ans1'];
+        $formform->PotResTree_1tans = [0 => 'ta', 1 => 'ta2'];
+        $formform->PotResTree_1testoptions = [0 => '', 1 => ''];
+        $formform->PotResTree_1quiet = [0 => '0', 1 => '0'];
+        $formform->PotResTree_1truescoremode = [0 => '=', 1 => '='];
+        $formform->PotResTree_1truescore = [0 => '1', 1 => '1'];
+        $formform->PotResTree_1truepenalty = [0 => '', 1 => ''];
+        $formform->PotResTree_1truenextnode = [0 => '-1', 1 => '-1'];
+        $formform->PotResTree_1trueanswernote = [0 => 'prt1-1-T', 1 => 'prt1-2-T'];
+        $formform->PotResTree_1truefeedback = [0 => ['text' => '', 'format' => '1', 'itemid' => 0],
+                                                    1 => ['text' => '', 'format' => '1', 'itemid' => 0]];
+        $formform->PotResTree_1falsescoremode = [0 => '=', 1 => '='];
+        $formform->PotResTree_1falsescore = [0 => '0', 1 => '0'];
+        $formform->PotResTree_1falsepenalty = [0 => '', 1 => ''];
+        $formform->PotResTree_1falsenextnode = [0 => '1', 1 => '-1'];
+        $formform->PotResTree_1falseanswernote = [0 => 'prt1-1-F', 1 => 'prt1-2-F'];
+        $formform->PotResTree_1falsefeedback = [0 => ['text' => '', 'format' => '1', 'itemid' => 0],
+                                                     1 => ['text' => '', 'format' => '1', 'itemid' => 0]];
+
+        $formform->questionsimplify = '1';
+        $formform->assumepositive = '0';
+        $formform->assumereal = '0';
+        $formform->prtcorrect = ['text' => 'Correct answer, well done!', 'format' => '1', 'itemid' => 0];
+        $formform->prtpartiallycorrect = ['text' => 'Your answer is partially correct!', 'format' => '1', 'itemid' => 0];
+        $formform->prtincorrect = ['text' => 'Incorrect answer :-(', 'format' => '1', 'itemid' => 0];
+        $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
+        $formform->multiplicationsign = 'dot';
+        $formform->sqrtsign = '1';
+        $formform->complexno = 'i';
+        $formform->inversetrig = 'cos-1';
+        $formform->logicsymbol = 'lang';
+        $formform->matrixparens = '[';
+        $formform->numhints = 2;
+        $formform->hint = [
+            0 => ['text' => 'Hint 1<br>', 'format' => '1', 'itemid' => '0'],
+            1 => ['text' => '<p>Hint 2<br></p>', 'format' => '1', 'itemid' => '0'],
+        ];
+        $formform->qtype = 'stack';
+
+        return $formform;
+    }
+
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    public function get_stack_question_form_data_response_test_2() {
+        $formform = $this->get_stack_question_form_data_test3();
+        $formform->questionvariables = $formform->questionvariables . ' n : rand(5)+3;';
+        return $formform;
+    }
+
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    public function get_stack_question_form_data_dashboard_test() {
+        $formform = $this->get_stack_question_form_data_response_test();
+        // Gives notes 3, 4, 6.
+        $formform->deployedseeds = [1, 3, 8];
+        return $formform;
+    }
+
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    public function get_stack_question_form_data_dashboard_test_2() {
+        $formform = $this->get_stack_question_form_data_response_test();
+        // Gives notes 3, 4, 3, 6.
+        $formform->deployedseeds = [1, 3, 4, 8];
         return $formform;
     }
 }

@@ -35,7 +35,6 @@ stack_cas_castext2_iframe::register_counter('///PARSONS_COUNT///');
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_cas_castext2_parsons extends stack_cas_castext2_block {
-
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public static $namedversions = [
         'cdn' => [
@@ -60,8 +59,9 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         // Whether to have all keys in available list cloned.
         $clone = 'false';
 
-        // MathJax version (either "2" or "3").
-        $mathjaxversion = '2';
+        // MathJax version.
+        $mathjaxversion = stack_get_mathjax_version();
+        $mathjaxversionmajor = explode(".", $mathjaxversion)[0];
 
         // Number of available columns.
         $columns = null;
@@ -128,8 +128,10 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         // Figure out what scripts we serve.
         $css = self::$namedversions['local']['css'];
         $js = self::$namedversions['local']['js'];
-        if (isset($this->params['version']) &&
-            isset(self::$namedversions[$this->params['version']])) {
+        if (
+            isset($this->params['version']) &&
+            isset(self::$namedversions[$this->params['version']])
+        ) {
             $css = self::$namedversions['local']['css'];
             $js = self::$namedversions[$this->params['version']]['js'];
         }
@@ -140,10 +142,14 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             $js = $this->params['overridejs'];
         }
 
+        if (isset($this->params['style'])) {
+            $css = 'cors://parsonsstyles/' . $this->params['style'] . '.min.css';
+        }
+
         $r->items[] = new MP_String(json_encode($xpars));
 
         // Plug in some style and scripts.
-        $mathjax = ($mathjaxversion === "2") ? stack_get_mathjax_url() : stack_get_mathjax3_url();
+        $mathjax = stack_get_mathjax_url();
         $r->items[] = new MP_List([
             new MP_String('script'),
             new MP_String(json_encode(['type' => 'text/javascript', 'src' => $mathjax])),
@@ -170,7 +176,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             }
         }
 
-        // Identify default proof mode based on block header params
+        // Identify default proof mode based on block header params.
         // Note that proof mode behaves the same as the general mode, but we just
         // need to redefine columns.
         $proofmode = ($columns === null && $rows === null);
@@ -197,8 +203,8 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         // JS script.
         $r->items[] = new MP_String('<script type="module">');
 
-        $importcode = "\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n";
-        $importcode .= "import {Sortable} from '" . stack_cors_link('sortablecore.min.js') . "';\n";
+        $importcode = "\nimport stack_js from '" . stack_cors_link('stackjsiframe.min.js') . "';\n";
+        $importcode .= "import Sortable from '" . stack_cors_link('sortablecore.min.js') . "';\n";
         $importcode .= "import {preprocess_steps,
                                 stack_sortable,
                                 get_iframe_height,
@@ -248,43 +254,59 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
 
         // If the author's JSON has invalid structure throw an error.
         $code .= 'if (valid === false)
-            {stack_js.display_error("' . stack_string('stackBlock_parsons_contents') . '");}' . "\n";
+            {stack_js.display_error('
+            . json_encode(stack_string('stackBlock_parsons_contents'), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
+            . ');}' . "\n";
 
         // More specific pieces of validation
         // Check typing of headers, it should be an array containing strings.
         $code .= 'if (!(Array.isArray(headers)))
-            {stack_js.display_error("' . stack_string('stackBlock_incorrect_header_type') . '");}' . "\n";
+            {stack_js.display_error('
+            . json_encode(stack_string('stackBlock_incorrect_header_type'), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
+            . ');}' . "\n";
 
         // If the length of headers does not match the number of columns expected throw an error.
         // Error is different for proof vs. matching.
-        $code .= 'if (headers.length !== ' . $ogcolumns . ') {stack_js.display_error("';
-        if ($proofmode) {
-            $code .= stack_string('stackBlock_proof_incorrect_header_length') . '");}' . "\n";
-        } else {
-            $code .= stack_string('stackBlock_incorrect_header_length') . '");}' . "\n";
-        }
+        $msg = $proofmode
+            ? stack_string('stackBlock_proof_incorrect_header_length')
+            : stack_string('stackBlock_incorrect_header_length');
+        $code .= 'if (headers.length !== ' . $ogcolumns . ') {'
+            . 'stack_js.display_error('
+            . json_encode($msg, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
+            . ')};' . "\n";
 
         // Validate available headers. It is either a string or an array containing a single string.
         $code .= 'if (!(typeof(available_header) === "string" ||
         (Array.isArray(available_header) && available_header.length === 1 && typeof(available_header[0]) === "string")))
-            {stack_js.display_error("' . stack_string('stackBlock_incorrect_available_header_type') . '");}' . "\n";
+            {stack_js.display_error('
+            . json_encode(
+                stack_string('stackBlock_incorrect_available_header_type'),
+                JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+            )
+            . ');}' . "\n";
         // Extract available header if it is an array containing a single string.
         $code .= 'if (Array.isArray(available_header)) {available_header = available_header[0]};' . "\n";
 
         // If index is passed then it should be an array containing strings.
         $code .= 'if (index !== undefined && !(Array.isArray(index) && index.every((idx) => typeof(idx) === "string")))
-            {stack_js.display_error("' . stack_string('stackBlock_incorrect_index_type') . '");}' . "\n";
+            {stack_js.display_error('
+            . json_encode(stack_string('stackBlock_incorrect_index_type'), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
+            . ');}' . "\n";
 
         // If rows and index are passed then the length of index should match the value of rows + 1.
         if ($ogrows !== null) {
             $code .= 'if (index !== undefined && index.length !== ' . ($ogrows + 1) . ')
-                {stack_js.display_error("' . stack_string('stackBlock_incorrect_index_length') . '");}' . "\n";
+                {stack_js.display_error('
+                . json_encode(stack_string('stackBlock_incorrect_index_length'), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
+                . ');}' . "\n";
         }
 
         // Index cannot be used in proof mode due to styling issues.
         if ($proofmode) {
             $code .= 'if (index !== undefined)
-                {stack_js.display_error("' . stack_string('stackBlock_proof_mode_index') . '");}' . "\n";
+                {stack_js.display_error('
+                . json_encode(stack_string('stackBlock_proof_mode_index'), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
+                . ');}' . "\n";
         }
 
         // Link up to STACK inputs.
@@ -298,7 +320,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
 
         // Instantiate STACK sortable helper class.
         $code .= 'const stackSortable = new stack_sortable(proofSteps, id, sortableUserOpts, "' .
-                $clone .'", "' . $columns .'", "' . $rows . '", "' . $orientation . '", index, "' . $gridmode . '",
+                $clone . '", "' . $columns . '", "' . $rows . '", "' . $orientation . '", index, "' . $gridmode . '",
                 "' . $itemheight . '", "' . $itemwidth . '", "' . $log . '");' . "\n";
         // Generate the two lists, headers and index in HTML.
         $code .= 'stackSortable.add_reorientation_button();' . "\n";
@@ -359,13 +381,13 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $code .= 'window.addEventListener("resize", () => stackSortable.resize_grid_items())' . "\n";
 
         // Typeset MathJax. MathJax 2 uses Queue, whereas 3 works with promises.
-        $code .= ($mathjaxversion === "2") ?
+        $code .= ($mathjaxversionmajor === "2") ?
             'MathJax.Hub.Queue(["Typeset", MathJax.Hub]);' :
             'var mathJaxPromise = MathJax.typesetPromise();';
 
         // Resize the outer iframe if the author does not pre-define width. Method depends on MathJax 2 or MathJax 3.
         if (!$existsuserheight) {
-            $code .= ($mathjaxversion === "2") ?
+            $code .= ($mathjaxversionmajor === "2") ?
                 'MathJax.Hub.Queue(() => {
                     stackSortable.resize_grid_items();
                     stack_js.resize_containing_frame("' . $width . '", get_iframe_height() + "px");})' :
@@ -392,8 +414,11 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function postprocess(array $params, castext2_processor $processor,
-        castext2_placeholder_holder $holder): string {
+    public function postprocess(
+        array $params,
+        castext2_processor $processor,
+        castext2_placeholder_holder $holder
+    ): string {
         return 'This is never happening! The logic goes to [[iframe]].';
     }
 
@@ -407,6 +432,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         &$errors = [],
         $options = []
     ): bool {
+        global $CFG;
         // Basically, check that the dimensions have units we know.
         // Also that the references make sense.
         $valid  = true;
@@ -425,13 +451,17 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $heighttrim = $height;
 
         foreach ($validunits as $suffix) {
-            if (!$widthend && strlen($width) >= strlen($suffix) &&
-                substr($width, -strlen($suffix)) === $suffix) {
+            if (
+                !$widthend && strlen($width) >= strlen($suffix) &&
+                substr($width, -strlen($suffix)) === $suffix
+            ) {
                 $widthend  = true;
                 $widthtrim = substr($width, 0, -strlen($suffix));
             }
-            if (!$heightend && strlen($height) >= strlen($suffix) &&
-                substr($height, -strlen($suffix)) === $suffix) {
+            if (
+                !$heightend && strlen($height) >= strlen($suffix) &&
+                substr($height, -strlen($suffix)) === $suffix
+            ) {
                 $heightend  = true;
                 $heighttrim = substr($height, 0, -strlen($suffix));
             }
@@ -456,40 +486,47 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             $err[] = stack_string('stackBlock_parsons_height_num');
         }
 
-        if (array_key_exists('width', $this->params) &&
+        if (
+            array_key_exists('width', $this->params) &&
             array_key_exists('height', $this->params) &&
-            array_key_exists('aspect-ratio', $this->params)) {
+            array_key_exists('aspect-ratio', $this->params)
+        ) {
             $valid    = false;
             $err[] = stack_string('stackBlock_parsons_overdefined_dimension');
         }
-        if (!(array_key_exists('width', $this->params) ||
+        if (
+            !(array_key_exists('width', $this->params) ||
             array_key_exists('height', $this->params)) &&
-            array_key_exists('aspect-ratio', $this->params)) {
+            array_key_exists('aspect-ratio', $this->params)
+        ) {
             $valid    = false;
             $err[] = stack_string('stackBlock_parsons_underdefined_dimension');
         }
 
         // Check version is only one of valid options.
-        if (array_key_exists('version', $this->params) && !array_key_exists($this->params['version'],
-                self::$namedversions)) {
+        if (
+            array_key_exists('version', $this->params) && !array_key_exists(
+                $this->params['version'],
+                self::$namedversions
+            )
+        ) {
             $valid    = false;
             $validversions = ['cdn', 'local'];
             $err[] = stack_string('stackBlock_parsons_unknown_named_version', [
-                'version' => implode(', ',
-                $validversions),
+                'version' => implode(
+                    ', ',
+                    $validversions
+                ),
             ]);
         }
 
-        // Check MathJax version is valid.
-        if (array_key_exists('mathjax', $this->params)) {
-            $validmjversions = ['2', '3'];
-            if (!in_array($this->params['mathjax'], $validmjversions)) {
-                $valid = false;
-                $err[] = stack_string('stackBlock_parsons_unknown_mathjax_version', [
-                    'mjversion' => implode(', ',
-                    $validmjversions),
-                ]);
-            }
+        // Check MathJax version has been parsed correctly.
+        $mathjaxversionmajor = explode(".", stack_get_mathjax_version())[0];
+        if (!$mathjaxversionmajor === "2" || !$mathjaxversionmajor === "3") {
+            $valid = false;
+            $err[] = stack_string('stackBlock_parsons_unknown_mathjax_version', [
+                'mjversion' => '2, 3',
+            ]);
         }
 
         // Check value of transpose is only "true" or "false".
@@ -538,22 +575,53 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             }
         }
 
+        if (array_key_exists('style', $this->params)) {
+            $stylename = $this->params['style'];
+            if (
+                strpos($stylename, '..') !== false
+                || strpos($stylename, '/') !== false
+                || strpos($stylename, '\\') !== false
+            ) {
+                $valid    = false;
+                $err[] = stack_string('stackBlock_parsons_unknown_style', ['style' => $stylename]);
+            } else if (
+                    !file_exists($CFG->dirroot . '/question/type/stack/corsscripts/parsonsstyles/' .
+                    $stylename . '.min.css')
+            ) {
+                $valid    = false;
+                $err[] = stack_string('stackBlock_parsons_unknown_style', ['style' => $stylename]);
+            }
+        }
+
         // Check that only valid parameters are passed to block header.
         $valids = null;
         foreach ($this->params as $key => $value) {
-            if ($key !== 'width' && $key !== 'height' && $key !== 'aspect-ratio' &&
-                    $key !== 'version' && $key !== 'overridecss' && $key !== 'input'
-                    && $key !== 'clone' && $key !== 'columns' && $key !== 'rows' &&
-                    $key !== 'transpose' && $key !== 'item-height' && $key !== 'item-width' && $key !== 'log') {
+            if (
+                $key !== 'width' &&
+                $key !== 'height' &&
+                $key !== 'aspect-ratio' &&
+                $key !== 'version' &&
+                $key !== 'overridecss' &&
+                $key !== 'input' &&
+                $key !== 'clone' &&
+                $key !== 'columns' &&
+                $key !== 'rows' &&
+                $key !== 'transpose' &&
+                $key !== 'item-height' &&
+                $key !== 'item-width' &&
+                $key !== 'log' &&
+                $key !== 'style'
+            ) {
                 $err[] = "Unknown parameter '$key' for Parson's block.";
                 $valid    = false;
                 if ($valids === null) {
                     $valids = [
                         'width', 'height', 'aspect-ratio', 'version', 'overridecss',
                         'overridejs', 'input', 'clone', 'columns', 'rows', 'transpose', 'item-height',
-                        'item-width', 'log',
+                        'item-width', 'log', 'style',
                     ];
                     $err[] = stack_string('stackBlock_parsons_param', [
+                        'block' => "Parson's",
                         'param' => implode(', ', $valids),
                     ]);
                 }

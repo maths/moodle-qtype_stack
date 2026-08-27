@@ -1,0 +1,215 @@
+{
+    "quiz": {
+        "name": "9_5 Lines and Planes",
+        "intro": "<p>Vectors are very convenient tools for analysing lines and planes in three dimensions. In this quiz you will learn about direction ratios and direction cosines and then how to formulate the vector equation of a line and the vector equation of a plane. Direction ratios provide a convenient way of specifying the direction of a line in three dimensional space. Direction cosines are the cosines of the angles between a line and the coordinate axes. We begin this quiz by showing how these quantities are calculated.<\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "The direction ratio and direction cosines",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "5",
+            "heading": "Direction ratios and cosines in three dimensions",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "9",
+            "heading": "The vector equation of a line",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "10",
+            "heading": "The vector equation of a line (cont.)",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "18",
+            "heading": "The vector equation of a plane",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-9-5\/9-5-1-1-The-direction-ratio-and-direction-cosines.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-9-5\/9-5-1-2-Direction-ratios-and-cosines,-Example.xml"
+        },
+        {
+            "slot": "3",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-9-5\/9-5-1-3-Key-point.xml"
+        },
+        {
+            "slot": "4",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "2.0000000",
+            "quizfilepath": "\/top\/Default-for-9-5\/9-5-1-4-Direction-ratios-and-cosines,-Exercise.xml"
+        },
+        {
+            "slot": "5",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-9-5\/9-5-2-1-Direction-ratios-and-cosines-in-three-dimensions.xml"
+        },
+        {
+            "slot": "6",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "2.0000000",
+            "quizfilepath": "\/top\/Default-for-9-5\/9-5-2-2-Direction-ratios-and-cosines-in-three-dimensions,-Exercise.xml"
+        },
+        {
+            "slot": "7",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "5.0000000",
+            "quizfilepath": "\/top\/Default-for-9-5\/9-5-2-3-The-angle-between-a-vector-and-the-axes,-Exercise.xml"
+        },
+        {
+            "slot": "8",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-9-5\/9-5-2-4-Find-the-remaining-angle.xml"
+        },
+        {
+            "slot": "9",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-9-5\/9-5-3-1-The-vector-equation-of-a-line,-Exercise.xml"
+        },
+        {
+            "slot": "10",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-9-5\/9-5-3-2-The-vector-equation-of-a-line.xml"
+        },
+        {
+            "slot": "11",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-9-5\/9-5-3-3-Vector-equation-of-a-line-through-two-points-in-2D-Exercise.xml"
+        },
+        {
+            "slot": "12",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-9-5\/9-5-3-4-Vector-equation-of-a-line-through-two-points-in-3D-Exercise.xml"
+        },
+        {
+            "slot": "13",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-9-5\/9-5-3-5-Cartesian-form.xml"
+        },
+        {
+            "slot": "14",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-9-5\/9-5-3-6-Cartesian-form,-Example.xml"
+        },
+        {
+            "slot": "15",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-9-5\/9-5-3-7-Vector-equation-of-a-line-through-two-points-in-3D.xml"
+        },
+        {
+            "slot": "16",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "2.0000000",
+            "quizfilepath": "\/top\/Default-for-9-5\/9-5-3-8-Vector-and-cartesian-equation-of-a-line,-Exercise.xml"
+        },
+        {
+            "slot": "17",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-9-5\/9-5-3-9-Vector-equation-of-a-point-a-in-direction-r-in-3D.xml"
+        },
+        {
+            "slot": "18",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-9-5\/9-5-4-1-Vectors-in-a-plane,-Exercise-[alt].xml"
+        },
+        {
+            "slot": "19",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-9-5\/9-5-4-2-Plane-equation.xml"
+        },
+        {
+            "slot": "20",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-9-5\/9-5-4-3-Plane-equation,-example.xml"
+        },
+        {
+            "slot": "21",
+            "page": "7",
+            "requireprevious": 0,
+            "maxmark": "2.0000000",
+            "quizfilepath": "\/top\/Default-for-9-5\/9-5-4-4-Equation-of-a-plane-passing-through-a-point-with-a-given-normal,-Exercise.xml"
+        },
+        {
+            "slot": "22",
+            "page": "7",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-9-5\/9-5-4-5-Vector-and-Cartesian-equation-of-a-plane,-Exercise.xml"
+        },
+        {
+            "slot": "23",
+            "page": "7",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-9-5\/9-5-4-6-Cartesian-equation-of-a-plane-through-a-point.xml"
+        },
+        {
+            "slot": "24",
+            "page": "7",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-9-5\/9-5-4-7-Perpendicular-distance-between-plane-and-origin.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>10.1.2.5 Multiplication of complex numbers</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>In general the square of a complex number is not necessarily a positive real number; it may not even be real at all. For example if <span class="math inline">\(z=-2+i\)</span> then <span class="math inline">\[\qquad
+z^2=(-2+i)^2=4-4i+i^2=4-4i-1=3-4i.\]</span> However, the product of a complex number with its conjugate is always a non-negative real number. If <span class="math inline">\(z=a+i b\)</span> then <span class="math display">\[\begin{aligned}
+zz^*&amp;=(a+i b)(a-i b)\\
+&amp;=a^2-a(i b)+(i b)a-i^2b^2\\
+&amp;=a^2-i^2b^2\\
+&amp;=a^2+b^2\qquad \text{since}\ \ i^2=-1
+\qquad\end{aligned}\]</span> For example, if <span class="math inline">\(z=2+i\)</span> then <span class="math inline">\[\qquad
+zz^*=(2+i)(2-i)=4+1=5.\]</span></p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

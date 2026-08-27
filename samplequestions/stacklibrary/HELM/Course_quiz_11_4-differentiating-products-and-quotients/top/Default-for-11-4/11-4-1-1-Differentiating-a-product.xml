@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>11.4.1.1 Differentiating a product</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Differentiating a product</h4>
+
+In previous Sections we have examined the process of differentiating functions. We found how to obtain the derivative of many commonly occurring functions. These are recorded in the following table (remember, arguments of trigonometric functions are assumed to be in <b>radians</b>).
+
+<table class="HELM_table">
+  <thead>
+    <tr>
+      <th>\(y\)</th>
+      <th>\( \dfrac{dy}{dx}\)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>\(x^n\)</td>
+      <td>\(nx^{n-1}\)</td>
+    </tr>
+    <tr>
+      <td>\(\sin ax\)</td>
+      <td>\(a \cos ax\)</td>
+    </tr>
+    <tr>
+      <td>\(\cos ax\)</td>
+      <td>\(-a \sin ax\)</td>
+    </tr>
+    <tr>
+      </tr><tr><td>\(\tan ax\)</td>
+      <td>\(a\sec^2 x\)</td>
+    </tr>
+    <tr>
+      <td>\( \sec ax \)</td>
+      <td>\(a \sec ax \tan ax\)</td>
+    </tr>
+    <tr>
+      <td>\(\ln ax\)</td>
+      <td>\(\dfrac{1}{x}\)</td>
+    </tr>
+    <tr>
+      <td>\(e^{ax}\)</td>
+      <td>\(ae^{ax}\)</td>
+    </tr>
+    <tr>
+      <td>\(\cosh ax\)</td>
+      <td>\(a \sinh ax\)</td>
+    </tr>
+    <tr>
+      <td>\(\sinh ax\)</td>
+      <td>\( a \cosh ax\)</td>
+    </tr>
+    <tr>
+  </tr></tbody>
+</table>
+<p></p>
+In this Section we consider how to differentiate non-standard functions - in particular those which can be written as the <b>product</b> of standard functions. Being able to differentiate such functions depends upon the following Key Point.
+
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p><b>Product Rule</b></p>
+<p></p>
+If \(y(x) = f(x)g(x)\) then \[ \dfrac{dy}{dx} = \dfrac{df}{dx}g(x) + f(x)\dfrac{dg}{dx}\text{ or }y' = f'g + fg'.\]<p></p>
+In slightly more compact notation this is if \(y = uv\) then \[ \dfrac{dy}{dx} = u\dfrac{dv}{dx} + v\dfrac{du}{dx}\text{ or }y' = uv' + vu' .\]</div><p><br></p>
+It is not difficult to prove this from the limit definition of the derivative and it can be an instructive exercise to do so (hint: write the right hand side as a limit of a single ratio).&nbsp; We shall concentrate on its use.]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

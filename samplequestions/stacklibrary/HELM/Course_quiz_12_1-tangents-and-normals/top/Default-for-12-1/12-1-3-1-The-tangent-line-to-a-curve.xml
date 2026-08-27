@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>12.1.3.1 The tangent line to a curve</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>The tangent line to a curve</h3>
+<p>Let the equation of the tangent line to the curve \(y=f(x)\) at the point \((x_0,y_0)\) be: \[ y=mx+c,\] where \(m\) and \(c\) are constants to be found. The line just touches the curve \(y=f(x)\) at the point \((x_0,y_0)\). So, at this point, both must have the <b>same value</b> for the derivative. That is: \[m=\dfrac{df}{dx}\bigg|_{x_0}.\]</p>
+<p>Since we know (in any particular case) \(f(x)\) and the value \(x_0\), we can readily calculate the value for \(m\). The value of \(c\) is found by using the fact that the tangent line and the curve pass through the same point \((x_0,y_0)\). 
+\[y_0=mx_0+c,\qquad \textrm{where} \qquad y_0=f(x_0).\] </p>
+<p>Thus \( mx_0+c=f(x_0)\) leading to \(c=f(x_0)-mx_0\).</p><br>
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p>The equation of the tangent line to the curve \(y = f(x)\) at the point \((x_0, y_0)\) is \(y = mx + c\), where \[m = \dfrac{df}{dx}\bigg|_{ x_0} \qquad \textrm{and} \qquad c = f(x_0) - mx_0\] Alternatively, the equation is \(y - y_0 = m(x - x_0)\) where \(m =
+\dfrac{df}{dx}\bigg|_{ x_0}\) and \(y_0 = f(x_0)\)</p>
+</div>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Find the equation of the tangent line to the curve \(y = x^2\) at the point \((1,1)\). </p>
+<h4 class="HELM_solution">Solution</h4>
+<p><b>Method 1</b></p>
+<p>Here \(f(x) = x^2\) and \(x_0 = 1\) thus \(\dfrac{df}{dx} = 2x\) therefore \(m =\dfrac{df}{dx}\bigg|_{x_0} = 2\).</p><p>Also \(c = f(x_0) - mx_0 = f(1) - m = 1 - 2 = -1\). The tangent line has equation \(y = 2x - 1\).</p><br>
+<p><b>Method 2</b></p>
+<p>\[ y_0 = f(x_0) = f(1) = 1^2 = 1.\]</p>
+<p>The tangent line has equation \(y - 1 = 2(x - 1) \to y = 2x - 1\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

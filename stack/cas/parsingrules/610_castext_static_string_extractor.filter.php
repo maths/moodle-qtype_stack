@@ -29,7 +29,6 @@ require_once(__DIR__ . '/filter.interface.php');
  * To be run after the CASText has been simplified.
  */
 class stack_ast_filter_610_castext_static_string_extractor implements stack_cas_astfilter_parametric {
-
     // A reference to the extractor.
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     private $extractor = false;
@@ -43,17 +42,20 @@ class stack_ast_filter_610_castext_static_string_extractor implements stack_cas_
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 
         // Simply nothing to do if we have nowhere to place those strings.
-        if ($this->extractor === null) {
+        if ($this->extractor === null || $this->extractor === false) {
             return $ast;
         }
 
         $map = $this->extractor;
-        $process = function($node) use(&$map) {
-            if ($node instanceof MP_String && mb_strlen($node->value) > 10 &&
+        $process = function ($node) use (&$map) {
+            if (
+                $node instanceof MP_String && mb_strlen($node->value) > 10 &&
                     $node->parentnode instanceof MP_List &&
-                    array_search($node, $node->parentnode->items) > 0 ) {
+                    array_search($node, $node->parentnode->items) > 0
+            ) {
                 // Ensure that the list is a CASText2 thing.
-                if ($node->parentnode->items[0] instanceof MP_String && (
+                if (
+                    $node->parentnode->items[0] instanceof MP_String && (
                     $node->parentnode->items[0]->value === '%root' ||
                     $node->parentnode->items[0]->value === '%cs' ||
                     $node->parentnode->items[0]->value === 'p h' ||
@@ -63,15 +65,20 @@ class stack_ast_filter_610_castext_static_string_extractor implements stack_cas_
                       $node->parentnode->items[0]->value === 'script' ||
                       $node->parentnode->items[0]->value === 'style') &&
                             array_search($node, $node->parentnode->items) > 1)
-                    )) {
+                    )
+                ) {
                     $node->value = $map->add_to_map($node->value);
                 }
-            } else if ($node instanceof MP_String && mb_strlen($node->value) > 10 &&
-                            isset($node->position['castext']) && $node->position['castext']) {
-                if ($node->parentnode instanceof MP_FunctionCall &&
+            } else if (
+                $node instanceof MP_String && mb_strlen($node->value) > 10 &&
+                            isset($node->position['castext']) && $node->position['castext']
+            ) {
+                if (
+                    $node->parentnode instanceof MP_FunctionCall &&
                     $node->parentnode->name instanceof MP_Atom &&
                     $node->parentnode->name->value === '_EC' &&
-                    $node->parentnode->arguments[1] == $node) {
+                    $node->parentnode->arguments[1] == $node
+                ) {
                     // Do not touch the error tracing bits, we want to keep those easily visible.
                     return true;
                 } else {

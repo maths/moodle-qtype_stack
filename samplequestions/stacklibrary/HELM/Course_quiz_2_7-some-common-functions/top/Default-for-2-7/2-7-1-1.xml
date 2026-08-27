@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>2.7.1.1</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Polynomial functions</h4>
+
+<p>The class of the <b>polynomial functions</b> plays a very important role. Polynomial functions are made up of multiples of non-negative whole number powers of a variable, such as \(3x^2\), \(7x^3\) and so on. You are already familiar with many such functions. Other examples include:</p>
+<ul><li>\(P_0(t)=6\),<br></li>
+<li>\(P_1(t) = 3t+ 9\),<br></li>
+<li>\(P_2(x) = 3x^2−x+ 2\),<br></li>
+<li>\(P_4(z) = 7z^4+z^2−1\),<br></li>
+</ul>
+<p>where \(t\), \(x\) and \(z\) are independent variables.</p><br>
+<p> If the powers of the independent variable are fractional or negative, then the function does not represent a polynomial; i.e. \(f(x)=x^{-1}\) and \(g(x)=x^{3/2}\) are not polynomials. The function \(P_0(t)=6\) is a polynomial instead, in fact we can regard it as \(P_0(t)=6 t^0\).</p>
+
+<p>By convention, a polynomial is written with the powers either increasing or decreasing. For example the polynomial</p>
+<div style="margin-left: 30px;" class="editor-indent"><p>\(3x+ 9x^2−x^3+ 2\)</p></div>
+<p>would be written as</p>
+<div style="margin-left: 30px;" class="editor-indent"><p>\(−x^3+ 9x^2+ 3x+ 2\)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; or&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \(2 + 3x+ 9x^2−x^3\).</p></div>
+<p>In general, we have the following definition: </p>
+
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p>A <b>polynomial expression</b> has the form:</p>
+<p>\[a_n x^n+a_{n−1} x^{n−1}+a_{n−2} x^{n−2}+...+a_2 x^2+a_1 x+a_0\]</p>
+<p>where \(n\) is a non-negative integer, a_n, a_{n−1}, ..., a_1, a_0 are constants and \(x\) is a variable.</p>
+<p>A <b>polynomial function</b> \(P(x)\) has the form</p>
+<p>\[P_n(x)=a_n x^n+a_{n−1} x^{n−1}+a_{n−2} x^{n−2}+...+a_2 x^2+a_1 x+a_0.\]</p>
+</div>
+<p>The <b>degree</b> of a polynomial or polynomial function is the value of the highest power. Referring to the examples listed above, the polynomial \(P_2\) has degree \(2\), because the term with the highest power is \(3x^2\), \(P_4\) has degree \(4\), \(P_1\) has degree \(1\) and \(P_0\) has degree \(0\). Polynomials with low degrees have special names given in the following table. We assume that \(a \neq 0\) in each case.</p><p><br></p>
+<center>
+<table frame="void" rules="all" border="1">
+<thead>
+<tr class="header">
+<th style="text-align: center;"></th>
+<th style="text-align: center;">degree<br></th>
+<th style="text-align: center;">name<br></th>
+</tr></thead>
+
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(a\)</span></td>
+<td style="text-align: center;">0<br></td>
+<td style="text-align: center;">constant<br></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(ax+b\)</span></td>
+<td style="text-align: center;">1<br></td>
+<td style="text-align: center;">linear<br></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(ax^2+bx+c\)</span></td>
+<td style="text-align: center;">2<br></td>
+<td style="text-align: center;">quadratic<br></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(ax^3+bx^2+cx+d\)</span></td>
+<td style="text-align: center;">3<br></td>
+<td style="text-align: center;">cubic<br></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(ax^4+bx^3+cx^2+dx+e\)</span></td>
+<td style="text-align: center;">4<br></td>
+<td style="text-align: center;">quartic<br></td>
+</tr>
+</tbody>
+</table>
+</center>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

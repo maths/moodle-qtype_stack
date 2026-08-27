@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="multichoice">
+    <name>
+      <text>10.2.3.2 Division(Polar expression) (NOT IN QUIZ)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>If <span class="math inline">\(z=r(\cos\theta +i\sin\theta )\)</span> and <span class="math inline">\(w=t(\cos\phi
++i\sin\phi )\)</span> find the polar expression for <span class="math inline">\({\dfrac{z}{w}}.\)</span></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>\(z=r(\cos\theta+i\sin\theta)\) and&nbsp;&nbsp;\(w=t(\cos\phi +i\sin\phi )\).</p><p>So,</p><p>\[\frac{z}{w}=\frac{r(\cos\theta+i\sin\theta)}{t(\cos\phi +i\sin\phi )}=\frac{r(\cos\theta+i\sin\theta)}{t(\cos\phi +i\sin\phi )}\frac{(\cos\phi -i\sin\phi )}{(\cos\phi -i\sin\phi )}\\=\frac{r((\cos\theta\cos\phi+\sin\theta\sin\phi)+i(\sin\theta\cos\phi-\cos\theta\sin\phi))}{t}\\=\frac{r((\cos\theta\cos(-\phi)-\sin\theta\sin(-\phi))+i(\sin\theta\cos(-\phi)+\cos\theta\sin(-\phi)))}{t}=\frac{r(\cos(\theta-\phi)+i(\sin(\theta-\phi))}{t}.\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <showstandardinstruction>1</showstandardinstruction>
+    <correctfeedback format="html">
+      <text>Your answer is correct.</text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="html">
+      <text>Your answer is partially correct.</text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="html">
+      <text>Your answer is incorrect.</text>
+    </incorrectfeedback>
+    <shownumcorrect/>
+    <answer fraction="100" format="html">
+      <text>\(\displaystyle{\frac{z}{w}=\frac{r}{t}(\cos(\theta-\phi)+i\sin(\theta-\phi))}\)</text>
+      <feedback format="html">
+        <text><![CDATA[<p>Correct!&nbsp;</p>]]></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text><![CDATA[<p>\(\displaystyle{\frac{z}{w}=\frac{r}{t}(\cos(\theta+\phi)+i\sin(\theta+\phi))}\)<br></p>]]></text>
+      <feedback format="html">
+        <text><![CDATA[<p>Try again! Be careful when computing this!&nbsp;</p>]]></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text><![CDATA[<p>\(\displaystyle{\frac{z}{w}=\frac{r}{t}(\cos(\theta+\phi)+i\sin(\theta-\phi))}\)<br></p>]]></text>
+      <feedback format="html">
+        <text><![CDATA[<p>Try again! Be careful when computing this!&nbsp;<br></p>]]></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text><![CDATA[<p>\(\displaystyle{\frac{z}{w}=\frac{r}{t}(\cos(\theta-\phi)+i\sin(\theta+\phi))}\)<br></p>]]></text>
+      <feedback format="html">
+        <text><![CDATA[<p>Try again! Be careful when computing this!&nbsp;<br></p>]]></text>
+      </feedback>
+    </answer>
+  </question>
+</quiz>

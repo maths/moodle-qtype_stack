@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>4.2.2.9 Beyond the fourth quadrant</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>  Rotation beyond the fourth quadrant <span class="math inline">\((360^\circ&lt;\theta)\)</span>  </h4>
+
+If the vector <span class="math inline">\(OP\)</span> continues to rotate around the circle of unit radius then in the next complete rotation <span class="math inline">\(\theta\)</span> increases from <span class="math inline">\(360^\circ\)</span> to <span class="math inline">\(720^\circ\)</span>. However, a <span class="math inline">\(\theta\)</span> value of, say, <span class="math inline">\(405^\circ\)</span> is indistinguishable from one of <span class="math inline">\(45^\circ\)</span> (just one extra complete revolution is involved).</p>
+<p>So <span class="math inline">\(\sin(405^\circ)=\sin(45^\circ)=\dfrac{1}{\sqrt{2}} \text{ and } 
+\cos(405^\circ)=\cos(45^\circ)=\dfrac{1}{\sqrt{2}}\)</span></p>
+<p>In general <span class="math inline">\(\sin(360^\circ+x^\circ)=\sin(x^\circ),
+\cos(360^\circ+x^\circ)=\cos(x^\circ)\)</span></p>
+
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p>If \(n\) is any integer, then</p>
+\[\begin{aligned}
+\sin (x^\circ+360 n^\circ) &amp;\equiv \sin(x^\circ) \\
+\cos (x^\circ+360 n^\circ) &amp;\equiv \cos(x^\circ)
+\end{aligned}\]
+<p>or, since \(360^\circ\equiv2\pi \text{ radians}\),
+\[\begin{aligned}
+\sin (x + 2\pi n) &amp;\equiv \sin(x) \\
+\cos (x + 2\pi n) &amp;\equiv \cos(x)
+\end{aligned}\]
+<p>We say that the functions \(\sin(x)\) and \(\cos(x)\) are <strong>periodic</strong> with period (in radian measure) of \(2\pi\).</p>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

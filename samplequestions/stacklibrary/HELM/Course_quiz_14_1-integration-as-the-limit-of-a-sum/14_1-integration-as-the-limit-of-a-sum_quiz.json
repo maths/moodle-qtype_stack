@@ -1,0 +1,76 @@
+{
+    "quiz": {
+        "name": "14_1 Integration as the Limit of a Sum",
+        "intro": "<p>Previously, integration was introduced as the reverse of differentiation. A more rigorous treatment\nwould show that integration is a process of adding or \u2018summation\u2019. By viewing integration from this\nperspective it is possible to apply the techniques of integration to finding areas, volumes, centres of\ngravity and many other important quantities.\nThe content of this section is important because it is here that integration is defined more carefully. A\nthorough understanding of the process involved is essential if you need to apply integration techniques\nto practical problems.<br><\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "4.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "The Limit of a Sum",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-14-1\/14-1-1-1-The-Limit-of-a-Sum.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-14-1\/14-1-1-2-Rectangles-Single-PRT.xml"
+        },
+        {
+            "slot": "4",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-14-1\/14-1-1-3-Sum-of-Areas.xml"
+        },
+        {
+            "slot": "5",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-14-1\/14-1-1-4-Area-Using-Limit-of-Sum.xml"
+        },
+        {
+            "slot": "6",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-14-1\/14-1-1-5-Area-Using-Limit-of-Sum-2.xml"
+        },
+        {
+            "slot": "7",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-14-1\/14-1-1-6-Integrals.xml"
+        },
+        {
+            "slot": "3",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-14-1\/Interactive-JSX---Rectangles-Single-PRT.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "5.00000"
+        }
+    ]
+}

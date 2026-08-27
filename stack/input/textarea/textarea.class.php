@@ -35,6 +35,9 @@ class stack_textarea_input extends stack_input {
         'nounits' => true,
         'simp' => false,
         'consolidatesubscripts' => false,
+        'align' => 'left',
+        'monospace' => false,
+        'manualgraded' => false,
     ];
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -53,6 +56,12 @@ class stack_textarea_input extends stack_input {
             'spellcheck'     => 'false',
             'class'     => 'maxima-list',
         ];
+        if ($this->extraoptions['align'] === 'right') {
+            $attributes['class'] .= ' algebraic-right';
+        }
+        if ($this->extraoptions['monospace']) {
+            $attributes['class'] .= ' input-monospace';
+        }
 
         if ($this->is_blank_response($state->contents)) {
             $current = $this->maxima_to_raw_input($this->parameters['syntaxHint']);
@@ -162,7 +171,7 @@ class stack_textarea_input extends stack_input {
                 $vals[] = 'EMPTYCHAR';
             }
         }
-        $s = '['.implode(',', $vals).']';
+        $s = '[' . implode(',', $vals) . ']';
         return stack_ast_container::make_from_student_source($s, '', $secrules);
     }
 
@@ -173,7 +182,7 @@ class stack_textarea_input extends stack_input {
      * @return string
      */
     public function contents_to_maxima($contents) {
-        return '['.implode(',', $contents).']';
+        return '[' . implode(',', $contents) . ']';
     }
 
     /**
@@ -183,7 +192,11 @@ class stack_textarea_input extends stack_input {
      * @return string
      */
     protected function maxima_to_raw_input($in) {
-        $values = stack_utils::list_to_array($in, false);
+        $delim = ',';
+        if ($this->options->get_option('decimals') === ',') {
+            $delim = ';';
+        }
+        $values = stack_utils::list_to_array($in, false, $delim);
         foreach ($values as $key => $val) {
             if (trim($val) != '') {
                 $cs = stack_ast_container::make_from_teacher_source($val);
@@ -225,8 +238,18 @@ class stack_textarea_input extends stack_input {
      * @return string any error messages describing validation failures. An empty
      *      string if the input is valid - at least according to this test.
      */
-    protected function validation_display($answer, $lvars, $caslines, $additionalvars,
-                                          $valid, $errors, $castextprocessor, $inertdisplayform, $ilines) {
+    protected function validation_display(
+        $answer,
+        $lvars,
+        $caslines,
+        $additionalvars,
+        $valid,
+        $errors,
+        $castextprocessor,
+        $inertdisplayform,
+        $ilines,
+        $notes
+    ) {
 
         $rows = [];
         foreach ($caslines as $index => $cs) {
@@ -234,7 +257,14 @@ class stack_textarea_input extends stack_input {
             $fb = $cs->get_feedback();
             if ($cs->is_correctly_evaluated() && $fb == '') {
                 // The zero element of the array defines the display style: 0 = align center, 1 = red frame.
-                $row[] = [0, '\(\displaystyle ' . $ilines[$index]->get_display() . ' \)'];
+                // ISS1629 - Use textstyle for compact validation.
+                $row[] = [
+                    0,
+                    '\(' .
+                    ($this->get_parameter('showValidation', 1) == 3 ? '\textstyle ' : '\displaystyle ') .
+                    $ilines[$index]->get_display() .
+                    ' \)',
+                    ];
                 if ($errors[$index]) {
                     $row[] = [1, stack_maxima_translate($errors[$index])];
                 }
@@ -278,7 +308,7 @@ class stack_textarea_input extends stack_input {
         }
 
         // Return errors = null to delete error messages from the bottom of the input.
-        return [$valid, null, $display];
+        return [$valid, null, $display, $notes];
     }
 
     /**
@@ -309,7 +339,7 @@ class stack_textarea_input extends stack_input {
      */
     public function internal_validate_parameter($parameter, $value) {
         $valid = true;
-        switch($parameter) {
+        switch ($parameter) {
             case 'boxWidth':
                 $valid = is_int($value) && $value > 0;
                 break;
@@ -331,14 +361,14 @@ class stack_textarea_input extends stack_input {
         }
         $values = stack_utils::list_to_array($value, false);
         foreach ($values as $key => $val) {
-            if (trim($val) !== '' ) {
+            if (trim($val) !== '') {
                 $cs = stack_ast_container::make_from_teacher_source($val);
                 $cs->get_valid();
-                $val = '<code>'.$cs->get_inputform(true, 0, true, $this->options->get_option('decimals')).'</code>';
+                $val = '<code>' . $cs->get_inputform(true, 0, true, $this->options->get_option('decimals')) . '</code>';
             }
             $values[$key] = $val;
         }
-        $value = "<br/>".implode("<br/>", $values);
+        $value = "<br/>" . implode("<br/>", $values);
 
         return stack_string('teacheranswershow', ['value' => $value, 'display' => $display]);
     }

@@ -33,7 +33,7 @@ class stack_cas_castext2_special_ioblock extends stack_cas_castext2_block {
     public $variable;
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function __construct($params, $children=[], $mathmode=false, $channel='', $variable='') {
+    public function __construct($params, $children = [], $mathmode = false, $channel = '', $variable = '') {
         parent::__construct($params, $children, $mathmode);
         $this->channel = $channel;
         $this->variable = $variable;
@@ -62,9 +62,11 @@ class stack_cas_castext2_special_ioblock extends stack_cas_castext2_block {
 
     // Might seem odd to postprocess this but this is a hook that others connect to.
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function postprocess(array $params, castext2_processor $processor,
-        castext2_placeholder_holder $holder): string {
+    public function postprocess(
+        array $params,
+        castext2_processor $processor,
+        castext2_placeholder_holder $holder
+    ): string {
         return '[[' . $params[1] . ':' . $params[2] . ']]';
     }
-
 }

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>36.1.5.7 Mode and comparison</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>The mode</h4>
+<p>For discrete data, the mode is the value with the greatest frequency.</p>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>In a quality control system, batches of twenty mass-produced items are examined and the number which fall outside an acceptable range in each batch is counted. The numbers of out-of-range items in fifty batches were as follows.</p>
+<table class="HELM_table" style="text-align: center; width: 60%;">
+<tbody><tr style="border-bottom: 1px solid #000;"><td>Number out of range (\(x\))</td> <td>\(0\)</td> <td>\(1\)</td> <td>\(2\)</td> <td>\(3\)</td> <td>\(4\)</td> <td>\(5\)</td> <td>\(6\)</td></tr> 
+<tr> <td>Frequency (\(f\))</td><td>\(9\)</td><td>\(9\)</td><td>\(13\)</td> <td>\(9\)</td> <td>\(8\)</td><td>\(1\)</td> <td>\(1\)</td></tr>
+</tbody></table>
+<p>The mode here is \(2\) since this value has the greatest frequency.</p>
+<p>Note that the mean for these data is \(2.1\) and the median is \(2\).</p><hr>
+<p>In the case of continuous data, we do not look for a most frequent value. Strictly speaking, no two observations should be exactly the same. Instead we form a frequency table and identify the <i>modal class</i>, the class with the greatest frequency.</p>
+<h4>Comparison</h4>
+<p>The mean, median and mode all have their different uses. If the histogram of a sample of data is more-or-less symmetric then the median and the mean will be very similar. If it is also <i> unimodal</i>, that is there is only one maximum in the histogram and, since the histogram is symmetric, this is in the middle, then the mode will also be very similar. The mode will, of course be the location of the maximum in the histogram. If a frequency distribution is not symmetric (we say it is <i>skewed</i> in this case) then the three values can be quite different. For example, consider the distribution of incomes among the citizens of a country. Typically, the very large incomes of a small proportion of people increase the mean so that the mean is greater than the incomes of most people. Therefore, the median is less than the mean but might be a more relevant measure for most people. The mode is smaller still because of the large numbers of people with relatively small incomes.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

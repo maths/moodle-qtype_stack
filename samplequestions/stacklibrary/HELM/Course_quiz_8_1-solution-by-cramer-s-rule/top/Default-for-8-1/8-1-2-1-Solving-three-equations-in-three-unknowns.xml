@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>8.1.2.1 Solving three equations in three unknowns</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Solving three equations in three unknowns</h4><p><br></p>
+<p>Cramer’s rule can be extended to larger systems of simultaneous equations but the calculational effort increases rapidly as the size of the system increases. We quote Cramer’s rule for a system of three equations.</p>
+
+<div class="HELM_keypoint">
+    <h4>Key Point<br></h4>
+    <p>The unique solution to the system of equations:</p>
+    <p>\(\begin{eqnarray*}a_{11}x_1+a_{12}x_2+a_{13}x_3&amp;=&amp;b_1\\ a_{21}x_1+a_{22}x_2+a_{23}x_3&amp;=&amp;b_2\\ a_{31}x_1+a_{32}x_2+a_{33}x_3&amp;=&amp;b_3\end{eqnarray*}\)</p>
+    <p>is</p>
+    <p>\(x_1=\dfrac{\Delta_{x_1}}{\Delta},\ \ x_2=\dfrac{\Delta_{x_2}}{\Delta},\ \ x_3=\dfrac{\Delta_{x_3}}{\Delta}\)&nbsp;</p>
+    <p>in which</p>
+    <p>\(\Delta=\left|\begin{array}{ccc}a_{11}&amp;a_{12}&amp;a_{13}\\ a_{21}&amp;a_{22}&amp;a_{23}\\ a_{31}&amp;a_{32}&amp;a_{33}\end{array}\right|\)&nbsp;</p>
+    <p>and&nbsp;</p>
+    <p>\(\Delta_{x_1}=\left|\begin{array}{ccc}b_1&amp;a_{12}&amp;a_{13}\\ b_2&amp;a_{22}&amp;a_{23}\\ b_3&amp;a_{32}&amp;a_{33}\end{array}\right|\qquad \Delta_{x_2}=\left|\begin{array}{ccc}a_{11}&amp;b_1&amp;a_{13}\\ a_{21}&amp;b_2&amp;a_{23}\\ a_{31}&amp;b_3&amp;a_{33}\end{array}\right|\qquad
+        \Delta_{x_3}=\left|\begin{array}{ccc}a_{11}&amp;a_{12}&amp;b_1\\ a_{21}&amp;a_{22}&amp;b_2\\ a_{31}&amp;a_{32}&amp;b_3\end{array}\right|\)</p>
+    <p>If \(\Delta=0\) this method of&nbsp; solution cannot be used.</p>
+</div>
+
+<p><br></p>
+<p>Notice that the structure of the fractions is similar to that for the two-equation case. For example, the determinant forming the numerator of <span class="math inline">\(x_1\)</span> is obtained from the determinant of coefficients, <span class="math inline">\(\Delta\)</span>,
+    by replacing the first column by the right-hand sides of the equations.</p>
+<p>Notice too the increase in calculation: in the two-equation case we had to evaluate three <span class="math inline">\(2\times 2\)</span> determinants, whereas in the three-equation case we have to evaluate four <span class="math inline">\(3\times 3\)</span>    determinants. Hence Cramer’s rule is not really practicable for larger systems.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

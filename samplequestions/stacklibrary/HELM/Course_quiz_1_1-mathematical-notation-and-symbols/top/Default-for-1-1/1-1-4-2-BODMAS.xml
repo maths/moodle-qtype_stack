@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>1.1.4.2 BODMAS</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h5><span style="color: inherit; font-family: inherit;">Arithmetical expressions</span><br></h5>
+<p>A quantity made up of numbers and one or more of the operations \(+\), \(-\), \(\times\) and \(/\) is called an <strong>arithmetical expression</strong>. Frequent use is also made of brackets, or <strong>parentheses</strong>, \((\ )\), to separate different parts of an expression. When evaluating an expression it is conventional to evaluate quantities within brackets first. Often a division line implies bracketed quantities. For example in the expression \(\dfrac{3+4}{7+9}\) there is implied bracketing of the numerator and denominator i.e. the expression is \(\dfrac{(3+4)}{(7+9)}\) and the bracketed quantities would be evaluated first resulting in the number \(\dfrac{7}{16}\).</p>
+
+<h5><span style="color: inherit; font-family: inherit;">The BODMAS rule</span><br></h5>
+<p>When several arithmetical operations are combined in one expression we need to know in which order to perform the calculation. This order is found by applying rules known as <strong>precedence rules</strong> which specify which operation has priority. The convention is that bracketed expressions are evaluated first. Any multiplications and divisions are then performed, and finally any additions and subtractions. For short, this is called the BODMAS rule.</p>
+
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p><strong>The BODMAS rule</strong></p>
+<p>\(\begin{aligned} &amp;\text{Brackets, ( )} &amp; \qquad &amp; \text{First priority: evaluate terms within brackets} \\ \\ &amp;\text{Of} &amp; \qquad &amp; \\ &amp;\text{Division, } \div &amp; \qquad &amp; \text{Second priority: carry out all multiplications and divisions}\\ &amp;\text{Multiplication, } \times &amp; \qquad &amp; \\ \\ &amp;\text{Addition, } + &amp; \qquad &amp; \text{Third priority: carry out all additions and subtractions}\\ &amp;\text{Subtraction, } - &amp; \qquad &amp; \end{aligned}\)</p>
+</div>
+<br>
+<p>If an expression contains only multiplication and division we evaluate by working from left to right. Similarly, if an expression contains only addition and subtraction we evaluate by working from left to right. In Section 1.2 we will meet another operation called exponentiation, or raising to a power. We shall see that, in the simplest case, this operation is repeated multiplication and it is usually carried out once any brackets have been evaluated.</p>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Evaluate \(4 − 3 + 7 \times 2\)</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>The BODMAS rule tells us to perform the multiplication before the addition and subtraction. Thus</p>
+<p>\(\qquad 4 − 3 + 7 \times 2 = 4 − 3 + 14\)</p>
+<p>Finally, because the resulting expression contains just addition and subtraction we work from the left to the right, that is</p>
+<p>\(\qquad 4 − 3 + 14 = 1 + 14 = 15\)</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

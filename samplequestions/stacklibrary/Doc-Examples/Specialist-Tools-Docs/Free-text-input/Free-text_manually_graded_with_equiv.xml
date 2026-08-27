@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+<!-- question: 5287  -->
+  <question type="stack">
+    <name>
+      <text>Free-text proof with equivalence reasoning.</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<div class="stack-comment">
+<h2>Free-text input</h2>In some situations you can work line by line, as with the first answer in this question.  STACK gives immediate feedback on whether lines are equivalent, allowing students to enter their complete answer.  The second input is free text, allowing students to type in their proof free-form.  This question is not automatically assessed, rather it is human marked.
+</div>
+<p> (a). Show that \((2n - 1)^2 + (2n + 1)^2 = 8n^2+2\), where \(n \in\mathbb{N}\). </p>
+<p>[[input:ans1]] [[validation:ans1]]</p>
+<p> (b). Hence, or otherwise, prove that the sum of the squares of any two consecutive odd.</p>
+<div class="free-text-container">
+[[input:ans2]]
+[[validation:ans2]]
+[[ascii input="ans2"]]
+[[/ascii]]
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+    <stackversion>
+      <text>2026042402</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[ta1:[(2*n-1)^2+(2*n+1)^2=(2*n)^2-2*(2*n)+(-1)^2+(2*n)^2+2*(2*n)+1^2,stackeq(4*n^2-4*n+1+4*n^2+4*n+1),stackeq(8*n^2+2)];
+ta2:"Note that `(2n - 1)` and `(2n + 1)` are consecutive odd numbers.  The sum of the squares of any two consecutive off numbers is therefore
+`
+(2n - 1)^2 + (2n + 1)^2 = 8n^2+2 = 2(n^2+1)
+`
+which is even.";]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote format="html">
+      <text>{@ta1@}</text>
+    </questionnote>
+    <questiondescription format="html">
+      <text></text>
+    </questiondescription>
+    <questionsimplify>0</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text><![CDATA[[[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[[[commonstring key="symbolicprtpartiallycorrectfeedback"/]] [[commonstring key="defaultprtpartiallycorrectfeedback"/]]]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[[[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]]]></text>
+    </prtincorrect>
+    <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>ans1</name>
+      <type>equiv</type>
+      <tans>ta1</tans>
+      <boxsize>50</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>7</insertstars>
+      <syntaxhint>(2*n-1)^2+(2*n+1)^2</syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>2</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>freetext</type>
+      <tans>ta2</tans>
+      <boxsize>80</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>Equiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>You appear to have an algebraic mistake</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description>Final answer</description>
+        <answertest>EqualComAss</answertest>
+        <sans>last(ans1)</sans>
+        <tans>last(ta1)</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>You have not fully simplified your answer.</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Test case assuming the teacher's input gets full marks.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>( prt1-1-T | prt1-2-T ]</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description></description>
+      <testinput>
+        <name>ans1</name>
+        <value>[(2*n-1)^2+(2*n+1)^2,(2*n)^2-2*(2*n)+(-1)^2+(2*n)^2+2*(2*n)+1^2,4*n^2-4*n+1+4*n^2+4*n+1,8*n^2+2]</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value></value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>( prt1-1-T | prt1-2-T ]</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description>Not completed the final answer.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>[(2*n-1)^2+(2*n+1)^2,(2*n)^2-2*(2*n)+(-1)^2+(2*n)^2+2*(2*n)+1^2,4*n^2-4*n+1+4*n^2+4*n+1]</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value></value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>( prt1-1-T | prt1-2-F ]</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+
+</quiz>

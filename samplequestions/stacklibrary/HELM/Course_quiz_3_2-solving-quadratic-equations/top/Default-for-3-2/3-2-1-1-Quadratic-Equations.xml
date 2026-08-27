@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.2.1.1 Quadratic Equations</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Quadratic equations</h3>
+<p>A generalisation of the third law of indices states:</p>
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p></p><p>A <b>quadratic equation</b>&nbsp;is one which can be written in the form</p><p>\[ax^2+bx+c=0\qquad a\ne 0\]</p><p>where \(a\), \(b\) and \(c\) are given numbers and \(x\) is the unknown whose value(s) must be found.
+</p></div>
+<p>For example<br></p><p>\[2x^2+7x-3=0, \qquad x^2+x+1=0, \qquad 0.5x^2+3x+9=0\]</p><p>are all quadratic equations. To ensure the presence of the \(x^2\) term, the number \(a\), in the general expression \(ax^2+bx+c\) cannot be zero.</p><p>However \(b\) or \(c\) may be zero, so that</p><p>\[4x^2+3x=0, \quad 2x^2-3=0 \quad \hbox{ and }\quad&nbsp; 6x^2=0\]</p><p>are also quadratic equations. Frequently, quadratic equations occur in non-standard form but where necessary they can be rearranged into standard form. For example</p><p>\[3x^2+5x=8, \qquad \hbox{ can be re-written as } \qquad&nbsp; 3x^2+5x-8=0;\]</p><p>\[2x^2=8x-9, \qquad \hbox{ can be re-written as } \quad 2x^2-8x+9=0;\]</p><p>\[1+x=\frac{1}{x}, \qquad\ \quad \hbox{ can be re-written as } \quad x^2+x-1=0.\]</p><p>A little care should be taken in the last example as in case one found \(x=0\) as a solution, this would not work in the initial equation. To solve a given quadratic equation we must find values of the unknown \(x\) which make the left-hand and right-hand sides equal. Such values are known as<b>&nbsp;solutions</b>&nbsp;or <b>roots</b>&nbsp;of the quadratic equation.</p><p>Note the difference between solving quadratic equations in comparison to solving linear equations. A quadratic equation will generally have <b>two&nbsp;</b>values of \(x\) (solutions) which satisfy it whereas a linear equation only has <b>one</b>&nbsp;solution.</p><p>We shall now describe three techniques for solving quadratic equations:&nbsp;</p><p></p><ol><li>factorisation;</li><li>completing the square;</li><li>using the quadratic formula.</li></ol><p></p><p></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

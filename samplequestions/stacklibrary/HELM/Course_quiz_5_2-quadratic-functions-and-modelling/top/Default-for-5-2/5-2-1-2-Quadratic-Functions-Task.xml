@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="matching">
+    <name>
+      <text>5.2.1.2 Quadratic Functions Task</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Assume the variation of an object’s location with time is represented by a quadratic function:-&nbsp;</p><p>\(\qquad s = \dfrac {t^2} {9}\qquad (0\le t \le 30)\)&nbsp;</p><p>Compare this function with the general form \(y - C = A(x - B)^2\).<br></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html">
+      <text>Your answer is correct.</text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="html">
+      <text>Your answer is partially correct.</text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="html">
+      <text>Your answer is incorrect.</text>
+    </incorrectfeedback>
+    <shownumcorrect/>
+    <subquestion format="html">
+      <text><![CDATA[<p>What variables correspond to \(y\) and \(x\) in this case?<br></p>]]></text>
+      <answer>
+        <text>\(s\) corresponds to \(y\), and \(t\) corresponds to \(x\)</text>
+      </answer>
+    </subquestion>
+    <subquestion format="html">
+      <text><![CDATA[<p>What are the values of \(C, A\) and \(B\)?<br></p>]]></text>
+      <answer>
+        <text>\(s\) corresponds to \(y\), and \(t\) corresponds to \(x\)</text>
+      </answer>
+    </subquestion>
+    <subquestion format="html">
+      <text/>
+      <answer>
+        <text>\(s\) corresponds to \(y\), and \(t\) corresponds to \(x\)</text>
+      </answer>
+    </subquestion>
+  </question>
+</quiz>

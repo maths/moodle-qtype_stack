@@ -5,24 +5,59 @@ past development history is documented on [Development history](Development_hist
 
 We use the [github issue tracker](https://github.com/maths/moodle-qtype_stack/issues) to track "milestones".
 
-## Version 4.10.0
+## Version 4.14.0
 
-Done:
+Issues with [github milestone 4.14.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.14.0) include
 
-1. Add in a `style` attribute to the JSXGraph block to load local CSS styles.
-2. Add in the `json` input type.  This better supports JSON for JSXGraph, and better debugging in the existing GeoGebra and Parsons blocks.
-3. Add in a [repeat block](../Authoring/Question_blocks/Dynamic_blocks.md) to allow a question author to create a block of static content which the student can opt to repeat by pressing a corresponding button.  This static content includes some input elements.
-4. Add in a [repeat input](../Specialist_tools/Repeat/index.md) for questions where the student can control the number of separate input boxes available.
-Issues with [github milestone 4.10.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.10.0) include
+1. Remove all "cte" code from Maxima - mostly install.
+2. Add in a [repeat block](../Authoring/Question_blocks/Dynamic_blocks.md) to allow a question author to create a block of static content which the student can opt to repeat by pressing a corresponding button.  This static content includes some input elements.
+3. Add in a [repeat input](../Specialist_tools/Repeat/index.md) for questions where the student can control the number of separate input boxes available.
 
-1. Fix [issue #406](https://github.com/maths/moodle-qtype_stack/issues/406)
-2. Remove all "cte" code from Maxima - mostly install.
-3. Resolve [issue #1363](https://github.com/maths/moodle-qtype_stack/issues/1363) to download students data in json format.
+## Better testing
 
+### Add in a new keyvals field "test variables".
+
+Add in a new keyvals field "test variables". The test execution would then take three CAS sessions.
+
+   1. Loading up the seed, question variables, test variables and all input definitions, generating input "strings".
+   2. Those "strings" would then go through PHP side input validation and CAS side validation in the second CAS session.
+   3. Finally, the valid strings would be fed to the PRT functions in the last session, and logic to check if the PRT output matches would be included in that session, so that we do not need to output the full PRT function output for potentially a large number of tests, instead just booleans.
+
+Other ideas
+
+1. It would be a fun (student project?!) to graphically illustrate the expected and actual route through the tree by expanding the current PRT graph library, or writing something else. (I get ahead of myself of course....)
+2. Introduce new keyword `any` in score/penalty effectiveley ignoring that field for the purposes of this test case.
+
+Currently, the DB fields for score and penalty are numbers, specifically
+
+        <FIELD NAME="expectedscore" TYPE="number" LENGTH="12" NOTNULL="false" SEQUENCE="false" DECIMALS="7" COMMENT="The expected score."/>
+        <FIELD NAME="expectedpenalty" TYPE="number" LENGTH="12" NOTNULL="false" SEQUENCE="false" DECIMALS="7" COMMENT="The expected penalty."/>
+
+So this requires a DB change as well.
+
+--------------------------------------
 
 ## Future Adapt block development ideas
 
 1. Add in a "counter" option to the button.  If set to true, then the value of the counter changes from true/false to the number of times the button has been pressed.
+
+## Future ASCII block development ideas
+
+Note, there is an ecosystem for markdown extensions here: https://mdit-plugins.github.io/
+These include meta plugins like
+
+* Define inline rules: https://mdit-plugins.github.io/inline-rule.html#custom-syntax
+* Define block rules: https://mdit-plugins.github.io/field.html
+
+1. Support an option so that `#` can be used instead of backticks to delimit AsciiMath.
+2. DONE: Error messages for unknown filter/extractor names! (To help authors....)
+3. Write an AsciiMath to Maxima parser to ensure the `lastblock` and `lastexpr` extractors create correct syntax for the input.  Note math.js already has the necessary _parser_ so de-pasting the ast creates by math.js is the first line of attack here.  See calculator.js filter for an example of traversing this tree.
+4. Add options to calculator blocks for degrees, and to support physics with scientific units (which math.js supports).
+
+## Future equivalence reasoning development track.
+
+1. Allow bespoke validation (actually quite difficult).
+2. Specify a variable to solve for.  E.g.  `a*x=0`, currently needs `a=0 or x=0`, but when solving for `x` we have just `x=0`.
 
 ## Future Parson's block development track
 
@@ -41,7 +76,7 @@ Issues with [github milestone 4.10.0](https://github.com/maths/moodle-qtype_stac
 
 ## For "inputs 2"?
 
-* Better CSS, including "tool tips".  May need to refactor JavaScript.  (See issue #380)
+* Better CSS, including "tool tips".  May need to re-factor JavaScript.  (See issue #380)
 * Add support for matrices with floating point entries, and testing numerical accuracy.
 * Expand support for input validation options to matrices (e.g. floatnum, rationalize etc.)
 * Update MCQ to accept units.
@@ -50,4 +85,4 @@ Issues with [github milestone 4.10.0](https://github.com/maths/moodle-qtype_stac
 
 ## Other
 
-* SBCL on the continuous integration does not seem to have support for unicode.  There are examples in the inputs fixtures and walkthrough adapctive tests.  Search for SBCL.
+* SBCL on the continuous integration does not seem to have support for unicode.  There are examples in the inputs fixtures and walkthrough adaptive tests.  Search for SBCL.

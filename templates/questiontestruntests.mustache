@@ -1,0 +1,248 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template qtype_stack/questiontestruntests
+
+    Displays test results for variant on STACK dashboard.
+
+    Classes required for JS:
+    * none
+
+    Data attributes required for JS:
+    * none
+
+    Context variables required for this template:
+    * none
+
+    Example context (json):
+    {
+      "question": {
+          "name": "Question name",
+          "rendergeneralfeedback": "General feedback",
+          "seed": 182397542,
+          "renderquestiondescription": "",
+          "questiondescription": "",
+          "renderquestion": "",
+          "questionnote": "",
+          "questionvariablevalues": "n1:4;\nn2:6;",
+          "upgradeerrors": "",
+          "validationerrors": "",
+          "prts": [
+              {
+                  "name": "Result",
+                  "prt": "PRT result"
+              }
+          ],
+          "stackversion": "This question was authored with STACK version 2026022303. The current version of STACK is 2026022303.",
+          "version": "7"
+      },
+      "general": {
+          "testcreated": false,
+          "editquestionlink": "http://question\/type\/stack\/questioneditlatest.php?courseid=7&amp;id=6605",
+          "editxmllink": "http://question\/type\/stack\/questionxmledit.php?courseid=7&amp;id=6605",
+          "questionbanklink": "http://question\/edit.php?courseid=7&amp;qperpage=1000&amp;category=546%2C183&amp;lastchanged=6605",
+          "chatlink": "http://question\/type\/stack\/adminui\/caschat.php?questionid=6605&amp;seed=182397542&amp;courseid=7&amp;initialise=1",
+          "tidylink": "http://question/type/stack/tidyquestion.php?questionid=6605&seed=182397542&courseid=7",
+          "exportquestionlink": "http://question\/bank\/exporttoxml\/exportone.php?questionid=6605&amp;seed=182397542&amp;courseid=7&amp;id=6605&amp;sesskey=ElIpavgr9m",
+          "reportlink": "http://question\/type\/stack\/questiontestreport.php?questionid=6605&amp;seed=182397542&amp;courseid=7",
+          "todolink": "http://question\/type\/stack\/adminui\/todo.php?courseid=7&amp;qperpage=1000&amp;category=546%2C183&amp;lastchanged=6605&amp;contextid=183",
+          "bulktestlink": "http://question\/type\/stack\/questionbulktest.php?questionid=6605&amp;seed=182397542&amp;courseid=7",
+          "canedit": true,
+          "courseid": 7,
+          "cmid": 7,
+          "questionid": "6605",
+          "seed": 182397542
+      },
+      "tests": {
+        "demotest": false,
+        "allpassed": true,
+        "runtimeerrors": "",
+        "hasrandomvariants": true,
+        "hasinputs": true,
+        "summary": [
+            {
+                "number": 1,
+                "id": "testcase-1-6605",
+                "description": "",
+                "scorepass": true,
+                "penaltypass": true,
+                "notepass": true
+            }
+        ],
+        "hasresults": true,
+        "testeditlink": "http://question\/type\/stack\/questiontestedit.php?questionid=6605&amp;seed=182397542&amp;courseid=7",
+        "output": [
+            {
+                "output": "Test output HTML",
+                "number": 1,
+                "editlink": "http://question\/type\/stack\/questiontestedit.php?questionid=6605&amp;seed=182397542&amp;courseid=7&amp;testcase=1",
+                "confirmlink": "http://question\/type\/stack\/questiontestedit.php?questionid=6605&amp;seed=182397542&amp;courseid=7&amp;testcase=1&amp;confirmthistestcase=1",
+                "deletelink": "http://question\/type\/stack\/questiontestdelete.php?questionid=6605&amp;seed=182397542&amp;courseid=7&amp;testcase=1",
+                "canedit": true
+            }
+        ],
+        "generalfeedbackerr": "",
+        "hasheadlineerror": false
+      }
+    }
+}}
+      <!-- Continuation of Test pane after running tests -->
+      {{#tests.hasheadlineerror}}
+        <div class="stack-library-import-failure test-pane-fail">
+          <h3>{{#str}} errors, qtype_stack {{/str}}</h3>
+          {{#tests.runtimeerrors}}
+            <p>{{{tests.runtimeerrors}}}</p>
+          {{/tests.runtimeerrors}}
+          {{#general.generalfeedbackerror}}
+            <p>{{#str}} errors, qtype_stack {{/str}}: {{general.generalfeedbackerror}}</p>
+          {{/general.generalfeedbackerror}}
+        </div>
+        <br>
+      {{/tests.hasheadlineerror}}
+      {{#tests.hasinputs}}
+        <!-- Only need tests if we have inputs -->
+        {{#tests.hasrandomvariants}}
+          <h2 id="tests-heading">{{#str}} questiontestsfor, qtype_stack, {{question.seed}} {{/str}}</h2>
+          <p>{{#str}} questionnote, qtype_stack {{/str}}: {{{question.questionnote}}}</p>
+        {{/tests.hasrandomvariants}}
+        {{#tests.demotest}}
+          <p class="test-pane-fail">
+            {{#pix}}req, core{{/pix}}{{#str}} runquestiontests_alert, qtype_stack {{/str}} {{#str}} notestcasesyet, qtype_stack {{/str}}
+          </p>
+        {{/tests.demotest}}
+      {{/tests.hasinputs}}
+      {{^tests.hasinputs}}
+        <p>{{#str}} noinputs, qtype_stack {{/str}}</p>
+      {{/tests.hasinputs}}
+      {{#general.testcreated}}
+        <!-- Sample test created -->
+        <p>{{#pix}}req, core{{/pix}}{{#str}} runquestiontests_auto, qtype_stack {{/str}}</p>
+      {{/general.testcreated}}
+      {{#tests.hasresults}}
+        <!-- Does not show if we only have a demo test -->
+        <!-- Overall result banner -->
+        {{#tests.allpassed}}
+          <p class="overallresult pass">
+            {{#tests.hasrandomvariants}}
+              {{#str}} questiontestsfor, qtype_stack, {{question.seed}} {{/str}}:
+            {{/tests.hasrandomvariants}}
+            {{#str}} stackInstall_testsuite_pass, qtype_stack {{/str}}
+          </p>
+        {{/tests.allpassed}}
+        {{^tests.allpassed}}
+          <p class="overallresult fail test-pane-fail">
+            {{#tests.hasrandomvariants}}
+              {{#str}} questiontestsfor, qtype_stack, {{question.seed}} {{/str}}:
+            {{/tests.hasrandomvariants}}
+            {{#str}} stackInstall_testsuite_fail, qtype_stack {{/str}}
+          </p>
+        {{/tests.allpassed}}
+        <!-- Tests summary table -->
+        <table class="generaltable stacktestsuite">
+          <tr>
+            <th style="text-align: left;">{{#str}} answertest_ab, qtype_stack {{/str}}</th>
+            <th>{{#str}} description, qtype_stack {{/str}}</th>
+            <th>{{#str}} score, qtype_stack {{/str}}</th>
+            <th>{{#str}} penalty, qtype_stack {{/str}}</th>
+            <th>{{#str}} answernote, qtype_stack {{/str}}</th>
+          </tr>
+          {{#tests.summary}}
+            <tr onclick="window.location='#{{id}}'" style="cursor: pointer;">
+                <td>{{number}}</td>
+                <td>{{description}}</td>
+                <td class="results-symbol">
+                  {{#scorepass}}
+                    {{#pix}}i/valid, core, {{#str}} scorepass, qtype_stack {{/str}}{{/pix}}
+                  {{/scorepass}}
+                  {{^scorepass}}
+                    {{#pix}}i/invalid, core, {{#str}} scorefail, qtype_stack {{/str}}{{/pix}}
+                  {{/scorepass}}
+                </td>
+                <td class="results-symbol">
+                  {{#penaltypass}}
+                    {{#pix}}i/valid, core, {{#str}} penaltypass, qtype_stack {{/str}}{{/pix}}
+                  {{/penaltypass}}
+                  {{^penaltypass}}
+                    {{#pix}}i/invalid, core, {{#str}} penaltyfail, qtype_stack {{/str}}{{/pix}}
+                  {{/penaltypass}}
+                </td>
+                <td class="results-symbol">
+                  {{#notepass}}
+                    {{#pix}}i/valid, core, {{#str}} notepass, qtype_stack {{/str}}{{/pix}}
+                  {{/notepass}}
+                  {{^notepass}}
+                    {{#pix}}i/invalid, core, {{#str}} notefail, qtype_stack {{/str}}{{/pix}}
+                  {{/notepass}}
+                </td>
+            </tr>
+          {{/tests.summary}}
+        </table>
+      {{/tests.hasresults}}
+      {{#general.canedit}}{{#tests.hasinputs}}
+        <!-- Add another test case -->
+        <form method="get" action="{{{tests.testeditlink}}}">
+          <input type="hidden" name="courseid" value="{{general.courseid}}">
+          <input type="hidden" name="cmid" value="{{general.cmid}}">
+          <input type="hidden" name="questionid" value="{{general.questionid}}">
+          <input type="hidden" name="seed" value="{{general.seed}}">
+          <button class="btn btn-secondary" type="submit">
+            {{#tests.hasresults}}
+              {{#str}} addanothertestcase, qtype_stack {{/str}}
+            {{/tests.hasresults}}
+            {{^tests.hasresults}}
+              {{#str}} addatestcase, qtype_stack {{/str}}
+            {{/tests.hasresults}}
+          </button>
+        </form>
+      {{/tests.hasinputs}}{{/general.canedit}}
+      {{#general.canedit}}{{#tests.demotest}}
+        <!-- Give option to make fake sample test a real test -->
+        <br>
+        <button class="btn btn-danger" type="button" onclick="window.location.href='{{{tests.defaulttestlink}}}'">
+          {{#str}} runquestiontests_autoprompt, qtype_stack {{/str}}
+        </button>
+        <br><br>
+        {{#str}} runquestiontests_explanation, qtype_stack {{/str}}
+      {{/tests.demotest}}{{/general.canedit}}
+      {{#tests.output}}
+        <!-- Output of individual tests. Test HTML created in stack_question_test_resul->html_output() -->
+        <br>
+        <hr class="bg-dark">
+        {{{output}}}
+        {{#canedit}}{{^tests.demotest}}
+            <div class="testcasebuttons">
+                <button class="btn btn-secondary" type="button" onclick="window.location.href='{{{editlink}}}'">
+                  {{#str}} editthistestcase, qtype_stack, {{number}} {{/str}}
+                </button>
+                <button class="btn btn-secondary" type="button" onclick="window.location.href='{{{confirmlink}}}'">
+                  {{#str}} confirmthistestcase, qtype_stack {{/str}}
+                </button>
+                <button class="btn btn-secondary" type="button" onclick="window.location.href='{{{deletelink}}}'">
+                  {{#str}} deletethistestcase, qtype_stack, {{number}} {{/str}}
+                </button>
+                <button class="btn btn-secondary" type="button" onclick="window.location.href='#tests-heading'">
+                  {{#str}} gosummary, qtype_stack {{/str}}
+                </button>
+            </div>
+        {{/tests.demotest}}{{/canedit}}
+      {{/tests.output}}
+
+
+
+
+
+

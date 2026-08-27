@@ -33,7 +33,7 @@ class stack_cas_castext2_raw extends stack_cas_castext2_block {
     public $content;
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function __construct($params, $children=[], $mathmode=false) {
+    public function __construct($params, $children = [], $mathmode = false) {
         parent::__construct($params, $children, $mathmode);
         $this->content = $children[0]->content; // The child is a different type of RAW.
         $this->children = []; // We want to modify the iteration here a bit.
@@ -74,8 +74,10 @@ class stack_cas_castext2_raw extends stack_cas_castext2_block {
                 new MP_Operation(':', new MP_Identifier('_ct2_simp'), new MP_Identifier('simp')),
                 new MP_Operation(':', new MP_Identifier('simp'), new MP_Boolean(true)),
                 $ec,
-                new MP_Operation(':', new MP_Identifier('_ct2_tmp'), new MP_FunctionCall(new MP_Identifier('string'),
-                    [new MP_Identifier('_ct2_tmp')])),
+                new MP_Operation(':', new MP_Identifier('_ct2_tmp'), new MP_FunctionCall(
+                    new MP_Identifier('string'),
+                    [new MP_Identifier('_ct2_tmp')]
+                )),
                 new MP_Operation(':', new MP_Identifier('simp'), new MP_Identifier('_ct2_simp')),
                 new MP_Identifier('_ct2_tmp'),
             ]);
@@ -85,8 +87,11 @@ class stack_cas_castext2_raw extends stack_cas_castext2_block {
                 new MP_Operation(':', new MP_Identifier('_ct2_simp'), new MP_Identifier('simp')),
                 new MP_Operation(':', new MP_Identifier('simp'), new MP_Boolean(false)),
                 $ec,
-                new MP_Operation(':', new MP_Identifier('_ct2_tmp'),
-                    new MP_FunctionCall(new MP_Identifier('string'), [new MP_Identifier('_ct2_tmp')])),
+                new MP_Operation(
+                    ':',
+                    new MP_Identifier('_ct2_tmp'),
+                    new MP_FunctionCall(new MP_Identifier('string'), [new MP_Identifier('_ct2_tmp')])
+                ),
                 new MP_Operation(':', new MP_Identifier('simp'), new MP_Identifier('_ct2_simp')),
                 new MP_Identifier('_ct2_tmp'),
             ]);

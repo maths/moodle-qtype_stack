@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>6.4.4.3 Logs in different bases</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<br>
+<h4 class="HELM_example">Example</h4>
+<p>Solve for \(x\) if \(3\ln x+4\log_{10} x=1\).</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>This has logs to two different bases. So we must first express each logarithm in terms of logs to the <i>same</i> base, \(e\) say Recall</p>
+\[\log_{10} x=\dfrac{\ln x}{\ln 10}.\] So \(3\ln x+4\log x=1\) becomes \[ 3\ln x+4\dfrac{\ln x}{\ln 10}=1\qquad\text{or}\qquad \left(3+\dfrac{4}{\ln 10}\right)\ln x=1\] leading to \(\ln x=\dfrac{\ln 10}{3\ln 10 +4}=\dfrac{2.302585}{10.907755}=0.211096\)
+and so \[ x=e^{0.211096}=1.2350311.\]]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

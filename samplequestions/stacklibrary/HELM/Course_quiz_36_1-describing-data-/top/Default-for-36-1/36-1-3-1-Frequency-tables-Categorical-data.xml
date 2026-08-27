@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>36.1.3.1 Frequency tables/ Categorical data</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Frequency tables</h3>
+<p>Rather than just present a list of the data it is useful to tabulate them in a way which is more informative. Often this is done by making a <b>frequency table</b>. Usually nowadays we use computer software to do such tasks but it is useful to understand the process involved and the meanings of various terms.</p>
+<h4>Categorical data</h4>
+<p>Suppose that we observe vehicles at a crossroads for thirty minutes. Consider just the vehicles arriving at the junction from the South. Such vehicles can carry straight on to go North, turn left to go West or turn right to go East. Suppose that we see \(147\) of these vehicles go North, \(85\) go West and \(43\) go East.</p>
+<p><b>Frequency</b>: The numbers \(147, 85\) and \(43\) are the <i>frequencies</i> of these three directions. In general, for categorical (i.e. qualitative) data, the frequency for a particular value of the variable is the number of times that value is observed in the sample.</p>
+<p><b>Total frequency</b>: The <i>total frequency</i> is the total number of observations. In this case it is \(147+85+43=275\).</p> 
+<p><b>Relative frequency</b>: The <i>relative frequency</i> is the proportion of the observations which fall in a particular category. It is the frequency divided by the total frequency. In the example the relative frequencies are \(147/275=0.535\), \(85/275=0.309\) and \(43/275=0.156\). The total of the relative frequencies is 1.</p>
+<p>Here is a frequency table for the road junction data.</p>
+<table class="HELM_table" style="width:75%">
+<caption></caption>
+<thead>
+<tr style="border-bottom: 1px solid #000;">
+<th>Direction</th>
+<th>Frequency</th>
+<th>Relative frequency</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>North</td>
+<td>\(147\)</td>
+<td>\(0.535\)</td>
+</tr>
+<tr>
+<td>West</td>
+<td>\(85\)</td>
+<td>\(0.309\)</td>
+</tr>
+<tr style="border-bottom: 1px solid #000;">
+<td>East</td>
+<td>\(43\)</td>
+<td>\(0.156\)</td>
+</tr>
+<tr>
+<td><b>Total</b></td>
+<td>\(275\)</td>
+<td>\(1.000\)</td>
+</tr>
+</tbody>
+</table>
+<p></p>
+<p>Note that, in some cases, it is necessary to include an "Other'' category for unusual observations.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

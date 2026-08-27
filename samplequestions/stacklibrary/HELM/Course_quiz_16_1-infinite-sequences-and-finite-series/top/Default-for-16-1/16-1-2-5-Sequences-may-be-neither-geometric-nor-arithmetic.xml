@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>16.1.2.5 Sequences may be neither geometric nor arithmetic</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>The examples of arithmetic and geometric sequences are particularly nice and relatively easy to work with. It is important to note that a general sequence will not fall into either category. One easily defined example is the harmonic sequence&nbsp;</p><p>\[1,\frac12,\frac13,\frac14\,\dots,\]</p><p>whose \(n\)th term is \(\dfrac{1}{n}\), is neither arithmetic nor geometric.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

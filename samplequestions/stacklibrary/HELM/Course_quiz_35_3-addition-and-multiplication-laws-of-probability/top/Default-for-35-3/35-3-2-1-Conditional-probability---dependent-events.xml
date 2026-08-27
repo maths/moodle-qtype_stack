@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>35.3.2.1 Conditional probability - dependent events</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Conditional Probability - Dependent Events</h3>
+<p>Suppose a bag contains \(6\) balls, \(3\) red and \(3\) white.&nbsp; Two balls are chosen (without replacement) at random, one after the other. Consider the two events \(R,\ W\):</p><div class="editor-indent" style="margin-left: 30px;"><p>\(R\) is event "first ball chosen is red''</p><p>\(W\) is event "second ball chosen&nbsp; is white''</p></div><p>We easily find \(\text{P}(R)=\dfrac{3}{6}=\dfrac{1}{2}\).&nbsp; However, determining the probability of \(W\) is not quite so straightforward.&nbsp; If the first ball chosen is red then the bag subsequently contains \(2\) red balls and \(3\) white.&nbsp; In this case \(\text{P}(W)=\dfrac{3}{5}\).&nbsp; However, if the first ball chosen is white then the bag subsequently contains \(3\) red balls and \(2\) white.&nbsp; In this case \(\text{P} (W)=\dfrac{2}{5}\).&nbsp; What this example shows is that the probability that \(W\) occurs is clearly&nbsp;<b>dependent</b>&nbsp;upon whether or not the event \(R\) has occurred.&nbsp; The probability of \(W\) occurring is <b>conditional</b>&nbsp;on the occurrence or otherwise of \(R\).</p><p>The <b>conditional probability</b>&nbsp;of an event \(B\) occurring given that event \(A\) has occurred is written \(\text{P}(B|A)\).&nbsp; In this particular example</p><p>\[\text{P}(W|R)=\dfrac{3}{5}\qquad \text{and}\qquad \text{P}(W|R')=\dfrac{2}{5}.\]</p><p>Consider, more generally, the performance of an experiment in which the outcome is a member of an event \(A\). We can therefore say that the event \(A\) has occurred. What is the probability that \(B\) then occurs?&nbsp; That is what is \(\text{P}(B|A)\)? In a sense we have a new sample space which is the event \(A\).&nbsp; For \(B\) to occur some of its members must also be members of event \(A\).&nbsp; So, for example, in an equi-probable space, \(\text{P}(B|A)\) must be the number of outcomes in \(A\cap&nbsp; B\) divided by the number of outcomes in \(A\).&nbsp; That is</p><p>\[\text{P}(B|A)=\dfrac{\text{number of outcomes in}\ \{A\cap B\}}{\text{number of outcomes in }\ \{A\}}.\]</p><p>Now if we divide both the top and bottom of this fraction by the total number of outcomes of the experiment we obtain an expression for the conditional probability of \(B\) occurring given that \(A\) has occurred:</p>
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p style="text-align: center;"><b>Conditional Probability</b></p><p style="text-align: center;"><span></span></p><p style="">\[\text{P}(B|A)=\dfrac{\text{P}(A\cap B)}{\text{P}(A)}\qquad \text{or, equivalently}\qquad \text{P}(A\cap B)=\text{P}(B|A)\text{P}(A).\]</p><p></p>
+</div>
+<p>To illustrate the use of conditional probability concepts we return to the example of the bag containing \(3\) red and \(3\) white balls in which we consider two events:</p><p></p><ul><li>\(R\) is event "first ball is red'';</li><li>\(W\) is event "second ball is white''.</li></ul><p></p><p>Let the red balls be numbered \(1\) to \(3\) and the white balls \(4\) to \(6\).&nbsp; If, for example, \((3,5)\) represents the fact that the first ball is \(3\) (red) and the second ball is \(5\) (white) then we see that there are \(6\times 5=30\) possible outcomes to the experiment (no ball can be selected twice).</p><p>If the first ball is red then only the fifteen outcomes \((1,x),\ (2,y),\ (3,z)\) are then possible (here \(x\ne 1\), \(y\ne 2\)&nbsp; and \(z\ne 3\)).&nbsp; Of these fifteen, the six outcomes \(\{(1,2),\ (1,3),\ (2,1),\ (2,3),\ (3,1),\ (3,2)\}\) will produce the required result, i.e. the event in which both balls chosen are red, giving a probability: \(\text{P}(B|A)=\dfrac{6}{15}=\dfrac{2}{5}\).</p>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>A box contains six \(10 \Omega\) resistors and ten \(30 \Omega\) resistors. The resistors are all unmarked and are of the same physical size.</p>
+<ol class="HELM_parts">
+<li><p>One resistor is picked at random from the box; find the probability that:</p>
+<ol class="HELM_parts">
+<li>It is a \(10 \Omega\) resistor.</li>
+<li>It is a \(30 \Omega\) resistor.</li></ol>
+</li>
+<li><p>At the start, two resistors are selected from the box. Find the probability that:</p>
+<ol class="HELM_parts">
+<li>Both are \(10 \Omega\) resistors.</li>
+<li>The first is a \(10 \Omega\) resistor and the second is a \(30 \Omega\) resistor.</li><li>Both are \(30 \Omega\) resistors.<br></li>
+</ol>
+</li></ol>
+<h4 class="HELM_solution">Solution</h4>
+
+<ol class="HELM_parts">
+<li><ol class="HELM_parts"><li><p>As there are six \(10 \Omega\) resistors in the box that contains a total of \(6 + 10 = 16\) resistors, and there is an <i>equally likely chance</i> of any resistor being selected, then</p>\[\text{P}(10\Omega) =\dfrac{6}{16}=\dfrac{3}{8}.\]</li>
+<li><p>As there are ten \(30 \Omega\) resistors in the box that contains a total of \(6 + 10 = 16\) resistors, and there is an <i>equally likely chance</i>&nbsp;of any resistor being selected, then</p><p>\[\text{P}(30\Omega) = \dfrac{10}{16}=\dfrac{5}{8}.\]&nbsp;</p></li></ol>
+</li>
+<li><ol class="HELM_parts"><li><p>As there are six \(10 \Omega\) resistors in the box that contains a total of \(6 + 10 = 16\) resistors, and there is an <i>equally likely chance</i> of any resistor being selected, then</p>\[\text{P(first selected is a }10\Omega \text{ resistor})=\dfrac{6}{16}=\dfrac{3}{8}.\]<p>If the first resistor selected was a \(10\Omega\) one, then when the second resistor is selected, there are only five \(10\Omega\) resistors left in the box which now contains \(5 + 10 = 15\) resistors. Hence,
+\[\text{P(second selected is also a } 10 \Omega \text{ resistor}) = \dfrac{5}{15}=\dfrac{1}{3}.\] And,
+\[\text{P(both are } 10\Omega \text{ resistors})= \dfrac{3}{8}\times\dfrac{1}{3}=\dfrac{1}{8}.\]</p></li>
+<li>As before,<br>
+\[\text{P(first selected is a }10\Omega \text{ resistor})=\dfrac{6}{18}=\dfrac{3}{8}.\]<br>
+If the first resistor selected was a \(10\Omega\) one, then when the second resistor is selected, there are still ten \(30\Omega\) resistors left in the box which now contains \(5 + 10 = 15\) resistors. Hence,<br>
+\[\text{P(second selected is a }30\Omega \text{ resistor})=\dfrac{10}{15}=\dfrac{2}{3}.\]
+And,
+\[\text{P(first was a }10\Omega \text{ resistor and second was a }30 \Omega \text{ resistor})=\dfrac{3}{8}\times\dfrac{2}{3}=\dfrac{1}{4}.\]</li><li><p>&nbsp;As there are ten \(30\Omega\) resistors in the box that contains a total of \(6 + 10 = 16\) resistors, and there is an&nbsp;<i>equally likely chance</i>&nbsp;of any resistor being selected, then</p><p>\[\text{P(first selected is a }30\Omega \text{ resistor}) = \dfrac{10}{16}\times\dfrac{5}{8}.\]</p><p>If the first resistor selected was a \(30\Omega\) one, then when the second resistor is selected, there are only nine \(30\Omega\) resistors left in the box which now contains \(5 +10 =\) 15 resistors.</p><p>Hence,	\[\text{P(second selected is also a }30\Omega \text{ resistor}) =\dfrac{9}{15}=\dfrac{3}{5}.\]</p><p>And,\[\text{P(both are }30\Omega \text{ resistors}) = \dfrac{5}{8}\times\dfrac{3}{5}=\dfrac{3}{8}.\]</p></li></ol></li></ol><p></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

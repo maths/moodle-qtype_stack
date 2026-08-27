@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>25.1.2.4 Three PDEs of general interest</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p>The three PDEs  of greatest general interest involving two independent variables are:</p>
+<ol type="a">
+<li>The two-dimensional Laplace equation \[\dfrac{\partial^2u}{\partial 
+x^2}+\dfrac{\partial^2u}{\partial y^2}=0\] </li>
+<li>The one-dimensional heat conduction equation: \[\dfrac{\partial^2u}{\partial x^2}=\dfrac{1}{k}\dfrac{\partial u}{\partial t}\] </li>
+<li>The one-dimensional wave equation: \[\dfrac{\partial^2u}{\partial x^2}=\dfrac{1}{c^2}\dfrac{\partial^2u}{\partial t^2}\] </li>
+</ol>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

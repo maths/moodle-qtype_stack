@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>1.1.2.2 Calculation with Numbers - modulus</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h5><span style="color: inherit; font-family: inherit;">The modulus notation (\(| |\))</span><br></h5>
+<p>The  <strong>modulus</strong> of a number is the size of that number regardless of its sign. For example \(|4|\) is equal to 4, and \(|-3|\) is equal to 3. The modulus of a number is thus never negative.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

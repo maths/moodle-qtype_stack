@@ -43,7 +43,6 @@ require_once(__DIR__ . '/../stack/cas/parsingrules/542_no_functions_at_all.filte
  * @covers \ast_filter_542_no_functions_at_all_auto_generated_test
  */
 final class parser_rule_542_test extends qtype_stack_testcase {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     public function test_no_functions_0(): void {
 

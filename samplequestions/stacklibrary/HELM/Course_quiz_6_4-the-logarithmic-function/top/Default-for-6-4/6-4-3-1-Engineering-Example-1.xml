@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>6.4.3.1 Engineering Example 1</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Arrhenius' law</h3>
+<h4>Introduction</h4>
+<p> Chemical reactions are very sensitive to temperature; normally,
+the rate of reaction increases as temperature increases. For
+example, the corrosion of iron and the spoiling of food are more
+rapid at higher temperatures. Chemically, the probability of
+collision between two molecules increases with temperature, and an
+increased collision rate results in higher kinetic energy, thus
+increasing the proportion of molecules that have the
+<b> activation energy</b> for the reaction, i.e. the minimum energy
+required for a reaction to occur. Based upon his observations, the
+Swedish chemist, Svante Arrhenius, proposed that the rate of a
+chemical reaction increases exponentially with temperature. This
+relationship, now known as Arrhenius' law, is written as</p>
+\[k = k_0 \, \exp \left( \frac{-E_a}{R\,T} \right) \qquad (1)\]
+<p>where \(k\) is the reaction rate constant, \(k_0\) is the frequency
+factor, \(E_a\)is the activation energy, \(R\) is the universal gas
+constant and \(T\) is the absolute temperature. Thus, the reaction
+rate constant, \(k\), depends on the quantities \(k_0\) and \(E_a\),
+which characterise a given reaction, and are generally assumed to
+be temperature independent.</p>
+
+<h4> Problem in words</h4>
+
+<p>In a laboratory, ethyl acetate is reacted with sodium
+hydroxide to investigate the reaction kinetics. Calculate the
+frequency factor and activation energy of the reaction from
+Arrhenius' Law, using the experimental measurements of temperature
+and reaction rate constant in the table:</p>
+<center>
+<table frame="void" rules="all" border="1">
+<thead>
+<tr class="header">
+<th style="text-align: center;"><span class="math inline">\(T\)</span></th>
+<th style="text-align: center;">310</th>
+<th style="text-align: center;">350</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(k\)</span></td>
+<td style="text-align: center;">7.757192</td>
+<td style="text-align: center;">110.9601</td>
+</tr>
+</tbody>
+</table>
+</center>
+
+
+<h4> Mathematical statement of problem</h4>
+
+<p>Given that \(k = 7.757192 s^{-1}\) at \(T = 310 K\) and \(k =
+110.9601 s^{-1}\) at \(T = 350 K\), use Equation (1) to produce two
+linear equations in \(E_a\) and \(k_0\). Solve these to find \(E_a\) and
+\(k_0\). (Assume that the gas constant \(R = 8.314 J K^{-1}
+\text{mol}^{-1}.\))</p>
+
+<h4> Mathematical analysis</h4>
+
+<p>Taking the natural logarithm of both sides of (1)</p>
+
+\[\ln k = \ln \left\{k_0 \, \exp\left(\frac{-E_a}{R\,T}\right)\right\}= \ln k_0 - \frac{E_a}{R\,T}.\]
+Now inserting the experimental data gives the two linear equations in \(E_a\) and \(k_0\)
+
+\[\ln k_1 = \ln k_0 - {\frac{E_a}{R\,T_1}} \qquad (2)\]
+
+\[\ln k_2 = \ln k_0 - \frac{E_a}{R\,T_2} \qquad (3)\]
+
+where \(k_1 = 7.757192\), \(T_1 = 310\) and \(k_2 = 110.9601\), \(T_2 =
+350\).
+
+<p>Firstly, to find \(E_a\), subtract Equation (2) from Equation (3)
+\[\ln k_2-\ln k_1= \dfrac{E_a}{R\,T_1}-\dfrac{E_a}{R\,T_2}= \dfrac{E_a}{R} \left( \dfrac{1}{T_1} - \dfrac{1}{T_2} \right)\]
+so that
+\[E_a = \frac{R\,(\ln k_2-\ln k_1)}{\left(\frac{1}{T_1}-\frac{1}{T_2}\right)}\]
+and substituting the values gives
+\[E_a= 60 000 \mbox{ J mol}^{-1}  = 60 \mbox{ kJ mol}^{-1}\]
+Secondly, to find \(k_0\), from (2)
+\[\ln k_0 = \ln k_1 + \frac{E_a}{R\,T_1}\]
+which implies
+\[k_0 = \exp \left( \ln k_1 + \frac{E_a}{R\,T_1}\right)= k_1 \, \exp \left(\frac{E_a}{R\,T_1}\right)\]
+and substituting the values gives
+\[k_0= 1.0 \times 10^{11} \mbox{ s}^{-1}.\]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

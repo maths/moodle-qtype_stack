@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.5.2.1 Solving Linear Inequalities Algebraically</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Solving linear inequalities algebraically</h4>
+<br>
+<p>When we are asked to <span><strong>solve</strong></span> an inequality, the inequality will contain an unknown variable, say <span class="math inline">\(x\)</span>. Solving means obtaining all values of <span class="math inline">\(x\)</span> for which
+    the inequality is true. In a <span><strong>linear inequality</strong></span> the unknown appears only to the first power, that is as <span class="math inline">\(x\)</span>, and not as <span class="math inline">\(x^2\)</span>, <span class="math inline">\(x^3\)</span>,
+    <span class="math inline">\(x^{1/2}\)</span> and so on. It is possible to solve a linear inequality by making the unknown the subject. Consider the following examples.</p>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Solve the inequality <span class="math inline">\(4x+3&gt;0\)</span>.</p>
+<h4 class="HELM_solution">Solution</h4>
+<p><span class="math display">\[\begin{aligned}
+4x+3 &amp;&gt; 0&amp;&amp; \\
+4x &amp;&gt; -3 &amp;&amp; \hbox{ by subtracting 3 from both sides}\\
+x &amp;&gt;-{3\over 4} &amp;&amp; \hbox{ by dividing both sides by 4.}\\\end{aligned}\]</span> Hence all values of <span class="math inline">\(x\)</span> greater than <span class="math inline">\(\displaystyle{-{3\over 4}}\)</span> satisfy <span class="math inline">\(4x+3&gt;0\)</span>.</p>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Solve the inequality <span class="math inline">\(-3x-7≤0\)</span>.</p>
+<h4 class="HELM_solution">Solution</h4>
+<p><span class="math display">\[\begin{aligned}
+-3x-7 &amp;≤ 0&amp;&amp; \\
+-3x &amp;≤ 7 &amp;&amp; \hbox{&nbsp;by adding 7 on both sides}\\
+x &amp;≥-{7\over 3} &amp;&amp; \hbox{&nbsp;by dividing both sides by -3 and reversing the inequality.}\\\end{aligned}\]</span> Hence all values of <span class="math inline">\(x\)</span> greater than <span class="math inline">\(\displaystyle{-{7\over 3}}\)</span>    satisfy <span class="math inline">\(-3x-7≤0\)</span>.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

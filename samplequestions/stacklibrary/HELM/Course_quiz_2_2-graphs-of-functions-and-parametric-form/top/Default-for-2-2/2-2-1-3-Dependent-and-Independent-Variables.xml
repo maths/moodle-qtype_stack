@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>2.2.1.3 Dependent and Independent Variables</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p><span><strong>Dependent and Independent Variables</strong></span></p>
+<p>Since \(x\) and \(y\) can have a number of different values they are variables. Here \(x\) is called the <span><strong>independent variable</strong></span> and \(y\) is called the <span><strong>dependent variable</strong></span>. Knowing or choosing a value of the independent variable \(x\), the function rule enables us to calculate the corresponding value of the dependent variable \(y\). To show this dependence we often write \(y(x)\). This is read as ‘\(y\) is a function of \(x\)’ or ‘\(y\) depends upon \(x\)’, or simply ‘\(y\) of \(x\)’. Note that it is the independent variable which is the input to the function and the dependent variable which is the output.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

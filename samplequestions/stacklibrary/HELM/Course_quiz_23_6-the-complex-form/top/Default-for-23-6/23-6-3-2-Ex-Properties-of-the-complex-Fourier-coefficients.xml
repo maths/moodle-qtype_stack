@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>23.6.3.2 Ex Properties of the complex Fourier coefficients</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Find the complex Fourier series of the saw-tooth wave shown in the Figure below</p><p style="text-align: center;"><img src="@@PLUGINFILE@@/23-6-ex-saw-tooth.svg" alt="saw tooth function" width="491" height="177" class="img-responsive atto_image_button_text-bottom"><br></p>
+<h4 class="HELM_solution">Solution</h4>
+We have
+\[ f(t) = \dfrac{At}{T} \hspace{1cm} 0 &lt; t &lt; T \hspace{1cm} f(t+T)=f(t) \]
+The period is \(T\) in this case so \(\omega_0=\dfrac{2\pi}{T}\).
+<p></p>
+Looking at the graph of \(f(t)\) we can say immediately
+<p></p>
+(a) the Fourier series will contain a constant term \(c_0\)
+<p></p>
+(b) if we imagine shifting the horizontal axis up to \(\dfrac{A}{2}\) the signal can be written
+\(f(t) = \dfrac{A}{2} + g(t)\), where \(g(t)\) is an odd function with complex Fourier coefficients that
+are purely imaginary.
+<p></p>
+Hence we expect the required complex Fourier series of \(f(t)\) to contain a constant term \( \dfrac{A}{2}\) and
+complex exponential terms with purely imaginary coefficients. We have, from the general theory, and using \(0 &lt; t &lt; T\) as the basic period for integrating,
+\[ c_n = \dfrac{1}{T} \int _0^T \dfrac{At}{T} e^{-i n \omega_0 t} dt = \dfrac{A}{T^2} \int_0^T t e^{-i n \omega_0 t} dt \]
+We can evaluate the integral using parts:
+\[
+\begin{align}
+ \int_0^T t e^{-i n \omega_0 t} dt &amp;= \left[ \dfrac{ t e^{-i n \omega_0 t} }{(-in\omega_0)} \right]_0^T + \dfrac{1}{i n \omega_0} \int_0^T e^{-i n \omega_0 t} dt \\
+&amp;= \dfrac{T e^{i n \omega_0 T}}{(-i n \omega_0)} - \dfrac{1}{(i n \omega_0)^2} \Big[ e^{-i n \omega_0 t} \Big]_0^T
+\end{align}
+\]
+But \( \omega_0 = \dfrac{2\pi}{T}\) so
+\[
+\begin{align}
+e^{-i n \omega_0 T} = e^{-i n 2 \pi} &amp;= \cos 2n\pi - i\sin 2n\pi \\
+&amp;= 1 - 0i = 1
+\end{align}
+\]
+Hence the integral becomes
+\[ \dfrac{T}{-in\omega_0} - \dfrac{1}{(in\omega_0)^2} \left( e^{-i n \omega_0 T}  - 1 \right) \]
+Hence 
+\[ c_n = \dfrac{A}{T^2} \left( \dfrac{T}{-in\omega_0} \right) = \dfrac{iA}{2\pi n} \hspace{1cm} n = \pm 1, \pm 2, \dots \]
+Note that
+\[ c_{-n} = \dfrac{iA}{2\pi(-n)} = \dfrac{-iA}{2\pi n} = c_n^* \]
+Also
+\[ c_0 = \dfrac{1}{T} \int _0^T \dfrac{At}{T}dt = \dfrac{A}{2}  \]
+as expected.
+<p></p>
+Hence the required complex Fourier series is
+\[ f(t) = \dfrac{A}{2} + \dfrac{iA}{2\pi} \sum _{{n=-\infty\atop n\neq 0}} ^ \infty \dfrac{e^{i n \omega_0 t}}{n} \]
+which could be written, showing only the constant and the first two harmonics, as
+\[ f(t) = \dfrac{A}{2\pi} \left\{ \dots - i \dfrac{e^{-i 2 \omega_0 t}}{2} - i e^{-i\omega_0 t} + \pi + i e^{i\omega_0 t} +  i \dfrac{e^{i 2 \omega_0 t}}{2} + \dots \right\} . \]
+<hr>
+
+The corresponding trigonometric Fourier series for the function can be readily obtained from this
+complex series by combining the terms in \( \pm n\), \(n = 1, 2, 3, \dots \)
+<p></p>
+For example this first harmonic
+\[
+\begin{eqnarray*}
+\dfrac{A}{2\pi}\left\{- i e^{-i \omega_0t}+ i e^{ i\omega_0t}\right\}
+&amp;=&amp;\dfrac{A}{2\pi}\left\{- i (\cos \omega_0t - i\sin \omega_0t)+ i (\cos\omega_0t +i \sin
+\omega_0t)\right\}\qquad\qquad\\
+\\
+&amp;=&amp;\dfrac{A}{2\pi}(-2\sin\omega_0t)=-\dfrac{A}{\pi}\sin\omega_0t
+\end{eqnarray*}
+\]
+Performing similar calculations on the other harmonics we obtain the trigonometric form of the
+Fourier series
+\[ f(t)=\frac{A}{2}-\frac{A}{\pi}\sum_{n=1}^\infty \frac{\sin n\omega_0t}{n}.\]]]></text>
+<file name="23-6-ex-saw-tooth.svg" path="/" encoding="base64">PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMzY4cHQiIGhlaWdodD0iMTMzcHQiIHZpZXdCb3g9IjAgMCAzNjggMTMzIj48Y2xpcFBhdGggaWQ9ImEiPjxwYXRoIHRyYW5zZm9ybT0ibWF0cml4KDEgMCAwIC0xIDAgMTMzKSIgZD0iTTAgMGgzNjh2MTMzSDB6Ii8+PC9jbGlwUGF0aD48ZyBjbGlwLXBhdGg9InVybCgjYSkiPjxzeW1ib2wgaWQ9ImIiPjxwYXRoIGQ9Ik0uNDAzLjYwN0MuNDEuNjM1LjQxNC42NDEuNDI2LjY0NGMuMDA5LjAwMi4wNDIuMDAyLjA2My4wMDJDLjU5LjY0Ni42MzUuNjQyLjYzNS41NjRBLjczOS43MzkgMCAwMC42MjQuNDY1YzAtLjAwNi4wMDMtLjAxMy4wMTItLjAxMy4wMTEgMCAuMDEzLjAwOC4wMTUuMDIzbC4wMjcuMTc0QS4xMTEuMTExIDAgMDEuNjguNjY2Qy42OC42NzcuNjcuNjc3LjY1My42NzdILjA5OEMuMDc0LjY3Ny4wNzMuNjc2LjA2Ni42NTdMLjAwNi40ODFBLjEyNy4xMjcgMCAwMTAgLjQ2M0MwIC40NTcuMDA1LjQ1Mi4wMTIuNDUyYy4wMSAwIC4wMTEuMDA1LjAxNy4wMjEuMDU0LjE1NS4wOC4xNzMuMjI4LjE3M2guMDM5Qy4zMjQuNjQ2LjMyNC42NDIuMzI0LjYzNEEuMDk4LjA5OCAwIDAwLjMyLjYxM0wuMTg2LjA3OUMuMTc3LjA0Mi4xNzQuMDMxLjA2Ny4wMzFjLS4wMzYgMC0uMDQyIDAtLjA0Mi0uMDE5Qy4wMjUgMCAuMDM2IDAgLjA0MiAwbC4wODIuMDAyLjA4NS4wMDEuMDgzLS4wMDFMLjM3OSAwYy4wMSAwIC4wMjIgMCAuMDIyLjAyIDAgLjAxMS0uMDA4LjAxMS0uMDM0LjAxMS0uMDI1IDAtLjAzOCAwLS4wNjQuMDAyQy4yNzQuMDM2LjI2Ni4wMzkuMjY2LjA1NWMwIC4wMDEgMCAuMDA2LjAwNC4wMjFsLjEzMy41MzF6Ii8+PC9zeW1ib2w+PHVzZSB4bGluazpocmVmPSIjYiIgdHJhbnNmb3JtPSJtYXRyaXgoMTEuOTU1IDAgMCAtMTEuOTU1IDE5OS4yNiAxMjQuMjM0KSIgZmlsbD0iIzIzMWYyMCIvPjxzeW1ib2wgaWQ9ImMiPjxwYXRoIGQ9Ik0wIC4wNjVWMGguMjQ3di4wNjVIMHoiLz48L3N5bWJvbD48dXNlIHhsaW5rOmhyZWY9IiNjIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgOTguMDQ2IDEyMS4zODkpIiBmaWxsPSIjMjMxZjIwIi8+PHVzZSB4bGluazpocmVmPSIjYiIgdHJhbnNmb3JtPSJtYXRyaXgoMTEuOTU1IDAgMCAtMTEuOTU1IDEwMS42NDUgMTI0LjIzNCkiIGZpbGw9IiMyMzFmMjAiLz48c3ltYm9sIGlkPSJkIj48cGF0aCBkPSJNLjM5OS4xNzRILjM3NEMuMzY5LjE0NC4zNjIuMS4zNTIuMDg1LjM0NS4wNzcuMjc5LjA3Ny4yNTcuMDc3aC0uMThMLjE4My4xOGMuMTU2LjEzOC4yMTYuMTkyLjIxNi4yOTIgMCAuMTE0LS4wOS4xOTQtLjIxMi4xOTRBLjE4NS4xODUgMCAwMTAgLjQ4NUMwIC40MjkuMDUuNDI5LjA1My40MjljLjAxNyAwIC4wNTIuMDEyLjA1Mi4wNTNhLjA1LjA1IDAgMDEtLjA1My4wNTJMLjAzOS41MzNhLjE0NC4xNDQgMCAwMC4xMzUuMTAyQy4yNjUuNjM1LjMwOC41NTQuMzA4LjQ3MmMwLS4wOC0uMDUtLjE1OS0uMTA1LS4yMjFMLjAxMS4wMzdDMCAuMDI2IDAgLjAyNCAwIDBoLjM3MWwuMDI4LjE3NHoiLz48L3N5bWJvbD48dXNlIHhsaW5rOmhyZWY9IiNkIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgMjQ2Ljg4NyAxMjQuMjM0KSIgZmlsbD0iIzIzMWYyMCIvPjx1c2UgeGxpbms6aHJlZj0iI2IiIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSAyNTIuNTU0IDEyNC4yMzQpIiBmaWxsPSIjMjMxZjIwIi8+PHN5bWJvbCBpZD0iZSI+PHBhdGggZD0iTS4xNDQuMTE1Qy4xMDQuMDQ4LjA2NS4wMzQuMDIxLjAzMS4wMDkuMDMgMCAuMDMgMCAuMDExIDAgLjAwNS4wMDUgMCAuMDEzIDBsLjA4Ni4wMDMuMS0uMDAzYy4wMDYgMCAuMDE5IDAgLjAxOS4wMTlDLjIxOC4wMy4yMDkuMDMxLjIwMi4wMzEuMTc5LjAzMy4xNTUuMDQxLjE1NS4wNjZjMCAuMDEyLjAwNi4wMjMuMDE0LjAzN2wuMDc2LjEyOGguMjUxTC41MTIuMDY0Qy41MTIuMDM0LjQ2LjAzMS40NC4wMzFjLS4wMTQgMC0uMDI0IDAtLjAyNC0uMDJDLjQxNiAwIC40MjggMCAuNDMgMGwuMTI1LjAwM0wuNjY4IDBjLjAwNiAwIC4wMTggMCAuMDE4LjAyIDAgLjAxMS0uMDEuMDExLS4wMjMuMDExLS4wNjIgMC0uMDYyLjAwNy0uMDY1LjAzNkwuNTM3LjY5MkMuNTM1LjcxMi41MzUuNzE2LjUxOC43MTYuNTAyLjcxNi40OTguNzA5LjQ5Mi42OTlMLjE0NC4xMTVtLjEyLjE0N2wuMTk3LjMzLjAzMi0uMzNILjI2NHoiLz48L3N5bWJvbD48dXNlIHhsaW5rOmhyZWY9IiNlIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgMTU0Ljc4OCA0OC4yMzQpIiBmaWxsPSIjMjMxZjIwIi8+PHN5bWJvbCBpZD0iZiI+PHBhdGggZD0iTS4zMTQuNjA1SC40Yy4wMiAwIC4wMyAwIC4wMy4wMkMuNDMuNjM2LjQyLjYzNi40MDMuNjM2SC4zMkwuMzQxLjc1YS45NTMuOTUzIDAgMDAuMDI0LjEwNGMuMDA5LjAxOS4wMjYuMDM0LjA0Ny4wMzQuMDA0IDAgLjAzIDAgLjA0OS0uMDE4QS4wNTUuMDU1IDAgMDEuNDA3LjgxNmMwLS4wMjMuMDE4LS4wMzUuMDM3LS4wMzUuMDI2IDAgLjA1NS4wMjIuMDU1LjA2Qy40OTkuODg3LjQ1My45MS40MTIuOTEuMzc4LjkxLjMxNS44OTIuMjg1Ljc5My4yNzkuNzcyLjI3Ni43NjIuMjUyLjYzNkguMTgzYy0uMDE5IDAtLjAzIDAtLjAzLS4wMTkgMC0uMDEyLjAwOS0uMDEyLjAyOC0uMDEyaC4wNjZMLjE3Mi4yMUMuMTU0LjExMy4xMzcuMDIyLjA4NS4wMjJjLS4wMDQgMC0uMDI5IDAtLjA0OC4wMThhLjA1NC4wNTQgMCAwMS4wNTUuMDU0YzAgLjAyMy0uMDE4LjAzNS0uMDM3LjAzNUMuMDI5LjEyOSAwIC4xMDcgMCAuMDY5IDAgLjAyNC4wNDQgMCAuMDg1IDAgLjE0IDAgLjE4LjA1OS4xOTguMDk3YS44OTQuODk0IDAgMDEuMDU2LjE5MWwuMDYuMzE3eiIvPjwvc3ltYm9sPjx1c2UgeGxpbms6aHJlZj0iI2YiIHRyYW5zZm9ybT0ibWF0cml4KDExLjk1NSAwIDAgLTExLjk1NSAxNTUuOTI0IDEyLjY4NCkiIGZpbGw9IiMyMzFmMjAiLz48c3ltYm9sIGlkPSJnIj48cGF0aCBkPSJNLjIzMi4wMWMwIC4wMDMgMCAuMDA1LS4wMTcuMDIyQy4wOS4xNTguMDU4LjM0Ny4wNTguNWMwIC4xNzQuMDM4LjM0OC4xNjEuNDczLjAxMy4wMTIuMDEzLjAxNC4wMTMuMDE3IDAgLjAwNy0uMDA0LjAxLS4wMS4wMS0uMDEgMC0uMS0uMDY4LS4xNTktLjE5NUEuNzI3LjcyNyAwIDAxMCAuNUMwIC40MjIuMDExLjMwMS4wNjYuMTg4QS40MzIuNDMyIDAgMDEuMjIyIDBjLjAwNiAwIC4wMS4wMDMuMDEuMDF6Ii8+PC9zeW1ib2w+PHVzZSB4bGluazpocmVmPSIjZyIgdHJhbnNmb3JtPSJtYXRyaXgoMTEuOTU1IDAgMCAtMTEuOTU1IDE2My42MTQgMTMuMjIyKSIgZmlsbD0iIzIzMWYyMCIvPjxzeW1ib2wgaWQ9ImgiPjxwYXRoIGQ9Ik0uMTgzLjQxMWguMDk0Yy4wMiAwIC4wMyAwIC4wMy4wMiAwIC4wMTEtLjAxLjAxMS0uMDI4LjAxMUguMTkxQy4yMjcuNTg0LjIzMi42MDQuMjMyLjYxLjIzMi42MjcuMjIuNjM3LjIwMy42MzcuMi42MzcuMTcyLjYzNi4xNjMuNjAxTC4xMjQuNDQySC4wM2MtLjAyIDAtLjAzIDAtLjAzLS4wMTlDMCAuNDExLjAwOC40MTEuMDI4LjQxMWguMDg4Qy4wNDQuMTI3LjA0LjExLjA0LjA5Mi4wNC4wMzguMDc4IDAgLjEzMiAwYy4xMDIgMCAuMTU5LjE0Ni4xNTkuMTU0IDAgLjAxLS4wMDguMDEtLjAxMi4wMUMuMjcuMTY0LjI2OS4xNjEuMjY0LjE1LjIyMS4wNDYuMTY4LjAyMi4xMzQuMDIyLjExMy4wMjIuMTAzLjAzNS4xMDMuMDY4YzAgLjAyNC4wMDIuMDMxLjAwNi4wNDhsLjA3NC4yOTV6Ii8+PC9zeW1ib2w+PHVzZSB4bGluazpocmVmPSIjaCIgdHJhbnNmb3JtPSJtYXRyaXgoMTEuOTU1IDAgMCAtMTEuOTU1IDE2Ny4zNTQgMTAuMzY1KSIgZmlsbD0iIzIzMWYyMCIvPjxzeW1ib2wgaWQ9ImkiPjxwYXRoIGQ9Ik0uMjMyLjVhLjcyOS43MjkgMCAwMS0uMDY2LjMxMkEuNDMyLjQzMiAwIDAxLjAxIDFDLjAwNCAxIDAgLjk5NiAwIC45OSAwIC45ODcgMCAuOTg1LjAxOS45NjcuMTE3Ljg2OC4xNzQuNzA5LjE3NC41LjE3NC4zMjkuMTM3LjE1My4wMTMuMDI3IDAgLjAxNSAwIC4wMTMgMCAuMDEgMCAuMDA0LjAwNCAwIC4wMSAwYy4wMSAwIC4xLjA2OC4xNTkuMTk1Qy4yMi4zMDUuMjMyLjQxNi4yMzIuNXoiLz48L3N5bWJvbD48dXNlIHhsaW5rOmhyZWY9IiNpIiB0cmFuc2Zvcm09Im1hdHJpeCgxMS45NTUgMCAwIC0xMS45NTUgMTcyLjA3NiAxMy4yMjIpIiBmaWxsPSIjMjMxZjIwIi8+PHVzZSB4bGluazpocmVmPSIjaCIgdHJhbnNmb3JtPSJtYXRyaXgoMTEuOTU1IDAgMCAtMTEuOTU1IDM2MS4yNzUgMTI0LjM2NikiIGZpbGw9IiMyMzFmMjAiLz48L2c+PGNsaXBQYXRoIGlkPSJqIj48cGF0aCB0cmFuc2Zvcm09Im1hdHJpeCgxIDAgMCAtMSAwIDEzMykiIGQ9Ik0uMDYgMTMyLjgyNmgzNjcuMjU5Vi4wNkguMDZ6Ii8+PC9jbGlwUGF0aD48ZyBjbGlwLXBhdGg9InVybCgjaikiPjxjbGlwUGF0aCBpZD0iayI+PHBhdGggdHJhbnNmb3JtPSJtYXRyaXgoMSAwIDAgLTEgMCAxMzMpIiBkPSJNMCAwaDM2OHYxMzNIMHoiLz48L2NsaXBQYXRoPjxnIGNsaXAtcGF0aD0idXJsKCNrKSI+PHBhdGggc3Ryb2tlLXdpZHRoPSIuNzUiIHN0cm9rZS1taXRlcmxpbWl0PSIxMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjMxZjIwIiBkPSJNMy42NDYgMTEyaDM1MyIvPjwvZz48L2c+PGNsaXBQYXRoIGlkPSJsIj48cGF0aCB0cmFuc2Zvcm09Im1hdHJpeCgxIDAgMCAtMSAwIDEzMykiIGQ9Ik0wIDBoMzY4djEzM0gweiIvPjwvY2xpcFBhdGg+PGcgY2xpcC1wYXRoPSJ1cmwoI2wpIj48cGF0aCBkPSJNMzU1LjYyNiAxMTJsLTIuMTktMy42MDMuMTIyLS4wODIgNS44NzUgMi4zMzQgNi4xNDEgMS4zNTEtNi4xNDEgMS4zNTEtNS44NzUgMi4zMzMtLjEyMi0uMDYxIDIuMTktMy42MjMiIGZpbGw9IiMyMzFmMjAiLz48L2c+PGNsaXBQYXRoIGlkPSJtIj48cGF0aCB0cmFuc2Zvcm09Im1hdHJpeCgxIDAgMCAtMSAwIDEzMykiIGQ9Ik0uMDYgMTMyLjgyNmgzNjcuMjU5Vi4wNkguMDZ6Ii8+PC9jbGlwUGF0aD48ZyBjbGlwLXBhdGg9InVybCgjbSkiPjxjbGlwUGF0aCBpZD0ibiI+PHBhdGggdHJhbnNmb3JtPSJtYXRyaXgoMSAwIDAgLTEgMCAxMzMpIiBkPSJNMCAwaDM2OHYxMzNIMHoiLz48L2NsaXBQYXRoPjxnIGNsaXAtcGF0aD0idXJsKCNuKSIgc3Ryb2tlLXdpZHRoPSIuNzUiIHN0cm9rZS1taXRlcmxpbWl0PSIxMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjMxZjIwIj48cGF0aCBkPSJNMzU1LjYyNiAxMTJsLTIuMTktMy42MDMuMTIyLS4wODIgNS44NzUgMi4zMzQgNi4xNDEgMS4zNTEtNi4xNDEgMS4zNTEtNS44NzUgMi4zMzMtLjEyMi0uMDYxIDIuMTktMy42MjN6TTE1Mi42NDYgMTMzVjE1Ii8+PC9nPjwvZz48Y2xpcFBhdGggaWQ9Im8iPjxwYXRoIHRyYW5zZm9ybT0ibWF0cml4KDEgMCAwIC0xIDAgMTMzKSIgZD0iTTAgMGgzNjh2MTMzSDB6Ii8+PC9jbGlwUGF0aD48ZyBjbGlwLXBhdGg9InVybCgjbykiPjxwYXRoIGQ9Ik0xNTIuNjQ2IDE2LjAybC0zLjYwMyAyLjE5LS4wODItLjEyMyAyLjMzNC01Ljg3NCAxLjM1MS02LjE0MiAxLjM1MSA2LjE0MiAyLjMzNCA1Ljg3NC0uMDYyLjEyMy0zLjYyMy0yLjE5IiBmaWxsPSIjMjMxZjIwIi8+PHBhdGggc3Ryb2tlLXdpZHRoPSIuNzUiIHN0cm9rZS1taXRlcmxpbWl0PSIxMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjMxZjIwIiBkPSJNMTUyLjY0NiAxNi4wMmwtMy42MDMgMi4xOS0uMDgyLS4xMjMgMi4zMzQtNS44NzQgMS4zNTEtNi4xNDIgMS4zNTEgNi4xNDIgMi4zMzQgNS44NzQtLjA2Mi4xMjMtMy42MjMtMi4xOXoiLz48cGF0aCBkPSJNMTUyLjY0NiAxMTJsNTAtNjgiIGZpbGw9IiMyMzFmMjAiLz48cGF0aCBzdHJva2Utd2lkdGg9Ii43NSIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIiBmaWxsPSJub25lIiBzdHJva2U9IiMyMzFmMjAiIGQ9Ik0xNTIuNjQ2IDExMmw1MC02OCIvPjxwYXRoIHN0cm9rZS13aWR0aD0iLjc1IiBzdHJva2UtZGFzaGFycmF5PSIzLDMsMywzLDMsMywzLDMsMywzIiBmaWxsPSJub25lIiBzdHJva2U9IiMyMzFmMjAiIGQ9Ik0zMDQuNjQ2IDQ1LjV2NjUiLz48cGF0aCBkPSJNMjAzLjY0NiAxMTEuNTYybDUwLTY4IiBmaWxsPSIjMjMxZjIwIi8+PHBhdGggc3Ryb2tlLXdpZHRoPSIuNzUiIHN0cm9rZS1taXRlcmxpbWl0PSIxMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjMxZjIwIiBkPSJNMjAzLjY0NiAxMTEuNTYybDUwLTY4Ii8+PHBhdGggZD0iTTI1NC41MjEgMTExLjU2Mmw0OS41OTYtNjcuNDUiIGZpbGw9IiMyMzFmMjAiLz48cGF0aCBzdHJva2Utd2lkdGg9Ii43NSIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIiBmaWxsPSJub25lIiBzdHJva2U9IiMyMzFmMjAiIGQ9Ik0yNTQuNTIxIDExMS41NjJsNDkuNTk2LTY3LjQ1Ii8+PHBhdGggZD0iTTMwNC4xMTcgNDQuMTEybC40MDQtLjU1TTMwNS40NTggMTExLjc1bDUwLTY4IiBmaWxsPSIjMjMxZjIwIi8+PHBhdGggc3Ryb2tlLXdpZHRoPSIuNzUiIHN0cm9rZS1taXRlcmxpbWl0PSIxMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjMxZjIwIiBkPSJNMzA1LjQ1OCAxMTEuNzVsNTAtNjgiLz48cGF0aCBkPSJNLjMwMiAxMTEuOTA2bDUwLTY4IiBmaWxsPSIjMjMxZjIwIi8+PC9nPjxjbGlwUGF0aCBpZD0icCI+PHBhdGggdHJhbnNmb3JtPSJtYXRyaXgoMSAwIDAgLTEgMCAxMzMpIiBkPSJNLjA2IDEzMi44MjZoMzY3LjI1OVYuMDZILjA2eiIvPjwvY2xpcFBhdGg+PGcgY2xpcC1wYXRoPSJ1cmwoI3ApIj48Y2xpcFBhdGggaWQ9InEiPjxwYXRoIHRyYW5zZm9ybT0ibWF0cml4KDEgMCAwIC0xIDAgMTMzKSIgZD0iTTAgMGgzNjh2MTMzSDB6Ii8+PC9jbGlwUGF0aD48ZyBjbGlwLXBhdGg9InVybCgjcSkiPjxwYXRoIHN0cm9rZS13aWR0aD0iLjc1IiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzIzMWYyMCIgZD0iTS4zMDIgMTExLjkwNmw1MC02OCIvPjwvZz48L2c+PGNsaXBQYXRoIGlkPSJyIj48cGF0aCB0cmFuc2Zvcm09Im1hdHJpeCgxIDAgMCAtMSAwIDEzMykiIGQ9Ik0wIDBoMzY4djEzM0gweiIvPjwvY2xpcFBhdGg+PGcgY2xpcC1wYXRoPSJ1cmwoI3IpIj48cGF0aCBkPSJNNTEuMTc3IDExMS45MDZsNTAtNjgiIGZpbGw9IiMyMzFmMjAiLz48cGF0aCBzdHJva2Utd2lkdGg9Ii43NSIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIiBmaWxsPSJub25lIiBzdHJva2U9IiMyMzFmMjAiIGQ9Ik01MS4xNzcgMTExLjkwNmw1MC02OCIvPjxwYXRoIGQ9Ik0xMDIuMTE1IDExMi4wOTNsNTAtNjgiIGZpbGw9IiMyMzFmMjAiLz48cGF0aCBzdHJva2Utd2lkdGg9Ii43NSIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIiBmaWxsPSJub25lIiBzdHJva2U9IiMyMzFmMjAiIGQ9Ik0xMDIuMTE1IDExMi4wOTNsNTAtNjgiLz48cGF0aCBzdHJva2Utd2lkdGg9Ii43NSIgc3Ryb2tlLWRhc2hhcnJheT0iMywzLDMsMywzLDMsMywzLDMsMyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjMxZjIwIiBkPSJNMjUzLjE0NiA0NnY2NW0tNTAuNS02NS43NXY2NW0xNTMtNjZWNjcuNW0tMjU0LTIxLjV2NjVtLTUxLjUtNjQuNXY2NSIvPjwvZz48L3N2Zz4=</file>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,6 +1,6 @@
 # Advanced reporting
 
-There are a number of [reporting options](../Authoring/../STACK_question_admin/Reporting.md) which are built-in and supported.  To use the features on this page requires moodle admin permission.
+There are a number of [reporting options](../Authoring/../STACK_question_admin/Reporting.md) which are built-in and supported.  To use the features on this page requires Moodle admin permission.
 
 It is often useful to know numbers about STACK usage on your local server.  To do this we need to work in the Moodle database.  E.g.
 
@@ -156,7 +156,7 @@ And, here is a query that does number of questions attempted (ever) by course
 
     ORDER BY COUNT(1) DESC, c.shortname
 
-Moodle has a built-in report that will count the number of questions of any type in the question bank (report/questioninstances) but I think this is a less useful statistic.
+Moodle has a built-in report that will count the number of questions of any type in the question bank (report/questioninstances) but this is a less useful statistic.
 
 #### Closing date of quizzes which use STACK
 

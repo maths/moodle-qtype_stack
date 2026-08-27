@@ -1,0 +1,98 @@
+{
+    "quiz": {
+        "name": "12_3 The Newton\u2013Raphson Method",
+        "intro": "<p>This Section is concerned with the problem of \u201croot location\u201d; i.e. finding those values of \\(x\\) which satisfy an\n    equation of the form \\(f(x)=0\\). An initial estimate of the root is found (for example by drawing a graph of the\n    function). This estimate is then improved using a technique known as the Newton&ndash;Raphson method, which is based upon\n    a knowledge of the tangent to the curve near the root. It is an \u201citerative\u201d method in that it can be used repeatedly\n    to continually improve the accuracy of the root.<\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "The Newton-Raphson Method",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "3",
+            "heading": "Finding the roots of the equation f(x) = 0",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "6",
+            "heading": "Engineering Example",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "7",
+            "heading": "Exercises",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-12-3\/12-3-1-1-The-Newton-Raphson-Method.xml"
+        },
+        {
+            "slot": "3",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-12-3\/12-3-2-1-Finding-the-roots-of-the-equation-f(x)-=-0.xml"
+        },
+        {
+            "slot": "6",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-12-3\/12-3-3-1-Engineering-Example.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-12-3\/12-3-1-2-Classify-roots.xml"
+        },
+        {
+            "slot": "4",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-12-3\/12-3-2-2-One-iteration-of-Newton-Raphson.xml"
+        },
+        {
+            "slot": "5",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-12-3\/12-3-2-3-Find-root-to-2-d-p-.xml"
+        },
+        {
+            "slot": "7",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-12-3\/12-3-4-1-Exercise-1.xml"
+        },
+        {
+            "slot": "8",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-12-3\/12-3-4-2-Exercise-2.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

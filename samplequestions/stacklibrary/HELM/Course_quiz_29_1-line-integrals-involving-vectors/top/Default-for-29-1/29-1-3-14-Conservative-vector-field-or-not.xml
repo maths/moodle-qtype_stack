@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="multichoice">
+    <name>
+      <text>29.1.3.14 Conservative vector field or not</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>Select the following vector fields which are conservative:</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text><![CDATA[<p>We determine whether the vector fields are conservative by considering their curl:</p>
+
+<p>(a) \(\underline{F} = (x − y)\underline{i} + (x + y)\underline{j}\)
+\[\begin{aligned}
+\underline{\nabla} \times \underline{F} &= \begin{vmatrix}
+\underline{i} &\underline{j} & \underline{k} \\
+\frac{\partial}{\partial x} & \frac{\partial}{\partial y} & \frac{\partial}{\partial z} \\
+(x − y) &  (x + y) & 0
+\end{vmatrix}\\
+&= \left( \frac{\partial}{\partial y}(0) -  \frac{\partial}{\partial z}(x+y)\right)\underline{i}
+- \left( \frac{\partial}{\partial x}(0) - \frac{\partial}{\partial z}(x-y)\right)\underline{j}
++ \left( \frac{\partial}{\partial x}(x+y) -  \frac{\partial}{\partial y}(x-y)\right)\underline{k}\\
+&= 2\underline{k} \neq \underline{0}
+\end{aligned}\]
+So this vector field isn't conservative.</p>
+
+<p>(b) \(\underline{F} = 3x^2y^2\underline{i} + (2x^3y − 1)\underline{j}\)
+\[\begin{aligned}
+\underline{\nabla} \times \underline{F} &= \begin{vmatrix}
+\underline{i} &\underline{j} & \underline{k} \\
+\frac{\partial}{\partial x} & \frac{\partial}{\partial y} & \frac{\partial}{\partial z} \\
+(3x^2y^2) &  (2x^3y − 1) & 0
+\end{vmatrix}\\
+&= \left( \frac{\partial}{\partial y}(0) -  \frac{\partial}{\partial z}((2x^3y − 1))\right)\underline{i}
+- \left( \frac{\partial}{\partial x}(0) - \frac{\partial}{\partial z}(3x^2y^2)\right)\underline{j}
++ \left( \frac{\partial}{\partial x}((2x^3y − 1)) -  \frac{\partial}{\partial y}(3x^2y^2)\right)\underline{k}\\
+&= (6x^2y-6x^2y)\underline{k}\\
+&= \underline{0}
+\end{aligned}\]
+So this vector field is conservative.</p>
+
+<p>(c) \(\underline{F} = 2x\underline{i} + (xz − 2)\underline{j} + xy\underline{k}\)
+\[\begin{aligned}
+\underline{\nabla} \times \underline{F} &= \begin{vmatrix}
+\underline{i} &\underline{j} & \underline{k} \\
+\frac{\partial}{\partial x} & \frac{\partial}{\partial y} & \frac{\partial}{\partial z} \\
+2x &  (xz − 2) & xy
+\end{vmatrix}\\
+&= \left( \frac{\partial}{\partial y}(xy) -  \frac{\partial}{\partial z}((xz − 2))\right)\underline{i}
+- \left( \frac{\partial}{\partial x}(xy) - \frac{\partial}{\partial z}(2x)\right)\underline{j}
++ \left( \frac{\partial}{\partial x}((xz − 2)) -  \frac{\partial}{\partial y}(2x)\right)\underline{k}\\
+&= (x-x)\underline{i} - (x - 0)\underline{j}) + (z-0)\underline{k}\\
+&=-x\underline{j} + z\underline{k} \neq \underline{0}
+\end{aligned}\]
+So this vector field isn't conservative.</p>
+
+<p>(d) \(\underline{F} = x^2z\underline{i} + y^2z\underline{j} + \dfrac{1}{3} (x^3 + y^3)\underline{k}\)
+\[\begin{aligned}
+\underline{\nabla} \times \underline{F} &= \begin{vmatrix}
+\underline{i} &\underline{j} & \underline{k} \\
+\frac{\partial}{\partial x} & \frac{\partial}{\partial y} & \frac{\partial}{\partial z} \\
+x^2z &  y^2z & \frac{1}{3} (x^3 + y^3)
+\end{vmatrix}\\
+&= \left( \frac{\partial}{\partial y}(\frac{1}{3} (x^3 + y^3)) -  \frac{\partial}{\partial z}((y^2z))\right)\underline{i}
+- \left( \frac{\partial}{\partial x}(\frac{1}{3} (x^3 + y^3)) - \frac{\partial}{\partial z}(x^2z)\right)\underline{j}
++ \left( \frac{\partial}{\partial x}((y^2z)) -  \frac{\partial}{\partial y}(x^2z)\right)\underline{k}\\
+&= (y^2-y^2)\underline{i} - (x^2 - x^2)\underline{j}) + (0-0)\underline{k}\\\\
+&= \underline{0}
+\end{aligned}\]
+So this vector field is conservative.</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <single>false</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <showstandardinstruction>0</showstandardinstruction>
+    <correctfeedback format="html">
+      <text>Your answer is correct.</text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="html">
+      <text>Your answer is partially correct.</text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="html">
+      <text>Your answer is incorrect.</text>
+    </incorrectfeedback>
+    <shownumcorrect/>
+    <answer fraction="0" format="html">
+      <text>\(\underline{F} = (x − y)\underline{i} + (x + y)\underline{j}\)</text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="50" format="html">
+      <text>\(\underline{F} = 3x^2y^2\underline{i} + (2x^3y − 1)\underline{j}\)</text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text>\(\underline{F} = 2x\underline{i} + (xz − 2)\underline{j} + xy\underline{k}\)</text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="50" format="html">
+      <text>\(\underline{F} = x^2z\underline{i} + y^2z\underline{j} + \dfrac{1}{3} (x^3 + y^3)\underline{k}\)</text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+  </question>
+</quiz>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>19.4.2.2 Case 1: No damping</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h5>Case 1: No damping<br></h5>
+
+<p>If \(k=0\) then there is no damping. We expect, in this case, that once motion has started it will continue for ever. The motion that ensues is called <strong>simple harmonic motion</strong>. In this case we have</p>
+<p>\(\qquad \lambda = \dfrac{\pm \sqrt{-4m\,n}}{2m},\quad\) that is, \(\quad \lambda = \pm \sqrt{\dfrac{n}{m}} \, i \qquad \text{where} \quad \, i^2=-1.\)</p>
+<p>and the solution for the displacement \(x\) is:</p>
+<p>\(\qquad x = A\cos\left( \sqrt{\dfrac{n}{m}} \, t\right) + B\sin\left(\sqrt{\dfrac{n}{m}}\, t \right) \quad\) where \(A,B\) are arbitrary constants.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

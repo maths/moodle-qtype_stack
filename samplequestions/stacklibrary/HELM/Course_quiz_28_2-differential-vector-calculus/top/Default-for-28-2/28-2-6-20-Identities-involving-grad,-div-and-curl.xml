@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>28.2.6.20 Identities involving grad, div and curl</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Identities involving grad, div and curl</h3>
+<p>There are numerous identities involving the vector derivatives; a selection are given in the table below.</p>
+<table class="HELM_table">
+<tbody>
+
+<tr>
+<td style="text-align: center;">1</td> 
+<td style="text-align: center;">\[\text{div}(\phi \underline{A}) = \text{grad} \, \phi \cdot \underline{A} + \phi \, \text{div} \,\underline{A}\]</td>
+<td style="text-align: center;">or</td>
+<td style="text-align: center;">\[{\underline \nabla} \cdot (\phi \underline{A}) = ({\underline \nabla} \phi) \cdot \underline{A} + \phi ({\underline \nabla} \cdot \underline{A})\]</td>
+</tr>
+
+<tr>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;"><span class="math inline">curl(\(\phi \underline{A}\)) = grad \(\phi \times \underline{A} + \phi\) curl \(\underline{A}\)</span></td>
+<td style="text-align: center;">or</td>
+<td style="text-align: center;"><span class="math inline">\({\underline \nabla} \times (\phi \underline{A}) = ({\underline \nabla} \phi) \times \underline{A} + \phi ({\underline \nabla} \times \underline{A})\)</span></td>
+</tr>
+
+<tr>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;"><span class="math inline">div (\(\underline{A} \times \underline{B}) = \underline{B} \cdot\) curl \(\underline{A} - \underline{A} \cdot\) curl \(\underline{B}\)</span></td>
+<td style="text-align: center;">or</td>
+<td style="text-align: center;"><span class="math inline">\({\underline \nabla} \cdot (\underline{A} \times \underline{B}) = \underline{B} \cdot ({\underline \nabla} \times \underline{A}) - \underline{A} \cdot ({\underline \nabla} \times \underline{B})\)</span></td>
+</tr>
+
+<tr>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;"><span class="math inline">curl (\(\underline{A} \times \underline{B}) = (\underline{B} \cdot\) grad ) \(\underline{A} - (\underline{A} \cdot\) grad ) \(\underline{B}\)</span></td>
+<td style="text-align: center;">or</td>
+<td style="text-align: center;"><span class="math inline">\({\underline \nabla} \times (\underline{A} \times \underline{B}) = (\underline{B} \cdot {\underline \nabla}) \underline{A} - (\underline{A} \cdot {\underline \nabla}) \underline{B}\) \(+ \underline{A}\) div \(\underline{B} - \underline{B}\) div \(\underline{A}\) \(+ \underline{A}\ {\underline \nabla} \cdot \underline{B} - \underline{B}\ {\underline \nabla} \cdot \underline{A}\) </span></td>
+</tr>
+
+<tr>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;"><span class="math inline">grad (\(\underline{A} \cdot \underline{B}) = (\underline{B} \cdot\) grad ) \(\underline{A} + (\underline{A} \cdot\) grad ) \(\underline{B}\)</span></td>
+<td style="text-align: center;">or</td>
+<td style="text-align: center;"><span class="math inline">\({\underline \nabla} (\underline{A} \cdot \underline{B}) = (\underline{B} \cdot {\underline \nabla}) \underline{A} + (\underline{A} \cdot {\underline \nabla}) \underline{B}\) \(+ \underline{A} \times\) curl \(\underline{B} + \underline{B} \times\) curl \(\underline{A}\) \(+ \underline{A} \times ( {\underline \nabla} \times \underline{B}) + \underline{B} \times ({\underline \nabla} \times \underline{A})\)</span></td>
+</tr>
+
+<tr>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;"><span class="math inline">curl (grad \(\phi\)) \(= \underline{0}\)</span></td>
+<td style="text-align: center;">or</td>
+<td style="text-align: center;"><span class="math inline">\({\underline \nabla} \times ({\underline \nabla} \phi) = \underline{0}\)</span></td>
+</tr>
+
+<tr>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;"><span class="math inline">div (curl \(\underline{A}\)) \(= \underline{0}\)</span></td>
+<td style="text-align: center;">or </td>
+<td style="text-align: center;"><span class="math inline">\({\underline \nabla} \cdot ({\underline \nabla} \times \underline{A}) = \underline{0}\)</span></td>
+</tr>
+
+</tbody>
+</table>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Show for any vector field \(\underline{A} = A_1 \underline{i} + A_2 \underline{j} + A_3 \underline{k}\), that div curl \(\underline{A} = \underline{0}\).</p>
+<h4 class="HELM_solution">Solution</h4>
+\[\begin{aligned}
+\mbox{div curl } \underline{A} &= \mbox{div}\begin{vmatrix}
+\underline{i} & \underline{j} & \underline{k} \\
+\frac{\partial}{\partial x} & \frac{\partial}{\partial y} & \frac{\partial}{\partial z} \\
+A_1 & A_2 & A_3
+\end{vmatrix}\\
+&= \text{div} \; \left[ \left( \frac{\partial A_3}{\partial y} - \frac{\partial A_2}{\partial z} \right) \underline{i} +
+  \left( \frac{\partial A_1}{\partial z} - \frac{\partial A_3}{\partial x} \right)\underline{j} +
+  \left( \frac{\partial A_2}{\partial x} - \frac{\partial A_1}{\partial y} \right)\underline{k}
+  \right]\qquad\qquad \\
+  &= \frac{\partial}{\partial x}\left( \frac{\partial A_3}{\partial y} - \frac{\partial A_2}{\partial z} \right)
+ + \frac{\partial}{\partial y}\left( \frac{\partial A_1}{\partial z} - \frac{\partial A_3}{\partial x} \right)
+ + \frac{\partial}{\partial z}\left( \frac{\partial A_2}{\partial x} - \frac{\partial A_1}{\partial y}
+ \right)\\
+ &= \frac{\partial^2 A_3}{\partial x \partial y} - \frac{\partial^2 A_2}{\partial z \partial
+ x}+ \frac{\partial^2 A_1}{\partial y \partial z} - \frac{\partial^2 A_3}{\partial y \partial
+ x}+ \frac{\partial^2 A_2}{\partial z \partial x} - \frac{\partial^2 A_1}{\partial z \partial
+ y}\\
+ &= 0
+\end{aligned}\]
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Verify identity 1 for the vector \(\underline{A} = 2xy \underline{i} - 3z \underline{k}\) and the function \(\phi = x y^2\).</p>
+<h4 class="HELM_solution">Solution</h4>
+<p> \(\phi \underline{A} = 2 x^2 y^3 \underline{i} - 3 x y^2 z \underline{k}\) so <br>
+\(\displaystyle {\underline \nabla} \cdot \phi \underline{A} = {\underline \nabla} \cdot
+\left( 2 x^2 y^3 \underline{i} - 3 x y^2 z \underline{k} \right) =
+\frac{\partial}{\partial x}(2 x^2 y^3) + \frac{\partial}{\partial
+z}(- 3 x y^2 z) = 4xy^3 - 3xy^2\) <br>
+So LHS \(= 4xy^3 - 3xy^2\). <br> <br>
+\(\displaystyle {\underline \nabla} \phi = \frac{\partial}{\partial x}(x y^2)
+\underline{i} + \frac{\partial}{\partial y}(x y^2) \underline{j} +
+\frac{\partial}{\partial z}(x y^2) \underline{k} = y^2
+\underline{i} + 2xy \underline{j} \) so <br>
+\(\displaystyle ({\underline \nabla} \phi) \cdot \underline{A} = (y^2
+\underline{i} + 2 x y \underline{j})\cdot (2xy \underline{i} - 3z
+\underline{k}) = 2 x y^3 \) <br>
+\({\underline \nabla} \cdot \underline{A} = {\underline \nabla} \cdot (2xy \underline{i} - 3z
+\underline{k}) = 2y-3\) so \(\phi {\underline \nabla} \cdot \underline{A} = 2 x
+y^3 - 3 x y^2\) giving <br>
+\( ({\underline \nabla} \phi) \cdot \underline{A} + \phi ({\underline \nabla} \cdot
+\underline{A}) = 2 x y^3 + (2 x
+y^3 - 3 x y^2) = 4 x y^3 - 3 x y^2\) <br>
+So RHS \( = 4 x y^3 - 3 x y^2 = \) LHS. <br>  <br>
+So \({\underline \nabla} \cdot (\phi \underline{A}) = ({\underline \nabla} \phi) \cdot
+\underline{A} + \phi ({\underline \nabla} \cdot \underline{A})\) in this case.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

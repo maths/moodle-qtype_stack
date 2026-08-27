@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.6.4.5 Engineering Example</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Engineering Example</h4>
+
+<h5>Admittance</h5>
+
+<p>Admittance, \(Y\), is a quantity which is used in analysing electronic circuits. A typical expression for admittance is \[ Y(s) = {s^2+4s+5\over (s^2+2s+4)(s+3)}\] where \(s\) can be thought of as representing frequency. To predict the behaviour of the
+    circuit it is often necessary to express the admittance as the sum of its partial fractions and find the effect of each part separately. Express \(Y(s)\) in partial fractions.</p>
+<p>The fraction is proper. The denominator contains an irreducible quadratic factor, which cannot be factorised further, and also a linear factor. Thus \[{s^2+4s+5\over (s^2+2s+4)(s+3)} = {As+B\over s^2+2s+4} + {C\over s+3} \qquad \qquad \qquad (1) \] Multiplying
+    both sides of Equation (1) by \((s^2+2s+4)(s+3)\) we obtain \[ s^2+4s+5 = (As+B)(s+3) + C(s^2+2s+4) \qquad \qquad \qquad (2) \] To find the constant \(C\) we let \(s=-3\) in Equation (2) to eliminate \(A\) and \(B\). Thus \[ (-3)^2+4(-3)+5 = C((-3)^2+2(-3)+4)\]
+    so that \[ 2 = 7C\qquad \text{and so}\qquad C={2\over 7}\] Equating coefficients of \(s^2\) in Equation (2) we find \( 1= A+C\) so that \(A=1-C= 1-\displaystyle{2\over 7} = \displaystyle{5\over 7}\). Equating constant terms in Equation (2) gives \(
+    5=3B+4C\) so that \[{3B=5-4C=5-4\left({2\over 7}\right)={27\over 7}}\] so \[ B=\displaystyle{9\over 7}\] Finally\[{Y(s) = {s^2+4s+5\over (s^2+2s+4)(s+3)} = {{5\over 7}s + {9\over 7} \over s^2+2s+4} + {{2\over 7}\over s+3}}\] which can be written as
+    \[{Y(s) = {5s+9\over 7(s^2+2s+4)} + {2\over 7(s+3)}}\]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

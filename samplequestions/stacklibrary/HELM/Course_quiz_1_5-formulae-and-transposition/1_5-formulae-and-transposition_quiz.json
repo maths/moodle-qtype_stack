@@ -1,0 +1,186 @@
+{
+    "quiz": {
+        "name": "1_5 Formulae and Transposition",
+        "intro": "Formulae are used frequently in almost all aspects of engineering in order to relate a physical quantity to one or more others. Many well-known physical laws are described using formulae. For example, you may have already seen Ohm\u2019s law, \\(v = iR\\), or Newton\u2019s second law of motion, \\(F = ma\\). In this Quiz we describe the process of evaluating a formula, explain what is meant by the subject of a formula, and show how a formula is rearranged or transposed. These are basic skills required in all aspects of engineering.\n",
+        "introformat": "1",
+        "questionsperpage": "0",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "USING FORMULA AND SUBSTITUTION",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "13",
+            "heading": "REARRANGING A FORMULA",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "2",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-5\/1-5-2-1-Substitution.xml"
+        },
+        {
+            "slot": "11",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-5\/1-5-2-10-Substitution.xml"
+        },
+        {
+            "slot": "12",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-5\/1-5-2-11-Substitution-with-Units.xml"
+        },
+        {
+            "slot": "15",
+            "page": "8",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-5\/1-5-2-12-Transposition.xml"
+        },
+        {
+            "slot": "16",
+            "page": "8",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-5\/1-5-2-13-Transposition.xml"
+        },
+        {
+            "slot": "17",
+            "page": "8",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-5\/1-5-2-14-Transposition.xml"
+        },
+        {
+            "slot": "18",
+            "page": "8",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-5\/1-5-2-15-Transposition.xml"
+        },
+        {
+            "slot": "19",
+            "page": "9",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-5\/1-5-2-16-Transposition.xml"
+        },
+        {
+            "slot": "20",
+            "page": "9",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-5\/1-5-2-17-Transposition.xml"
+        },
+        {
+            "slot": "21",
+            "page": "9",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-5\/1-5-2-18-Transposition.xml"
+        },
+        {
+            "slot": "22",
+            "page": "9",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-5\/1-5-2-19-Transposition-and-Substitution-with-Units.xml"
+        },
+        {
+            "slot": "3",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-5\/1-5-2-2-Substitution.xml"
+        },
+        {
+            "slot": "4",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-5\/1-5-2-3-Substitution.xml"
+        },
+        {
+            "slot": "5",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-5\/1-5-2-4-Substitution.xml"
+        },
+        {
+            "slot": "6",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-5\/1-5-2-5-Substitution.xml"
+        },
+        {
+            "slot": "7",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-5\/1-5-2-6-Substitution.xml"
+        },
+        {
+            "slot": "8",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-5\/1-5-2-7-Converting-m-to-cm.xml"
+        },
+        {
+            "slot": "9",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-5\/1-5-2-8-Converting-m^2-to-cm^2.xml"
+        },
+        {
+            "slot": "10",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-1-5\/1-5-2-9-Converting-m^3-to-cm^3.xml"
+        },
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-1-5\/1-5-1-1.xml"
+        },
+        {
+            "slot": "13",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-1-5\/1-5-2-1.xml"
+        },
+        {
+            "slot": "14",
+            "page": "7",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-1-5\/1-5-2-2.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>22.2.1.3 Matrix powers</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Matrix powers</h4>
+<p>If <span class="math inline">\(P^{-1}AP=D\)</span> then we can obtain <span class="math inline">\(A\)</span> (i.e. make <span class="math inline">\(A\)</span> the subject of this matrix equation) as follows:</p>
+
+<p>Multiplying on the left by <span class="math inline">\(P\)</span> and on the right by <span class="math inline">\(P^{-1}\)</span> we obtain</p>
+\[PP^{-1}APP^{-1}=PDP^{-1}\]
+<p>Now using the fact that  <span class="math inline">\(PP^{-1}=P^{-1}P=I\)</span> we obtain</p>
+\[IAI=PDP^{-1}\]
+<p>and so</p>
+\[A=PDP^{-1}\]
+
+<p>We can use this result to obtain the <span><strong>powers</strong></span> of a square matrix, a process which is sometimes useful in control theory. Note that</p>
+<p style="text-align: center;">\(A^2 = A \cdot A\), &emsp; \(A^3=A \cdot A \cdot A\) &emsp; etc.</p>
+<p>Clearly, obtaining high powers of <span class="math inline">\(A\)</span> directly would in general involve many multiplications. The process is quite straightforward, however, for a diagonal matrix <span class="math inline">\(D\)</span>, as this next Exercise shows.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

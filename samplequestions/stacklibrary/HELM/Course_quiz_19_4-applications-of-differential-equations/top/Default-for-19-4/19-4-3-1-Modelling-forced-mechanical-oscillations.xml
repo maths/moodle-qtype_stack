@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>19.4.3.1 Modelling forced mechanical oscillations</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Modelling forced mechanical oscillations<br></h3>
+
+<p>Suppose now that the mass is subject to a force \(f(t)\) after the initial disturbance. Then the equation of motion is</p>
+<p>\( \qquad m \dfrac{d^2x}{dt^2} + k \dfrac{dx}{dt} + nx = f(t) \)</p>
+<p>Consider the case \(f(t) = F\cos\omega t\), that is, an oscillatory
+force of magnitude \(F\) and angular frequency \(\omega.\) Choosing specific values for the constants in the model: \(m=n=1\), \(k=0,\) and \(\omega=2\) we find</p>
+<p>\(\qquad \dfrac{d^2x}{dt^2} + x = F \cos 2t\)</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

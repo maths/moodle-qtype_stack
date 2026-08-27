@@ -1530,13 +1530,13 @@
       "function": "f"
   },
   "contour": {
-      "variable": "f"
+      "variable": "?"
   },
   "contour_levels": {
-      "variable": "f"
+      "variable": "?"
   },
   "contour_plot": {
-      "function": "f"
+      "function": "?"
   },
   "contract": {
       "function": "?"
@@ -1985,6 +1985,14 @@
   },
   "disp": {
       "function": "?"
+  },
+  "disp_parens": {
+      "function": "s",
+      "nounfunctionfor": ""
+  },
+  "disp_select": {
+      "function": "s",
+      "nounfunctionfor": ""
   },
   "dispJordan": {
       "function": "s"
@@ -4956,7 +4964,6 @@
       "logicnoun": "nounnot"
   },
   "nounnot": {
-      "operator": "s",
       "nounoperatorfor": "not",
       "operator": "s"
   },
@@ -4966,7 +4973,6 @@
       "logicnoun": "nounnot "
   },
   "nounnot ": {
-      "operator": "s",
       "nounoperatorfor": "not ",
       "operator": "s"
   },
@@ -4975,6 +4981,39 @@
   },
   "noun": {
       "property": "?"
+  },
+  "nounadd": {
+      "nounoperatorfor": "+",
+      "operator": "s",
+      "spacesurroundedop": true
+  },
+  "nounmul": {
+      "nounoperatorfor": "*",
+      "operator": "s",
+      "spacesurroundedop": true
+  },
+  "nounpow": {
+      "nounoperatorfor": "^",
+      "operator": "s",
+      "spacesurroundedop": true
+  },
+  "noundiv": {
+      "nounoperatorfor": "/",
+      "operator": "s",
+      "spacesurroundedop": true
+  },
+  "nouneq": {
+      "nounoperatorfor": "=",
+      "operator": "s",
+      "spacesurroundedop": true
+  },
+  "nounsub": {
+      "operator": "s",
+      "nounoperatorfor": "-"
+  },
+  "nounsub ": {
+      "operator": "s",
+      "nounoperatorfor": "-"
   },
   "nounand": {
       "nounoperatorfor": "and",
@@ -7308,6 +7347,10 @@
       "function": "t",
       "built-in": true
   },
+  "stack_chemistry_declare": {
+      "function": "s",
+      "contextvariable": "true"
+  },
   "stack_matrix_col": {
       "function": "?",
       "contextvariable": "true"
@@ -7335,6 +7378,9 @@
       "function": "s"
   },
   "stack_validate_simpnum": {
+      "function": "s"
+  },
+  "stackbasen": {
       "function": "s"
   },
   "stackeq": {
@@ -7777,6 +7823,10 @@
   "tex_display": {
       "function": "?"
   },
+  "tex_plain_atoms": {
+      "variable": "t",
+      "contextvariable": "true"
+  },
   "texput": {
       "function": "?",
       "contextvariable": "true",
@@ -8082,7 +8132,7 @@
       "function": "f"
   },
   "unicode": {
-      "function": "?",
+      "function": "t",
       "built-in": true
   },
   "unicode_to_utf8": {

@@ -28,7 +28,6 @@ require_once(__DIR__ . '/../../ast.container.class.php');
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_cas_castext2_foreach extends stack_cas_castext2_block {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
         $flat = $this->is_flat();
@@ -58,15 +57,21 @@ class stack_cas_castext2_foreach extends stack_cas_castext2_block {
         $body = null;
         // We try to keep things simpler if we know the result is nice and flat.
         if ($flat) {
-            $body = new MP_Operation(':', new MP_Identifier('__ct2_foreach___tmp'),
-                new MP_FunctionCall(new MP_Identifier('sconcat'), $internal));
+            $body = new MP_Operation(
+                ':',
+                new MP_Identifier('__ct2_foreach___tmp'),
+                new MP_FunctionCall(new MP_Identifier('sconcat'), $internal)
+            );
         } else {
             array_shift($internal);
-            $body = new MP_Operation(':', new MP_Identifier('__ct2_foreach___tmp'),
+            $body = new MP_Operation(
+                ':',
+                new MP_Identifier('__ct2_foreach___tmp'),
                 new MP_FunctionCall(new MP_Identifier('append'), [
                     new MP_Identifier('__ct2_foreach___tmp'),
                     new MP_List($internal),
-                ]));
+                ])
+            );
         }
 
         if (count($this->params) > 1) {
@@ -79,11 +84,17 @@ class stack_cas_castext2_foreach extends stack_cas_castext2_block {
 
             // Init based on the type of result.
             if ($flat) {
-                $r->arguments[] = new MP_Operation(':', new MP_Identifier('__ct2_foreach___tmp'),
-                    new MP_String(''));
+                $r->arguments[] = new MP_Operation(
+                    ':',
+                    new MP_Identifier('__ct2_foreach___tmp'),
+                    new MP_String('')
+                );
             } else {
-                $r->arguments[] = new MP_Operation(':', new MP_Identifier('__ct2_foreach___tmp'),
-                    new MP_List([new MP_String('%root')]));
+                $r->arguments[] = new MP_Operation(
+                    ':',
+                    new MP_Identifier('__ct2_foreach___tmp'),
+                    new MP_List([new MP_String('%root')])
+                );
             }
             // Evaluate the lists.
             $lengths = [];
@@ -91,7 +102,9 @@ class stack_cas_castext2_foreach extends stack_cas_castext2_block {
                 $ev = stack_ast_container::make_from_teacher_source($value);
                 $ast = $ev->get_commentles_primary_statement();
                 $lengths[] = new MP_FunctionCall(new MP_Identifier('length'), [new MP_Identifier('__ct2_foreach___' . $key)]);
-                $r->arguments[] = new MP_Operation(':', new MP_Identifier('__ct2_foreach___' . $key),
+                $r->arguments[] = new MP_Operation(
+                    ':',
+                    new MP_Identifier('__ct2_foreach___' . $key),
                     new MP_FunctionCall(new MP_Identifier('listify'), [$ast])
                 );
             }
@@ -99,7 +112,9 @@ class stack_cas_castext2_foreach extends stack_cas_castext2_block {
             // Build the defines. Which move the value of given index from those evaluated lists to the correct identifier.
             $definedbody = new MP_Group([]);
             foreach ($this->params as $key => $value) {
-                $definedbody->items[] = new MP_Operation(':', new MP_Identifier($key),
+                $definedbody->items[] = new MP_Operation(
+                    ':',
+                    new MP_Identifier($key),
                     new MP_Indexing(new MP_Identifier('__ct2_foreach___' . $key), [
                         new MP_List([
                             new MP_FunctionCall(new MP_Identifier('ev'), [
@@ -107,28 +122,40 @@ class stack_cas_castext2_foreach extends stack_cas_castext2_block {
                                 new MP_Identifier('simp'),
                             ]),
                         ]),
-                    ]));
+                    ])
+                );
             }
             $definedbody->items[] = $body;
 
             $r->arguments[] = new MP_Loop($definedbody, [
-                new MP_LoopBit('for', new MP_Operation(':', new MP_Identifier('__ct2_foreach___iter'),
-                new MP_Integer(1))),
-                new MP_LoopBit('thru', new MP_FunctionCall(new MP_Identifier('ev'),
+                new MP_LoopBit('for', new MP_Operation(
+                    ':',
+                    new MP_Identifier('__ct2_foreach___iter'),
+                    new MP_Integer(1)
+                )),
+                new MP_LoopBit('thru', new MP_FunctionCall(
+                    new MP_Identifier('ev'),
                     [
                         new MP_FunctionCall(new MP_Identifier('min'), $lengths),
                         new MP_Identifier('simp'),
-                    ])),
+                    ]
+                )),
             ]);
         } else {
             // If we only iterate over one thing we can skip the min logic and assing directly.
             // Init based on the type of result.
             if ($flat) {
-                $r->arguments[] = new MP_Operation(':', new MP_Identifier('__ct2_foreach___tmp'),
-                    new MP_String(''));
+                $r->arguments[] = new MP_Operation(
+                    ':',
+                    new MP_Identifier('__ct2_foreach___tmp'),
+                    new MP_String('')
+                );
             } else {
-                $r->arguments[] = new MP_Operation(':', new MP_Identifier('__ct2_foreach___tmp'),
-                    new MP_List([new MP_String('%root')]));
+                $r->arguments[] = new MP_Operation(
+                    ':',
+                    new MP_Identifier('__ct2_foreach___tmp'),
+                    new MP_List([new MP_String('%root')])
+                );
             }
 
             $ev = stack_ast_container::make_from_teacher_source($this->params[array_keys($this->params)[0]]);
@@ -161,8 +188,11 @@ class stack_cas_castext2_foreach extends stack_cas_castext2_block {
     public function validate_extract_attributes(): array {
         $r = [];
         foreach ($this->params as $key => $value) {
-            $r[] = stack_ast_container_silent::make_from_teacher_source($key . ':' . $value, 'ct2:foreach',
-                new stack_cas_security());
+            $r[] = stack_ast_container_silent::make_from_teacher_source(
+                $key . ':' . $value,
+                'ct2:foreach',
+                new stack_cas_security()
+            );
         }
         return $r;
     }

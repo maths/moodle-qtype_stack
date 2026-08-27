@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>27.3.4.3 centre of mass</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h4> Centre of mass</h4>
+<p>The expressions for the centre of mass \((\overline{x},\ \overline{y},\ \overline{z})\) of a solid of density \(\rho(x,y,z)\) are given below \[\begin{aligned} \overline{x} = \frac{\displaystyle\int \rho(x,y,z) x \;\mathrm{d}V}{\displaystyle\int\rho(x,y,z) \;\mathrm{d}V} \qquad \overline{y} = \frac{\displaystyle\int \rho(x,y,z) y \;\mathrm{d}V}{\displaystyle\int\rho(x,y,z) \;\mathrm{d}V} \qquad \overline{z} = \frac{\displaystyle\int \rho(x,y,z) z \;\mathrm{d}V}{\displaystyle\int\rho(x,y,z) \;\mathrm{d}V}\qquad\qquad\qquad\qquad\qquad\qquad\end{aligned}\] In the (fairly common) case where the density \(\rho\) does not vary with position and is constant, these results simplify to \(\qquad\displaystyle \overline{x}= \dfrac{\displaystyle\int x \;\mathrm{d}V}{\displaystyle\int \;\mathrm{d}V}\qquad\quad \overline{y} = \dfrac{\displaystyle\int y \;\mathrm{d}V}{\displaystyle\int \;\mathrm{d}V} \qquad\quad \overline{z}= \dfrac{\displaystyle\int z \;\mathrm{d}V}{\displaystyle\int \;\mathrm{d}V}\)</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

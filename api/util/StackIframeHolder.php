@@ -44,5 +44,4 @@ class StackIframeHolder {
         }
         array_push(self::$iframes, $args);
     }
-
 }

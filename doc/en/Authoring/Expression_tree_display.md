@@ -98,7 +98,7 @@ In order to correctly display list items within the `<ul class='algebratree'>` l
 2. `<span class='atom'>` is used to display atoms and terminal nodes.
 3. `<span class='cell'>` has minimal style, and is not used by the Maxima code.  This is intended for general use.
 
-The code does its best to respest the LaTeX output.  If you create special tex rules using `texput` you also have to tell the tree generation code to look for this rule.  STACK has a set `tree_texlist` of operators to which special rules apply.  To add a rule use the following.
+The code does its best to respect the LaTeX output.  If you create special tex rules using `texput` you also have to tell the tree generation code to look for this rule.  STACK has a set `tree_texlist` of operators to which special rules apply.  To add a rule use the following.
 
      texput(boo, "\\diamond");
      tree_texlist:union(tree_texlist,{"boo"});

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>16.2.1.2 Divergence condition for an infinite series</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>The divergence test</h4>
+<p>An almost obvious requirement that an infinite series should be convergent is that the individual terms in the series should get smaller and smaller. This leads to the following Key Point:</p>
+<div class="HELM_keypoint">
+    <h4>Key Point</h4>
+    <p>The condition: \[ a_p \to 0 \qquad \mathrm{as} \; p \; \mathrm{increases} \quad \left(\text{mathematically:} \lim_{p \to \infty} a_p = 0\right)\] is a <strong>necessary</strong>&nbsp;condition for the convergence of the series \(\displaystyle{ \sum_{p=1}^{\infty}
+        a_p}\) .&nbsp;
+        <br></p>
+    <p><strong>It is not possible for an infinite series to be convergent unless this condition holds.</strong><br></p>
+</div><br>We need to be careful with the logic here. If a series converges then its terms tend to zero. If we observe that the terms of a series tend to zero then we cannot make any conclusion about the series. It might converge, or it might diverge (see the
+harmonic series).<br><br>If we reverse the logic, called taking the contrapositive, we have the following key point.<br><br><br>
+
+<div class="HELM_keypoint">
+    <h4>Key Point</h4>
+    <p>Given the series \[\sum_{p=1}^\infty a_p\] we can negate the condition above \[ a_p \nrightarrow 0 \qquad \mathrm{as} \; p \; \mathrm{increases} \quad \left(\text{mathematically:} \lim_{p \to \infty} a_p \neq 0\text{ or }\lim_{p \to \infty} a_p\text{
+        does not exist.}\right) \] When this condition is satisfied we can conclusively say that the series is divergent. This is called the <strong>divergence test</strong>.
+    </p>
+</div>
+Remember that not all divergent series satisify the divergence test.]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

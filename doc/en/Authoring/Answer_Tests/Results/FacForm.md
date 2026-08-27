@@ -1,10 +1,10 @@
 # FacForm: Answer test results
 
-This page exposes the results of running answer tests on STACK test cases.  This page is automatically generated from the STACK unit tests and is designed to show question authors what answer tests actually do.  This includes cases where answer tests currentl fail, which gives a negative expected mark.  Comments and further test cases are very welcome.
+This page exposes the results of running answer tests on STACK test cases.  This page is automatically generated from the STACK unit tests and is designed to show question authors what answer tests actually do.  This includes cases where answer tests currently fail, which gives a negative expected mark.  Comments and further test cases are very welcome.
 
 
 
-<h2>FacForm</h2><div class="no-overflow"><table class="flexible table table-striped table-hover generaltable generalbox stacktestsuite"><thead><tr><th class="header c0" scope="col">Test<div class="commands"></div></th><th class="header c1" scope="col">?<div class="commands"></div></th><th class="header c2" scope="col">Student response<div class="commands"></div></th><th class="header c3" scope="col">Teacher answer<div class="commands"></div></th><th class="header c4" scope="col">Opt<div class="commands"></div></th><th class="header c5" scope="col">Mark<div class="commands"></div></th><th class="header c6" scope="col">Answer note<div class="commands"></div></th>
+<h2>FacForm</h2><div class="table-responsive"><table class="flexible table table-striped table-hover generaltable generalbox stacktestsuite"><thead><tr><th class="header c0" scope="col">Test<div class="commands"></div></th><th class="header c1" scope="col">?<div class="commands"></div></th><th class="header c2" scope="col">Student response<div class="commands"></div></th><th class="header c3" scope="col">Teacher answer<div class="commands"></div></th><th class="header c4" scope="col">Opt<div class="commands"></div></th><th class="header c5" scope="col">Mark<div class="commands"></div></th><th class="header c6" scope="col">Answer note<div class="commands"></div></th>
 </tr></thead><tbody>
 <tr class="expectedfail">
   <td class="cell c0">FacForm</td>
@@ -417,6 +417,58 @@ This page exposes the results of running answer tests on STACK test cases.  This
 <tr class="pass">
   <td class="cell c0">FacForm</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>-2*(1-x^2)</pre></td>
+  <td class="cell c3"><pre>2*(x-1)*(x+1)</pre></td>
+  <td class="cell c4"><pre>x</pre></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">ATFacForm_notfactored.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">Your answer is not factored. You could still do some more work on the term <span class="filter_mathjaxloader_equation"><span class="nolink">\(1-x^2\)</span></span>.</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">FacForm</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>(1-x^2)*-2</pre></td>
+  <td class="cell c3"><pre>2*(x-1)*(x+1)</pre></td>
+  <td class="cell c4"><pre>x</pre></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">ATFacForm_notfactored.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">Your answer is not factored. You could still do some more work on the term <span class="filter_mathjaxloader_equation"><span class="nolink">\(1-x^2\)</span></span>.</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">FacForm</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>-x*(1-x^2)</pre></td>
+  <td class="cell c3"><pre>x*(x-1)*(x+1)</pre></td>
+  <td class="cell c4"><pre>x</pre></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">ATFacForm_notfactored.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">Your answer is not factored. You could still do some more work on the term <span class="filter_mathjaxloader_equation"><span class="nolink">\(1-x^2\)</span></span>.</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">FacForm</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>-x^3*(1-x^2)</pre></td>
+  <td class="cell c3"><pre>x^3*(x-1)*(x+1)</pre></td>
+  <td class="cell c4"><pre>x</pre></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">ATFacForm_notfactored.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">Your answer is not factored. You could still do some more work on the term <span class="filter_mathjaxloader_equation"><span class="nolink">\(1-x^2\)</span></span>.</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">FacForm</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(1-x)^2</pre></td>
   <td class="cell c3"><pre>(x-1)^2</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -497,6 +549,15 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c0">FacForm</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(1-x)*(2-x)*(3-x)</pre></td>
+  <td class="cell c3"><pre>-x^3+6*x^2-11*x+6</pre></td>
+  <td class="cell c4"><pre>x</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATFacForm_true.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">FacForm</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>-(x-1)*(2-x)*(3-x)</pre></td>
   <td class="cell c3"><pre>-x^3+6*x^2-11*x+6</pre></td>
   <td class="cell c4"><pre>x</pre></td>
   <td class="cell c5">1</td>
@@ -602,6 +663,28 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c0">FacForm</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(y-4)*y*(3*y+6)</pre></td>
+  <td class="cell c3"><pre>3*(y-4)*y*(y+2)</pre></td>
+  <td class="cell c4"><pre>y</pre></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">ATFacForm_notfactored.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">Your answer is not factored. You could still do some more work on the term <span class="filter_mathjaxloader_equation"><span class="nolink">\(3\cdot y+6\)</span></span>. You need to take out a common factor.</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">FacForm</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>-3*(4-y)*y*(y+2)</pre></td>
+  <td class="cell c3"><pre>3*(y-4)*y*(y+2)</pre></td>
+  <td class="cell c4"><pre>y</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATFacForm_true.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">FacForm</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>-(4-y)*y*(3*y+6)</pre></td>
   <td class="cell c3"><pre>3*(y-4)*y*(y+2)</pre></td>
   <td class="cell c4"><pre>y</pre></td>
   <td class="cell c5">0</td>

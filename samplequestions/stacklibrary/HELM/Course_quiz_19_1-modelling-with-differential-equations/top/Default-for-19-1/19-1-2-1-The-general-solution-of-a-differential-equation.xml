@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>19.1.2.1 The general solution of a differential equation</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>The general solution of a differential equation</h4>
+<p>Consider the equation <span class="math inline">\(y=A \text{e}^{2x}\)</span> where <span class="math inline">\(A\)</span> is an arbitrary constant. If we differentiate it we obtain <span class="math inline">\[
+{dy\over dx}=2A\text{e}^{2x}\]</span> and so, since <span class="math inline">\[y=A\text{e}^{2x}\]</span> we obtain <span class="math inline">\[ {dy\over {dx}}=2y.\]</span> Thus a differential equation satisfied by <span class="math inline">\(y\)</span> is <span class="math inline">\[{dy\over dx}=2y.\]</span> Note that we have eliminated the arbitrary constant.</p>
+<p>Now consider the equation <span class="math inline">\[y=A\cos 3x+B\sin 3x\]</span> where <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are arbitrary constants. Differentiating, we obtain <span class="math inline">\[ 
+{dy\over dx}=-3A\sin 3x+3B\cos 3x.\]</span></p>
+<p>Differentiating a second time gives <span class="math inline">\[
+{d^2y\over dx^2}=-9\,A\cos 3x-9\,B\sin 3x.\]</span> The right-hand side is simply <span class="math inline">\((-9)\)</span> times the expression for <span class="math inline">\(y\)</span>. Hence <span class="math inline">\(y\)</span> satisfies the differential
+    equation <span class="math inline">\[ 
+{d^2y\over dx^2}=-9y.\]</span></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>38.1.2.8 Important Continous Distributions</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h5>Important Continous Distributions</h5><p>There are a number of continuous distributions which have important applications in engineering and science. The areas of application and a little of the history (where appropriate) of the more important and useful distributions will be discussed in the later quizzes. Among the most important continuous probability distributions are the following.</p>
+<ol><li>The Uniform or Rectangular distribution, where the random variable \(X\) is restricted to a finite interval \([a, b]\) and \(f(x)\) has constant density often defined by a function of the form:
+\[ f(x) = \begin{cases} \dfrac{1}{b-a} &amp; \text{for all $ a \leq&nbsp; x \leq b$} \\ \\ 0 &amp; \text{elsewhere} \end{cases}. \]</li> 
+<li>The Exponential distribution defined by a probability density function of the form:
+\[ f(t)= \lambda e ^{-\lambda t},\] \(\lambda\) is a given constant.<br></li>
+<li>The Normal distribution (often called the Gaussian distribution) where the random variable \(X\) is defined by a probability density function of the form:
+\[f(x) = \dfrac{1}{\sigma \sqrt{2\pi}} e^{-(x-\mu)^2/2\sigma^2},\] \(\sigma, \mu\) are given constants.</li>
+<li>The Weibull distribution where the random variable \(X\) is defined by a probability density
+function of the form: \[f(x)=\alpha \beta (\alpha x)^{\beta-1}e^{-(\alpha x)^{\beta}},\] \(\alpha, \beta\) are given constants.</li></ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>19.1.2.6 Example of family of solutions</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4 class="HELM_example">Example</h4>
+<p>Solve the differential equation <span class="math inline">\(\displaystyle \frac{\mathrm{d}^2y}{\mathrm{d}x^2}=6x\)</span> subject to the conditions:</p>
+
+<ol class="HELM_parts">
+    <li><span class="math inline">\(y(0)=2\)</span> and <span class="math inline">\(y(1)=3\)</span></li>
+    <li> <span class="math inline">\(y(0)=2\)</span> and <span class="math inline">\(y(1)=5\)</span> </li>
+    <li><span class="math inline">\(y(0)=2\)</span> and <span class="math inline">\(\dfrac{dy}{dx}=1\)</span> at <span class="math inline">\(x=0\)</span>.</li>
+</ol>
+
+<h4 class="HELM_solution">Solution</h4>
+<ol class="HELM_parts">
+    <li>Integrating the differential equation once produces <span class="math inline">\[ {dy\over dx}=3x^2+A.\]</span> The general solution is found by integrating a second time to give <span class="math inline">\(y=x^3+A\,x+B\)</span>, where <span class="math inline">\(A\)</span>        and <span class="math inline">\(B\)</span> are arbitrary constants. Imposing the conditions <span class="math inline">\(y(0)=2\)</span> and <span class="math inline">\(y(1)=3\)</span>: at <span class="math inline">\(x=0\)</span> we have
+        <span class="math inline">\(y=2=0+0+B=B\)</span> so that <span class="math inline">\(B=2\)</span>, and at <span class="math inline">\(x=1\)</span> we have <span class="math inline">\(y=3=1+A+B=1+A+2\)</span>. Therefore <span class="math inline">\(A=0\)</span>        and the solution is <span class="math inline">\[ y=x^3+2.\]</span>.</li>
+    <li> Here the second condition is <span class="math inline">\(y(1)=5\)</span> so at <span class="math inline">\(x=1\)</span> <span class="math inline">\[ y=5=1+A+2\qquad \text{so that}\quad A=2\]</span> and the solution in this case is
+        <span class="math inline">\[ y=x^3+2x+2.\]</span>
+    </li>
+    <li>Here the second condition is <span class="math inline">\[ {dy\over dx}=1\ \text{at}\ x=0\ \quad \text{i.e.}\quad \ y'(0)=1\]</span> then since <span class="math inline">\(\dfrac{dy}{dx}=3x^2+A\)</span>, putting <span class="math inline">\(x=0\)</span>        we get: <span class="math inline">\[ {dy\over dx}=1=0+A\]</span> so that <span class="math inline">\(A=1\)</span> and the solution in this case is <span class="math inline">\[y=x^3+x+2\]</span>.
+    </li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

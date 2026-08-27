@@ -88,6 +88,7 @@ require_login();
         const url = window.location.origin + '/test';
         http.open("POST", url, true);
         http.setRequestHeader('Content-Type', 'application/json');
+        const requestLanguage = 'en';
 
         // Create nested <div>s with ids and titles representing the file structure in
         // preparation for displaying results.
@@ -218,7 +219,7 @@ require_login();
             }
           }
         };
-        http.send(JSON.stringify({'questionDefinition': questionxml}));
+        http.send(JSON.stringify({'questionDefinition': questionxml, 'lang': requestLanguage}));
       }
 
       /**

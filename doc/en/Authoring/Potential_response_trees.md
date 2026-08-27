@@ -32,7 +32,7 @@ In each node two expressions are compared using a specified [answer tests](Answe
 
 ## Outcomes  ##
 
-The outcomes are
+The outcomes of running a potential response tree are
 
 1. The raw score
 2. The penalty for this attempt
@@ -98,18 +98,18 @@ The feedback created by PRTs has the following parts concatenated together.
 
     [Generic feedback] [Runtime errors] [PRT generated feedback] [Score ?]
 
-The `[Generic feedback]` is a question level option, e.g. "Standard feedback for correct", to provide consistency across a question. By default the `[Generic feedback]` contains both an initial symbol, and a language sentence.  The current "correct" default is
+The `[Generic feedback]` is a question level option, e.g. "Standard feedback for correct", to provide consistency across a question. By default the `[Generic feedback]` contains both an initial symbol, and a language sentence.  The current "correct" default is displayed as
 
 <span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.
 
 How PRT feedback is displayed is controlled by the PRT option `feedbackstyle` as follows.  Note the Generic feedback might include the symbol, if you retain the default.
 
-Value | Options      | Symbol | Generic feedback | Errors | PRT feedback | Score ?
+Value | Options      | Symbol | Generic feedback | Errors | PRT feedback | Score
 ------|--------------|--------|------------------|--------|--------------|------------------------------------------
-  0   | Formative    |  No    |  No              |  Yes   |  Yes         | No (PRT does not contribute to score)
+  0   | Formative    |  No    |  No              |  Yes   |  Yes         | PRT does not contribute to score
   1   | Standard     |  No    |  Yes             |  Yes   |  Yes         | Respects quiz setting
-  2   | Compact      |  Yes   |  No              |  Yes   |  Yes         | No
-  3   | Symbol only  |  Yes   |  No              |  Yes   |  No          | No
+  2   | Compact      |  Yes   |  No              |  Yes   |  Yes         | Not shown
+  3   | Symbol only  |  Yes   |  No              |  Yes   |  No          | Not shown
 
 Note that the "Compact" PRT feedback uses `<span>` tags and not `<div>`.  This allows inclusion inline, without new paragraphs settings.  However, `<span>` tags cannot contain a block level element, such as a `<div>` or `<p>`. So, if you include a block level element in your PRT feedback then the browser may "spit this out" and misplace the feedback. Also, MathJax may not display mathematics correctly on the page when there is an HTML error such as this.  If you use the "Compact" feedback, please author only minimal PRT feedback with no block level HTML elements.
 

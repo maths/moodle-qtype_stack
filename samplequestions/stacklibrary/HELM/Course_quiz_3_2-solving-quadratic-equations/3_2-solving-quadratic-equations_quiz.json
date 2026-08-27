@@ -1,0 +1,164 @@
+{
+    "quiz": {
+        "name": "3_2 Solving Quadratic Equations",
+        "intro": "<p>A <b>quadratic equation<\/b> is one which can be written in the form \\(ax^2+bx+c=0\\) where \\(a\\), \\(b\\) and \\(c\\) are numbers, \\(a\\neq 0\\), and \\(x\\) is the unknown whose value(s) we wish to find. In this Quiz we describe several ways in which quadratic equations can be solved.&nbsp;<\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Quadratic Equations and Solution by Factorisation",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "5",
+            "heading": "Completing the Square",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "9",
+            "heading": "The Quadratic Equation",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "11",
+            "heading": "Engineering Example 1",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "12",
+            "heading": "Engineering Example 2",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "13",
+            "heading": "Plotting Quadratic Curves and Exercises",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-3-2\/3-2-1-1-Quadratic-Equations.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-3-2\/3-2-2-1-Solution-by-Factorisation.xml"
+        },
+        {
+            "slot": "3",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-3-2\/3-2-2-2-Solve-the-quadratic-equation-(integer-roots).xml"
+        },
+        {
+            "slot": "4",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-3-2\/3-2-2-3-Solve-the-quadratic-equation-(rationals).xml"
+        },
+        {
+            "slot": "5",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-3-2\/3-2-3-1-Completing-the-Square.xml"
+        },
+        {
+            "slot": "6",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-3-2\/3-2-3-2-Completing-the-square-exercises.xml"
+        },
+        {
+            "slot": "7",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-3-2\/3-2-3-3-Completing-the-square-exercises-2.xml"
+        },
+        {
+            "slot": "9",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-3-2\/3-2-4-1-Solution-by-Formula.xml"
+        },
+        {
+            "slot": "10",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-3-2\/3-2-4-2-Using-the-Quadratic-Formula.xml"
+        },
+        {
+            "slot": "11",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-3-2\/3-2-4-3-Engineering-Example-1.xml"
+        },
+        {
+            "slot": "12",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-3-2\/3-2-4-4-Engineering-Example-2.xml"
+        },
+        {
+            "slot": "13",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-3-2\/3-2-5-1-Geometrical-representation-of-quadratics.xml"
+        },
+        {
+            "slot": "14",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-3-2\/3-2-5-2-Solve-the-quadratic-equation-(integer-roots)-(copy-for-end).xml"
+        },
+        {
+            "slot": "15",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-3-2\/3-2-5-3-Solve-the-quadratic-equation-(rationals)-(copy-for-end).xml"
+        },
+        {
+            "slot": "16",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-3-2\/3-2-5-4-Using-the-Quadratic-Formula.xml"
+        },
+        {
+            "slot": "8",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-3-2\/3-2-3-4-Completing-the-square-in-practice.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "1.11111"
+        }
+    ]
+}

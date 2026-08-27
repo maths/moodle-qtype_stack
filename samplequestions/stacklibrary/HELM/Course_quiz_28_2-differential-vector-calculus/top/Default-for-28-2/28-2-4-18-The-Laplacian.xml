@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>28.2.4.18 The Laplacian</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>The Laplacian</h3>
+<p>The Laplacian of a function \(\phi\) is written as \({\nabla}^2 \phi\) and is defined as: Laplacian \(\phi\) = div grad \(\phi\), that is \[\begin{aligned}
+{\nabla}^2 \phi &= {\underline \nabla} \cdot {\underline \nabla} \phi \quad\quad\quad\quad\quad\quad \\
+&= {\underline \nabla} \cdot \left( \frac{\partial \phi}{\partial x} \underline{i} + \frac{\partial \phi}{\partial y} \underline{j} + \frac{\partial \phi}{\partial z} \underline{k} \right) \\
+&= \frac{\partial^2 \phi}{\partial x^2} + \frac{\partial^2 \phi}{\partial y^2} + \frac{\partial^2 \phi}{\partial z^2}
+\end{aligned}\]
+The equation \({\nabla}^2 \phi = 0\), that is \(\dfrac{\partial^2 \phi}{\partial x^2} + \dfrac{\partial^2 \phi}{\partial y^2} + \dfrac{\partial^2 \phi}{\partial z^2} = 0\) is known as Laplace&rsquo;s equation and has applications in many branches of engineering including Heat Flow, Electrical and Magnetic Fields and Fluid Mechanics.</p>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Find the Laplacian of \(u=x^2 y^2 z + 2 x z\).</p>
+<h4 class="HELM_solution">Solution</h4>
+\[\nabla^2 u = \frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2} + \frac{\partial^2 u}{\partial z^2} = 2y^2z + 2x^2z + 0 = 2(x^2+y^2)z.\]]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

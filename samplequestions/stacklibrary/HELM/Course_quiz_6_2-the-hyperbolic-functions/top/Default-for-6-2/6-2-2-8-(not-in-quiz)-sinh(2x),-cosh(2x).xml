@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="multichoice">
+    <name>
+      <text>6.2.2.8 (not in quiz) sinh(2x), cosh(2x)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise&nbsp;</p>
+<p>Which of the following identities are correct?</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>Note the following.</p>
+<p>\( \sinh(2x) = \sinh (x+x) \), so using the formula for \( \sinh(x+y) \) with \( y = x \) we obtain \( \sinh(2x) = 2 \sinh x \cosh x \).</p>
+<p>\( \cosh(2x) = \cosh (x+x) \), so using the formula for \( \cosh(x+y) \) with \( y = x \) we obtain \( \cosh(2x) = \cosh^2 x + \sinh^ 2 x \).</p>
+<p>Recall that \( \cosh^2 x - \sinh^2 x = 1 \) (previous key point) which implies \( \sinh^2 x = \cosh^2 x - 1 \), so combining with the formula for \(\cosh^2 x\) just obtained above we get
+\[ \cosh(2x) = \cosh^2 x + \sinh^ 2 x = \cosh^2 x + ( \cosh^2 x - 1) = 2 \cosh^2 x - 1.\]</p>
+<p>Also, \( \cosh^2 x - \sinh^2 x = 1 \) (previous key point) implies \( \cosh^2 x = 1 + \sinh^2 x\), so combining with the formula for \(\cosh^2 x\) just obtained above we get
+\[ \cosh(2x) = \cosh^2 x + \sinh^ 2 x = (1+ \sinh^2 x) + \sinh^2 x = 1 + 2 \sinh^2 x.\]</p>
+<p>To see that each of the other identities is incorrect, specify a particular value for \(x\) for which the identity is wrong. Also note that they are inconsistent with the correct identities that are proved above. </p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <single>false</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <showstandardinstruction>1</showstandardinstruction>
+    <correctfeedback format="html">
+      <text>Your answer is correct.</text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="html">
+      <text>Your answer is partially correct.</text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="html">
+      <text>Your answer is incorrect.</text>
+    </incorrectfeedback>
+    <shownumcorrect/>
+    <answer fraction="25" format="html">
+      <text><![CDATA[<p>\( \sinh 2x \equiv 2 \sinh x \cosh x \)</p>]]></text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="25" format="html">
+      <text><![CDATA[<p>\( \cosh 2x \equiv \cosh^2x + \sinh^2x \)</p>]]></text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="25" format="html">
+      <text><![CDATA[<p>\( \cosh 2x \equiv 2 \cosh^2x - 1 \)</p>]]></text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="25" format="html">
+      <text><![CDATA[<p>\( \cosh 2x \equiv 1 + 2 \sinh^2 x \)</p>]]></text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text><![CDATA[<p>\( \cosh^2x + \sinh^2x \equiv 1 \)</p>]]></text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text><![CDATA[<p>\( \cosh 2x \equiv - 2 \sinh x \cosh x \)<br></p>]]></text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text><![CDATA[<p>\( \sinh 2x \equiv \sinh^2x - \cosh^2x \)<br></p>]]></text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text><![CDATA[<p>\( \sinh 2x \equiv 2 \sinh^2x - 1 \)<br></p>]]></text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text><![CDATA[<p>\( \sinh 2x \equiv 1 + 2 \cosh^2 x \)<br></p>]]></text>
+      <feedback format="html">
+        <text/>
+      </feedback>
+    </answer>
+  </question>
+</quiz>

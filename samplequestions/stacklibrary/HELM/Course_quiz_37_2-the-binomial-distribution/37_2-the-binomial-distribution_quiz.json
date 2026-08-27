@@ -1,0 +1,100 @@
+{
+    "quiz": {
+        "name": "37_2 The Binomial Distribution",
+        "intro": "<p>A situation in which an experiment (or trial) is repeated a fixed number of times can be modelled,\nunder certain assumptions, by the binomial distribution. Within each trial, we focus attention on\na particular outcome. If the outcome occurs we label this as a success. The binomial distribution\nallows us to calculate the probability of observing a certain number of successes in a given number\nof trials.<\/p><p>You should note that the term \u2018success\u2019 (and by implication \u2018failure\u2019) are simply labels and as such\nmight be misleading. For example, counting the number of defective items produced by a machine\nmight be thought of as counting successes if you are looking for defective items! Trials with two\npossible outcomes are often used as the building blocks of random experiments. Two examples are:<\/p><p><\/p><ol><li>A particular mobile phone link is known to transmit 6% of \u2018bits\u2019 of information in error. One might need to know the probability that two bits out of the next ten transmitted\nare in error.<\/li><li>A machine is known to produce, on average, 2% defective components. One might need to know the probability that 3 items are defective in the next 20 produced.<\/li><\/ol>The binomial distribution will help you to answer such questions.<br><p><\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "9.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "The binomial model",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "3",
+            "heading": "Expectation and variance of the binomial distribution",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "5",
+            "heading": "Exercises",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-37-2\/37-2-1-The-binomial-model.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-37-2\/37-2-1-1-Using-the-binomial-model.xml"
+        },
+        {
+            "slot": "3",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-37-2\/37-2-2-Expectation-and-variance-of-the-binomial-distribution.xml"
+        },
+        {
+            "slot": "4",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-37-2\/37-2-2-1-Dice-roll-and-binomial-distribution.xml"
+        },
+        {
+            "slot": "5",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-37-2\/37-2-3-1-Tyre-burst-mountain-bike-rider.xml"
+        },
+        {
+            "slot": "6",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-37-2\/37-2-3-2-A-digital-transmission-channel.xml"
+        },
+        {
+            "slot": "7",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-37-2\/37-2-3-3-Choosing-randomly-an-answer-in-an-exam.xml"
+        },
+        {
+            "slot": "8",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-37-2\/37-2-3-6-A-terminal-that-requires-attention.xml"
+        },
+        {
+            "slot": "9",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-37-2\/37-2-3-10-A-machine-is-built-to-make-mass-produced-items.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "10.00000"
+        }
+    ]
+}

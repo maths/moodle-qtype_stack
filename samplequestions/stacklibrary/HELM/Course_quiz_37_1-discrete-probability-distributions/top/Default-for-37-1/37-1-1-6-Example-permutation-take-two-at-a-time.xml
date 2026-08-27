@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>37.1.1.6 Example permutation take two at a time</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Find the number of permutations of the four letters \(A, B, C\) and \(D\) taken two at a time.</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>We may choose the first letter in 4 ways and the second letter in 3 ways giving us 
+\(\qquad
+4\times 3=\dfrac{4\times 3\times 2\times 1}{1\times 2}=\dfrac{4!}{2!}=12\quad\) permutations]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

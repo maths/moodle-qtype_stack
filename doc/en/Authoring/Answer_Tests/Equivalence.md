@@ -2,9 +2,9 @@
 
 The prototype test is to establish if two expressions are _algebraically equivalent_.  This page documents this, and similar, equivalence tests.
 
-A crucial component in the assessment process the ability to decide if two expressions are equivalent.  It turns out there are many useful senses when trying to assess students' answers.
+The ability to decide if two expressions are equivalent is crucial.  There are many useful senses when trying to assess students' answers.
 
-Let us assume a teacher has asked a student to expand out \((x+1)^2\) and the response they have from one student is \(x^2+x+x+1\). This is "correct" in the sense that it is algebraically equivalent to \((x+1)^2\) and is in expanded form (actually two separate mathematical properties) but "incorrect" in the sense that the student has not _gathered like terms_ by performing an addition \(x+x\). What about a response \(2x+x^2+1\)?  This is, arguably, better in the sense that the terms are gathered, but the student here did not _order_ the terms to write their expression in canonical form. Hence, we need quite a number of different answer tests to establish equality in various senses of the word.
+Assume a teacher has asked a student to expand out \((x+1)^2\) and the response they have from one student is \(x^2+x+x+1\). This is "correct" in the sense that it is algebraically equivalent to \((x+1)^2\) and is in expanded form (actually two separate mathematical properties) but "incorrect" in the sense that the student has not _gathered like terms_ by performing an addition \(x+x\). What about a response \(2x+x^2+1\)?  This is, arguably, better in the sense that the terms are gathered, but the student here did not _order_ the terms to write their expression in canonical form. Hence, we need quite a number of different answer tests to establish equality in various senses of the word.
 
 This list is in approximate order of the size of the equivalence classes from most to least restrictive.
 
@@ -20,7 +20,7 @@ This list is in approximate order of the size of the equivalence classes from mo
 
 ### AlgEquiv {#AlgEquiv}
 
-This is the most commonly used test.  The pseudo code
+This is the most commonly used test.  The pseudo code (for mathematical _expressions_ at least) is
 
     If
       simplify(ex1-ex2) = 0
@@ -38,7 +38,24 @@ Note: exactly what this answer test does depends on what objects are given to it
 
 For sets, the CAS tries to write the expression in a canonical form.  It then compares the string representations these forms to remove duplicate elements and compare sets.  This is subtly different from trying to simplify the difference of two expressions to zero.  For example, imagine we have \(\{(x-a)^{6000}\}\) and \(\{(a-x)^{6000}\}\).  One canonical form is to expand out both sides.  While this work in principal, in practice this is much too slow for assessment.
 
-Currently we do check multiplicity of roots, so that \( (x-2)^2=0\) and \( x=2\) are not considered to be equivalent.  Similarly \(a^3b^3=0\) is not \(a=0 \text{ or } b=0\).  This is a long-standing issue and we would need a separate test to ignore multiplicity of roots.
+Equations and expressions are very different.  Two equations are equivalent if they have the same roots with the same multiplicity of roots.  For example, \((x-2)^2=0\) and \(x=2\) are not considered to be equivalent.  Similarly \(a^3b^3=0\) is not \(a=0 \text{ or } b=0\).  To establish equivalence of equations we use the pseudo code
+
+    If
+      numberp( (lhs(ex1)-rhs(ex1))/(lhs(ex2)-rhs(ex2)) )
+    then
+      true
+    else
+      false.
+
+That is to say, we turn the equation `ex1` into an expression `x1:simplify(lhs(ex1)-rhs(ex1))` and the equation `ex2` into an expression `x2:simplify(lhs(ex2)-rhs(ex2))`, and then simplify the ratio of the two numerators of `x1` and `x2`:, i.e. `num(x1)/num(x2)` (with some edge case detection of course).  If this is a number then we have cancelled algebraic factors precisely, and roots match (with multiplicity).  Notice we do not actually "solve" the equations during this process, thereby side-stepping the decidability question.  (We would need a separate test to ignore multiplicity of roots.)
+
+In calculating the ratio `x1/x2` we use Maxima's simplifier, which may be modified by commands like `assume`.  However, since we do not actually solve the equations we do not use `assume` to reject solutions themselves.  For example, in the following situation
+
+    assume(x>0);
+    eq1: a = (c*x^3)/x;
+    eq2: a*x = c*x^3;
+
+`eq1` does not have \(0\) as a solution, whereas `eq2` does have \(0\) as a solution, the ratio simplifies to `1/x` indicating that `eq2` has a zero solution which is not balanced by a corresponding solution in `eq`.   Since the equations are never solved, the `assume(x>0)` never comes into play here.  (We would need a separate test to use `assume` statements and reject roots.)
 
 Inequalities are turned into sets of real numbers they represent.  When this is done it is indicated by the answer note `ATInequality_solver.`  If you want `a>1` to be _not_ the same as `x>1` then you need to test in a more syntactic way, not using algebraic equivalence.
 
@@ -125,4 +142,4 @@ As the test allows for polynomials in several variables, it can cope with the in
 * This test does not check if the student actually "fully solved" the equations!  E.g. \[ [x^2=1] \equiv [(x-1)\cdot (x+1)=0] \] under this test.
 * This test disregards whether [simplification](../../CAS/Simplification.md) is switched on, it only simplifies its arguments where required.
 This allows the test to list equations in feedback that the student has erroneously included in their system.
-* You can allow the student to include "redundant assignments".  For example, if you have `[90=v*t,90=(v+5)*(t-1/4)]` but the student has `[d=90,d=v*t,d=(v+5)*(t-1/4)])` then the systems are not equivalent, becuase the student has an extra variable.  Use `stack_eval_assignments` to eliminate explicit assignments of the form `var=num` and evaluate the other expression in this context.
+* You can allow the student to include "redundant assignments".  For example, if you have `[90=v*t,90=(v+5)*(t-1/4)]` but the student has `[d=90,d=v*t,d=(v+5)*(t-1/4)])` then the systems are not equivalent, because the student has an extra variable.  Use `stack_eval_assignments` to eliminate explicit assignments of the form `var=num` and evaluate the other expression in this context.

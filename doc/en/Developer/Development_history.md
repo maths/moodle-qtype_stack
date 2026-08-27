@@ -2,13 +2,116 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
-## Version 4.9.1
+## Version 4.13.1 (2026080600)
+
+Released August 2026.
+
+This release contains some useful bug fixes, and improvements.
+
+1. Improve free-text blocks by matching scroll between textarea and preview block.
+2. Add in syntax highlighting and line numbering to question and feedback variables via the ace editor. Contributed by Hieu Vu and team on behalf of The Open University (UK).
+
+## Version 4.13.0 (2026062900)
+
+Released June 2026.
+
+__Changes and new features.__
+
+This release has a major new feature: ["free-text" input](../Specialist_tools/Free_text_input/index.md) to allow students to input typed free-text proof.
+
+**NOTE** [STACK issue #1777](https://github.com/maths/moodle-qtype_stack/issues/1777) means that importing free-text questions can break the display of the worked solution.  To work around this issue, (1) import the question, (2) edit the question without making changes, (3) save the question, (4) test the worked solution is correctly displayed.  We will resolve this issue.
+
+Issues with [github milestone 4.13.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.13.0) include
+
+1. Support for Maxima 5.47.0, 5.48.0, and 5.49.0.  This includes a fix for issue #1281 from 5.48.0.
+2. Question tests can now test the whole route through a PRT, rather than just the final node.  This is a significant improvement on the ability to test questions.  This is back-compatible with older questions.
+3. Add in a new ["free-text" input](../Specialist_tools/Free_text_input/index.md) to allow students to input typed free-text proof.
+4. Allow most input types to use the extra option 'manualgraded'.
+5. Expand the use of "align" and "monospace" input options to textarea and equiv inputs.
+6. Move chemistry data and some core functions into the Maxima supported code.  Load these with `stack_chemistry_declare(true);` in the question variables.
+7. Redesign of question dashboard layout.
+
+
+## Version 4.12.0 (2026042200)
+
+Released April 2026.
+
+__Important release notes:__
+
+* STACK 4.12.0 requires PHP 8.1 or newer.  PHP 7.4 will not work.
+* We no longer support Moodle 4.1.
+* We now require the plugin [import as new version](https://github.com/maths/moodle-qbank_importasversion/).
+* We suggest you change the STACK options as follows to match the new default settings.
+
+1. Option `qtype_stack | prtcorrect` should now be
+
+    [[commonstring key="symbolicprtcorrectfeedback"/]] [[commonstring key="defaultprtcorrectfeedback"/]]
+
+2. Option `qtype_stack | prtpartiallycorrect` should now be
+
+    [[commonstring key="symbolicprtpartiallycorrectfeedback"/]] [[commonstring key="defaultprtpartiallycorrectfeedback"/]]
+
+3. Option `qtype_stack | prtincorrect` should now be 
+
+    [[commonstring key="symbolicprtincorrectfeedback"/]] [[commonstring key="defaultprtincorrectfeedback"/]]
+
+These options can be changed on the STACK plugin page (before or after upgrade).
+
+__Changes and new features.__
+
+1. Add in new parser (parser2): major re-engineering of the Maxima code.
+2. Add in support for number bases.
+3. Validation of XML imports. XML files that fail validation will be marked as broken but still imported where possible.
+4. Editing of question XML within STACK from link in STACK dashboard. STACK now requires the importasversion plugin to make this possible.
+5. Much code tidying to comply with updated to Moodle Code Checker.
+6. Add in suppport for `style` in Parsons blocks.  E.g. you can now use `style="compact"` to get smaller, tighter items.
+7. Facilitate bulk test for questions in a particular quiz.  (Issue #1521)  Follow the link from the question dashboard to see quizzes in which that question is used.
+8. STACK library now imports whole quizzes - look for a `.json` file in the library.
+9. Add in support for [local stack libraries](../STACK_question_admin/Library/index.md) of questions in the `stack/sitelibrary` directory within the Moodle data directory.
+10. Change the *Generic feedback* defaults to use the common language strings.  __Users upgrading their site in place will need to change the settings in the plugin setting page to the new default.__
+11. The Generic feedback and decimals options have been removed from questions in the question library.  When importing library questions, the current site defaults will be used.
+12. Remove the German language packs locally (#1710).  Note, the API now includes language packs as a config option when you build the docker container.
+
+## Version 4.11.1 (2026010500)
+
+Released January 2026.
+
+This incremental release contains some minor, but useful, bug fixes.
+
+* Add in support for JSXGraph 1.12.2.
+* Add in support for implicit plots via Maxima's `plot2d` command, wrapped in STACK as `plot`.
+
+This release contains the [HELM materials](../STACK_question_admin/Library/HELM.md) as part of the STACK question library.  HELM question banks are managed using [Gitsync](https://github.com/maths/moodle-qbank_gitsync).
+
+## Version 4.11.0 (2025102100)
+
+Released October 2025.
+
+Improvements in documentation and minor bug fixes.
+
+1. Add in sticky footer for editing form.
+2. Add in support for [chemical data](../Topics/Chemistry/index.md).
+3. Update Mathjax version to 3.2.2 to match Moodle 5+.
+4. Refactor "Equiv" inputs to distinguish much better between "equation" reasoning and re-writing of equivalence "expressions".  See [equivalence reasoning](../Specialist_tools/Equivalence_reasoning/Equivalence_reasoning.md) docs.
+5. Add in `nounadd`, `nounmul` etc. to the parser to provide users access to these functions.
+6. Add in new flag `tex_plain_atoms` to control the display of atoms with [subscripts](../CAS/Subscripts.md).  Remove testing for changes on Maxima before 5.40.0.
+7. Add in the `Introductory-Mathematics` questions to the STACK library.  The library now has over 1600 STACK questions.
+
+## Version 4.10.0 (2025073100)
+
+Released July 2025.
+
+1. Add in a `style` attribute to the JSXGraph block to load local CSS styles.
+2. Add in the `json` input type.  This better supports JSON for JSXGraph, and better debugging in the existing GeoGebra and Parsons blocks.
+3. Allow the bulk tester to add `[[todo]]` blocks to the question descriptions with the `addtags` option.
+
+## Version 4.9.1 (2025040100)
 
 Released April 2025.
 
-Remove special charaters in filenames (which break the .zip download).
+Remove special characters in filenames (which break the .zip download).
 
-## Version 4.9.0
+## Version 4.9.0 (2025033100)
 
 Released March 2025.
 
@@ -23,41 +126,40 @@ Released March 2025.
 9. Remove support for the `win` platform (which hasn't been tested for many years).  See [issue #1379](https://github.com/maths/moodle-qtype_stack/issues/1379).
 10. Add in the [adapt block](../Authoring/Question_blocks/Dynamic_blocks.md) and associated dynamic blocks.
 
-## Version 4.8.5
+## Version 4.8.5 (2025030600)
 
 Released March 2025.
 
 Bring forward bug fixes to include in an official release.
 
-## Version 4.8.3
+## Version 4.8.3 (2025012100)
 
 Released January 2025.
 
 Bring forward bug fixes to include in an official release.  Update JSXGraph.
 
-## Version 4.8.1
+## Version 4.8.1 (2024111900)
 
 Released November 2024.
 
 Rename directories and files in the STACK library to avoid problems with the auto-generated .zip file.
 
-## Version 4.8.0
+## Version 4.8.0 (2024111500)
 
 Released November 2024.
 
 1. Add in the ability to insert stars for "unknown functions" in inputs.  E.g. `x(t+1)` becomes `x*(t+1)`.  This only affects "unknown" functions, not core functions such as `sin(x)`.
 2. Add in tags to the `[[todo]]` blocks to help with multi-authoring [workflow](../STACK_question_admin/Authoring_workflow.md).
 3. Add in a [question library](../AbInitio/Authoring_quick_start_6.md) page which allows users to load question from the sample question folder on the server.  This gives users ready access to openly released sample materials.
-4. Major update of the docs to separate out referenece, know how and topics.
+4. Major update of the docs to separate out reference, know how and topics.
 5. Better document the sample proofs, and provide a generic Parsons question to make it easier to use them.  See the [Proof samples](../Topics/Proof/Proof_samples.md) documentation.
 6. Allow the feedback variables to stop the execution of the PRT.  This is equivalent to one of the inputs being "invalid" or "blank".  The PRT does not get executed.  See the discussion in [issue #1227](https://github.com/maths/moodle-qtype_stack/issues/1227).
 7. Allow use of Maxima `let` commands, to generate [rules and patterns](../CAS/Rules.md) for bespoke simplification.
-8. Provisional support for STACK questions in the Moodle App. STACK questions of all input types now function in the Moodle App while online, complete with input validation. Dropdowns and checkboxes use native elements. This feature should be considered as in beta and under trial while we gather feedback on compatability with a wider range of devices, Moodle installations and questions. Existing questions may need work to fit better on a mobile screen. (Be sure to use App version 4.5+ to avoid a Moodle bug with MathJax in non-STACK questions.)
+8. Provisional support for STACK questions in the Moodle App. STACK questions of all input types now function in the Moodle App while online, complete with input validation. Dropdowns and checkboxes use native elements. This feature should be considered as in beta and under trial while we gather feedback on computability with a wider range of devices, Moodle installations and questions. Existing questions may need work to fit better on a mobile screen. (Be sure to use App version 4.5+ to avoid a Moodle bug with MathJax in non-STACK questions.)
 9. Improve Parsons blocks by (i) hashing for keys, and (ii) Add ability to log history of an attempt (for research).
 10. Add in a new [answer test based on a validator function](../Authoring/Answer_Tests/Other.md).
 
-
-## Version 4.7.0
+## Version 4.7.0 (2024072400)
 
 Released July 2024.
 
@@ -65,16 +167,16 @@ Released July 2024.
 2. Add in stack preamble via `%_stack_preamble_end;` in the question variables to allow some variables to be available in inputs.  This fixes [issue #1207](https://github.com/maths/moodle-qtype_stack/issues/1207) and [issue #1133](https://github.com/maths/moodle-qtype_stack/issues/1133).
 3. Allow Maxima code in keyvals to terminate expressions with a `$` (as in Maxima) [issue #1019](https://github.com/maths/moodle-qtype_stack/issues/1019).  This will allow better copy/paste to and from desktop maxima.
 4. Add in an option to fine-tune the multiplication sign used for scientific units:  `multsgnstackunits`.  See discussion in [issue #1080](https://github.com/maths/moodle-qtype_stack/issues/1080).
-5. Add in the "Deploy from n to m" deature to systematically deploy seeds.
+5. Add in the "Deploy from n to m" feature to systematically deploy seeds.
 6. Restyle response analysis page.
 
-## Version 4.6.0
+## Version 4.6.0 (2024060300)
 
 Released June 2024.
 
 This version will require moodle 4.0+. Moodle 3.x is no longer supported.
 
-1. Alter list of acceptible expressions.  Unicode super/subscripts now are invalid.  Use 150_replace filter in students' input.
+1. Alter list of acceptable expressions.  Unicode super/subscripts now are invalid.  Use 150_replace filter in students' input.
 2. Add in the extra input option `feedback` to run in parallel with validators to give opportunities for bespoke messages.
 3. Load the `functs` Maxima package, i.e. `load("functs");` to give access to some useful functions.
 4. Fix display and simplification of binomial coefficients (issue #931).
@@ -84,12 +186,12 @@ This version will require moodle 4.0+. Moodle 3.x is no longer supported.
 8. Add in support for drag and drop matching problems, as [grid](../Specialist_tools/Drag_and_drop/Grid.md) and [grouping](../Specialist_tools/Drag_and_drop/Grouping.md).
 
 
-## Version 4.5.0-hf2
+## Version 4.5.0-hf2 (2024012900)
 
 Fix critical bug in Javascript.
 Released January 2024.
 
-## Version 4.5.0
+## Version 4.5.0 (2023121100)
 
 Released December 2023.
 
@@ -149,9 +251,9 @@ Major re-working of Javascript in STACK.  Specifically
 1. STACK-JS a VLE agnostic JavaScript system that moves all script execution into sandbox iframes and restricts the things those scripts can do outside that sandbox. Basically, replaces the `[[jsxgraph]]`-block and provides ways for doing other scripting.
 2. Initial implementation of the `[[reveal]]`-block (#570) using the STACK-JS system.
 3. Various related blocks like `[[iframe]]`, `[[javascript]]`, `[[style]]`, `[[script]]`, and `[[cors]]`
-4. This version does not yet forbide all JavaScript outside STACK-JS, but do prepare future updates to do so and start migrating existing scripts into STACK-JS.
+4. This version does not yet forbid all JavaScript outside STACK-JS, but do prepare future updates to do so and start migrating existing scripts into STACK-JS.
 
-These changes are significant and we strongly recommned you test all affected questions.
+These changes are significant and we strongly recommend you test all affected questions.
 
 ## Version 4.4.2
 

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>2.1.1.3 Function Notation</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Several different notations are used to describe functions. For the trebling function in the figure above, it is common to write</p>
+ <p>\(\qquad f(x) = 3x.\) </p>
+<p>This indicates that with an input \(x\), the function, \(f\), produces an output of \(3x\). The input to the function is placed in the brackets after the '\(f\)'. Now, \(f(x)\) is read as '\(f\) is a function of \(x\)', or simply '\(f\) of \(x\)', meaning that the value of the output from the function depends upon the value of the input \(x\). The value of the output is often called the `value of the function’.
+
+</p><hr>
+<h4 class="HELM_example">Example</h4>
+<p>State in words the rule defined by each of the following functions:</p>
+<ol class="HELM_parts">
+<li>\(f(x)=6x\).</li>
+<li>\(f(t)=6t-1\).</li>
+<li>\(g(x)=x^2-7\).</li>
+<li>\(h(t)=t^3+5\).</li>
+<li>\(p(x)=x^3+5\).</li>
+</ol>
+
+
+<h4 class="HELM_solution">Solution</h4>
+<ol class="HELM_parts">
+<li><p>The rule for <span class="math inline">\(f\)</span> is ‘multiply the input by \(6\)’.</p>
+</li>
+<li><p>Here the input has been labelled \(t\). The rule for \(f\) is ‘multiply the input by \(6\) and subtract \(1\)’.</p>
+</li>
+<li><p>Here the function has been labelled \(g\). The rule for \(g\) is ‘square the input and subtract \(7\)’.</p>
+</li>
+<li><p>The rule for \(h\) is ‘cube the input and add \(5\)’.</p>
+</li>
+<li><p>The rule for \(p\) is ‘cube the input and add \(5\)’.</p>
+</li>
+</ol>
+
+<p>Note from the Example above, parts (d) and (e), that it is the rule that is important when describing a function and not the letters used. Both <span class="math inline">\(h(t)\)</span> and <span class="math inline">\(p(x)\)</span> instruct us to ‘cube the input and add \(5\)’. Different letter are used for the variables in each case but both functions do the same thing.<br></p>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Write down a mathematical function which can be used to describe the following rules:</p>
+<ol class="HELM_parts">
+  <li><p>‘square the input and divide the result by \(2\)’. Use the letter \(x\) for input and the letter \(f\) to represent the function.</p></li>
+  <li><p>‘divide the input by \(3\) and add \(7\)’. Call the function \(g\) and call the input \(t\).</p></li>
+</ol>
+
+<h4 class="HELM_solution">Solution</h4>
+<ol class="HELM_parts">
+<li><p>\( \displaystyle{f(x)={x^2\over 2}}\).</p></li>
+<li><p>\( \displaystyle{g(t)={t\over 3} + 7}\).</p></li>
+</ol>
+
+<p>&nbsp;</p>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>State the rule of each of the following functions:</p>
+<ol class="HELM_parts_inline">
+<li>\(f(x)=5x\),</li>
+<li>\(f(t)=5t\),</li>
+<li>\(f(t)=1-t\),</li>
+<li>\(f(x)=8x+10\),</li>
+<li>\(f(t)=7t-27\),</li>
+<li>\(\displaystyle{h(t)={t\over 3}+ {2\over 3}}\),</li>
+<li>\(\displaystyle{f(x)={1\over 1+x}}\).</li>
+</ol>
+
+
+<h4 class="HELM_solution">Solution</h4>
+<ol class="HELM_parts">
+<li><p>multiply the input by \(5\).</p>
+</li>
+<li><p>same as (a).</p>
+</li>
+<li><p>subtract the input from \(1\).</p>
+</li>
+<li><p>multiply the input by \(8\) and then add \(10\).</p>
+</li>
+<li><p> multiply the input by \(7\) and then subtract \(27\).</p>
+</li>
+<li><p>divide the input by \(3\) and then add \(2/3\).</p>
+</li>
+<li><p>add \(1\) to the input and then find the reciprocal of the result.</p>
+</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

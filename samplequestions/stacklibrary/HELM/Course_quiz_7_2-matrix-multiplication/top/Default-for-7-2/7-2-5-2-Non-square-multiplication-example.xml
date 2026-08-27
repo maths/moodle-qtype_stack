@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>7.2.5.2 Non-square multiplication example</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4 class="HELM_example">Example</h4>
+<p>Find the product \(AB\) if \(A = \begin{bmatrix} 1 &amp; 2 &amp; 2 \\ 2 &amp; 3 &amp; 4 \end{bmatrix}\) and \(B = \begin{bmatrix} 2 &amp; 5 \\ 6 &amp; 1 \\ 4 &amp; 3 \end{bmatrix}\) </p>
+<h4 class="HELM_solution">Solution</h4>
+<p>Since \(A\) is a \(2\times3\) matrix and \(B\) is a \(3\times2\) the product \(AB\) can be found and results in a \(2\times2\) matrix. \begin{align*} AB &amp; = \begin{bmatrix} 1 &amp; 2 &amp; 2 \\ 2 &amp; 3 &amp; 4 \end{bmatrix}\begin{bmatrix} 2 &amp; 5 \\ 6 &amp; 1 \\ 4 &amp; 3 \end{bmatrix} \\
+&amp; = \begin{bmatrix}
+\begin{bmatrix} 1 &amp; 2 &amp; 2\end{bmatrix} \begin{bmatrix} 2 \\ 6 \\ 4 \end{bmatrix} &amp; \begin{bmatrix}
+1 &amp; 2 &amp; 2 \end{bmatrix} \begin{bmatrix} 5 \\ 1 \\ 3 \end{bmatrix}
+\\ \\
+\begin{bmatrix} 2 &amp; 3 &amp; 4 \end{bmatrix} \begin{bmatrix} 2 \\ 6 \\ 4 \end{bmatrix} &amp; \begin{bmatrix}
+2 &amp; 3 &amp; 4 \end{bmatrix} \begin{bmatrix} 5 \\ 1 \\ 3 \end{bmatrix}
+\end{bmatrix} \\
+&amp; = \begin{bmatrix} 22 &amp; 13 \\ 38 &amp; 25 \end{bmatrix}\end{align*}</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

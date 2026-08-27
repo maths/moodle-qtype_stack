@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>12.1.4.1 The normal line to a curve</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>The normal line to a curve</h3><p>We have already noted that, at any point \((x_0, y_0)\) on a curve \(y = f(x)\) (so that \(y_0=f(x_0)\)), the tangent and normal lines
+are perpendicular. Thus if the equations of the tangent and normal lines are respectively:</p><p>\[\qquad y = mx + c \qquad \textrm{and} \qquad y = nx + d, \]</p><p>then recalling that two lines are perpendicular if the product of theirs slopes is \(-1\) we can see that \(m = -\dfrac{1}{ n}\) or, equivalently \(n = - \dfrac{1}{ m}\).&nbsp;</p><p>We have also noted that slope of the tangent line can be calculated from the derivative, i.e.,<br></p><p>\[ m =&nbsp; \dfrac{df}{dx}\bigg|_{x_0}.\]</p><p>Thus we can also obtain \(n\) from this information. To find \(d\), we use the fact that the point \((x_0, y_0)\) lies on the normal line \(y = nx + d\)&nbsp;&nbsp;<span style="font-size: 0.9375rem;">so \(n x_0 + d = f(x_0)\) leading to \(d = f(x_0) - nx_0\). Though it is better to work this out in each case rather than trying to recall this a formula. The takeaway should be that we can do this and how.</span></p><p></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

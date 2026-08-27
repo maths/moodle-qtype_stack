@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>27.4.3.1 Jacobian in Three Variables</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>The Jacobian in 3 dimensions</h3>
+
+<p>When changing the coordinate system of a triple integral \(\displaystyle I=\displaystyle\int\!\!\displaystyle\int\!\!\displaystyle\int_{V}f(x,y,z)\;\mathrm{d}V\) we need to extend the above definition of the Jacobian to 3 dimensions. The volume element \(\mathrm{d}V=\mathrm{d}x\,\mathrm{d}y\,\mathrm{d}z\) becomes \(\mathrm{d}V=|J(u,v,w)|\; \mathrm{d}u\,\mathrm{d}v\,\mathrm{d}w\). As before the limits and integrand must also be transformed.</p>
+
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<h6>Jacobian in Three Variables</h6>
+For given transformations \(x=x(u,v,w)\), \(y=y(u,v,w)\)
+and \(z=z(u,v,w)\) the Jacobian is
+\[\displaystyle J(u,v,w)=\left|
+\begin{array}{ccc}
+\displaystyle \frac{\partial x}{\partial u}&\displaystyle \frac{\partial x}{\partial v}&\displaystyle \frac{\partial x}{\partial w}\\
+&&\\
+\displaystyle \frac{\partial y}{\partial
+u}&\displaystyle \frac{\partial y}{\partial
+v}&\displaystyle \frac{\partial y}{\partial w}\\
+&&\\
+\displaystyle \frac{\partial z}{\partial
+u}&\displaystyle \frac{\partial z}{\partial
+v}&\displaystyle \frac{\partial z}{\partial w}
+\end{array}\right|\]
+The same pattern persists as in the 2-dimensional case.
+Across a row of the determinant the numerators are the same and down a
+column the denominators are the same.
+</div>
+<br>
+The volume element \(\mathrm{d}V=\mathrm{d}x\,\mathrm{d} y\,\mathrm{d}z\) becomes \(\mathrm{d}V=|J(u,v,w)|\; \,\mathrm{d}u\,\mathrm{d} v\,\mathrm{d} w\). As before the
+limits and integrand must also be transformed.]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

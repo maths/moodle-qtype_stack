@@ -58,6 +58,13 @@ define([
     /* A flag to disable certain things. */
     let DISABLE_CHANGES = false;
 
+    /* For validation state change events, lists of IFRAMES listening
+     * particular inputs.
+     */
+    let VALIDATION_STATE_EVENT = {};
+
+    /* For scroll synchronisation, lists of IFRAMES listening particular inputs. */
+    let INPUTS_SCROLL_EVENT = {};
 
     /**
      * Returns an element with a given id, if an only if that element exists
@@ -260,6 +267,47 @@ define([
     }
 
     /**
+     * Return the current fractional scroll position for an input.
+     *
+     * @param {HTMLElement} inputelement element to inspect.
+     * @return {number} a value in the range 0..1.
+     */
+    function vle_get_scroll_position(inputelement) {
+        const maxscroll = inputelement.scrollHeight - inputelement.clientHeight;
+        if (maxscroll <= 0) {
+            return 0;
+        }
+        return inputelement.scrollTop / maxscroll;
+    }
+
+    /**
+     * Broadcast the current input scroll position to every subscribed iframe.
+     *
+     * @param {HTMLElement} inputelement element being synced.
+     * @param {String} inputname logical STACK input name.
+     * @param {?String} skipframe iframe id to skip when broadcasting.
+     */
+    function vle_sync_scroll_listeners(inputelement, inputname, skipframe) {
+        if (!(inputelement.id in INPUTS_SCROLL_EVENT)) {
+            return;
+        }
+        const scrollposition = vle_get_scroll_position(inputelement);
+        let response = {
+            version: 'STACK-JS:1.6.0',
+            type: 'input-scroll-position',
+            name: inputname,
+            position: scrollposition
+        };
+        for (let tgt of INPUTS_SCROLL_EVENT[inputelement.id]) {
+            if (skipframe !== null && skipframe !== undefined && tgt === skipframe) {
+                continue;
+            }
+            response.tgt = tgt;
+            IFRAMES[tgt].contentWindow.postMessage(JSON.stringify(response), '*');
+        }
+    }
+
+    /**
      * Does HTML-string cleaning, i.e., removes any script payload. Returns
      * a DOM version of the given input string. The DOM version returned is
      * an element of some sort containing the contents, possibly a `body`.
@@ -370,7 +418,7 @@ define([
         let input = null;
 
         let response = {
-            version: 'STACK-JS:1.4.0'
+            version: 'STACK-JS:1.5.0'
         };
 
         switch (msg.type) {
@@ -400,7 +448,11 @@ define([
                 response['input-readonly'] = input.hasAttribute('disabled');
             } else if (input.nodeName.toLowerCase() === 'textarea') {
                 response.value = input.value;
-                response['input-type'] = 'textarea';
+                if (input.dataset.stackInputType === 'freetext') {
+                    response['input-type'] = 'freetext';
+                } else {
+                    response['input-type'] = 'textarea';
+                }
                 response['input-readonly'] = input.hasAttribute('disabled');
             } else if (input.type === 'checkbox') {
                 response.value = input.checked;
@@ -539,6 +591,112 @@ define([
                 IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(response), '*');
             }
 
+            break;
+        case 'track-input-scroll':
+            input = vle_get_input_element(msg.name, msg.src, !msg['limit-to-question']);
+
+            if (input === null) {
+                response.type = 'error';
+                response.msg = 'Failed to connect to input: "' + msg.name + '"';
+                response.tgt = msg.src;
+                IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(response), '*');
+                return;
+            }
+
+            response.type = 'input-scroll-position';
+            response.name = msg.name;
+            response.tgt = msg.src;
+            response.position = vle_get_scroll_position(input);
+
+            if (input.id in INPUTS_SCROLL_EVENT) {
+                if (!(msg.src in INPUTS_SCROLL_EVENT[input.id])) {
+                    INPUTS_SCROLL_EVENT[input.id].push(msg.src);
+                }
+            } else {
+                INPUTS_SCROLL_EVENT[input.id] = [msg.src];
+                input.addEventListener('scroll', () => {
+                    vle_sync_scroll_listeners(input, msg.name, null);
+                });
+            }
+
+            IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(response), '*');
+            break;
+        case 'track-validation-state':
+            // 1. Find the input.
+            input = vle_get_input_element(msg.name, msg.src, !msg['limit-to-question']);
+
+            if (input === null) {
+                // Requested something that is not available.
+                response.type = 'error';
+                response.msg = 'Failed to connect to input: "' + msg.name + '"';
+                response.tgt = msg.src;
+                IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(response), '*');
+                return;
+            }
+
+            // 2. Add listener for validation state changes of this input.
+            if (input.id in VALIDATION_STATE_EVENT) {
+                if (msg.src in VALIDATION_STATE_EVENT[input.id]) {
+                    // DO NOT BIND TWICE!
+                    return;
+                }
+                if (input.type !== 'radio' && input.type !== 'checkbox') {
+                    VALIDATION_STATE_EVENT[input.id].push(msg.src);
+                } else if (input.type === 'radio') {
+                    let radgroup = document.querySelectorAll('input[type=radio][name=' + CSS.escape(input.name) + ']');
+                    for (let inp of radgroup) {
+                        VALIDATION_STATE_EVENT[inp.id].push(msg.src);
+                    }
+                } else if (input.type === 'checkbox') {
+                    let radgroup = document.querySelectorAll('input[type=checkbox][name=' + CSS.escape(input.name) + ']');
+                    for (let inp of radgroup) {
+                        VALIDATION_STATE_EVENT[inp.id].push(msg.src);
+                    }
+                }
+            } else {
+                if (input.type !== 'radio' && input.type !== 'checkbox') {
+                    VALIDATION_STATE_EVENT[input.id] = [msg.src];
+                } else if (input.type === 'radio') {
+                    let radgroup = document.querySelectorAll('input[type=radio][name=' + CSS.escape(input.name) + ']');
+                    for (let inp of radgroup) {
+                        VALIDATION_STATE_EVENT[inp.id] = [msg.src];
+                    }
+                } else if (input.type === 'checkbox') {
+                    let radgroup = document.querySelectorAll('input[type=checkbox][name=' + CSS.escape(input.name) + ']');
+                    for (let inp of radgroup) {
+                        VALIDATION_STATE_EVENT[inp.id].push(msg.src);
+                    }
+                }
+                if (input.type !== 'radio' && input.type !== 'checkbox') {
+                    input.addEventListener('stack-validation', (e) => {
+                        let resp = {
+                            version: 'STACK-JS:1.5.0',
+                            type: 'validation-state',
+                            name: msg.name,
+                            valid: e.detail.valid,
+                            completed: e.detail.completed
+                        };
+                        for (let tgt of VALIDATION_STATE_EVENT[input.id]) {
+                            resp['tgt'] = tgt;
+                            IFRAMES[tgt].contentWindow.postMessage(JSON.stringify(resp), '*');
+                        }
+                    });
+                } else {
+                    input.closest('.answer').addEventListener('stack-validation', (e) => {
+                        let resp = {
+                            version: 'STACK-JS:1.5.0',
+                            type: 'validation-state',
+                            name: msg.name,
+                            valid: e.detail.valid,
+                            completed: e.detail.completed
+                        };
+                        for (let tgt of VALIDATION_STATE_EVENT[input.id]) {
+                            resp['tgt'] = tgt;
+                            IFRAMES[tgt].contentWindow.postMessage(JSON.stringify(resp), '*');
+                        }
+                    });
+                }
+            }
             break;
         case 'changed-input':
             // 1. Find the input.
@@ -738,7 +896,10 @@ define([
 
             // 2. Set the wrapper size.
             element.style.width = msg.width;
-            element.style.height = msg.height;
+            // In side-by-side free-text layout, let flexbox control height.
+            if (!element.closest('.free-text-container')) {
+                element.style.height = msg.height;
+            }
 
             // 3. Reset the frame size.
             IFRAMES[msg.src].style.width = '100%';
@@ -890,7 +1051,19 @@ define([
             // This allows that div to contain some sort of loading
             // indicator until we plug in the frame.
             // Naturally the frame will then start to load itself.
-            document.getElementById(targetdivid).replaceChildren(frm);
+            const targetdiv = document.getElementById(targetdivid);
+            targetdiv.replaceChildren(frm);
+
+            // In side-by-side free-text layout, keep wrapper height driven by flex.
+            if (targetdiv.closest('.free-text-container')) {
+                // Preserve the configured holder height as a floor (e.g. 400px default
+                // or an author-defined smaller/larger value), then allow growth.
+                if (targetdiv.style.height) {
+                    targetdiv.style.minHeight = targetdiv.style.height;
+                }
+                targetdiv.style.height = 'auto';
+                frm.style.height = 'auto';
+            }
             IFRAMES[iframeid] = frm;
         }
 

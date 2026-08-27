@@ -39,7 +39,6 @@ require_once(__DIR__ . '/fixtures/test_base.php');
  * @covers \stack_boolean_input
  */
 final class input_boolean_rendering_test extends question_testcase {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     protected function expected_choices() {
 
@@ -53,37 +52,99 @@ final class input_boolean_rendering_test extends question_testcase {
     public function test_render_not_answered(): void {
 
         $el = stack_input_factory::make('boolean', 'ans1', stack_boolean_input::T);
-        $this->assert(new \question_contains_select_expectation(
-                        'stack1__ans1', $this->expected_choices(), stack_boolean_input::NA),
-                $el->render(new stack_input_state(
-                        stack_input::BLANK, [stack_boolean_input::NA], '', '', '', '', '', ''),
-                        'stack1__ans1', false, null));
+        $this->assert(
+            new \question_contains_select_expectation(
+                'stack1__ans1',
+                $this->expected_choices(),
+                stack_boolean_input::NA
+            ),
+            $el->render(
+                new stack_input_state(
+                    stack_input::BLANK,
+                    [stack_boolean_input::NA],
+                    '',
+                    '',
+                    '',
+                    '',
+                    '',
+                    ''
+                ),
+                'stack1__ans1',
+                false,
+                null
+            )
+        );
     }
 
     public function test_render_true(): void {
 
         $el = stack_input_factory::make('boolean', 'ans2', stack_boolean_input::T);
-        $this->assert(new \question_contains_select_expectation('stack1__ans2', $this->expected_choices(),
-                stack_boolean_input::T), $el->render(new stack_input_state(
-                        stack_input::VALID, [stack_boolean_input::T], '', '', '', '', '', ''),
-                        'stack1__ans2', false, null));
+        $this->assert(new \question_contains_select_expectation(
+            'stack1__ans2',
+            $this->expected_choices(),
+            stack_boolean_input::T
+        ), $el->render(
+            new stack_input_state(
+                stack_input::VALID,
+                [stack_boolean_input::T],
+                '',
+                '',
+                '',
+                '',
+                '',
+                ''
+            ),
+            'stack1__ans2',
+            false,
+            null
+        ));
     }
 
     public function test_render_false(): void {
 
         $el = stack_input_factory::make('boolean', 'ans3', stack_boolean_input::T);
-        $this->assert(new \question_contains_select_expectation('stack1__ans3', $this->expected_choices(),
-                stack_boolean_input::F), $el->render(new stack_input_state(
-                        stack_input::VALID, [stack_boolean_input::F], '', '', '', '', '', ''),
-                        'stack1__ans3', false, null));
+        $this->assert(new \question_contains_select_expectation(
+            'stack1__ans3',
+            $this->expected_choices(),
+            stack_boolean_input::F
+        ), $el->render(
+            new stack_input_state(
+                stack_input::VALID,
+                [stack_boolean_input::F],
+                '',
+                '',
+                '',
+                '',
+                '',
+                ''
+            ),
+            'stack1__ans3',
+            false,
+            null
+        ));
     }
 
     public function test_render_disabled(): void {
 
         $el = stack_input_factory::make('boolean', 'input', stack_boolean_input::T);
-        $this->assert(new \question_contains_select_expectation('stack1__ans1', $this->expected_choices(),
-                stack_boolean_input::NA, false), $el->render(new stack_input_state(
-                        stack_input::BLANK, [], '', '', '', '', ''),
-                        'stack1__ans1', true, null));
+        $this->assert(new \question_contains_select_expectation(
+            'stack1__ans1',
+            $this->expected_choices(),
+            stack_boolean_input::NA,
+            false
+        ), $el->render(
+            new stack_input_state(
+                stack_input::BLANK,
+                [],
+                '',
+                '',
+                '',
+                '',
+                ''
+            ),
+            'stack1__ans1',
+            true,
+            null
+        ));
     }
 }

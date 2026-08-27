@@ -15,7 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This script handles the various deploy/undeploy actions from questiontestrun.php.
+ * Response to a question grade request.
  *
  * @package    qtype_stack
  * @copyright  2023 RWTH Aachen
@@ -38,11 +38,12 @@ class StackGradingResponse {
     public $specificfeedback;
     /** @var array */
     public $prts;
+    /** @var array */
+    public $prtresults = [];
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public $gradingassets;
     /** @var string */
     public $responsesummary;
     /** @var array */
     public $iframes;
-
 }

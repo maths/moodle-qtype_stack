@@ -84,8 +84,9 @@ foreach ($bulktester->get_num_stack_questions_by_context() as $contextid => $num
         echo $OUTPUT->heading(get_string('bulktesttitle', 'qtype_stack', $testcontext->get_context_name()));
         echo html_writer::tag('p', html_writer::link(
             new moodle_url('/question/type/stack/adminui/bulktestall.php', $urlparams),
-            stack_string('bulktestcontinuefromhere')));
-        list($passed, $failing) = $bulktester->run_all_tests_for_context($testcontext, null, 'web', false, $skippreviouspasses);
+            stack_string('bulktestcontinuefromhere')
+        ));
+        [$passed, $failing] = $bulktester->run_all_tests_for_context($testcontext, null, 'web', false, $skippreviouspasses);
         $allpassed = $allpassed && $passed;
         foreach ($failing as $key => $arrvals) {
             // Guard clause here to future proof any new fields from the bulk tester.

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>19.2.6.1 The Integrating factor</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>The Integrating factor</h4>
+<p>The equation\[x^2{\mathrm{d}y\over \mathrm{d}x}+3x\ y=x^3\] is not exact.  However, if we multiply it by \(x\) we obtain the equation \[ x^3{\mathrm{d}y\over \mathrm{d}x}+3x^2y=x^4.\]
+This can be re-written as \[ {\mathrm{d}\over \mathrm{d}x} (x^3y)=x^4\] which is an exact equation with solution
+\[ x^3y=\int x^4 \,\mathrm{d}x\]
+so \[x^3y={1\over 5}x^5+C\] and hence
+\[ y={1\over 5}x^2+{C\over x^3}.\]
+The function by which we multiplied the given differential equation in order to make it exact is called an <strong> integrating factor</strong>. In this example the integrating factor is simply \(x\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

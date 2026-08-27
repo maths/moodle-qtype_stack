@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>23.2 Introduction</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Introduction</h4>
+In this Section we show how a periodic function can be expressed as a series of sines and cosines.
+We begin by obtaining some standard integrals involving sinusoids. We then <b>assume</b> that if \(f(t)\) is
+a periodic function, of period \(2\pi\), then the Fourier series expansion takes the form:
+\[ f(t) = \dfrac{a_0}{2} + \sum _{n=1}^\infty \left( a_n \cos nt + b_n \sin nt \right) .\]
+Our main purpose here is to show how the constants in this expansion, \(a_n\) (for \(n = 0, 1, 2, 3 \dots \) ) and \(b_n\) (for \(n = 1, 2, 3, \dots\) ), may be determined for any given function \(f(t)\).]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>23.4 Introduction</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Introduction</h4>
+In this Section we examine, briefly, the convergence characteristics of a Fourier series. We have seen
+that a Fourier series can be found for functions which are not necessarily continuous (there may be
+<i>jumps</i> in the curve) - the only requirement that we have made is that the function be periodic. We
+have seen that the more terms we take in the Fourier series the better is the approximation to the
+given signal. But an obvious question to ask is <i>what happens at the points of discontinuity?</i> What
+does the Fourier series converge to at these points? It must converge to something (finite) since a
+Fourier series is a sum of very smooth continuous functions. In this Section we give the answer to
+this question.]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

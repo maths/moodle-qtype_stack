@@ -86,13 +86,22 @@ foreach (glob("../stack/maxima/*.mac") as $filename) {
 
     if (strpos($filename, 'intervals.mac') !== false) {
         // Some parser breaking cases.
-        $contents = str_replace('stack_single_variable_solver_rec(ex %and (v>=0), v)',
-                'stack_single_variable_solver_rec(ex and (v>=0), v)', $contents);
-        $contents = str_replace('ex:realsetmake(v, rs1) %or apply("%or", rs2)',
-                'ex:realsetmake(v, rs1) or apply("%or", rs2)', $contents);
+        $contents = str_replace(
+            'stack_single_variable_solver_rec(ex %and (v>=0), v)',
+            'stack_single_variable_solver_rec(ex and (v>=0), v)',
+            $contents
+        );
+        $contents = str_replace(
+            'ex:realsetmake(v, rs1) %or apply("%or", rs2)',
+            'ex:realsetmake(v, rs1) or apply("%or", rs2)',
+            $contents
+        );
         $contents = str_replace('return(sol1 %or sol2)', 'return(sol1 or sol2)', $contents);
-        $contents = str_replace('(second(args(ex))>0) %or (second(args(ex))<0)',
-                '(second(args(ex))>0) or (second(args(ex))<0)', $contents);
+        $contents = str_replace(
+            '(second(args(ex))>0) %or (second(args(ex))<0)',
+            '(second(args(ex))>0) or (second(args(ex))<0)',
+            $contents
+        );
         $contents = str_replace('', '', $contents);
         $contents = str_replace('', '', $contents);
         $contents = str_replace('', '', $contents);
@@ -139,10 +148,12 @@ foreach (glob("../stack/maxima/*.mac") as $filename) {
                 }
 
                 $vars = [];
-                $usagesearch = function($node) use (&$vars, &$functionscalled, $filename) {
-                    if ($node instanceof MP_Identifier &&
+                $usagesearch = function ($node) use (&$vars, &$functionscalled, $filename) {
+                    if (
+                        $node instanceof MP_Identifier &&
                         $node->is_variable_name() &&
-                        $node->is_global()) {
+                        $node->is_global()
+                    ) {
                         $vars[$node->value] = true;
                     } else if ($node instanceof MP_FunctionCall) {
                         if (isset($functionscalled[$node->name->toString()])) {
@@ -150,8 +161,10 @@ foreach (glob("../stack/maxima/*.mac") as $filename) {
                         } else {
                             $functionscalled[$node->name->toString()] = [$filename . ' ' . $node->position['start']];
                         }
-                    } else if ($node instanceof MP_Identifier && $node->is_function_name() &&
-                            !($node->parentnode instanceof MP_FunctionCall && $node->parentnode->name === $node)) {
+                    } else if (
+                        $node instanceof MP_Identifier && $node->is_function_name() &&
+                            !($node->parentnode instanceof MP_FunctionCall && $node->parentnode->name === $node)
+                    ) {
                         if (isset($functionscalled[$node->toString()])) {
                             $functionscalled[$node->toString()][] = $filename . ' ' . $node->position['start'];
                         } else {
@@ -166,7 +179,7 @@ foreach (glob("../stack/maxima/*.mac") as $filename) {
                     $globalvariablesused[$top->lhs->name->toString()] = $vars;
                 }
             } else if ($top instanceof MP_If) {
-                $usagesearch = function($node) use (&$functionscalled, $filename) {
+                $usagesearch = function ($node) use (&$functionscalled, $filename) {
                     if ($node instanceof MP_FunctionCall) {
                         if (isset($functionscalled[$node->name->toString()])) {
                             $functionscalled[$node->name->toString()][] = $filename . ' ' . $node->position['start'];
@@ -178,7 +191,7 @@ foreach (glob("../stack/maxima/*.mac") as $filename) {
                 };
                 $top->callbackRecurse($usagesearch);
             } else {
-                echo "\n something else @ " . $top->position['start'] ."\n " . $top->toString() . "\n";
+                echo "\n something else @ " . $top->position['start'] . "\n " . $top->toString() . "\n";
             }
         }
     } catch (SyntaxError $e) {
@@ -194,7 +207,7 @@ foreach (glob("../stack/maxima/*.mac") as $filename) {
             if ($c <= 0 && $theline === false) {
                 $theline = $l;
             }
-            if ($c < -50 ) {
+            if ($c < -50) {
                 cli_writeln('   ~ line: ' . $theline);
                 cli_writeln(implode("\n", $lastlines));
                 break;

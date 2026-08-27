@@ -29,14 +29,14 @@ make_args_sum(ex) := if atom(ex) then [ex] else
 
 /* Adds up the elements of a list */
 sum_list(ex) :=     if listp(ex) then 
-                        if length(ex)=1 then ex[1] else apply("+",ex)
+                        if length(ex)=1 then ex[1] else apply("+", ex)
                     else ex$
 /* Multiplies together the elements of a list */
 product_list(ex) := if listp(ex) then
-                        if length(ex)=1 then ex[1] else apply("*",ex)
+                        if length(ex)=1 then ex[1] else apply("*", ex)
                     else ex$
 
-make_product(ex) := product_list(maplist(sum_list,ex))$
+make_product(ex) := product_list(maplist('sum_list, ex))$
 
 /******************************************************************/
 /* A "step" is a list representing a row in a three column matrix */
@@ -49,7 +49,7 @@ display_step(ex) := block([ret,ex1,ex2,ex3],
  if []=ex[2] then ex2:" " else 
      if ex[2][1]#"=" then ex2:StackDISP(ex[2][1],""),
  if []#ex[3] then ex3:StackDISP(ex[3][1],""),
- apply(concat,[ex1," & ",ex2," & ",ex3," \\\\ "])
+ apply('concat, [ex1," & ",ex2," & ",ex3," \\\\ "])
 )$
 
 /* Takes a list of steps in a problem, and returns a single LaTeX string */
@@ -57,9 +57,9 @@ display_steps(ex) := block([ret],
   if atom(ex) then return(StackDISP(ex,"")),
   if listp(ex)#true then return(StackDISP(ex,"")),
   /*  */
-  steps:map(display_step,ex),
+  steps:map('display_step, ex),
   ret:append(["\\begin{array}{rcl}"],flatten(steps),[" \\end{array}   "]),
-  ret:apply(concat,ret)
+  ret:apply('concat, ret)
  )$
 
 
@@ -73,7 +73,7 @@ tut_expand_one_level(ex) := block([args_ex,args_ex1,cur_step,ret],
   if op(ex)#"*" then return([ [[ex],[],[]] ]),
   /* Get a list of lists with the arguments of ex */
   args_ex:args(ex),
-  args_ex:maplist(make_args_sum,args_ex),
+  args_ex:maplist('make_args_sum, args_ex),
   /* colour the first summands */
   cur_step:cons(zip_with(texcolor,COLOR_LIST,first(args_ex)),rest(args_ex)),
   ret:[ [[ex],["="],[make_product(cur_step)]] ],
@@ -86,13 +86,13 @@ tut_expand_one_level(ex) := block([args_ex,args_ex1,cur_step,ret],
   ret:cons([[],["="],[make_product(cur_step)]],ret),
   /*  */
   cur_step:maplist(lambda([x],maplist(lambda([y],x*y),ex2)),ex1),
-  cur_step:maplist(sum_list,cur_step),
+  cur_step:maplist('sum_list, cur_step),
   cur_step:zip_with(texcolor,COLOR_LIST,cur_step),
   cur_step:make_product(cons(cur_step,ex3)),
   ret:cons([[],["="],[cur_step]],ret),
   /* */
   cur_step:maplist(lambda([x],maplist(lambda([y],x*y),ex2)),ex1),
-  cur_step:maplist(sum_list,cur_step),
+  cur_step:maplist('sum_list, cur_step),
   /* BUG: this should only be "one step" of simplification.  Currently it does everthing */
   cur_step:ev(sum_list(cur_step),simp),
   cur_step:if ex3=[] then cur_step else make_product(cons(cur_step,ex3)),

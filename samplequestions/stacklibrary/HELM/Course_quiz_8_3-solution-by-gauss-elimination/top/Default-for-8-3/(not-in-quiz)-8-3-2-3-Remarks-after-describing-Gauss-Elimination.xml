@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>(not in quiz) 8.3.2.3 Remarks after describing Gauss Elimination</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<p>You should always check your solution in the original equations to ensure that the equations balance.</p>
+<p>Again we emphasise that we chose a particular set of procedures in Stage 1. This was chosen mainly to keep the arithmetic simple by delaying the introduction of fractions. Sometimes we are courageous and take fewer, harder steps.</p>
+<p>An important point to note is that when in Stage 2 we wrote <span class="math inline">\(R2-2R1\)</span> against row 2; what we meant is that row 2 is replaced by the combination (row <span class="math inline">\(2)-2\times\)</span>(row 1).</p>
+<p>In general, the operation <span class="math display">\[\text{ row } i-\alpha \times \text{ row }\ j\]</span> means replace <span><strong>row <span class="math inline">\(i\)</span></strong></span> by the combination <span class="math display">\[\text{ row } i-\alpha \times \text{ row } j.\]</span></p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

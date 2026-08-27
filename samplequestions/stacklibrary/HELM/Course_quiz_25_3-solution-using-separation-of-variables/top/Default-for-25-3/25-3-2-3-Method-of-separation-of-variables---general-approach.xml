@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>25.3.2.3  Method of separation of variables - general approach</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<b>Wave equation</b>
+<table width="100%">
+    <tbody>
+        <tr>
+            <td>\(\qquad\displaystyle \dfrac{\partial^2u}{\partial x^2}=\dfrac{1}{c^2}\dfrac{\partial^2u}{\partial t^2}\)
+            </td>
+            <td>\((6)\)</td>
+        </tr>
+    </tbody>
+</table>
+
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>By following a similar procedure to the above, assume a product solution </p>
+<p><span class="math inline">\(\qquad\displaystyle
+  u(x,t)=X(x)T(t)\)</span> </p>
+for the wave equation and find the two ODEs satisfied by <span class="math inline">\(X(x)\)</span> and <span class="math inline">\(T(t)\)</span>.
+<p></p>
+<ol class="HELM_parts">
+    <li>First obtain <span class="math inline">\(\dfrac{\partial^2u}{\partial
+x^2}\)</span> and <span class="math inline">\(\dfrac{\partial^2u}{\partial
+t^2}\)</span>:</li>
+    <li>Now substitute these results into \((6)\) and transpose so the variables are separated i.e. all functions of <span class="math inline">\(x\)</span> are on the left-hand side, all funtions of <span class="math inline">\(t\)</span> on the right-hand
+        side:
+    </li>
+    <li>Finally, write down the required ordinary differential equations:</li>
+</ol>
+
+
+<h4 class="HELM_solution">Solution</h4>
+<p></p>
+<ol class="HELM_parts">
+    <li>\( u=X(x)T(t)\) gives \(\dfrac{\partial^2u}{\partial x^2}=X''T\) and \(\dfrac{\partial^2u}{\partial t^2}=XT''\)
+    </li>
+    <li>We get \(X''T= \dfrac{1}{c^2}XT''\) and, transposing, \(\dfrac{X''}{X}=\dfrac{1}{c^2} \dfrac{T''}{T}\)</li>
+    <li>Equating both sides to the same constant \(K\) gives
+        <p>\(\qquad \dfrac{X''}{X}=K\) or \(\dfrac{d^2X}{dx^2}-KX=0\)</p>
+        <p>and</p>
+        \(\qquad \dfrac{1}{c^2} \dfrac{T''}{T}=K \qquad\) or \(\qquad \dfrac{d^2 T}{dt^2}-Kc^2T=0\)</li>
+</ol>
+<hr> The solution of the ODEs \((7)\) and \((8)\) has been obtained earlier, and will depend on the sign of \(K\).]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

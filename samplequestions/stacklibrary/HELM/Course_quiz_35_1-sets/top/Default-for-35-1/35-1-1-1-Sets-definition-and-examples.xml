@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>35.1.1.1 Sets: definition and examples</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Sets</h3><h4>Definition and Examples</h4><p> A <b>set</b> is any  collection of objects. Here, the word 'object' is used in its most general sense: an object may be a diode, an aircraft, a number, or a letter, for example.</p>
+<p> A set is often described by listing the collection of objects - these are the members or <b> elements</b> of the set. We usually write this list of elements in curly brackets, and denote the full set by a capital letter. For example,</p>
+<p>\(C = \{\hbox{the resistors produced in a factory on a particular day}\}\),</p>
+<p>\(D = \{\hbox{on, off}\}\),</p>
+<p>\(E = \{0,1,2,3,4,5,6,7,8,9\}\).</p>
+<p>The elements of set \(C\), above, are the resistors produced in a factory on a particular day. These could be listed individually but as the number is large it is not practical to do this. Set \(D\) lists the two possible states of a simple switch, and the elements of set \(E\) are the digits used in the decimal system.</p>
+<p>Sometimes  we can describe a set in words. For example, '\(A\) is the set all odd numbers'. Clearly all the elements of this set \(A\) cannot be listed. Similarly, \(B\) is the set of binary digits viz \(B=\{0,1\}\), which has only two elements.</p>
+<p>A set with a finite number of elements is called a <b>finite
+set</b>.  The sets \(B,C,D\) and \(E\) are finite sets. The set \(A\) has an infinite number of elements and so is not a finite set. It is known as an <b>infinite set</b>.</p>
+<p>Two sets are <b>equal</b> if they contain exactly the same elements. For example, the sets \(\{9,10,14\}\) and \(\{10,14,9\}\) are equal since the order in which elements are written is unimportant.  Note also that repeated elements are ignored: The set \(\{2,3,3,3,5,5\}\) is equal to the set \(\{2,3,5\}\).</p><h4>
+The symbol \(\in\)&nbsp;</h4><p> To show that an element belongs to a particular set we use the symbol (Greek epsilon) \(\in\). This symbol means 'is a member of' or 'belongs to'.  The symbol \(\not\in\) means 'is not a member of' or 'does not belong to'.</p>
+<p>For example if \(X = \{\hbox{all even numbers}\}\) then we may write \(4 \in X\), \(6 \in X\), \(7 \not\in X\) and \(11 \not\in X\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

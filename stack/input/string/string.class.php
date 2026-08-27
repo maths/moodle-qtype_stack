@@ -32,6 +32,7 @@ class stack_string_input extends stack_algebraic_input {
         'hideanswer' => false,
         'allowempty' => false,
         'validator' => false,
+        'manualgraded' => false,
     ];
 
     /**
@@ -52,7 +53,7 @@ class stack_string_input extends stack_algebraic_input {
             'name'  => $fieldname,
             'id'    => $fieldname,
             'size'  => $this->parameters['boxWidth'] * 1.1,
-            'style' => 'width: '.$size.'em',
+            'style' => 'width: ' . $size . 'em',
             'autocapitalize' => 'none',
             'spellcheck'     => 'false',
             'class'     => 'maxima-string',
@@ -126,7 +127,9 @@ class stack_string_input extends stack_algebraic_input {
         if ($this->extraoptions['hideanswer']) {
             return '';
         }
-
+        if ($this->extraoptions['allowempty'] && trim($value) === '""') {
+            return stack_string('teacheranswerempty');
+        }
         $display = stack_utils::maxima_string_strip_mbox($display);
         return stack_string('teacheranswershow_disp', ['display' => $display]);
     }
@@ -193,7 +196,7 @@ class stack_string_input extends stack_algebraic_input {
     public function ensure_string($ex) {
         $ex = trim($ex);
         if (substr($ex, 0, 1) !== '"') {
-            $ex = '"'.$ex.'"';
+            $ex = '"' . $ex . '"';
         }
         return $ex;
     }

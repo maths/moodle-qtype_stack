@@ -43,13 +43,12 @@ require_once(__DIR__ . '/fixtures/answertestfixtures.class.php');
  * @covers \stack_anstest
  */
 final class answertest_general_fixtures_test extends qtype_stack_testcase {
-
     /**
      * Add description
      * @dataProvider answertest_fixtures
      */
     public function test_answertest($name, $test): void {
-        list($passed, $error, $rawmark, $feedback, $ansnote, $anomalynote) = stack_answertest_test_data::run_test($test);
+        [$passed, $error, $rawmark, $feedback, $ansnote, $anomalynote] = stack_answertest_test_data::run_test($test);
 
         $this->assertEquals($test->ansnote, $ansnote);
         $this->assertTrue($passed, $anomalynote);
@@ -62,7 +61,7 @@ final class answertest_general_fixtures_test extends qtype_stack_testcase {
         $testdata = [];
         foreach ($tests as $test) {
             $testname = 'AT' . $test->name .
-                    '( ' . $test->studentanswer . ', ' . $test->teacheranswer. ')';
+                    '( ' . $test->studentanswer . ', ' . $test->teacheranswer . ')';
             if ($test->options != '') {
                 $testname .= ' Options: ' . $test->options;
             }

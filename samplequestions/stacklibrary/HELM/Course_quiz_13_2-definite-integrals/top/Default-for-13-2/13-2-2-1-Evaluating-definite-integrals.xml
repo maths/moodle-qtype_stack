@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>13.2.2.1 Evaluating definite integrals</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3><span>Evaluating definite integrals</span><br></h3>
+
+<p>When you evaluate a definite integral the result will usually be a number. To see how to evaluate a definite integral consider the following Example.</p>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Find the definite integral of \(x^2\) from \(1\) to \(4\); that is, find \({\displaystyle \int_1^4 x^2 \,\mathrm{d}x}\)</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>\({\displaystyle \int{x^2} \,\mathrm{d}x} = \dfrac{x^3}{3}+c\). Thus according to our definition</p>
+<p>\({\displaystyle \int_1^4x^2 \,\mathrm{d}x} = F(4)-F(1) = \dfrac{4^3}{3}-\dfrac{1^3}{3} = 21\)</p>
+<hr>
+
+<p>Writing \(F(b)-F(a)\) each time we calculate a definite integral becomes laborious so we replace this difference by the shorthand notation &nbsp;\(\left[\phantom{\dfrac{1}{1}}\!\!\!F(x)\right]_a^b\).</p>
+
+<p>Thus \(\left[\phantom{\dfrac{1}{1}}\!\!\!F(x)\right]_a^b\equiv F(b)-F(a)\) Thus, from now on, we shall write \({\displaystyle\int_a^bf(x) \,\mathrm{d}x}=\left[\phantom{\dfrac{1}{1}}\!\!F(x)\right]_a^b\) so that, for example \({\displaystyle \int_1^4x^2
+    \,\mathrm{d}x} = \left[\dfrac{x^3}{3}\right]_1^4=\dfrac{4^3}{3}-\dfrac{1^3}{3}=21\)</p>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Find the definite integral of \(\cos x\) from \(0\) to \(\dfrac{\pi}{2}\); that is, find \({\displaystyle \int_0^{\frac{\pi}{2}}\cos(x) \,\mathrm{d}x}\)</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>\({\displaystyle \int_0^{\frac{\pi}{2}}\cos(x) \,\mathrm{d}x} = \left[\phantom{\dfrac{1}{1}}\!\!\!\sin(x)\right]_0^{\frac{\pi}{2}} = \sin\left(\dfrac{\pi}{2}\right)-\sin(0) = 1\).</p>
+<hr>
+<p>Always remember, that if you use a calculator to evaluate any trigonometric functions, you must work in <b>radian mode</b>.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -19,6 +19,7 @@
  * @package    qtype_stack
  * @copyright  2017 Matti Harjula.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ * phpcs:disable PSR1.Classes.ClassDeclaration.MultipleClasses
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -48,15 +49,31 @@ interface castext2_processor {
     // give the top most processor to the lower ones so that they can pass things
     // back when processing nested things.
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function process(string $blocktype, array $arguments, castext2_placeholder_holder $holder,
-            ?castext2_processor $override = null): string;
+    public function process(
+        string $blocktype,
+        array $arguments,
+        castext2_placeholder_holder $holder,
+        ?castext2_processor $override = null
+    ): string;
 }
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class castext2_default_processor implements castext2_processor {
+    // phpcs:ignore moodle.Commenting.VariableComment.Missing
+    public $qa;
+
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function process(string $blocktype, array $arguments, castext2_placeholder_holder $holder,
-            ?castext2_processor $override = null): string {
+    public function __construct() {
+        $this->qa = new stack_outofcontext_process();
+    }
+
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    public function process(
+        string $blocktype,
+        array $arguments,
+        castext2_placeholder_holder $holder,
+        ?castext2_processor $override = null
+    ): string {
         $proc = $this;
         $block = null;
         if ($override !== null) {
@@ -87,8 +104,7 @@ class castext2_default_processor implements castext2_processor {
 class castext2_qa_processor extends castext2_default_processor {
     // Special one giving access to a question-attempt so that the blocks
     // can call things like `rewrite_pluginfile_urls`.
-    // phpcs:ignore moodle.Commenting.VariableComment.Missing
-    public $qa;
+
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __construct($qa) {
         if (!method_exists($qa, 'rewrite_pluginfile_urls')) {

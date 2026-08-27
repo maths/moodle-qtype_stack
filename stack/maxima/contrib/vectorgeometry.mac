@@ -115,9 +115,12 @@ vector_parametric_parts(vec, [exclude_params]):=block([simp:true, vars, nonlinva
  * @param[list] parts A list with three elements (see vector_parametric_parts) [mx1 matrix of constants, a list of mx1 matrices of constants, a list of variable names]
  * @return[string] TeX output of a vector parametric equation in a "standard" form.
  */
-vector_parametric_display(parts):= block([simp:false,cons_vec,dir_vecs,vars],
+vector_parametric_display(parts):= block([simp:false,cons_vec,dir_vecs,vars,cons_p,dir_p],
   [cons_vec,dir_vecs,vars]: parts,
-  return(sconcat(tex1(cons_vec),"+",tex1(apply("+", zip_with("*", vars, dir_vecs)))))
+  cons_p: if ev(zeromatrixp(cons_vec),simp) then "" else tex1(cons_vec),
+  if emptyp(dir_vecs) then dir_p: [] else dir_p: zip_with("*", vars, dir_vecs),
+  if is(length(dir_p)=0) then dir_p: "" else if is(length(dir_p)=1) then dir_p: tex1(first(dir_p)) else dir_p: tex1(apply("+",dir_p)),
+  return(sconcat(cons_p,if is(cons_p="") or is(dir_p="") then "" else "+",dir_p))
 );
 
 /**

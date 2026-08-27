@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="essay">
+    <name>
+      <text>2.3.3.3 Demonstrate one-to-one *****</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p class="HELM_exercise">Exercise</p>
+<p>By sketching a graph of \(y=3x-1\) show that this is a one-to-one
+function.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <responseformat>editor</responseformat>
+    <responserequired>1</responserequired>
+    <responsefieldlines>15</responsefieldlines>
+    <minwordlimit>0</minwordlimit>
+    <maxwordlimit>0</maxwordlimit>
+    <attachments>0</attachments>
+    <attachmentsrequired>0</attachmentsrequired>
+    <maxbytes>0</maxbytes>
+    <filetypeslist/>
+    <graderinfo format="html">
+      <text/>
+    </graderinfo>
+    <responsetemplate format="html">
+      <text/>
+    </responsetemplate>
+  </question>
+</quiz>

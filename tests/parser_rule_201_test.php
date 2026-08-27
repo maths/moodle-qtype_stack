@@ -41,7 +41,6 @@ require_once(__DIR__ . '/../stack/cas/parsingrules/201_sig_figs_validation.filte
  * @covers \ast_filter_201_sig_figs_validation_auto_generated_test
  */
 final class parser_rule_201_test extends qtype_stack_testcase {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.MissingTestcaseMethodDescription
     public function filter(string $input, int $min = -1, int $max = -1, bool $strict = false): array {
         $ast = maxima_parser_utils::parse($input);
@@ -58,7 +57,7 @@ final class parser_rule_201_test extends qtype_stack_testcase {
         $ast = $filter->filter($ast, $errs, $note, $security);
 
         $hasinvalid = false;
-        $findinvalid = function($node) use(&$hasinvalid) {
+        $findinvalid = function ($node) use (&$hasinvalid) {
             if (isset($node->position['invalid']) && $node->position['invalid'] === true) {
                 $hasinvalid = true;
                 return false;

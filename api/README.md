@@ -55,27 +55,40 @@ The STACK service implemented in this repository provides a stateless REST-API w
 - POST /validate: Validate a user's input
 - POST /download: Serves a file for questions that have download links
 - POST /test: Run a questions tests against all deployed variants
+- POST /diff: Return a YAML dump with the difference between the submitted question and API defaults
 
 ### Render route
 
 The `POST /render` route is used to render a given question. It expects a JSON document in the post body, which must contain the following fields:
 
-- `questionDefinition`: The Moodle-XML-Export of a single STACK question.
-- `seed`: Seed to choose a question variant. Must be contained in the list of deployed variants. If  
+- `questionDefinition`: The Moodle-XML-Export of a single STACK question. For all routes, the question does not need to be complete. The API will supply defaults
+for all fields so minimum required XML is `<quiz><question type="stack"></question></quiz>`. A YAML representation of the differences between the question and the defaults
+can also be used. (See [Diff Route](#diff-route).) Any non-empty YAML will do e.g. `name: YAML Question`.
+- `seed`: Seed to choose a question variant. Must be contained in the list of deployed variants. If
   no seed is provided, the first deployed variant is used.
+- `lang`: Optional language code used for STACK `[[lang]]` blocks and translated strings. If omitted, the `Accept-Language` HTTP header is used as before.
 - `renderInputs`: String. Response will include HTML renders of the inputs if value other than ''. The input divs will have the value added as a prefix to their name attribute.
+- `fullRender`: Array consisting of a string prefix for validation divs and a string prefix for feedback divs e.g. `['validationprefix','feedbackprefix']` (`renderInputs` must also be set.) Response `questionrender` and `questionsamplesolutiontext` will be the full HTML render of the question with the inputs inserted in the correct place, full plot URLs, placeholders replaced with HTML and iframes included. Iframes will still need to be registered on the front
+end to be displayed properly. (`stackjsvle.js->register_iframe()` using the first array entry for each iframe in the response as the iframeid.)
 - `readOnly`: boolean. Determines whether rendered inputs are read only.
 
 The response is again a JSON document, with the following fields:
 
 - a string field `questionrender`, containing the rendered question text
 - a string field `questionsamplesolutiontext`, containing the rendered general feedback of the question
-- a string map `questionassets`, containing the assets used in the question, see [Plots/Assets](#Plots/Assets)
+- a string map `questionassets`, containing the assets used in the question, see [Plots/Assets](#plotsassets)
 - a map field `questioninputs` mapping an input name to its configuration
 - an int field `questionseed` indicating the seed used for this response
 - an int array `questionvariants` containing all variant seeds of the question
 - an array of arrays `iframes` of arguments to create iframes to hold JS panels e.g. JSXGraph, GeoGebra
 - a boolean field `isinteractive`, indicating if the question contains elements preventing a static representation. If true, a printed version of the question would make no sense
+- a string field `questionnote`, containing the rendered questionnote of the question
+- an object field `aboutapi`, containing version metadata for the API and bundled Maxima instance
+
+The `aboutapi` object contains:
+
+- `stackmaxima`: The configured STACK Maxima version.
+- `stackapi`: The configured API version identifier.
 
 The input configuration consists of the following fields:
 
@@ -104,8 +117,9 @@ The following keys can be contained inside the input configuration options. The 
 The `POST /grade` route is used to score a given input for a question. The route expects a JSON document in the post body, which must contain the following fields:
 
 - `questionDefinition`: The Moodle-XML-Export of a single STACK question.
-- `seed`: Seed to choose a question variant. Must be contained in the list of deployed variants. If  
+- `seed`: Seed to choose a question variant. Must be contained in the list of deployed variants. If
   no seed is provided, the first deployed variant is used.
+- `lang`: Optional language code used for STACK `[[lang]]` blocks and translated strings. If omitted, the `Accept-Language` HTTP header is used.
 - `answers`: A map from string to string, containing the answers.
 
 For input rendered as single fields, one entry inside the `answers` map, with the input name as key is expected. More complex input types use multiple entries, with the input name as a prefix, e.g. matrix inputs.
@@ -118,7 +132,8 @@ The grading route returns the following fields:
 - a map from the PRT names to floats `scoreweights`, containing the weighting for each part. `scoreweights['total']` contains the default total mark for the question. The mark for a question part is its `score[prt] * scoreweights[prt] * scoreweights['total']`.
 - a string field `specificfeedback` containing the rendered specific feedback text
 - a map from the PRT names to strings `prts`, containing the rendered PRT feedback
-- a string map `gradingassets`, containing a list of assets used in the grading response, see [Plots/Assets](#Plots/Assets)
+- a map from the PRT names to objects `prtresults`, containing structured PRT grading data. Each entry includes `score`, `penalty`, `answernotes` (the full answer-note path as an array), `prtanswernotes` (the PRT-node answer notes only), `errors`, and `fverrors`.
+- a string map `gradingassets`, containing a list of assets used in the grading response, see [Plots/Assets](#plotsassets)
 - a string field `responsesummary` containing a summary of response. (See [Reporting](../doc/en/Authoring/../STACK_question_admin/Reporting.md).)
 - an array of arrays `iframes` of arguments to create iframes to hold JS panels e.g. JSXGraph, GeoGebra
 
@@ -128,6 +143,7 @@ The `POST /validate` route is used to get validation feedback for a single input
 
 - `questionDefinition`: The Moodle-XML-Export of a single STACK question.
 - `inputName`: The name of the input to be validated.
+- `lang`: Optional language code used for STACK `[[lang]]` blocks and translated strings. If omitted, the `Accept-Language` HTTP header is used.
 - `answers`. A map from string to string, containing the answers.
 
 The validation route returns a string field `Validation` with the corresponding rendered output and an array of arrays `iframes` of arguments to create iframes to hold JS panels e.g. JSXGraph, GeoGebra.
@@ -149,8 +165,9 @@ The requested file is returned.
 The `POST /test` route is used to run a question's test cases.
 
 - `questionDefinition`: The Moodle-XML-Export of a single STACK question.
+- `lang`: Optional language code used for STACK `[[lang]]` blocks and translated strings. If omitted, the `Accept-Language` HTTP header is used.
 
-The grading route returns the following fields:
+The test route returns the following fields:
 
 - string: `name`: The name of the question.
 - string: `messages`: Question level error messages.
@@ -171,7 +188,7 @@ In the outcomes object, each test will key an object:
 - boolean: `passed`: Did the test pass?
 - string: `reason`: Reason for failure. A test empty message or the part of the output (e.g. score) which doesn't match the expected result.
 - object: `inputs`: Keyed by input name. Details of the inputs and their values.
-- object: `outcomes`: Keyed by PRT name. Details of the outcomes and expected outcomes for each PRT.
+- object: `outcomes`: Keyed by PRT name. Details of the outcomes and expected outcomes for each PRT. Each PRT outcome includes the legacy delimiter-separated `answernote` string, plus structured `answernotes` and `prtanswernotes` arrays.
 
 Example result object:
 ```
@@ -199,6 +216,8 @@ Example result object:
                     "score": 1,
                     "penalty": 0,
                     "answernote": "prt1-1-T",
+                    "answernotes": ["prt1-1-T"],
+                    "prtanswernotes": ["prt1-1-T"],
                     "expectedscore": 1,
                     "expectedpenalty": 0,
                     "expectedanswernote": "prt1-1-T",
@@ -213,13 +232,114 @@ Example result object:
 
 If a question has no tests, a default test will be run to check if the model answers return a score of 1.
 
+### Diff route
+
+The `POST /diff` route is used to compare a question with defaults.
+
+- `questionDefinition`: The Moodle-XML-Export of a single STACK question or a YAML diff output.
+
+The return object:
+
+- `diff`: A YAML representation of the differences between the sent question and the API defaults.
+
+As the API fills in defaults, the diff output is all that is needed to re-send the question to the API via any route. There is a minimum definition returned by the diff route even if fields match the default. The example below is for a default question with a single input, PRT and node but fields will be shown for every input, prt and node in a more complex question.
+
+```
+name: Default
+questionsimplify: '1'
+input:
+  - name: ans1
+    type: algebraic
+    tans: ta1
+    forbidfloat: '1'
+    requirelowestterms: '0'
+    checkanswertype: '0'
+    mustverify: '1'
+    showvalidation: '1'
+prt:
+  - name: prt1
+    autosimplify: '1'
+    feedbackstyle: '1'
+    node:
+      - name: '0'
+        answertest: AlgEquiv
+        sans: ans1
+        tans: ta1
+        quiet: '0'
+```
+
+#### STACK fragments and YAML representation
+
+**Under development** - Defaults, how they're handled and YAML layout may change.
+
+The API accepts questions is a Moodle XML format i.e. `<quiz><question type="stack"></question></quiz>`. Missing fields will be filled
+in from the `questiondefaults.yml` file. If there are no inputs or PRTs, a single one of each will be created. There will be no tests by default.  
+- Input: `name: ans1, type: algebraic,
+  tans: ta1`
+- PRT: `name: prt1`
+- node: `name: 0, answertest: AlgEquiv, sans: ans1, tans: ta1`
+
+If the API does not find XML in the required format it will attempt to interpret the file as YAML, again filling in blanks from the default
+file as with the XML. Fields are slightly different than from XML - rather than some fields having `text` and `format` children, there are
+`field` and `fieldformat` fields e.g.  
+```
+<specificfeedback>
+  <text><p>[[feedback:prt1]]</p></text>
+  <format>html</format>
+</specificfeedback>`  
+```
+becomes
+```
+specificfeedback: <p>[[feedback:prt1]]</p>
+specificfeedbackformat: html
+```
+
+NB Things get tricky with quotes around YAML fields. In the above example, the API YAML parser can handle `<p>[[feedback:prt1]]</p>`
+and `'[[feedback:prt1]]'` but `[[feedback:prt1]]` throws an error. Using the diff route on `<p>[[feedback:prt1]]</p>` returns `'<p>[[feedback:prt1]]</p>'`. Meanwhile:
+```
+specificfeedback: |-
+  [[feedback:prt2]]
+    Lorem ipsum
+```
+is returned without quotes and
+```
+specificfeedback: |-
+  [[feedback:prt2]]
+```
+is returned as
+```
+specificfeedback: '[[feedback:prt2]]'
+```
+This will undoubtedly cause confusion at some point but may be unavoidable.
+
+See [test question](../tests/fixtures/questionyml.yml) for sample YAML layout.
+
+#### Answer test summary
+
+Additionally you can supply answer tests for your questions in a summary format when using YAML:
+```
+ATanswertest(sans,tans,testoptions)
+```
+The diff route will return the answer tests in the same format as supplied. If none are supplied it will
+use the format of the default file.
+
+If using summary format in the default file, do so like this:
+```
+  answertest: ATAlgEquiv(ans1,ta1)
+  # sans, tans, testoptions will not be used but need to be here for diff compatibility
+  # with questions which have them rather than the summary answertest.
+  sans:
+  tans:
+  testoptions:
+```
+
 ### Rendered CASText format
 
 The API returns rendered CASText as parts of its responses in multiple places. The CASText is output as a single string in an intermediate format, which cannot be directly fed to browsers for display, and requires further processing. Applications using the API have to handle the following cases:
 
 - **Latex**: The rendered CASText can contain Latex code, which must be rendered before being displayed to the user, e.g. by MathJax. Latex blocks are always enclosed by either `\[ <latex> \]` for display mode latex, or `\( <latex> \)` for inline mode.
 - **Substitution Tokens**: The rendered CASText can contain substitution tokens, indicating where inputs, input validations or PRT feedback should be inserted. These tokens have the format `[[type:name]]`, where type can be either `feedback`, `input` or `validation`, and name corresponds to the input or PRT name. It is up to the embedding application to replace these tokens with the appropriate content, depending on the context. 
-- **Images**: The rendered CASText can contain image tags, which have to be processed as described below: [Plots/Assets](#Plots/Assets)
+- **Images**: The rendered CASText can contain image tags, which have to be processed as described below: [Plots/Assets](#plotsassets)
 
 
 ### Plots/Assets
@@ -228,7 +348,9 @@ Any plots generated by stack during rendering or grading, as well as static imag
 
 ### Multi language content
 
-The API currently supports outputting German and English localization, both for internal messages and as part of multi-language questions. To control which language is selected the `Accept-Language` HTTP header is parsed. If not present, the default language is English.  Note, in order to add additional languages, you will need to include the Moodle language pack directly inside the appropriate `/lang/??` folder.
+The API currently supports outputting German and English localization, both for internal messages and as part of multi-language questions. To control which language is selected for render, grade, validate, and test requests, include the `lang` property in the JSON request body. If not present, the `Accept-Language` HTTP header is parsed as before. If neither is present, the default language is English. Note, in order to add additional languages, you will need to
+set `$CFG->supportedlanguages`. For development you will need to include the Moodle language pack directly inside the appropriate `/lang/??`. These will be downloaded
+automatically on production build.
 
 ### Errors
 

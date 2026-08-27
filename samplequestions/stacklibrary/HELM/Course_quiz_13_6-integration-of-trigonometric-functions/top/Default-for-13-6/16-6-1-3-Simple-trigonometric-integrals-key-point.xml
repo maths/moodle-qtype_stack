@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>16.6.1.3 Simple trigonometric integrals key point</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>The basic rules from which these results can be derived are summarised here:</p>
+
+<div class="HELM_keypoint">
+    <h4>Key Point</h4>
+    <p>\({\displaystyle\int \sin (kx) \,\mathrm{d}x} = -\dfrac{\cos (kx)}{k} + c\)</p>
+    <p>\({\displaystyle\int \cos (kx) \,\mathrm{d}x} = \dfrac{\sin (kx)}{k} + c\)</p>
+</div>
+<p></p><br>
+<p></p>
+<p>In engineering applications it is often necessary to integrate functions involving powers of the trigonometric functions such as \({\displaystyle\int \sin^2x \,\mathrm{d}x}\) or \({\displaystyle\int \cos^2\omega t \,\mathrm{d}t}\). Note that these integrals
+    cannot be obtained directly from the formulas in the Key Point above. However, by making use of trigonometric identities, the integrands can be re-written in an alternative form. It is often not clear which identities are useful and each case needs
+    to be considered individually. Experience and practice are essential. Work through the following question.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

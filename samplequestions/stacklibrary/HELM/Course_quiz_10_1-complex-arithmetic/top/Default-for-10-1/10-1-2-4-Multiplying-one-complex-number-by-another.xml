@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>10.1.2.4  Multiplying one complex number by another</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3> Multiplying complex numbers </h3>
+<p>In multiplication we proceed using an obvious approach: again consider any two complex numbers <span class="math inline">\(z=a+i b\)</span> and <span class="math inline">\(w=c+i d\)</span>. Then <span class="math display">\[\begin{aligned}
+zw&amp;=(a+i b)(c+i d)\\
+&amp;=ac+aid+ibc+i^2bd\qquad\end{aligned}\]</span> obtained in the usual way by multiplying all the terms in one bracket by all the terms in the other bracket. Now we use the fundamental relation <span class="math inline">\(i^2=-1\)</span> so that <span class="math display">\[\begin{aligned}
+zw&amp;=ac+ai d+i bc-bd\\
+&amp;=ac-bd+i(ad+bc)\qquad\end{aligned}\]</span> where we have re-grouped terms with the ‘<span class="math inline">\(i\)</span>’ symbol and terms without the ‘<span class="math inline">\(i\)</span>’ symbol separately. These are the real and imaginary parts of the product <span class="math inline">\(zw\)</span> respectively. A numerical example will confirm the approach. If <span class="math inline">\(z=2-3i\)</span> and <span class="math inline">\(w=-4+2i\)</span> then <span class="math display">\[\begin{aligned}
+zw&amp;=(2-3i)(-4+2i)\\
+&amp;=2(-4)+2(2i)-3i(-4)-3i(2i)\qquad\\
+&amp;=-8+4i+12i-6i^2\\
+&amp;=-8+16i+6\\
+&amp;=-2+16i\end{aligned}\]</span></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

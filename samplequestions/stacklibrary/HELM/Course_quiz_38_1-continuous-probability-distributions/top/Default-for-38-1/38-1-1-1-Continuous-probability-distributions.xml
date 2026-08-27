@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>38.1.1.1 Continuous probability distributions</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Continuous probability distributions</h3>
+<p>In order to get a good understanding of continuous probability distributions it is advisable to start by answering some fairly obvious questions such as: ''What is a continuous random variable?'',''Is there any carry over from the work we have already done on discrete random variables and distributions?'' We shall start with some basic concepts and definitions.</p>
+<h5>Continuous random variables</h5>
+<p>In day-to-day situations met by practising engineers, experiments such as measuring current in a
+piece of wire or measuring the dimensions of machined components play a part. However closely an
+engineer tries to control an experiment, there will always be small variations in the results obtained
+due to many factors: the influence of factors outside the control of the engineer. Such influences
+include changes in ambient temperature which may affect the accuracy of measuring devices used, and slight variation in the chemical composition of the materials used to produce the objects (wire,
+machined components in this case) under investigation. In the case of machined components, many
+of the small variations seen in measurements may be due to the influence of vibration, cutting tool
+wear in the machine producing the component, changes in raw material used and the process used
+to refine it, and even the measurement process itself!</p>
+<p>Such variations (current and length for example) can be represented by a <b>random variable</b> and it is
+customary to define an <b>interval</b>, finite or infinite, within which variation can take place. Since such
+a variable (\(X\) say) can assume any value within an interval, we say that the variable is <b>continuous
+</b>rather than discrete. - its values form an entity we can think of as a continuum.
+The following definition summarizes the situation. </p>
+<h5>Definition</h5>
+<p>A random variable \(X\) is said to be continuous if it can assume any value in a given interval. This
+contrasts with the definition of a discrete random variable which can only assume discrete values.
+</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

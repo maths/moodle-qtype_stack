@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>1.4.2.1 Multiplication and division of algebraic fractions</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3><span style="color: inherit; font-family: inherit;">Multiplication and division of algebraic fractions</span><br></h3>
+<p>To multiply together two fractions (numerical or algebraic) we multiply their numerators together and then multiply their denominators together. That is</p>
+
+<div class="HELM_keypoint">
+    <h4>Key Point</h4>
+    <p style="text-align:center"><strong>Multiplication</strong></p>
+    <p>\[ \dfrac{a}{b} \times \dfrac{c}{d} = \dfrac{ac}{bd} \]</p>
+</div>
+<p><br></p>
+
+<p>Any factors common to both numerator and denominator can be cancelled. This cancellation can be performed before or after the multiplication.</p>
+<p>To divide one fraction by another (numerical or algebraic) we invert the second fraction and then multiply.</p>
+
+<div class="HELM_keypoint">
+    <h4>Key Point</h4>
+    <p style="text-align:center"><strong>Division of fractions</strong></p>
+    <p>\[ \dfrac{a}{b} \div \dfrac{c}{d} = \dfrac{a}{b} \times \dfrac{d}{c} = \dfrac{ad}{bc} \quad b\neq 0, \, c\neq0, \, d\neq 0 \]</p>
+</div>
+<p><br></p>
+
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Simplify:</p>
+<ol class="HELM_parts_inline">
+    <li>\(\dfrac{2a}{c} \times \dfrac{4}{c}\)</li>
+    <li>\(\dfrac{2a}{c} \times \dfrac{c}{4}\)</li>
+    <li>\(\dfrac{2a}{c} \div \dfrac{4}{c}\)</li>
+</ol>
+
+<h4 class="HELM_solution">Solution</h4>
+<ol class="HELM_parts">
+    <li>\(\dfrac{2a}{c} \times \dfrac{4}{c} = \dfrac{8a}{c^2}\)</li>
+    <li>\(\dfrac{2a}{c} \times \dfrac{c}{4} = \dfrac{2ac}{4c} = \dfrac{2a}{4}= \dfrac{a}{2}\)</li>
+    <li>
+        <p>Division is performed by inverting the second fraction and then multiplying.</p>
+        <p>\(\dfrac{2a}{c} \div \dfrac{4}{c} = \dfrac{2a}{c} \times \dfrac{c}{4}= \dfrac{a}{2}\)</p>
+    </li>
+</ol>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Simplify:</p>
+<ol class="HELM_parts_inline">
+    <li>\(\dfrac{1}{5x} \times 3x\)</li>
+    <li>\(\dfrac{1}{x} \times x\)</li>
+</ol>
+
+<h4 class="HELM_solution">Solution</h4>
+<ol class="HELM_parts">
+  <li><p>Note that \(3x = \dfrac{3x}{1}.\)</p>
+      <p>Then \(\dfrac{1}{5x} \times 3x = \dfrac{1}{5x} \times \dfrac{3x}{1} = \dfrac{3x}{5x}= \dfrac{3}{5}.\)</p></li>
+  
+  <li><p>\(x\) can be written as \( \dfrac{x}{1}.\)</p>
+      <p>Then \(\dfrac{1}{x} \times x = \dfrac{1}{x} \times \dfrac{x}{1}= \dfrac{x}{x} = 1.\)</p>
+    </li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

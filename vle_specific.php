@@ -194,7 +194,9 @@ function stack_cors_link(string $filename): string {
         return '/cors.php?name=' . $filename;
     } else {
         return (new moodle_url(
-                '/question/type/stack/corsscripts/cors.php', ['name' => $filename]))->out(false);
+            '/question/type/stack/corsscripts/cors.php',
+            ['name' => $filename]
+        ))->out(false);
     }
 }
 
@@ -202,7 +204,9 @@ function stack_cors_link(string $filename): string {
  * Gets the URL used for MathJax, might be VLE local.
  */
 function stack_get_mathjax_url(): string {
-    // TO-DO: figure out how to support VLE local with CORS.
+    // NOTE! This URL needs to point to a source that provides CORS headers
+    // suitable for sandbox iframes existing in different origin.
+    // See issue #1340.
     $mathjaxconfigurl = get_config('filter_mathjaxloader', 'httpsurl');
     if ($mathjaxconfigurl) {
         $questionpos = strpos($mathjaxconfigurl, '?');
@@ -219,14 +223,40 @@ function stack_get_mathjax_url(): string {
 
         return $url;
     } else {
-        return 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+        return 'https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js?config=TeX-AMS-MML_HTMLorMML';
     }
+}
+
+/**
+ * Gets the version of MathJax that is being used.
+ *
+ * This function will return the version number as a string, e.g. "3.2.2" or "2.7.7".
+ * It does so by looking for matches of the form "mathjax@<version>" or "mathjax/<version>" in the URL.
+ * If the version cannot be determined, it returns the version used by moodle as default (3.2.2).
+ *
+ */
+function stack_get_mathjax_version(): string {
+    $url = stack_get_mathjax_url();
+    $host = parse_url($url, PHP_URL_HOST);
+
+    if (preg_match('/mathjax@(\d+(?:\.\d+)*)/i', $url, $matches)) {
+        return $matches[1];
+    }
+
+    if (preg_match('/mathjax\/(2\.\d+(?:\.\d+)*)/i', $url, $matches)) {
+        return $matches[1];
+    }
+
+    return "3.2.2";
 }
 
 /**
  * Gets the url for MathJax 3.
  */
 function stack_get_mathjax3_url() {
+    // NOTE! This URL needs to point to a source that provides CORS headers
+    // suitable for sandbox iframes existing in different origin.
+    // See issue #1340.
     return 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
 }
 
@@ -314,24 +344,18 @@ function stack_fetch_included_content(string $url) {
         $good = true;
         $islocalfile = true;
         $translated = __DIR__ . '/corsscripts/' . $path;
-
     }
 
     if ($good) {
         if (!isset($cache[$translated])) {
-            // Feel free to apply any proxying here if you want.
-            // Just remember that $islocalfile might be true and you might do
-            // something else then.
             if ($islocalfile) {
                 $cache[$translated] = file_get_contents($translated);
             } else {
                 $translated = clean_param($translated, PARAM_URL);
-                $headers = get_headers($translated);
-                if (strpos($headers[0], '404') === false) {
-                    $cache[$translated] = download_file_content($translated);
-                } else {
-                    $cache[$translated] = false;
-                }
+                // ISS1830 - Remove header check for 404 and rely on
+                // download_file_content to return false if the file can't be obtained for any reason.
+                // Note if adapting this for other VLEs: download_file_content also handles proxying.
+                $cache[$translated] = download_file_content($translated);
             }
         }
         return $cache[$translated];

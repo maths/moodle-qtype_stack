@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>8.3.3.1 Gauss Elimination 3x3 linear systems with infinitely many solutions</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h5>Equations which have an infinite number of solutions</h5>
+
+<p>Consider the following system of equations <span class="math display">\[\begin{matrix}
+    x_1 &amp; + &amp; x_2 &amp; - &amp; 3x_3 &amp; = &amp; 3 \\
+    2x_1 &amp; - &amp; 3x_2 &amp; + &amp; 4x_3 &amp; = &amp; -4\\
+    x_1 &amp; - &amp; x_2 &amp; + &amp; x_3 &amp; = &amp; -1 \\
+\end{matrix}\]</span> In augmented form we have: <span class="math display">\[\left[\begin{array}{rrr|r} 
+    1 &amp; 1 &amp; -3 &amp; 3 \\
+    2 &amp; -3 &amp; 4 &amp; -4 \\
+    1 &amp; -1 &amp; 1 &amp; -1 \\
+\end{array}\right]\]</span></p>
+
+<p>Now performing the usual Gauss elimination operations we have: <span class="math display">\[\left[\begin{array}{rrr|r} 
+    1&amp;1&amp;-3&amp;3 \\
+    2&amp;-3&amp;4&amp;-4 \\
+    1&amp;-1&amp;1&amp;-1 \\
+\end{array}\right]
+\begin{array}{c}
+    \\ 
+    R2-2\times R1 \\
+    R3- R1
+\end{array}
+\Rightarrow \left[\begin{array}{rrr|r}
+    1&amp;1&amp;-3&amp;3 \\
+    0&amp;-5&amp;10&amp;-10 \\
+    0&amp;-2&amp;4&amp;-4 \\
+\end{array}\right]\]</span></p>
+
+<p>Now applying <span class="math inline">\(R2\div -5\)</span> and <span class="math inline">\(R3\div -2\)</span> gives <span class="math display">\[\left[\begin{array}{rrr|r} 
+    1&amp;1&amp;-3&amp;3 \\
+    0&amp;1&amp;-2&amp;2 \\
+    0&amp;1&amp;-2&amp;2 \\
+\end{array}\right]\]</span> Then <span class="math inline">\(R2-R3\)</span> gives <span class="math display">\[\left[\begin{array}{rrr|r} 
+    1&amp;1&amp;-3&amp;3 \\
+    0&amp;1&amp;-2&amp;2 \\
+    0&amp;0&amp;0&amp;0 \\
+\end{array}\right]\]</span></p>
+
+<p>Now applying <span class="math inline">\(R2\div -5\)</span> and <span class="math inline">\(R3\div -2\)</span> gives <span class="math display">\[\left[\begin{array}{rrr|r} 
+    1&amp;1&amp;-3&amp;3 \\
+    0&amp;1&amp;-2&amp;2 \\
+    0&amp;1&amp;-2&amp;2 \\
+\end{array}\right]\]</span> Then <span class="math inline">\(R2-R3\)</span> gives <span class="math display">\[\left[\begin{array}{rrr|r} 
+    1&amp;1&amp;-3&amp;3 \\
+    0&amp;1&amp;-2&amp;2 \\
+    0&amp;0&amp;0&amp;0 \\
+\end{array}\right]\]</span> We see that all the elements in the last row are zero. This means that the variable <span class="math inline">\(x_3\)</span> can take any value whatsoever, so let <span class="math inline">\(x_3=t\)</span> then using back substitution the second row now implies <span class="math display">\[x_2=2+2x_3= 2+2t\]</span> and then the first row implies <span class="math display">\[x_1=3-x_2+3x_3=3-(2+2t)+3(t)=1+t\]</span> In this example the system of equations has an infinite number of solutions: <span class="math display">\[x_1=1+t,\qquad x_2=2+2t,\qquad x_3=t\quad{\rm or}\quad [x_1,x_2,x_3]^T=[1+t,2+2t,t]^T\]</span> where <span class="math inline">\(t\)</span> can be assigned any value. For every value of <span class="math inline">\(t\)</span> these expressions for <span class="math inline">\(x_1,x_2\)</span> and <span class="math inline">\(x_3\)</span> will simultaneously satisfy each of the three given equations.</p>
+<p>Systems of linear equations arise in the modelling of electrical circuits or networks. By breaking down a complicated system into simple loops, Kirchhoff’s law can be applied. This leads to a set of linear equations in the unknown quantities (usually currents) which can easily be solved by any of the methods you’ve learned.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,199 @@
+{
+    "quiz": {
+        "name": "43_1 Regression",
+        "intro": "<p>Problems in engineering often involve the exploration of the relationship(s) between two or more variables. The technique of regression analysis is very useful and well-used in this situation. This Section will look at the basics of regression analysis and should enable you to apply regression techniques to the study of relationships between variables. Just because a relationship exists between two variables does not necessarily imply that the relationship is causal. You might find, for example that there is a relationship between the hours a person spends watching TV and the incidence of lung cancer. This does not necessarily imply that watching TV causes lung cancer.<\/p>\n\n<p>Assuming that a causal relationship does exist, we can measure the strength of the relationship by means of a correlation coefficient discussed in the next Section. As you might expect, tests of significance exist which allow us to interpret the meaning of a calculated correlation coefficient.<\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Scatter Diagrams",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "4",
+            "heading": "Method of Least Squares",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "11",
+            "heading": "Adequacy of fit",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "15",
+            "heading": "Significance Testing",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "18",
+            "heading": "Regression Curves",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "21",
+            "heading": "F Table",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-43-1\/43-1-1-2-Regression.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-43-1\/43-1-1-3-Scatter-diagrams.xml"
+        },
+        {
+            "slot": "3",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-43-1\/43-1-1-4-Regression-lines-by-eye.xml"
+        },
+        {
+            "slot": "4",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-43-1\/43-1-2-1-Least-squares.xml"
+        },
+        {
+            "slot": "5",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-43-1\/43-1-2-2-KP1-2.xml"
+        },
+        {
+            "slot": "6",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-43-1\/43-1-2-3-Eg1.xml"
+        },
+        {
+            "slot": "7",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-43-1\/43-1-2-4-Regression-line.xml"
+        },
+        {
+            "slot": "8",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-43-1\/43-1-2-5-Regression-line.xml"
+        },
+        {
+            "slot": "9",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-43-1\/43-1-2-6-predict-elasticity.xml"
+        },
+        {
+            "slot": "10",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-43-1\/43-1-2-7-predict-cost.xml"
+        },
+        {
+            "slot": "11",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-43-1\/43-1-3-1-Least-squares---modelling.xml"
+        },
+        {
+            "slot": "12",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-43-1\/43-1-3-2-Adequacy-of-fit.xml"
+        },
+        {
+            "slot": "13",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-43-1\/43-1-3-3-Coeffs-of-determination.xml"
+        },
+        {
+            "slot": "14",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-43-1\/43-1-3-4-Adjusted-Coeffs-of-determination.xml"
+        },
+        {
+            "slot": "15",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-43-1\/43-1-4-1-Significance-testing-for-regression.xml"
+        },
+        {
+            "slot": "16",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-43-1\/43-1-4-2-Eg2.xml"
+        },
+        {
+            "slot": "17",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-43-1\/43-1-4-4-fake-the-data.xml"
+        },
+        {
+            "slot": "18",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-43-1\/43-1-5-1-Regression-Curves.xml"
+        },
+        {
+            "slot": "19",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-43-1\/43-1-5-2-Regression-Curves---Quadratic.xml"
+        },
+        {
+            "slot": "20",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-43-1\/43-1-5-3-Regression-Curves---Exponential.xml"
+        },
+        {
+            "slot": "21",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-43-1\/43-1-6-1-F-distribution.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

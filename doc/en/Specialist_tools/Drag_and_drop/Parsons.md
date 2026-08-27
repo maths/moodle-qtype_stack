@@ -255,6 +255,16 @@ In general, you need to provide a list of tags in place of `ta`, and the `proof_
 
 Old versions of the parsons block (before 2024072500) used `stackjson_stringify` in place of `parsons_encode`, `proof_parsons_key_json` in place of 
 `parsons_answer`, and `proof_parsons_interpret` in place of `parsons_decode`, and used the `String` input type. Legacy versions of questions are still 
-supported and should function as previously, so long as the `String` input type is used. However it is strongly recommended to update questions to use the new functions.
-These will hash they keys of the `proof_steps` variable so that they are hidden even when the web page is inspected. This 
-also fixes a randomisation bug that occurred when numerical keys are used (see Issue [#1237](https://github.com/maths/moodle-qtype_stack/issues/1237)).
+supported and should function as previously, so long as the `String` input type is used. 
+
+It is strongly recommended to update questions to use the new functions. These will hash they keys of the `proof_steps` variable so that they are hidden even when the web page is inspected. This also fixes a randomisation bug that occurred when numerical keys are used (see Issue [#1237](https://github.com/maths/moodle-qtype_stack/issues/1237)).
+
+Upgrading Parsons questions:
+
+1. Parsons blocks should use the `parsons_encode` function to create the JSON needed to go to the `[[parsons]]` block.  E.g.`[[parsons input="ans1"]]{# parsons_encode(proof_steps) #}[[/parsons ]]`
+2. The Input type field should be Parsons. The Model answer field should be a list `[ta, proof_steps]`.
+3. The feedback variables use the `parsons_encode` function, e.g. `sa:parsons_decode(ans1);`
+4. Test cases (question tests) are constructed using `parsons_answer(ta, proof_steps)`.
+
+The `parsons_encode`, `parsons_decode` and `parsons_answer` deal with the hash, as does choosing the "Parsons" input type.
+

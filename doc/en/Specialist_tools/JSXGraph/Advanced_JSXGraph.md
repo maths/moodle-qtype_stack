@@ -85,24 +85,24 @@ after the code.
 
 ```
 [[jsxgraph input-ref-ans1="state"]]
-/* A perfectly normal board. */
+// A perfectly normal board.
 const board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-10, 10, 10, -10]});
 
-/* With some circles representing the UI. */
+// With some circles representing the UI.
 const source = board.create('circle',[board.create('point',[-8,-8],{visible: false}),1.5], {  strokeColor:'black',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true, label:'Add/remove nodes'});
 const connector = board.create('circle',[board.create('point',[-4,-8],{visible: false}),1.5], {  strokeColor:'black',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true, label:'Connect nodes'});
 const disconnector = board.create('circle',[board.create('point',[0,-8],{visible: false}),1.5], {  strokeColor:'black',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true, label:'Disconnect nodes'});
 
-/* These represent the graph state. */
-let nodes = [board.create('point',[0,0], {visible:false})]; /* hidden point as a padding, so that we start indexing nodes from 1. */
-let edges = {}; /* A map from node to map of node to linesegment
+// These represent the graph state.
+let nodes = [board.create('point',[0,0], {visible:false})]; // Hidden point as a padding, so that we start indexing nodes from 1.
+let edges = {}; // A map from node to map of node to linesegment.
 
-/* A convenience function for finding a node by id. */
+// A convenience function for finding a node by id.
 function get_node_index(id) {
 	return nodes.findIndex((node) => node !== null && node.id == id);
 }
 
-/* Common UI-logic bits. */
+// Common UI-logic bits.
 function is_node_within(node, circle) {
 	return JXG.Math.Geometry.distance([node.X(),node.Y()],[circle.center.X(),circle.center.Y()]) < circle.Radius();
 }
@@ -111,8 +111,7 @@ function get_nodes_within(circle) {
 	return nodes.filter((node) => node !== null && is_node_within(node, circle));
 }
 
-
-/* 1. The serialiser function. */
+// 1. The serialiser function.
 const serialiser = () => {
 	let R = {'nodes': [], 'edges': []};
 	for (let i = 1; i < nodes.length; i++) {
@@ -124,7 +123,7 @@ const serialiser = () => {
 		  	R.edges.push([get_node_index(from), get_node_index(to)]);
 		}
 	}
-	/* Sort that list, for the Maxima side use. */
+	// Sort that list, for the Maxima side use.
 	R.edges.sort((a,b) => {
 		let c = a[0] - b[0];
 		if (c === 0) {
@@ -136,15 +135,13 @@ const serialiser = () => {
 	return JSON.stringify(R);
 };
 
-/* Before the deserialiser we really need to have the tools for manipulation of
-   the state. The deserialiser may create or delete nodes and edges, and we will
-   be doing that elsewhere as well.
-
-   So here are some basic functions.
-*/
+// Before the deserialiser we really need to have the tools for manipulation of
+// the state. The deserialiser may create or delete nodes and edges, and we will
+// be doing that elsewhere as well.
+// So here are some basic functions.
 function create_edge(pointA, pointB) {
-	/* This one uses JSXGraph point objects. */
-	/* For consistency we always draw the edges from the node earlier in the node list. */
+	// This one uses JSXGraph point objects.
+	// For consistency we always draw the edges from the node earlier in the node list.
 	let lowerIndex = get_node_index(pointA.id) < get_node_index(pointB.id) ? pointA : pointB;
 	let higherIndex = lowerIndex === pointA ? pointB : pointA;
 
@@ -152,55 +149,55 @@ function create_edge(pointA, pointB) {
 		edges[lowerIndex.id] = {};
 	}
 	if (higherIndex.id in (edges[lowerIndex.id])) {
-		/* That edge already exists do not recreate. */
+		// That edge already exists do not recreate.
 		return;
 	}
-	/* Create the segment and update the books... */
-	/* Note to keep UI logic easy we disable dragging by the edge. If you want
-	   to use this UI logic you would need an `up`-handler also for edges. */
+	// Create the segment and update the books...
+	// Note to keep UI logic easy we disable dragging by the edge. If you want
+	// to use this UI logic you would need an `up`-handler also for edges.
 	let edge = board.create('segment', [lowerIndex, higherIndex], {fixed: true});
 	edges[lowerIndex.id][higherIndex.id] = edge;
 
-	/* Ensure update. The edge was added after any points last moved. */
+	// Ensure update. The edge was added after any points last moved.
 	pointA.trigger(['update']);
 }
 
 function delete_edge(pointA, pointB) {
-	/* This one uses JSXGraph point objects. */
-	/* For consistency we always draw the edges from the node earlier in the node list. */
+	// This one uses JSXGraph point objects.
+	// For consistency we always draw the edges from the node earlier in the node list.
 	let lowerIndex = get_node_index(pointA.id) < get_node_index(pointB.id) ? pointA : pointB;
 	let higherIndex = lowerIndex === pointA ? pointB : pointA;	
 
 	if (!(lowerIndex.id in edges)) {
-		/* No such edge. */
+		// No such edge.
 		return;
 	}
 	if (higherIndex.id in (edges[lowerIndex.id])) {
-		/* Remove the edge from the board. */
+		// Remove the edge from the board.
 		board.removeObject(edges[lowerIndex.id][higherIndex.id]);
-		/* And from the books. */
+		// And from the books.
 		delete edges[lowerIndex.id][higherIndex.id];
 	}
 
-	/* Ensure update. Don't use the ends, they might not exist. */
+	// Ensure update. Don't use the ends, they might not exist.
 	nodes[0].trigger(['update']);
 }
 
 function delete_node(point) {
 	const i = get_node_index(point.id);
 	if (i === -1) {
-		return; /* Should not happen */
+		return; // Should not happen.
 	}
 	
-	/* Delete edges starting from this node. */
+	// Delete edges starting from this node.
 	if (point.id in edges) {
 		for (const [to, edge] of Object.entries(edges[point.id])) {
-			board.removeObject(edge);  	
+			board.removeObject(edge);
 		}
 		delete edges[point.id];
 	}
 
-	/* Delete edges ending to this node. */
+	// Delete edges ending to this node.
 	for (const [from, others] of Object.entries(edges)) {
 		for (const [to, edge] of Object.entries(others)) {
 			if (to === point.id) {
@@ -210,30 +207,30 @@ function delete_node(point) {
 		}
 	}
 
-	/* Remove from board. */
+	// Remove from board.
 	board.removeObject(point);
 	delete nodes[i];
 
-	/* Ensure update. Note that might have been the last bound node we just removed. */
+	// Ensure update. Note that might have been the last bound node we just removed.
 	nodes[0].trigger(['update']);
 }
 
 function create_node(x,y) {
 	var node = board.create('point',[x,y],{name:''});
-	/* We need to add some UI logic to this node. */
+	// We need to add some UI logic to this node.
 	node.on('up', () => {
 		if (is_node_within(node, source)) {
-			/* Returned to source, delete it. */
+			// Returned to source, delete it.
 			delete_node(node);
 		} else if (is_node_within(node, connector)) {
-			/* In the connector area, connect to all others in the area. */
+			// In the connector area, connect to all others in the area.
 			for (let n of get_nodes_within(connector)) {
 				if (n !== node) {
 					create_edge(n, node);
 				}
 			}
 		}  else if (is_node_within(node, disconnector)) {
-			/* In the disconnector area, disconnect from all others in the area. */
+			// In the disconnector area, disconnect from all others in the area.
 			for (let n of get_nodes_within(disconnector)) {
 				if (n !== node) {
 					delete_edge(n, node);
@@ -242,35 +239,35 @@ function create_node(x,y) {
 		}
 	});
 	nodes.push(node);
-	/* 2. As this is a new node that we need to track in the binding we need to register it. */
+	// 2. As this is a new node that we need to track in the binding we need to register it.
 	stack_jxg.register_object(state, node, serialiser);
 
-	/* Ensure update. Also trigger the up-handler. */
+	// Ensure update. Also trigger the up-handler.
 	node.trigger(['up', 'update']);
 }
 
-/* 3. The deserialiser, i.e. the hard part when we can create elements. */
+// 3. The deserialiser, i.e. the hard part when we can create elements.
 const deserialiser = (value) => {
 	let newState = JSON.parse(value);
 
-	/* First sync the nodes. That null padding is the reason for the +1. */
+	// First sync the nodes. That null padding is the reason for the +1.
 	while (newState.nodes.length + 1 < nodes.length) {
-		/* We have extra nodes present in the current state, delete them. */
+		// We have extra nodes present in the current state, delete them.
 		delete_node(nodes[nodes.length - 1]);
 	}
 	for (let i = 0; i < newState.nodes.length; i++) {
 		if (i+1 < nodes.length) {
-			/* Reposition existing node. */
+			// Reposition existing node.
 			nodes[i+1].setPosition(JXG.COORDS_BY_USER, newState.nodes[i]);
 		} else {
-			/* Create new node. */
+			// Create new node.
 			create_node(newState.nodes[i][0], newState.nodes[i][1]);
 		}
 	}
 
-	/* Then the edges. We basically need to check each existing for deletion
-	   and each new for creation. The easy way to get the list of edges in
-	   the same format is to get it through the `serialiser`. */
+	// Then the edges. We basically need to check each existing for deletion
+	// and each new for creation. The easy way to get the list of edges in
+	// the same format is to get it through the `serialiser`.
 	const newEdges = newState.edges;
 	const oldEdges = JSON.parse(serialiser()).edges;
 	for (let edge of oldEdges) {
@@ -286,20 +283,20 @@ const deserialiser = (value) => {
 	board.update();
 };
 
-/* Then lets add a magical point for creating new nodes. If one drags it outside
-   the circle it will create a new node at that place before returning back. */
+// Then lets add a magical point for creating new nodes. If one drags it outside
+// the circle it will create a new node at that place before returning back.
 const magicPoint = board.create('point', [source.center.X(), source.center.Y()], {name: 'Place me to create a new node.', size: 0.2, sizeUnit: 'user'});
 magicPoint.on('up', () => {
 	if (!is_node_within(magicPoint, source)) {
 		create_node(magicPoint.X(), magicPoint.Y());
 	}
-	/* Always return to the source. */
+	// Always return to the source.
 	magicPoint.setPosition(JXG.COORDS_BY_USER, [source.center.X(), source.center.Y()]);
 	board.update();
 });
 
-/* 4. In the end lets create the default state, like with all the binding functions
-   we must call the function after the default has been set. */
+// 4. In the end lets create the default state, like with all the binding functions
+// we must call the function after the default has been set.
 create_node(1.0,2.0);
 create_node(0.0,2.0);
 create_node(1.0,1.0);
@@ -307,12 +304,12 @@ create_edge(nodes[1], nodes[2]);
 create_edge(nodes[1], nodes[3]);
 create_edge(nodes[2], nodes[3]);
 
-/* 5. Now in our example the `create_node`-function already registered those points for binding.
-   so the only object we give it is the padding point that we also use as a handle for triggering
-   sync if all other elements have been eliminated. */
+// 5. Now in our example the `create_node`-function already registered those points for binding.
+// so the only object we give it is the padding point that we also use as a handle for triggering
+// sync if all other elements have been eliminated.
 stack_jxg.custom_bind(state, serialiser, deserialiser, [nodes[0]]);
 
-/* After that many changes it may make sense to call board update... */
+// After that many changes it may make sense to call board update...
 board.update();
 [[/jsxgraph]]
 ```

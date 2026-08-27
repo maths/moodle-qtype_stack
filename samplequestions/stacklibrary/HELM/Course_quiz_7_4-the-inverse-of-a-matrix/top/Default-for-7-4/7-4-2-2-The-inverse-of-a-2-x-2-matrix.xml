@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="multichoice">
+    <name>
+      <text>7.4.2.2 The inverse of a 2 x 2 matrix</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Which of the following matrices has an inverse?</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <single>false</single>
+    <shuffleanswers>false</shuffleanswers>
+    <answernumbering>none</answernumbering>
+    <showstandardinstruction>1</showstandardinstruction>
+    <correctfeedback format="html">
+      <text>Your answer is correct.</text>
+    </correctfeedback>
+    <partiallycorrectfeedback format="html">
+      <text>Your answer is partially correct.</text>
+    </partiallycorrectfeedback>
+    <incorrectfeedback format="html">
+      <text>Your answer is incorrect.</text>
+    </incorrectfeedback>
+    <shownumcorrect/>
+    <answer fraction="33.33333" format="html">
+      <text><![CDATA[<p>\(A=\left[{ \begin{array}{cc}1&amp;0\\2&amp;3\end{array}} \right]\)</p>]]></text>
+      <feedback format="html">
+        <text><![CDATA[<p>\(|A|=1\times 3 - 0\times 2 = 3\).</p>]]></text>
+      </feedback>
+    </answer>
+    <answer fraction="33.33333" format="html">
+      <text><![CDATA[<p>\(B=\left[{ \begin{array}{cc}1&amp;1\\-1&amp;1\end{array}} \right]\)</p>]]></text>
+      <feedback format="html">
+        <text><![CDATA[<p>\(|B|=1+1 =2\).<br></p>]]></text>
+      </feedback>
+    </answer>
+    <answer fraction="0" format="html">
+      <text><![CDATA[<p>\(C=\left[{ \begin{array}{cc}1&amp;-1\\-2&amp;2\end{array}} \right]\)<br></p>]]></text>
+      <feedback format="html">
+        <text><![CDATA[<p>\(|C|=2-2 =0\). Therefore \(C\) has no inverse because its determinant is zero.<br></p>]]></text>
+      </feedback>
+    </answer>
+    <answer fraction="33.33333" format="html">
+      <text><![CDATA[<p>\(D=\left[{ \begin{array}{cc}2&amp;0\\0&amp;2\end{array}} \right]\)</p>]]></text>
+      <feedback format="html">
+        <text><![CDATA[<p>\(|D|=4-0 =4\).<br></p>]]></text>
+      </feedback>
+    </answer>
+  </question>
+</quiz>

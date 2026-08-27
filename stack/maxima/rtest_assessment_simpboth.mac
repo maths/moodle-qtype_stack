@@ -361,8 +361,8 @@ stack_unit_si_to_si_base(stackunits(25,NULLUNITS));
 stackunits(25,NULLUNITS)$
 stack_unit_si_to_si_base(stackunits(25,kg));
 stackunits(25,kg)$
-stack_unit_si_to_si_base(stackunits(NULLNUMS,kg));
-stackunits(NULLNUMS,kg)$
+stack_unit_si_to_si_base(stackunits(NULLNUM,kg));
+stackunits(NULLNUM,kg)$
 stack_unit_si_to_si_base(stackunits(NULLNUM,g));
 stackunits(1/1000,kg)$
 stack_unit_si_to_si_base(stackunits(5,g));

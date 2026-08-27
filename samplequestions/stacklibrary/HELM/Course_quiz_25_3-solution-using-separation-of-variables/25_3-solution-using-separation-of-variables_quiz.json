@@ -1,0 +1,119 @@
+{
+    "quiz": {
+        "name": "25_3 Solution Using Separation of Variables",
+        "intro": "<p dir=\"ltr\" style=\"text-align: left;\">The main topic of this Section is the solution of PDEs using the method of separation of variables.\nIn this method a PDE involving n independent variables is converted into n ordinary differential\nequations. (In this introductory account n will always be 2.)<\/p>\n\n<p>You should be aware that other analytical methods and also numerical methods are available for solving PDEs. However, the separation of variables technique does give some useful solutions to important PDEs.\n<\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "0.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Solution of important PDEs",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "5",
+            "heading": "Separation of variables-general approach",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "9",
+            "heading": "Separation of variables-specific approach",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "11",
+            "heading": "Engineering Example",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-25-3\/25-3-1-1-Solution-of-important-PDEs.xml"
+        },
+        {
+            "slot": "3",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-25-3\/25-3-1-3-Solution-of-important-PDEs.xml"
+        },
+        {
+            "slot": "5",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-25-3\/25-3-2-1-Method-of-separation-of-variables---general-approach.xml"
+        },
+        {
+            "slot": "6",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-25-3\/25-3-2-2-Method-of-separation-of-variables---general-approach.xml"
+        },
+        {
+            "slot": "7",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-25-3\/25-3-2-3-Method-of-separation-of-variables---general-approach.xml"
+        },
+        {
+            "slot": "8",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-25-3\/25-3-2-4-Method-of-separation-of-variables---general-approach.xml"
+        },
+        {
+            "slot": "9",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-25-3\/25-3-3-1-Method-of-separation-of-variables---specific-solutions.xml"
+        },
+        {
+            "slot": "10",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-25-3\/25-3-3-2-Method-of-separation-of-variables---specific-solutions.xml"
+        },
+        {
+            "slot": "11",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-25-3\/25-3-3-3-Heat-conduction-through-a-furnace-wall.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-25-3\/25-3-1-2-Solution-of-important-PDEs.xml"
+        },
+        {
+            "slot": "4",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-25-3\/25-3-1-4-Solution-of-important-PDEs.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "1.00000"
+        }
+    ]
+}

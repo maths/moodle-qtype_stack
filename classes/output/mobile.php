@@ -24,7 +24,6 @@ namespace qtype_stack\output;
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mobile {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function stack_view() {
         global $CFG;

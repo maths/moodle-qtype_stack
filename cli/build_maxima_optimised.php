@@ -24,15 +24,17 @@
 
 define('CLI_SCRIPT', true);
 
-require(__DIR__.'/../../../../config.php');
-require_once($CFG->libdir.'/clilib.php');
+require(__DIR__ . '/../../../../config.php');
+require_once($CFG->libdir . '/clilib.php');
 require_once(__DIR__ . '/../stack/cas/connectorhelper.class.php');
 require_once(__DIR__ . '/../stack/cas/connector.dbcache.class.php');
 require_once(__DIR__ . '/../stack/cas/installhelper.class.php');
 
 // Now get cli options.
-list($options, $unrecognized) = cli_get_params(['help' => false],
-    ['h' => 'help']);
+[$options, $unrecognized] = cli_get_params(
+    ['help' => false],
+    ['h' => 'help']
+);
 
 if ($unrecognized) {
     $unrecognized = implode("\n  ", $unrecognized);
@@ -56,7 +58,7 @@ if ($options['help']) {
 
 cli_heading('Trying to generate maxima_opt_auto');
 
-list($ok, $message) = stack_cas_configuration::create_auto_maxima_image();
+[$ok, $message] = stack_cas_configuration::create_auto_maxima_image();
 
 if ($ok) {
     cli_heading("DONE.");

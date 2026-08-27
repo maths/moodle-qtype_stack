@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>16.2.1.1 Introduction</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Infinite series</h4><p>Many of the series considered in the previous Section were examples of <b>finite series</b> in that they all involved the summation of a finite number of terms. When the number of terms in the series increases without bound we refer to the sum as an <b>infinite series</b>. Of particular concern with infinite series is whether they are convergent or divergent. For example, the infinite series \[ 1 + 1 + 1 + 1 + \dots\] is clearly divergent because the sum of the first \(n\) terms increases without bound as more and more terms are taken. It is less clear as to whether the harmonic and alternating harmonic series: \[ 1 + \frac{1}{2} + \frac{1}{3} + \frac{1}{4} + \dots \qquad \qquad 1 - \frac{1}{2} + \frac{1}{3} - \frac{1}{4} + \dots \] converge or diverge. Indeed you may be surprised to find that the first is divergent and the second is convergent. What we shall do in this Section is to consider some simple convergence tests for infinite series. Although we all have an intuitive idea as to the meaning of convergence of an infinite series we must be more precise in our approach. We need a definition for convergence which we can apply rigorously.</p>
+
+<p>First, using an obvious extension of the notation we have used for a finite sum of terms, we denote the infinite series: \[ a_1 + a_2 + a_3 + \dots + a_p + \dots \quad\mathrm{by \: the \: expression } \; \sum_{p=1}^{\infty} a_p\] where \(a_p\) is an expression for the \(p^{th}\) term in the series. So, as examples:</p><p>\[1+2+3+\dots = \sum_{p=1}^{\infty} p \quad \mathrm{since\: the \:} p^{th} \: \mathrm{ term \: is } \: a_p \equiv p \]</p><p>\[1^2+2^2+3^2+\dots = \sum_{p=1}^{\infty} p^2 \quad \mathrm{since \: the \:} p^{th} \: \mathrm{ term \: is } \: a_p \equiv p^2 \]</p>
+
+<p>\[1-\frac{1}{2}+\frac{1}{3}-\frac{1}{4}+\dots = \sum_{p=1}^{\infty} \dfrac{(-1)^{p+1}}{p} \quad \mathrm{here \: } a_p \equiv \dfrac{(-1)^{p+1}}{p} \]<br></p><p>Consider the infinite series:&nbsp;<br></p><p>\[ a_1+a_2+\dots +a_p+\dots =\sum_{p=1}^{\infty} a_p\]</p>
+
+<p>We consider the <b>sequence of partial sums</b>, \(S_1, S_2, \dots \) of this series where \[ \begin{aligned} S_1 &amp; = a_1 \\ S_2 &amp; = a_1 + a_2 \\ \vdots &amp; \\ S_n &amp; = a_1 + a_2 + \dots + a_n \end{aligned}\]</p>
+
+<p>That is, \(S_n\) is the sum of the first \(n\) terms of the infinite series. If the limit of the sequence \(S_1, S_2, \dots , S_n, \dots\) can be found; that is </p><p>\[ \lim_{n \to \infty} S_n = S \quad \mathrm{(say)}\] then we define the sum of the infinite series to be \(S\): \[ S = \sum_{p=1}^{\infty} a_p\] and we say "the series converges to \(S\)". Another way of stating this is to say that \[\sum_{p=1}^{\infty} a_p =\lim_{n \to \infty} \sum_{p=1}^{\infty} a_p\]</p>
+
+<p> </p><div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p>An infinite series \(\sum_{p=1}^{\infty} a_p\) is convergent if the sequence of partial sums \[S_1, S_2, S_3,\dots,S_k,\dots \qquad \mathrm{in \: which} \quad S_k = \sum_{k=1}^{\infty} \: a_k \:\mathrm{is \: convergent.} \]</p>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

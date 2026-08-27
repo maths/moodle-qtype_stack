@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>19.3.2.3 Finding the complementary function</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4 class="HELM_example">Example</h4>
+<p>Find the auxiliary equation of the differential equation: <span class="math inline">\[
+a{\mathrm{d}^2y\over \mathrm{d}x^2}+b{\mathrm{d}y\over \mathrm{d}x}+cy=0\]</span></p>
+
+<h4 class="HELM_solution">Solution</h4>
+
+<p>We try a solution of the form <span class="math inline">\(y=\text{e}^{kx}\)</span> so that <span class="math inline">\[
+{{\mathrm{d}y\over \mathrm{d}x}=k\text{e}^{kx}}
+\qquad\text{and}\qquad 
+{{\mathrm{d}^2y\over \mathrm{d}x^2}=k^2\text{e}^{kx}}.\]</span> Substitution into the given differential equation yields: <span class="math inline">\[ ak^2\text{e}^{kx}+bk\text{e}^{kx}+c\text{e}^{kx}=0\qquad\text{that is}\qquad (ak^2+bk+c)\text{e}^{kx}=0\]</span> Since
+    this equation is to be satisfied for all values of <span class="math inline">\(x\)</span>, then <span class="math inline">\[ ak^2+bk+c=0\]</span> is the required auxiliary equation.</p>
+
+<hr>
+
+<div class="HELM_keypoint">
+    <h4>Key Point</h4>
+    <p>The <span><strong>auxiliary equation</strong></span> of <span class="math inline">\[{a{\mathrm{d}^2y\over \mathrm{d}x^2}+b{\mathrm{d}y\over \mathrm{d}x}+cy=0
+\qquad\text{is}\qquad
+ak^2+bk+c=0}\]</span> where <span class="math inline">\(y=e^{kx}\)</span></p>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

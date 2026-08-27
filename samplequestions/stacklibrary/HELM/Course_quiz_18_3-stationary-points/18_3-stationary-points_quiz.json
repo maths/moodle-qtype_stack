@@ -1,0 +1,147 @@
+{
+    "quiz": {
+        "name": "18_3 Stationary Points",
+        "intro": "",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "The stationary points of a function of two variables",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "3",
+            "heading": "Location of stationary points",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "7",
+            "heading": "The nature of a stationary point",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "10",
+            "heading": "Exercises",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-18-3\/18-3-1-1-The-stationary-points-of-a-function-of-two-variables-(copy).xml"
+        },
+        {
+            "slot": "3",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-18-3\/18-3-2-1-Location-of-stationary-points-(copy).xml"
+        },
+        {
+            "slot": "5",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-18-3\/18-3-2-3-Location-of-stationary-points-(copy).xml"
+        },
+        {
+            "slot": "7",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-18-3\/18-3-3-1-The-nature-of-a-stationary-point-(copy).xml"
+        },
+        {
+            "slot": "9",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-18-3\/18-3-3-3-The-nature-of-a-stationary-point-(copy).xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-18-3\/18-3-1-2-T-Features-on-graph-(copy).xml"
+        },
+        {
+            "slot": "4",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-18-3\/18-3-2-2-T-Verify-stationary-point-(copy).xml"
+        },
+        {
+            "slot": "6",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-18-3\/18-3-2-4-T-Locate-stationary-points-(copy).xml"
+        },
+        {
+            "slot": "8",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-18-3\/18-3-3-2-T-Nature-of-stationary-points-(copy).xml"
+        },
+        {
+            "slot": "11",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-18-3\/18-3-4-3-Identify-and-classify-stationary-points-2-(copy).xml"
+        },
+        {
+            "slot": "12",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-18-3\/18-3-4-4-Identify-and-classify-stationary-points-3-(copy).xml"
+        },
+        {
+            "slot": "13",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-18-3\/18-3-4-5-Identify-and-classify-stationary-points-4-(copy).xml"
+        },
+        {
+            "slot": "14",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-18-3\/18-3-4-6-Identify-and-classify-stationary-points-5-(copy).xml"
+        },
+        {
+            "slot": "15",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-18-3\/18-3-4-7-Identify-and-classify-stationary-points-6-(copy).xml"
+        },
+        {
+            "slot": "10",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-18-3\/18-3-4-2-Identify-and-classify-stationary-points-1-(copy).xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

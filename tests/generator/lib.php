@@ -22,7 +22,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_stack_generator extends component_generator_base {
-
     /**
      * Create a deployed variant.
      *
@@ -62,11 +61,17 @@ class qtype_stack_generator extends component_generator_base {
         $qtest = new stack_question_test($description, $inputs);
 
         foreach ($question->prts as $prtname => $notused) {
-            $qtest->add_expected_result($prtname,
-                    new stack_potentialresponse_tree_state(
-                            1, true, $data[$prtname . ' score'],
-                            $data[$prtname . ' penalty'],
-                            '', [$data[$prtname . ' note']]));
+            $qtest->add_expected_result(
+                $prtname,
+                new stack_potentialresponse_tree_state(
+                    1,
+                    true,
+                    $data[$prtname . ' score'],
+                    $data[$prtname . ' penalty'],
+                    '',
+                    [$data[$prtname . ' note']]
+                )
+            );
         }
         question_bank::get_qtype('stack')->save_question_test($question->id, $qtest);
     }

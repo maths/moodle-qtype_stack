@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>1.2.5.4 Fractional indices continued</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Write the following as a simple power with a single index.</p>
+<ol class="HELM_parts_inline">
+<li> \(\sqrt{x^5}\)</li>
+<li>\(\sqrt[4]{x^3}\)</li>
+</ol>
+<h4 class="HELM_solution">Solution</h4>
+<ol class="HELM_parts">
+<li> \(\sqrt{x^5} = (x^5)^{\frac{1}{2}}\). Then using the third law of indices we can write this as \(x^{5\times{\frac{1}{2}}}=x^{\frac{5}{2}}.\)</li>
+<li>\(\sqrt[4]{x^3} =(x^3)^{\frac{1}{4}}\). Using the third law we can write this as \(x^{3\times \frac{1}{4}}=x^{\frac{3}{4}}.\)</li></ol>
+<p>&nbsp;</p>
+<hr>
+
+<h4 class="HELM_example">Example</h4>
+<p>Show that \(z^{-\frac{1}{2}}=\dfrac{1}{\sqrt{z}}.\)</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>\(z^{-\frac{1}{2}}=\dfrac{1}{z^{\frac{1}{2}}}=\dfrac{1}{\sqrt{z}}.\)</p>
+<p>&nbsp;</p>
+<hr>
+
+<h4 class="HELM_example">Example</h4>
+<p>The generalisation of the third law of indices states that \((a^mb^n)^k=a^{mk}b^{nk}\). By taking \(m=1\), \(n=1\) and \(k=\dfrac{1}{2}\) show that \(\sqrt{ab}=\sqrt{a}\,\sqrt{b}\).</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>Taking \(m=1\), \(n=1\) and \(k=\dfrac{1}{2}\) gives</p>
+<p>\((ab)^{\frac{1}{2}}=a^{\frac{1}{2}}b^{\frac{1}{2}}\).</p>
+ <p>Taking the case when all these roots are positive, we have</p>
+<p>\(\sqrt{ab}=\sqrt{a}\sqrt{b}\)</p>
+<p>&nbsp;</p>
+<hr>
+
+
+<div class="HELM_keypoint">
+<h4>Key Point <br></h4>
+<p>\(\sqrt{ab}=\sqrt{a}\sqrt{b} \qquad&nbsp; a\ge 0,\ \ b\ge 0\).</p>
+</div>
+
+<p><br></p><p>This result often allows answers to be written in alternative forms. For example, we may write \(\sqrt{48}\) as \(\sqrt{3\times 16}=\sqrt{3}\sqrt{16}=4\sqrt{3}\). <br></p><p>Although this rule works for multiplication we should be aware that it does <strong>not</strong> work for addition or subtraction so that \(\sqrt{a\pm b}\ne \sqrt{a}\pm\sqrt{b}\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

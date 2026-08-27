@@ -1,13 +1,18 @@
 # Testing, using and maintaining questions
 
+STACK comes with a [large library of tested questions](Library/index.md).
+
+This section of the documentation provides information on testing questions and maintaining question banks for the long term.  The foundation of long-term maintenance is testing.  ___We strongly recommend all questions have [question tests](../STACK_question_admin/Testing.md).___
+
 This section assumes you have working questions, and it provides information on testing, using and maintaining questions.
 
 * [Creating question tests](Testing.md),
 * [Deploying variants](Deploying.md),
 * [Reporting](Reporting.md),
 * [Ensuring questions work in the future](Future_proof.md).
+* [Bulk testing](Bulk_testing.md) and [Bulk testing on other sites](Testing_questions_on_other_sites.md).
 
-This section of the documentation provides information on testing questions and maintaining question banks for the long term.  Access to functions related to testing STACK questions and maintaining question banks for the long term is through the "adminui" page
+Access to functions related to testing STACK questions and maintaining question banks for the long term is through the "adminui" page
 
     [...]/question/type/stack/adminui/index.php
 
@@ -33,16 +38,6 @@ Encourage question authors to [future proof](../STACK_question_admin/Future_proo
 
 We have separate advice on [fixing broken questions](Fixing_broken_questions.md) in a live quiz, or on upgrade.
 
-## Bulk testing STACK questions on your site
-
-You can bulk test all question tests on all variants of all question by using the bulk-test script.  This is available from the question setting page or from the "adminui" page
-
-    [...]/question/type/stack/adminui/index.php
-
-STACK questions store the version of the STACK plug-in _last used_ to edit the question.  The bulk tester runs all question tests, and also checks for changes with the current STACK plug-in version.
-
-It is possible to [bulk test materials on other sites](Testing_questions_on_other_sites.md).  (Site admins will have the option to bulk test all materials, and there is also a command line bulk test option.)
-
 ## Identifying STACK questions using particular blocks
 
 It is possible to identify questions for dependencies, such as use of JSXGraph, inclusion of external maxima code, or "todo" blocks.
@@ -51,11 +46,11 @@ The dependency checker is available from the question setting page or from the "
 
     [...]/question/type/stack/adminui/index.php
 
-See also the notes on [local usageAdvanced_reporting.mdmd) of STACK questions on your server.
+See also the notes on [advanced reporting](Advanced_reporting.md) of STACK questions on your server.
 
 ## Bulk change of the default settings
 
-You may need to [upgrade question defaults](UpgradeDefaults.md) over a range of questions.
+You may need to upgrade question defaults over a range of questions. We recommend you do this offline, e.g. with the gitync project.
 
 ## Import and replace questions
 

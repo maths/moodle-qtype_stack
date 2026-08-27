@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>23.6.2.1 Revision of the exponential form of a complex number</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Revision of the exponential form of a complex number</h4>
+
+Recall that a complex number in <b>Cartesian</b> form which is written as
+\[z = a + ib \]
+where \(a\) and \(b\) are real numbers and \(i^2 = -1\), can be written in <b>polar</b> form as
+\[ z = r \left( \cos \theta + i \sin \theta \right) \]
+where \(r = \lvert z \rvert =\sqrt{a^2 + b^2} \) and \(\theta\), the <b>argument</b> or <b>phase</b> of \(z\) is such that
+\[ a = r \cos \theta \hspace{1cm} b = r \sin \theta \]
+A more concise version of the polar form of \(z\) can be obtained by defining a <b>complex exponential</b>
+quantity \(e^{i\theta}\) by Euler's relation
+\[ e^{i\theta} \equiv \cos \theta + i \sin \theta \]
+The polar angle \(\theta\) is normally expressed in <b>radians</b>. Replacing i by \( - i\) we obtain the alternative form
+\[ e^{-i\theta} \equiv \cos \theta - i \sin \theta \]]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

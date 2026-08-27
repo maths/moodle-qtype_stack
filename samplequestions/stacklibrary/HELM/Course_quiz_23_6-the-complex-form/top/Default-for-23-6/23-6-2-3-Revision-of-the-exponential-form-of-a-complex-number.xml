@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>23.6.2.3 Revision of the exponential form of a complex number</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[Adding the results from the previous task gives
+\[e^{i\pi/6} + e^{-i\pi/6} = 2\cos \left( \dfrac{\pi}{6} \right) \] 
+or
+\[ \cos \left( \dfrac{\pi}{6} \right) = \dfrac{1}{2} \left( e^{i\pi/6} + e^{-i\pi/6} \right) .\]
+Subtracting the results from the previous task gives
+\[e^{i\pi/6} - e^{-i\pi/6} = 2 i \sin \left( \dfrac{\pi}{6} \right) \] 
+or
+\[ \sin \left( \dfrac{\pi}{6} \right) = \dfrac{1}{2i} \left( e^{i\pi/6} - e^{-i\pi/6} \right) .\]
+Don't forget the factor \(i\) in this latter case.
+<p></p>
+Clearly, similar calculations could be carried out for any angle \(\theta\). The general results are summarised
+in the following Key Point.
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p><b>Euler's Relations</b></p>
+\[ e^{i\theta} \equiv \cos\theta  + i \sin \theta, \hspace{1cm} e^{-i\theta} \equiv \cos\theta  - i \sin \theta\]
+\[\cos \theta \equiv \dfrac{1}{2} ( e^{i\theta} + e^{-i\theta} ), \hspace{1cm} \sin \theta \equiv \dfrac{1}{2i} ( e^{i\theta} - e^{-i\theta} )\]
+</div>
+<p></p>
+Using these results we can redraft an expression of the form
+\[ a_n \cos n\theta + b_n \sin n\theta \]
+in terms of complex exponentials. 
+<p></p>
+(This expression, with \(\omega = \omega_0 t\), is of course the \(n^{ \text{th} }\) harmonic of a trigonometric Fourier series.)]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

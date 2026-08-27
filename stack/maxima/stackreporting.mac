@@ -5,7 +5,7 @@
 /* ****************************************************** */
 
 STACKanalysis(A):=block([l0, l1, l2, l3],
-  l0:maplist(ineqorder, A),
+  l0:maplist('ineqorder, A),
   l1:listify(setify(fullratsimp(l0))),
   l2:maplist(lambda([ex], setify(sublist(A, lambda([ex2], second(ATAlgEquiv(ex2,ex)))))), l1),
   l3:maplist(lambda([ex], length(sublist(A, lambda([ex2], second(ATAlgEquiv(ex2,ex)))))), l1),

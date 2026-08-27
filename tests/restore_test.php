@@ -40,7 +40,6 @@ require_once($CFG->dirroot . '/mod/quiz/tests/quiz_question_helper_test_trait.ph
  * @covers \qtype_stack
  */
 final class restore_test extends advanced_testcase {
-
     /**
      * Restore a quiz with duplicate questions (same stamp and questions) into the same course.
      *
@@ -107,15 +106,27 @@ final class restore_test extends advanced_testcase {
         ]);
 
         // Backup quiz.
-        $bc = new backup_controller(backup::TYPE_1ACTIVITY, $quiz1->cmid, backup::FORMAT_MOODLE,
-            backup::INTERACTIVE_NO, backup::MODE_IMPORT, $teacher->id);
+        $bc = new backup_controller(
+            backup::TYPE_1ACTIVITY,
+            $quiz1->cmid,
+            backup::FORMAT_MOODLE,
+            backup::INTERACTIVE_NO,
+            backup::MODE_IMPORT,
+            $teacher->id
+        );
         $backupid = $bc->get_backupid();
         $bc->execute_plan();
         $bc->destroy();
 
         // Restore the backup into the same course.
-        $rc = new restore_controller($backupid, $course1->id, backup::INTERACTIVE_NO, backup::MODE_IMPORT,
-            $teacher->id, backup::TARGET_CURRENT_ADDING);
+        $rc = new restore_controller(
+            $backupid,
+            $course1->id,
+            backup::INTERACTIVE_NO,
+            backup::MODE_IMPORT,
+            $teacher->id,
+            backup::TARGET_CURRENT_ADDING
+        );
         $rc->execute_precheck();
         $rc->execute_plan();
         $rc->destroy();

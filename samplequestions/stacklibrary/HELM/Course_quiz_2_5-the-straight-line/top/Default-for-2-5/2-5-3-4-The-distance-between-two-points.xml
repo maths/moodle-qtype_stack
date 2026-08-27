@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>2.5.3.4 The distance between two points</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3 style="text-align: left;">The distance between two points </h3>
+
+<p>The distance between the points with coordinates \(A=(x_1, y_1)\) and \(B=(x_2,y_2)\) is given by the following formula.</p>
+
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<h5>Distance Between Two Points</h5>
+<p>The distance between the two points \(A=(x_1, y_1)\) and \(B=(x_2, y_2)\), is given by:</p>
+\[\sqrt{(x_2-x_1)^2+(y_2-y_1)^2}.\]
+</div>
+<p>We can see this as a direct consequence of the theorem of Pythagoras. The distance between two points is the length of the straight line segment connecting them. This line segment is the hypotenuse of a right angled triangle with base \(|x_2-x_1|\) and height \(|y_2-y_1|\). It is a useful exercise to sketch this case so you understand how we calculate the length.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

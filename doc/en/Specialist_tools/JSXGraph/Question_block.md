@@ -32,7 +32,7 @@ This question contains an interactive sliding element.
 
     <p>A graph, together with the tangent line and its slope, are shown below.  Find an algebraic expression for the graph shown below.</p>
     [[jsxgraph]]
-      /* boundingbox:[left, top, right, bottom] */
+      // boundingbox:[left, top, right, bottom]
       var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-5, 10, 5, -10], axis: true, showCopyright: false});
       var f = board.jc.snippet('{#fx#}', true, 'x', true);
       var curve = board.create('functiongraph', [f,-10,10], {strokeWidth:2});
@@ -51,7 +51,7 @@ In this example the student can interact with a dynamic diagram to help them und
 In this example we provide a simple slider.  Notice in this example we use the JavaScript notation `a**x` for \(a^x\) and not Maxima's `a^x`.
 
     [[jsxgraph]]
-      /* boundingbox:[left, top, right, bottom] */
+      // boundingbox:[left, top, right, bottom]
       var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-5, 10, 5, -10], axis: true, showCopyright: false});
       var a = board.create('slider',[[-3,6],[2,6],[0,2,6]],{name:'a'});
       var curve = board.create('functiongraph', [function(x) {return a.Value()**x}], {strokeWidth:2});

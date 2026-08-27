@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>23.3.2.4 Confirm Fourier series result</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h4 class="HELM_example">Example</h4>
+<p>Confirm the result obtained for the triangular wave, function 7 in the last Task,
+by finding the Fourier series fully. The function involved is</p>
+<p> \[\begin{align*} f(t) & = |t| \quad\quad - \pi < t < \pi, \\ f(t+2\pi) & = f(t). \end{align*}\]</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>Since \(f(t)\) is even we can say immediately \[b_n=0\qquad n=1,2,3,\ldots\] Also \[\begin{aligned}
+a_n=\frac{2}{\pi}\int_0^\pi t\cos nt \, dt=\left\{\begin{array}{ccc}0&amp;&amp;n\ \text{even}\\ \\ -\frac{4}{n^2\pi}&amp;&amp;n\ \text{odd}\end{array}\right.
+\end{aligned}\] (after integration by parts). Also \(a_0=\frac{2}{\pi}\displaystyle\int_0^\pi t\ d t=\pi\) so the Fourier series is \[f(t)=\frac{\pi}{2}-\frac{4}{\pi}\left(\cos t+\frac{1}{9}\cos 3t+\frac{1}{25}\cos
+5t+\ldots \right)\]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

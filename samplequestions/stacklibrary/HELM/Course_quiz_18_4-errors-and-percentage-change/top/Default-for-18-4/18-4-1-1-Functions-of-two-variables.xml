@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>18.4.1.1 Functions of two variables</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Approximation and errors</h4><p>In this section we consider functions of several variables for which takes some point as input. Often the point will be the result of some measurement and may be subject to measurement error, such as measuring distance to the nearest millimetre. Since the partial derivatives of the function tell us the instantaneous change at that point in each direction we can use these to approximate the function at nearby points, i.e. within the range of error for our point. As our input value is subject to some error we need to understand the resulting error in evaluating the function at that point: this is to understand the error, that is, the error in the value of the function given the error in the input values.&nbsp;<br><br>When working with Maclaurin and Taylor Series we saw in how to expand a function of a single variable \(f(x)\) as a Taylor series: \[f(x)=f(x_0)+(x-x_0)f'(x_0)+ \frac{(x-x_0)^2}{2!}f''(x_0)+ \dots \]</p>
+<p>This can be written in the following alternative form (by replacing \(x − x_0\) by \(h\) so that \(x = x_0 + h\)): \[f(x_0+h)=f(x_0) + h f'(x_0)+\frac{h^2}{2!} f''(x_0)+\dots\]</p>
+<p>This expansion can be generalised to functions of two or more variables, the following is taking the expansion with first derivatives only: \[f(x_0+h, y_0+k)\simeq f(x_0, y_0)+h f_x(x_0, y_0) + k f_y(x_0,y_0) \] where, assuming \(h\) and \(k\) to be small, we have ignored higher-order terms involving powers of \(h\) and
+\(k\) as these powers will typically be much smaller and so those terms do not contribute much. We define \(\delta f\) to be the change in \(f(x, y)\) resulting from <em>small</em> changes to \(x_0\) and \(y_0\), denoted by \(h\) and \(k\) respectively. Thus: \[\delta f = f(x_0 + h, y_0 + k) - f(x_0, y_0) \] and so \(\delta f \simeq h f_x(x_0, y_0)+k f_y(x_0,y_0)\). Using the notation \(\delta x\) and \(\delta y\) instead of \(h\) and \(k\) for small increments in \(x\) and \(y\) respectively we may write \[\delta f \simeq \delta x f_x(x_0,y_0) + \delta y f_y(x_0,y_0) \]</p>
+<p>Finally, using the more common notation for partial derivatives, we write \[\delta f \simeq \frac{\partial f}{\partial x} \delta x + \frac{\partial f}{\partial y}\ \delta y.\]</p>
+<p>Informally, the term \(\delta f\) is referred to as the <b>absolute error</b> in \(f(x, y)\) resulting from errors \(\delta x, \delta y\)
+in the variables \(x\) and \(y\) respectively. Note that the right hand side is an approximation of the absolute error. Other measures of error are used. For example, the <b>relative error</b> in a variable \(f\) is defined as \(\frac{\delta f}{f}\) in order to account for the scale of the values, e.g. an absolute error of \(2\) might be considered small if the value was \(1,000\), but could be considered large if the value was \(10\). Finally the <b>percentage relative error</b> is when we convert the relative error to a percentage, i.e. \(\frac{\delta f}{f} \times 100\).</p>
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+  <p><b>Measures of Error</b></p>
+  <p>If \(\delta f\) is the change in \(f\) at \((x_0, y_0)\) resulting from small changes \(h, k\) to \(x_0\) and \(y_0\) respectively, then
+\(\delta f = f(x_0 + h, y_0 + k) − f(x_0, y_0)\), and</p>
+  <p><b>The absolute error</b> in \(f\) is \(\delta f\).</p>
+  <p><b>The relative error</b> in \(f\) is \(\dfrac{\delta f}{f}\).</p>
+  <p><b>The percentage relative error</b> in \(f\) is \(\dfrac{\delta f}{f} \times 100\).</p>
+</div>
+<p>Note that to determine the error numerically we need to know not only the actual values of \(\delta x\) and
+\(\delta y\) but also the values of \(x\) and \(y\) at the point of interest.</p>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Estimate the absolute error for the function \(f(x, y) = x^2 + x^3 y\) for a general point \((x,y)\) and then for the point \((1,2)\) with \(\delta x = \delta y = 0.1\).</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>\(f_x = 2x+3x^2 y; \quad f_y = x^3\)</p>
+<p>Then \(\delta f \simeq (2x+3x^2 y) \delta x + x^3 \delta y.\)</p><p>Now if \((x_0,y_0)=(1,2)\), \(\delta x = \delta y =0.1\) then we are using knowledge of the function and its derivates at \((1,2)\) to approximate the function at \((1.1,1.2)\). This is to serve as an estimate of the error in our function if our measured input is accurate to within \(0.1\).<br><br>Now \(f(1,2) = 3\),&nbsp;\(f_x(1,2) = 8\) and&nbsp;\(f_y(1,2) = 1\). So we approximate&nbsp;</p><p>\[f(1.1,2.1) \approx f(1,2)+f_x(1,2) \delta x + f_y(1,2)\delta y= 3+ 0.8+0.1=3.9.\]</p><p>Or equivalently the change or error in \(f\) is</p><p>\[\delta x = f(1.1,2.1) - f(1,2) \approx f_x(1,2) \delta x + f_y(1,2)\delta y= 0.8+0.1=0.9.\]<br><br>Of course we can calculate the actual change in \(f\) in this case by evaluating</p><p>\[&nbsp;f(1.1,2.1) - f(1,2) = 4.0051 -3&nbsp;= 1.0051 \]</p><p>so that our approximate change of \(0.9\) is close to the actual change between these two values. Smaller values of \(\delta x\) and \(\delta y\) would result in even better approximation as we look at points closer to \((x_0,y_0)\). <br><br>Note that what we are calculating is an approximate bound on the error. Better bounds can be calculated by careful consideration of the range of values for \(x\) and \(y\) but this tends to be time consuming for little benefit. We could also find better bounds by taking more terms in the Taylor expansion.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

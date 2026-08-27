@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.6.5.1 Improper fractions</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Improper fractions</h4>
+<br>
+<p>When calculating the partial fractions of improper fractions an extra polynomial is added to any partial fractions that would normally arise. The added polynomial has degree <span class="math inline">\(n-d\)</span> where <span class="math inline">\(n\)</span>    is the degree of the numerator and <span class="math inline">\(d\)</span> is the degree of the denominator. Recall that</p>
+<ul>
+    <li> a polynomial of degree 0 is a constant, <span class="math inline">\(A\)</span> say, </li>
+    <li>a polynomial of degree 1 has the form <span class="math inline">\(Ax+B\)</span>, </li>
+    <li>a polynomial of degree 2 has the form <span class="math inline">\(Ax^2+Bx+C\)</span></li>
+</ul>
+<p>and so on. If, for example, the improper fraction is such that the numerator has degree 5 and the denominator has degree 3, then <span class="math inline">\(n-d=2\)</span>, and we need to add a polynomial of the form <span class="math inline">\(Ax^2+Bx+C\)</span>.</p>
+<br>
+<div class="HELM_keypoint">
+    <h4>Key Point</h4>
+    <p>If a fraction is improper an additional term is included taking the form of a polynomial of degree \(n-d\), where \(n\) is the degree of the numerator and \(d\) is the degree of the denominator.</p>
+</div>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Express as partial fractions</p>
+<p>\[\dfrac{2x^2-x-2}{x+1}\]</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>The fraction is improper because <span class="math inline">\(n=2\)</span>, <span class="math inline">\(d=1\)</span> and so <span class="math inline">\(d\le n\)</span>. Here <span class="math inline">\(n-d=1\)</span>, so we need to include as an extra
+    term a polynomial of the form <span class="math inline">\(Bx+C\)</span>, in addition to the usual partial fractions. The linear term in the denominator gives rise to a partial fraction <span class="math inline">\(\dfrac{A}{x+1}\)</span>. So altogether
+    we have </p>
+<p>\[\dfrac{2x^2-x-2}{x+1}= \dfrac{A}{x+1}+ (Bx+C).\]</p>
+<p> Multiplying both sides by <span class="math inline">\(x+1\)</span> we find</p>
+<p>\[2x^2-x-2 = A+(Bx+C)(x+1) = Bx^2 + (C+B)x + (C+A).\]</p>
+<p> Equating coefficients of <span class="math inline">\(x^2\)</span> gives</p>
+<p>\[B=2.\]</p>
+<p>Equating coefficients of <span class="math inline">\(x\)</span> gives</p>
+<p>\[-1=C+B\]</p>
+<p> and so </p>
+<p>\[C=-1-B=-3.\]</p>
+<p>Equating the constant terms gives</p>
+<p>\[-2=C+A\]</p>
+<p> and so</p>
+<p>\[A=-2-C=-2-(-3)=1.\]</p>
+<p>Finally, we have </p>
+<p>\[\dfrac{2x^2-x-2}{x+1}= \dfrac{1}{x+1}+2x-3.\]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -90,4 +90,3 @@ class stack_ast_filter_202_decimal_places_validation implements stack_cas_astfil
         return $ast;
     }
 }
-

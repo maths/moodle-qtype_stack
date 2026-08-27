@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>37.1 Introduction</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3 style="text-align: left;"><span style="font-size: calc(0.950625rem + 0.6075vw);">Introduction</span><br></h3>It is often possible to model real systems by using the same or similar random experiments and
+their associated random variables. Numerical random variables may be classified in two broad but
+distinct categories called <em>discrete random variables</em> and <em>continuous random variables</em>. Often, discrete
+random variables are associated with counting while continuous random variables are associated with
+measuring. Generally speaking, discrete random variables can take values which are separate and can
+be listed. Strictly speaking, the real situation is a little more complex but it is sufficient for our
+purposes to equate the word discrete with a finite list. In contrast, continuous random variables
+can take values anywhere within a specified range. This Section will familiarize you with the idea
+of a discrete random variable and the associated probability distributions.<br><p></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

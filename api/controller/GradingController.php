@@ -15,7 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This script handles the various deploy/undeploy actions from questiontestrun.php.
+ * This script handles grading a question.
  *
  * @package    qtype_stack
  * @copyright  2023 RWTH Aachen
@@ -44,6 +44,7 @@ class GradingController {
     public function __invoke(Request $request, Response $response, array $args): Response {
         // TO-DO: Validate.
         $data = $request->getParsedBody();
+        $language = current_language($data['lang'] ?? null);
 
         $question = StackQuestionLoader::loadxml($data["questionDefinition"])['question'];
 
@@ -65,8 +66,6 @@ class GradingController {
         $translate->search = '/(<span(\s+lang="[a-zA-Z0-9_-]+"|\s+class="multilang")' .
                              '{2}\s*>.*?<\/span>)(\s*<span(\s+lang="[a-zA-Z0-9_-]+"' .
                              '|\s+class="multilang"){2}\s*>.*?<\/span>)+/is';
-        $language = current_language();
-
         // If an input explicitly allows empty answers, and the response data doesn't
         // contain a value for the input, set the input value to an empty string.
         foreach ($question->inputs as $name => $input) {
@@ -80,54 +79,56 @@ class GradingController {
         $gradingresponse = new StackGradingResponse();
         $gradingresponse->isgradable = true;
 
+        if (!$question->is_gradable_response($data['answers'])) {
+            $gradingresponse->isgradable = false;
+            $response->getBody()->write(json_encode($gradingresponse));
+            return $response->withHeader('Content-Type', 'application/json');
+        }
+
         $scores = [];
         foreach ($question->prts as $index => $prt) {
             $result = $question->get_prt_result($index, $data['answers'], true);
-
-            // If not all inputs required for the prt have been filled out,
-            // or the prt evaluation caused an error, we abort the grading,
-            // and indicate that this input state is not gradable.
-            if ($result->get_errors() || !$question->has_necessary_prt_inputs($prt, $data['answers'], true)) {
-                $gradingresponse = new StackGradingResponse();
-                $gradingresponse->isgradable = false;
-
-                $response->getBody()->write(json_encode($gradingresponse));
-                return $response->withHeader('Content-Type', 'application/json');
-            }
-
-            $feedbackstyle = $prt->get_feedbackstyle();
-
-            $feedback = $result->apply_placeholder_holder($result->get_feedback());
-            $standardfeedback = $this->standard_prt_feedback($question, $result, $feedbackstyle);
-
-            switch ($feedbackstyle) {
-                // Formative.
-                case 0:
-                    $overallfeedback = $feedback;
-                    break;
-                // Standard.
-                case 1:
-                case 2:
-                    $overallfeedback = $standardfeedback . $feedback;
-                    break;
-                // Compact.
-                // Symbolic.
-                case 3:
-                    $overallfeedback = $standardfeedback;
-                    break;
-                // Invalid.
-                default:
-                    $overallfeedback = "Invalid Feedback style";
-                    break;
-            }
-
             $scores[$index] = $result->get_score();
+            $gradingresponse->prtresults[$index] = $this->prt_result_summary($result);
+
+            $errors = $result->get_errors();
+            if ($errors) {
+                $overallfeedback = $errors;
+            } else if (!$question->has_necessary_prt_inputs($prt, $data['answers'], true)) {
+                continue;
+            } else {
+                $feedbackstyle = $prt->get_feedbackstyle();
+
+                $feedback = $result->apply_placeholder_holder($result->get_feedback());
+                $standardfeedback = $this->standard_prt_feedback($question, $result, $feedbackstyle);
+
+                switch ($feedbackstyle) {
+                    // Formative.
+                    case 0:
+                        $overallfeedback = $feedback;
+                        break;
+                    // Standard.
+                    case 1:
+                    case 2:
+                        $overallfeedback = $standardfeedback . $feedback;
+                        break;
+                    // Compact.
+                    // Symbolic.
+                    case 3:
+                        $overallfeedback = $standardfeedback;
+                        break;
+                    // Invalid.
+                    default:
+                        $overallfeedback = "Invalid Feedback style";
+                        break;
+                }
+            }
 
             $gradingresponse->prts[$index] = $translate->filter(
                 \stack_maths::process_display_castext($overallfeedback),
                 $language
             );
-            StackPlotReplacer::replace_plots($plots, $gradingresponse->prts[$index], "prt-".$index, $storeprefix);
+            StackPlotReplacer::replace_plots($plots, $gradingresponse->prts[$index], "prt-" . $index, $storeprefix);
         }
 
         $weights = $question->get_parts_and_weights();
@@ -177,7 +178,8 @@ class GradingController {
         }
 
         if ($question->$field) {
-            return \html_writer::tag('div',
+            return \html_writer::tag(
+                'div',
                 \stack_maths::process_display_castext(
                     $question->$field->apply_placeholder_holder($question->$field->get_rendered($question->castextprocessor))
                 ),
@@ -188,4 +190,15 @@ class GradingController {
         return '';
     }
 
+    // phpcs:ignore moodle.Commenting.MissingDocblock.Function
+    private function prt_result_summary(\prt_evaluatable $result): array {
+        return [
+            'score' => $result->get_score(),
+            'penalty' => $result->get_penalty(),
+            'answernotes' => $result->get_answernotes(),
+            'prtanswernotes' => $result->get_answernotes(false),
+            'errors' => $result->get_errors(),
+            'fverrors' => $result->get_fverrors(),
+        ];
+    }
 }

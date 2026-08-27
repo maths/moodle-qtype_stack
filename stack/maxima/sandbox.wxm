@@ -1,5 +1,5 @@
 /* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
-/* [ Created with wxMaxima version 20.12.1 ] */
+/* [ Created with wxMaxima version 23.05.1 ] */
 /* [wxMaxima: title   start ]
 STACK Sandbox
    [wxMaxima: title   end   ] */
@@ -15,7 +15,7 @@ The source code is at https://github.com/maths/moodle-qtype_stack
 3. Set the stacklocation variable below to the location of the STACK source code you downloaded, e.g. c:/tmp/stackroot
 4. Specify a directory for temporary working files, e.g. /tmp or C:/tmp
 
-[Directories in 2 & 3 can be the same if you don't mind clutter.]
+[Directories in 3 & 4 can be the same if you don't mind clutter.]
 
 Note that plots *will not work* in this sandbox.
    [wxMaxima: comment end   ] */
@@ -49,6 +49,15 @@ file_search_maxima:append( [sconcat(stacklocation, "/stack/maxima/contrib/###.{m
 file_search_lisp:append( [sconcat(stacklocation, "/stack/maxima/contrib/###.{lisp}")] , file_search_lisp)$
 file_search_maxima:append( [sconcat(stacktmplocation, "/###.{mac,mc}")] , file_search_maxima)$
 file_search_lisp:append( [sconcat(stacktmplocation, "/###.{lisp}")] , file_search_lisp)$
+
+:lisp (defvar $stack_mtell_quiet t)
+:lisp (defvar $tex_plain_atoms t)
+:lisp (defvar $%_ce_rem t)
+
+:lisp (declaim (notinline $op_usedp))
+:lisp (declaim (notinline $count_op))
+:lisp (declaim (notinline $zip_with))
+:lisp (declaim (notinline $%_ce_rem))
 
 /* 
    The following command may be slightly different on your particular server.
@@ -104,4 +113,4 @@ debug:true;
 
 
 /* Old versions of Maxima abort on loading files that end in a comment. */
-"Created with wxMaxima 20.12.1"$
+"Created with wxMaxima 23.05.1"$

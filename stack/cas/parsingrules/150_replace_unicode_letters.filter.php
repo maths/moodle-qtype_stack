@@ -29,7 +29,6 @@ require_once(__DIR__ . '/../../maximaparser/corrective_parser.php');
  * AST filter that replaces unicode letters with the ASCII equivalent.
  */
 class stack_ast_filter_150_replace_unicode_letters implements stack_cas_astfilter {
-
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     public static $ssmap = null;
 
@@ -37,11 +36,13 @@ class stack_ast_filter_150_replace_unicode_letters implements stack_cas_astfilte
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
         if (self::$ssmap === null) {
             self::$ssmap = json_decode(file_get_contents(__DIR__ . '/../../maximaparser/unicode/letters-stack.json'), true);
-            self::$ssmap = array_merge(self::$ssmap,
-                           json_decode(file_get_contents(__DIR__ . '/../../maximaparser/unicode/symbols-stack.json'), true));
+            self::$ssmap = array_merge(
+                self::$ssmap,
+                json_decode(file_get_contents(__DIR__ . '/../../maximaparser/unicode/symbols-stack.json'), true)
+            );
         }
 
-        $process = function($node) use (&$errors, &$answernotes) {
+        $process = function ($node) use (&$errors, &$answernotes) {
             if ($node instanceof MP_Identifier && !(isset($node->position['invalid']) && $node->position['invalid'])) {
                 $node->value = str_replace(array_keys(self::$ssmap), array_values(self::$ssmap), $node->value);
             }

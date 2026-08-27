@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>37.3.3 Expectation and variance of the Poisson distribution</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Expectation and variance of the Poisson distribution</h4><p><br></p>
+
+<p>The expectation and variance of the Poisson distribution can be derived directly from the definitions which apply to any discrete probability distribution. However, the algebra involved is a little lengthy. Instead, we derive them from the binomial distribution from which the Poisson distribution is derived.</p>
+
+<p><span><strong>Intuitive Explanation</strong></span></p>
+<p>One way of deriving the mean and variance of the Poisson distribution is to consider the behaviour of the binomial distribution under the following conditions:&nbsp;</p><p>&nbsp;(1) <span class="math inline">\(n\)</span> is large&nbsp; &nbsp; &nbsp;(2)&nbsp;<span class="math inline">\(p\)</span> is small&nbsp; &nbsp; &nbsp;(3)&nbsp;<span class="math inline">\(np=\lambda\ \)</span> (a constant)</p>
+
+<p>Recalling that the expectation and variance of the binomial distribution are given by the results&nbsp;</p><p><span class="math inline">
+\(\qquad\text{E}(X)=np\qquad \text{and}\qquad \text{V}(X)=np(1-p)=npq\)</span>&nbsp;</p><p>it is reasonable to assert that condition (2) implies, since <span class="math inline">\(q=1-p\)</span>, that <span class="math inline">\(q\)</span> is approximately 1 and so the expectation and variance are given by&nbsp;</p><p>&nbsp;
+<span class="math inline">\(\qquad \text{E}(X)=np\qquad \text{and}\qquad \text{V}(X)=npq\approx np\)</span>&nbsp;</p><p>In fact the algebraic derivation of the expectation and variance of the Poisson distribution shows that these results are in fact <span><em>exact</em></span>. 
+Note that the expectation and the variance are equal.</p><p><br></p>
+
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p> </p><h5 style="text-align: center; "><b>The Poisson Distribution&nbsp;</b></h5><p>If <span class="math inline">\(X\)</span> is the random variable  {number of occurrences in a given interval} for which the average rate of occurrences is <span class="math inline">\(\lambda\)</span> and <span class="math inline">\(X\)</span> can assume the values <span class="math inline">\(0,1,2,3,\dots\)</span> and the probability of <span class="math inline">\(r\)</span> occurrences in that interval is given by</p>
+<p style="text-align: center; "><span class="math inline">\(\text{P}(X=r)= e^{-\lambda}\dfrac{\lambda^r}{r!}\)</span></p>
+<p>then the expectation and variance of the distribution are given by the formulae</p>
+<p style="text-align: center; "><span class="math inline">\(\text{E}(X)=\lambda\qquad\text{and}\qquad \text{V}(X)=\lambda\)</span></p>
+<p>For a Poisson distribution the Expectation and Variance are equal.</p><p></p>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

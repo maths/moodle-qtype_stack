@@ -15,16 +15,17 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * This class provides fixture test cases for the numerical rounding tests.
+ *
  * @package    qtype_stack
  * @copyright  2016 University of Edinburgh
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-/*
+/**
  * This class provides fixture test cases for the numerical rounding tests.
  */
 class stack_numbers_test_data {
-
     // In this text digits are 1-9 and 0 is not a digit.
     // array("string", lower, upper, decimal places, dispvalue, err).
     // phpcs:ignore moodle.Commenting.VariableComment.Missing

@@ -1,0 +1,88 @@
+{
+    "quiz": {
+        "name": "2_3 One-to-One and Inverse Functions",
+        "intro": "In this quiz we examine more terminology associated with functions. We explain one-to-one and many-to-one functions and show how the rule associated with certain functions can be reversed to give so-called inverse functions. These ideas will be needed when we deal with particular functions in later quizzes.\n",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "One-to-many rules, and many-to-one and one-to-one functions",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "4",
+            "heading": "Inverse of a function",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-2-3\/2-3-1-1a-One-to-many-rules.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-2-3\/2-3-1-1b-Many-to-one-and-one-to-one.xml"
+        },
+        {
+            "slot": "3",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-2-3\/2-3-1-2-Task-Function-identification.xml"
+        },
+        {
+            "slot": "4",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-2-3\/2-3-2-1-Inverse-of-a-function.xml"
+        },
+        {
+            "slot": "5",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-2-3\/2-3-2-2-Task-Function-inversion.xml"
+        },
+        {
+            "slot": "6",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-2-3\/2-3-3-2-Demonstrate-x^4-many-to-one.xml"
+        },
+        {
+            "slot": "7",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-2-3\/5-3-3-3-spot-invertible-function.xml"
+        },
+        {
+            "slot": "8",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-2-3\/2-3-3-5-Invert-functions.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

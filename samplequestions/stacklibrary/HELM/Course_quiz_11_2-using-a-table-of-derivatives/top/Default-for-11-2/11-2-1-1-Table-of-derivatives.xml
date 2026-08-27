@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>11.2.1.1 Table of derivatives</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Table of derivatives</h4>
+
+The table below lists some of the common functions used in engineering and their corresponding derivatives. Remember that in each case the function in the right-hand column gives the rate of change, or the gradient of the graph, of the function on the left at a particular value of \(x\).
+<p></p>
+N.B. The angle must always be in radians when differentiating trigonometric functions.
+
+<table class="HELM_table">
+  <thead>
+    <tr>
+      <th>Function</th>
+      <th>Derivative</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>constant</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>\(x\)</td>
+      <td>\(1\)</td>
+    </tr>
+    <tr>
+      <td>\(kx\)</td>
+      <td>\(k\)</td>
+    </tr>
+    <tr>
+      <td>\(x^n\)</td>
+      <td>\(nx^{n-1}\)</td>
+    </tr>
+    <tr>
+      <td>\(kx^n\)</td>
+      <td>\(knx^{n-1}\)</td>
+    </tr>
+    <tr>
+      <td>\(e^x\)</td>
+      <td>\(e^x\)</td>
+    </tr>
+    <tr>
+      <td>\(e^{kx}\)</td>
+      <td>\(ke^{kx}\)</td>
+    </tr>
+    <tr>
+      <td>\(\ln x\)</td>
+      <td>\(1/x\)</td>
+    </tr>
+    <tr>
+      <td>\(\ln kx\)</td>
+      <td>\(1/x\)</td>
+    </tr>
+    <tr>
+      <td>\(\sin x\)</td>
+      <td>\(\cos x\)</td>
+    </tr>
+    <tr>
+      <td>\(\sin kx\)</td>
+      <td>\(k \cos kx\)</td>
+    </tr>
+      <tr><td>\(\sin (kx + c)\)</td>
+      <td>\(k \cos (kx + c) \)</td>
+    </tr>
+      <tr><td>\(\cos x\)</td>
+      <td>\(-\sin x\)</td>
+    </tr>
+    <tr>
+      <td>\(\cos kx\)</td>
+      <td>\(-k \sin kx\)</td>
+    </tr>
+      <tr><td>\(\cos (kx + c)\)</td>
+      <td>\(-k \sin (kx + c) \)</td>
+    </tr>
+      <tr><td>\(\tan x\)</td>
+      <td>\(\sec^2 x\)</td>
+    </tr>
+    <tr>
+      <td>\(\tan kx\)</td>
+      <td>\(k \sec^2 kx\)</td>
+    </tr>
+      <tr><td>\(\tan (kx + c)\)</td>
+      <td>\(k \sec^2 (kx + c) \)</td>
+    </tr>
+  </tbody>
+</table>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

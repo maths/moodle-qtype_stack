@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>17.1.1.7 Engineering Example 1</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4> Engineering Example 1 </h4>
+<h4><br>A circle-cutting machine </h4>
+
+<h5> Introduction </h5>
+A cutting machine creates circular holes in a piece of sheet-metal by starting at the centre of the circle and cutting its way outwards until a hole of the correct radius exists. However, prior to cutting, the circle is characterised by three points on
+its circumference, rather than by its centre and radius. Therefore, it is necessary to be able to find the centre and radius of a circle given three points that it passes through.
+
+<h5>Problem in words</h5>
+
+Given three points on the circumference of a circle, find its centre and radius
+
+<ol type="a">
+    <li>for three general points</li>
+    <li>
+        <ol type="i">
+            <li> for \((-6,5), (-3,6)\) and \((2,1)\)</li>
+            <li> for \((-0.7,0.6), (5.9,1.4)\) and \((0.8,-2.8)\)</li>
+        </ol>
+        where coordinates are in cm.
+    </li>
+</ol>
+
+<h5>Mathematical statement of problem</h5>
+
+A circle passes through the three points. Find the centre \((x_0,y_0)\) and radius \(R\) of this circle when the three circumferential points are
+<ol type="a">
+    <li>\((x_1,y_1)\), \((x_2,y_2)\) and \((x_3,y_3)\),</li>
+    <li>
+        <ol type="i">
+            <li>\((-6,5)\), \((-3,6)\) and \((2,1)\)</li>
+            <li>\((-0.7,0.6)\), \((5.9,1.4)\) and \((0.8,-2.8)\)</li>
+        </ol>
+        Measurements are in centimetres; give answers correct to \(2\) decimal places.
+    </li>
+</ol>
+
+<h5>Mathematical analysis</h5>
+<p>(a) The equation of a circle with centre at \((x_0,y_0)\) and radius \(R\) is <br>&nbsp;\[(x-x_0)^2 + (y-y_0)^2 = R^2\] <br>&nbsp;and, if this passes through the 3 points \((x_1,y_1)\), \((x_2,y_2)\) and \((x_3,y_3)\) then</p>
+\[\begin{equation}\tag{1} (x_1-x_0)^2 + (y_1-y_0)^2 =R^2 \end{equation}\] <br>\[\begin{equation}\tag{2}(x_2-x_0)^2 + (y_2-y_0)^2 = R^2\end{equation}\] <br>\[\begin{equation}\tag{3} (x_3-x_0)^2 + (y_3-y_0)^2 = R^2\end{equation}\]
+<p>Eliminating the \(R^2\) term between (1) and (2) gives</p> \[(x_1-x_0)^2 + (y_1-y_0)^2 = (x_2-x_0)^2 + (y_2-y_0)^2 \] <br>so that <br>\[\begin{equation}\tag{4} x_1^2-2x_0x_1 + y_1^2 - 2y_0y_1 = x_2^2-2x_0x_2 + y_2^2 - 2y_0y_2. \end{equation}\]
+<p>Similarly, eliminating \(R^2\) between (1) and (3) gives </p>
+\[\begin{equation}\tag{5} x_1^2-2x_0x_1 + y_1^2 - 2y_0y_1 = x_3^2-2x_0x_3 + y_3^2 - 2y_0y_3.\end{equation}\]
+<p>Re-arranging (4) and (5) gives a system of two equations in \(x_0\) and \(y_0\).</p>
+\[\begin{equation}\tag{6} 2(x_2-x_1)x_0 + 2(y_2-y_1)y_0 = x_2^2 + y_2^2 - x_1^2 - y_1^2 \end{equation}\]
+<br>\[\begin{equation}\tag{7} 2(x_3-x_1)x_0 + 2(y_3-y_1)y_0 = x_3^2 + y_3^2 - x_1^2 - y_1^2. \end{equation}\]
+<p>Multiplying (6) by \((y_3-y_1)\), and multiplying (7) by \((y_2-y_1)\), subtracting and re-arranging gives</p>
+\[\begin{equation}\tag{8} x_0 = \frac{1}{2} \left( \frac{ (y_3-y_1) (x_2^2 + y_2^2) + (y_1 - y_2) (x_3^2 + y_3^2) + (y_2 - y_3) (x_1^2 + y_1^2) } { x_2 y_3 - x_3 y_2 + x_3 y_1 - x_1 y_3 + x_1 y_2 - x_2 y_1 } \right) \end{equation}\]
+<p>while a similar procedure gives </p>
+\[\begin{equation}\tag{9} y_0 = \frac{1}{2}\left(\frac{ (x_1-x_3)(x_2^2 + y_2^2) + (x_2 - x_1) (x_3^2 + y_3^2) + (x_3 - x_2) (x_1^2 + y_1^2) } { x_2 y_3 - x_3 y_2 + x_3 y_1 - x_1 y_3 + x_1 y_2 - x_2 y_1 } \right) \end{equation}\]
+<p>Knowing \(x_0\) and \(y_0\), the radius \(R\) can be found from </p>
+\[\begin{equation}\tag{10} R = \sqrt{(x_1 - x_0)^2 + (y_1 - y_0)^2} \end{equation}\]
+<p>(or alternatively using \(x_2\) and \(y_2\) (or \(x_3\) and \(y_3\)) as appropriate).</p>
+<p>Equations (8), (9) and (10) can now be used to analyse the two particular circles above.</p>
+<ol type="i">
+    <li> Here \(x_1 = -6\) cm, \(y_1 = 5\) cm, \(x_2 = -3\) cm, \(y_2 = 6\) cm, \(x_3 = 2\) cm and \(y_3 = 1\) cm, so that \[x_2 y_3 - x_3 y_2 + x_3 y_1 - x_1 y_3 + x_1 y_2 - x_2 y_1 = -3 - 12 + 10 + 6 - 36 + 15 = - 20 \] and \[x_1^2 + y_1^2 = 61, \qquad x_2^2
+        + y_2^2 = 45, \qquad x_3^2 + y_3^2 = 5. \]
+        <p>From (8)</p>
+        \[ x_0 = \dfrac{1}{2} \left( \dfrac{-4\times45 + (-1)\times5 + 5\times61}{-20} \right) = \dfrac{-180-5+305}{-40} = -3\]
+        <p>while (9) gives </p>
+        \[y_0 = \frac{1}{2} \left( \frac{-8\times45 + 3\times5 + 5\times61}{-20} \right) \\ = \frac{-360+15+305}{-40} = 1 .\]
+        <p>The radius can be found from (10)</p>
+        \[ R = \sqrt{ (-6 - (-3))^2 + (5 - 1)^2 } = \sqrt{25} = 5 \]
+        <p>so that the circle has centre at \((-3,1)\) and a radius of \(5\) cm.</p>
+    </li>
+    <li>
+        <p>Now \(x_1 = -0.7\) cm, \(y_1 = 0.6\) cm, \(x_2 = 5.9\) cm, \(y_2 = 1.4\) cm, \(x_3 = 0.8\) cm and \(y_3 = -2.8\) cm, so that</p>
+        \[x_2 y_3 - x_3 y_2 + x_3 y_1 - x_1 y_3 + x_1 y_2 - x_2 y_1 = -16.52 - 1.12 + 0.48 - 1.96 - 0.98 - 3.54 = -23.64 \] and \[x_1^2 + y_1^2 = 0.85, \qquad x_2^2 + y_2^2 = 36.77, \qquad x_3^2 + y_3^2 = 8.48 \] so from (8) \[x_0 = \dfrac{1}{2} \left( \dfrac{-125.018
+        - 6.784 + 3.57}{-23.64} \right) = \dfrac{-128.232}{-47.28} = 2.7121827 \] and from (9) \[y_0 = \dfrac{1}{2} \left( \dfrac{-55.155 + 55.968 - 4.335}{-23.64} \right) = \dfrac{-3.522}{-47.28} = 0.0744924 \] and from (10) \[R = \sqrt{ (-0.7-2.7121827)^2
+        + (0.6 - 0.0744924)^2 } = \sqrt{11.9191490} = 3.4524121 \]
+        <p>so that, to 2 d.p., the circle has centre at \((2.71,0.07)\) and a radius of \(3.45\) cm.</p>
+    </li>
+</ol>
+
+<h5>Mathematical comment</h5>
+
+<p>Note that the expression </p>
+\[x_2 y_3 - x_3 y_2 + x_3 y_1 - x_1 y_3 + x_1 y_2 - x_2 y_1\] 
+appears in the denominator for both \(x_0\) and \(y_0\). If this expression is equal to zero, the calculation will break down. Geometrically, this corresponds to the three points being in a straight line so that no circle can be drawn, or not all points being distinct so no unique circle is defined.]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

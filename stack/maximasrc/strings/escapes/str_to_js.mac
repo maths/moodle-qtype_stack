@@ -1,0 +1,13 @@
+/**
+ * A function to convert a string to an escaped ECMAScript string.
+ *
+ * Do note that this is not idempotent, and will escape the escaped things if
+ * the original already uses did so.
+ *
+ * @param[string] string_to_escape, the string to be escaped.
+ * @return[string] a string with characters sensitive in ECMAScript escaped.
+ */
+str_to_js(string_to_escape) := simplode(map('str_to_js_char, charlist(string_to_escape)))$
+
+s_test_case(simp) := is(str_to_js("'foo'")="\\'foo\\'")$
+s_test_case(simp) := is(str_to_js("a_bc")="a_bc")$

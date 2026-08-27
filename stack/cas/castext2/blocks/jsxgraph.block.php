@@ -27,6 +27,7 @@ require_once(__DIR__ . '/../block.interface.php');
 require_once(__DIR__ . '/../block.factory.php');
 
 require_once(__DIR__ . '/root.specialblock.php');
+require_once(__DIR__ . '/javascript.block.php');
 require_once(__DIR__ . '/stack_translate.specialblock.php');
 require_once(__DIR__ . '/../../../../vle_specific.php');
 
@@ -35,7 +36,6 @@ stack_cas_castext2_iframe::register_counter('///JSXGRAPH_COUNT///');
 
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
 class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
-
     /**
      * This is not something we want people to edit in general.
      */
@@ -44,6 +44,14 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
         'cdn' => [
             'css' => 'https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraph.min.css',
             'js' => 'https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js',
+        ],
+        'cdn-1.12.2' => [
+            'css' => 'https://cdn.jsdelivr.net/npm/jsxgraph@1.12.2/distrib/jsxgraph.min.css',
+            'js' => 'https://cdn.jsdelivr.net/npm/jsxgraph@1.12.2/distrib/jsxgraphcore.js',
+        ],
+        'cdn-1.12.0' => [
+            'css' => 'https://cdn.jsdelivr.net/npm/jsxgraph@1.12.0/distrib/jsxgraph.min.css',
+            'js' => 'https://cdn.jsdelivr.net/npm/jsxgraph@1.12.0/distrib/jsxgraphcore.js',
         ],
         'cdn-1.11.1' => [
             'css' => 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.11.1/jsxgraph.min.css',
@@ -102,8 +110,10 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
         // Figure out what scripts we serve.
         $css = self::$namedversions['local']['css'];
         $js = self::$namedversions['local']['js'];
-        if (isset($this->params['version']) &&
-            isset(self::$namedversions[$this->params['version']])) {
+        if (
+            isset($this->params['version']) &&
+            isset(self::$namedversions[$this->params['version']])
+        ) {
             $css = self::$namedversions[$this->params['version']]['css'];
             $js = self::$namedversions[$this->params['version']]['js'];
         }
@@ -171,11 +181,32 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
             '"><div class="jxgbox" id="jxgbox" style="width:100%;height:100%;"></div></div><script type="module">');
 
         // For binding we need to import the binding libraries.
-        $r->items[] = new MP_String("\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n");
-        $r->items[] = new MP_String("import {stack_jxg} from '" . stack_cors_link('stackjsxgraph.min.js') . "';\n");
+        $r->items[] = new MP_String("\nimport stack_js from '" . stack_cors_link('stackjsiframe.min.js') . "';\n");
+        $r->items[] = new MP_String("import stack_jxg from '" . stack_cors_link('stackjsxgraph.min.js') . "';\n");
+
+        $opt2 = [];
+        if ($options !== null) {
+            $opt2 = array_merge([], $options);
+        }
+        $opt2['in iframe'] = true;
+        $content = [];
+
+        foreach ($this->children as $item) {
+            // Assume that all code inside is JavaScript and that we do not
+            // want to do the markdown escaping or any other in it.
+            $c = $item->compile(castext2_parser_utils::RAWFORMAT, $opt2);
+            if ($c !== null) {
+                $content[] = $c;
+            }
+        }
 
         // Do we need to bind anything?
         if (count($inputs) > 0) {
+            [$imports, $content] = stack_cas_castext2_javascript::separate_imports($content);
+            if (count($imports) > 0) {
+                $r->items = array_merge($r->items, $imports);
+            }
+
             // Then we need to link up to the inputs.
             $promises = [];
             $vars = [];
@@ -192,20 +223,8 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
         // Plug in the div id = board id thing.
         $r->items[] = new MP_String('var divid = "jxgbox";var BOARDID = divid;');
 
-        $opt2 = [];
-        if ($options !== null) {
-            $opt2 = array_merge([], $options);
-        }
-        $opt2['in iframe'] = true;
-
-        foreach ($this->children as $item) {
-            // Assume that all code inside is JavaScript and that we do not
-            // want to do the markdown escaping or any other in it.
-            $c = $item->compile(castext2_parser_utils::RAWFORMAT, $opt2);
-            if ($c !== null) {
-                $r->items[] = $c;
-            }
-        }
+        // Include the content, previously compiled, within the possible Promise block.
+        $r->items = array_merge($r->items, $content);
 
         if (count($inputs) > 0) {
             // Close the `then(`.
@@ -225,8 +244,11 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function postprocess(array $params, castext2_processor $processor,
-        castext2_placeholder_holder $holder): string {
+    public function postprocess(
+        array $params,
+        castext2_processor $processor,
+        castext2_placeholder_holder $holder
+    ): string {
         return 'This is never happening! The logic goes to [[iframe]].';
     }
 
@@ -265,13 +287,17 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
         $heighttrim = $height;
 
         foreach ($validunits as $suffix) {
-            if (!$widthend && strlen($width) > strlen($suffix) &&
-                substr($width, -strlen($suffix)) === $suffix) {
+            if (
+                !$widthend && strlen($width) > strlen($suffix) &&
+                substr($width, -strlen($suffix)) === $suffix
+            ) {
                 $widthend  = true;
                 $widthtrim = substr($width, 0, -strlen($suffix));
             }
-            if (!$heightend && strlen($height) > strlen($suffix) &&
-                substr($height, -strlen($suffix)) === $suffix) {
+            if (
+                !$heightend && strlen($height) > strlen($suffix) &&
+                substr($height, -strlen($suffix)) === $suffix
+            ) {
                 $heightend  = true;
                 $heighttrim = substr($height, 0, -strlen($suffix));
             }
@@ -298,15 +324,19 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
             $err[] = stack_string('stackBlock_jsxgraph_height_num');
         }
 
-        if (array_key_exists('width', $this->params) &&
+        if (
+            array_key_exists('width', $this->params) &&
             array_key_exists('height', $this->params) &&
-            array_key_exists('aspect-ratio', $this->params)) {
+            array_key_exists('aspect-ratio', $this->params)
+        ) {
             $valid    = false;
             $err[] = stack_string('stackBlock_jsxgraph_overdefined_dimension');
         }
-        if (!(array_key_exists('width', $this->params) ||
+        if (
+            !(array_key_exists('width', $this->params) ||
             array_key_exists('height', $this->params)) &&
-            array_key_exists('aspect-ratio', $this->params)) {
+            array_key_exists('aspect-ratio', $this->params)
+        ) {
             $valid    = false;
             $err[] = stack_string('stackBlock_jsxgraph_underdefined_dimension');
         }
@@ -318,46 +348,47 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
 
         if (array_key_exists('style', $this->params)) {
             $stylename = $this->params['style'];
-            if (strpos($stylename, '..') !== false
+            if (
+                strpos($stylename, '..') !== false
                     || strpos($stylename, '/') !== false
-                    || strpos($stylename, '\\') !== false) {
+                    || strpos($stylename, '\\') !== false
+            ) {
                 $valid    = false;
                 $err[] = stack_string('stackBlock_jsxgraph_unknown_style', ['style' => $stylename]);
-            } else if (!file_exists($CFG->dirroot . '/question/type/stack/corsscripts/jsxgraphstyles/' .
-                    $stylename . '.css')) {
+            } else if (
+                !file_exists($CFG->dirroot . '/question/type/stack/corsscripts/jsxgraphstyles/' .
+                    $stylename . '.css')
+            ) {
                 $valid    = false;
                 $err[] = stack_string('stackBlock_jsxgraph_unknown_style', ['style' => $stylename]);
             }
         }
 
-        $valids = null;
         foreach ($this->params as $key => $value) {
             if (substr($key, 0, 10) === 'input-ref-') {
                 $varname = substr($key, 10);
                 if (isset($options['inputs']) && !isset($options['inputs'][$varname])) {
-                    $err[] = stack_string('stackBlock_jsxgraph_input_missing',
-                        ['var' => $varname]);
+                    $err[] = stack_string(
+                        'stackBlock_jsxgraph_input_missing',
+                        ['var' => $varname]
+                    );
                 }
-            } else if ($key !== 'width' && $key !== 'height' && $key !== 'aspect-ratio' &&
+            } else if (
+                $key !== 'width' && $key !== 'height' && $key !== 'aspect-ratio' &&
                     $key !== 'version' && $key !== 'overridejs' && $key !== 'overridecss' &&
-                    $key !== 'style') {
+                    $key !== 'style'
+            ) {
                 $err[] = "Unknown parameter '$key' for jsxgraph-block.";
                 $valid    = false;
-                if ($valids === null) {
-                    $valids = ['width', 'height', 'aspect-ratio', 'version', 'overridecss', 'overridejs'];
-                    // The variable $inputdefinitions is not defined!
-                    if ($inputdefinitions !== null) {
-                        $tmp    = $root->get_parameter('ioblocks');
-                        $inputs = [];
-                        foreach ($inputdefinitions->get_names() as $key) {
-                            $inputs[] = "input-ref-$key";
-                        }
-                        $valids = array_merge($valids, $inputs);
+                $valids = ['width', 'height', 'aspect-ratio', 'style', 'version', 'overridecss', 'overridejs'];
+                if (isset($options['inputs'])) {
+                    foreach (array_keys($options['inputs']) as $key) {
+                        $valids[] = "input-ref-$key";
                     }
-                    $err[] = stack_string('stackBlock_jsxgraph_param', [
-                        'param' => implode(', ', $valids),
-                    ]);
                 }
+                $err[] = stack_string('stackBlock_jsxgraph_param', [
+                    'param' => implode(', ', $valids),
+                ]);
             }
         }
 

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>37.2.1 The binomial model</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4><b>The binomial model</b></h4><p>We have introduced random variables from a general perspective and have seen that there are two
+basic types: discrete and continuous. We examine four particular examples of distributions for
+random variables which occur often in practice and have been given special names. They are the
+<b>binomial</b> distribution (sampling with replacement),&nbsp;the <b>Hypergeometric</b> distribution (sampling without replacement), the <b>Poisson</b>&nbsp;distribution and the <b>Normal</b>
+distribution. The first three are distributions for discrete random variables and the fourth is for a
+continuous random variable. Here we focus attention on the binomial distribution.<br></p><p>The binomial distribution can be used in situations in which a given experiment (often referred to,
+in this context, as a <b>trial</b>) is repeated a number of times. For the binomial model to be applied the
+following four criteria must be satisfied:<br></p><p></p><ul><li>the trial is carried out a fixed number of times \(n\)</li><li>the outcomes of each trial can be classified into two ‘types’ conventionally named ‘success’ or
+‘failure’</li><li>the probability \(p\) of success remains constant for each trial</li><li>the individual trials are independent of each other.</li></ul>For example, if we consider throwing a coin 7 times what is the probability that exactly 4 Heads
+occur? This problem can be modelled by the binomial distribution since the four basic criteria are
+assumed satisfied as we see<br><p></p><p></p><ul><li>here the trial is ‘throwing a coin’ which is carried out 7 times</li><li>the occurrence of Heads on any given trial (i.e. throw) may be called a ‘success’ and Tails
+called a ‘failure’</li><li>the probability of success is \(p = \dfrac{1}{2} \) and remains constant for each trial</li><li>each throw of the coin is independent of the others.</li></ul>The student will be able to complete the solution to this example once we have constructed the general
+binomial model.<p></p><p>The following two scenarios are typical of those met by engineers. The reader should check that the
+criteria stated above are met by each scenario<br></p><p></p><ol><li>An electronic product has a total of 30 integrated circuits built into it. The product is capable
+of operating successfully only if at least 27 of the circuits operate properly. What is the
+probability that the product operates successfully if the probability of any integrated circuit
+failing to operate is 0.01?<br></li><li>Digital communication is achieved by transmitting information in “bits”. Errors do occur in
+data transmissions. Suppose that the number of bits in error is represented by the random
+variable \(X\) and that the probability of a communication error in a bit is 0.001. If at most 2
+errors are present in a 1000 bit transmission, the transmission can be successfully decoded. If
+a 1000 bit message is transmitted, find the probability that it can be successfully decoded.<br></li></ol>Before developing the general binomial distribution we consider the following examples which, as you
+will soon recognise, have the basic characteristics of a binomial distribution.<br>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>In a box of floppy discs, it is known that \(95\%\) will work. A sample of three of the
+discs are selected at random.</p><p>Find the probability that:</p>
+<ol class="HELM_parts_inline">
+<li>none will work</li>
+<li>1 will work</li>
+<li>2 will work</li>
+<li>all 3 of the sample will work.</li>
+</ol>
+<h4 class="HELM_solution">Solution</h4>
+<p>Let the event {the disc works} be \(W\) and the event {the disc fails} be \(F\). The probability that a
+disc will work is denoted by \(\text{P} (W)\) and the probability that a disc will fail is denoted by \(\text{P} (F)\). Then \(\text{P}(W) = 0.95\) and \(\text{P}(F) = 1 − \text{P}(W) = 1 − 0.95 = 0.05\).</p><p><br></p>
+<ol class="HELM_parts">
+  <li>The probability that none of the discs works equals the probability that all 3 discs fail.
+This is given by:<p><span class="math display">\[\begin{aligned}
+ \text{P}(\text{none work)}=\text{P} (FFF)&amp;= \text{P} (F)\!\times\! \text{P} (F)\!\times\! \text{P} (F)\qquad\text{as the events are independent}\\
+&amp;=0.05\!\times\! 0.05\!\times\! 0.05=0.05^3=0.000125\end{aligned}\]</span></p></li>
+  <li>If only one disc works then you could select the three discs in the following orders<p><span class="math inline">\((FFW)\ \text{or}\ (FWF)\ \text{or}\ (WFF)\)</span>hence <span class="math display">\[\begin{aligned}
+ \text{P}(\text{one works)}&amp;=\text{P} (FFW)\!+\!\text{P} (FWF)\!+\!\text{P} (WFF)\\
+&amp;=\text{P} (F)\!\times\! \text{P} (F)\!\times\! \text{P} (W)\!+\!\text{P} (F)\!\times\! \text{P}(W)\!\times\! \text{P} (F)\!+\!\text{P} (W)\!\times\! \text{P} (F)\!\times\! \text{P} (F)\\
+&amp;=(0.05\!\times\! 0.05\!\times\! 0.95)\!+\!(0.05\!\times\! 0.95\!\times\!0.05)\!+\!(0.95\!\times\! 0.05\!\times\! 0.05)\\
+&amp;=3\!\times\!(0.05)^2\!\times\! 0.95=0.007125\end{aligned}\]</span></p></li>
+  <li>If 2 discs work you could select them in order<p><span class="math inline">\(\qquad (FWW)\ \text{or}\ (WFW)\ \text{or}\ (WWF)\)</span>hence <span class="math display">\[\begin{aligned}
+ \text{P}(\text{two work)}\!&amp;=\!\text{P} (FWW)\!+\!\text{P} (WFW)\!+\!\text{P} (WWF)\\
+&amp;=\text{P}(F)\!\times\! \text{P} (W)\!\times\! \text{P} (W)\!+\!\text{P} (W)\!\times\! \text{P} (F)\!\times\! \text{P} (W)\!+\!\text{P} (W)\!\times\! \text{P} (W)\!\times\! \text{P} (F)\\
+&amp;=(0.05\!\times\! 0.95\!\times\!0.95)\!+\!(0.95\!\times\! 0.05\!\times\! 0.95)\!+\!(0.95\!\times\! 0.95\!\times\! 0.05)\\
+&amp;=3\!\times\!(0.05)\!\times\! (0.95)^2=0.135375\end{aligned}\]</span></p><p></p></li><li><p>The probability that all 3 discs work is given by \( \text{P} (WWW)=0.95^3=0.857375 \)</p><p>Notice that since the 4 outcomes we have dealt with are <i>all possible outcomes</i> of selecting 3 discs, the probabilities should add up to 1. It is an easy check to verify that they do.</p><p>One of the most important assumptions above is that of <strong>independence</strong>.The probability of selecting a working disc remains unchanged no matter whether the previous selected disc worked or not.<br><br></p></li></ol><p></p><h4 class="HELM_example">Example</h4>
+<p>A worn machine is known to produce 10% defective components. If the random variable \(X\) is the number of defective components produced in a run of 3 components, find the probabilities that \(X\) takes the values 0 to 3.<br></p>
+<h4 class="HELM_solution">Solution</h4>
+<p>Assuming that the production of components is independent and that the probability <span class="math inline">\(p=0.1\)</span> of producing a defective component remains constant, the following table summarizes the production run. We let <span class="math inline">\(G\)</span> represent a <em>good</em> component and let <span class="math inline">\(D\)</span> represent a <span><em>defective</em></span> component.</p>
+<p>Note that since we are only dealing with two possible outcomes, we can say that the probability <span class="math inline">\(q\)</span> of the machine producing a good component is <span class="math inline">\(1-0.1=0.9\)</span>. More generally, we know that <span class="math inline">\(q\!+\!p=1\)</span> if we are dealing with a binomial distribution.</p>
+<p><span class="math inline">\(\begin{matrix}
+\text{Outcome}&amp;\text{Value of}\ X&amp; \text{Probability of Occurrence}\\
+GGG&amp;0&amp;(0.9)(0.9)(0.9)=(0.9)^3\\
+GGD&amp;1&amp;(0.9)(0.9)(0.1)=(0.9)^2(0.1)\\
+GDG&amp;1&amp;(0.9)(0.1)(0.9)=(0.9)^2(0.1)\\
+DGG&amp;1&amp;(0.1)(0.9)(0.9)=(0.9)^2(0.1)\\
+DDG&amp;2&amp;(0.1)(0.1)(0.9)=(0.9)(0.1)^2\\
+DGD&amp;2&amp;(0.1)(0.9)(0.1)=(0.9)(0.1)^2\\
+GDD&amp;2&amp;(0.9)(0.1)(0.1)=(0.9)(0.1)^2\\
+DDD&amp;3&amp;(0.1)(0.1)(0.1)=(0.1)^3
+\end{matrix}\)</span></p>
+<p>From this table it is easy to see that</p>
+<p><span class="math inline">\(\qquad \text{P} (X=0)=(0.9)^3\)</span>&nbsp;</p><p><span class="math inline">\(\qquad \text{P} (X=1)=3\times (0.9)^2(0.1)\)</span>&nbsp;</p><p><span class="math inline">\(\qquad \text{P} (X=2)=3\times (0.9)(0.1)^2\)</span>&nbsp;</p><p><span class="math inline">\(\qquad \text{P} (X=3)=(0.1)^3\)</span></p>
+<p>Clearly, a pattern is developing. In fact you may have already realized that the probabilities we have found are just the terms of the expansion of the expression <span class="math inline">\((0.9+0.1)^3\)</span> since</p>
+<p><span class="math inline">\(\qquad (0.9+0.1)^3=(0.9)^3+3\times (0.9)^2(0.1)+3\times (0.9)(0.1)^2+(0.1)^3\)</span></p>
+<p><br></p><p>We now develop the binomial distribution from a more general perspective. If you find the theory getting a bit heavy simply refer back to this example to help clarify the situation.</p> <p>First we shall find it convenient to denote the probability of failure on a trial, which is \(1-p\), by \(q\), that is:</p><p>\(\qquad q=1-p.\)&nbsp;</p><p>What we shall do is to calculate probabilities of the number of ‘successes’ occurring in \(n\) trials, beginning with \(n=1\).&nbsp;</p><p>\(\underline{\pmb n\pmb =\pmb 1}\)&nbsp; &nbsp;With only one trial we can observe either 1 success (with probability \(p\)) or 0 successes (with probability \(q\)).&nbsp;</p><p>\(\underline{\pmb n\pmb =\pmb 2}\)&nbsp; &nbsp;Here there are 3 possibilities: We can observe 2, 1 or 0 successes. Let \(S\) denote a success and \(F\) denote a failure. So a failure followed by a success would be denoted by \(FS\) whilst two failures followed by one success would be denoted by \(FFS\) and so on.<br> Then&nbsp;</p><p>\(\qquad \text{P} (\text{2 successes in 2 trials})=\text{P} (SS)=\text{P} (S)\text{P} (S)=p^2\)&nbsp;</p><p>(where we have used the assumption of independence between trials and hence multiplied probabilities). Now, using the usual rules of basic probability, we have:</p> <p>\(\qquad \text{P} (\text{1 success in 2 trials})=\text{P} [(SF)\cup(FS)]=\text{P} (SF)+\text{P} (FS)=pq+qp=2pq\)</p> <p>\(\qquad \text{P} (\text{0 successes in 2 trials})=\text{P} (FF)=\text{P} (F)\text{P} (F)=q^2\)</p> <p>The three probabilities we have found \(-\) \(q^2,\ 2qp,\ p^2\) \(-\) are in fact the terms which arise in the binomial expansion of \((q+p)^2= q^2+2qp+p^2\). We also note that since \(q=1-p\) the probabilities sum to 1 (as we should expect):&nbsp;</p><p>\(\qquad q^2+2qp+p^2=(q+p)^2=((1-p)+p)^2=1\)</p><p><br></p><hr>
+<h4 class="HELM_example">Example</h4>
+<p>List the outcomes for the binomial model for the case \(n=3\), calculate their probabilities and display the results in a table.</p>
+<h4 class="HELM_solution">Solution</h4>
+<p><span class="math inline">\(\{\)</span>three successes, two successes, one success, no successes<span class="math inline">\(\}\)</span></p>
+<p>Three successes occur only as <span class="math inline">\(SSS\)</span> with probability <span class="math inline">\(p^3\)</span>.</p>
+<p>Two successes can occur as <span class="math inline">\(SSF\)</span> with probability <span class="math inline">\((p^2q)\)</span>, as <span class="math inline">\(SFS\)</span> with probability <span class="math inline">\((pqp)\)</span> or as <span class="math inline">\(FSS\)</span> with probability <span class="math inline">\((qp^2)\)</span>.</p>
+<p>These are mutually exclusive events so the combined probability is the sum <span class="math inline">\(3p^2q\)</span>.</p>
+<p>Similarly, we can calculate the other probabilities and obtain the following table of results.</p>
+<table class="HELM_table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Number of successes</th>
+<th style="text-align: center;">3</th>
+<th style="text-align: center;">2</th>
+<th style="text-align: center;">1</th>
+<th style="text-align: center;">0</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Probability</td>
+<td style="text-align: center;"><span class="math inline">\(p^3\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(3p^2q\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(3 pq^2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(q^3\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Note that the probabilities you have obtained:</p><p>\(\qquad q^3,\ 3q^2p,\ 3qp^2,\ p^3\)</p><p>are the terms which arise in the binomial expansion of \((q+p)^3=q^3+3q^2p+3qp^2+p^3\)</p><p>If we repeat the previous example for the binomial model for the case with \(n=4\) we have </p>
+<table class="HELM_table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Number of successes</th>
+<th style="text-align: center;">4</th>
+<th style="text-align: center;">3</th>
+<th style="text-align: center;">2</th>
+<th style="text-align: center;">1</th>
+<th style="text-align: center;">0</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Probability</td>
+<td style="text-align: center;"><span class="math inline">\(p^4\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(4p^3q\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(6p^2q^2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(4 pq^3\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(q^4\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><br></p><p>Again we explore the connection between the probabilities and the terms in the binomial expansion of \((q+p)^4\). Consider this expansion</p><p>\(\qquad (q+p)^4= q^4+4q^3p+6q^2p^2+4qp^3+p^4\)</p><p>Then, for example, the term \(4p^3q\), is the probability of 3 successes in the four trials. These successes can occur anywhere in the four trials and there must be one failure hence the \(p^3\) and \(q\) components which are multiplied together. The remaining part of this term, 4, is the number of ways of selecting three objects from 4.</p> <p>Similarly, there are \( ^4\!C_2=\frac{4!}{2!2!}=6\) ways of selecting two objects from 4 so that the coefficient 6 combines with \(p^2\) and \(q^2\) to give the probability of two successes (and hence two failures) in four trials.</p><p>The approach described here can be extended for any number \(n\) of trials.</p>
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p><strong>The Binomial Probabilities</strong></p>
+<p>Let <span class="math inline">\(X\)</span> be a discrete random variable, being the number of successes occurring in <span class="math inline">\(n\)</span> independent trials of an experiment. If <span class="math inline">\(X\)</span> is to be described by the binomial model, the probability of exactly <span class="math inline">\(r\)</span> successes in <span class="math inline">\(n\)</span> trials is given by</p>
+<p><span class="math inline">\(\text{P} (X=r)=\  ^n\!C_rp^rq^{n-r}.\)</span></p>
+<p>Here there are <span class="math inline">\(r\)</span> successes (each with probability <span class="math inline">\(p\)</span>), <span class="math inline">\(n-r\)</span> failures (each with probability <span class="math inline">\(q\)</span>) and <span class="math inline">\(^n\!C_r=\dfrac{n!}{r!(n-r)!}\)</span> is the number of ways of placing the <span class="math inline">\(r\)</span> successes among the <span class="math inline">\(n\)</span> trials.</p>
+</div>
+<p><br></p><p><b>Notation</b></p><p> If a random variable \(X\) follows a binomial distribution in which an experiment is repeated \(n\) times each with probability \(p\) of success then we write \(X \sim B(n,p)\).</p><p><br></p><hr>
+<h4 class="HELM_example">Example</h4>
+<p>A worn machine is known to produce 10% defective components. If the random variable \(X\) is the number of defective components produced in a run of 4 components, find the probabilities that \(X\) takes the values 0 to 4.</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>From a previous example, we know that the probabilities required are the terms of the expansion of the expression:</p><p><span class="math inline">\(\qquad (0.9+0.1)^4\qquad\qquad\text{so }\qquad X\sim B(4,0.1)\)</span></p><p>Hence the required probabilities are (using the general formula with <span class="math inline">\(n=4\)</span> and <span class="math inline">\(p=0.1\)</span>)&nbsp;</p><p><span class="math inline">\(\qquad \text{P} (X= 0)=(0.9)^4=0.6561\)</span>&nbsp;</p><p><span class="math inline">\(\qquad \text{P} (X=1)=4(0.9)^3(0.1)=0.2916\)</span>&nbsp;</p><p><span class="math inline">\(\qquad \text{P} (X=2)=\dfrac{4\times 3}{1\times 2}(0.9)^2(0.1)^2=0.0486\)</span>&nbsp;</p><p><span class="math inline">\(\qquad \text{P} (X=3)=\dfrac{4\times 3\times 2}{1\times 2\times 3}(0.9)(0.1)^3=0.0036\)</span>&nbsp;</p><p><span class="math inline">\(\qquad \text{P} (X=4)=(0.1)^4=0.0001\)</span>&nbsp;</p><p>Also, since we are using the expansion of <span class="math inline">\((0.9+0.1)^4\)</span>, the probabilities should sum to 1, This is a useful check on your arithmetic when you are using a binomial distribution.</p><hr>
+<h4 class="HELM_example">Example</h4>
+<p>In a box of switches it is known 10% of the switches are faulty. A technician is wiring 30 circuits, each of which needs one switch. What is the probability that</p><ol class="HELM_parts_inline">
+<li>all 30 work,</li>
+<li>at most 2 of the circuits do not work?</li>
+</ol>
+<h4 class="HELM_solution">Solution</h4>
+<p>The answers involve binomial distributions because there are only two states for each circuit - it either works or it doesn’t work.</p><p>&nbsp; &nbsp; A trial is the operation of testing each circuit.</p><p>&nbsp; &nbsp; A success is that it works. We are given <span class="math inline">\(\text{P}\)</span>(success) = <span class="math inline">\(p= 0.9\)</span></p><p>&nbsp; &nbsp; Also we have the number of trials <span class="math inline">\(n=30\)</span></p><p>Applying the binomial distribution <span class="math inline">\(\text{P} (X=r)=\ ^nC_rp^r(1-p)^{n-r}\)</span>.</p>
+<ol class="HELM_parts">
+  <li>Probability that all 30 work is \( \text{P} (X=30)=\ ^{30}C_{30}(0.9)^{30}(0.1)^0=0.04239\)</li>
+  <li><p>The statement that <span> ‘‘at most 2 circuits do not work’’</span> implies that 28, 29 or 30 work. That is <span class="math inline">\(X\ge 28\)</span> <span class="math display">\[\begin{aligned}
+\text{P} (X\ge 28)&amp;=\text{P} (X=28)+\text{P} (X=29)+\text{P} (X=30)\\ \text{P} (X=30)&amp;= \
+^{30}C_{30}(0.9)^{30}(0.1)^0=0.04239\\ \text{P} (X=29)&amp;= \ ^{30}C_{29}(0.9)^{29}(0.1)^1=0.14130\\ \text{P} (X=28)&amp;= \ ^{30}C_{28}(0.9)^{28}(0.1)^2=0.22766\end{aligned}\]</span> Hence <span class="math inline">\(\text{P} (X\ge 28)=0.41135\)</span></p></li>
+</ol><hr>
+<h4 class="HELM_example">Example</h4>
+<p>A University Engineering Department has introduced a new software package called SOLVIT. To save money, the University’s urchasing Department has negotiated a bargain price for a 4-user licence that allows only four students to use SOLVIT at any one time. It is estimated that this should allow 90% of students to use the package when they need it. The Students’ Union has asked for more licences to be bought since engineering students report having to queue excessively to use SOLVIT. As a result the Computer Centre monitors the use of the software. Their findings show that on average 20 students are logged on at peak times and 4 of these want to use SOLVIT. Was the urchasing Department’s estimate correct?</p>
+<h4 class="HELM_solution">Solution</h4>
+<p><span class="math inline">\(\text{P}\)</span>(student wanted to use SOLVIT ) = <span class="math inline">\(\dfrac{4}{20}=0.2\)</span>&nbsp;</p><p>Let <span class="math inline">\(X\)</span> be the number of students wanting to use SOLVIT at any one time, then</p><p><span class="math display">\[\begin{aligned}
+ \text{P} (X=0)&amp;=\ ^{20}C_0(0.2)^0(0.8)^{20}=0.0115\\ \text{P} (X=1)&amp;=\ ^{20}C_1(0.2)^1(0.8)^{19}=0.0576\\ \text{P} (X=2)&amp;=\ ^{20}C_2(0.2)^2(0.8)^{18}=0.1369\\ \text{P} (X=3)&amp;=\ ^{20}C_3(0.2)^3(0.8)^{17}=0.2054\\ \text{P} (X=4)&amp;=\ ^{20}C_4(0.2)^4(0.8)^{16}=0.2182\end{aligned}\]</span>&nbsp;</p><p>Therefore&nbsp;</p><p><span class="math display">\[\begin{aligned}
+ \text{P} (X\le 4)&amp;=\text{P} (X= 0)+\text{P} (X= 1)+\text{P} (X=2)+\text{P} (X=3)+\text{P}
+(X=4)\\ &amp;=0.01152+0.0576+0.1369+0.2054+0.2182\\ &amp;=0.61862\end{aligned}\]</span>&nbsp;</p><p>The probability that more than 4 students will want to use SOLVIT is</p><p>&nbsp; <span class="math inline">\(\qquad \text{P} (X&gt;4)=1-\text{P} (X\le 4)=0.38138\)</span>&nbsp;</p><p>That is, 38% of the time there will be more than 4 students wanting to use the software. The Purchasing Department has grossly overestimated the availability of the software on the basis of a 4-user licence.</p><p></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

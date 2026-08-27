@@ -1,0 +1,119 @@
+{
+    "quiz": {
+        "name": "6_1 The Exponential Function",
+        "intro": "<p>In this quiz we revisit the use of exponents. We consider how the expression \\( a^x\\) is defined when \\(a\\) is a positive number and \\(x\\)&nbsp; is <i>irrational<\/i>. Previously we have only considered examples in which \\(x\\) is a <i>rational<\/i> number. We consider these exponential functions \\(f(x)=a^x\\) in more depth and in particular consider the special case when the base \\(a\\) is the exponential constant \\(e\\) where: \\[\\qquad e = 2.7182818 \\dots \\] We then examine the behaviour of \\( e^x\\) as \\(x\\rightarrow\\infty\\), called <b>exponential growth<\/b> and of \\( e^{-x}\\) as \\(x\\rightarrow\\infty\\), called <b>exponential decay.<\/b><br><\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Exponents revisited",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "5",
+            "heading": "Exponential functions",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "8",
+            "heading": "Exponential growth",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "10",
+            "heading": "Exponential decay",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-6-1\/6-1-1-1-Exponents-revisited.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-6-1\/6-1-1-2-Simplify-the-expression-1.xml"
+        },
+        {
+            "slot": "3",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-6-1\/6-1-1-3-Simplify-the-expression-2.xml"
+        },
+        {
+            "slot": "4",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-6-1\/6-1-1-4-when-x-is-any-real-number.xml"
+        },
+        {
+            "slot": "5",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-6-1\/6-1-2-1-Exponential-functions.xml"
+        },
+        {
+            "slot": "7",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-6-1\/6-1-2-3-Simplify-and-determine-the-value-of-the-expression.xml"
+        },
+        {
+            "slot": "8",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-6-1\/6-1-3-1-Exponential-growth.xml"
+        },
+        {
+            "slot": "9",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-6-1\/6-1-3-2-Exponential-growth-of-a-fuction.xml"
+        },
+        {
+            "slot": "10",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-6-1\/6-1-4-1-Exponential-decay_2.xml"
+        },
+        {
+            "slot": "6",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-6-1\/6-1-2-2-Find-values-with-a-calculator.xml"
+        },
+        {
+            "slot": "11",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-6-1\/6-1-4-2-Choose-and-calculate.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "1.00000"
+        }
+    ]
+}

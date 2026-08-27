@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>20.5.1.1  Convolution</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h2> Convolution</h2>
+<p>Let \(f(t)\) and \(g(t)\) be two functions of \(t\). The <strong>convolution</strong> of \(f(t)\) and \(g(t)\) is also a function of \(t\), denoted by \((f*g)(t)\) and is defined by the relation \[(f*g)(t)=\int_{-\infty}^{\infty}f(t-x)g(x)\,dx\] However if \(f\) and \(g\) are both <strong>causal</strong> functions then (strictly) \(f(t), g(t)\) are written \(f(t)u(t)\) and \(g(t)u(t)\) respectively, so that \[(f*g)(t)= \int_{-\infty}^{\infty}f(t-x)u(t-x)g(x)u(x)\,dx
+=\int_0^tf(t-x)g(x)\,dx\] because of the properties of the step functions: \(u(t-x)=0\) if \(x&gt;t\) and \(u(x)=0\) if \(x&lt;0\).</p>
+<br>
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p><center><strong>Convolution</strong></center></p>
+<p>If \(f(t)\) and \(g(t)\) are causal functions then their convolution is defined by: \[(f*g)(t)=\int_0^tf(t-x)g(x)\,dx\]</p>
+</div>
+<br>
+<p>This is an odd looking definition but it turns out to have considerable use both in Laplace transform theory and in the modelling of linear engineering systems. The reader should note that the variable of integration is \(x\). As far as the integration process is concerned the \(t\)-variable is (temporarily) regarded as a constant.</p>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Find the convolution of \(f\) and \(g\) if \(f(t)=tu(t)\) and \(g(t)=t^2u(t)\).</p>
+<h4 class="HELM_solution">Solution</h4>
+
+<p>\[f(t-x)=(t-x)u(t-x)\quad \text{ and}\quad g(x)=x^2u(x)\] Therefore \[\begin{eqnarray*}
+(f*g)(t)=\int_0^t(t-x)x^2\,dx &amp;=&amp; \left[\tfrac{1}{3}x^3 t- \tfrac{1}{4}x^4\
+\right]_0^t\\ &amp;=&amp; \tfrac{1}{3}t^4 - \tfrac{1}{4} t^4=
+\tfrac{1}{12}t^4\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad
+\end{eqnarray*}\]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

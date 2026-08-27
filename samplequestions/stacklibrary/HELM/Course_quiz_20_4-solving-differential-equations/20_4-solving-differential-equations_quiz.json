@@ -1,0 +1,145 @@
+{
+    "quiz": {
+        "name": "20_4 Solving Differential Equations",
+        "intro": "<p>In this Section we employ the Laplace transform to solve constant coefficient ordinary differential equations. In particular we shall consider initial value problems. We shall find that the initial conditions are automatically included as part of the solution process. The idea is simple; the Laplace transform of each term in the differential equation is taken. If the unknown function is \\(y(t)\\) then, on taking the transform, an algebraic equation involving\n\\(Y(s)={\\cal L}\\{y(t)\\}\\) is obtained. This equation is solved for \\(Y(s)\\) which is then inverted to produce the required solution \\(y(t)={\\cal L}^{-1}\\{Y(s)\\}\\).",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Solving ODEs with Laplace Transforms",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "6",
+            "heading": "Solving Systems of Differential Equations",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "8",
+            "heading": "Exercises",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "13",
+            "heading": "Engineering Examples",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "10",
+            "heading": "Applications",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-20-4\/20-4-1-1-Solving-ODEs-using-Laplace-transforms.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-20-4\/20-4-1-2-Capacitor-Exercise.xml"
+        },
+        {
+            "slot": "3",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-20-4\/20-4-1-3-Second-Order-Example.xml"
+        },
+        {
+            "slot": "4",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-20-4\/20-4-1-4-Exercises.xml"
+        },
+        {
+            "slot": "5",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-20-4\/20-4-1-5-Damped-Spring-Example.xml"
+        },
+        {
+            "slot": "6",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-20-4\/20-4-2-1-Solving-systems-of-differential-equations.xml"
+        },
+        {
+            "slot": "7",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-20-4\/20-4-2-2-Coupled-Diff-Eqs-Exercise.xml"
+        },
+        {
+            "slot": "8",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-20-4\/20-4-3-1-Exercise---System-of-Diff-Eqs.xml"
+        },
+        {
+            "slot": "9",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-20-4\/20-4-3-2-Exercise---Second-Order-System.xml"
+        },
+        {
+            "slot": "10",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-20-4\/20-4-4-1-Applications-of-systems-of-differential-equations.xml"
+        },
+        {
+            "slot": "12",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-20-4\/20-4-4-3-Spring-Diff-Eq-Exercise.xml"
+        },
+        {
+            "slot": "13",
+            "page": "7",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-20-4\/20-4-5-1-Engineering-Example---Capacitor.xml"
+        },
+        {
+            "slot": "14",
+            "page": "7",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-20-4\/20-4-5-2-Engineering-Example---Loaded-Beam.xml"
+        },
+        {
+            "slot": "11",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-20-4\/20-4-4-2-Two-masses-on-springs.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

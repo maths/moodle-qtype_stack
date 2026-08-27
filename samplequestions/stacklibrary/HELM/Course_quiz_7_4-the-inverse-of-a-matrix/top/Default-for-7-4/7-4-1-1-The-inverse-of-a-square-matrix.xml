@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>7.4.1.1 The inverse of a square matrix</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>The inverse of a square matrix</h3>
+<p>We know that any non-zero number <span class="math inline">\(k\)</span> has an inverse; for example <span class="math inline">\(2\)</span> has an inverse <span class="math inline">\(\frac{1}{2}\)</span> or <span class="math inline">\(2^{-1}\)</span>. The inverse of the number <span class="math inline">\(k\)</span> is usually written <span class="math inline">\(\frac{1}{k}\)</span> or, more formally, by <span class="math inline">\(k^{-1}\)</span>. This numerical inverse has the property that&nbsp;<br></p><p><span class="math inline">\( k\times k^{-1}=k^{-1}\times k=1\)</span></p><p>We now show that an inverse of a matrix can, in certain circumstances, also be defined.&nbsp;</p><p>Given an <span class="math inline">\(n\times n\)</span> square matrix <span class="math inline">\(A,\)</span> then an <span class="math inline">\(n\times n\)</span> square matrix <span class="math inline">\(B\)</span> is said to be the <b>inverse matrix</b> of <span class="math inline">\(A\)</span> if</p><p><span class="math inline">\(AB=BA=I\)</span></p><p>where <span class="math inline">\(I\)</span> is, as usual, the identity matrix (or unit matrix) of the appropriate size.</p><p><br></p>
+
+
+<hr>
+<h4 class="HELM_example">Example <br></h4>
+<p><span></span>Show that the inverse matrix of <span class="math inline">\(A=\left[\begin{array}{cc}-1&amp;1\\ -2&amp;0\end{array}\right]\)</span> is <span class="math inline">\(B=\left[\begin{array}{cc}0&amp;-\frac{1}{2}\\ 1&amp;-\frac{1}{2}\end{array}\right]\)</span></p>
+<h4 class="HELM_solution">Solution</h4>
+<p> All we need to do is check that  <span class="math inline"> \(AB=BA=I\)</span>.&nbsp;</p><p><span class="math inline">\(AB=\left[\begin{array}{cc}-1&amp;1\\ -2&amp;0\end{array}\right]\times\frac{1}{2}\left[\begin{array}{cc}0&amp;-1\\ 2&amp;-1\end{array}\right] = \frac{1}{2}\left[\begin{array}{cc}-1&amp;1\\ -2&amp;0\end{array}\right]\times\left[\begin{array}{cc}0&amp;-1\\ 2&amp;-1\end{array}\right] = \frac{1}{2}\left[\begin{array}{cc}2&amp;0\\ 0&amp;2\end{array}\right]=\left[\begin{array}{cc}1&amp;0\\ 0&amp;1\end{array}\right]  \)
+ </span></p>
+
+<p>We make three important remarks:</p>
+<ul>
+<li>Non-square matrices do not have inverses.</li>
+<li>The inverse of \(A\) is usually written \(A^{-1}\).</li>
+<li>Not all square matrices have inverses.</li>
+</ul>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

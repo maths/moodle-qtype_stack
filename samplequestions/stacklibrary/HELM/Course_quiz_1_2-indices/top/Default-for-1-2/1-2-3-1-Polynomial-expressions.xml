@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>1.2.3.1 Polynomial expressions</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Polynomial expressions
+</h3>
+<p>An important group of mathematical expressions which use indices are known as <b>polynomials</b>.</p>
+
+<p>Examples of polynomials are</p>
+<ul>
+    <li> \(4x^3+2x^2+3x-7\),</li>
+    <li>\( x^2+x \), </li>
+    <li>\( 17-2t+7t^4 \), </li>
+    <li>\( z-z^3 \). </li>
+</ul>
+
+<p>Notice that they are all constructed using non-negative whole number powers of the variable. Recall that \(x^0=1\) and so the number \(-7\) appearing in the first expression can be thought of as \(-7x^0\). Similarly the \(17\) appearing in the third expression
+    can be read as \(17t^0\).<br><br></p>
+
+
+<div class="HELM_keypoint">
+    <h4>Key Point <br></h4>
+    <p>A polynomial expression takes the form</p>
+    <p>\( a_0 + a_1x + a_2x^2 + a_3x^3 +\ldots + a_nx^n\)</p>
+    <p>where \( a_0 ,a_1, a_2, a_3, \ldots a_n\) are all constants called the <b>coefficients</b> of the polynomial. The number \(a_0\) is also called the <b>constant term</b>. The highest power in a polynomial is called the <b>degree</b> of the polynomial.</p>
+    <p>Polynomials with low degrees have special names and subscript notation is often not needed:
+    </p>
+    <table>
+        <thead>
+            <tr>
+                <th style="min-width:12em">Polynomial</th>
+                <th style="min-width:5em">Degree</th>
+                <th style="min-width:7em">Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="text-align:center">\[ ax^3+bx^2+cx+d \]</td>
+                <td style="text-align:center">3</td>
+                <td style="text-align:center">cubic</td>
+            </tr>
+            <tr>
+                <td style="text-align:center">\[ ax^2+bx+c \]</td>
+                <td style="text-align:center">2</td>
+                <td style="text-align:center">quadratic</td>
+            </tr>
+            <tr>
+                <td style="text-align:center">\[ ax+b \]</td>
+                <td style="text-align:center">1</td>
+                <td style="text-align:center">linear</td>
+            </tr>
+            <tr>
+                <td style="text-align:center">\[ a\]</td>
+                <td style="text-align:center">0</td>
+                <td style="text-align:center">constant</td>
+            </tr>
+        </tbody>
+    </table>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

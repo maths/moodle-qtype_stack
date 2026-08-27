@@ -91,6 +91,23 @@
         {{#str}} stack_library_error, qtype_stack {{/str}}
         <span class="stack-library-error-details"></span>
       </p>
+      {{#libraries.hasitems}}
+        <p>
+          <span>
+            {{#str}} stack_library_select, qtype_stack {{/str}}
+          </span>
+          <select onChange="document.querySelector('[data-id=\'qa-loading\']').removeAttribute('hidden');window.location.href=this.value;">
+            {{#libraries.items}}
+              <option value="{{{url}}}" {{#active}} selected="selected" {{/active}}>
+                {{name}}
+              </option>
+            {{/libraries.items}}
+          </select>
+          <span data-id='qa-loading' hidden>
+            {{#pix}}y/loading, core, {{#str}}loading, tool_lp{{/str}}{{/pix}}
+          </span>
+        </p>
+      {{/libraries.hasitems}}
       <div class="alert alert-secondary" style="position: relative; color: black;">
         <div class="stack-library-category-holder">
           {{#str}} stack_library_destination, qtype_stack {{/str}}

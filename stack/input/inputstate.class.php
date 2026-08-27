@@ -40,46 +40,45 @@ require_once(__DIR__ . '/../options.class.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_input_state {
-
     /**
      * @var string one of the constants stack_input::BLANK, stack_input::INVALID, ...
      */
-    protected $_status;
+    protected $status;
 
     /**
      * @var array the current contents of this input as raw input from the student's response.
      */
-    protected $_contents;
+    protected $contents;
 
     /**
-     * @var string how STACK/Maxima interpreted the current contents of the input.  E.g., we might add *s to the $_contents.
+     * @var string how STACK/Maxima interpreted the current contents of the input.  E.g., we might add *s to the $contents.
      */
-    protected $_contentsmodified;
+    protected $contentsmodified;
 
     /**
      * @var string how Stack displays the interpreted input.
      */
-    protected $_contentsdisplayed;
+    protected $contentsdisplayed;
 
     /**
      * @var string any validation errors.
      */
-    protected $_errors;
+    protected $errors;
 
     /**
      * @var string any validation note.
      */
-    protected $_note;
+    protected $note;
 
     /**
      * @var string any variables found in the student's answer, in displayed form.
      */
-    protected $_lvars;
+    protected $lvars;
 
     /**
      * @var string value of the simp flag.
      */
-    protected $_simp;
+    protected $simp;
 
     /**
      * Constructor
@@ -93,40 +92,48 @@ class stack_input_state {
      * @param string $feedback the feedback for the current contents.
      * @param bool   $simp Should the student's expression be simplified?
      */
-    public function __construct($status, $contents, $contentsmodified, $contentsdisplayed, $errors, $note, $lvars,
-            $simp = false) {
+    public function __construct(
+        $status,
+        $contents,
+        $contentsmodified,
+        $contentsdisplayed,
+        $errors,
+        $note,
+        $lvars,
+        $simp = false
+    ) {
         if (!is_array($contents)) {
             throw new stack_exception('stack_input_state: contents field of constructor must be an array.');
         }
-        $this->_status              = $status;
-        $this->_contents            = $contents;
-        $this->_contentsmodified    = $contentsmodified;
-        $this->_contentsdisplayed   = $contentsdisplayed;
-        $this->_errors              = $errors;
-        $this->_note                = $note;
-        $this->_lvars               = $lvars;
-        $this->_simp                = $simp;
+        $this->status              = $status;
+        $this->contents            = $contents;
+        $this->contentsmodified    = $contentsmodified;
+        $this->contentsdisplayed   = $contentsdisplayed;
+        $this->errors              = $errors;
+        $this->note                = $note;
+        $this->lvars               = $lvars;
+        $this->simp                = $simp;
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function __get($field) {
         switch ($field) {
             case 'status':
-                return $this->_status;
+                return $this->status;
             case 'contents':
-                return $this->_contents;
+                return $this->contents;
             case 'contentsmodified':
-                return $this->_contentsmodified;
+                return $this->contentsmodified;
             case 'contentsdisplayed':
-                return $this->_contentsdisplayed;
+                return $this->contentsdisplayed;
             case 'errors':
-                return $this->_errors;
+                return $this->errors;
             case 'note':
-                return $this->_note;
+                return $this->note;
             case 'lvars':
-                return $this->_lvars;
+                return $this->lvars;
             case 'simp':
-                return $this->_simp;
+                return $this->simp;
             default:
                 throw new stack_exception('stack_input_state: unrecognised property name ' . $field);
         }

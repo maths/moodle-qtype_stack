@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>25.3.3.2 Method of separation of variables - specific solutions</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4 class="HELM_example">Example</h4>
+<p>
+</p>
+<p>Solve the <span class="math inline">\(1\)</span>-dimensional wave equation
+    <span class="math inline">\(\quad\displaystyle
+\dfrac{\partial^2u}{\partial
+x^2}=\dfrac{1}{16}\dfrac{\partial^2u}{\partial t^2}\)</span> &nbsp;&nbsp;for&nbsp;<span class="math inline">\(0&lt;x&lt;2,\ \ \ t&gt;0\)
+      </span></p>
+<p> The boundary conditions are </p>
+<p><span class="math inline">\(\qquad\displaystyle
+  u(0,t)=u(2,t)=0\)</span></p> The initial conditions are
+<p>(i)&nbsp;&nbsp;<span class="math inline">\(u(x,0)=6\sin\pi x-3\sin 4\pi x\)</span> \(\qquad\qquad\)(ii)&nbsp;&nbsp;
+    <span class="math inline">\(\dfrac{\partial u}{\partial
+t}(x,0)=0\)</span></p>
+<p></p>
+<ol class="HELM_parts">
+    <li>Firstly, either using \((7)\) and \((8)\) or by working from first principles assuming the product solution
+        <p><span class="math inline">\(\qquad u(x,t)=X(x)T(t),\)</span></p> write down the ODEs satisfied by <span class="math inline">\(X(x)\)</span> and <span class="math inline">\(T(t)\)</span>:</li>
+    <li>Now decide on the appropriate sign for <span class="math inline">\(K\)</span> and then write down the solution to these equations:</li>
+    <li>Now obtain the general solution <span class="math inline">\(u(x,t)\)</span> by multiplying <span class="math inline">\(X(x)\)</span> by <span class="math inline">\(T(t)\)</span> and insert the two boundary conditions to obtain information about two
+        of the constants:</li>
+    <li>Now insert the initial condition
+        <p><span class="math inline">\(\qquad\displaystyle
+\dfrac{\partial u}{\partial t}(x,0)=0\ \ \text{for all}\ x\qquad
+  0&lt;x&lt;2.\)</span></p> and deduce the value of <span class="math inline">\(F\)</span>:</li>
+    <li>Finally using the other the initial condition &nbsp;<span class="math inline">\(u(x,0)=6\sin(\pi x)-3\sin (4\pi
+x)\)</span>&nbsp;deduce the form of <span class="math inline">\(u(x,t)\)</span>: </li>
+</ol>
+
+
+
+<h4 class="HELM_solution">Solution</h4>
+<ol class="HELM_parts">
+    <li>\(\dfrac{X''}{X}=K \qquad\qquad \dfrac{T''}{16T}=K\)</li>
+    <li>Choosing \(K\) as negative (say \(K = −\lambda^2)\) will produce Sinusoidal solutions for \(X\) and \(T\) which are appropriate in the context of the wave equation where oscillatory solutions can be expected.
+        <br>Then \(X'' = −\lambda^2 X\) gives
+        <br>\(\qquad X = A\cos\lambda x + B\sin\lambda x\)
+        <br>Similarly \(T'' = −16\lambda^2 T\) gives
+        <br>\(\qquad T = C\cos4\lambda t + D\sin4\lambda t\)</li>
+    <li>
+        <p>\(u(x, t) = (A\cos\lambda x + B\sin\lambda x)(C\cos4\lambda t + D\sin4\lambda t)\)</p>
+        <p>\(u(0, t) = 0\) for all \(t\) gives</p>
+        <p>\(\qquad A(C\cos4\lambda t + D\sin4\lambda t) = 0\)</p>
+        which implies that \(A = 0\).
+        <p>\(u(2, t) = 0\) for all \(t\) gives</p>
+        <p>\(\qquad B\sin2\lambda (C\cos4\lambda t + D\sin4\lambda t) = 0\)</p>
+        so, for a non-trivial solution,
+        <p>\(\qquad \sin2\lambda = 0 \qquad \) i.e. \(\qquad \lambda = \dfrac{n\pi}{2}\) for some integer \(n\).</p>
+        At this stage we write the solution as
+        <p>\(\qquad u(x, t) = \sin\left(\dfrac{n\pi x}{2} \right) (E\cos2n\pi t + F\sin2n\pi t)\)</p>
+        where we have multiplied constants and put \(E = BC\) and \(F = BD\).
+    </li>
+    <li>Differentiating partially with respect to \(t\)
+        <p>\(\qquad \dfrac{\partial u}{\partial t} = \sin\left(\dfrac{n\pi x}{2}\right)(−2n\pi E \sin 2n\pi t + 2n\pi F\cos 2n\pi t)\)</p>
+        so at \(t = 0\)
+        <p>\(\qquad \dfrac{\partial u}{\partial t}(x,0) = \sin\left(\dfrac{n\pi x}{2}\right)2n\pi F = 0\)</p>
+        from which we must have that \(F = 0\).</li>
+    <li>At this stage the solution reads
+
+        <table width="100%">
+            <tbody>
+                <tr>
+                    <td>\(\qquad u(x, t) = E\sin\left(\dfrac{n\pi x}{2}\right)\cos(2n\pi t)\)</td>
+                    <td>\((12)\)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        We now have to insert the last condition i.e. the initial condition
+
+        <table width="100%">
+            <tbody>
+                <tr>
+                    <td>\(\qquad u(x, 0) = 6\sin \pi x − 3 \sin 4\pi x\)</td>
+                    <td>\((13)\)</td>
+                </tr>
+            </tbody>
+        </table>
+        This seems strange because, putting \(t = 0\) in our solution \((12)\) suggests
+        <p>\(\qquad u(x, 0) = E \sin\left(\dfrac{n\pi x}{2}\right)\)</p>
+        At this point we seem to have incompatability because no single value of \(n\) will enable us to satisfy \((13)\). However, in the solution \((12)\), <b>any</b> positive integer value of \(n\) is acceptable and we can in fact, <b>superpose</b>        solutions of the form (\(12)\) and still have a valid solution to the PDE Hence we first write, instead of \((12)\)
+
+        <table width="100%">
+            <tbody>
+                <tr>
+                    <td>\(\qquad u(x, t) = \sum_{n=1}^\infty E_n\sin\left(\dfrac{n\pi x}{2}\right)\cos(2n\pi t)\)</td>
+                    <td>\[(14)\]</td>
+                </tr>
+            </tbody>
+        </table>
+        from which
+
+        <table width="100%">
+            <tbody>
+                <tr>
+                    <td>\(\qquad u(x, 0) = \sum_{n=1}^\infty E_n\sin\left(\dfrac{n\pi x}{2}\right)\)</td>
+                    <td>\[(15)\]</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>(which looks very much like, and indeed is, a Fourier series.)</p>
+        <br>To make the solution \((15)\) fit the initial condition \((13)\) we do not require all the terms in the infinite Fourier series. We need only the terms with \(n = 2\) with coefficient \(E_2 = 6\) and the term for which \(n = 8\) with \(E_8
+        = −3\). All the other coefficients \(E_n\) have to be chosen as zero.
+        <p>Using these results in \((14)\) we obtain the solution</p>
+        <p>\(\qquad u(x, t) = 6 \sin \pi x \cos 4\pi t − 3 \sin 4\pi x \cos 16\pi t\)</p>
+    </li>
+</ol>
+
+<hr> The above solution perhaps seems rather involved but there is a definite sequence of logical steps which can be readily applied to other similar problems.]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

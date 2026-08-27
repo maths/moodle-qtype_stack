@@ -83,11 +83,15 @@ The last three predicates above will all accept an optional argument, `sp`, that
 
 It is sometimes convenient to be able to display an augmented matrix. `matrix.mac` adds some limited support for this. 
 
-Perhaps you have a question in which students are asked to solve the matrix equation \(A\underline{\mathbf{x}} = \underline{\mathbf{b}}\) using Gaussian elimination and you wanted to display this problem as an augmented matrix. Then, with matrix `A` and right hand side vector (really a matrix) `b` already defined, you could use `aug(addcol(A,b))` to display
+Perhaps you have a question in which students are asked to solve the matrix equation \(A\underline{\mathbf{x}} = \underline{\mathbf{b}}\) using Gaussian elimination and you wanted to display this problem as an augmented matrix. Then, with matrix `A` and right hand side vector (really a matrix) `b` already defined, you could use `aug(A,b)` to display
 
-\[{\left[\begin{array}{cc} 1 & 2 \\ 4 & 5 \end{array}\right|\left.\begin{array}{c} 3 \\ 6 \end{array}\right]}\]
+\[\left[\begin{array}{cc} 1 & 2 \\ 4 & 5 \end{array}\right|\left.\begin{array}{c} 3 \\ 6 \end{array}\right]\]
 
-Really what is happening here is that `aug` is converting a matrix with concatenated columns `A` and `b` to an `aug_matrix`, which then displays as a matrix with its final column separated by a vertical bar. `aug_matrix` is an inert function that exists only in this library for display purposes. You can save this to a variable, perhaps `Ab`, but Maxima doesn't know that this is a matrix at all and so matrix operations won't work on it. To turn it back into a matrix, you can use `de_aug(Ab)`. 
+Really what is happening here is that `aug` is converting a matrix with concatenated columns `A` and `b` to an `aug_matrix`, which then displays as a matrix with its final column separated by a vertical bar. `aug_matrix` is an inert function that exists only in this library for display purposes. You can save this to a variable, perhaps `Ab`, but Maxima doesn't know that this is a matrix at all and so matrix operations won't work on it. To turn it back into a matrix, you can use `de_aug(Ab)`. `de_aug` concatenates the input matrices instead of returning a list, so if you need more control you may prefer to programme your row operations separately and display `aug(A1,b1)`, `aug(A2,b2)` etc. manually.  
+
+This can generalise to as many inputs as needed. For instance, `aug(matrix([1,2,3],[4,5,6],[7,8,9]), matrix([1],[1],[1]), ident(3))` will display as
+
+\[\left[\begin{array}{ccc} 1 & 2 & 3 \\ 4 & 5 & 6 \\ 7 & 8 & 9 \end{array}\left|\begin{array}{c} 1 \\ 1 \\ 1 \end{array}\right.\left|\begin{array}{ccc} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{array}\right.\right]\]
 
 ### Systems of equations
 

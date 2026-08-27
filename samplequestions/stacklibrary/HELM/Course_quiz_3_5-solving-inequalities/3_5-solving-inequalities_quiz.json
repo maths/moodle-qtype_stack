@@ -1,0 +1,128 @@
+{
+    "quiz": {
+        "name": "3_5 Solving Inequalities",
+        "intro": "<p>An inequality is an expression involving one of the symbols <span class=\"math inline\">\\(\\ge, \\le, &gt;\\)<\/span> or <span class=\"math inline\">\\(&lt;\\)<\/span>. This quiz will review how to manipulate inequalities correctly. Then the solution of inequalities, both algebraically and graphically, will be described.<\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "The Inequality Symbols",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "5",
+            "heading": "Solving Linear Inequalities Algebraically",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "10",
+            "heading": "Solving Inequalities Using Graphs",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-3-5\/3-5-1-1-The-Inequality-Symbols.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-3-5\/3-5-1-2-Task_Multiplying-both-sides-of-an-inequality.xml"
+        },
+        {
+            "slot": "3",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-3-5\/3-5-1-3-afterTask1_(pg53).xml"
+        },
+        {
+            "slot": "4",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-3-5\/3-5-1-5-Rewriting-inequalities-without-the-modulus-sign.xml"
+        },
+        {
+            "slot": "5",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-3-5\/3-5-2-1-Solving-Linear-Inequalities-Algebraically.xml"
+        },
+        {
+            "slot": "6",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-3-5\/3-5-2-2_Task_Solve-Inequality.xml"
+        },
+        {
+            "slot": "7",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-3-5\/3-5-2-3-Example_37-(5).xml"
+        },
+        {
+            "slot": "8",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-3-5\/3-5-2-5-Simple-inequalities-with-var-(pruned).xml"
+        },
+        {
+            "slot": "9",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-3-5\/3-5-2-6-Inequalities-with-var-(pruned).xml"
+        },
+        {
+            "slot": "10",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-3-5\/3-5-3-1-Solving-inequalities-using-graphs.xml"
+        },
+        {
+            "slot": "11",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-3-5\/3-5-3-2_Task_Negative-part-of-a-quadratic-function.xml"
+        },
+        {
+            "slot": "12",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-3-5\/3-5-3-3-Example_40-(8).xml"
+        },
+        {
+            "slot": "13",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-3-5\/3-5-3-4-Linear-and-quadratic-inequalities-(pruned).xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

@@ -1,0 +1,74 @@
+{
+    "quiz": {
+        "name": "38_3 The Exponential Distribution",
+        "intro": "<p>If an engineer is responsible for the quality of, say, copper wire for use in domestic wiring systems, he or she might be interested in knowing both the number of faults in a given length of wire and also the distances between such faults. While the number of faults may be analysed by using the Poisson distribution, the distances between faults along the wire may be shown to give rise to the exponential distribution defined and used in this Quiz.<br><\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "The Exponential Distribution",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "3",
+            "heading": "Exercises",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-38-3\/38-3-1-1-The-exponential-distribution.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-38-3\/38-3-1-2-Car-cooling-systems.xml"
+        },
+        {
+            "slot": "3",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-38-3\/38-3-2-1-Barges-on-a-waterway.xml"
+        },
+        {
+            "slot": "4",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-38-3\/38-3-3-1-Plots-of-the-probability-distribution-function.xml"
+        },
+        {
+            "slot": "5",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-38-3\/38-3-3-2-Expectation,-variance,-median-and-mode.xml"
+        },
+        {
+            "slot": "6",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-38-3\/38-3-3-3-Bus-stop.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

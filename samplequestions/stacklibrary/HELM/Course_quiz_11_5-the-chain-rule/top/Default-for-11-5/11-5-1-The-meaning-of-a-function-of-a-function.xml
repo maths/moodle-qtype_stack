@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>11.5.1 The meaning of a function of a function</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>The meaning of a function of a function</h4>
+
+When we use a function like \(\sin 2x\) or \(e^{\ln x}\) or \(\sqrt{x^2 + 1}\) we are in fact dealing with a composite function or <b>function of a function</b>.
+<p></p>
+\(\sin 2x\) is the sine function of \(2x\). This is, in fact, how we `read' it:
+<p></p>
+\( \sin 2x \) is read `sine of \(2x\)'.
+<p></p>
+Similarly \(e^{\ln x}\) is the exponential function of the logarithm of \(x\):
+<p></p>
+\( e^{\ln x}\) is read `\(e\) to the power of \(\ln x\)'.
+<p></p>
+Finally \(\sqrt{x^2 + 1}\) is also a composite function. It is the square root function of the polynomial \(x^2 +1\):
+<p></p>
+\(\sqrt{x^2 + 1}\) is read as the `square root of \( (x^2 + 1) \)'.
+<p></p>
+When we talk about a function of a function in a general setting we will use the notation \(f(g(x))\) where both \(f\) and \(g\) are functions.
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Specify the functions \(f\), \(g\) for the composite functions \(f(g(x))\).</p>
+<ol class="HELM_parts_inline">
+    <li>\(\sin 2x\) </li>
+    <li>\( e^{\ln x}\)</li>
+    <li>\(\sqrt{x^2 + 1}\) </li>
+</ol>
+
+<h4 class="HELM_solution">Solution</h4>
+<ol class="HELM_parts">
+    <li>Here \(f\) is the sine function and \(g\) is the polynomial \(2x\). We often write
+        <p></p>
+        \(f(g) = \sin g\) and \( g(x) = 2x\) </li>
+    <li>Here \(f(g) = e^g\) and \(g(x) = \ln x\)</li>
+    <li>Here \(f(g) = \sqrt{g}\) and \(g(x) = x^2 + 1\)</li>
+</ol>
+<p>&nbsp;</p>
+<hr>
+<p>In each case the original function of \(x\) is obtained when \(g(x)\) is substituted into \(f(g)\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

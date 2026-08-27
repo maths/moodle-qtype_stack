@@ -98,6 +98,9 @@ textarea[name=maximavars] {
     max-width: 100%;
     padding: 2px !important;
 }
+.que.stack select.form-select {
+    display: inline-block;
+}
 .que.stack .geogebra-right,
 .que.stack .numerical-right,
 .que.stack .algebraic-right,
@@ -212,7 +215,25 @@ body.path-question-type-stack-doc blockquote {
     quotes: "\201C""\201D""\2018""\2019";
 }
 
+/* Support for comments, used in example questions. */
+div.stack-comment {
+    text-align: left;
+    background: #fcf8e3;
+    border: 4px solid #ddd;
+    border-radius: 12px;
+    padding: 12px;
+    margin: 4px;
+    overflow: hidden;
+}
+
 /* Support for proof. */
+.statement {
+    padding: 12px 16px;
+    margin: 8px 0;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #fff;
+}
 .proof,
 .proof-block {
     text-align: left;
@@ -985,18 +1006,23 @@ h4.HELM_example:before,
 ol.HELM_parts {
     list-style: none;
     counter-reset: helm-parts;
-    float: left;
+    margin-top: 1rem;
     width: 100%;
 }
 ol.HELM_parts > li {
     counter-increment: helm-parts;
     margin-bottom: 1.5rem;
+    display: block;
+}
+ol.HELM_parts > li > :first-child {
+    display: inline-block;
 }
 
 ol.HELM_parts > li:before {
     content: "(" counter(helm-parts, lower-alpha) ")";
     margin-left: -2.2rem;
-    margin-top: -0.3rem;
+    margin-top: -0.2rem;
+    margin-right: 0.4rem;
     background: #1e92cc;
     border-radius: 0.2rem;
     color: white;
@@ -1005,8 +1031,7 @@ ol.HELM_parts > li:before {
     text-align: center;
     display: inline-block;
     box-sizing: border-box;
-    float: left;
-    clear: left;
+    vertical-align: top;
 }
 
 ol.HELM_parts_inline {
@@ -1015,6 +1040,7 @@ ol.HELM_parts_inline {
     counter-reset: helm-parts;
     float: left;
     width: 100%;
+    margin-left: 2.5rem;
 }
 ol.HELM_parts_inline > li {
     counter-increment: helm-parts;
@@ -1093,6 +1119,7 @@ table.HELM_table th:last-child {
 .que.stack .equivinput,
 .que.stack .varmatrixinput,
 .que.stack .matrixtable,
+.que.stack .freetextinput,
 /* Question authoring form */
 #page-question-type-stack textarea#id_questionvariables,
 #page-question-type-stack input#id_variantsselectionseed,
@@ -1108,6 +1135,58 @@ table.HELM_table th:last-child {
 /* Properly display inversetrig values, in RTL mode */
 #page-question-type-stack #id_inversetrig option {
     unicode-bidi: plaintext;
+}
+
+/* Support for side by side style in free-text editors. */
+.free-text-container {
+    display: flex;
+    gap: 1rem;
+    align-items: stretch;  /* Make children same height. */
+    width: fit-content;
+    max-width: 100%;
+}
+
+.free-text-container-vertical {
+    width: max-content;
+    max-width: 100%;
+}
+
+.free-text-container > * {
+    flex: 1;
+    min-width: 0;
+}
+
+.free-text-container iframe {
+    flex: 1 1 auto;
+    height: 100%;
+}
+
+.free-text-container [id^=stack-iframe-holder] {
+    height: auto;
+    display: flex;
+}
+
+#source {
+    resize: vertical;
+    box-sizing: border-box;
+}
+
+/* Stack vertically on narrow screens */
+@media (max-width: 768px) {
+    .free-text-container {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .free-text-container > * {
+        flex: none;
+        width: 100%;
+    }
+
+    .free-text-container > textarea {
+        box-sizing: border-box;
+        width: 100%;
+    }
 }
 
 /* Trees: https://codepen.io/ross-angus/pen/jwxMjL

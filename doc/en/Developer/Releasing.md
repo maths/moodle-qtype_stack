@@ -1,4 +1,4 @@
-# STACK release process notes
+# Releasing new STACK versions
 
 Note, these notes are designed for developers releasing a new version through the Moodle plugin database.  They are probably not useful for anyone else.
 
@@ -23,12 +23,14 @@ Unless you want to discuss something confidential with the developers, please do
 
 * Readme.md
 * Check docs 
- * [development history](Development_history.md) and [development track](Development_track.md) `history/track`.
- * Execute `php cli/answertests_docs.php` to update the static docs about answertests.
- * Execute `doc/maintenance.php` to search for broken links etc.
+  - [development history](Development_history.md) and [development track](Development_track.md) `history/track`.
+  - Execute `php cli/answertests_docs.php` to update the static docs about answertests.
+  - Execute `doc/maintenance.php` to search for broken links etc.
 * Run `php cli/stacklibrarycheck.php` to check filenames in the stacklibrary do not have special characters, particularly `'` (which breaks the .zip download in the plugin directory!)
 * Run `php cli/unicode_data_process.php` to update unicode mappings.
 * Run `php cli/ast_test_generator.php` to confirm if auto-generated tests have not changed.
+* Run `php cli/stack_maxima_compiler.php` to process `stack/maximasrc` and generate `stack/maxima/maximasrccompiled.mac`, the test version, and the documentation.
+* Run Maxima unit tests for the `stack/maximasrc` content with `load("maximasrccompiled_tests.mac");`, it should say `"All tests successfully executed."`
 * Run Maxima unit tests of contributed packages by re-defining `stacklocation` and running `s_test_case.mac` in the sandbox.  E.g.
 
 ````
@@ -36,9 +38,14 @@ Unless you want to discuss something confidential with the developers, please do
     load("s_test_case.mac");
 ````
 
+* Run tests of Javascript in `tests/jest`.  See `tests/jest/Readme.md`.
+* Remove `QTYPE_STACK_TEST_CONFIG_CI_LIGHT` from CI config to run all unit tests.  (If this constant is defined, the tests are skipped).
 * Run PHP [unit tests](Unit_tests.md).
 * Run code checker.
+* Is JSXGraph up to date? Check if the commit message for `corsscripts/jsxgraphcore.min.js` states the same version number as [jsxgraph.org](https://jsxgraph.org/).
 * If needed re-build the minified Javascript (e.g. `npx grunt --root=question/type/stack`).
+* Check version of JSXGraph.
+* Ensure that `db/upgrade.php` has no additions that are dated older than the last release but were not present in the last release.
 
 ### Check API
 
@@ -74,35 +81,18 @@ Commit all changes to git, e.g. "Update version number for the 4.6.0 release."
 
 ## 2. Create new tag with version name
 
-E.g. "v4.6.0".
+E.g. "v4.10.0".
 
 * Push to GitHub.
 * Push tags to GitHub 
  * Tortoise git: pulldown from push
- * Linux: `git tag -a v4.6.0 -m "Update version number for the 4.6.0 release."`
+ * Linux: `git tag -a v4.10.0 -m "Update version number for the 4.10.0 release."`
  * Linux: `git push`
  * Linux: `git push --tags`
 
-## 3. Moodle plugins database entry for the plugin
+## 3. Moodle marketplace entry for the plugin
 
-Add a new version to the Moodle plugins database entry for the plugin.
-
-* If version number does not appear in the dropdown, then upload it from GitHub.
- 
-* Version information
-* Upload zipfile
-* GitHub
-* Username = maths
-* Choose appropriate plugin
-* Choose tags
-* Choose tag number
-* Rename root directory +
-* Fix README filename +
-* Choose supported Moodle.
-
-Then check updated information on the form.
-
-(don't add "master" to branch info)
+Add a new version to the Moodle marketplace entry for the plugin.
 
 ### 4. Releasing a new verion of the API to take advantage of the new release
 

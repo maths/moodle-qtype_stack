@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>37.1.1.5 General permutation take r at a time</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>In general the numbers of permutations of <span class="math inline">\(n\)</span> objects taken <span class="math inline">\(r\)</span> at a time is <br>\(\qquad n(n-1)(n-2)\dots (n-r+1)\qquad \) which is the same as \(\displaystyle{\quad\frac{n!}{(n-r)!}}\)
+<br>This is usually denoted by <span class="math inline">\(^nP_r\)</span> so that&nbsp; &nbsp;<span class="math inline">\[\displaystyle{\qquad ^nP_r=\frac{n!}{(n-r)!}}.\]</span>&nbsp;If we allow repetitions the number of permutations becomes <span class="math inline">\(n^r\)</span> (can you see why?).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

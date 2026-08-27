@@ -41,6 +41,7 @@ $context = context::instance_by_id($contextid);
 $categoryid = optional_param('categoryid', null, PARAM_INT);
 
 $skippreviouspasses = optional_param('skippreviouspasses', false, PARAM_BOOL);
+$addtags = optional_param('addtags', false, PARAM_BOOL);
 $urlparams = ['contextid' => $context->id, 'categoryid' => $categoryid];
 if ($skippreviouspasses) {
     $urlparams['skippreviouspasses'] = 1;
@@ -72,16 +73,24 @@ echo $OUTPUT->header();
 echo $OUTPUT->heading($title);
 
 // Run the tests.
-list($allpassed, $failing) = $bulktester->run_all_tests_for_context(
-      $context, $categoryid, 'web', false, $skippreviouspasses);
+[$allpassed, $failing] = $bulktester->run_all_tests_for_context(
+    $context,
+    $categoryid,
+    'web',
+    false,
+    $skippreviouspasses,
+    $addtags
+);
 
 // Display the final summary.
 $bulktester->print_overall_result($allpassed, $failing);
 
 // If we used the cache, report state.
 if (class_exists('stack_cas_connection_db_cache')) {
-    echo html_writer::tag('p', stack_string('healthcheckcachestatus',
-            stack_cas_connection_db_cache::entries_count($DB)));
+    echo html_writer::tag('p', stack_string(
+        'healthcheckcachestatus',
+        stack_cas_connection_db_cache::entries_count($DB)
+    ));
 }
 
 echo $OUTPUT->footer();

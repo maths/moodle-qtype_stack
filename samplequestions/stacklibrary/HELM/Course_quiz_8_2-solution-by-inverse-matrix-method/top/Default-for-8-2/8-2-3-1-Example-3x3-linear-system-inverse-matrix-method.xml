@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>8.2.3.1 Example 3x3 linear system inverse matrix method</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h5>Solving three equations in three unknowns</h5>
+<p>It is much more tedious to use the inverse matrix to solve a system of three equations although in principle, the method is the same as for two equations.</p>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+
+<p>Consider the system <span class="math display">\[\begin{matrix} 
+x_1 &amp;- &amp; 2x_2 &amp; + &amp; x_3 &amp; = &amp; 3\\ 
+2x_1 &amp; + &amp; x_2 &amp; - &amp; x_3 &amp; = &amp; 5\\
+3x_1 &amp; - &amp; x_2 &amp; + &amp; 2x_3 &amp; = &amp; 12 \\
+\end{matrix}\]</span></p>
+<p>and its matrix form \(AX = B\). One can find that <span class="math inline">\(|A|=10\)</span> (check it!). Hence <span class="math inline">\(A^{-1}\)</span> exists. </p>
+
+<p>Solve it using the inverse matrix method.</p>
+
+<h4 class="HELM_solution">Solution</h4>
+
+<ol class="HELM_parts_inline">
+<li> Find <span class="math inline">\(A^{-1}\)</span> by the method of determinants.</li>
+
+<p> Form the matrix where each element of <span class="math inline">\(A\)</span> is replaced by its minor:</p>
+
+<p><span class="math inline">\(\left[\begin{array}{ccc}\left|\begin{array}{rr}1&amp;-1\\
+-1&amp;2\end{array}\right|&amp;\left|\begin{array}{rr}2&amp;-1\\
+3&amp;2\end{array}\right|&amp;\left|\begin{array}{rr}2&amp;1\\ 3&amp;-1\end{array}\right|\\
+\\
+\left|\begin{array}{rr}-2&amp;1\\ -1&amp;2\end{array}\right|&amp;\left|\begin{array}{cc}1&amp;1\\
+3&amp;2\end{array}\right|&amp;\left|\begin{array}{rr}1&amp;-2\\ 3&amp;-1\end{array}\right|\\
+\\
+\left|\begin{array}{rr}-2&amp;1\\ 1&amp;-1\end{array}\right|&amp;\left|\begin{array}{rr}1&amp;1\\
+2&amp;-1\end{array}\right|&amp;\left|\begin{array}{rr}1&amp;-2\\
+2&amp;1\end{array}\right|\end{array}\right]=\left[\begin{array}{rrr}1&amp;7&amp;-5\\ -3&amp;-1&amp;5\\
+1&amp;-3&amp;5\end{array}\right].\)</span></p>
+<p>Now use the <span class="math inline">\(3\times 3\)</span> array of signs to obtain the matrix of cofactors:</p>
+<p>The array of signs is <span class="math display">\[\left[\begin{matrix}
+    +&amp;-&amp;+\\
+    -&amp;+&amp;-\\
+    +&amp;-&amp;+ \\
+\end{matrix}\right]\]</span> so that we obtain <span class="math display">\[\left[\begin{matrix}
+    1&amp;-7&amp;-5\\
+    3&amp;-1&amp;-5\\
+    1&amp;3&amp;5 \\
+\end{matrix}\right].\]</span></p>
+
+<li>Transpose this matrix and divide by <span class="math inline">\(|A|\)</span> to obtain <span class="math inline">\(A^{-1}\)</span>.</li>
+
+<p>Transposing gives <span class="math display">\[\left[\begin{matrix} 
+    1&amp;3&amp;1\\ 
+    -7&amp;-1&amp;3\\
+    -5&amp;-5&amp;5 \\
+\end{matrix}\right].\]</span> Finally, <span class="math display">\[A^{-1} = \frac{1}{10}
+\left[\begin{matrix}
+    1&amp;3&amp;1 \\
+    -7&amp;-1&amp;3 \\
+    -5&amp;-5&amp;5 \\
+\end{matrix}\right].\]</span></p>
+
+<li>Now use <span class="math inline">\(X=A^{-1} B\)</span> to solve the system of linear equations.</li>
+
+<p><span class="math display">\[X=\frac{1}{10}\left[\begin{matrix}1&amp;3&amp;1\\ -7&amp;-1&amp;3\\
+-5&amp;-5&amp;5\end{matrix}\right]\left[\begin{matrix} 3\\ 5\\
+12\end{matrix}\right]=\frac{1}{10}\left[\begin{matrix}30\\ 10\\
+20\end{matrix}\right]=\left[\begin{matrix} 3\\ 1\\ 2\end{matrix}\right]\]</span> Then <span class="math inline">\(x_1=3,\ x_2=1,\ x_3=2\)</span>.</p>
+</ol>
+<p>&nbsp;</p>
+<hr>
+
+<p>This approach, and another known as Cramer's rule (which is not covered here) are both rather tedious! The advantage of the inverse matrix method is that we can determine when there is a unique solution and we can operate on matrix equations abstractly, i.e. if we have \(AX+B=C\) and we know that \(A\) has an inverse then we can rewrite \(X=A^{-1}(C-B)\). By this we can simplify a problem algebraically before attempting any calculations.&nbsp;</p><p>There are cases where the matrix is more simple than a general \(3 \times 3\) matrix due to the presence of zeros. In these cases the calculation will take less time and become more feasible.</p><p>We will soon see Gaussian elimination which is superior method for general matrices.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

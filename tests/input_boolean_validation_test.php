@@ -115,8 +115,12 @@ final class input_boolean_validation_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('boolean', 'state', 'false');
         $el->set_parameter('options', 'hideanswer');
-        $state = $el->validate_student_response(['state' => 'true'], $options, 'false',
-                new stack_cas_security());
+        $state = $el->validate_student_response(
+            ['state' => 'true'],
+            $options,
+            'false',
+            new stack_cas_security()
+        );
         $this->assertEquals(stack_input::SCORE, $state->status);
         $this->assertEquals('true', $state->contentsmodified);
         $this->assertEquals('', $el->get_teacher_answer_display("[SOME JSON]", "\[ \text{[SOME MORE JSON]} \]"));

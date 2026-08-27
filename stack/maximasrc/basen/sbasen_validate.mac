@@ -1,0 +1,55 @@
+/**
+ * Validates a `stackbasen` object, i.e., checks that the "digits" are suitable
+ * for the base. Returns either `true` for valid or a CASText fragment 
+ * describing the issue.
+ *
+ * Suitable for bespoke validator use.
+ *
+ * Note this is for a singular value, use the tree checking version
+ * (`sbasen_validate_tree`) if you expect expressions or multiple literals. 
+ * Will complain if the received expression is not a singular value, even if
+ * just a prefix op is present.
+ *
+ * @param[expression] expression, an expression to validate
+ * @return[CASText/bool] `true` if valid otherwise a CASText fragment.
+ */
+sbasen_validate(expression) := block([simp,digits,type,base],
+ 	simp : true,
+ 	if safe_op(expression) # "stackbasen" then return(castext("[[commonstring key='sbasen_validate_not_basen'/]]")),
+ 	
+ 	[digits,type,base] : args(expression),
+
+ 	if base > 36 then return(castext("[[commonstring key='sbasen_validate_base_too_big' raw_base='base'/]]")),
+ 	
+ 	digits: sbasen_convert_to_digits(expression),
+
+ 	if all_listp(lambda([x], is(x # false) and is(x < base)), digits) then return(true) 
+ 	else return(castext("[[commonstring key='sbasen_validate_invalid_digits' num='expression' raw_base='base'/]]"))
+)$
+
+s_test_case(simp) := is(sbasen_validate(stackbasen("a_16","S",16))=true)$
+s_test_case(simp) := is(sbasen_validate(stackbasen("Z_16","S",16))=castext("[[commonstring key='sbasen_validate_invalid_digits' num='stackbasen(\"Z_16\",\"S\",16)' raw_base='16'/]]"))$
+
+/**
+ * Validates `stackbasen` objects present in the expression, i.e., checks that
+ * the "digits" are suitable for the base. Returns either `true` for valid or 
+ * a CASText fragment describing the issues.
+ *
+ * Suitable for bespoke validator use.
+ *
+ * Note that will not consider non existence of `stackbasen` objects an issue.
+ *
+ * @param[expression] expression, an expression to validate
+ * @return[CASText/bool] `true` if valid otherwise a CASText fragment.
+ */
+sbasen_validate_tree(expression) := block([out,sub_ex,tmp],
+ 	out : true,
+ 	for sub_ex in extract_matching_parts(lambda([x],is(safe_op(x)="stackbasen")), expression) do (
+ 		tmp : sbasen_validate(sub_ex),
+ 		if is(tmp # true) then (
+ 			if is(out = true) then out : tmp
+ 			else out : castext_concat(castext_concat(out, " "), tmp)
+ 		)
+ 	),
+ 	return(out)
+)$

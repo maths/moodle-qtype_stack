@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>1.1.2.1 Calculation with Numbers</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3><span style="color: inherit; font-family: inherit;">Calculation with Numbers</span><br></h3>
+<p>To perform calculations with numbers we use the <strong>operations</strong>, \(+\), \(-\), \(\times\) and \(\div\).</p>
+<h5><span style="color: inherit; font-family: inherit;">Addition (\(+\))</span><br></h5>
+<p>We say that \(4+5\) is the <strong>sum</strong> of 4 and 5. Note that \(4+5\) is equal to \(5+4\) so that the order in which we write down the numbers does not matter when we are adding them. Because the order does not matter, addition is said to be <strong>commutative</strong>. This first property is called <strong>commutativity</strong>. When more than two numbers are to be added, as in \(4+8+9\), it makes no difference whether we add the 4 and 8 first to get \(12+9\), or whether we add the 8 and 9 first to get \(4+17\). Whichever way we work we will obtain the same result, 21. Addition is said to be <strong>associative</strong>. This second property is called <strong>associativity</strong>.</p>
+<h5><span style="color: inherit; font-family: inherit;">Subtraction (\(-\))</span><br></h5>
+<p>We say that \(8-3\) is the <strong>difference</strong> of \(8\) and \(3\). Note that \(8-3\) is <em>not</em> the same as \(3-8\) and so the order in which we write down the numbers is important when we are subtracting them i.e. subtraction is not commutative. Subtracting a negative number is equivalent to adding a positive number, thus \(7-(-3)=7+3=10\).</p>
+<h5><span style="color: inherit; font-family: inherit;">The plus or minus sign (\(\pm\))</span><br></h5>
+<p>In engineering calculations we often use the notation <strong>plus or minus</strong>, \(\pm\). For example, we write \(12\pm 8\) as shorthand for the two numbers \(12+8\) and \(12-8\), that is 20 and 4. If we say a number lies in the range \(12\pm 8\) we mean that the number can lie between 4 and 20 inclusive.</p>
+<h5><span style="color: inherit; font-family: inherit;">Multiplication (\(\times\))</span><br></h5>
+<p>The instruction to multiply, or obtain the product of, the numbers 6 and 7 is written \(6\times 7\). Sometimes the multiplication sign is missed out altogether and we write \((6)(7)\). Note that \((6)(7)\) is the same as \((7)(6)\) so multiplication of numbers is commutative. If we are multiplying three numbers, as in \(2\times 3\times 4\), we obtain the same result whether we multiply the 2 and 3 first to obtain \(6\times 4\), or whether we multiply the 3 and 4 first to obtain \(2\times 12\). Either way the result is 24. Multiplication of numbers is associative. Recall that when multiplying positive and negative numbers the sign of the result is given by the rules given in the Key Point below.</p> 
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p><strong>Multiplication</strong></p>
+<ul>
+<li>positive \(\times\) positive = positive
+<li>positive \(\times\) negative = negative
+<li>negative \(\times\) positive = negative
+<li>negative \(\times\) negative = positive
+</div>
+<br>
+<p>For example, \((-4)\times 5 = -20\), and \((-3)\times (-6)=18\).</p>
+<p>When dealing with fractions we sometimes use the word ‘of’ as in ‘find \(\dfrac{1}{2}\) of 36’. In this context ‘of’ is equivalent to multiply, that is</p>
+<p>\(\qquad \dfrac{1}{2}\) of 36 is equivalent to \(\dfrac{1}{2}\times 36 = 18\)</p>
+<h5><span style="color: inherit; font-family: inherit;">Division (\(\div\)) or (\(/\))</span><br></h5>
+<p>The quantity \(8\div 4\) means \(8\) divided by \(4\). This is also written as \(8/4\) or \(\dfrac{8}{4}\) and is known as the <strong>quotient</strong> of \(8\) and \(4\). In the fraction \(\dfrac{8}{4}\) the top line is called the <strong>numerator</strong> and the bottom line is called the <strong>denominator</strong>. Note that \(8/4\) is not the same as \(4/8\) and so the order in which we write down the numbers is important. Division is not commutative.</p>
+<p>When dividing positive and negative numbers, recall the rules in the Key Point below for determining the sign of the result:</p>
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p><strong>Division</strong></p>
+<ul>
+<li>\(\dfrac{\text{positive}}{\text{positive}} = \text{positive}\)
+<br>
+<li>\(\dfrac{\text{positive}}{\text{negative}} = \text{negative}\)
+<br>
+<li>\(\dfrac{\text{negative}}{\text{positive}} = \text{negative}\)
+<br>
+<li>\(\dfrac{\text{negative}}{\text{negative}} = \text{positive}\)
+</div>
+<br>
+<h5><span style="color: inherit; font-family: inherit;">The reciprocal of a number</span><br></h5>
+<p>The <strong>reciprocal</strong> of a number is found by inverting it. If the number \(\dfrac{2}{3}\) is <strong>inverted</strong> we get \(\dfrac{3}{2}\). So the reciprocal of \(\dfrac{2}{3}\) is \(\dfrac{3}{2}\). Because we can write 4 as \(\dfrac{4}{1}\), the reciprocal of 4 is \(\dfrac{1}{4}\).</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

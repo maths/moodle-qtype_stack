@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>28.2.5.19 Examples involving grad, div, curl and the Laplacian</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h3>Examples involving grad, div, curl and the Laplacian</h3>
+<p>The vector differential operators can be combined in several ways as the following examples show.</p>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<ol class="HELM_parts_inline">
+<p>If \(\underline{A} = 2yz\underline{i}-x^2y\underline{j}+xz^2\underline{k}\), \(\underline{B} = x^2\underline{i}+yz\underline{j}-xy\underline{k}\) and \(\phi = 2 x^2 y z^3\), find <li> \((\underline{A} \cdot {\underline \nabla})\phi\)</li> <li>\(\underline{A} \cdot {\underline \nabla} \phi\)</li> <li>\(\underline{B} \times {\underline \nabla} \phi\)</li> <li>\({\nabla}^2 \phi\)</li></p>
+</ol>
+<h4 class="HELM_solution">Solution</h4>
+<ol class="HELM_parts">
+<li>
+\[\begin{aligned}
+(\underline{A}\cdot\underline{\nabla})\phi &= \left[(2yz\underline{i}-x^2y\underline{j} +xz^2\underline{k})\cdot(\frac{\partial}{\partial x}\underline{i} +\frac{\partial}{\partial y}\underline{j} +\frac{\partial}{\partial z}\underline{k})  \right]\phi \\
+&= \left[2yz\frac{\partial}{\partial x} - x^2 y \frac{\partial}{\partial y} + xz^2\frac{\partial}{\partial z} \right] 2x^2yz^3 \\
+&= 2yz\frac{\partial}{\partial x}(2x^2yz^3) -x^2y\frac{\partial}{\partial y}(2x^2yz^3) + xz^2\frac{\partial}{\partial z}(2x^2yz^3) \\
+&= 2yz(4xyz^3) - x^2y(2x^2z^3) + xz^2(6x^2yz^2) \\
+&= 8xy^2z^4 - 2x^4yz^3 + 6x^3yz^4.
+\end{aligned}\]
+</li>
+
+<li>
+\[\begin{aligned}
+\underline{\nabla}\phi &= \frac{\partial}{\partial x}(2x^2yz^3)\underline{i} + \frac{\partial}{\partial y}(2x^2yz^3)\underline{j} + \frac{\partial}{\partial z}(2x^2yz^3)\underline{k}) \\
+&= 4xyz^3\underline{i} + 2x^2z^3\underline{j} + 6x^2yz^2\underline{k} \end{aligned} \]
+so
+\[\begin{aligned} \underline{A}\cdot\underline{\nabla}\phi &= (2yz\underline{i} - x^2y\underline{j} + xz^2 \underline{k}) \cdot (4xyz^3\underline{i} + 2x^2z^3\underline{j} + 6x^2yz\underline{k}) \\
+&= 8xy^2z^4 - 2x^4yz^3 + 6x^3yz^4
+\end{aligned}
+\]
+</li>
+
+<li>\( \underline{\nabla}\phi = 4xyz^3 \underline{i} + 2x^2z^3\underline{j} + 6x^2yz^2\underline{k} \mbox{ so }\)
+\[\begin{aligned} \underline{B} \times \underline{\nabla}\phi &= \begin{vmatrix}
+\underline{i} & \underline{j} & \underline{k} \\
+x^2 & yz & -xy \\
+4xyz^3 & 2x^2z^3 & 6x^2yz^2 \end{vmatrix} \\
+&= \underline{i}(6x^2y^2z^3 + 2x^3yz^3) + \underline{j}(-4x^2y^2z^3-6x^4yz^2) + \underline{k}(2x^4z^3 - 4xy^2z^4)
+\end{aligned}\]
+</li>
+
+<li> \[ \nabla^2\phi=\frac{\partial^2}{\partial x^2}(2x^2yz^3) + \frac{\partial^2}{\partial y^2}(2x^2yz^3) + \frac{\partial^2}{\partial z^2} (2x^2yz^3) = 4yz^3 + 0 + 12 x^2yz\]</li>
+</ol>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>For each of the expressions below determine whether the quantity can be formed and, if so, whether it is a scalar or a vector.</p>
+<ol class="HELM_parts">
+<li>grad(div \(\underline{A}\))</li>
+<li>grad(grad \(\phi\))</li>
+<li>curl(div \(\underline{F}\))</li>
+<li>div [ curl ( \(\underline{A} \times\)grad \(\phi\)) ]</li>
+</ol>
+<h4 class="HELM_solution">Solution</h4>
+<ol class="HELM_parts">
+<li>\(\underline{A}\) is a vector and div \(\underline{A}\) can be calculated and is a scalar. Hence, grad(div \(\underline{A}\)) can be formed and is a vector.</li>
+<li>\(\phi\) is a scalar so grad \(\phi\) can be formed and is a vector. As grad \(\phi\) is a vector, it is not possible to take grad(grad \(\phi\)).</li>
+<li>\(\underline{F}\) is a vector and hence div \(\underline{F}\) is a scalar. It is not possible to take the curl of a scalar so curl(div \(\underline{F}\) ) does not exist.</li>
+<li>\(\phi\) is a scalar so grad \(\phi\) exists and is a vector. \(\underline{A}\times\) grad \(\phi\) exists and is also a vector as is
+curl \(\underline{A}\times\) grad \(\phi\). The divergence can be taken of this last vector to give div [ curl (\(\underline{A}\times\) grad \(\phi\)) ] which is a scalar.</li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

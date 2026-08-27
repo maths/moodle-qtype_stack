@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>37.1.2.2 Discrete random variables</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4> Discrete random variables and probability distributions </h4>
+<p>A random variable <span class="math inline">\(X\)</span> and its distribution are said to be discrete if the values of <span class="math inline">\(X\)</span> can be presented as an ordered list say <span class="math inline">\(x_1,x_2,x_3,\dots\)</span> with probability values <span class="math inline">\(p_1,p_2,p_3,\dots\)</span>. That is <span class="math inline">\(\text{P}(X=x_i)=p_i\)</span>. For example, the number of times a particular machine fails during the course of one calendar year is a discrete random variable.</p>
+
+<p>More generally a discrete distribution <span class="math inline">\(f(x)\)</span> may be defined by: 
+<br><span class="math inline">\[\qquad f(x)=\left\{\begin{matrix}p_i&amp;\qquad\text{if}\ x=x_i\quad i=1,2,3,\dots\\
+0&amp;\qquad\text{otherwise}
+\end{matrix}\right.\]</span></p>
+<p>The distribution function <span class="math inline">\(F(x)\)</span> (sometimes called the cumulative distribution function) is obtained by taking sums as defined by 
+<br><span class="math inline">\[\displaystyle{\qquad F(x)=\sum_{x_i\le x}f(x_i)=\sum_{x_i\le x}p_i.}\]</span></p>
+<p>We sum the probabilities <span class="math inline">\(p_i\)</span> for which <span class="math inline">\(x_i\)</span> is less than or equal to <span class="math inline">\(x\)</span>. This gives a step function with jumps of size <span class="math inline">\(p_i\)</span> at each value <span class="math inline">\(x_i\)</span> of <span class="math inline">\(X\)</span>. The step function is defined for all values, not just the values <span class="math inline">\(x_i\)</span> of <span class="math inline">\(X\)</span>.</p>
+
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<h5> Probability Distribution of a Discrete Random Variable </h5>
+<p>Let <span class="math inline">\(X\)</span> be a random variable associated with an experiment. Let the values of <span class="math inline">\(X\)</span> be denoted by <span class="math inline">\(x_1,x_2,\ldots, x_n\)</span> and let <span class="math inline">\(\text{P}(X=x_i)\)</span> be the probability that <span class="math inline">\(x_i\)</span> occurs. We have two necessary conditions for a valid probability distribution: 
+<br><span class="math inline">\(\bullet\)</span><span class="math inline">\(\text{P}(X=x_i)\ge 0\ \ \  \text{for all}\ \
+x_i\)</span>
+</p><p><span class="math inline">\(\bullet\)</span><span class="math inline">\(\displaystyle{\sum_{i=1}^n\text{P}(X=x_i)=1}\)</span></p>
+<p>Note that <span class="math inline">\(n\)</span> may be uncountably large (infinite). </p>
+<p>(These two statements are sufficient to guarantee that <span class="math inline">\(\text{P}(X=x_i)\le 1\)</span> for all <span class="math inline">\(x_i\)</span>.</p>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

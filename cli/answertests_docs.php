@@ -30,10 +30,10 @@ require(__DIR__ . '/../../../../config.php');
 require_once($CFG->libdir . '/clilib.php');
 require_once(__DIR__ . '/../stack/mathsoutput/fact_sheets.class.php');
 
-require_once($CFG->dirroot .'/course/lib.php');
+require_once($CFG->dirroot . '/course/lib.php');
 require_once($CFG->libdir . '/questionlib.php');
-require_once($CFG->libdir .'/filelib.php');
-require_once($CFG->libdir .'/tablelib.php');
+require_once($CFG->libdir . '/filelib.php');
+require_once($CFG->libdir . '/tablelib.php');
 
 require_once($CFG->dirroot . '/question/type/stack/locallib.php');
 require_once($CFG->dirroot . '/question/type/stack/stack/options.class.php');
@@ -46,7 +46,7 @@ $availabletests = stack_answertest_test_data::get_available_tests();
 
 foreach ($availabletests as $anstest) {
     // One file per answer test.
-    ob_start( );
+    ob_start();
     echo "\n\n" . html_writer::tag('h2', $anstest);
 
     $tests = stack_answertest_test_data::get_tests_for($anstest);
@@ -77,7 +77,6 @@ foreach ($availabletests as $anstest) {
 
     $oldtest = '';
     foreach ($tests as $test) {
-
         $notests++;
 
         if ($oldtest != $test->name) {
@@ -96,7 +95,7 @@ foreach ($availabletests as $anstest) {
         }
 
         set_time_limit(30);
-        list($passed, $error, $rawmark, $feedback, $ansnote, $expectednote, $trace)
+        [$passed, $error, $rawmark, $feedback, $ansnote, $expectednote, $trace]
             = stack_answertest_test_data::run_test($test);
         $allpassed = $allpassed && $passed;
 
@@ -162,7 +161,7 @@ foreach ($availabletests as $anstest) {
     }
     $table->finish_output();
 
-    $output = ob_get_clean( );
+    $output = ob_get_clean();
 
     // This is to break up the resulting single line in the text file.
     // Otherwise editors, git, etc. have a miserable time.
@@ -186,7 +185,7 @@ foreach ($availabletests as $anstest) {
     $output = implode("\n", $lines);
     $output = '# ' . $anstest . ': ' . stack_string('stackDoc_AnswerTestResults') . "\n\n" . $output;
 
-    file_put_contents('../doc/en/Authoring/Answer_Tests/Results/'. $anstest .'.md', $output);
+    file_put_contents('../doc/en/Authoring/Answer_Tests/Results/' . $anstest . '.md', $output);
 }
 
 // Output the factsheet.

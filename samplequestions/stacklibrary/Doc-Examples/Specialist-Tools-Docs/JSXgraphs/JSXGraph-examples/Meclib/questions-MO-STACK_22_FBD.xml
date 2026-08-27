@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+<!-- question: 105099  -->
+  <question type="stack">
+    <name>
+      <text>STACK 22 FBD</text>
+    </name>
+    <questiontext format="markdown">
+      <text><![CDATA[[[lang code="de"]]
+**STACK 22 FBD: Interaktiver Freischnitt**  
+
+Schneiden Sie den Balken frei. Ersetzen Sie die Lager durch Reaktionen und ersetzen Sie die Streckenlast durch eine resultierende Kraft.  
+
+Gegeben: Gitterweite \\(a\\), Streckenlast \\(q_0\\).
+[[/lang]]
+[[lang code="other"]]
+**STACK 22 FBD: Interactive Free Body Diagrams**
+
+Create a free body diagram of the given structure. Replace the supports by appropriate reactions and replace the line load by a resultant force.
+
+Given: Grid spacing \\(a\\), line load \\(q_0\\).
+[[/lang]]
+
+
+<p hidden>[[input:objects]] [[validation:objects]]</p>
+<p hidden>[[input:names]] [[validation:names]] </p>
+
+<details><summary><strong>Bedienungshinweise</strong></summary>
+
+- Objekte (de-)aktivieren: Doppelklick
+- Kraft/Moment 
+  - erzeugen: Name (oder Ausdruck für Wert) eintragen und grauen Pfeil auf die Skizze ziehen
+  - löschen: Doppelklicken
+  - Name ändern: Löschen und neu erzeugen. Sorry, etwas unbequem :(
+  - Position und Richtung ändern: Rote Kontrollpunkte ziehen
+- Resultierende von Streckenlasten: Mindestens ein Kontrollpunkt muss auf der Streckenlast liegen
+- Reaktionskräfte: Anfangs- oder Endpunkt müssen auf dem Lagerpunkt liegen
+- Reaktionsmomente: Mittelpunkt muss auf dem Lager liegen
+
+</details>
+[[jsxgraph width='500px' height='400px' input-ref-objects="stateRef" input-ref-names="fbd_names" ]]
+var mode  = "STACK";
+const initstring = {#init#};
+const centeredLabelStyle = {size:0, showInfobox:false, label:{offset:[-6,0], 
+  anchorX:'left', anchorY:'middle'}};
+// End of STACK header
+
+[[include src="https://raw.githubusercontent.com/mkraska/meclib/main/meclib.js" /]]
+
+[[/jsxgraph]]
+
+
+
+[[feedback:FB_A]]
+
+[[feedback:FB_B]]
+
+[[feedback:FB_q]]]]></text>
+    </questiontext>
+    <generalfeedback format="markdown">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber>STACK 22 FBD</idnumber>
+    <stackversion>
+      <text>2022082900</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[/* iMecLib objects */ 
+pA: [0,0]; pB: [3,0]; pC: [5, -1]; 
+
+initdata: [ 
+  [ "grid", "", "", -1.5, 6.5, -2.5, 4, 40],
+  [ "forceGen", "F_1", [-0.5,3.5]],
+  [ "momentGen", "M_1", [1.5,3.5]],  
+  [ "beam", "", pA, pB, 0.15],
+  [ "bar", "", pB, pC, "show" ],
+  [ "fix12", "A", pA, 0, "show" ],
+  [ "fix12", "C", pC, 0, "show" ],
+  [ "label", "\\(B\\)", pB+[-0.2,-0.5] ],
+  [ "q", "", "q_0", pA+[0,0.3], pB+[0,0.3], 0.7,0.7,0, "show"]
+];
+init: stackjson_stringify(float(initdata));
+
+i_B: 5; i_A: 6; i_q: 9;
+
+tansdata: [
+["grid","","",-1.5,6.5,-2.5,4,40],["forceGen","F_1",[-0.5,3.5]],["momentGen","M_1",[1.5,3.5]],["beam","",[0,0],[3,0],0.15,"locked"],["bar","",[3,0],[5,-1],"hide"],["fix12","A",[0,0],0,"hide"],["fix12","C",[5,-1],0,"show"],["label","\\(B\\)",[2.8,-0.5]],["q","","q_0",[0,0.3],[3,0.3],0.7,0.7,0,"hide"],["force","3 q_0 a",[1.5,1.6],[1.5,0.6000000000000001],10,"active"],["force","A_v",[0,0],[0,1.5],10,"active"],["force","A_h",[0,0],[1,0],10,"active"],["force","B",[3.000000000000001,-2.2204460492503136e-16],[4.000000000000002,-0.5000000000000006],10,"active"]
+];
+tans: stackjson_stringify(float(tansdata));
+
+stack_include("https://raw.githubusercontent.com/mkraska/meclib/main/Maxima/fb_value.mac");
+
+stack_include("https://raw.githubusercontent.com/mkraska/meclib/main/Maxima/fb_fbd.mac");
+
+
+]]></text>
+    </questionvariables>
+    <specificfeedback format="markdown">
+      <text></text>
+    </specificfeedback>
+    <questionnote>
+      <text></text>
+    </questionnote>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="markdown">
+      <text></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="markdown">
+      <text></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="markdown">
+      <text></text>
+    </prtincorrect>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>names</name>
+      <type>algebraic</type>
+      <tans>[]</tans>
+      <boxsize>40</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>objects</name>
+      <type>string</type>
+      <tans>tans</tans>
+      <boxsize>40</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>FB_A</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text><![CDATA[obj: stackjson_parse(objects);
+[text, isOK]: fb_fix12(obj, names, i_A, "Lagerung bei A: ");
+[ntext, nOK]: fb_fix12_name(obj, names, i_A);]]></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>isOK</sans>
+        <tans>true</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>FB_A-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@text@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>FB_A-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>{@text@}</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>nOK</sans>
+        <tans>true</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>FB_A-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@ntext@}</text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.5</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>FB_A-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>{@ntext@}</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>FB_B</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text><![CDATA[obj: stackjson_parse(objects);
+[text, isOK]: fb_unidir(obj, names, i_B, "Lagerung bei B: ");]]></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>isOK</sans>
+        <tans>true</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>FB_B-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@text@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>FB_B-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>{@text@}</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>FB_q</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text><![CDATA[obj: stackjson_parse(objects);
+[text, isOK]: fb_q(obj, names, i_q, "Streckenlast: ", q_0, q_0, a);]]></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>isOK</sans>
+        <tans>true</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>FB_q-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@text@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>FB_q-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>{@text@}</text>
+        </falsefeedback>
+      </node>
+    </prt>
+  </question>
+
+</quiz>

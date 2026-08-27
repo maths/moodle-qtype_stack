@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>23.6.1.1 Complex exponential form of a Fourier series</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Complex exponential form of a Fourier series</h4>
+
+So far we have discussed the <b>trigonometric</b> form of a Fourier series i.e. we have represented functions
+of period \(T\) in the terms of sinusoids, and possibly a constant term, using
+\[ f(t) = \dfrac{a_0}{2} + \sum _{n=1}^\infty \left\{ a_n \cos \left( \dfrac{2n\pi t}{T} \right) + b_n \sin \left( \dfrac{2n\pi t}{T} \right) \right\} \]
+If we use the angular frequency \( \omega = \dfrac{2\pi}{T}\) we obtain the more concise form
+\[ f(t) = \dfrac{a_0}{2} + \sum _{n=1}^\infty \left( a_n \cos  n\omega_0 t + b_n \sin n\omega_0 t \right) \]
+We have seen that the Fourier coefficients are calculated using the following integrals:
+\[ a_n = \dfrac{2}{T} \int_{-\frac{T}{2}}^{\frac{T}{2}} f(t) \cos n\omega_0 t \hspace{0.1cm} dt \hspace{1cm} n = 0, 1, 2, \dots \]
+\[ b_n = \dfrac{2}{T} \int_{-\frac{T}{2}}^{\frac{T}{2}} f(t) \sin n\omega_0 t \hspace{0.1cm} dt \hspace{1cm} n = 1, 2, \dots \]
+An alternative, more concise form, of a Fourier series is available using <b>complex quantities</b>. This
+form is quite widely used by engineers, for example in Circuit Theory and Control Theory, and leads
+naturally into the Fourier Transform.]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

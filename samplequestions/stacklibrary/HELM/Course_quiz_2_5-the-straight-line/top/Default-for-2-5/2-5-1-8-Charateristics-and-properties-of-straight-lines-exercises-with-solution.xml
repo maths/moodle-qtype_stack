@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>2.5.1.8 Charateristics and properties of straight lines: exercises with solution</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<hr>
+<h4 class="HELM_example">Exercises</h4>
+<ol><li>State the general form of the equation of a straight line explaining the role of each of the terms in your answer.</li>
+<li>State which of the following functions will are straight lines: <br></li>
+<br>
+<ol class="HELM_parts_inline">
+<li>\(f(x)=3x-3\),</li>
+<li>\(f(x)=(x)^(1/2)\),</li>
+<li>\(f(x)=1/x\),</li>
+<li>\(f(x)=13\),</li>
+<li>\(f(x)=-2-x\).</li>
+</ol>
+<br><br>
+<li>Identify the gradient and the vertical intercept of the following ines: <br></li>
+<br>
+<ol class="HELM_parts_inline">
+<li>\(f(x)=2x+1\),</li>
+<li>\(f(x)=3)\),</li>
+<li>\(f(x)=-2x\),</li>
+<li>\(f(x)=-7-17x\),</li>
+<li>\(f(x)=mx+c\).</li>
+</ol>
+</ol>
+<br>
+<br>
+<h4 class="HELM_solution">Solution</h4>
+<ol>
+<li>The general expression of a straight line is \(y=ax+b\), where \(x\) is is the independent variable, \(y\) is the dependent variable, \(a\) is the gradient and \(b\) is the vertical intercept. <br></li>
+<li>Equations (a), (d) and (e) are examples of straight lines.<br></li>
+
+<li>Let introduce the pair (gradient, vertical intercept). Then, the solution is given by
+<br> <br>
+<ol class="HELM_parts_inline">
+<li>\((2, 1)\),</li>
+<li>\((0, 3)\),</li>
+<li>\((-2, 0)\),</li>
+<li>\((-7, -17)\),</li>
+<li>\((c, m)\).</li>
+</ol>
+<br></li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

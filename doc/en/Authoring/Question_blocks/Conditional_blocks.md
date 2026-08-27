@@ -60,9 +60,7 @@ the lists or set be shorter/smaller the iteration will stop when the first one e
 
     [[ foreach x="[1,2,3]" y="makelist(x^2,x,4)" ]] ({#x#},{#y#}) [[/ foreach ]]
 
-Because the foreach block needs to evaluate the lists/sets before it can do the iteration, using foreach blocks will require one
-additional CAS evaluation for each nested level of foreach blocks. This has not applied since 4.4. no additional cost is related
-to this block and it is recommended that any repetition that can be removed is removed using this block.
+Because the foreach block needs to evaluate the lists/sets before it can do the iteration, using foreach blocks will require one additional CAS evaluation for each nested level of foreach blocks. This has not applied since 4.4. no additional cost is related to this block and it is recommended that any repetition that can be removed is removed using this block.
 
 ## Define block {#define-block}
 
@@ -78,3 +76,25 @@ Note, the use of define provides an alternative to using the question variables.
 
 1. the readability of the code will suffer.
 2. question variables are available elsewhere in the question, but `define` blocks are only available in that CASText.  This feature can also be used to your advantage.
+
+## Implode/simplode
+
+If we want to display a sum with an unknown number of terms, functions like "implode" (`simplode` in Maxima) are essential. E.g. `simplode(["a", "b", "c"], " + ")` gives '"a + b + c"' on the Maxima command line.
+
+The foreach block can be combined with a define block to create an "implode".
+
+Let `L1:[a,b,c]` be the terms you want to add, then
+
+````
+\[
+[[define _first='true'/]]
+[[foreach ex='L1']]
+[[if test='not _first']] + [[else]][[define _first='false'/]][[/if]]
+{@ex@}
+[[/foreach]]
+\]
+````
+
+The term `{@ex@}` can, of course, be replaced by more complex expressions where we don't simply have a list of terms to add together.
+
+Note, that this approach is working at the level of _display_.  If you have unary minus in play, e.g. `L1:[a,-b,c]` then you will end up with output like `\[ {a} + {-b} + {c} \]`.  To process unary minus you should construct a mathematical object without simplification and let STACK's display routines decide when `a+(-b)` should be displayed as `a-b`.

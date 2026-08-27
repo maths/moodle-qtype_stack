@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+<!-- question: 52  -->
+  <question type="stack">
+    <name>
+      <text>QA 04a fb_q unit test part 1</text>
+    </name>
+    <questiontext format="markdown">
+      <text><![CDATA[**QA 04a**
+
+This is a unit test question for the function [`fb_q`](https://github.com/mkraska/meclib/wiki/Feedback-for-line-loads). 
+
+<p hidden>[[input:objects]] [[validation:objects]]</p>
+<p>[[input:names]] [[validation:names]] </p>
+
+[[jsxgraph width='500px' height='400px' input-ref-objects="stateRef" input-ref-names="fbd_names" ]]
+var mode  = "STACK";
+const initstring = {#init#};
+const centeredLabelStyle = {size:0, showInfobox:false, label:{offset:[-6,0], 
+  anchorX:'left', anchorY:'middle'}};
+// End of STACK header
+
+[[include src="https://raw.githubusercontent.com/mkraska/meclib/main/meclib.js" /]]
+[[/jsxgraph]]</p>
+
+**Debug messages**
+
+`fb_q(obj, names, 2, "2: ", q_0, q_0, a)` 
+
+[[feedback:T02]]
+
+**Correct resultants**
+
+`fb_q(obj, names, iAB, "AB: ", q_0, q_0, a)` 
+
+[[feedback:qAB]]
+
+`fb_q(obj, names, iBC, "BC: ", q_0, 2*q_0, a)` 
+
+
+[[feedback:qBC]]
+
+`fb_q(obj, names, iCD, "CD: ", 2*q_0, 0, a)` 
+
+[[feedback:qCD]]
+
+**Feedback on errors**
+
+`fb_q(obj, names, iDE, "DE: ", q_0, q_0, a)` Not deactivated
+
+[[feedback:DE]]]]></text>
+    </questiontext>
+    <generalfeedback format="markdown">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+    <stackversion>
+      <text>2023010400</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[/* iMecLib objects */
+pA: [0,0]; pB: [2,0]; pC: [5, 0]; pD: [6.5,0]; pE: [7.5,0]; pF: [8.5,0]; pG: [9.5,0];
+pH: [0,-2]; pI: [1,-2]; pJ: [2,-2]; pK: [3,-2];
+
+initdata: [ 
+  [ "grid", "", "", -1, 10.5, -2.5, 3, 50],
+  [ "beam", "", pA, pG, 0.15 ],
+  [ "point", "A", pA, 0 ],
+  [ "point", "B", pB ],
+  [ "point", "C", pC, 0 ],
+  [ "point", "D", pD ],
+  [ "q", "", "q_0", pA+[0,0.3], pB+[0,0.3], 0.7,0.7,0, "hide" ],
+  [ "q", "", "", pB+[0,0.3], pC+[0,0.3], 0.7,1.4, 0, "hide" ],
+  [ "q", "2 q_0", "", pC+[0,0.3], pD+[0,0.3], 1.4, 0, 0, "hide" ],
+  [ "force", "2 q_0 a", pA+[1,1.5],  pA+[1,0.5], 1, "active" ],
+  [ "force", "3/2 q_0 a", pB+[1,1.5],  pB+[1,0.5], 1, "active" ],
+  [ "force", "3 q_0 a", pB+[2,1.5],  pB+[2,0.5], 1, "active" ],
+  [ "force", "3/2 q_0 a", pC+[0.5,1.5],  pC+[0.5,0.5], 1, "active" ],
+  [ "q", "q_0", "", pD+[0,0.3], pE+[0,0.3], 0.7, 0.7, 0, "show" ],
+  [ "point", "E", pE ],
+  [ "q", "q_0", "", pE+[0,0.3], pF+[0,0.3], 0.7, 0.7, 0, "hide" ],
+  [ "point", "F", pF ],
+  [ "q", "q_0", "", pF+[0,0.3], pG+[0,0.3], 0.7, 0.7, 0, "hide" ],
+  [ "point", "G", pG ],
+  [ "moment", "M", pF+[0.5, 0.5], pF+[1,1.5], pF+[0, 1.5], "active"],
+  [ "beam", "", pH, pK, 0.15 ],
+  [ "point", "H", pH ],
+  [ "point", "I", pI ],
+  [ "q", "q_0", "", pH+[0,0.3], pI+[0,0.3], 0.7, 0.7, 0, "hide" ],
+  [ "force", "q_0 a", pH+[0,1.5],  pH+[0.5,0.5], 1, "active" ],
+  [ "point", "J", pJ ],
+  [ "q", "q_0", "", pI+[0,0.3], pJ+[0,0.3], 0.7, 0.7, 0, "hide" ],
+  [ "force", "R", pI+[0.5,1.5],  pI+[0.5,0.5], 1, "active" ],
+  [ "point", "K", pK ],
+  [ "q", "q_0", "", pJ+[0,0.3], pK+[0,0.3], 0.7, 0.7, 0, "hide" ],
+  [ "force", "2 q_0 a", pJ+[0.5,1.5],  pJ+[0.5,0.5], 1, "active" ]
+];
+init: stackjson_stringify(float(initdata));init: stackjson_stringify(float(initdata));
+
+iAB: 7; iBC: 8; iCD: 9; iDE: 14; iEF: 16; iFG: 18; iHI: 24; iIJ: 27; iJK: 30;
+
+tnames: [0,"locked","A","B","C","D",[10],[11,12],[13],2*q_0*a,3/2*q_0*a,3*q_0*a,3/2*q_0*a,"show","E","hide","F",[20],"G",M,"locked","H","I",[25],q_0*a,"J",[28],R,"K","hide",2*q_0*a];
+
+stack_include("https://raw.githubusercontent.com/mkraska/meclib/main/Maxima/fb_value.mac");
+stack_include("https://raw.githubusercontent.com/mkraska/meclib/main/Maxima/fb_fbd.mac");
+]]></text>
+    </questionvariables>
+    <specificfeedback format="markdown">
+      <text></text>
+    </specificfeedback>
+    <questionnote>
+      <text></text>
+    </questionnote>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="markdown">
+      <text></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="markdown">
+      <text></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="markdown">
+      <text></text>
+    </prtincorrect>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>names</name>
+      <type>algebraic</type>
+      <tans>[]</tans>
+      <boxsize>40</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords>v</allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>objects</name>
+      <type>string</type>
+      <tans>tans_objects</tans>
+      <boxsize>40</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>DE</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text><![CDATA[obj: stackjson_parse(objects);
+[str, isOK]: fb_q(obj, names, iDE, "DE: ", q_0, q_0, a);
+E: "DE: ist nicht deaktiviert.";]]></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>String</answertest>
+        <sans>str</sans>
+        <tans>E</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>DE-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@str@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>DE-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<br>
+R: {#string_to_octets(str)#}<br>
+E: {#string_to_octets(E)#}<br>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>qAB</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text><![CDATA[obj: stackjson_parse(objects);
+[str, isOK]: fb_q(obj, names, iAB, "AB: ", q_0, q_0, a);
+E: "AB: Resultierende OK";]]></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>str</sans>
+        <tans>E</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>qAB-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@str@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>qAB-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<br>
+R: {#str#}<br>
+E: {#E#}<br>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>qBC</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text><![CDATA[obj: stackjson_parse(objects);
+[str, isOK]: fb_q(obj, names, iBC, "BC: ", q_0, 2*q_0, a);
+E: "BC: Resultierende OK";]]></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>str</sans>
+        <tans>E</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Streckenlast-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@str@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Streckenlast-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<br>
+R: {#str#}<br>
+E: {#E#}<br>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>qCD</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text><![CDATA[obj: stackjson_parse(objects);
+[str, isOK]: fb_q(obj, names, iCD, "CD: ", 2*q_0, 0, a);
+E: "CD: Resultierende OK";]]></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>str</sans>
+        <tans>E</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>qCD-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@str@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>qCD-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<br>
+R: {#str#}<br>
+E: {#E#}<br>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>T02</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text><![CDATA[obj: stackjson_parse(objects);
+[str, isOK]: fb_q(obj, names, 2, "2: ", q_0, q_0, a);
+E: "2: object 2 (beam) is not a line load.";]]></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>str</sans>
+        <tans>E</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>T02-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@str@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>T02-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<br>
+R: {#str#}<br>
+E: {#E#}<br>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <testinput>
+        <name>names</name>
+        <value>tnames</value>
+      </testinput>
+      <testinput>
+        <name>objects</name>
+        <value>initdata</value>
+      </testinput>
+      <expected>
+        <name>qAB</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>qAB-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>qBC</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Streckenlast-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>qCD</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>qCD-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>T02</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>T02-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+
+</quiz>

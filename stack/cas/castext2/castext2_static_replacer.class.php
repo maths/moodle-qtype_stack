@@ -94,12 +94,15 @@ class castext2_static_replacer {
         $ast = maxima_parser_utils::parse($in);
 
         $map = $this->map;
-        $collector = function($node) use(&$map) {
+        $collector = function ($node) use (&$map) {
             // Yes that array_search = false case is something but it does not apply here.
-            if ($node instanceof MP_String && $node->parentnode instanceof MP_List &&
-                    array_search($node, $node->parentnode->items) > 0 && mb_strlen($node->value) > 10) {
+            if (
+                $node instanceof MP_String && $node->parentnode instanceof MP_List &&
+                    array_search($node, $node->parentnode->items) > 0 && mb_strlen($node->value) > 10
+            ) {
                 // Ensure that the list is a CASText2 thing.
-                if ($node->parentnode->items[0] instanceof MP_String && (
+                if (
+                    $node->parentnode->items[0] instanceof MP_String && (
                     $node->parentnode->items[0]->value === '%root' ||
                     $node->parentnode->items[0]->value === '%cs' ||
                     $node->parentnode->items[0]->value === 'p h' ||
@@ -110,15 +113,19 @@ class castext2_static_replacer {
                     ||
                     ($node->parentnode->items[0]->value === 'geogebra' &&
                             array_search($node, $node->parentnode->items) > 1)
-                    )) {
-                    // Do we already have this string value?
-                    $key = array_search($node->value, $map);
-                    if ($key === false) {
-                        $k = count($map);
-                        $key = "//CT2S$k//"; // Assume that this is never present in normal content.
-                        $map[$key] = $node->value;
+                    )
+                ) {
+                    // Are we sure we are not targetting something already replaced?
+                    if (mb_strpos($node->value, '//CT2S') === false) {
+                        // Do we already have this string value?
+                        $key = array_search($node->value, $map);
+                        if ($key === false) {
+                            $k = count($map);
+                            $key = "//CT2S$k//"; // Assume that this is never present in normal content.
+                            $map[$key] = $node->value;
+                        }
+                        $node->value = $key;
                     }
-                    $node->value = $key;
                 }
             }
             return true;
@@ -132,6 +139,11 @@ class castext2_static_replacer {
      * Adds a string to the map and returns the replacement placeholder.
      */
     public function add_to_map(string $value): string {
+        if (mb_strpos($value, '//CT2S') !== false) {
+            // Do not replace if already contains a marker.
+            return $value;
+        }
+
         $key = array_search($value, $this->map);
         if ($key === false) {
             $k = count($this->map);

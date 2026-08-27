@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>10.4.2.2 Root finding</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4 class="HELM_example">Example</h4>
+<p>Find all the values of \(8^{1/3}\).</p>
+<h4 class="HELM_solution">Solution</h4>
+<h5>Using polar form</h5>
+<p>Solving <span class="math inline">\({z=8^{1/3}}\)</span> for <span class="math inline">\(z\)</span> is equivalent to solving the cubic equation <span class="math inline">\(z^3-8=0\)</span>. We expect that there are three possible values of <span class="math inline">\(z\)</span>    satisfying this cubic equation. Thus, rearranging:
+    <span class="math inline">\(z^3=8\)</span>. Now write the right-hand side as a complex number in polar form:&nbsp;<span class="math inline">\[\qquad
+z^3=8(\cos 0+i\sin 0)\]</span>(i.e. <span class="math inline">\(r=|8|=8\)</span> and arg(<span class="math inline">8)=0). H</span>owever, if we now generalise our expression for the argument by adding an arbitrary integer multiple of <span class="math inline">\(2\pi\)</span>,
+    we obtain the modified expression: \[z^3=8(\cos(2k\pi)+i\sin(2k\pi))\qquad k=0,\pm1,\pm2,\ldots\] Now take the cube root of both sides: <span class="math display">\[\begin{aligned}
+z&amp;=\root 3\of{8}(\cos (2k\pi )+i\sin (2k\pi ))^{1/3}\\
+&amp;=\root 3\of{8}\left(\cos\left(2k\pi\over 3\right)+i\sin\left(2k\pi\over 3\right)\right), \end{aligned}\]</span>&nbsp;</p>
+<p>by applying De Moivre's theorem.<br></p>
+<p>Now in this expression
+    <span class="math inline">\(k\)</span> can take any integer value including zero. The normal procedure is to take three consecutive values of
+    <span class="math inline">\(k\)</span> (say <span class="math inline">\(k=0,1,2\)</span>). Any other value of <span class="math inline">\(k\)</span> chosen will lead to a root (a value of <span class="math inline">\(z\)</span>) which repeats one of
+    the three already determined.
+    <span class="math display">\[\begin{aligned}
+\text{So if}\qquad k&amp;=0\qquad z_0=2(\cos 0+i\sin 0)=2\\k&amp;=1\qquad
+z_1=2\left(\cos {2\pi \over 3}+i\sin {2\pi\over 3}\right)=-1+i\sqrt{3}\\
+k&amp;=2\qquad z_2=2\left(\cos {4\pi \over 3}+i\sin {4\pi\over
+3}\right)=-1-i\sqrt{3}\end{aligned}\]</span> These are the three (complex) values of
+    <span class="math inline">\(8^{1/3}\)</span>. The reader should verify, by direct multiplication, that <span class="math inline">\((-1+i\sqrt{3})^3=8\)</span> and that <span class="math inline">\((-1-i\sqrt{3})^3=8\)</span>.</p>
+<p>The reader may have noticed within this Example a subtle change in notation. When, for example, we write <span class="math inline">\(8^{1/3}\)</span> then we are expecting <span><strong>three</strong></span> possible values, as calculated above. However,
+    when we write <span class="math inline">\(\root 3\of {8}\)</span> then we are only expecting
+    <span><strong>one</strong></span> value: that delivered by your calculator.</p>
+<p>Note the two complex roots are complex conjugates (since <span class="math inline">\(z^3-8=0\)</span> is a polynomial equation with real coefficients).</p>
+<hr>
+<h5>Using exponential form</h5>
+<p>Precisely the same calculation can be carried through using the exponential form of a complex number. We take this opportunity to repeat this previous calculation but working exclusively in exponential form.</p>
+<p>Thus \[\begin{aligned} z^3 &amp;=8 \\ &amp;=8e^{i (0)}\qquad\text{(i.e. } r=|8|=8\quad \text{and}\quad \text{arg}(8)=0) \\ &amp;=8e^{i (2k\pi )}\qquad k=0,\pm1,\pm2,\ldots\end{aligned}\] therefore taking cube roots \[\begin{aligned} z&amp;=\root 3\of{8}\left[e^{i
+    (2k\pi )}\right]^{1/3} \\ &amp;=\root 3\of{8}e^{i 2k\pi/3} \end{aligned}\]</p>
+<p>using De Moivre's theorem.<br></p>
+<p>Again \(k\) can take any integer value or zero. Any three consecutive values will give the roots. \[\begin{aligned} \text{So if}\qquad k&amp;=0\qquad z_0=2e^{i 0}=2 \\ k&amp;=1\qquad z_1=2e^{i 2\pi/3}=-1+i\sqrt{3}\\ k&amp;=2\qquad z_2=2e^{i 4\pi/3}=-1-i\sqrt{3}\end{aligned}\]These
+    are the three (complex) values of <span class="math inline">\(8^{1/3}\)</span> obtained using the exponential form. Of course at the end of the calculation we have converted back to standard Cartesian form.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

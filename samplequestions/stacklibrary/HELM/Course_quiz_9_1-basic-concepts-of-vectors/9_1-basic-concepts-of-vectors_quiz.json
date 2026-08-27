@@ -1,0 +1,174 @@
+{
+    "quiz": {
+        "name": "9_1 Basic concepts of vectors",
+        "intro": "<p>In science and engineering, frequent reference is made to physical quantities, such as force, speed and time. For example, we talk of the speed of a car, and the force in a compressed spring. It is useful to separate these physical quantities into two types. Quantities of the first type are known as <b>scalars<\/b>. These can be fully described by a single number known as the <b>magnitude<\/b>.&nbsp;<\/p><p>Quantities of the second type are those which require the specification of a <b>direction<\/b>, in addition to a magnitude, before they are completely described. These are known as <b>vectors<\/b>. We can perform calculations with vectors which build upon the familiar calculations with scalars, this includes subjects such as vector algebra, vector geometry and vector calculus.&nbsp;<\/p><p>Quantities that are vectors must be manipulated according to certain rules, which are described in this quiz. Each has a natural interpretation.<\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Introduction to vectors",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "3",
+            "heading": "The mathematical description of vectors",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "4",
+            "heading": "Addition of vectors",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "5",
+            "heading": "Resolving components of vectors",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "8",
+            "heading": "Example: force vectors on an aeroplane",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "9",
+            "heading": "Subtraction of vectors",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "12",
+            "heading": "Multiplying vectors by scalars",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "14",
+            "heading": "Unit vectors",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-9-1\/9-1-1-Introduction.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-9-1\/9-1-1-2-Scalar-or-vector-quantity.xml"
+        },
+        {
+            "slot": "3",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-9-1\/9-1-2-1-The-mathematical-description-of-vector-quantities.xml"
+        },
+        {
+            "slot": "4",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-9-1\/9-1-3-1-Addition-of-vectors.xml"
+        },
+        {
+            "slot": "5",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-9-1\/9-1-3-2-Resolving-Components-of-Vectors.xml"
+        },
+        {
+            "slot": "6",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-9-1\/9-1-3-3-Resolving-the-components-of-a-vector.xml"
+        },
+        {
+            "slot": "7",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-9-1\/9-1-3-4-Resolving-vectors-applications.xml"
+        },
+        {
+            "slot": "8",
+            "page": "6",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-9-1\/9-1-3-5-The-force-vectors-on-an-aeroplane.xml"
+        },
+        {
+            "slot": "9",
+            "page": "7",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-9-1\/9-1-4-1-Subtraction-of-vectors.xml"
+        },
+        {
+            "slot": "10",
+            "page": "7",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-9-1\/9-1-4-2-Diagonals-of-a-rectangle.xml"
+        },
+        {
+            "slot": "11",
+            "page": "7",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-9-1\/9-1-4-3-Resultant-vectors.xml"
+        },
+        {
+            "slot": "12",
+            "page": "8",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-9-1\/9-1-5-1-Multiplying-vectors-by-scalars.xml"
+        },
+        {
+            "slot": "13",
+            "page": "8",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-9-1\/9-1-5-2-Multiplying-vectors-by-scalars-and-simplfying.xml"
+        },
+        {
+            "slot": "14",
+            "page": "9",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-9-1\/9-1-5-3-Unit-Vectors.xml"
+        },
+        {
+            "slot": "15",
+            "page": "9",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-9-1\/9-1-5-4-Adding-vectors-in-triangles.xml"
+        },
+        {
+            "slot": "16",
+            "page": "9",
+            "requireprevious": 0,
+            "maxmark": "2.0000000",
+            "quizfilepath": "\/top\/Default-for-9-1\/9-1-5-5-Hexagon-adding-vectors.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

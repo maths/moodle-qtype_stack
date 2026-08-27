@@ -27,15 +27,19 @@ require_once(__DIR__ . '/../cas/cassession2.class.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_answertest_general_cas_preprepare extends stack_answertest_general_cas {
-
     /**
      * Add description here
      * @param  string $sans
      * @param  string $tans
      * @param  string $casoption
      */
-    public function __construct(stack_ast_container $sans, stack_ast_container $tans, string $atname,
-            $atoption = null, $options = null) {
+    public function __construct(
+        stack_ast_container $sans,
+        stack_ast_container $tans,
+        string $atname,
+        $atoption = null,
+        $options = null
+    ) {
 
         if ($sans->get_valid()) {
             $sa = $sans->get_inputform(true, 1);
@@ -51,7 +55,7 @@ class stack_answertest_general_cas_preprepare extends stack_answertest_general_c
             }
             $sans = stack_ast_container::make_from_teacher_source($sa, '', new stack_cas_security());
         } else {
-            $this->atansnote    = $this->casfunction.'TEST_FAILED:Invalid SA.';
+            $this->atansnote    = $this->casfunction . 'TEST_FAILED:Invalid SA.';
         }
         $ta = '';
         if ($tans->get_valid()) {
@@ -67,12 +71,12 @@ class stack_answertest_general_cas_preprepare extends stack_answertest_general_c
             }
             $tans = stack_ast_container::make_from_teacher_source($ta, '', new stack_cas_security());
         } else {
-            $this->atansnote    = $this->casfunction.'TEST_FAILED:Invalid TA.';
+            $this->atansnote    = $this->casfunction . 'TEST_FAILED:Invalid TA.';
         }
 
         parent::__construct($sans, $tans, $atname, $options, $atoption);
 
-        $this->casfunction       = 'AT'. $atname;
+        $this->casfunction       = 'AT' . $atname;
         $this->atname            = $atname;
         $this->simp              = stack_ans_test_controller::simp($atname);
     }

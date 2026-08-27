@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>10.3.2.3 Operations with the exponential form</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<br>
+<h4 class="HELM_example">Example</h4>
+<p>If \(z = re^{i\theta}\) and \(w = te^{i\phi}\) then find expressions for</p>
+<ol class="HELM_parts_inline">
+    <li>&nbsp;\(z^{-1}\)&nbsp;</li>
+    <li>&nbsp;\(z^*\)&nbsp;</li>
+    <li>&nbsp;\(zw\)</li>
+</ol>
+<h4 class="HELM_solution">Solution</h4>
+<ol class="HELM_parts">
+    <li>If \(z = re^{i\theta}\) then \[z^{-1} = \frac{1}{re^{i\theta}} = \frac{1}{r}e^{-i\theta}\] using the normal rules for indices.</li>
+    <li>Working in polar form: if \(z = re^{i\theta} = r(\cos\theta + i\sin\theta) \) then \[z^* = r(\cos\theta - i\sin\theta) = r(cos(-\theta) + i\sin(-\theta)) = re^{-i\theta}\] since \(\cos(-\theta) = \cos{\theta}\) and \(\sin(-\theta) = -\sin{\theta}\).
+        In fact this reflects the general rule: to find the complex conjugate of any expression simply replace the \(i\) by \(-i\) wherever it occurs in the expression.<br></li>
+    <li>\( zw = (re^{i\theta})(te^{i\phi}) = rte^{i\theta}e^{i\phi} = rte^{i\theta + i\phi} = rte^{i(\theta + \phi)} \)&nbsp;which is again the result we are familiar with: when complex numbers are multiplied their moduli multiply and their arguments add.</li>
+</ol>
+<hr>
+<p> We see that in some circumstances the exponential form is even more convenient than the polar form since we need not worry about cumbersome trigonometric relations. </p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>8.3.1.3 Triangular linear system</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h5>The triangular system</h5>
+
+<p>The next easiest system of equations to solve is of the following kind: <span class="math display">\[\begin{matrix}
+    3x_1 &amp; + &amp; x_2 &amp; - &amp; x_3 &amp; = &amp; 0 \\
+    &amp; &amp; 2x_2 &amp; + &amp; x_3 &amp; = &amp; 12 \\
+    &amp; &amp; &amp; &amp; 3x_3 &amp; = &amp; 6 \\
+\end{matrix}\]</span> The last equation can be solved immediately to give <span class="math inline">\(x_3=2\)</span>.</p>
+<p>Substituting this value of <span class="math inline">\(x_3\)</span> into the second equation gives</p>
+<p><span class="math display">\[2x_2+2=12\qquad{\rm from\ which}\qquad 2x_2=10\qquad {\rm so\ that}\qquad x_2=5\]</span></p>
+<p>Substituting these values of <span class="math inline">\(x_2\)</span> and <span class="math inline">\(x_3\)</span> into the first equation gives</p>
+<p><span class="math display">\[3x_1+5-2=0\qquad {\rm from\ which}\qquad\ 3x_1=-3\qquad {\rm so\ that}\qquad x_1=-1\]</span> Hence the solution is <span class="math inline">\([x_1,x_2,x_3]^T=[-1,5,2]^T.\)</span></p>
+<p>This process of solution is called <span><strong>back-substitution</strong></span>.</p>
+<p>In matrix form the system of equations is</p>
+<p><span class="math display">\[\left[\begin{array}{rrr}3&amp;1&amp;-1\\ 0&amp;2&amp;1\\ 0&amp;0&amp;3\end{array}\right]\left[\begin{array}{c}x_1\\
+x_2\\ x_3\end{array}\right]=\left[\begin{array}{r}0\\ 12\\ 6\end{array}\right].\]</span></p>
+<p>The matrix of coefficients is said to be <span><strong>upper triangular</strong></span> because all elements below the leading diagonal are zero. Any system of equations in which the coefficient matrix is triangular (whether upper or lower) will be particularly easy to solve.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,9 +1,8 @@
 # Defining variables
 
-There are two fields which allow you to define and manipulate computer algebra system variables.
-These are called the Question Variables and Feedback variables.
+Only two fields allow you to define and manipulate computer algebra system (Maxima) variables the Question Variables and Feedback variables.
 
-The field is a string which contains a list of assignments of the form
+Individual assignments take the form
 
     key : value;
 
@@ -11,19 +10,13 @@ for example
 
     p : (x-1)^3;
 
-Each `key` is the name of a variable local to the question, and `value` is an expression in [Maxima's](../CAS/Maxima_background.md) language.
-When evaluated, this list is passed to the CAS, and evaluated in order. The value obtained for each key will be stored and used later, for example in the question marking routines.
-The keys need not be unique, although only the last value will be available for use later.
+Each `key` is the name of a variable local to the question, or a function name.  The `value` is an expression in [Maxima's](../CAS/Maxima_background.md) language.  This list is passed to the CAS, and evaluated in order. The value obtained for each key will be stored and used later, for example in the question marking routines. The keys need not be unique, although only the last value will be available for use later.
 
 These fields are known as _KeyVal_ fields.
 
 ## Maxima's assignments `a:3` ##
 
-Computer algebra systems each use a different syntax to denote the assignment of a value to a variable.
-For example, Maple and Derive use `:=`. Mathematica uses `=` or `:=`, depending on when the assignment is to take place.
-Maxima uses the form `key:value`, which is unusual and not intuitive.
-Maxima reserves `:=` to denote function definition, e.g. `f(x):=x^2`.
-STACK uses Maxima's assignment rules.
+Maxima, and hence STACK, uses the form `key:value`, to assign a value to a variable, which unusual and not intuitive.  Maxima reserves `:=` to denote function definition, e.g. `f(x):=x^2`.
 
 ## Notes ##
 
@@ -88,7 +81,7 @@ As a more complicated example, to typeset `u(A_k,k,1,inf)` as \({\bigcup_{k = 1}
     texput(u,lambda([ex],if length(ex)<4 then return("\\bigcup_{?=?}^{?} ? ") else
         sconcat("\\bigcup_{" ,tex1(second(ex)), " = ", tex1(third(ex)), "}^{", tex1(fourth(ex)), "} ", tex1(first(ex)))));
 
-Notice in this example how we check the length of the arguments supplied to the (inert) function `u`.  If there are fewer than the required number of arguments then this texput function returns something sensible.  Without this clause you get errors, which would be unhelpful to a student trying to type this in.
+Notice in this example how we check the length of the arguments supplied to the (inert) function `u`.  If there are fewer than the required number of arguments then this `texput` function returns something sensible.  Without this clause you get errors, which would be unhelpful to a student trying to type this in.
 
 Another example is to have the function `foo` displayed as traditional fractions.
 

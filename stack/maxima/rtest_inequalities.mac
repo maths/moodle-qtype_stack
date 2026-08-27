@@ -94,11 +94,11 @@ x>x^2;
 rev_ineq(x);
 x;
 
-single_linear_ineq_reduce([x>1,x>1], [max,min])$
+single_linear_ineq_reduce([x>1,x>1], ["max","min"])$
 [x>1]$
 
 /* Empty interval: not sorted out by this function. */
-single_linear_ineq_reduce([x>1,x<-1], [max,min])$
+single_linear_ineq_reduce([x>1,x<-1], ["max","min"])$
 [x>1,-1>x]$
 
 ineqorder(x^2-1>=5)$

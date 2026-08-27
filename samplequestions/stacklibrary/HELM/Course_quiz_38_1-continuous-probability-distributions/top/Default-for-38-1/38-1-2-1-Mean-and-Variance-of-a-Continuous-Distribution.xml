@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>38.1.2.1 Mean and Variance of a Continuous Distribution</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h5>Mean and Variance of a Continuous Distribution</h5>
+<p>You will probably have realised by now that, essentially, the definitions of discrete and continuous
+random variables are virtually the same provided we use the analogues given in the following table:<br></p><p><br>
+</p><table style="text-align: center; width: 90%;">
+<caption></caption>
+<thead>
+<tr>
+<th scope="col">Quantity</th>
+<th scope="col">Discrete Variable</th>
+<th scope="col">Continuous Variable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Probability</td>
+<td>\(\text{P}(X=x)\)</td>
+<td>\(f(x) \; dx\)</td>
+</tr>
+<tr>
+<td>Allowed Values</td>
+<td>\(\text{P}(X =x) \geq 0 \)</td>
+<td>\(f(x) \geq 0\)</td>
+</tr>
+<tr>
+<td>Summation</td>
+<td>\(\displaystyle{\sum \text{P}(X=x)} \)</td>
+<td>\(\displaystyle{\int} f(x) \; dx\)</td>
+</tr>
+<tr>
+<td>Expectation</td>
+<td>\(\text{E}(X)= \displaystyle{\sum x\text{P}(X=x)}\)</td>
+<td>?</td>
+</tr>
+<tr>
+<td>Variance</td>
+<td>\(\text{V}(X) = \displaystyle{\sum(x-\text{E}(X))^2\text{P}(X=x)}\)</td>
+<td>?</td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: center;"><br></p><p>Completing the above table of analogues to write down the mean and variance of a continuous
+variable leads to the obvious definitions given in the following Key Point:</p>
+<div class="HELM_keypoint">
+<h4>Key Point&nbsp;</h4>
+<p>Let \(X\) be a continuous random variable with associated pdf \(f(x)\). Then its expectation and variance
+denoted by \(E[X]\) (or \(\mu\)) and \(V[X]\) (or \(\sigma^2\) ) respectively are given by: 
+\[\text{E}(X)=\displaystyle{\int}_{-\infty}^{\infty} x f(x) \; dx\] and 
+\[\text{V}(X) =\displaystyle{\int}_{-\infty}^{\infty} (x-\text{E}(X))^2 f(x) \; dx =&nbsp;\int_{-\infty}^{\infty} x^2f(x) \; dx -\text{E}(X)^2. \]</p></div><br>
+<p>As with discrete random variables the variance \(V[X]\) can be written in an alternative form, more
+amenable to calculation:\[\text{V}(X) = \text{E}(X^2)-\text{E}(X)^2\] where
+\[\text{E}(X^2)= \displaystyle{\int}_{-\infty}^{\infty} x^2f(x) \; dx.\]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

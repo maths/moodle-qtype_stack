@@ -1,0 +1,119 @@
+{
+    "quiz": {
+        "name": "17.3 Parametric Curves",
+        "intro": "In this Section we examine yet another way of defining curves - the parametric description. We shall see that this is, in some ways, far more useful than either the Cartesian description or the polar form. Although we shall only study planar curves (curves lying in a plane) the parametric description can be easily generalised to the description of spatial curves which twist and turn in three dimensional space.",
+        "introformat": "0",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Parametric Curves",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "5",
+            "heading": "General Parametric Form",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "6",
+            "heading": "Standard Forms of Conic Sections in Parametric Form",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "9",
+            "heading": "Exercises",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-17-3\/17-3-1-1-Parametric-Curves-Information.xml"
+        },
+        {
+            "slot": "3",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-17-3\/17-3-1-3-Parametric-Curves-Information.xml"
+        },
+        {
+            "slot": "5",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-17-3\/17-3-2-General-Parametric-Form.xml"
+        },
+        {
+            "slot": "6",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-17-3\/17-3-3-1-Parametric-Form-of-the-Parabola.xml"
+        },
+        {
+            "slot": "7",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-17-3\/17-3-3-2-Parametric-Form-of-the-Ellipse.xml"
+        },
+        {
+            "slot": "8",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-17-3\/17-3-3-3-Parametric-Form-of-the-Hyperbola.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-17-3\/17-3-1-2-Parametric-Curves-Task.xml"
+        },
+        {
+            "slot": "4",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-17-3\/17-3-1-4-Parametric-Curves-Task.xml"
+        },
+        {
+            "slot": "9",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-17-3\/17-3-3-4-Parametric-Curves-Exercise.xml"
+        },
+        {
+            "slot": "10",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-17-3\/17-3-3-5-Tangent-to-Parametric-Curve-Exercise.xml"
+        },
+        {
+            "slot": "11",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-17-3\/17-3-3-6-Parametric-Curves-Exercise.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

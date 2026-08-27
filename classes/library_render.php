@@ -77,7 +77,8 @@ class library_render extends \external_api {
                     'title' => new \external_value(PARAM_RAW, 'Iframe details'),
                     'scrolling' => new \external_value(PARAM_BOOL, 'Iframe details'),
                     'evil' => new \external_value(PARAM_BOOL, 'Iframe details'),
-                ])),
+                ])
+            ),
             'questionname' => new \external_value(PARAM_RAW, 'Question name'),
             'questiontext' => new \external_value(PARAM_RAW, 'Original question text'),
             'questionvariables' => new \external_value(PARAM_RAW, 'Question variable definitions'),
@@ -112,9 +113,22 @@ class library_render extends \external_api {
         $result = $cache->get($params['filepath']);
         $isquiz = (pathinfo($params['filepath'], PATHINFO_EXTENSION) === 'json'
                             && strrpos($params['filepath'], '_quiz.json') !== false) ? true : false;
+
+        if (str_starts_with($params['filepath'], 'sitelibrary/')) {
+            $requestedfile = $CFG->dataroot . '/stack/' . $params['filepath'];
+        } else {
+            $requestedfile = $CFG->dirroot . '/question/type/stack/samplequestions/' . $params['filepath'];
+        }
+        if (
+            !str_starts_with(realpath($requestedfile), "{$CFG->dataroot}/stack/sitelibrary") &&
+            !str_starts_with(realpath($requestedfile), "{$CFG->dirroot}/question/type/stack/samplequestions/")
+        ) {
+            throw new \Exception('Dubious file request.');
+        }
+
         if (!$result && !$isquiz) {
             // Get contents of file and run through API question loader to render.
-            $qcontents = file_get_contents($CFG->dirroot . '/question/type/stack/samplequestions/' . $params['filepath']);
+            $qcontents = file_get_contents($requestedfile);
             try {
                 $question = StackQuestionLoader::loadxml($qcontents)['question'];
                 $render = static::call_question_render($question);
@@ -163,7 +177,7 @@ class library_render extends \external_api {
             }
         }
         if (!$result && $isquiz) {
-            $quizcontents = file_get_contents($CFG->dirroot . '/question/type/stack/samplequestions/' . $params['filepath']);
+            $quizcontents = file_get_contents($requestedfile);
             $json = json_decode($quizcontents);
             $quiz = $json->quiz;
             $questions = $json->questions;

@@ -1,0 +1,163 @@
+{
+    "quiz": {
+        "name": "22_3 Repeated Eigenvalues and Symmetric Matrices",
+        "intro": "<p>We further develop the theory of eigenvalues and eigenvectors in two distinct directions. Firstly we look at matrices where one or more of the eigenvalues is <strong>repeated<\/strong>. We shall see that this sometimes (but not always) causes problems in the diagonalization process that was discussed previously. We shall then consider the special properties possessed by <strong>symmetric<\/strong> matrices which make them particularly easy to work with.<\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "17.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Matrices with repeated eigenvalues",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "5",
+            "heading": "Symmetric matrices",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "14",
+            "heading": "Diagonalization of symmetric matrices",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-22-3\/22-3-1-1-Matrices-with-repeated-eigenvalues.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "3.0000000",
+            "quizfilepath": "\/top\/Default-for-22-3\/22-3-1-2-Non-diagonalisable-3x3-task.xml"
+        },
+        {
+            "slot": "3",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "2.0000000",
+            "quizfilepath": "\/top\/Default-for-22-3\/22-3-1-3-Diagonalisable-3x3-task.xml"
+        },
+        {
+            "slot": "4",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-22-3\/22-3-1-4-Final-key-point.xml"
+        },
+        {
+            "slot": "5",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-22-3\/22-3-2-1-Symmetric-matrices.xml"
+        },
+        {
+            "slot": "6",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-22-3\/22-3-2-2-Pick-symmetric-matrices.xml"
+        },
+        {
+            "slot": "7",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-22-3\/22-3-2-3-About-complex-eigenvalues.xml"
+        },
+        {
+            "slot": "8",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-22-3\/22-3-2-4-Complex-conjugate-2x2-eigentask.xml"
+        },
+        {
+            "slot": "9",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-22-3\/22-3-2-5-Real-symmetric-matrices-have-real-eigenvalues.xml"
+        },
+        {
+            "slot": "10",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "3.0000000",
+            "quizfilepath": "\/top\/Default-for-22-3\/22-3-2-6-Symmetric-2x2-eigentask.xml"
+        },
+        {
+            "slot": "11",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-22-3\/22-3-2-7-Orthogonal-vectors.xml"
+        },
+        {
+            "slot": "12",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "3.0000000",
+            "quizfilepath": "\/top\/Default-for-22-3\/22-3-2-8-Eigvecs-of-3x3-symmetric-are-orthogonal.xml"
+        },
+        {
+            "slot": "13",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-22-3\/22-3-2-9-General-theory.xml"
+        },
+        {
+            "slot": "14",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-22-3\/22-3-2-10-Diagonalization-of-symmetric-matrices.xml"
+        },
+        {
+            "slot": "15",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "2.0000000",
+            "quizfilepath": "\/top\/Default-for-22-3\/22-3-2-11-Orthogonal-matrices.xml"
+        },
+        {
+            "slot": "16",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-22-3\/22-3-2-12-Symmetric-matrices-are-orthogonally-diagonalizable.xml"
+        },
+        {
+            "slot": "17",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "2.0000000",
+            "quizfilepath": "\/top\/Default-for-22-3\/22-3-2-13-3x3-Symmetric-Eigentask.xml"
+        },
+        {
+            "slot": "18",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-22-3\/22-3-2-14-Hermitian-matrices.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "18.00000"
+        }
+    ]
+}

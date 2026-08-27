@@ -30,7 +30,6 @@ require_once(__DIR__ . '/../block.factory.php');
  * Block for turning CASText output into JavaScript string literals.
  */
 class stack_cas_castext2_jsstring extends stack_cas_castext2_block {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
         $r = new MP_List([new MP_String('jsstring')]);
@@ -72,8 +71,11 @@ class stack_cas_castext2_jsstring extends stack_cas_castext2_block {
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function postprocess(array $params, castext2_processor $processor,
-        castext2_placeholder_holder $holder): string {
+    public function postprocess(
+        array $params,
+        castext2_processor $processor,
+        castext2_placeholder_holder $holder
+    ): string {
         // NOTE! We now have a problem with $holder the json_encode won't get applied to things
         // held there.
 

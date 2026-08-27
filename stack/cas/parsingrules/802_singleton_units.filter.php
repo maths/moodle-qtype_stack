@@ -15,7 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Add description here!
+ * AST filter to split units and numerical values.
  * @package    qtype_stack
  * @copyright  2024 University of Edinburgh.
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
@@ -42,7 +42,6 @@ require_once(__DIR__ . '/801_singleton_numeric.filter.php');
  *
  */
 class stack_ast_filter_802_singleton_units implements stack_cas_astfilter_parametric {
-
     // Do we only accept the default units or do we allow additional
     // variables/constants? Use the forbidden words to limit more accurately.
     // That limitation will happen through the security-filter.
@@ -88,7 +87,7 @@ class stack_ast_filter_802_singleton_units implements stack_cas_astfilter_parame
         $misc = [];
         $floats = [];
 
-        $collect = function($node) use (&$ids, &$ops, &$misc, &$floats) {
+        $collect = function ($node) use (&$ids, &$ops, &$misc, &$floats) {
             if ($node instanceof MP_Operation) {
                 $ops[] = $node;
             } else if ($node instanceof MP_Identifier && $node->is_variable_name()) {
@@ -147,8 +146,10 @@ class stack_ast_filter_802_singleton_units implements stack_cas_astfilter_parame
                 $errors[] = stack_string('Illegal_identifiers_in_units', implode(', ', $keys));
             }
         }
-        if ((!$hasunits && $this->mandatoryunit) ||
-            (!$hasunits && !$this->mandatoryunit && (count($vars) + count($constants)) === 0)) {
+        if (
+            (!$hasunits && $this->mandatoryunit) ||
+            (!$hasunits && !$this->mandatoryunit && (count($vars) + count($constants)) === 0)
+        ) {
             $node = $ast;
             if ($node instanceof MP_Root) {
                 $node = $node->items[0];

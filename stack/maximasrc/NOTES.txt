@@ -1,0 +1,10 @@
+This folder contains the Maxima sources for selected STACK-Maxima features.
+These have been divided into subfolders by theme and are compiled into
+a single file "compiled.mac" by scripts in the `/cli/`-directory.
+
+There is no need for end users to worry about these as all releases come with a compiled results.
+
+These exist to provide documentation. And ways for mixing testing with the content.
+
+Run `php cli/stack_maxima_compiler.mac` to process `stack/maximasrc` and generate 
+`stack/maxima/maximasrccompiled.mac`, the test version, and the documentation.

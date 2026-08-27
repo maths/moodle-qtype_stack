@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>29.3.3.1 Green’s Identities (3D)</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h4>Green’s Identities (3D)</h4>
+<p>Like Gauss’ theorem, Green’s identities relate surface integrals to volume integrals. However, Green’s identities are concerned with two scalar fields \(u(x,y,z)\) and \(w(x,y,z)\). Two statements of Green’s identities are as follows </p>
+
+<p>\(\qquad\displaystyle \displaystyle\int\!\! \displaystyle\int_S (u {\underline \nabla} w) \cdot \underline{dS} = \displaystyle\int\!\! \displaystyle\int\!\! \displaystyle\int_V \left\{ {\underline \nabla} u \cdot {\underline \nabla} w + u {\underline \nabla}^2 w \right\} \mathrm{d}V\) </p>
+<p> and </p>
+<p> \(\qquad\displaystyle \displaystyle\int\!\! \displaystyle\int_S \left\{ u {\underline \nabla} w - v {\underline \nabla} u \right\} \cdot \underline{dS} = \displaystyle\int\!\! \displaystyle\int\!\! \displaystyle\int_V \left\{ u {\underline \nabla}^2 w - w {\underline \nabla}^2 u \right\} \mathrm{d}V\)</p>
+
+
+<h4> Proof of Greens' Identities </h4>
+<p>Green’s identities can be derived from Gauss’ theorem and a vector derivative identity. </p>
+<p> A Vector identity states that \({\underline \nabla} \cdot (\phi \underline{A}) = ({\underline \nabla} \phi) \cdot \underline{A} + \phi ({\underline \nabla} \cdot \underline{A})\). </p>
+<p> Letting \(\phi = u\) and \(\underline{A} = {\underline \nabla} w\) in this identity, </p>
+<p> \(\qquad\displaystyle {\underline \nabla} \cdot (u {\underline \nabla} w) = ({\underline \nabla} u) \cdot ({\underline \nabla} w) + u ({\underline \nabla} \cdot ({\underline \nabla} w))= ({\underline \nabla} u) \cdot ({\underline \nabla} w) + u {\underline \nabla}^2 w\) </p>
+<p>Gauss’ theorem states </p>
+<p> \(\qquad\displaystyle \displaystyle\int\!\! \displaystyle\int_S \underline{F} \cdot \underline{dS} = \displaystyle\int\!\! \displaystyle\int\!\! \displaystyle\int_V {\underline \nabla} \cdot \underline{F} \mathrm{d}V\) </p>
+<p>Now, letting \(\underline{F} = u {\underline \nabla} w\), </p>
+<p>\(\begin{aligned} \displaystyle \qquad \int\!\! \displaystyle\int_S (u {\underline \nabla} w) \cdot \underline{dS} &= \displaystyle\int\!\! \displaystyle\int\!\! \displaystyle\int_V {\underline \nabla} \cdot (u {\underline \nabla} w) \mathrm{d}V \\ &= \displaystyle\int\!\! \displaystyle\int\!\! \displaystyle\int_V \left\{ ({\underline \nabla} u) \cdot ({\underline \nabla} w) + u {\underline \nabla}^2 w \right\} \mathrm{d}V \qquad\qquad\qquad\qquad\qquad\qquad\end{aligned}\)</p>
+<p> This is Green’s identity [1]. </p>
+<p> Reversing the roles of \(u\) and \(w\), </p>
+<p> \(\qquad\displaystyle \displaystyle\int\!\! \displaystyle\int_S (w {\underline \nabla} u) \cdot \underline{dS} = \displaystyle\int\!\! \displaystyle\int\!\! \displaystyle\int_V \left\{ ({\underline \nabla} w) \cdot ({\underline \nabla} u) + w {\underline \nabla}^2 u \right\} \mathrm{d}V\) </p>
+<p> Subtracting the last two equations yields Green’s identity [2]. </p>
+
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p><b>Green's Identities</b>
+[1]\(\displaystyle  \qquad \int \int_S (u   {\underline \nabla} w) \cdot \underline{dS} =  \displaystyle\int\!\! \displaystyle\int\!\! \displaystyle\int_V \left\{ {\underline \nabla} u \cdot {\underline \nabla} w + u   {\underline \nabla}^2 w \right\} \mathrm{d}V \)
+[2]\(\displaystyle \qquad \int \displaystyle\int_S \left\{ u   {\underline \nabla} w - v   {\underline \nabla} u \right\} \cdot \underline{dS} =  \displaystyle\int\!\! \displaystyle\int\!\! \displaystyle\int_V \left\{ u {\underline \nabla}^2 w - w {\underline \nabla}^2 u \right\} \mathrm{d}V \)</p>
+</div>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Verify Green’s first identity for \(u = (x-x^2)y\), \(w = x y + z^2\) and the unit cube, \(0 \le x \le 1\), \(0 \le y \le 1\), \(0 \le z \le 1\).</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>As \(w = x y + z^2\), \({\underline \nabla} w = y \underline{i} + x \underline{j} + 2z \underline{k}\). Thus \(u {\underline \nabla} w = (x y - x^2 y)(y \underline{i} + x \underline{j} + 2z \underline{k})\) and the surface integral is of this quantity (scalar product with \(\underline{dS}\)) integrated over the surface of the unit cube. </p>
+
+<p> On the three faces \(x = 0\), \(x = 1\), \(y = 0\), the vector \(u {\underline \nabla} w = \underline{0}\) and so the contribution to the surface integral is zero.</p>
+
+<p> On the face \(y = 1\), \(u {\underline \nabla} w = (x - x^2) (\underline{i} + x \underline{j} + 2z \underline{k})\) and \(\underline{dS} = \mathrm{d}x\mathrm{d}z\underline{j}\) so \((u {\underline \nabla} w) \cdot \underline{dS} = (x^2 - x^3)\mathrm{d}x\mathrm{d}z\) and the contribution to the integral is  </p>
+<p> \( \qquad \displaystyle\int_{x=0}^1  \displaystyle\int_{z=0}^1 (x^2 - x^3)  \mathrm{d}z  \mathrm{d}x =  \displaystyle\int_0^1 (x^2 - x^3)  \mathrm{d}x = \left[ \dfrac{x^3}{3} - \dfrac{x^4}{4} \right]_0^1 = \frac{1}{12}\). </p>
+
+<p> On the face \(z = 0\), \(u {\underline \nabla} w = (x - x^2) y (y \underline{i} + x \underline{j})\) and \(\underline{dS} = -\mathrm{d}x\mathrm{d}z\underline{k}\) so \((u {\underline \nabla} w) \cdot \underline{dS} = 0\) and the contribution to the integral is zero. </p>
+
+<p> On the face \(z = 1\), \(u {\underline \nabla} w = (x - x^2) y (y\underline{i} + x \underline{j} + 2 \underline{k})\) and \(\underline{dS} = \mathrm{d}x\mathrm{d}y\underline{k}\) so \((u {\underline \nabla} w) \cdot \underline{dS} = 2 y (x - x^2)\mathrm{d}x\mathrm{d}y\) and the contribution to the integral is  </p>
+
+<p> \(\displaystyle\int_{x=0}^1  \displaystyle\int_{y=0}^1 2 y (x - x^2)  \mathrm{d}y  \mathrm{d}x =    \displaystyle\int_{x=0}^1 \left[\phantom{\dfrac{1}{1}}\!\!\! y^2 (x - x^2) \right]_{y=0}^1 \mathrm{d}x=  \displaystyle\int_0^1 (x - x^2)  \mathrm{d}x  = \frac{1}{6}\). </p>
+<p> Thus, \( \displaystyle\int\!\! \displaystyle\int_S (u   {\underline \nabla} w) \cdot \underline{dS} = 0 + 0 + 0 + \frac{1}{12} + 0 + \frac{1}{6} = \frac{1}{4} \). </p>
+
+<p> Now evaluate \( \displaystyle\int\!\! \displaystyle\int\!\! \displaystyle\int_V \left\{ {\underline \nabla} u \cdot {\underline \nabla} w + u  {\underline \nabla}^2 w \right\} \mathrm{d}V\). </p>
+
+<p> Note that \({\underline \nabla} u = (1 - 2x) y \underline{i} + (x - x^2) \underline{j}\) and \({\underline \nabla}^2 w = 2\) so </p>
+<p> \(\displaystyle{\underline \nabla} u \cdot {\underline \nabla} w + u   {\underline \nabla}^2 w = (1 - 2x) y^2 + (x - x^2) x + 2 (x - x^2) y= x^2 - x^3 + 2 x y - 2 x^2 y + y^2 - 2 x y^2 \) </p>
+<p> and the integral </p>
+
+<p>\(\begin{align} 
+ \displaystyle\int\!\! \displaystyle\int\!\! \displaystyle\int_V \left\{ {\underline \nabla} u \cdot {\underline \nabla} w + u   {\underline \nabla}^2 w \right\} \mathrm{d}V &=  \displaystyle\int_{z=0}^1  \displaystyle\int_{y=0}^1  \displaystyle\int_{x=0}^1 (x^2 - x^3 + 2 x y - 2 x^2 y + y^2 - 2 x y^2)  \mathrm{d}x  \mathrm{d}y  \mathrm{d}z \\ 
+&=  \displaystyle\int_{z=0}^1  \displaystyle\int_{y=0}^1 \left[ \dfrac{x^3}{3} - \frac{x^4}{4} + x^2 y - \frac{2}{3} x^3 y + x y^2 - x^2 y^2 \right]_{x=0}^1  \mathrm{d}y  \mathrm{d}z \\ 
+&=  \displaystyle\int_{z=0}^1  \displaystyle\int_{y=0}^1 ( \frac{1}{12} + \dfrac{y}{3}  )  \mathrm{d}y  \mathrm{d}z =  \displaystyle\int_{z=0}^1 \left[ \dfrac{y}{12} + \dfrac{y^2}{6} \right]_{y=0}^1  \mathrm{d}z \\ 
+ &=  \displaystyle\int_{z=0}^1 (\frac{1}{4} )   \mathrm{d}z = \left[ \dfrac{z}{4} \right]_{z=0}^1 = \frac{1}{4} 
+\end{align} \)</p>
+
+<p> Hence \( \displaystyle   \displaystyle\int\!\! \displaystyle\int_S (u   {\underline \nabla} w) \cdot \underline{dS} =  \displaystyle\int\!\! \displaystyle\int\!\! \displaystyle\int_V \left[ {\underline \nabla} u \cdot {\underline \nabla} w + u   {\underline \nabla}^2 w \right] \mathrm{d}V = \frac{1}{4} \) and Green's first identity is verified.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

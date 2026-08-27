@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>10.4.1.1 De Moivre’s theorem</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>De Moivre's Theorem</h3>
+<p>We have seen that in polar form, if <span class="math inline">\(z=r(\cos\theta +i\sin\theta)\)</span> and <span class="math inline">\(w=t(\cos\phi +i\sin\phi )\)</span> then the product <span class="math inline">\(zw\)</span> is: <span class="math inline">\[\qquad zw=rt(\cos (\theta +\phi ) +i\sin (\theta +\phi ))\]</span>In particular, if <span class="math inline">\(r=1, t=1\)</span> and <span class="math inline">\(\theta =\phi\)</span> (i.e. <span class="math inline">\(z=w=\cos\theta +i\sin\theta\)</span>), we obtain <span class="math inline">\[\qquad (\cos\theta +i\sin\theta )^2=\cos 2\theta +i\sin 2\theta\]</span>&nbsp;Multiplying each side of the above equation by <span class="math inline">\(\cos\theta +i\sin\theta\)</span> gives <span class="math inline">\[\qquad (\cos\theta +i\sin\theta )^3=(\cos 2\theta +i\sin 2\theta)(\cos\theta
++i\sin\theta )=\cos 3\theta +i\sin 3\theta\]</span>on adding the arguments of the terms in the product.</p>
+<p>Similarly,&nbsp;<span class="math inline">\[\qquad
+(\cos\theta +i\sin\theta
+)^4=\cos 4\theta +i\sin 4\theta.\]</span>After completing <span class="math inline">\(p\)</span> such products we have: <span class="math inline">\[\qquad (\cos\theta +i\sin\theta )^p=\cos p\theta +i\sin p\theta\]</span>where <span class="math inline">\(p\)</span> is a positive integer.</p>
+<p>In fact this result can be shown to be true for those cases in which <span class="math inline">\(p\)</span> is a negative integer and even when <span class="math inline">\(p\)</span> is a rational number e.g. <span class="math inline">\(p= \dfrac12\)</span>.</p>
+
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+If \(p\) is a rational number then \[(\cos\theta + i\sin\theta)^p = \cos(p\theta) + i\sin(p\theta).\] This result is known as <strong>De Moivre's Theorem</strong>.
+</div>
+
+<p><br></p><p>Recalling from the exponential form that <span class="math inline">\(\cos\theta +i\sin\theta =e^{i\theta}\)</span>, De Moivre’s Theorem is simply a statement of the laws of indices: <span class="math inline">\[\qquad (e^{i \theta})^p=e^{i p\theta}.\]</span></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>22.3.2.10 Diagonalization of symmetric matrices</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Diagonalization of symmetric matrices</h4>
+<p>Recall from our earlier work that</p>
+<ol>
+    <li> We can <strong>always</strong> diagonalize a matrix with distinct eigenvalues (whether these are real or complex).</li>
+    <li> We can <strong>sometimes</strong> diagonalize a matrix with repeated eigenvalues. (The condition for this to be possible is that any eigenvalue of multiplicity \(m\) had to have associated with it \(m\) linearly independent eigenvectors.)</li>
+</ol>
+<p>The situation with symmetric matrices is simpler. Basically we can diagonalize <strong>any</strong> symmetric matrix. To take the discussions further we first need the concept of an <strong>orthogonal</strong> matrix.</p>
+<p>A square matrix \(A\) is said to be orthogonal if its inverse (if it exists) is equal to its transpose: \[A^{-1}=A^T \qquad \text{or, equivalently,}\qquad AA^T=A^TA=I.\]
+</p>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>An important example of an orthogonal matrix is \[A=\left[\begin{array}{rc}\cos\phi&amp;\sin\phi\\ -\sin\phi&amp;\cos\phi\end{array}\right]\] which arises when we use matrices to describe rotations in a plane. \[\begin{aligned} AA^T&amp;=\left[\begin{array}{rc}\cos\phi&amp;\sin\phi\\
+    -\sin\phi&amp;\cos\phi\end{array}\right]\left[\begin{array}{cr}\cos\phi&amp;-\sin\phi \\ \sin\phi&amp;\cos\phi\end{array}\right]\\ \\ &amp;=\left[\begin{array}{cc}\cos^2\phi+\sin^{2}\phi&amp;0\\ 0&amp;\sin^2\phi+\cos^2\phi\end{array}\right]=\left[\begin{array}{cc}1&amp;0\\
+    0&amp;1\end{array}\right]=I\qquad\qquad\qquad\qquad\qquad\quad\end{aligned}\] It is clear that \(A^TA=I\) also, so \(A\) is indeed orthogonal.</p>
+<p>It can be shown, but we omit the details, that any \(2\times 2\) matrix which is orthogonal can be written in one of the two forms: \[\left[\begin{array}{rc}\cos\phi&amp;\sin\phi\\ -\sin\phi&amp;\cos\phi\end{array}\right]\qquad\text{or}\qquad \left[\begin{array}{cc}\cos\phi&amp;-\sin\phi\\\sin\phi&amp;\cos\phi\end{array}\right].\]
+    If we look closely at either of these matrices we can see that
+</p>
+<ol>
+    <li>The two columns are mutually orthogonal e.g. for the first matrix we have \[\left[\cos\phi\quad -\sin\phi\right]\left[\begin{array}{c}\sin\phi\\ \cos\phi\end{array}\right]=\cos\phi\sin\phi-\sin\phi\cos\phi=0.\]</li>
+    <li>Each column has magnitude \(1\) (because \(\sqrt{\cos^2\phi+\sin^2\phi}=1)\).</li>
+</ol>
+<p>Although we shall not prove it, these results are necessary and sufficient for any order square matrix to be orthogonal.</p>
+<hr>
+<div class="HELM_keypoint">
+    <h4>Key Point</h4>
+    <p>A square matrix \(A\) is said to be orthogonal, if its inverse (if it exists) is equal to its transpose: \[A^{-1} = A^T\] or, equivalently, \[AA^T=A^TA=I.\] A square matrix is orthogonal if and only if its columns are mutually orthogonal and each
+        column has unit magnitude.</p>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

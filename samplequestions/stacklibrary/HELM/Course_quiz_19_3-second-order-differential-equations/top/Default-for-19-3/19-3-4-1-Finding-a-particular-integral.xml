@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>19.3.4.1 Finding a particular integral</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Finding a particular integral</h4>
+<p>In the previous subsection we explained what is meant by a particular integral. Now we look at a
+    simple method to find a particular integral. In fact our method is rather crude. It involves trial and
+    error and educated guesswork. We try solutions which are of the same general form as the \(f(x)\) on
+    the right-hand side.</p>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Find a particular integral of the equation</p>
+\[\frac{\mathrm{d}^2y}{\mathrm{d}x^2} - \frac{\mathrm{d}y}{\mathrm{d}x} - 6y = e^{2x}.\]
+<h4 class="HELM_solution">Solution</h4>
+<p>We shall attempt to find a solution of the inhomogeneous problem by trying a function of the same
+    form as that on the right-hand side of the ODE. In particular, let us try \(y(x) = Ae^{2x}\),
+    where A is a constant that we shall now determine. If \(y(x) = Ae^{2x}\) then
+    </p>
+\[\frac{\mathrm{d}y}{\mathrm{d}x} = 2Ae^{2x} \qquad \text{and} \qquad
+\frac{\mathrm{d}^2y}{\mathrm{d}x^2} = 4Ae^{2x}.\]
+<p>Subsitution in the ODE gives:</p>
+\[4Ae^{2x} - 2Ae^{2x} - 6Ae^{2x} = e^{2x},\]
+<p>that is,</p>
+\[-4Ae^{2x} = e^{2x}.\]
+<p>To ensure that \(y\) is a solution, we require \(-4A = 1\), that is, \(\displaystyle A = -\frac{1}{4}\).</p>
+<p>Therefore, the particular integral is \(\displaystyle y_\text{p} = -\frac{1}{4}e^{2x}\).</p>
+<hr>
+
+<p>In the previous example we chose a trial solution \(Ae^{2x}\) of the same form as the ODE's right-hand
+    side. The following table provides a summary of the trial solutions which should be tried for various forms
+    of the right-hand side.
+</p>
+<table class="HELM_table">
+    <thead>
+        <tr>
+            <th>\(f(x)\)</th>
+            <th>Trial solution</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>constant term: \(c\)</td>
+            <td>constant term: \(k\)</td>
+        </tr>
+        <tr>
+            <td>linear: \(ax + b\)</td>
+            <td>linear: \(Ax + B\)</td>
+        </tr>
+        <tr>
+            <td>polynomial in \(x\) of degree \(r\): \(ax^r + \cdots + bx + c\)</td>
+            <td>polynomial in \(x\) of degree \(r\): \(Ax^r + \cdots + Bx + C\)</td>
+        </tr>
+        <tr>
+            <td>\(a \cos kx\)</td>
+            <td>\(A \cos kx + B \sin kx\)</td>
+        </tr>
+        <tr>
+            <td>\(a \sin kx\)</td>
+            <td>\(A \cos kx + B \sin kx\)</td>
+        </tr>
+        <tr>
+            <td>\(ae^{kx}\)</td>
+            <td>\(Ae^{kx}\)</td>
+        </tr>
+        <tr>
+            <td>\(ae^{-kx}\)</td>
+            <td>\(Ae^{-kx}\)</td>
+        </tr>
+    </tbody>
+</table>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

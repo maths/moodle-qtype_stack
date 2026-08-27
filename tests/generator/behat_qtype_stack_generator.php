@@ -27,7 +27,6 @@
  * Behat data generator for qtype_stack.
  */
 class behat_qtype_stack_generator extends behat_generator_base {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function get_creatable_entities(): array {
         return [

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>29.1.2.7 further examples on scalar line integrals</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h4 class="HELM_example">Example</h4>
+<p>Find \(\displaystyle\int_C \left\{{\underline \nabla} (x^2 y )\right\} \cdot \underline{dr}\) where \(C\) is the contour \(y = 2x-x^2\) from \((0,0)\) to \((2,0)\). Here, \(\underline{\nabla}\) refers to the gradient operator, i.e. \(\underline{\nabla} \phi\equiv\mbox{grad}\;\phi\)</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>Note that \({\underline \nabla} (x^2 y) = 2 x y \underline{i} + x^2 \underline{j}\) 
+so the integral is \(\displaystyle\int_C \left\{ 2 x y \;dx + x^2 \;dy \right\}\).<br>
+On \(y = 2x-x^2\), \(dy = (2 - 2 x) \;dx\) so the integral becomes 
+\begin{eqnarray*} 
+\displaystyle\int_C \left\{ 2 x y \;dx + x^2 \;dy \right\} &=& \displaystyle\int_{x=0}^2 
+\left\{ 2 x (2x-x^2) \;dx + x^2 (2 - 2x)\;dx \right\} \\ &=& 
+\displaystyle\int_0^2 (6x^2 - 4x^3) \;dx = \left[\phantom{\dfrac{1}{1}}\!\!\!2x^3 - x^4 \right]_0^2 = 0\qquad\qquad\qquad\qquad 
+\end{eqnarray*}<p>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Two paths from \((0,0)\) to \((4,2)\) are defined by \(\qquad\displaystyle \begin{array}{lll} \mathrm{(a)}&amp;C_1 :&amp;y=\displaystyle\frac{1}{2}x\qquad 0\le x\le 4\\\\ \mathrm{(b)}&amp;C_2 :&amp;\mbox{The straight line }y=0\mbox{ from }(0,0)\mbox{ to }(4,0)\mbox{ followed by}\\ \mbox{}&amp;C_3 :&amp;\mbox{The straight line }x=4\mbox{ from } (4,0)\mbox{ to }(4,2) \end{array}\)
+<br>For each path find \(\displaystyle\displaystyle\int_C \underline{F} \cdot \underline{dr}\), where \(\underline{F}=2x \underline{i}+2y\underline{j}\).</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>(a) For the straight line \(y=\displaystyle\frac{1}{2}x\) we have \(dy=\displaystyle\frac{1}{2}dx\)
+Then, \(\displaystyle \int_{C_1}{\underline {F}\cdot \underline{dr}}=\int_{C_1}{2x\;dx+2y\;dy}=\int_0^4{\left(2x+\frac{x}{2}\right)\;dx}=\int_0^4\frac{5x}{2}\;dx=20\)
+(b) For the straight line from \((0,0)\) to \((4,0)\) we have
+ \( \displaystyle \int_{C_2}{\underline {F}\cdot \underline{dr}}=\int_0^4{2x\;dx}=16\).<br>
+For the straight line from \((4,0)\) to \((4,2)\) we have
+\(\displaystyle \int_{C_3}{\underline {F}\cdot \underline{dr}}=\int_0^2{2y\;dy}=4\).<br>
+Adding these two results gives \(\displaystyle\int_C{\underline{F}\cdot\underline{dr}}=16+4=20\)</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

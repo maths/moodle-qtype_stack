@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>35.2.2.6 Utility of the complement</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>The use of the event \(A'\) can sometimes simplify the calculation of the probability \(\text{P}(A)\). For example, suppose that two 6-faced dice are thrown and we require the probability of the event\[A\text{: that we obtain a total score of at least four.}\]There are many combinations that produce a total score of at least four; however there are only \(3\) combinations that produce a total score of two or three which is the complementary event to the one of interest. The event \(A'=\{(1,1),(1,2),(2,1)\}\) (where we use an obvious notation of stating the total score on the first die followed by the score on the second die) is the complement of \(A\).</p>
+<p> Now \(\text{P}(A')=\frac{3}{36}\) since there are \(6\times 6\) possible combinations in throwing two dice. Thus \[\qquad \text{P}(A)=1-\text{P}(A')=1-\frac{3}{36}=\frac{33}{36}=\frac{11}{12}.\]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

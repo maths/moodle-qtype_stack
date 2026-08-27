@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>16.2.1.4 Divergence of the harmonic series</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>The harmonic series:<br></p><p>\[ 1 + \dfrac{1}{2} +&nbsp;\dfrac{1}{3} +&nbsp;\dfrac{1}{4} + \dfrac{1}{5} + \dots\]&nbsp;</p><p>has a general term \(a_n=\dfrac{1}{n}\) which clearly gets smaller and smaller as \(n \to \infty\). However, surprisingly,
+the series is divergent. Its divergence is demonstrated by showing that the harmonic series is greater
+than another series which is obviously divergent. We do this by grouping the terms of the harmonic
+series in a particular way:&nbsp;</p><p>\[&nbsp;1 + \dfrac{1}{2} +&nbsp;\dfrac{1}{3} +&nbsp;\dfrac{1}{4} + \dfrac{1}{5} + \dots \equiv 1 + \left(\dfrac{1}{2}\right) +&nbsp;&nbsp;\left(\dfrac{1}{3} + \dfrac{1}{4}\right) +&nbsp;&nbsp;\left(\dfrac{1}{5}+\dfrac{1}{6}+\dfrac{1}{7}+\dfrac{1}{8}\right) + \dots\]</p><p>Now \[ \begin{aligned}&nbsp;\left(\dfrac{1}{3} + \dfrac{1}{4}\right) &amp; &gt; \dfrac{1}{4} + \dfrac{1}{4} = \dfrac{1}{2} \\&nbsp;&nbsp;\left(\dfrac{1}{5}+\dfrac{1}{6}+\dfrac{1}{7}+\dfrac{1}{8}\right) &amp; &gt; \dfrac{1}{8} + \dfrac{1}{8} +&nbsp;\dfrac{1}{8} +&nbsp;\dfrac{1}{8} = \dfrac{1}{2} \\ \left(\dfrac{1}{9}+\dfrac{1}{10}+\dfrac{1}{11}+\dfrac{1}{12} + \dfrac{1}{13} + \dfrac{1}{14}+ \dfrac{1}{15}+ \dfrac{1}{16}\right) &amp; &gt;&nbsp;\left(\dfrac{1}{16}+\dfrac{1}{16}+\dfrac{1}{16}+\dfrac{1}{16} + \dfrac{1}{16} + \dfrac{1}{16}+ \dfrac{1}{16}+ \dfrac{1}{16}\right) = \dfrac{1}{2} \end{aligned}\]</p><p>and so on. Hence the harmonic series satisfies:</p><p>\[\begin{aligned}1+\dfrac{1}{2} +&nbsp;\dfrac{1}{3} +&nbsp;\dfrac{1}{4} + \dfrac{1}{5} + \dots &amp; \equiv 1 + \left(\dfrac{1}{2}\right) +&nbsp;&nbsp;\left(\dfrac{1}{3} + \dfrac{1}{4}\right) +&nbsp;&nbsp;\left(\dfrac{1}{5}+\dfrac{1}{6}+\dfrac{1}{7}+\dfrac{1}{8}\right)+ \dots \\ &amp; &gt;1 + \dfrac{1}{2} +&nbsp;\dfrac{1}{2} +&nbsp;\dfrac{1}{2} + \dots \end{aligned}\]</p><p>The right hand side of this inequality is clearly divergent so <b>the harmonic series is divergent.</b></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

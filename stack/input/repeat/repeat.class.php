@@ -183,8 +183,18 @@ class stack_repeat_input extends stack_json_input {
      * @return string any error messages describing validation failures. An empty
      *      string if the input is valid - at least according to this test.
      */
-    protected function validation_display($answer, $lvars, $caslines, $additionalvars, $valid, $errors,
-        $castextprocessor, $inertdisplayform, $ilines) {
+    protected function validation_display(
+        $answer,
+        $lvars,
+        $caslines,
+        $additionalvars,
+        $valid,
+        $errors,
+        $castextprocessor,
+        $inertdisplayform,
+        $ilines,
+        $notes
+    ) {
 
             // Display the whole JSON object.
             $contents = $this->rawcontents;
@@ -198,9 +208,19 @@ class stack_repeat_input extends stack_json_input {
             $pdisplay = html_writer::tag('pre', $display);
 
             // And we want to show the actual answer as a Maxima object.
-            list($valid, $errors, $display) = $this->validation_display_baseclass($answer, $lvars, $caslines, $additionalvars, $valid,
-                $errors, $castextprocessor, $inertdisplayform, $ilines);
+            list($valid, $errors, $display, $notes) = $this->validation_display_baseclass(
+                $answer,
+                $lvars,
+                $caslines,
+                $additionalvars,
+                $valid,
+                $errors,
+                $castextprocessor,
+                $inertdisplayform,
+                $ilines,
+                $notes
+            );
 
-            return [$valid, $errors, $pdisplay . $display];
+            return [$valid, $errors, $pdisplay . $display, $notes];
     }
 }

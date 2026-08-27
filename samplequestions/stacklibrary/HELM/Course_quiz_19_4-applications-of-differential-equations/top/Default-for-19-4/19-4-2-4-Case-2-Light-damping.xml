@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>19.4.2.4 Case 2: Light damping</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h5>Case 2: Light damping<br></h5>
+
+<p>If \(k^2-4mn&lt;0\), i.e. \(k^2&lt;4mn\) then the roots of the auxiliary equation are complex:</p>
+<p>\(\qquad \lambda_1 = \dfrac{-k+\, i\sqrt{4mn-k^2}}{2m} \qquad \lambda_2 = \dfrac{-k-\, i\sqrt{4mn-k^2}}{2m}\)</p>
+<p>Then, after some rearrangement:</p>
+<p>\(\qquad x=\text{e}^{-kt/2m} \left[A\cos pt+B\sin pt\right] \quad\) in which \(\quad p=\sqrt{4mn-k^2}/2m.\)</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

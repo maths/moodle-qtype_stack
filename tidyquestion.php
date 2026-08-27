@@ -23,7 +23,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(__DIR__.'/../../../config.php');
+require_once(__DIR__ . '/../../../config.php');
 require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/locallib.php');
 require_once(__DIR__ . '/tidyquestionform.php');
@@ -31,13 +31,14 @@ require_once(__DIR__ . '/vle_specific.php');
 
 // Get the parameters from the URL.
 $questionid = required_param('questionid', PARAM_INT);
+[$qversion, $questionid] = get_latest_question_version($questionid);
 
 // Load the necessary data.
 $questiondata = $DB->get_record('question', ['id' => $questionid], '*', MUST_EXIST);
 $question = question_bank::load_question($questionid);
 
 // Process any other URL parameters, and do require_login.
-list($context, $notused, $urlparams) = qtype_stack_setup_question_test_page($question);
+[$context, $notused, $urlparams] = qtype_stack_setup_question_test_page($question);
 
 // Check permissions.
 question_require_capability_on($questiondata, 'edit');
@@ -77,15 +78,20 @@ $question->setup_fake_feedback_and_input_validation();
 
 // Prepare the display options.
 $options = question_display_options();
+$editparams = $urlparams;
+unset($editparams['questionid']);
+unset($editparams['seed']);
+$editparams['id'] = $question->id;
+$questioneditlatesturl = new moodle_url('/question/type/stack/questioneditlatest.php', $editparams);
 
 // Create the form for renaming bits of the question.
-$form = new qtype_stack_tidy_question_form($PAGE->url, $question);
+$form = new qtype_stack_tidy_question_form($PAGE->url, ['question' => $question, 'editurl' => $questioneditlatesturl]);
 
 if ($form->is_cancelled()) {
     redirect($returnurl);
-
 } else if ($data = $form->get_data()) {
     $qtype = question_bank::get_qtype('stack');
+
     $transaction = $DB->start_delegated_transaction();
 
     // Rename the inputs.
@@ -97,14 +103,19 @@ if ($form->is_cancelled()) {
         $qtype->rename_input($question->id, $from, $to);
     }
 
+    // Rename inputs before getting the test cases.  These test cases need the _new_ input names.
+    // Get the test cases before renaming the question parts.
+    $testscases = $qtype->load_question_tests($question->id);
+
     // Rename the PRT nodes.
-    foreach ($question->prts as $prtname => $prt) {
-        $noderenames = [];
+    $noderenames = [];
+    foreach ($question->prts as $oldprtname => $prt) {
+        $noderenames[$oldprtname] = [];
         foreach ($prt->get_nodes_summary() as $nodekey => $notused) {
-            $noderenames[$nodekey] = $data->{'nodename_' . $prtname . '_' . $nodekey} - 1;
+            $noderenames[$oldprtname][$nodekey] = $data->{'nodename_' . $oldprtname . '_' . $nodekey} - 1;
         }
-        foreach (stack_utils::decompose_rename_operation($noderenames) as $from => $to) {
-            $qtype->rename_prt_node($question->id, $prtname, $from, $to);
+        foreach (stack_utils::decompose_rename_operation($noderenames[$oldprtname]) as $from => $to) {
+            $qtype->rename_prt_node($question->id, $oldprtname, $from, $to);
         }
     }
 
@@ -117,6 +128,27 @@ if ($form->is_cancelled()) {
         $qtype->rename_prt($question->id, $from, $to);
     }
 
+    // Create all default answer note expectation _change_ mappings over the whole question.
+    $notesubs = [];
+    foreach ($prtrenames as $oldprtname => $newprtname) {
+        $newnotes = [];
+        foreach ($noderenames[$oldprtname] as $oldnode => $newnode) {
+            if ($oldprtname != $newprtname || $oldnode != $newnode) {
+                $on = $oldprtname . '-' . (intval($oldnode) + 1);
+                $nn = $newprtname . '-' . (intval($newnode) + 1);
+                $newnotes[$on . '-T'] = $nn . '-T';
+                $newnotes[$on . '-F'] = $nn . '-F';
+            }
+        }
+        $notesubs[$oldprtname] = $newnotes;
+    }
+
+    // Update all expected answer notes in the question tests.
+    foreach ($testscases as $number => $testcase) {
+        $testcase->update_expected_testcase($prtrenames, $notesubs);
+        $qtype->save_question_test($question->id, $testcase, $number);
+    }
+
     // Done.
     $transaction->allow_commit();
     redirect($returnurl);
@@ -124,8 +156,20 @@ if ($form->is_cancelled()) {
 
 // Start output.
 echo $OUTPUT->header();
+$links = [];
+$qtype = new qtype_stack();
+$qtestlink = $qtype->get_question_test_url($question);
+$links[] = html_writer::link($qtestlink, stack_string('runquestiontests_icon')
+                    . stack_string('runquestiontests'), ['class' => 'nav-link']);
+$qpreviewlink = qbank_previewquestion\helper::question_preview_url($questionid, null, null, null, null, $context);
+$links[] = html_writer::link($qpreviewlink, '<i class="fa fa-plus-circle"></i> '
+                    . stack_string('questionpreview'), ['class' => 'nav-link']);
+$links[] = html_writer::link($questioneditlatesturl, stack_string('editquestioninthequestionbank'), ['class' => 'nav-link']);
+echo html_writer::tag('nav', implode(' ', $links), ['class' => 'nav']);
 echo $OUTPUT->heading($title);
-
+if ($qversion !== null) {
+    echo html_writer::tag('p', stack_string('version') . ' ' . $qversion);
+}
 // Display the question.
 echo $OUTPUT->heading(stack_string('questionpreview'), 3);
 echo $quba->render_question($slot, $options);

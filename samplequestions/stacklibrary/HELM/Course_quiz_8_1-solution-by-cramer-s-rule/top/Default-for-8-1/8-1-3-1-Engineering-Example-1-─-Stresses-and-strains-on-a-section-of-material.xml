@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>8.1.3.1 Engineering Example 1 ─ Stresses and strains on a section of material</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Engineering Example -- Stresses and strains on a section of material</h4><p><br></p>
+<h5>Introduction</h5>
+    <p>An important engineering problem is to determine the effect on materials of different types of loading. One way of measuring the effects is through the strain or fractional change in dimensions in the material which can be measured using a strain
+        gauge.</p>
+    <p><span><strong>Problem in words</strong></span>&nbsp;</p>
+    <p>In a homogeneous, isotropic and linearly elastic material, the strains (i.e. fractional displacements) on a section of the material, represented by <span class="math inline">\(\varepsilon_x, \ \varepsilon_y, \
+\varepsilon_z\)</span> for the <span class="math inline">\(x\)</span>-,&nbsp; <span class="math inline">\(y\)</span>-,&nbsp;<span class="math inline">\(z\)</span>-directions respectively, can be related to the stresses (i.e. force per unit area),
+        <span class="math inline">\(\sigma_x, \ \sigma_y, \ \sigma_z\)</span> by the following system of equations.</p>
+    <p><span class="math display">\[\begin{aligned}
+\varepsilon_x&amp;=&amp;\dfrac{1}{E}(\begin{array}{ccc}\sigma_x&amp;-v\sigma_y&amp;-v\sigma_z\end{array})\\
+\\
+\varepsilon_y&amp;=&amp;\dfrac{1}{E}(\begin{array}{ccc}-v\sigma_x&amp;+\sigma_y&amp;-v\sigma_z\end{array})\\
+\\
+\varepsilon_z&amp;=&amp;\dfrac{1}{E}(\begin{array}{ccc}-v\sigma_x&amp;-v\sigma_y&amp;+\sigma_z\end{array})\end{aligned}\]</span></p>
+    <p>where <span class="math inline">\(E\)</span> is the modulus of elasticity (also called Young’s modulus) and <span class="math inline">\(v\)</span> is Poisson’s ratio which relates the lateral strain to the axial strain.</p>
+    <p>Find expressions for the stresses <span class="math inline">\(\sigma_x, \ \sigma_y, \ \sigma_z,\)</span> in terms of the strains <span class="math inline">\(\varepsilon_x,\
+\varepsilon_y,\)</span> and <span class="math inline">\(\varepsilon_z.\)</span></p>
+    <p><span><strong>Mathematical statement of problem</strong></span></p>
+    <p>The given system of equations can be written as a matrix equation:</p>
+    <p><span class="math inline">\(\qquad \left(\begin{array}{c}\varepsilon_x\\ \varepsilon_y\\ \varepsilon_z\end{array}\right)=\dfrac{1}{E}\
+\left(\begin{array}{rrr}1&amp;-v&amp;-v\\ -v&amp;1&amp;-v\\ -v&amp;-v&amp;1\end{array}\right)\
+\left(\begin{array}{c}\sigma_x\\ \sigma_y\\ \sigma_z\end{array}\right)\)</span></p>
+    <p>We can write this equation as&nbsp;</p>
+    <p><span class="math inline">\(\qquad \varepsilon=\dfrac{1}{E}{\pmb A}\pmb{\sigma}\)</span></p>
+    <p>where <span class="math inline">\(\varepsilon=\left(\begin{array}{c}\varepsilon_x\\ \varepsilon_y\\ \varepsilon_z\end{array}\right),\ {\pmb A}=\left(\begin{array}{rrr}1&amp;-v&amp;-v\\
+-v&amp;1&amp;-v\\ -v&amp;-v&amp;1\end{array}\right)\)</span> and <span class="math inline">\(\pmb{\sigma}=\left(\begin{array}{c}\sigma_x\\ \sigma_y\\ \sigma_z\end{array}\right)\)</span></p>
+    <p>This matrix equation must be solved to find the vector <span class="math inline">\(\pmb{\sigma}\)</span> in terms of the vector <span class="math inline">\(\varepsilon\)</span> and the inverse of the matrix <span class="math inline">\({\pmb A}\)</span>.</p>
+    <p><span><strong>Mathematical analysis</strong></span></p>
+    <p><span class="math inline">\(\qquad \varepsilon=\dfrac{1}{E}{\pmb A}\pmb{\sigma}\)</span></p>
+    <p>Multiplying both sides of the expression by <span class="math inline">\(E\)</span> we get&nbsp;</p>
+    <p><span class="math inline">\(\qquad E\varepsilon={\pmb A}\pmb{\sigma}\)</span></p>
+    <p>Multiplying both sides by <span class="math inline">\({\pmb A}^{-1}\)</span> we find that:&nbsp;</p>
+    <p><span class="math inline">\(\qquad {\pmb A}^{-1}E\varepsilon={\pmb A}^{-1}{\pmb A}\pmb{\sigma}\)</span></p>
+    <p>But <span class="math inline">\({\pmb A}^{-1}{\pmb A} = {\bf I}\)</span> so this becomes&nbsp;</p>
+    <p><span class="math inline">\(\qquad \pmb{\sigma}=E{\pmb A}^{-1}\varepsilon\)</span></p>
+    <p>To find expressions for the stresses <span class="math inline">\(\sigma_x, \ \sigma_y, \ \sigma_z\)</span>, in terms of the strains <span class="math inline">\(\varepsilon_x,\
+\varepsilon_y\)</span> and <span class="math inline">\(\varepsilon_z\)</span>, we must find the inverse of the matrix \({\pmb A}\)<span></span>.</p>
+    <p>To find the inverse of <span class="math inline">\(\left(\begin{array}{rrr}1&amp;-v&amp;-v\\ -v&amp;1&amp;-v\\ -v&amp;-v&amp;1\end{array}\right)\)</span> we first find the matrix of minors which is:&nbsp;</p>
+    <p><span class="math inline">\(\qquad\left(\begin{array}{ccc}\left|\begin{array}{rr}1&amp;-v\\-v&amp;1\end{array}\right|&amp;\left|\begin{array}{rr}-v&amp;-v\\-v&amp;1\end{array}\right|&amp;\left|\begin{array}{rr}-v&amp;1\\-v&amp;-v\end{array}\right|\\
+\\
+\left|\begin{array}{rr}-v&amp;-v\\
+-v&amp;1\end{array}\right|&amp;\left|\begin{array}{rr}1&amp;-v\\-v&amp;1\end{array}\right|&amp;\left|\begin{array}{rr}1&amp;-v\\-v&amp;-v\end{array}\right|\\
+\\
+\left|\begin{array}{rr}-v&amp;-v\\ 1&amp;-v\end{array}\right|&amp;\left|\begin{array}{rr}1&amp;-v\\
+-v&amp;-v\end{array}\right|&amp;\left|\begin{array}{rr}1&amp;-v\\-v&amp;1\end{array}\right|\end{array}\right)=\left(\begin{array}{ccc}1-v^2&amp;-v-v^2&amp;v^2+v\\
+-v-v^2&amp;1-v^2&amp;-v-v^2\\ v^2+v&amp;-v-v^2&amp;1-v^2\end{array}\right).\)</span></p>
+    <p>We then apply the pattern of signs:&nbsp;</p>
+    <p><span class="math inline">\(\qquad \left(\begin{matrix} +&amp;-&amp;+\\
+-&amp;+&amp;-\\
++&amp;-&amp;+
+\end{matrix}\right)\)</span></p>
+    <p>to obtain the matrix of cofactors</p>
+    <p><span class="math inline">\(\qquad \left(\begin{array}{ccc}1-v^2&amp;v+v^2&amp;v^2+v\\ v+v^2&amp;1-v^2&amp;v+v^2\\ v^2+v&amp;v+v^2&amp;1-v^2\end{array}\right).\)</span></p>
+    <p>To find the adjoint we take the transpose of the above, (which is the same as the original matrix since the matrix is symmetric)</p>
+    <p><span class="math inline">\(\qquad \left(\begin{array}{ccc}1-v^2&amp;v+v^2&amp;v^2+v\\ v+v^2&amp;1-v^2&amp;v+v^2\\ v^2+v&amp;v+v^2&amp;1-v^2\end{array}\right).\)</span></p>
+    <p>The determinant of the original matrix is&nbsp;</p>
+    <p><span class="math inline">\(\qquad 1\times (1-v^2)-v(v+v^2)-v(v^2+v)=1-3v^2-2v^3.\)</span> Finally we divide the adjoint by the determinant to find the inverse, giving&nbsp;</p>
+    <p><span class="math inline">\(\qquad \dfrac{1}{1-3v^2-2v^3}\left(\begin{array}{ccc}1-v^2&amp;v+v^2&amp;v+v^2\\ v+v^2&amp;1-v^2&amp;v+v^2\\
+v+v^2&amp;v+v^2&amp;1-v^2\end{array}\right).\)</span></p>
+    <p><span class="math inline"><br></span></p>
+    <p>Now we found that <span class="math inline">\(\pmb{\sigma}=E{\pmb A}^{-1}\varepsilon\)</span> so <span class="math inline">\(\left(\begin{array}{c}\sigma_x\\ \sigma_y\\
+\sigma_z\end{array}\right)=\dfrac{E}{1-3v^2-2v^3}\left(\begin{array}{ccc}1-v^2&amp;v+v^2&amp;v+v^2\\ v+v^2&amp;1-v^2&amp;v+v^2\\
+v+v^2&amp;v+v^2&amp;1-v^2\end{array}\right)\left(\begin{array}{c}\varepsilon_x\\ \varepsilon_y\\
+\varepsilon_z\end{array}\right)\)</span></p>
+    <p>We can write this matrix equation as 3 equations relating the stresses <span class="math inline">\(\sigma_x,\ \sigma_y,\ \sigma_z,\)</span> in terms of the strains <span class="math inline">\(\varepsilon_x,\
+\varepsilon_y\)</span> and <span class="math inline">\(\varepsilon_z\)</span>, by multiplying out this matrix expression, giving: <span class="math display">\[\begin{aligned}
+\sigma_x&amp;=&amp;\dfrac{E}{1-3v^2-2v^3}\
+\left((1-v^2)\varepsilon_x+(v+v^2)\varepsilon_y+(v+v^2)\varepsilon_z\right)\\
+\\
+\sigma_y&amp;=&amp;\dfrac{E}{1-3v^2-2v^3}\ \left((v+v^2)\varepsilon_x+(1-v^2)\varepsilon_y+(v+v^2)\varepsilon_z\right)\\
+\\
+\sigma_z&amp;=&amp;\dfrac{E}{1-3v^2-2v^3}\
+\left((v+v^2)\varepsilon_x+(v+v^2)\varepsilon_y+(1-v^2)\varepsilon_z\right)\end{aligned}\]</span></p>
+    <p><br></p>
+    <p><br></p>
+    <p><span><strong>Interpretation</strong></span></p>
+    <p>Matrix manipulation has been used to transform three simultaneous equations relating strain to stress into simultaneous equations relating stress to strain in terms of the elastic constants. These would be useful for deducing the applied stress if
+        the strains are known. The original equations enable calculation of strains if the applied stresses are known.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

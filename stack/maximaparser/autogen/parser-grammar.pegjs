@@ -46,6 +46,7 @@
    case '!!':
     return 160;
    case '^':
+   case 'nounpow':
    case '**':
     return 140;
    case '.':
@@ -54,14 +55,19 @@
    case '@@IS@@':
    case '@@Is@@':
    case '/':
+   case 'nounmul':
+   case 'noundiv':
     return 120;
    case '+-':
    case '#pm#':
    case '+':
+   case 'nounadd':
    case '-':
     return 100;
    case '=':
+   case 'nouneq':
    case '*':
+   case 'nounmul':
    case '#':
    case '>':
    case '>=':
@@ -576,6 +582,7 @@ PrefixOp
   = "#pm#"
   / "+-" & { /** <?php return $this->options['allowPM']; ?> **/ return options.allowPM; } {return '+-';}
   / "-"
+  / "nounsub "
   / "+"
   / "''"
   / "'"
@@ -600,6 +607,11 @@ InfixOp
   / "+-" & { /** <?php return $this->options['allowPM']; ?> **/ return options.allowPM; } {return '+-';}
   / "-"
   / "+"
+  / "nounadd"
+  / "nounmul"
+  / "noundiv"
+  / "nounpow"
+  / "nouneq"
   / "%and"
   / "%or"
   / "and"

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>3.4.1.1 Introduction Simultaneous Equations</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3><span>Solving Simultaneous Linear Equations</span><br></h3>
+
+<p>Equations often arise in which there is more than one unknown quantity. When this is the case there will usually be more than one equation involved. For example in the two linear equations \( 7x+y=9, -3x+2y=1\) there are two unknowns: \(x\) and \(y\). In order to solve the equations we must find values for \(x\) and \(y\) that satisfy both of the equations simultaneously. The two equations are called <strong>simultaneous equations</strong>. You should verify that the solution of these equations is \(x=1\), \(y=2\) because by substituting these values into both equations, the left-hand and right-hand sides are equal.</p><br>
+
+<p>In this Section we shall show how two simultaneous equations can be solved either by a method known as <strong>elimination</strong> or by drawing graphs. In realistic problems which arise in mathematics and in engineering there may be many equations with many unknowns. Such problems cannot be solved using a graphical approach (we run out of dimensions in our 3-dimensional world!). Solving these more general problems requires the use of more general elimination procedures or the use of matrix algebra. Both of these topics are discussed in later Workbooks.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

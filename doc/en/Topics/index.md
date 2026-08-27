@@ -12,6 +12,6 @@ This section of the STACK documentation contains information on how to author qu
 * [Vector Calculus](Vector_Calculus.md)
 * [Proof](../Topics/Proof/index.md).
 
-There is separate documentation on [specialist tools](../Specialist_tools/index.md), such as those needed for, drag and drop (Parsons problems), graphical interaction and so on.  Specialist tool documentaion is not linked to a single mathematical topic, but rather to a technical tool.
+There is separate documentation on [specialist tools](../Specialist_tools/index.md), such as those needed for, drag and drop (Parsons problems), graphical interaction and so on.  Specialist tool documentation is not linked to a single mathematical topic, but rather to a technical tool.
 
-The stack question library contains many examples in directories matching the structure of the documentation.
+The stack question library contains many examples in directories matching the structure of the documentation. 

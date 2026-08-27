@@ -37,7 +37,7 @@ Use the following question text.
 2. Create input `ans2` as an algebraic input, with teacher's answer `ta2`.  Use the extra option `allowempty`.
 3. In the PRT the first node should check `ans1=X` and, if so check that `ans2=ta2`.
 
-Notice that the reveal block has the condition `value="5"`, _not_ `value="X"`.  This is because the reveal block executes client-side, using javascript, and the values of the options are simply numbered, and mapped back to Maxima values server-side.
+**Notice that the reveal block has the condition `value="5"`, _not_ `value="X"`.**  This is because the reveal block executes client-side, using javascript, and the values of the options are simply numbered, and mapped back to Maxima values server-side.
 
 ## Hint block ##
 
@@ -189,3 +189,22 @@ STACK supports inclusion of dynamic graphics using GeoGebra: [https://geogebra.o
 ## Parsons block ##
 
 [Drag and drop problems](../../Specialist_tools/Drag_and_drop/index.md) can be created using the [Parsons block](../../Specialist_tools/Drag_and_drop/Question_block.md).  For example this allows users (e.g. students) to assemble pre-written text into a correct order.  This block can be linked with an input to create a [Parsons problem](../../Specialist_tools/Drag_and_drop/Parsons.md) or as matching problems, such as [grid](../../Specialist_tools/Drag_and_drop/Grid.md) and [grouping](../../Specialist_tools/Drag_and_drop/Grouping.md).
+
+## JavaScript block ##
+
+This block creates a hidden [`[[iframe]]`-block](Iframe_blocks.md) with the [STACK-JS](../../Specialist_tools/STACK-JS/index.md) library already imported inside a `<script type="module">`-container. The block also supports the same input referencing attributes as the `[[jsxgraph]]`-block, you can also do input referencing through STACK-JS if that better suits your needs.
+
+```
+[[javascript input-ref-ans1="ans1ref"]]
+let input = document.getElementById(ans1ref);
+input.addEventListener("change", () => {
+  if (input.value == 'foo') {
+    stack_js.switch_content('[[quid id="messagebox"/]]', input.value + "bar");
+    stack_js.toggle_visibility('[[quid id="messagebox"/]]', true);
+  } else {
+    stack_js.toggle_visibility('[[quid id="messagebox"/]]', false);
+  }
+});
+[[/javascript]]
+```
+Do note that the use of `input-ref-...` attributes will lead to rewriting parts of the JavaScript code. Basically, the contents of the block are wrapped as a function that will be called after the input references have been fully registered. During that wrapping, all `import`-statements in that code will be lifted outside of that function, that lifting is unaware of JS-comments. If such rewriting causes trouble for your logic, you may choose to not use the `input-ref-...` feature and instead do any access to inputs through [STACK-JS](../../Specialist_tools/STACK-JS/index.md). No rewriting happens, if those attributes are not used.

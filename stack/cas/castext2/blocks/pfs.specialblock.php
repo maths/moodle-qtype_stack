@@ -43,7 +43,7 @@ class stack_cas_castext2_special_rewrite_pluginfile_urls extends stack_cas_caste
     public $component = 'qtype_stack';
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function __construct($params, $children=[], $mathmode=false, $value='') {
+    public function __construct($params, $children = [], $mathmode = false, $value = '') {
         parent::__construct($params, $children, $mathmode);
         if (count($params) == 0) {
             return; // The processor instantiates without params.
@@ -109,8 +109,11 @@ class stack_cas_castext2_special_rewrite_pluginfile_urls extends stack_cas_caste
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
-    public function postprocess(array $params, castext2_processor $processor,
-        castext2_placeholder_holder $holder): string {
+    public function postprocess(
+        array $params,
+        castext2_processor $processor,
+        castext2_placeholder_holder $holder
+    ): string {
         // First collapse the content.
         $content    = '';
         for ($i = 4; $i < count($params); $i++) {

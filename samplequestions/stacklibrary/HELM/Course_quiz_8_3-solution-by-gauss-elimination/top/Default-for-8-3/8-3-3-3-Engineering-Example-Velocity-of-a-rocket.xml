@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>8.3.3.3 Engineering Example: Velocity of a rocket</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4 class="HELM_example">Engineering Example: Velocity of a rocket</h4>
+
+<p>The upward velocity of a rocket, measured at 3 different times, is shown in the following table <span class="math display">\[\begin{array}{|c|c|}\hline
+\text{Time}, t &amp; \text{Velocity}, v \\
+\text{(seconds)}&amp; \text{(metres/second)} \\ \hline 
+5&amp;106.8\\ \hline
+8&amp;177.2\\ \hline 
+12&amp;279.2\\ \hline 
+\end{array}\]</span> The velocity over the time interval <span class="math inline">\(5\leq t\leq 12\)</span> is approximated by a quadratic expression as <span class="math display">\[v(t)=a_1t^2+a_2t+a_3\]</span> Find the values of <span class="math inline">\(a_1, a_2\)</span>    and <span class="math inline">\(a_3\)</span>.</p>
+
+<h4 class="HELM_solution">Solution</h4>
+
+<p>Substituting the values from the table into the quadratic equation for <span class="math inline">\(v(t)\)</span> gives: <span class="math display">\[\begin{array}{l}
+106.8 &amp; = &amp; 25a_1 &amp; + &amp; 5a_2 &amp; + &amp; a_3 \\
+177.2 &amp; = &amp; 64a_1 &amp; + &amp; 8a_2 &amp; + &amp; a_3 \\
+279.2 &amp; = &amp; 144a_1 &amp; + &amp; 12a_2 &amp; + &amp; a_3 \\
+\end{array}
+\qquad \text{or} \qquad 
+\left[\begin{matrix}
+25&amp;5&amp;1\\
+64&amp;8&amp;1\\
+144&amp;12&amp;1
+\end{matrix}\right]
+\left[\begin{matrix}
+a_1\\a_2\\a_3
+\end{matrix}\right]=
+\left[\begin{matrix}
+106.8\\
+177.2\\
+279.2
+\end{matrix}\right]\]</span> Applying one of the methods you’ve learned gives the solution as <span class="math display">\[a_1=0.2905\qquad a_2=19.6905\qquad a_3=1.0857 \quad \text{to } 4 \text{ d.p}.\]</span> As the original values were all <span><strong>experimental observations</strong></span>    then the values of the unknowns are all <span><strong>approximations</strong></span>. The relation <span class="math inline">\(v(t)=0.2905t^2+19.6905t+1.0857\)</span> can now be used to predict the approximate position of the rocket for any time within
+    the interval <span class="math inline">\(5\leq t \leq 12\)</span>.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

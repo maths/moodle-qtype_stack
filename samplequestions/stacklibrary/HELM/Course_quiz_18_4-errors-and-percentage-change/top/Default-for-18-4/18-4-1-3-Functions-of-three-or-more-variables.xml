@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>18.4.1.3 Functions of three or more variables</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Approximations with more than two variables </h4>
+
+<p>If \(f\) is a function of several variables \(x,\, y,\, u,\, v,\, \dots\) the error induced in \(f\) as a result of making small errors \(\delta x\), \(\delta y,\, \delta u,\, \delta v,\, \dots\) in \(x,\, y,\, u,\, v,\, \dots\) is found by a simple generalisation of the expression
+    for two variables given above: \[\delta f \simeq \dfrac{\partial f}{\partial x} \delta x + \dfrac{\partial f}{\partial y} \delta y + \dfrac{\partial f}{\partial u} \delta u + \dfrac{\partial f}{\partial v} \delta v + \cdots\]</p>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Suppose that the area of triangle \(ABC\) is to be calculated by measuring two sides and the included angle. Call the sides \(b\) and \(c\) and the angle \(A\).</p>
+<p>Then the area \(S\) of the triangle is given by \(S= \dfrac{1}{2} b c \sin A\).</p>
+<p>Now suppose that the side \(b\) is measured as \(4.00\text{m}\), \(c\) as \(3.00\text{m}\) and \(A\) as \(30 ^{\circ}\). Suppose also that the measurements of the sides could be in error by as much as \(\pm 0.005\text{m}\) and of the angle by \(\pm 0.01^{\circ}\).
+    Calculate the likely maximum error induced in \(S\) as a result of the errors in the sides and angle.</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>Here \(S\) is a function of three variables \(b,c, A\). We calculate \(S= \dfrac{1}{2} \times 4 \times 3 \times \dfrac{1}{2} = 3\text{m}^2\).</p>
+<p>Now \(\dfrac{\partial S}{\partial b}= \dfrac{1}{2} c \sin A, \quad \dfrac{\partial S}{\partial c} = \dfrac{1}{2} b \sin A, \text{ and } \quad \dfrac{1}{2} b c \cos A,\) so \[\delta S \simeq \dfrac{\partial S}{\partial b} \delta b + \dfrac{\partial S}{\partial
+    c} \delta c + \dfrac{\partial S}{\partial A} \delta A = \dfrac{1}{2} c \sin A \delta b + \dfrac{1}{2} b \sin A \delta c + \dfrac{1}{2} b c \cos A \delta A. \]</p>
+<p>Here \(|\delta b|_{\text{max}} = |\delta c|_{\text{max}} = 0.005\) and \(|\delta A|_{\text{max}} = \dfrac{\pi}{180} \times 0.01\) (\(A\) must be measured in radians). Substituting these values we see that the maximum error in the calculated value of \(S\)
+    is given by the approximation \[ \begin{aligned} |\delta S|_{\text{max}} &amp; \simeq \left(\dfrac{1}{2} \times 3 \times \dfrac{1}{2}\right) \times 0.005 + \left(\dfrac{1}{2} \times 4 \times \dfrac{1}{2}\right) \times 0.005 + \left(\dfrac{1}{2} \times
+    4 \times 3 \times \dfrac{\sqrt{3}}{2}\right)\frac{\pi}{180} \times 0.01 \\ &amp; \simeq 0.0097 \text{ m}^2 \end{aligned}\] Hence the estimated value of \(S\) is in error by up to about \(\pm 0.01\text{ m}^2\). </p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

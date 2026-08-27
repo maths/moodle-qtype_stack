@@ -31,6 +31,7 @@ Feature: Test STACK library
     And I click on "STACK question library" "link"
     Then I should see "Test questions"
     And I should not see "Question variables"
+    And I should not see "Select library"
     And I click on "Calculus-Refresher" "button"
     And I click on "CR_Diff_02" "button"
     And I click on "CR-Diff-02-linearity-1-b.xml" "button"

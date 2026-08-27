@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>37.2.2 Expectation and variance of the binomial distribution</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4><b>Expectation and variance of the binomial distribution</b></h4><p><span>For a binomial distribution \(X\sim B(n,p)\), the mean and variance, as we shall see, have a simple form. While we will not prove the formulae in general terms - the algebra can be rather tedious - we will illustrate the results for cases involving small values of \(n\).<br></span></p><p><strong>The case <strong>\(\pmb n\pmb =\pmb 2\)</strong></strong><br></p><p>Essentially, we have a random variable \(X\) which follows a binomial distribution \(X\sim B(2,p)\) so that the values taken by \(X\) (and \(X^2\) - needed to calculate the variance) are shown in the following table:</p><p><br></p><table class="HELM_table">
+<thead>
+<tr>
+<th style="text-align: center;"><span class="math inline">\(x\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(x^2\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\text{P}&nbsp;(X=x)\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(x\) </span>\(\text{P}&nbsp;(X=x)\)<span class="math inline"></span></th>
+<th style="text-align: center;"><span class="math inline">\(x^2\) </span>\(\text{P}&nbsp;(X=x)\)<span class="math inline"></span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;"><span class="math inline">\(q^2\)</span></td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;"><span class="math inline">\(2qp\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(2qp\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(2qp\)</span></td>
+</tr>
+<tr>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;"><span class="math inline">\(p^2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(2p^2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(4p^2\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><br></p><p>We can now calculate the mean of this distribution:&nbsp;</p><p>\(\text{E}(X) =\sum x\text{P} (X=x)=0+2qp+2p^2=2p(q+p)=2p\qquad \text{since}\ q+p=1\)&nbsp;</p><p>Similarly, the variance \(V(X)\) is given by&nbsp;</p><p>\( V(X) =\text{E}(X^2)-[\text{E}(X)]^2=0+2qp+4p^2-(2p)^2=2qp\)</p><p><br></p><hr>
+<h4 class="HELM_example">Example</h4>
+<p>Calculate the mean and variance of a random variable \(X\) which follows a binomial distribution \(X\sim B(3,p)\).</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>The table of values appropriate to this case is: 
+</p><table class="HELM_table" style="width:75%">
+<thead>
+<tr>
+<th>\(x\)</th>
+<th>\(x^2\)</th>
+<th>\(\text{P} (X=x)\)</th>
+<th>\(x\text{P} (X=x)\)</th>
+<th>\(x^2\text{P} (X=x)\)</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>\(0\)</td><td>\(0\)</td><td>\(q^3\)</td><td>\(0\)</td><td>\(0\)</td></tr>
+<tr><td>\(1\)</td><td>\(1\)</td><td>\(3q^2p\)</td><td>\(3q^2p\)</td><td>\(3q^2p\)</td></tr>
+<tr><td>\(2\)</td><td>\(4\)</td><td>\(3qp^2\)</td><td>\(6qp^2\)</td><td>\(12qp^2\)</td></tr>
+<tr><td>\(3\)</td><td>\(9\)</td><td>\(p^3\)</td><td>\(3p^3\)</td><td>\(9p^3\)</td></tr>
+</tbody></table>
+<br>
+<p>Hence <span class="math inline">\(\quad \text{E}(X)=\sum x\text{P} (X=x)=0+3q^2p+6qp^2+3p^3=3p(q+p)^2=3p\qquad\text{since } q+p=1\)</span></p>
+<p><span class="math display">\[\begin{aligned}
+V(X)&amp;=\text{E}(X^2)-[\text{E}(X)]^2\\
+&amp;=0+3q^2p+12qp^2+9p^3-(3p)^2\\
+&amp;=3p(q^2+4qp+3p^2-3p)\\&amp;=3p((1-p)^2+4(1-p)p+3p^2-3p) \\
+&amp;=3p(1-2p+p^2+4p-4p^2+3p^2-3p)=3p(1-p)=3pq\end{aligned}\]</span></p><p>From the results given above, it is reasonable to asert the following result in the Key Point below</p><p><br></p><div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p><strong>Expectation and Variance of the Binomial Distribution</strong></p>
+<p>If a random variable <span class="math inline">\(X\)</span> which can assume the values <span class="math inline">\(0,1,2,3,\dots , n\)</span> follows a binomial distribution <span class="math inline">\(X\sim B(n,p)\)</span> so that</p>
+<p style="text-align: center; "><span class="math inline">\(\text{P} (X=r)= \ ^n C_rp^rq^{n-r}= \ ^n C_rp^r(1-p)^{n-r}\)</span></p>
+<p>then the expectation and variance of the distribution are given by the formulae</p>
+<p style="text-align: center; "><span class="math inline">\(\text{E}(X)=np\qquad \text{and}\qquad V(X)=np(1-p)=npq\)</span></p>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

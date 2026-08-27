@@ -28,8 +28,8 @@
 define('CLI_SCRIPT', true);
 
 require(__DIR__ . '/../../../../config.php');
-require_once($CFG->libdir.'/clilib.php');
-require_once($CFG->libdir.'/adminlib.php');
+require_once($CFG->libdir . '/clilib.php');
+require_once($CFG->libdir . '/adminlib.php');
 
 // Fake settings object to catch some values.
 // phpcs:ignore moodle.Commenting.MissingDocblock.Class
@@ -53,7 +53,7 @@ $plugin = new stdClass();
 require(__DIR__ . '/../version.php');
 
 // Get cli options.
-list($options, $unrecognized) = cli_get_params(['help' => false, 'only' => 'row'], ['h' => 'help']);
+[$options, $unrecognized] = cli_get_params(['help' => false, 'only' => 'row'], ['h' => 'help']);
 
 if ($unrecognized) {
     $unrecognized = implode("\n  ", $unrecognized);
@@ -79,8 +79,13 @@ table in the docs.
 
 // Read things in.
 $matches = [];
-if (!preg_match('~stackmaximaversion:(\d{10})~',
-    file_get_contents($CFG->dirroot . '/question/type/stack/stack/maxima/stackmaxima.mac'), $matches)) {
+if (
+    !preg_match(
+        '~stackmaximaversion:(\d{10})~',
+        file_get_contents($CFG->dirroot . '/question/type/stack/stack/maxima/stackmaxima.mac'),
+        $matches
+    )
+) {
         throw new coding_exception('Maxima libraries version number not found in stackmaxima.mac.');
 }
 // Collect values.
@@ -95,7 +100,7 @@ if ($stackmaxima != $pluginversion) {
     throw new coding_exception('Maxima libraries version number not matching plugin version number.');
 }
 
-switch($options['only']) {
+switch ($options['only']) {
     case 'row':
         echo "$pluginname | $pluginversion | $maximas\n";
         break;

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>8.1.1.6 Notation</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4><strong style="font-size: 14px;">Notation</strong><br></h4>
+<p>For ease of generalisation to larger systems we write the two-equation system in a different notation: <span class="math display">\[\begin{aligned}
+a_{11}x_1+a_{12}x_2&amp;=&amp;b_1 \\
+a_{21}x_1+a_{22}x_2&amp;=&amp;b_2\end{aligned}\]</span>&nbsp;</p>
+<p>Here the unknowns are <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span>, the right-hand sides are <span class="math inline">\(b_1\)</span> and <span class="math inline">\(b_2\)</span> and the coefficients are
+    <span class="math inline">\(a_{ij}\)</span> where, for example, <span class="math inline">\(a_{21}\)</span> is the coefficient of <span class="math inline">\(x_1\)</span> in equation two. In general, <span class="math inline">\(a_{ij}\)</span> is the coefficient of <span class="math inline">\(x_j\)</span>        in equation <span class="math inline">\(i\)</span>.<br></p>
+<p>Cramer’s rule can then be stated as follows:</p>
+<p>If <span class="math inline">\(\left|\begin{array}{cc}a_{11}&amp;a_{12}\\ a_{21}&amp;a_{22}\end{array}\right|\neq 0\)</span>, then the equations <span class="math display">\[\begin{aligned}
+a_{11}x_1+a_{12}x_2&amp;=&amp;b_1\\
+a_{21}x_1+a_{22}x_2&amp;=&amp;b_2\end{aligned}\]</span>&nbsp;</p>
+<p>have solution</p>
+<p><span class="math inline">\(\qquad x_1=\dfrac{\left|\begin{array}{cc}b_1&amp;a_{12}\\
+b_2&amp;a_{22}\end{array}\right|}{\left|\begin{array}{cc}a_{11}&amp;a_{12}\\
+a_{21}&amp;a_{22}\end{array}\right|}\ ,\ \ \ x_2=\dfrac{\left|\begin{array}{cc}a_{11}&amp;b_1\\
+a_{21}&amp;b_2\end{array}\right|}{\left|\begin{array}{cc}a_{11}&amp;a_{12}\\
+a_{21}&amp;a_{22}\end{array}\right|}.\)</span></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

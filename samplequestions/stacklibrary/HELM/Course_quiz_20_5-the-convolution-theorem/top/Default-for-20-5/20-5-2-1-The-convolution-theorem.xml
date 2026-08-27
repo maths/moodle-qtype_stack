@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>20.5.2.1 The convolution theorem</text>
+    </name>
+    <questiontext format="moodle_auto_format">
+      <text><![CDATA[<h2>The convolution theorem</h2>
+<p>Let \(f(t)\) and \(g(t)\) be causal functions with Laplace transforms \(F(s)\) and \(G(s)\) respectively, i.e. \({\cal L}\{f(t)\}=F(s)\) and \({\cal L}\{g(t)\}=G(s)\). Then it can be shown that</p>
+<br>
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p><center><strong>The Convolution Theorem</strong></center></p>
+<p>\[{\cal L}^{-1}\{F(s)G(s)\}=(f*g)(t)\qquad\text{ or equivalently}\qquad {\cal L}\{(f*g)(t)\}=F(s)G(s)\]</p>
+</div>
+<br>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Find the inverse transform of \(\displaystyle{{6\over {s(s^2+9)}}}\).</p>
+<ol class="HELM_parts">
+<li> Using partial fractions </li>
+<li> Using the convolution theorem.</li>
+</ol>
+
+
+<h4 class="HELM_solution">Solution</h4>
+
+<ol class="HELM_parts">
+<li><p> \(\quad\displaystyle {6\over {s(s^2+9)}}={(2/3)\over s}-{(2/3)s\over{s^2+9}}\) and so \[\begin{eqnarray*}
+{\cal L}^{-1}\left\{{6\over {s(s^2+9)}}\right\}=
+\tfrac{2}{3}{\cal L}^{-1}\left\{{1\over s}\right\}-
+\tfrac{2}{3}{\cal
+L}^{-1}\left\{{s\over {s^2+9}}\right\}=
+\tfrac{2}{3}u(t)-\tfrac{2}{3}\cos 3t.u(t)
+\end{eqnarray*}\] </p></li>
+
+<li><p> Let us choose \(\quad\displaystyle F(s)={2\over s}\qquad\text{ and}\qquad G(s)={3\over {s^2+9}}\) then \[f(t)={\cal L}^{-1}\{F(s)\}=2u(t)\quad \text{ and}\quad
+g(t)={\cal L}^{-1}\{G(s)\}=\sin 3t.u(t)\] So \[\begin{eqnarray*}
+{\cal L}^{-1}\{F(s)G(s)\}&amp;=&amp;(f*g)(t)\qquad \text{(by the convolution theorem)}\qquad\qquad\qquad\qquad\qquad\\&amp;=&amp;\int_0^t2u(t-x)\sin 3x. u(x)\,dx
+\end{eqnarray*}\] Now the variable \(t\) can take any value from \(-\infty\) to \(+\infty\). If \(t&lt;0\) then the variable of integration, \(x\), is negative and so \(u(x)=0\). We conclude that \[(f*g)(t)=0\quad \text{ if}\quad t&lt;0\] that is, \((f*g)(t)\) is a <strong>causal function</strong>. Let us now consider the other possibility for \(t\), that is the range \(t\ge 0\). Now, in the range of integration \(0\le x\le t\) and so \[u(t-x)=1\qquad u(x)=1\] since both \(t-x\) and \(x\) are non-negative. Therefore \[\begin{eqnarray*}
+{\cal L}^{-1}\{F(s)G(s)\}&amp;=&amp;\int_0^t2\sin 3x\,dx\\&amp;=&amp;\left[\phantom{\dfrac{1}{1}}\!\!\!-\dfrac{2}{3}\cos 3x
+\right]_0^t=-\dfrac{2}{3}(\cos 3t -1)\qquad t\ge 0\qquad\qquad\qquad\qquad\qquad
+\end{eqnarray*}\] Hence \[{\cal L}^{-1}\{{6\over {s(s^2+9)}}\}=-\dfrac{2}{3}(\cos
+3t -1)u(t)\] which agrees with the value obtained above using the partial fraction approach.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

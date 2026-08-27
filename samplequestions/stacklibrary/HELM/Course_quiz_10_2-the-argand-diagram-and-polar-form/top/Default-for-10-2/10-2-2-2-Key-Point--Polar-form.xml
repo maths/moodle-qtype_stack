@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>10.2.2.2 Key Point -Polar form</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<div class="HELM_keypoint">
+    <h4>Key Point</h4>
+    <p>If <span class="math inline">\(z=a+i b\), \(a\neq 0\)</span> then <span class="math display">\[z=r(\cos\theta+i\sin\theta)\]</span> in which <span class="math display">\[r=|z|=\sqrt{a^2+b^2}\quad \text{and}\quad \tan(\theta) =\dfrac{b}{a}.\] Note to find \(\theta=\text{arg}(z)\) we need to know which quadrant \(z\) lies by examining the signs of \(a\) and \(b\). The inverse tan function will give an angle in the first or fourth quadrant so we need to add or subtract \(\pi\) if the complex number lies in the second or third quadrant.<br></span></p>
+</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

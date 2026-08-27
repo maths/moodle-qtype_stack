@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+<!-- question: 105108  -->
+  <question type="stack">
+    <name>
+      <text>fb_bar_name() unit test</text>
+    </name>
+    <questiontext format="markdown">
+      <text><![CDATA[**fb_bar_name() unit test**
+
+This is a unit test question for the function [`fb_bar_name`](https://github.com/mkraska/meclib/wiki/fb_bar_name). 
+
+Just press the "Check" button to perform the test.
+
+<p >[[input:objects]] [[validation:objects]]</p>
+<p >[[input:names]] [[validation:names]] </p>
+[[jsxgraph width='500px' height='400px' input-ref-objects="stateRef" input-ref-names="fbd_names" ]]
+var mode  = "STACK";
+const initstring = {#init#};
+const centeredLabelStyle = {size:0, showInfobox:false, label:{offset:[-6,0], 
+  anchorX:'left', anchorY:'middle'}};
+// End of STACK header
+[[include 
+src="https://raw.githubusercontent.com/mkraska/meclib/main/meclib.js" /]]
+[[/jsxgraph]]
+
+Contents of the `names` input field correct? This is pre-requisite for correct feedback.
+
+[[feedback:names]]
+
+**This is a debug message independent of  `debug: true`**. 
+
+The object 3 is a force. No point to apply the function here. This error is independent of the student's input and must be fixed by the question author.
+
+`fb_bar_name(obj, names, 3)` 
+
+[[feedback:fb3]]
+
+**These messages are only visible if `debug: true`**.
+
+`fb_bar_name(obj, names, 4)` 
+
+[[feedback:fb4]]
+
+`fb_bar_name(obj, names, 5)` Bar 5 has more than one reaction (one moment and one force)
+
+[[feedback:fb5]]
+
+`fb_bar_name(obj, names, 8)` Bar 8 has a reaction but that is not a force
+
+[[feedback:fb8]]
+
+`fb_bar_name(obj, names, 9)` Bar 9 has more than one reaction (two forces)
+
+[[feedback:fb9]]
+
+**The following tests are actually feedback on the name of the reaction**
+
+`fb_bar_name(obj, names, 12)` Name must be a single character (perhaps with index)
+
+[[feedback:fb12]]
+
+`fb_bar_name(obj, names, 14)` Name must be a sensible character (F force, N normal force, S Stabkraft). This is for sure matter of taste.
+
+[[feedback:fb14]]
+
+`fb_bar_name(obj, names, 16)` If the bar has a number, then use it in the force name.
+
+[[feedback:fb16]]]]></text>
+    </questiontext>
+    <generalfeedback format="markdown">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+    <stackversion>
+      <text>2023010400</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[counter: 1;
+
+/* input with correct direction and name */
+initdata:  [
+  [ "grid", "", "", -1,10,-2,4,40],
+  [ "bar", "2", [0,0], [0,2], "show"],
+  [ "force", "S_3", [0,0], [0,-1], 1, "active"],
+  [ "bar", "4", [1,0], [1,2], "hide"],
+  [ "bar", "5", [2,0], [2,2], "hide"], 
+  [ "force", "S_6", [2,0], [2,-1], 1, "active"],
+  [ "moment", "M_7", [2,2], [1.5,2.5], [2.5,2.5], "active"],
+  [ "bar", "8", [3,0], [2,2], "hide"],
+  [ "bar", "9", [4,0], [4,2], "hide"],
+  [ "force", "S_10", [4,0.5], [4,-0.5], 1, "active"],
+  [ "force", "S_11", [4,1.5], [4,2.5], 1, "active"],
+  [ "bar", "12", [5,0], [5,2], "hide"],
+  [ "force", "SK_12", [5,0.5], [5,-0.5], 1, "active"],
+  [ "bar", "14", [6,0], [6,2], "hide"],
+  [ "force", "A_14", [6,0.5], [6,-0.5], 1, "active"],
+  [ "bar", "16", [7,0], [7,2], "hide"],
+  [ "force", "S_17", [7,0.5], [7,-0.5], 1, "active"]
+];
+init: stackjson_stringify(initdata) ;
+
+names1: [0,"show",S_3,"hide",[6,7],S_6,M_7,[7],[10,11],S_10,S_11,[13],SK_12,[15],A_14,[17],S_17];
+
+debug: true;
+
+stack_include("https://raw.githubusercontent.com/mkraska/meclib/main/Maxima/fb_fbd.mac") ;]]></text>
+    </questionvariables>
+    <specificfeedback format="markdown">
+      <text></text>
+    </specificfeedback>
+    <questionnote>
+      <text></text>
+    </questionnote>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="markdown">
+      <text>Correct answer, well done.</text>
+    </prtcorrect>
+    <prtpartiallycorrect format="markdown">
+      <text>Your answer is partially correct.</text>
+    </prtpartiallycorrect>
+    <prtincorrect format="markdown">
+      <text>Incorrect answer.</text>
+    </prtincorrect>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>names</name>
+      <type>algebraic</type>
+      <tans>[]</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>objects</name>
+      <type>string</type>
+      <tans><![CDATA[""]]></tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>fb12</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text><![CDATA[obj: stackjson_parse(objects);
+[str, OK]: fb_bar_name(obj, names, 12);
+E: castext( "<br>{@SK_12@}: Physikalische Gr&ouml;&szlig;en immer nur mit einem Buchstabe und eventuell Index schreiben, z.B. <code>F_1</code>.");]]></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>str</sans>
+        <tans>E</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>fb12-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@str@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.5</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>fb12-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<br>
+R: {@str@}<br>
+E: {@E@}<br>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>fb14</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text><![CDATA[obj: stackjson_parse(objects);
+[str, OK]: fb_bar_name(obj, names, 14);
+E: castext("<br>{@A_14@}: Sinnvolle Namen für eine Stabkraft sind \\(F\\) (Kraft), \\(N\\) (Normalkraft) oder \\(S\\) (Stabkraft)" );]]></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>str</sans>
+        <tans>E</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>fb14-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@str@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>fb14-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<br>
+R: {@str@}<br>
+E: {@E@}<br>
+R: {#str#}<br>
+E: {#E#}]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>fb16</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text><![CDATA[obj: stackjson_parse(objects) ;
+[str, OK]: fb_bar_name(obj, names, 16);
+E: ["%root","<br>Der Index ",["smlt","17"]," passt nicht zum Stabname ",["smlt","16"],"."];]]></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>str</sans>
+        <tans>E</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>fb16-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@str@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>fb16-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<br>
+R: {@str@}<br>
+E: {@E@}<br>
+R: {#str#}<br>
+E: {#E#}]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>fb3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text><![CDATA[obj: stackjson_parse(objects);
+[str, OK]: fb_bar_name(obj, names, 3);
+E: "object 3 is not of type 'bar'";]]></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>str</sans>
+        <tans>E</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>fb3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@str@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>fb3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<br>
+R: {#str#}<br>
+E: {#E#}]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>fb4</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text><![CDATA[obj: stackjson_parse(objects);
+[str, OK]: fb_bar_name(obj, names, 4);
+E: "no reaction found at object 4 (debug message)"]]></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>String</answertest>
+        <sans>str</sans>
+        <tans>E</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>fb4-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@str@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>fb4-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<br>
+R: {#str#}<br>
+E: {#E#}]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>fb5</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text><![CDATA[obj: stackjson_parse(objects);
+[str, OK]: fb_bar_name(obj, names, 5);
+E: "more than one reaction found [6,7] (debug message)";]]></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>String</answertest>
+        <sans>str</sans>
+        <tans>E</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>fb5-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@str@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>fb5-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<br>
+R: {#str#}<br>
+E: {#E#}]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>fb8</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text><![CDATA[obj: stackjson_parse(objects);
+[str, OK]: fb_bar_name(obj, names, 8);
+E: "Reaction M_7 is not a force (debug message)";]]></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>str</sans>
+        <tans>E</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>fb8-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@str@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>fb8-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<br>
+R: {#str#}<br>
+E: {#E#}]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>fb9</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text><![CDATA[obj: stackjson_parse(objects);
+[str, OK]: fb_bar_name(obj, names, 9);
+E: "more than one reaction found [10,11] (debug message)";]]></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>str</sans>
+        <tans>E</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>fb9-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@str@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>fb9-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<br>
+R: {#str#}<br>
+E: {#E#}]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>names</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>2</feedbackstyle>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>flatten(names)</sans>
+        <tans>flatten(names1)</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>names-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text>{@names@}</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>names-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[Result/Expected:<br>
+{@names@}<br>
+{@names1@}]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+  </question>
+
+</quiz>

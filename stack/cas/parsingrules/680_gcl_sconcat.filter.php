@@ -33,16 +33,17 @@ require_once(__DIR__ . '/filter.interface.php');
  * that have large numbers of arguments.
  */
 class stack_ast_filter_680_gcl_sconcat implements stack_cas_astfilter {
-
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
-        $simplode = function($node) use (&$answernotes, &$errors) {
+        $simplode = function ($node) use (&$answernotes, &$errors) {
             if ($node instanceof MP_Functioncall) {
                 if ($node->name instanceof MP_Identifier && $node->name->value === 'sconcat') {
                     // The GCL thing. Old used lreduce/sconcat but simplode is probably faster.
                     if (count($node->arguments) > 40) {
-                        $replacement = new MP_FunctionCall(new MP_Identifier('simplode'),
-                            [new MP_List($node->arguments)]);
+                        $replacement = new MP_FunctionCall(
+                            new MP_Identifier('simplode'),
+                            [new MP_List($node->arguments)]
+                        );
                         $node->parentnode->replace($node, $replacement);
                         return false;
                     }

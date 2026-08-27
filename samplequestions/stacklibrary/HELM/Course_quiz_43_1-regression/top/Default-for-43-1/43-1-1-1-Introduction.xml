@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>43.1.1.1 Introduction</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>Introduction</h3>
+
+Problems in engineering often involve the exploration of the relationship(s) between two or more
+variables. The technique of regression analysis is very useful and well-used in this situation. This
+Section will look at the basics of regression analysis and should enable you to apply regression
+techniques to the study of relationships between variables. Just because a relationship exists between two variables does not necessarily imply that the relationship is causal. You might find, for example that there is a relationship between the hours a person spends watching TV and the incidence of lung cancer. 
+
+This does not necessarily imply that watching TV causes lung cancer.&nbsp;<p><br></p><p>Assuming that a causal relationship does exist, we can measure the strength of the relationship
+by means of a correlation coefficient discussed in the next Section. As you might expect, tests of
+significance exist which allow us to interpret the meaning of a calculated correlation coefficient.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

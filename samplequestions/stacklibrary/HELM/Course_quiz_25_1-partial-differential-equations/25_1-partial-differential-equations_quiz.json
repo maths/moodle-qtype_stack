@@ -1,0 +1,102 @@
+{
+    "quiz": {
+        "name": "25_1 Partial Differential Equations",
+        "intro": "<p dir=\"ltr\" style=\"text-align: left;\">A partial differential equation (PDE) is a differential equation involving partial derivatives of one\ndependent variable with respect to two or more independent variables. The independent variables\nmay be space variables only or one or more space variables and time. Mathematical modelling of\nmany situations involving natural phenomena leads to PDEs.\nThe subject of PDEs is a very large one. We shall discuss only a few special PDEs which model a\nwide range of applied problems.<br><\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Introduction and Revision",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "7",
+            "heading": "Partial Differential Equations",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-25-1\/25-1-1-1-Introduction-to-PDEs.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-25-1\/25-1-1-2-Simple-Differential-Equation.xml"
+        },
+        {
+            "slot": "3",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-25-1\/25-1-1-3-Second-order,-homogeneous,-constant-coeff-ODES.xml"
+        },
+        {
+            "slot": "6",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-25-1\/25-1-1-6-General-solutions-of-two-ODEs.xml"
+        },
+        {
+            "slot": "4",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-25-1\/25-1-1-4-Auxiliary-equation-Exercise-1.xml"
+        },
+        {
+            "slot": "5",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-25-1\/25-1-1-5-Auxiliary-equation-Exercise-2.xml"
+        },
+        {
+            "slot": "10",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-25-1\/25-1-2-4-Three-PDEs-of-general-interest.xml"
+        },
+        {
+            "slot": "7",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-25-1\/25-1-2-1-Partial-differential-equations.xml"
+        },
+        {
+            "slot": "8",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-25-1\/25-1-2-2-PDE-Solution-Testing.xml"
+        },
+        {
+            "slot": "9",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-25-1\/25-1-2-3-Diffusion-and-Wave-Equation.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

@@ -1,0 +1,149 @@
+{
+    "quiz": {
+        "name": "4_5 Applications of Trigonometry to Waves",
+        "intro": "<p>Waves and vibrations occur in many contexts. The water waves on the sea \nand the vibrations of a stringed musical instrument are just two \neveryday examples. If the vibrations are simple \u2018to and fro\u2018 \noscillations they are referred to as \u2018sinusoidal\u2018 &nbsp; which implies that a\n knowledge of trigonometry, particularly of the sine and cosine \nfunctions, is a necessary pre-requisite for dealing with their analysis.\n In this quiz we give a brief introduction to this topic.<br><\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "11.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Introduction to Wave equations",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "8",
+            "heading": "Combining Wave Equations",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "12",
+            "heading": "Exercises",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-4-5\/4-5-1-1-Applications-of-trigonometry-to-waves.xml"
+        },
+        {
+            "slot": "2",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-4-5\/4-5-1-2-Find-the-values.xml"
+        },
+        {
+            "slot": "3",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-4-5\/4-5-1-3-Continuation.xml"
+        },
+        {
+            "slot": "4",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-4-5\/4-5-1-4-Sketch-a-graph.xml"
+        },
+        {
+            "slot": "5",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-4-5\/4-5-1-5-Find-a-period-and-frequency.xml"
+        },
+        {
+            "slot": "6",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-4-5\/4-5-2-1-Time-shifts-between-waves.xml"
+        },
+        {
+            "slot": "7",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-4-5\/4-5-2-2-Calculate-the-time-shift.xml"
+        },
+        {
+            "slot": "8",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-4-5\/4-5-3-1-Key.xml"
+        },
+        {
+            "slot": "9",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-4-5\/4-5-3-2-C-as-A-and-B.xml"
+        },
+        {
+            "slot": "10",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-4-5\/4-5-3-4-Key-point2.xml"
+        },
+        {
+            "slot": "11",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-4-5\/4-5-3-5-Wave-form.xml"
+        },
+        {
+            "slot": "12",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-4-5\/4-5-4-1-Exercise-1-Amp-and-Phase.xml"
+        },
+        {
+            "slot": "13",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-4-5\/4-5-4-2-Exercise-2-Amp-Freq-Time-shift.xml"
+        },
+        {
+            "slot": "14",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-4-5\/4-5-4-4-Exercise-4-Water-depth.xml"
+        },
+        {
+            "slot": "15",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-4-5\/4-5-4-5-Exercise-5-Temp.xml"
+        },
+        {
+            "slot": "16",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-4-5\/4-5-4-10-Exercise-10-Sum-of-currents.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "12.00000"
+        }
+    ]
+}

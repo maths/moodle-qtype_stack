@@ -1,0 +1,119 @@
+{
+    "quiz": {
+        "name": "10_3 The Exponential Form of a Complex Number",
+        "intro": "<p>In this quiz we introduce a third way of expressing a complex number: the exponential form. We\r\nshall discover, through the use of the complex number notation, the intimate connection between\r\nthe exponential function and the trigonometric functions. We shall also see, using the exponential\r\nform, that certain calculations, particularly multiplication and division of complex numbers, are even\r\neasier than when expressed in polar form.<\/p><p>The exponential form of a complex number is in widespread use in engineering and science.<br><\/p>",
+        "introformat": "1",
+        "questionsperpage": "1",
+        "grade": "10.00000",
+        "navmethod": "free"
+    },
+    "sections": [
+        {
+            "firstslot": "1",
+            "heading": "Series expansions for exponential and trigonometric functions",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "2",
+            "heading": "The exponential form",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "6",
+            "heading": "Hyperbolic and trigonometric functions",
+            "shufflequestions": 0
+        },
+        {
+            "firstslot": "10",
+            "heading": "Exercises",
+            "shufflequestions": 0
+        }
+    ],
+    "questions": [
+        {
+            "slot": "1",
+            "page": "1",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-10-3\/10-3-1-1-Series-expansions.xml"
+        },
+        {
+            "slot": "2",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-10-3\/10-3-2-1-The-exponential-form.xml"
+        },
+        {
+            "slot": "3",
+            "page": "2",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-10-3\/10-3-2-2-The-exponential-form-to-Cartesian-form.xml"
+        },
+        {
+            "slot": "4",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-10-3\/10-3-2-3-Operations-with-the-exponential-form.xml"
+        },
+        {
+            "slot": "5",
+            "page": "3",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-10-3\/10-3-2-4-Finding-the-exponential-form.xml"
+        },
+        {
+            "slot": "6",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-10-3\/10-3-3-1-Hyperbolic-and-trigonometric-functions.xml"
+        },
+        {
+            "slot": "7",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-10-3\/10-3-3-2-Analogous-trigonometric-and-hyperbolic-function-identities.xml"
+        },
+        {
+            "slot": "8",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-10-3\/10-3-3-3-Osborne-s-Rule.xml"
+        },
+        {
+            "slot": "9",
+            "page": "4",
+            "requireprevious": 0,
+            "maxmark": "0.0000000",
+            "quizfilepath": "\/top\/Default-for-10-3\/10-3-3-4-Osborne-example.xml"
+        },
+        {
+            "slot": "10",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-10-3\/10-3-4-1-Applying-Osborne-s-rule.xml"
+        },
+        {
+            "slot": "11",
+            "page": "5",
+            "requireprevious": 0,
+            "maxmark": "1.0000000",
+            "quizfilepath": "\/top\/Default-for-10-3\/10-3-4-2-Hyperbolic-function-of-a-complex-number.xml"
+        }
+    ],
+    "feedback": [
+        {
+            "feedbacktext": "",
+            "feedbacktextformat": "1",
+            "mingrade": "0.00000",
+            "maxgrade": "11.00000"
+        }
+    ]
+}

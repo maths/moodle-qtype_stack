@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>4.5.3.4 Key point2</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h4>Combining Wave Equations</h4><div class="HELM_keypoint">
+<h4>Key Point <br></h4>If&nbsp; \(A\cos\theta+B\sin\theta= C\cos (\theta-\alpha)\)&nbsp; then&nbsp; \(C=\sqrt{A^2+B^2}\) and \( \tan\alpha=\dfrac{B}{A}.\) <p></p><p> Note that the following cases arise for the location of \(\alpha\):</p><p>&nbsp;\[ \quad 1.\quad&nbsp; A&gt;0,&nbsp; B&gt;0 : \text{ 1st&nbsp; quadrant } \] \[ \quad 2.\quad&nbsp; A&lt;0,&nbsp; B&gt;0 :\text{ 2nd quadrant } \] \[ \quad 3.\quad A&lt;0, B&lt;0 : \text{ 3rd quadrant } \] <span class="math inline">\[ \quad 4.\quad A&gt;0, B&lt;0 : \text{ 4th quadrant } \]<br></span><span class="math inline"><span></span></span></p></div><p><br>
+</p><p>In terms of waves, using Key Point above we have\[ \quad R_1\cos\omega t+R_2\sin\omega t= R\cos (\omega t-\alpha)\]&nbsp; where \(R=\sqrt{R^2_1+R^2_2} \)&nbsp; and \(&nbsp; \tan \alpha=\dfrac{R_2}{R_1}\). <br></p><p>The form \(R\cos (\omega t-\alpha)\) is said to be the&nbsp; <b>amplitude/phase</b> form of the wave.</p><hr>
+<h4 class="HELM_example">Example <br></h4>
+<p><span>Express in the form \(C\cos (\theta-\alpha)\) each of the following:</span></p><p><span></span><span></span><span>&nbsp;&nbsp;&nbsp; <br></span></p><ol class="HELM_parts"><li><span>&nbsp;</span>\(3\cos\theta+3\sin\theta\)<br><p></p></li><li><p></p><div>\(-3\cos\theta+3\sin\theta\) <br><p></p></div></li><li><p></p><div>\(-3\cos\theta-3\sin\theta\) <br><p></p></div></li><li><p></p><div>\(3\cos\theta-3\sin\theta\) </div></li></ol>
+<h4 class="HELM_solution">Solution</h4><p><span></span><span></span><span>&nbsp;&nbsp;&nbsp; <br></span></p><ol class="HELM_parts" &gt;<="" p=""><li><span>&nbsp;</span>\(\tan\alpha=\dfrac{B}{A}=\dfrac{3}{3}=1\) gives \(\alpha=45^\circ\) &nbsp; (\(A\) and \(B\) are both positive so the first quadrant is the correct one.) Hence \( 3\cos\theta+3\sin\theta=\sqrt{18}\cos(\theta-45^\circ)= \sqrt{18}\cos\left(\theta-\dfrac{\pi}{4}\right)\)<br><p></p></li><li><p></p><div>The angle \(\alpha\) must be in the second quadrant as \(A=-3&lt;0\), \(B=+3&gt;0\). By calculator : \(\tan\alpha=-1\) gives \(\alpha=-45^\circ\) but this is in the 4th quadrant.  Remembering that \(\tan\alpha\) has period \(\pi\) or \(180^\circ\) we must therefore add \(180^\circ\) to the calculator value to obtain the correct \(\alpha\) value of \(135^\circ\). Hence \[ \quad \qquad -3\cos\theta+3\sin\theta=\sqrt{18}\cos(\theta-135^\circ)\] <br><p></p></div></li><li><p></p><div>Here \(A=-3,\ B=-3\) so \(\alpha\) must be in the 3rd quadrant. \(\tan \alpha=\dfrac{-3}{-3}=1\) giving \(\alpha=45^\circ\) by calculator. Hence adding \(180^\circ\) to this tells us that \[ \quad -3\cos\theta-3\sin\theta=\sqrt{18}\cos(\theta-225^\circ)\] <br><p></p></div></li><li><p></p><div>Here \(A=3,\ B=-3\) so \(\alpha\) is in the 4th quadrant. \(\tan\alpha=-1\) gives us (correctly) \(\alpha=-45^\circ\) so \[ \quad \qquad 3\cos\theta-3\sin\theta=\sqrt{18}\cos(\theta+45^\circ).\] Note that in the amplitude/phase form the angle may be expressed in degrees or radians. </div></li><br><p></p></ol>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>1.3.1.a</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h3>1. Addition and subtraction of like terms</h3>
+<p><strong>Like terms</strong> are multiples of the same quantity. For example \(5y\), \(17y\) and \({1\over 2} y\) are all multiples of \(y\) and so are like terms. Similarly, \(3x^2\), \(-5x^2\) and \({1\over 4}x^2\) are all multiples of \(x^2\) and so are like terms.<br><br>Further examples of like terms are:<br><br>\(kx\) and \(\ell x\) which are both multiples of \(x\),<br><br>\(x^2y\), \(6x^2y\), \(-13x^2y\), \(-2yx^2\), which are all multiples of \(x^2y,\)<br><br>\(abc^2\), \(-7abc^2\), \(kabc^2\), are all multiples of \(abc^2\)<br><br>Like terms can be added or subtracted in order to simplify expressions.</p>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+
+<p> Simplify \(5x-13x+22x\).</p>
+<p><strong>Solution<br></strong></p>
+<p>All three terms are multiples of \(x\) and so are like terms.
+The expression can be simplified to \(14x\).</p>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p> Simplify \(5z+2x\).</p>
+<p><strong>Solution<br></strong></p>
+<p>\(5z\) and \(2x\) are not like terms. They are not
+multiples of the same quantity. This expression cannot
+ be simplified.</p>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p> Simplify \(2x^2-7x+11x^2+x\).</p>
+<p><strong>Solution<br></strong></p>
+<p>\(2x^2\) and \(11x^2\), both being multiples of \(x^2\), can be
+collected together and added to give \(13x^2\).</p>
+<p>Similarly, \(-7x\) and \(x\)
+ can be added to give \(-6x\).</p>
+<p> We get
+\(2x^2-7x+11x^2+x= 13x^2-6x
+\) which cannot be simplified further.</p>
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p> Simplify \(3a^2b-7a^2b-2b^2+a^2\).</p>
+<p><strong>Solution<br></strong></p>
+<p>Note that \(3a^2b\) and \(7a^2b\) are both multiples
+of \(a^2b\) and so are like terms. There are no other like terms.
+Therefore</p>
+<p>\(3a^2b-7a^2b-2b^2+a^2 = -4a^2b-2b^2+a^2\)</p>
+<hr>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

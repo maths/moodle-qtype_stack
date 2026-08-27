@@ -41,12 +41,31 @@ class qtype_stack_question_test_form extends moodleform {
 
         $mform = $this->_form;
         $question = $this->_customdata['question'];
+        $mform->addElement('header', 'questionheader', stack_string('questiondetails'));
+        $mform->setExpanded('questionheader', false);
+        $mform->addElement('static', 'questionrender', stack_string('questionrender'), $this->_customdata['questionrender']);
+        $mform->addElement(
+            'static',
+            'questionvariables',
+            stack_string('questionvariables'),
+            $this->_customdata['questionvariables']
+        );
+        $mform->addElement(
+            'static',
+            'questionvariablevalues',
+            stack_string('questionvariablevalues'),
+            $this->_customdata['questionvariablevalues']
+        );
+        $mform->addElement('static', 'questiontext', stack_string('questiontext'), $this->_customdata['questiontext']);
 
         $mform->addElement('text', 'description', stack_string('description'), ['size' => 64]);
         $mform->setType('description', PARAM_RAW);
+        $mform->addElement('static', 'pleasenote', '', stack_string('testinputsimpwarning'));
+        $mform->closeHeaderBefore('description');
 
         // Inputs.
         $mform->addElement('header', 'inputsheader', stack_string('testinputs'));
+        $mform->setExpanded('inputsheader');
 
         foreach ($question->inputs as $input) {
             // We do not require these to be filled in, (or contain valid input), as the teacher may want to test such cases.
@@ -60,19 +79,39 @@ class qtype_stack_question_test_form extends moodleform {
 
         // Expected outcome.
         $mform->addElement('header', 'prtsheader', stack_string('expectedoutcomes'));
+        $mform->setExpanded('prtsheader');
 
         $allinputs = array_keys($question->inputs);
         foreach ($question->prts as $prtname => $prt) {
             $inputsused = array_keys($question->get_cached('required')[$prtname]);
-            $inputsused = ': [' . implode(', ' , $inputsused) . ']';
+            $inputsused = ': [' . implode(', ', $inputsused) . ']';
 
             $elements = [
-                $mform->createElement('text', $prtname . 'score',
-                    stack_string('score'), ['size' => 2]),
-                $mform->createElement('text', $prtname . 'penalty',
-                    stack_string('penalty'), ['size' => 2]),
-                $mform->createElement('select', $prtname . 'answernote',
-                    stack_string('answernote'), $prt->get_all_answer_notes()),
+                $mform->createElement(
+                    'text',
+                    $prtname . 'score',
+                    stack_string('score'),
+                    ['size' => 2]
+                ),
+                $mform->createElement(
+                    'text',
+                    $prtname . 'penalty',
+                    stack_string('penalty'),
+                    ['size' => 2]
+                ),
+                $mform->createElement(
+                    'text',
+                    $prtname . 'answernote',
+                    stack_string('expectedanswernote'),
+                    ['size' => 50]
+                ),
+                // Show the user the available answer notes.
+                $mform->createElement(
+                    'static',
+                    'info',
+                    '',
+                    implode(' | ', $prt->get_all_answer_notes())
+                ),
             ];
             $mform->addGroup($elements, $prtname . 'group', $prtname . $inputsused, ' ', false);
             $mform->setType($prtname . 'score', PARAM_RAW);
@@ -109,7 +148,8 @@ class qtype_stack_question_test_form extends moodleform {
 
         foreach ($question->prts as $prtname => $prt) {
             $result = $question->get_prt_result($prtname, $response, false);
-            $answernotes = $result->get_answernotes();
+            $testcases = $result->get_answernotes_testcase();
+            $answernote = array_pop($testcases);
             // In automatic test case generation set penalties as the default unless they differ.
             // If they are the same as the detault, and you want this, you can change it later.
             $prtpenalty = $result->get_penalty();
@@ -119,7 +159,7 @@ class qtype_stack_question_test_form extends moodleform {
             $mform->getElement($prtname . 'group')->setValue([
                 $prtname . 'score'      => $result->get_score(),
                 $prtname . 'penalty'    => $prtpenalty,
-                $prtname . 'answernote' => end($answernotes),
+                $prtname . 'answernote' => $answernote,
             ]);
         }
     }

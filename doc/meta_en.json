@@ -431,6 +431,11 @@
                 "description":"Information on creating and manipulating multiple choice questions in STACK."
                 },
                 {
+                "file":"Multiple_choice_plots.md",
+                "title":"Multiple choice plots - STACK Documentation",
+                "description":"Information on adding plots to multiple choice questions in STACK."
+                },
+                {
                 "file":"Multiline_input.md",
                 "title":"Multiline inputs - STACK Documentation",
                 "description":"Reference documentation on input types allowing multiline input STACK."
@@ -480,6 +485,16 @@
                 "description":"Information on using question blocks in STACK."
                 },
                 {
+                "file":"ASCII.md",
+                "title":"ASCII Block - STACK Documentation",
+                "description":"Information on using the ASCII block in STACK."
+                },
+                {
+                "file":"ASCII_extractors.md",
+                "title":"ASCII Extractor Blocks - STACK Documentation",
+                "description":"Information on using the ASCII Extractor blocks in STACK."
+                },
+                {
                 "file":"Conditional_blocks.md",
                 "title":"Conditional Blocks - STACK Documentation",
                 "description":"Information on using conditional question blocks in STACK."
@@ -493,6 +508,16 @@
                 "file":"Fact_sheets.md",
                 "title":"Fact Sheets - STACK Documentation",
                 "description":"STACK lets question authors easily embed standard facts into their questions."
+                },
+                {
+                "file":"Filter_calculations.md",
+                "title":"Filter blocks: calculations - STACK Documentation",
+                "description":"The ASCII block can filter and calculate, this is reference documentation."
+                },
+                {
+                "file":"Iframe_blocks.md",
+                "title":"Iframe blocks - STACK Documentation",
+                "description":"Some content needs to be embedded into iframes."
                 },
                 {
                 "file":"Static_blocks.md",
@@ -644,6 +669,20 @@
         "file":"Validator.md",
         "title":"Creating bespoke validation - STACK Documentation",
         "description":"How to create bespoke validation of student's input."
+        },
+        {
+        "Library":[
+        {
+        "file":"index.md",
+        "title":"Index of STACK specific Maxima functions - STACK Documentation",
+        "description":"Tree index of STACK specific Maxima functions"
+        },
+        {
+        "file":"alphabetical.md",
+        "title":"Alphabetical index of STACK specific Maxima functions - STACK Documentation",
+        "description":"Alphabetical index of STACK specific Maxima functions"
+        }
+        ]
         }
       ]
       },
@@ -709,6 +748,11 @@
         "description":"Information on maintaining questions and question banks for the longer term."
         },
         {
+        "file":"Bulk_testing.md",
+        "title":"Bulk testing STACK questions on your site - STACK Documentation",
+        "description":"Information about bulk testing STACK questions on your site."
+        },
+        {
         "file":"Deploying.md",
         "title":"Deploying - STACK Documentation",
         "description":"Information about deploying random variants in the STACK online assessment system."
@@ -764,11 +808,6 @@
         "description":"How to tidy up PRT node names with STACK's tidy tool."
         },
         {
-        "file":"UpgradeDefaults.md",
-        "title":"Upgrading Question Details - STACK Documentation",
-        "description":"Information on upgrading question defaults. This may be necessary if you have recently upgraded from an old version of STACK."
-        },
-        {
         "file":"Authoring_workflow.md",
         "title":"Workflow - STACK Documentation",
         "description":"Suggestions for effective question authoring workflow, especially when working collaboratively."
@@ -778,12 +817,17 @@
         {
         "file":"index.md",
         "title":"STACK question library - STACK Documentation",
-        "description":"Reference documentation on the libraries in STACK for representing ordinary differential equations."
+        "description":"Reference documentation on the STACK question library."
         },
         {
         "file":"Algebra_refresher.md",
         "title":"Algebra refresher question library - STACK Documentation",
-        "description":"Reference documentation on the libraries in STACK for representing ordinary differential equations."
+        "description":"Reference documentation on the Algebra Refresher STACK question library."
+        },
+        {
+        "file":"HELM.md",
+        "title":"HELM question library - STACK Documentation",
+        "description":"Reference documentation on the HELM STACK question library."
         }
         ]
         }
@@ -897,6 +941,16 @@
         "description":"How to add and maintain courses in the library using Gitsync."
         },
         {
+        "file":"STACK-Maxima-Library.md",
+        "title":"New guidelines for the STACK-Maxima-Libary development",
+        "description":"How to add and maintain STACK-Maxima-Libary code."
+        },
+        {
+        "file":"Documentation_maximasrc.md",
+        "title":"STACK-Maxima library Documentation",
+        "description":"How to add documentation to maxima code to enable autogeneration of STACK docs."
+        },
+        {
         "file":"STACK-JS.md",
         "title":"Including Javascript in STACK questions.",
         "description":"This page documents how to include Javascript into STACK questions."
@@ -999,6 +1053,11 @@
         "description":"Answers to frequently asked questions aimed at students using STACK."
         },
         {
+        "file":"Free_text.md",
+        "title":"Students' Free text input - STACK Documentation",
+        "description":"How to use free-text input for proof in STACK."
+        },
+        {
         "file":"Answer_input.md",
         "title":"Answer Input for Students- STACK Documentation",
         "description":"Information about answer input for students using STACK."
@@ -1071,6 +1130,15 @@
         "file":"Vector_Calculus.md",
         "title":"Vector Calculus - STACK Documentation",
         "description":"This page provides advice for writing STACK questions in vector calculus."
+        },
+        {
+        "Chemistry":[
+            {
+            "file":"index.md",
+            "title":"Support for chemistry in STACK - STACK Documentation",
+            "description":"How to write questions for chemistry with STACK."
+            }
+            ]
         },
         {
         "Linear_algebra":[
@@ -1255,12 +1323,41 @@
             "description":"Reference documentation for the equivalence reasoning input."
             },
             {
+            "file":"Equivalence_reasoning.md",
+            "title":"Mathematics of Equivalence reasoning - STACK Documentation",
+            "description":"Document the mathematics behind quivalence reasoning."
+            },
+            {
             "file":"Equivalence_assessment.md",
             "title":"Equivalence reasoning assessment - STACK Documentation",
             "description":"Reference documentation for the equivalence reasoning answer tests."
             }
             ]
         },
+        {
+        "Free_text_input":[
+             {
+             "file":"index.md",
+             "title":"Free text input - STACK Documentation",
+             "description":"How to use free-text input for proof in STACK."
+             },
+             {
+             "file":"Authoring.md",
+             "title":"Authoring a free text input question - STACK Documentation",
+             "description":"How to use free-text input authoring an automatically asssessed STACK question."
+             },
+             {
+             "file":"Calculation.md",
+             "title":"Authoring a free text input question with optional calculation - STACK Documentation",
+             "description":"How to use free-text input question allowing students to include calculations."
+             },
+             {
+             "file":"Extractors.md",
+             "title":"Authoring free-text questions with extractors - STACK Documentation",
+             "description":"How to use regex to extract answer from free-text input questions."
+             }
+             ]
+         },
         {
        "GeoGebra":[
             {
@@ -1332,6 +1429,22 @@
             "description":"Reference documentation for the JSXGraph question block."
             }
             ]
+        },
+        {
+       "STACK-JS":[
+         {"file":"index.md",
+          "title":"STACK-JS: STACK <-> VLE JavaScript interface - STACK Documentation",
+          "description":"This section describes tools for writing future-proof, portable and safe JavaScript features using the JavaScript system within STACK."
+         },
+         {"file":"STACK_MP_LITE.md",
+          "title":"STACK-MP-Lite - STACK Documentation",
+          "description":"This section describes  collection JavaScript functions and classes for parsing STACK-Maxima syntax."
+         },
+         {"file":"Validation_state_listener.md",
+          "title":"STACK-JS a cautionary example on using validation messages for data transfer - STACK Documentation",
+          "description":"This page describes a combination of multiple advanced features used together in a way that may prove to be slow."
+         }
+        ]
         }
       ]
       }

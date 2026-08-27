@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="description">
+    <name>
+      <text>5.1.1.11 Examples</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<hr>
+<h4 class="HELM_example">Example</h4>
+
+<p>A local authority has flood control plans in which the emergency and rescue services are alerted when the river level rises to critical values. A linear model is used to estimate the variation of height with time. After a period of continuous heavy rain
+    the level one day was \(1.5 \, \textrm{m}\) at \(8\) a.m. and \(1.8 \, \textrm{m}\) at \(2\) p.m.</p>
+<ol class="HELM_parts">
+    <li>Use a linear model to write down an equation for estimating the level of the river at different times of the day:</li>
+    <li>Suggest a suitable range of values of time for which the model could be used:</li>
+    <li>What time does the model predict that the level of the river will reach \( 2 \, \textrm{m}\)?</li>
+</ol>
+
+<h4 class="HELM_solution">Solution</h4>
+<ol class="HELM_parts">
+    <li>
+        <p>If the level of water is represented by \(L \, \textrm{m}\) and time by \(t\) hours after \(8\) a.m. then a linear model for the level as a function of time may be written</p>
+        <p>\( \quad L = at + b\)</p>
+        <p>where \(a\) and \(b\) are constants to be found from the other information in the problem. Specifically, it is stated that \(L = 1.5\) when \(t = 0\) and \(L = 1.8\) when \(t = 6.\) The first statement implies that</p>
+        <p>\(\quad 1.5 = 0 + b \quad \textrm{or} \quad b = 1.5\)</p>
+        <p>The second statement implies that</p>
+        <p>\(\quad 1.8 = 6a + b\)</p>
+        <p>or, after substituting for \(b,\)</p>
+        <p>\(\quad 1.8 = 6a + 1.5 \quad \textrm{or} \quad 0.3 = 6a \quad \textrm{or} \quad a = 0.05\)</p>
+        <p>So the equation for estimating the level of the river at different times is</p>
+        <p>\(\quad L = 0.05t + 1.5\)</p>
+    </li>
+
+    <li>
+        <p>The model is valid between \(8\) a.m. and \(2\) p.m. and, subsequently, only as long as the river level rises steadily.</p>
+    </li>
+
+    <li>
+        <p>The model will predict a level of \(2 \, \textrm{m}\) at time \(t\) given by</p>
+        <p>\( \quad 2 = 0.05t + 1.5 \quad \textrm{or} \quad t =\dfrac{0.5}{0.05}= 10\)</p>
+        <p>i.e. \(10\) hours after \(8\) a.m. which is \(6\) p.m.</p>
+    </li>
+</ol>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>During one winter, the roads in a rural area were completely free from snow when it started snowing at midnight. It snowed heavily all night and day. By \(10\) a.m. it was \(19 \, \textrm{cm}\) deep.</p>
+<p>To save money the local authorities wait until the snow is \(30 \, \textrm{cm}\) deep before ploughing the snow away from the roads. Forecast when ploughing should start, stating any assumptions you have made.</p>
+
+<h4 class="HELM_solution">Solution</h4>
+<p>If the depth of snow is represented by \(D \, \textrm{cm}\) and time by \(t\) hours after midnight then a linear modelfor the depth as a function of time may be written:</p>
+<p>\(\quad D = at + b\)</p>
+<p>where \(a\) and \(b\) are constants to be found from the other information in the problem or from assumptions. As there was no snow at midnight</p>
+<p>\(quad 0 = 0 + b \quad \textrm{or} \quad \(b = 0\)</p>
+<p>It is stated that \(D = 19\) when \(t = 10\), i.e.</p>
+<p>\(\quad 19 = 10a \quad \textrm{or} \quad a = 1.9\)</p>
+<p>So the equation for estimating the depth of snow at different times is</p>
+<p>\( \quad D = 1.9t\)</p>
+<p>The model will predict a level of \(30 \, \textrm{cm}\) at a time \(t\) is given by</p>
+<p>\( \quad 30 = 1.9t \quad \textrm{or} \quad t =\dfrac{30}{1.9}= 15.789\)</p>
+<p>i.e. \(15.789\) hours after midnight which is a little after \(3.47\) p.m.</p>
+<p>Assuming that the snow build up is steady e.g. no drifting or change in precipitation, this suggests that ploughing should start about \(3.45\) p.m.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text/>
+    </generalfeedback>
+    <defaultgrade>0</defaultgrade>
+    <penalty>0</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+  </question>
+</quiz>

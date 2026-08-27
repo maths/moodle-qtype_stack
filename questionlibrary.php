@@ -24,7 +24,7 @@
 
 define('NO_OUTPUT_BUFFERING', true);
 
-require_once(__DIR__.'/../../../config.php');
+require_once(__DIR__ . '/../../../config.php');
 
 require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/vle_specific.php');
@@ -32,8 +32,6 @@ require_once(__DIR__ . '/locallib.php');
 require_once(__DIR__ . '/stack/utils.class.php');
 require_once(__DIR__ . '/stack/questionlibrary.class.php');
 require_once(__DIR__ . '/classes/form/category_form.php');
-
-use category_form;
 
 if ($cmid = optional_param('cmid', 0, PARAM_INT)) {
     $cm = get_coursemodule_from_id(false, $cmid);
@@ -87,13 +85,33 @@ $PAGE->requires->js_amd_inline(
 
 // Get list of files.
 $cache = cache::make('qtype_stack', 'librarycache');
-$files = $cache->get('library_file_list');
-if (!$files) {
-    $files = stack_question_library::get_file_list('samplequestions/stacklibrary/*');
-    $cache->set('library_file_list', $files);
+
+// Make sure we're only listing contents of STACK library or site library.
+$location = optional_param('location', '', PARAM_RAW);
+$cacheid = 'library_file_list';
+$libraryname = stack_string('stack_library');
+if (str_starts_with($location, 'sitelibrary')) {
+    $libraryname = explode('/', $location)[1];
+    $cacheid = 'sitelibrary_' . $libraryname . '_file_list';
+    $location = "{$CFG->dataroot}/stack/{$location}";
+    if (!str_starts_with(realpath($location), "{$CFG->dataroot}/stack/sitelibrary")) {
+        $location = __DIR__ . '/samplequestions/stacklibrary/*';
+        $libraryname = stack_string('stack_library');
+        $cacheid = 'library_file_list';
+    } else {
+        $location .= '/*';
+    }
+} else {
+    $location = __DIR__ . '/samplequestions/stacklibrary/*';
 }
 
-$mform = new category_form(null, ['qcontext' => $contexts]);
+$files = $cache->get($cacheid);
+if (!$files) {
+    $files = stack_question_library::get_file_list($location);
+    $cache->set($cacheid, $files);
+}
+
+$mform = new qtype_stack\form\category_form(null, ['qcontext' => $contexts]);
 // Prepare data for template.
 $outputdata = new StdClass();
 $outputdata->returnlink = $returnlink->out();
@@ -104,6 +122,31 @@ $outputdata->files = $files->children;
 $outputdata->category = $mform->render();
 $outputdata->coursename = $coursename;
 $outputdata->courseid = $courseid;
+$outputdata->libraries = new StdClass();
+$outputdata->libraries->items = [];
+$outputdata->libraries->hasitems = false;
+
+$libraries = glob("{$CFG->dataroot}/stack/sitelibrary/*");
+if ($libraries) {
+    $libentry = new StdClass();
+    $libentry->name = stack_string('stack_library');
+    $urlparams['location'] = "/samplequestions/stacklibrary";
+    $libentry->url = new moodle_url('/question/type/stack/questionlibrary.php', $urlparams);
+    $libentry->url = $libentry->url->out();
+    $libentry->active = ($libentry->name === $libraryname) ? true : false;
+    $outputdata->libraries->items[] = $libentry;
+    $outputdata->libraries->hasitems = true;
+}
+foreach ($libraries as $library) {
+    $libentry = new StdClass();
+    $parts = explode('/', $library);
+    $libentry->name = end($parts);
+    $urlparams['location'] = "sitelibrary/{$libentry->name}";
+    $libentry->url = new moodle_url('/question/type/stack/questionlibrary.php', $urlparams);
+    $libentry->url = $libentry->url->out();
+    $libentry->active = ($libentry->name === $libraryname) ? true : false;
+    $outputdata->libraries->items[] = $libentry;
+}
 
 echo $OUTPUT->render_from_template('qtype_stack/questionlibrary', $outputdata);
 

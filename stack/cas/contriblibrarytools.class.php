@@ -191,7 +191,7 @@ class stack_cas_contrib_library_tools {
                 preg_match_all('#@require((\s+[a-zA-Z0-9_]+/[a-zA-Z0-9_%]+)+)#', $node->value, $matches);
                 if (!empty($matches)) {
                     for ($i = 0; $i < count($matches[1]); $i++) {
-                        $reqs = array_map('trim', explode($matches[1][$i]));
+                        $reqs = array_map('trim', explode(' ', $matches[1][$i]));
                         foreach ($reqs as $req) {
                             if ($req !== '') {
                                 $ids[$req] = $req;

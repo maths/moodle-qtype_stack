@@ -452,7 +452,7 @@ class stack_cas_contrib_library_tools {
 
         // Recurse the non locals.
         foreach ($extreqs as $lib => $reqs) {
-            $res = self::fetch_requirements($lib, null, $reqs, array_merge($loaded, $extloaded));
+            $res = self::fetch_requirements($lib, $preloadedmanifests, $reqs, array_merge($loaded, $extloaded));
             if (count($res) === 1) {
                 // Error case.
                 return $res;

@@ -1,0 +1,17 @@
+{
+    "src": {
+        "\/stack\/maxima\/contrib\/stack_require_example\/lib2.mac": {
+            "sha1": "343f80d7576f2c23f6e816ad9e5498275e3dc1ee"
+        }
+    },
+    "contents": {
+        "lib2_fun2": {
+            "requires": [
+                "lib1\/lib1a_fun2"
+            ],
+            "src": "\/stack\/maxima\/contrib\/stack_require_example\/lib2.mac",
+            "code": "lib2_fun2(mode):=block([],if mode then sconcat(\"2\/fun2, \",lib1a_fun2(false)) else \"2\/fun2\");\n"
+        }
+    },
+    "tests": []
+}

@@ -1,0 +1,31 @@
+/*
+ * A documentation example library, not for real use.
+ */
+
+
+
+/**
+ * A function generating a "string". Demonstrating reuirement through documentation block.
+ * @param[boolean] mode, whether we recurse or not
+ * @return[string] a string that concatenates plenty of things
+ * @require lib2/lib2_fun2
+ */
+lib1a_fun1(mode) := if mode then sconcat("1/fun1, ", lib2_fun2(true)) else "1/fun1";
+
+s_test_case(simp) := is(lib1a_fun1(false)="1/fun1");
+s_test_case(simp) := is(lib1a_fun1(true)="1/fun1, 2/fun2, 1/fun2");
+
+
+/* This is a hidden function not present in the documentation. Because, the comment is not of the correct format. */
+lib1a_fun2(mode) := "1/fun2";
+
+
+/**
+ * A value defined in lib1a, when required triggers the preamble of lib1a changing its presentation.
+ * The same value defined in lib1b when loaded without any lib1a items will have differnt texput behaviour.
+ * Note that we do not need to annotate the requirement for the value define elsewhere in lib1, it will be 
+ * automatically detected by the tooling.
+ */
+lib1a_value1 : lib1b_value1;
+
+texput("lib1_item", lambda([ex],sconcat("\\sqrt{",first(ex),"}")));

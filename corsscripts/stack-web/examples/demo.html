@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STACK AsciiDisplay Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        h1 { color: #667eea; margin-top: 0; border-bottom: 3px solid #667eea; padding-bottom: 15px; }
+        textarea {
+            width: 100%; min-height: 120px; font-family: 'Courier New', monospace;
+            font-size: 14px; padding: 12px; border: 2px solid #ddd; border-radius: 5px; resize: vertical;
+        }
+        textarea:focus { border-color: #667eea; outline: none; }
+        .output {
+            margin-top: 20px; padding: 15px; background: #f8f9fa; border: 1px solid #dee2e6;
+            border-radius: 5px; min-height: 80px; max-height: 300px; overflow-y: auto;
+        }
+        .hint { background: #e8f4fc; padding: 15px; border-left: 4px solid #667eea; border-radius: 3px; margin: 20px 0; }
+        code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: 'Courier New', monospace; color: #d63384; }
+        .examples { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-top: 10px; }
+        .ex { background: white; padding: 10px; border-radius: 5px; border: 1px solid #ddd; cursor: pointer; transition: all 0.2s; }
+        .ex:hover { background: #667eea; color: white; transform: translateY(-2px); }
+        .answer-box { margin-top: 15px; padding: 10px; background: #e8f5e9; border-radius: 4px; }
+        .answer-box input { width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>STACK AsciiDisplay Demo</h1>
+        <div class="hint">
+            <strong>Try it out!</strong> Click an example or type your own ASCIIMath (wrap in backticks for math rendering):
+            <div class="examples">
+                <div class="ex" onclick="ins('`x^2 + y^2 = z^2`')"><code>x² + y² = z²</code></div>
+                <div class="ex" onclick="ins('`sin(theta) = y/r`')"><code>sin(θ) = y/r</code></div>
+                <div class="ex" onclick="ins('`e^(i*pi) + 1 = 0`')"><code>e^(iπ) + 1 = 0</code></div>
+                <div class="ex" onclick="ins('`sum_(i=1)^n i = (n(n+1))/2`')"><code>∑ i = n(n+1)/2</code></div>
+                <div class="ex" onclick="ins('`int_0^1 x^2 dx`')"><code>∫ x² dx</code></div>
+                <div class="ex" onclick="ins('`[[a,b],[c,d]]`')"><code>[[a,b],[c,d]]</code></div>
+            </div>
+        </div>
+        <label for="asciiSuppliedText"><strong>Type ASCIIMath notation (wrap in backticks):</strong></label>
+        <textarea id="asciiSuppliedText" placeholder="Type here... e.g., `x^2 + 2x + 1`">`x^2 + y^2 = z^2`</textarea>
+        <h3>Rendered Output:</h3>
+        <div id="demoContainer" class="output">
+            <div id="asciiContainerRow" class="stack-ascii-output"><em>Your expression will appear here...</em></div>
+        </div>
+        <div class="answer-box">
+            <strong>📥 Extracted Answer:</strong>
+            <input type="text" id="answer1" placeholder="Answer will be extracted here" readonly>
+        </div>
+
+    </div>
+    <script src="../dist/stack-web.bundle.js"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        let asciiDisplay;
+
+        // Wait for both DOM and MathJax to be ready
+        function initDemo() {
+
+            // Check if StackWeb is loaded
+            if (typeof window.StackWeb === 'undefined') {
+                setTimeout(initDemo, 100);
+                return;
+            }
+
+            // Get StackAsciiDisplay from the bundle (default export)
+            const StackAsciiDisplay = window.StackWeb.default;
+
+            // Check if MathJax is loaded (MathJax v3 uses MathJax.typesetPromise)
+            if (typeof MathJax === 'undefined' || typeof MathJax.typesetPromise === 'undefined') {
+                setTimeout(initDemo, 100);
+                return;
+            }
+
+
+            // Initialize using the STACK Web Library bundle
+            try {
+                asciiDisplay = new StackAsciiDisplay({
+                    containerId: 'demoContainer',
+                    inputElementId: 'asciiSuppliedText',
+                    operations: [
+                        {
+                            operation: 'filter',
+                            type: 'markdown',
+                            transforms: 'asciimath,aligneq,minwrap',
+                            display: 'true'
+                        },
+                        {
+                            targetinput: 'answer1',
+                            operation: 'extractor',
+                            type: 'lastexpr'
+                        }
+                    ]
+                });
+            } catch (e) {
+                console.error('Error initializing StackAsciiDisplay:', e);
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', initDemo);
+
+        // Expose function for example buttons
+        window.ins = function(text) {
+            const ta = document.getElementById('asciiSuppliedText');
+            ta.value = text;
+            ta.focus();
+            // Trigger input event for real-time updates
+            ta.dispatchEvent(new Event('input', { bubbles: true }));
+        };
+    </script>
+</body>
+</html>

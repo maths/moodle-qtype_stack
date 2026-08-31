@@ -1,0 +1,85 @@
+/*! !!../node_modules/css-loader/dist/cjs.js!./stack-web.css */
+
+/*! !../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */
+
+/*! !../node_modules/style-loader/dist/runtime/insertBySelector.js */
+
+/*! !../node_modules/style-loader/dist/runtime/insertStyleElement.js */
+
+/*! !../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */
+
+/*! !../node_modules/style-loader/dist/runtime/styleDomAPI.js */
+
+/*! !../node_modules/style-loader/dist/runtime/styleTagTransform.js */
+
+/*! ../../ascii/stackascii.js */
+
+/*! ../markdownit.js */
+
+/*! ../markdownitextensions/asciimathblock.js */
+
+/*! ../markdownitextensions/tex.js */
+
+/*! ../markdownittransforms/100_asciimath.js */
+
+/*! ../markdownittransforms/200_aligneq.js */
+
+/*! ../markdownittransforms/250_boldfilter.js */
+
+/*! ../markdownittransforms/900_minwrap.js */
+
+/*! ../mathjs.min.js */
+
+/*! ../node_modules/css-loader/dist/runtime/api.js */
+
+/*! ../node_modules/css-loader/dist/runtime/sourceMaps.js */
+
+/*! ./extractors/allregexmatch.js */
+
+/*! ./extractors/allregexremainder.js */
+
+/*! ./extractors/lastblock.js */
+
+/*! ./extractors/lastcalc.js */
+
+/*! ./extractors/lastexpr.js */
+
+/*! ./extractors/lastregexmatch.js */
+
+/*! ./extractors/lastregexremainder.js */
+
+/*! ./extractors/laststringremainder.js */
+
+/*! ./extractors/laststringremainderwhitespace.js */
+
+/*! ./filters/calculation.js */
+
+/*! ./filters/cas.js */
+
+/*! ./filters/markdown.js */
+
+/*! ./filters/plain.js */
+
+/*! ./findtextindex.js */
+
+/*! ./markdownitrules.js */
+
+/*! ./stack-web.css */
+
+/*! @ascii/ASCIIMathTeXImg.js */
+
+/*! For license information please see math.js.LICENSE.txt Licensed under Apache License 2.0 */
+
+/*! markdown-it 14.1.1 https://github.com/markdown-it/markdown-it @license MIT */
+
+/*!**********************************!*\
+  !*** ./src/StackAsciiDisplay.js ***!
+  \**********************************/
+
+/**
+ * This is part of the free text input/ ASCII display block.
+ *
+ * @package    qtype_stack
+ * @copyright  2026 University of Edinburgh
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */

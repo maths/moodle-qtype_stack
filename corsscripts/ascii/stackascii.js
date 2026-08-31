@@ -170,10 +170,14 @@ export default function init(inputIds, operations) {
     if (markdownContainerId) {
         // Debounce rendering so rapid keystrokes don't trigger multiple MathJax typesets.
         let debounceTimer;
-        document.getElementById(markdownContainerId).addEventListener('change', () => {
+        const handleInput = () => {
             clearTimeout(debounceTimer);
             debounceTimer = setTimeout(renderMath, 100); // debounce 100ms
-        });
+        };
+        document.getElementById(markdownContainerId).addEventListener('change', handleInput);
+        if (!frameId) {
+            document.getElementById(markdownContainerId).addEventListener('input', handleInput);
+        }
     }
 
     renderMath(); // initial render on load

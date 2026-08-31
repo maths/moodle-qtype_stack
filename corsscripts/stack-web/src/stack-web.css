@@ -1,0 +1,73 @@
+/* STACK Web Library Styles */
+
+/* ASCII Display Output */
+.stack-ascii-output {
+    background-color: ivory;
+    border-radius: 5px;
+    border: solid 1px #333;
+    padding: 5px;
+    overflow: auto;
+    min-height: 50px;
+    max-height: 300px;
+    margin-top: 10px;
+}
+
+.stack-ascii-output.plaintext {
+    white-space: pre-line;
+    font-family: monospace;
+}
+
+/* Input Validation States */
+.stack-input-validation {
+    font-size: 0.9em;
+    margin-top: 5px;
+    padding: 5px;
+    border-radius: 3px;
+    min-height: 1.2em;
+}
+
+.stack-input-validation.waiting {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.stack-input-validation.valid {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.stack-input-validation.invalid {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* Question Container */
+.stack-question {
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+/* Textarea Styling */
+.stack-question textarea {
+    width: 100%;
+    min-height: 100px;
+    font-family: monospace;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-sizing: border-box;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .stack-ascii-output {
+        max-height: 200px;
+    }
+    
+    .stack-question {
+        padding: 15px;
+    }
+}

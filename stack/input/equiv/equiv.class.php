@@ -620,6 +620,8 @@ class stack_equiv_input extends stack_input {
 
         if (self::INVALID == $state->status) {
             $feedback .= html_writer::tag(
+                // Moodle renders validation feedback inline, so preserve the span markup used there.
+                // ILIAS requires a block element for its alert styling to render correctly.
                 defined('MOODLE_INTERNAL') ? 'span' : 'div',
                 stack_string('studentValidation_invalidAnswer'),
                 ['class' => 'alert alert-danger stackinputerror']

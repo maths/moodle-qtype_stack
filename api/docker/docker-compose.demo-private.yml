@@ -1,0 +1,37 @@
+# This demo exposes only the frontend container. The browser sends question ids
+# to the frontend, and the frontend privately sends question XML to the API.
+services:
+  maxima:
+    image: mathinstitut/goemaxima:2026062900-latest
+    tmpfs:
+      - "/tmp"
+    restart: unless-stopped
+    cap_add:
+      - SETGID
+      - SETUID
+    cap_drop:
+      - ALL
+    environment:
+      GOEMAXIMA_QUEUE_LEN: 32
+    read_only: true
+
+  api:
+    image: stackmaths/stackapi:2026062900-latest
+    restart: unless-stopped
+    expose:
+      - "80"
+    depends_on:
+      - maxima
+
+  frontend:
+    build:
+      context: ./../../
+      dockerfile: ./api/docker/DockerfilePrivateDemo
+    restart: unless-stopped
+    environment:
+      STACK_PRIVATE_DEMO_API_URL: http://api
+      STACK_PRIVATE_DEMO_LIBRARY: stacklibrary
+    ports:
+      - "80:80"
+    depends_on:
+      - api

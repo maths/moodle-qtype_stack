@@ -134,7 +134,7 @@ class stack_cas_contrib_library_tools {
                     if ($item->statement instanceof MP_Operation && $item->statement->op === ':=') {
                         // Function definition or a test definition.
                         if ($item->statement->lhs->name->value === 's_test_case') {
-                            $results['tests'][] = $item;
+                            $results['tests'][] = ['ast' => $item, 'src' => $part . ': line ' . $item->position['start-line']];
                         } else {
                             if ($prevcomment !== null) {
                                 // Keep the previous top level comment around for processing.
@@ -261,7 +261,7 @@ class stack_cas_contrib_library_tools {
         // Also process the tests.
         for ($i = 0; $i < count($results['tests']); $i++) {
             $ids = [];
-            $fakeast = new MP_Root([$results['tests'][$i]]);
+            $fakeast = new MP_Root([$results['tests'][$i]['ast']]);
             $fakeast->callbackRecurse($commentfilter);
             $fakeast->callbackRecurse($deepreffilter);
 
@@ -281,7 +281,8 @@ class stack_cas_contrib_library_tools {
             // TODO: this lacks the preamble requirement?
             $results['tests'][$i] = [
                 'code' => maxima_parser_utils::strip_comments($fakeast)->toString(['dealias' => false, 'nosemicolon' => false]),
-                'requires' => array_keys($ids)
+                'requires' => array_keys($ids),
+                'src' => $results['tests'][$i]['src']
             ];
         }
 
@@ -373,6 +374,10 @@ class stack_cas_contrib_library_tools {
             return ['The manifest for ' . $libraryname . ' lacks expected structure.'];
         }
 
+        if (count($required) === 0) {
+            return ['', '', []];
+        }
+
         $extloaded = [];
         if ($alreadyloaded !== null) {
             $extloaded = $alreadyloaded;
@@ -451,6 +456,75 @@ class stack_cas_contrib_library_tools {
 
 
         // Recurse the non locals.
+        foreach ($extreqs as $lib => $reqs) {
+            $res = self::fetch_requirements($lib, $preloadedmanifests, $reqs, array_merge($loaded, $extloaded));
+            if (count($res) === 1) {
+                // Error case.
+                return $res;
+            }
+            $result = $res[0] . "\n" . $result;
+            $preambles = $preambles . "\n" . $res[1];
+            $loaded = array_merge($loaded, $res[2]);
+        }
+
+        return [$result, $preambles, $loaded];
+    }
+
+    /**
+     * Fetch by scoped requirements. Produces the same as fetch_requirements but by parsing
+     * requirements in the form `local/A lib1/B lib1/C`.
+     * 
+     * This version for the needs of unit-test execution, where the requirements are presentted
+     * in this form.
+     * @param string the name of the local library.
+     * @param array already fetched cache of manifests
+     * @param string the identifiers to load
+     * @param array list of the identifiers that have already been collected
+     * 
+     * @return array with three elements if successful, first the concatenated code and second 
+     *      being the concatenated preamble the third is a list of identifiers those 
+     *      concatenations contain. If unsuccessful will contain an error message as the only
+     *      element.
+     */
+    public static function fetch_scoped_requirements(string $locallibraryname, array $preloadedmanifests, string $required, $alreadyloaded = null): array {
+
+        $extloaded = [];
+        if ($alreadyloaded !== null) {
+            $extloaded = $alreadyloaded;
+        }
+
+        $required = array_map('trim', explode(' ', $required));
+
+        $extreqs = [];
+        $locals = [];
+
+        foreach ($required as $req) {
+            if ($req === '') {
+                continue;
+            }
+            list($lib, $req) = explode('/', $req, 2);
+            if ($lib === $locallibraryname || $lib === 'local') {
+                $locals[$req] = $req;
+            } else {
+                if (!isset($extreqs[$lib])) {
+                    $extreqs[$lib] = [];
+                } 
+                $extreqs[$lib][$req] = $req;
+            }
+        }
+
+        // First get the locals.
+        $res = self::fetch_requirements($locallibraryname, $preloadedmanifests, $locals, $extloaded);
+        if (count($res) === 1) {
+            // Error case.
+            return $res;
+        }
+        $result = $res[0];
+        $preambles = $res[1];
+        $loaded = $res[2];
+
+
+        // Then expand for others.
         foreach ($extreqs as $lib => $reqs) {
             $res = self::fetch_requirements($lib, $preloadedmanifests, $reqs, array_merge($loaded, $extloaded));
             if (count($res) === 1) {

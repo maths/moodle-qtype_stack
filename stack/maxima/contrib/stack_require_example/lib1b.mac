@@ -11,9 +11,9 @@ lib1b_value1 : lib1_item(2);
 /* Note that each test case will only have its own implicit/explicit requirements loaded. 
  * Thus we can force that lib1a preamble to come into play for that one test.
  */
-s_test_case(simp) := is(tex1(lib1b_value)="{\\it lib1\\_item}\\left(2\\right)");
+s_test_case(simp) := is(tex1(lib1b_value1)="{\\it lib1\\_item}\\left(2\\right)");
 
 s_test_case(simp) := block([],
 	/* @require local/lib1a_value1 */
-	is(tex1(lib1b_value)="\\sqrt{2}")
+	is(tex1(lib1b_value1)="\\sqrt{2}")
 );

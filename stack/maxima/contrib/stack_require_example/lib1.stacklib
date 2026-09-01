@@ -4,7 +4,7 @@
             "sha1": "3788028c5c3ca6268210de1609919fb12c7640ad"
         },
         "\/stack\/maxima\/contrib\/stack_require_example\/lib1b.mac": {
-            "sha1": "23bc610255919fb7f0facec135b026a0936f02c6"
+            "sha1": "db27ee49fc0ecb91a06043c945a518834b4eb09e"
         }
     },
     "contents": {
@@ -46,23 +46,30 @@
             "code": "s_test_case(simp):=is(lib1a_fun1(false) = \"1\/fun1\");\n",
             "requires": [
                 "local\/lib1a_fun1"
-            ]
+            ],
+            "src": "\/stack\/maxima\/contrib\/stack_require_example\/lib1a.mac: line 15"
         },
         {
             "code": "s_test_case(simp):=is(lib1a_fun1(true) = \"1\/fun1, 2\/fun2, 1\/fun2\");\n",
             "requires": [
                 "local\/lib1a_fun1"
-            ]
+            ],
+            "src": "\/stack\/maxima\/contrib\/stack_require_example\/lib1a.mac: line 16"
         },
         {
-            "code": "s_test_case(simp):=is(tex1(lib1b_value) = \"{\\\\it lib1\\\\_item}\\\\left(2\\\\right)\");\n",
-            "requires": []
-        },
-        {
-            "code": "s_test_case(simp):=block([],is(tex1(lib1b_value) = \"{\\\\it lib1\\\\_item}\\\\left(2\\\\right)\"));\n",
+            "code": "s_test_case(simp):=is(tex1(lib1b_value1) = \"{\\\\it lib1\\\\_item}\\\\left(2\\\\right)\");\n",
             "requires": [
-                "local\/lib1a_value1"
-            ]
+                "local\/lib1b_value1"
+            ],
+            "src": "\/stack\/maxima\/contrib\/stack_require_example\/lib1b.mac: line 14"
+        },
+        {
+            "code": "s_test_case(simp):=block([],is(tex1(lib1b_value1) = \"\\\\sqrt{2}\"));\n",
+            "requires": [
+                "local\/lib1a_value1",
+                "local\/lib1b_value1"
+            ],
+            "src": "\/stack\/maxima\/contrib\/stack_require_example\/lib1b.mac: line 16"
         }
     ]
 }

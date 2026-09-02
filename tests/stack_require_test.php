@@ -145,7 +145,7 @@ final class stack_require_test extends qtype_stack_testcase {
     }
 
 
-    public function test_execute_tests(): void {
+    public function test_execute_example_tests(): void {
         /* 
          * The manifests of both "libs" include the extracted tests.
          * Those tests will be executed in a session with the minimal amount of 
@@ -183,6 +183,104 @@ final class stack_require_test extends qtype_stack_testcase {
 
         // For each group, run the tests in a session.
         foreach ($testsbyreqs as $tests) {
+            $reqs = implode(' ', $tests[0]['requires']);
+            $code = '';
+            $preamble = '';
+            if ($reqs !== '') {
+                list($code, $preamble, $loads) = stack_cas_contrib_library_tools::fetch_scoped_requirements($tests[0]['lib'], $manifests, $reqs);
+            }
+            $kv = new stack_cas_keyval($code . $preamble);
+            $ses = $kv->get_session();
+
+            $testnames = [];
+            $testresults = [];
+
+            foreach ($tests as $test) {
+                // First push the definition in.
+                $ses->add_statement(stack_ast_container::make_from_teacher_source($test['code']));
+                // Then the executions and keep track on which is which.
+                $testnames[] = $test['src'] . ' simp:true';
+                $ses->add_statement(stack_ast_container::make_from_teacher_source('simp:true'));
+                $ast = stack_ast_container::make_from_teacher_source('s_test_case(true)');
+                $testresults[] = $ast;
+                $ses->add_statement($ast);
+
+                $testnames[] = $test['src'] . ' simp:false';
+                $ses->add_statement(stack_ast_container::make_from_teacher_source('simp:false'));
+                $ast = stack_ast_container::make_from_teacher_source('s_test_case(false)');
+                $testresults[] = $ast;
+                $ses->add_statement($ast);
+            }
+
+            // Execute and check.
+            $ses->instantiate();
+            for ($i = 0; $i < count($testnames); $i++) {
+                $this->assertEquals('true', $testresults[$i]->get_value(), $testnames[$i]);
+            }
+        }
+    }
+
+    public function test_execute_library_tests(): void {
+        /* 
+         * This will execute tests for all `.stacklib` libraries present in the expected place.
+         */
+        // First load the manifests.
+        $manifests = [];
+        foreach (glob(__DIR__ . "/../stack/maxima/contrib/*.stacklib") as $filename) {
+            $libname = explode('/', $filename);
+            $libname = $libname[count($libname) - 1];
+            $libname = explode('.stacklib', $libname)[0];
+            $manifests[$libname] = json_decode(file_get_contents($filename), true);
+        }
+
+        $testsbyreqs = [];
+        // Group by reqs.
+        foreach ($manifests as $lib => $manifest) {
+            foreach ($manifest['tests'] as $test) {
+                $reqs = [];
+                foreach ($test['requires'] as $req) {
+                    if (strpos($req, 'local/') === 0) {
+                        $reqs[] = $lib . '/' . (explode('/', $req, 2)[1]);
+                    } else {
+                        $reqs[] = $req;
+                    }
+                }
+                // Make sure the reqs are in the same order.
+                asort($reqs);
+                // Anotate the test for latter work.
+                $test['lib'] = $lib;
+                $reqs = implode(',', $reqs);
+                if (isset($testsbyreqs[$reqs])) {
+                    $testsbyreqs[$reqs][] = $test;
+                } else {
+                    $testsbyreqs[$reqs] = [$test];
+                }
+            }
+        }
+
+        if (empty($testsbyreqs)) {
+            // There is nothing to test, i.e., no contrib libraries...
+            return;
+        }
+
+        // Check for excessively large groups.
+        $splittedgroups = [];
+        foreach ($testsbyreqs as $r => $tests) {
+            if (count($tests) > 20) {
+                // Note we do not use the key for the requirements... so we can simply modify it.
+                $i = 0;
+                foreach (array_chunk($tests, 20) as $chunk) {
+                    $splittedgroups[$r . ' ' . $i] = $chunk;
+                    $i = $i + 1;
+                }
+            } else {
+                $splittedgroups[$r] = $tests;
+            }
+        }
+
+
+        // For each group, run the tests in a session.
+        foreach ($splittedgroups as $tests) {
             $reqs = implode(' ', $tests[0]['requires']);
             $code = '';
             $preamble = '';

@@ -119,3 +119,15 @@ stack_require(
 	"lib1", ["fun1"]
 );
 ```
+
+
+## Unit tests for libraries
+
+The library code can contain definitions of the the function `s_test_case(simp)`, each of them representing a test case returning `true` if it passess, you might return a `"string"` with some information if it does not. The [STACK PHPUnit](./Unit_tests.md) test suite contains logic that will run all such test cases of all library manifests present in the normal location, and will report on any failures.
+
+If you wish to execute those tests you will need the full PHPUnit setup with functioning Maxima connected to it in some way. If you have that setup you may use the group `qtype_stack_require` to only execute tests related to these types of libraries, the tests will naturally also run with the normal `qtype_stack`-group. Basically, running the tests in the following way may speed up your process quite a lot:
+
+```
+vendor/bin/phpunit --group qtype_stack_require
+```
+

@@ -189,6 +189,8 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
             $direction = $parameters['stack-ascii-direction'];
             if ($direction === 'ltr' || $direction === 'rtl') {
                 $directionattribute = ' dir="' . $direction . '"';
+            } else {
+                $directionattribute = ' dir="' . stack_get_system_direction() . '"';
             }
         }
         $code .= '<html xmlns="http://www.w3.org/TR/xhtml1/strict" lang="' .

@@ -108,7 +108,7 @@ class stack_cas_castext2_ascii extends stack_cas_castext2_block {
         $height = $existsuserheight ? $xpars['height'] : "400px";
         $xpars['width'] = $width;
         $xpars['height'] = $height;
-        $direction = stack_get_system_direction();
+        $direction = 'user';
         if (($xpars['align'] ?? null) === 'left') {
             $direction = 'ltr';
         } else if (($xpars['align'] ?? null) === 'right') {

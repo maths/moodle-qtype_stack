@@ -153,7 +153,7 @@ final class ascii_block_test extends qtype_stack_testcase {
         $xpars = json_decode($compiled->items[1]->value, true);
         $this->assertEquals('100%', $xpars['width']);
         $this->assertEquals('400px', $xpars['height']);
-        $this->assertEquals(stack_get_system_direction(), $xpars['stack-ascii-direction']);
+        $this->assertEquals('user', $xpars['stack-ascii-direction']);
         $this->assertStringContainsString('STACK ASCII', $xpars['title']);
 
         $strings = $this->get_string_items($compiled);

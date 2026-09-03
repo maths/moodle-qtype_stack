@@ -184,8 +184,17 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
         $code = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
         $code .= '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"' .
             ' "http://www.w3.org/TR/xhtml1/DTD/strict.dtd">' . "\n";
+        $directionattribute = '';
+        if (isset($parameters['stack-ascii-direction'])) {
+            $direction = $parameters['stack-ascii-direction'];
+            if ($direction === 'ltr' || $direction === 'rtl') {
+                $directionattribute = ' dir="' . $direction . '"';
+            } else {
+                $directionattribute = ' dir="' . stack_get_system_direction() . '"';
+            }
+        }
         $code .= '<html xmlns="http://www.w3.org/TR/xhtml1/strict" lang="' .
-            stack_get_system_language() . '">';
+            stack_get_system_language() . '"' . $directionattribute . '>';
         // Include a title to help JS debugging.
         $code .= '<head><title>' . $title . '</title>';
         $code .= $style;

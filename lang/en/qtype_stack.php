@@ -1128,6 +1128,7 @@ $string['stackBlock_ascii_overdefined_dimension'] = 'When defining aspect-ratio 
 $string['stackBlock_ascii_answer_format'] = 'The answer attribute of the ASCII block must be in the format \"[ans1,extractor,filter],[ans2,extractor,filter],...\".';
 $string['stackBlock_ascii_unknown_param'] = 'Unknown parameter \'{$a}\' for the ASCII block.';
 $string['stackBlock_ascii_param'] = 'Valid parameters are: {$a->param}.';
+$string['stackBlock_ascii_incorrect_alignment'] = 'The output must be aligned left or right.';
 
 $string['stackBlock_extractor_targetinput_required'] = 'You must define the targetinput for the extractor block to send the answer to.';
 $string['stackBlock_extractor_type_required'] = 'You must define the type of extractor you want to use.';

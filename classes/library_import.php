@@ -346,7 +346,7 @@ class library_import extends \external_api {
         $moduleinfo->navmethod = $quizdata->quiz->navmethod;
         $moduleinfo->timeopen = 0;
         $moduleinfo->timeclose = 0;
-        $moduleinfo->duedate = 0; // Prevent "Undefined property" warning in Moodle 5.3+.
+        $moduleinfo->duedate = null; // Prevent "Undefined property" warning in Moodle 5.3+.
         $moduleinfo->decimalpoints = 2;
         $moduleinfo->questiondecimalpoints = -1;
         $moduleinfo->grademethod = 1;

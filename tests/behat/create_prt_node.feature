@@ -32,6 +32,7 @@ Feature: Create, edit STACK questions adding in PRT and saving.
     Then I should see "Test STACK question"
 
     When I am on the "Test STACK question" "core_question > edit" page
+    And I pause
     Then the following fields match these values:
       | Question name        | Test STACK question                                                           |
       | Question variables   | p : (x-1)^3;                                                                  |
@@ -67,7 +68,7 @@ Feature: Create, edit STACK questions adding in PRT and saving.
       | Model answer         | diff(p,x)                                                                     |
       | SAns                 | ans1                                                                          |
       | TAns                 | diff(p,x)                                                                     |
-
+    And I press "collapseElement-2"
     Then the following fields match these values:
       | Number to add (max 9) | 1 |
     When I press "Add node(s)"

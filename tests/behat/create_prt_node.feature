@@ -20,6 +20,7 @@ Feature: Create, edit STACK questions adding in PRT and saving.
   Scenario: Create, preview, test, tidy and edit STACK questions in Moodle ≥ 4.0
     Given the site is running Moodle version 4.0 or higher
     When I am on the "Course 1" "core_question > course question bank" page logged in as "teacher"
+    And I pause
     # Create a new question.
     And I add a "STACK" question filling the form with:
       | Question name        | Test STACK question                                                           |
@@ -32,7 +33,6 @@ Feature: Create, edit STACK questions adding in PRT and saving.
     Then I should see "Test STACK question"
 
     When I am on the "Test STACK question" "core_question > edit" page
-    And I pause
     Then the following fields match these values:
       | Question name        | Test STACK question                                                           |
       | Question variables   | p : (x-1)^3;                                                                  |
@@ -68,10 +68,10 @@ Feature: Create, edit STACK questions adding in PRT and saving.
       | Model answer         | diff(p,x)                                                                     |
       | SAns                 | ans1                                                                          |
       | TAns                 | diff(p,x)                                                                     |
-    And I press "collapseElement-2"
     Then the following fields match these values:
       | Number to add (max 9) | 1 |
     When I press "Add node(s)"
+    And I press collapseElement-2 if on Moodle 4.2 or 5.0
     Then I should see "Node 2"
     And I set the following fields to these values:
       | id_prt1sans_1 | int(ans1,x) |
@@ -81,7 +81,7 @@ Feature: Create, edit STACK questions adding in PRT and saving.
     And I set the following fields to these values:
       | id_prt1falsenextnode_0 | Node 2 |
     And I press "id_updatebutton"
-    And I press "collapseElement-2"
+    And I press collapseElement-2
     Then I should see "This potential response tree will become active when the student has answered: ans1"
     Then I should see "ATAlgEquiv(int(ans1,x),p)"
     And I set the following fields to these values:

@@ -538,4 +538,85 @@ class stack_cas_contrib_library_tools {
 
         return [$result, $preambles, $loaded];
     }
+
+    /**
+     * General tool to extract the comment body from `/**` style comment blocks.
+     * Also used in the STACK-Maxima compiler.
+     * @param string the comment content with the extra asterisks starting every line.
+     * @return string without those asterisks but still with the line changes.
+     */
+    public static function comment_body(string $comment): string {
+        $lines = array_map('trim', explode("\n", $comment));
+        $com = '';
+        foreach ($lines as $line) {
+            if (mb_strpos($line, '* ') === 0) {
+                $line = mb_substr($line, 2);
+            } else if (mb_strpos($line, '*') === 0) {
+                $line = mb_substr($line, 1);
+            }
+            $com .= "$line\n";
+        }
+        return $com;
+    }
+
+    /**
+     * General tool for generating documentation blocks from annotations like @param.
+     * Also used in the STACK-Maxima compiler. Note that not all annotations supported
+     * there are currently supported in contrib-libaries.
+     * @param string the raw comment
+     * @return array with various parts of the comment separated, the remainder and 
+     *         certain preformatted blocks.
+     */
+    public static function comment_annotations(string $comment): array {
+        $r = [
+            'remainder' => $comment,
+            'params' => [],
+            'return-block' => '',
+            'param-block' => '',
+            'virtual-name' => null,
+            'virtual-title' => null,
+        ];
+
+        // Parse the `@param` and `@return` bits.
+        $matches = [];
+        preg_match_all('/@([a-z]+)\[([^\]]*)\]([^@]*)/', $comment, $matches);
+        for ($i = 0; $i < count($matches[0]); $i++) {
+            switch ($matches[1][$i]) {
+                case 'param':
+                    // First drop the matched bits from the matching comment.
+                    $r['remainder'] = str_replace($matches[0][$i], '', $r['remainder']);
+                    if ($r['param-block'] === '') {
+                        $r['param-block'] = "| Argument name | type | description |\n";
+                        $r['param-block'] .= "| ------------- | ---- | ----------- |\n";
+                    }
+                    $aname = trim(explode(',', $matches[3][$i], 2)[0]);
+                    $adesc = trim(explode(',', $matches[3][$i], 2)[1]);
+                    $r['params'][] = $aname;
+                    $r['param-block'] .= "| $aname | " . $matches[2][$i] . ' | ';
+                    $r['param-block'] .= str_replace("\n", ' ', str_replace("\n\n", '<br>', trim($adesc))) . " |\n";
+                    break;
+                case 'return':
+                    $r['remainder'] = str_replace($matches[0][$i], '', $r['remainder']);
+                    $r['return-block'] = "\n\n| Return type | description |";
+                    $r['return-block'] .= "\n| ----------- | ------------|\n| ";
+                    $r['return-block'] .= $matches[2][$i] . ' | ';
+                    $r['return-block'] .= str_replace("\n", ' ', str_replace("\n\n", '<br>', trim($matches[3][$i]))) . " |\n";
+                    break;
+                case 'inertfunction':
+                    $r['remainder'] = str_replace($matches[0][$i], '', $r['remainder']);
+                    $r['virtual-name'] = trim(explode('(', $matches[3][$i])[0]);
+                    $r['virtual-title'] = trim($matches[3][$i]);
+                    break;
+                case 'unboundidentifier':
+                    $r['remainder'] = str_replace($matches[0][$i], '', $r['remainder']);
+                    $r['virtual-name'] = trim($matches[3][$i]);
+                    $r['virtual-title'] = trim($matches[3][$i]);
+                    break;
+                default:
+                    // Maybe be vocal?
+            }
+        }
+        return $r;
+    }
+
 }

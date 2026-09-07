@@ -38,6 +38,7 @@ require_once($CFG->libdir . '/clilib.php');
 require_once(__DIR__ . '/../stack/cas/parsingrules/parsingrule.factory.php');
 require_once(__DIR__ . '/../stack/maximaparser/parser.options.class.php');
 require_once(__DIR__ . '/../stack/maximaparser/error.interpreter.class.php');
+require_once(__DIR__ . '/../stack/cas/contriblibrarytools.class.php');
 
 
 // Collect script names. From a hard-coded depth.
@@ -357,60 +358,6 @@ function var_rename(MP_Statement $ast): MP_Statement {
 }
 
 
-// General purpose comment annotation processor.
-// phpcs:ignore moodle.Commenting.MissingDocblock.Function
-function comment_annotations(string $comment): array {
-    $r = [
-        'remainder' => $comment,
-        'params' => [],
-        'return-block' => '',
-        'param-block' => '',
-        'virtual-name' => null,
-        'virtual-title' => null,
-    ];
-
-    // Parse the `@param` and `@return` bits.
-    $matches = [];
-    preg_match_all('/@([a-z]+)\[([^\]]*)\]([^@]*)/', $comment, $matches);
-    for ($i = 0; $i < count($matches[0]); $i++) {
-        switch ($matches[1][$i]) {
-            case 'param':
-                // First drop the matched bits from the matching comment.
-                $r['remainder'] = str_replace($matches[0][$i], '', $r['remainder']);
-                if ($r['param-block'] === '') {
-                    $r['param-block'] = "| Argument name | type | description |\n";
-                    $r['param-block'] .= "| ------------- | ---- | ----------- |\n";
-                }
-                $aname = trim(explode(',', $matches[3][$i], 2)[0]);
-                $adesc = trim(explode(',', $matches[3][$i], 2)[1]);
-                $r['params'][] = $aname;
-                $r['param-block'] .= "| $aname | " . $matches[2][$i] . ' | ';
-                $r['param-block'] .= str_replace("\n", ' ', str_replace("\n\n", '<br>', trim($adesc))) . " |\n";
-                break;
-            case 'return':
-                $r['remainder'] = str_replace($matches[0][$i], '', $r['remainder']);
-                $r['return-block'] = "\n\n| Return type | description |";
-                $r['return-block'] .= "\n| ----------- | ------------|\n| ";
-                $r['return-block'] .= $matches[2][$i] . ' | ';
-                $r['return-block'] .= str_replace("\n", ' ', str_replace("\n\n", '<br>', trim($matches[3][$i]))) . " |\n";
-                break;
-            case 'inertfunction':
-                $r['remainder'] = str_replace($matches[0][$i], '', $r['remainder']);
-                $r['virtual-name'] = trim(explode('(', $matches[3][$i])[0]);
-                $r['virtual-title'] = trim($matches[3][$i]);
-                break;
-            case 'unboundidentifier':
-                $r['remainder'] = str_replace($matches[0][$i], '', $r['remainder']);
-                $r['virtual-name'] = trim($matches[3][$i]);
-                $r['virtual-title'] = trim($matches[3][$i]);
-                break;
-            default:
-                // Maybe be vocal?
-        }
-    }
-    return $r;
-}
-
 foreach ($scripts as $filename) {
     $content = trim(file_get_contents($filename));
     $sname = substr($filename, 19);
@@ -498,16 +445,7 @@ foreach ($scripts as $filename) {
                 // */
                 // phpcs:enable moodle.Commenting.InlineComment.InvalidEndChar
                 if (mb_strpos($item->value, '*') === 0) {
-                    $lines = array_map('trim', explode("\n", $item->value));
-                    $comment = '';
-                    foreach ($lines as $line) {
-                        if (mb_strpos($line, '* ') === 0) {
-                            $line = mb_substr($line, 2);
-                        } else if (mb_strpos($line, '*') === 0) {
-                            $line = mb_substr($line, 1);
-                        }
-                        $comment .= "$line\n";
-                    }
+                    $comment = stack_cas_contrib_library_tools::comment_body($item->value);
                     if (strpos($comment, '@inertfunction') !== false || strpos($comment, '@unboundidentifier') !== false) {
                         // Extract documentation for virtual things.
                         $virtualitems[] = $comment;
@@ -555,7 +493,7 @@ foreach ($scripts as $filename) {
                 }
 
                 // Parse the `@param` and `@return` bits.
-                $r = comment_annotations($matching);
+                $r = stack_cas_contrib_library_tools::comment_annotations($matching);
 
                 if ($c->statement->lhs instanceof MP_FunctionCall) {
                     if ($r['return-block'] === '') {
@@ -606,7 +544,7 @@ foreach ($scripts as $filename) {
         // Handle virtual ones.
         foreach ($virtualitems as $virtualitem) {
             // Parse the `@param` and `@return` bits.
-            $r = comment_annotations($virtualitem);
+            $r = stack_cas_contrib_library_tools::comment_annotations($virtualitem);
             // Get the name and title.
             if ($r['virtual-name'] === null) {
                 echo "\n\nWARNING! something virtual but no name.\n\n";

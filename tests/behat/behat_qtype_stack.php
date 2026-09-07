@@ -386,27 +386,4 @@ class behat_qtype_stack extends behat_base {
         }
         return $id;
     }
-
-    /**
-     * Conditionally press collapseElement-2 on Moodle 4.2 and 5.0 only.
-     * This is needed because the PRT section collapse behavior differs across Moodle versions.
-     *
-     * @When /^I press collapseElement-2 if on Moodle 4.2 or 5.0$/
-     */
-    public function i_press_collapse_element_if_on_moodle_42_or_50() {
-        global $CFG;
-        require_once($CFG->libdir . '/environmentlib.php');
-
-        $currentversion = normalize_version(get_config('', 'release'));
-
-        // Check if running on Moodle 4.2.x or 5.0.x
-        $is42 = version_compare($currentversion, '4.2', '>=') && version_compare($currentversion, '4.3', '<');
-        $is50 = version_compare($currentversion, '5.0', '>=') && version_compare($currentversion, '5.1', '<');
-
-        if ($is42 || $is50) {
-            $context = behat_context_helper::get('behat_general');
-            $context->i_press("collapseElement-2");
-        }
-        // On other versions, do nothing - the PRT section is already expanded
-    }
 }

@@ -1704,7 +1704,7 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
     color: #495057;
 }
 
-/* Visual augmentation only: the response remains one ordinary matrix. */
+/* Grid augmentation mirrors the block boundaries in the model answer. */
 .que.stack .matrixtable td.stack-matrix-column-separator {
     border-right: 1px solid currentColor;
     padding-right: 0.4em;

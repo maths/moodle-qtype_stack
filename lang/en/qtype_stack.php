@@ -2072,5 +2072,4 @@ $string['sbasen_validate_not_basen'] = 'Expected a raw base-N number.';
 $string['sbasen_validate_base_too_big'] = 'The base-N system currently does not support base-{$a->base}, only bases 2-36 are supported.';
 $string['sbasen_validate_invalid_digits'] = 'Some of the digits in base-N number {$a->num} are not suitable for the base ({$a->base}) in use.';
 
-$string['matrixcolumnseparatorsinvalid'] = 'Column separators must be strictly increasing positive column numbers separated by semicolons, for example columnseparators:2;4.';
-$string['matrixcolumnseparatorswidth'] = 'Each column separator must be before the final column of the matrix input.';
+$string['matrixaugmentedshape'] = 'An augmented matrix input requires at least two nonempty blocks with the same number of rows.';

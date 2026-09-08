@@ -72,6 +72,10 @@ l4:L[4];l5:L[5];l8:L[8]; l9:L[9];l12:L[12];l13:L[13];]]></text>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
     <isbroken>0</isbroken>
+    <prescribedmetadata/>
+    <metadata>
+      {"author":[{"firstName":"","lastName":"","institution":"HELM Consortium","year":"2015"},{"firstName":"","lastName":"","institution":"University of Edinburgh","year":"2025"}],"language":["en"],"isPartOf":"HELM","license":"cc-nc-4.0","additional":{"UoE":{"Notes":"This is automatically generated metadata."}},"freeform":{}}
+    </metadata>
     <variantsselectionseed>36.1exercise1</variantsselectionseed>
     <input>
       <name>ans1</name>

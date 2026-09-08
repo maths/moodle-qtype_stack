@@ -11,6 +11,7 @@ Issues with [github milestone 4.14.0](https://github.com/maths/moodle-qtype_stac
 
 1. Add [metadata](../Authoring/Metadata.md) to STACK questions.  (Issue #1711).
 2. Update to version 2.5.1 of ASCIIMath (May 2026)
+3. Add in augmented matrix grids for fixed [matrix inputs](../Authoring/Inputs/Matrix_input.md). (Issue #1850).
 
 ## Better testing
 

@@ -406,7 +406,7 @@ class behat_qtype_stack extends behat_base {
 
         if ($is42 || $is50) {
             $context = behat_context_helper::get('behat_general');
-            $context->i_press($element);
+            $context->i_click_on('#' . $element, 'css');
         }
         // On other versions, do nothing - the PRT section is already expanded
     }

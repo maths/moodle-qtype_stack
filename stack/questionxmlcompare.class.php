@@ -746,7 +746,8 @@ class stack_question_xml_compare {
      * @return string[] diff units.
      */
     protected static function inline_units(string $text): array {
-        $specialpattern = '/(<!\\[CDATA\\[.*?\\]\\]>|<!--.*?-->|<\\?.*?\\?>|<![^>]*>|&(#[0-9]+|#x[0-9A-Fa-f]+|[A-Za-z][A-Za-z0-9]+);|' .
+        $specialpattern = '/(<!\\[CDATA\\[.*?\\]\\]>|<!--.*?-->|<\\?.*?\\?>|<![^>]*>|&(#[0-9]+|#x[0-9A-Fa-f]+' .
+                          '|[A-Za-z][A-Za-z0-9]+);|' .
                           '<\\/?[A-Za-z][A-Za-z0-9:-]*(?:\\s*)?>|\\[\\[\\/?[A-Za-z][^\\]]*\\]\\]|\\{@[^@]*@\\})/us';
         $units = [];
         $offset = 0;

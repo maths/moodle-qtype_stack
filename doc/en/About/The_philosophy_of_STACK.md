@@ -1,25 +1,41 @@
 # Philosophy of STACK
 
-Online assessment can effectively assess and give feedback to a large number of students.  This frees up time that teachers would normally spend, and ensures consistent assessment.
-
-Traditional multiple choice questions have a number of limitations, including:
+Online assessment can effectively assess and give feedback to a large number of students.  Traditional multiple choice questions have a number of limitations, including:
 
 1. Only finite answers are possible. The teacher can put in "dummy responses" for common mistakes and give feedback based on those mistakes, but it is impossible to give feedback on student errors outside the given examples.
 2. You can only assess lower-order skills. "Give an example of..." type questions are impossible.
 3. It encourages strategic learning, i.e. instead of solving the problem, students will think about how to "trick the system" and find the right answer.
 4. Question distortion is especially problematic in mathematics. You may ask students to integrate a complicated function, and then give a list of potential answers. Differentiating the answers to get the original expression is a much easier process, and sensible students are likely to take the easier route, which is not what we wanted the student to practice.
 
-The alternative is to use *student-provided answer questions* where the student's answer contains the content such as an algebraic expression. 
+The alternative is to use *student-provided answer questions* where the student's answer contains the content such as an algebraic expression, or free-text input.
 
-STACK was designed to use computer algebra to assess students' answers which are algebraic expressions.
+STACK uses *deterministic algorithms which are transparent to teachers*, which *establish objective properties* of students' answers using computer algebra.
 
 ## Design choices
 
 Key design choices in STACK make it stand out.
 
-#### Teachers should be able to write their own questions, with minimal coding skill
+#### Students should not be penalised for poor computer skills
 
-Teachers should take responsibility for their assessments. When assessing students' answers, STACK asks teachers to focus on the properties of students' answers, such as "algebraically equivalent to the teacher's answer", "factorised", etc. 
+Online assessment should assess mathematics skills, not how well students know the specific syntax. For example, penalising a student for answering `sinx` instead of `sin(x)` is not fair.
+
+* _Separating validity from assessment is a key design feature pioneered by STACK._
+
+To ensure that students are marked for *mathematical skills* instead of *computer skills*, STACK separates "validity" and "correctness". When a student types an answer, it is interpreted by the CAS and a "validation box" is shown displaying how the student's answer is interpreted. This gives the student a chance to fix any syntax errors before their answer is marked.
+
+#### Multipart questions should be possible
+
+Multipart questions can be very helpful for students, for example to help guide a student through a new topic.
+
+* _STACK completely separates input and assessment with a unique and flexible design._
+
+A question can have unlimited input boxes, and unlimited potential response trees to handle the assessment. Each tree is not limited to a particular input, but instead has access to all the student's inputs. Hence, a tree assessing the correctness of part (b) of a question can use the student's answer to part (a) in its algorithm. This allows for follow-through marking, where a student be penalised for a wrong expression in part (a) but given credit for correctly substituting in values in part (b).
+
+#### Teachers should be able to write, edit and share their own questions
+
+The STACK community help teachers take responsibility for their assessments.  STACK allows teachers to write questions with minimal coding skill, and to share and edit questions easily.
+
+When assessing students' answers, STACK asks teachers to focus on the properties of students' answers, such as "algebraically equivalent to the teacher's answer", "factorised", etc. 
 
 * _Focusing on mathematical properties, such as equivalence, is a unique design feature of STACK._
 
@@ -34,23 +50,6 @@ else
   mark = 0.
 ```
 
-#### Students should not be penalised for poor computer skills
-
-Online assessment should assess mathematics skills, not how well students know the specific syntax. For example, penalising a student for answering `sinx` instead of `sin(x)` is not fair.
-
-* _Separating validity from assessment is a key design feature pioneered by STACK._
-
-To ensure that students are marked for *mathematical skills* instead of *computer skills*, STACK separates "validity" and "correctness". When a student types an answer, it is interpreted by the CAS and a "validation box" is shown displaying how the student's answer is interpreted. This gives the student a chance to fix any syntax errors before their answer is marked.
-
-
-#### Multipart questions should be possible
-
-Multipart questions can be very helpful for students, for example to help guide a student through a new topic.
-
-* _STACK completely separates input and assessment with a unique and flexible design._
-
-A question can have unlimited input boxes, and unlimited potential response trees to handle the assessment. Each tree is not limited to a particular input, but instead has access to all the student's inputs. Hence, a tree assessing the correctness of part (b) of a question can use the student's answer to part (a) in its algorithm. This allows for follow-through marking, where a student be penalised for a wrong expression in part (a) but given credit for correctly substituting in values in part (b).
-
 #### STACK is rich in features
 
 STACK is designed to cover the needs of a large variety of users across mathematics and science.
@@ -59,8 +58,9 @@ STACK is designed to cover the needs of a large variety of users across mathemat
 * There are many different kinds of [inputs](../Authoring/Inputs/index.md). These are, for example, where the student enters a mathematical expression, or makes a true/false selection.
 * Partial credit is possible when an expression only satisfies some of the required properties.
 * [Plots](../CAS/Maxima_plot.md) can be dynamically generated and included within any part of the question, including feedback in the form of a plot of the student's expression.
-* Students can work line by line [reasoning by equivalence](../Specialist_tools/Equivalence_reasoning/index.md) until they have a final answer in the correct form. 
+* Students can work line by line [reasoning by equivalence](../Specialist_tools/Equivalence_reasoning/index.md) until they have a final answer in the correct form and [free-text input](../Specialist_tools/Free_text_input/index.md) allows students to enter a complete mathematical argument.
 * STACK supports working with [significant figures](../Authoring/Answer_Tests/Numerical.md) and [scientific units](../Topics/Units.md).
+
 
 #### STACK is open source
 

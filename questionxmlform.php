@@ -35,7 +35,11 @@ class qtype_stack_question_xml_form extends moodleform {
             'textarea',
             'questionxml',
             stack_string('editxmlquestion'),
-            ['rows' => $this->_customdata['numberrows'], 'cols' => 100]
+            [
+                'rows' => $this->_customdata['numberrows'],
+                'cols' => 100,
+                'data-ace' => '1',
+            ]
         );
         $mform->setType('questionxml', PARAM_RAW);
 

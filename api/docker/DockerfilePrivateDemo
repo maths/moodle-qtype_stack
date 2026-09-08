@@ -1,0 +1,34 @@
+# This Dockerfile builds a public frontend for the private STACK API demo.
+# It serves the browser UI and privately calls an API container over the
+# Docker network. It does not expose the STACK API routes directly.
+
+FROM composer:lts AS composer
+
+COPY / /work/
+
+WORKDIR /work/api/
+
+RUN composer install
+RUN composer dump-autoload --optimize
+
+FROM php:8.4.5-apache-bookworm
+
+RUN a2enmod rewrite
+
+ENV APACHE_DOCUMENT_ROOT=/srv/stack/api/private-demo/public
+ENV STACK_PRIVATE_DEMO_API_URL=http://api
+ENV STACK_PRIVATE_DEMO_LIBRARY=stacklibrary
+
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
+RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+
+COPY ./api/docker/files/private-demo/000-default.conf /etc/apache2/sites-available/000-default.conf
+COPY / /srv/stack
+COPY --from=composer /work/api/vendor /srv/stack/api/vendor
+
+RUN mkdir -p /srv/stack/api/private-demo/public/assets && \
+    cp /srv/stack/api/public/api.css /srv/stack/api/private-demo/public/assets/api.css && \
+    cp /srv/stack/api/public/stackjsvle.js /srv/stack/api/private-demo/public/assets/stackjsvle.js && \
+    cp /srv/stack/api/public/stackshared.js /srv/stack/api/private-demo/public/assets/stackshared.js && \
+    cp /srv/stack/api/public/logo_large.png /srv/stack/api/private-demo/public/assets/logo_large.png && \
+    cp /srv/stack/api/public/favicon.ico /srv/stack/api/private-demo/public/favicon.ico

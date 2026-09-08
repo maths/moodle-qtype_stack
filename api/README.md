@@ -41,8 +41,8 @@ services:
 
 The application can also be installed manually, although this variant has only undergone limited testing. Prerequisites are a working installation of PHP 8 and [composer](https://getcomposer.org/):
 
-- Copy the content of this repository to your target server. Only the `./api/public` directory should be publicly accessible. 
-- Install the required dependencies by performing `composer install` inside the `./api/` directory. 
+- Copy the content of this repository to your target server. Only the `./api/public` directory should be publicly accessible.
+- Install the required dependencies by performing `composer install` inside the `./api/` directory.
 - Copy `./api/config_sample.txt_` into a file `./api/config.php` and adapt to your needs.
 - Access the api via the `api/public/index.php` file.
 
@@ -93,13 +93,13 @@ The `aboutapi` object contains:
 The input configuration consists of the following fields:
 
 - `validationtype`: A number indicating the configured validation type of the input. Possible values are 0 (hidden), 1 (with variable list), 2 (without variable list) and 3 (compact)
-- `samplesolution`: A map from strings to strings, containing the model answer of the input, in its input form. Input types which are rendered as only one input field, contain only an empty string as key, which is mapped to the model answer. More complex input types contain multiple entries, corresponding to different sub inputs, e.g. for matrix entries, or checkboxes. 
+- `samplesolution`: A map from strings to strings, containing the model answer of the input, in its input form. Input types which are rendered as only one input field, contain only an empty string as key, which is mapped to the model answer. More complex input types contain multiple entries, corresponding to different sub inputs, e.g. for matrix entries, or checkboxes.
 - `samplesolutionrender`: The rendered model answer, as latex code.
 - `configuration`: A map of configuration options. See below.
 
 #### Input Configuration Keys
 
-The following keys can be contained inside the input configuration options. The availability depends on the type of the input. Please consult the STACK documentation to check which options are supported by which types, if availability is not explicitly specified below:   
+The following keys can be contained inside the input configuration options. The availability depends on the type of the input. Please consult the STACK documentation to check which options are supported by which types, if availability is not explicitly specified below:
 
 - `type`: Indicates the type of the input, e.g. `algebraic`. Present for all inputs. Possible values are: `algebraic`, `boolean`, `checkbox`, `dropdown`, `equiv`, `matrix`, `notes`, `numerical`, `radio`, `singlechar`, `string`, `textarea`, `units` and `varmatrix`.
 - `boxWidth`: Specifies the desired box size of the input.
@@ -153,7 +153,7 @@ The validation route returns a string field `Validation` with the corresponding 
 The `POST /download` route is used to download files created by questions.
 
 - `questionDefinition`: The Moodle-XML-Export of a single STACK question.
-- `seed`: Seed to choose a question variant. Must be contained in the list of deployed variants. If  
+- `seed`: Seed to choose a question variant. Must be contained in the list of deployed variants. If
   no seed is provided, the first deployed variant is used.
 - `filename` - as specified in the question definition and included in the question render.
 - `fileid` - as specified by the question render.
@@ -182,7 +182,7 @@ In the `results` object, each seed will key an object:
 - int|null: `passes`: Number of tests passed.
 - int|null: `fails`: Number of tests failed.
 - string: `messages`: Seed level error message. Includes summaries from the test, runtime errors and general feedback errors.
-- object: `outcomes`: Gives detailed breakdown of test result. Entries keyed by `<testcase>`. 
+- object: `outcomes`: Gives detailed breakdown of test result. Entries keyed by `<testcase>`.
 
 In the outcomes object, each test will key an object:
 - boolean: `passed`: Did the test pass?
@@ -273,7 +273,7 @@ prt:
 **Under development** - Defaults, how they're handled and YAML layout may change.
 
 The API accepts questions is a Moodle XML format i.e. `<quiz><question type="stack"></question></quiz>`. Missing fields will be filled
-in from the `questiondefaults.yml` file. If there are no inputs or PRTs, a single one of each will be created. There will be no tests by default.  
+in from the `questiondefaults.yml` file. If there are no inputs or PRTs, a single one of each will be created. There will be no tests by default.
 - Input: `name: ans1, type: algebraic,
   tans: ta1`
 - PRT: `name: prt1`
@@ -281,12 +281,12 @@ in from the `questiondefaults.yml` file. If there are no inputs or PRTs, a singl
 
 If the API does not find XML in the required format it will attempt to interpret the file as YAML, again filling in blanks from the default
 file as with the XML. Fields are slightly different than from XML - rather than some fields having `text` and `format` children, there are
-`field` and `fieldformat` fields e.g.  
+`field` and `fieldformat` fields e.g.
 ```
 <specificfeedback>
   <text><p>[[feedback:prt1]]</p></text>
   <format>html</format>
-</specificfeedback>`  
+</specificfeedback>`
 ```
 becomes
 ```
@@ -338,7 +338,7 @@ If using summary format in the default file, do so like this:
 The API returns rendered CASText as parts of its responses in multiple places. The CASText is output as a single string in an intermediate format, which cannot be directly fed to browsers for display, and requires further processing. Applications using the API have to handle the following cases:
 
 - **Latex**: The rendered CASText can contain Latex code, which must be rendered before being displayed to the user, e.g. by MathJax. Latex blocks are always enclosed by either `\[ <latex> \]` for display mode latex, or `\( <latex> \)` for inline mode.
-- **Substitution Tokens**: The rendered CASText can contain substitution tokens, indicating where inputs, input validations or PRT feedback should be inserted. These tokens have the format `[[type:name]]`, where type can be either `feedback`, `input` or `validation`, and name corresponds to the input or PRT name. It is up to the embedding application to replace these tokens with the appropriate content, depending on the context. 
+- **Substitution Tokens**: The rendered CASText can contain substitution tokens, indicating where inputs, input validations or PRT feedback should be inserted. These tokens have the format `[[type:name]]`, where type can be either `feedback`, `input` or `validation`, and name corresponds to the input or PRT name. It is up to the embedding application to replace these tokens with the appropriate content, depending on the context.
 - **Images**: The rendered CASText can contain image tags, which have to be processed as described below: [Plots/Assets](#plotsassets)
 
 
@@ -383,7 +383,7 @@ Code dependencies of the api implementation are managed using composer. At runti
 
 ### Docker based development setup
 
-To ease the development process, the Dockerfile contained in the repository contains multiple stages for development, profiling and production deployment. To start developing using a docker container, start the docker-compose stack defined in the file [docker-compose.dev.yml](/api/docker/docker-compose.dev.yml). E.g. 
+To ease the development process, the Dockerfile contained in the repository contains multiple stages for development, profiling and production deployment. To start developing using a docker container, start the docker-compose stack defined in the file [docker-compose.dev.yml](/api/docker/docker-compose.dev.yml). E.g.
 
     docker compose -f docker-compose.dev.yml build
     docker compose -f docker-compose.dev.yml up
@@ -434,6 +434,54 @@ To allow the stack-moodle-plugin to work standalone, some classes and functions 
 A basic frontend is provided at `http://localhost:3080/stack.php`. This should allow you to load the STACK sample questions and try them out. This requires API specific versions of `cors.php` and `stackjsvle.js` (to access files and create iframes) which are in the public folder.
 
 `http://localhost:3080/bulktest.php` provides a front end for selecting a folder of STACK question files and running their included tests, similar to the STACK bulk test functionality in Moodle.
+
+### Private API demo
+
+The private API demo in `api/private-demo` is a demonstration of serving questions without exposing their Moodle XML to the browser. The browser sends either a `questionId` from a generated manifest, or a `questionPath` relative to the configured question library. These values are resolved to the local XML on the server side and then forwarded as STACK API requests to a private API container. The intermediate server also proxies generated plot/static assets back to the browser.
+
+The production-style compose file exposes only the frontend container on port 80:
+
+    cd api/docker
+    docker compose -f docker-compose.demo-private.yml build
+    docker compose -f docker-compose.demo-private.yml up
+
+After startup the demo is available at `http://localhost/`. The API container is reachable only inside the Docker network; the frontend container calls it using `STACK_PRIVATE_DEMO_API_URL`, which defaults to `http://api`.
+
+The question library location is configured with the `STACK_PRIVATE_DEMO_LIBRARY` environment variable. It defaults to `stacklibrary`, meaning `samplequestions/stacklibrary`. Set it to another directory name under `samplequestions` in the compose file, for example `stackdemo`, to serve `samplequestions/stackdemo` instead. After changing this value, rebuild `question-manifest.json` so the public catalogue and opaque question ids match the selected library.
+
+Pages:
+
+`notes.php` - An example of a course notes web page with embedded STACK questions.
+
+`index.php` - Allows a search of the library and display of any question.
+
+For local development, use the development compose file:
+
+    cd api/docker
+    docker compose -f docker-compose.demo-private.dev.yml build
+    docker compose -f docker-compose.demo-private.dev.yml up
+
+The development stack exposes the frontend at `http://localhost:3081/`, bind-mounts the relevant source folders, and rebuilds `api/private-demo/public/assets/question-manifest.json` on startup if it is missing. To rebuild the manifest manually after changing the configured STACK question library, run:
+
+    php api/private-demo/build_manifest.php
+
+The demo exposes these frontend routes:
+
+- `GET /demo/questions`: returns the public question catalogue. Each entry includes `questionId`, `name`, `filename`, and `category`; the XML path is not included.
+- `GET /embed?questionId=<id>`: renders a single embeddable question frame using a manifest id.
+- `GET /embed?questionPath=<path>`: renders a single embeddable question frame using a question-library-relative XML path.
+- `POST /demo/render`, `POST /demo/validate`, `POST /demo/grade`, `POST /demo/download`, and `POST /demo/diff`: proxy the corresponding STACK API route. Requests must include exactly one of `questionId` or `questionPath`; `questionDefinition` is rejected by the demo frontend.
+- `GET /demo/plot.php/<filename>`: proxies generated plots and static question assets from the private API container.
+- `GET /cors.php?name=<asset>` and `GET /demo/cors.php?name=<asset>`: serve CORS helper assets needed by iframe content.
+
+To set up your own notes site, things you need to do include:
+
+- Add questions in a folder in `samplequestions`.
+- Set `STACK_PRIVATE_DEMO_LIBRARY` in Docker compose file.
+- Build the manifest by running Docker compose. That will create question ids.
+- Create pages similar to notes.php in the public folder.
+- Update home.php page to link to your notes.
+- If you don't want your questions searchable or the question manifest publicly available, comment out the `/demo/questions` route in `index.php`.
 
 ### Modifications of existing STACK code
 

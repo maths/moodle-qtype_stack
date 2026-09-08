@@ -81,6 +81,10 @@ q1:(int(p,v));]]></text>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
     <isbroken>0</isbroken>
+    <prescribedmetadata/>
+    <metadata>
+     {"author":[{"firstName":"Tony","lastName":"Croft","institution":"Loughborough University","year":"2003"},{"firstName":"Anthony","lastName":"Kay","institution":"Loughborough University","year":"2003"}],"language":["en"],"isPartOf":"STACK Library - Calculus Refresher","license":"cc-nc-4.0","additional":{"UoE":{"Notes":"This is automatically generated metadata."}},"freeform":{}}
+    </metadata>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>

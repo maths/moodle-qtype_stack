@@ -212,6 +212,99 @@ final class input_varmatrix_test extends qtype_stack_testcase {
         );
     }
 
+    public function test_column_vector_model_answer(): void {
+
+        $options = new stack_options();
+        $el = stack_input_factory::make('varmatrix', 'ans1', 'v', $options);
+        $el->adapt_to_model_answer('c(1,2,3)');
+
+        $api = $el->render_api_data('c(1,2,3)');
+        $this->assertEquals('c', $api['casValueType']);
+
+        $html = $el->render(
+            new stack_input_state(stack_input::BLANK, [], '', '', '', '', ''),
+            'ans1',
+            false,
+            null
+        );
+        $this->assertStringContainsString(
+            '<div class="matrixsquarebrackets" data-stack-input-value-type="c">',
+            $html
+        );
+        $this->assertStringContainsString('data-stack-input-type="varmatrix"', $html);
+
+        $state = $el->validate_student_response(
+            ['ans1' => "1 a\na+b"],
+            $options,
+            'c(1,2,3)',
+            new stack_cas_security()
+        );
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('c(1,a,a+b)', $state->contentsmodified);
+        $this->assertEquals([
+            'ans1' => "1\n2\n3",
+            'ans1_val' => 'c(1,2,3)',
+        ], $el->maxima_to_response_array('c(1,2,3)'));
+        $this->assertEquals([
+            'ans1' => "f(1,2)\na+b",
+            'ans1_val' => 'c(f(1,2),a+b)',
+        ], $el->maxima_to_response_array('c(f(1,2),a+b)'));
+    }
+
+    public function test_row_vector_model_answer(): void {
+
+        $options = new stack_options();
+        $el = stack_input_factory::make('varmatrix', 'ans1', 'v', $options);
+        $el->adapt_to_model_answer('r(1,2,3)');
+
+        $api = $el->render_api_data('r(1,2,3)');
+        $this->assertEquals('r', $api['casValueType']);
+
+        $state = $el->validate_student_response(
+            ['ans1' => "1\na a+b"],
+            $options,
+            'r(1,2,3)',
+            new stack_cas_security()
+        );
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('r(1,a,a+b)', $state->contentsmodified);
+        $this->assertEquals([
+            'ans1' => '1 2 3',
+            'ans1_val' => 'r(1,2,3)',
+        ], $el->maxima_to_response_array('r(1,2,3)'));
+        $this->assertEquals([
+            'ans1' => 'f(1,2) a+b',
+            'ans1_val' => 'r(f(1,2),a+b)',
+        ], $el->maxima_to_response_array('r(f(1,2),a+b)'));
+    }
+
+    public function test_generated_vector_constructor_can_be_forbidden(): void {
+
+        $options = new stack_options();
+        $el = stack_input_factory::make('varmatrix', 'ans1', 'v', $options);
+        $el->set_parameter('forbidWords', 'c, sin');
+        $el->set_parameter('sameType', false);
+        $el->adapt_to_model_answer('c(1,2)');
+
+        $state = $el->validate_student_response(
+            ['ans1' => "1\n2"],
+            $options,
+            'c(1,2)',
+            new stack_cas_security()
+        );
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('c(1,2)', $state->contentsmodified);
+
+        $state = $el->validate_student_response(
+            ['ans1' => "1\nc(2,3)"],
+            $options,
+            'c(1,2)',
+            new stack_cas_security()
+        );
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('forbiddenFunction', $state->note);
+    }
+
     public function test_validate_student_response_invalid_one_blank(): void {
 
         $options = new stack_options();
@@ -572,5 +665,59 @@ final class input_varmatrix_test extends qtype_stack_testcase {
             '<span class="stacksyntaxexample">matrix([a,b],[c,matrix([a,b],[c,d])])</span>',
             $state->contentsdisplayed
         );
+    }
+    public function test_augmented_varmatrix_roundtrip(): void {
+        $options = new stack_options();
+        $model = 'aug_matrix(matrix([1,2],[3,4]),c(5,6))';
+        $el = stack_input_factory::make('varmatrix', 'ans1', 'M', $options);
+        $el->adapt_to_model_answer($model);
+        $this->assertEmpty($el->get_errors());
+        $response = $el->maxima_to_response_array($model);
+        $this->assertEquals("1 2 | 5\n3 4 | 6", trim($response['ans1']));
+        $state = $el->validate_student_response($response, $options, $model, new stack_cas_security());
+        $this->assertEquals(stack_input::SCORE, $state->status);
+        $this->assertEquals($model, $state->contentsmodified);
+        $this->assertStringContainsString('\\left|', $state->contentsdisplayed);
+        $this->assertStringContainsString('data-stack-input-value-type="aug_matrix"',
+            $el->render($state, 'ans1', false, null));
+        $this->assertEquals(['matrix', 'c'], $el->render_api_data(null)['blockTypes']);
+        $this->assertEquals('|', $el->render_api_data(null)['blockSeparator']);
+    }
+
+    public function test_augmented_varmatrix_student_dimensions(): void {
+        $options = new stack_options();
+        $model = 'aug_matrix(matrix([1,2],[3,4]),matrix([5],[6]))';
+        $el = stack_input_factory::make('varmatrix', 'ans1', 'M', $options);
+        $el->adapt_to_model_answer($model);
+        foreach (["1 | 2", "1 2 3 | 4 5\n6 7 8 | 9 10"] as $raw) {
+            $state = $el->validate_student_response(['ans1' => $raw], $options, $model, new stack_cas_security());
+            $this->assertEquals(stack_input::VALID, $state->status);
+            $this->assertStringStartsWith('aug_matrix(', $state->contentsmodified);
+        }
+        foreach (["1 2 3", "1 | 2\n3 4 | 5", "| 1 2", "1 2 |", "1 || 2", "1 ? | 2"] as $raw) {
+            $state = $el->validate_student_response(['ans1' => $raw], $options, $model, new stack_cas_security());
+            $this->assertEquals(stack_input::INVALID, $state->status);
+        }
+        $el->adapt_to_model_answer('matrix([1,2])');
+        $this->assertEquals('matrix([1,2])', $el->contents_to_maxima([['1', '2']]));
+    }
+
+    public function test_augmented_varmatrix_multiple_blocks_and_security(): void {
+        $options = new stack_options();
+        $model = 'aug_matrix(r(1,2),r(3),r(4,5))';
+        $el = stack_input_factory::make('varmatrix', 'ans1', 'M', $options);
+        $el->adapt_to_model_answer($model);
+        $this->assertEquals('1 2 | 3 | 4 5', trim($el->maxima_to_response_array($model)['ans1']));
+        $el->set_parameter('forbidWords', 'sin,r,aug_matrix');
+        $state = $el->validate_student_response(['ans1' => '1 2 | 3 | 4 5'],
+            $options, $model, new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals($model, $state->contentsmodified);
+        $state = $el->validate_student_response(['ans1' => 'sin(1) 2 | 3 | 4 5'],
+            $options, $model, new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $state = $el->validate_student_response('1 2 | 3 | 4 5',
+            $options, $model, new stack_cas_security(), true);
+        $this->assertEquals($model, $state->contentsmodified);
     }
 }

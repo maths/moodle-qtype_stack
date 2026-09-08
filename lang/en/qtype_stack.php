@@ -2073,3 +2073,5 @@ $string['sbasen_validate_base_too_big'] = 'The base-N system currently does not 
 $string['sbasen_validate_invalid_digits'] = 'Some of the digits in base-N number {$a->num} are not suitable for the base ({$a->base}) in use.';
 
 $string['matrixaugmentedshape'] = 'An augmented matrix input requires at least two nonempty blocks with the same number of rows.';
+
+$string['varmatrixaugmentedstructure'] = 'Separate the augmented blocks with | on every row. Keep the same nonempty block widths on each row; column-vector blocks need one column and row-vector blocks need one row.';

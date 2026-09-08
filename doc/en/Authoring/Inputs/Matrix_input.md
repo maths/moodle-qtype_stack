@@ -18,6 +18,20 @@ We cannot use the `EMPTYANSWER` tag for the teacher's answer with the matrix inp
 
 The shape of the parentheses surrounding the brackets is taken from the question level options, except matrix inputs cannot display curly brackets `{`.  (If you can create CSS to do this, please contact the developers!)
 
+### Augmented matrix grids
+
+Use the input extra option `columnseparators:3` to draw a vertical separator after column 3,
+for example for a 3-by-4 augmented system. For multiple blocks, use semicolons:
+`columnseparators:2;4` draws separators after columns 2 and 4. Column numbers are one-based,
+must be strictly increasing, and must be smaller than the instantiated matrix width.
+
+The teacher answer and student response remain ordinary Maxima matrices. The separators are
+presentation metadata: they do not add fields or change validation, algebra, grading or field names.
+The validation echo still uses ordinary matrix notation; display the augmented form separately in
+question text or feedback where needed. This option does not infer boundaries from `aug(A,b)`.
+API clients receive the optional `columnseparators` array with the same one-based column numbers
+and should draw these boundaries in their own matrix grid.
+
 ## Matrix of variable size input ###
 
 The matrix of variable size input is a textarea into which students type in their answer.

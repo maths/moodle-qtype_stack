@@ -39,6 +39,34 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
  * @covers \stack_matrix_input
  */
 final class input_matrix_test extends qtype_stack_testcase {
+    public function test_augmented_matrix_column_separators(): void {
+        $options = new stack_options();
+        $el = stack_input_factory::make('matrix', 'ans1', 'M', $options,
+            ['options' => 'columnseparators:1;3']);
+        $el->adapt_to_model_answer('matrix([1,2,3,4],[5,6,7,8])');
+        $state = new stack_input_state(stack_input::BLANK, [], '', '', '', '', '');
+        $html = $el->render($state, 'ans1', false, null);
+        $this->assertSame(4, substr_count($html, 'class="stack-matrix-column-separator"'));
+        $this->assertSame(8, substr_count($html, 'type="text"'));
+        $this->assertStringContainsString('name="ans1_sub_1_3"', $html);
+        $this->assertSame([1, 3], $el->render_api_data(null)['columnseparators']);
+        $this->assertSame('matrix([1,2,3,4],[5,6,7,8])',
+            $el->contents_to_maxima([['1', '2', '3', '4'], ['5', '6', '7', '8']]));
+        $this->assertStringContainsString('readonly="readonly"', $el->render($state, 'ans1', true, null));
+    }
+
+    public function test_augmented_matrix_invalid_separators(): void {
+        foreach (['0', '-1', '1;1', '2;1', '1.5', '1;;2', 'true', '1;'] as $value) {
+            $el = stack_input_factory::make('matrix', 'ans1', 'M', new stack_options(),
+                ['options' => 'columnseparators:' . $value]);
+            $this->assertNotEmpty($el->get_errors(), $value);
+        }
+        $el = stack_input_factory::make('matrix', 'ans1', 'M', new stack_options(),
+            ['options' => 'columnseparators:3']);
+        $el->adapt_to_model_answer('matrix([1,2,3])');
+        $this->assertNotEmpty($el->get_errors());
+    }
+
     public function test_render_blank(): void {
 
         $options = new stack_options();

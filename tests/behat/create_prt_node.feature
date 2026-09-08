@@ -70,8 +70,7 @@ Feature: Create, edit STACK questions adding in PRT and saving.
     Then the following fields match these values:
       | Number to add (max 9) | 1 |
     When I press "Add node(s)"
-    And I wait "2" seconds
-    And I press "collapseElement-2"
+    And I press "collapseElement-2" if on Moodle 4.2 or 5.0
     Then I should see "Node 2"
     And I set the following fields to these values:
       | id_prt1sans_1 | int(ans1,x) |

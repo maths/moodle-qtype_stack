@@ -25,16 +25,16 @@
       <text><![CDATA[<p>The first step in solving this problem, is to write the augmented matrix of
 \[ {@QA@} \mathbf{x} = {@Qb@} \]
 which is
-\[ {@QAM@} \]
+\[ {@auglast(QAM)@} \]
 Now we perform row operations.</p>
 <p>(a). Clear the first column.
-\[ {@invert(E3).QAM@}\quad \mbox{Add } {@-e3@} \times \mbox{ row 1 to row 2.}\]
-\[ {@invert(Ek1).invert(E3).QAM@}\quad \mbox{Add } {@-k1@} \times \mbox{ row 1 to row 3.}\]
-\[ {@invert(E1).invert(Ek1).invert(E3).QAM@}\quad \mbox{Add } {@-e1@} \times \mbox{ row 1 to row 4.}\]
+\[ {@auglast(invert(E3).QAM)@}\quad \mbox{Add } {@-e3@} \times \mbox{ row 1 to row 2.}\]
+\[ {@auglast(invert(Ek1).invert(E3).QAM)@}\quad \mbox{Add } {@-k1@} \times \mbox{ row 1 to row 3.}\]
+\[ {@auglast(invert(E1).invert(Ek1).invert(E3).QAM)@}\quad \mbox{Add } {@-e1@} \times \mbox{ row 1 to row 4.}\]
 </p>
 <p>(b). Clear the second column.
-\[ {@invert(E2).invert(E1).invert(Ek1).invert(E3).QAM@}\quad \mbox{Add } {@-e2@} \times \mbox{ row 2 to row 3.}\]
-\[ {@invert(Ek2).invert(E2).invert(E1).invert(Ek1).invert(E3).QAM@}\quad \mbox{Add } {@-k2@} \times \mbox{ row 2 to row 4.}\]
+\[ {@auglast(invert(E2).invert(E1).invert(Ek1).invert(E3).QAM)@}\quad \mbox{Add } {@-e2@} \times \mbox{ row 2 to row 3.}\]
+\[ {@auglast(invert(Ek2).invert(E2).invert(E1).invert(Ek1).invert(E3).QAM)@}\quad \mbox{Add } {@-k2@} \times \mbox{ row 2 to row 4.}\]
 </p>
 <p>This is in upper triangular form, and since we do not need <em>row echelon form</em> to solve the problem, so we stop row operations here.  Indeed, we don't want to divide by either {@k-k1@} or {@k-k2@} since these may turn out to be zero.  ("Division is evil!")</p>
 
@@ -51,7 +51,7 @@ Certainly the value \(k={@k1@}\) is inconsistent. The only value which gives an 
 Certainly with the value \(k={@k2@}\) we have a row of zeros, and hence an infinite number of solutions. The only value which gives an infinite number of solutions is \(k={@k2@}\).
 
 </p>
-<p>Setting \(k={@k2@}\) gives \[ {@TAM2@} \]
+<p>Setting \(k={@k2@}\) gives \[ {@auglast(TAM2)@} \]
 which has a row of zeros at the bottom, indicating we have infinite solutions.
 Notice also, we can put a parameter, \(t\) say, in the last coordinate
 \[ {@submatrix(TAM2,5) @}\begin{bmatrix} ? \\ ? \\ ? \\ t \end{bmatrix} =  {@submatrix(TAM2,1,2,3,4) @}\]
@@ -67,10 +67,12 @@ Evaluating this at \(k={@k2@}\) gives
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text>2023121100</text>
+      <text>2026080700</text>
     </stackversion>
     <questionvariables>
-      <text>/* Based on ideas in Naiman2022. */
+      <text><![CDATA[/* Based on ideas in Naiman2022. */
+stack_include_contrib("matrix.mac");
+
 k1:3+rand(2);
 k2:k1+1+rand(2);
 M:matrix([1, 0, 1, 0],[0, 1, 0, 1],[k1, 0, k, 0],[0, k2, 0, k]);
@@ -82,7 +84,7 @@ tb:M.ta;
 /* Create an inconsistent system for k=k1, in 3rd row. */
 tb:tb+transpose(matrix([0,0,1,0]));
 
-/* Augmented matrix of base system. */
+/* Augmented matrix of base system. */
 MA: transpose(apply(matrix,(append(args(transpose(M)),args(transpose(at(tb,k=k2)))))));
 
 /* Apply to row operations to obscure the question a little (not complicating parameters). */
@@ -97,6 +99,9 @@ E3:matrix([1, 0, 0, 0],[e3, 1, 0, 0],[0, 0, 1, 0],[0, 0, 0, 1]);
 QAM:E3.E2.E1.MA;
 QA:submatrix(QAM,5);
 Qb:submatrix(QAM,1,2,3,4);
+
+/* Turn a matrix into an augmented matrix. */
+auglast(M):=aug(submatrix(M,5),submatrix(M,1,2,3,4));
 
 /* Answers. */
 TAM1:invert(Ek2).invert(E2).invert(E1).invert(Ek1).invert(E3).QAM;
@@ -122,7 +127,7 @@ WS:solve(flatten(args(submatrix(WTAM2,5).transpose([v1,v2,v3,v4])-submatrix(WTAM
 WS:stack_strip_percent(first(WS),[t]);
 
 taw1: maplist(lambda([ex2], rhs(first(sublist(WS,lambda([ex],lhs(ex)=ex2))))),[v1,v2,v3,v4]);
-taw1: transpose(apply(matrix,[taw1]));</text>
+taw1: transpose(apply(matrix,[taw1]));]]></text>
     </questionvariables>
     <specificfeedback format="html">
       <text>[[feedback:prt1]]
@@ -131,7 +136,7 @@ taw1: transpose(apply(matrix,[taw1]));</text>
 [[feedback:prt4]]</text>
     </specificfeedback>
     <questionnote format="moodle_auto_format">
-      <text>\( {@QAM@} \rightarrow {@TAM1@} \) Inconsistent: \(k={@k1@}\). Infinite solutions: \(k={@k2@}\). \(\mathbf{x} = {@ta4@} \).</text>
+      <text>\( {@auglast(QAM)@} \rightarrow {@auglast(TAM1)@} \) Inconsistent: \(k={@k1@}\). Infinite solutions: \(k={@k2@}\). \(\mathbf{x} = {@ta4@} \).</text>
     </questionnote>
     <questiondescription format="moodle_auto_format">
       <text>This question is distributed as part of the STACK source code as an example. This is licenced as Creative Commons Attribution-ShareAlike 4.0 International License.</text>
@@ -164,7 +169,7 @@ taw1: transpose(apply(matrix,[taw1]));</text>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>3</showvalidation>
-      <options/>
+      <options>columnseparators:4</options>
     </input>
     <input>
       <name>ans2</name>
@@ -362,7 +367,7 @@ sd1:determinant(at(SM2,k=ans3))</text>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt3-2-T</trueanswernote>
         <truefeedback format="html">
-          <text>You probably didn't get part 1. correct, but follow-through marking has been applied and your system {@ans1@} does have an infinite number of solutions when \(k={@ans3@}\).</text>
+          <text>You probably didn't get part 1. correct, but follow-through marking has been applied and your system {@auglast(ans1)@} does have an infinite number of solutions when \(k={@ans3@}\).</text>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
         <falsescore>0</falsescore>
@@ -370,7 +375,7 @@ sd1:determinant(at(SM2,k=ans3))</text>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt3-2-F</falseanswernote>
         <falsefeedback format="html">
-          <text>You claim that the system {@ans1@} has an infinite number of solutions when \(k={@ans3@}\).  But, evaluating {@SM2@} at \(k={@ans3@}\) gives {@at(SM2,k=ans3)@}.  This has determinant \({@sd1@}\neq 0\), so the augmented matrix {@ans1@} has a unique solution when \(k={@ans3@}\).</text>
+          <text>You claim that the system {@auglast(ans1)@} has an infinite number of solutions when \(k={@ans3@}\).  But, evaluating {@SM2@} at \(k={@ans3@}\) gives {@at(SM2,k=ans3)@}.  This has determinant \({@sd1@}\neq 0\), so the augmented matrix {@auglast(ans1)@} has a unique solution when \(k={@ans3@}\).</text>
         </falsefeedback>
       </node>
     </prt>

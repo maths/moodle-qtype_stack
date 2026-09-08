@@ -138,15 +138,15 @@ setcolmx(c,i,M):= block([cols],
  * @param[integer] Optional: k the diagonal offset. 
  * @return[matrix] The matrix M with diagonal k replaced by L.
  */
-setdiagmx(L,M,[k]):= block([m,n,ii,jj],
+setdiagmx(L,M,[_k]):= block([m,n,ii,jj],
   [m, n]: matrix_size(M),
-  if emptyp(k) then k: 0 else k: first(k),
+  if emptyp(_k) then _k:0 else _k:first(_k),
   if not(listp(L)) then L: ev(makelist(L,ii,1,max(m,n)),simp),
   for ii: 1 thru m do block(
     ii: ev(ii,simp),
     for jj: 1 thru n do block(
       jj: ev(jj,simp),
-      if ev(is(ii+k=jj),simp) then errcatch(M[ii,jj]: L[ev(min(ii,jj),simp)])
+      if ev(is(ii+_k=jj),simp) then errcatch(M[ii,jj]: L[ev(min(ii,jj),simp)])
     )
   ),
   return(M)

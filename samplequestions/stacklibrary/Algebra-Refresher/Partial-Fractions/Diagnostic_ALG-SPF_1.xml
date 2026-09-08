@@ -65,6 +65,10 @@ Bden1:B * den1;</text>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
     <isbroken>0</isbroken>
+    <prescribedmetadata/>
+    <metadata>
+     {"author":[{"firstName":"Tony","lastName":"Barnard","institution":"","year":"1999"}],"language":["en"],"isPartOf":"STACK Library - Algebra Refresher","license":"cc-nc-4.0","additional":{"UoE":{"Notes":"This is automatically generated metadata."}},"freeform":{}}
+    </metadata>
     <variantsselectionseed/>
     <input>
       <name>Sanswer</name>

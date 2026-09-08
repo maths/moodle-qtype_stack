@@ -38,7 +38,38 @@ class stack_matrix_input extends stack_input {
         'validator' => false,
         'feedback' => false,
         'manualgraded' => false,
+        'columnseparators' => false,
     ];
+
+    /** @var int[] One-based columns followed by a visual block separator. */
+    protected $columnseparators = [];
+
+    /** Validate separator syntax independently of the instantiated matrix size. */
+    public function validate_extra_options() {
+        // The base validator handles common options; this input owns separator validation.
+        $value = $this->extraoptions['columnseparators'];
+        unset($this->extraoptions['columnseparators']);
+        parent::validate_extra_options();
+        $this->extraoptions['columnseparators'] = $value;
+        $this->columnseparators = [];
+        if ($value === false) {
+            return;
+        }
+        if (!is_string($value) || !preg_match('/^[1-9][0-9]*(;[1-9][0-9]*)*$/D', $value)) {
+            $this->errors[] = stack_string('matrixcolumnseparatorsinvalid');
+            return;
+        }
+        $columns = array_map('intval', explode(';', $value));
+        $previous = 0;
+        foreach ($columns as $column) {
+            if ($column <= $previous) {
+                $this->errors[] = stack_string('matrixcolumnseparatorsinvalid');
+                return;
+            }
+            $previous = $column;
+        }
+        $this->columnseparators = $columns;
+    }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function adapt_to_model_answer($teacheranswer) {
@@ -57,6 +88,9 @@ class stack_matrix_input extends stack_input {
         // These are ints...
         $this->height = $cs->get_list_element(0, true)->value;
         $this->width = $cs->get_list_element(1, true)->value;
+        if ($this->columnseparators && end($this->columnseparators) >= $this->width) {
+            $this->errors[] = stack_string('matrixcolumnseparatorswidth');
+        }
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
@@ -349,7 +383,11 @@ class stack_matrix_input extends stack_input {
                     'input',
                     array_merge(['type' => 'text', 'id'  => $name, 'name'  => $name, $field => $val], $attr)
                 );
-                $xhtml .= html_writer::tag('td', $html);
+                $cellattributes = [];
+                if (in_array($j + 1, $this->columnseparators, true)) {
+                    $cellattributes['class'] = 'stack-matrix-column-separator';
+                }
+                $xhtml .= html_writer::tag('td', $html, $cellattributes);
             }
 
             if ($i == 0) {
@@ -397,6 +435,9 @@ class stack_matrix_input extends stack_input {
         $data['boxWidth'] = $this->parameters['boxWidth'];
         $data['width'] = $this->width;
         $data['height'] = $this->height;
+        if ($this->columnseparators) {
+            $data['columnseparators'] = $this->columnseparators;
+        }
 
         return $data;
     }

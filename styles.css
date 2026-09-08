@@ -1703,3 +1703,12 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
     word-break: break-word;
     color: #495057;
 }
+
+/* Visual augmentation only: the response remains one ordinary matrix. */
+.que.stack .matrixtable td.stack-matrix-column-separator {
+    border-right: 1px solid currentColor;
+    padding-right: 0.4em;
+}
+.que.stack .matrixtable td.stack-matrix-column-separator + td {
+    padding-left: 0.4em;
+}

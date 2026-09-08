@@ -370,3 +370,10 @@ function stack_fetch_included_content(string $url) {
 function stack_get_system_language(): string {
     return current_language();
 }
+
+/**
+ * Fetches the direction of the current VLE UI language.
+ */
+function stack_get_system_direction(): string {
+    return function_exists('right_to_left') && right_to_left() ? 'rtl' : 'ltr';
+}

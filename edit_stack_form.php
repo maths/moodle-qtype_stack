@@ -227,7 +227,7 @@ class qtype_stack_edit_form extends question_edit_form {
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     protected function definition_inner(/* MoodleQuickForm */ $mform) {
-        global $OUTPUT;
+        global $OUTPUT, $PAGE, $CFG, $SESSION, $USER;
 
         // Load the configuration.
         $this->stackconfig = stack_utils::get_config();
@@ -277,6 +277,64 @@ class qtype_stack_edit_form extends question_edit_form {
             $warnings = ($warnings) ? $warnings . '<br />' : $warnings;
             $warnings .= '<i class="icon fa fa-exclamation-circle text-danger fa-fw"></i>' . stack_string('usetextarea');
         }
+        $PAGE->requires->js_call_amd('qtype_stack/metadata/metadatamodal', 'setup');
+        $mform->addElement('button', 'metadatamodal', stack_string('editmetadata'));
+        $datalib = new \stdClass();
+        $datalib->licenses = explode(',', $CFG->licenses ?? '');
+        $datalib->licenses = array_map(function ($license) {
+            return ['value' => $license, 'text' => get_string($license, 'license')];
+        }, $datalib->licenses);
+        $datalib->languages = [
+            $PAGE->cm->lang ?? '',
+            $PAGE->course->lang ?? '',
+            $SESSION->lang ?? '',
+            $USER->lang ?? '',
+            $CFG->lang ?? '',
+            'en',
+        ];
+        $datalib->user = new stdClass();
+        $datalib->user->firstname = $USER->firstname ?? '';
+        $datalib->user->lastname = $USER->lastname ?? '';
+        $datalib->user->institution = $USER->institution ?? '';
+        $datalib->placeholder = stack_string('licenseselect');
+        $datalib = json_encode($datalib);
+        if (!isset($this->question->id)) {
+            $data = '{"author":[{"firstName":"' . ($USER->firstname ?? '') . '","lastName":"' . ($USER->lastname ?? '') . '",' .
+            '"institution":"' . ($USER->institution ?? '') . '","year":"' . date('Y') . '"}],' .
+            '"language":["' . current_language() . '"],"license":"' . $CFG->sitedefaultlicense . '"}';
+        } else {
+            $data = ($this->question->options->metadata) ? $this->question->options->metadata : '{}';
+        }
+        $md = $mform->createElement(
+            'hidden',
+            'metadata',
+            $data,
+            ['data-lib' => $datalib, 'id' => 'id_stack_metadata', 'data-change' => stack_string('metadatachange')]
+        );
+        $mform->insertElementBefore($md, 'metadatamodal');
+        $mform->setType('metadata', PARAM_RAW);
+
+        $metadataobj = json_decode($data ?? '');
+        if ($metadataobj && $data !== '{}') {
+            $authors = [];
+            if (isset($metadataobj->author) && is_array($metadataobj->author)) {
+                $authors = $metadataobj->author;
+            }
+            $authorsummary = '';
+            foreach ($authors as $author) {
+                $authorsummary .= ($authorsummary) ? ', ' : '';
+                $currentsummary = ($author->firstName ?? '') . ' ' . ($author->lastName ?? '');
+                if (!trim($currentsummary)) {
+                    $currentsummary = $author->institution ?? '';
+                }
+                $authorsummary .= $currentsummary;
+            }
+            $metadatasummary = stack_string('author') . ': ' . trim($authorsummary);
+        } else {
+            $metadatasummary = stack_string('novalidmetadata');
+        }
+        $metadatatext = $mform->createElement('static', 'metadata_text', stack_string('metadatahighlights'), $metadatasummary);
+        $mform->insertElementBefore($metadatatext, 'metadatamodal');
 
         // Note that for the editor elements, we are using $mform->getElement('prtincorrect')->setValue(...); instead
         // of setDefault, because setDefault does not work for editors.
@@ -339,8 +397,8 @@ class qtype_stack_edit_form extends question_edit_form {
             if ($courseid = optional_param('courseid', 0, PARAM_INT)) {
                 $liburlparams['courseid'] = $courseid;
             }
-            if ($cmid = optional_param('returnurl', null, PARAM_LOCALURL)) {
-                $liburlparams['returnurl'] = $cmid;
+            if ($returnurl = optional_param('returnurl', null, PARAM_LOCALURL)) {
+                $liburlparams['returnurl'] = $returnurl;
             }
             $qlibrarylink = html_writer::link(
                 new moodle_url('/question/type/stack/questionlibrary.php', $liburlparams),
@@ -1133,6 +1191,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $question->assumepositive        = $opt->assumepositive;
         $question->assumereal            = $opt->assumereal;
         $question->isbroken              = $opt->isbroken;
+        $question->metadata              = $opt->metadata;
 
         return $question;
     }

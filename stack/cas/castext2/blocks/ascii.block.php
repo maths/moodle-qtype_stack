@@ -108,6 +108,13 @@ class stack_cas_castext2_ascii extends stack_cas_castext2_block {
         $height = $existsuserheight ? $xpars['height'] : "400px";
         $xpars['width'] = $width;
         $xpars['height'] = $height;
+        $direction = 'user';
+        if (($xpars['align'] ?? null) === 'left') {
+            $direction = 'ltr';
+        } else if (($xpars['align'] ?? null) === 'right') {
+            $direction = 'rtl';
+        }
+        $xpars['stack-ascii-direction'] = $direction;
 
         // Set a title.
         $xpars['title'] = 'STACK ASCII ///ASCII_COUNT///';
@@ -287,6 +294,12 @@ class stack_cas_castext2_ascii extends stack_cas_castext2_block {
             $valid    = false;
             $err[] = stack_string('stackBlock_ascii_underdefined_dimension');
         }
+        if (
+            array_key_exists('align', $this->params) && !in_array($this->params['align'], ['left', 'right'])
+        ) {
+            $valid = false;
+            $err[] = stack_string('stackBlock_ascii_incorrect_alignment');
+        }
 
         // Check that only valid parameters are passed to block header.
         $valids = null;
@@ -294,7 +307,8 @@ class stack_cas_castext2_ascii extends stack_cas_castext2_block {
             if (
                 $key !== 'width' &&
                 $key !== 'height' &&
-                $key !== 'aspect-ratio' &
+                $key !== 'aspect-ratio' &&
+                $key !== 'align' &&
                 $key !== 'input' &&
                 $key !== 'hidden'
             ) {
@@ -302,7 +316,7 @@ class stack_cas_castext2_ascii extends stack_cas_castext2_block {
                 $valid    = false;
                 if ($valids === null) {
                     $valids = [
-                        'width', 'height', 'aspect-ratio', 'input', 'hidden',
+                        'width', 'height', 'aspect-ratio', 'align', 'input', 'hidden',
                     ];
                     $err[] = stack_string('stackBlock_ascii_param', [
                         'param' => implode(', ', $valids),

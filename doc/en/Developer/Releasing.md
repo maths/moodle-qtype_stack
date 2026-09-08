@@ -92,9 +92,10 @@ E.g. "v4.10.0".
 
 ## 3. Moodle marketplace entry for the plugin
 
-Add a new version to the Moodle marketplace entry for the plugin.
+* Add a new version to the Moodle marketplace entry for the plugin.
+* Copy [development history](Development_history.md) to marketplace release notes.
 
-### 4. Releasing a new verion of the API to take advantage of the new release
+### 4. Releasing a new version of the API to take advantage of the new release
 
 Prompt to update Geomaxima image.
 

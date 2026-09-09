@@ -8,11 +8,11 @@
 //
 // Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle. If not, see <http://www.gnu.org/licenses/>.
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 namespace qtype_stack;
 
@@ -40,7 +40,12 @@ final class import_policy_test extends \qtype_stack_testcase {
      * @param bool $structural Whether the XML has duplicate input definitions.
      * @param bool $mixed Prepend a valid question to verify the whole upload is rejected.
      */
-    public function test_initial_upload_policy(bool $stoponerror, bool $valid, bool $structural = false, bool $mixed = false): void {
+    public function test_initial_upload_policy(
+        bool $stoponerror,
+        bool $valid,
+        bool $structural = false,
+        bool $mixed = false
+    ): void {
         global $DB, $PAGE;
         $this->setAdminUser();
         $course = $this->getDataGenerator()->create_course();
@@ -50,32 +55,12 @@ final class import_policy_test extends \qtype_stack_testcase {
         $category = $generator->create_question_category(['contextid' => $context->id]);
         $PAGE->set_context($context);
         $PAGE->set_pagetype('question-bank-importquestions-import');
-        $xml = '<quiz><question type="stack"><name><text>Initial upload</text></name>
-            <questiontext format="html"><text>[[input:ans1]]' .
-            ($valid ? ' [[validation:ans1]]' : '') . '</text></questiontext>
-            <questionvariables><text>ta1:[[1,true],[2,false]];</text></questionvariables>
-            <specificfeedback format="html"><text></text></specificfeedback>
-            <questionnote><text>Dropdown choice</text></questionnote>
-            <input><name>ans1</name><type>dropdown</type><tans>ta1</tans>
-            <mustverify>0</mustverify><showvalidation>0</showvalidation></input>
-            </question></quiz>';
-        if ($mixed) {
-            $validquestion = str_replace('[[input:ans1]]', '[[input:ans1]] [[validation:ans1]]',
-                substr($xml, strlen('<quiz>'), -strlen('</quiz>')));
-            $xml = str_replace('<quiz>', '<quiz>' . $validquestion, $xml);
-        }
-        if ($structural) {
-            preg_match('~<input>.*?</input>~s', $xml, $match);
-            $xml = str_replace('</question>', $match[0] . '</question>', $xml);
-        }
-        $file = make_request_directory() . '/initial.xml';
-        file_put_contents($file, $xml);
         $format = new \qformat_xml();
         $format->displayprogress = true;
         $format->setCategory($category);
         $format->setCourse($course);
         $format->setContexts([$context]);
-        $format->setFilename($file);
+        $format->setFilename($this->write_import_file($valid, $structural, $mixed));
         $format->setStoponerror($stoponerror);
         $before = $DB->count_records('question');
         $versions = $DB->count_records('question_versions');
@@ -108,10 +93,14 @@ final class import_policy_test extends \qtype_stack_testcase {
             $this->assertTrue($result);
             $this->assertCount(1, $format->questionids);
             $id = reset($format->questionids);
-            $this->assertEquals($valid ? 'ready' : 'draft',
-                $DB->get_field('question_versions', 'status', ['questionid' => $id]));
-            $this->assertEquals($valid ? 0 : 1,
-                $DB->get_field('qtype_stack_options', 'isbroken', ['questionid' => $id]));
+            $this->assertEquals(
+                $valid ? 'ready' : 'draft',
+                $DB->get_field('question_versions', 'status', ['questionid' => $id])
+            );
+            $this->assertEquals(
+                $valid ? 0 : 1,
+                $DB->get_field('qtype_stack_options', 'isbroken', ['questionid' => $id])
+            );
         }
         if (!$valid) {
             $this->assertGreaterThan(0, $format->importerrors);
@@ -119,7 +108,46 @@ final class import_policy_test extends \qtype_stack_testcase {
         }
     }
 
-    /** @return array Upload policy and validity combinations. */
+    /**
+     * Write a valid or deliberately invalid import fixture.
+     *
+     * @param bool $valid Include the required validation placeholder.
+     * @param bool $structural Duplicate an input to create a structural failure.
+     * @param bool $mixed Include a valid question before the invalid one.
+     * @return string Path to the XML fixture.
+     */
+    private function write_import_file(bool $valid, bool $structural, bool $mixed): string {
+        $xml = '<quiz><question type="stack"><name><text>Initial upload</text></name>
+            <questiontext format="html"><text>[[input:ans1]]' .
+            ($valid ? ' [[validation:ans1]]' : '') . '</text></questiontext>
+            <questionvariables><text>ta1:[[1,true],[2,false]];</text></questionvariables>
+            <specificfeedback format="html"><text></text></specificfeedback>
+            <questionnote><text>Dropdown choice</text></questionnote>
+            <input><name>ans1</name><type>dropdown</type><tans>ta1</tans>
+            <mustverify>0</mustverify><showvalidation>0</showvalidation></input>
+            </question></quiz>';
+        if ($mixed) {
+            $validquestion = str_replace(
+                '[[input:ans1]]',
+                '[[input:ans1]] [[validation:ans1]]',
+                substr($xml, strlen('<quiz>'), -strlen('</quiz>'))
+            );
+            $xml = str_replace('<quiz>', '<quiz>' . $validquestion, $xml);
+        }
+        if ($structural) {
+            preg_match('~<input>.*?</input>~s', $xml, $match);
+            $xml = str_replace('</question>', $match[0] . '</question>', $xml);
+        }
+        $file = make_request_directory() . '/initial.xml';
+        file_put_contents($file, $xml);
+        return $file;
+    }
+
+    /**
+     * Upload policy and validity combinations.
+     *
+     * @return array
+     */
     public static function initial_import_cases(): array {
         return [
             'invalid default' => [true, false],

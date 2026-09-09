@@ -25,46 +25,7 @@ stack_linear_algebra_declare(true)$
 /* Thank you to Georg Osang of IDEMS International    */
 /* for significant contributions to this work in 2024 */
 
-/*******************************************************************************/
-/* A convenience function for displaying a matrix as an augmented matrix       */
-/*******************************************************************************/
-texput(aug_matrix, lambda([ex],
-  block([exl:args(ex),ii,ss,ll:lmxchar,rr,lmxchar],
-    if is(ll="[") then rr: "]"
-    else if is(ll="(") then rr: ")"
-    else if is(ll="") then (ll: ".", rr: ".")
-    else if is(ll="{") then (ll: "\\{", rr: "\\}")
-    else if is(ll="|") then rr: "|",
-    lmxchar: "",
-    ss: ["\\left",ll,tex1(exl[1])],
-    for ii: 2 thru length(exl) do block(
-      ii: ev(ii,simp),
-      ss: append(ss, ["\\left|",tex1(exl[ii]),"\\right."])
-    ),
-    ss: append(ss, ["\\right",rr]),
-    return(simplode(ss))
-  )
-));
-
-/**
- * Converts a matrix to an aug_matrix
- * aug_matrix is an inert function that is used for displaying a matrix as an augmented matrix
- * To convert back, use de_aug 
- *
- * @param[matrix] M The matrix or matrices you would like to display as an augmented matrix
- * @return[aug_matrix] An augmented matrix
- */
-aug([M]):= if is(length(M)=1) then apply(aug_matrix,[submatrix(first(M),second(matrix_size(first(M)))),col(first(M),second(matrix_size(first(M))))]) else apply(aug_matrix,M);
-
-/**
- * Converts an aug_matrix to a matrix
- * aug_matrix is an inert function that is used for displaying a matrix as an augmented matrix
- * Note: This always returns a single matrix constructed by concatenating the arguments of the original aug_matrix. 
- *
- * @param[matrix] M The aug_matrix you would like to treat as a regular matrix
- * @return[aug_matrix] A matrix
- */
-de_aug(M):= apply(addcol, args(M));
+/* aug, aug_matrix display and de_aug are provided by linearalgebra_core.mac. */
 
 /*********************************************************************************/
 /* Functions to extract parts of matrices                                        */

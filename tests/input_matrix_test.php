@@ -39,32 +39,52 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
  * @covers \stack_matrix_input
  */
 final class input_matrix_test extends qtype_stack_testcase {
-    public function test_augmented_matrix_column_separators(): void {
+    public function test_augmented_matrix_roundtrip(): void {
         $options = new stack_options();
-        $el = stack_input_factory::make('matrix', 'ans1', 'M', $options,
-            ['options' => 'columnseparators:1;3']);
-        $el->adapt_to_model_answer('matrix([1,2,3,4],[5,6,7,8])');
-        $state = new stack_input_state(stack_input::BLANK, [], '', '', '', '', '');
-        $html = $el->render($state, 'ans1', false, null);
-        $this->assertSame(4, substr_count($html, 'class="stack-matrix-column-separator"'));
-        $this->assertSame(8, substr_count($html, 'type="text"'));
-        $this->assertStringContainsString('name="ans1_sub_1_3"', $html);
-        $this->assertSame([1, 3], $el->render_api_data(null)['columnseparators']);
-        $this->assertSame('matrix([1,2,3,4],[5,6,7,8])',
-            $el->contents_to_maxima([['1', '2', '3', '4'], ['5', '6', '7', '8']]));
-        $this->assertStringContainsString('readonly="readonly"', $el->render($state, 'ans1', true, null));
+        $model = 'aug_matrix(matrix([1,2],[3,4]),c(5,6))';
+        $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
+        $el->adapt_to_model_answer($model);
+        $contents = [['1', '2', '5'], ['3', '4', '6']];
+        $this->assertEmpty($el->get_errors());
+        $this->assertSame($model, $el->contents_to_maxima($contents));
+        $response = $el->maxima_to_response_array($model);
+        $this->assertSame($contents, $el->response_to_contents($response));
+        $data = $el->render_api_data(null);
+        $this->assertSame('aug_matrix', $data['casValueType']);
+        $this->assertSame([['type' => 'matrix', 'columns' => 2], ['type' => 'c', 'columns' => 1]], $data['blocks']);
+        $blank = new stack_input_state(stack_input::BLANK, [], '', '', '', '', '');
+        $html = $el->render($blank, 'ans1', false, null);
+        $this->assertSame(2, substr_count($html, 'class="stack-matrix-column-separator"'));
+        $this->assertSame(6, substr_count($html, 'type="text"'));
+        $this->assertStringContainsString('readonly="readonly"', $el->render($blank, 'ans1', true, null));
+        $state = $el->validate_student_response($response, $options, $model, new stack_cas_security());
+        $this->assertContains($state->status, [stack_input::VALID, stack_input::SCORE]);
+        $this->assertSame($model, $state->contentsmodified);
+        $this->assertStringContainsString('\\left|', $state->contentsdisplayed);
+        $this->assertStringNotContainsString('aug\\_matrix', $state->contentsdisplayed);
+        $response['ans1_sub_0_0'] = '';
+        $state = $el->validate_student_response($response, $options, $model, new stack_cas_security());
+        $this->assertSame(stack_input::INVALID, $state->status);
     }
 
-    public function test_augmented_matrix_invalid_separators(): void {
-        foreach (['0', '-1', '1;1', '2;1', '1.5', '1;;2', 'true', '1;'] as $value) {
-            $el = stack_input_factory::make('matrix', 'ans1', 'M', new stack_options(),
-                ['options' => 'columnseparators:' . $value]);
-            $this->assertNotEmpty($el->get_errors(), $value);
+    public function test_augmented_matrix_multiple_blocks_and_reset(): void {
+        $el = stack_input_factory::make('matrix', 'ans1', 'M', new stack_options());
+        $model = 'aug_matrix(r(1,2),r(3),r(4,5))';
+        $el->adapt_to_model_answer($model);
+        $this->assertSame($model, $el->contents_to_maxima([['1', '2', '3', '4', '5']]));
+        $this->assertCount(3, $el->render_api_data(null)['blocks']);
+        $el->adapt_to_model_answer('matrix([1,2])');
+        $this->assertSame('matrix([1,2])', $el->contents_to_maxima([['1', '2']]));
+        $this->assertArrayNotHasKey('blocks', $el->render_api_data(null));
+    }
+
+    public function test_augmented_matrix_invalid_shapes(): void {
+        foreach (['aug_matrix(matrix([1]),matrix([2],[3]))',
+                'aug_matrix(matrix([1]))', 'aug_matrix(matrix([1]),matrix([]))'] as $model) {
+            $el = stack_input_factory::make('matrix', 'ans1', 'M', new stack_options());
+            $el->adapt_to_model_answer($model);
+            $this->assertNotEmpty($el->get_errors(), $model);
         }
-        $el = stack_input_factory::make('matrix', 'ans1', 'M', new stack_options(),
-            ['options' => 'columnseparators:3']);
-        $el->adapt_to_model_answer('matrix([1,2,3])');
-        $this->assertNotEmpty($el->get_errors());
     }
 
     public function test_render_blank(): void {

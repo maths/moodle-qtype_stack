@@ -144,7 +144,7 @@ export default function init(inputIds, operations, options = {}) {
                         // Clear the input on extraction failure rather than leaving a stale value.
                         if (Object.hasOwn(value, 'error')) {
                             answerEl.value = '';
-                            if (currentop.errors === 'true') {
+                            if (currentop.errors !== 'false') {
                                 extractorErrors.push(value.error);
                             }
                         } else if (Object.hasOwn(value, 'result')) {

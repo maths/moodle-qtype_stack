@@ -250,12 +250,12 @@ describe('stackascii init', () => {
         expect(global.MathJax.typesetPromise).toHaveBeenCalledWith([env.output]);
     });
 
-    test('clears the answer input when an extractor returns an error object', () => {
+    test('clears the answer input and hides extractor errors when explicitly disabled', () => {
         const env = setupEnvironment('beta', 1);
 
         mockLaststringremainder.mockReturnValue({ error: 'No line matched the requested search text.' });
 
-        const operations = [{ operation: 'extractor', type: 'laststringremainder' }];
+        const operations = [{ operation: 'extractor', type: 'laststringremainder', errors: 'false' }];
 
         init(['markdownInput', 'answer1'], operations);
 
@@ -266,12 +266,12 @@ describe('stackascii init', () => {
         expect(env.errorOutput.innerHTML).toBe('');
     });
 
-    test('shows extractor errors in the ASCII panel when enabled', () => {
+    test('shows extractor errors in the ASCII panel by default', () => {
         const env = setupEnvironment('beta', 1);
 
         mockLaststringremainder.mockReturnValue({ error: 'Translated extractor failure.' });
 
-        const operations = [{ operation: 'extractor', type: 'laststringremainder', errors: 'true' }];
+        const operations = [{ operation: 'extractor', type: 'laststringremainder' }];
 
         init(['markdownInput', 'answer1'], operations, {
             asciistrings: { asciistringextractorsearchnotfound: 'Translated extractor failure.' }

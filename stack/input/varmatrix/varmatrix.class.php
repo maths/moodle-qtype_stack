@@ -407,15 +407,16 @@ class stack_varmatrix_input extends stack_input {
                 $this->augmented_widths($contents) === null
             ) {
                 $valid = false;
-                $errors[] = stack_string('varmatrixaugmentedstructure');
-                $symbols = ['matrix' => 'M', 'c' => 'c', 'r' => 'r'];
-                $structure = array_map(function($type) use ($symbols) {
-                    return $symbols[$type];
-                }, $this->blocktypes);
-                $errors[] = stack_string('varmatrixaugmentedpattern', implode(' | ', $structure));
-                foreach (array_unique($this->blocktypes) as $type) {
-                    $errors[] = stack_string('varmatrixaugmentedblock' . $type);
+                $example = [];
+                foreach ($this->blocktypes as $i => $type) {
+                    $example[] = ($i + 1) . ($type === 'c' ? '' : ' ...');
                 }
+                $errors[] = stack_string('varmatrixaugmentedstructure', implode(' | ', $example));
+                if (in_array('matrix', $this->blocktypes) || in_array('r', $this->blocktypes)) {
+                    $errors[] = stack_string('varmatrixaugmentedellipsis');
+                }
+                $errors[] = stack_string(in_array('r', $this->blocktypes) ?
+                    'varmatrixaugmentedonerow' : 'varmatrixaugmentedrows');
         }
         [$secrules, $filterstoapply] = $this->validate_contents_filters($basesecurity);
         // Separate rules for inert display logic, which wraps floats with certain functions.

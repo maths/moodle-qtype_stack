@@ -667,15 +667,15 @@ final class input_varmatrix_test extends qtype_stack_testcase {
         );
     }
     /**
-     * Explain the required block types without disclosing the model's dimensions or entries.
+     * Illustrate the required blocks without disclosing the model's dimensions or entries.
      *
      * @dataProvider augmented_structure_feedback_provider
      * @param string $model Instantiated teacher answer.
      * @param string $raw Malformed student response.
-     * @param string $pattern Expected block pattern.
-     * @param string[] $types Expected block explanations.
+     * @param string $pattern Expected example row.
+     * @param bool $onerow Whether the entire response must use one row.
      */
-    public function test_augmented_structure_feedback($model, $raw, $pattern, $types): void {
+    public function test_augmented_structure_feedback($model, $raw, $pattern, $onerow): void {
         $options = new stack_options();
         $el = stack_input_factory::make('varmatrix', 'ans1', 'M', $options);
         $el->adapt_to_model_answer($model);
@@ -685,13 +685,18 @@ final class input_varmatrix_test extends qtype_stack_testcase {
             );
             $this->assertEquals(stack_input::INVALID, $state->status);
             $this->assertStringContainsString(
-                'Your matrix needs the following block structure: <span class="stacksyntaxexample">' .
-                $pattern . '</span>.', $state->errors
+                '<pre class="stacksyntaxexample">' . $pattern . '</pre>', $state->errors
             );
-            foreach (['matrix', 'c', 'r'] as $type) {
-                $explanation = stack_string('varmatrixaugmentedblock' . $type);
-                $this->assertEquals(in_array($type, $types) ? 1 : 0, substr_count($state->errors, $explanation));
-            }
+            $this->assertEquals(
+                strpos($pattern, '...') !== false ? 1 : 0,
+                substr_count($state->errors, 'The dots (...) stand for optional extra entries.')
+            );
+            $this->assertStringContainsString(
+                $onerow ? 'Use only one row.' : 'Use the same block widths on every row.', $state->errors
+            );
+            $this->assertStringNotContainsString(
+                $onerow ? 'Use the same block widths on every row.' : 'Use only one row.', $state->errors
+            );
             $this->assertStringNotContainsString('9876', $state->errors);
             $this->assertStringNotContainsString('? ?', $state->errors);
         }
@@ -705,20 +710,24 @@ final class input_varmatrix_test extends qtype_stack_testcase {
     public static function augmented_structure_feedback_provider(): array {
         $model = 'aug_matrix(matrix([9876,2],[3,4]),c(5,6))';
         return [
-            'missing separator' => [$model, "1 2 3\n4 5 6", 'M | c', ['matrix', 'c']],
-            'inconsistent widths' => [$model, "1 2 | 3\n4 | 5", 'M | c', ['matrix', 'c']],
-            'empty block' => [$model, '1 2 |', 'M | c', ['matrix', 'c']],
-            'wide column vector' => [$model, '1 | 2 3', 'M | c', ['matrix', 'c']],
-            'extra separator' => [$model, '1 | 2 | 3', 'M | c', ['matrix', 'c']],
+            'missing separator' => [$model, "1 2 3\n4 5 6", '1 ... | 2', false],
+            'different teacher dimensions' => [
+                'aug_matrix(matrix([9876],[2],[3]),c(4,5,6))', '1 2 3', '1 ... | 2', false,
+            ],
+            'only column vectors' => ['aug_matrix(c(9876,2),c(3,4))', '1 2', '1 | 2', false],
+            'inconsistent widths' => [$model, "1 2 | 3\n4 | 5", '1 ... | 2', false],
+            'empty block' => [$model, '1 2 |', '1 ... | 2', false],
+            'wide column vector' => [$model, '1 | 2 3', '1 ... | 2', false],
+            'extra separator' => [$model, '1 | 2 | 3', '1 ... | 2', false],
             'matrix blocks' => [
                 'aug_matrix(matrix([9876,2]),matrix([3]),matrix([4,5,6]))',
-                '1 | 2', 'M | M | M', ['matrix'],
+                '1 | 2', '1 ... | 2 ... | 3 ...', false,
             ],
             'row vector with multiple rows' => [
-                'aug_matrix(r(9876,2),r(3))', "1 | 2\n3 | 4", 'r | r', ['r'],
+                'aug_matrix(r(9876,2),r(3))', "1 | 2\n3 | 4", '1 ... | 2 ...', true,
             ],
             'mixed block types' => [
-                'aug_matrix(c(9876),matrix([2,3]),r(4,5))', '1 2 3', 'c | M | r', ['c', 'matrix', 'r'],
+                'aug_matrix(c(9876),matrix([2,3]),r(4,5))', '1 2 3', '1 | 2 ... | 3 ...', true,
             ],
         ];
     }

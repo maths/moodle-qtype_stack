@@ -87,6 +87,7 @@ Feature: Create, edit STACK questions adding in PRT and saving.
     And I set the following fields to these values:
       | Number to add (max 9) | 3 |
     When I press "Add node(s)"
+    And I expand all fieldsets
     Then I should see "Node 3"
     Then I should see "Node 4"
     Then I should see "Node 5"

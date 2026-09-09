@@ -417,6 +417,58 @@ This page exposes the results of running answer tests on STACK test cases.  This
 <tr class="pass">
   <td class="cell c0">FacForm</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>-2*(1-x^2)</pre></td>
+  <td class="cell c3"><pre>2*(x-1)*(x+1)</pre></td>
+  <td class="cell c4"><pre>x</pre></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">ATFacForm_notfactored.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">Your answer is not factored. You could still do some more work on the term <span class="filter_mathjaxloader_equation"><span class="nolink">\(1-x^2\)</span></span>.</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">FacForm</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>(1-x^2)*-2</pre></td>
+  <td class="cell c3"><pre>2*(x-1)*(x+1)</pre></td>
+  <td class="cell c4"><pre>x</pre></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">ATFacForm_notfactored.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">Your answer is not factored. You could still do some more work on the term <span class="filter_mathjaxloader_equation"><span class="nolink">\(1-x^2\)</span></span>.</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">FacForm</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>-x*(1-x^2)</pre></td>
+  <td class="cell c3"><pre>x*(x-1)*(x+1)</pre></td>
+  <td class="cell c4"><pre>x</pre></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">ATFacForm_notfactored.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">Your answer is not factored. You could still do some more work on the term <span class="filter_mathjaxloader_equation"><span class="nolink">\(1-x^2\)</span></span>.</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">FacForm</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>-x^3*(1-x^2)</pre></td>
+  <td class="cell c3"><pre>x^3*(x-1)*(x+1)</pre></td>
+  <td class="cell c4"><pre>x</pre></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">ATFacForm_notfactored.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">Your answer is not factored. You could still do some more work on the term <span class="filter_mathjaxloader_equation"><span class="nolink">\(1-x^2\)</span></span>.</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">FacForm</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(1-x)^2</pre></td>
   <td class="cell c3"><pre>(x-1)^2</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -497,6 +549,15 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c0">FacForm</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(1-x)*(2-x)*(3-x)</pre></td>
+  <td class="cell c3"><pre>-x^3+6*x^2-11*x+6</pre></td>
+  <td class="cell c4"><pre>x</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATFacForm_true.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">FacForm</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>-(x-1)*(2-x)*(3-x)</pre></td>
   <td class="cell c3"><pre>-x^3+6*x^2-11*x+6</pre></td>
   <td class="cell c4"><pre>x</pre></td>
   <td class="cell c5">1</td>
@@ -602,6 +663,28 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c0">FacForm</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(y-4)*y*(3*y+6)</pre></td>
+  <td class="cell c3"><pre>3*(y-4)*y*(y+2)</pre></td>
+  <td class="cell c4"><pre>y</pre></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">ATFacForm_notfactored.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">Your answer is not factored. You could still do some more work on the term <span class="filter_mathjaxloader_equation"><span class="nolink">\(3\cdot y+6\)</span></span>. You need to take out a common factor.</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">FacForm</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>-3*(4-y)*y*(y+2)</pre></td>
+  <td class="cell c3"><pre>3*(y-4)*y*(y+2)</pre></td>
+  <td class="cell c4"><pre>y</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATFacForm_true.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">FacForm</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>-(4-y)*y*(3*y+6)</pre></td>
   <td class="cell c3"><pre>3*(y-4)*y*(y+2)</pre></td>
   <td class="cell c4"><pre>y</pre></td>
   <td class="cell c5">0</td>

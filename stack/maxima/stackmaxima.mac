@@ -1045,7 +1045,7 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
     /* Check for box.  */
     plotbox:sublist(ra, lambda([ex], if listp(ex) then is(first(ex) = box) else false)),
     if emptyp(plotbox) then plotbox:true else block(
-            ra:delete(first(plotbox), ra), 
+            ra:delete(first(plotbox), ra),
             if not(second(first(plotbox))) then plotbox:false
         ),
     /* For new versions. */
@@ -1140,7 +1140,7 @@ set output ", afn),
     if plotgrid2d and MAXIMA_VERSION_NUM>34 then
         ral: append(ral, [grid2d]),
     /* Add in the command for the nobox. */
-    if not(plotbox) then if MAXIMA_VERSION_NUM>47 then 
+    if not(plotbox) then if MAXIMA_VERSION_NUM>47 then
         ral:append(ral, [nobox]) else ral:append(ral, [[box,false]]),
     if plotdebug then print(preamble),
     if PLOT_TERMINAL="svg" then set_plot_option([svg_file, afn]),
@@ -3564,4 +3564,4 @@ is_lang(code):=ev(is(%_STACK_LANG=code),simp=true)$
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2026063000$
+stackmaximaversion:2026080700$

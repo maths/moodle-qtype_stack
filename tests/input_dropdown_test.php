@@ -293,6 +293,8 @@ final class input_dropdown_test extends qtype_stack_walkthrough_test_base {
     public function test_render_hidenonotanswered(): void {
 
         $el = $this->make_dropdown(['options' => 'hideanswer,nonotanswered']);
+        $el->validate_extra_options();
+        $this->assertEquals([], $el->get_errors());
         $el->adapt_to_model_answer($this->make_ta());
         $expected = '<select data-stack-input-type="dropdown" id="menustack1__ans1" class="select'
             . self::$moodleclass . ' menustack1__ans1" '
@@ -308,6 +310,12 @@ final class input_dropdown_test extends qtype_stack_walkthrough_test_base {
                             '',
                             ''
                         ), 'stack1__ans1', false, null));
+    }
+
+    public function test_validate_extra_options_hideanswer(): void {
+        $el = stack_input_factory::make('dropdown', 'ans1', $this->make_ta(), null, ['options' => 'hideanswer'], false);
+        $el->validate_extra_options();
+        $this->assertEquals([], $el->get_errors());
     }
 
     public function test_render_latex(): void {

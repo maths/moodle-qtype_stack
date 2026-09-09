@@ -17,6 +17,7 @@ A  "question" is the basic object in the system. The following table shows the f
 | [Inputs](Inputs/index.md)                                        | The inputs are the things, such as form boxes, with which the student actually interacts.
 | [Potential response trees](Potential_response_trees.md)    | These are the algorithms which establish the mathematical properties of the students' answers and generate feedback.
 | [Options](Question_options.md)                                      | Many behaviours can be changed with the options.
+| [Metadata](Metadata.md)                                      | STACK questions support flexible metadata.
 
 The authoring documentation also covers topics on:
 

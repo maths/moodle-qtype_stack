@@ -146,6 +146,10 @@ final class questiontype_test extends qtype_stack_walkthrough_test_base {
         $qdata = test_question_maker::get_question_data('stack', 'test3');
         $q = $this->qtype->make_question($qdata);
         $expectedq = test_question_maker::make_question('stack', 'test3');
+        // The fixture uses Moodle's shared qtype, whose validation cache may be populated.
+        // Verify our factory separately instead of comparing its transient state with that cache.
+        $this->assertSame($this->qtype, $q->qtype);
+        $expectedq->qtype = $this->qtype;
         $expectedq->stamp = $q->stamp;
         $expectedq->version = $q->version;
         $expectedq->timemodified = $q->timemodified;
@@ -557,6 +561,8 @@ final class questiontype_test extends qtype_stack_walkthrough_test_base {
         }
 
         $importer = new qformat_xml();
+        // This test inspects returned diagnostics, not progress output from an upload.
+        $importer->displayprogress = false;
         $q = $importer->try_importing_using_qtypes(
             $xmldata['question'],
             null,

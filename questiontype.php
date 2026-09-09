@@ -186,6 +186,14 @@ class qtype_stack extends question_type {
 
         $context = $fromform->context;
 
+        // A normal bank import reaches this point with authoring errors only when the author
+        // explicitly disabled Stop on error. Retain it for repair, not as a Ready question.
+        if ($PAGE->pagetype === 'question-bank-importquestions-import' && !empty($fromform->validationerrors)) {
+            $DB->set_field('question_versions', 'status',
+                \core_question\local\bank\question_version_status::QUESTION_STATUS_DRAFT,
+                ['questionid' => $fromform->id]);
+        }
+
         parent::save_question_options($fromform);
 
         $options = $DB->get_record('qtype_stack_options', ['questionid' => $fromform->id]);
@@ -1967,8 +1975,20 @@ class qtype_stack extends question_type {
                 $fromform->isbroken = '1';
             }
             $fromform->validationerrors = $errortext;
+            // Moodle checks this count before writing any questions when Stop on error is enabled.
+            // Keep parsed data for an explicit repair import, but do not treat authoring errors as
+            // a successful parse for the default import policy.
+            $format->importerrors++;
+            if ($format->displayprogress) {
+                global $OUTPUT;
+                echo $OUTPUT->notification(s($fromform->name) . ': ' . $errortext);
+            }
             if (isset($errors['structuralerror'])) {
                 $fromform->structuralerror = true;
+            }
+            if (!empty($fromform->structuralerror) && !$format->stoponerror) {
+                // The repair override cannot retain a structure that the editor cannot open.
+                throw new stack_exception($errortext);
             }
         }
         return $fromform;

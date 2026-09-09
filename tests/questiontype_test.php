@@ -557,6 +557,8 @@ final class questiontype_test extends qtype_stack_walkthrough_test_base {
         }
 
         $importer = new qformat_xml();
+        // This test inspects returned diagnostics, not progress output from an upload.
+        $importer->displayprogress = false;
         $q = $importer->try_importing_using_qtypes(
             $xmldata['question'],
             null,

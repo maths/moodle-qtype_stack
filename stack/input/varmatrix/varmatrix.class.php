@@ -402,10 +402,12 @@ class stack_varmatrix_input extends stack_input {
         $errors = [];
         $notes = [];
         $valid = true;
-        if ($this->valuetype === 'aug_matrix' && $contents !== ['EMPTYANSWER'] &&
-                $this->augmented_widths($contents) === null) {
-            $valid = false;
-            $errors[] = stack_string('varmatrixaugmentedstructure');
+        if (
+                $this->valuetype === 'aug_matrix' && $contents !== ['EMPTYANSWER'] &&
+                $this->augmented_widths($contents) === null
+            ) {
+                $valid = false;
+                $errors[] = stack_string('varmatrixaugmentedstructure');
         }
         [$secrules, $filterstoapply] = $this->validate_contents_filters($basesecurity);
         // Separate rules for inert display logic, which wraps floats with certain functions.

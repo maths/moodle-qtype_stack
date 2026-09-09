@@ -180,8 +180,10 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
      * @return bool whether the cached result used compatible STACK-Maxima libraries.
      */
     protected function check_json_stackmaxima_version($result) {
-        if (!array_key_exists('values', $result) || !is_array($result['values']) ||
-                !array_key_exists('__stackmaximaversion', $result['values'])) {
+        if (
+               !array_key_exists('values', $result) || !is_array($result['values']) ||
+               !array_key_exists('__stackmaximaversion', $result['values'])
+            ) {
             return true;
         }
 

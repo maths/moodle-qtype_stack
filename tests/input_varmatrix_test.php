@@ -678,8 +678,10 @@ final class input_varmatrix_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::SCORE, $state->status);
         $this->assertEquals($model, $state->contentsmodified);
         $this->assertStringContainsString('\\left|', $state->contentsdisplayed);
-        $this->assertStringContainsString('data-stack-input-value-type="aug_matrix"',
-            $el->render($state, 'ans1', false, null));
+        $this->assertStringContainsString(
+            'data-stack-input-value-type="aug_matrix"',
+            $el->render($state, 'ans1', false, null)
+            );
         $this->assertEquals(['matrix', 'c'], $el->render_api_data(null)['blockTypes']);
         $this->assertEquals('|', $el->render_api_data(null)['blockSeparator']);
     }
@@ -709,15 +711,28 @@ final class input_varmatrix_test extends qtype_stack_testcase {
         $el->adapt_to_model_answer($model);
         $this->assertEquals('1 2 | 3 | 4 5', trim($el->maxima_to_response_array($model)['ans1']));
         $el->set_parameter('forbidWords', 'sin,r,aug_matrix');
-        $state = $el->validate_student_response(['ans1' => '1 2 | 3 | 4 5'],
-            $options, $model, new stack_cas_security());
+        $state = $el->validate_student_response(
+            ['ans1' => '1 2 | 3 | 4 5'],
+            $options,
+            $model,
+            new stack_cas_security()
+            );
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals($model, $state->contentsmodified);
-        $state = $el->validate_student_response(['ans1' => 'sin(1) 2 | 3 | 4 5'],
-            $options, $model, new stack_cas_security());
+        $state = $el->validate_student_response(
+            ['ans1' => 'sin(1) 2 | 3 | 4 5'],
+            $options,
+            $model,
+            new stack_cas_security()
+            );
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $state = $el->validate_student_response('1 2 | 3 | 4 5',
-            $options, $model, new stack_cas_security(), true);
+        $state = $el->validate_student_response(
+            '1 2 | 3 | 4 5',
+            $options,
+            $model,
+            new stack_cas_security(),
+            true
+            );
         $this->assertEquals($model, $state->contentsmodified);
     }
 }

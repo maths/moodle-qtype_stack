@@ -54,7 +54,7 @@ class stack_matrix_input extends stack_input {
         $this->blockwidths = [];
         $this->blocktypes = [];
         $this->columnseparators = [];
-        // aug(A,b) is instantiated by matrix.mac as aug_matrix(A,b). Infer boundaries from
+        // Command aug(A,b) is instantiated by matrix.mac as aug_matrix(A,b). Infer boundaries from
         // the value, as with c/r inputs, rather than asking authors to duplicate its shape.
         $cs = stack_ast_container::make_from_teacher_source(
             'block([v:' . $teacheranswer . ',blocks,shapes,hh], ' .
@@ -196,7 +196,9 @@ class stack_matrix_input extends stack_input {
         return $this->array_to_constructor($contents, 'matrix');
     }
 
-    /** Serialize a block without evaluating student expressions. */
+    /**
+     * Serialize a block without evaluating student expressions.
+     */
     private function array_to_constructor($contents, $type) {
         if ($type === 'c') {
             return 'c(' . implode(',', array_column($contents, 0)) . ')';
@@ -250,7 +252,9 @@ class stack_matrix_input extends stack_input {
         return $tc;
     }
 
-    /** Decode an instantiated augmented block for model answers and saved responses. */
+    /**
+     * Decode an instantiated augmented block for model answers and saved responses.
+     */
     private function constructor_to_array($value) {
         $value = trim($value);
         if (substr($value, 0, 2) === 'c(') {

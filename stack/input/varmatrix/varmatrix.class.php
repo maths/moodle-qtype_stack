@@ -408,14 +408,32 @@ class stack_varmatrix_input extends stack_input {
             ) {
                 $valid = false;
                 $example = [];
+                $onerow = in_array('r', $this->blocktypes);
+                $blockcount = count($this->blocktypes);
+                $rowcount = $onerow ? 1 : 2;
+                $widths = [];
+                $continuation = [];
                 foreach ($this->blocktypes as $i => $type) {
-                    $example[] = ($i + 1) . ($type === 'c' ? '' : ' ...');
+                    $width = strlen((string)($i + 1 + ($rowcount - 1) * $blockcount)) + ($type === 'c' ? 0 : 4);
+                    $widths[] = $width;
+                    $continuation[] = '⋮' . str_repeat(' ', $width - 1);
                 }
-                $errors[] = stack_string('varmatrixaugmentedstructure', implode(' | ', $example));
+                for ($row = 0; $row < $rowcount; $row++) {
+                    $blocks = [];
+                    foreach ($this->blocktypes as $i => $type) {
+                        $entry = ($row * $blockcount + $i + 1) . ($type === 'c' ? '' : ' ...');
+                        $blocks[] = str_pad($entry, $widths[$i]);
+                    }
+                    $example[] = rtrim(implode(' | ', $blocks));
+                }
+                if (!$onerow) {
+                    $example[] = rtrim(implode(' | ', $continuation));
+                }
+                $errors[] = stack_string('varmatrixaugmentedstructure', implode("\n", $example));
                 if (in_array('matrix', $this->blocktypes) || in_array('r', $this->blocktypes)) {
                     $errors[] = stack_string('varmatrixaugmentedellipsis');
                 }
-                $errors[] = stack_string(in_array('r', $this->blocktypes) ?
+                $errors[] = stack_string($onerow ?
                     'varmatrixaugmentedonerow' : 'varmatrixaugmentedrows');
         }
         [$secrules, $filterstoapply] = $this->validate_contents_filters($basesecurity);

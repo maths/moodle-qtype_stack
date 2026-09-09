@@ -862,6 +862,132 @@ final class questiontype_test extends qtype_stack_walkthrough_test_base {
         ));
     }
 
+    /**
+     * XML import must flag the same invalid definitions as the editor's shared validator.
+     *
+     * @dataProvider import_validation_cases
+     * @param string $type Input type.
+     * @param string $defect Deliberate authoring error, or 'valid'.
+     * @param string $errorfield Field whose diagnostic must appear in the import result.
+     */
+    public function test_import_xml_validation_consistency(string $type, string $defect, string $errorfield): void {
+        $text = '[[input:ans1]] [[validation:ans1]]';
+        $mustverify = 0;
+        $options = '';
+        $model = 'ta1';
+        $variables = 'ta1:1;';
+        if ($type === 'dropdown') {
+            $variables = 'ta1:[[1,true],[2,false]];';
+        } else if ($type === 'matrix') {
+            $variables = 'ta1:matrix([1]);';
+        }
+        switch ($defect) {
+            case 'missing-validation':
+                $text = '[[input:ans1]]';
+                break;
+            case 'missing-input':
+                $text = '[[validation:ans1]]';
+                break;
+            case 'duplicate-input':
+                $text .= ' [[input:ans1]]';
+                break;
+            case 'duplicate-validation':
+                $text .= ' [[validation:ans1]]';
+                break;
+            case 'hidden-two-step-validation':
+                $mustverify = 1;
+                break;
+            case 'unknown-option':
+                $options = 'notanoption';
+                break;
+            case 'invalid-model-answer':
+                $model = '(';
+                break;
+            case 'invalid-question-variables':
+                $variables = 'ta1:(';
+                break;
+        }
+        $xml = '<question type="stack">
+            <name><text>Import validation consistency</text></name>
+            <questiontext format="html"><text>' . $text . '</text></questiontext>
+            <questionvariables><text>' . $variables . '</text></questionvariables>
+            <specificfeedback format="html"><text></text></specificfeedback>
+            <questionnote><text>Input validation test</text></questionnote>
+            <input><name>ans1</name><type>' . $type . '</type><tans>' . $model . '</tans>
+                <mustverify>' . $mustverify . '</mustverify><showvalidation>0</showvalidation>
+                <options>' . $options . '</options></input>
+            </question>';
+        if (class_exists('\core\xml_parser') && method_exists('\core\xml_parser', 'parse')) {
+            $parser = new \core\xml_parser();
+            $xmldata = $parser->parse($xml);
+        } else {
+            $xmldata = xmlize($xml);
+        }
+
+        $importer = new qformat_xml();
+        $question = $importer->try_importing_using_qtypes($xmldata['question'], null, null, 'stack');
+
+        // The normal editor passes these text fields as editor arrays.
+        $fromform = (array) $question;
+        $fromform['questiontext'] = ['text' => $question->questiontext];
+        $fromform['generalfeedback'] = ['text' => $question->generalfeedback];
+        $errors = $this->qtype->validate_fromform($fromform, []);
+        if ($defect === 'valid') {
+            $this->assertEmpty($errors, json_encode($errors));
+            $this->assertEmpty($question->validationerrors ?? '');
+            $this->assertEquals(0, $question->isbroken);
+        } else {
+            $this->assertArrayHasKey($errorfield, $errors);
+            $this->assertNotEmpty($errors[$errorfield]);
+            $this->assertStringContainsString($errorfield . ': ' . $errors[$errorfield], $question->validationerrors);
+            $this->assertEquals(1, $question->isbroken);
+            if ($defect === 'missing-validation') {
+                $this->assertStringContainsString(
+                    \stack_string('questiontextmustcontain', '[[validation:ans1]]'),
+                    $errors['questiontext']
+                );
+            }
+        }
+    }
+
+    /**
+     * Cover missing validation for every input type, other invalid definitions, and valid controls.
+     *
+     * @return array Test cases.
+     */
+    public static function import_validation_cases(): array {
+        return [
+            'algebraic: missing validation' => ['algebraic', 'missing-validation', 'questiontext'],
+            'boolean: missing validation' => ['boolean', 'missing-validation', 'questiontext'],
+            'checkbox: missing validation' => ['checkbox', 'missing-validation', 'questiontext'],
+            'dropdown: missing validation' => ['dropdown', 'missing-validation', 'questiontext'],
+            'equiv: missing validation' => ['equiv', 'missing-validation', 'questiontext'],
+            'freetext: missing validation' => ['freetext', 'missing-validation', 'questiontext'],
+            'geogebra: missing validation' => ['geogebra', 'missing-validation', 'questiontext'],
+            'json: missing validation' => ['json', 'missing-validation', 'questiontext'],
+            'matrix: missing validation' => ['matrix', 'missing-validation', 'questiontext'],
+            'notes: missing validation' => ['notes', 'missing-validation', 'questiontext'],
+            'numerical: missing validation' => ['numerical', 'missing-validation', 'questiontext'],
+            'parsons: missing validation' => ['parsons', 'missing-validation', 'questiontext'],
+            'radio: missing validation' => ['radio', 'missing-validation', 'questiontext'],
+            'singlechar: missing validation' => ['singlechar', 'missing-validation', 'questiontext'],
+            'string: missing validation' => ['string', 'missing-validation', 'questiontext'],
+            'textarea: missing validation' => ['textarea', 'missing-validation', 'questiontext'],
+            'units: missing validation' => ['units', 'missing-validation', 'questiontext'],
+            'varmatrix: missing validation' => ['varmatrix', 'missing-validation', 'questiontext'],
+            'missing-input' => ['algebraic', 'missing-input', 'questiontext'],
+            'duplicate-input' => ['algebraic', 'duplicate-input', 'questiontext'],
+            'duplicate-validation' => ['algebraic', 'duplicate-validation', 'questiontext'],
+            'hidden-two-step-validation' => ['algebraic', 'hidden-two-step-validation', 'ans1mustverify'],
+            'unknown-option' => ['algebraic', 'unknown-option', 'ans1options'],
+            'invalid-model-answer' => ['algebraic', 'invalid-model-answer', 'ans1modelans'],
+            'invalid-question-variables' => ['algebraic', 'invalid-question-variables', 'questionvariables'],
+            'algebraic: valid' => ['algebraic', 'valid', ''],
+            'dropdown: valid' => ['dropdown', 'valid', ''],
+            'matrix: valid' => ['matrix', 'valid', ''],
+        ];
+    }
+
     public function test_import_xml_empty_fragment(): void {
         $xml = '<question type="stack">
                   <name>

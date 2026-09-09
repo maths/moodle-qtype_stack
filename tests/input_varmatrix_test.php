@@ -692,10 +692,10 @@ final class input_varmatrix_test extends qtype_stack_testcase {
                 substr_count($state->errors, 'The dots (...) stand for optional extra entries.')
             );
             $this->assertStringContainsString(
-                $onerow ? 'Use only one row.' : 'Use the same block widths on every row.', $state->errors
+                $onerow ? 'Use only one row.' : 'Choose the number of rows; keep block widths consistent.', $state->errors
             );
             $this->assertStringNotContainsString(
-                $onerow ? 'Use the same block widths on every row.' : 'Use only one row.', $state->errors
+                $onerow ? 'Choose the number of rows; keep block widths consistent.' : 'Use only one row.', $state->errors
             );
             $this->assertStringNotContainsString('9876', $state->errors);
             $this->assertStringNotContainsString('? ?', $state->errors);
@@ -710,18 +710,18 @@ final class input_varmatrix_test extends qtype_stack_testcase {
     public static function augmented_structure_feedback_provider(): array {
         $model = 'aug_matrix(matrix([9876,2],[3,4]),c(5,6))';
         return [
-            'missing separator' => [$model, "1 2 3\n4 5 6", "1 ... | 2\n3 ... | 4\n⋮     | ⋮", false],
+            'missing separator' => [$model, "1 2 3\n4 5 6", "1 ... | 2\n3 ... | 4", false],
             'different teacher dimensions' => [
-                'aug_matrix(matrix([9876],[2],[3]),c(4,5,6))', '1 2 3', "1 ... | 2\n3 ... | 4\n⋮     | ⋮", false,
+                'aug_matrix(matrix([9876],[2],[3]),c(4,5,6))', '1 2 3', "1 ... | 2\n3 ... | 4", false,
             ],
-            'only column vectors' => ['aug_matrix(c(9876,2),c(3,4))', '1 2', "1 | 2\n3 | 4\n⋮ | ⋮", false],
-            'inconsistent widths' => [$model, "1 2 | 3\n4 | 5", "1 ... | 2\n3 ... | 4\n⋮     | ⋮", false],
-            'empty block' => [$model, '1 2 |', "1 ... | 2\n3 ... | 4\n⋮     | ⋮", false],
-            'wide column vector' => [$model, '1 | 2 3', "1 ... | 2\n3 ... | 4\n⋮     | ⋮", false],
-            'extra separator' => [$model, '1 | 2 | 3', "1 ... | 2\n3 ... | 4\n⋮     | ⋮", false],
+            'only column vectors' => ['aug_matrix(c(9876,2),c(3,4))', '1 2', "1 | 2\n3 | 4", false],
+            'inconsistent widths' => [$model, "1 2 | 3\n4 | 5", "1 ... | 2\n3 ... | 4", false],
+            'empty block' => [$model, '1 2 |', "1 ... | 2\n3 ... | 4", false],
+            'wide column vector' => [$model, '1 | 2 3', "1 ... | 2\n3 ... | 4", false],
+            'extra separator' => [$model, '1 | 2 | 3', "1 ... | 2\n3 ... | 4", false],
             'matrix blocks' => [
                 'aug_matrix(matrix([9876,2]),matrix([3]),matrix([4,5,6]))',
-                '1 | 2', "1 ... | 2 ... | 3 ...\n4 ... | 5 ... | 6 ...\n⋮     | ⋮     | ⋮", false,
+                '1 | 2', "1 ... | 2 ... | 3 ...\n4 ... | 5 ... | 6 ...", false,
             ],
             'row vector with multiple rows' => [
                 'aug_matrix(r(9876,2),r(3))', "1 | 2\n3 | 4", '1 ... | 2 ...', true,

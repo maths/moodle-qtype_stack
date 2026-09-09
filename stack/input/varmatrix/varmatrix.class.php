@@ -412,11 +412,9 @@ class stack_varmatrix_input extends stack_input {
                 $blockcount = count($this->blocktypes);
                 $rowcount = $onerow ? 1 : 2;
                 $widths = [];
-                $continuation = [];
                 foreach ($this->blocktypes as $i => $type) {
                     $width = strlen((string)($i + 1 + ($rowcount - 1) * $blockcount)) + ($type === 'c' ? 0 : 4);
                     $widths[] = $width;
-                    $continuation[] = '⋮' . str_repeat(' ', $width - 1);
                 }
                 for ($row = 0; $row < $rowcount; $row++) {
                     $blocks = [];
@@ -425,9 +423,6 @@ class stack_varmatrix_input extends stack_input {
                         $blocks[] = str_pad($entry, $widths[$i]);
                     }
                     $example[] = rtrim(implode(' | ', $blocks));
-                }
-                if (!$onerow) {
-                    $example[] = rtrim(implode(' | ', $continuation));
                 }
                 $errors[] = stack_string('varmatrixaugmentedstructure', implode("\n", $example));
                 if (in_array('matrix', $this->blocktypes) || in_array('r', $this->blocktypes)) {

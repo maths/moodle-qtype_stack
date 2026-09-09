@@ -2076,5 +2076,5 @@ $string['matrixaugmentedshape'] = 'An augmented matrix input requires at least t
 
 $string['varmatrixaugmentedstructure'] = 'Separate blocks with |, for example:<pre class="stacksyntaxexample">{$a}</pre>';
 $string['varmatrixaugmentedellipsis'] = 'The dots (...) stand for optional extra entries.';
-$string['varmatrixaugmentedrows'] = 'Use the same block widths on every row.';
+$string['varmatrixaugmentedrows'] = 'Choose the number of rows; keep block widths consistent.';
 $string['varmatrixaugmentedonerow'] = 'Use only one row.';

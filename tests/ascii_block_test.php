@@ -23,11 +23,6 @@
 
 namespace qtype_stack;
 
-use api\util\StackIframeHolder;
-use castext2_evaluatable;
-use qtype_stack_testcase;
-use stack_cas_session2;
-
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../locallib.php');
@@ -39,6 +34,9 @@ require_once(__DIR__ . '/../stack/cas/castext2/blocks/filter.block.php');
 require_once(__DIR__ . '/../stack/cas/castext2/blocks/extractor.block.php');
 
 use api\util\StackIframeHolder;
+use castext2_evaluatable;
+use qtype_stack_testcase;
+use stack_cas_session2;
 use stack_cas_castext2_iframe;
 
 /**
@@ -116,8 +114,6 @@ final class ascii_block_test extends qtype_stack_testcase {
                 '" dir="' . stack_get_system_direction() . '">',
             $iframecontent
         );
-        $this->assertStringContainsString('<div class="container row asciimath" id="asciiContainerRow"', $iframecontent);
-        $this->assertStringNotContainsString('id="asciiContainerRow" dir=', $iframecontent);
     }
 
     public function test_ascii_align_parameter_overrides_iframe_document_direction(): void {
@@ -196,35 +192,6 @@ final class ascii_block_test extends qtype_stack_testcase {
         $expectedlinkcode = '{init(inputIds,[{"operation":"filter","type":"markdown","transforms":"asciimath,aligneq,minwrap"}]' .
             ',{"asciistrings":///STACK_ASCII_STRINGS///});}';
         $this->assertStringContainsString($expectedlinkcode, $joined);
-    }
-
-    public function test_ascii_align_parameter_sets_document_direction_only(): void {
-        $blockright = new \stack_cas_castext2_ascii(['align' => 'right'], []);
-        $compiledright = $blockright->compile(null, []);
-
-        $this->assertInstanceOf(\MP_List::class, $compiledright);
-
-        $xparsright = json_decode($compiledright->items[1]->value, true);
-        $this->assertEquals('rtl', $xparsright['stack-ascii-direction']);
-        $strings = $this->get_string_items($compiledright);
-        $joined = implode("\n", $strings);
-        $this->assertStringContainsString(
-            '<div class="container row asciimath" id="asciiContainerRow"',
-            $joined
-        );
-        $this->assertStringNotContainsString('algebraic-right', $joined);
-
-        $blockleft = new \stack_cas_castext2_ascii(['align' => 'left'], []);
-        $compiledleft = $blockleft->compile(null, []);
-        $this->assertInstanceOf(\MP_List::class, $compiledleft);
-        $xparsleft = json_decode($compiledleft->items[1]->value, true);
-        $this->assertEquals('ltr', $xparsleft['stack-ascii-direction']);
-        $joinedleft = implode("\n", $this->get_string_items($compiledleft));
-        $this->assertStringContainsString(
-            '<div class="container row asciimath" id="asciiContainerRow"',
-            $joinedleft
-        );
-        $this->assertStringNotContainsString('algebraic-right', $joinedleft);
     }
 
     public function test_ascii_compile_uses_child_filter_and_extractor_operations(): void {

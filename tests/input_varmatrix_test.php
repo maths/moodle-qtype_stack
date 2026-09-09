@@ -666,6 +666,63 @@ final class input_varmatrix_test extends qtype_stack_testcase {
             $state->contentsdisplayed
         );
     }
+    /**
+     * Explain the required block types without disclosing the model's dimensions or entries.
+     *
+     * @dataProvider augmented_structure_feedback_provider
+     * @param string $model Instantiated teacher answer.
+     * @param string $raw Malformed student response.
+     * @param string $pattern Expected block pattern.
+     * @param string[] $types Expected block explanations.
+     */
+    public function test_augmented_structure_feedback($model, $raw, $pattern, $types): void {
+        $options = new stack_options();
+        $el = stack_input_factory::make('varmatrix', 'ans1', 'M', $options);
+        $el->adapt_to_model_answer($model);
+        foreach ([false, true] as $ajax) {
+            $state = $el->validate_student_response(
+                $ajax ? $raw : ['ans1' => $raw], $options, $model, new stack_cas_security(), $ajax
+            );
+            $this->assertEquals(stack_input::INVALID, $state->status);
+            $this->assertStringContainsString(
+                'Your matrix needs the following block structure: <span class="stacksyntaxexample">' .
+                $pattern . '</span>.', $state->errors
+            );
+            foreach (['matrix', 'c', 'r'] as $type) {
+                $explanation = stack_string('varmatrixaugmentedblock' . $type);
+                $this->assertEquals(in_array($type, $types) ? 1 : 0, substr_count($state->errors, $explanation));
+            }
+            $this->assertStringNotContainsString('9876', $state->errors);
+            $this->assertStringNotContainsString('? ?', $state->errors);
+        }
+    }
+
+    /**
+     * Malformed augmented answers, including variable-width and vector blocks.
+     *
+     * @return array
+     */
+    public static function augmented_structure_feedback_provider(): array {
+        $model = 'aug_matrix(matrix([9876,2],[3,4]),c(5,6))';
+        return [
+            'missing separator' => [$model, "1 2 3\n4 5 6", 'M | c', ['matrix', 'c']],
+            'inconsistent widths' => [$model, "1 2 | 3\n4 | 5", 'M | c', ['matrix', 'c']],
+            'empty block' => [$model, '1 2 |', 'M | c', ['matrix', 'c']],
+            'wide column vector' => [$model, '1 | 2 3', 'M | c', ['matrix', 'c']],
+            'extra separator' => [$model, '1 | 2 | 3', 'M | c', ['matrix', 'c']],
+            'matrix blocks' => [
+                'aug_matrix(matrix([9876,2]),matrix([3]),matrix([4,5,6]))',
+                '1 | 2', 'M | M | M', ['matrix'],
+            ],
+            'row vector with multiple rows' => [
+                'aug_matrix(r(9876,2),r(3))', "1 | 2\n3 | 4", 'r | r', ['r'],
+            ],
+            'mixed block types' => [
+                'aug_matrix(c(9876),matrix([2,3]),r(4,5))', '1 2 3', 'c | M | r', ['c', 'matrix', 'r'],
+            ],
+        ];
+    }
+
     public function test_augmented_varmatrix_roundtrip(): void {
         $options = new stack_options();
         $model = 'aug_matrix(matrix([1,2],[3,4]),c(5,6))';
@@ -676,6 +733,7 @@ final class input_varmatrix_test extends qtype_stack_testcase {
         $this->assertEquals("1 2 | 5\n3 4 | 6", trim($response['ans1']));
         $state = $el->validate_student_response($response, $options, $model, new stack_cas_security());
         $this->assertEquals(stack_input::SCORE, $state->status);
+        $this->assertEmpty($state->errors);
         $this->assertEquals($model, $state->contentsmodified);
         $this->assertStringContainsString('\\left|', $state->contentsdisplayed);
         $this->assertStringContainsString(

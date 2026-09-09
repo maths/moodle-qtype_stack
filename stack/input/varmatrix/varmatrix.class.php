@@ -408,6 +408,14 @@ class stack_varmatrix_input extends stack_input {
             ) {
                 $valid = false;
                 $errors[] = stack_string('varmatrixaugmentedstructure');
+                $symbols = ['matrix' => 'M', 'c' => 'c', 'r' => 'r'];
+                $structure = array_map(function($type) use ($symbols) {
+                    return $symbols[$type];
+                }, $this->blocktypes);
+                $errors[] = stack_string('varmatrixaugmentedpattern', implode(' | ', $structure));
+                foreach (array_unique($this->blocktypes) as $type) {
+                    $errors[] = stack_string('varmatrixaugmentedblock' . $type);
+                }
         }
         [$secrules, $filterstoapply] = $this->validate_contents_filters($basesecurity);
         // Separate rules for inert display logic, which wraps floats with certain functions.

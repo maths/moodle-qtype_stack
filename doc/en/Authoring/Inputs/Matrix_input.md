@@ -70,6 +70,10 @@ Rows and matrix-block widths are student-selected; the model does not fix their 
 does fix the number and constructor types of blocks. A `c(...)` block must remain one column and an
 `r(...)` block must remain one row. Matrix blocks can have any positive number of columns. Every row
 must have the same nonempty block widths. Missing or inconsistent separators are validation errors.
+For a malformed block structure, validation shows the required pattern, for example `M | c`, and
+explains the block types present: `M` is a matrix block of student-selected size, `c` is a single column,
+and `r` is a single row. Repeated `M` blocks need not have equal widths. The hint does not reveal the
+teacher's entries or matrix-block dimensions.
 
 Submitted answers preserve `aug_matrix(...)` and the block constructors, and validation renders the
 augmented matrix with the selected outer bracket style. Model answers, syntax hints, saved responses

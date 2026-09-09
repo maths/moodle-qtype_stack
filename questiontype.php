@@ -189,9 +189,12 @@ class qtype_stack extends question_type {
         // A normal bank import reaches this point with authoring errors only when the author
         // explicitly disabled Stop on error. Retain it for repair, not as a Ready question.
         if ($PAGE->pagetype === 'question-bank-importquestions-import' && !empty($fromform->validationerrors)) {
-            $DB->set_field('question_versions', 'status',
+            $DB->set_field(
+                'question_versions',
+                'status',
                 \core_question\local\bank\question_version_status::QUESTION_STATUS_DRAFT,
-                ['questionid' => $fromform->id]);
+                ['questionid' => $fromform->id]
+            );
         }
 
         parent::save_question_options($fromform);

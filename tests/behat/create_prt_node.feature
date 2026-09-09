@@ -71,7 +71,7 @@ Feature: Create, edit STACK questions adding in PRT and saving.
     Then the following fields match these values:
       | Number to add (max 9) | 1 |
     When I press "Add node(s)"
-    And I press "collapseElement-2"
+    And I expand all fieldsets
     Then I should see "Node 2"
     And I set the following fields to these values:
       | id_prt1sans_1 | int(ans1,x) |
@@ -81,7 +81,7 @@ Feature: Create, edit STACK questions adding in PRT and saving.
     And I set the following fields to these values:
       | id_prt1falsenextnode_0 | Node 2 |
     And I press "id_updatebutton"
-    And I press "collapseElement-2"
+    And I expand all fieldsets
     Then I should see "This potential response tree will become active when the student has answered: ans1"
     Then I should see "ATAlgEquiv(int(ans1,x),p)"
     And I set the following fields to these values:

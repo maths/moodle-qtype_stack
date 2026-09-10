@@ -434,6 +434,7 @@ $string['addauthor'] = 'Add author';
 $string['addscope'] = 'Add scope';
 $string['addproperty'] = 'Add property';
 $string['addlanguage'] = 'Add language';
+$string['languageinstruction'] = 'Please use ISO language codes e.g. en, fr, de.';
 $string['updateJSON'] = 'Validate inputs and update JSON';
 $string['updateinputs'] = 'Update inputs from JSON';
 $string['makemeauthor'] = 'Add me as an author';

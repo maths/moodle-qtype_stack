@@ -1,7 +1,29 @@
+.stack-ascii-display {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 12px;
+    align-items: stretch;
+}
+
+.stack-ascii-input-pane,
+.stack-ascii-output-pane {
+    min-width: 0;
+}
+
+.stack-ascii-input {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 120px;
+    height: 100%;
+    resize: vertical;
+    font-family: monospace;
+}
+
 .stack-ascii-output {
     background-color: ivory;
     border-radius: 5px;
     border: solid 1px #333;
+    box-sizing: border-box;
     padding: 5px;
     overflow: auto;
     min-height: 50px;
@@ -14,8 +36,17 @@
     font-family: monospace;
 }
 
+.stack-ascii-display .stack-ascii-output {
+    min-height: 120px;
+    margin-top: 0;
+}
+
 @media (max-width: 768px) {
     .stack-ascii-output {
         max-height: 200px;
+    }
+
+    .stack-ascii-display {
+        grid-template-columns: 1fr;
     }
 }

@@ -28,11 +28,9 @@ npm run build
 // Access the classes
 const StackAsciiDisplay = window.StackWeb.default;
 
-// Use unique IDs for each ASCII block on the page.
+// Let StackAsciiDisplay create a textarea and output inside the container.
 const display = new StackAsciiDisplay({
     containerId: 'ascii-block',
-    inputElementId: 'input',
-    outputElementId: 'ascii-output',
     operations: [
         { operation: 'filter', type: 'markdown', transforms: 'asciimath' },
         { operation: 'extractor', type: 'lastexpr', targetinput: 'answer1' }
@@ -41,6 +39,6 @@ const display = new StackAsciiDisplay({
 
 ```
 
-For a display-only block with no live input, replace `inputElementId` with
-`suppliedTextElementId`. The supplied element's HTML is used as the source text
-for the rendered output. Extractors require a live input.
+To use existing elements instead, provide `outputElementId` plus exactly one of
+`inputElementId` or `suppliedTextElementId`. The supplied-text option is for
+display-only blocks and does not support extractors.

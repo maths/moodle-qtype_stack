@@ -52,12 +52,8 @@
                 <div class="ex" onclick="ins('`[[a,b],[c,d]]`')"><code>[[a,b],[c,d]]</code></div>
             </div>
         </div>
-        <label for="demoAsciiInput"><strong>Type ASCIIMath notation (wrap in backticks):</strong></label>
-        <textarea id="demoAsciiInput" placeholder="Type here... e.g., `x^2 + 2x + 1`">`x^2 + y^2 = z^2`</textarea>
         <h3>Rendered Output:</h3>
-        <div id="demoContainer" class="output">
-            <div id="demoAsciiOutput" class="stack-ascii-output"><em>Your expression will appear here...</em></div>
-        </div>
+        <div id="demoContainer" class="output"></div>
         <div class="answer-box">
             <strong>📥 Extracted Answer:</strong>
             <input type="text" id="demoAnswer" placeholder="Answer will be extracted here" readonly>
@@ -92,8 +88,8 @@
             try {
                 asciiDisplay = new StackAsciiDisplay({
                     containerId: 'demoContainer',
-                    inputElementId: 'demoAsciiInput',
-                    outputElementId: 'demoAsciiOutput',
+                    initialText: '`x^2 + y^2 = z^2`',
+                    placeholder: 'Type here... e.g., `x^2 + 2x + 1`',
                     operations: [
                         {
                             operation: 'filter',
@@ -117,7 +113,10 @@
 
         // Expose function for example buttons
         window.ins = function(text) {
-            const ta = document.getElementById('demoAsciiInput');
+            if (!asciiDisplay || !asciiDisplay.inputElement) {
+                return;
+            }
+            const ta = asciiDisplay.inputElement;
             ta.value = text;
             ta.focus();
             // Trigger input event for real-time updates

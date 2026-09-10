@@ -45,7 +45,7 @@ import lastregexmatch from './extractors/lastregexmatch.js';
 import lastregexremainder from './extractors/lastregexremainder.js';
 import allregexmatch from './extractors/allregexmatch.js';
 import allregexremainder from './extractors/allregexremainder.js';
-import { setExtractorStrings } from './extractors/extractorhelper.js';
+import { setAsciiStrings } from './asciihelper.js';
 
 const extractorlib = {
     lastblock,
@@ -74,7 +74,7 @@ const extractorlib = {
  * @param {Object} options - translated strings and other optional settings.
  */
 export default function init(inputIds, operations, options = {}) {
-    setExtractorStrings(options.asciistrings || {});
+    setAsciiStrings(options.asciistrings || {});
 
     const markdownContainerId = inputIds.length ? inputIds[0] : null;
     const suppliedText = document.getElementById('asciiSuppliedText').innerHTML;
@@ -107,7 +107,7 @@ export default function init(inputIds, operations, options = {}) {
         let isHTML = false;
         let displayfixed = false; // true once a filter with display:'true' has run
         let answerIndex = 1;      // tracks which inputIds entry the next extractor writes to
-        const extractorErrors = [];
+        const operationErrors = [];
 
         if (alloperations) {
             alloperations.forEach((currentop, i) => {
@@ -132,6 +132,13 @@ export default function init(inputIds, operations, options = {}) {
                         if (currentop.display === 'true') {
                             displayfixed = true;
                         }
+                        if (currentop.errors !== 'false') {
+                            for (const block of blockCollector.blocks) {
+                                if (block.errormsg) {
+                                    operationErrors.push(block.errormsg);
+                                }
+                            }
+                        }
                     }
                 } else if (currentop.operation === 'extractor') {
                     // Fall back to lastexpr if the requested extractor type is unknown.
@@ -145,7 +152,7 @@ export default function init(inputIds, operations, options = {}) {
                         if (Object.hasOwn(value, 'error')) {
                             answerEl.value = '';
                             if (currentop.errors !== 'false') {
-                                extractorErrors.push(value.error);
+                                operationErrors.push(value.error);
                             }
                         } else if (Object.hasOwn(value, 'result')) {
                             answerEl.value = value.result;
@@ -166,9 +173,9 @@ export default function init(inputIds, operations, options = {}) {
             renderedOutput.classList.add('plaintext');
         }
         renderedOutput.innerHTML = processedOutput;
-        if (extractorErrors.length > 0) {
+        if (operationErrors.length > 0) {
             errorOutput.innerHTML =
-                extractorErrors.map((message) => '<p class="stackascii-error-message">' + escapeHTML(message) + '</p>').join('');
+                operationErrors.map((message) => '<p class="stackascii-error-message">' + escapeHTML(message) + '</p>').join('');
             shell.classList.add('stackascii-has-errors');
             const errorHeight = Number(errorOutput.offsetHeight) || 0;
             renderedOutput.style.paddingBottom = `${errorHeight + 5}px`;

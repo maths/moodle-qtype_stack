@@ -1,4 +1,4 @@
-import { extractorError, extractorResult } from './extractorhelper.js';
+import { extractorError, extractorResult } from '../asciihelper.js';
 
 // Extractor: lastexpr
 // Returns the trimmed content of the last code_inline, or the last non-empty line

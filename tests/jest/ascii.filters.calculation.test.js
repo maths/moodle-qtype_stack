@@ -1,6 +1,18 @@
 import calculation from '../../corsscripts/ascii/filters/calculation.js';
+import { setAsciiStrings } from '../../corsscripts/ascii/asciihelper.js';
+import { stackStrings, stackStringWithDetail } from './ascii.teststrings.js';
+
+const strings = stackStrings([
+    'asciistringfiltercalculationfunctionnotallowed',
+    'asciistringfiltercalculationoperatornotallowed',
+    'asciistringfiltercalculationnodetypenotallowed'
+]);
 
 describe('calculation filter', () => {
+    beforeEach(() => {
+        setAsciiStrings(strings);
+    });
+
     test('evaluates text between {@ and @}', () => {
         expect(calculation('The answer is {@2^2 + 1@} here')).toBe('The answer is 5 here');
     });
@@ -60,5 +72,27 @@ describe('calculation filter', () => {
         expect(collector.blocks).toEqual([
             { type: 'calculation', raw: '7-4', rendered: '3' }
         ]);
+    });
+
+    test('returns translated validation errors in blockCollector', () => {
+        const collector = { blocks: [] };
+        calculation('A: {@derivative("x^2", "x")@}', collector);
+        expect(collector.blocks[0]).toEqual({
+            type: 'calculation',
+            raw: 'derivative("x^2", "x")',
+            rendered: 'derivative("x^2", "x")',
+            errormsg: stackStringWithDetail('asciistringfiltercalculationfunctionnotallowed', 'derivative')
+        });
+    });
+
+    test('returns translated evaluation errors in blockCollector', () => {
+        const collector = { blocks: [] };
+        calculation('A: {@2+@}', collector);
+        expect(collector.blocks[0]).toMatchObject({
+            type: 'calculation',
+            raw: '2+',
+            rendered: '2+',
+            errormsg: expect.any(String)
+        });
     });
 });

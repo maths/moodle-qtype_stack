@@ -1,11 +1,14 @@
 import lastexpr from '../../corsscripts/ascii/extractors/lastexpr.js';
-import { setExtractorStrings } from '../../corsscripts/ascii/extractors/extractorhelper.js';
+import { setAsciiStrings } from '../../corsscripts/ascii/asciihelper.js';
+import { stackStrings } from './ascii.teststrings.js';
+
+const strings = stackStrings([
+    'asciistringextractorlastexprnotfound'
+]);
 
 describe('lastexpr extractor', () => {
     beforeEach(() => {
-        setExtractorStrings({
-            asciistringextractorlastexprnotfound: 'No expression or non-empty line was found to extract.'
-        });
+        setAsciiStrings(strings);
     });
 
     // ── Block-mode tests ──────────────────────────────────────────────────────
@@ -75,7 +78,7 @@ describe('lastexpr extractor', () => {
         test('returns translated error when no eligible block is found', () => {
             const blocks = [{ type: 'paragraph', raw: 'nothing' }];
             expect(lastexpr('', blocks)).toEqual({
-                error: 'No expression or non-empty line was found to extract.'
+                error: strings.asciistringextractorlastexprnotfound
             });
         });
 
@@ -102,13 +105,13 @@ describe('lastexpr extractor', () => {
 
         test('returns translated error when all raw lines are empty', () => {
             expect(lastexpr('\n\n\n', null)).toEqual({
-                error: 'No expression or non-empty line was found to extract.'
+                error: strings.asciistringextractorlastexprnotfound
             });
         });
 
         test('returns translated error for empty raw with null blocks', () => {
             expect(lastexpr('', null)).toEqual({
-                error: 'No expression or non-empty line was found to extract.'
+                error: strings.asciistringextractorlastexprnotfound
             });
         });
 

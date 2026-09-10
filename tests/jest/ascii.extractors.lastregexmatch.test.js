@@ -1,36 +1,39 @@
 import lastregexmatch from '../../corsscripts/ascii/extractors/lastregexmatch.js';
-import { setExtractorStrings } from '../../corsscripts/ascii/extractors/extractorhelper.js';
+import { setAsciiStrings } from '../../corsscripts/ascii/asciihelper.js';
+import { stackStrings, stackStringWithDetail } from './ascii.teststrings.js';
+
+const strings = stackStrings([
+    'asciistringextractorregexrequired',
+    'asciistringextractorregexnotfound'
+]);
 
 describe('lastregexmatch extractor', () => {
     beforeEach(() => {
-        setExtractorStrings({
-            asciistringextractorregexrequired: 'This extractor requires a regular expression.',
-            asciistringextractorregexnotfound: 'No line matched the requested regular expression.'
-        });
+        setAsciiStrings(strings);
     });
 
     describe('guard clauses', () => {
         test('returns translated error when operation is undefined', () => {
             expect(lastregexmatch('any raw', [], undefined)).toEqual({
-                error: 'This extractor requires a regular expression.'
+                error: strings.asciistringextractorregexrequired
             });
         });
 
         test('returns translated error when operation is null', () => {
             expect(lastregexmatch('any raw', [], null)).toEqual({
-                error: 'This extractor requires a regular expression.'
+                error: strings.asciistringextractorregexrequired
             });
         });
 
         test('returns translated error when operation.regex is missing', () => {
             expect(lastregexmatch('any raw', [], { type: 'lastregexmatch' })).toEqual({
-                error: 'This extractor requires a regular expression. lastregexmatch'
+                error: stackStringWithDetail('asciistringextractorregexrequired', 'lastregexmatch')
             });
         });
 
         test('returns translated error when operation.regex is empty', () => {
             expect(lastregexmatch('any raw', [], { type: 'lastregexmatch', regex: '' })).toEqual({
-                error: 'This extractor requires a regular expression. lastregexmatch'
+                error: stackStringWithDetail('asciistringextractorregexrequired', 'lastregexmatch')
             });
         });
     });
@@ -50,7 +53,7 @@ describe('lastregexmatch extractor', () => {
     test('returns translated error when there is no match', () => {
         const operation = { regex: '^f\\(x\\)\\s*=\\s*' };
         expect(lastregexmatch('a = 1\nb = 2', null, operation)).toEqual({
-            error: 'No line matched the requested regular expression. ^f\\(x\\)\\s*=\\s*'
+            error: stackStringWithDetail('asciistringextractorregexnotfound', operation.regex)
         });
     });
 });

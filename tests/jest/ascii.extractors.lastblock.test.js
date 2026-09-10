@@ -1,11 +1,14 @@
 import lastblock from '../../corsscripts/ascii/extractors/lastblock.js';
-import { setExtractorStrings } from '../../corsscripts/ascii/extractors/extractorhelper.js';
+import { setAsciiStrings } from '../../corsscripts/ascii/asciihelper.js';
+import { stackStrings } from './ascii.teststrings.js';
+
+const strings = stackStrings([
+    'asciistringextractorlastblocknotfound'
+]);
 
 describe('lastblock extractor', () => {
     beforeEach(() => {
-        setExtractorStrings({
-            asciistringextractorlastblocknotfound: 'No AsciiMath expression or block was found to extract.'
-        });
+        setAsciiStrings(strings);
     });
 
     // ── Block-mode tests ──────────────────────────────────────────────────────
@@ -51,7 +54,7 @@ describe('lastblock extractor', () => {
                 { type: 'heading', raw: 'also ignored' },
             ];
             expect(lastblock('', blocks)).toEqual({
-                error: 'No AsciiMath expression or block was found to extract.'
+                error: strings.asciistringextractorlastblocknotfound
             });
         });
 
@@ -85,13 +88,13 @@ describe('lastblock extractor', () => {
 
         test('returns translated error when raw is all empty lines', () => {
             expect(lastblock('\n\n\n', null)).toEqual({
-                error: 'No AsciiMath expression or block was found to extract.'
+                error: strings.asciistringextractorlastblocknotfound
             });
         });
 
         test('returns translated error for empty raw string', () => {
             expect(lastblock('', null)).toEqual({
-                error: 'No AsciiMath expression or block was found to extract.'
+                error: strings.asciistringextractorlastblocknotfound
             });
         });
 

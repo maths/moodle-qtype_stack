@@ -1,24 +1,27 @@
 import laststringremainderwhitespace from '../../corsscripts/ascii/extractors/laststringremainderwhitespace.js';
-import { setExtractorStrings } from '../../corsscripts/ascii/extractors/extractorhelper.js';
+import { setAsciiStrings } from '../../corsscripts/ascii/asciihelper.js';
+import { stackStrings, stackStringWithDetail } from './ascii.teststrings.js';
+
+const strings = stackStrings([
+    'asciistringextractorsearchrequired',
+    'asciistringextractorsearchnotfound'
+]);
 
 describe('laststringremainderwhitespace extractor', () => {
     beforeEach(() => {
-        setExtractorStrings({
-            asciistringextractorsearchrequired: 'This extractor requires a search parameter.',
-            asciistringextractorsearchnotfound: 'No line matched the requested search text.'
-        });
+        setAsciiStrings(strings);
     });
 
     describe('guard clauses', () => {
         test('returns translated error when operation is undefined', () => {
             expect(laststringremainderwhitespace('any raw', null, undefined)).toEqual({
-                error: 'This extractor requires a search parameter.'
+                error: strings.asciistringextractorsearchrequired
             });
         });
 
         test('returns translated error when operation is null', () => {
             expect(laststringremainderwhitespace('any raw', null, null)).toEqual({
-                error: 'This extractor requires a search parameter.'
+                error: strings.asciistringextractorsearchrequired
             });
         });
 
@@ -26,7 +29,7 @@ describe('laststringremainderwhitespace extractor', () => {
             expect(laststringremainderwhitespace('any raw', null, {
                 type: 'laststringremainderwhitespace'
             })).toEqual({
-                error: 'This extractor requires a search parameter. laststringremainderwhitespace'
+                error: stackStringWithDetail('asciistringextractorsearchrequired', 'laststringremainderwhitespace')
             });
         });
 
@@ -35,7 +38,7 @@ describe('laststringremainderwhitespace extractor', () => {
                 type: 'laststringremainderwhitespace',
                 search: ''
             })).toEqual({
-                error: 'This extractor requires a search parameter. laststringremainderwhitespace'
+                error: stackStringWithDetail('asciistringextractorsearchrequired', 'laststringremainderwhitespace')
             });
         });
     });
@@ -43,7 +46,7 @@ describe('laststringremainderwhitespace extractor', () => {
     test('returns translated error when there is no match', () => {
         const operation = { search: 'f(x) =' };
         expect(laststringremainderwhitespace('a = 1\nb = 2', null, operation)).toEqual({
-            error: 'No line matched the requested search text. f(x) ='
+            error: stackStringWithDetail('asciistringextractorsearchnotfound', operation.search)
         });
     });
 
@@ -105,7 +108,7 @@ describe('laststringremainderwhitespace extractor', () => {
         const raw = 'hence `f(x)=x^2`.';
         const operation = { search: 'f(x) =' };
         expect(laststringremainderwhitespace(raw, null, operation)).toEqual({
-            error: 'No line matched the requested search text. f(x) ='
+            error: stackStringWithDetail('asciistringextractorsearchnotfound', operation.search)
         });
     });
 
@@ -125,7 +128,7 @@ describe('laststringremainderwhitespace extractor', () => {
         const raw = ' f(x) = x^2  ';
         const operation = { search: 'f(x)=' };
         expect(laststringremainderwhitespace(raw, null, operation)).toEqual({
-            error: 'No line matched the requested search text. f(x)='
+            error: stackStringWithDetail('asciistringextractorsearchnotfound', operation.search)
         });
     });
 

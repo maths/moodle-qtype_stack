@@ -1,4 +1,4 @@
-import { extractorError, extractorResult } from './extractorhelper.js';
+import { extractorError, extractorResult } from '../asciihelper.js';
 
 // Extractor: allregexmatch
 // [[extractor targetinput="ans2" type="allregexmatch" regex="^f\\(x\\)\\s*=\\s*" /]]

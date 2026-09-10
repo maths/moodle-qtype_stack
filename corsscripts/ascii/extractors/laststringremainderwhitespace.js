@@ -1,4 +1,4 @@
-import { extractorError, extractorResult } from './extractorhelper.js';
+import { extractorError, extractorResult } from '../asciihelper.js';
 
 // Extractor: laststringremainderwhitespace
 // [[extractor targetinput="ans2" type="laststringremainderwhitespace" string="f(x) =" /]]

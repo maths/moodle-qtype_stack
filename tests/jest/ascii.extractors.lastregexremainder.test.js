@@ -1,36 +1,39 @@
 import lastregexremainder from '../../corsscripts/ascii/extractors/lastregexremainder.js';
-import { setExtractorStrings } from '../../corsscripts/ascii/extractors/extractorhelper.js';
+import { setAsciiStrings } from '../../corsscripts/ascii/asciihelper.js';
+import { stackStrings, stackStringWithDetail } from './ascii.teststrings.js';
+
+const strings = stackStrings([
+    'asciistringextractorregexrequired',
+    'asciistringextractorregexnotfound'
+]);
 
 describe('lastregexremainder extractor', () => {
     beforeEach(() => {
-        setExtractorStrings({
-            asciistringextractorregexrequired: 'This extractor requires a regular expression.',
-            asciistringextractorregexnotfound: 'No line matched the requested regular expression.'
-        });
+        setAsciiStrings(strings);
     });
 
     describe('guard clauses', () => {
         test('returns translated error when operation is undefined', () => {
             expect(lastregexremainder('any raw', [], undefined)).toEqual({
-                error: 'This extractor requires a regular expression.'
+                error: strings.asciistringextractorregexrequired
             });
         });
 
         test('returns translated error when operation is null', () => {
             expect(lastregexremainder('any raw', [], null)).toEqual({
-                error: 'This extractor requires a regular expression.'
+                error: strings.asciistringextractorregexrequired
             });
         });
 
         test('returns translated error when operation.regex is missing', () => {
             expect(lastregexremainder('any raw', [], { type: 'lastregexremainder' })).toEqual({
-                error: 'This extractor requires a regular expression. lastregexremainder'
+                error: stackStringWithDetail('asciistringextractorregexrequired', 'lastregexremainder')
             });
         });
 
         test('returns translated error when operation.regex is empty', () => {
             expect(lastregexremainder('any raw', [], { type: 'lastregexremainder', regex: '' })).toEqual({
-                error: 'This extractor requires a regular expression. lastregexremainder'
+                error: stackStringWithDetail('asciistringextractorregexrequired', 'lastregexremainder')
             });
         });
     });
@@ -43,7 +46,7 @@ describe('lastregexremainder extractor', () => {
     test('returns translated error when there is no match', () => {
         const operation = { regex: '^f\\(x\\)\\s*=\\s*' };
         expect(lastregexremainder('a = 1\nb = 2', null, operation)).toEqual({
-            error: 'No line matched the requested regular expression. ^f\\(x\\)\\s*=\\s*'
+            error: stackStringWithDetail('asciistringextractorregexnotfound', operation.regex)
         });
     });
 

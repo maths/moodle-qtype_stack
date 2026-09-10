@@ -1143,6 +1143,9 @@ $string['asciistringextractorsearchrequired'] = 'This extractor requires a searc
 $string['asciistringextractorsearchnotfound'] = 'No line matched the requested search text:';
 $string['asciistringextractorregexrequired'] = 'This extractor requires a regular expression:';
 $string['asciistringextractorregexnotfound'] = 'No line matched the requested regular expression:';
+$string['asciistringfiltercalculationfunctionnotallowed'] = 'Function not allowed:';
+$string['asciistringfiltercalculationoperatornotallowed'] = 'Operator not allowed:';
+$string['asciistringfiltercalculationnodetypenotallowed'] = 'Node type not allowed:';
 
 $string['stackBlock_filter_type_required'] = 'You must define the type of filter you want to use.';
 $string['stackBlock_filter_unknown'] = 'Unknown type \'{$a->type}\' for the filter block. Valid types are: \'{$a->filters}\'';

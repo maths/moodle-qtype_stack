@@ -1,36 +1,39 @@
 import laststringremainder from '../../corsscripts/ascii/extractors/laststringremainder.js';
-import { setExtractorStrings } from '../../corsscripts/ascii/extractors/extractorhelper.js';
+import { setAsciiStrings } from '../../corsscripts/ascii/asciihelper.js';
+import { stackStrings, stackStringWithDetail } from './ascii.teststrings.js';
+
+const strings = stackStrings([
+    'asciistringextractorsearchrequired',
+    'asciistringextractorsearchnotfound'
+]);
 
 describe('laststringremainder extractor', () => {
     beforeEach(() => {
-        setExtractorStrings({
-            asciistringextractorsearchrequired: 'This extractor requires a search parameter.',
-            asciistringextractorsearchnotfound: 'No line matched the requested search text.'
-        });
+        setAsciiStrings(strings);
     });
 
     describe('guard clauses', () => {
         test('returns translated error when operation is undefined', () => {
             expect(laststringremainder('any raw', null, undefined)).toEqual({
-                error: 'This extractor requires a search parameter.'
+                error: strings.asciistringextractorsearchrequired
             });
         });
 
         test('returns translated error when operation is null', () => {
             expect(laststringremainder('any raw', null, null)).toEqual({
-                error: 'This extractor requires a search parameter.'
+                error: strings.asciistringextractorsearchrequired
             });
         });
 
         test('returns translated error when operation.search is missing', () => {
             expect(laststringremainder('any raw', null, { type: 'laststringremainder' })).toEqual({
-                error: 'This extractor requires a search parameter. laststringremainder'
+                error: stackStringWithDetail('asciistringextractorsearchrequired', 'laststringremainder')
             });
         });
 
         test('returns translated error when operation.search is empty', () => {
             expect(laststringremainder('any raw', null, { type: 'laststringremainder', search: '' })).toEqual({
-                error: 'This extractor requires a search parameter. laststringremainder'
+                error: stackStringWithDetail('asciistringextractorsearchrequired', 'laststringremainder')
             });
         });
     });
@@ -77,7 +80,7 @@ describe('laststringremainder extractor', () => {
         test('returns translated error when no lines match', () => {
             const operation = { search: 'Answer =' };
             expect(laststringremainder('f(x) = x^2', null, operation)).toEqual({
-                error: 'No line matched the requested search text. Answer ='
+                error: stackStringWithDetail('asciistringextractorsearchnotfound', operation.search)
             });
         });
     });

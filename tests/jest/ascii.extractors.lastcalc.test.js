@@ -1,11 +1,14 @@
 import lastcalc from '../../corsscripts/ascii/extractors/lastcalc.js';
-import { setExtractorStrings } from '../../corsscripts/ascii/extractors/extractorhelper.js';
+import { setAsciiStrings } from '../../corsscripts/ascii/asciihelper.js';
+import { stackStrings } from './ascii.teststrings.js';
+
+const strings = stackStrings([
+    'asciistringextractorlastcalcnotfound'
+]);
 
 describe('lastcalc extractor', () => {
     beforeEach(() => {
-        setExtractorStrings({
-            asciistringextractorlastcalcnotfound: 'No calculation block was found to extract.'
-        });
+        setAsciiStrings(strings);
     });
 
     describe('with blocks', () => {
@@ -49,13 +52,13 @@ describe('lastcalc extractor', () => {
         test('returns translated error when blocks array contains no calculation blocks', () => {
             const blocks = [{ type: 'paragraph', rendered: 'some text' }];
             expect(lastcalc('', blocks)).toEqual({
-                error: 'No calculation block was found to extract.'
+                error: strings.asciistringextractorlastcalcnotfound
             });
         });
 
         test('returns translated error for an empty blocks array', () => {
             expect(lastcalc('', [])).toEqual({
-                error: 'No calculation block was found to extract.'
+                error: strings.asciistringextractorlastcalcnotfound
             });
         });
     });
@@ -63,13 +66,13 @@ describe('lastcalc extractor', () => {
     describe('without blocks', () => {
         test('returns translated error when blocks is null', () => {
             expect(lastcalc('anything', null)).toEqual({
-                error: 'No calculation block was found to extract.'
+                error: strings.asciistringextractorlastcalcnotfound
             });
         });
 
         test('returns translated error when blocks is undefined', () => {
             expect(lastcalc('anything', undefined)).toEqual({
-                error: 'No calculation block was found to extract.'
+                error: strings.asciistringextractorlastcalcnotfound
             });
         });
     });

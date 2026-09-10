@@ -1,4 +1,4 @@
-import { extractorError, extractorResult } from './extractorhelper.js';
+import { extractorError, extractorResult } from '../asciihelper.js';
 
 // Extractor: lastcalc
 // Returns the trimmed content of the last calculation block.

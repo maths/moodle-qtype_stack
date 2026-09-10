@@ -117,6 +117,75 @@ describe('stackascii standalone mode', () => {
         expect(postMessageSpy).not.toHaveBeenCalled();
     });
 
+    test('standalone mode: supports multiple custom output elements', () => {
+        const env = setupEnvironment();
+        const inputA = createElement('inputA', 'first');
+        const outputA = createElement('outputA');
+        const inputB = createElement('inputB', 'second');
+        const outputB = createElement('outputB');
+
+        Object.assign(env.elements, {
+            inputA,
+            outputA,
+            inputB,
+            outputB
+        });
+
+        init(['inputA'], [], { outputElementId: 'outputA' });
+        init(['inputB'], [], { outputElementId: 'outputB' });
+
+        expect(outputA.innerHTML).toBe('first');
+        expect(outputB.innerHTML).toBe('second');
+
+        inputA.value = 'updated first';
+        inputA.listeners.input();
+
+        expect(outputA.innerHTML).toBe('updated first');
+        expect(outputB.innerHTML).toBe('second');
+    });
+
+    test('standalone mode: renders supplied text when there is no input element', () => {
+        const env = setupEnvironment();
+        const supplied = createElement('suppliedA');
+        const output = createElement('outputA');
+
+        supplied.innerHTML = 'pre-supplied text';
+        Object.assign(env.elements, {
+            suppliedA: supplied,
+            outputA: output
+        });
+
+        init([], [], {
+            outputElementId: 'outputA',
+            suppliedTextElementId: 'suppliedA'
+        });
+
+        expect(output.innerHTML).toBe('pre-supplied text');
+    });
+
+    test('standalone mode: does not run extractors without a live input element', () => {
+        const env = setupEnvironment();
+        const supplied = createElement('suppliedA');
+        const output = createElement('outputA');
+        const answer = createElement('answerA');
+
+        supplied.innerHTML = 'first line\nextracted answer';
+        Object.assign(env.elements, {
+            suppliedA: supplied,
+            outputA: output,
+            answerA: answer
+        });
+
+        init(['answerA'], [{ operation: 'extractor', type: 'lastexpr' }], {
+            outputElementId: 'outputA',
+            suppliedTextElementId: 'suppliedA'
+        });
+
+        expect(output.innerHTML).toBe('first line\nextracted answer');
+        expect(answer.value).toBe('');
+        expect(answer.dispatchEvent).not.toHaveBeenCalled();
+    });
+
     test('iframe mode: enables scroll sync when FRAME_ID is set', () => {
         const env = setupEnvironment('test');
         const operations = [];

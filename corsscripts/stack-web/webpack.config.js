@@ -19,55 +19,45 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export default {
-    entry: {
-        'stack-web': './src/StackAsciiDisplay.js'
-    },
-    output: {
-        filename: '[name].bundle.js',
-        path: path.resolve(__dirname, 'dist'),
-        library: {
-            type: 'umd',
-            name: 'StackWeb'
+export default (env, argv) => {
+    const isProduction = argv && argv.mode === 'production';
+
+    return {
+        entry: {
+            'stack-web': './src/StackAsciiDisplay.js'
         },
-        clean: true,
-        publicPath: ''
-    },
-    resolve: {
-        extensions: ['.js'],
-        alias: {
-            '@ascii': path.resolve(__dirname, '../ascii'),
-            '@filters': path.resolve(__dirname, '../ascii/filters'),
-            '@extractors': path.resolve(__dirname, '../ascii/extractors')
-        }
-    },
-    externals: {
-        // MathJax is loaded separately by Moodle/HTML
-        'mathjax': 'MathJax',
-        // markdown-it is bundled in stackascii.js
-        'markdown-it': 'markdownit'
-    },
-    module: {
-        rules: [
-            {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: ['@babel/preset-env']
-                    }
-                }
+        output: {
+            filename: '[name].bundle.js',
+            path: path.resolve(__dirname, 'dist'),
+            library: {
+                type: 'umd',
+                name: 'StackWeb'
             },
-            {
-                test: /\.css$/,
-                use: ['style-loader', 'css-loader']
-            }
-        ]
-    },
-    optimization: {
-        minimize: true,
-        splitChunks: false
-    },
-    devtool: 'source-map'
+            clean: true,
+            publicPath: ''
+        },
+        module: {
+            rules: [
+                {
+                    test: /\.js$/,
+                    exclude: /node_modules/,
+                    use: {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: ['@babel/preset-env']
+                        }
+                    }
+                },
+                {
+                    test: /\.css$/,
+                    use: ['style-loader', 'css-loader']
+                }
+            ]
+        },
+        optimization: {
+            minimize: isProduction,
+            splitChunks: false
+        },
+        devtool: 'source-map'
+    };
 };

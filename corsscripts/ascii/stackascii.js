@@ -63,18 +63,24 @@ const extractorlib = {
  * Called by the PHP-compiled [[ascii]] block once all required input elements
  * are available in the DOM.
  *
- * @param {string[]} inputIds   - DOM element ids; inputIds[0] is the free-text
- *   textarea (source), inputIds[1..N] are the answer inputs for extractors,
- *   in the same order as the [[extractor]] blocks.
+ * @param {string[]} inputIds   - DOM element ids; normally inputIds[0] is the
+ *   free-text textarea (source), and inputIds[1..N] are the answer inputs for
+ *   extractors. When options.suppliedTextElementId is set, there is no source
+ *   textarea and extractors are not used.
  * @param {Object[]} operations - ordered array of operation objects compiled from
  *   [[filter]] and [[extractor]] child blocks, e.g.
  *   [{ operation:'filter',    type:'markdown', transforms:'aligneq' },
  *    { operation:'extractor', type:'lastexpr', targetinput:'ans2'     }]
+ * @param {Object} options - optional DOM integration settings.
+ * @param {string} options.outputElementId - ID of the rendered output element.
+ * @param {string} options.suppliedTextElementId - ID of the static source
+ *   element used when there is no source input.
  */
-export default function init(inputIds, operations) {
-    const markdownContainerId = inputIds.length ? inputIds[0] : null;
-    const suppliedText = document.getElementById('asciiSuppliedText').innerHTML;
-    const output = document.getElementById('asciiContainerRow');
+export default function init(inputIds, operations, options = {}) {
+    const suppliedTextElementId = options.suppliedTextElementId || 'asciiSuppliedText';
+    const markdownContainerId = options.suppliedTextElementId ? null : (inputIds.length ? inputIds[0] : null);
+    const outputElementId = options.outputElementId || 'asciiContainerRow';
+    const output = document.getElementById(outputElementId);
     const frameId = (typeof FRAME_ID !== 'undefined') ? FRAME_ID : null;
     const syncScrollPosition = createScrollSyncHandler(markdownContainerId, frameId, output);
 
@@ -93,6 +99,8 @@ export default function init(inputIds, operations) {
         if (markdownContainerId) {
             raw = document.getElementById(markdownContainerId).value;
         } else {
+            const suppliedTextElement = document.getElementById(suppliedTextElementId);
+            const suppliedText = suppliedTextElement ? suppliedTextElement.innerHTML : '';
             raw = suppliedText;
         }
 
@@ -161,7 +169,7 @@ export default function init(inputIds, operations) {
                 syncScrollPosition();
             });
         } else if (MathJax.Hub && typeof MathJax.Hub.Queue === 'function') {
-            MathJax.Hub.Queue(["Typeset", MathJax.Hub, 'asciiContainerRow']); // MathJax 2
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub, outputElementId]); // MathJax 2
             MathJax.Hub.Queue(() => {
                 syncScrollPosition();
             });

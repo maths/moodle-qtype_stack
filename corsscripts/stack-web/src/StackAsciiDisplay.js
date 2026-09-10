@@ -15,7 +15,8 @@
 
 import initAscii from '../../ascii/stackascii.js';
 import './stack-web.css';
-import '@ascii/ASCIIMathTeXImg.js';
+import '../../ascii/ASCIIMathTeXImg.js';
+
 /**
  * StackAsciiDisplay - Wrapper for STACK ASCII display blocks in standalone mode.
  *
@@ -23,15 +24,27 @@ import '@ascii/ASCIIMathTeXImg.js';
  * ASCIIMath input as formatted mathematical output.
  *
  * @example
+ * // Live input mode.
  * const display = new StackAsciiDisplay({
  *     containerId: 'ascii-block',
- *     inputElementId: 'ans1',
+ *     inputElementId: 'ascii-input',
+ *     outputElementId: 'ascii-output',
  *     operations: [
  *         { operation: 'filter', type: 'markdown', transforms: 'asciimath' },
  *         { operation: 'extractor', type: 'lastexpr', targetinput: 'ans2' }
  *     ]
  * });
- * display.enable();
+ *
+ * @example
+ * // Static supplied-text mode.
+ * const display = new StackAsciiDisplay({
+ *     containerId: 'ascii-block',
+ *     suppliedTextElementId: 'ascii-supplied-text',
+ *     outputElementId: 'ascii-output',
+ *     operations: [
+ *         { operation: 'filter', type: 'markdown', transforms: 'asciimath' }
+ *     ]
+ * });
  */
 export default class StackAsciiDisplay {
     /**
@@ -39,28 +52,49 @@ export default class StackAsciiDisplay {
      *
      * @param {Object} options - Configuration options
      * @param {string} options.containerId - ID of container element for the ASCII block
-     * @param {string} options.inputElementId - ID of source textarea input element
-     * @param {Object[]} options.operations - Array of filter/extractor operations
+     * @param {string} options.inputElementId - ID of source textarea input element. Required unless suppliedTextElementId is set.
+     * @param {string} options.suppliedTextElementId - ID of static source element. Required unless inputElementId is set.
+     * @param {string} options.outputElementId - ID of rendered output element
+     * @param {Object[]} options.operations - Array of filter/extractor operations. Extractors require inputElementId.
      */
     constructor(options) {
-        // Resolve container by ID
-        this.container = document.getElementById(options.containerId);
-        if (!this.container) {
-            console.error('StackAsciiDisplay: container not found:', options.containerId);
+        if (!options) {
+            throw new Error('StackAsciiDisplay: options are required');
         }
 
-        // Resolve input element by ID
-        this.inputElement = document.getElementById(options.inputElementId);
-        if (!this.inputElement) {
-            console.error('StackAsciiDisplay: inputElement not found:', options.inputElementId);
+        this.container = document.getElementById(options.containerId);
+        if (!this.container) {
+            throw new Error(`StackAsciiDisplay: container not found: ${options.containerId}`);
+        }
+
+        const hasInputElement = Boolean(options.inputElementId);
+        const hasSuppliedTextElement = Boolean(options.suppliedTextElementId);
+        if (hasInputElement === hasSuppliedTextElement) {
+            throw new Error('StackAsciiDisplay: specify exactly one of inputElementId or suppliedTextElementId');
+        }
+
+        this.inputElement = hasInputElement ? document.getElementById(options.inputElementId) : null;
+        if (hasInputElement && !this.inputElement) {
+            throw new Error(`StackAsciiDisplay: inputElement not found: ${options.inputElementId}`);
+        }
+
+        this.suppliedTextElement = hasSuppliedTextElement ? document.getElementById(options.suppliedTextElementId) : null;
+        if (hasSuppliedTextElement && !this.suppliedTextElement) {
+            throw new Error(`StackAsciiDisplay: suppliedTextElement not found: ${options.suppliedTextElementId}`);
+        }
+
+        this.outputElementId = options.outputElementId || this.findDefaultOutputElementId();
+        this.outputElement = document.getElementById(this.outputElementId);
+        if (!this.outputElement) {
+            throw new Error(`StackAsciiDisplay: outputElement not found: ${this.outputElementId}`);
         }
 
         this.operations = options.operations || [];
+        if (hasSuppliedTextElement && this.operations.some(op => op.operation === 'extractor')) {
+            throw new Error('StackAsciiDisplay: extractors require inputElementId');
+        }
 
-        // Extract inputIds from operations:
-        // - First ID is the input element ID (source)
-        // - Subsequent IDs come from targetinput properties of extractor operations
-        this.inputIds = [options.inputElementId];
+        this.inputIds = hasInputElement ? [options.inputElementId] : [];
 
         this.operations.forEach(op => {
             if (op.operation === 'extractor' && op.targetinput) {
@@ -68,12 +102,32 @@ export default class StackAsciiDisplay {
             }
         });
 
-        // Call the core stackascii.js init function
-        // Note: FRAME_ID will be undefined in standalone mode,
-        // so scroll sync will be skipped automatically
-        initAscii(this.inputIds, this.operations);
+        const initOptions = { outputElementId: this.outputElementId };
+        if (hasSuppliedTextElement) {
+            initOptions.suppliedTextElementId = options.suppliedTextElementId;
+        }
+
+        initAscii(this.inputIds, this.operations, initOptions);
 
         this.setupStandaloneScrollSync();
+    }
+
+    findDefaultOutputElementId() {
+        const outputElement = (
+            this.container.matches('.stack-ascii-output')
+                ? this.container
+                : this.container.querySelector('.stack-ascii-output')
+        ) || document.getElementById('asciiContainerRow');
+
+        if (!outputElement) {
+            return 'asciiContainerRow';
+        }
+
+        if (!outputElement.id) {
+            throw new Error('StackAsciiDisplay: outputElementId is required when the output element has no ID');
+        }
+
+        return outputElement.id;
     }
 
     /**
@@ -82,7 +136,7 @@ export default class StackAsciiDisplay {
      */
     setupStandaloneScrollSync() {
         const inputEl = this.inputElement;
-        const outputEl = document.getElementById('asciiContainerRow');
+        const outputEl = this.outputElement;
 
         if (!inputEl || !outputEl) {
             return;
@@ -93,8 +147,10 @@ export default class StackAsciiDisplay {
             const ratio = maxScroll > 0 ? inputEl.scrollTop / maxScroll : 0;
 
             const outputMaxScroll = outputEl.scrollHeight - outputEl.clientHeight;
+            const previousScrollBehavior = outputEl.style.scrollBehavior;
             outputEl.style.scrollBehavior = 'auto';
             outputEl.scrollTop = outputMaxScroll > 0 ? ratio * outputMaxScroll : 0;
+            outputEl.style.scrollBehavior = previousScrollBehavior;
         });
     }
 }

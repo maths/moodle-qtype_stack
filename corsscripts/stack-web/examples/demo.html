@@ -52,15 +52,15 @@
                 <div class="ex" onclick="ins('`[[a,b],[c,d]]`')"><code>[[a,b],[c,d]]</code></div>
             </div>
         </div>
-        <label for="asciiSuppliedText"><strong>Type ASCIIMath notation (wrap in backticks):</strong></label>
-        <textarea id="asciiSuppliedText" placeholder="Type here... e.g., `x^2 + 2x + 1`">`x^2 + y^2 = z^2`</textarea>
+        <label for="demoAsciiInput"><strong>Type ASCIIMath notation (wrap in backticks):</strong></label>
+        <textarea id="demoAsciiInput" placeholder="Type here... e.g., `x^2 + 2x + 1`">`x^2 + y^2 = z^2`</textarea>
         <h3>Rendered Output:</h3>
         <div id="demoContainer" class="output">
-            <div id="asciiContainerRow" class="stack-ascii-output"><em>Your expression will appear here...</em></div>
+            <div id="demoAsciiOutput" class="stack-ascii-output"><em>Your expression will appear here...</em></div>
         </div>
         <div class="answer-box">
             <strong>📥 Extracted Answer:</strong>
-            <input type="text" id="answer1" placeholder="Answer will be extracted here" readonly>
+            <input type="text" id="demoAnswer" placeholder="Answer will be extracted here" readonly>
         </div>
 
     </div>
@@ -92,7 +92,8 @@
             try {
                 asciiDisplay = new StackAsciiDisplay({
                     containerId: 'demoContainer',
-                    inputElementId: 'asciiSuppliedText',
+                    inputElementId: 'demoAsciiInput',
+                    outputElementId: 'demoAsciiOutput',
                     operations: [
                         {
                             operation: 'filter',
@@ -101,7 +102,7 @@
                             display: 'true'
                         },
                         {
-                            targetinput: 'answer1',
+                            targetinput: 'demoAnswer',
                             operation: 'extractor',
                             type: 'lastexpr'
                         }
@@ -116,7 +117,7 @@
 
         // Expose function for example buttons
         window.ins = function(text) {
-            const ta = document.getElementById('asciiSuppliedText');
+            const ta = document.getElementById('demoAsciiInput');
             ta.value = text;
             ta.focus();
             // Trigger input event for real-time updates

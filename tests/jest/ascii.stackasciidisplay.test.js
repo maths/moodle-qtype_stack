@@ -13,9 +13,16 @@ jest.mock('../../corsscripts/ascii/ASCIIMathTeXImg.js', () => ({}));
 import StackAsciiDisplay from '../../corsscripts/stack-web/src/StackAsciiDisplay.js';
 
 describe('StackAsciiDisplay', () => {
+    let originalResizeObserver;
+
     beforeEach(() => {
         document.body.innerHTML = '';
         mockInitAscii.mockClear();
+        originalResizeObserver = global.ResizeObserver;
+    });
+
+    afterEach(() => {
+        global.ResizeObserver = originalResizeObserver;
     });
 
     test('container mode creates generated input and output elements', () => {
@@ -53,6 +60,180 @@ describe('StackAsciiDisplay', () => {
 
         expect(first.inputElement.id).not.toBe(second.inputElement.id);
         expect(first.outputElement.id).not.toBe(second.outputElement.id);
+    });
+
+    test('container mode applies configured container dimensions', () => {
+        document.body.innerHTML = '<div id="asciiBlock"></div>';
+
+        const display = new StackAsciiDisplay({
+            containerId: 'asciiBlock',
+            initialWidth: '80%',
+            initialHeight: 240,
+            minWidth: 300,
+            minHeight: '10rem',
+            maxWidth: 900,
+            maxHeight: '60vh'
+        });
+
+        expect(display.container.style.width).toBe('80%');
+        expect(display.container.style.height).toBe('240px');
+        expect(display.container.style.minWidth).toBe('300px');
+        expect(display.container.style.minHeight).toBe('10rem');
+        expect(display.container.style.maxWidth).toBe('900px');
+        expect(display.container.style.maxHeight).toBe('60vh');
+    });
+
+    test('container mode syncs output dimensions to resized input', () => {
+        document.body.innerHTML = '<div id="asciiBlock"></div>';
+
+        const display = new StackAsciiDisplay({ containerId: 'asciiBlock' });
+
+        display.inputElement.getBoundingClientRect = jest.fn(() => ({
+            bottom: 150,
+            height: 150,
+            right: 300,
+            width: 300
+        }));
+        display.resizeHandle.dispatchEvent(new MouseEvent('pointerdown', {
+            bubbles: true,
+            cancelable: true,
+            clientX: 298,
+            clientY: 148
+        }));
+        window.dispatchEvent(new MouseEvent('pointermove', {
+            clientX: 478,
+            clientY: 208
+        }));
+
+        expect(display.outputElement.style.width).toBe('480px');
+        expect(display.outputElement.style.height).toBe('210px');
+    });
+
+    test('container mode expands input and output horizontally by dragging the resize handle', () => {
+        document.body.innerHTML = '<div id="asciiBlock"></div>';
+
+        const display = new StackAsciiDisplay({ containerId: 'asciiBlock' });
+
+        display.inputElement.getBoundingClientRect = jest.fn(() => ({
+            bottom: 160,
+            height: 160,
+            right: 320,
+            width: 320
+        }));
+        display.resizeHandle.dispatchEvent(new MouseEvent('pointerdown', {
+            bubbles: true,
+            cancelable: true,
+            clientX: 318,
+            clientY: 158
+        }));
+        window.dispatchEvent(new MouseEvent('pointermove', {
+            clientX: 420,
+            clientY: 200
+        }));
+
+        expect(display.inputElement.style.width).toBe('422px');
+        expect(display.outputElement.style.width).toBe('422px');
+        expect(display.outputElement.style.height).toBe('202px');
+    });
+
+    test('container mode allows uncapped horizontal expansion when maxWidth is omitted', () => {
+        document.body.innerHTML = '<div id="asciiBlock"></div>';
+
+        const display = new StackAsciiDisplay({ containerId: 'asciiBlock' });
+
+        display.inputElement.getBoundingClientRect = jest.fn(() => ({
+            bottom: 160,
+            height: 160,
+            right: 320,
+            width: 320
+        }));
+        display.resizeHandle.dispatchEvent(new MouseEvent('pointerdown', {
+            bubbles: true,
+            cancelable: true,
+            clientX: 318,
+            clientY: 158
+        }));
+        window.dispatchEvent(new MouseEvent('pointermove', {
+            clientX: 1518,
+            clientY: 158
+        }));
+
+        expect(display.inputElement.style.width).toBe('1520px');
+        expect(display.outputElement.style.width).toBe('1520px');
+        expect(display.container.style.width).toBe('3076px');
+    });
+
+    test('container mode clamps input, output, and container to configured maximums', () => {
+        document.body.innerHTML = '<div id="asciiBlock"></div>';
+
+        const display = new StackAsciiDisplay({
+            containerId: 'asciiBlock',
+            maxWidth: 700,
+            maxHeight: 300
+        });
+
+        display.inputElement.getBoundingClientRect = jest.fn(() => ({
+            bottom: 200,
+            height: 200,
+            right: 300,
+            width: 300
+        }));
+        display.resizeHandle.dispatchEvent(new MouseEvent('pointerdown', {
+            bubbles: true,
+            cancelable: true,
+            clientX: 298,
+            clientY: 198
+        }));
+        window.dispatchEvent(new MouseEvent('pointermove', {
+            clientX: 700,
+            clientY: 600
+        }));
+
+        expect(display.inputElement.style.width).toBe('332px');
+        expect(display.inputElement.style.height).toBe('276px');
+        expect(display.outputElement.style.width).toBe('332px');
+        expect(display.outputElement.style.height).toBe('276px');
+        expect(display.container.style.width).toBe('700px');
+        expect(display.container.style.height).toBe('300px');
+    });
+
+    test('container mode ignores layout-only horizontal shrink after a user resize', () => {
+        document.body.innerHTML = '<div id="asciiBlock"></div>';
+        let resizeCallback = null;
+
+        global.ResizeObserver = jest.fn().mockImplementation((callback) => {
+            resizeCallback = callback;
+            return { observe: jest.fn() };
+        });
+
+        const display = new StackAsciiDisplay({ containerId: 'asciiBlock' });
+
+        display.inputElement.getBoundingClientRect = jest.fn(() => ({
+            bottom: 150,
+            height: 150,
+            right: 300,
+            width: 300
+        }));
+        display.resizeHandle.dispatchEvent(new MouseEvent('pointerdown', {
+            bubbles: true,
+            cancelable: true,
+            clientX: 298,
+            clientY: 148
+        }));
+        window.dispatchEvent(new MouseEvent('pointermove', {
+            clientX: 478,
+            clientY: 208
+        }));
+        window.dispatchEvent(new Event('pointerup'));
+
+        display.inputElement.getBoundingClientRect = jest.fn(() => ({
+            width: 360,
+            height: 210
+        }));
+        resizeCallback();
+
+        expect(display.inputElement.style.width).toBe('480px');
+        expect(display.outputElement.style.width).toBe('480px');
     });
 
     test('requires exactly one of containerId or outputElementId', () => {

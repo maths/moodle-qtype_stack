@@ -1,22 +1,60 @@
 .stack-ascii-display {
+    box-sizing: border-box;
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr);
     gap: 12px;
     align-items: stretch;
+    justify-content: start;
+    width: 100%;
+    height: 180px;
+    min-height: 120px;
+    padding: 12px;
+    overflow: visible;
 }
 
 .stack-ascii-input-pane,
 .stack-ascii-output-pane {
+    display: flex;
+    position: relative;
     min-width: 0;
+    min-height: 0;
+    overflow: visible;
 }
 
 .stack-ascii-input {
+    background-color: #fff;
+    border: solid 1px #333;
+    border-radius: 5px;
     box-sizing: border-box;
-    width: 100%;
-    min-height: 120px;
-    height: 100%;
-    resize: vertical;
+    display: block;
     font-family: monospace;
+    width: 100%;
+    min-width: 0;
+    height: 100%;
+    min-height: 0;
+    padding: 5px;
+    resize: none;
+    overflow: auto;
+}
+
+.stack-ascii-input:focus {
+    border-color: #246b73;
+    outline: 2px solid rgba(36, 107, 115, 0.25);
+    outline-offset: 1px;
+}
+
+.stack-ascii-resize-handle {
+    background:
+        linear-gradient(135deg, transparent 0 52%, rgba(0, 0, 0, 0.3) 52% 58%, transparent 58% 100%),
+        linear-gradient(135deg, transparent 0 68%, rgba(0, 0, 0, 0.3) 68% 74%, transparent 74% 100%);
+    bottom: 6px;
+    cursor: nwse-resize;
+    height: 16px;
+    position: absolute;
+    right: 6px;
+    width: 16px;
+    z-index: 2;
 }
 
 .stack-ascii-output {
@@ -37,16 +75,16 @@
 }
 
 .stack-ascii-display .stack-ascii-output {
-    min-height: 120px;
+    width: 100%;
+    min-width: 0;
+    height: 100%;
+    min-height: 0;
+    max-height: none;
     margin-top: 0;
 }
 
 @media (max-width: 768px) {
     .stack-ascii-output {
         max-height: 200px;
-    }
-
-    .stack-ascii-display {
-        grid-template-columns: 1fr;
     }
 }

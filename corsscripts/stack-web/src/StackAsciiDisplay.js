@@ -67,6 +67,12 @@ export default class StackAsciiDisplay {
      * @param {Object[]} options.operations - Array of filter/extractor operations. Extractors require inputElementId.
      * @param {string} options.initialText - Initial text for generated container-mode textarea.
      * @param {string} options.placeholder - Placeholder for generated container-mode textarea.
+     * @param {string|number} options.initialWidth - Initial generated container width. Number values are pixels.
+     * @param {string|number} options.initialHeight - Initial generated container height. Number values are pixels.
+     * @param {string|number} options.minWidth - Minimum generated container width. Number values are pixels.
+     * @param {string|number} options.minHeight - Minimum generated container height. Number values are pixels.
+     * @param {string|number} options.maxWidth - Maximum generated container width. Number values are pixels.
+     * @param {string|number} options.maxHeight - Maximum generated container height. Number values are pixels.
      */
     constructor(options) {
         if (!options) {
@@ -111,6 +117,7 @@ export default class StackAsciiDisplay {
 
         initAscii(this.inputIds, this.operations, initOptions);
 
+        this.setupOutputResizeSync();
         this.setupStandaloneScrollSync();
     }
 
@@ -144,6 +151,13 @@ export default class StackAsciiDisplay {
         }
 
         this.container.classList.add('stack-ascii-display');
+        this.dimensionOptions = {
+            minWidth: options.minWidth,
+            minHeight: options.minHeight,
+            maxWidth: options.maxWidth,
+            maxHeight: options.maxHeight
+        };
+        applyContainerDimensions(this.container, options);
 
         this.inputElement = document.createElement('textarea');
         this.inputElement.id = createUniqueId(options.containerId, 'input');
@@ -158,15 +172,155 @@ export default class StackAsciiDisplay {
         const inputPane = document.createElement('div');
         inputPane.className = 'stack-ascii-input-pane';
         inputPane.appendChild(this.inputElement);
+        this.inputPane = inputPane;
+        this.resizeHandle = document.createElement('div');
+        this.resizeHandle.className = 'stack-ascii-resize-handle';
+        this.resizeHandle.setAttribute('aria-hidden', 'true');
+        inputPane.appendChild(this.resizeHandle);
 
         const outputPane = document.createElement('div');
         outputPane.className = 'stack-ascii-output-pane';
         outputPane.appendChild(this.outputElement);
+        this.outputPane = outputPane;
 
         this.container.appendChild(inputPane);
         this.container.appendChild(outputPane);
 
         this.suppliedTextElement = null;
+    }
+
+    setupOutputResizeSync() {
+        if (!this.container || !this.inputElement || !this.outputElement) {
+            return;
+        }
+
+        const resizeState = {
+            width: null,
+            height: null,
+            userResizing: false,
+            drag: null
+        };
+
+        const syncOutputSize = (width, height) => {
+            if (!width && !height) {
+                return;
+            }
+
+            const chrome = getContainerChrome(this.container);
+            const limits = getContainerDimensionLimits(this.container, this.dimensionOptions);
+            const minInputWidth = limits.minWidth !== null ? Math.max(0, (limits.minWidth - chrome.horizontal) / 2) : null;
+            const minInputHeight = limits.minHeight !== null ? Math.max(0, limits.minHeight - chrome.vertical) : null;
+            const maxInputWidth = limits.maxWidth !== null ? Math.max(0, (limits.maxWidth - chrome.horizontal) / 2) : null;
+            const maxInputHeight = limits.maxHeight !== null ? Math.max(0, limits.maxHeight - chrome.vertical) : null;
+
+            width = clampLength(width, minInputWidth, maxInputWidth);
+            height = clampLength(height, minInputHeight, maxInputHeight);
+
+            if (width > 0) {
+                resizeState.width = width;
+                this.inputElement.style.width = `${width}px`;
+                if (this.inputPane) {
+                    this.inputPane.style.width = `${width}px`;
+                }
+                this.outputElement.style.width = `${width}px`;
+                if (this.outputPane) {
+                    this.outputPane.style.width = `${width}px`;
+                }
+                const containerWidth = clampLength((width * 2) + chrome.horizontal, limits.minWidth, limits.maxWidth);
+                if (containerWidth > 0) {
+                    this.container.style.width = `${containerWidth}px`;
+                }
+            }
+            if (height > 0) {
+                resizeState.height = height;
+                this.inputElement.style.height = `${height}px`;
+                if (this.inputPane) {
+                    this.inputPane.style.height = `${height}px`;
+                }
+                this.outputElement.style.height = `${height}px`;
+                if (this.outputPane) {
+                    this.outputPane.style.height = `${height}px`;
+                }
+                const containerHeight = clampLength(height + chrome.vertical, limits.minHeight, limits.maxHeight);
+                if (containerHeight > 0) {
+                    this.container.style.height = `${containerHeight}px`;
+                }
+            }
+        };
+
+        const beginUserResize = (event) => {
+            if (!isResizeHandlePointer(event, this.inputElement)) {
+                return;
+            }
+            const point = getEventPoint(event);
+            const rect = this.inputElement.getBoundingClientRect();
+            resizeState.drag = {
+                startX: point ? point.clientX : 0,
+                startY: point ? point.clientY : 0,
+                startWidth: resizeState.width || rect.width || this.inputElement.offsetWidth,
+                startHeight: resizeState.height || rect.height || this.inputElement.offsetHeight
+            };
+            resizeState.userResizing = true;
+            if (event.preventDefault) {
+                event.preventDefault();
+            }
+        };
+        const updateUserResize = (event) => {
+            if (!resizeState.userResizing || !resizeState.drag) {
+                return;
+            }
+            const point = getEventPoint(event);
+            if (!point) {
+                return;
+            }
+            syncOutputSize(
+                resizeState.drag.startWidth + point.clientX - resizeState.drag.startX,
+                resizeState.drag.startHeight + point.clientY - resizeState.drag.startY
+            );
+            if (event.preventDefault) {
+                event.preventDefault();
+            }
+        };
+        const finishUserResize = () => {
+            if (!resizeState.userResizing) {
+                return;
+            }
+            resizeState.userResizing = false;
+            resizeState.drag = null;
+        };
+
+        this.inputElement.addEventListener('pointerdown', beginUserResize);
+        this.inputElement.addEventListener('mousedown', beginUserResize);
+        this.inputElement.addEventListener('touchstart', beginUserResize);
+        if (this.resizeHandle) {
+            this.resizeHandle.addEventListener('pointerdown', beginUserResize);
+            this.resizeHandle.addEventListener('mousedown', beginUserResize);
+            this.resizeHandle.addEventListener('touchstart', beginUserResize);
+        }
+        window.addEventListener('pointermove', updateUserResize);
+        window.addEventListener('mousemove', updateUserResize);
+        window.addEventListener('touchmove', updateUserResize, { passive: false });
+        window.addEventListener('pointerup', finishUserResize);
+        window.addEventListener('pointercancel', finishUserResize);
+        window.addEventListener('mouseup', finishUserResize);
+        window.addEventListener('touchend', finishUserResize);
+        window.addEventListener('touchcancel', finishUserResize);
+
+        if (typeof ResizeObserver === 'function') {
+            this.outputResizeObserver = new ResizeObserver(() => {
+                if (!resizeState.userResizing && resizeState.width !== null && resizeState.height !== null) {
+                    syncOutputSize(resizeState.width, resizeState.height);
+                }
+            });
+            this.outputResizeObserver.observe(this.inputElement);
+            return;
+        }
+
+        window.addEventListener('resize', () => {
+            if (resizeState.width !== null && resizeState.height !== null) {
+                syncOutputSize(resizeState.width, resizeState.height);
+            }
+        });
     }
 
     /**
@@ -206,4 +360,127 @@ function createUniqueId(containerId, suffix) {
     } while (document.getElementById(id));
 
     return id;
+}
+
+function isResizeHandlePointer(event, element) {
+    const point = getEventPoint(event);
+    if (!point) {
+        return true;
+    }
+
+    const rect = element.getBoundingClientRect();
+    if (!rect.width || !rect.height) {
+        return true;
+    }
+
+    const handleSize = 24;
+    return point.clientX >= rect.right - handleSize && point.clientY >= rect.bottom - handleSize;
+}
+
+function getEventPoint(event) {
+    if (!event) {
+        return null;
+    }
+
+    if (typeof event.clientX === 'number' && typeof event.clientY === 'number') {
+        return event;
+    }
+
+    if (event.touches && event.touches.length > 0) {
+        return event.touches[0];
+    }
+
+    return null;
+}
+
+function applyContainerDimensions(container, options) {
+    setCssLength(container, 'width', options.initialWidth);
+    setCssLength(container, 'height', options.initialHeight);
+    setCssLength(container, 'minWidth', options.minWidth);
+    setCssLength(container, 'minHeight', options.minHeight);
+    setCssLength(container, 'maxWidth', options.maxWidth);
+    setCssLength(container, 'maxHeight', options.maxHeight);
+}
+
+function setCssLength(element, property, value) {
+    if (value === undefined || value === null || value === '') {
+        return;
+    }
+
+    element.style[property] = typeof value === 'number' ? `${value}px` : value;
+}
+
+function getContainerChrome(container) {
+    const style = window.getComputedStyle(container);
+    const paddingLeft = parseCssPixels(style.paddingLeft, 12);
+    const paddingRight = parseCssPixels(style.paddingRight, 12);
+    const paddingTop = parseCssPixels(style.paddingTop, 12);
+    const paddingBottom = parseCssPixels(style.paddingBottom, 12);
+    const gap = parseCssPixels(style.columnGap || style.gap, 12);
+
+    return {
+        horizontal: paddingLeft + paddingRight + gap,
+        vertical: paddingTop + paddingBottom
+    };
+}
+
+function getContainerDimensionLimits(container, options) {
+    const style = window.getComputedStyle(container);
+    return {
+        minWidth: resolveCssLength(options.minWidth, container, 'width') || parseCssPixels(style.minWidth, 0),
+        minHeight: resolveCssLength(options.minHeight, container, 'height') || parseCssPixels(style.minHeight, 0),
+        maxWidth: resolveCssLength(options.maxWidth, container, 'width'),
+        maxHeight: resolveCssLength(options.maxHeight, container, 'height')
+    };
+}
+
+function resolveCssLength(value, element, axis) {
+    if (value === undefined || value === null || value === '' || value === 'none') {
+        return null;
+    }
+
+    if (typeof value === 'number') {
+        return value;
+    }
+
+    const text = String(value).trim();
+    if (text.endsWith('px')) {
+        return parseFloat(text);
+    }
+
+    if (text.endsWith('%')) {
+        const basisElement = element.parentElement || document.documentElement;
+        const rect = basisElement.getBoundingClientRect();
+        const basis = axis === 'width' ? rect.width : rect.height;
+        return basis > 0 ? basis * parseFloat(text) / 100 : null;
+    }
+
+    if (text.endsWith('rem')) {
+        return parseFloat(text) * parseCssPixels(window.getComputedStyle(document.documentElement).fontSize, 16);
+    }
+
+    if (text.endsWith('vh')) {
+        return window.innerHeight * parseFloat(text) / 100;
+    }
+
+    if (text.endsWith('vw')) {
+        return window.innerWidth * parseFloat(text) / 100;
+    }
+
+    return null;
+}
+
+function parseCssPixels(value, fallback) {
+    const parsed = parseFloat(value);
+    return Number.isFinite(parsed) ? parsed : fallback;
+}
+
+function clampLength(value, min, max) {
+    if (min !== null) {
+        value = Math.max(value, min);
+    }
+    if (max !== null) {
+        value = Math.min(value, max);
+    }
+    return value;
 }

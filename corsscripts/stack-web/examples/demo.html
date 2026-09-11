@@ -4,93 +4,282 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>STACK AsciiDisplay Demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            max-width: 900px;
-            margin: 40px auto;
-            padding: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+            overflow-x: auto;
         }
-        .container {
-            background: white;
-            border-radius: 10px;
-            padding: 30px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+
+        .demo-page {
+            min-width: min(100%, 720px);
         }
-        h1 { color: #667eea; margin-top: 0; border-bottom: 3px solid #667eea; padding-bottom: 15px; }
-        textarea {
-            width: 100%; min-height: 120px; font-family: 'Courier New', monospace;
-            font-size: 14px; padding: 12px; border: 2px solid #ddd; border-radius: 5px; resize: vertical;
+
+        .demo-workbench {
+            min-width: 100%;
+            width: max-content;
         }
-        textarea:focus { border-color: #667eea; outline: none; }
-        .output {
-            margin-top: 20px; padding: 15px; background: #f8f9fa; border: 1px solid #dee2e6;
-            border-radius: 5px; min-height: 80px; max-height: 300px; overflow-y: auto;
+
+        .display-stage {
+            overflow: visible;
         }
-        .hint { background: #e8f4fc; padding: 15px; border-left: 4px solid #667eea; border-radius: 3px; margin: 20px 0; }
-        code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: 'Courier New', monospace; color: #d63384; }
-        .examples { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-top: 10px; }
-        .ex { background: white; padding: 10px; border-radius: 5px; border: 1px solid #ddd; cursor: pointer; transition: all 0.2s; }
-        .ex:hover { background: #667eea; color: white; transform: translateY(-2px); }
-        .answer-box { margin-top: 15px; padding: 10px; background: #e8f5e9; border-radius: 4px; }
-        .answer-box input { width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box; }
     </style>
 </head>
-<body>
-    <div class="container">
-        <h1>STACK AsciiDisplay Demo</h1>
-        <div class="hint">
-            <strong>Try it out!</strong> Click an example or type your own ASCIIMath (wrap in backticks for math rendering):
-            <div class="examples">
-                <div class="ex" onclick="ins('`x^2 + y^2 = z^2`')"><code>x² + y² = z²</code></div>
-                <div class="ex" onclick="ins('`sin(theta) = y/r`')"><code>sin(θ) = y/r</code></div>
-                <div class="ex" onclick="ins('`e^(i*pi) + 1 = 0`')"><code>e^(iπ) + 1 = 0</code></div>
-                <div class="ex" onclick="ins('`sum_(i=1)^n i = (n(n+1))/2`')"><code>∑ i = n(n+1)/2</code></div>
-                <div class="ex" onclick="ins('`int_0^1 x^2 dx`')"><code>∫ x² dx</code></div>
-                <div class="ex" onclick="ins('`[[a,b],[c,d]]`')"><code>[[a,b],[c,d]]</code></div>
-            </div>
-        </div>
-        <h3>Rendered Output:</h3>
-        <div id="demoContainer" class="output"></div>
-        <div class="answer-box">
-            <strong>📥 Extracted Answer:</strong>
-            <input type="text" id="demoAnswer" placeholder="Answer will be extracted here" readonly>
-        </div>
+<body class="bg-info-subtle text-dark">
+    <main class="container-xxl demo-page py-4">
+        <header class="pb-3 mb-4">
+            <h1 class="h2 text-info-emphasis mb-2">STACK AsciiDisplay Demo</h1>
+            <p class="lead text-secondary mb-0">
+                Type ASCIIMath and Markdown on the left. The rendered output stays matched on the right.
+            </p>
+        </header>
 
-    </div>
+        <section class="card border-info border-top border-4 shadow-sm demo-workbench" aria-labelledby="try-heading">
+            <div class="card-body">
+                <p class="text-secondary">
+                    Choose an example or edit the text directly. Some examples are display-only; others populate one or more
+                    extractor fields below.
+                </p>
+
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-2 mb-3" id="examples"></div>
+
+                <div class="display-stage bg-light border rounded p-3">
+                    <div id="demoContainer" class="border rounded shadow-sm"></div>
+                </div>
+
+                <div class="row row-cols-1 row-cols-md-2 row-cols-xl-5 g-2 mt-3" aria-label="Extractor outputs">
+                    <div class="col">
+                        <label class="form-label small text-secondary" for="demoExpressionAnswer">Answer line</label>
+                        <input class="form-control form-control-sm font-monospace bg-warning-subtle border-warning-subtle" type="text" id="demoExpressionAnswer" readonly>
+                    </div>
+                    <div class="col">
+                        <label class="form-label small text-secondary" for="demoCalculationAnswer">Last calculation</label>
+                        <input class="form-control form-control-sm font-monospace bg-warning-subtle border-warning-subtle" type="text" id="demoCalculationAnswer" readonly>
+                    </div>
+                    <div class="col">
+                        <label class="form-label small text-secondary" for="demoStepsAnswer">Step lines</label>
+                        <input class="form-control form-control-sm font-monospace bg-warning-subtle border-warning-subtle" type="text" id="demoStepsAnswer" readonly>
+                    </div>
+                    <div class="col">
+                        <label class="form-label small text-secondary" for="demoAAnswer">a =</label>
+                        <input class="form-control form-control-sm font-monospace bg-warning-subtle border-warning-subtle" type="text" id="demoAAnswer" readonly>
+                    </div>
+                    <div class="col">
+                        <label class="form-label small text-secondary" for="demoBAnswer">b =</label>
+                        <input class="form-control form-control-sm font-monospace bg-warning-subtle border-warning-subtle" type="text" id="demoBAnswer" readonly>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="row g-4 mt-2" aria-label="Instructions">
+            <div class="col-lg-7">
+                <h2 class="h4 text-info-emphasis">ASCIIMath Syntax</h2>
+                <dl class="row g-2">
+                    <dt class="col-sm-4"><code>\`x^2\`</code></dt>
+                    <dd class="col-sm-8">Wrap inline ASCIIMath in backticks.</dd>
+                    <dt class="col-sm-4"><code>\`a_n\`</code></dt>
+                    <dd class="col-sm-8">Use underscores for subscripts.</dd>
+                    <dt class="col-sm-4"><code>\`(a+b)/(c+d)\`</code></dt>
+                    <dd class="col-sm-8">Use parentheses to make fractions clear.</dd>
+                    <dt class="col-sm-4"><code>\`sqrt(x)\`</code></dt>
+                    <dd class="col-sm-8">Square roots use function notation.</dd>
+                    <dt class="col-sm-4"><code>\`sin(theta)\`</code></dt>
+                    <dd class="col-sm-8">Common functions and Greek names are recognised.</dd>
+                    <dt class="col-sm-4"><code>\`sum_(i=1)^n i\`</code></dt>
+                    <dd class="col-sm-8">Lower and upper limits use subscript and superscript.</dd>
+                    <dt class="col-sm-4"><code>\`int_0^1 x^2 dx\`</code></dt>
+                    <dd class="col-sm-8">Integrals use the same limit notation.</dd>
+                    <dt class="col-sm-4"><code>\`[[a,b],[c,d]]\`</code></dt>
+                    <dd class="col-sm-8">Matrices are nested lists.</dd>
+                    <dt class="col-sm-4"><code>\`</code> on its own line</dt>
+                    <dd class="col-sm-8">Use a pair of standalone backticks for a displayed, multiline ASCIIMath block.</dd>
+                </dl>
+            </div>
+            <div class="col-lg-5">
+                <h2 class="h4 text-info-emphasis">Filters And Extractors</h2>
+                <ul class="mb-0">
+                    <li>Markdown is rendered for display, with ASCIIMath transformed for MathJax.</li>
+                    <li>Calculations inside <code>{@2^2 + 1@}</code> are evaluated by the calculation filter.</li>
+                    <li>Markdown needs a blank line between paragraphs or displayed blocks.</li>
+                    <li>The demo can extract the last <code>Answer =</code> line, the last calculation result, all <code>Step n =</code> lines, and coefficient lines <code>a =</code> and <code>b =</code>.</li>
+                    <li>Calculation functions include <code>sin</code>, <code>cos</code>, <code>sqrt</code>, <code>log</code>, <code>mean</code>, <code>sum</code>, and <code>prod</code>. Trigonometric functions use radians.</li>
+                    <li>Omit <code>maxWidth</code> for unbounded horizontal resizing, or set it to cap the generated block.</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
     <script src="../dist/stack-web.bundle.js"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>
         let asciiDisplay;
 
-        // Wait for both DOM and MathJax to be ready
-        function initDemo() {
+        const examples = [
+            {
+                title: 'Displayed ASCIIMath block',
+                text: [
+                    'A display-only example with no extractor target lines.',
+                    [
+                        '`',
+                        'x^2 - 5x + 6 = 0',
+                        '(x - 2)(x - 3) = 0',
+                        'x = 2 or x = 3',
+                        '`'
+                    ].join('\n')
+                ].join('\n\n')
+            },
+            {
+                title: 'Final algebraic answer',
+                text: [
+                    'Solve the logarithmic equation.',
+                    [
+                        '`',
+                        'log_3(x+17) - 2 = log_3(2x)',
+                        'log_3((x+17)/(2x)) = 2',
+                        '(x+17)/(2x) = 9',
+                        'x = 1',
+                        '`'
+                    ].join('\n'),
+                    'Answer = `x = 1`'
+                ].join('\n\n')
+            },
+            {
+                title: 'Calculation filter',
+                text: [
+                    'Find the smaller of two consecutive even numbers whose sum is 45 times their difference.',
+                    [
+                        '`',
+                        'n + (n + 2) = 45*2',
+                        '2n + 2 = {@45*2@}',
+                        '2n = {@45*2 - 2@}',
+                        'n = {@(45*2 - 2)/2@}',
+                        '`'
+                    ].join('\n'),
+                    'Answer = `n = 44`'
+                ].join('\n\n')
+            },
+            {
+                title: 'Parabola coefficients',
+                text: [
+                    'A multiple-extractor example modelled on the free-text documentation.',
+                    [
+                        '`',
+                        'f(x) = a x^2 + b',
+                        'f(2) = 19 so 4a + b = 19',
+                        "f'(-2) = -12 so -4a = -12",
+                        '`'
+                    ].join('\n'),
+                    'a = `3`',
+                    'b = `7`',
+                    'Answer = `f(x) = 3x^2 + 7`'
+                ].join('\n\n')
+            },
+            {
+                title: 'Proof layout',
+                text: [
+                    'A manually graded proof-style response. It deliberately has no answer marker.',
+                    'Let P(n) be the statement `sum_(k=1)^n (2k-1) = n^2`.',
+                    'The base case is `sum_(k=1)^1 (2k-1) = 1 = 1^2`.',
+                    [
+                        '`',
+                        'sum_(k=1)^(n+1) (2k-1)',
+                        '= sum_(k=1)^n (2k-1) + (2(n+1)-1)',
+                        '= n^2 + 2n + 1',
+                        '= (n+1)^2',
+                        '`'
+                    ].join('\n'),
+                    'Therefore `P(n)` holds for all positive integers by induction.'
+                ].join('\n\n')
+            },
+            {
+                title: 'Step extraction',
+                text: [
+                    'This one fills the step-lines extractor, but not the coefficient fields.',
+                    'Step 1 = `sum_(k=1)^n 1 = n`',
+                    'Step 2 = `2 sum_(k=1)^n k = n^2 + n`',
+                    'Step 3 = `sum_(k=1)^n k = (n(n+1))/2`',
+                    'Answer = `(n(n+1))/2`'
+                ].join('\n\n')
+            },
+            {
+                title: 'Matrix notation',
+                text: [
+                    'Matrices use nested lists in ASCIIMath.',
+                    [
+                        '`',
+                        'A = [[1,2],[3,4]]',
+                        'det(A) = 1*4 - 2*3',
+                        'det(A) = {@1*4 - 2*3@}',
+                        '`'
+                    ].join('\n'),
+                    'Answer = `det(A) = -2`'
+                ].join('\n\n')
+            },
+            {
+                title: 'Statistics calculation',
+                text: [
+                    'Statistics functions are available in calculation blocks.',
+                    'Calculated mean: {@mean([2,4,4,4,5,5,7,9])@}',
+                    'Calculated standard deviation: {@std([2,4,4,4,5,5,7,9])@}'
+                ].join('\n\n')
+            },
+            {
+                title: 'Long horizontal expression',
+                text: [
+                    'Drag the input resize grip to the right for this one.',
+                    [
+                        '`',
+                        '((a_1+a_2+a_3+a_4+a_5+a_6+a_7+a_8+a_9+a_10)^2)/((b_1+b_2+b_3+b_4+b_5+b_6+b_7+b_8+b_9+b_10)^2)',
+                        '`'
+                    ].join('\n'),
+                    'Answer = `((a_1+a_2+a_3+a_4+a_5+a_6+a_7+a_8+a_9+a_10)^2)/((b_1+b_2+b_3+b_4+b_5+b_6+b_7+b_8+b_9+b_10)^2)`',
+                    'Small check: {@2^10@}'
+                ].join('\n\n')
+            }
+        ];
 
-            // Check if StackWeb is loaded
+        function renderExamples() {
+            const list = document.getElementById('examples');
+            examples.forEach((example, index) => {
+                const col = document.createElement('div');
+                const button = document.createElement('button');
+                col.className = 'col';
+                button.type = 'button';
+                button.className = 'btn btn-outline-info text-start w-100 h-100';
+                button.textContent = example.title;
+                button.addEventListener('click', () => insertExample(index));
+                col.appendChild(button);
+                list.appendChild(col);
+            });
+        }
+
+        function initDemo() {
             if (typeof window.StackWeb === 'undefined') {
                 setTimeout(initDemo, 100);
                 return;
             }
 
-            // Get StackAsciiDisplay from the bundle (default export)
             const StackAsciiDisplay = window.StackWeb.default;
 
-            // Check if MathJax is loaded (MathJax v3 uses MathJax.typesetPromise)
             if (typeof MathJax === 'undefined' || typeof MathJax.typesetPromise === 'undefined') {
                 setTimeout(initDemo, 100);
                 return;
             }
 
-
-            // Initialize using the STACK Web Library bundle
             try {
                 asciiDisplay = new StackAsciiDisplay({
                     containerId: 'demoContainer',
-                    initialText: '`x^2 + y^2 = z^2`',
-                    placeholder: 'Type here... e.g., `x^2 + 2x + 1`',
+                    initialText: examples[0].text,
+                    placeholder: 'Type Markdown and ASCIIMath here.',
+                    initialWidth: '100%',
+                    minWidth: 520,
+                    minHeight: 220,
+                    maxHeight: 520,
                     operations: [
+                        {
+                            operation: 'filter',
+                            type: 'calculation'
+                        },
                         {
                             operation: 'filter',
                             type: 'markdown',
@@ -98,9 +287,38 @@
                             display: 'true'
                         },
                         {
-                            targetinput: 'demoAnswer',
+                            operation: 'filter',
+                            type: 'calculation',
+                            reset: 'true'
+                        },
+                        {
+                            targetinput: 'demoExpressionAnswer',
                             operation: 'extractor',
-                            type: 'lastexpr'
+                            type: 'laststringremainderwhitespace',
+                            search: 'Answer ='
+                        },
+                        {
+                            targetinput: 'demoCalculationAnswer',
+                            operation: 'extractor',
+                            type: 'lastcalc'
+                        },
+                        {
+                            targetinput: 'demoStepsAnswer',
+                            operation: 'extractor',
+                            type: 'allregexremainder',
+                            regex: '^Step\\s+\\d+\\s*=\\s*'
+                        },
+                        {
+                            targetinput: 'demoAAnswer',
+                            operation: 'extractor',
+                            type: 'laststringremainderwhitespace',
+                            search: 'a ='
+                        },
+                        {
+                            targetinput: 'demoBAnswer',
+                            operation: 'extractor',
+                            type: 'laststringremainderwhitespace',
+                            search: 'b ='
                         }
                     ]
                 });
@@ -109,19 +327,17 @@
             }
         }
 
-        window.addEventListener('DOMContentLoaded', initDemo);
-
-        // Expose function for example buttons
-        window.ins = function(text) {
+        function insertExample(index) {
             if (!asciiDisplay || !asciiDisplay.inputElement) {
                 return;
             }
-            const ta = asciiDisplay.inputElement;
-            ta.value = text;
-            ta.focus();
-            // Trigger input event for real-time updates
-            ta.dispatchEvent(new Event('input', { bubbles: true }));
-        };
+            asciiDisplay.inputElement.value = examples[index].text;
+            asciiDisplay.inputElement.focus();
+            asciiDisplay.inputElement.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+
+        renderExamples();
+        window.addEventListener('DOMContentLoaded', initDemo);
     </script>
 </body>
 </html>

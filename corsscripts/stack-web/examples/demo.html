@@ -76,7 +76,7 @@
         </section>
 
         <section class="row g-4 mt-2" aria-label="Instructions">
-            <div class="col-lg-7">
+            <div class="col-lg-6">
                 <h2 class="h4 text-info-emphasis">ASCIIMath Syntax</h2>
                 <dl class="row g-2">
                     <dt class="col-sm-4"><code>\`x^2\`</code></dt>
@@ -96,18 +96,17 @@
                     <dt class="col-sm-4"><code>\`[[a,b],[c,d]]\`</code></dt>
                     <dd class="col-sm-8">Matrices are nested lists.</dd>
                     <dt class="col-sm-4"><code>\`</code> on its own line</dt>
-                    <dd class="col-sm-8">Use a pair of standalone backticks for a displayed, multiline ASCIIMath block.</dd>
+                    <dd class="col-sm-8">Use matched pairs to display multiline ASCIIMath blocks.</dd>
                 </dl>
             </div>
-            <div class="col-lg-5">
+            <div class="col-lg-6">
                 <h2 class="h4 text-info-emphasis">Filters And Extractors</h2>
                 <ul class="mb-0">
                     <li>Markdown is rendered for display, with ASCIIMath transformed for MathJax.</li>
-                    <li>Calculations inside <code>{@2^2 + 1@}</code> are evaluated by the calculation filter.</li>
+                    <li>Calculations inside <code>{@ @}</code> are evaluated by the calculation filter.</li>
                     <li>Markdown needs a blank line between paragraphs or displayed blocks.</li>
-                    <li>The demo extracts the last <code>Answer:</code> line, the last calculation result, all <code>Step n =</code> lines, and coefficient lines <code>a =</code> and <code>b =</code>.</li>
+                    <li>Various regex, string and block extractors can detect patterns within the input. The demo extracts the last <code>Answer:</code> line, the last calculation result, all <code>Step n =</code> lines, and coefficient lines <code>a =</code> and <code>b =</code>.</li>
                     <li>Calculation functions include <code>sin</code>, <code>cos</code>, <code>sqrt</code>, <code>log</code>, <code>mean</code>, <code>sum</code>, and <code>prod</code>. Trigonometric functions use radians.</li>
-                    <li>Omit <code>maxWidth</code> for unbounded horizontal resizing, or set it to cap the generated block.</li>
                 </ul>
             </div>
         </section>
@@ -119,6 +118,10 @@
         let asciiDisplay;
 
         const examples = [
+            {
+                title: 'Blank',
+                text: []
+            },
             {
                 title: 'Displayed ASCIIMath block',
                 text: [
@@ -225,19 +228,6 @@
                     'Statistics functions are available in calculation blocks.',
                     'Calculated mean: {@mean([2,4,4,4,5,5,7,9])@}',
                     'Calculated standard deviation: {@std([2,4,4,4,5,5,7,9])@}'
-                ].join('\n\n')
-            },
-            {
-                title: 'Long horizontal expression',
-                text: [
-                    'Drag the input resize grip to the right for this one.',
-                    [
-                        '`',
-                        '((a_1+a_2+a_3+a_4+a_5+a_6+a_7+a_8+a_9+a_10)^2)/((b_1+b_2+b_3+b_4+b_5+b_6+b_7+b_8+b_9+b_10)^2)',
-                        '`'
-                    ].join('\n'),
-                    'Answer: `((a_1+a_2+a_3+a_4+a_5+a_6+a_7+a_8+a_9+a_10)^2)/((b_1+b_2+b_3+b_4+b_5+b_6+b_7+b_8+b_9+b_10)^2)`',
-                    'Small check: {@2^10@}'
                 ].join('\n\n')
             }
         ];

@@ -14,6 +14,6 @@ lib1b_value1 : lib1_item(2);
 s_test_case(simp) := is(tex1(lib1b_value1)="{\\it lib1\\_item}\\left(2\\right)");
 
 s_test_case(simp) := block([],
-	/* @require local/lib1a_value1 */
-	is(tex1(lib1b_value1)="\\sqrt{2}")
+    /* @require local/lib1a_value1 */
+    is(tex1(lib1b_value1)="\\sqrt{2}")
 );

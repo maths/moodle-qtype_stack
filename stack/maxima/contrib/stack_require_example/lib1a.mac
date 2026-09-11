@@ -5,7 +5,7 @@
 
 
 /**
- * A function generating a "string". Demonstrating reuirement through documentation block.
+ * A function generating a "string". Demonstrating requirement through documentation block.
  * @param[boolean] mode, whether we recurse or not
  * @return[string] a string that concatenates plenty of things
  * @require lib2/lib2_fun2

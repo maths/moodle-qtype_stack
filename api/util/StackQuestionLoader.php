@@ -35,6 +35,12 @@ require_once(__DIR__ . '/../../stack/potentialresponsetreestate.class.php');
  * Converts question xml into usable format
  */
 class StackQuestionLoader {
+    /** Maximum accepted bytes in a raw XML or YAML question definition. */
+    private const MAX_SOURCE_BYTES = 5242880;
+
+    /** Maximum accepted XML element count after parsing or YAML conversion. */
+    private const MAX_XML_NODE_COUNT = 50000;
+
     /**
      * @var array|null Default values for the question.
      */
@@ -67,11 +73,9 @@ class StackQuestionLoader {
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function loadxml($xml, $includetests = false) {
         try {
-            if (strpos($xml, '<question type=') !== false) {
-                $xmldata = new SimpleXMLElement($xml);
-            } else {
-                $xmldata = self::yaml_to_xml($xml);
-            }
+            $xmldata = self::parse_question_definition($xml);
+        } catch (\stack_exception $e) {
+            throw $e;
         } catch (\Exception $e) {
             throw new \stack_exception("The provided file does not contain valid XML");
         }
@@ -636,6 +640,120 @@ class StackQuestionLoader {
     }
 
     /**
+     * Parse an XML or YAML question definition with limits suitable for untrusted API input.
+     *
+     * @param string $definition XML or YAML question definition.
+     * @return SimpleXMLElement parsed question definition.
+     */
+    private static function parse_question_definition(string $definition): SimpleXMLElement {
+        self::assert_source_size($definition);
+
+        if (strpos($definition, '<question type=') !== false) {
+            $xmldata = self::parse_xml_definition($definition);
+        } else {
+            $xmldata = self::yaml_to_xml($definition);
+        }
+
+        self::assert_xml_node_limit($xmldata);
+        return $xmldata;
+    }
+
+    /**
+     * Reject XML features that are unsafe for untrusted API input and parse the document.
+     *
+     * @param string $xml raw XML.
+     * @return SimpleXMLElement parsed XML document.
+     */
+    private static function parse_xml_definition(string $xml): SimpleXMLElement {
+        self::assert_no_doctype($xml);
+
+        $previous = libxml_use_internal_errors(true);
+        try {
+            $dom = new \DOMDocument();
+            $dom->resolveExternals = false;
+            $dom->substituteEntities = false;
+
+            if (!$dom->loadXML($xml, LIBXML_NONET | LIBXML_COMPACT)) {
+                throw new \stack_exception("The provided file does not contain valid XML");
+            }
+
+            $xmldata = simplexml_import_dom($dom);
+            if (!$xmldata instanceof SimpleXMLElement) {
+                throw new \stack_exception("The provided file does not contain valid XML");
+            }
+        } finally {
+            libxml_clear_errors();
+            libxml_use_internal_errors($previous);
+        }
+
+        return $xmldata;
+    }
+
+    /**
+     * Scan XML using a network-disabled reader and reject DTD usage.
+     *
+     * @param string $xml raw XML.
+     */
+    private static function assert_no_doctype(string $xml): void {
+        $previous = libxml_use_internal_errors(true);
+        $reader = new \XMLReader();
+        try {
+            if (!$reader->XML($xml, null, LIBXML_NONET | LIBXML_COMPACT)) {
+                throw new \stack_exception("The provided file does not contain valid XML");
+            }
+
+            while ($reader->read()) {
+                if ($reader->nodeType === \XMLReader::DOC_TYPE) {
+                    throw new \stack_exception("The provided XML contains a forbidden DOCTYPE declaration");
+                }
+            }
+        } finally {
+            $reader->close();
+            libxml_clear_errors();
+            libxml_use_internal_errors($previous);
+        }
+    }
+
+    /**
+     * Reject oversized XML or YAML payloads before parsing.
+     *
+     * @param string $definition raw XML or YAML.
+     */
+    private static function assert_source_size(string $definition): void {
+        if (strlen($definition) > self::MAX_SOURCE_BYTES) {
+            throw new \stack_exception("The provided XML or YAML exceeds the maximum allowed size");
+        }
+    }
+
+    /**
+     * Reject parsed documents that expand past a safe element count.
+     *
+     * @param SimpleXMLElement $xmldata parsed XML document.
+     */
+    private static function assert_xml_node_limit(SimpleXMLElement $xmldata): void {
+        if (self::count_xml_nodes($xmldata) > self::MAX_XML_NODE_COUNT) {
+            throw new \stack_exception("The provided XML or YAML exceeds the maximum allowed node count");
+        }
+    }
+
+    /**
+     * Count XML elements recursively.
+     *
+     * @param SimpleXMLElement $xmldata parsed XML document.
+     * @return int number of elements in the document.
+     */
+    private static function count_xml_nodes(SimpleXMLElement $xmldata): int {
+        $count = 1;
+        foreach ($xmldata->children() as $child) {
+            $count += self::count_xml_nodes($child);
+            if ($count > self::MAX_XML_NODE_COUNT) {
+                return $count;
+            }
+        }
+        return $count;
+    }
+
+    /**
      * Converts a YAML string to a SimpleXMLElement object.
      *
      * @param string $yamlstring The YAML string to convert.
@@ -756,11 +874,7 @@ class StackQuestionLoader {
         if (!self::$defaults) {
                 self::$defaults = Yaml::parseFile(__DIR__ . '/../questiondefaults.yml');
         }
-        if (strpos($xml, '<question type=') !== false) {
-            $xmldata = new SimpleXMLElement($xml);
-        } else {
-            $xmldata = self::yaml_to_xml($xml);
-        }
+        $xmldata = self::parse_question_definition($xml);
 
         if (count($xmldata->question) != 1) {
             throw new \stack_exception("The provided XML file does not contain exactly one question element");

@@ -72,5 +72,21 @@
     <button class="btn btn-link library-file-link" type="button" data-filepath="{{path}}">
       {{#pix}} i/files, core {{/pix}}{{label}}
     </button>
+    {{#subject}}
+      <br>
+      {{#str}} stack_library_subject, qtype_stack {{/str}}: {{subject}}
+    {{/subject}}
+    {{#source}}
+      <br>
+      {{#str}} stack_library_source, qtype_stack {{/str}}: {{source}}
+    {{/source}}
+    {{#license}}
+      <br>
+      {{#str}} stack_library_license, qtype_stack {{/str}}: {{license}}
+    {{/license}}
+    {{#description}}
+      <br>
+      {{description}}
+    {{/description}}
   {{/isdirectory}}
 </div>

@@ -407,7 +407,29 @@ class stack_varmatrix_input extends stack_input {
                 $this->augmented_widths($contents) === null
             ) {
                 $valid = false;
-                $errors[] = stack_string('varmatrixaugmentedstructure');
+                $example = [];
+                $onerow = in_array('r', $this->blocktypes);
+                $blockcount = count($this->blocktypes);
+                $rowcount = $onerow ? 1 : 2;
+                $widths = [];
+                foreach ($this->blocktypes as $i => $type) {
+                    $width = strlen((string)($i + 1 + ($rowcount - 1) * $blockcount)) + ($type === 'c' ? 0 : 4);
+                    $widths[] = $width;
+                }
+                for ($row = 0; $row < $rowcount; $row++) {
+                    $blocks = [];
+                    foreach ($this->blocktypes as $i => $type) {
+                        $entry = ($row * $blockcount + $i + 1) . ($type === 'c' ? '' : ' ...');
+                        $blocks[] = str_pad($entry, $widths[$i]);
+                    }
+                    $example[] = rtrim(implode(' | ', $blocks));
+                }
+                $errors[] = stack_string('varmatrixaugmentedstructure', implode("\n", $example));
+                if (in_array('matrix', $this->blocktypes) || in_array('r', $this->blocktypes)) {
+                    $errors[] = stack_string('varmatrixaugmentedellipsis');
+                }
+                $errors[] = stack_string($onerow ?
+                    'varmatrixaugmentedonerow' : 'varmatrixaugmentedrows');
         }
         [$secrules, $filterstoapply] = $this->validate_contents_filters($basesecurity);
         // Separate rules for inert display logic, which wraps floats with certain functions.

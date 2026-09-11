@@ -24,8 +24,19 @@ plugins:
     - exclude:
         glob:
             - de/*
+            - dev/*
             - en/Site_map.md
             - dev/*
     - redirects:
         redirect_maps:
             'index.md': 'en/index.md'
+nav:
+    - Home: 'en/index.md'
+    - Authoring quick start: 
+      - 'en/AbInitio/index.md'
+      - 'en/AbInitio/Authoring_quick_start_1.md'
+      - 'en/AbInitio/Authoring_quick_start_2.md'
+    - Specialist tools:
+      - 'en/Specialist_tools/index.md'
+      - Drag and Drop:
+        - 'en/Specialist_tools/Drag_and_drop/index.md'

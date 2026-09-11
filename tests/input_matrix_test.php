@@ -80,12 +80,12 @@ final class input_matrix_test extends qtype_stack_testcase {
 
     public function test_augmented_matrix_invalid_shapes(): void {
         foreach (
-                    ['aug_matrix(matrix([1]),matrix([2],[3]))',
-                    'aug_matrix(matrix([1]))', 'aug_matrix(matrix([1]),matrix([]))'] as $model
-                ) {
-            $el = stack_input_factory::make('matrix', 'ans1', 'M', new stack_options());
-            $el->adapt_to_model_answer($model);
-            $this->assertNotEmpty($el->get_errors(), $model);
+                ['aug_matrix(matrix([1]),matrix([2],[3]))',
+                'aug_matrix(matrix([1]))', 'aug_matrix(matrix([1]),matrix([]))'] as $model
+            ) {
+                $el = stack_input_factory::make('matrix', 'ans1', 'M', new stack_options());
+                $el->adapt_to_model_answer($model);
+                $this->assertNotEmpty($el->get_errors(), $model);
         }
     }
 

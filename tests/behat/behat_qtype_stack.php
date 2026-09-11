@@ -266,7 +266,7 @@ class behat_qtype_stack extends behat_base {
      */
     public function the_focused_element_should_be(string $selector): void {
         $selectorjson = json_encode($selector);
-        $matches = $this->spin(function($context, $selectorjson) {
+        $matches = $this->spin(function ($context, $selectorjson) {
             $js = <<<EOF
                 return (function() {
                     const expected = document.querySelector({$selectorjson});
@@ -400,7 +400,7 @@ class behat_qtype_stack extends behat_base {
 
         $currentversion = normalize_version(get_config('', 'release'));
 
-        // Check if running on Moodle 4.2.x or 5.0.x
+        // Check if running on Moodle 4.2.x or 5.0.x.
         $is42 = version_compare($currentversion, '4.2', '>=') && version_compare($currentversion, '4.3', '<');
         $is50 = version_compare($currentversion, '5.0', '>=') && version_compare($currentversion, '5.1', '<');
 
@@ -408,6 +408,6 @@ class behat_qtype_stack extends behat_base {
             $context = behat_context_helper::get('behat_general');
             $context->i_click_on('#' . $element, 'css');
         }
-        // On other versions, do nothing - the PRT section is already expanded
+        // On other versions, do nothing - the PRT section is already expanded.
     }
 }

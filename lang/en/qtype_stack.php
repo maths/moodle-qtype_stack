@@ -2074,7 +2074,7 @@ $string['sbasen_validate_invalid_digits'] = 'Some of the digits in base-N number
 
 $string['matrixaugmentedshape'] = 'An augmented matrix input requires at least two nonempty blocks with the same number of rows.';
 
-$string['varmatrixaugmentedstructure'] = 'Separate blocks with |, for example:<pre class="stacksyntaxexample">{$a}</pre>';
+$string['varmatrixaugmentedstructure'] = 'You need to enter a matrix with the correct block structure.  Every line must have the same structure.  Separate blocks with <code>|</code>.  The expected structure for this input is illustrated below:  <pre class="stacksyntaxexample">{$a}</pre>';
 $string['varmatrixaugmentedellipsis'] = 'The dots (...) stand for optional extra entries.';
 $string['varmatrixaugmentedrows'] = 'Choose the number of rows; keep block widths consistent.';
 $string['varmatrixaugmentedonerow'] = 'Use only one row.';

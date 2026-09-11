@@ -681,7 +681,11 @@ final class input_varmatrix_test extends qtype_stack_testcase {
         $el->adapt_to_model_answer($model);
         foreach ([false, true] as $ajax) {
             $state = $el->validate_student_response(
-                $ajax ? $raw : ['ans1' => $raw], $options, $model, new stack_cas_security(), $ajax
+                $ajax ? $raw : ['ans1' => $raw],
+                $options,
+                $model,
+                new stack_cas_security(),
+                $ajax
             );
             $this->assertEquals(stack_input::INVALID, $state->status);
             $this->assertStringContainsString(
@@ -692,10 +696,12 @@ final class input_varmatrix_test extends qtype_stack_testcase {
                 substr_count($state->errors, 'The dots (...) stand for optional extra entries.')
             );
             $this->assertStringContainsString(
-                $onerow ? 'Use only one row.' : 'Choose the number of rows; keep block widths consistent.', $state->errors
+                $onerow ? 'Use only one row.' : 'Choose the number of rows; keep block widths consistent.',
+                $state->errors
             );
             $this->assertStringNotContainsString(
-                $onerow ? 'Choose the number of rows; keep block widths consistent.' : 'Use only one row.', $state->errors
+                $onerow ? 'Choose the number of rows; keep block widths consistent.' : 'Use only one row.',
+                $state->errors
             );
             $this->assertStringNotContainsString('9876', $state->errors);
             $this->assertStringNotContainsString('? ?', $state->errors);
@@ -748,7 +754,7 @@ final class input_varmatrix_test extends qtype_stack_testcase {
         $this->assertStringContainsString(
             'data-stack-input-value-type="aug_matrix"',
             $el->render($state, 'ans1', false, null)
-            );
+        );
         $this->assertEquals(['matrix', 'c'], $el->render_api_data(null)['blockTypes']);
         $this->assertEquals('|', $el->render_api_data(null)['blockSeparator']);
     }
@@ -783,7 +789,7 @@ final class input_varmatrix_test extends qtype_stack_testcase {
             $options,
             $model,
             new stack_cas_security()
-            );
+        );
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals($model, $state->contentsmodified);
         $state = $el->validate_student_response(
@@ -791,7 +797,7 @@ final class input_varmatrix_test extends qtype_stack_testcase {
             $options,
             $model,
             new stack_cas_security()
-            );
+        );
         $this->assertEquals(stack_input::INVALID, $state->status);
         $state = $el->validate_student_response(
             '1 2 | 3 | 4 5',
@@ -799,7 +805,7 @@ final class input_varmatrix_test extends qtype_stack_testcase {
             $model,
             new stack_cas_security(),
             true
-            );
+        );
         $this->assertEquals($model, $state->contentsmodified);
     }
 }

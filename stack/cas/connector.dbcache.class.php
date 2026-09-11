@@ -181,9 +181,9 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
      */
     protected function check_json_stackmaxima_version($result) {
         if (
-               !array_key_exists('values', $result) || !is_array($result['values']) ||
-               !array_key_exists('__stackmaximaversion', $result['values'])
-            ) {
+            !array_key_exists('values', $result) || !is_array($result['values']) ||
+            !array_key_exists('__stackmaximaversion', $result['values'])
+        ) {
             return true;
         }
 

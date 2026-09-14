@@ -73,7 +73,10 @@ const extractorlib = {
  *   [{ operation:'filter',    type:'markdown', transforms:'aligneq' },
  *    { operation:'extractor', type:'lastexpr', targetinput:'ans2'     }]
  * @param {Object} options - optional DOM integration settings.
- * @param {string} options.outputElementId - ID of the rendered output element.
+ * @param {string} options.outputElementId - ID of the scrollable output container.
+ * @param {string} options.shellElementId - ID of the outer shell used for error state.
+ * @param {string} options.renderedOutputElementId - ID of the rendered content element.
+ * @param {string} options.errorOutputElementId - ID of the element used to show operation errors.
  * @param {string} options.suppliedTextElementId - ID of the static source
  *   element used when there is no source input.
  */
@@ -83,10 +86,13 @@ export default function init(inputIds, operations, options = {}) {
     const suppliedTextElementId = options.suppliedTextElementId || 'asciiSuppliedText';
     const markdownContainerId = options.suppliedTextElementId ? null : (inputIds.length ? inputIds[0] : null);
     const outputElementId = options.outputElementId || 'asciiContainerRow';
-    const shell = document.getElementById('asciiShell');
+    const shellElementId = options.shellElementId || 'asciiShell';
+    const renderedOutputElementId = options.renderedOutputElementId || 'asciiRenderedContent';
+    const errorOutputElementId = options.errorOutputElementId || 'asciiErrorRow';
     const output = document.getElementById(outputElementId);
-    const renderedOutput = document.getElementById('asciiRenderedContent');
-    const errorOutput = document.getElementById('asciiErrorRow');
+    const shell = document.getElementById(shellElementId) || output;
+    const renderedOutput = document.getElementById(renderedOutputElementId) || output;
+    const errorOutput = document.getElementById(errorOutputElementId);
     const frameId = (typeof FRAME_ID !== 'undefined') ? FRAME_ID : null;
     const syncScrollPosition = createScrollSyncHandler(markdownContainerId, frameId, output);
 
@@ -181,13 +187,19 @@ export default function init(inputIds, operations, options = {}) {
         }
         renderedOutput.innerHTML = processedOutput;
         if (operationErrors.length > 0) {
-            errorOutput.innerHTML =
-                operationErrors.map((message) => '<p class="stackascii-error-message">' + escapeHTML(message) + '</p>').join('');
-            shell.classList.add('stackascii-has-errors');
-            const errorHeight = Number(errorOutput.offsetHeight) || 0;
+            if (errorOutput) {
+                errorOutput.innerHTML =
+                    operationErrors.map((message) => '<p class="stackascii-error-message">' + escapeHTML(message) + '</p>').join('');
+            }
+            if (shell) {
+                shell.classList.add('stackascii-has-errors');
+            }
+            const errorHeight = errorOutput ? Number(errorOutput.offsetHeight) || 0 : 0;
             renderedOutput.style.paddingBottom = `${errorHeight + 5}px`;
         } else {
-            shell.classList.remove('stackascii-has-errors');
+            if (shell) {
+                shell.classList.remove('stackascii-has-errors');
+            }
             renderedOutput.style.paddingBottom = '';
         }
         syncScrollPosition();

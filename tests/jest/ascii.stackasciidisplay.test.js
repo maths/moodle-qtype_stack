@@ -7,8 +7,14 @@ jest.mock('../../corsscripts/ascii/stackascii.js', () => ({
     default: (...args) => mockInitAscii(...args)
 }));
 
+const mockInstallStackAsciiMathGlobals = jest.fn();
+
+jest.mock('../../corsscripts/ascii/stackasciimath.js', () => ({
+    __esModule: true,
+    installStackAsciiMathGlobals: (...args) => mockInstallStackAsciiMathGlobals(...args)
+}));
+
 jest.mock('../../corsscripts/stack-web/src/stack-web.css', () => ({}));
-jest.mock('../../corsscripts/ascii/ASCIIMathTeXImg.js', () => ({}));
 
 import StackAsciiDisplay from '../../corsscripts/stack-web/src/StackAsciiDisplay.js';
 
@@ -18,6 +24,7 @@ describe('StackAsciiDisplay', () => {
     beforeEach(() => {
         document.body.innerHTML = '';
         mockInitAscii.mockClear();
+        mockInstallStackAsciiMathGlobals.mockClear();
         originalResizeObserver = global.ResizeObserver;
     });
 
@@ -42,14 +49,32 @@ describe('StackAsciiDisplay', () => {
         expect(display.inputElement.value).toBe('`x^2`');
         expect(display.inputElement.placeholder).toBe('Type here');
         expect(display.outputElement.classList.contains('stack-ascii-output')).toBe(true);
+        expect(display.outputElement.contains(display.renderedOutputElement)).toBe(true);
+        expect(display.outputElement.contains(display.errorOutputElement)).toBe(true);
         expect(document.getElementById('asciiBlock').contains(display.inputElement)).toBe(true);
         expect(document.getElementById('asciiBlock').contains(display.outputElement)).toBe(true);
         expect(display.inputElement.id).not.toBe(display.outputElement.id);
         expect(mockInitAscii).toHaveBeenCalledWith(
             [display.inputElement.id, 'answer1'],
             expect.any(Array),
-            { outputElementId: display.outputElement.id }
+            {
+                outputElementId: display.outputElement.id,
+                shellElementId: display.outputElement.id,
+                renderedOutputElementId: display.renderedOutputElement.id,
+                errorOutputElementId: display.errorOutputElement.id
+            }
         );
+    });
+
+    test('installs bundled ASCIIMath parser without image rendering side effects', () => {
+        document.body.innerHTML = '<div id="asciiBlock"></div>';
+
+        new StackAsciiDisplay({ containerId: 'asciiBlock' });
+
+        expect(mockInstallStackAsciiMathGlobals).toHaveBeenCalledWith({
+            translateOnLoad: false,
+            imageRendering: false
+        });
     });
 
     test('container mode creates unique ids for multiple containers', () => {
@@ -60,6 +85,8 @@ describe('StackAsciiDisplay', () => {
 
         expect(first.inputElement.id).not.toBe(second.inputElement.id);
         expect(first.outputElement.id).not.toBe(second.outputElement.id);
+        expect(first.renderedOutputElement.id).not.toBe(second.renderedOutputElement.id);
+        expect(first.errorOutputElement.id).not.toBe(second.errorOutputElement.id);
     });
 
     test('container mode applies configured container dimensions', () => {

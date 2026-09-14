@@ -111,6 +111,15 @@ export default class StackAsciiDisplay {
         });
 
         const initOptions = { outputElementId: this.outputElement.id };
+        if (this.shellElement) {
+            initOptions.shellElementId = this.shellElement.id;
+        }
+        if (this.renderedOutputElement) {
+            initOptions.renderedOutputElementId = this.renderedOutputElement.id;
+        }
+        if (this.errorOutputElement) {
+            initOptions.errorOutputElementId = this.errorOutputElement.id;
+        }
         if (this.suppliedTextElement) {
             initOptions.suppliedTextElementId = this.suppliedTextElement.id;
         }
@@ -138,6 +147,9 @@ export default class StackAsciiDisplay {
         if (!this.outputElement) {
             throw new Error(`StackAsciiDisplay: outputElement not found: ${options.outputElementId}`);
         }
+        this.shellElement = null;
+        this.renderedOutputElement = null;
+        this.errorOutputElement = null;
 
         if (hasSuppliedTextElement && this.operations.some(op => op.operation === 'extractor')) {
             throw new Error('StackAsciiDisplay: extractors require inputElementId');
@@ -168,6 +180,17 @@ export default class StackAsciiDisplay {
         this.outputElement = document.createElement('div');
         this.outputElement.id = createUniqueId(options.containerId, 'output');
         this.outputElement.className = 'stack-ascii-output';
+        this.shellElement = this.outputElement;
+
+        this.renderedOutputElement = document.createElement('div');
+        this.renderedOutputElement.id = createUniqueId(options.containerId, 'content');
+        this.renderedOutputElement.className = 'stackascii-content';
+
+        this.errorOutputElement = document.createElement('div');
+        this.errorOutputElement.id = createUniqueId(options.containerId, 'errors');
+        this.errorOutputElement.className = 'stackascii-errors';
+        this.outputElement.appendChild(this.renderedOutputElement);
+        this.outputElement.appendChild(this.errorOutputElement);
 
         const inputPane = document.createElement('div');
         inputPane.className = 'stack-ascii-input-pane';

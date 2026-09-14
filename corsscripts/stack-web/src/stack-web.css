@@ -67,11 +67,52 @@
     min-height: 50px;
     max-height: 300px;
     margin-top: 10px;
+    position: relative;
 }
 
 .stack-ascii-output.plaintext {
     white-space: pre-line;
     font-family: monospace;
+}
+
+.stack-ascii-output .stackascii-content {
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.stack-ascii-output .stackascii-content.plaintext {
+    font-family: monospace;
+    white-space: pre-line;
+}
+
+.stack-ascii-output .stackascii-errors {
+    background-color: ivory;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-top: solid 1px #333;
+    box-sizing: border-box;
+    color: #8b0000;
+    display: none;
+    font-weight: 600;
+    left: 1px;
+    padding: 0.5rem 5px 5px;
+    position: absolute;
+    right: 1px;
+    bottom: 1px;
+    width: auto;
+    z-index: 1;
+}
+
+.stack-ascii-output.stackascii-has-errors .stackascii-errors {
+    display: block;
+}
+
+.stack-ascii-output .stackascii-errors:empty {
+    display: none;
+}
+
+.stack-ascii-output .stackascii-error-message {
+    margin: 0;
 }
 
 .stack-ascii-display .stack-ascii-output {

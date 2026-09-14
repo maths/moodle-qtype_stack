@@ -4,7 +4,9 @@ The STACK source code is Licensed under the [GNU General Public, License Version
 
 The STACK documentation, contained in the [source code](https://github.com/maths/moodle-qtype_stack) subdirectories of `doc/`,  is licensed under a [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/), except those files in `doc/static` which have their own licences explicitly within the files themselves.
 
-The STACK sample questions and materials, contained in the subdirectories of <tt>samplequestions/</tt>, is Licensed under the [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/).
+The HELM materials contained in the subdirectories of <tt>samplequestions/stacklibrary/HELM/</tt>, are Licensed under the [Creative Commons Attribution-NonCommercial 4.0 International License](https://creativecommons.org/licenses/by-nc/4.0/).
+
+The other STACK sample questions and materials, contained in the subdirectories of <tt>samplequestions/</tt>, is Licensed under the [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/).
 
 STACK imposes no requirements on users to choose a license for learning materials they write from scratch.  We are aware of open (e.g. Creative Commons), closed, and commercial uses of STACK materials.  Users remain responsible for respecting existing licences attached to shared learning materials.
 

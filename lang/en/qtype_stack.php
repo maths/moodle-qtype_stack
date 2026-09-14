@@ -419,6 +419,38 @@ $string['mustconfirm'] = 'You have changes to confirm.';
 $string['moodleerrors'] = 'You have errors related to Moodle\'s basic question setup.';
 $string['stackerrors'] = 'You have errors in your question.';
 $string['markedasbroken'] = 'The question has been marked as broken and will not be accessible to students.';
+$string['editmetadata'] = 'View and edit full metadata';
+$string['additionalmetadata'] = 'Additional metadata';
+$string['novalidmetadata'] = 'No valid metadata';
+$string['metadata'] = 'Metadata';
+$string['metadatahighlights'] = 'Metadata';
+$string['metadatachange'] = 'Please save your changes.';
+$string['firstname'] = 'First name';
+$string['lastname'] = 'Last name';
+$string['institution'] = 'Institution';
+$string['year'] = 'Year';
+$string['author'] = 'Author';
+$string['addauthor'] = 'Add author';
+$string['addscope'] = 'Add scope';
+$string['addproperty'] = 'Add property';
+$string['addlanguage'] = 'Add language';
+$string['updateJSON'] = 'Validate inputs and update JSON';
+$string['updateinputs'] = 'Update inputs from JSON';
+$string['makemeauthor'] = 'Add me as an author';
+$string['validateandclose'] = 'Validate and close';
+$string['JSONmetadata'] = 'JSON metadata';
+$string['JSONtoolong'] = 'There is too much metadata. Metadata should be under 32000 bytes.';
+$string['JSONbroken'] = 'Metadata is invalid JSON.';
+$string['metadataexplanation'] = 'STACK metadata is stored as a JSON object. You can edit metadata in the inputs above or directly edit the JSON below and then click \'Update inputs from JSON\'. On closing this metadata window, the inputs will be validated and, if this is successful, you will be returned to the main question edit form. You will still need to save the question as normal to save the metadata.';
+$string['scope'] = 'Scope';
+$string['scopename'] = 'Scope name';
+$string['property'] = 'Property';
+$string['qualifier'] = 'Qualifier';
+$string['value'] = 'Value';
+$string['ispartof'] = 'isPartOf';
+$string['freeformmetadata'] = 'Freeform metadata';
+$string['reverttosaved'] = 'Revert current changes';
+$string['licenseselect'] = 'Type or select license';
 $string['alwaysmanuallygrade'] = 'This question is always manually graded.';
 
 // Strings used by input elements.
@@ -830,6 +862,7 @@ $string['healthcheckparsonssample'] = '<div class="formulation">
 <br/><p>input=<input id="_fakeparsonsinput" style="width:70vw;margin:auto"/></p></div>';
 $string['healthcheckfreetext'] = 'Free-text question block';
 $string['healthcheckfreetextintro'] = 'There should be a free-text display panel below linked to a textarea input block. The ASCIIMaths in the input box should be fully-rendered LaTeX in the display box with the first line left-justifed and the other equations centred and aligned around their equals signs. The result should be the ASCIIMath matrix representation.';
+// phpcs:disable moodle.Strings.ForbiddenStrings.Found
 $string['healthcheckfreetextsample'] = '<div class="que stack">
 <div class="content">
 <div class="formulation clearfix">
@@ -1096,12 +1129,23 @@ $string['stackBlock_ascii_overdefined_dimension'] = 'When defining aspect-ratio 
 $string['stackBlock_ascii_answer_format'] = 'The answer attribute of the ASCII block must be in the format \"[ans1,extractor,filter],[ans2,extractor,filter],...\".';
 $string['stackBlock_ascii_unknown_param'] = 'Unknown parameter \'{$a}\' for the ASCII block.';
 $string['stackBlock_ascii_param'] = 'Valid parameters are: {$a->param}.';
+$string['stackBlock_ascii_incorrect_alignment'] = 'The output must be aligned left or right.';
 
 $string['stackBlock_extractor_targetinput_required'] = 'You must define the targetinput for the extractor block to send the answer to.';
 $string['stackBlock_extractor_type_required'] = 'You must define the type of extractor you want to use.';
 $string['stackBlock_extractor_unknown_param'] = 'Unknown parameter \'{$a}\' for the extractor block.';
 $string['stackBlock_extractor_param'] = 'Valid parameters are: {$a->param}.';
 $string['stackBlock_extractor_unknown'] = 'Unknown type \'{$a->type}\' for the extractor block. Valid types are: \'{$a->extractors}\'';
+$string['asciistringextractorlastblocknotfound'] = 'No AsciiMath expression or block was found to extract.';
+$string['asciistringextractorlastcalcnotfound'] = 'No calculation block was found to extract.';
+$string['asciistringextractorlastexprnotfound'] = 'No expression or non-empty line was found to extract.';
+$string['asciistringextractorsearchrequired'] = 'This extractor requires a search parameter:';
+$string['asciistringextractorsearchnotfound'] = 'No line matched the requested search text:';
+$string['asciistringextractorregexrequired'] = 'This extractor requires a regular expression:';
+$string['asciistringextractorregexnotfound'] = 'No line matched the requested regular expression:';
+$string['asciistringfiltercalculationfunctionnotallowed'] = 'Function not allowed:';
+$string['asciistringfiltercalculationoperatornotallowed'] = 'Operator not allowed:';
+$string['asciistringfiltercalculationnodetypenotallowed'] = 'Node type not allowed:';
 
 $string['stackBlock_filter_type_required'] = 'You must define the type of filter you want to use.';
 $string['stackBlock_filter_unknown'] = 'Unknown type \'{$a->type}\' for the filter block. Valid types are: \'{$a->filters}\'';

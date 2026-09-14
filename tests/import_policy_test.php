@@ -94,7 +94,7 @@ final class import_policy_test extends \qtype_stack_testcase {
             $this->assertCount(1, $format->questionids);
             $id = reset($format->questionids);
             $this->assertEquals(
-                $valid ? 'ready' : 'draft',
+                'ready',
                 $DB->get_field('question_versions', 'status', ['questionid' => $id])
             );
             $this->assertEquals(

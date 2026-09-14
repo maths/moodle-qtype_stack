@@ -28,6 +28,7 @@
 require_once(__DIR__ . '/../../../../../lib/behat/behat_base.php');
 
 use Moodle\BehatExtension\Exception\SkippedException;
+use PHPUnit\Framework\Assert;
 
 /**
  * Steps definitions related with the question bank management.
@@ -238,6 +239,50 @@ class behat_qtype_stack extends behat_base {
     }
 
     /**
+     * Check a hidden value
+     *
+     * @param string $name name of hidden field.
+     * @param string $value the expected value with current year replaced with XXXX.
+     *
+     * @Given /^I check the hidden input "(?P<name>[^"]*)" is '(?P<value>[^']*)'$/
+     */
+    public function i_check_hidden_value($name, $value) {
+        $year = date('Y');
+        $value = str_replace('XXXX', $year, $value);
+        $js = <<<EOF
+            return (function() {
+                let value = document.querySelector('[name="$name"]').value;
+                return value;
+            })();
+        EOF;
+        $formvalue = $this->evaluate_script($js);
+        Assert::assertEquals($value, $formvalue);
+    }
+
+    /**
+     * Check that the active element matches a CSS selector.
+     *
+     * @Then /^the focused element should be "(?P<selector>[^"]*)" "css_element"$/
+     */
+    public function the_focused_element_should_be(string $selector): void {
+        $selectorjson = json_encode($selector);
+        $matches = $this->spin(function($context, $selectorjson) {
+            $js = <<<EOF
+                return (function() {
+                    const expected = document.querySelector({$selectorjson});
+                    const active = document.activeElement;
+                    if (!expected || !active) {
+                        return false;
+                    }
+                    return expected === active;
+                })();
+            EOF;
+            return (bool) $context->evaluate_script($js);
+        }, $selectorjson, 5, new \Exception('Expected focused element to match "' . $selector . '".'));
+        Assert::assertTrue((bool) $matches);
+    }
+
+    /**
      * Set the response for a given input in the Moodle app.
      *
      * @param string $identifier the text of the item to drag. E.g. '2:answer'.
@@ -340,5 +385,29 @@ class behat_qtype_stack extends behat_base {
             throw new Exception('There is no question with name "' . $questionname . '".');
         }
         return $id;
+    }
+
+    /**
+     * Conditionally press element on Moodle 4.2 and 5.0 only.
+     * This is needed because section collapse behavior differs across Moodle versions.
+     *
+     * @param string $element id to press
+     * @When /^I press "(?P<element>[^"]*)" if on Moodle 4.2 or 5.0$/
+     */
+    public function i_press_collapse_element_if_on_moodle_42_or_50($element) {
+        global $CFG;
+        require_once($CFG->libdir . '/environmentlib.php');
+
+        $currentversion = normalize_version(get_config('', 'release'));
+
+        // Check if running on Moodle 4.2.x or 5.0.x
+        $is42 = version_compare($currentversion, '4.2', '>=') && version_compare($currentversion, '4.3', '<');
+        $is50 = version_compare($currentversion, '5.0', '>=') && version_compare($currentversion, '5.1', '<');
+
+        if ($is42 || $is50) {
+            $context = behat_context_helper::get('behat_general');
+            $context->i_click_on('#' . $element, 'css');
+        }
+        // On other versions, do nothing - the PRT section is already expanded
     }
 }

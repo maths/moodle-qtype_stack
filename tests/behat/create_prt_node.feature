@@ -67,7 +67,6 @@ Feature: Create, edit STACK questions adding in PRT and saving.
       | Model answer         | diff(p,x)                                                                     |
       | SAns                 | ans1                                                                          |
       | TAns                 | diff(p,x)                                                                     |
-
     Then the following fields match these values:
       | Number to add (max 9) | 1 |
     When I press "Add node(s)"

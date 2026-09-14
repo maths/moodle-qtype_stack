@@ -120,7 +120,7 @@ class stack_question_library {
         }
 
         foreach ($plots as $original => $new) {
-            $questiontext = str_replace($original, $CFG->wwwroot . '/question/type/stack/plot.php/' . $new, $questiontext);
+            $questiontext = str_replace($original, stack_plot_url_base() . $new, $questiontext);
         }
 
         $formatoptions = new stdClass();

@@ -16,6 +16,11 @@
 
         .demo-workbench {
             width: max-content;
+            visibility: hidden;
+        }
+
+        .demo-workbench.ready {
+            visibility: visible;
         }
 
         .demo-workbench .card-body > :not(.display-stage) {
@@ -317,6 +322,7 @@
                         }
                     ]
                 });
+                document.querySelector('.demo-workbench').classList.add('ready');
             } catch (e) {
                 console.error('Error initializing StackAsciiDisplay:', e);
             }

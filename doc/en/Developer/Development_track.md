@@ -13,6 +13,9 @@ Issues with [github milestone 4.14.0](https://github.com/maths/moodle-qtype_stac
 2. Update to version 2.5.1 of ASCIIMath (May 2026)
 3. Add in errors to the free text input, using stdin/stdout/stderr as a model for filter/extractor functions.
 
+4. Count authoring failures as XML import errors so Stop on error rejects invalid uploads before writes.
+   Explicit repair imports retain broken diagnostics without changing Moodle version status.
+
 ## Better testing
 
 ### Add in a new keyvals field "test variables".

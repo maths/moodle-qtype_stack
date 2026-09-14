@@ -7,13 +7,6 @@ jest.mock('../../corsscripts/ascii/stackascii.js', () => ({
     default: (...args) => mockInitAscii(...args)
 }));
 
-const mockInstallStackAsciiMathGlobals = jest.fn();
-
-jest.mock('../../corsscripts/ascii/stackasciimath.js', () => ({
-    __esModule: true,
-    installStackAsciiMathGlobals: (...args) => mockInstallStackAsciiMathGlobals(...args)
-}));
-
 jest.mock('../../corsscripts/stack-web/src/stack-web.css', () => ({}));
 
 import StackAsciiDisplay from '../../corsscripts/stack-web/src/StackAsciiDisplay.js';
@@ -24,7 +17,6 @@ describe('StackAsciiDisplay', () => {
     beforeEach(() => {
         document.body.innerHTML = '';
         mockInitAscii.mockClear();
-        mockInstallStackAsciiMathGlobals.mockClear();
         originalResizeObserver = global.ResizeObserver;
     });
 
@@ -66,15 +58,14 @@ describe('StackAsciiDisplay', () => {
         );
     });
 
-    test('installs bundled ASCIIMath parser without image rendering side effects', () => {
+    test('imports bundled ASCIIMath parser globals', () => {
         document.body.innerHTML = '<div id="asciiBlock"></div>';
 
         new StackAsciiDisplay({ containerId: 'asciiBlock' });
 
-        expect(mockInstallStackAsciiMathGlobals).toHaveBeenCalledWith({
-            translateOnLoad: false,
-            imageRendering: false
-        });
+        expect(typeof window.AMparseMath).toBe('function');
+        expect(typeof window.AMTparseAMtoTeX).toBe('function');
+        expect(window.AMparseMath('x^2', true)).toContain('{x}^{{2}}');
     });
 
     test('container mode creates unique ids for multiple containers', () => {

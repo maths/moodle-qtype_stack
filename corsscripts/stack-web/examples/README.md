@@ -1,7 +1,7 @@
 # STACK Web Library Examples
 
-This directory contains a standalone browser demo for `StackAsciiDisplay`.
-It uses the bundled library from `../dist/stack-web.bundle.js`, so rebuild
+This directory contains standalone browser examples for `StackAsciiDisplay`.
+They use the bundled library from `../dist/stack-web.bundle.js`, so rebuild
 `corsscripts/stack-web` after changing source files.
 
 ## Quick Test
@@ -11,7 +11,20 @@ cd corsscripts
 python3 -m http.server 8000
 ```
 
-Open `http://localhost:8000/stack-web/examples/demo.html`.
+Open any of these pages:
+
+- `http://localhost:8000/stack-web/examples/basic-container.html`
+- `http://localhost:8000/stack-web/examples/existing-elements.html`
+- `http://localhost:8000/stack-web/examples/supplied-text.html`
+- `http://localhost:8000/stack-web/examples/demo.html`
+
+## Example Pages
+
+- `basic-container.html` shows the smallest generated container-mode setup.
+- `existing-elements.html` wires an existing textarea to an existing output
+  element and extracts a final answer into a separate input.
+- `supplied-text.html` renders static source text without creating a textarea.
+- `demo.html` combines several filters and extractors in one larger workbench.
 
 The demo creates a generated textarea and output area inside `demoContainer`.
 The input and output start side-by-side. Drag the resize grip in the lower-right
@@ -55,7 +68,7 @@ const display = new StackAsciiDisplay({
             operation: 'extractor',
             type: 'laststringremainderwhitespace',
             targetinput: 'answer-expression',
-            search: 'Answer ='
+            search: 'Answer:'
         },
         {
             operation: 'extractor',
@@ -130,7 +143,7 @@ Markdown text can be mixed with ASCIIMath. Calculation blocks use
 ```text
 Step 1 = `3^2 + 4^2 = 25`
 
-Answer = `z = 5`
+Answer: `z = 5`
 
 Calculated hypotenuse: {@sqrt(3^2 + 4^2)@}
 ```
@@ -154,9 +167,9 @@ and `prod`.
 
 ## Demo Extractors
 
-The demo shows three extractor styles at once:
+The demo shows several extractor styles at once:
 
-- `laststringremainderwhitespace` reads the last line beginning with `Answer =`.
+- `laststringremainderwhitespace` reads the last line beginning with `Answer:`.
 - `lastcalc` reads the rendered result of the last calculation block.
 - `allregexremainder` collects every line beginning with `Step n =` and returns
   the remainders as JSON.

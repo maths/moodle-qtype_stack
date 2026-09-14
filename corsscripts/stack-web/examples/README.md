@@ -89,6 +89,22 @@ Container mode accepts `initialWidth`, `initialHeight`, `minWidth`, `minHeight`,
 `maxWidth` for unlimited horizontal resizing, or set it to a pixel, percent,
 `rem`, `vw`, or `vh` length to cap the generated block.
 
+The bundled build includes the English `asciistring*` messages from
+`lang/en/qtype_stack.php`. Override any of those messages with the
+`asciistrings` option:
+
+```javascript
+const display = new StackAsciiDisplay({
+    containerId: 'ascii-block',
+    asciistrings: {
+        asciistringextractorregexnotfound: 'No matching line was found:'
+    },
+    operations: [
+        { operation: 'filter', type: 'markdown', transforms: 'asciimath' }
+    ]
+});
+```
+
 To use existing elements instead, provide `outputElementId` plus exactly one of
 `inputElementId` or `suppliedTextElementId`. The supplied-text option is for
 display-only blocks and does not support extractors.

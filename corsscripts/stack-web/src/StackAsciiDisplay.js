@@ -18,6 +18,7 @@ import './stack-web.css';
 import '../../ascii/ASCIIMathTeXImg.js';
 
 let nextGeneratedId = 1;
+const defaultAsciiStrings = getDefaultAsciiStrings();
 
 /**
  * StackAsciiDisplay - Wrapper for STACK ASCII display blocks in standalone mode.
@@ -73,6 +74,7 @@ export default class StackAsciiDisplay {
      * @param {string|number} options.minHeight - Minimum generated container height. Number values are pixels.
      * @param {string|number} options.maxWidth - Maximum generated container width. Number values are pixels.
      * @param {string|number} options.maxHeight - Maximum generated container height. Number values are pixels.
+     * @param {Object} options.asciistrings - Optional language string overrides keyed by STACK asciistring id.
      */
     constructor(options) {
         if (!options) {
@@ -80,6 +82,10 @@ export default class StackAsciiDisplay {
         }
 
         this.operations = options.operations || [];
+        this.asciistrings = {
+            ...defaultAsciiStrings,
+            ...normaliseAsciiStrings(options.asciistrings)
+        };
 
         const hasContainer = Boolean(options.containerId);
         const hasOutputElement = Boolean(options.outputElementId);
@@ -123,6 +129,7 @@ export default class StackAsciiDisplay {
         if (this.suppliedTextElement) {
             initOptions.suppliedTextElementId = this.suppliedTextElement.id;
         }
+        initOptions.asciistrings = this.asciistrings;
 
         initAscii(this.inputIds, this.operations, initOptions);
 
@@ -506,4 +513,20 @@ function clampLength(value, min, max) {
         value = Math.min(value, max);
     }
     return value;
+}
+
+function getDefaultAsciiStrings() {
+    if (typeof __STACK_ASCII_STRINGS__ === 'undefined') {
+        return {};
+    }
+
+    return __STACK_ASCII_STRINGS__;
+}
+
+function normaliseAsciiStrings(strings) {
+    if (!strings || typeof strings !== 'object') {
+        return {};
+    }
+
+    return strings;
 }

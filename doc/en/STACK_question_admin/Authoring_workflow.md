@@ -82,6 +82,9 @@ Rather than second-guess what students _might_ get wrong it is more effective to
 3. Add further question tests to test each misconception.
 4. Is there any significant difference between random variants?
 
+# Comparing question versions
+
+Moodle creates a new version of the question every time you save. You can compare XML representations of different versions of your question via the 'Compare question XML' option in the STACK dashboard. This allows you to see what changes have been made between different versions. You can access other questions from the same question bank via this page, allowing you to compare different versions of non-STACK questions. You can also load question files from your local file system, either comparing them against each other or a version of your currently selected question. 
 
 # Authoring collaboratively
 

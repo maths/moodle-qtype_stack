@@ -862,6 +862,7 @@ $string['healthcheckparsonssample'] = '<div class="formulation">
 <br/><p>input=<input id="_fakeparsonsinput" style="width:70vw;margin:auto"/></p></div>';
 $string['healthcheckfreetext'] = 'Free-text question block';
 $string['healthcheckfreetextintro'] = 'There should be a free-text display panel below linked to a textarea input block. The ASCIIMaths in the input box should be fully-rendered LaTeX in the display box with the first line left-justifed and the other equations centred and aligned around their equals signs. The result should be the ASCIIMath matrix representation.';
+// phpcs:disable moodle.Strings.ForbiddenStrings.Found
 $string['healthcheckfreetextsample'] = '<div class="que stack">
 <div class="content">
 <div class="formulation clearfix">
@@ -1128,12 +1129,23 @@ $string['stackBlock_ascii_overdefined_dimension'] = 'When defining aspect-ratio 
 $string['stackBlock_ascii_answer_format'] = 'The answer attribute of the ASCII block must be in the format \"[ans1,extractor,filter],[ans2,extractor,filter],...\".';
 $string['stackBlock_ascii_unknown_param'] = 'Unknown parameter \'{$a}\' for the ASCII block.';
 $string['stackBlock_ascii_param'] = 'Valid parameters are: {$a->param}.';
+$string['stackBlock_ascii_incorrect_alignment'] = 'The output must be aligned left or right.';
 
 $string['stackBlock_extractor_targetinput_required'] = 'You must define the targetinput for the extractor block to send the answer to.';
 $string['stackBlock_extractor_type_required'] = 'You must define the type of extractor you want to use.';
 $string['stackBlock_extractor_unknown_param'] = 'Unknown parameter \'{$a}\' for the extractor block.';
 $string['stackBlock_extractor_param'] = 'Valid parameters are: {$a->param}.';
 $string['stackBlock_extractor_unknown'] = 'Unknown type \'{$a->type}\' for the extractor block. Valid types are: \'{$a->extractors}\'';
+$string['asciistringextractorlastblocknotfound'] = 'No AsciiMath expression or block was found to extract.';
+$string['asciistringextractorlastcalcnotfound'] = 'No calculation block was found to extract.';
+$string['asciistringextractorlastexprnotfound'] = 'No expression or non-empty line was found to extract.';
+$string['asciistringextractorsearchrequired'] = 'This extractor requires a search parameter:';
+$string['asciistringextractorsearchnotfound'] = 'No line matched the requested search text:';
+$string['asciistringextractorregexrequired'] = 'This extractor requires a regular expression:';
+$string['asciistringextractorregexnotfound'] = 'No line matched the requested regular expression:';
+$string['asciistringfiltercalculationfunctionnotallowed'] = 'Function not allowed:';
+$string['asciistringfiltercalculationoperatornotallowed'] = 'Operator not allowed:';
+$string['asciistringfiltercalculationnodetypenotallowed'] = 'Node type not allowed:';
 
 $string['stackBlock_filter_type_required'] = 'You must define the type of filter you want to use.';
 $string['stackBlock_filter_unknown'] = 'Unknown type \'{$a->type}\' for the filter block. Valid types are: \'{$a->filters}\'';

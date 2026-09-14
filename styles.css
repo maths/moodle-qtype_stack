@@ -1247,7 +1247,6 @@ table.HELM_table th:last-child {
 .que.stack .equivinput,
 .que.stack .varmatrixinput,
 .que.stack .matrixtable,
-.que.stack .freetextinput,
 /* Question authoring form */
 #page-question-type-stack textarea#id_questionvariables,
 #page-question-type-stack input#id_variantsselectionseed,

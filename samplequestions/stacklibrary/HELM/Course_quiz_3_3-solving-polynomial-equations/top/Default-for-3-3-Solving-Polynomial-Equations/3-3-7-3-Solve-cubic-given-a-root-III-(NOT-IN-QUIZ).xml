@@ -58,6 +58,10 @@ eqnattempt: (x - dd)*(x^3 + (2*bb - aa)*x^2 - (2*aa*bb - bb^2 + cc)*x - aa*bb^2 
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
     <isbroken>0</isbroken>
+    <prescribedmetadata/>
+    <metadata>
+      {"author":[{"firstName":"","lastName":"","institution":"HELM Consortium","year":"2015"},{"firstName":"","lastName":"","institution":"University of Edinburgh","year":"2025"}],"language":["en"],"isPartOf":"HELM","license":"cc-nc-4.0","additional":{"UoE":{"Notes":"This is automatically generated metadata."}},"freeform":{}}
+    </metadata>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>

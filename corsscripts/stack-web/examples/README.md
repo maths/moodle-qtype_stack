@@ -27,9 +27,10 @@ Open any of these pages:
 - `demo.html` combines several filters and extractors in one larger workbench.
 
 The demo creates a generated textarea and output area inside `demoContainer`.
-The input and output start side-by-side. Drag the resize grip in the lower-right
-corner of the input to stretch both panes. If `maxWidth` is omitted, horizontal
-growth is unbounded and the container can overflow the page visibly.
+The input and output start side-by-side. Drag the browser's native textarea
+resize grip in the lower-right corner of the input to stretch both panes. If
+`maxWidth` is omitted, horizontal growth is unbounded and the container can
+overflow the page visibly.
 
 The example buttons are based on the free-text documentation questions in
 `samplequestions/stacklibrary/Doc-Examples/Specialist-Tools-Docs/Free-text-input`.

@@ -18,7 +18,7 @@ import './stack-web.css';
 import '../../ascii/ASCIIMathTeXImg.js';
 
 let nextGeneratedId = 1;
-const defaultAsciiStrings = getDefaultAsciiStrings();
+const defaultAsciiStrings = typeof __STACK_ASCII_STRINGS__ === 'undefined' ? {} : __STACK_ASCII_STRINGS__;
 
 /**
  * StackAsciiDisplay - Wrapper for STACK ASCII display blocks in standalone mode.
@@ -84,7 +84,7 @@ export default class StackAsciiDisplay {
         this.operations = options.operations || [];
         this.asciistrings = {
             ...defaultAsciiStrings,
-            ...normaliseAsciiStrings(options.asciistrings)
+            ...(options.asciistrings || {})
         };
 
         const hasContainer = Boolean(options.containerId);
@@ -133,10 +133,21 @@ export default class StackAsciiDisplay {
 
         initAscii(this.inputIds, this.operations, initOptions);
 
-        this.setupOutputResizeSync();
-        this.setupStandaloneScrollSync();
+        if (this.container) {
+            this.setupOutputResizeSync();
+        }
+        if (this.inputElement) {
+            this.setupStandaloneScrollSync();
+        }
     }
 
+    /**
+     * Bind the display to caller-provided input/output elements.
+     *
+     * @param {Object} options - Configuration options.
+     * @param {boolean} hasInputElement - Whether a live source input was provided.
+     * @param {boolean} hasSuppliedTextElement - Whether a static source element was provided.
+     */
     setupExistingOutputMode(options, hasInputElement, hasSuppliedTextElement) {
         this.container = null;
 
@@ -163,6 +174,11 @@ export default class StackAsciiDisplay {
         }
     }
 
+    /**
+     * Build the textarea/output pair inside a caller-provided container.
+     *
+     * @param {Object} options - Configuration options.
+     */
     setupContainerMode(options) {
         this.container = document.getElementById(options.containerId);
         if (!this.container) {
@@ -176,7 +192,18 @@ export default class StackAsciiDisplay {
             maxWidth: options.maxWidth,
             maxHeight: options.maxHeight
         };
-        applyContainerDimensions(this.container, options);
+        [
+            ['width', options.initialWidth],
+            ['height', options.initialHeight],
+            ['minWidth', options.minWidth],
+            ['minHeight', options.minHeight],
+            ['maxWidth', options.maxWidth],
+            ['maxHeight', options.maxHeight]
+        ].forEach(([property, value]) => {
+            if (value !== undefined && value !== null && value !== '') {
+                this.container.style[property] = typeof value === 'number' ? `${value}px` : value;
+            }
+        });
 
         this.inputElement = document.createElement('textarea');
         this.inputElement.id = createUniqueId(options.containerId, 'input');
@@ -203,10 +230,6 @@ export default class StackAsciiDisplay {
         inputPane.className = 'stack-ascii-input-pane';
         inputPane.appendChild(this.inputElement);
         this.inputPane = inputPane;
-        this.resizeHandle = document.createElement('div');
-        this.resizeHandle.className = 'stack-ascii-resize-handle';
-        this.resizeHandle.setAttribute('aria-hidden', 'true');
-        inputPane.appendChild(this.resizeHandle);
 
         const outputPane = document.createElement('div');
         outputPane.className = 'stack-ascii-output-pane';
@@ -219,25 +242,37 @@ export default class StackAsciiDisplay {
         this.suppliedTextElement = null;
     }
 
+    /**
+     * Mirror native textarea resizing onto the generated output pane.
+     */
     setupOutputResizeSync() {
-        if (!this.container || !this.inputElement || !this.outputElement) {
-            return;
-        }
+        const initialContainerWidth = this.container.style.width;
+        let resizeStart = null;
+        let userResized = false;
 
-        const resizeState = {
-            width: null,
-            height: null,
-            userResizing: false,
-            drag: null
-        };
-
-        const syncOutputSize = (width, height) => {
-            if (!width && !height) {
-                return;
-            }
-
-            const chrome = getContainerChrome(this.container);
-            const limits = getContainerDimensionLimits(this.container, this.dimensionOptions);
+        /**
+         * Apply the textarea's rendered size to the generated output pane.
+         *
+         * @param {number} width - Textarea width in pixels.
+         * @param {number} height - Textarea height in pixels.
+         * @param {boolean} updateContainerHeight - Whether to update the outer container height.
+         */
+        const syncOutputSize = (width, height, updateContainerHeight = true) => {
+            const style = window.getComputedStyle(this.container);
+            const chrome = {
+                horizontal: parseCssPixels(style.paddingLeft, 12) +
+                    parseCssPixels(style.paddingRight, 12) +
+                    parseCssPixels(style.columnGap || style.gap, 12),
+                vertical: parseCssPixels(style.paddingTop, 12) + parseCssPixels(style.paddingBottom, 12)
+            };
+            const limits = {
+                minWidth: resolveCssLength(this.dimensionOptions.minWidth, this.container, 'width') ||
+                    parseCssPixels(style.minWidth, 0),
+                minHeight: resolveCssLength(this.dimensionOptions.minHeight, this.container, 'height') ||
+                    parseCssPixels(style.minHeight, 0),
+                maxWidth: resolveCssLength(this.dimensionOptions.maxWidth, this.container, 'width'),
+                maxHeight: resolveCssLength(this.dimensionOptions.maxHeight, this.container, 'height')
+            };
             const minInputWidth = limits.minWidth !== null ? Math.max(0, (limits.minWidth - chrome.horizontal) / 2) : null;
             const minInputHeight = limits.minHeight !== null ? Math.max(0, limits.minHeight - chrome.vertical) : null;
             const maxInputWidth = limits.maxWidth !== null ? Math.max(0, (limits.maxWidth - chrome.horizontal) / 2) : null;
@@ -247,110 +282,120 @@ export default class StackAsciiDisplay {
             height = clampLength(height, minInputHeight, maxInputHeight);
 
             if (width > 0) {
-                resizeState.width = width;
                 this.inputElement.style.width = `${width}px`;
-                if (this.inputPane) {
-                    this.inputPane.style.width = `${width}px`;
-                }
+                this.inputPane.style.width = `${width}px`;
                 this.outputElement.style.width = `${width}px`;
-                if (this.outputPane) {
-                    this.outputPane.style.width = `${width}px`;
-                }
-                const containerWidth = clampLength((width * 2) + chrome.horizontal, limits.minWidth, limits.maxWidth);
-                if (containerWidth > 0) {
-                    this.container.style.width = `${containerWidth}px`;
-                }
+                this.outputPane.style.width = `${width}px`;
             }
             if (height > 0) {
-                resizeState.height = height;
                 this.inputElement.style.height = `${height}px`;
-                if (this.inputPane) {
-                    this.inputPane.style.height = `${height}px`;
-                }
+                this.inputPane.style.height = `${height}px`;
                 this.outputElement.style.height = `${height}px`;
-                if (this.outputPane) {
-                    this.outputPane.style.height = `${height}px`;
-                }
-                const containerHeight = clampLength(height + chrome.vertical, limits.minHeight, limits.maxHeight);
-                if (containerHeight > 0) {
-                    this.container.style.height = `${containerHeight}px`;
+                this.outputPane.style.height = `${height}px`;
+                if (updateContainerHeight) {
+                    const containerHeight = clampLength(height + chrome.vertical, limits.minHeight, limits.maxHeight);
+                    if (containerHeight > 0) {
+                        this.container.style.height = `${containerHeight}px`;
+                    }
                 }
             }
         };
 
-        const beginUserResize = (event) => {
-            if (!isResizeHandlePointer(event, this.inputElement)) {
-                return;
-            }
-            const point = getEventPoint(event);
+        /**
+         * Return generated horizontal sizing to the responsive CSS defaults.
+         */
+        const clearPaneWidth = () => {
+            this.container.classList.remove('stack-ascii-display-resized');
+            this.container.style.width = initialContainerWidth;
+            this.inputElement.style.width = '';
+            this.inputPane.style.width = '';
+            this.outputElement.style.width = '';
+            this.outputPane.style.width = '';
+        };
+
+        /**
+         * Return generated pane sizing to the responsive CSS defaults.
+         */
+        const clearPaneSize = () => {
+            clearPaneWidth();
+            this.inputElement.style.height = '';
+            this.inputPane.style.height = '';
+            this.outputElement.style.height = '';
+            this.outputPane.style.height = '';
+        };
+
+        /**
+         * Prepare the responsive layout for a possible native textarea resize.
+         */
+        const startResizeSession = () => {
             const rect = this.inputElement.getBoundingClientRect();
-            resizeState.drag = {
-                startX: point ? point.clientX : 0,
-                startY: point ? point.clientY : 0,
-                startWidth: resizeState.width || rect.width || this.inputElement.offsetWidth,
-                startHeight: resizeState.height || rect.height || this.inputElement.offsetHeight
+            resizeStart = {
+                width: rect.width,
+                height: rect.height
             };
-            resizeState.userResizing = true;
-            if (event.preventDefault) {
-                event.preventDefault();
-            }
-        };
-        const updateUserResize = (event) => {
-            if (!resizeState.userResizing || !resizeState.drag) {
-                return;
-            }
-            const point = getEventPoint(event);
-            if (!point) {
-                return;
-            }
-            syncOutputSize(
-                resizeState.drag.startWidth + point.clientX - resizeState.drag.startX,
-                resizeState.drag.startHeight + point.clientY - resizeState.drag.startY
-            );
-            if (event.preventDefault) {
-                event.preventDefault();
-            }
-        };
-        const finishUserResize = () => {
-            if (!resizeState.userResizing) {
-                return;
-            }
-            resizeState.userResizing = false;
-            resizeState.drag = null;
+            userResized = false;
+            syncOutputSize(rect.width, rect.height, false);
+            this.container.classList.add('stack-ascii-display-resized');
+            this.container.style.width = 'max-content';
         };
 
-        this.inputElement.addEventListener('pointerdown', beginUserResize);
-        this.inputElement.addEventListener('mousedown', beginUserResize);
-        this.inputElement.addEventListener('touchstart', beginUserResize);
-        if (this.resizeHandle) {
-            this.resizeHandle.addEventListener('pointerdown', beginUserResize);
-            this.resizeHandle.addEventListener('mousedown', beginUserResize);
-            this.resizeHandle.addEventListener('touchstart', beginUserResize);
-        }
-        window.addEventListener('pointermove', updateUserResize);
-        window.addEventListener('mousemove', updateUserResize);
-        window.addEventListener('touchmove', updateUserResize, { passive: false });
-        window.addEventListener('pointerup', finishUserResize);
-        window.addEventListener('pointercancel', finishUserResize);
-        window.addEventListener('mouseup', finishUserResize);
-        window.addEventListener('touchend', finishUserResize);
-        window.addEventListener('touchcancel', finishUserResize);
+        /**
+         * Keep explicit pane sizing only if the textarea actually changed size.
+         */
+        const finishResizeSession = () => {
+            if (!resizeStart) {
+                return;
+            }
+
+            const rect = this.inputElement.getBoundingClientRect();
+            if (Math.abs(rect.width - resizeStart.width) > 1 || Math.abs(rect.height - resizeStart.height) > 1) {
+                userResized = true;
+                syncOutputSize(rect.width, rect.height);
+            }
+
+            if (!userResized) {
+                clearPaneSize();
+            }
+            resizeStart = null;
+        };
+
+        /**
+         * Drop manual widths when the viewport changes so they do not become a layout minimum.
+         */
+        const clearPaneWidthOnWindowResize = () => {
+            if (!userResized || resizeStart) {
+                return;
+            }
+            userResized = false;
+            clearPaneWidth();
+        };
+
+        this.inputElement.addEventListener('pointerdown', startResizeSession);
+        this.inputElement.addEventListener('mousedown', startResizeSession);
+        this.inputElement.addEventListener('touchstart', startResizeSession);
+        window.addEventListener('pointerup', finishResizeSession);
+        window.addEventListener('pointercancel', finishResizeSession);
+        window.addEventListener('mouseup', finishResizeSession);
+        window.addEventListener('touchend', finishResizeSession);
+        window.addEventListener('touchcancel', finishResizeSession);
+        window.addEventListener('resize', clearPaneWidthOnWindowResize);
 
         if (typeof ResizeObserver === 'function') {
             this.outputResizeObserver = new ResizeObserver(() => {
-                if (!resizeState.userResizing && resizeState.width !== null && resizeState.height !== null) {
-                    syncOutputSize(resizeState.width, resizeState.height);
+                if (!resizeStart && !userResized) {
+                    return;
                 }
+
+                const rect = this.inputElement.getBoundingClientRect();
+                if (resizeStart &&
+                        (Math.abs(rect.width - resizeStart.width) > 1 ||
+                        Math.abs(rect.height - resizeStart.height) > 1)) {
+                    userResized = true;
+                }
+                syncOutputSize(rect.width, rect.height);
             });
             this.outputResizeObserver.observe(this.inputElement);
-            return;
         }
-
-        window.addEventListener('resize', () => {
-            if (resizeState.width !== null && resizeState.height !== null) {
-                syncOutputSize(resizeState.width, resizeState.height);
-            }
-        });
     }
 
     /**
@@ -360,10 +405,6 @@ export default class StackAsciiDisplay {
     setupStandaloneScrollSync() {
         const inputEl = this.inputElement;
         const outputEl = this.outputElement;
-
-        if (!inputEl || !outputEl) {
-            return;
-        }
 
         inputEl.addEventListener('scroll', () => {
             const maxScroll = inputEl.scrollHeight - inputEl.clientHeight;
@@ -378,6 +419,13 @@ export default class StackAsciiDisplay {
     }
 }
 
+/**
+ * Generate a unique id for an element created inside a display container.
+ *
+ * @param {string} containerId - Source container id.
+ * @param {string} suffix - Element role to append to the id.
+ * @returns {string} Unique DOM id.
+ */
 function createUniqueId(containerId, suffix) {
     const base = String(containerId)
         .replace(/[^A-Za-z0-9_-]+/g, '-')
@@ -392,78 +440,14 @@ function createUniqueId(containerId, suffix) {
     return id;
 }
 
-function isResizeHandlePointer(event, element) {
-    const point = getEventPoint(event);
-    if (!point) {
-        return true;
-    }
-
-    const rect = element.getBoundingClientRect();
-    if (!rect.width || !rect.height) {
-        return true;
-    }
-
-    const handleSize = 24;
-    return point.clientX >= rect.right - handleSize && point.clientY >= rect.bottom - handleSize;
-}
-
-function getEventPoint(event) {
-    if (!event) {
-        return null;
-    }
-
-    if (typeof event.clientX === 'number' && typeof event.clientY === 'number') {
-        return event;
-    }
-
-    if (event.touches && event.touches.length > 0) {
-        return event.touches[0];
-    }
-
-    return null;
-}
-
-function applyContainerDimensions(container, options) {
-    setCssLength(container, 'width', options.initialWidth);
-    setCssLength(container, 'height', options.initialHeight);
-    setCssLength(container, 'minWidth', options.minWidth);
-    setCssLength(container, 'minHeight', options.minHeight);
-    setCssLength(container, 'maxWidth', options.maxWidth);
-    setCssLength(container, 'maxHeight', options.maxHeight);
-}
-
-function setCssLength(element, property, value) {
-    if (value === undefined || value === null || value === '') {
-        return;
-    }
-
-    element.style[property] = typeof value === 'number' ? `${value}px` : value;
-}
-
-function getContainerChrome(container) {
-    const style = window.getComputedStyle(container);
-    const paddingLeft = parseCssPixels(style.paddingLeft, 12);
-    const paddingRight = parseCssPixels(style.paddingRight, 12);
-    const paddingTop = parseCssPixels(style.paddingTop, 12);
-    const paddingBottom = parseCssPixels(style.paddingBottom, 12);
-    const gap = parseCssPixels(style.columnGap || style.gap, 12);
-
-    return {
-        horizontal: paddingLeft + paddingRight + gap,
-        vertical: paddingTop + paddingBottom
-    };
-}
-
-function getContainerDimensionLimits(container, options) {
-    const style = window.getComputedStyle(container);
-    return {
-        minWidth: resolveCssLength(options.minWidth, container, 'width') || parseCssPixels(style.minWidth, 0),
-        minHeight: resolveCssLength(options.minHeight, container, 'height') || parseCssPixels(style.minHeight, 0),
-        maxWidth: resolveCssLength(options.maxWidth, container, 'width'),
-        maxHeight: resolveCssLength(options.maxHeight, container, 'height')
-    };
-}
-
+/**
+ * Resolve a numeric, px, %, rem, vh, or vw CSS length to pixels.
+ *
+ * @param {string|number} value - Length value to resolve.
+ * @param {HTMLElement} element - Element whose parent supplies the percentage basis.
+ * @param {string} axis - Dimension axis: "width" or "height".
+ * @returns {?number} Resolved pixel length, or null when unsupported.
+ */
 function resolveCssLength(value, element, axis) {
     if (value === undefined || value === null || value === '' || value === 'none') {
         return null;
@@ -500,11 +484,26 @@ function resolveCssLength(value, element, axis) {
     return null;
 }
 
+/**
+ * Parse a CSS pixel value, returning a fallback when parsing fails.
+ *
+ * @param {string} value - CSS value to parse.
+ * @param {number} fallback - Value to return for non-numeric input.
+ * @returns {number} Parsed pixel value or fallback.
+ */
 function parseCssPixels(value, fallback) {
     const parsed = parseFloat(value);
     return Number.isFinite(parsed) ? parsed : fallback;
 }
 
+/**
+ * Clamp a length against optional minimum and maximum pixel limits.
+ *
+ * @param {number} value - Length to clamp.
+ * @param {?number} min - Optional minimum.
+ * @param {?number} max - Optional maximum.
+ * @returns {number} Clamped length.
+ */
 function clampLength(value, min, max) {
     if (min !== null) {
         value = Math.max(value, min);
@@ -513,20 +512,4 @@ function clampLength(value, min, max) {
         value = Math.min(value, max);
     }
     return value;
-}
-
-function getDefaultAsciiStrings() {
-    if (typeof __STACK_ASCII_STRINGS__ === 'undefined') {
-        return {};
-    }
-
-    return __STACK_ASCII_STRINGS__;
-}
-
-function normaliseAsciiStrings(strings) {
-    if (!strings || typeof strings !== 'object') {
-        return {};
-    }
-
-    return strings;
 }

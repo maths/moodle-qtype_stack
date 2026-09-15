@@ -13,6 +13,10 @@
     overflow: visible;
 }
 
+.stack-ascii-display.stack-ascii-display-resized {
+    grid-template-columns: max-content max-content;
+}
+
 .stack-ascii-input-pane,
 .stack-ascii-output-pane {
     display: flex;
@@ -31,10 +35,12 @@
     font-family: monospace;
     width: 100%;
     min-width: 0;
+    max-width: none;
     height: 100%;
     min-height: 0;
+    max-height: none;
     padding: 5px;
-    resize: none;
+    resize: both;
     overflow: auto;
 }
 
@@ -42,19 +48,6 @@
     border-color: #246b73;
     outline: 2px solid rgba(36, 107, 115, 0.25);
     outline-offset: 1px;
-}
-
-.stack-ascii-resize-handle {
-    background:
-        linear-gradient(135deg, transparent 0 52%, rgba(0, 0, 0, 0.3) 52% 58%, transparent 58% 100%),
-        linear-gradient(135deg, transparent 0 68%, rgba(0, 0, 0, 0.3) 68% 74%, transparent 74% 100%);
-    bottom: 6px;
-    cursor: nwse-resize;
-    height: 16px;
-    position: absolute;
-    right: 6px;
-    width: 16px;
-    z-index: 2;
 }
 
 .stack-ascii-output {

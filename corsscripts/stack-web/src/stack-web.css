@@ -1,12 +1,12 @@
 .stack-ascii-display {
     box-sizing: border-box;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    grid-template-rows: minmax(0, 1fr);
+    display: flex;
+    flex-direction: row;
     gap: 12px;
     align-items: stretch;
     justify-content: start;
     width: 100%;
+    max-width: 100%;
     height: 180px;
     min-height: 120px;
     padding: 12px;
@@ -14,16 +14,18 @@
 }
 
 .stack-ascii-display.stack-ascii-display-resized {
-    grid-template-columns: max-content max-content;
+    width: -moz-fit-content;
+    width: fit-content;
+    max-width: none;
 }
 
 .stack-ascii-input-pane,
 .stack-ascii-output-pane {
-    display: flex;
-    position: relative;
+    flex: 1 1 0;
     min-width: 0;
     min-height: 0;
     overflow: visible;
+    position: relative;
 }
 
 .stack-ascii-input {
@@ -42,6 +44,17 @@
     padding: 5px;
     resize: both;
     overflow: auto;
+}
+
+.stack-ascii-display-resized .stack-ascii-input {
+    width: auto;
+    min-width: 100%;
+}
+
+.stack-ascii-display-resized .stack-ascii-input-pane,
+.stack-ascii-display-resized .stack-ascii-output-pane {
+    width: auto !important;
+    flex: 0 0 auto;
 }
 
 .stack-ascii-input:focus {

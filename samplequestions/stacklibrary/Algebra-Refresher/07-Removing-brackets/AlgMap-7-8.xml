@@ -56,7 +56,7 @@ ta:expand(2*x*(y+c*z)*(y+d*z));</text>
     <isbroken>0</isbroken>
     <prescribedmetadata/>
     <metadata>
-     {"author":[{"firstName":"Tony","lastName":"Barnard","institution":"","year":"1999"}],"language":["en"],"isPartOf":"STACK Library - Algebra Refresher","license":"cc-nc-4.0","additional":{"UoE":{"Notes":"This is automatically generated metadata."}},"freeform":{}}
+     {"author":[{"firstName":"Tony","lastName":"Barnard","institution":"","year":"1999"}],"language":["en"],"isPartOf":"STACK Library - Algebra Refresher","license":"cc-sa-4.0","additional":{"UoE":{"Notes":"This is automatically generated metadata."}},"freeform":{}}
     </metadata>
     <variantsselectionseed/>
     <input>

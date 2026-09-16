@@ -32,25 +32,19 @@
     <script src="../dist/stack-web.bundle.js"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>
-        function initExample() {
-            if (typeof window.StackWeb === 'undefined' ||
-                    typeof MathJax === 'undefined' ||
-                    typeof MathJax.typesetPromise === 'undefined') {
-                setTimeout(initExample, 100);
-                return;
-            }
-
-            const StackAsciiDisplay = window.StackWeb.default;
-            new StackAsciiDisplay({
+        window.StackWeb.ready(() => {
+            new window.StackWeb.StackAsciiDisplay({
                 outputElementId: 'initialTextOutput',
-                initialText: `A static worked example can be rendered without creating an input.
-
-\`
-f(x) = x^2 - 4x + 7
-f(x) = (x - 2)^2 + 3
-\`
-
-The minimum value is therefore \`3\`, attained when \`x = 2\`.`,
+                initialText: [
+                    'A static worked example can be rendered without creating an input.',
+                    '',
+                    '`',
+                    'f(x) = x^2 - 4x + 7',
+                    'f(x) = (x - 2)^2 + 3',
+                    '`',
+                    '',
+                    'The minimum value is therefore `3`, attained when `x = 2`.'
+                ].join('\n'),
                 operations: [
                     {
                         operation: 'filter',
@@ -60,9 +54,7 @@ The minimum value is therefore \`3\`, attained when \`x = 2\`.`,
                     }
                 ]
             });
-        }
-
-        window.addEventListener('DOMContentLoaded', initExample);
+        });
     </script>
 </body>
 </html>

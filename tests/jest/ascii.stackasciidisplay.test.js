@@ -9,7 +9,10 @@ jest.mock('../../corsscripts/ascii/stackascii.js', () => ({
 
 jest.mock('../../corsscripts/stack-web/src/stack-web.css', () => ({}));
 
-import StackAsciiDisplay from '../../corsscripts/stack-web/src/StackAsciiDisplay.js';
+import StackAsciiDisplay, {
+    StackAsciiDisplay as NamedStackAsciiDisplay,
+    ready
+} from '../../corsscripts/stack-web/src/StackAsciiDisplay.js';
 
 function setInputRect(display, rect) {
     display.inputElement.getBoundingClientRect = jest.fn(() => ({
@@ -44,16 +47,56 @@ function resizeObservedInput(display, resizeObserver, rect) {
 }
 
 describe('StackAsciiDisplay', () => {
+    let originalMathJax;
     let originalResizeObserver;
 
     beforeEach(() => {
         document.body.innerHTML = '';
         mockInitAscii.mockClear();
+        originalMathJax = window.MathJax;
         originalResizeObserver = global.ResizeObserver;
+        mockResizeObserver();
     });
 
     afterEach(() => {
+        window.MathJax = originalMathJax;
         global.ResizeObserver = originalResizeObserver;
+        jest.useRealTimers();
+    });
+
+    test('ready rejects missing callbacks', () => {
+        expect(() => ready()).toThrow('StackWeb.ready: callback is required');
+    });
+
+    test('exports StackAsciiDisplay as the default and a named class', () => {
+        expect(NamedStackAsciiDisplay).toBe(StackAsciiDisplay);
+    });
+
+    test('ready calls the callback when MathJax is available', () => {
+        window.MathJax = {
+            typesetPromise: jest.fn()
+        };
+        const callback = jest.fn();
+
+        ready(callback);
+
+        expect(callback).toHaveBeenCalledWith();
+    });
+
+    test('ready waits for MathJax before calling the callback', () => {
+        jest.useFakeTimers();
+        window.MathJax = undefined;
+        const callback = jest.fn();
+
+        ready(callback);
+        expect(callback).not.toHaveBeenCalled();
+
+        window.MathJax = {
+            typesetPromise: jest.fn()
+        };
+        jest.advanceTimersByTime(100);
+
+        expect(callback).toHaveBeenCalledWith();
     });
 
     test('container mode creates generated input and output elements', () => {
@@ -150,6 +193,8 @@ describe('StackAsciiDisplay', () => {
         expect(display.container.style.width).toBe('');
         expect(display.outputElement.style.width).toBe('');
         expect(display.outputElement.style.height).toBe('');
+        expect(display.inputPane.style.width).toBe('');
+        expect(display.outputPane.style.width).toBe('');
         expect(resizeObserver.observer.observe).toHaveBeenCalledWith(display.inputElement);
     });
 
@@ -167,6 +212,8 @@ describe('StackAsciiDisplay', () => {
         expect(display.container.classList.contains('stack-ascii-display-resized')).toBe(false);
         expect(display.outputElement.style.width).toBe('');
         expect(display.outputElement.style.height).toBe('');
+        expect(display.inputPane.style.width).toBe('');
+        expect(display.outputPane.style.width).toBe('');
     });
 
     test('container mode marks the display as resized when observed input size changes', () => {
@@ -196,8 +243,11 @@ describe('StackAsciiDisplay', () => {
         });
 
         expect(display.inputElement.style.width).toBe('422px');
+        expect(display.inputPane.style.width).toBe('422px');
         expect(display.outputElement.style.width).toBe('422px');
+        expect(display.outputPane.style.width).toBe('422px');
         expect(display.outputElement.style.height).toBe('202px');
+        expect(display.outputPane.style.height).toBe('202px');
     });
 
     test('container mode allows uncapped observed horizontal expansion when maxWidth is omitted', () => {
@@ -212,7 +262,9 @@ describe('StackAsciiDisplay', () => {
         });
 
         expect(display.inputElement.style.width).toBe('1520px');
+        expect(display.inputPane.style.width).toBe('1520px');
         expect(display.outputElement.style.width).toBe('1520px');
+        expect(display.outputPane.style.width).toBe('1520px');
         expect(display.container.style.width).toBe('max-content');
     });
 
@@ -233,8 +285,12 @@ describe('StackAsciiDisplay', () => {
 
         expect(display.inputElement.style.width).toBe('700px');
         expect(display.inputElement.style.height).toBe('600px');
+        expect(display.inputPane.style.width).toBe('700px');
+        expect(display.inputPane.style.height).toBe('600px');
         expect(display.outputElement.style.width).toBe('700px');
         expect(display.outputElement.style.height).toBe('600px');
+        expect(display.outputPane.style.width).toBe('700px');
+        expect(display.outputPane.style.height).toBe('600px');
         expect(display.container.style.width).toBe('max-content');
         expect(display.container.style.maxWidth).toBe('700px');
         expect(display.container.style.maxHeight).toBe('300px');
@@ -257,7 +313,9 @@ describe('StackAsciiDisplay', () => {
         });
 
         expect(display.inputElement.style.width).toBe('360px');
+        expect(display.inputPane.style.width).toBe('360px');
         expect(display.outputElement.style.width).toBe('360px');
+        expect(display.outputPane.style.width).toBe('360px');
     });
 
     test('requires exactly one of containerId or outputElementId', () => {

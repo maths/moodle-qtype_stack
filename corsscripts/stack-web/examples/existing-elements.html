@@ -59,27 +59,21 @@
     <script src="../dist/stack-web.bundle.js"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>
-        function initExample() {
-            if (typeof window.StackWeb === 'undefined' ||
-                    typeof MathJax === 'undefined' ||
-                    typeof MathJax.typesetPromise === 'undefined') {
-                setTimeout(initExample, 100);
-                return;
-            }
-
-            const StackAsciiDisplay = window.StackWeb.default;
-            new StackAsciiDisplay({
+        window.StackWeb.ready(() => {
+            new window.StackWeb.StackAsciiDisplay({
                 inputElementId: 'responseInput',
                 outputElementId: 'responseOutput',
-                initialText: `Solve the equation.
-
-\`
-2x + 3 = 11
-2x = 8
-x = 4
-\`
-
-Answer: \`x = 4\``,
+                initialText: [
+                    'Solve the equation.',
+                    '',
+                    '`',
+                    '2x + 3 = 11',
+                    '2x = 8',
+                    'x = 4',
+                    '`',
+                    '',
+                    'Answer: `x = 4`'
+                ].join('\n'),
                 operations: [
                     {
                         operation: 'filter',
@@ -95,9 +89,7 @@ Answer: \`x = 4\``,
                     }
                 ]
             });
-        }
-
-        window.addEventListener('DOMContentLoaded', initExample);
+        });
     </script>
 </body>
 </html>

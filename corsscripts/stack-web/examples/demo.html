@@ -125,115 +125,122 @@
         const examples = [
             {
                 title: 'Blank',
-                text: []
+                text: [].join('\n')
             },
             {
                 title: 'Displayed ASCIIMath block',
                 text: [
                     'A display-only example with no extractor target lines.',
-                    [
-                        '`',
-                        'x^2 - 5x + 6 = 0',
-                        '(x - 2)(x - 3) = 0',
-                        'x = 2 or x = 3',
-                        '`'
-                    ].join('\n')
-                ].join('\n\n')
+                    '',
+                    '`',
+                    'x^2 - 5x + 6 = 0',
+                    '(x - 2)(x - 3) = 0',
+                    'x = 2 or x = 3',
+                    '`'
+                ].join('\n')
             },
             {
                 title: 'Final algebraic answer',
                 text: [
                     'Solve the logarithmic equation.',
-                    [
-                        '`',
-                        'log_3(x+17) - 2 = log_3(2x)',
-                        'log_3((x+17)/(2x)) = 2',
-                        '(x+17)/(2x) = 9',
-                        'x = 1',
-                        '`'
-                    ].join('\n'),
+                    '',
+                    '`',
+                    'log_3(x+17) - 2 = log_3(2x)',
+                    'log_3((x+17)/(2x)) = 2',
+                    '(x+17)/(2x) = 9',
+                    'x = 1',
+                    '`',
+                    '',
                     'Answer: `x = 1`'
-                ].join('\n\n')
+                ].join('\n')
             },
             {
                 title: 'Calculation filter',
                 text: [
                     'Find the smaller of two consecutive even numbers whose sum is 45 times their difference.',
-                    [
-                        '`',
-                        'n + (n + 2) = 45*2',
-                        '2n + 2 = {@45*2@}',
-                        '2n = {@45*2 - 2@}',
-                        'n = {@(45*2 - 2)/2@}',
-                        '`'
-                    ].join('\n'),
+                    '',
+                    '`',
+                    'n + (n + 2) = 45*2',
+                    '2n + 2 = {@45*2@}',
+                    '2n = {@45*2 - 2@}',
+                    'n = {@(45*2 - 2)/2@}',
+                    '`',
+                    '',
                     'Answer: `n = 44`'
-                ].join('\n\n')
+                ].join('\n')
             },
             {
                 title: 'Parabola coefficients',
                 text: [
                     'A multiple-extractor example modelled on the free-text documentation.',
-                    [
-                        '`',
-                        'f(x) = a x^2 + b',
-                        'f(2) = 19 so 4a + b = 19',
-                        "f'(-2) = -12 so -4a = -12",
-                        '`'
-                    ].join('\n'),
+                    '',
+                    '`',
+                    'f(x) = a x^2 + b',
+                    'f(2) = 19 so 4a + b = 19',
+                    "f'(-2) = -12 so -4a = -12",
+                    '`',
+                    '',
                     'a = `3`',
                     'b = `7`',
                     'Answer: `f(x) = 3x^2 + 7`'
-                ].join('\n\n')
+                ].join('\n')
             },
             {
                 title: 'Proof layout',
                 text: [
                     'A manually graded proof-style response. It deliberately has no answer marker.',
+                    '',
                     'Let P(n) be the statement `sum_(k=1)^n (2k-1) = n^2`.',
+                    '',
                     'The base case is `sum_(k=1)^1 (2k-1) = 1 = 1^2`.',
-                    [
-                        '`',
-                        'sum_(k=1)^(n+1) (2k-1)',
-                        '= sum_(k=1)^n (2k-1) + (2(n+1)-1)',
-                        '= n^2 + 2n + 1',
-                        '= (n+1)^2',
-                        '`'
-                    ].join('\n'),
+                    '',
+                    '`',
+                    'sum_(k=1)^(n+1) (2k-1)',
+                    '= sum_(k=1)^n (2k-1) + (2(n+1)-1)',
+                    '= n^2 + 2n + 1',
+                    '= (n+1)^2',
+                    '`',
+                    '',
                     'Therefore `P(n)` holds for all positive integers by induction.'
-                ].join('\n\n')
+                ].join('\n')
             },
             {
                 title: 'Step extraction',
                 text: [
                     'This one fills the step-lines extractor, but not the coefficient fields.',
+                    '',
                     'Step 1 = `sum_(k=1)^n 1 = n`',
+                    '',
                     'Step 2 = `2 sum_(k=1)^n k = n^2 + n`',
+                    '',
                     'Step 3 = `sum_(k=1)^n k = (n(n+1))/2`',
+                    '',
                     'Answer: `(n(n+1))/2`'
-                ].join('\n\n')
+                ].join('\n')
             },
             {
                 title: 'Matrix notation',
                 text: [
                     'Matrices use nested lists in ASCIIMath.',
-                    [
-                        '`',
-                        'A = [[1,2],[3,4]]',
-                        'det(A) = 1*4 - 2*3',
-                        'det(A) = {@1*4 - 2*3@}',
-                        '`'
-                    ].join('\n'),
+                    '',
+                    '`',
+                    'A = [[1,2],[3,4]]',
+                    'det(A) = 1*4 - 2*3',
+                    'det(A) = {@1*4 - 2*3@}',
+                    '`',
+                    '',
                     'Answer: `det(A) = -2`'
-                ].join('\n\n')
+                ].join('\n')
             },
             {
                 title: 'Statistics calculation',
                 text: [
                     'Statistics functions are available in calculation blocks.',
+                    '',
                     'Calculated mean: {@mean([2,4,4,4,5,5,7,9])@}',
+                    '',
                     'Calculated standard deviation: {@std([2,4,4,4,5,5,7,9])@}'
-                ].join('\n\n')
+                ].join('\n')
             }
         ];
 
@@ -252,21 +259,9 @@
             });
         }
 
-        function initDemo() {
-            if (typeof window.StackWeb === 'undefined') {
-                setTimeout(initDemo, 100);
-                return;
-            }
-
-            const StackAsciiDisplay = window.StackWeb.default;
-
-            if (typeof MathJax === 'undefined' || typeof MathJax.typesetPromise === 'undefined') {
-                setTimeout(initDemo, 100);
-                return;
-            }
-
+        window.StackWeb.ready(() => {
             try {
-                asciiDisplay = new StackAsciiDisplay({
+                asciiDisplay = new window.StackWeb.StackAsciiDisplay({
                     containerId: 'demoContainer',
                     initialText: examples[0].text,
                     placeholder: 'Type Markdown and ASCIIMath here.',
@@ -325,7 +320,7 @@
             } catch (e) {
                 console.error('Error initializing StackAsciiDisplay:', e);
             }
-        }
+        });
 
         function insertExample(index) {
             if (!asciiDisplay || !asciiDisplay.inputElement) {
@@ -337,7 +332,6 @@
         }
 
         renderExamples();
-        window.addEventListener('DOMContentLoaded', initDemo);
     </script>
 </body>
 </html>

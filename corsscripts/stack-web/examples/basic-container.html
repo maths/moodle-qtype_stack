@@ -38,16 +38,8 @@
     <script src="../dist/stack-web.bundle.js"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>
-        function initExample() {
-            if (typeof window.StackWeb === 'undefined' ||
-                    typeof MathJax === 'undefined' ||
-                    typeof MathJax.typesetPromise === 'undefined') {
-                setTimeout(initExample, 100);
-                return;
-            }
-
-            const StackAsciiDisplay = window.StackWeb.default;
-            new StackAsciiDisplay({
+        window.StackWeb.ready(() => {
+            new window.StackWeb.StackAsciiDisplay({
                 containerId: 'basicContainer',
                 initialWidth: '100%',
                 initialHeight: 260,
@@ -79,9 +71,7 @@
                     }
                 ]
             });
-        }
-
-        window.addEventListener('DOMContentLoaded', initExample);
+        });
     </script>
 </body>
 </html>

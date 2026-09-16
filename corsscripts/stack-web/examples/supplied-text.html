@@ -32,24 +32,18 @@
     <script src="../dist/stack-web.bundle.js"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>
-        function initExample() {
-            if (typeof window.StackWeb === 'undefined' ||
-                    typeof MathJax === 'undefined' ||
-                    typeof MathJax.typesetPromise === 'undefined') {
-                setTimeout(initExample, 100);
-                return;
-            }
-
-            const StackAsciiDisplay = window.StackWeb.default;
-            new StackAsciiDisplay({
+        window.StackWeb.ready(() => {
+            new window.StackWeb.StackAsciiDisplay({
                 outputElementId: 'staticOutput',
-                initialText: `Use supplied text for read-only examples.
-
-\`
-sum_(i=1)^n i = (n(n+1))/2
-\`
-
-The identity gives \`sum_(i=1)^5 i = 15\`.`,
+                initialText: [
+                    'Use supplied text for read-only examples.',
+                    '',
+                    '`',
+                    'sum_(i=1)^n i = (n(n+1))/2',
+                    '`',
+                    '',
+                    'The identity gives `sum_(i=1)^5 i = 15`.'
+                ].join('\n'),
                 operations: [
                     {
                         operation: 'filter',
@@ -59,9 +53,7 @@ The identity gives \`sum_(i=1)^5 i = 15\`.`,
                     }
                 ]
             });
-        }
-
-        window.addEventListener('DOMContentLoaded', initExample);
+        });
     </script>
 </body>
 </html>

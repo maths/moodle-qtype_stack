@@ -53,7 +53,7 @@
 
 .stack-ascii-display-resized .stack-ascii-input-pane,
 .stack-ascii-display-resized .stack-ascii-output-pane {
-    width: auto;
+    width: auto !important;
     flex: 0 0 auto;
 }
 
@@ -151,12 +151,12 @@
 @media (max-width: 768px) {
     .stack-ascii-display {
         flex-direction: column;
-        height: auto;
+        height: auto !important;
         min-height: 0;
     }
 
     .stack-ascii-display.stack-ascii-display-resized {
-        width: 100%;
+        width: 100% !important;
         max-width: 100%;
     }
 
@@ -164,13 +164,13 @@
     .stack-ascii-display .stack-ascii-output-pane {
         flex: 0 0 auto;
         min-height: 140px;
-        width: 100%;
+        width: 100% !important;
     }
 
     .stack-ascii-display .stack-ascii-input,
     .stack-ascii-display .stack-ascii-output {
         height: 140px;
-        width: 100%;
+        width: 100% !important;
     }
 
     .stack-ascii-output {

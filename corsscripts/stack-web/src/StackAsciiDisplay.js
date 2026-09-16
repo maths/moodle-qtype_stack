@@ -56,7 +56,7 @@ const defaultAsciiStrings = typeof __STACK_ASCII_STRINGS__ === 'undefined' ? {} 
  *     ]
  * });
  */
-export default class StackAsciiDisplay {
+export class StackAsciiDisplay {
     /**
      * Create a StackAsciiDisplay instance.
      *
@@ -390,3 +390,28 @@ function createUniqueId(containerId, suffix) {
 
     return id;
 }
+
+/**
+ * Run a callback once StackAsciiDisplay and MathJax are ready on the page.
+ *
+ * @param {Function} callback - Called when dependencies are ready.
+ */
+export function ready(callback) {
+    if (typeof callback !== 'function') {
+        throw new Error('StackWeb.ready: callback is required');
+    }
+
+    const waitForDependencies = () => {
+        const root = typeof window === 'undefined' ? globalThis : window;
+        if (root.MathJax && typeof root.MathJax.typesetPromise === 'function') {
+            callback();
+            return;
+        }
+
+        setTimeout(waitForDependencies, 100);
+    };
+
+    waitForDependencies();
+}
+
+export default StackAsciiDisplay;

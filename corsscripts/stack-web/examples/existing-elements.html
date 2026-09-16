@@ -23,6 +23,8 @@
         #responseInput,
         #responseOutput {
             min-height: 280px;
+            overflow: auto;
+            resize: vertical;
         }
 
         @media (max-width: 768px) {
@@ -36,25 +38,17 @@
     <main class="container py-4">
         <h1 class="h3 mb-3">Existing Elements</h1>
         <p>
-            This page wires an existing textarea to an existing output element and extracts one answer field.
+            This page wires existing input and output containers and extracts one answer field.
         </p>
 
         <div class="example-grid mb-3">
             <div>
                 <label class="form-label" for="responseInput">Response</label>
-                <textarea class="form-control font-monospace" id="responseInput">Solve the equation.
-
-`
-2x + 3 = 11
-2x = 8
-x = 4
-`
-
-Answer: `x = 4`</textarea>
+                <div id="responseInput"></div>
             </div>
             <div>
                 <label class="form-label" for="responseOutput">Rendered response</label>
-                <div class="stack-ascii-output" id="responseOutput"></div>
+                <div id="responseOutput"></div>
             </div>
         </div>
 
@@ -77,6 +71,15 @@ Answer: `x = 4`</textarea>
             new StackAsciiDisplay({
                 inputElementId: 'responseInput',
                 outputElementId: 'responseOutput',
+                initialText: `Solve the equation.
+
+\`
+2x + 3 = 11
+2x = 8
+x = 4
+\`
+
+Answer: \`x = 4\``,
                 operations: [
                     {
                         operation: 'filter',

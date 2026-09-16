@@ -14,7 +14,7 @@
             max-width: 760px;
         }
 
-        #staticOutput {
+        #staticOutput > .stack-ascii-output {
             min-height: 180px;
         }
     </style>
@@ -26,15 +26,7 @@
             This page renders static source text into an output element without creating a textarea.
         </p>
 
-        <div id="staticSource" hidden>Use supplied text for read-only examples.
-
-`
-sum_(i=1)^n i = (n(n+1))/2
-`
-
-The identity gives `sum_(i=1)^5 i = 15`.</div>
-
-        <div class="stack-ascii-output" id="staticOutput"></div>
+        <div id="staticOutput"></div>
     </main>
 
     <script src="../dist/stack-web.bundle.js"></script>
@@ -50,8 +42,14 @@ The identity gives `sum_(i=1)^5 i = 15`.</div>
 
             const StackAsciiDisplay = window.StackWeb.default;
             new StackAsciiDisplay({
-                suppliedTextElementId: 'staticSource',
                 outputElementId: 'staticOutput',
+                initialText: `Use supplied text for read-only examples.
+
+\`
+sum_(i=1)^n i = (n(n+1))/2
+\`
+
+The identity gives \`sum_(i=1)^5 i = 15\`.`,
                 operations: [
                     {
                         operation: 'filter',

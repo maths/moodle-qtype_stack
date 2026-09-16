@@ -38,8 +38,8 @@ const defaultAsciiStrings = typeof __STACK_ASCII_STRINGS__ === 'undefined' ? {} 
  * @example
  * // Existing live input/output mode.
  * const display = new StackAsciiDisplay({
- *     inputElementId: 'ascii-input',
- *     outputElementId: 'ascii-output',
+ *     inputElementId: 'ascii-input-mount',
+ *     outputElementId: 'ascii-output-mount',
  *     operations: [
  *         { operation: 'filter', type: 'markdown', transforms: 'asciimath' },
  *         { operation: 'extractor', type: 'lastexpr', targetinput: 'ans2' }
@@ -49,8 +49,8 @@ const defaultAsciiStrings = typeof __STACK_ASCII_STRINGS__ === 'undefined' ? {} 
  * @example
  * // Static supplied-text mode.
  * const display = new StackAsciiDisplay({
- *     suppliedTextElementId: 'ascii-supplied-text',
- *     outputElementId: 'ascii-output',
+ *     outputElementId: 'ascii-output-mount',
+ *     initialText: 'Read-only text with `x^2`',
  *     operations: [
  *         { operation: 'filter', type: 'markdown', transforms: 'asciimath' }
  *     ]
@@ -62,12 +62,11 @@ export default class StackAsciiDisplay {
      *
      * @param {Object} options - Configuration options
      * @param {string} options.containerId - ID of container element. Mutually exclusive with outputElementId.
-     * @param {string} options.inputElementId - ID of source textarea input element. Used only with outputElementId.
-     * @param {string} options.suppliedTextElementId - ID of static source element. Used only with outputElementId.
-     * @param {string} options.outputElementId - ID of rendered output element. Mutually exclusive with containerId.
+     * @param {string} options.inputElementId - ID of input mount element. Used only with outputElementId.
+     * @param {string} options.outputElementId - ID of output mount element. Mutually exclusive with containerId.
      * @param {Object[]} options.operations - Array of filter/extractor operations. Extractors require inputElementId.
-     * @param {string} options.initialText - Initial text for generated container-mode textarea.
-     * @param {string} options.placeholder - Placeholder for generated container-mode textarea.
+     * @param {string} options.initialText - Initial text for generated textareas or static output mode source.
+     * @param {string} options.placeholder - Placeholder for generated textareas.
      * @param {string|number} options.initialWidth - Initial generated container width. Number values are pixels.
      * @param {string|number} options.initialHeight - Initial generated container height. Number values are pixels.
      * @param {string|number} options.minWidth - Minimum generated container width. Number values are pixels.
@@ -94,18 +93,14 @@ export default class StackAsciiDisplay {
         }
 
         const hasInputElement = Boolean(options.inputElementId);
-        const hasSuppliedTextElement = Boolean(options.suppliedTextElementId);
 
         if (hasContainer) {
-            if (hasInputElement || hasSuppliedTextElement) {
-                throw new Error('StackAsciiDisplay: containerId cannot be used with inputElementId or suppliedTextElementId');
+            if (hasInputElement) {
+                throw new Error('StackAsciiDisplay: containerId cannot be used with inputElementId');
             }
             this.setupContainerMode(options);
         } else {
-            if (hasInputElement === hasSuppliedTextElement) {
-                throw new Error('StackAsciiDisplay: specify exactly one of inputElementId or suppliedTextElementId');
-            }
-            this.setupExistingOutputMode(options, hasInputElement, hasSuppliedTextElement);
+            this.setupExistingOutputMode(options, hasInputElement);
         }
 
         this.inputIds = this.inputElement ? [this.inputElement.id] : [];
@@ -116,26 +111,24 @@ export default class StackAsciiDisplay {
             }
         });
 
-        const initOptions = { outputElementId: this.outputElement.id };
-        if (this.shellElement) {
-            initOptions.shellElementId = this.shellElement.id;
-        }
-        if (this.renderedOutputElement) {
-            initOptions.renderedOutputElementId = this.renderedOutputElement.id;
-        }
-        if (this.errorOutputElement) {
-            initOptions.errorOutputElementId = this.errorOutputElement.id;
-        }
+        const initOptions = {
+            outputElementId: this.outputElement.id,
+            shellElementId: this.shellElement.id,
+            renderedOutputElementId: this.renderedOutputElement.id,
+            errorOutputElementId: this.errorOutputElement.id,
+            asciistrings: this.asciistrings
+        };
+
         if (this.suppliedTextElement) {
             initOptions.suppliedTextElementId = this.suppliedTextElement.id;
         }
-        initOptions.asciistrings = this.asciistrings;
 
         initAscii(this.inputIds, this.operations, initOptions);
 
         if (this.container) {
             this.setupOutputResizeSync();
         }
+
         if (this.inputElement) {
             this.setupStandaloneScrollSync();
         }
@@ -145,32 +138,49 @@ export default class StackAsciiDisplay {
      * Bind the display to caller-provided input/output elements.
      *
      * @param {Object} options - Configuration options.
-     * @param {boolean} hasInputElement - Whether a live source input was provided.
-     * @param {boolean} hasSuppliedTextElement - Whether a static source element was provided.
+     * @param {boolean} hasInputElement - Whether a live input mount was provided.
      */
-    setupExistingOutputMode(options, hasInputElement, hasSuppliedTextElement) {
+    setupExistingOutputMode(options, hasInputElement) {
         this.container = null;
 
-        this.inputElement = hasInputElement ? document.getElementById(options.inputElementId) : null;
-        if (hasInputElement && !this.inputElement) {
+        this.inputMountElement = hasInputElement ? document.getElementById(options.inputElementId) : null;
+        if (hasInputElement && !this.inputMountElement) {
             throw new Error(`StackAsciiDisplay: inputElement not found: ${options.inputElementId}`);
         }
+        this.inputElement = null;
+        this.suppliedTextElement = null;
 
-        this.suppliedTextElement = hasSuppliedTextElement ? document.getElementById(options.suppliedTextElementId) : null;
-        if (hasSuppliedTextElement && !this.suppliedTextElement) {
-            throw new Error(`StackAsciiDisplay: suppliedTextElement not found: ${options.suppliedTextElementId}`);
+        if (hasInputElement) {
+            this.inputMountElement.innerHTML = '';
+            this.inputMountElement.classList.add('stack-ascii-input-mount');
+            this.inputElement = document.createElement('textarea');
+            this.inputElement.id = createUniqueId(options.inputElementId, 'input');
+            this.inputElement.className = 'stack-ascii-input';
+            this.inputElement.value = options.initialText || '';
+            this.inputElement.placeholder = options.placeholder || '';
+            this.inputMountElement.appendChild(this.inputElement);
         }
 
         this.outputElement = document.getElementById(options.outputElementId);
         if (!this.outputElement) {
             throw new Error(`StackAsciiDisplay: outputElement not found: ${options.outputElementId}`);
         }
-        this.shellElement = null;
-        this.renderedOutputElement = null;
-        this.errorOutputElement = null;
+        this.outputElement.innerHTML = '';
+        this.outputElement.classList.add('stack-ascii-output-mount');
+        this.shellElement = this.createOutputElement(options.outputElementId, 'shell');
+        this.outputElement.appendChild(this.shellElement);
 
-        if (hasSuppliedTextElement && this.operations.some(op => op.operation === 'extractor')) {
+        if (!hasInputElement && this.operations.some(op => op.operation === 'extractor')) {
             throw new Error('StackAsciiDisplay: extractors require inputElementId');
+        }
+
+        if (!hasInputElement) {
+            this.suppliedTextElement = document.createElement('div');
+            this.suppliedTextElement.id = createUniqueId(options.outputElementId, 'supplied-text');
+            this.suppliedTextElement.hidden = true;
+            this.suppliedTextElement.innerHTML = options.initialText === undefined || options.initialText === null ?
+                '' : String(options.initialText);
+            this.outputElement.parentNode.insertBefore(this.suppliedTextElement, this.outputElement);
         }
     }
 
@@ -186,12 +196,6 @@ export default class StackAsciiDisplay {
         }
 
         this.container.classList.add('stack-ascii-display');
-        this.dimensionOptions = {
-            minWidth: options.minWidth,
-            minHeight: options.minHeight,
-            maxWidth: options.maxWidth,
-            maxHeight: options.maxHeight
-        };
         [
             ['width', options.initialWidth],
             ['height', options.initialHeight],
@@ -211,20 +215,8 @@ export default class StackAsciiDisplay {
         this.inputElement.value = options.initialText || '';
         this.inputElement.placeholder = options.placeholder || '';
 
-        this.outputElement = document.createElement('div');
-        this.outputElement.id = createUniqueId(options.containerId, 'output');
-        this.outputElement.className = 'stack-ascii-output';
+        this.outputElement = this.createOutputElement(options.containerId, 'output');
         this.shellElement = this.outputElement;
-
-        this.renderedOutputElement = document.createElement('div');
-        this.renderedOutputElement.id = createUniqueId(options.containerId, 'content');
-        this.renderedOutputElement.className = 'stackascii-content';
-
-        this.errorOutputElement = document.createElement('div');
-        this.errorOutputElement.id = createUniqueId(options.containerId, 'errors');
-        this.errorOutputElement.className = 'stackascii-errors';
-        this.outputElement.appendChild(this.renderedOutputElement);
-        this.outputElement.appendChild(this.errorOutputElement);
 
         const inputPane = document.createElement('div');
         inputPane.className = 'stack-ascii-input-pane';
@@ -243,68 +235,62 @@ export default class StackAsciiDisplay {
     }
 
     /**
+     * Create the rendered output shell and its content/error regions.
+     *
+     * @param {string} idBase - Source element id used as the generated id base.
+     * @param {string} outputSuffix - Role suffix for the output shell id.
+     * @returns {HTMLElement} Output shell element.
+     */
+    createOutputElement(idBase, outputSuffix) {
+        const outputElement = document.createElement('div');
+        outputElement.id = createUniqueId(idBase, outputSuffix);
+        outputElement.className = 'stack-ascii-output';
+
+        this.renderedOutputElement = document.createElement('div');
+        this.renderedOutputElement.id = createUniqueId(idBase, 'content');
+        this.renderedOutputElement.className = 'stackascii-content';
+
+        this.errorOutputElement = document.createElement('div');
+        this.errorOutputElement.id = createUniqueId(idBase, 'errors');
+        this.errorOutputElement.className = 'stackascii-errors';
+        outputElement.appendChild(this.renderedOutputElement);
+        outputElement.appendChild(this.errorOutputElement);
+
+        return outputElement;
+    }
+
+    /**
      * Mirror native textarea resizing onto the generated output pane.
      */
     setupOutputResizeSync() {
         const initialContainerWidth = this.container.style.width;
-        let resizeStart = null;
+        let baselineSize = null;
         let userResized = false;
 
         /**
-         * Apply the textarea's rendered size to the generated output pane.
+         * Apply a textarea size to the generated panes.
          *
-         * @param {number} width - Textarea width in pixels.
-         * @param {number} height - Textarea height in pixels.
-         * @param {boolean} updateContainerHeight - Whether to update the outer container height.
+         * @param {DOMRect} size - Observed textarea dimensions.
          */
-        const syncOutputSize = (width, height, updateContainerHeight = true) => {
-            const style = window.getComputedStyle(this.container);
-            const chrome = {
-                horizontal: parseCssPixels(style.paddingLeft, 12) +
-                    parseCssPixels(style.paddingRight, 12) +
-                    parseCssPixels(style.columnGap || style.gap, 12),
-                vertical: parseCssPixels(style.paddingTop, 12) + parseCssPixels(style.paddingBottom, 12)
-            };
-            const limits = {
-                minWidth: resolveCssLength(this.dimensionOptions.minWidth, this.container, 'width') ||
-                    parseCssPixels(style.minWidth, 0),
-                minHeight: resolveCssLength(this.dimensionOptions.minHeight, this.container, 'height') ||
-                    parseCssPixels(style.minHeight, 0),
-                maxWidth: resolveCssLength(this.dimensionOptions.maxWidth, this.container, 'width'),
-                maxHeight: resolveCssLength(this.dimensionOptions.maxHeight, this.container, 'height')
-            };
-            const minInputWidth = limits.minWidth !== null ? Math.max(0, (limits.minWidth - chrome.horizontal) / 2) : null;
-            const minInputHeight = limits.minHeight !== null ? Math.max(0, limits.minHeight - chrome.vertical) : null;
-            const maxInputWidth = limits.maxWidth !== null ? Math.max(0, (limits.maxWidth - chrome.horizontal) / 2) : null;
-            const maxInputHeight = limits.maxHeight !== null ? Math.max(0, limits.maxHeight - chrome.vertical) : null;
-
-            width = clampLength(width, minInputWidth, maxInputWidth);
-            height = clampLength(height, minInputHeight, maxInputHeight);
-
-            if (width > 0) {
-                this.inputElement.style.width = `${width}px`;
-                this.inputPane.style.width = `${width}px`;
-                this.outputElement.style.width = `${width}px`;
-                this.outputPane.style.width = `${width}px`;
+        const applySyncedSize = (size) => {
+            if (size.width > 0) {
+                [this.inputElement, this.inputPane, this.outputElement, this.outputPane].forEach((element) => {
+                    element.style.width = `${size.width}px`;
+                });
             }
-            if (height > 0) {
-                this.inputElement.style.height = `${height}px`;
-                this.inputPane.style.height = `${height}px`;
-                this.outputElement.style.height = `${height}px`;
-                this.outputPane.style.height = `${height}px`;
-                if (updateContainerHeight) {
-                    const containerHeight = clampLength(height + chrome.vertical, limits.minHeight, limits.maxHeight);
-                    if (containerHeight > 0) {
-                        this.container.style.height = `${containerHeight}px`;
-                    }
-                }
+
+            if (size.height > 0) {
+                [this.inputElement, this.inputPane, this.outputElement, this.outputPane].forEach((element) => {
+                    element.style.height = `${size.height}px`;
+                });
+                this.container.style.height = 'fit-content';
             }
         };
 
         /**
          * Return generated horizontal sizing to the responsive CSS defaults.
          */
-        const clearPaneWidth = () => {
+        const clearManualWidths = () => {
             this.container.classList.remove('stack-ascii-display-resized');
             this.container.style.width = initialContainerWidth;
             this.inputElement.style.width = '';
@@ -314,88 +300,53 @@ export default class StackAsciiDisplay {
         };
 
         /**
-         * Return generated pane sizing to the responsive CSS defaults.
+         * Record the current responsive size without switching layout modes.
          */
-        const clearPaneSize = () => {
-            clearPaneWidth();
-            this.inputElement.style.height = '';
-            this.inputPane.style.height = '';
-            this.outputElement.style.height = '';
-            this.outputPane.style.height = '';
-        };
-
-        /**
-         * Prepare the responsive layout for a possible native textarea resize.
-         */
-        const startResizeSession = () => {
+        const setBaselineSize = () => {
             const rect = this.inputElement.getBoundingClientRect();
-            resizeStart = {
+            baselineSize = {
                 width: rect.width,
                 height: rect.height
             };
-            userResized = false;
-            syncOutputSize(rect.width, rect.height, false);
-            this.container.classList.add('stack-ascii-display-resized');
-            this.container.style.width = 'max-content';
         };
 
+        const sizeChanged = (rect) => Math.abs(rect.width - baselineSize.width) > 1 ||
+            Math.abs(rect.height - baselineSize.height) > 1;
+
         /**
-         * Keep explicit pane sizing only if the textarea actually changed size.
+         * Sync generated panes after an actual textarea resize.
          */
-        const finishResizeSession = () => {
-            if (!resizeStart) {
+        const syncObservedSize = () => {
+            const rect = this.inputElement.getBoundingClientRect();
+
+            if (!userResized && !sizeChanged(rect)) {
                 return;
             }
 
-            const rect = this.inputElement.getBoundingClientRect();
-            if (Math.abs(rect.width - resizeStart.width) > 1 || Math.abs(rect.height - resizeStart.height) > 1) {
-                userResized = true;
-                syncOutputSize(rect.width, rect.height);
-            }
-
             if (!userResized) {
-                clearPaneSize();
+                userResized = true;
+                this.container.classList.add('stack-ascii-display-resized');
+                this.container.style.width = 'max-content';
             }
-            resizeStart = null;
+            applySyncedSize(rect);
         };
 
         /**
          * Drop manual widths when the viewport changes so they do not become a layout minimum.
          */
-        const clearPaneWidthOnWindowResize = () => {
-            if (!userResized || resizeStart) {
+        const clearManualWidthsOnWindowResize = () => {
+            if (!userResized) {
                 return;
             }
             userResized = false;
-            clearPaneWidth();
+            clearManualWidths();
+            setBaselineSize();
         };
 
-        this.inputElement.addEventListener('pointerdown', startResizeSession);
-        this.inputElement.addEventListener('mousedown', startResizeSession);
-        this.inputElement.addEventListener('touchstart', startResizeSession);
-        window.addEventListener('pointerup', finishResizeSession);
-        window.addEventListener('pointercancel', finishResizeSession);
-        window.addEventListener('mouseup', finishResizeSession);
-        window.addEventListener('touchend', finishResizeSession);
-        window.addEventListener('touchcancel', finishResizeSession);
-        window.addEventListener('resize', clearPaneWidthOnWindowResize);
-
-        if (typeof ResizeObserver === 'function') {
-            this.outputResizeObserver = new ResizeObserver(() => {
-                if (!resizeStart && !userResized) {
-                    return;
-                }
-
-                const rect = this.inputElement.getBoundingClientRect();
-                if (resizeStart &&
-                        (Math.abs(rect.width - resizeStart.width) > 1 ||
-                        Math.abs(rect.height - resizeStart.height) > 1)) {
-                    userResized = true;
-                }
-                syncOutputSize(rect.width, rect.height);
-            });
-            this.outputResizeObserver.observe(this.inputElement);
-        }
+        setBaselineSize();
+        window.addEventListener('resize', clearManualWidthsOnWindowResize);
+        this.outputResizeObserver = new ResizeObserver(syncObservedSize);
+        this.outputResizeObserver.observe(this.inputElement);
     }
 
     /**
@@ -404,7 +355,7 @@ export default class StackAsciiDisplay {
      */
     setupStandaloneScrollSync() {
         const inputEl = this.inputElement;
-        const outputEl = this.outputElement;
+        const outputEl = this.shellElement || this.outputElement;
 
         inputEl.addEventListener('scroll', () => {
             const maxScroll = inputEl.scrollHeight - inputEl.clientHeight;
@@ -438,78 +389,4 @@ function createUniqueId(containerId, suffix) {
     } while (document.getElementById(id));
 
     return id;
-}
-
-/**
- * Resolve a numeric, px, %, rem, vh, or vw CSS length to pixels.
- *
- * @param {string|number} value - Length value to resolve.
- * @param {HTMLElement} element - Element whose parent supplies the percentage basis.
- * @param {string} axis - Dimension axis: "width" or "height".
- * @returns {?number} Resolved pixel length, or null when unsupported.
- */
-function resolveCssLength(value, element, axis) {
-    if (value === undefined || value === null || value === '' || value === 'none') {
-        return null;
-    }
-
-    if (typeof value === 'number') {
-        return value;
-    }
-
-    const text = String(value).trim();
-    if (text.endsWith('px')) {
-        return parseFloat(text);
-    }
-
-    if (text.endsWith('%')) {
-        const basisElement = element.parentElement || document.documentElement;
-        const rect = basisElement.getBoundingClientRect();
-        const basis = axis === 'width' ? rect.width : rect.height;
-        return basis > 0 ? basis * parseFloat(text) / 100 : null;
-    }
-
-    if (text.endsWith('rem')) {
-        return parseFloat(text) * parseCssPixels(window.getComputedStyle(document.documentElement).fontSize, 16);
-    }
-
-    if (text.endsWith('vh')) {
-        return window.innerHeight * parseFloat(text) / 100;
-    }
-
-    if (text.endsWith('vw')) {
-        return window.innerWidth * parseFloat(text) / 100;
-    }
-
-    return null;
-}
-
-/**
- * Parse a CSS pixel value, returning a fallback when parsing fails.
- *
- * @param {string} value - CSS value to parse.
- * @param {number} fallback - Value to return for non-numeric input.
- * @returns {number} Parsed pixel value or fallback.
- */
-function parseCssPixels(value, fallback) {
-    const parsed = parseFloat(value);
-    return Number.isFinite(parsed) ? parsed : fallback;
-}
-
-/**
- * Clamp a length against optional minimum and maximum pixel limits.
- *
- * @param {number} value - Length to clamp.
- * @param {?number} min - Optional minimum.
- * @param {?number} max - Optional maximum.
- * @returns {number} Clamped length.
- */
-function clampLength(value, min, max) {
-    if (min !== null) {
-        value = Math.max(value, min);
-    }
-    if (max !== null) {
-        value = Math.min(value, max);
-    }
-    return value;
 }

@@ -53,7 +53,7 @@
 
 .stack-ascii-display-resized .stack-ascii-input-pane,
 .stack-ascii-display-resized .stack-ascii-output-pane {
-    width: auto !important;
+    width: auto;
     flex: 0 0 auto;
 }
 
@@ -74,6 +74,24 @@
     max-height: 300px;
     margin-top: 10px;
     position: relative;
+}
+
+.stack-ascii-input-mount,
+.stack-ascii-output-mount {
+    box-sizing: border-box;
+}
+
+.stack-ascii-input-mount .stack-ascii-input,
+.stack-ascii-output-mount > .stack-ascii-output {
+    height: 100%;
+    margin-top: 0;
+    max-height: none;
+    min-height: inherit;
+    width: 100%;
+}
+
+.stack-ascii-input-mount .stack-ascii-input {
+    resize: none;
 }
 
 .stack-ascii-output.plaintext {
@@ -131,6 +149,30 @@
 }
 
 @media (max-width: 768px) {
+    .stack-ascii-display {
+        flex-direction: column;
+        height: auto;
+        min-height: 0;
+    }
+
+    .stack-ascii-display.stack-ascii-display-resized {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .stack-ascii-display .stack-ascii-input-pane,
+    .stack-ascii-display .stack-ascii-output-pane {
+        flex: 0 0 auto;
+        min-height: 140px;
+        width: 100%;
+    }
+
+    .stack-ascii-display .stack-ascii-input,
+    .stack-ascii-display .stack-ascii-output {
+        height: 140px;
+        width: 100%;
+    }
+
     .stack-ascii-output {
         max-height: 200px;
     }

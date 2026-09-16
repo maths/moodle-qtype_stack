@@ -66,13 +66,13 @@ const extractorlib = {
  *
  * @param {string[]} inputIds   - DOM element ids; normally inputIds[0] is the
  *   free-text textarea (source), and inputIds[1..N] are the answer inputs for
- *   extractors. When options.suppliedTextElementId is set, there is no source
- *   textarea and extractors are not used.
+ *   extractors.
  * @param {Object[]} operations - ordered array of operation objects compiled from
  *   [[filter]] and [[extractor]] child blocks, e.g.
  *   [{ operation:'filter',    type:'markdown', transforms:'aligneq' },
  *    { operation:'extractor', type:'lastexpr', targetinput:'ans2'     }]
  * @param {Object} options - optional DOM integration settings.
+ * @param {Object} options.asciistrings - user messages.
  * @param {string} options.outputElementId - ID of the scrollable output container.
  * @param {string} options.shellElementId - ID of the outer shell used for error state.
  * @param {string} options.renderedOutputElementId - ID of the rendered content element.
@@ -90,8 +90,8 @@ export default function init(inputIds, operations, options = {}) {
     const renderedOutputElementId = options.renderedOutputElementId || 'asciiRenderedContent';
     const errorOutputElementId = options.errorOutputElementId || 'asciiErrorRow';
     const output = document.getElementById(outputElementId);
-    const shell = document.getElementById(shellElementId) || output;
-    const renderedOutput = document.getElementById(renderedOutputElementId) || output;
+    const shell = document.getElementById(shellElementId);
+    const renderedOutput = document.getElementById(renderedOutputElementId);
     const errorOutput = document.getElementById(errorOutputElementId);
     const frameId = (typeof FRAME_ID !== 'undefined') ? FRAME_ID : null;
     const syncScrollPosition = createScrollSyncHandler(markdownContainerId, frameId, output);

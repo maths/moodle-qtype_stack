@@ -15,14 +15,16 @@ Open any of these pages:
 
 - `http://localhost:8000/stack-web/examples/basic-container.html`
 - `http://localhost:8000/stack-web/examples/existing-elements.html`
+- `http://localhost:8000/stack-web/examples/initial-text.html`
 - `http://localhost:8000/stack-web/examples/supplied-text.html`
 - `http://localhost:8000/stack-web/examples/demo.html`
 
 ## Example Pages
 
 - `basic-container.html` shows the smallest generated container-mode setup.
-- `existing-elements.html` wires an existing textarea to an existing output
-  element and extracts a final answer into a separate input.
+- `existing-elements.html` wires existing input and output containers and
+  extracts a final answer into a separate input.
+- `initial-text.html` renders static source text passed through `initialText`.
 - `supplied-text.html` renders static source text without creating a textarea.
 - `demo.html` combines several filters and extractors in one larger workbench.
 
@@ -119,9 +121,12 @@ const display = new StackAsciiDisplay({
 });
 ```
 
-To use existing elements instead, provide `outputElementId` plus exactly one of
-`inputElementId` or `suppliedTextElementId`. The supplied-text option is for
-display-only blocks and does not support extractors.
+To use existing elements instead, provide `outputElementId` plus `inputElementId`
+for live editing. Both ids should point to mount elements; `StackAsciiDisplay`
+creates the textarea and output shell inside them. Style those mount elements to
+control their height, width, resize behavior, and other layout details. Omit
+`inputElementId` and pass `initialText` for a static, display-only block. Static
+blocks do not support extractors.
 
 ## ASCIIMath Syntax
 

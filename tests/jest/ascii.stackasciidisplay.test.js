@@ -20,17 +20,27 @@ function setInputRect(display, rect) {
     }));
 }
 
-function startNativeResize(display, rect) {
-    setInputRect(display, rect);
-    display.inputElement.dispatchEvent(new MouseEvent('pointerdown', {
-        bubbles: true,
-        cancelable: true
-    }));
+function mockResizeObserver() {
+    let resizeCallback = null;
+    const observer = {
+        observe: jest.fn(),
+        disconnect: jest.fn()
+    };
+
+    global.ResizeObserver = jest.fn().mockImplementation((callback) => {
+        resizeCallback = callback;
+        return observer;
+    });
+
+    return {
+        observer,
+        trigger: () => resizeCallback && resizeCallback()
+    };
 }
 
-function finishNativeResize(display, rect) {
+function resizeObservedInput(display, resizeObserver, rect) {
     setInputRect(display, rect);
-    window.dispatchEvent(new Event('pointerup'));
+    resizeObserver.trigger();
 }
 
 describe('StackAsciiDisplay', () => {
@@ -124,58 +134,49 @@ describe('StackAsciiDisplay', () => {
         expect(display.container.style.maxHeight).toBe('60vh');
     });
 
-    test('container mode marks the display as resized when native textarea resize starts', () => {
+    test('container mode does not mark the display as resized before textarea size changes', () => {
         document.body.innerHTML = '<div id="asciiBlock"></div>';
+        const resizeObserver = mockResizeObserver();
 
         const display = new StackAsciiDisplay({ containerId: 'asciiBlock' });
         setInputRect(display, {
-            bottom: 150,
             height: 150,
-            right: 300,
             width: 300
         });
 
         display.inputElement.dispatchEvent(new MouseEvent('pointerdown', { bubbles: true }));
-
-        expect(display.container.classList.contains('stack-ascii-display-resized')).toBe(true);
-        expect(display.container.style.width).toBe('max-content');
-    });
-
-    test('container mode removes resized marker when native resize finishes unchanged', () => {
-        document.body.innerHTML = '<div id="asciiBlock"></div>';
-
-        const display = new StackAsciiDisplay({ containerId: 'asciiBlock' });
-        setInputRect(display, {
-            bottom: 150,
-            height: 150,
-            right: 300,
-            width: 300
-        });
-
-        display.inputElement.dispatchEvent(new MouseEvent('pointerdown', { bubbles: true }));
-        window.dispatchEvent(new Event('pointerup'));
 
         expect(display.container.classList.contains('stack-ascii-display-resized')).toBe(false);
         expect(display.container.style.width).toBe('');
         expect(display.outputElement.style.width).toBe('');
         expect(display.outputElement.style.height).toBe('');
+        expect(resizeObserver.observer.observe).toHaveBeenCalledWith(display.inputElement);
     });
 
-    test('container mode keeps resized marker when native resize changes size', () => {
+    test('container mode ignores observed input size when unchanged from the baseline', () => {
         document.body.innerHTML = '<div id="asciiBlock"></div>';
+        const resizeObserver = mockResizeObserver();
 
         const display = new StackAsciiDisplay({ containerId: 'asciiBlock' });
 
-        startNativeResize(display, {
-            bottom: 150,
-            height: 150,
-            right: 300,
-            width: 300
+        resizeObservedInput(display, resizeObserver, {
+            height: 0,
+            width: 0
         });
-        finishNativeResize(display, {
-            bottom: 210,
+
+        expect(display.container.classList.contains('stack-ascii-display-resized')).toBe(false);
+        expect(display.outputElement.style.width).toBe('');
+        expect(display.outputElement.style.height).toBe('');
+    });
+
+    test('container mode marks the display as resized when observed input size changes', () => {
+        document.body.innerHTML = '<div id="asciiBlock"></div>';
+        const resizeObserver = mockResizeObserver();
+
+        const display = new StackAsciiDisplay({ containerId: 'asciiBlock' });
+
+        resizeObservedInput(display, resizeObserver, {
             height: 210,
-            right: 480,
             width: 480
         });
 
@@ -183,43 +184,14 @@ describe('StackAsciiDisplay', () => {
         expect(display.container.style.width).toBe('max-content');
     });
 
-    test('container mode syncs output dimensions to resized input', () => {
+    test('container mode syncs output dimensions to observed input resize', () => {
         document.body.innerHTML = '<div id="asciiBlock"></div>';
+        const resizeObserver = mockResizeObserver();
 
         const display = new StackAsciiDisplay({ containerId: 'asciiBlock' });
 
-        startNativeResize(display, {
-            bottom: 150,
-            height: 150,
-            right: 300,
-            width: 300
-        });
-        finishNativeResize(display, {
-            bottom: 210,
-            height: 210,
-            right: 480,
-            width: 480
-        });
-
-        expect(display.outputElement.style.width).toBe('480px');
-        expect(display.outputElement.style.height).toBe('210px');
-    });
-
-    test('container mode expands input and output horizontally after native textarea resize', () => {
-        document.body.innerHTML = '<div id="asciiBlock"></div>';
-
-        const display = new StackAsciiDisplay({ containerId: 'asciiBlock' });
-
-        startNativeResize(display, {
-            bottom: 160,
-            height: 160,
-            right: 320,
-            width: 320
-        });
-        finishNativeResize(display, {
-            bottom: 202,
+        resizeObservedInput(display, resizeObserver, {
             height: 202,
-            right: 422,
             width: 422
         });
 
@@ -228,21 +200,14 @@ describe('StackAsciiDisplay', () => {
         expect(display.outputElement.style.height).toBe('202px');
     });
 
-    test('container mode allows uncapped native horizontal expansion when maxWidth is omitted', () => {
+    test('container mode allows uncapped observed horizontal expansion when maxWidth is omitted', () => {
         document.body.innerHTML = '<div id="asciiBlock"></div>';
+        const resizeObserver = mockResizeObserver();
 
         const display = new StackAsciiDisplay({ containerId: 'asciiBlock' });
 
-        startNativeResize(display, {
-            bottom: 160,
+        resizeObservedInput(display, resizeObserver, {
             height: 160,
-            right: 320,
-            width: 320
-        });
-        finishNativeResize(display, {
-            bottom: 160,
-            height: 160,
-            right: 1520,
             width: 1520
         });
 
@@ -251,8 +216,9 @@ describe('StackAsciiDisplay', () => {
         expect(display.container.style.width).toBe('max-content');
     });
 
-    test('container mode clamps input and output to configured maximums', () => {
+    test('container mode preserves configured maximums while mirroring observed size', () => {
         document.body.innerHTML = '<div id="asciiBlock"></div>';
+        const resizeObserver = mockResizeObserver();
 
         const display = new StackAsciiDisplay({
             containerId: 'asciiBlock',
@@ -260,57 +226,35 @@ describe('StackAsciiDisplay', () => {
             maxHeight: 300
         });
 
-        startNativeResize(display, {
-            bottom: 200,
-            height: 200,
-            right: 300,
-            width: 300
-        });
-        finishNativeResize(display, {
-            bottom: 600,
+        resizeObservedInput(display, resizeObserver, {
             height: 600,
-            right: 700,
             width: 700
         });
 
-        expect(display.inputElement.style.width).toBe('332px');
-        expect(display.inputElement.style.height).toBe('276px');
-        expect(display.outputElement.style.width).toBe('332px');
-        expect(display.outputElement.style.height).toBe('276px');
+        expect(display.inputElement.style.width).toBe('700px');
+        expect(display.inputElement.style.height).toBe('600px');
+        expect(display.outputElement.style.width).toBe('700px');
+        expect(display.outputElement.style.height).toBe('600px');
         expect(display.container.style.width).toBe('max-content');
         expect(display.container.style.maxWidth).toBe('700px');
-        expect(display.container.style.height).toBe('300px');
+        expect(display.container.style.maxHeight).toBe('300px');
+        expect(display.container.style.height).toBe('fit-content');
     });
 
     test('container mode syncs observed input size changes after a user resize', () => {
         document.body.innerHTML = '<div id="asciiBlock"></div>';
-        let resizeCallback = null;
-
-        global.ResizeObserver = jest.fn().mockImplementation((callback) => {
-            resizeCallback = callback;
-            return { observe: jest.fn() };
-        });
+        const resizeObserver = mockResizeObserver();
 
         const display = new StackAsciiDisplay({ containerId: 'asciiBlock' });
 
-        startNativeResize(display, {
-            bottom: 150,
-            height: 150,
-            right: 300,
-            width: 300
-        });
-        finishNativeResize(display, {
-            bottom: 210,
+        resizeObservedInput(display, resizeObserver, {
             height: 210,
-            right: 480,
             width: 480
         });
-
-        setInputRect(display, {
+        resizeObservedInput(display, resizeObserver, {
             width: 360,
             height: 210
         });
-        resizeCallback();
 
         expect(display.inputElement.style.width).toBe('360px');
         expect(display.outputElement.style.width).toBe('360px');
@@ -334,29 +278,128 @@ describe('StackAsciiDisplay', () => {
         expect(() => new StackAsciiDisplay({
             containerId: 'container',
             inputElementId: 'input'
-        })).toThrow('StackAsciiDisplay: containerId cannot be used with inputElementId or suppliedTextElementId');
+        })).toThrow('StackAsciiDisplay: containerId cannot be used with inputElementId');
     });
 
-    test('existing output mode requires exactly one source id', () => {
-        document.body.innerHTML = '<textarea id="input"></textarea><div id="supplied"></div><div id="output"></div>';
+    test('existing output mode creates textarea inside existing input mount', () => {
+        document.body.innerHTML = '<div id="input">replace me</div><div id="output"></div>';
 
-        expect(() => new StackAsciiDisplay({ outputElementId: 'output' })).toThrow(
-            'StackAsciiDisplay: specify exactly one of inputElementId or suppliedTextElementId'
-        );
-
-        expect(() => new StackAsciiDisplay({
+        const display = new StackAsciiDisplay({
             outputElementId: 'output',
             inputElementId: 'input',
-            suppliedTextElementId: 'supplied'
-        })).toThrow('StackAsciiDisplay: specify exactly one of inputElementId or suppliedTextElementId');
+            initialText: '`x^2`',
+            placeholder: 'Type here'
+        });
+
+        expect(display.inputMountElement.id).toBe('input');
+        expect(display.inputMountElement.classList.contains('stack-ascii-input-mount')).toBe(true);
+        expect(display.inputElement.tagName).toBe('TEXTAREA');
+        expect(display.inputElement.id).not.toBe('input');
+        expect(display.inputElement.value).toBe('`x^2`');
+        expect(display.inputElement.placeholder).toBe('Type here');
+        expect(document.getElementById('input').contains(display.inputElement)).toBe(true);
+        expect(display.suppliedTextElement).toBe(null);
+        expect(display.outputElement.id).toBe('output');
+        expect(display.outputElement.classList.contains('stack-ascii-output-mount')).toBe(true);
+        expect(display.shellElement.classList.contains('stack-ascii-output')).toBe(true);
+        expect(display.shellElement.contains(display.renderedOutputElement)).toBe(true);
+        expect(display.shellElement.contains(display.errorOutputElement)).toBe(true);
+        expect(document.getElementById('output').contains(display.shellElement)).toBe(true);
+        expect(mockInitAscii).toHaveBeenCalledWith(
+            [display.inputElement.id],
+            [],
+            {
+                outputElementId: 'output',
+                shellElementId: display.shellElement.id,
+                renderedOutputElementId: display.renderedOutputElement.id,
+                errorOutputElementId: display.errorOutputElement.id,
+                asciistrings: {}
+            }
+        );
     });
 
-    test('existing supplied-text mode rejects extractors', () => {
+    test('existing output mode creates hidden supplied text element from initialText', () => {
+        document.body.innerHTML = '<section id="wrapper"><div id="output"></div></section>';
+
+        const display = new StackAsciiDisplay({
+            outputElementId: 'output',
+            initialText: 'pre-supplied `x^2`',
+            operations: [{ operation: 'filter', type: 'markdown', transforms: 'asciimath' }]
+        });
+
+        expect(display.inputElement).toBe(null);
+        expect(display.outputElement.id).toBe('output');
+        expect(display.outputElement.classList.contains('stack-ascii-output-mount')).toBe(true);
+        expect(display.shellElement.classList.contains('stack-ascii-output')).toBe(true);
+        expect(display.shellElement.contains(display.renderedOutputElement)).toBe(true);
+        expect(display.shellElement.contains(display.errorOutputElement)).toBe(true);
+        expect(document.getElementById('output').contains(display.shellElement)).toBe(true);
+        expect(display.suppliedTextElement.hidden).toBe(true);
+        expect(display.suppliedTextElement.innerHTML).toBe('pre-supplied `x^2`');
+        expect(display.suppliedTextElement.id).toMatch(/^stack-ascii-output-\d+-supplied-text$/);
+        expect(document.getElementById('wrapper').contains(display.suppliedTextElement)).toBe(true);
+        expect(mockInitAscii).toHaveBeenCalledWith(
+            [],
+            expect.any(Array),
+            {
+                outputElementId: 'output',
+                shellElementId: display.shellElement.id,
+                renderedOutputElementId: display.renderedOutputElement.id,
+                errorOutputElementId: display.errorOutputElement.id,
+                suppliedTextElementId: display.suppliedTextElement.id,
+                asciistrings: {}
+            }
+        );
+    });
+
+    test('existing output mode creates unique supplied text ids for static displays', () => {
+        document.body.innerHTML = '<div id="outputA"></div><div id="outputB"></div>';
+
+        const first = new StackAsciiDisplay({
+            outputElementId: 'outputA',
+            initialText: 'first'
+        });
+        const second = new StackAsciiDisplay({
+            outputElementId: 'outputB',
+            initialText: 'second'
+        });
+
+        expect(first.suppliedTextElement.id).not.toBe(second.suppliedTextElement.id);
+        expect(first.suppliedTextElement.innerHTML).toBe('first');
+        expect(second.suppliedTextElement.innerHTML).toBe('second');
+    });
+
+    test('existing static mode only uses initialText as the supplied source', () => {
         document.body.innerHTML = '<div id="supplied"></div><div id="output"></div>';
+        document.getElementById('supplied').innerHTML = 'ignored';
+
+        const display = new StackAsciiDisplay({
+            outputElementId: 'output',
+            initialText: 'used'
+        });
+
+        expect(display.suppliedTextElement.id).not.toBe('supplied');
+        expect(display.suppliedTextElement.innerHTML).toBe('used');
+        expect(mockInitAscii).toHaveBeenCalledWith(
+            [],
+            [],
+            {
+                outputElementId: 'output',
+                shellElementId: display.shellElement.id,
+                renderedOutputElementId: display.renderedOutputElement.id,
+                errorOutputElementId: display.errorOutputElement.id,
+                suppliedTextElementId: display.suppliedTextElement.id,
+                asciistrings: {}
+            }
+        );
+    });
+
+    test('existing static initialText mode rejects extractors', () => {
+        document.body.innerHTML = '<input id="answer1"><div id="output"></div>';
 
         expect(() => new StackAsciiDisplay({
             outputElementId: 'output',
-            suppliedTextElementId: 'supplied',
+            initialText: 'extract me',
             operations: [{ operation: 'extractor', type: 'lastexpr', targetinput: 'answer1' }]
         })).toThrow('StackAsciiDisplay: extractors require inputElementId');
     });

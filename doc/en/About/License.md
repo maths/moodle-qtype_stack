@@ -8,7 +8,7 @@ The HELM materials contained in the subdirectories of <tt>samplequestions/stackl
 
 The other STACK sample questions and materials, contained in the subdirectories of <tt>samplequestions/</tt>, is Licensed under the [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/).
 
-STACK imposes no requirements on users to choose a license for learning materials they write from scratch.  We are aware of open (e.g. Creative Commons), closed, and commercial uses of STACK materials.  Users remain responsible for respecting existing licences attached to shared learning materials.
+STACK imposes no requirements on users to choose a license for learning materials they write from scratch.  We are aware of open (e.g. Creative Commons), closed, and commercial uses of STACK materials.  Users remain responsible for respecting existing licences attached to shared learning materials.  Individual STACK questions can contain [metadata](../Authoring/Metadata.md), which typically specifies the lience of the question.
 
 It is possible to embed other media inside STACK questions.  Users of STACK remain entirely responsible for complying with licenes for materials and media embedded inside STACK questions.  Please note that the [GeoGebra's license](https://www.geogebra.org/license) does not match the [STACK licence](https://github.com/maths/moodle-qtype_stack/blob/master/COPYING.txt).
 

@@ -1975,8 +1975,20 @@ class qtype_stack extends question_type {
                 $fromform->isbroken = '1';
             }
             $fromform->validationerrors = $errortext;
+            // Moodle checks this count before writing any questions when Stop on error is enabled.
+            // Keep parsed data for an explicit repair import, but do not treat authoring errors as
+            // a successful parse for the default import policy.
+            $format->importerrors++;
+            if ($format->displayprogress) {
+                global $OUTPUT;
+                echo $OUTPUT->notification(s($fromform->name) . ': ' . $errortext);
+            }
             if (isset($errors['structuralerror'])) {
                 $fromform->structuralerror = true;
+            }
+            if (!empty($fromform->structuralerror) && !$format->stoponerror) {
+                // The repair override cannot retain a structure that the editor cannot open.
+                throw new stack_exception($errortext);
             }
         }
         return $fromform;

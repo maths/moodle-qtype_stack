@@ -64,9 +64,12 @@ Feature: Test importing STACK questions from Moodle XML files.
     And I log out
 
   @javascript @_file_upload
-  Scenario: import a broken STACK question from a Moodle XML file
+  Scenario: explicitly import a broken STACK question from a Moodle XML file for repair
     When I am on the "Course 1" "core_question > course question import" page logged in as "teacher"
     And I set the field "id_format_xml" to "1"
+    And I expand all fieldsets
+    # Invalid questions are rejected by default; opt into importing this fixture for repair.
+    And I set the field "Stop on error" to "No"
     And I upload "question/type/stack/tests/behat/broken_question.xml" file to "Import" filemanager
     And I press "id_submitbutton"
     Then I should see "Parsing questions from import file."

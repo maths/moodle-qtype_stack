@@ -18,6 +18,7 @@ describe('stackascii standalone mode', () => {
             id,
             value,
             innerHTML: '',
+            offsetHeight: 0,
             scrollTop: 0,
             scrollHeight: 0,
             clientHeight: 0,
@@ -37,12 +38,18 @@ describe('stackascii standalone mode', () => {
 
     function setupEnvironment(inputValue = '') {
         const markdownInput = createElement('markdownInput', inputValue);
+        const shell = createElement('asciiShell');
         const output = createElement('asciiContainerRow');
+        const renderedOutput = createElement('asciiRenderedContent');
+        const errorOutput = createElement('asciiErrorRow');
         const supplied = createElement('asciiSuppliedText');
 
         const elements = {
             markdownInput,
+            asciiShell: shell,
             asciiContainerRow: output,
+            asciiRenderedContent: renderedOutput,
+            asciiErrorRow: errorOutput,
             asciiSuppliedText: supplied
         };
 
@@ -61,7 +68,7 @@ describe('stackascii standalone mode', () => {
         });
         global.clearTimeout = jest.fn();
 
-        return { markdownInput, output, elements };
+        return { markdownInput, shell, output, renderedOutput, errorOutput, elements };
     }
 
     beforeEach(() => {
@@ -98,7 +105,7 @@ describe('stackascii standalone mode', () => {
         // Should work without errors in standalone mode
         init(['markdownInput'], operations);
 
-        expect(env.output.innerHTML).toBeTruthy();
+        expect(env.renderedOutput.innerHTML).toBeTruthy();
         // MathJax should still run
         expect(global.MathJax.typesetPromise).toHaveBeenCalledWith([env.output]);
     });
@@ -120,68 +127,108 @@ describe('stackascii standalone mode', () => {
     test('standalone mode: supports multiple custom output elements', () => {
         const env = setupEnvironment();
         const inputA = createElement('inputA', 'first');
+        const shellA = createElement('shellA');
         const outputA = createElement('outputA');
+        const renderedA = createElement('renderedA');
+        const errorA = createElement('errorA');
         const inputB = createElement('inputB', 'second');
+        const shellB = createElement('shellB');
         const outputB = createElement('outputB');
+        const renderedB = createElement('renderedB');
+        const errorB = createElement('errorB');
 
         Object.assign(env.elements, {
             inputA,
+            shellA,
             outputA,
+            renderedA,
+            errorA,
             inputB,
-            outputB
+            shellB,
+            outputB,
+            renderedB,
+            errorB
         });
 
-        init(['inputA'], [], { outputElementId: 'outputA' });
-        init(['inputB'], [], { outputElementId: 'outputB' });
+        init(['inputA'], [], {
+            outputElementId: 'outputA',
+            shellElementId: 'shellA',
+            renderedOutputElementId: 'renderedA',
+            errorOutputElementId: 'errorA'
+        });
+        init(['inputB'], [], {
+            outputElementId: 'outputB',
+            shellElementId: 'shellB',
+            renderedOutputElementId: 'renderedB',
+            errorOutputElementId: 'errorB'
+        });
 
-        expect(outputA.innerHTML).toBe('first');
-        expect(outputB.innerHTML).toBe('second');
+        expect(renderedA.innerHTML).toBe('first');
+        expect(renderedB.innerHTML).toBe('second');
 
         inputA.value = 'updated first';
         inputA.listeners.input();
 
-        expect(outputA.innerHTML).toBe('updated first');
-        expect(outputB.innerHTML).toBe('second');
+        expect(renderedA.innerHTML).toBe('updated first');
+        expect(renderedB.innerHTML).toBe('second');
     });
 
     test('standalone mode: renders supplied text when there is no input element', () => {
         const env = setupEnvironment();
         const supplied = createElement('suppliedA');
+        const shell = createElement('shellA');
         const output = createElement('outputA');
+        const rendered = createElement('renderedA');
+        const error = createElement('errorA');
 
         supplied.innerHTML = 'pre-supplied text';
         Object.assign(env.elements, {
             suppliedA: supplied,
-            outputA: output
+            shellA: shell,
+            outputA: output,
+            renderedA: rendered,
+            errorA: error
         });
 
         init([], [], {
             outputElementId: 'outputA',
+            shellElementId: 'shellA',
+            renderedOutputElementId: 'renderedA',
+            errorOutputElementId: 'errorA',
             suppliedTextElementId: 'suppliedA'
         });
 
-        expect(output.innerHTML).toBe('pre-supplied text');
+        expect(rendered.innerHTML).toBe('pre-supplied text');
     });
 
     test('standalone mode: does not run extractors without a live input element', () => {
         const env = setupEnvironment();
         const supplied = createElement('suppliedA');
+        const shell = createElement('shellA');
         const output = createElement('outputA');
+        const rendered = createElement('renderedA');
+        const error = createElement('errorA');
         const answer = createElement('answerA');
 
         supplied.innerHTML = 'first line\nextracted answer';
         Object.assign(env.elements, {
             suppliedA: supplied,
+            shellA: shell,
             outputA: output,
+            renderedA: rendered,
+            errorA: error,
             answerA: answer
         });
 
         init(['answerA'], [{ operation: 'extractor', type: 'lastexpr' }], {
             outputElementId: 'outputA',
+            shellElementId: 'shellA',
+            renderedOutputElementId: 'renderedA',
+            errorOutputElementId: 'errorA',
             suppliedTextElementId: 'suppliedA'
         });
 
-        expect(output.innerHTML).toBe('first line\nextracted answer');
+        expect(rendered.innerHTML).toBe('first line\nextracted answer');
         expect(answer.value).toBe('');
         expect(answer.dispatchEvent).not.toHaveBeenCalled();
     });

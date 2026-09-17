@@ -154,6 +154,7 @@ export class StackAsciiDisplay {
             this.inputMountElement.innerHTML = '';
             this.inputMountElement.classList.add('stack-ascii-input-mount');
             this.inputElement = document.createElement('textarea');
+            this.inputElement.dir = 'auto';
             this.inputElement.id = createUniqueId(options.inputElementId, 'input');
             this.inputElement.className = 'stack-ascii-input';
             this.inputElement.value = options.initialText || '';
@@ -162,6 +163,7 @@ export class StackAsciiDisplay {
         }
 
         this.outputElement = document.getElementById(options.outputElementId);
+        this.outputElement.dir = 'auto';
         if (!this.outputElement) {
             throw new Error(`StackAsciiDisplay: outputElement not found: ${options.outputElementId}`);
         }
@@ -194,6 +196,7 @@ export class StackAsciiDisplay {
         if (!this.container) {
             throw new Error(`StackAsciiDisplay: container not found: ${options.containerId}`);
         }
+        this.container.dir = 'auto';
 
         this.container.classList.add('stack-ascii-display');
         [

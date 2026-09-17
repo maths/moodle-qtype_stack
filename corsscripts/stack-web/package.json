@@ -1,6 +1,6 @@
 {
   "name": "stack-web",
-  "version": "1.0.0",
+  "version": "2026080700",
   "private": true,
   "description": "Standalone wrapper for STACK ASCIIMath display blocks",
   "main": "dist/stack-web.bundle.js",

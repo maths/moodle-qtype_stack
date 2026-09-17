@@ -12,7 +12,7 @@ If you wish to assess code using a Moodle quiz, this can be done using the [Code
 
 ### Numerics
 
-However, we can assess the _results_ of statistical annalysis (such as in \(R\)). 
+However, we can assess the _results_ of statistical analysis (such as in \(R\)). 
 
 Most teachers using STACK make use of randomisation, but this relies on Maxima's ability to calculate the correct answer. This section is intended to aid the translation of questions relying on commands in the statistical computing software \(R\) into STACK questions using Maxima. You do not need an in depth knowledge of statistics to use this.  
 
@@ -34,7 +34,7 @@ table, th, td {
   border:1px solid black;}
 </style>
 
- We denote with a *, where there would be the distribition e.g. normal. 
+ We denote with a *, where there would be the distribution e.g. normal. 
 
 |R-Code|Maxima|What is calculated|Notes|
 |---|---|---|---|
@@ -113,7 +113,7 @@ Maxima can calculate linear regressions. The function `linear_regression(x)` tak
 - aic: Akaike’s information criterion.
 - bic: Bayes’s information criterion. 
 
-Results can be used using the function `take_inference(prop, res)`. Where prop is the property you want to extract and res is the variable the linear regression is saved to.
+Results can be used using the function `take_inference(prop, res)` where `prop` is the property you want to extract and `res` is the variable the linear regression is saved to.
 For example,
 
 	XY: addcol(matrix(), x, y);
@@ -126,7 +126,7 @@ More information can be found in the [Maxima documentation for Functions and Var
 - <code>binomial(n,k)</code> := \( \frac{n!}{k!(n-k)!} \)
 - <code>makelist(f(x),x,a,b)</code>:= list of f(x) from a to b.
 
-Variatations of make list are detailed in the [Maxima documentation for lists](https://maxima.sourceforge.io/docs/manual/maxima_21.html).
+Variations of `makelist` are detailed in the [Maxima documentation for lists](https://maths.cnam.fr/Membres/wilk/MathMax/help/Maxima/maxima_37.html#SEC154).
 
 ## Presenting information
 
@@ -144,7 +144,7 @@ It is worth being careful with using `i` as a sum index. Maxima may interpret th
 
 ## Example 
 
-In this example, the student is asked find a confidence interval. We will randomly generate a data set for the student. This also includes [serving out data](../Authoring/Serving_out_data.md).
+In this example, the student is asked to find a confidence interval. We will randomly generate a data set for the student. This also includes [serving out data](../Authoring/Serving_out_data.md).
 
 ### Question variables 
 

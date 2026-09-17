@@ -39,9 +39,9 @@ table, th, td {
 |R-Code|Maxima|What is calculated|Notes|
 |---|---|---|---|
 |`d*`|`pdf_*`|Probability density function for a distribution. \(P(X=x)\)|&nbsp;|
-|`p*`|`cdf_*`|Cumulative distribution function a distribution. \(P(X\leq x) = \int_{-\infty}^x P(X=i)\; \mathrm{di} \)|
+|`p*`|`cdf_*`|Cumulative distribution function for a distribution. \(P(X\leq x) = \int_{-\infty}^x P(X=i)\; \mathrm{di} \)|
 |`q*`|`quantile_*`|Inverse of CDF. By inputting \(y\), we calculate the value of \(x\) for which the \(P(X \leq x)=y\). Value at a specified percentile.|Useful for confidence intervals.|
-|`r*`|`random_*`|A list of normally numbers with the specified distribution.|in R, inputs will be (n,[vars]), in maxima inputs are ([vars], n). See normal for example.|
+|`r*`|`random_*`|A list of random numbers with respect to the specified distribution.|in R, inputs will be (n,[vars]), in maxima inputs are ([vars], n). See normal for example.|
 
 
     

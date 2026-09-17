@@ -162,6 +162,31 @@ final class questiondashboard_test extends qtype_stack_testcase {
         $this->assertEquals(true, $result->summary[3]->notepass);
     }
 
+    public function test_question_details_includes_random_variant_flag(): void {
+        $this->resetAfterTest();
+        $this->setAdminUser();
+        $generator = $this->getDataGenerator()->get_plugin_generator('core_question');
+        $cat = $generator->create_question_category();
+
+        $question = $generator->create_question('stack', 'test3', ['category' => $cat->id]);
+        $question = \question_bank::load_question($question->id);
+        $dashboard = new stack_question_dashboard(
+            $question,
+            null,
+            context_system::instance()
+        );
+        $this->assertFalse($dashboard->question_details()->hasrandomvariants);
+
+        $question = $generator->create_question('stack', 'dashboard_test', ['category' => $cat->id]);
+        $question = \question_bank::load_question($question->id);
+        $dashboard = new stack_question_dashboard(
+            $question,
+            null,
+            context_system::instance()
+        );
+        $this->assertTrue($dashboard->question_details()->hasrandomvariants);
+    }
+
     public function test_list_variants_detects_note_deployed_already_and_sorts_notes(): void {
         global $PAGE;
         $PAGE->set_url('/question/type/stack/questiontestrun.php');

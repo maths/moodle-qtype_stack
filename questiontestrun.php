@@ -193,6 +193,39 @@ if ($coursefordisplayid) {
 }
 $initialdata->general->hidetests = optional_param('hidetests', '', PARAM_INT);
 
+// Create seed switching URLs for the seed dropdowns in the tests and question tabs.
+$seedurls = [];
+$currentseed = (int) $initialdata->question->seed;
+$deployedseeds = $question->deployedseeds;
+sort($deployedseeds, SORT_NUMERIC);
+
+$currentseedmatched = false;
+foreach ($deployedseeds as $seeddisplay) {
+    $seed = (int) $seeddisplay;
+    $seedurl = new moodle_url('/question/type/stack/questiontestrun.php',
+        array_merge($urlparams, ['seed' => $seed])
+    );
+    $selected = ($seed === $currentseed);
+    $currentseedmatched = $currentseedmatched || $selected;
+
+    $seedoption = new StdClass();
+    $seedoption->seed = $seed;
+    $seedoption->url = $seedurl->out(false);
+    $seedoption->selected = $selected;
+    $seedurls[] = $seedoption;
+}
+
+if (!$currentseedmatched) {
+    $seedoption = new StdClass();
+    $seedoption->seed = $currentseed;
+    $seedoption->url = '';
+    $seedoption->selected = true;
+    $seedoption->disabled = true;
+    array_unshift($seedurls, $seedoption);
+}
+$initialdata->general->seedurls = $seedurls;
+$initialdata->general->hasseedurls = !empty($seedurls);
+
 // Output the progress bars first.
 $dashboard->create_progress_bars();
 // Render the navigation links and low cost question information before running tests and processing variants.

@@ -278,6 +278,8 @@ Feature: Create, preview, test, tidy and edit STACK questions
     When I press "Add test case assuming the teacher's input gets full marks."
     Then I should see "Automatically adding one test case assuming the teacher's input gets full marks."
     And I should see "Test case 1"
+    And I should see "Question tests for seed"
+    And "#tests-seed-select" "css_element" should exist
     And I should see "All tests passed!"
     And I follow "Variants"
     And I should see "No variants of this question have been deployed yet."
@@ -304,7 +306,11 @@ Feature: Create, preview, test, tidy and edit STACK questions
     Then I press "deploysinglebtn"
     And I should see "Deployed variants (3)"
     And I follow "Tests"
-    And I should see "Question tests for seed 1731"
+    And I should see "Question tests for seed"
+    And the field "tests-seed-select" matches value "1731"
+    And I follow "Question"
+    And the field "question-seed-select" matches value "1731"
+    And I follow "Tests"
     And I should see "All tests passed!"
 
     # Add in a second test case.
@@ -327,7 +333,8 @@ Feature: Create, preview, test, tidy and edit STACK questions
     And I should see "Deployed variants (3)"
     And I should see "2 passes and 0 failures."
     And I follow "Tests"
-    And I should see "Question tests for seed 1731"
+    And I should see "Question tests for seed"
+    And the field "tests-seed-select" matches value "1731"
     And I should see "All tests passed!"
     And I follow "Variants"
 
@@ -345,6 +352,7 @@ Feature: Create, preview, test, tidy and edit STACK questions
     Then I press "deployfromlistbtn"
     And I should see "Deployed variants (4)"
     And I follow "Tests"
+    And "//*[@id='tests-seed-select']/option[normalize-space(.)='10']/following-sibling::option[normalize-space(.)='11']/following-sibling::option[normalize-space(.)='12']/following-sibling::option[normalize-space(.)='13']" "xpath_element" should exist
     And I should see "All tests passed!"
     And I follow "Variants"
     When I press "Run all tests on all deployed variants (slow)"

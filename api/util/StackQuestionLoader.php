@@ -70,6 +70,21 @@ class StackQuestionLoader {
         'quiet', 'name',
     ];
 
+    /**
+     * @var string Error code.
+     */
+    public const NON_STACK_Q = 'Nonstack';
+
+    /**
+     * @var string Error code.
+     */
+    public const MULTIPLE_Q = 'Multiple';
+
+    /**
+     * @var string Error code.
+     */
+    public const MULTIPLE_Q_CATEGORY = 'MultipleWithCategory';
+
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function loadxml($xml, $includetests = false) {
         try {
@@ -77,17 +92,28 @@ class StackQuestionLoader {
         } catch (\stack_exception $e) {
             throw $e;
         } catch (\Exception $e) {
-            throw new \stack_exception("The provided file does not contain valid XML");
+            throw new \stack_exception(\get_string('api_invalid_xml', 'qtype_stack'));
         }
         $question = new \qtype_stack_question();
 
         // Throw error if more then one question element is contained in the xml.
         if (count($xmldata->question) != 1) {
-            throw new \stack_exception("The provided XML file does not contain exactly one question element");
+            foreach($xmldata->question as $question) {
+                if (isset($question->category)) {
+                    $multipleerror = new \stack_exception(\get_string('api_invalid_question_count_category', 'qtype_stack'));
+                    $multipleerror->debuginfo = self::MULTIPLE_Q_CATEGORY;
+                    throw $multipleerror;
+                }
+            }
+            $multipleerror = new \stack_exception(\get_string('api_invalid_question_count', 'qtype_stack'));
+            $multipleerror->debuginfo = self::MULTIPLE_Q;
+            throw $multipleerror;
         }
 
         if (((string) $xmldata->question->attributes()->type) !== "stack") {
-            throw new \stack_exception("The provided question is not of type STACK");
+            $nonstackerror = new \stack_exception(\get_string('api_not_stack_question', 'qtype_stack'));
+            $nonstackerror->debuginfo = self::NON_STACK_Q;
+            throw $nonstackerror;
         }
 
         // Collect included files.
@@ -418,9 +444,8 @@ class StackQuestionLoader {
             }
         }
         if (count($prtmap) > 0 && !$allformative && $totalvalue < 0.0000001) {
-            throw new \stack_exception('There is an error authoring your question. ' .
-                'The $totalvalue, the marks available for the question, must be positive in question ' .
-                $question->name);
+            throw new \stack_exception(\get_string('api_non_positive_totalvalue', 'qtype_stack',
+                ['questionname' => $question->name]));
         }
 
         foreach ($prtmap as $prtdata) {
@@ -595,7 +620,7 @@ class StackQuestionLoader {
             return true;
         }
 
-        throw new \stack_exception('invalid bool value');
+        throw new \stack_exception(\get_string('api_invalid_bool', 'qtype_stack'));
     }
 
     /**
@@ -674,12 +699,12 @@ class StackQuestionLoader {
             $dom->substituteEntities = false;
 
             if (!$dom->loadXML($xml, LIBXML_NONET | LIBXML_COMPACT)) {
-                throw new \stack_exception("The provided file does not contain valid XML");
+                throw new \stack_exception(\get_string('api_invalid_xml', 'qtype_stack'));
             }
 
             $xmldata = simplexml_import_dom($dom);
             if (!$xmldata instanceof SimpleXMLElement) {
-                throw new \stack_exception("The provided file does not contain valid XML");
+                throw new \stack_exception(\get_string('api_invalid_xml', 'qtype_stack'));
             }
         } finally {
             libxml_clear_errors();
@@ -699,12 +724,12 @@ class StackQuestionLoader {
         $reader = new \XMLReader();
         try {
             if (!$reader->XML($xml, null, LIBXML_NONET | LIBXML_COMPACT)) {
-                throw new \stack_exception("The provided file does not contain valid XML");
+                throw new \stack_exception(\get_string('api_invalid_xml', 'qtype_stack'));
             }
 
             while ($reader->read()) {
                 if ($reader->nodeType === \XMLReader::DOC_TYPE) {
-                    throw new \stack_exception("The provided XML contains a forbidden DOCTYPE declaration");
+                    throw new \stack_exception(\get_string('api_forbidden_doctype', 'qtype_stack'));
                 }
             }
         } finally {
@@ -721,7 +746,7 @@ class StackQuestionLoader {
      */
     private static function assert_source_size(string $definition): void {
         if (strlen($definition) > self::MAX_SOURCE_BYTES) {
-            throw new \stack_exception("The provided XML or YAML exceeds the maximum allowed size");
+            throw new \stack_exception(\get_string('api_source_too_large', 'qtype_stack'));
         }
     }
 
@@ -732,7 +757,7 @@ class StackQuestionLoader {
      */
     private static function assert_xml_node_limit(SimpleXMLElement $xmldata): void {
         if (self::count_xml_nodes($xmldata) > self::MAX_XML_NODE_COUNT) {
-            throw new \stack_exception("The provided XML or YAML exceeds the maximum allowed node count");
+            throw new \stack_exception(\get_string('api_too_many_nodes', 'qtype_stack'));
         }
     }
 
@@ -763,7 +788,7 @@ class StackQuestionLoader {
     public static function yaml_to_xml($yamlstring) {
         $yaml = Yaml::parse($yamlstring);
         if (!$yaml) {
-            throw new \stack_exception("The provided file does not contain valid YAML or XML.");
+            throw new \stack_exception(\get_string('api_invalid_yaml_or_xml', 'qtype_stack'));
         }
         $xml = new SimpleXMLElement("<?xml version='1.0' encoding='UTF-8'?><quiz></quiz>");
         $question = $xml->addChild('question');
@@ -877,11 +902,15 @@ class StackQuestionLoader {
         $xmldata = self::parse_question_definition($xml);
 
         if (count($xmldata->question) != 1) {
-            throw new \stack_exception("The provided XML file does not contain exactly one question element");
+            $multipleerror = new \stack_exception(\get_string('api_invalid_question_count', 'qtype_stack'));
+            $multipleerror->debuginfo = self::MULTIPLE_Q;
+            throw $multipleerror;
         }
 
         if (((string) $xmldata->question->attributes()->type) !== "stack") {
-            throw new \stack_exception("The provided question is not of type STACK");
+            $nonstackerror = new \stack_exception(\get_string('api_not_stack_question', 'qtype_stack'));
+            $nonstackerror->debuginfo = self::NON_STACK_Q;
+            throw $nonstackerror;
         }
         $plaindata = self::xml_to_array($xmldata);
         $diff = self::obj_diff(self::$defaults['question'], $plaindata['question']);

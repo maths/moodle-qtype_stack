@@ -26,6 +26,7 @@
 // NOTE: no MOODLE_INTERNAL test here, this file may be required by behat before including /config.php.
 
 require_once(__DIR__ . '/../../../../../lib/behat/behat_base.php');
+require_once(__DIR__ . '/../fixtures/apifixtures.class.php');
 
 use Moodle\BehatExtension\Exception\SkippedException;
 use PHPUnit\Framework\Assert;
@@ -370,6 +371,24 @@ class behat_qtype_stack extends behat_base {
         if (count($urls) !== (int) $number) {
             throw new \Exception("Expected $number images but found " . count($urls) . ".");
         }
+    }
+
+    /**
+     * Create a site library containing a small multi-question Moodle XML file.
+     *
+     * @Given /^the STACK Behat question set site library exists$/
+     */
+    public function the_stack_behat_question_set_site_library_exists(): void {
+        global $CFG;
+
+        $dir = $CFG->dataroot . '/stack/sitelibrary/behat_question_set';
+        make_writable_directory($dir);
+        file_put_contents(
+            $dir . '/Question-set-library-test.xml',
+            stack_api_test_data::get_question_string('libraryquestionset')
+        );
+
+        cache::make('qtype_stack', 'librarycache')->purge();
     }
 
     /**

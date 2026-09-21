@@ -61,6 +61,26 @@ Feature: Test STACK library
     And I should see "CR-Diff-02-linearity-5.b"
 
   @javascript
+  Scenario: Import a question set starting from question bank.
+    Given the STACK Behat question set site library exists
+    When I am on the "Course 1" "core_question > course question bank" page logged in as "teacher"
+    And I click on "Create a new question" "button"
+    And I set the field "item_qtype_stack" to "1"
+    And I press "submitbutton"
+    And I click on "STACK question library" "link"
+    And I click on ".qtype_stack_question_library select" "css_element"
+    And I click on ".qtype_stack_question_library select option[value*='behat_question_set']" "css_element"
+    And I click on "Question-set-library-test.xml" "button"
+    Then I should see "This is a question set containing:"
+    And I should see "Question category: top/Question set library test"
+    And I should see "First question in library set"
+    And I should see "Second question in library set"
+    And I should see "Questions will be imported into categories listed in the file rather than your selected category."
+    When I click on "Import" "button"
+    Then I should see "Question-set-library-test.xml --> First question in library set"
+    And I should see "Question-set-library-test.xml --> Second question in library set"
+
+  @javascript
   Scenario: Import a question starting from quiz in Moodle < 4.3.
     Given the site is running Moodle version 4.2 or lower
     When I am on the "Quiz 1" "mod_quiz > Edit" page logged in as "teacher"

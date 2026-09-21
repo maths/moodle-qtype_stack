@@ -188,7 +188,7 @@ class library_render extends \external_api {
             } catch (\stack_exception $e) {
                 // If the question is not a STACK question we can't render it
                 // but we still want users to be able to import it.
-                if (strpos($e->getMessage(), 'not of type STACK') !== false) {
+                if ($e->debuginfo === StackQuestionLoader::NON_STACK_Q) {
                     $xmldata = new SimpleXMLElement($qcontents);
                     $questiontext = (string) $xmldata->question->questiontext->text;
                     $questionname = (string) $xmldata->question->name->text;
@@ -203,7 +203,34 @@ class library_render extends \external_api {
                         'questiondescription' => '',
                         'isstack' => false,
                     ];
-                } else {
+                } else if (
+                    $e->debuginfo === StackQuestionLoader::MULTIPLE_Q ||
+                    $e->debuginfo === StackQuestionLoader::MULTIPLE_Q_CATEGORY
+                ) {
+                    $xmldata = new SimpleXMLElement($qcontents);
+                    $questiontext = '';
+                    foreach($xmldata->question as $multiquestion) {
+                        $questiontext .= ($multiquestion->category->text) ?
+                            get_string('stack_library_category', 'qtype_stack') .
+                            ' ' . (string) $multiquestion->category->text . '<br>' : '';
+                        $questiontext .= ($multiquestion->name->text) ?
+                            '<span class="ml-5">' . (string) $multiquestion->name->text . '</span><br>' : '';
+                    }
+                    if ($e->debuginfo === StackQuestionLoader::MULTIPLE_Q_CATEGORY) {
+                        $questiontext .= '<br>' . get_string('stack_library_multiple_category', 'qtype_stack');
+                    }
+                    $result = [
+                        'questionrender' => '<div class="formulation">' .
+                            get_string('stack_library_multiple', 'qtype_stack') .
+                            '<br><br>' . $questiontext . '</div>',
+                        'iframes' => [],
+                        'questionname' => get_string('stack_library_set', 'qtype_stack'),
+                        'questiontext' => $questiontext,
+                        'questionvariables' => '',
+                        'questiondescription' => '',
+                        'isstack' => false,
+                    ];
+                } else{
                     throw $e;
                 }
             }

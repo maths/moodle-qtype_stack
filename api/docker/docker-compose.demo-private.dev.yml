@@ -1,0 +1,58 @@
+# Development version of the private STACK API demo.
+#
+# Only the frontend is exposed to the host. Source is bind-mounted so PHP,
+# JavaScript, CSS, samplequestions, and API changes are visible without rebuilding.
+services:
+  maxima:
+    image: mathinstitut/goemaxima:2026062900-latest
+    tmpfs:
+      - "/tmp"
+    restart: unless-stopped
+    cap_add:
+      - SETGID
+      - SETUID
+    cap_drop:
+      - ALL
+    environment:
+      GOEMAXIMA_QUEUE_LEN: 32
+    read_only: true
+
+  api:
+    build:
+      context: ./../../
+      dockerfile: ./api/docker/Dockerfile
+      target: development
+    restart: unless-stopped
+    expose:
+      - "80"
+    volumes:
+      - ../../:/srv/stack
+      - /srv/stack/api/vendor/
+    depends_on:
+      - maxima
+
+  frontend:
+    build:
+      context: ./../../
+      dockerfile: ./api/docker/DockerfilePrivateDemo
+    restart: unless-stopped
+    environment:
+      STACK_PRIVATE_DEMO_API_URL: http://api
+      STACK_PRIVATE_DEMO_LIBRARY: stacklibrary
+    command: >
+      sh -c "test -f /srv/stack/api/private-demo/assets/question-manifest.json ||
+      php /srv/stack/api/private-demo/build_manifest.php;
+      apache2-foreground"
+    volumes:
+      - ../../api/private-demo:/srv/stack/api/private-demo
+      - ../../api/public/api.css:/srv/stack/api/private-demo/public/assets/api.css:ro
+      - ../../api/public/stackjsvle.js:/srv/stack/api/private-demo/public/assets/stackjsvle.js:ro
+      - ../../api/public/stackshared.js:/srv/stack/api/private-demo/public/assets/stackshared.js:ro
+      - ../../api/public/logo_large.png:/srv/stack/api/private-demo/public/assets/logo_large.png:ro
+      - ../../api/public/favicon.ico:/srv/stack/api/private-demo/public/favicon.ico:ro
+      - ../../samplequestions:/srv/stack/samplequestions:ro
+      - ../../corsscripts:/srv/stack/corsscripts:ro
+    ports:
+      - "3081:80"
+    depends_on:
+      - api

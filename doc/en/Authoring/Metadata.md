@@ -7,22 +7,22 @@ New questions will be created with editable `metadata` similar to the following:
 {
     "author":[
         {
-            "firstName": "Current", //$USER->firstname
-            "lastName": "User", // $USER->lastname
-            "institution": "", // $USER->institution
-            "year": "2026" // Current year
+            "firstName": "Current", // Default: $USER->firstname
+            "lastName": "User", // Default: $USER->lastname
+            "institution": "", // Default: $USER->institution
+            "year": "2026" // Default: Current year
         }
     ],
     "language": [
-        "en" // Current language
+        "en" // Default: Current language
     ],
-    "license": "unknown", // $CFG->sitedefaultlicense
-    "isPartOf": "",
-    "additional": {},
-    "freeform" {}
+    "license": "unknown", // Default: $CFG->sitedefaultlicense
+    "isPartOf": "", // Very basic field for linking/identifying content e.g. HELM, STACK Library, UoE Algebra1
+    "additional": {}, // Custom fields scoped by institution or project and in a defined JSON format (see below)
+    "freeform" {} // Completely user-defined metadata
 }
 ```
-A question can have multiple authors. 
+A question can have multiple authors. The metadata scheme is loosely based on [the Dublin Core specification](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/).
 
 Additional metadata is stored in Scope->Property->Qualifier->Value or Scope->Property->Value format. Scope identifies the metadata scheme being used. For instance, two institutions might have the property `Level` that has different meanings. Scope allows differentiation between the two:
 ```

@@ -9,6 +9,14 @@ describe('cas filter', () => {
         expect(cas('A: @2+3@, B: @4+5@')).toBe('A: @2+3@, B: @4+5@');
     });
 
+    test('falls back to raw content when evaluation fails', () => {
+        expect(cas('A: {@2+@}, B: {@3*3@}')).toBe('A: 2+, B: 9');
+    });
+
+    test('falls back to raw content when evaluation returns a function', () => {
+        expect(cas('A: {@derivative@}, B: {@3*3@}')).toBe('A: derivative, B: 9');
+    });
+
     test('evaluates calculus between {@ and @}', () => {
         expect(cas('The derivative is {@derivative("sin(2*x^3)", "x")@}.')).toBe('The derivative is 6 * x ^ 2 * cos(2 * x ^ 3).');
     });
@@ -27,6 +35,31 @@ describe('cas filter', () => {
         cas('A: {@7-4@}', collector);
         expect(collector.blocks).toEqual([
             { type: 'calculation', raw: '7-4', rendered: '3' }
+        ]);
+    });
+
+    test('populates blockCollector with errors from failed evaluations', () => {
+        const collector = { blocks: [] };
+        cas('A: {@2+@}, B: {@3*3@}', collector);
+        expect(collector.blocks).toHaveLength(2);
+        expect(collector.blocks[0]).toMatchObject({
+            type: 'calculation',
+            raw: '2+',
+            rendered: '2+',
+            errormsg: expect.any(String)
+        });
+        expect(collector.blocks[1]).toEqual({
+            type: 'calculation',
+            raw: '3*3',
+            rendered: '9'
+        });
+    });
+
+    test('populates blockCollector with raw content for function-valued results', () => {
+        const collector = { blocks: [] };
+        cas('A: {@derivative@}', collector);
+        expect(collector.blocks).toEqual([
+            { type: 'calculation', raw: 'derivative', rendered: 'derivative' }
         ]);
     });
 

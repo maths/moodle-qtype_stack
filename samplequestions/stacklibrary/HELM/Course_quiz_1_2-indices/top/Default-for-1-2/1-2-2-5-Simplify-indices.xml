@@ -86,6 +86,10 @@ ta4: ev(d1*x^(d2+1), simp:true);</text>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
     <isbroken>0</isbroken>
+    <prescribedmetadata/>
+    <metadata>
+      {"author":[{"firstName":"","lastName":"","institution":"HELM Consortium","year":"2015"},{"firstName":"","lastName":"","institution":"University of Edinburgh","year":"2025"}],"language":["en"],"isPartOf":"HELM","license":"cc-nc-4.0","additional":{"UoE":{"Notes":"This is automatically generated metadata."}},"freeform":{}}
+    </metadata>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>

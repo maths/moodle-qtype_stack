@@ -10,6 +10,8 @@ We use the [github issue tracker](https://github.com/maths/moodle-qtype_stack/is
 Issues with [github milestone 4.14.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.14.0) include
 
 1. Add [metadata](../Authoring/Metadata.md) to STACK questions.  (Issue #1711).
+2. Update to version 2.5.1 of ASCIIMath (May 2026)
+3. Add in errors to the free text input, using stdin/stdout/stderr as a model for filter/extractor functions.
 
 ## Better testing
 

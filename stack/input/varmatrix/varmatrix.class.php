@@ -165,11 +165,14 @@ class stack_varmatrix_input extends stack_input {
 
         // Read matrix bracket style from options.
         // The default brackets for matrices are square in options.
+        $matrixparens = '[';
         $matrixbrackets = 'matrixsquarebrackets';
         if ($this->options) {
             $matrixparens = $this->options->get_option('matrixparens');
             if ($matrixparens == '(') {
                 $matrixbrackets = 'matrixroundbrackets';
+            } else if ($matrixparens == '{') {
+                $matrixbrackets = 'matrixcurlybrackets';
             } else if ($matrixparens == '|') {
                 $matrixbrackets = 'matrixbarbrackets';
             } else if ($matrixparens == '') {
@@ -187,11 +190,16 @@ class stack_varmatrix_input extends stack_input {
             $attributes['data-stack-input-list-separator'] = ',';
         }
 
+        [$leftbracket, $rightbracket] = $this->render_matrix_bracket_accessibility($matrixparens);
         $wrapperattributes = ['class' => $matrixbrackets];
         if ($this->valuetype !== 'matrix') {
             $wrapperattributes['data-stack-input-value-type'] = $this->valuetype;
         }
-        $xhtml = html_writer::tag('textarea', htmlspecialchars($current, ENT_COMPAT), $attributes);
+        $xhtml = $leftbracket . html_writer::tag(
+            'textarea',
+            htmlspecialchars($current, ENT_COMPAT),
+            $attributes
+        ) . $rightbracket;
         return html_writer::tag('div', $xhtml, $wrapperattributes);
     }
 
@@ -217,6 +225,8 @@ class stack_varmatrix_input extends stack_input {
         $matrixparens = $this->options->get_option('matrixparens');
         if ($matrixparens == '[') {
             $matrixbrackets = 'matrixsquarebrackets';
+        } else if ($matrixparens == '{') {
+            $matrixbrackets = 'matrixcurlybrackets';
         } else if ($matrixparens == '|') {
             $matrixbrackets = 'matrixbarbrackets';
         } else if ($matrixparens == '') {

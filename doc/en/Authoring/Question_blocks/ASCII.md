@@ -54,6 +54,7 @@ A filter is specified with a `[[filter]]` child block inside the `[[ascii]]` blo
 2. `transforms` (for `markdown` type): a comma-separated list of transforms to apply. Available transforms: `aligneq`, `asciimath`, `boldfilter`, `minwrap`.
 3. `reset`: if `"true"`, this filter operates on the original raw input rather than the output of any preceding filter(s).
 4. `display`: if `"true"`, the output of this filter is used as the final display and subsequent filters cannot modify the display.
+5. `errors`: if the filter is one which returns error messages (e.g. calculation), these are displayed inside the ASCII panel by default. Set `errors="false"` to hide them.
 
 ### Available filters
 
@@ -153,7 +154,7 @@ The `calculation` filter provides a simple scientific calculator.  The filter fi
 
     [[filter type="calculation" /]]
 
-See the [Filter: calculations](Filter_calculations.md) documentation for full details.
+See the [Filter: calculations](Filter_calculations.md) documentation for full details. Set `errors="false"` in the filter block parameters to hide error messages. (NB Most error messages come directly from mathjs and will not be translated from English.)
 
 ### Filter developer notes
 

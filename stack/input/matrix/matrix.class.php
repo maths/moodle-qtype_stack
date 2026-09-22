@@ -56,16 +56,20 @@ class stack_matrix_input extends stack_input {
         $this->columnseparators = [];
         // Command aug(A,b) is instantiated by matrix.mac as aug_matrix(A,b). Infer boundaries from
         // the value, as with c/r inputs, rather than asking authors to duplicate its shape.
+        // Return [height, width, value type, block count, block width, block type, ...].
         $cs = stack_ast_container::make_from_teacher_source(
-            'block([v:' . $teacheranswer . ',blocks,shapes,hh], ' .
-            'if safe_op(v)#"aug_matrix" then append(matrix_size(v),[0]) else (' .
+            'block([v:' . $teacheranswer . ',vop,blocks,shapes,hh], ' .
+            'vop:safe_op(v), ' .
+            'if is(vop="c") then [length(args(v)),1,1,0] ' .
+            'else if is(vop="r") then [1,length(args(v)),2,0] ' .
+            'else if vop#"aug_matrix" then append(matrix_size(v),[0,0]) else (' .
             'blocks:args(v), ' .
-            'if length(blocks)<2 then [0,0,1] else (' .
+            'if length(blocks)<2 then [0,0,3,0] else (' .
             'shapes:map(lambda([b],if safe_op(b)="c" then [length(args(b)),1,1] ' .
             'else if safe_op(b)="r" then [1,length(args(b)),2] else append(matrix_size(b),[0])),blocks), ' .
             'hh:first(first(shapes)), ' .
-            'if hh<1 or member(true,map(lambda([z],is(first(z)#hh or second(z)<1)),shapes)) then [0,0,1] ' .
-            'else append([hh,apply("+",map(second,shapes)),length(blocks)], ' .
+            'if hh<1 or member(true,map(lambda([z],is(first(z)#hh or second(z)<1)),shapes)) then [0,0,3,0] ' .
+            'else append([hh,apply("+",map(second,shapes)),3,length(blocks)], ' .
             'apply(append,map(lambda([z],[second(z),third(z)]),shapes))))))'
         );
         $cs->get_valid();
@@ -77,17 +81,18 @@ class stack_matrix_input extends stack_input {
         }
         $this->height = $cs->get_list_element(0, true)->value;
         $this->width = $cs->get_list_element(1, true)->value;
-        $count = $cs->get_list_element(2, true)->value;
-        if ($count && $this->height === 0) {
+        $valuetype = $cs->get_list_element(2, true)->value;
+        $this->valuetype = ['matrix', 'c', 'r', 'aug_matrix'][$valuetype];
+        $count = $cs->get_list_element(3, true)->value;
+        if ($this->valuetype === 'aug_matrix' && $this->height === 0) {
             $this->errors[] = stack_string('matrixaugmentedshape');
             return;
         }
         if ($count) {
-            $this->valuetype = 'aug_matrix';
             $offset = 0;
             for ($i = 0; $i < $count; $i++) {
-                $width = $cs->get_list_element(3 + 2 * $i, true)->value;
-                $type = $cs->get_list_element(4 + 2 * $i, true)->value;
+                $width = $cs->get_list_element(4 + 2 * $i, true)->value;
+                $type = $cs->get_list_element(5 + 2 * $i, true)->value;
                 $this->blockwidths[] = $width;
                 $this->blocktypes[] = ['matrix', 'c', 'r'][$type];
                 $offset += $width;
@@ -193,7 +198,7 @@ class stack_matrix_input extends stack_input {
             }
             return 'aug_matrix(' . implode(',', $blocks) . ')';
         }
-        return $this->array_to_constructor($contents, 'matrix');
+        return $this->array_to_constructor($contents, $this->valuetype);
     }
 
     /**
@@ -204,7 +209,7 @@ class stack_matrix_input extends stack_input {
             return 'c(' . implode(',', array_column($contents, 0)) . ')';
         }
         if ($type === 'r') {
-            return 'r(' . implode(',', $contents[0]) . ')';
+            return 'r(' . implode(',', $contents[0] ?? []) . ')';
         }
         $rows = array_map(function($row) {
             return '[' . implode(',', $row) . ']';
@@ -238,7 +243,13 @@ class stack_matrix_input extends stack_input {
             }
             return $tc;
         }
-        if ('matrix(' == substr($t, 0, 7)) {
+        if ($this->valuetype === 'c' && 'c(' === substr($t, 0, 2)) {
+            foreach ($this->modinput_tokenizer(substr($t, 2, -1)) as $i => $entry) {
+                $tc[$i] = [$entry];
+            }
+        } else if ($this->valuetype === 'r' && 'r(' === substr($t, 0, 2)) {
+            $tc[0] = $this->modinput_tokenizer(substr($t, 2, -1));
+        } else if ('matrix(' == substr($t, 0, 7)) {
             // @codingStandardsIgnoreStart
             // E.g. array("[a,b]","[c,d]").
             // @codingStandardsIgnoreEnd
@@ -402,21 +413,23 @@ class stack_matrix_input extends stack_input {
             $attr['data-stack-input-decimal-separator'] = ".";
             $attr['data-stack-input-list-separator'] = ",";
         }
-
         // Read matrix bracket style from options.
         $matrixbrackets = 'matrixsquarebrackets';
         $matrixparens = $this->options->get_option('matrixparens');
         if ($matrixparens == '(') {
             $matrixbrackets = 'matrixroundbrackets';
+        } else if ($matrixparens == '{') {
+            $matrixbrackets = 'matrixcurlybrackets';
         } else if ($matrixparens == '|') {
             $matrixbrackets = 'matrixbarbrackets';
         } else if ($matrixparens == '') {
             $matrixbrackets = 'matrixnobrackets';
         }
-        // Expose the value type without changing grid field names or AJAX responses.
-        $valueattr = $this->valuetype === 'matrix' ? '' : ' data-stack-input-value-type="aug_matrix"';
+        [$leftbracket, $rightbracket] = $this->render_matrix_bracket_accessibility($matrixparens);
         // Build the html table to contain these values.
-        $xhtml = '<div class="' . $matrixbrackets . '"><table class="matrixtable" id="' . $fieldname .
+        $valueattr = $this->valuetype === 'matrix' ? '' : ' data-stack-input-value-type="' . $this->valuetype . '"';
+        $xhtml = '<div class="' . $matrixbrackets . '"' . $valueattr .
+                '>' . $leftbracket . '<table class="matrixtable" id="' . $fieldname .
                 '_container" style="display:inline; vertical-align: middle;" ' .
                 'cellpadding="1" cellspacing="0"' . $valueattr . '><tbody>';
         for ($i = 0; $i < $this->height; $i++) {
@@ -462,7 +475,7 @@ class stack_matrix_input extends stack_input {
             }
             $xhtml .= '</tr>';
         }
-        $xhtml .= '</tbody></table></div>';
+        $xhtml .= '</tbody></table>' . $rightbracket . '</div>';
 
         return $xhtml;
     }
@@ -476,6 +489,7 @@ class stack_matrix_input extends stack_input {
         $data = [];
 
         $data['type'] = 'matrix';
+        $data['casValueType'] = $this->valuetype;
 
         $syntaxhint = $this->parameters['syntaxHint'];
         $data['syntaxHint'] = null;
@@ -488,6 +502,8 @@ class stack_matrix_input extends stack_input {
         $matrixparens = $this->options->get_option('matrixparens');
         if ($matrixparens == '[') {
             $matrixbrackets = 'matrixsquarebrackets';
+        } else if ($matrixparens == '{') {
+            $matrixbrackets = 'matrixcurlybrackets';
         } else if ($matrixparens == '|') {
             $matrixbrackets = 'matrixbarbrackets';
         } else if ($matrixparens == '') {
@@ -499,7 +515,6 @@ class stack_matrix_input extends stack_input {
         $data['width'] = $this->width;
         $data['height'] = $this->height;
         if ($this->valuetype === 'aug_matrix') {
-            $data['casValueType'] = $this->valuetype;
             $data['blocks'] = [];
             foreach ($this->blockwidths as $i => $width) {
                 $data['blocks'][] = ['type' => $this->blocktypes[$i], 'columns' => $width];

@@ -1559,6 +1559,36 @@ abstract class stack_input {
     }
 
     /**
+     * Return accessible elements for matrix delimiters.
+     *
+     * Shared by the fixed and variable-size matrix inputs.
+     *
+     * @param string $matrixparens the configured matrix delimiter.
+     * @return string[] the left and right accessible elements.
+     */
+    protected function render_matrix_bracket_accessibility($matrixparens) {
+        $labelkeys = [
+            '[' => ['matrixleftsquarebracket', 'matrixrightsquarebracket'],
+            '(' => ['matrixleftparenthesis', 'matrixrightparenthesis'],
+            '{' => ['matrixleftcurlybracket', 'matrixrightcurlybracket'],
+            '|' => ['matrixleftverticalbar', 'matrixrightverticalbar'],
+        ];
+        if (!array_key_exists($matrixparens, $labelkeys)) {
+            return ['', ''];
+        }
+
+        $attributes = ['class' => 'matrixbracketaccessibility', 'role' => 'math'];
+        return [
+            html_writer::tag('span', '', $attributes + [
+                'aria-label' => stack_string($labelkeys[$matrixparens][0]),
+            ]),
+            html_writer::tag('span', '', $attributes + [
+                'aria-label' => stack_string($labelkeys[$matrixparens][1]),
+            ]),
+        ];
+    }
+
+    /**
      * Returns the XHTML for embedding this input in a page.
      *
      * @param string student's current answer to insert into the xhtml.

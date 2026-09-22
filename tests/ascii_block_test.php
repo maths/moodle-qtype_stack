@@ -23,11 +23,6 @@
 
 namespace qtype_stack;
 
-use api\util\StackIframeHolder;
-use castext2_evaluatable;
-use qtype_stack_testcase;
-use stack_cas_session2;
-
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../locallib.php');
@@ -38,6 +33,10 @@ require_once(__DIR__ . '/../stack/cas/castext2/blocks/iframe.block.php');
 require_once(__DIR__ . '/../stack/cas/castext2/blocks/filter.block.php');
 require_once(__DIR__ . '/../stack/cas/castext2/blocks/extractor.block.php');
 
+use api\util\StackIframeHolder;
+use castext2_evaluatable;
+use qtype_stack_testcase;
+use stack_cas_session2;
 use stack_cas_castext2_iframe;
 
 /**
@@ -85,6 +84,15 @@ final class ascii_block_test extends qtype_stack_testcase {
         }
     }
 
+    /**
+     * Build a JSON object fragment for an ASCII string entry.
+     * @param string $key
+     * @return string
+     */
+    private function ascii_string_json_fragment(string $key): string {
+        return '"' . $key . '":' . json_encode(stack_string($key));
+    }
+
     public function test_basic_ascii_block(): void {
         stack_cas_castext2_iframe::register_counter('///IFRAME_COUNT///');
 
@@ -106,8 +114,6 @@ final class ascii_block_test extends qtype_stack_testcase {
                 '" dir="' . stack_get_system_direction() . '">',
             $iframecontent
         );
-        $this->assertStringContainsString('<div class="container row asciimath" id="asciiContainerRow"', $iframecontent);
-        $this->assertStringNotContainsString('id="asciiContainerRow" dir=', $iframecontent);
     }
 
     public function test_ascii_align_parameter_overrides_iframe_document_direction(): void {
@@ -159,12 +165,16 @@ final class ascii_block_test extends qtype_stack_testcase {
         $strings = $this->get_string_items($compiled);
         $joined = implode("\n", $strings);
         $this->assertStringContainsString('stack_js.request_access_to_input("ans1",true)', $joined);
-        $expectedlinkcode = '{init(inputIds,[{"operation":"filter","type":"markdown","transforms":"asciimath,aligneq,minwrap"}]);}';
+        $expectedlinkcode = '{init(inputIds,[{"operation":"filter","type":"markdown","transforms":"asciimath,aligneq,minwrap"}]' .
+            ',{"asciistrings":///STACK_ASCII_STRINGS///});}';
         $this->assertStringContainsString($expectedlinkcode, $joined);
         $this->assertStringContainsString(
-            'id="asciiContainerRow" style="width:calc(100% - 13px);height:calc(100vh - 14px);min-height:calc(400px - 14px);"',
+            'id="asciiShell" class="stackascii-shell" style="width:100%;height:100vh;min-height:400px;"',
             $joined
         );
+        $this->assertStringContainsString('<div class="asciimath" id="asciiContainerRow">', $joined);
+        $this->assertStringContainsString('<div id="asciiErrorRow" class="stackascii-errors"></div>', $joined);
+        $this->assertStringContainsString('<div id="asciiRenderedContent" class="stackascii-content"></div>', $joined);
     }
 
     public function test_ascii_compile_without_input_parameter_uses_empty_input_requests(): void {
@@ -179,37 +189,9 @@ final class ascii_block_test extends qtype_stack_testcase {
         $this->assertStringNotContainsString('stack_js.request_access_to_input(', $joined);
         $this->assertStringContainsString('<textarea id="asciiSuppliedText" style="display:none;">', $joined);
         $this->assertStringContainsString('</textarea>', $joined);
-        $expectedlinkcode = '{init(inputIds,[{"operation":"filter","type":"markdown","transforms":"asciimath,aligneq,minwrap"}]);}';
+        $expectedlinkcode = '{init(inputIds,[{"operation":"filter","type":"markdown","transforms":"asciimath,aligneq,minwrap"}]' .
+            ',{"asciistrings":///STACK_ASCII_STRINGS///});}';
         $this->assertStringContainsString($expectedlinkcode, $joined);
-    }
-
-    public function test_ascii_align_parameter_sets_document_direction_only(): void {
-        $blockright = new \stack_cas_castext2_ascii(['align' => 'right'], []);
-        $compiledright = $blockright->compile(null, []);
-
-        $this->assertInstanceOf(\MP_List::class, $compiledright);
-
-        $xparsright = json_decode($compiledright->items[1]->value, true);
-        $this->assertEquals('rtl', $xparsright['stack-ascii-direction']);
-        $strings = $this->get_string_items($compiledright);
-        $joined = implode("\n", $strings);
-        $this->assertStringContainsString(
-            '<div class="container row asciimath" id="asciiContainerRow"',
-            $joined
-        );
-        $this->assertStringNotContainsString('algebraic-right', $joined);
-
-        $blockleft = new \stack_cas_castext2_ascii(['align' => 'left'], []);
-        $compiledleft = $blockleft->compile(null, []);
-        $this->assertInstanceOf(\MP_List::class, $compiledleft);
-        $xparsleft = json_decode($compiledleft->items[1]->value, true);
-        $this->assertEquals('ltr', $xparsleft['stack-ascii-direction']);
-        $joinedleft = implode("\n", $this->get_string_items($compiledleft));
-        $this->assertStringContainsString(
-            '<div class="container row asciimath" id="asciiContainerRow"',
-            $joinedleft
-        );
-        $this->assertStringNotContainsString('algebraic-right', $joinedleft);
     }
 
     public function test_ascii_compile_uses_child_filter_and_extractor_operations(): void {
@@ -239,10 +221,11 @@ final class ascii_block_test extends qtype_stack_testcase {
         $this->assertStringContainsString('stack_js.request_access_to_input("ans1",true)', $joined);
         $this->assertStringContainsString('stack_js.request_access_to_input("ans2")', $joined);
         $expectedlinkcode = '{init(inputIds,[{"type":"markdown","transforms":"aligneq","display":"true","operation":"filter"}' .
-            ',{"type":"lastexpr","targetinput":"ans2","operation":"extractor"}]);}';
+            ',{"type":"lastexpr","targetinput":"ans2","operation":"extractor"}]' .
+            ',{"asciistrings":///STACK_ASCII_STRINGS///});}';
         $this->assertStringContainsString($expectedlinkcode, $joined);
         $this->assertStringContainsString(
-            'id="asciiContainerRow" style="width:calc(80% - 13px);height:calc(100vh - 14px);min-height:calc(300px - 14px);"',
+            'id="asciiShell" class="stackascii-shell" style="width:80%;height:100vh;min-height:300px;"',
             $joined
         );
         $this->assertStringNotContainsString('"transforms":"aligneq,boldfilter"', $joined);
@@ -276,13 +259,48 @@ final class ascii_block_test extends qtype_stack_testcase {
         $this->assertStringContainsString('stack_js.request_access_to_input("ans2")', $joined);
         $expectedlinkcode = '{init(inputIds,[{"type":"markdown","transforms":"asciimath,aligneq,minwrap",' .
             '"display":"true","operation":"filter"}' .
-            ',{"type":"lastexpr","targetinput":"ans2","operation":"extractor"}]);}';
+            ',{"type":"lastexpr","targetinput":"ans2","operation":"extractor"}]' .
+            ',{"asciistrings":///STACK_ASCII_STRINGS///});}';
         $this->assertStringContainsString($expectedlinkcode, $joined);
         $this->assertStringContainsString(
-            'id="asciiContainerRow" style="width:calc(80% - 13px);height:calc(100vh - 14px);min-height:calc(300px - 14px);"',
+            'id="asciiShell" class="stackascii-shell" style="width:80%;height:100vh;min-height:300px;"',
             $joined
         );
         $this->assertStringNotContainsString('"transforms":"aligneq,boldfilter"', $joined);
+    }
+
+    public function test_ascii_iframe_replaces_ascii_string_placeholder(): void {
+        stack_cas_castext2_iframe::register_counter('///IFRAME_COUNT///');
+        StackIframeHolder::$iframes = [];
+        $oldlibrarymode = StackIframeHolder::$islibrary;
+        StackIframeHolder::$islibrary = true;
+
+        try {
+            $raw = '[[ascii input="ans1"]][[/ascii]]';
+            $at1 = castext2_evaluatable::make_from_source($raw, 'test-case');
+            $session = new stack_cas_session2([$at1]);
+            $session->instantiate();
+            $at1->apply_placeholder_holder($at1->get_rendered());
+
+            $this->assertCount(1, StackIframeHolder::$iframes);
+            $iframehtml = StackIframeHolder::$iframes[0][1];
+            $this->assertStringNotContainsString('///STACK_ASCII_STRINGS///', $iframehtml);
+            $this->assertStringContainsString(
+                $this->ascii_string_json_fragment('asciistringextractorsearchnotfound'),
+                $iframehtml
+            );
+            $this->assertStringContainsString(
+                $this->ascii_string_json_fragment('asciistringextractorregexrequired'),
+                $iframehtml
+            );
+            $this->assertStringContainsString(
+                $this->ascii_string_json_fragment('asciistringextractorlastcalcnotfound'),
+                $iframehtml
+            );
+        } finally {
+            StackIframeHolder::$iframes = [];
+            StackIframeHolder::$islibrary = $oldlibrarymode;
+        }
     }
 
     public function test_ascii_validate_width_unit_and_number(): void {

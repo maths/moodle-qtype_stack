@@ -15,6 +15,9 @@ Issues with [github milestone 4.14.0](https://github.com/maths/moodle-qtype_stac
 4. Refactor display of matrices so that brackets for `matrix`, `c` and `r` can be controlled in a consistent manner by the question wide `matrixparens` option.  See also Issue #1848.  Thanks to Oleksandr Kulkov for these contributions.
 5. Add in augmented matrix grids for fixed [matrix inputs](../Authoring/Inputs/Matrix_input.md). (Issue #1850).
 
+4. Count authoring failures as XML import errors so Stop on error rejects invalid uploads before writes.
+   Explicit repair imports retain broken diagnostics without changing Moodle version status.
+
 ## Better testing
 
 ### Add in a new keyvals field "test variables".

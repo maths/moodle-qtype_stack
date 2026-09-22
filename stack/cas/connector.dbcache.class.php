@@ -52,9 +52,10 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
             // @codingStandardsIgnoreEnd
             if (!stack_connection_helper::check_stackmaxima_version($cached->result)) {
                 stack_connection_helper::warn_about_version_mismatch($this->debug);
-                // We could consider automatically purging the cache here.
+                $this->delete_cached_result($cached->key);
+            } else {
+                return $cached->result;
             }
-            return $cached->result;
         }
         $this->debug->log('Maxima command not found in the cache. Using the raw connection.');
         $result = $this->rawconnection->compute($command);
@@ -78,7 +79,12 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
             // @codingStandardsIgnoreStart
             $this->debug->log('Unpacked result found in the DB cache', print_r($cached->result, true));
             // @codingStandardsIgnoreEnd
-            return $cached->result;
+            if (!$this->check_json_stackmaxima_version($cached->result)) {
+                stack_connection_helper::warn_about_version_mismatch($this->debug);
+                $this->delete_cached_result($cached->key);
+            } else {
+                return $cached->result;
+            }
         }
         $this->debug->log('Maxima command not found in the cache. Using the raw connection.');
         $this->debug->log('Maxima command', $command);
@@ -158,6 +164,28 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
         $data->result = json_encode($result);
 
         $this->db->insert_record('qtype_stack_cas_cache', $data);
+    }
+
+    /**
+     * Delete a cached result by cache key.
+     * @param string $key the cache key to delete.
+     */
+    protected function delete_cached_result($key) {
+        $this->db->delete_records('qtype_stack_cas_cache', ['hash' => $key]);
+    }
+
+    /**
+     * Check version information in JSON CAS session results.
+     * @param array $result the JSON result from Maxima.
+     * @return bool whether the cached result used compatible STACK-Maxima libraries.
+     */
+    protected function check_json_stackmaxima_version($result) {
+        if (!array_key_exists('values', $result) || !is_array($result['values']) ||
+                !array_key_exists('__stackmaximaversion', $result['values'])) {
+            return true;
+        }
+
+        return stack_utils::get_config()->stackmaximaversion === $result['values']['__stackmaximaversion'];
     }
 
     /**

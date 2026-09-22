@@ -1820,7 +1820,7 @@ abstract class stack_input {
      * This function is responsible for removing the validation tags from the question stem and replacing
      * them with the validation feedback.  Only the equiv input type currently does anything different here.
      */
-    public function replace_validation_tags($state, $fieldname, $questiontext, $custom_validation = null) {
+    public function replace_validation_tags($state, $fieldname, $questiontext, $customvalidation = null) {
 
         $name = $this->name;
         // ISS879 Set language override to null as we should be in the question render here. It's only
@@ -1837,8 +1837,8 @@ abstract class stack_input {
             $class = "stackinputfeedback compact";
         }
 
-        if ($custom_validation !== null) {
-            $feedback = $custom_validation;
+        if ($custom_alidation !== null) {
+            $feedback = $customvalidation;
         }
 
         if (!$feedback) {
@@ -1924,7 +1924,7 @@ abstract class stack_input {
     }
 
     /**
-     * Returns the rendering of the solution
+     * Returns the rendering of the solution.
      * @param $tadisplay
      * @param $ta
      * @return mixed
@@ -1932,7 +1932,10 @@ abstract class stack_input {
     public function get_api_solution_render($tadisplay, $ta) {
         return $tadisplay;
     }
-
+    /**
+     * Returns the name of this input.
+     * @return string
+     */
     public function get_name(): string {
         return $this->name;
     }

@@ -26,6 +26,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir . '/questionlib.php');
+require_once($CFG->dirroot . '/question/format/xml/format.php');
 require_once(__DIR__ . '/stack/input/factory.class.php');
 require_once(__DIR__ . '/stack/answertest/controller.class.php');
 require_once(__DIR__ . '/stack/cas/keyval.class.php');
@@ -67,6 +68,7 @@ class qtype_stack extends question_type {
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function save_question($question, $fromform) {
+        global $DB;
 
         if (!empty($fromform->fixdollars)) {
             $this->fix_dollars_in_form_data($fromform);
@@ -81,6 +83,11 @@ class qtype_stack extends question_type {
         if (isset($question->options->questionid) && $question->options->questionid) {
             $fromform->deployedseeds = $this->get_question_deployed_seeds($question->options->questionid);
             $fromform->testcases = $this->load_question_tests($question->options->questionid);
+            $fromform->prescribedmetadata = $DB->get_field(
+                'qtype_stack_options',
+                'prescribedmetadata',
+                ['questionid' => $question->options->questionid]
+            ) ?: '';
         }
 
         $new = parent::save_question($question, $fromform);
@@ -203,6 +210,8 @@ class qtype_stack extends question_type {
             $options->id = $DB->insert_record('qtype_stack_options', $options);
         }
 
+        $initialprescribedmetadata = $fromform->prescribedmetadata ?? $options->prescribedmetadata ?? '';
+
         $options->stackversion              = $fromform->stackversion;
         $options->questionvariables         = $fromform->questionvariables;
         $options->specificfeedback          = $this->import_or_save_files(
@@ -267,7 +276,7 @@ class qtype_stack extends question_type {
         $options->variantsselectionseed     = $fromform->variantsselectionseed;
         $options->isbroken                  = !empty($fromform->isbroken) ? 1 : 0;
         $options->metadata                  = $fromform->metadata;
-        $options->prescribedmetadata        = "";
+        $options->prescribedmetadata        = $initialprescribedmetadata;
 
         // We will not have the values for this.
         $options->compiledcache             = '{}';
@@ -558,7 +567,58 @@ class qtype_stack extends question_type {
             'questionid = :questionid AND prtname ' . $nametest,
             $params
         );
+
+        if (in_array($PAGE->pagetype, ['question-type-stack', 'question-type-stack-questionxmledit'])) {
+            $questiondata = question_bank::load_question_data($fromform->id);
+            $format = new qformat_xml();
+            $format->setQuestions([$questiondata]);
+            $format->setCattofile(false);
+            $format->setContexttofile(false);
+            $atlasid = self::make_question_atlas_id($format->exportprocess(false));
+
+            $prescribedmetadata = json_decode($initialprescribedmetadata) ?: new StdClass();
+            $prescribedmetadata->atlasIdHistory = $prescribedmetadata->atlasIdHistory ?: [];
+            if (!empty($prescribedmetadata->atlasId)) {
+                $prescribedmetadata->atlasIdHistory[] = $prescribedmetadata->atlasId;
+            }
+            $prescribedmetadata->atlasId = $atlasid;
+
+            $options->prescribedmetadata = json_encode($prescribedmetadata, JSON_UNESCAPED_SLASHES);
+
+            $DB->set_field(
+                'qtype_stack_options',
+                'prescribedmetadata',
+                $options->prescribedmetadata,
+                ['questionid' => $fromform->id]
+            );
+        }
+
         return $result;
+    }
+
+    /**
+     * Generate an ATLAS question id from canonical question XML bytes.
+     * @param string $xmlbytes XML bytes for a STACK question or Moodle quiz XML containing one.
+     * @return string the generated ATLAS id.
+     */
+    public static function make_question_atlas_id(string $xmlbytes): string {
+        $xmlbytes = preg_replace(
+            '~^[ \t]*<prescribedmetadata\b[^>]*>.*?</prescribedmetadata>[ \t]*\n?~ms',
+            '',
+            $xmlbytes
+        );
+        $xmlbytes = preg_replace(
+            '~^[ \t]*<!-- question: \d+\s+-->[ \t]*\n?~m',
+            '',
+            $xmlbytes
+        );
+
+        $timehex = str_pad(dechex((int) floor(microtime(true) * 1000)), 12, '0', STR_PAD_LEFT);
+        $hashhex = bin2hex(substr(hash('sha1', $xmlbytes, true), 0, 6));
+        $randhex = bin2hex(random_bytes(4));
+
+        $core = 'ATLAS-' . $timehex . '-' . $hashhex . '-' . $randhex;
+        return $core . '-' . substr(hash('sha256', $core), 0, 4);
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

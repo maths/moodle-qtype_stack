@@ -29,6 +29,23 @@ stack_linear_algebra_declare(true)$
 /* Thank you to Georg Osang of IDEMS International    */
 /* for significant contributions to this work in 2024 */
 
+lmxchar:"[";
+s_test_case(tex1(c(1,x)),"\\left[\\begin{array}{c} 1 \\\\ x \\end{array}\\right]");
+s_test_case(tex1(r(1,x)),"\\left[\\begin{array}{cc} 1 & x \\end{array}\\right]");
+lmxchar:"(";
+s_test_case(tex1(c(1,x)),"\\left(\\begin{array}{c} 1 \\\\ x \\end{array}\\right)");
+s_test_case(tex1(r(1,x)),"\\left(\\begin{array}{cc} 1 & x \\end{array}\\right)");
+lmxchar:"{";
+s_test_case(tex1(c(1,x)),"\\left\\{\\begin{array}{c} 1 \\\\ x \\end{array}\\right\\}");
+s_test_case(tex1(r(1,x)),"\\left\\{\\begin{array}{cc} 1 & x \\end{array}\\right\\}");
+lmxchar:"|";
+s_test_case(tex1(c(1,x)),"\\left|\\begin{array}{c} 1 \\\\ x \\end{array}\\right|");
+s_test_case(tex1(r(1,x)),"\\left|\\begin{array}{cc} 1 & x \\end{array}\\right|");
+lmxchar:"";
+s_test_case(tex1(c(1,x)),"\\begin{array}{c} 1 \\\\ x \\end{array}");
+s_test_case(tex1(r(1,x)),"\\begin{array}{cc} 1 & x \\end{array}");
+lmxchar:"[";
+
 s_test_case(vec_convert(c(1,2,3)),matrix([1],[2],[3]));
 s_test_case(vec_convert(r(1,2,3)),matrix([1,2,3]));
 s_test_case(vec_convert(c(1,2,3) + matrix([1],[1],[1])),matrix([1],[2],[3])+matrix([1],[1],[1]));

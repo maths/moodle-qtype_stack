@@ -308,7 +308,7 @@ Feature: Create, preview, test, tidy and edit STACK questions
     And I follow "Tests"
     And I should see "Question tests for seed"
     And the field "tests-seed-select" matches value "1731"
-    And I follow "Question"
+    And I click on "[id='question-tab']" "css_element"
     And the field "question-seed-select" matches value "1731"
     And I follow "Tests"
     And I should see "All tests passed!"

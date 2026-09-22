@@ -1837,7 +1837,7 @@ abstract class stack_input {
             $class = "stackinputfeedback compact";
         }
 
-        if ($custom_alidation !== null) {
+        if ($customvalidation !== null) {
             $feedback = $customvalidation;
         }
 
@@ -1909,13 +1909,13 @@ abstract class stack_input {
     }
 
     /**
-     * Returns the definition of this input as it should appear in an API response
+     * Returns the definition of this input as it should appear in an API response.
      * @return array
      */
     abstract public function render_api_data($tavalue);
 
     /**
-     * Returns the solution in the format used by the api
+     * Returns the solution in the format used by the api.
      * @param $tavalue
      * @return array|null
      */

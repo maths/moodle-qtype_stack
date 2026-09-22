@@ -117,8 +117,8 @@
         <!-- Only need tests if we have inputs -->
         {{#tests.hasrandomvariants}}
           <h2 id="tests-heading">
-            {{#str}} questiontestsfor, qtype_stack {{/str}}
-            <select id="tests-seed-select" class="custom-select form-select w-auto d-inline-block" aria-label="{{#str}} seed, qtype_stack {{/str}}" onchange="if(this.value) window.location.href=this.value">
+            <label for="tests-seed-select">{{#str}} questiontestsfor, qtype_stack {{/str}}:</label>
+            <select id="tests-seed-select" class="custom-select form-select w-auto d-inline-block" onchange="if(this.value) window.location.href=this.value">
               {{#general.seedurls}}
               <option value="{{{url}}}"{{#selected}} selected="selected"{{/selected}}{{#disabled}} disabled="disabled"{{/disabled}}>{{seed}}</option>
               {{/general.seedurls}}

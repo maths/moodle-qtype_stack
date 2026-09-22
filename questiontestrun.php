@@ -224,7 +224,6 @@ if (!$currentseedmatched) {
     array_unshift($seedurls, $seedoption);
 }
 $initialdata->general->seedurls = $seedurls;
-$initialdata->general->hasseedurls = !empty($seedurls);
 
 // Output the progress bars first.
 $dashboard->create_progress_bars();

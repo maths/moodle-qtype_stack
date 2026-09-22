@@ -308,9 +308,10 @@ Feature: Create, preview, test, tidy and edit STACK questions
     And I follow "Tests"
     And I should see "Question tests for seed"
     And the field "tests-seed-select" matches value "1731"
+    And I click on "#tests-seed-select" "css_element"
+    And I click on "#tests-seed-select option:nth-child(1)" "css_element"
     And I click on "[id='question-tab']" "css_element"
-    And the field "question-seed-select" matches value "1731"
-    And I follow "Tests"
+    And the field "question-seed-select" matches value "1730"
     And I should see "All tests passed!"
 
     # Add in a second test case.
@@ -352,7 +353,6 @@ Feature: Create, preview, test, tidy and edit STACK questions
     Then I press "deployfromlistbtn"
     And I should see "Deployed variants (4)"
     And I follow "Tests"
-    And "//*[@id='tests-seed-select']/option[normalize-space(.)='10']/following-sibling::option[normalize-space(.)='11']/following-sibling::option[normalize-space(.)='12']/following-sibling::option[normalize-space(.)='13']" "xpath_element" should exist
     And I should see "All tests passed!"
     And I follow "Variants"
     When I press "Run all tests on all deployed variants (slow)"

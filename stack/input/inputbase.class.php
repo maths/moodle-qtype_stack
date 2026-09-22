@@ -1932,7 +1932,6 @@ abstract class stack_input {
     public function get_api_solution_render($tadisplay, $ta) {
         return $tadisplay;
     }
-
     /**
      * Returns the name of this input.
      * @return string

@@ -39,39 +39,111 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
  * @covers \stack_matrix_input
  */
 final class input_matrix_test extends qtype_stack_testcase {
+    public function test_augmented_matrix_roundtrip(): void {
+        $options = new stack_options();
+        $model = 'aug_matrix(matrix([1,2],[3,4]),c(5,6))';
+        $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
+        $el->adapt_to_model_answer($model);
+        $contents = [['1', '2', '5'], ['3', '4', '6']];
+        $this->assertEmpty($el->get_errors());
+        $this->assertSame($model, $el->contents_to_maxima($contents));
+        $response = $el->maxima_to_response_array($model);
+        $this->assertSame($contents, $el->response_to_contents($response));
+        $data = $el->render_api_data(null);
+        $this->assertSame('aug_matrix', $data['casValueType']);
+        $this->assertSame([['type' => 'matrix', 'columns' => 2], ['type' => 'c', 'columns' => 1]], $data['blocks']);
+        $blank = new stack_input_state(stack_input::BLANK, [], '', '', '', '', '');
+        $html = $el->render($blank, 'ans1', false, null);
+        $this->assertSame(2, substr_count($html, 'class="stack-matrix-column-separator"'));
+        $this->assertSame(6, substr_count($html, 'type="text"'));
+        $this->assertStringContainsString('readonly="readonly"', $el->render($blank, 'ans1', true, null));
+        $state = $el->validate_student_response($response, $options, $model, new stack_cas_security());
+        $this->assertContains($state->status, [stack_input::VALID, stack_input::SCORE]);
+        $this->assertSame($model, $state->contentsmodified);
+        $this->assertStringContainsString('\\left|', $state->contentsdisplayed);
+        $this->assertStringNotContainsString('aug\\_matrix', $state->contentsdisplayed);
+        $response['ans1_sub_0_0'] = '';
+        $state = $el->validate_student_response($response, $options, $model, new stack_cas_security());
+        $this->assertSame(stack_input::INVALID, $state->status);
+    }
+
+    public function test_augmented_matrix_multiple_blocks_and_reset(): void {
+        $el = stack_input_factory::make('matrix', 'ans1', 'M', new stack_options());
+        $model = 'aug_matrix(r(1,2),r(3),r(4,5))';
+        $el->adapt_to_model_answer($model);
+        $this->assertSame($model, $el->contents_to_maxima([['1', '2', '3', '4', '5']]));
+        $this->assertCount(3, $el->render_api_data(null)['blocks']);
+        foreach ([
+            ['c(1,2)', [['1'], ['2']], 'c'],
+            ['r(1,2)', [['1', '2']], 'r'],
+            ['matrix([1,2])', [['1', '2']], 'matrix'],
+        ] as [$ordinarymodel, $contents, $type]) {
+            $el->adapt_to_model_answer($model);
+            $el->adapt_to_model_answer($ordinarymodel);
+            $this->assertEmpty($el->get_errors());
+            $this->assertSame($ordinarymodel, $el->contents_to_maxima($contents));
+            $data = $el->render_api_data(null);
+            $this->assertSame($type, $data['casValueType']);
+            $this->assertArrayNotHasKey('blocks', $data);
+            $html = $el->render(new stack_input_state(stack_input::BLANK, [], '', '', '', '', ''),
+                'ans1', false, null);
+            $this->assertStringNotContainsString('stack-matrix-column-separator', $html);
+        }
+    }
+
+    public function test_augmented_matrix_invalid_shapes(): void {
+        foreach (
+                ['aug_matrix(matrix([1]),matrix([2],[3]))',
+                'aug_matrix(matrix([1]))', 'aug_matrix(matrix([1]),matrix([]))'] as $model
+            ) {
+                $el = stack_input_factory::make('matrix', 'ans1', 'M', new stack_options());
+                $el->adapt_to_model_answer($model);
+                $this->assertNotEmpty($el->get_errors(), $model);
+        }
+    }
+
     /**
-     * Matrix delimiters and their accessible names.
+     * Matrix delimiters and their accessible names for ordinary, vector and augmented values.
      *
      * @return array of test cases.
      */
     public static function bracket_accessibility_provider(): array {
-        return [
+        $brackets = [
             'square' => ['[', 'Left square bracket', 'Right square bracket'],
             'round' => ['(', 'Left parenthesis', 'Right parenthesis'],
             'curly' => ['{', 'Left curly bracket', 'Right curly bracket'],
             'vertical bars' => ['|', 'Left vertical bar', 'Right vertical bar'],
             'none' => ['', null, null],
         ];
+        $cases = [];
+        foreach ($brackets as $label => $bracket) {
+            foreach (['matrix([1])', 'c(1,2)', 'r(1,2)', 'aug_matrix(matrix([1,2]),c(3))'] as $model) {
+                $cases[$label . ' ' . $model] = array_merge($bracket, [$model]);
+            }
+        }
+        return $cases;
     }
 
     /**
-     * Test that matrix delimiters have accessible names.
+     * Test that every matrix value type retains the configured accessible delimiters.
      *
      * @dataProvider bracket_accessibility_provider
      *
      * @param string $matrixparens the configured matrix delimiter.
      * @param string|null $leftlabel the expected left label, or null for no delimiter.
      * @param string|null $rightlabel the expected right label, or null for no delimiter.
+     * @param string $model the instantiated model answer.
      */
     public function test_render_bracket_accessibility(
         string $matrixparens,
         ?string $leftlabel,
-        ?string $rightlabel
+        ?string $rightlabel,
+        string $model
     ): void {
         $options = new stack_options();
         $options->set_option('matrixparens', $matrixparens);
         $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
-        $el->adapt_to_model_answer('matrix([1])');
+        $el->adapt_to_model_answer($model);
         $html = $el->render(
             new stack_input_state(stack_input::BLANK, [], '', '', '', '', ''),
             'ans1',

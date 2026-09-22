@@ -26,12 +26,14 @@ class stack_matrix_input extends stack_input {
     protected $width;
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $height;
-    /**
-     * The Maxima constructor generated from the grid: matrix, c, or r.
-     *
-     * @var string
-     */
+    /** @var string Constructor reconstructed from the grid. */
     protected $valuetype = 'matrix';
+    /** @var int[] Width of each augmented block. Empty for an ordinary matrix. */
+    protected $blockwidths = [];
+    /** @var string[] Constructor of each augmented block (matrix, c or r). */
+    protected $blocktypes = [];
+    /** @var int[] One-based columns followed by an augmentation separator. */
+    protected $columnseparators = [];
 
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
     protected $extraoptions = [
@@ -49,33 +51,55 @@ class stack_matrix_input extends stack_input {
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function adapt_to_model_answer($teacheranswer) {
         $this->valuetype = 'matrix';
-
-        // Work out the size and value type from the INSTANTIATED VALUE of the teacher's answer.
-        // c(...) and r(...) are STACK's convenient column- and row-vector forms.
+        $this->blockwidths = [];
+        $this->blocktypes = [];
+        $this->columnseparators = [];
+        // Command aug(A,b) is instantiated by matrix.mac as aug_matrix(A,b). Infer boundaries from
+        // the value, as with c/r inputs, rather than asking authors to duplicate its shape.
+        // Return [height, width, value type, block count, block width, block type, ...].
         $cs = stack_ast_container::make_from_teacher_source(
-            'block([v:' . $teacheranswer . ', vop], ' .
+            'block([v:' . $teacheranswer . ',vop,blocks,shapes,hh], ' .
             'vop:safe_op(v), ' .
-            'if is(vop="c") then [length(args(v)),1,1] ' .
-            'else if is(vop="r") then [1,length(args(v)),2] ' .
-            'else append(matrix_size(v),[0]))'
+            'if is(vop="c") then [length(args(v)),1,1,0] ' .
+            'else if is(vop="r") then [1,length(args(v)),2,0] ' .
+            'else if vop#"aug_matrix" then append(matrix_size(v),[0,0]) else (' .
+            'blocks:args(v), ' .
+            'if length(blocks)<2 then [0,0,3,0] else (' .
+            'shapes:map(lambda([b],if safe_op(b)="c" then [length(args(b)),1,1] ' .
+            'else if safe_op(b)="r" then [1,length(args(b)),2] else append(matrix_size(b),[0])),blocks), ' .
+            'hh:first(first(shapes)), ' .
+            'if hh<1 or member(true,map(lambda([z],is(first(z)#hh or second(z)<1)),shapes)) then [0,0,3,0] ' .
+            'else append([hh,apply("+",map(second,shapes)),3,length(blocks)], ' .
+            'apply(append,map(lambda([z],[second(z),third(z)]),shapes))))))'
         );
         $cs->get_valid();
-        $at1 = new stack_cas_session2([$cs], null, 0);
-        $at1->instantiate();
-
-        if ('' != $at1->get_errors()) {
-            $this->errors[] = $at1->get_errors();
+        $session = new stack_cas_session2([$cs], null, 0);
+        $session->instantiate();
+        if ('' != $session->get_errors()) {
+            $this->errors[] = $session->get_errors();
             return;
         }
-
-        // These are ints...
         $this->height = $cs->get_list_element(0, true)->value;
         $this->width = $cs->get_list_element(1, true)->value;
         $valuetype = $cs->get_list_element(2, true)->value;
-        if ($valuetype === 1) {
-            $this->valuetype = 'c';
-        } else if ($valuetype === 2) {
-            $this->valuetype = 'r';
+        $this->valuetype = ['matrix', 'c', 'r', 'aug_matrix'][$valuetype];
+        $count = $cs->get_list_element(3, true)->value;
+        if ($this->valuetype === 'aug_matrix' && $this->height === 0) {
+            $this->errors[] = stack_string('matrixaugmentedshape');
+            return;
+        }
+        if ($count) {
+            $offset = 0;
+            for ($i = 0; $i < $count; $i++) {
+                $width = $cs->get_list_element(4 + 2 * $i, true)->value;
+                $type = $cs->get_list_element(5 + 2 * $i, true)->value;
+                $this->blockwidths[] = $width;
+                $this->blocktypes[] = ['matrix', 'c', 'r'][$type];
+                $offset += $width;
+                if ($i + 1 < $count) {
+                    $this->columnseparators[] = $offset;
+                }
+            }
         }
     }
 
@@ -162,18 +186,35 @@ class stack_matrix_input extends stack_input {
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function contents_to_maxima($contents) {
-        if ($this->valuetype === 'c') {
+        if ($this->valuetype === 'aug_matrix') {
+            $blocks = [];
+            $offset = 0;
+            foreach ($this->blockwidths as $i => $width) {
+                $rows = array_map(function($row) use ($offset, $width) {
+                    return array_slice($row, $offset, $width);
+                }, $contents);
+                $blocks[] = $this->array_to_constructor($rows, $this->blocktypes[$i]);
+                $offset += $width;
+            }
+            return 'aug_matrix(' . implode(',', $blocks) . ')';
+        }
+        return $this->array_to_constructor($contents, $this->valuetype);
+    }
+
+    /**
+     * Serialize a block without evaluating student expressions.
+     */
+    private function array_to_constructor($contents, $type) {
+        if ($type === 'c') {
             return 'c(' . implode(',', array_column($contents, 0)) . ')';
         }
-        if ($this->valuetype === 'r') {
+        if ($type === 'r') {
             return 'r(' . implode(',', $contents[0] ?? []) . ')';
         }
-
-        $matrix = [];
-        foreach ($contents as $row) {
-            $matrix[] = '[' . implode(',', $row) . ']';
-        }
-        return 'matrix(' . implode(',', $matrix) . ')';
+        $rows = array_map(function($row) {
+            return '[' . implode(',', $row) . ']';
+        }, $contents);
+        return 'matrix(' . implode(',', $rows) . ')';
     }
 
     /**
@@ -188,6 +229,20 @@ class stack_matrix_input extends stack_input {
 
         // Turn the student's answer, syntax hint, etc., into a PHP array.
         $t = trim($in);
+        if ($this->valuetype === 'aug_matrix' && substr($t, 0, 11) === 'aug_matrix(') {
+            $blocks = $this->modinput_tokenizer(substr($t, 11, -1));
+            $offset = 0;
+            foreach ($this->blockwidths as $block => $width) {
+                $rows = $this->constructor_to_array($blocks[$block] ?? '');
+                for ($i = 0; $i < $this->height; $i++) {
+                    for ($j = 0; $j < $width; $j++) {
+                        $tc[$i][$offset + $j] = $rows[$i][$j] ?? '';
+                    }
+                }
+                $offset += $width;
+            }
+            return $tc;
+        }
         if ($this->valuetype === 'c' && 'c(' === substr($t, 0, 2)) {
             foreach ($this->modinput_tokenizer(substr($t, 2, -1)) as $i => $entry) {
                 $tc[$i] = [$entry];
@@ -206,6 +261,27 @@ class stack_matrix_input extends stack_input {
         }
 
         return $tc;
+    }
+
+    /**
+     * Decode an instantiated augmented block for model answers and saved responses.
+     */
+    private function constructor_to_array($value) {
+        $value = trim($value);
+        if (substr($value, 0, 2) === 'c(') {
+            return array_map(function($entry) {
+                return [$entry];
+            }, $this->modinput_tokenizer(substr($value, 2, -1)));
+        }
+        if (substr($value, 0, 2) === 'r(') {
+            return [$this->modinput_tokenizer(substr($value, 2, -1))];
+        }
+        if (substr($value, 0, 7) === 'matrix(') {
+            return array_map(function($row) {
+                return $this->modinput_tokenizer(substr(trim($row), 1, -1));
+            }, $this->modinput_tokenizer(substr($value, 7, -1)));
+        }
+        return [];
     }
 
     /**
@@ -269,18 +345,15 @@ class stack_matrix_input extends stack_input {
         }
         // Construct one final "answer" as a single maxima object.
         // In the case of matrices (where $caslines are empty) create the object directly here.
-        // The generated top-level constructor must not itself be rejected as a forbidden word.
-        // Should it be a forbidden word it gets still applied to the cells.
-        if (isset(stack_cas_security::list_to_map($this->get_parameter('forbidWords', ''))[$this->valuetype])) {
-            $modifiedforbid = str_replace('\,', 'COMMA_TAG', $this->get_parameter('forbidWords', ''));
-            $modifiedforbid = explode(',', $modifiedforbid);
-            $modifiedforbid = array_map('trim', $modifiedforbid);
-            unset($modifiedforbid[array_search($this->valuetype, $modifiedforbid, true)]);
-            $modifiedforbid = implode(',', $modifiedforbid);
-            $modifiedforbid = str_replace('COMMA_TAG', '\,', $modifiedforbid);
-            $secrules->set_forbiddenwords(trim($modifiedforbid));
-            // Cumbersome, and cannot deal with matrix being within an alias...
-            // But first iteration and so on.
+        // Cell-level forbidden words still apply. Only constructors generated by the grid
+        // are removed from the forbidden list for validation of the assembled object.
+        $constructors = array_unique(array_merge([$this->valuetype], $this->blocktypes));
+        $modifiedforbid = str_replace('\\,', 'COMMA_TAG', $this->get_parameter('forbidWords', ''));
+        $modifiedforbid = array_map('trim', explode(',', $modifiedforbid));
+        $modifiedforbid = array_diff($modifiedforbid, $constructors);
+        $secrules->set_forbiddenwords(str_replace('COMMA_TAG', '\\,', implode(',', $modifiedforbid)));
+        if ($this->valuetype === 'aug_matrix') {
+            $secrules->add_allowedwords(implode(',', $constructors));
         }
         $value = $this->contents_to_maxima($modifiedcontents);
         // Sanitised above.
@@ -358,7 +431,7 @@ class stack_matrix_input extends stack_input {
         $xhtml = '<div class="' . $matrixbrackets . '"' . $valueattr .
                 '>' . $leftbracket . '<table class="matrixtable" id="' . $fieldname .
                 '_container" style="display:inline; vertical-align: middle;" ' .
-                'cellpadding="1" cellspacing="0"><tbody>';
+                'cellpadding="1" cellspacing="0"' . $valueattr . '><tbody>';
         for ($i = 0; $i < $this->height; $i++) {
             $xhtml .= '<tr>';
             if ($i == 0) {
@@ -386,7 +459,11 @@ class stack_matrix_input extends stack_input {
                     'input',
                     array_merge(['type' => 'text', 'id'  => $name, 'name'  => $name, $field => $val], $attr)
                 );
-                $xhtml .= html_writer::tag('td', $html);
+                $cellattributes = [];
+                if (in_array($j + 1, $this->columnseparators, true)) {
+                    $cellattributes['class'] = 'stack-matrix-column-separator';
+                }
+                $xhtml .= html_writer::tag('td', $html, $cellattributes);
             }
 
             if ($i == 0) {
@@ -437,6 +514,12 @@ class stack_matrix_input extends stack_input {
         $data['boxWidth'] = $this->parameters['boxWidth'];
         $data['width'] = $this->width;
         $data['height'] = $this->height;
+        if ($this->valuetype === 'aug_matrix') {
+            $data['blocks'] = [];
+            foreach ($this->blockwidths as $i => $width) {
+                $data['blocks'][] = ['type' => $this->blocktypes[$i], 'columns' => $width];
+            }
+        }
 
         return $data;
     }

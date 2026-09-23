@@ -209,7 +209,7 @@ class library_render extends \external_api {
                 ) {
                     $xmldata = new SimpleXMLElement($qcontents);
                     $questiontext = '';
-                    foreach($xmldata->question as $multiquestion) {
+                    foreach ($xmldata->question as $multiquestion) {
                         $questiontext .= ($multiquestion->category->text) ?
                             get_string('stack_library_category', 'qtype_stack') .
                             ' ' . (string) $multiquestion->category->text . '<br>' : '';
@@ -230,7 +230,7 @@ class library_render extends \external_api {
                         'questiondescription' => '',
                         'isstack' => false,
                     ];
-                } else{
+                } else {
                     throw $e;
                 }
             }

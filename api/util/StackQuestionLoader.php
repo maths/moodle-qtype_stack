@@ -98,7 +98,7 @@ class StackQuestionLoader {
 
         // Throw error if more then one question element is contained in the xml.
         if (count($xmldata->question) != 1) {
-            foreach($xmldata->question as $question) {
+            foreach ($xmldata->question as $question) {
                 if (isset($question->category)) {
                     $multipleerror = new \stack_exception(\get_string('api_invalid_question_count_category', 'qtype_stack'));
                     $multipleerror->debuginfo = self::MULTIPLE_Q_CATEGORY;
@@ -444,8 +444,9 @@ class StackQuestionLoader {
             }
         }
         if (count($prtmap) > 0 && !$allformative && $totalvalue < 0.0000001) {
-            throw new \stack_exception(\get_string('api_non_positive_totalvalue', 'qtype_stack',
-                ['questionname' => $question->name]));
+            throw new \stack_exception(
+                \get_string('api_non_positive_totalvalue', 'qtype_stack', ['questionname' => $question->name])
+            );
         }
 
         foreach ($prtmap as $prtdata) {

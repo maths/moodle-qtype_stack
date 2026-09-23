@@ -202,9 +202,15 @@ sort($deployedseeds, SORT_NUMERIC);
 $currentseedmatched = false;
 foreach ($deployedseeds as $seeddisplay) {
     $seed = (int) $seeddisplay;
-    $seedurl = new moodle_url(
+    $testseedurl = new moodle_url(
         '/question/type/stack/questiontestrun.php',
-        array_merge($urlparams, ['seed' => $seed])
+        array_merge($urlparams, ['seed' => $seed]),
+        'test-pane'
+    );
+    $questionseedurl = new moodle_url(
+        '/question/type/stack/questiontestrun.php',
+        array_merge($urlparams, ['seed' => $seed]),
+        'question-pane'
     );
     $selected = ($seed === $currentseed);
     $currentseedmatched = $currentseedmatched || $selected;
@@ -212,6 +218,8 @@ foreach ($deployedseeds as $seeddisplay) {
     $seedoption = new StdClass();
     $seedoption->seed = $seed;
     $seedoption->url = $seedurl->out(false);
+    $seedoption->testurl = $testseedurl->out(false);
+    $seedoption->questionurl = $questionseedurl->out(false);
     $seedoption->selected = $selected;
     $seedurls[] = $seedoption;
 }
@@ -220,6 +228,8 @@ if (!$currentseedmatched) {
     $seedoption = new StdClass();
     $seedoption->seed = $currentseed;
     $seedoption->url = '';
+    $seedoption->testurl = '';
+    $seedoption->questionurl = '';
     $seedoption->selected = true;
     $seedoption->disabled = true;
     array_unshift($seedurls, $seedoption);

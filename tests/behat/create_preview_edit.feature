@@ -310,6 +310,7 @@ Feature: Create, preview, test, tidy and edit STACK questions
     And the field "tests-seed-select" matches value "1731"
     And I click on "#tests-seed-select" "css_element"
     And I click on "#tests-seed-select option:nth-child(1)" "css_element"
+    And "#test-pane.active" "css_element" should exist
     And the field "question-seed-select" matches value "1729"
     And the field "tests-seed-select" matches value "1729"
     And I should see "All tests passed!"
@@ -336,6 +337,7 @@ Feature: Create, preview, test, tidy and edit STACK questions
     And I click on "[id='question-tab']" "css_element"
     And I click on "#question-seed-select" "css_element"
     And I click on "#question-seed-select option:nth-child(3)" "css_element"
+    And "#question-pane.active" "css_element" should exist
     And I follow "Tests"
     And I should see "Question tests for seed"
 

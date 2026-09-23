@@ -1559,6 +1559,36 @@ abstract class stack_input {
     }
 
     /**
+     * Return accessible elements for matrix delimiters.
+     *
+     * Shared by the fixed and variable-size matrix inputs.
+     *
+     * @param string $matrixparens the configured matrix delimiter.
+     * @return string[] the left and right accessible elements.
+     */
+    protected function render_matrix_bracket_accessibility($matrixparens) {
+        $labelkeys = [
+            '[' => ['matrixleftsquarebracket', 'matrixrightsquarebracket'],
+            '(' => ['matrixleftparenthesis', 'matrixrightparenthesis'],
+            '{' => ['matrixleftcurlybracket', 'matrixrightcurlybracket'],
+            '|' => ['matrixleftverticalbar', 'matrixrightverticalbar'],
+        ];
+        if (!array_key_exists($matrixparens, $labelkeys)) {
+            return ['', ''];
+        }
+
+        $attributes = ['class' => 'matrixbracketaccessibility', 'role' => 'math'];
+        return [
+            html_writer::tag('span', '', $attributes + [
+                'aria-label' => stack_string($labelkeys[$matrixparens][0]),
+            ]),
+            html_writer::tag('span', '', $attributes + [
+                'aria-label' => stack_string($labelkeys[$matrixparens][1]),
+            ]),
+        ];
+    }
+
+    /**
      * Returns the XHTML for embedding this input in a page.
      *
      * @param string student's current answer to insert into the xhtml.
@@ -1790,7 +1820,7 @@ abstract class stack_input {
      * This function is responsible for removing the validation tags from the question stem and replacing
      * them with the validation feedback.  Only the equiv input type currently does anything different here.
      */
-    public function replace_validation_tags($state, $fieldname, $questiontext, $custom_validation = null) {
+    public function replace_validation_tags($state, $fieldname, $questiontext, $customvalidation = null) {
 
         $name = $this->name;
         // ISS879 Set language override to null as we should be in the question render here. It's only
@@ -1807,8 +1837,8 @@ abstract class stack_input {
             $class = "stackinputfeedback compact";
         }
 
-        if ($custom_validation !== null) {
-            $feedback = $custom_validation;
+        if ($customvalidation !== null) {
+            $feedback = $customvalidation;
         }
 
         if (!$feedback) {
@@ -1879,13 +1909,13 @@ abstract class stack_input {
     }
 
     /**
-     * Returns the definition of this input as it should appear in an API response
+     * Returns the definition of this input as it should appear in an API response.
      * @return array
      */
     abstract public function render_api_data($tavalue);
 
     /**
-     * Returns the solution in the format used by the api
+     * Returns the solution in the format used by the api.
      * @param $tavalue
      * @return array|null
      */
@@ -1894,7 +1924,7 @@ abstract class stack_input {
     }
 
     /**
-     * Returns the rendering of the solution
+     * Returns the rendering of the solution.
      * @param $tadisplay
      * @param $ta
      * @return mixed
@@ -1902,7 +1932,10 @@ abstract class stack_input {
     public function get_api_solution_render($tadisplay, $ta) {
         return $tadisplay;
     }
-
+    /**
+     * Returns the name of this input.
+     * @return string
+     */
     public function get_name(): string {
         return $this->name;
     }

@@ -19,6 +19,11 @@ import '../../ascii/ASCIIMathTeXImg.js';
 
 let nextGeneratedId = 1;
 const defaultAsciiStrings = typeof __STACK_ASCII_STRINGS__ === 'undefined' ? {} : __STACK_ASCII_STRINGS__;
+const defaultMarkdownMathFilter = {
+    operation: 'filter',
+    type: 'markdown',
+    transforms: 'asciimath,aligneq,minwrap'
+};
 
 /**
  * StackAsciiDisplay - Wrapper for STACK ASCII display blocks in standalone mode.
@@ -80,7 +85,7 @@ export class StackAsciiDisplay {
             throw new Error('StackAsciiDisplay: options are required');
         }
 
-        this.operations = options.operations || [];
+        this.operations = normalizeOperations(options.operations);
         this.asciistrings = {
             ...defaultAsciiStrings,
             ...(options.asciistrings || {})
@@ -392,6 +397,65 @@ function createUniqueId(containerId, suffix) {
     } while (document.getElementById(id));
 
     return id;
+}
+
+/**
+ * Apply the same filter defaults as Moodle's [[ascii]] block.
+ *
+ * @param {Object[]|undefined} operations - User supplied operations.
+ * @returns {Object[]} Normalised operation list.
+ */
+function normalizeOperations(operations) {
+    const normalized = Array.isArray(operations) ? operations.map(normalizeOperation) : [];
+    const hasFilter = normalized.some(op => op && op.operation === 'filter');
+
+    if (hasFilter) {
+        return normalized;
+    }
+
+    return [{ ...defaultMarkdownMathFilter }, ...normalized];
+}
+
+/**
+ * Convert STACK authoring filter names to the operation syntax expected by the
+ * shared ASCII runtime.
+ *
+ * @param {Object} operation - User supplied operation.
+ * @returns {Object} Normalised operation.
+ */
+function normalizeOperation(operation) {
+    if (!operation || operation.operation !== 'filter' || operation.type !== 'markdown-math') {
+        return operation;
+    }
+
+    return {
+        ...operation,
+        type: 'markdown',
+        transforms: setMarkdownMathTransformDefaults(operation.transforms)
+    };
+}
+
+/**
+ * Ensure markdown-math includes the internal ASCIIMath and wrapping transforms.
+ *
+ * @param {string|undefined} transforms - Comma-separated transform names.
+ * @returns {string} Comma-separated transform names.
+ */
+function setMarkdownMathTransformDefaults(transforms) {
+    const transformList = String(transforms || '')
+        .split(',')
+        .map(transform => transform.trim())
+        .filter(Boolean);
+
+    if (!transformList.includes('asciimath')) {
+        transformList.unshift('asciimath');
+    }
+
+    if (!transformList.includes('minwrap')) {
+        transformList.push('minwrap');
+    }
+
+    return transformList.join(',');
 }
 
 /**

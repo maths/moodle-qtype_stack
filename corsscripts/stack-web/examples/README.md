@@ -21,6 +21,7 @@ python3 -m http.server 8000
 Then open one of these pages:
 
 - `http://localhost:8000/stack-web/examples/basic-container.html`
+- `http://localhost:8000/stack-web/examples/defaults.html`
 - `http://localhost:8000/stack-web/examples/existing-elements.html`
 - `http://localhost:8000/stack-web/examples/initial-text.html`
 - `http://localhost:8000/stack-web/examples/multiple-containers.html`
@@ -30,6 +31,8 @@ Then open one of these pages:
 The examples cover the common setup patterns:
 
 - `basic-container.html` shows the smallest generated container-mode setup.
+- `defaults.html` omits `operations` and uses the default Markdown/math display
+  filter.
 - `existing-elements.html` wires existing input and output containers and
   extracts a final answer into a separate input.
 - `initial-text.html` renders static source text passed through `initialText`.
@@ -96,6 +99,62 @@ Use `outputElementId` with `initialText` and no `inputElementId` for a static,
 read-only display. Static displays do not support extractors because there is no
 live input.
 
+### Use Filters
+
+Filters control how STACK Web processes the source text and what appears in the
+rendered output. In STACK Web, filters are JavaScript operation objects in the
+`operations` array:
+
+```javascript
+operations: [
+    { operation: 'filter', type: 'calculation' },
+    {
+        operation: 'filter',
+        type: 'markdown',
+        transforms: 'asciimath,aligneq,minwrap',
+        display: 'true'
+    }
+]
+```
+
+Like the Moodle `[[ascii]]` block, the default Markdown/math display filter is
+added when no filter operation is supplied. That default is equivalent to a
+`markdown` filter with `asciimath,aligneq,minwrap`. `markdown-math` also works
+as a STACK Web filter type and is normalised to `markdown` with `asciimath` and
+`minwrap` added around any supplied transforms.
+
+Available filter types:
+
+- `markdown` renders Markdown and records inline and displayed mathematics for
+  block-based extractors. Use `transforms` to control mathematical rendering.
+- `markdown-math` is a convenience form of `markdown` which ensures ASCIIMath
+  conversion and MathJax wrapping transforms are applied.
+- `calculation` evaluates single-line `{@...@}` calculation blocks with the
+  restricted school-mathematics calculator. Trigonometric functions use radians.
+- `cas` evaluates single-line `{@...@}` blocks with broader MathJS support.
+- `plain` leaves the text unchanged and disables Markdown/math rendering.
+
+Available `markdown` transforms:
+
+- `asciimath` converts ASCIIMath in backticks to LaTeX for MathJax.
+- `aligneq` aligns displayed multi-line mathematics, such as derivations, in an
+  `align*` environment.
+- `minwrap` adds minimal MathJax delimiters, such as `\(...\)` or `\[...\]`,
+  when needed.
+
+Common filter options:
+
+- `transforms`: comma-separated transform names for the `markdown` filter.
+- `reset: 'true'`: run this filter on the original source text instead of the
+  previous filter's output.
+- `display: 'true'`: use this filter's output as the rendered display. Later
+  filters can still prepare extractor data, but cannot change the display.
+- `errors: 'false'`: hide error messages produced by this filter.
+
+Filters and extractors run in the order listed. Extractors always receive the
+raw source text, plus the block data collected by the most recent filter. For
+example, `lastcalc` should run after a `calculation` filter.
+
 ### Use Extractors
 
 Extractors read from the live text input and write matching values into ordinary
@@ -138,17 +197,60 @@ window.StackWeb.ready(() => {
 });
 ```
 
-Common extractor types include:
+STACK Web extractor syntax is:
 
-- `laststringremainderwhitespace`, which reads the text after the last matching
-  marker such as `Answer:`.
-- `lastcalc`, which reads the result of the last calculation block.
-- `allregexremainder`, which collects every line matching a regular expression
-  and returns the remainders as JSON.
+```javascript
+{
+    operation: 'extractor',
+    type: 'lastexpr',
+    targetinput: 'answer-output'
+}
+```
+
+Every extractor operation needs:
+
+- `operation: 'extractor'`
+- `type`: one of the extractor types below.
+- `targetinput`: the `id` of the target form field on the page.
+
+Optional and type-specific extractor options:
+
+- `errors: 'false'`: hide extractor failure messages.
+- `search`: required for `laststringremainder` and
+  `laststringremainderwhitespace`.
+- `regex`: required for the regex extractors. Escape backslashes for JavaScript
+  strings, for example `regex: '^f\\(x\\)\\s*=\\s*'`.
+
+Available extractor types:
+
+- `lastexpr`: returns the trimmed content of the last inline ASCIIMath
+  expression, or the last non-empty line of the last displayed ASCIIMath block.
+  Use after a `markdown` filter for math-aware extraction.
+- `lastblock`: returns the raw content of the last inline ASCIIMath expression,
+  or the full raw content of the last displayed ASCIIMath block. Use a textarea
+  or other multi-line target if the result can contain multiple lines.
+- `lastcalc`: returns the rendered result of the last `{@...@}` calculation
+  block. Use after a `calculation` or `cas` filter.
+- `laststringremainder`: scans lines from bottom to top, finds the last line
+  containing `search`, removes that search text, strips outer whitespace and
+  backticks, and returns the remainder.
+- `laststringremainderwhitespace`: scans lines from bottom to top, matches the
+  start of a line against `search` while allowing flexible whitespace, removes
+  optional outer backticks and a final full stop, and returns the remainder.
+- `lastregexmatch`: scans lines from bottom to top and returns the whole trimmed
+  last line matching `regex`.
+- `lastregexremainder`: scans lines from bottom to top and returns the trimmed
+  last matching line with the `regex` removed.
+- `allregexmatch`: returns every trimmed line matching `regex` as a JSON string
+  in the form `{"matches":[...]}`.
+- `allregexremainder`: returns every trimmed line matching `regex`, with the
+  `regex` removed from each match, as a JSON string in the form
+  `{"matches":[...]}`.
 
 Extractor target fields can sit anywhere on the page. When using multiple
 `StackAsciiDisplay` instances, give each container and extractor target its own
-unique id.
+unique id. If an extractor fails, STACK Web clears the target field so stale
+values are not left behind.
 
 ### Useful Options
 

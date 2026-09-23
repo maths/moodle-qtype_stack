@@ -365,7 +365,7 @@ describe('StackAsciiDisplay', () => {
         expect(document.getElementById('output').contains(display.shellElement)).toBe(true);
         expect(mockInitAscii).toHaveBeenCalledWith(
             [display.inputElement.id],
-            [],
+            [{ operation: 'filter', type: 'markdown', transforms: 'asciimath,aligneq,minwrap' }],
             {
                 outputElementId: 'output',
                 shellElementId: display.shellElement.id,
@@ -373,6 +373,54 @@ describe('StackAsciiDisplay', () => {
                 errorOutputElementId: display.errorOutputElement.id,
                 asciistrings: {}
             }
+        );
+    });
+
+    test('uses the Moodle ASCII default filter when no filter is supplied', () => {
+        document.body.innerHTML = '<div id="asciiBlock"></div><input id="answer1">';
+
+        const display = new StackAsciiDisplay({
+            containerId: 'asciiBlock',
+            initialText: '`x^2`',
+            operations: [{ operation: 'extractor', type: 'lastexpr', targetinput: 'answer1' }]
+        });
+
+        expect(mockInitAscii).toHaveBeenCalledWith(
+            [display.inputElement.id, 'answer1'],
+            [
+                { operation: 'filter', type: 'markdown', transforms: 'asciimath,aligneq,minwrap' },
+                { operation: 'extractor', type: 'lastexpr', targetinput: 'answer1' }
+            ],
+            expect.any(Object)
+        );
+    });
+
+    test('normalises markdown-math filters for the shared ASCII runtime', () => {
+        document.body.innerHTML = '<div id="asciiBlock"></div>';
+
+        const display = new StackAsciiDisplay({
+            containerId: 'asciiBlock',
+            operations: [
+                {
+                    operation: 'filter',
+                    type: 'markdown-math',
+                    transforms: 'aligneq',
+                    display: 'true'
+                }
+            ]
+        });
+
+        expect(mockInitAscii).toHaveBeenCalledWith(
+            [display.inputElement.id],
+            [
+                {
+                    operation: 'filter',
+                    type: 'markdown',
+                    transforms: 'asciimath,aligneq,minwrap',
+                    display: 'true'
+                }
+            ],
+            expect.any(Object)
         );
     });
 
@@ -440,7 +488,7 @@ describe('StackAsciiDisplay', () => {
         expect(display.suppliedTextElement.innerHTML).toBe('used');
         expect(mockInitAscii).toHaveBeenCalledWith(
             [],
-            [],
+            [{ operation: 'filter', type: 'markdown', transforms: 'asciimath,aligneq,minwrap' }],
             {
                 outputElementId: 'output',
                 shellElementId: display.shellElement.id,

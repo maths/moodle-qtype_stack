@@ -147,6 +147,10 @@ Dval2: ev(D, x= rhs(a[2]), y=rhs(b[1]));]]></text>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
     <isbroken>0</isbroken>
+    <prescribedmetadata/>
+    <metadata>
+      {"author":[{"firstName":"","lastName":"","institution":"HELM Consortium","year":"2015"},{"firstName":"","lastName":"","institution":"University of Edinburgh","year":"2025"}],"language":["en"],"isPartOf":"HELM","license":"cc-nc-4.0","additional":{"UoE":{"Notes":"This is automatically generated metadata."}},"freeform":{}}
+    </metadata>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>

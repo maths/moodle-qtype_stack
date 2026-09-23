@@ -202,7 +202,8 @@ sort($deployedseeds, SORT_NUMERIC);
 $currentseedmatched = false;
 foreach ($deployedseeds as $seeddisplay) {
     $seed = (int) $seeddisplay;
-    $seedurl = new moodle_url('/question/type/stack/questiontestrun.php',
+    $seedurl = new moodle_url(
+        '/question/type/stack/questiontestrun.php',
         array_merge($urlparams, ['seed' => $seed])
     );
     $selected = ($seed === $currentseed);

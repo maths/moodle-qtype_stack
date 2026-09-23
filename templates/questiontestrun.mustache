@@ -80,7 +80,6 @@
           "seedurls":  [
               {
                   "seed": "182397542",
-                  "url": "http://question\/type\/stack\/questiontestrun.php?courseid=7&amp;questionid=6605",
                   "testurl": "http://question\/type\/stack\/questiontestrun.php?courseid=7&amp;questionid=6605#test-pane",
                   "questionurl": "http://question\/type\/stack\/questiontestrun.php?courseid=7&amp;questionid=6605#question-pane",
                   "selected": true
@@ -181,7 +180,7 @@
           <label for="question-seed-select">{{#str}} seed, qtype_stack {{/str}}:</label>
           <select id="question-seed-select" class="custom-select form-select w-auto d-inline-block" onchange="if(this.value) window.location.href=this.value">
             {{#general.seedurls}}
-            <option value="{{{questionurl}}}"{{#selected}} selected="selected"{{/selected}}{{#disabled}} disabled="disabled"{{/disabled}}>{{seed}}</option>
+              <option value="{{{questionurl}}}"{{#selected}} selected="selected"{{/selected}}{{#disabled}} disabled="disabled"{{/disabled}}>{{seed}}</option>
             {{/general.seedurls}}
           </select>
         </p>

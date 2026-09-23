@@ -217,7 +217,6 @@ foreach ($deployedseeds as $seeddisplay) {
 
     $seedoption = new StdClass();
     $seedoption->seed = $seed;
-    $seedoption->url = $seedurl->out(false);
     $seedoption->testurl = $testseedurl->out(false);
     $seedoption->questionurl = $questionseedurl->out(false);
     $seedoption->selected = $selected;
@@ -227,7 +226,6 @@ foreach ($deployedseeds as $seeddisplay) {
 if (!$currentseedmatched) {
     $seedoption = new StdClass();
     $seedoption->seed = $currentseed;
-    $seedoption->url = '';
     $seedoption->testurl = '';
     $seedoption->questionurl = '';
     $seedoption->selected = true;

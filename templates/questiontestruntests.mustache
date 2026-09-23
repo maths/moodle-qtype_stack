@@ -69,7 +69,6 @@
           "seedurls":  [
               {
                   "seed": "182397542",
-                  "url": "http://question\/type\/stack\/questiontestrun.php?courseid=7&amp;questionid=6605",
                   "testurl": "http://question\/type\/stack\/questiontestrun.php?courseid=7&amp;questionid=6605#test-pane",
                   "questionurl": "http://question\/type\/stack\/questiontestrun.php?courseid=7&amp;questionid=6605#question-pane",
                   "selected": true
@@ -129,7 +128,7 @@
             <label for="tests-seed-select">{{#str}} questiontestsfor, qtype_stack {{/str}}:</label>
             <select id="tests-seed-select" class="custom-select form-select w-auto d-inline-block" onchange="if(this.value) window.location.href=this.value">
               {{#general.seedurls}}
-              <option value="{{{testurl}}}"{{#selected}} selected="selected"{{/selected}}{{#disabled}} disabled="disabled"{{/disabled}}>{{seed}}</option>
+                <option value="{{{testurl}}}"{{#selected}} selected="selected"{{/selected}}{{#disabled}} disabled="disabled"{{/disabled}}>{{seed}}</option>
               {{/general.seedurls}}
             </select>
           </h2>

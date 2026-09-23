@@ -123,9 +123,17 @@ $string['logicsymbol_help'] = 'Controls how logical symbols should be displayed 
 $string['logicsymbol_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Question_options.md#logicsymbol';
 $string['logicsymbollang'] = 'Language';
 $string['logicsymbolsymbol'] = 'Symbolic';
+$string['matrixleftcurlybracket'] = 'Left curly bracket';
+$string['matrixleftparenthesis'] = 'Left parenthesis';
+$string['matrixleftsquarebracket'] = 'Left square bracket';
+$string['matrixleftverticalbar'] = 'Left vertical bar';
 $string['matrixparens'] = 'Default shape of matrix parentheses';
 $string['matrixparens_help'] = 'Controls the default shape of matrix parentheses when displayed in CAS output.';
 $string['matrixparens_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/CAS/Matrix.md#matrixparens';
+$string['matrixrightcurlybracket'] = 'Right curly bracket';
+$string['matrixrightparenthesis'] = 'Right parenthesis';
+$string['matrixrightsquarebracket'] = 'Right square bracket';
+$string['matrixrightverticalbar'] = 'Right vertical bar';
 $string['falsebranch'] = 'False branch';
 $string['falsebranch_help'] = 'These fields control what happens when the answer test does not pass
 <h3> Mod and score </h3>
@@ -2136,3 +2144,10 @@ $string['parsertester_output'] = 'Output';
 $string['sbasen_validate_not_basen'] = 'Expected a raw base-N number.';
 $string['sbasen_validate_base_too_big'] = 'The base-N system currently does not support base-{$a->base}, only bases 2-36 are supported.';
 $string['sbasen_validate_invalid_digits'] = 'Some of the digits in base-N number {$a->num} are not suitable for the base ({$a->base}) in use.';
+
+$string['matrixaugmentedshape'] = 'An augmented matrix input requires at least two nonempty blocks with the same number of rows.';
+
+$string['varmatrixaugmentedstructure'] = 'You need to enter a matrix with the correct block structure.  Every line must have the same structure.  Separate blocks with <code>|</code>.  The expected structure for this input is illustrated below:  <pre class="stacksyntaxexample">{$a}</pre>';
+$string['varmatrixaugmentedellipsis'] = 'The dots (...) stand for optional extra entries.';
+$string['varmatrixaugmentedrows'] = 'Choose the number of rows; keep block widths consistent.';
+$string['varmatrixaugmentedonerow'] = 'Use only one row.';

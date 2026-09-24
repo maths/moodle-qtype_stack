@@ -6,8 +6,8 @@ import { asciiString } from '../asciihelper.js';
 
 export function inputToolbarButtons() {
     return [
-        { label: '{@', insert: '{@', title: asciiString('asciistringtoolbarcalculationstart') },
-        { label: '@}', insert: '@}', title: asciiString('asciistringtoolbarcalculationend') }
+        { label: '{@', insert: '{@', titlekey: 'asciistringtoolbarcalculationstart' },
+        { label: '@}', insert: '@}', titlekey: 'asciistringtoolbarcalculationend' }
     ];
 }
 

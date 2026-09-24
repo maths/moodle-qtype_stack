@@ -14,13 +14,11 @@ const mockRegexallremainder = jest.fn();
 
 jest.mock('../../corsscripts/ascii/filters/markdown.js', () => ({
     __esModule: true,
-    inputToolbarButtons: () => {
-        const { asciiString } = jest.requireActual('../../corsscripts/ascii/asciihelper.js');
-        return [
-            { label: '`', insert: '`', title: asciiString('asciistringtoolbarmarkdowninline') },
-            { label: '\\(', insert: '\\(', title: asciiString('asciistringtoolbarmarkdowninlinelatexstart') }
-        ];
-    },
+    inputToolbarButtons: () => [
+        { label: '`', insert: '`', titlekey: 'asciistringtoolbarmarkdowninline' },
+        { label: '\\(', insert: '\\(', titlekey: 'asciistringtoolbarmarkdowninlinelatexstart' },
+        { label: '\\)', insert: '\\)', titlekey: 'asciistringtoolbarmarkdowninlinelatexend' }
+    ],
     default: (...args) => mockMarkdown(...args)
 }));
 
@@ -338,7 +336,8 @@ describe('stackascii init', () => {
             name: 'markdownInput',
             buttons: [
                 { label: '`', insert: '`', title: toolbarStrings.asciistringtoolbarmarkdowninline },
-                { label: '\\(', insert: '\\(', title: toolbarStrings.asciistringtoolbarmarkdowninlinelatexstart }
+                { label: '\\(', insert: '\\(', title: toolbarStrings.asciistringtoolbarmarkdowninlinelatexstart },
+                { label: '\\)', insert: '\\)', title: '\\)' }
             ],
             'limit-to-question': true,
             src: 'frame-1'

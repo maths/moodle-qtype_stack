@@ -51,7 +51,7 @@ import lastregexmatch from './extractors/lastregexmatch.js';
 import lastregexremainder from './extractors/lastregexremainder.js';
 import allregexmatch from './extractors/allregexmatch.js';
 import allregexremainder from './extractors/allregexremainder.js';
-import { setAsciiStrings } from './asciihelper.js';
+import { asciiString, setAsciiStrings } from './asciihelper.js';
 
 const extractorlib = {
     lastblock,
@@ -267,6 +267,11 @@ function collectInputToolbarButtons(operations) {
         filterButtons.forEach((button) => {
             const insert = String(button.insert || button.label || '');
             const label = String(button.label || insert);
+            let title = String(button.title || label);
+            if (button.titlekey) {
+                const translatedTitle = asciiString(button.titlekey);
+                title = translatedTitle === button.titlekey ? label : translatedTitle;
+            }
             if (!insert || seen.has(insert)) {
                 return;
             }
@@ -274,7 +279,7 @@ function collectInputToolbarButtons(operations) {
             buttons.push({
                 label,
                 insert,
-                title: String(button.title)
+                title
             });
         });
     });

@@ -33,6 +33,8 @@ require_once(__DIR__ . '/stack/utils.class.php');
 require_once(__DIR__ . '/stack/questionlibrary.class.php');
 require_once(__DIR__ . '/classes/form/category_form.php');
 
+$backurl = optional_param('returnurl', '', PARAM_LOCALURL);
+
 if ($cmid = optional_param('cmid', 0, PARAM_INT)) {
     $cm = get_coursemodule_from_id(false, $cmid);
     require_login($cm->course, false, $cm);
@@ -40,7 +42,7 @@ if ($cmid = optional_param('cmid', 0, PARAM_INT)) {
     $coursename = $DB->get_field('course', 'fullname', ['id' => $cm->course]);
     $courseid = $cm->course;
     $urlparams['cmid'] = $cmid;
-    if (strpos(optional_param('returnurl', null, PARAM_LOCALURL), 'quiz') !== false) {
+    if (strpos($backurl, 'quiz') !== false) {
         $returntext = get_string('stack_library_quiz_return', 'qtype_stack');
     } else {
         $returntext = get_string('stack_library_qb_return', 'qtype_stack');
@@ -69,7 +71,7 @@ $PAGE->set_heading($title);
 $PAGE->set_pagelayout('popup');
 echo $OUTPUT->header();
 
-if ($backurl = optional_param('returnurl', null, PARAM_LOCALURL)) {
+if ($backurl) {
     $returnlink = new moodle_url($backurl);
 } else {
     $returnlink = new moodle_url('/question/edit.php', $urlparams);

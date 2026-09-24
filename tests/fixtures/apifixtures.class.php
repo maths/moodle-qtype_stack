@@ -38,6 +38,71 @@ class stack_api_test_data {
                     <defaultgrade>2</defaultgrade>
                 </question>
             </quiz>',
+        'nonstack' =>
+           '<quiz>
+                <question type="multichoice">
+                    <name>
+                        <text>Not STACK</text>
+                    </name>
+                    <questiontext format="html">
+                        <text><![CDATA[<p>Non STACK question.</p>]]></text>
+                    </questiontext>
+                </question>
+            </quiz>',
+        'multiplequestions' =>
+           '<quiz>
+                <question type="stack">
+                    <name>
+                        <text>First STACK question</text>
+                    </name>
+                </question>
+                <question type="stack">
+                    <name>
+                        <text>Second STACK question</text>
+                    </name>
+                </question>
+            </quiz>',
+        'multiplequestionscategory' =>
+           '<quiz>
+                <question type="category">
+                    <category>
+                        <text>top/Question set category</text>
+                    </category>
+                </question>
+                <question type="stack">
+                    <name>
+                        <text>Question in set</text>
+                    </name>
+                </question>
+            </quiz>',
+        'libraryquestionset' =>
+           '<quiz>
+                <question type="category">
+                    <category>
+                        <text>top/Question set library test</text>
+                    </category>
+                    <info format="moodle_auto_format">
+                        <text>Question set library test.</text>
+                    </info>
+                    <idnumber></idnumber>
+                </question>
+                <question type="stack">
+                    <name>
+                        <text>First question in library set</text>
+                    </name>
+                    <questiontext format="html">
+                        <text><![CDATA[<p>First library set question.</p>]]></text>
+                    </questiontext>
+                </question>
+                <question type="stack">
+                    <name>
+                        <text>Second question in library set</text>
+                    </name>
+                    <questiontext format="html">
+                        <text><![CDATA[<p>Second library set question.</p>]]></text>
+                    </questiontext>
+                </question>
+            </quiz>',
         'noinputblankspecific' =>
            '<quiz>
                 <question type="stack">

@@ -27,11 +27,12 @@ const feedbackPrefix = 'stackapi_fb_';
 const validationPrefix = 'stackapi_val_';
 const FULLDISPLAY = 'FULL';
 const SAMPLEDISPLAY = 'SAMPLE';
+const stackApiDemoConfig = window.stackApiDemoConfig || {};
 // Set API server here with trailing slash e.g. 'https://stack-api.maths.ed.ac.uk/'.
 // Leave as is if page is on the same server e.g. for STACK API demo.
-const serverUrl = '/';
-const requestLanguage = 'en';
-let displayType = FULLDISPLAY;
+const serverUrl = stackApiDemoConfig.serverUrl || '/';
+const requestLanguage = stackApiDemoConfig.requestLanguage || 'en';
+let displayType = stackApiDemoConfig.displayType || FULLDISPLAY;
 
 // Get the different input elements by tag and return object with values.
 function collectAnswer() {
@@ -366,7 +367,7 @@ function answer() {
 function renameIframeHolders() {
     // Each call to STACK restarts numbering of iframe holders so we need to rename
     // any old ones to make sure new iframes end up in the correct place.
-    for (const iframe of document.querySelectorAll(`[id^=stack-iframe-holder]:not([id$=old]`)) {
+    for (const iframe of document.querySelectorAll('[id^=stack-iframe-holder]:not([id$=old])')) {
         iframe.id = iframe.id + '_old';
     }
 }

@@ -9,10 +9,14 @@ We use the [github issue tracker](https://github.com/maths/moodle-qtype_stack/is
 
 Issues with [github milestone 4.14.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.14.0) include
 
-1. Improve free-text blocks by matching scroll between textarea and preview block.
-2. Add in syntax highlighting and line numbering to question and feedback variables via the ace editor. Contributed by Hieu Vu and team on behalf of The Open University (UK).
-        
-1. Remove all "cte" code from Maxima - mostly install.
+1. Add [metadata](../Authoring/Metadata.md) to STACK questions.  (Issue #1711).
+2. Update to version 2.5.1 of ASCIIMath (May 2026)
+3. Add in errors to the free text input, using stdin/stdout/stderr as a model for filter/extractor functions.
+4. Refactor display of matrices so that brackets for `matrix`, `c` and `r` can be controlled in a consistent manner by the question wide `matrixparens` option.  See also Issue #1848.  Thanks to Oleksandr Kulkov for these contributions.
+5. Add in augmented matrix grids for fixed [matrix inputs](../Authoring/Inputs/Matrix_input.md). (Issue #1850).
+
+4. Count authoring failures as XML import errors so Stop on error rejects invalid uploads before writes.
+   Explicit repair imports retain broken diagnostics without changing Moodle version status.
 
 ## Better testing
 
@@ -54,7 +58,7 @@ These include meta plugins like
 2. DONE: Error messages for unknown filter/extractor names! (To help authors....)
 3. Write an AsciiMath to Maxima parser to ensure the `lastblock` and `lastexpr` extractors create correct syntax for the input.  Note math.js already has the necessary _parser_ so de-pasting the ast creates by math.js is the first line of attack here.  See calculator.js filter for an example of traversing this tree.
 4. Add options to calculator blocks for degrees, and to support physics with scientific units (which math.js supports).
-
+ 
 ## Future equivalence reasoning development track.
 
 1. Allow bespoke validation (actually quite difficult).

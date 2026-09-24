@@ -2,6 +2,7 @@
 // Finds text enclosed in {@...@} on a single line and evaluates the expression.
 // e.g. "The answer is {@2^2 + 1@} here" → "The answer is 5 here"
 import math from '../mathjs.min.js';
+import { asciiString } from '../asciihelper.js';
 
 export const inputToolbarButtons = [
     { label: '{@', insert: '{@', title: 'Insert calculation start delimiter' },
@@ -58,15 +59,26 @@ export default function calculation(text, blockCollector) {
 
     return text.replace(/\{@([^\n]+?)@\}/g, (match, raw) => {
         let rendered;
+        let errormsg;
         try {
             const node = math.parse(raw);
             validate(node, allowed);
-            rendered = String(node.evaluate());
+            rendered = node.evaluate();
+            if (typeof rendered === 'function') {
+                rendered = raw;
+            } else {
+                rendered = String(rendered);
+            }
         } catch (error) {
+            errormsg = error.message;
             rendered = raw;
         }
         if (blockCollector) {
-            blockCollector.blocks.push({ type: 'calculation', raw, rendered });
+            const block = { type: 'calculation', raw, rendered };
+            if (errormsg) {
+                block.errormsg = errormsg;
+            }
+            blockCollector.blocks.push(block);
         }
         return rendered;
     });
@@ -82,17 +94,17 @@ function validate(node, allowed) {
                 break;
             case 'FunctionNode':
                 if (!allowed.functions.has(n.fn.name)) {
-                    throw new Error(`Function not allowed: ${n.fn.name}`);
+                    throw new Error(asciiString('asciistringfiltercalculationfunctionnotallowed', n.fn.name));
                 }
                 break;
             case 'OperatorNode':
                 if (!allowed.operators.has(n.fn)) {
-                    throw new Error(`Operator not allowed: ${n.fn}`);
+                    throw new Error(asciiString('asciistringfiltercalculationoperatornotallowed', n.fn));
                 }
                 break;
             default:
                 if (!allowed.nodetypes.has(n.type)) {
-                    throw new Error(`Node type not allowed: ${n.type}`);
+                    throw new Error(asciiString('asciistringfiltercalculationnodetypenotallowed', n.type));
                 }
     }
   });

@@ -51,6 +51,7 @@ import lastregexmatch from './extractors/lastregexmatch.js';
 import lastregexremainder from './extractors/lastregexremainder.js';
 import allregexmatch from './extractors/allregexmatch.js';
 import allregexremainder from './extractors/allregexremainder.js';
+import { setAsciiStrings } from './asciihelper.js';
 
 const extractorlib = {
     lastblock,
@@ -76,11 +77,17 @@ const extractorlib = {
  *   [[filter]] and [[extractor]] child blocks, e.g.
  *   [{ operation:'filter',    type:'markdown', transforms:'aligneq' },
  *    { operation:'extractor', type:'lastexpr', targetinput:'ans2'     }]
+ * @param {Object} options - translated strings and other optional settings.
  */
-export default function init(inputIds, operations) {
+export default function init(inputIds, operations, options = {}) {
+    setAsciiStrings(options.asciistrings || {});
+
     const markdownContainerId = inputIds.length ? inputIds[0] : null;
     const suppliedText = document.getElementById('asciiSuppliedText').innerHTML;
+    const shell = document.getElementById('asciiShell');
     const output = document.getElementById('asciiContainerRow');
+    const renderedOutput = document.getElementById('asciiRenderedContent');
+    const errorOutput = document.getElementById('asciiErrorRow');
     const frameId = (typeof FRAME_ID !== 'undefined') ? FRAME_ID : null;
     const syncScrollPosition = createScrollSyncHandler(markdownContainerId, frameId, output);
     registerInputToolbar(markdownContainerId, frameId, operations);
@@ -107,6 +114,7 @@ export default function init(inputIds, operations) {
         let isHTML = false;
         let displayfixed = false; // true once a filter with display:'true' has run
         let answerIndex = 1;      // tracks which inputIds entry the next extractor writes to
+        const operationErrors = [];
 
         if (alloperations) {
             alloperations.forEach((currentop, i) => {
@@ -131,6 +139,13 @@ export default function init(inputIds, operations) {
                         if (currentop.display === 'true') {
                             displayfixed = true;
                         }
+                        if (currentop.errors !== 'false') {
+                            for (const block of blockCollector.blocks) {
+                                if (block.errormsg) {
+                                    operationErrors.push(block.errormsg);
+                                }
+                            }
+                        }
                     }
                 } else if (currentop.operation === 'extractor') {
                     // Fall back to lastexpr if the requested extractor type is unknown.
@@ -138,11 +153,16 @@ export default function init(inputIds, operations) {
                     const answerEl = document.getElementById(inputIds[answerIndex]);
                     answerIndex++;
                     if (extractor && answerEl) {
-                        let value = extractor(raw, blockCollector.blocks, currentop);
+                        const value = extractor(raw, blockCollector.blocks, currentop);
                         const oldValue = answerEl.value;
                         // Clear the input on extraction failure rather than leaving a stale value.
-                        if (value === 'ERROR') {
+                        if (Object.hasOwn(value, 'error')) {
                             answerEl.value = '';
+                            if (currentop.errors !== 'false') {
+                                operationErrors.push(value.error);
+                            }
+                        } else if (Object.hasOwn(value, 'result')) {
+                            answerEl.value = value.result;
                         } else {
                             answerEl.value = value;
                         }
@@ -157,9 +177,19 @@ export default function init(inputIds, operations) {
         }
 
         if (!isHTML) {
-            output.classList.add("plaintext")
+            renderedOutput.classList.add('plaintext');
         }
-        output.innerHTML = processedOutput;
+        renderedOutput.innerHTML = processedOutput;
+        if (operationErrors.length > 0) {
+            errorOutput.innerHTML =
+                operationErrors.map((message) => '<p class="stackascii-error-message">' + escapeHTML(message) + '</p>').join('');
+            shell.classList.add('stackascii-has-errors');
+            const errorHeight = Number(errorOutput.offsetHeight) || 0;
+            renderedOutput.style.paddingBottom = `${errorHeight + 5}px`;
+        } else {
+            shell.classList.remove('stackascii-has-errors');
+            renderedOutput.style.paddingBottom = '';
+        }
         syncScrollPosition();
 
         // Tell MathJax to typeset only the output container element.
@@ -309,4 +339,13 @@ function createScrollSyncHandler(markdownContainerId, frameId, output) {
     window.parent.postMessage(JSON.stringify(registration), '*');
 
     return syncScrollPosition;
+}
+
+function escapeHTML(value) {
+    return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
 }

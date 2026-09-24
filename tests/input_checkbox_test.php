@@ -641,4 +641,11 @@ final class input_checkbox_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->errors);
         $this->assertEquals('A correct answer is: This input can be left blank.',
             $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
-    }}
+    }
+
+    public function test_validate_extra_options_hideanswer(): void {
+        $el = stack_input_factory::make('checkbox', 'ans1', $this->make_ta(), null, ['options' => 'hideanswer'], false);
+        $el->validate_extra_options();
+        $this->assertEquals([], $el->get_errors());
+    }
+}

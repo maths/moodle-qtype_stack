@@ -34,7 +34,6 @@ $string['cachedef_parsercache'] = 'STACK parsed Maxima expressions';
 $string['cachedef_librarycache'] = 'STACK question library renders and file structure';
 
 $string['mbstringrequired'] = 'Installing the MBSTRING library is required for STACK.';
-$string['yamlrecommended']  = 'Installing the YAML library is recommended for STACK.';
 
 // General strings.
 $string['errors']            = 'Errors';
@@ -51,6 +50,8 @@ $string['checkstack_version_check']      = 'STACK-Maxima library version';
 
 // Capability names.
 $string['stack:usediagnostictools'] = 'Use the STACK tools';
+$string['stack:useexternallibraries'] = 'Use external libraries';
+$string['stack:exporttoexternallibraries'] = 'Allow export to external libraries';
 
 // Versions of STACK.
 $string['stackversionedited']     = 'This question was authored with STACK version {$a}.';
@@ -122,9 +123,17 @@ $string['logicsymbol_help'] = 'Controls how logical symbols should be displayed 
 $string['logicsymbol_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Question_options.md#logicsymbol';
 $string['logicsymbollang'] = 'Language';
 $string['logicsymbolsymbol'] = 'Symbolic';
+$string['matrixleftcurlybracket'] = 'Left curly bracket';
+$string['matrixleftparenthesis'] = 'Left parenthesis';
+$string['matrixleftsquarebracket'] = 'Left square bracket';
+$string['matrixleftverticalbar'] = 'Left vertical bar';
 $string['matrixparens'] = 'Default shape of matrix parentheses';
 $string['matrixparens_help'] = 'Controls the default shape of matrix parentheses when displayed in CAS output.';
 $string['matrixparens_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/CAS/Matrix.md#matrixparens';
+$string['matrixrightcurlybracket'] = 'Right curly bracket';
+$string['matrixrightparenthesis'] = 'Right parenthesis';
+$string['matrixrightsquarebracket'] = 'Right square bracket';
+$string['matrixrightverticalbar'] = 'Right vertical bar';
 $string['falsebranch'] = 'False branch';
 $string['falsebranch_help'] = 'These fields control what happens when the answer test does not pass
 <h3> Mod and score </h3>
@@ -420,6 +429,39 @@ $string['mustconfirm'] = 'You have changes to confirm.';
 $string['moodleerrors'] = 'You have errors related to Moodle\'s basic question setup.';
 $string['stackerrors'] = 'You have errors in your question.';
 $string['markedasbroken'] = 'The question has been marked as broken and will not be accessible to students.';
+$string['editmetadata'] = 'View and edit full metadata';
+$string['additionalmetadata'] = 'Additional metadata';
+$string['novalidmetadata'] = 'No valid metadata';
+$string['metadata'] = 'Metadata';
+$string['metadatahighlights'] = 'Metadata';
+$string['metadatachange'] = 'Please save your changes.';
+$string['firstname'] = 'First name';
+$string['lastname'] = 'Last name';
+$string['institution'] = 'Institution';
+$string['year'] = 'Year';
+$string['author'] = 'Author';
+$string['addauthor'] = 'Add author';
+$string['addscope'] = 'Add scope';
+$string['addproperty'] = 'Add property';
+$string['addlanguage'] = 'Add language';
+$string['languageinstruction'] = 'Please use ISO language codes e.g. en, fr, de.';
+$string['updateJSON'] = 'Validate inputs and update JSON';
+$string['updateinputs'] = 'Update inputs from JSON';
+$string['makemeauthor'] = 'Add me as an author';
+$string['validateandclose'] = 'Validate and close';
+$string['JSONmetadata'] = 'JSON metadata';
+$string['JSONtoolong'] = 'There is too much metadata. Metadata should be under 32000 bytes.';
+$string['JSONbroken'] = 'Metadata is invalid JSON.';
+$string['metadataexplanation'] = 'STACK metadata is stored as a JSON object. You can edit metadata in the inputs above or directly edit the JSON below and then click \'Update inputs from JSON\'. On closing this metadata window, the inputs will be validated and, if this is successful, you will be returned to the main question edit form. You will still need to save the question as normal to save the metadata.';
+$string['scope'] = 'Scope';
+$string['scopename'] = 'Scope name';
+$string['property'] = 'Property';
+$string['qualifier'] = 'Qualifier';
+$string['value'] = 'Value';
+$string['ispartof'] = 'isPartOf';
+$string['freeformmetadata'] = 'Freeform metadata';
+$string['reverttosaved'] = 'Revert current changes';
+$string['licenseselect'] = 'Type or select license';
 $string['alwaysmanuallygrade'] = 'This question is always manually graded.';
 
 // Strings used by input elements.
@@ -510,6 +552,22 @@ $string['settingmaximalibraries'] = 'Load optional Maxima libraries:';
 $string['settingmaximalibraries_desc'] = 'This is a comma separated list of Maxima library names which will be automatically loaded into Maxima.  Only supported library names can be used: "stats, distrib, descriptive, simplex". When you change the listed libraties you must rebuild the Maxima optimised image.';
 $string['settingmaximalibraries_error'] = 'Please edit the STACK plugin setting <tt>qtype_stack | maximalibraries</tt>. The following package is not supported: {$a}';
 $string['settingmaximalibraries_failed'] = 'It appears as if some of the Maxima packages you have asked for have failed to load.';
+$string['settingexternallibraries'] = 'External question libraries';
+$string['settingexternallibraries_desc'] = 'JSON object listing display names and URL locations of allowed external GitHub libraries with a short identifier for each. Example:
+<br>{
+<br>&nbsp;&nbsp;"EIT": {
+<br>&nbsp;&nbsp;&nbsp;&nbsp;"url": "https:\/\/github.com\/maths\/moodle-qtype_stack\/tree\/master\/samplequestions\/importtest",
+<br>&nbsp;&nbsp;&nbsp;&nbsp;"name": "External: import test"
+<br>&nbsp;&nbsp;},
+<br>&nbsp;&nbsp;"ESQ": {
+<br>&nbsp;&nbsp;&nbsp;&nbsp;"url": "https:\/\/github.com\/maths\/moodle-qtype_stack\/tree\/master\/samplequestions\/stacklibrary",
+<br>&nbsp;&nbsp;&nbsp;&nbsp;"name": "External: sample library"
+<br>&nbsp;&nbsp;}
+<br>}';
+$string['settingnrwapikey'] = 'STACK.nrw databse API key';
+$string['settingnrwapikey_desc'] = 'Allows access to the STACK.nrw question database via the STACK library page. Access can be restricted on a per user basis using Moodle permission qtype/stack:useexternallibraries.';
+$string['settingnrwupload'] = 'STACK.nrw upload allowed';
+$string['settingnrwupload_desc'] = 'Allows questions to be uploaded to the STACK.nrw question database via the STACK question dashboard. Access can be restricted on a per user basis using Moodle permission qtype/stack:exporttoexternallibraries.';
 
 // Strings used by replace dollars script.
 $string['replacedollarscount'] = 'This category contains {$a} STACK questions.';
@@ -666,6 +724,7 @@ $string['editquestioninthequestionbank'] = '<i class="fa fa-pencil"></i> Edit qu
 $string['seethisquestioninthequestionbank'] = '<i class="fa fa-list-alt"></i> Show in question bank';
 $string['exportthisquestion'] = '<i class="fa fa-download"></i> Export as Moodle XML';
 $string['exportthisquestion_help'] = 'This will create a Moodle XML export file containing just this one question. One example of when this is useful if you think this question demonstrates a bug in STACK that you would like to report to the developers.';
+$string['exporttonrw'] = '<i class="fa fa-cloud-arrow-up"></i> Export to STACK.nrw';
 $string['tidyquestion'] = '<i class="fa fa-sort-amount-asc"></i> Tidy inputs and PRTs';
 $string['tidyquestion_txt'] = 'Tidy inputs and PRTs';
 $string['sendgeneralfeedback'] = '<i class="fa fa-file-text"></i> Send general feedback to the CAS';
@@ -678,6 +737,19 @@ $string['seetodolist_help'] = 'Clicking on the question name takes you to the da
 $string['bulktestquiz'] = '<i class="fa fa-certificate"></i> Bulk test quiz';
 $string['bulktestquiznotes'] = 'Bulk test the latest version of all the questions in a quiz containing this question.';
 $string['history'] = '<i class="fa fa-list-alt"></i> Question history';
+$string['questionexportplaceholder'] = 'This page is a placeholder for the NRW export workflow.';
+$string['nrwuploadbutton'] = 'Upload to STACK.nrw';
+$string['nrwuploadcreated'] = 'Question uploaded to NRW successfully. ATLAS ID: {$a}.';
+$string['nrwuploadduplicate'] = 'This XML already exists in NRW. Existing ATLAS ID: {$a}.';
+$string['nrwuploadvalidationerror'] = 'NRW rejected the upload: XML failed validation.';
+$string['nrwuploadfailed'] = 'NRW upload failed.';
+$string['nrwuploadunexpected'] = 'Unexpected response from NRW upload endpoint.';
+$string['nrwuploadapikeymissing'] = 'Cannot upload: NRW API key is not configured.';
+$string['nrwuploadxmlerror'] = 'Could not export this question to XML for upload.';
+$string['nrwuploadpayloadencodeerror'] = 'Could not encode upload payload.';
+$string['nrwuploadduplicateapi'] = 'Duplicate question already exists.';
+$string['nrwuploadcreatedapi'] = 'Question uploaded successfully.';
+$string['nrwuploadxmlvalidationapifailed'] = 'XML failed validation.';
 $string['bulktestquizselect'] = 'Select a quiz';
 
 $string['basicquestionreport'] = '<i class="fa fa-bar-chart"></i> Analyze responses';
@@ -831,6 +903,7 @@ $string['healthcheckparsonssample'] = '<div class="formulation">
 <br/><p>input=<input id="_fakeparsonsinput" style="width:70vw;margin:auto"/></p></div>';
 $string['healthcheckfreetext'] = 'Free-text question block';
 $string['healthcheckfreetextintro'] = 'There should be a free-text display panel below linked to a textarea input block. The ASCIIMaths in the input box should be fully-rendered LaTeX in the display box with the first line left-justifed and the other equations centred and aligned around their equals signs. The result should be the ASCIIMath matrix representation.';
+// phpcs:disable moodle.Strings.ForbiddenStrings.Found
 $string['healthcheckfreetextsample'] = '<div class="que stack">
 <div class="content">
 <div class="formulation clearfix">
@@ -1097,12 +1170,23 @@ $string['stackBlock_ascii_overdefined_dimension'] = 'When defining aspect-ratio 
 $string['stackBlock_ascii_answer_format'] = 'The answer attribute of the ASCII block must be in the format \"[ans1,extractor,filter],[ans2,extractor,filter],...\".';
 $string['stackBlock_ascii_unknown_param'] = 'Unknown parameter \'{$a}\' for the ASCII block.';
 $string['stackBlock_ascii_param'] = 'Valid parameters are: {$a->param}.';
+$string['stackBlock_ascii_incorrect_alignment'] = 'The output must be aligned left or right.';
 
 $string['stackBlock_extractor_targetinput_required'] = 'You must define the targetinput for the extractor block to send the answer to.';
 $string['stackBlock_extractor_type_required'] = 'You must define the type of extractor you want to use.';
 $string['stackBlock_extractor_unknown_param'] = 'Unknown parameter \'{$a}\' for the extractor block.';
 $string['stackBlock_extractor_param'] = 'Valid parameters are: {$a->param}.';
 $string['stackBlock_extractor_unknown'] = 'Unknown type \'{$a->type}\' for the extractor block. Valid types are: \'{$a->extractors}\'';
+$string['asciistringextractorlastblocknotfound'] = 'No AsciiMath expression or block was found to extract.';
+$string['asciistringextractorlastcalcnotfound'] = 'No calculation block was found to extract.';
+$string['asciistringextractorlastexprnotfound'] = 'No expression or non-empty line was found to extract.';
+$string['asciistringextractorsearchrequired'] = 'This extractor requires a search parameter:';
+$string['asciistringextractorsearchnotfound'] = 'No line matched the requested search text:';
+$string['asciistringextractorregexrequired'] = 'This extractor requires a regular expression:';
+$string['asciistringextractorregexnotfound'] = 'No line matched the requested regular expression:';
+$string['asciistringfiltercalculationfunctionnotallowed'] = 'Function not allowed:';
+$string['asciistringfiltercalculationoperatornotallowed'] = 'Operator not allowed:';
+$string['asciistringfiltercalculationnodetypenotallowed'] = 'Node type not allowed:';
 
 $string['stackBlock_filter_type_required'] = 'You must define the type of filter you want to use.';
 $string['stackBlock_filter_unknown'] = 'Unknown type \'{$a->type}\' for the filter block. Valid types are: \'{$a->filters}\'';
@@ -1979,6 +2063,7 @@ $string['castext_error_unevaluated'] = 'This text content was never evaluated.';
 // Strings used by question library.
 $string['stack_library'] = 'STACK question library';
 $string['stack_library_destination'] = 'Questions will be imported into the following category:';
+$string['stack_library_connection_error'] = 'Something went wrong contacting an external question source';
 $string['stack_library_error'] = 'Something went wrong. Please refresh the page and try again.';
 $string['stack_library_failure'] = 'Failed import of:';
 $string['stack_library_help'] = 'Rather than creating your own question, follow this link to go to the STACK question library. The STACK question library contains many pre-made STACK questions ready for you to import into Moodle. You can then use them as they are or edit them to fit your needs.';
@@ -1990,15 +2075,21 @@ $string['stack_library_instructions_five'] = 'Quizzes can be added to the curren
 $string['stack_library_import'] = 'Import';
 $string['stack_library_importlist'] = 'Imported questions:';
 $string['stack_library_import_folder'] = 'Import folder';
+$string['stack_library_license'] = 'License';
 $string['stack_library_quiz'] = 'This is a quiz:';
 $string['stack_library_quiz_course'] = 'The quiz will be imported into course: ';
 $string['stack_library_quiz_prefix'] = 'Quiz:';
+$string['stack_library_refresh'] = 'Refresh library contents';
 $string['stack_library_selected'] = 'Displayed question:';
 $string['stack_library_select'] = 'Select library:';
+$string['stack_library_source'] = 'Source';
+$string['stack_library_nrw'] = 'Search NRW database';
+$string['stack_library_subject'] = 'Subject';
 $string['stack_library_success'] = 'Successful import of:';
 $string['stack_library_not_stack'] = 'This is not a STACK question and so cannot be fully rendered here but you can still import it.';
 $string['stack_library_quiz_return'] = 'Return to quiz';
 $string['stack_library_qb_return'] = 'Return to question bank';
+$string['stack_library_nothing'] = 'No results found';
 // API strings.
 $string['api_advance_variant'] = 'Next Variant';
 $string['api_choose_file'] = 'Please select a question file';
@@ -2039,3 +2130,10 @@ $string['parsertester_output'] = 'Output';
 $string['sbasen_validate_not_basen'] = 'Expected a raw base-N number.';
 $string['sbasen_validate_base_too_big'] = 'The base-N system currently does not support base-{$a->base}, only bases 2-36 are supported.';
 $string['sbasen_validate_invalid_digits'] = 'Some of the digits in base-N number {$a->num} are not suitable for the base ({$a->base}) in use.';
+
+$string['matrixaugmentedshape'] = 'An augmented matrix input requires at least two nonempty blocks with the same number of rows.';
+
+$string['varmatrixaugmentedstructure'] = 'You need to enter a matrix with the correct block structure.  Every line must have the same structure.  Separate blocks with <code>|</code>.  The expected structure for this input is illustrated below:  <pre class="stacksyntaxexample">{$a}</pre>';
+$string['varmatrixaugmentedellipsis'] = 'The dots (...) stand for optional extra entries.';
+$string['varmatrixaugmentedrows'] = 'Choose the number of rows; keep block widths consistent.';
+$string['varmatrixaugmentedonerow'] = 'Use only one row.';

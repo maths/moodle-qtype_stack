@@ -2,8 +2,8 @@
 ASCIIMathTeXImg.js
 Based on ASCIIMathML, Version 1.4.7 Aug 30, 2005, (c) Peter Jipsen http://www.chapman.edu/~jipsen
 Modified with TeX conversion for IMG rendering Sept 6, 2006 (c) David Lippman http://www.pierce.ctc.edu/dlippman
-  Updated to match ver 2.2 Mar 3, 2014
-  Latest at https://github.com/mathjax/asciimathml
+  Updated to match Version 2.5.1 May 20 2026.
+  Latest at https://github.com/asciimath/asciimathml/blob/master/asciimath-based/ASCIIMathTeXImg.js
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -23,15 +23,29 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
-STACK changes: Just the conditional return at line 929.
+STACK changes: Update to AMparseMath to add latex parameter. If this is true
+then return texstring on line 989.
 */
 
-var AMTcgiloc = '';			//set to the URL of your LaTex renderer
-var noMathRender = false;
-
-(function() {
+// UMD export from https://github.com/umdjs/umd/blob/master/templates/returnExports.js
+// if the module has no dependencies, the above pattern can be simplified to
+(function (root, factory) {
+  if (typeof define === 'function' && define.amd) {
+      // AMD. Register as an anonymous module.
+      define([], factory);
+  } else if (typeof module === 'object' && module.exports) {
+      // Node. Does not work with strict CommonJS, but
+      // only CommonJS-like environments that support module.exports,
+      // like Node.
+      module.exports = factory();
+  } else {
+      // Browser globals (root is window)
+      root.returnExports = factory();
+}
+}(typeof self !== 'undefined' ? self : this, function () {
 var config = {
   translateOnLoad: (typeof AMTcgiloc === 'string'),		  //true to autotranslate
+  AMTcgiloc: (typeof AMTcgiloc !== 'undefined' ? AMTcgiloc : ''), // use global variable if defined. image renderer, if using
   mathcolor: "",       	      // defaults to back, or specify any other color
   displaystyle: true,         // puts limits above and below large operators
   showasciiformulaonhover: true, // helps students learn ASCIIMath
@@ -137,11 +151,13 @@ var AMsymbols = [
 {input:"!=",  tag:"mo", output:"\u2260", tex:"ne", ttype:CONST},
 {input:":=",  tag:"mo", output:":=",     tex:null, ttype:CONST},
 {input:"lt",  tag:"mo", output:"<",      tex:null, ttype:CONST},
-{input:"gt",  tag:"mo", output:">",      tex:null, ttype:CONST},
 {input:"<=",  tag:"mo", output:"\u2264", tex:"le", ttype:CONST},
 {input:"lt=", tag:"mo", output:"\u2264", tex:"leq", ttype:CONST},
-{input:"gt=",  tag:"mo", output:"\u2265", tex:"geq", ttype:CONST},
+{input:"gt",  tag:"mo", output:">",      tex:null, ttype:CONST},
+{input:"mlt", tag:"mo", output:"\u226A", tex:"ll", ttype:CONST},
 {input:">=",  tag:"mo", output:"\u2265", tex:"ge", ttype:CONST},
+{input:"gt=", tag:"mo", output:"\u2265", tex:"geq", ttype:CONST},
+{input:"mgt", tag:"mo", output:"\u226B", tex:"gg", ttype:CONST},
 {input:"-<",  tag:"mo", output:"\u227A", tex:"prec", ttype:CONST},
 {input:"-lt", tag:"mo", output:"\u227A", tex:null, ttype:CONST},
 {input:">-",  tag:"mo", output:"\u227B", tex:"succ", ttype:CONST},
@@ -233,6 +249,9 @@ var AMsymbols = [
 {input:"%",  tag:"mo", output:"%", tex:"%", ttype:CONST, notexcopy:true},
 {input:"quad", tag:"mo", output:"\u00A0\u00A0", tex:null, ttype:CONST},
 {input:"qquad", tag:"mo", output:"\u00A0\u00A0\u00A0\u00A0", tex:null, ttype:CONST},
+{input:"enspace", tag:"mo", output:" ", tex:null, ttype:CONST},
+{input:"thinspace", tag:"mo", output:" ", tex:null, ttype:CONST},
+{input:"mspace", tag:"mspace", output:"mspace", tex:null, ttype:TEXT},
 {input:"cdots", tag:"mo", output:"\u22EF", tex:null, ttype:CONST},
 {input:"vdots", tag:"mo", output:"\u22EE", tex:null, ttype:CONST},
 {input:"ddots", tag:"mo", output:"\u22F1", tex:null, ttype:CONST},
@@ -344,20 +363,19 @@ AMsqrt, AMroot, AMfrac, AMdiv, AMover, AMsub, AMsup,
 {input:"ubrace", tag:"munder", output:"\u23DF", tex:"underbrace", ttype:UNARY, acc:true},
 {input:"obrace", tag:"mover", output:"\u23DE", tex:"overbrace", ttype:UNARY, acc:true},
 AMtext, AMmbox, AMquote,
-//{input:"var", tag:"mstyle", atname:"fontstyle", atval:"italic", output:"var", tex:null, ttype:UNARY},
 {input:"color", tag:"mstyle", ttype:BINARY},
-{input:"bb", tag:"mstyle", atname:"mathvariant", atval:"bold", output:"bb", tex:"mathbf", ttype:UNARY, notexcopy:true},
-{input:"mathbf", tag:"mstyle", atname:"mathvariant", atval:"bold", output:"mathbf", tex:null, ttype:UNARY},
-{input:"sf", tag:"mstyle", atname:"mathvariant", atval:"sans-serif", output:"sf", tex:"mathsf", ttype:UNARY, notexcopy:true},
-{input:"mathsf", tag:"mstyle", atname:"mathvariant", atval:"sans-serif", output:"mathsf", tex:null, ttype:UNARY},
-{input:"bbb", tag:"mstyle", atname:"mathvariant", atval:"double-struck", output:"bbb", tex:"mathbb", ttype:UNARY, notexcopy:true},
-{input:"mathbb", tag:"mstyle", atname:"mathvariant", atval:"double-struck", output:"mathbb", tex:null, ttype:UNARY},
-{input:"cc",  tag:"mstyle", atname:"mathvariant", atval:"script", output:"cc", tex:"mathcal", ttype:UNARY, notexcopy:true},
-{input:"mathcal", tag:"mstyle", atname:"mathvariant", atval:"script", output:"mathcal", tex:null, ttype:UNARY},
-{input:"tt",  tag:"mstyle", atname:"mathvariant", atval:"monospace", output:"tt", tex:"mathtt", ttype:UNARY, notexcopy:true},
-{input:"mathtt", tag:"mstyle", atname:"mathvariant", atval:"monospace", output:"mathtt", tex:null, ttype:UNARY},
-{input:"fr",  tag:"mstyle", atname:"mathvariant", atval:"fraktur", output:"fr", tex:"mathfrak", ttype:UNARY, notexcopy:true},
-{input:"mathfrak",  tag:"mstyle", atname:"mathvariant", atval:"fraktur", output:"mathfrak", tex:null, ttype:UNARY}
+{input:"bb", tag:"mstyle", output:"bb", tex:"mathbf", ttype:UNARY},
+{input:"sf", tag:"mstyle", output:"sf", tex:"mathsf", ttype:UNARY},
+{input:"bbb", tag:"mstyle", output:"bbb", tex:"mathbb", ttype:UNARY},
+{input:"cc",  tag:"mstyle", output:"cc", tex:"mathcal", ttype:UNARY},
+{input:"tt",  tag:"mstyle", output:"tt", tex:"mathtt", ttype:UNARY},
+{input:"fr",  tag:"mstyle", output:"fr", tex:"mathfrak", ttype:UNARY},
+{input:"italic",  tag:"mstyle", output:"italic", tex:"mathit", ttype:UNARY},
+// these don't all work right
+{input:"sfit", tag:"mstyle", output:"sf italic", tex:null, ttype:DEFINITION},
+{input:"bbit", tag:"mstyle", output:"bb italic", tex:null, ttype:DEFINITION},
+{input:"bbsfit", tag:"mstyle", output:"bb sf italic", tex:null, ttype:DEFINITION},
+{input:"bold", tag:"mstyle", output:"bb", tex:null, ttype:DEFINITION}
 ];
 
 function compareNames(s1,s2) {
@@ -622,6 +640,19 @@ function AMTparseSexpr(str) { //parses str and returns [node,tailstr]
       else i = 0;
       if (i==-1) i = str.length;
       st = str.slice(1,i);
+      if (symbol.input === 'mspace') { // special case
+        var m = st.match(/^(-?[\d\.]+)\s*(em|mu)?$/);
+        newFrag = '';
+        if (m) {
+          if ((!m[2] || m[2] === "mu") && !isNaN(parseFloat(m[1]))) {
+            newFrag = "\\mspace{"+parseFloat(m[1])+ "mu}";
+          } else if (m[2] === "em" && !isNaN(parseFloat(m[1]))) {
+            newFrag = "\\mspace{"+(parseFloat(m[1])*16)+ "mu}";
+          }
+        }
+        str = AMremoveCharsAndBlanks(str,i+1);
+        return [newFrag, str];
+      }
       if (st.charAt(0) == " ") {
 	      newFrag = '\\ ';
       }
@@ -807,7 +838,13 @@ function AMTparseExpr(str,rightbracket) {
 							subpos[lastsubposstart] = [i+2];
 						}
 					}
-					if (newFrag.charAt(i)=='[' || newFrag.charAt(i)=='(' || newFrag.charAt(i)=='{') { mxanynestingd++;}
+					if (newFrag.charAt(i)=='[' || newFrag.charAt(i)=='(' || newFrag.charAt(i)=='{') {
+            // check if this is really part of a matrix
+            if (mxanynestingd == 0 && newFrag.substring(i+1,i+7)=='\\begin') {
+              matrix = false;
+            }
+            mxanynestingd++;
+          }
 					if (newFrag.charAt(i)==']' || newFrag.charAt(i)==')' || newFrag.charAt(i)=='}') { mxanynestingd--;}
 					if (newFrag.charAt(i)==config.listseparator && mxanynestingd==1) {
 						subpos[lastsubposstart].push(i);
@@ -902,6 +939,30 @@ function AMTparseAMtoTeX(str) {
   return AMTparseExpr(str.replace(/^\s+/g,""),false)[0];
 }
 
+AMinitSymbols();
+
+return {
+  parse: AMTparseAMtoTeX,
+  config: config,
+}
+
+}));
+// end asciimath-to-tex conversion functions
+
+// start browser parsing
+(function() {
+
+// Return if AMD, CommonJS or not browser
+// I.e. only run when imported using "script" tag
+if (typeof define === 'function' && define.amd) return;
+if (typeof module === 'object' && module.exports) return;
+if (typeof window === 'undefined') return; // Not browser
+
+// "Import" UMD exports. Exported as window.* later
+var AMTparseAMtoTeX = window.returnExports.parse;
+var config = window.returnExports.config;
+
+// STACK requires the additon of the latex parameter.
 function AMparseMath(str, latex) {
  //DLMOD to remove &nbsp;, which editor adds on multiple spaces
   str = str.replace(/(&nbsp;|\u00a0|&#160;)/g,"");
@@ -929,13 +990,14 @@ function AMparseMath(str, latex) {
   if (latex) {
     return texstring;
   }
+
   var node = document.createElement("img");
   if (typeof encodeURIComponent == "function") {
 	  texstring = encodeURIComponent(texstring);
   } else {
 	  texstring = escape(texstring);
   }
-  node.src = AMTcgiloc + '?' + texstring;
+  node.src = config.AMTcgiloc + '?' + texstring;
   node.style.verticalAlign = "middle";
   if (config.showasciiformulaonhover)                      //fixed by djhsu so newline
     node.setAttribute("title",str.replace(/\s+/g," "));//does not show in Gecko
@@ -1047,8 +1109,6 @@ function translate(spanclassAM) {
 var AMbody;
 var AMtranslated = false;
 var AMnoMathML = true;
-
-AMinitSymbols();
 
 window.translate = translate;
 window.AMTconfig = config;

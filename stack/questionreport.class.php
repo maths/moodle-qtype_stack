@@ -544,7 +544,7 @@ class stack_question_report {
         foreach ($this->question->prts as $prtname => $prt) {
             $prtdata = new StdClass();
             $prtdata->prtname = $prtname;
-            $graph = $prt->get_prt_graph();
+            $graph = $prt->get_prt_graph($this->get_prt_graph_labels($prtname, $tot));
             $prtdata->graph_svg = stack_abstract_graph_svg_renderer::render($graph, $prtname . 'graphsvg');
             $prtdata->graph_text = stack_prt_graph_text_renderer::render($graph);
             $prtdata->maxima = s($prt->get_maxima_representation());
@@ -587,7 +587,7 @@ class stack_question_report {
             if (array_key_exists($prtname, $prtlabels)) {
                 $prtdata = new StdClass();
                 $prtdata->prtname = $prtname;
-                $graph = $prt->get_prt_graph();
+                $graph = $prt->get_prt_graph($this->get_prt_graph_labels($prtname, $tot));
                 $prtdata->graph_svg = stack_abstract_graph_svg_renderer::render($graph, $prtname . 'graphsvg');
                 $prtdata->graph_text = stack_prt_graph_text_renderer::render($graph);
                 $prtdata->sumout = s($sumout[$prtname]);
@@ -596,6 +596,25 @@ class stack_question_report {
         }
 
         return $output;
+    }
+
+    /**
+     * Create attempt-count labels for the edges of a PRT graph.
+     * @param string $prtname PRT name.
+     * @param array $tot Total attempts by PRT.
+     * @return array answer note => graph edge label.
+     */
+    public function get_prt_graph_labels(string $prtname, array $tot): array {
+        $labels = [];
+        $total = $tot[$prtname] ?? 0;
+        foreach ($this->question->prts[$prtname]->get_nodes_summary() as $node) {
+            foreach ([$node->trueanswernote, $node->falseanswernote] as $note) {
+                $num = $this->notesummary[$prtname][$note] ?? 0;
+                $percentage = $total == 0 ? 0 : (float) 100 * $num / $total;
+                $labels[$note] = $num . ' (' . number_format($percentage, 2, '.', '') . '%)';
+            }
+        }
+        return $labels;
     }
 
     /**

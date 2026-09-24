@@ -27,6 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../block.interface.php');
 require_once(__DIR__ . '/../../../utils.class.php');
 require_once(__DIR__ . '/../../../../vle_specific.php');
+require_once(__DIR__ . '/../../../../locallib.php');
 require_once(__DIR__ . '/../../../../api/util/StackIframeHolder.php');
 
 use api\util\StackIframeHolder;
@@ -42,6 +43,17 @@ use api\util\StackIframeHolder;
  * that allow targetted content within this block.
  */
 class stack_cas_castext2_iframe extends stack_cas_castext2_block {
+    /**
+     * This is intentionally replaced during postprocessing, not compilation,
+     * so messages use the current user's language rather than the author's.
+     * @var string JSON containing strings needing to be passed to JS.
+     */
+    public const ASCII_STRINGS_PLACEHOLDER = '///STACK_ASCII_STRINGS///';
+    /**
+     * @var string Identifier of ascii strings needing to be passed to JS.
+     */
+    private const ASCII_STRING_PREFIX = 'asciistring';
+
     // All frames need unique (at request level) identifiers,
     // we use running numbering.
     // phpcs:ignore moodle.Commenting.VariableComment.Missing
@@ -174,15 +186,27 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
         }
         $scrolling = true;
         if (isset($parameters['scrolling'])) {
-            $scrolling = $parameters['scrolling'];
+            // ISS1796 - Fix to convert 'false' (and strings other than 'true') to false
+            // when passed as manual parameter to bare iframe. JSXGraph, etc, set to false
+            // automatically.
+            $scrolling = filter_var($parameters['scrolling'], FILTER_VALIDATE_BOOLEAN);
         }
 
         // Construct the contents of the IFRAME.
         $code = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
         $code .= '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"' .
             ' "http://www.w3.org/TR/xhtml1/DTD/strict.dtd">' . "\n";
+        $directionattribute = '';
+        if (isset($parameters['stack-ascii-direction'])) {
+            $direction = $parameters['stack-ascii-direction'];
+            if ($direction === 'ltr' || $direction === 'rtl') {
+                $directionattribute = ' dir="' . $direction . '"';
+            } else {
+                $directionattribute = ' dir="' . stack_get_system_direction() . '"';
+            }
+        }
         $code .= '<html xmlns="http://www.w3.org/TR/xhtml1/strict" lang="' .
-            stack_get_system_language() . '">';
+            stack_get_system_language() . '"' . $directionattribute . '>';
         // Include a title to help JS debugging.
         $code .= '<head><title>' . $title . '</title>';
         $code .= $style;
@@ -200,6 +224,13 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
             $code = str_replace(
                 '!ploturl!',
                 moodle_url::make_file_url('/question/type/stack/plot.php', '/'),
+                $code
+            );
+        }
+        if (strpos($code, self::ASCII_STRINGS_PLACEHOLDER) !== false) {
+            $code = str_replace(
+                self::ASCII_STRINGS_PLACEHOLDER,
+                self::get_ascii_strings_json(),
                 $code
             );
         }
@@ -232,6 +263,23 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
 
         // Output the placeholder for this frame.
         return $holder->add_to_map(html_writer::tag('div', '', $attributes));
+    }
+
+    /**
+     * Strings used by JavaScript inside the ASCII block iframe.
+     * String keys are discovered by the asciistring prefix.
+     * @return string
+     */
+    private static function get_ascii_strings_json(): string {
+        $strings = [];
+        $stringmanager = get_string_manager();
+        $englishstrings = $stringmanager->load_component_strings('qtype_stack', 'en');
+        foreach (array_keys($englishstrings) as $key) {
+            if (strpos($key, self::ASCII_STRING_PREFIX) === 0) {
+                $strings[$key] = stack_string($key);
+            }
+        }
+        return json_encode($strings);
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

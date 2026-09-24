@@ -260,7 +260,10 @@ function collectInputToolbarButtons(operations) {
         if (!operation || operation.operation !== 'filter') {
             return;
         }
-        const filterButtons = filterInputToolbarButtons[operation.type] || [];
+        if (!filterInputToolbarButtons[operation.type]) {
+            return;
+        }
+        const filterButtons = filterInputToolbarButtons[operation.type]();
         filterButtons.forEach((button) => {
             const insert = String(button.insert || button.label || '');
             const label = String(button.label || insert);
@@ -271,7 +274,7 @@ function collectInputToolbarButtons(operations) {
             buttons.push({
                 label,
                 insert,
-                title: String(button.title || label)
+                title: String(button.title)
             });
         });
     });

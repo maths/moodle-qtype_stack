@@ -1187,6 +1187,15 @@ $string['asciistringextractorregexnotfound'] = 'No line matched the requested re
 $string['asciistringfiltercalculationfunctionnotallowed'] = 'Function not allowed:';
 $string['asciistringfiltercalculationoperatornotallowed'] = 'Operator not allowed:';
 $string['asciistringfiltercalculationnodetypenotallowed'] = 'Node type not allowed:';
+$string['asciistringtoolbarcalculationstart'] = 'Insert calculation start delimiter';
+$string['asciistringtoolbarcalculationend'] = 'Insert calculation end delimiter';
+$string['asciistringtoolbarcasstart'] = 'Insert CAS start delimiter';
+$string['asciistringtoolbarcasend'] = 'Insert CAS end delimiter';
+$string['asciistringtoolbarmarkdowninline'] = 'Insert inline maths delimiter';
+$string['asciistringtoolbarmarkdowninlinelatexstart'] = 'Insert inline LaTeX start delimiter';
+$string['asciistringtoolbarmarkdowninlinelatexend'] = 'Insert inline LaTeX end delimiter';
+$string['asciistringtoolbarmarkdowndisplaylatexstart'] = 'Insert display LaTeX start delimiter';
+$string['asciistringtoolbarmarkdowndisplaylatexend'] = 'Insert display LaTeX end delimiter';
 
 $string['stackBlock_filter_type_required'] = 'You must define the type of filter you want to use.';
 $string['stackBlock_filter_unknown'] = 'Unknown type \'{$a->type}\' for the filter block. Valid types are: \'{$a->filters}\'';

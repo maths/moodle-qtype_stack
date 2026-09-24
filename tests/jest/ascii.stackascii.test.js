@@ -14,28 +14,23 @@ const mockRegexallremainder = jest.fn();
 
 jest.mock('../../corsscripts/ascii/filters/markdown.js', () => ({
     __esModule: true,
-    inputToolbarButtons: [
-        { label: '`', insert: '`', title: 'Backtick' },
-        { label: '\\(', insert: '\\(', title: 'Inline start' }
-    ],
+    inputToolbarButtons: () => {
+        const { asciiString } = jest.requireActual('../../corsscripts/ascii/asciihelper.js');
+        return [
+            { label: '`', insert: '`', title: asciiString('asciistringtoolbarmarkdowninline') },
+            { label: '\\(', insert: '\\(', title: asciiString('asciistringtoolbarmarkdowninlinelatexstart') }
+        ];
+    },
     default: (...args) => mockMarkdown(...args)
 }));
 
 jest.mock('../../corsscripts/ascii/filters/calculation.js', () => ({
     __esModule: true,
-    inputToolbarButtons: [
-        { label: '{@', insert: '{@', title: 'Calculation start' },
-        { label: '@}', insert: '@}', title: 'Calculation end' }
-    ],
     default: (...args) => mockCalculation(...args)
 }));
 
 jest.mock('../../corsscripts/ascii/filters/cas.js', () => ({
     __esModule: true,
-    inputToolbarButtons: [
-        { label: '{@', insert: '{@', title: 'CAS start' },
-        { label: '@}', insert: '@}', title: 'CAS end' }
-    ],
     default: (...args) => mockCas(...args)
 }));
 
@@ -80,6 +75,12 @@ jest.mock('../../corsscripts/ascii/extractors/allregexremainder.js', () => ({
 }));
 
 import init from '../../corsscripts/ascii/stackascii.js';
+import { stackStrings } from './ascii.teststrings.js';
+
+const toolbarStrings = stackStrings([
+    'asciistringtoolbarmarkdowninline',
+    'asciistringtoolbarmarkdowninlinelatexstart'
+]);
 
 describe('stackascii init', () => {
     let getElementByIdSpy = null;
@@ -327,17 +328,17 @@ describe('stackascii init', () => {
             { operation: 'extractor', type: 'lastexpr' }
         ];
 
-        init(['markdownInput'], operations);
+        init(['markdownInput'], operations, {
+            asciistrings: toolbarStrings
+        });
 
         expect(window.parent.postMessage).toHaveBeenCalledWith(JSON.stringify({
             version: 'STACK-JS:1.7.0',
             type: 'input-toolbar',
             name: 'markdownInput',
             buttons: [
-                { label: '{@', insert: '{@', title: 'Calculation start' },
-                { label: '@}', insert: '@}', title: 'Calculation end' },
-                { label: '`', insert: '`', title: 'Backtick' },
-                { label: '\\(', insert: '\\(', title: 'Inline start' }
+                { label: '`', insert: '`', title: toolbarStrings.asciistringtoolbarmarkdowninline },
+                { label: '\\(', insert: '\\(', title: toolbarStrings.asciistringtoolbarmarkdowninlinelatexstart }
             ],
             'limit-to-question': true,
             src: 'frame-1'

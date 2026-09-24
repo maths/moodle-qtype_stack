@@ -4,10 +4,12 @@
 import math from '../mathjs.min.js';
 import { asciiString } from '../asciihelper.js';
 
-export const inputToolbarButtons = [
-    { label: '{@', insert: '{@', title: 'Insert calculation start delimiter' },
-    { label: '@}', insert: '@}', title: 'Insert calculation end delimiter' }
-];
+export function inputToolbarButtons() {
+    return [
+        { label: '{@', insert: '{@', title: asciiString('asciistringtoolbarcalculationstart') },
+        { label: '@}', insert: '@}', title: asciiString('asciistringtoolbarcalculationend') }
+    ];
+}
 
 // This is the allowed set of functions, operators and ast nodes for students.
 const allowed = {

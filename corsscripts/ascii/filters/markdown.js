@@ -20,6 +20,7 @@ import asciimath from '../markdownittransforms/100_asciimath.js';
 import aligneq from '../markdownittransforms/200_aligneq.js';
 import boldfilter from '../markdownittransforms/250_boldfilter.js';
 import minwrap from '../markdownittransforms/900_minwrap.js';
+import { asciiString } from '../asciihelper.js';
 
 /**
  * Registry maps the transform name strings used in the [[filter]] block's `transforms`
@@ -34,13 +35,15 @@ const transformLib = {
     minwrap
 };
 
-export const inputToolbarButtons = [
-    { label: '`', insert: '`', title: 'Insert inline maths delimiter' },
-    { label: '\\(', insert: '\\(', title: 'Insert inline LaTeX start delimiter' },
-    { label: '\\)', insert: '\\)', title: 'Insert inline LaTeX end delimiter' },
-    { label: '\\[', insert: '\\[', title: 'Insert display LaTeX start delimiter' },
-    { label: '\\]', insert: '\\]', title: 'Insert display LaTeX end delimiter' }
-];
+export function inputToolbarButtons() {
+    return [
+        { label: '`', insert: '`', title: asciiString('asciistringtoolbarmarkdowninline') },
+        { label: '\\(', insert: '\\(', title: asciiString('asciistringtoolbarmarkdowninlinelatexstart') },
+        { label: '\\)', insert: '\\)', title: asciiString('asciistringtoolbarmarkdowninlinelatexend') },
+        { label: '\\[', insert: '\\[', title: asciiString('asciistringtoolbarmarkdowndisplaylatexstart') },
+        { label: '\\]', insert: '\\]', title: asciiString('asciistringtoolbarmarkdowndisplaylatexend') }
+    ];
+}
 
 /**
  * Shared mutable state updated before each render so the single shared converter instance

@@ -324,6 +324,10 @@ describe('amd/src/stackjsvle.js', () => {
         expect(Array.from(toolbar.querySelectorAll('button')).map((button) => button.textContent))
             .toEqual(['{@', '@}']);
 
+        const pointerDown = new Event('pointerdown', {cancelable: true});
+        toolbar.querySelector('button').dispatchEvent(pointerDown);
+        expect(pointerDown.defaultPrevented).toBe(true);
+
         textarea.value = 'abcdef';
         textarea.setSelectionRange(2, 4);
         toolbar.querySelector('button').click();

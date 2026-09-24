@@ -1,7 +1,5 @@
 // Filter: plain. Does nothing.
-export function inputToolbarButtons() {
-    return [];
-}
+export const inputToolbarButtons = [];
 
 export default function cas(text, blockCollector) {
     if (blockCollector) {

@@ -263,8 +263,7 @@ function collectInputToolbarButtons(operations) {
         if (!filterInputToolbarButtons[operation.type]) {
             return;
         }
-        const filterButtons = filterInputToolbarButtons[operation.type]();
-        filterButtons.forEach((button) => {
+        filterInputToolbarButtons[operation.type].forEach((button) => {
             const insert = String(button.insert || button.label || '');
             if (!insert || seen.has(insert)) {
                 return;

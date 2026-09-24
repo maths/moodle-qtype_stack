@@ -1170,6 +1170,7 @@ var result = {
                 button.textContent = label;
                 button.title = String(definition.title || label);
                 button.setAttribute('aria-label', button.title);
+                // Keep focus on the textarea so its selection range is still available on click.
                 button.addEventListener('pointerdown', (event) => {
                     event.preventDefault();
                 });

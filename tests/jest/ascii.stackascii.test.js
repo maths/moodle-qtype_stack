@@ -14,7 +14,7 @@ const mockRegexallremainder = jest.fn();
 
 jest.mock('../../corsscripts/ascii/filters/markdown.js', () => ({
     __esModule: true,
-    inputToolbarButtons: () => [
+    inputToolbarButtons: [
         { label: '`', insert: '`', titlekey: 'asciistringtoolbarmarkdowninline' },
         { label: '\\(', insert: '\\(', titlekey: 'asciistringtoolbarmarkdowninlinelatexstart' },
         { label: '\\)', insert: '\\)', titlekey: 'asciistringtoolbarmarkdowninlinelatexend' }
@@ -24,11 +24,19 @@ jest.mock('../../corsscripts/ascii/filters/markdown.js', () => ({
 
 jest.mock('../../corsscripts/ascii/filters/calculation.js', () => ({
     __esModule: true,
+    inputToolbarButtons: [
+        { label: '{@', insert: '{@', titlekey: 'asciistringtoolbarcalculationstart' },
+        { label: '@}', insert: '@}', titlekey: 'asciistringtoolbarcalculationend' }
+    ],
     default: (...args) => mockCalculation(...args)
 }));
 
 jest.mock('../../corsscripts/ascii/filters/cas.js', () => ({
     __esModule: true,
+    inputToolbarButtons: [
+        { label: '{@', insert: '{@', titlekey: 'asciistringtoolbarcasstart' },
+        { label: '@}', insert: '@}', titlekey: 'asciistringtoolbarcasend' }
+    ],
     default: (...args) => mockCas(...args)
 }));
 
@@ -76,6 +84,8 @@ import init from '../../corsscripts/ascii/stackascii.js';
 import { stackStrings } from './ascii.teststrings.js';
 
 const toolbarStrings = stackStrings([
+    'asciistringtoolbarcalculationstart',
+    'asciistringtoolbarcalculationend',
     'asciistringtoolbarmarkdowninline',
     'asciistringtoolbarmarkdowninlinelatexstart'
 ]);
@@ -335,6 +345,8 @@ describe('stackascii init', () => {
             type: 'input-toolbar',
             name: 'markdownInput',
             buttons: [
+                { label: '{@', insert: '{@', title: toolbarStrings.asciistringtoolbarcalculationstart },
+                { label: '@}', insert: '@}', title: toolbarStrings.asciistringtoolbarcalculationend },
                 { label: '`', insert: '`', title: toolbarStrings.asciistringtoolbarmarkdowninline },
                 { label: '\\(', insert: '\\(', title: toolbarStrings.asciistringtoolbarmarkdowninlinelatexstart },
                 { label: '\\)', insert: '\\)', title: '\\)' }

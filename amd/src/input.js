@@ -44,75 +44,6 @@ define([
 
     "use strict";
 
-    var FREETEXT_INSERT_TOKENS = ['{@', '@}', '`', '\\(', '\\)', '\\[', '\\]'];
-
-    /**
-     * Insert text into a textarea at the current selection.
-     *
-     * @param {HTMLTextAreaElement} textarea The textarea to update.
-     * @param {String} text Text to insert.
-     */
-    function insertAtTextareaSelection(textarea, text) {
-        var start = textarea.selectionStart;
-        var end = textarea.selectionEnd;
-
-        textarea.value = textarea.value.substring(0, start) + text + textarea.value.substring(end);
-        var caret = start + text.length;
-        textarea.focus();
-        textarea.setSelectionRange(caret, caret);
-        textarea.dispatchEvent(new Event('input', {bubbles: true}));
-    }
-
-    /**
-     * Add the mobile freetext token insertion buttons for a textarea.
-     *
-     * @param {HTMLTextAreaElement} freetext The freetext textarea.
-     */
-    function addFreetextInsertButtons(freetext) {
-        if (freetext.readOnly || freetext.disabled || freetext.dataset.stackFreetextInsertButtons === 'true') {
-            return;
-        }
-        freetext.dataset.stackFreetextInsertButtons = 'true';
-
-        var buttons = document.createElement('div');
-        buttons.className = 'stack-freetext-insert-buttons';
-        buttons.setAttribute('role', 'group');
-
-        FREETEXT_INSERT_TOKENS.forEach(function(token) {
-            var button = document.createElement('button');
-            button.type = 'button';
-            button.className = 'btn btn-secondary btn-sm';
-            button.textContent = token;
-            button.addEventListener('pointerdown', function(event) {
-                event.preventDefault();
-            });
-            button.addEventListener('mousedown', function(event) {
-                event.preventDefault();
-            });
-            button.addEventListener('click', function() {
-                insertAtTextareaSelection(freetext, token);
-            });
-            buttons.appendChild(button);
-        });
-
-        freetext.parentNode.insertBefore(buttons, freetext);
-    }
-
-    /**
-     * Initialise freetext insertion buttons in a question.
-     *
-     * @param {String} questionDivId id of the outer div of the question.
-     */
-    function initFreetextInputs(questionDivId) {
-        var questionDiv = document.getElementById(questionDivId);
-        if (!questionDiv) {
-            return;
-        }
-        questionDiv.querySelectorAll('textarea[data-stack-input-type="freetext"]').forEach(function(freetext) {
-            addFreetextInsertButtons(freetext);
-        });
-    }
-
     /**
      * Class constructor representing an input in a Stack question.
      *
@@ -418,8 +349,6 @@ define([
      * @param {Object} freetext The input element wrapped in jquery.
      */
     function StackFreetextInput(freetext) {
-        addFreetextInsertButtons(freetext);
-
         /**
          * Add the event handler to call when the user input changes.
          *
@@ -706,13 +635,6 @@ define([
          * @param {String} qaid Moodle question_attempt id.
          * @param {String[]} inputs names of all the inputs that should have instant validation.
          */
-        initInputs: initInputs,
-
-        /**
-         * Initialise freetext input helpers in a STACK question.
-         *
-         * @param {String} questionDivId id of the outer div of the question.
-         */
-        initFreetextInputs: initFreetextInputs
+        initInputs: initInputs
     };
 });

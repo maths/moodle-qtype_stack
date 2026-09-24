@@ -14,16 +14,28 @@ const mockRegexallremainder = jest.fn();
 
 jest.mock('../../corsscripts/ascii/filters/markdown.js', () => ({
     __esModule: true,
+    inputToolbarButtons: [
+        { label: '`', insert: '`', title: 'Backtick' },
+        { label: '\\(', insert: '\\(', title: 'Inline start' }
+    ],
     default: (...args) => mockMarkdown(...args)
 }));
 
 jest.mock('../../corsscripts/ascii/filters/calculation.js', () => ({
     __esModule: true,
+    inputToolbarButtons: [
+        { label: '{@', insert: '{@', title: 'Calculation start' },
+        { label: '@}', insert: '@}', title: 'Calculation end' }
+    ],
     default: (...args) => mockCalculation(...args)
 }));
 
 jest.mock('../../corsscripts/ascii/filters/cas.js', () => ({
     __esModule: true,
+    inputToolbarButtons: [
+        { label: '{@', insert: '{@', title: 'CAS start' },
+        { label: '@}', insert: '@}', title: 'CAS end' }
+    ],
     default: (...args) => mockCas(...args)
 }));
 
@@ -270,6 +282,33 @@ describe('stackascii init', () => {
         expect(global.setTimeout).toHaveBeenCalledWith(expect.any(Function), 100);
         expect(mockMarkdown).toHaveBeenCalledTimes(2);
         expect(env.output.innerHTML).toBe('MD:gamma');
+    });
+
+    test('registers input toolbar buttons from active filters', () => {
+        setupEnvironment('buttons', 0);
+
+        const operations = [
+            { operation: 'filter', type: 'calculation' },
+            { operation: 'filter', type: 'markdown' },
+            { operation: 'filter', type: 'cas' },
+            { operation: 'extractor', type: 'lastexpr' }
+        ];
+
+        init(['markdownInput'], operations);
+
+        expect(window.parent.postMessage).toHaveBeenCalledWith(JSON.stringify({
+            version: 'STACK-JS:1.7.0',
+            type: 'input-toolbar',
+            name: 'markdownInput',
+            buttons: [
+                { label: '{@', insert: '{@', title: 'Calculation start' },
+                { label: '@}', insert: '@}', title: 'Calculation end' },
+                { label: '`', insert: '`', title: 'Backtick' },
+                { label: '\\(', insert: '\\(', title: 'Inline start' }
+            ],
+            'limit-to-question': true,
+            src: 'frame-1'
+        }), '*');
     });
 
     test('registers one-way scroll sync and applies inbound scroll positions', () => {

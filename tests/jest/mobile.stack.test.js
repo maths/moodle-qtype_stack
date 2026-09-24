@@ -32,9 +32,6 @@ function buildQuestionHtml() {
                 <textarea id="input_txt" name="pfxtxt">line1</textarea>
                 <div id="pfxtxt_val"></div>
 
-                <textarea id="input_free" name="pfxfree" data-stack-input-type="freetext">abcdef</textarea>
-                <div id="pfxfree_val"></div>
-
                 <div class="answer" id="checkbox-answer">
                     <div class="option option-a">
                         <label for="pfxchk_1">Choice A</label>
@@ -384,77 +381,6 @@ describe('mobile/stack.js', () => {
         ]);
     });
 
-    test('adds freetext insert buttons and validates inserted token', async() => {
-        const read = jest.fn().mockImplementation((method, args) => Promise.resolve({
-            status: 'valid',
-            input: args.input,
-            message: '<span>Looks good</span>',
-        }));
-        const context = buildContext({
-            read,
-            question: {
-                html: buildQuestionHtml(),
-                scriptsCode: 'amd.initInputs("q1","pfx","qa-free",["free"]);',
-            },
-        });
-        const mobileStack = loadMobileStack(context);
-
-        mobileStack.componentInit.call(context);
-        mountRenderedQuestion(context.question);
-        jest.runAllTimers();
-
-        const textarea = document.querySelector('#q1 [name="pfxfree"]');
-        const buttons = textarea.previousElementSibling;
-        const seenInputEvents = [];
-        textarea.addEventListener('input', () => {
-            seenInputEvents.push(textarea.value);
-        });
-
-        expect(buttons.tagName).toBe('DIV');
-        expect(buttons.classList.contains('stack-freetext-insert-buttons')).toBe(true);
-        expect(Array.from(buttons.querySelectorAll('button')).map((button) => button.textContent))
-            .toEqual(['{@', '@}', '`', '\\(', '\\)', '\\[', '\\]']);
-
-        textarea.setSelectionRange(2, 4);
-        buttons.querySelectorAll('button')[6].click();
-
-        expect(textarea.value).toBe('ab\\]ef');
-        expect(textarea.selectionStart).toBe(4);
-        expect(textarea.selectionEnd).toBe(4);
-        expect(seenInputEvents).toEqual(['ab\\]ef']);
-
-        jest.runAllTimers();
-        await flushMicrotasks();
-
-        expect(read).toHaveBeenCalledWith('qtype_stack_validate_input', {
-            qaid: 'qa-free',
-            name: 'free',
-            input: 'ab\\]ef',
-            lang: 'fr',
-        });
-    });
-
-    test('adds freetext insert buttons without validation init script', async() => {
-        const context = buildContext({
-            question: {
-                html: buildQuestionHtml(),
-                scriptsCode: '',
-            },
-        });
-        const mobileStack = loadMobileStack(context);
-
-        mobileStack.componentInit.call(context);
-        mountRenderedQuestion(context.question);
-        jest.runAllTimers();
-        await flushMicrotasks();
-
-        const textarea = document.querySelector('#q1 [name="pfxfree"]');
-        const buttons = textarea.previousElementSibling;
-
-        expect(buttons.tagName).toBe('DIV');
-        expect(buttons.classList.contains('stack-freetext-insert-buttons')).toBe(true);
-    });
-
     test('failed validation request sets error state and emits invalid event', async() => {
         const read = jest.fn().mockRejectedValue({message: '<strong>Server error</strong>'});
         const context = buildContext({
@@ -724,6 +650,44 @@ describe('mobile/stack.js', () => {
 
         expect(latestResponse('iframe-1').position).toBeCloseTo(0.5);
         expect(latestResponse('iframe-2').position).toBeCloseTo(0.5);
+    });
+
+    test('input-toolbar inserts text into the parent textarea', async() => {
+        const {postMessageByFrame, sendMessage, latestResponse} = await setupMessageHarness(['iframe-1']);
+
+        sendMessage({
+            version: 'STACK-JS:1.5.0',
+            src: 'iframe-1',
+            type: 'register-input-listener',
+            name: 'txt',
+            'track-input': true,
+        });
+        postMessageByFrame['iframe-1'].mockClear();
+
+        sendMessage({
+            version: 'STACK-JS:1.7.0',
+            src: 'iframe-1',
+            type: 'input-toolbar',
+            name: 'txt',
+            buttons: [
+                {label: '\\[', insert: '\\[', title: 'Display start'},
+            ],
+            'limit-to-question': true,
+        });
+
+        const textarea = document.querySelector('#q1 textarea[name="pfxtxt"]');
+        const toolbar = textarea.previousElementSibling;
+        expect(toolbar.classList.contains('stack-ascii-input-toolbar')).toBe(true);
+        expect(toolbar.querySelector('button').textContent).toBe('\\[');
+
+        textarea.value = 'abcdef';
+        textarea.setSelectionRange(2, 4);
+        toolbar.querySelector('button').click();
+
+        expect(textarea.value).toBe('ab\\[ef');
+        expect(textarea.selectionStart).toBe(4);
+        expect(textarea.selectionEnd).toBe(4);
+        expect(latestResponse('iframe-1').value).toBe('ab\\[ef');
     });
 
     test('clear-input and submit button commands operate through message API', async() => {

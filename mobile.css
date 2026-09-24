@@ -1151,14 +1151,6 @@ table.HELM_table th:last-child {
     max-width: 100%;
 }
 
-.stack-freetext-insert-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.25rem;
-    max-width: 100%;
-    margin: 0 0 0.35rem;
-}
-
 .free-text-container > * {
     flex: 1;
     min-width: 0;

@@ -295,6 +295,50 @@ describe('amd/src/stackjsvle.js', () => {
         expect(response2.position).toBeCloseTo(0.5);
     });
 
+    test('input-toolbar renders buttons beside the textarea and inserts at the cursor', () => {
+        sendMessage({
+            version: 'STACK-JS:1.5.0',
+            src: 'iframe-1',
+            type: 'register-input-listener',
+            name: 'txt',
+            'track-input': true,
+        });
+        postMessageByFrame['iframe-1'].mockClear();
+
+        sendMessage({
+            version: 'STACK-JS:1.7.0',
+            src: 'iframe-1',
+            type: 'input-toolbar',
+            name: 'txt',
+            buttons: [
+                {label: '{@', insert: '{@', title: 'Calculation start'},
+                {label: '@}', insert: '@}', title: 'Calculation end'},
+            ],
+            'limit-to-question': true,
+        });
+
+        const textarea = document.getElementById('input_txt');
+        const toolbar = textarea.previousElementSibling;
+        expect(toolbar.id).toBe('input_txt_stack_ascii_toolbar');
+        expect(toolbar.classList.contains('stack-ascii-input-toolbar')).toBe(true);
+        expect(toolbar.style.display).toBe('flex');
+        expect(Array.from(toolbar.querySelectorAll('button')).map((button) => button.textContent))
+            .toEqual(['{@', '@}']);
+
+        textarea.value = 'abcdef';
+        textarea.setSelectionRange(2, 4);
+        toolbar.querySelector('button').click();
+
+        expect(textarea.value).toBe('ab{@ef');
+        expect(textarea.selectionStart).toBe(4);
+        expect(textarea.selectionEnd).toBe(4);
+
+        const response = expectLatestResponse('iframe-1');
+        expect(response.type).toBe('changed-input');
+        expect(response.name).toBe('txt');
+        expect(response.value).toBe('ab{@ef');
+    });
+
     test('track-validation-state forwards stack-validation events', () => {
         sendMessage({
             version: 'STACK-JS:1.5.0',

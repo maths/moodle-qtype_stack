@@ -34,6 +34,14 @@ const transformLib = {
     minwrap
 };
 
+export const inputToolbarButtons = [
+    { label: '`', insert: '`', title: 'Insert inline maths delimiter' },
+    { label: '\\(', insert: '\\(', title: 'Insert inline LaTeX start delimiter' },
+    { label: '\\)', insert: '\\)', title: 'Insert inline LaTeX end delimiter' },
+    { label: '\\[', insert: '\\[', title: 'Insert display LaTeX start delimiter' },
+    { label: '\\]', insert: '\\]', title: 'Insert display LaTeX end delimiter' }
+];
+
 /**
  * Shared mutable state updated before each render so the single shared converter instance
  * can serve calls with different transforms and collectors without being re-created.

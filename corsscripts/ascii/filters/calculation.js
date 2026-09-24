@@ -3,6 +3,11 @@
 // e.g. "The answer is {@2^2 + 1@} here" → "The answer is 5 here"
 import math from '../mathjs.min.js';
 
+export const inputToolbarButtons = [
+    { label: '{@', insert: '{@', title: 'Insert calculation start delimiter' },
+    { label: '@}', insert: '@}', title: 'Insert calculation end delimiter' }
+];
+
 // This is the allowed set of functions, operators and ast nodes for students.
 const allowed = {
   functions: new Set([

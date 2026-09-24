@@ -29,12 +29,18 @@
 // ASCIIMathTeXImg.js is loaded as a plain <script> tag by the PHP (sloppy mode).
 // It sets window.AMparseMath before init() is called.
 
-import calculation from './filters/calculation.js';
-import cas from './filters/cas.js';
-import markdown from './filters/markdown.js';
-import plain from './filters/plain.js';
+import calculation, { inputToolbarButtons as calculationInputToolbarButtons } from './filters/calculation.js';
+import cas, { inputToolbarButtons as casInputToolbarButtons } from './filters/cas.js';
+import markdown, { inputToolbarButtons as markdownInputToolbarButtons } from './filters/markdown.js';
+import plain, { inputToolbarButtons as plainInputToolbarButtons } from './filters/plain.js';
 
 const filterlib = { calculation, cas, markdown, plain };
+const filterInputToolbarButtons = {
+    calculation: calculationInputToolbarButtons,
+    cas: casInputToolbarButtons,
+    markdown: markdownInputToolbarButtons,
+    plain: plainInputToolbarButtons
+};
 
 import lastblock from './extractors/lastblock.js';
 import lastcalc from './extractors/lastcalc.js';
@@ -77,6 +83,7 @@ export default function init(inputIds, operations) {
     const output = document.getElementById('asciiContainerRow');
     const frameId = (typeof FRAME_ID !== 'undefined') ? FRAME_ID : null;
     const syncScrollPosition = createScrollSyncHandler(markdownContainerId, frameId, output);
+    registerInputToolbar(markdownContainerId, frameId, operations);
 
     // inputIds[1..N] correspond to each extractor's target answer input in order.
     const alloperations = operations;
@@ -177,6 +184,69 @@ export default function init(inputIds, operations) {
     }
 
     renderMath(); // initial render on load
+}
+
+/**
+ * Register syntax helper buttons for the source input with the parent VLE.
+ *
+ * The actual buttons live beside the real input in the parent document so that
+ * insertion can use the textarea selection range directly.
+ *
+ * @param {?string} inputName linked STACK input name.
+ * @param {?string} frameId parent frame id for postMessage coordination.
+ * @param {Object[]} operations filter/extractor operation list.
+ */
+function registerInputToolbar(inputName, frameId, operations) {
+    if (!inputName || !frameId) {
+        return;
+    }
+
+    const buttons = collectInputToolbarButtons(operations);
+    if (buttons.length === 0) {
+        return;
+    }
+
+    window.parent.postMessage(JSON.stringify({
+        version: 'STACK-JS:1.7.0',
+        type: 'input-toolbar',
+        name: inputName,
+        buttons,
+        'limit-to-question': true,
+        src: frameId
+    }), '*');
+}
+
+/**
+ * Collect deduplicated toolbar buttons from the active filter operations.
+ *
+ * @param {Object[]} operations filter/extractor operation list.
+ * @returns {Object[]} button definitions for the parent VLE.
+ */
+function collectInputToolbarButtons(operations) {
+    const buttons = [];
+    const seen = new Set();
+
+    (operations || []).forEach((operation) => {
+        if (!operation || operation.operation !== 'filter') {
+            return;
+        }
+        const filterButtons = filterInputToolbarButtons[operation.type] || [];
+        filterButtons.forEach((button) => {
+            const insert = String(button.insert || button.label || '');
+            const label = String(button.label || insert);
+            if (!insert || seen.has(insert)) {
+                return;
+            }
+            seen.add(insert);
+            buttons.push({
+                label,
+                insert,
+                title: String(button.title || label)
+            });
+        });
+    });
+
+    return buttons;
 }
 
 /**

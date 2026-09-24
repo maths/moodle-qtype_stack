@@ -321,7 +321,6 @@ describe('amd/src/stackjsvle.js', () => {
         const toolbar = textarea.previousElementSibling;
         expect(toolbar.id).toBe('input_txt_stack_ascii_toolbar');
         expect(toolbar.classList.contains('stack-ascii-input-toolbar')).toBe(true);
-        expect(toolbar.style.display).toBe('flex');
         expect(Array.from(toolbar.querySelectorAll('button')).map((button) => button.textContent))
             .toEqual(['{@', '@}']);
 

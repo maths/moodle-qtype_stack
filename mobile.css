@@ -82,6 +82,18 @@ div.stack-hint-content {
     height: auto;
     background-color: white;
 }
+.stack-ascii-input-toolbar {
+    display: none;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    margin: 0 0 0.35rem;
+    max-width: 100%;
+}
+@media (max-width: 768px) {
+    .stack-ascii-input-toolbar {
+        display: flex;
+    }
+}
 #id_questionvariables,
 textarea[id*=feedbackvariables],
 textarea[name=maximavars] {

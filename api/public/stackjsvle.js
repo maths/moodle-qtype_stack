@@ -328,34 +328,6 @@
     }
 
     /**
-     * Show the toolbar only on narrow screens.
-     *
-     * @param {HTMLElement} toolbar toolbar element.
-     */
-    function vle_bind_toolbar_visibility(toolbar) {
-        const applyVisibility = (matches) => {
-            toolbar.style.display = matches ? 'flex' : 'none';
-        };
-
-        if (typeof window.matchMedia !== 'function') {
-            applyVisibility(true);
-            return;
-        }
-
-        const mediaQuery = window.matchMedia('(max-width: 768px)');
-        applyVisibility(mediaQuery.matches);
-        if (typeof mediaQuery.addEventListener === 'function') {
-            mediaQuery.addEventListener('change', (event) => {
-                applyVisibility(event.matches);
-            });
-        } else if (typeof mediaQuery.addListener === 'function') {
-            mediaQuery.addListener((event) => {
-                applyVisibility(event.matches);
-            });
-        }
-    }
-
-    /**
      * Render syntax helper buttons beside an input.
      *
      * @param {HTMLElement} inputelement input the toolbar controls.
@@ -373,13 +345,7 @@
             toolbar.id = toolbarId;
             toolbar.className = 'stack-ascii-input-toolbar';
             toolbar.setAttribute('role', 'group');
-            toolbar.setAttribute('aria-label', 'Insert syntax');
-            toolbar.style.flexWrap = 'wrap';
-            toolbar.style.gap = '0.25rem';
-            toolbar.style.maxWidth = '100%';
-            toolbar.style.margin = '0 0 0.35rem';
             inputelement.parentNode.insertBefore(toolbar, inputelement);
-            vle_bind_toolbar_visibility(toolbar);
         }
 
         toolbar.replaceChildren();

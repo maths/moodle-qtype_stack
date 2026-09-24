@@ -266,16 +266,16 @@ function collectInputToolbarButtons(operations) {
         const filterButtons = filterInputToolbarButtons[operation.type]();
         filterButtons.forEach((button) => {
             const insert = String(button.insert || button.label || '');
+            if (!insert || seen.has(insert)) {
+                return;
+            }
+            seen.add(insert);
             const label = String(button.label || insert);
             let title = String(button.title || label);
             if (button.titlekey) {
                 const translatedTitle = asciiString(button.titlekey);
                 title = translatedTitle === button.titlekey ? label : translatedTitle;
             }
-            if (!insert || seen.has(insert)) {
-                return;
-            }
-            seen.add(insert);
             buttons.push({
                 label,
                 insert,

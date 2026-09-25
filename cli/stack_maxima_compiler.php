@@ -162,6 +162,18 @@ function var_rename(MP_Statement $ast): MP_Statement {
                     ];
                 }
                 if (
+                    $node->parentnode instanceof MP_List
+                    && $node->parentnode->parentnode instanceof MP_FunctionCall
+                    && $node->parentnode->parentnode->is_definition()
+                    && count($node->parentnode->items) === 1
+                    && $node->parentnode->parentnode->parentnode->parentnode === $ast
+                ) {
+                    // phpcs:ignore moodle.Commenting.InlineComment.NotCapital
+                    // variable arguments
+                    // f([X]...):=...
+                    // but only this local one no nested defs.
+                    $ids[$node->value]['arg'][] = $node;
+                } else if (
                     $node->parentnode instanceof MP_FunctionCall
                     && $node->parentnode->is_definition()
                     && $node->parentnode->parentnode->parentnode === $ast

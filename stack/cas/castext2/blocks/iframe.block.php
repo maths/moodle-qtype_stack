@@ -186,15 +186,27 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
         }
         $scrolling = true;
         if (isset($parameters['scrolling'])) {
-            $scrolling = $parameters['scrolling'];
+            // ISS1796 - Fix to convert 'false' (and strings other than 'true') to false
+            // when passed as manual parameter to bare iframe. JSXGraph, etc, set to false
+            // automatically.
+            $scrolling = filter_var($parameters['scrolling'], FILTER_VALIDATE_BOOLEAN);
         }
 
         // Construct the contents of the IFRAME.
         $code = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
         $code .= '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"' .
             ' "http://www.w3.org/TR/xhtml1/DTD/strict.dtd">' . "\n";
+        $directionattribute = '';
+        if (isset($parameters['stack-ascii-direction'])) {
+            $direction = $parameters['stack-ascii-direction'];
+            if ($direction === 'ltr' || $direction === 'rtl') {
+                $directionattribute = ' dir="' . $direction . '"';
+            } else {
+                $directionattribute = ' dir="' . stack_get_system_direction() . '"';
+            }
+        }
         $code .= '<html xmlns="http://www.w3.org/TR/xhtml1/strict" lang="' .
-            stack_get_system_language() . '">';
+            stack_get_system_language() . '"' . $directionattribute . '>';
         // Include a title to help JS debugging.
         $code .= '<head><title>' . $title . '</title>';
         $code .= $style;
@@ -255,19 +267,36 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
 
     /**
      * Strings used by JavaScript inside the ASCII block iframe.
-     * String keys are discovered by the asciistring prefix.
      * @return string
      */
     private static function get_ascii_strings_json(): string {
         $strings = [];
-        $stringmanager = get_string_manager();
-        $englishstrings = $stringmanager->load_component_strings('qtype_stack', 'en');
-        foreach (array_keys($englishstrings) as $key) {
-            if (strpos($key, self::ASCII_STRING_PREFIX) === 0) {
-                $strings[$key] = stack_string($key);
-            }
+        foreach (self::get_ascii_string_keys() as $key) {
+            $strings[$key] = stack_string($key);
         }
         return json_encode($strings);
+    }
+
+    /**
+     * String keys are discovered from STACK's own English language source file.
+     * @return string[]
+     */
+    private static function get_ascii_string_keys(): array {
+        static $keys = null;
+        if ($keys !== null) {
+            return $keys;
+        }
+
+        $string = [];
+        require(__DIR__ . '/../../../../lang/en/qtype_stack.php');
+
+        $keys = [];
+        foreach (array_keys($string) as $key) {
+            if (strpos($key, self::ASCII_STRING_PREFIX) === 0) {
+                $keys[] = $key;
+            }
+        }
+        return $keys;
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

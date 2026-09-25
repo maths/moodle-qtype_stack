@@ -70,6 +70,8 @@ $questioncategory = $DB->get_record('question_categories', ['id' => $questiondat
 question_require_capability_on($questiondata, 'view');
 $caneditpermission = question_has_capability_on($questiondata, 'edit');
 $canedit = $caneditpermission && !$historic;
+$canexporttonrw = get_config('qtype_stack', 'nrwupload')
+    && has_capability('qtype/stack:exporttoexternallibraries', $context);
 
 // Initialise $PAGE.
 $PAGE->set_url('/question/type/stack/questiontestrun.php', $urlparams);
@@ -102,6 +104,7 @@ $sesskey = sesskey();
 
 $questionbanklinkedit = new moodle_url('/question/type/stack/questioneditlatest.php', $editparams);
 $questionxmllink = new moodle_url('/question/type/stack/questionxmledit.php', $editparams);
+$questionxmlcomparelink = new moodle_url('/question/type/stack/adminui/questionxmlcompare.php', $editparams);
 $questionbanklink = new moodle_url('/question/edit.php', $qbankparams);
 $exportquestionlink = new moodle_url('/question/bank/exporttoxml/exportone.php', $exportparams);
 $exportquestionlink->param('sesskey', $sesskey);
@@ -109,6 +112,7 @@ $todolink = new moodle_url('/question/type/stack/adminui/todo.php', $todoparams)
 $reportlink = new moodle_url('/question/type/stack/questiontestreport.php', $urlparams);
 $bulktestlink = new moodle_url('/question/type/stack/questionbulktest.php', $urlparams);
 $pagelink = new moodle_url('/question/type/stack/questiontestrun.php', $urlparams);
+$exportnrwlink = new moodle_url('/question/type/stack/questionexport.php', $urlparams);
 $historyparams = $urlparams;
 unset($historyparams['questionid']);
 $historyparams['entryid'] = $qbeid;
@@ -157,6 +161,7 @@ foreach ($versions as $v => $id) {
 };
 $initialdata->general->editquestionlink = $questionbanklinkedit->out();
 $initialdata->general->editxmllink = $questionxmllink->out();
+$initialdata->general->comparexmllink = $questionxmlcomparelink->out();
 $initialdata->general->questionbanklink = $questionbanklink->out();
 $initialdata->general->chatlink = $chatlink->out();
 $initialdata->general->tidylink = $question->qtype->get_tidy_question_url($question);
@@ -165,8 +170,10 @@ $initialdata->general->reportlink = $reportlink->out();
 $initialdata->general->todolink = $todolink->out();
 $initialdata->general->bulktestlink = $bulktestlink->out();
 $initialdata->general->historylink = $historylink->out();
+$initialdata->general->exportnrwlink = $exportnrwlink->out();
 $initialdata->general->caneditpermission = $caneditpermission;
 $initialdata->general->canedit = $canedit;
+$initialdata->general->canexporttonrw = $canexporttonrw;
 $initialdata->general->courseid = $courseid;
 $initialdata->general->cmid = $cmid;
 $initialdata->general->questionid = $questionid;
@@ -190,6 +197,47 @@ if ($coursefordisplayid) {
     }
 }
 $initialdata->general->hidetests = optional_param('hidetests', '', PARAM_INT);
+
+// Create seed switching URLs for the seed dropdowns in the tests and question tabs.
+$seedurls = [];
+$currentseed = (int) $initialdata->question->seed;
+$deployedseeds = $question->deployedseeds;
+sort($deployedseeds, SORT_NUMERIC);
+
+$currentseedmatched = false;
+foreach ($deployedseeds as $seeddisplay) {
+    $seed = (int) $seeddisplay;
+    $testseedurl = new moodle_url(
+        '/question/type/stack/questiontestrun.php',
+        array_merge($urlparams, ['seed' => $seed]),
+        'test-pane'
+    );
+    $questionseedurl = new moodle_url(
+        '/question/type/stack/questiontestrun.php',
+        array_merge($urlparams, ['seed' => $seed]),
+        'question-pane'
+    );
+    $selected = ($seed === $currentseed);
+    $currentseedmatched = $currentseedmatched || $selected;
+
+    $seedoption = new StdClass();
+    $seedoption->seed = $seed;
+    $seedoption->testurl = $testseedurl->out(false);
+    $seedoption->questionurl = $questionseedurl->out(false);
+    $seedoption->selected = $selected;
+    $seedurls[] = $seedoption;
+}
+
+if (!$currentseedmatched) {
+    $seedoption = new StdClass();
+    $seedoption->seed = $currentseed;
+    $seedoption->testurl = '';
+    $seedoption->questionurl = '';
+    $seedoption->selected = true;
+    $seedoption->disabled = true;
+    array_unshift($seedurls, $seedoption);
+}
+$initialdata->general->seedurls = $seedurls;
 
 // Output the progress bars first.
 $dashboard->create_progress_bars();

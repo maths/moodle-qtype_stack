@@ -26,8 +26,10 @@
 // NOTE: no MOODLE_INTERNAL test here, this file may be required by behat before including /config.php.
 
 require_once(__DIR__ . '/../../../../../lib/behat/behat_base.php');
+require_once(__DIR__ . '/../fixtures/apifixtures.class.php');
 
 use Moodle\BehatExtension\Exception\SkippedException;
+use PHPUnit\Framework\Assert;
 
 /**
  * Steps definitions related with the question bank management.
@@ -238,6 +240,50 @@ class behat_qtype_stack extends behat_base {
     }
 
     /**
+     * Check a hidden value
+     *
+     * @param string $name name of hidden field.
+     * @param string $value the expected value with current year replaced with XXXX.
+     *
+     * @Given /^I check the hidden input "(?P<name>[^"]*)" is '(?P<value>[^']*)'$/
+     */
+    public function i_check_hidden_value($name, $value) {
+        $year = date('Y');
+        $value = str_replace('XXXX', $year, $value);
+        $js = <<<EOF
+            return (function() {
+                let value = document.querySelector('[name="$name"]').value;
+                return value;
+            })();
+        EOF;
+        $formvalue = $this->evaluate_script($js);
+        Assert::assertEquals($value, $formvalue);
+    }
+
+    /**
+     * Check that the active element matches a CSS selector.
+     *
+     * @Then /^the focused element should be "(?P<selector>[^"]*)" "css_element"$/
+     */
+    public function the_focused_element_should_be(string $selector): void {
+        $selectorjson = json_encode($selector);
+        $matches = $this->spin(function ($context, $selectorjson) {
+            $js = <<<EOF
+                return (function() {
+                    const expected = document.querySelector({$selectorjson});
+                    const active = document.activeElement;
+                    if (!expected || !active) {
+                        return false;
+                    }
+                    return expected === active;
+                })();
+            EOF;
+            return (bool) $context->evaluate_script($js);
+        }, $selectorjson, 5, new \Exception('Expected focused element to match "' . $selector . '".'));
+        Assert::assertTrue((bool) $matches);
+    }
+
+    /**
      * Set the response for a given input in the Moodle app.
      *
      * @param string $identifier the text of the item to drag. E.g. '2:answer'.
@@ -325,6 +371,24 @@ class behat_qtype_stack extends behat_base {
         if (count($urls) !== (int) $number) {
             throw new \Exception("Expected $number images but found " . count($urls) . ".");
         }
+    }
+
+    /**
+     * Create a site library containing a small multi-question Moodle XML file.
+     *
+     * @Given /^the STACK Behat question set site library exists$/
+     */
+    public function the_stack_behat_question_set_site_library_exists(): void {
+        global $CFG;
+
+        $dir = $CFG->dataroot . '/stack/sitelibrary/behat_question_set';
+        make_writable_directory($dir);
+        file_put_contents(
+            $dir . '/Question-set-library-test.xml',
+            stack_api_test_data::get_question_string('libraryquestionset')
+        );
+
+        cache::make('qtype_stack', 'librarycache')->purge();
     }
 
     /**

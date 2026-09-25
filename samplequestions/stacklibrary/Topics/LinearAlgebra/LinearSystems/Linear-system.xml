@@ -25,16 +25,16 @@
       <text><![CDATA[<p>The first step in solving this problem, is to write the augmented matrix of
 \[ {@QA@} \mathbf{x} = {@Qb@} \]
 which is
-\[ {@QAM@} \]
+\[ {@aug(QAM)@} \]
 Now we perform row operations.</p>
 <p>(a). Clear the first column.
-\[ {@invert(E3).QAM@}\quad \mbox{Add } {@-e3@} \times \mbox{ row 1 to row 2.}\]
-\[ {@invert(Ek1).invert(E3).QAM@}\quad \mbox{Add } {@-k1@} \times \mbox{ row 1 to row 3.}\]
-\[ {@invert(E1).invert(Ek1).invert(E3).QAM@}\quad \mbox{Add } {@-e1@} \times \mbox{ row 1 to row 4.}\]
+\[ {@aug(invert(E3).QAM)@}\quad \mbox{Add } {@-e3@} \times \mbox{ row 1 to row 2.}\]
+\[ {@aug(invert(Ek1).invert(E3).QAM)@}\quad \mbox{Add } {@-k1@} \times \mbox{ row 1 to row 3.}\]
+\[ {@aug(invert(E1).invert(Ek1).invert(E3).QAM)@}\quad \mbox{Add } {@-e1@} \times \mbox{ row 1 to row 4.}\]
 </p>
 <p>(b). Clear the second column.
-\[ {@invert(E2).invert(E1).invert(Ek1).invert(E3).QAM@}\quad \mbox{Add } {@-e2@} \times \mbox{ row 2 to row 3.}\]
-\[ {@invert(Ek2).invert(E2).invert(E1).invert(Ek1).invert(E3).QAM@}\quad \mbox{Add } {@-k2@} \times \mbox{ row 2 to row 4.}\]
+\[ {@aug(invert(E2).invert(E1).invert(Ek1).invert(E3).QAM)@}\quad \mbox{Add } {@-e2@} \times \mbox{ row 2 to row 3.}\]
+\[ {@aug(invert(Ek2).invert(E2).invert(E1).invert(Ek1).invert(E3).QAM)@}\quad \mbox{Add } {@-k2@} \times \mbox{ row 2 to row 4.}\]
 </p>
 <p>This is in upper triangular form, and since we do not need <em>row echelon form</em> to solve the problem, so we stop row operations here.  Indeed, we don't want to divide by either {@k-k1@} or {@k-k2@} since these may turn out to be zero.  ("Division is evil!")</p>
 
@@ -51,7 +51,7 @@ Certainly the value \(k={@k1@}\) is inconsistent. The only value which gives an 
 Certainly with the value \(k={@k2@}\) we have a row of zeros, and hence an infinite number of solutions. The only value which gives an infinite number of solutions is \(k={@k2@}\).
 
 </p>
-<p>Setting \(k={@k2@}\) gives \[ {@TAM2@} \]
+<p>Setting \(k={@k2@}\) gives \[ {@aug(TAM2)@} \]
 which has a row of zeros at the bottom, indicating we have infinite solutions.
 Notice also, we can put a parameter, \(t\) say, in the last coordinate
 \[ {@submatrix(TAM2,5) @}\begin{bmatrix} ? \\ ? \\ ? \\ t \end{bmatrix} =  {@submatrix(TAM2,1,2,3,4) @}\]
@@ -67,10 +67,10 @@ Evaluating this at \(k={@k2@}\) gives
     <hidden>0</hidden>
     <idnumber/>
     <stackversion>
-      <text>2023121100</text>
+      <text>2026080700</text>
     </stackversion>
     <questionvariables>
-      <text>/* Based on ideas in Naiman2022. */
+      <text><![CDATA[/* Based on ideas in Naiman2022. */
 k1:3+rand(2);
 k2:k1+1+rand(2);
 M:matrix([1, 0, 1, 0],[0, 1, 0, 1],[k1, 0, k, 0],[0, k2, 0, k]);
@@ -82,7 +82,7 @@ tb:M.ta;
 /* Create an inconsistent system for k=k1, in 3rd row. */
 tb:tb+transpose(matrix([0,0,1,0]));
 
-/* Augmented matrix of base system. */
+/* Augmented matrix of base system. */
 MA: transpose(apply(matrix,(append(args(transpose(M)),args(transpose(at(tb,k=k2)))))));
 
 /* Apply to row operations to obscure the question a little (not complicating parameters). */
@@ -122,7 +122,7 @@ WS:solve(flatten(args(submatrix(WTAM2,5).transpose([v1,v2,v3,v4])-submatrix(WTAM
 WS:stack_strip_percent(first(WS),[t]);
 
 taw1: maplist(lambda([ex2], rhs(first(sublist(WS,lambda([ex],lhs(ex)=ex2))))),[v1,v2,v3,v4]);
-taw1: transpose(apply(matrix,[taw1]));</text>
+taw1: transpose(apply(matrix,[taw1]));]]></text>
     </questionvariables>
     <specificfeedback format="html">
       <text>[[feedback:prt1]]
@@ -131,7 +131,7 @@ taw1: transpose(apply(matrix,[taw1]));</text>
 [[feedback:prt4]]</text>
     </specificfeedback>
     <questionnote format="moodle_auto_format">
-      <text>\( {@QAM@} \rightarrow {@TAM1@} \) Inconsistent: \(k={@k1@}\). Infinite solutions: \(k={@k2@}\). \(\mathbf{x} = {@ta4@} \).</text>
+      <text>\( {@aug(QAM)@} \rightarrow {@aug(TAM1)@} \) Inconsistent: \(k={@k1@}\). Infinite solutions: \(k={@k2@}\). \(\mathbf{x} = {@ta4@} \).</text>
     </questionnote>
     <questiondescription format="moodle_auto_format">
       <text>This question is distributed as part of the STACK source code as an example. This is licenced as Creative Commons Attribution-ShareAlike 4.0 International License.</text>
@@ -147,11 +147,15 @@ taw1: transpose(apply(matrix,[taw1]));</text>
     <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
     <isbroken>0</isbroken>
+    <prescribedmetadata/>
+    <metadata>
+     {"author":[{"firstName":"","lastName":"","institution":"Unknown - Legacy question","year":"2025"}],"language":["en"],"isPartOf":"STACK Library","license":"cc-sa-4.0","additional":{"UoE":{"Notes":"This is automatically generated metadata."}},"freeform":{}}
+    </metadata>
     <variantsselectionseed/>
     <input>
       <name>ans1</name>
       <type>matrix</type>
-      <tans>TAM1</tans>
+      <tans>aug(TAM1)</tans>
       <boxsize>3</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
@@ -226,8 +230,10 @@ taw1: transpose(apply(matrix,[taw1]));</text>
       <autosimplify>1</autosimplify>
       <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text>/* Pick our the entries which need to be zero. */
-sa1:setify(flatten(makelist(makelist(ans1[l1,l2],l2,1,l1-1),l1,2,first(matrix_size(ans1)))));</text>
+        <text>/* Matrix operations use the flattened augmented response. */
+AM1:de_aug(ans1);
+/* Pick our the entries which need to be zero. */
+sa1:setify(flatten(makelist(makelist(AM1[l1,l2],l2,1,l1-1),l1,2,first(matrix_size(AM1)))));</text>
       </feedbackvariables>
       <node>
         <name>0</name>
@@ -258,7 +264,7 @@ sa1:setify(flatten(makelist(makelist(ans1[l1,l2],l2,1,l1-1),l1,2,first(matrix_si
         <name>1</name>
         <description/>
         <answertest>AlgEquiv</answertest>
-        <sans>rref(ans1)</sans>
+        <sans>rref(AM1)</sans>
         <tans>rref(TAM1)</tans>
         <testoptions/>
         <quiet>1</quiet>
@@ -320,7 +326,9 @@ sa1:setify(flatten(makelist(makelist(ans1[l1,l2],l2,1,l1-1),l1,2,first(matrix_si
       <autosimplify>1</autosimplify>
       <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text>SM2:submatrix(ans1,5);
+        <text>/* Matrix operations use the flattened augmented response. */
+AM1:de_aug(ans1);
+SM2:submatrix(AM1,5);
 sd1:determinant(at(SM2,k=ans3))</text>
       </feedbackvariables>
       <node>
@@ -380,8 +388,10 @@ sd1:determinant(at(SM2,k=ans3))</text>
       <autosimplify>1</autosimplify>
       <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text>v4:listofvars(ans4);
-SM2:submatrix(ans1,5);</text>
+        <text>/* Matrix operations use the flattened augmented response. */
+AM1:de_aug(ans1);
+v4:listofvars(ans4);
+SM2:submatrix(AM1,5);</text>
       </feedbackvariables>
       <node>
         <name>0</name>
@@ -441,7 +451,7 @@ In fact
         <description/>
         <answertest>AlgEquiv</answertest>
         <sans>at(SM2,k=ans3).ans4</sans>
-        <tans>submatrix(ans1,1,2,3,4)</tans>
+        <tans>submatrix(AM1,1,2,3,4)</tans>
         <testoptions/>
         <quiet>1</quiet>
         <truescoremode>+</truescoremode>
@@ -452,7 +462,7 @@ In fact
         <truefeedback format="html">
           <text>You probably didn't get the first part correct.
 In this case we have checked, using your answer in part 1.  When we use \(k={@ans3@}\) in your answer to part 1 we get 
-\[ {@at(SM2,k=ans3)@}{@ans4@} = {@at(SM2,k=ans3).ans4@} = {@submatrix(ans1,1,2,3,4)@} \]
+\[ {@at(SM2,k=ans3)@}{@ans4@} = {@at(SM2,k=ans3).ans4@} = {@submatrix(AM1,1,2,3,4)@} \]
 So, although your row reductions contain a mistake you have correctly solved the system for \(k={@ans3@}\) as you claim!</text>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
@@ -463,7 +473,7 @@ So, although your row reductions contain a mistake you have correctly solved the
         <falsefeedback format="html">
           <text>You probably didn't get the first part correct.
 In this case we have checked, using your answer in part 1.  When we use \(k={@ans3@}\) in your answer to part 1 we get 
-\[ {@at(SM2,k=ans3)@}{@ans4@} = {@at(SM2,k=ans3).ans4@} \neq {@submatrix(ans1,1,2,3,4)@}. \]
+\[ {@at(SM2,k=ans3)@}{@ans4@} = {@at(SM2,k=ans3).ans4@} \neq {@submatrix(AM1,1,2,3,4)@}. \]
 So, no follow-through marking applies here either.</text>
         </falsefeedback>
       </node>
@@ -479,7 +489,7 @@ So, no follow-through marking applies here either.</text>
       <description/>
       <testinput>
         <name>ans1</name>
-        <value>TAM1</value>
+        <value>aug(TAM1)</value>
       </testinput>
       <testinput>
         <name>ans2</name>
@@ -523,7 +533,7 @@ So, no follow-through marking applies here either.</text>
       <description/>
       <testinput>
         <name>ans1</name>
-        <value>WTAM1</value>
+        <value>aug(WTAM1)</value>
       </testinput>
       <testinput>
         <name>ans2</name>
@@ -562,5 +572,49 @@ So, no follow-through marking applies here either.</text>
         <expectedanswernote>prt4-3-T</expectedanswernote>
       </expected>
     </qtest>
-  </question>
+  <qtest>
+      <testcase>3</testcase>
+      <description>The unreduced augmented system is equivalent but is not upper triangular.</description>
+      <testinput>
+        <name>ans1</name>
+        <value>aug(QAM)</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta3</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>ta4</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt4-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+    </question>
 </quiz>

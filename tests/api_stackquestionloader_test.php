@@ -736,6 +736,82 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
         set_config('stackapi', false, 'qtype_stack');
     }
 
+    public function test_question_loader_rejects_xml_doctype(): void {
+        $xml = <<<'XML'
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE quiz [
+  <!ENTITY xxe SYSTEM "http://example.com/evil.dtd">
+]>
+<quiz>
+  <question type="stack">
+    <name><text>Unsafe</text></name>
+  </question>
+</quiz>
+XML;
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('forbidden DOCTYPE');
+        StackQuestionLoader::loadXML($xml);
+    }
+
+    public function test_question_loader_rejects_oversized_yaml(): void {
+        $yaml = "name: Oversized\nquestiontext: |\n  " . str_repeat('a', 5242881);
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('maximum allowed size');
+        StackQuestionLoader::loadXML($yaml);
+    }
+
+    public function test_question_loader_rejects_excessive_node_count(): void {
+        $xml = $this->get_minimal_question_xml(str_repeat("<deployedseed>1</deployedseed>\n", 50001));
+
+        $this->expectException(\stack_exception::class);
+        $this->expectExceptionMessage('maximum allowed node count');
+        StackQuestionLoader::loadXML($xml);
+    }
+
+    public function test_question_loader_marks_non_stack_question_exception(): void {
+        $xml = stack_api_test_data::get_question_string('nonstack');
+
+        try {
+            StackQuestionLoader::loadXML($xml);
+        } catch (\stack_exception $e) {
+            $this->assertEquals(get_string('api_not_stack_question', 'qtype_stack'), $e->getMessage());
+            $this->assertEquals(StackQuestionLoader::NON_STACK_Q, $e->debuginfo);
+            return;
+        }
+
+        $this->fail('Expected a stack_exception for a non-STACK question.');
+    }
+
+    public function test_question_loader_marks_multiple_question_exceptions(): void {
+        $xml = stack_api_test_data::get_question_string('multiplequestions');
+
+        try {
+            StackQuestionLoader::loadXML($xml);
+        } catch (\stack_exception $e) {
+            $this->assertEquals(get_string('api_invalid_question_count', 'qtype_stack'), $e->getMessage());
+            $this->assertEquals(StackQuestionLoader::MULTIPLE_Q, $e->debuginfo);
+            return;
+        }
+
+        $this->fail('Expected a stack_exception for multiple questions.');
+    }
+
+    public function test_question_loader_marks_multiple_question_exception_with_category(): void {
+        $xml = stack_api_test_data::get_question_string('multiplequestionscategory');
+
+        try {
+            StackQuestionLoader::loadXML($xml);
+        } catch (\stack_exception $e) {
+            $this->assertEquals(get_string('api_invalid_question_count_category', 'qtype_stack'), $e->getMessage());
+            $this->assertEquals(StackQuestionLoader::MULTIPLE_Q_CATEGORY, $e->debuginfo);
+            return;
+        }
+
+        $this->fail('Expected a stack_exception for multiple questions with category data.');
+    }
+
     public function test_split_answertest_basic(): void {
         $input = 'ATAlgEquiv(x^2+2x+1, (x+1)^2, 1, ignoreorder)';
         $expected = [
@@ -867,5 +943,15 @@ final class api_stackquestionloader_test extends qtype_stack_testcase {
 
         $this->assertEquals(0, count($question->prts));
         $this->assertEquals(0, count($question->inputs));
+    }
+
+    private function get_minimal_question_xml(string $extra = ''): string {
+        return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" .
+            "<quiz>\n" .
+            "  <question type=\"stack\">\n" .
+            "    <name><text>Test</text></name>\n" .
+            $extra .
+            "  </question>\n" .
+            "</quiz>\n";
     }
 }

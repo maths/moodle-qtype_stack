@@ -267,19 +267,36 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
 
     /**
      * Strings used by JavaScript inside the ASCII block iframe.
-     * String keys are discovered by the asciistring prefix.
      * @return string
      */
     private static function get_ascii_strings_json(): string {
         $strings = [];
-        $stringmanager = get_string_manager();
-        $englishstrings = $stringmanager->load_component_strings('qtype_stack', 'en');
-        foreach (array_keys($englishstrings) as $key) {
-            if (strpos($key, self::ASCII_STRING_PREFIX) === 0) {
-                $strings[$key] = stack_string($key);
-            }
+        foreach (self::get_ascii_string_keys() as $key) {
+            $strings[$key] = stack_string($key);
         }
         return json_encode($strings);
+    }
+
+    /**
+     * String keys are discovered from STACK's own English language source file.
+     * @return string[]
+     */
+    private static function get_ascii_string_keys(): array {
+        static $keys = null;
+        if ($keys !== null) {
+            return $keys;
+        }
+
+        $string = [];
+        require(__DIR__ . '/../../../../lang/en/qtype_stack.php');
+
+        $keys = [];
+        foreach (array_keys($string) as $key) {
+            if (strpos($key, self::ASCII_STRING_PREFIX) === 0) {
+                $keys[] = $key;
+            }
+        }
+        return $keys;
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

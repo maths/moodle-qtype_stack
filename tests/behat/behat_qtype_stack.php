@@ -26,6 +26,7 @@
 // NOTE: no MOODLE_INTERNAL test here, this file may be required by behat before including /config.php.
 
 require_once(__DIR__ . '/../../../../../lib/behat/behat_base.php');
+require_once(__DIR__ . '/../fixtures/apifixtures.class.php');
 
 use Moodle\BehatExtension\Exception\SkippedException;
 use PHPUnit\Framework\Assert;
@@ -373,6 +374,24 @@ class behat_qtype_stack extends behat_base {
     }
 
     /**
+     * Create a site library containing a small multi-question Moodle XML file.
+     *
+     * @Given /^the STACK Behat question set site library exists$/
+     */
+    public function the_stack_behat_question_set_site_library_exists(): void {
+        global $CFG;
+
+        $dir = $CFG->dataroot . '/stack/sitelibrary/behat_question_set';
+        make_writable_directory($dir);
+        file_put_contents(
+            $dir . '/Question-set-library-test.xml',
+            stack_api_test_data::get_question_string('libraryquestionset')
+        );
+
+        cache::make('qtype_stack', 'librarycache')->purge();
+    }
+
+    /**
      * Look up the id of a question from its name.
      *
      * @param string $questionname the question name, for example 'Question 1'.
@@ -385,29 +404,5 @@ class behat_qtype_stack extends behat_base {
             throw new Exception('There is no question with name "' . $questionname . '".');
         }
         return $id;
-    }
-
-    /**
-     * Conditionally press element on Moodle 4.2 and 5.0 only.
-     * This is needed because section collapse behavior differs across Moodle versions.
-     *
-     * @param string $element id to press
-     * @When /^I press "(?P<element>[^"]*)" if on Moodle 4.2 or 5.0$/
-     */
-    public function i_press_collapse_element_if_on_moodle_42_or_50($element) {
-        global $CFG;
-        require_once($CFG->libdir . '/environmentlib.php');
-
-        $currentversion = normalize_version(get_config('', 'release'));
-
-        // Check if running on Moodle 4.2.x or 5.0.x.
-        $is42 = version_compare($currentversion, '4.2', '>=') && version_compare($currentversion, '4.3', '<');
-        $is50 = version_compare($currentversion, '5.0', '>=') && version_compare($currentversion, '5.1', '<');
-
-        if ($is42 || $is50) {
-            $context = behat_context_helper::get('behat_general');
-            $context->i_click_on('#' . $element, 'css');
-        }
-        // On other versions, do nothing - the PRT section is already expanded.
     }
 }

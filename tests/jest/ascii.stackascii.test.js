@@ -335,7 +335,7 @@ describe('stackascii init', () => {
 
         expect(mockPlot).toHaveBeenCalledWith('!!p\ny=x\n!!p', expect.any(Object), operations[0]);
         expect(mockMarkdown).toHaveBeenCalledWith('<plot>y=x</plot>', expect.any(Object), operations[1]);
-        expect(env.output.innerHTML).toBe('MD:<plot>y=x</plot>');
+        expect(env.renderedOutput.innerHTML).toBe('MD:<plot>y=x</plot>');
     });
 
     test('passes translated ASCII strings to the shared ASCII helper', () => {
@@ -366,7 +366,7 @@ describe('stackascii init', () => {
 
         expect(mockPlot).toHaveBeenCalledWith('!!p\ny=x\n!!p', expect.any(Object), operations[0]);
         expect(mockMarkdown).toHaveBeenCalledWith('<plot>y=x</plot>', expect.any(Object), operations[1]);
-        expect(env.output.innerHTML).toBe('MD:<plot>y=x</plot>');
+        expect(env.renderedOutput.innerHTML).toBe('MD:<plot>y=x</plot>');
     });
 
     test('debounces and rerenders when the input changes', () => {

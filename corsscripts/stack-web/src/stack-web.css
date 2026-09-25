@@ -1,0 +1,179 @@
+.stack-ascii-display {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    align-items: stretch;
+    justify-content: start;
+    width: 100%;
+    max-width: 100%;
+    height: 180px;
+    min-height: 120px;
+    padding: 12px;
+    overflow: visible;
+}
+
+.stack-ascii-display.stack-ascii-display-resized {
+    width: -moz-fit-content;
+    width: fit-content;
+    max-width: none;
+}
+
+.stack-ascii-input-pane,
+.stack-ascii-output-pane {
+    flex: 1 1 0;
+    min-width: 0;
+    min-height: 0;
+    overflow: visible;
+    position: relative;
+}
+
+.stack-ascii-input {
+    background-color: #fff;
+    border: solid 1px #333;
+    border-radius: 5px;
+    box-sizing: border-box;
+    display: block;
+    font-family: monospace;
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+    height: 100%;
+    min-height: 0;
+    max-height: none;
+    padding: 5px;
+    resize: both;
+    overflow: auto;
+}
+
+.stack-ascii-display-resized .stack-ascii-input {
+    width: auto;
+    min-width: 100%;
+}
+
+.stack-ascii-display-resized .stack-ascii-input-pane,
+.stack-ascii-display-resized .stack-ascii-output-pane {
+    width: auto !important;
+    flex: 0 0 auto;
+}
+
+.stack-ascii-input:focus {
+    border-color: #246b73;
+    outline: 2px solid rgba(36, 107, 115, 0.25);
+    outline-offset: 1px;
+}
+
+.stack-ascii-output {
+    background-color: ivory;
+    border-radius: 5px;
+    border: solid 1px #333;
+    box-sizing: border-box;
+    padding: 5px;
+    overflow: auto;
+    min-height: 50px;
+    max-height: 300px;
+    margin-top: 10px;
+    position: relative;
+}
+
+.stack-ascii-input-mount,
+.stack-ascii-output-mount {
+    box-sizing: border-box;
+}
+
+.stack-ascii-input-mount .stack-ascii-input,
+.stack-ascii-output-mount > .stack-ascii-output {
+    height: 100%;
+    margin-top: 0;
+    max-height: none;
+    min-height: inherit;
+    width: 100%;
+}
+
+.stack-ascii-input-mount .stack-ascii-input {
+    resize: none;
+}
+
+.stack-ascii-output.plaintext {
+    white-space: pre-line;
+    font-family: monospace;
+}
+
+.stack-ascii-output .stackascii-content {
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.stack-ascii-output .stackascii-content.plaintext {
+    font-family: monospace;
+    white-space: pre-line;
+}
+
+.stack-ascii-output .stackascii-errors {
+    background-color: ivory;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-top: solid 1px #333;
+    box-sizing: border-box;
+    color: #8b0000;
+    display: none;
+    font-weight: 600;
+    left: 1px;
+    padding: 0.5rem 5px 5px;
+    position: absolute;
+    right: 1px;
+    bottom: 1px;
+    width: auto;
+    z-index: 1;
+}
+
+.stack-ascii-output.stackascii-has-errors .stackascii-errors {
+    display: block;
+}
+
+.stack-ascii-output .stackascii-errors:empty {
+    display: none;
+}
+
+.stack-ascii-output .stackascii-error-message {
+    margin: 0;
+}
+
+.stack-ascii-display .stack-ascii-output {
+    width: 100%;
+    min-width: 0;
+    height: 100%;
+    min-height: 0;
+    max-height: none;
+    margin-top: 0;
+}
+
+@media (max-width: 768px) {
+    .stack-ascii-display {
+        flex-direction: column;
+        height: auto !important;
+        min-height: 0;
+    }
+
+    .stack-ascii-display.stack-ascii-display-resized {
+        width: 100% !important;
+        max-width: 100%;
+    }
+
+    .stack-ascii-display .stack-ascii-input-pane,
+    .stack-ascii-display .stack-ascii-output-pane {
+        flex: 0 0 auto;
+        min-height: 140px;
+        width: 100% !important;
+    }
+
+    .stack-ascii-display .stack-ascii-input,
+    .stack-ascii-display .stack-ascii-output {
+        height: 140px;
+        width: 100% !important;
+    }
+
+    .stack-ascii-output {
+        max-height: 200px;
+    }
+}

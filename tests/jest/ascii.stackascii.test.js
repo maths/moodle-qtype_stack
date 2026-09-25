@@ -13,7 +13,7 @@ const mockLaststringremainder = jest.fn();
 const mockRegexallmatch = jest.fn();
 const mockRegexallremainder = jest.fn();
 const mockRenderPlots = jest.fn();
-const mockSetPlotStrings = jest.fn();
+const mockSetAsciiStrings = jest.fn();
 
 jest.mock('../../corsscripts/ascii/filters/markdown.js', () => ({
     __esModule: true,
@@ -77,8 +77,12 @@ jest.mock('../../corsscripts/ascii/extractors/allregexremainder.js', () => ({
 
 jest.mock('../../corsscripts/ascii/filters/plotrules.js', () => ({
     __esModule: true,
-    renderPlots: (...args) => mockRenderPlots(...args),
-    setPlotStrings: (...args) => mockSetPlotStrings(...args)
+    renderPlots: (...args) => mockRenderPlots(...args)
+}));
+
+jest.mock('../../corsscripts/ascii/asciihelper.js', () => ({
+    __esModule: true,
+    setAsciiStrings: (...args) => mockSetAsciiStrings(...args)
 }));
 
 import init from '../../corsscripts/ascii/stackascii.js';
@@ -167,7 +171,7 @@ describe('stackascii init', () => {
         });
         global.FRAME_ID = 'frame-1';
         mockRenderPlots.mockReset();
-        mockSetPlotStrings.mockReset();
+        mockSetAsciiStrings.mockReset();
     });
 
     afterEach(() => {
@@ -270,13 +274,13 @@ describe('stackascii init', () => {
         expect(env.output.innerHTML).toBe('beta');
     });
 
-    test('passes translated ASCII strings to the plot renderer', () => {
+    test('passes translated ASCII strings to the shared ASCII helper', () => {
         setupEnvironment('delta', 0);
         const asciistrings = { asciistringplotempty: 'Translated empty plot' };
 
         init(['markdownInput'], [], { asciistrings });
 
-        expect(mockSetPlotStrings).toHaveBeenCalledWith(asciistrings);
+        expect(mockSetAsciiStrings).toHaveBeenCalledWith(asciistrings);
     });
 
     test('runs the plot filter when requested', () => {

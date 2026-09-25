@@ -5,9 +5,9 @@
 import {
     parsePlot,
     renderPlotPlaceholder,
-    renderPlots,
-    setPlotStrings
+    renderPlots
 } from '../../corsscripts/ascii/filters/plotrules.js';
+import { setAsciiStrings } from '../../corsscripts/ascii/asciihelper.js';
 
 const testStrings = {
     asciistringplotempty: 'Plot block needs at least one curve or point.',
@@ -27,7 +27,7 @@ const testStrings = {
 
 describe('plot helper', () => {
     beforeEach(() => {
-        setPlotStrings(testStrings);
+        setAsciiStrings(testStrings);
     });
 
     afterEach(() => {
@@ -137,7 +137,7 @@ describe('plot helper', () => {
     });
 
     test('uses injected translated error strings', () => {
-        setPlotStrings({
+        setAsciiStrings({
             asciistringplotempty: 'TRANSLATED empty plot',
             asciistringplotfunctionforbidden: 'TRANSLATED function:',
             asciistringplotinvalidexpression: 'TRANSLATED expression:'

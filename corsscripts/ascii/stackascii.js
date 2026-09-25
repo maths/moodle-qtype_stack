@@ -34,7 +34,8 @@ import cas from './filters/cas.js';
 import markdown from './filters/markdown.js';
 import plain from './filters/plain.js';
 import plot from './filters/plot.js';
-import { renderPlots, setPlotStrings } from './filters/plotrules.js';
+import { renderPlots } from './filters/plotrules.js';
+import { setAsciiStrings } from './asciihelper.js';
 
 const filterlib = { calculation, cas, markdown, plain, plot };
 
@@ -75,7 +76,7 @@ const extractorlib = {
  * @param {Object} options - translated strings and other optional settings.
  */
 export default function init(inputIds, operations, options = {}) {
-    setPlotStrings(options.asciistrings || {});
+    setAsciiStrings(options.asciistrings || {});
 
     const markdownContainerId = inputIds.length ? inputIds[0] : null;
     const suppliedText = document.getElementById('asciiSuppliedText').innerHTML;

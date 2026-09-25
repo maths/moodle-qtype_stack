@@ -22,6 +22,7 @@
  */
 
 import math from '../mathjs.min.js';
+import { asciiString } from '../asciihelper.js';
 
 // Student syntax is intentionally small:
 //   x: -5..5
@@ -81,18 +82,8 @@ const allowed = {
     ])
 };
 
-let plotStrings = {};
 let nextPlotId = 1;
 const pendingPlots = new Map();
-
-/**
- * Install translated plot strings supplied by PHP.
- *
- * @param {Object} strings translated message templates.
- */
-export function setPlotStrings(strings = {}) {
-    plotStrings = { ...strings };
-}
 
 /**
  * Render a markdown plot token to a placeholder. The board is initialised after
@@ -726,11 +717,7 @@ function plotError(key, detail = '') {
  * @returns {string} resolved message.
  */
 function plotString(key, detail = '') {
-    const message = plotStrings[key] || key;
-    if (detail !== '') {
-        return message + ' ' + String(detail);
-    }
-    return message;
+    return asciiString(key, detail);
 }
 
 /**

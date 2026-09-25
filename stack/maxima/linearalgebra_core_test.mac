@@ -61,33 +61,7 @@ s_test_case(vec_convertedp(r(1,2)),false);
 s_test_case(vec_convertedp(vec_convert(c(1,2))),true);
 s_test_case_eval_error(vec_convertedp(ev(vec_convert(c(1,2)+r(3,4)),simp)),false);
 
-s_test_case(col_vecp(matrix([1],[2])),true);
-s_test_case(col_vecp(matrix([1,2])),false);
-s_test_case(row_vecp(matrix([1],[2])),false);
-s_test_case(row_vecp(matrix([1,2])),true);
-s_test_case(col_vecp(c(1,2)),false);
-s_test_case(row_vecp(r(1,2)),false);
-
-s_test_case(vectorp(matrix([1],[2])),true);
-s_test_case(vectorp(matrix([1,2])),true);
-s_test_case(vectorp(c(1,2)),false);
-
-s_test_case(diagp(ident(5)),true);
-s_test_case(diagp(zeromatrix(5,4)),true);
-
-s_test_case(diagp(matrix([1,0],[1-1,1])),false);
-s_test_case(diagp(matrix([1,1],[0,1])),false);
-s_test_case(diagp(matrix([1,0],[1,1])),false);
-s_test_case(diagp(matrix([1])),true);
-s_test_case(diagp(matrix([1,0,0,0],[0,2,0,0],[0,0,3,0])),true);
-s_test_case(diagp(matrix([1,0,0,0],[0,2,0,0],[0,0,3,4])),false);
-s_test_case(diagp(matrix([1,0,0],[0,2,0],[0,0,3],[0,0,0])),true);
-s_test_case(diagp(matrix([1,0,0],[0,2,0],[0,0,3],[0,0,4])),false);
-
-s_test_case(squarep(ident(4)),true);
-s_test_case(squarep(matrix([1],[2])),false);
-s_test_case(squarep(matrix([1,2],[2,3])),true);
-s_test_case(squarep(1),false);
+/* Shape-predicate regressions are in maximasrc/linearalgebra/predicates. */
 
 s_test_case(convert_to_colvec([1,2,3]), matrix([1],[2],[3]));
 s_test_case(convert_to_colvec(c(1,2,3)), matrix([1],[2],[3]));

@@ -284,12 +284,12 @@ describe('stackascii init', () => {
     });
 
     test('runs the plot filter when requested', () => {
-        const env = setupEnvironment('!!p\nplot y=x\n!!p', 0);
+        const env = setupEnvironment('!!p\ny=x\n!!p', 0);
 
         mockPlot.mockImplementation((text, blockCollector) => {
-            blockCollector.blocks = [{ type: 'plot_block', raw: 'plot y=x' }];
+            blockCollector.blocks = [{ type: 'plot_block', raw: 'y=x' }];
             blockCollector.isHTML = true;
-            return '<plot>plot y=x</plot>';
+            return '<plot>y=x</plot>';
         });
         mockMarkdown.mockImplementation((text) => `MD:${text}`);
 
@@ -300,9 +300,9 @@ describe('stackascii init', () => {
 
         init(['markdownInput'], operations);
 
-        expect(mockPlot).toHaveBeenCalledWith('!!p\nplot y=x\n!!p', expect.any(Object), operations[0]);
-        expect(mockMarkdown).toHaveBeenCalledWith('<plot>plot y=x</plot>', expect.any(Object), operations[1]);
-        expect(env.output.innerHTML).toBe('MD:<plot>plot y=x</plot>');
+        expect(mockPlot).toHaveBeenCalledWith('!!p\ny=x\n!!p', expect.any(Object), operations[0]);
+        expect(mockMarkdown).toHaveBeenCalledWith('<plot>y=x</plot>', expect.any(Object), operations[1]);
+        expect(env.output.innerHTML).toBe('MD:<plot>y=x</plot>');
     });
 
     test('debounces and rerenders when the input changes', () => {

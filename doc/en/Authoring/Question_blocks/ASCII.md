@@ -172,10 +172,7 @@ The opening and closing markers must each be on a line by themselves.
 !!p
 x: -5..5
 y: -3..10
-plot y=x^2-1
-plot x=y^2
-point (2,3) A
-fit line (1,2), (2,4), (3,5) as trend
+y=x^2-1
 !!p
 ```
 ![Plot example output](../../../content/plot_block.png)
@@ -193,92 +190,20 @@ y: -3..10
 
 If ranges are not specified, both axes default to `-10..10`. The first value must be smaller than the second value.
 
-### Curves
+### Equation
 
-Curves can be entered as `y` as a function of `x`.
+The graph is defined by a single equation for `y` as a function of `x`.
 
 ```
-plot y=x^2
+y=x^2
 y=sin(x)
-f(x)=x^2-1
-x^2+1
 ```
 
-A bare expression is treated as shorthand for `plot y=...`.
-
-Curves can also be entered as `x` as a function of `y`.
-
-```
-plot x=y^2
-x=sqrt(y)
-```
-
-An optional label can be added using `as`.
-
-```
-plot y=x^2 as parabola
-plot x=y^2 as sideways parabola
-```
-
-### Points
-
-Points can be added with `point (x,y)`. Any text after the coordinates is used as the point label.
-
-```
-point (2,3)
-point (-1,4) A
-```
-
-### Data points with a fitted curve
-
-A set of data points can be plotted with a least-squares curve fitted to them.
-
-```
-fit line (1,2), (2,4), (3,5)
-fit line (1,2), (2,4), (3,5) as trend
-fit quadratic (0,1), (1,4), (2,9) as curve
-fit cubic (0,1), (1,2), (2,5), (3,10) as curve
-fit polynomial 4 (0,1), (1,2), (2,5), (3,10), (4,17) as curve
-```
-
-The command adds the data points to the graph and plots the fitted curve. The optional text after `as` is used as the label for the fitted curve.
-
-If an `x` or `y` range is not set explicitly, the default range is expanded as needed to show all the supplied data points.
-
-For a straight line, the compact forms `fitline` and `linefit` are also accepted.
-
-```
-fitline (1,2), (2,4), (3,5)
-linefit (1,2), (2,4), (3,5)
-```
-
-The highest polynomial degree accepted is 6. A polynomial fit of degree `n` needs at least `n+1` data points. A fit cannot be calculated if the supplied points do not determine the requested model, for example if all the points have the same `x` value.
-
-### Axes and grid
-
-Axes and grid are shown by default. They can be switched on or off.
-
-```
-axes
-no axes
-grid
-no grid
-```
-
-### Size
-
-The size of the plot can be set in pixels.
-
-```
-width: 600
-height: 350
-```
-
-Width and height values are limited to between `100` and `1200`.
+The block must contain exactly one equation.
 
 ### Allowed expressions
 
-Plot expressions may use numbers, variables, brackets, and the following operators.
+Plot expressions may use numbers, the variable `x`, the constants `pi` and `e`, brackets, and the following operators.
 
 ```
 +  -  *  /  ^
@@ -298,4 +223,4 @@ mod
 min, max
 ```
 
-A plot block must contain at least one curve or point.
+A plot block must contain one equation.

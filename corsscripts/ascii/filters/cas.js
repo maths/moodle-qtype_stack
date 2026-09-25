@@ -3,6 +3,12 @@
 // e.g. "The answer is {@2^2 + 1@} here" → "The answer is 5 here"
 //      {@derivative("sin(2*x^3)", "x")@} → 6*x^2*sin(2*x^3).
 import math from '../mathjs.min.js';
+
+export const inputToolbarButtons = [
+    { label: '{@', insert: '{@', titlekey: 'asciistringtoolbarcasstart' },
+    { label: '@}', insert: '@}', titlekey: 'asciistringtoolbarcasend' }
+];
+
 export default function cas(text, blockCollector) {
     if (blockCollector) {
         blockCollector.isHTML = false;

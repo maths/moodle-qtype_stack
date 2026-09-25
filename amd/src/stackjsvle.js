@@ -308,6 +308,82 @@ define([
     }
 
     /**
+     * Insert text into an input at the current selection, then trigger VLE updates.
+     *
+     * @param {HTMLElement} inputelement the input element that receives the text.
+     * @param {String} text the text to insert.
+     */
+    function vle_insert_text_at_selection(inputelement, text) {
+        if (inputelement.readOnly || inputelement.disabled) {
+            return;
+        }
+
+        let start = inputelement.value.length;
+        let end = inputelement.value.length;
+        if (typeof inputelement.selectionStart === 'number' && typeof inputelement.selectionEnd === 'number') {
+            start = inputelement.selectionStart;
+            end = inputelement.selectionEnd;
+        }
+
+        inputelement.value = inputelement.value.substring(0, start) + text + inputelement.value.substring(end);
+        const caret = start + text.length;
+        inputelement.focus();
+        if (typeof inputelement.setSelectionRange === 'function') {
+            inputelement.setSelectionRange(caret, caret);
+        }
+        inputelement.dispatchEvent(new Event('input', {bubbles: true}));
+    }
+
+    /**
+     * Render syntax helper buttons beside an input.
+     *
+     * @param {HTMLElement} inputelement input the toolbar controls.
+     * @param {Object[]} buttons button definitions from the iframe.
+     */
+    function vle_render_input_toolbar(inputelement, buttons) {
+        if (!Array.isArray(buttons) || buttons.length === 0 || inputelement.readOnly || inputelement.disabled) {
+            return;
+        }
+
+        const toolbarId = inputelement.id + '_stack_ascii_toolbar';
+        let toolbar = document.getElementById(toolbarId);
+        if (!toolbar) {
+            toolbar = document.createElement('div');
+            toolbar.id = toolbarId;
+            toolbar.className = 'stack-ascii-input-toolbar';
+            toolbar.setAttribute('role', 'group');
+            inputelement.parentNode.insertBefore(toolbar, inputelement);
+        }
+
+        toolbar.replaceChildren();
+        buttons.forEach((definition) => {
+            const insert = String(definition.insert || definition.label || '');
+            const label = String(definition.label || insert);
+            if (!insert) {
+                return;
+            }
+
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'btn btn-secondary btn-sm';
+            button.textContent = label;
+            button.title = String(definition.title || label);
+            button.setAttribute('aria-label', button.title);
+            // Keep focus on the textarea so its selection range is still available on click.
+            button.addEventListener('pointerdown', (event) => {
+                event.preventDefault();
+            });
+            button.addEventListener('mousedown', (event) => {
+                event.preventDefault();
+            });
+            button.addEventListener('click', () => {
+                vle_insert_text_at_selection(inputelement, insert);
+            });
+            toolbar.appendChild(button);
+        });
+    }
+
+    /**
      * Does HTML-string cleaning, i.e., removes any script payload. Returns
      * a DOM version of the given input string. The DOM version returned is
      * an element of some sort containing the contents, possibly a `body`.
@@ -620,6 +696,19 @@ define([
             }
 
             IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(response), '*');
+            break;
+        case 'input-toolbar':
+            input = vle_get_input_element(msg.name, msg.src, !msg['limit-to-question']);
+
+            if (input === null) {
+                response.type = 'error';
+                response.msg = 'Failed to connect to input: "' + msg.name + '"';
+                response.tgt = msg.src;
+                IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(response), '*');
+                return;
+            }
+
+            vle_render_input_toolbar(input, msg.buttons);
             break;
         case 'track-validation-state':
             // 1. Find the input.

@@ -23,8 +23,11 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
-STACK changes: Update to AMparseMath to add latex parameter. If this is true
-then return texstring on line 989.
+STACK changes:
+- Update AMparseMath to add latex parameter. If this is true then return texstring. (992)
+- Export browser globals from CommonJS module exports as well as window.returnExports,
+  so stack-web bundling still provides window.AMparseMath. (958)
+- Declare the AMTgetTeXsymbol pre variable locally for module builds. (568)
 */
 
 // UMD export from https://github.com/umdjs/umd/blob/master/templates/returnExports.js
@@ -562,6 +565,7 @@ Each terminal symbol is translated into a corresponding mathml node.*/
 var AMnestingDepth,AMpreviousSymbol,AMcurrentSymbol;
 
 function AMTgetTeXsymbol(symb) {
+	var pre;
 	if (typeof symb.val == "boolean" && symb.val) {
 		pre = '';
 	} else {
@@ -952,15 +956,13 @@ return {
 // start browser parsing
 (function() {
 
-// Return if AMD, CommonJS or not browser
-// I.e. only run when imported using "script" tag
-if (typeof define === 'function' && define.amd) return;
-if (typeof module === 'object' && module.exports) return;
 if (typeof window === 'undefined') return; // Not browser
 
 // "Import" UMD exports. Exported as window.* later
-var AMTparseAMtoTeX = window.returnExports.parse;
-var config = window.returnExports.config;
+var exports = (typeof module === 'object' && module.exports) ? module.exports : window.returnExports;
+if (!exports) return;
+var AMTparseAMtoTeX = exports.parse;
+var config = exports.config;
 
 // STACK requires the additon of the latex parameter.
 function AMparseMath(str, latex) {

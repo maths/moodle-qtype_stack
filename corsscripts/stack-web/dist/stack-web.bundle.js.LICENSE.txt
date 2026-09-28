@@ -1,0 +1,11 @@
+/*! For license information please see math.js.LICENSE.txt Licensed under Apache License 2.0 */
+
+/*! markdown-it 14.1.1 https://github.com/markdown-it/markdown-it @license MIT */
+
+/**
+ * This is part of the free text input/ ASCII display block.
+ *
+ * @package    qtype_stack
+ * @copyright  2026 University of Edinburgh
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */

@@ -207,6 +207,30 @@ describe('stackascii init', () => {
         expect(global.MathJax.typesetPromise).toHaveBeenCalledWith([env.output]);
     });
 
+    test('uses optional DOM ids for standalone render containers', () => {
+        const env = setupEnvironment('standalone', 0);
+        const customShell = createElement('customShell');
+        const customOutput = createElement('customOutput');
+        const customRendered = createElement('customRendered');
+        const customErrors = createElement('customErrors');
+        env.elements.customShell = customShell;
+        env.elements.customOutput = customOutput;
+        env.elements.customRendered = customRendered;
+        env.elements.customErrors = customErrors;
+
+        init(['markdownInput'], [], {
+            outputElementId: 'customOutput',
+            shellElementId: 'customShell',
+            renderedOutputElementId: 'customRendered',
+            errorOutputElementId: 'customErrors'
+        });
+
+        expect(customRendered.innerHTML).toBe('standalone');
+        expect(env.renderedOutput.innerHTML).toBe('');
+        expect(customShell.classList.remove).toHaveBeenCalledWith('stackascii-has-errors');
+        expect(global.MathJax.typesetPromise).toHaveBeenCalledWith([customOutput]);
+    });
+
     test('runs filters and extractors, updates output, and dispatches change, no reset or display', () => {
         const env = setupEnvironment('  alpha  ', 2);
 

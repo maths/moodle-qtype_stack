@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STACK AsciiDisplay Demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            overflow-x: auto;
+        }
+
+        .demo-page {
+            min-width: min(100%, 720px);
+        }
+
+        .demo-workbench {
+            width: max-content;
+            visibility: hidden;
+        }
+
+        .demo-workbench.ready {
+            visibility: visible;
+        }
+
+        .demo-workbench .card-body > :not(.display-stage) {
+            min-width: 100%;
+            width: 0;
+        }
+
+        .display-stage {
+            overflow: visible;
+        }
+    </style>
+</head>
+<body class="bg-light text-dark">
+    <main class="container-xxl demo-page py-4">
+        <header class="pb-3 mb-4">
+            <h1 class="h2 text-info-emphasis mb-2">STACK AsciiDisplay Demo</h1>
+            <p class="lead mb-0">
+                Type ASCIIMath and Markdown on the left. The rendered output stays matched on the right.
+            </p>
+        </header>
+
+        <section class="card border-dark-subtle border-top border-4 shadow-sm demo-workbench" aria-labelledby="try-heading">
+            <div class="card-body">
+                <p>
+                    Choose an example or edit the text directly. Some examples are display-only; others populate one or more
+                    extractor fields below.
+                </p>
+
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-2 mb-3" id="examples"></div>
+
+                <div class="display-stage bg-light border rounded p-3">
+                    <div id="demoContainer"></div>
+                </div>
+
+                <div class="row row-cols-1 row-cols-md-2 row-cols-xl-5 g-2 mt-3" aria-label="Extractor outputs">
+                    <div class="col">
+                        <label class="form-label small text-secondary" for="demoExpressionAnswer">Answer line</label>
+                        <input class="form-control form-control-sm font-monospace bg-warning-subtle border-warning-subtle" type="text" id="demoExpressionAnswer" readonly>
+                    </div>
+                    <div class="col">
+                        <label class="form-label small text-secondary" for="demoCalculationAnswer">Last calculation</label>
+                        <input class="form-control form-control-sm font-monospace bg-warning-subtle border-warning-subtle" type="text" id="demoCalculationAnswer" readonly>
+                    </div>
+                    <div class="col">
+                        <label class="form-label small text-secondary" for="demoStepsAnswer">Step lines</label>
+                        <input class="form-control form-control-sm font-monospace bg-warning-subtle border-warning-subtle" type="text" id="demoStepsAnswer" readonly>
+                    </div>
+                    <div class="col">
+                        <label class="form-label small text-secondary" for="demoAAnswer">a =</label>
+                        <input class="form-control form-control-sm font-monospace bg-warning-subtle border-warning-subtle" type="text" id="demoAAnswer" readonly>
+                    </div>
+                    <div class="col">
+                        <label class="form-label small text-secondary" for="demoBAnswer">b =</label>
+                        <input class="form-control form-control-sm font-monospace bg-warning-subtle border-warning-subtle" type="text" id="demoBAnswer" readonly>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="row g-4 mt-2" aria-label="Instructions">
+            <div class="col-lg-6">
+                <h2 class="h4 text-info-emphasis">ASCIIMath Syntax</h2>
+                <dl class="row g-2">
+                    <dt class="col-sm-4"><code>`x^2`</code></dt>
+                    <dd class="col-sm-8">Wrap inline ASCIIMath in backticks.</dd>
+                    <dt class="col-sm-4"><code>`a_n`</code></dt>
+                    <dd class="col-sm-8">Use underscores for subscripts.</dd>
+                    <dt class="col-sm-4"><code>`(a+b)/(c+d)`</code></dt>
+                    <dd class="col-sm-8">Use parentheses to make fractions clear.</dd>
+                    <dt class="col-sm-4"><code>`sqrt(x)`</code></dt>
+                    <dd class="col-sm-8">Square roots use function notation.</dd>
+                    <dt class="col-sm-4"><code>`sin(theta)`</code></dt>
+                    <dd class="col-sm-8">Common functions and Greek names are recognised.</dd>
+                    <dt class="col-sm-4"><code>`sum_(i=1)^n i`</code></dt>
+                    <dd class="col-sm-8">Lower and upper limits use subscript and superscript.</dd>
+                    <dt class="col-sm-4"><code>`int_0^1 x^2 dx`</code></dt>
+                    <dd class="col-sm-8">Integrals use the same limit notation.</dd>
+                    <dt class="col-sm-4"><code>`[[a,b],[c,d]]`</code></dt>
+                    <dd class="col-sm-8">Matrices are nested lists.</dd>
+                    <dt class="col-sm-4"><code>`</code> on its own line</dt>
+                    <dd class="col-sm-8">Use matched pairs to display multiline ASCIIMath blocks.</dd>
+                </dl>
+            </div>
+            <div class="col-lg-6">
+                <h2 class="h4 text-info-emphasis">Filters And Extractors</h2>
+                <ul class="mb-0">
+                    <li>Markdown is rendered for display, with ASCIIMath transformed for MathJax.</li>
+                    <li>Calculations inside <code>{@ @}</code> are evaluated by the calculation filter.</li>
+                    <li>Markdown needs a blank line between paragraphs or displayed blocks.</li>
+                    <li>Various regex, string and block extractors can detect patterns within the input. The demo extracts the last <code>Answer:</code> line, the last calculation result, all <code>Step n =</code> lines, and coefficient lines <code>a =</code> and <code>b =</code>.</li>
+                    <li>Calculation functions include <code>sin</code>, <code>cos</code>, <code>sqrt</code>, <code>log</code>, <code>mean</code>, <code>sum</code>, and <code>prod</code>. Trigonometric functions use radians.</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <script src="../dist/stack-web.bundle.js"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        let asciiDisplay;
+
+        const examples = [
+            {
+                title: 'Blank',
+                text: [].join('\n')
+            },
+            {
+                title: 'Displayed ASCIIMath block',
+                text: [
+                    'A display-only example with no extractor target lines.',
+                    '',
+                    '`',
+                    'x^2 - 5x + 6 = 0',
+                    '(x - 2)(x - 3) = 0',
+                    'x = 2 or x = 3',
+                    '`'
+                ].join('\n')
+            },
+            {
+                title: 'Final algebraic answer',
+                text: [
+                    'Solve the logarithmic equation.',
+                    '',
+                    '`',
+                    'log_3(x+17) - 2 = log_3(2x)',
+                    'log_3((x+17)/(2x)) = 2',
+                    '(x+17)/(2x) = 9',
+                    'x = 1',
+                    '`',
+                    '',
+                    'Answer: `x = 1`'
+                ].join('\n')
+            },
+            {
+                title: 'Calculation filter',
+                text: [
+                    'Find the smaller of two consecutive even numbers whose sum is 45 times their difference.',
+                    '',
+                    '`',
+                    'n + (n + 2) = 45*2',
+                    '2n + 2 = {@45*2@}',
+                    '2n = {@45*2 - 2@}',
+                    'n = {@(45*2 - 2)/2@}',
+                    '`',
+                    '',
+                    'Answer: `n = 44`'
+                ].join('\n')
+            },
+            {
+                title: 'Parabola coefficients',
+                text: [
+                    'A multiple-extractor example modelled on the free-text documentation.',
+                    '',
+                    '`',
+                    'f(x) = a x^2 + b',
+                    'f(2) = 19 so 4a + b = 19',
+                    "f'(-2) = -12 so -4a = -12",
+                    '`',
+                    '',
+                    'a = `3`',
+                    'b = `7`',
+                    'Answer: `f(x) = 3x^2 + 7`'
+                ].join('\n')
+            },
+            {
+                title: 'Proof layout',
+                text: [
+                    'A manually graded proof-style response. It deliberately has no answer marker.',
+                    '',
+                    'Let P(n) be the statement `sum_(k=1)^n (2k-1) = n^2`.',
+                    '',
+                    'The base case is `sum_(k=1)^1 (2k-1) = 1 = 1^2`.',
+                    '',
+                    '`',
+                    'sum_(k=1)^(n+1) (2k-1)',
+                    '= sum_(k=1)^n (2k-1) + (2(n+1)-1)',
+                    '= n^2 + 2n + 1',
+                    '= (n+1)^2',
+                    '`',
+                    '',
+                    'Therefore `P(n)` holds for all positive integers by induction.'
+                ].join('\n')
+            },
+            {
+                title: 'Step extraction',
+                text: [
+                    'This one fills the step-lines extractor, but not the coefficient fields.',
+                    '',
+                    'Step 1 = `sum_(k=1)^n 1 = n`',
+                    '',
+                    'Step 2 = `2 sum_(k=1)^n k = n^2 + n`',
+                    '',
+                    'Step 3 = `sum_(k=1)^n k = (n(n+1))/2`',
+                    '',
+                    'Answer: `(n(n+1))/2`'
+                ].join('\n')
+            },
+            {
+                title: 'Matrix notation',
+                text: [
+                    'Matrices use nested lists in ASCIIMath.',
+                    '',
+                    '`',
+                    'A = [[1,2],[3,4]]',
+                    'det(A) = 1*4 - 2*3',
+                    'det(A) = {@1*4 - 2*3@}',
+                    '`',
+                    '',
+                    'Answer: `det(A) = -2`'
+                ].join('\n')
+            },
+            {
+                title: 'Statistics calculation',
+                text: [
+                    'Statistics functions are available in calculation blocks.',
+                    '',
+                    'Calculated mean: {@mean([2,4,4,4,5,5,7,9])@}',
+                    '',
+                    'Calculated standard deviation: {@std([2,4,4,4,5,5,7,9])@}'
+                ].join('\n')
+            }
+        ];
+
+        function renderExamples() {
+            const list = document.getElementById('examples');
+            examples.forEach((example, index) => {
+                const col = document.createElement('div');
+                const button = document.createElement('button');
+                col.className = 'col';
+                button.type = 'button';
+                button.className = 'btn btn-outline-dark text-start w-100 h-100';
+                button.textContent = example.title;
+                button.addEventListener('click', () => insertExample(index));
+                col.appendChild(button);
+                list.appendChild(col);
+            });
+        }
+
+        window.StackWeb.ready(() => {
+            try {
+                asciiDisplay = new window.StackWeb.StackAsciiDisplay({
+                    containerId: 'demoContainer',
+                    initialText: examples[0].text,
+                    placeholder: 'Type Markdown and ASCIIMath here.',
+                    initialWidth: 'min(calc(100vw - 8rem), 1192px)',
+                    minWidth: '520px',
+                    initialHeight: 500,
+                    minHeight: 300,
+                    operations: [
+                        {
+                            operation: 'filter',
+                            type: 'calculation'
+                        },
+                        {
+                            operation: 'filter',
+                            type: 'markdown',
+                            transforms: 'asciimath,aligneq,minwrap',
+                            display: 'true'
+                        },
+                        {
+                            operation: 'filter',
+                            type: 'calculation',
+                            reset: 'true'
+                        },
+                        {
+                            targetinput: 'demoExpressionAnswer',
+                            operation: 'extractor',
+                            type: 'laststringremainderwhitespace',
+                            search: 'Answer:'
+                        },
+                        {
+                            targetinput: 'demoCalculationAnswer',
+                            operation: 'extractor',
+                            type: 'lastcalc'
+                        },
+                        {
+                            targetinput: 'demoStepsAnswer',
+                            operation: 'extractor',
+                            type: 'allregexremainder',
+                            regex: '^Step\\s+\\d+\\s*=\\s*'
+                        },
+                        {
+                            targetinput: 'demoAAnswer',
+                            operation: 'extractor',
+                            type: 'laststringremainderwhitespace',
+                            search: 'a ='
+                        },
+                        {
+                            targetinput: 'demoBAnswer',
+                            operation: 'extractor',
+                            type: 'laststringremainderwhitespace',
+                            search: 'b ='
+                        }
+                    ]
+                });
+                document.querySelector('.demo-workbench').classList.add('ready');
+            } catch (e) {
+                console.error('Error initializing StackAsciiDisplay:', e);
+            }
+        });
+
+        function insertExample(index) {
+            if (!asciiDisplay || !asciiDisplay.inputElement) {
+                return;
+            }
+            asciiDisplay.inputElement.value = examples[index].text;
+            asciiDisplay.inputElement.focus();
+            asciiDisplay.inputElement.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+
+        renderExamples();
+    </script>
+</body>
+</html>

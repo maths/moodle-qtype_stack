@@ -64,24 +64,35 @@ const extractorlib = {
  * Called by the PHP-compiled [[ascii]] block once all required input elements
  * are available in the DOM.
  *
- * @param {string[]} inputIds   - DOM element ids; inputIds[0] is the free-text
- *   textarea (source), inputIds[1..N] are the answer inputs for extractors,
- *   in the same order as the [[extractor]] blocks.
+ * @param {string[]} inputIds   - DOM element ids; normally inputIds[0] is the
+ *   free-text textarea (source), and inputIds[1..N] are the answer inputs for
+ *   extractors.
  * @param {Object[]} operations - ordered array of operation objects compiled from
  *   [[filter]] and [[extractor]] child blocks, e.g.
  *   [{ operation:'filter',    type:'markdown', transforms:'aligneq' },
  *    { operation:'extractor', type:'lastexpr', targetinput:'ans2'     }]
- * @param {Object} options - translated strings and other optional settings.
+ * @param {Object} options - optional DOM integration settings.
+ * @param {Object} options.asciistrings - user messages.
+ * @param {string} options.outputElementId - ID of the scrollable output container.
+ * @param {string} options.shellElementId - ID of the outer shell used for error state.
+ * @param {string} options.renderedOutputElementId - ID of the rendered content element.
+ * @param {string} options.errorOutputElementId - ID of the element used to show operation errors.
+ * @param {string} options.suppliedTextElementId - ID of the static source
+ *   element used when there is no source input.
  */
 export default function init(inputIds, operations, options = {}) {
     setAsciiStrings(options.asciistrings || {});
 
-    const markdownContainerId = inputIds.length ? inputIds[0] : null;
-    const suppliedText = document.getElementById('asciiSuppliedText').innerHTML;
-    const shell = document.getElementById('asciiShell');
-    const output = document.getElementById('asciiContainerRow');
-    const renderedOutput = document.getElementById('asciiRenderedContent');
-    const errorOutput = document.getElementById('asciiErrorRow');
+    const suppliedTextElementId = options.suppliedTextElementId || 'asciiSuppliedText';
+    const markdownContainerId = options.suppliedTextElementId ? null : (inputIds.length ? inputIds[0] : null);
+    const outputElementId = options.outputElementId || 'asciiContainerRow';
+    const shellElementId = options.shellElementId || 'asciiShell';
+    const renderedOutputElementId = options.renderedOutputElementId || 'asciiRenderedContent';
+    const errorOutputElementId = options.errorOutputElementId || 'asciiErrorRow';
+    const output = document.getElementById(outputElementId);
+    const shell = document.getElementById(shellElementId);
+    const renderedOutput = document.getElementById(renderedOutputElementId);
+    const errorOutput = document.getElementById(errorOutputElementId);
     const frameId = (typeof FRAME_ID !== 'undefined') ? FRAME_ID : null;
     const syncScrollPosition = createScrollSyncHandler(markdownContainerId, frameId, output);
 
@@ -100,6 +111,8 @@ export default function init(inputIds, operations, options = {}) {
         if (markdownContainerId) {
             raw = document.getElementById(markdownContainerId).value;
         } else {
+            const suppliedTextElement = document.getElementById(suppliedTextElementId);
+            const suppliedText = suppliedTextElement ? suppliedTextElement.innerHTML : '';
             raw = suppliedText;
         }
 
@@ -174,13 +187,19 @@ export default function init(inputIds, operations, options = {}) {
         }
         renderedOutput.innerHTML = processedOutput;
         if (operationErrors.length > 0) {
-            errorOutput.innerHTML =
-                operationErrors.map((message) => '<p class="stackascii-error-message">' + escapeHTML(message) + '</p>').join('');
-            shell.classList.add('stackascii-has-errors');
-            const errorHeight = Number(errorOutput.offsetHeight) || 0;
+            if (errorOutput) {
+                errorOutput.innerHTML =
+                    operationErrors.map((message) => '<p class="stackascii-error-message">' + escapeHTML(message) + '</p>').join('');
+            }
+            if (shell) {
+                shell.classList.add('stackascii-has-errors');
+            }
+            const errorHeight = errorOutput ? Number(errorOutput.offsetHeight) || 0 : 0;
             renderedOutput.style.paddingBottom = `${errorHeight + 5}px`;
         } else {
-            shell.classList.remove('stackascii-has-errors');
+            if (shell) {
+                shell.classList.remove('stackascii-has-errors');
+            }
             renderedOutput.style.paddingBottom = '';
         }
         syncScrollPosition();
@@ -191,7 +210,7 @@ export default function init(inputIds, operations, options = {}) {
                 syncScrollPosition();
             });
         } else if (MathJax.Hub && typeof MathJax.Hub.Queue === 'function') {
-            MathJax.Hub.Queue(["Typeset", MathJax.Hub, 'asciiContainerRow']); // MathJax 2
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub, outputElementId]); // MathJax 2
             MathJax.Hub.Queue(() => {
                 syncScrollPosition();
             });
@@ -200,10 +219,14 @@ export default function init(inputIds, operations, options = {}) {
     if (markdownContainerId) {
         // Debounce rendering so rapid keystrokes don't trigger multiple MathJax typesets.
         let debounceTimer;
-        document.getElementById(markdownContainerId).addEventListener('change', () => {
+        const handleInput = () => {
             clearTimeout(debounceTimer);
             debounceTimer = setTimeout(renderMath, 100); // debounce 100ms
-        });
+        };
+        document.getElementById(markdownContainerId).addEventListener('change', handleInput);
+        if (!frameId) {
+            document.getElementById(markdownContainerId).addEventListener('input', handleInput);
+        }
     }
 
     renderMath(); // initial render on load

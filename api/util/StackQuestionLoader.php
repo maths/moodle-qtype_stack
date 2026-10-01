@@ -85,6 +85,11 @@ class StackQuestionLoader {
      */
     public const MULTIPLE_Q_CATEGORY = 'MultipleWithCategory';
 
+    /**
+     * @var string Bad characters stripped from a filename.
+     */
+    private const BAD_FILENAME_CHARACTERS = '/[\/\\\\?%\'*:|"<>$!`&\t ]+/'; // phpcs:ignore moodle.Strings.ForbiddenStrings.Found
+
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public static function loadxml($xml, $includetests = false) {
         try {
@@ -605,7 +610,13 @@ class StackQuestionLoader {
         $data = [];
 
         foreach ($files as $file) {
-            $data[(string) $file['name']] = (string) $file;
+            // Strip any path components and remove characters that are unsafe in a filename.
+            $name = basename((string) $file['name']);
+            $name = preg_replace(self::BAD_FILENAME_CHARACTERS, '-', $name);
+            if ($name === '' || $name === '.' || $name === '..') {
+                continue;
+            }
+            $data[$name] = (string) $file;
         }
 
         return $data;

@@ -149,6 +149,7 @@ if ($mform->is_cancelled()) {
     unset($urlparams['testcase']);
     redirect($backurl);
 } else if ($confirmthistestcase) {
+    require_sesskey();
     $inputs = [];
     foreach ($qtest->inputs as $name => $value) {
         $inputs[$name] = $value;

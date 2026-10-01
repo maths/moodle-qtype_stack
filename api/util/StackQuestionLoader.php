@@ -605,7 +605,13 @@ class StackQuestionLoader {
         $data = [];
 
         foreach ($files as $file) {
-            $data[(string) $file['name']] = (string) $file;
+            // Strip any path components and keep only a safe character set, so the name is just a plain filename.
+            $name = basename((string) $file['name']);
+            $name = preg_replace('/[^A-Za-z0-9_\-.]/', '_', $name);
+            if ($name === '' || $name === '.' || $name === '..') {
+                continue;
+            }
+            $data[$name] = (string) $file;
         }
 
         return $data;

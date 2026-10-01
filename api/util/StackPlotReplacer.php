@@ -55,7 +55,14 @@ class StackPlotReplacer {
     public static function persist_plugin_files(\qtype_stack_question $question, $storeprefix) {
         global $CFG;
         foreach ($question->pluginfiles as $name => $content) {
-            file_put_contents($CFG->dataroot . '/stack/plots/' . $storeprefix . '-' . $name, base64_decode($content));
+            // Strip any path components and keep only a safe character set before building the on disk filename.
+            $safename = basename((string) $name);
+            $safename = preg_replace('/[^A-Za-z0-9_\-.]/', '_', $safename);
+            if ($safename === '' || $safename === '.' || $safename === '..') {
+                continue;
+            }
+            $target = realpath($CFG->dataroot . '/stack/plots') . '/' . $storeprefix . '-' . $safename;
+            file_put_contents($target, base64_decode($content));
         }
     }
 }

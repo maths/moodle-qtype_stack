@@ -1,0 +1,180 @@
+/*  Author Luke Longworth
+    University of Canterbury
+    Copyright (C) 2025 Luke Longworth
+
+    This program is free software: you can redistribute it or modify
+    it under the terms of the GNU General Public License version two.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
+
+/* Thank you to Georg Osang of IDEMS International
+   for significant contributions to this work in 2024. */
+
+/**
+ * Return `true` when the argument is a Maxima matrix with exactly one column.
+ * A 1-by-1 matrix satisfies both `col_vecp` and `row_vecp`.
+ *
+ * For example, `col_vecp(matrix([a],[b]))` is `true`, but
+ * `col_vecp(matrix([a,b]))` and `col_vecp(c(a,b))` are `false`.
+ * Use `vec_convert` first when accepting the inert `c`/`r` notation.
+ * Lists, scalars and `matrix()` return `false`.
+ *
+ * @param[expression] ex, the object whose shape is checked.
+ * @return[boolean] whether the object is a matrix with exactly one column.
+ */
+col_vecp(ex):= block(
+  if not(matrixp(ex)) then return(false)
+  else return(is(second(matrix_size(ex))=1))
+);
+
+s_test_case(simp) := is(col_vecp(matrix([1],[2]))=true)$
+s_test_case(simp) := is(col_vecp(matrix([1,2]))=false)$
+s_test_case(simp) := is(col_vecp(c(1,2))=false)$
+s_test_case(simp) := is(col_vecp(matrix([a]))=true)$
+s_test_case(simp) := is(col_vecp(1)=false)$
+s_test_case(simp) := is(col_vecp([1,2])=false)$
+s_test_case(simp) := is(col_vecp(matrix())=false)$
+s_test_case(simp) := is(col_vecp(matrix([]))=false)$
+s_test_case(simp) := is(col_vecp(vec_convert(c(1,2)))=true)$
+
+/**
+ * Return `true` when the argument is a Maxima matrix with exactly one row.
+ * A 1-by-1 matrix satisfies both `row_vecp` and `col_vecp`.
+ *
+ * For example, `row_vecp(matrix([a,b]))` is `true`, but
+ * `row_vecp(matrix([a],[b]))` and `row_vecp(r(a,b))` are `false`.
+ * Use `vec_convert` first when accepting the inert `c`/`r` notation.
+ * Lists, scalars and `matrix()` return `false`.
+ *
+ * This is a shape check: `matrix([])` has one row and no columns, so it
+ * returns `true`. Check the number of columns separately if entries are required.
+ *
+ * @param[expression] ex, the object whose shape is checked.
+ * @return[boolean] whether the object is a matrix with exactly one row.
+ */
+row_vecp(ex):= block(
+  if not(matrixp(ex)) then return(false)
+  else return(is(first(matrix_size(ex))=1))
+);
+
+s_test_case(simp) := is(row_vecp(matrix([1],[2]))=false)$
+s_test_case(simp) := is(row_vecp(matrix([1,2]))=true)$
+s_test_case(simp) := is(row_vecp(r(1,2))=false)$
+s_test_case(simp) := is(row_vecp(matrix([a]))=true)$
+s_test_case(simp) := is(row_vecp(1)=false)$
+s_test_case(simp) := is(row_vecp([1,2])=false)$
+s_test_case(simp) := is(row_vecp(matrix())=false)$
+s_test_case(simp) := is(row_vecp(matrix([]))=true)$
+s_test_case(simp) := is(row_vecp(vec_convert(r(1,2)))=true)$
+
+/**
+ * Return `true` for a matrix accepted by either `col_vecp` or `row_vecp`.
+ * This includes 1-by-1 matrices. It does not accept lists or inert `c`/`r`
+ * expressions; apply `vec_convert` first if the `c`/`r` forms are permitted.
+ *
+ * For example, `vectorp(matrix([a],[b]))` and `vectorp(matrix([a,b]))`
+ * are `true`, while `vectorp(matrix([a,b],[c,d]))` is `false`.
+ * As with `row_vecp`, the one-row empty matrix `matrix([])` is accepted;
+ * `matrix()` is not. This predicate does not check entries or non-emptiness.
+ *
+ * @param[expression] ex, the object whose shape is checked.
+ * @return[boolean] whether the object is a row or column matrix.
+ */
+vectorp(ex):= col_vecp(ex) or row_vecp(ex);
+
+s_test_case(simp) := is(vectorp(matrix([1],[2]))=true)$
+s_test_case(simp) := is(vectorp(matrix([1,2]))=true)$
+s_test_case(simp) := is(vectorp(c(1,2))=false)$
+s_test_case(simp) := is(vectorp(matrix([a]))=true)$
+s_test_case(simp) := is(vectorp(matrix([1,2],[3,4]))=false)$
+s_test_case(simp) := is(vectorp([1,2])=false)$
+s_test_case(simp) := is(vectorp(r(1,2))=false)$
+s_test_case(simp) := is(vectorp(matrix())=false)$
+s_test_case(simp) := is(vectorp(matrix([]))=true)$
+
+/**
+ * Return `true` when the argument is a matrix with equal row and column counts.
+ * The entries need not be numeric, and a square matrix need not be invertible.
+ *
+ * For example, `squarep(matrix([a,b],[c,d]))` is `true`, while
+ * `squarep(matrix([a],[b]))` and `squarep([a,b])` are `false`.
+ * The empty 0-by-0 matrix `matrix()` returns `true`; `matrix([])` returns
+ * `false`. Check the size separately if a nonempty square matrix is required.
+ *
+ * @param[expression] M, the object whose shape is checked.
+ * @return[boolean] whether the object is a square matrix.
+ */
+squarep(M):= block([isSquare],
+  isSquare: false,
+  if matrixp(M) then block(
+    if is(apply("=", matrix_size(M))) then isSquare: true
+  ),
+  return(isSquare)
+);
+
+s_test_case(simp) := is(squarep(ident(4))=true)$
+s_test_case(simp) := is(squarep(matrix([1],[2]))=false)$
+s_test_case(simp) := is(squarep(matrix([1,2],[2,3]))=true)$
+s_test_case(simp) := is(squarep(1)=false)$
+s_test_case(simp) := is(squarep(matrix([a,b],[c,d]))=true)$
+s_test_case(simp) := is(squarep(matrix([1,2]))=false)$
+s_test_case(simp) := is(squarep(matrix())=true)$
+s_test_case(simp) := is(squarep(matrix([]))=false)$
+
+/**
+ * Return `true` when the argument is a matrix whose off-diagonal entries
+ * are recognised as zero by `is`. The matrix need not be square; use `squarep`
+ * as well if the task requires a square diagonal matrix. Diagonal entries
+ * may be zero or symbolic.
+ *
+ * For example, `diagp(matrix([a,0,0],[0,b,0]))` is `true`, but
+ * `diagp(matrix([1,x],[0,1]))` is `false` for an unconstrained symbol `x`.
+ * Non-matrix arguments return `false`. Empty matrices have no off-diagonal
+ * entries to reject, so `matrix()`, `matrix([])` and `matrix([],[])` return `true`.
+ *
+ * The simplification mode matters. With `simp:false`, the off-diagonal
+ * entry `1-1` in `matrix([1,0],[1-1,1])` is not simplified and this predicate
+ * returns `false`; with `simp:true` it returns `true`. Simplify the matrix
+ * explicitly first if algebraically zero expressions should be accepted.
+ *
+ * @param[expression] M, the object whose off-diagonal entries are checked.
+ * @return[boolean] whether every off-diagonal entry is recognised as zero.
+ */
+diagp(M):= block([dia,imax,jmax,ii,jj],
+  if not(matrixp(M)) then return(false),
+  dia: true,
+  [imax, jmax]: ev(matrix_size(M),simp),
+  for ii: 1 thru imax while dia do block(
+    ii: ev(ii,simp),
+    for jj: 1 thru jmax while dia do block(
+      jj: ev(jj,simp),
+      if not(is(ii=jj)) and not(is(M[ii,jj]=0)) then dia: false
+    )
+  ),
+  return(dia)
+);
+
+s_test_case(simp) := is(diagp(ident(5))=true)$
+s_test_case(simp) := is(diagp(zeromatrix(5,4))=true)$
+s_test_case(simp) := is(diagp(matrix([1,0],[1-1,1]))=simp)$
+s_test_case(simp) := is(diagp(matrix([1,1],[0,1]))=false)$
+s_test_case(simp) := is(diagp(matrix([1,0],[1,1]))=false)$
+s_test_case(simp) := is(diagp(matrix([1]))=true)$
+s_test_case(simp) := is(diagp(matrix([1,0,0,0],[0,2,0,0],[0,0,3,0]))=true)$
+s_test_case(simp) := is(diagp(matrix([1,0,0,0],[0,2,0,0],[0,0,3,4]))=false)$
+s_test_case(simp) := is(diagp(matrix([1,0,0],[0,2,0],[0,0,3],[0,0,0]))=true)$
+s_test_case(simp) := is(diagp(matrix([1,0,0],[0,2,0],[0,0,3],[0,0,4]))=false)$
+s_test_case(simp) := is(diagp(1)=false)$
+s_test_case(simp) := is(diagp([1,2])=false)$
+s_test_case(simp) := is(diagp(matrix([a,0,0],[0,b,0]))=true)$
+s_test_case(simp) := is(diagp(matrix([1,x],[0,1]))=false)$
+s_test_case(simp) := is(diagp(matrix())=true)$
+s_test_case(simp) := is(diagp(matrix([]))=true)$
+s_test_case(simp) := is(diagp(matrix([],[]))=true)$

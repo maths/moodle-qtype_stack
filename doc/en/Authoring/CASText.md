@@ -29,6 +29,20 @@ Here is an example
     \[ \frac{\mathrm{d}}{\mathrm{d}x} \sin \left( \frac{1}{x^2+1} \right) = {@diff(sin(1/(1+x^2)),x)@} \]
     You can input this as <code>{#diff(sin(1/(1+x^2)),x)#}</code>
 
+## Fallback TeX commands ## {#fallback_tex_commands}
+
+A question can provide a default meaning for a TeX command without replacing a definition made by its
+surrounding document.  For example,
+
+    \(\providecommand{\vect}[1]{\mathbf{#1}}\)
+
+lets the question use `\vect{u}` with a bold default.  If an earlier part of the document has already
+defined `\vect`, that definition is retained.  This can be useful when the same self-contained question
+is used in courses with different notation.
+
+STACK supplies `\providecommand` compatibility when mathematics is displayed by Moodle's MathJax filter
+or by the minimal API client.  Other LaTeX renderers normally provide this standard command directly.
+
 ## Variables ##   {#Variables}
 
 CASText may depend on variables previously defined in the [question variables](Variables.md#Question_variables) field.
@@ -130,4 +144,3 @@ This can then be used several times within any CASText area:
 The [Google charts](http://code.google.com/apis/chart/) API can be used to create a URL based on the random variables.
 
 ![](http://chart.apis.google.com/chart?cht=v&chs=200x100&chd=t:100,100,0,50&chdl=A|B)
-

@@ -237,6 +237,65 @@ final class input_repeat_test extends qtype_stack_testcase {
         $this->assertStringContainsString(stack_string('repeatincompleterow', 2), $state->errors);
     }
 
+    public function test_validate_malformed_json(): void {
+
+        $options = new stack_options();
+        $simpleinputs = [];
+        $simpleinputs['ans1'] = stack_input_factory::make('algebraic', 'ans1', 'x');
+
+        $el = stack_input_factory::make('repeat', 'sans1', '"{}"');
+        $el->add_simple_inputs($simpleinputs);
+
+        // The JSON comes from the browser: anything with an unexpected structure is invalid, not a PHP error.
+        $malformed = [
+            '{"data":{"ans1":"x"}}',
+            '{"data":{"ans1":{"0":"x"}}}',
+            '{"data":{"ans1":[["x"]]}}',
+            '{"data":{"ans1":[{"a":"x"}]}}',
+            '{"data":{"ans1":[null]}}',
+            '{"data":{"ans1":[true]}}',
+            '{"data":[1,2]}',
+            '{"data":[{"repeat_id":"1"}]}',
+            '{"data":[{"repeat_id":"1","inputs":["x"]}]}',
+            '{"data":"x"}',
+            '["x"]',
+        ];
+        foreach ($malformed as $rawinput) {
+            $state = $el->validate_student_response(['sans1' => $rawinput], $options, '"{}"',
+                new stack_cas_security());
+            $this->assertEquals(stack_input::INVALID, $state->status, $rawinput);
+            $this->assertEquals('invalid_json', $state->note, $rawinput);
+            $this->assertEquals('[]', $state->contentsmodified, $rawinput);
+        }
+
+        // Numbers, e.g. from repeat_encode in the teacher's answer, are fine.
+        $state = $el->validate_student_response(['sans1' => '{"data":{"ans1":[1,-2]}}'], $options, '"{}"',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('(repeatedans1:[1,-2])', $state->contentsmodified);
+    }
+
+    public function test_validate_uses_question_security(): void {
+
+        $options = new stack_options();
+        $simpleinputs = [];
+        $simpleinputs['ans1'] = stack_input_factory::make('algebraic', 'ans1', 'x');
+
+        $el = stack_input_factory::make('repeat', 'sans1', '"{}"');
+        $el->add_simple_inputs($simpleinputs);
+
+        // Words forbidden at question level, e.g. the names of question variables, apply to each entry.
+        $rawinput = '{"data":{"ans1":["x^2","ta"]}}';
+        $state = $el->validate_student_response(['sans1' => $rawinput], $options, '"{}"',
+            new stack_cas_security(false, '', '', ['ta']));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertStringContainsString('forbiddenVariable', $state->note);
+
+        $state = $el->validate_student_response(['sans1' => $rawinput], $options, '"{}"',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+    }
+
     public function test_repeat_encode(): void {
 
         $options = new stack_options();

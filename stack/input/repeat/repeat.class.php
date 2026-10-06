@@ -71,6 +71,10 @@ class stack_repeat_input extends stack_json_input {
      * {repeat_id, inputs} objects, or the cut-down form from the teacher's answer where "data"
      * maps input names to lists of values directly.
      *
+     * The JSON comes from the student's browser, so anything not matching this structure exactly
+     * (e.g. a value which is not a list, or a list containing anything but strings and numbers)
+     * is rejected rather than guessed at.
+     *
      * @param array $contents the contents of this input.
      * @return array|null input name => list of raw values, or null if the JSON is unusable.
      */
@@ -85,9 +89,13 @@ class stack_repeat_input extends stack_json_input {
             return null;
         }
         if (is_array($payload->data)) {
-            $groups = array_map(function($group) {
-                return is_object($group) && property_exists($group, 'inputs') ? $group->inputs : null;
-            }, $payload->data);
+            $groups = [];
+            foreach ($payload->data as $group) {
+                if (!is_object($group) || !property_exists($group, 'inputs')) {
+                    return null;
+                }
+                $groups[] = $group->inputs;
+            }
         } else {
             $groups = [$payload->data];
         }
@@ -95,12 +103,23 @@ class stack_repeat_input extends stack_json_input {
         $inputs = [];
         foreach ($groups as $group) {
             if (!is_object($group)) {
-                continue;
+                return null;
             }
             foreach ($this->simpleinputs as $inputname => $input) {
-                if (property_exists($group, $inputname)) {
-                    $inputs[$inputname] = $group->{$inputname};
+                if (!property_exists($group, $inputname)) {
+                    continue;
                 }
+                $values = $group->{$inputname};
+                // A JSON list decodes to a PHP list, a JSON object would decode to stdClass.
+                if (!is_array($values)) {
+                    return null;
+                }
+                foreach ($values as $value) {
+                    if (!is_string($value) && !is_int($value) && !is_float($value)) {
+                        return null;
+                    }
+                }
+                $inputs[$inputname] = $values;
             }
         }
         return $inputs;
@@ -196,16 +215,15 @@ class stack_repeat_input extends stack_json_input {
 
         $states = [];
         $incompleterows = [];
-        $options = new stack_options();
-        // Validate each entry separately using the simple input validation.
+        // Validate each entry separately using the simple input validation, with the
+        // question's security settings (e.g. forbidden words, units) and options.
         foreach ($inputs as $inputname => $val) {
             $input = $this->simpleinputs[$inputname];
             // Val should now be an array of values.
             $exprs = [];
             foreach ($val as $row => $sans) {
-                $state = $input->validate_student_response([$inputname => $sans],
-                    $options, 'null',
-                    new stack_cas_security());
+                $state = $input->validate_student_response([$inputname => (string) $sans],
+                    $localoptions, 'null', $basesecurity);
                 if ($state->__get('status') === stack_input::VALID || $state->__get('status') === stack_input::SCORE) {
                     $exprs[] = $state->__get('contentsmodified');
                 } else {
@@ -216,7 +234,9 @@ class stack_repeat_input extends stack_json_input {
                     }
                 }
                 $errors[] = $state->__get('errors');
-                $notes[$state->__get('note')] = true;
+                if ($state->__get('note') !== '') {
+                    $notes[$state->__get('note')] = true;
+                }
             }
             // If valid, collect together the valid modified expresssions.
             // This is one Maxima list per input.

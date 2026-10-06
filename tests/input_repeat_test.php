@@ -49,11 +49,27 @@ final class input_repeat_test extends qtype_stack_testcase {
     public function test_render_blank(): void {
 
         $el = stack_input_factory::make('repeat', 'ans1', '""');
-        $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" '
-                .'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="maxima-string" value="" ' .
-                'data-stack-input-type="string" />',
+        // The state is managed by the repeat button's JS, so the input is hidden.
+        $this->assertEquals('<input type="hidden" name="stack1__ans1" id="stack1__ans1" value="" ' .
+                'data-stack-input-type="repeat" />',
                 $el->render(new stack_input_state(stack_input::VALID, [], '', '', '', '', ''),
                         'stack1__ans1', false, null));
+        $this->assertEquals('<input type="hidden" name="stack1__ans1" id="stack1__ans1" ' .
+                'value="{&quot;data&quot;:{&quot;ans1&quot;:[&quot;x&quot;]}}" data-stack-input-type="repeat" ' .
+                'readonly="readonly" />',
+                $el->render(new stack_input_state(stack_input::VALID, ['"{\\"data\\":{\\"ans1\\":[\\"x\\"]}}"'],
+                        '', '', '', '', ''), 'stack1__ans1', true, null));
+    }
+
+    /**
+     * Extract the feedback for the individual fields from the validation display of a repeat input.
+     * @param string $display
+     * @return array [state, input name => row => HTML]
+     */
+    private function get_row_feedback(string $display): array {
+        $this->assertEquals(1, preg_match('~<span class="stack-repeat-feedback" hidden="hidden" ' .
+            'data-state="([^"]*)" data-feedback="([^"]*)"></span>~', $display, $matches), $display);
+        return [html_entity_decode($matches[1]), json_decode(html_entity_decode($matches[2]), true)];
     }
 
     public function test_generated_variable_names(): void {
@@ -111,18 +127,16 @@ final class input_repeat_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->note);
         $this->assertEquals('(repeatedans1:[x^2,x^3],repeatedans2:[5])',
             $state->contentsmodified);
-        $expected = "<pre>{\n    \"data\": {\n        \"ans1\": [\n" .
-                    "            \"x^2\",\n" .
-                    "            \"x^3\"\n" .
-                    "        ],\n" .
-                    "        \"ans2\": [\n" .
-                    "            \"5\"\n" .
-                    "        ]\n" .
-                    "    }\n" .
-                    "}</pre>" .
-                    "\\[ \\left(\\left[ x^2 , x^3 \\right] , \\left[ 5 \\right] \\right) \]";
-
-        $this->assertEquals($expected, $state->contentsdisplayed);
+        // Each field gets the validation feedback of its own input, as if it were used on its own.
+        [$feedbackstate, $feedback] = $this->get_row_feedback($state->contentsdisplayed);
+        $this->assertEquals($rawinput, $feedbackstate);
+        $this->assertEquals(['ans1', 'ans2'], array_keys($feedback));
+        $this->assertEquals([1, 2], array_keys($feedback['ans1']));
+        $this->assertEquals([1], array_keys($feedback['ans2']));
+        $this->assertStringContainsString('\\[ x^2 \\]', $feedback['ans1'][1]);
+        $this->assertStringContainsString('\\[ x^3 \\]', $feedback['ans1'][2]);
+        $this->assertStringContainsString('\\[ 5 \\]', $feedback['ans2'][1]);
+        $this->assertStringNotContainsString('type="hidden"', $feedback['ans1'][1]);
     }
 
     public function test_validate_invalid_input(): void {
@@ -234,7 +248,10 @@ final class input_repeat_test extends qtype_stack_testcase {
             new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertStringContainsString('repeat_incomplete_row', $state->note);
-        $this->assertStringContainsString(stack_string('repeatincompleterow', 2), $state->errors);
+        $this->assertEquals(stack_string('repeatinvalidrows', '2'), $state->errors);
+        [, $feedback] = $this->get_row_feedback($state->contentsdisplayed);
+        $this->assertStringContainsString(stack_string('repeatincompletefield'), $feedback['ans2'][2]);
+        $this->assertStringNotContainsString(stack_string('repeatincompletefield'), $feedback['ans1'][2]);
     }
 
     public function test_validate_malformed_json(): void {

@@ -35,6 +35,17 @@ class stack_repeat_input extends stack_json_input {
     ];
 
     /**
+     * @var array input name => row (0-based, as in the student's JSON) => stack_input_state of
+     * the last validation, used to give feedback next to each repeated field.
+     */
+    protected $rowstates = [];
+
+    /**
+     * @var array row numbers (1-based) of rows in which only some of the fields are filled in.
+     */
+    protected $incompleterows = [];
+
+    /**
      * Announces if the input is "simple" or compound.
      */
     public function get_simplicity() {
@@ -129,6 +140,7 @@ class stack_repeat_input extends stack_json_input {
      * Remove the rows in which every input is blank, e.g. because the student added more rows than needed.
      *
      * Rows are removed from all inputs together, so that values in the same row stay aligned.
+     * The remaining values keep their row number (0-based) as key, to match the rows on screen.
      *
      * @param array $inputs input name => list of raw values.
      * @return array the same, without the empty rows.
@@ -150,7 +162,7 @@ class stack_repeat_input extends stack_json_input {
             $inputs[$inputname] = [];
             foreach ($keep as $row) {
                 if (array_key_exists($row, $values)) {
-                    $inputs[$inputname][] = $values[$row];
+                    $inputs[$inputname][$row] = $values[$row];
                 }
             }
         }
@@ -214,9 +226,12 @@ class stack_repeat_input extends stack_json_input {
         $inputs = $this->remove_empty_rows($inputs);
 
         $states = [];
-        $incompleterows = [];
+        $invalidrows = [];
+        $this->rowstates = [];
+        $this->incompleterows = [];
         // Validate each entry separately using the simple input validation, with the
         // question's security settings (e.g. forbidden words, units) and options.
+        // The details are shown next to each field, see validation_display().
         foreach ($inputs as $inputname => $val) {
             $input = $this->simpleinputs[$inputname];
             // Val should now be an array of values.
@@ -224,16 +239,17 @@ class stack_repeat_input extends stack_json_input {
             foreach ($val as $row => $sans) {
                 $state = $input->validate_student_response([$inputname => (string) $sans],
                     $localoptions, 'null', $basesecurity);
+                $this->rowstates[$inputname][$row] = $state;
                 if ($state->__get('status') === stack_input::VALID || $state->__get('status') === stack_input::SCORE) {
                     $exprs[] = $state->__get('contentsmodified');
                 } else {
                     $valid = false;
+                    $invalidrows[$row + 1] = true;
                     if ($state->__get('status') === stack_input::BLANK) {
                         // Only some fields of this (non-empty) row have been filled in.
-                        $incompleterows[$row + 1] = true;
+                        $this->incompleterows[$row + 1] = true;
                     }
                 }
-                $errors[] = $state->__get('errors');
                 if ($state->__get('note') !== '') {
                     $notes[$state->__get('note')] = true;
                 }
@@ -242,11 +258,11 @@ class stack_repeat_input extends stack_json_input {
             // This is one Maxima list per input.
             $states[$inputname] = 'repeated' . $inputname . ':[' . implode(',', $exprs) . ']';
         }
-        ksort($incompleterows);
-        foreach (array_keys($incompleterows) as $row) {
-            $errors[] = stack_string('repeatincompleterow', $row);
+        if ($invalidrows) {
+            ksort($invalidrows);
+            $errors[] = stack_string('repeatinvalidrows', implode(', ', array_keys($invalidrows)));
         }
-        if ($incompleterows) {
+        if ($this->incompleterows) {
             $notes['repeat_incomplete_row'] = true;
         }
 
@@ -290,11 +306,12 @@ class stack_repeat_input extends stack_json_input {
 
     /**
      * We have switched from receiving a JSON input to constructing a Maxima expression.
-     * Take the validation_display from the baseclass, not from the JSON input.
      *
-     * @param stack_casstring $answer, the complete answer.
-     * @return string any error messages describing validation failures. An empty
-     *      string if the input is valid - at least according to this test.
+     * The details of the validation are given next to each repeated field, not here: the display
+     * is a hidden element holding the feedback for each field, which the repeat button's JS reads
+     * and copies next to the corresponding fields.
+     *
+     * @return array [$valid, $errors, $display, $notes]
      */
     protected function validation_display(
         $answer,
@@ -308,32 +325,112 @@ class stack_repeat_input extends stack_json_input {
         $ilines,
         $notes
     ) {
+        // Collect any errors from evaluating the whole answer, but don't display the whole answer.
+        [$valid, $errors, $display, $notes] = $this->validation_display_baseclass(
+            $answer,
+            $lvars,
+            $caslines,
+            $additionalvars,
+            $valid,
+            $errors,
+            $castextprocessor,
+            $inertdisplayform,
+            $ilines,
+            $notes
+        );
 
-            // Display the whole JSON object.
-            $contents = $this->rawcontents;
-            $display = stack_utils::maxima_string_to_php_string($contents[0]);
-            // Turn into a PHP stdClass object.
-            $json = json_decode($display);
-            // If we have mal-formed JSON (exactly the situation we need to debug) then we display the original.
-            if ($json !== null) {
-                $display = json_encode($json, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+        return [$valid, $errors, $this->render_row_feedback(), $notes];
+    }
+
+    /**
+     * Render the hidden element carrying the validation feedback for each repeated field.
+     *
+     * @return string HTML.
+     */
+    protected function render_row_feedback() {
+        // Input name => row (1-based) => HTML.
+        $feedback = [];
+        foreach ($this->rowstates as $inputname => $rows) {
+            $input = $this->simpleinputs[$inputname];
+            foreach ($rows as $row => $state) {
+                if ($state->status === self::BLANK && array_key_exists($row + 1, $this->incompleterows)) {
+                    $html = html_writer::tag('div',
+                        stack_string('studentValidation_invalidAnswer') . ' ' . stack_string('repeatincompletefield'),
+                        ['class' => 'alert alert-danger stackinputerror']);
+                } else {
+                    // Exactly the validation the student would get from this input on its own,
+                    // without the hidden "_val" field, which only makes sense for the real input.
+                    $html = preg_replace('~<input[^>]*type="hidden"[^>]*>~', '',
+                        $input->render_validation($state, $inputname));
+                }
+                $feedback[$inputname][(string) ($row + 1)] = $html;
             }
-            $pdisplay = html_writer::tag('pre', $display);
+        }
 
-            // And we want to show the actual answer as a Maxima object.
-            list($valid, $errors, $display, $notes) = $this->validation_display_baseclass(
-                $answer,
-                $lvars,
-                $caslines,
-                $additionalvars,
-                $valid,
-                $errors,
-                $castextprocessor,
-                $inertdisplayform,
-                $ilines,
-                $notes
-            );
+        $state = '';
+        if (array_key_exists(0, $this->rawcontents)) {
+            $state = stack_utils::maxima_string_to_php_string($this->rawcontents[0]);
+        }
+        return html_writer::tag('span', '', [
+            'class' => 'stack-repeat-feedback',
+            'hidden' => 'hidden',
+            // The JS only uses this feedback if it is for the current state, to ignore late responses.
+            'data-state' => $state,
+            'data-feedback' => json_encode((object) $feedback),
+        ]);
+    }
 
-            return [$valid, $errors, $pdisplay . $display, $notes];
+    /**
+     * The input holding the JSON state is managed by the repeat button's JS, not edited by students.
+     */
+    public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
+        if ($this->errors) {
+            return $this->render_error($this->errors);
+        }
+
+        $attributes = [
+            'type'  => 'hidden',
+            'name'  => $fieldname,
+            'id'    => $fieldname,
+            'value' => '',
+            'data-stack-input-type' => 'repeat',
+        ];
+        if (array_key_exists(0, $state->contents)) {
+            $attributes['value'] = stack_utils::maxima_string_to_php_string($this->contents_to_maxima($state->contents));
+        }
+        if ($readonly) {
+            $attributes['readonly'] = 'readonly';
+        }
+        return html_writer::empty_tag('input', $attributes);
+    }
+
+    /**
+     * The details are shown next to each field, so only give the hidden feedback and any general errors here.
+     */
+    public function render_validation(stack_input_state $state, $fieldname, $lang = null) {
+        if (self::BLANK == $state->status) {
+            return '';
+        }
+        if ($lang !== null && $lang !== '') {
+            $prevlang = force_current_language($lang);
+        }
+
+        $feedback = $state->contentsdisplayed;
+        if ($this->requires_validation() && [] !== $state->contents) {
+            $feedback .= html_writer::empty_tag('input', [
+                'type' => 'hidden',
+                'name' => $fieldname . '_val', 'value' => $this->contents_to_maxima($state->contents),
+            ]);
+        }
+        if (self::INVALID == $state->status) {
+            $feedback .= html_writer::tag('div',
+                stack_string('studentValidation_invalidAnswer') . ' ' . $state->errors,
+                ['class' => 'alert alert-danger stackinputerror']);
+        }
+
+        if ($lang !== null && $lang !== '') {
+            force_current_language($prevlang);
+        }
+        return $feedback;
     }
 }

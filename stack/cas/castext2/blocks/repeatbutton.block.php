@@ -77,6 +77,26 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
         $list[] = new MP_String(<<<'JS'
 // The (iframe side mirror of the) input holding the JSON state.
 let state_input = null;
+// The id of the validation element of that input, where the per-field feedback arrives.
+let state_val_id = null;
+// Element id => {cls, html} currently shown in that per-field validation element.
+const shown_feedback = {};
+
+function feedback_html(fb, waiting) {
+    if (fb.html === '') {
+        return '';
+    }
+    return '<div class="' + fb.cls + (waiting ? ' waiting' : '') + '">' + fb.html + '</div>';
+}
+
+// While the state is being validated, grey out the feedback, as for normal inputs.
+function mark_feedback_waiting() {
+    Object.keys(shown_feedback).forEach((id) => {
+        if (shown_feedback[id].html !== '') {
+            stack_js.switch_content(id, feedback_html(shown_feedback[id], true));
+        }
+    });
+}
 
 function read_state() {
     return JSON.parse(state_input.value);
@@ -111,7 +131,14 @@ function make_row(r, n, state) {
     const tmp = document.createElement('div');
     tmp.innerHTML = r.html;
     const added = [];
+    const valids = Object.values(r.valids);
     tmp.querySelectorAll('[id]').forEach((el) => {
+        if (valids.includes(el.id)) {
+            // Validation of the repeated fields is filled in by show_feedback(), inside this
+            // element, which is just a neutral container (so that it is never hidden as "empty").
+            el.className = '';
+            el.innerHTML = '';
+        }
         if (is_repeated_input(el)) {
             const name = input_name(el.id);
             const values = state.data[name] || [];
@@ -169,6 +196,7 @@ function add_repeat() {
                 state.data[name].push('');
             }
         });
+        r.rows = n;
         return [r, n];
     });
     write_state(state);
@@ -184,6 +212,7 @@ function construct_repeat() {
     const state = read_state();
     REPEATS.forEach((r) => {
         const count = row_count(r, state);
+        r.rows = count;
         if (count === 0) {
             return;
         }
@@ -196,6 +225,46 @@ function construct_repeat() {
         }
         stack_js.switch_content(r.container, html + '<div id="' + slot_id(r, count + 1) + '"></div>');
         added.forEach(connect_input);
+    });
+}
+
+// Copy the validation feedback for each repeated field, which the repeat input sends
+// along with its own validation, next to the corresponding field.
+function show_feedback() {
+    if (state_val_id === null) {
+        return Promise.resolve();
+    }
+    return stack_js.get_content(state_val_id).then((content) => {
+        const tmp = document.createElement('div');
+        tmp.innerHTML = content || '';
+        const el = tmp.querySelector('.stack-repeat-feedback');
+        let feedback = {};
+        if (el) {
+            if (el.dataset.state !== state_input.value) {
+                // A late response for an older state, the current one is still on its way.
+                return;
+            }
+            feedback = JSON.parse(el.dataset.feedback || '{}');
+        }
+        REPEATS.forEach((r) => {
+            for (let n = 1; n <= r.rows; n++) {
+                r.inputs.forEach((name) => {
+                    if (!(name in r.valids)) {
+                        return;
+                    }
+                    const id = r.valids[name] + r.suffix + n;
+                    const fb = {
+                        cls: r.valclass[name],
+                        html: feedback[name] && feedback[name][n] ? feedback[name][n] : '',
+                    };
+                    // Always rewrite shown feedback, it may have been greyed out meanwhile.
+                    if (fb.html !== '' || (shown_feedback[id] && shown_feedback[id].html !== '')) {
+                        shown_feedback[id] = fb;
+                        stack_js.switch_content(id, feedback_html(fb, false));
+                    }
+                });
+            }
+        });
     });
 }
 
@@ -219,7 +288,24 @@ const ready = Promise.all([
         r.html = html;
         const tmp = document.createElement('div');
         tmp.innerHTML = html;
-        r.inputs = [...tmp.querySelectorAll('[id]')].filter(is_repeated_input).map((el) => input_name(el.id));
+        const elements = [...tmp.querySelectorAll('[id]')];
+        r.inputs = [];
+        r.valids = {};
+        r.valclass = {};
+        r.rows = 0;
+        elements.filter(is_repeated_input).forEach((el) => {
+            const name = input_name(el.id);
+            const prefix = el.id.substring(0, el.id.length - name.length);
+            r.inputs.push(name);
+            state_val_id = prefix + SAVE_STATE + '_val';
+            // The [[validation:name]] element of this input, if the template has one.
+            const val = elements.find((v) => v.id === prefix + name + '_val');
+            if (val) {
+                r.valids[name] = val.id;
+                r.valclass[name] = [...val.classList].filter(
+                    (c) => !['empty', 'waiting', 'loading', 'error'].includes(c)).join(' ');
+            }
+        });
     })),
 ]).then(() => {
     if (state_input.value === '') {
@@ -231,6 +317,17 @@ const ready = Promise.all([
 
 // Serialise additions, so that fast repeated clicks cannot target the same slot.
 let queue = ready;
+
+// Whenever validation of the state completes, update the feedback next to the fields.
+stack_js.register_validation_state_listener(SAVE_STATE, (completed) => {
+    if (completed) {
+        queue = queue.then(show_feedback).catch((e) => console.error('STACK repeatbutton:', e));
+    } else {
+        mark_feedback_waiting();
+    }
+});
+// After a page reload the validation is already there.
+queue = queue.then(show_feedback);
 stack_js.register_external_button_listener(BUTTON_ID, () => {
     queue = queue.then(add_repeat).catch((e) => console.error('STACK repeatbutton:', e));
 });

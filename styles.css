@@ -62,6 +62,10 @@ div.stack-hint-content {
 .que.stack .stackinputfeedback.empty {
     display: none;
 }
+/* The validation of a repeat input only carries the feedback for the repeated fields, unless there are general errors. */
+.que.stack .stackinputfeedback:has(> .stack-repeat-feedback):not(:has(.stackinputerror)) {
+    display: none;
+}
 .que.stack .stackinputfeedback.waiting,
 .que.stack .stackinputfeedback.loading {
     color: #888;

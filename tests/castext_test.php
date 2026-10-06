@@ -1971,6 +1971,27 @@ final class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * The repeatindex tag is replaced by a placeholder, and the template is not typeset by MathJax.
+     * @covers \qtype_stack\stack_cas_castext2_repeat
+     */
+    public function test_stack_repeat_blocks_repeatindex(): void {
+        $st = '[[repeat id="1"]]\\(x_{<repeatindex>} = \\) [[input:ans1]] [[validation:ans1]] ' .
+            'Row <repeatindex/>.[[/repeat]]' .
+            '[[repeatbutton title="Add" repeat_ids="1" save_state="state1"/]]';
+        $s2 = [];
+        $cs2 = new stack_cas_session2($s2, null, 0);
+        $at2 = castext2_evaluatable::make_from_source($st, 'test-case');
+        $cs2->add_statement($at2);
+        $cs2->instantiate();
+        $this->assertEquals('', $at2->get_errors(true));
+        $rendered = $at2->get_rendered();
+        $this->assertStringNotContainsString('repeatindex>', $rendered);
+        $this->assertStringContainsString('x_{' . \stack_cas_castext2_repeat::REPEATINDEX . '}', $rendered);
+        $this->assertStringContainsString('Row ' . \stack_cas_castext2_repeat::REPEATINDEX . '.', $rendered);
+        $this->assertStringContainsString('mathjax_ignore tex2jax_ignore', $rendered);
+    }
+
+    /**
      * One repeat button controlling several repeat blocks.
      * @covers \qtype_stack\stack_cas_castext2_repeat
      * @covers \qtype_stack\stack_cas_castext2_repeatbutton

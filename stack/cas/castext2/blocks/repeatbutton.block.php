@@ -27,6 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 global $CFG;
 require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/../block.interface.php');
+require_once(__DIR__ . '/repeat.block.php');
 // Register a counter.
 require_once(__DIR__ . '/iframe.block.php');
 stack_cas_castext2_iframe::register_counter('///REPEATBUTTON_COUNT///');
@@ -63,6 +64,7 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
         $list[] = new MP_String("import {stack_js} from {$stackjsurl};\n" .
             "const SAVE_STATE = {$savestate};\n" .
             "const BUTTON_ID = {$buttonid};\n" .
+            "const REPEATINDEX = " . json_encode(stack_cas_castext2_repeat::REPEATINDEX) . ";\n" .
             "// One entry per [[repeat]] block controlled by this button.\n" .
             "const REPEATS = [\n");
         foreach ($this->get_repeat_ids() as $id) {
@@ -129,7 +131,7 @@ function slot_id(r, n) {
 // input name) gets a row specific suffix to keep them unique on the page.
 function make_row(r, n, state) {
     const tmp = document.createElement('div');
-    tmp.innerHTML = r.html;
+    tmp.innerHTML = r.html.split(REPEATINDEX).join(String(n));
     const added = [];
     const valids = Object.values(r.valids);
     tmp.querySelectorAll('[id]').forEach((el) => {
@@ -148,7 +150,8 @@ function make_row(r, n, state) {
         }
         el.id = el.id + r.suffix + n;
     });
-    return {html: tmp.innerHTML, added: added};
+    // The template is not typeset, so let the VLE's maths filter typeset the copy.
+    return {html: '<div class="filter_mathjaxloader_equation">' + tmp.innerHTML + '</div>', added: added};
 }
 
 // Write a single repeated input back into its slot of the state, whenever it changes.

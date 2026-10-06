@@ -138,7 +138,7 @@ Notes and restrictions.
 * Currently only inputs which are a single text box can be repeated, e.g. algebraic, numerical, units and string inputs.  Dropdown, radio, checkbox, matrix and textarea inputs are not yet supported.
 * Repeat blocks may _not_ contain any other interactive blocks, including nested repeat blocks, JSXGraph, adapt etc.  (This may change in future versions.)
 * Repeat blocks may _not_ be used to add rows (`<tr>`) to a table (`<table>`) which starts outside of the repeat block.  This is due to limitations in the current javascript implementation.  You can put whole tables inside a repeat block, however.
-* Repeat blocks may contain a special tag `<repeatindex>`.  This tag acts as a counter for the block.  Client-side JS replaces this tag with the numerical value of the counter (integer, starting at 1).  This tag cannot be used inside castext (e.g. within CAS calculations), which is evaluated _before_ the page is served to the student.  The purpose of this tag is simple enumeration of input boxes, not seeding of complex CAS calculations. TODO: implement this feature.
+* Repeat blocks may contain a special tag `<repeatindex>`.  This tag acts as a counter for the block.  Client-side JS replaces this tag with the numerical value of the counter (integer, starting at 1).  It can be used in text and in maths, e.g. `\(x_{<repeatindex>} = \)`; use braces in subscripts, so that e.g. `10` is typeset correctly.  This tag cannot be used inside CAS calculations (e.g. `{@...@}`), which are evaluated _before_ the page is served to the student.  The purpose of this tag is simple enumeration of input boxes, not seeding of complex CAS calculations.
 * Students cannot remove copies once added.
 
 ### Validation and the student's answer
@@ -157,7 +157,7 @@ STACK's sample question library contains questions similar to this typical examp
 Find all roots of the polynomial \(P(x) = x^3 - x\). Add as many input fields as required.
 
 [[repeat id="1"]]
-\(x = \) [[input:ans1]] [[validation:ans1]]
+\(x_{<repeatindex>} = \) [[input:ans1]] [[validation:ans1]]
 [[/repeat]]
 [[repeatbutton title="Add another root" repeat_ids="1" save_state="state1" /]]
 [[input:state1]] [[validation:state1]]

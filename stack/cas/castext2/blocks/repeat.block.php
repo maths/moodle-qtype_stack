@@ -32,6 +32,12 @@ require_once(__DIR__ . '/../block.interface.php');
  */
 class stack_cas_castext2_repeat extends stack_cas_castext2_block {
 
+    /**
+     * Placeholder for the <repeatindex> tag, replaced client side by the number of the copy.
+     * This must match REPEATINDEX in the JS of the repeat button.
+     */
+    const REPEATINDEX = '%%REPEATINDEX%%';
+
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function
     public function compile($format, $options): ?MP_Node {
 
@@ -39,7 +45,9 @@ class stack_cas_castext2_repeat extends stack_cas_castext2_block {
         $body = new MP_List([new MP_String('%root')]);
         // This <div> only holds the template which the client-side JS clones into
         // the repeatcontainer below; it is never shown to the student directly.
-        $body->items[] = new MP_String('<div style="display:none;" id="');
+        // The template must not be typeset by MathJax: the copies are typeset once
+        // any <repeatindex> has been replaced.
+        $body->items[] = new MP_String('<div style="display:none;" class="mathjax_ignore tex2jax_ignore" id="');
         // We use the quid block to make the ids unique.
         $body->items[] = new MP_List([new MP_String('quid'), new MP_String("repeat_" . $repeatid)]);
         $body->items[] = new MP_String('">');
@@ -47,6 +55,7 @@ class stack_cas_castext2_repeat extends stack_cas_castext2_block {
         foreach ($this->children as $item) {
             $c = $item->compile($format, $options);
             if ($c !== null) {
+                $this->replace_repeatindex($c);
                 $body->items[] = $c;
             }
         }
@@ -58,6 +67,22 @@ class stack_cas_castext2_repeat extends stack_cas_castext2_block {
         $body->items[] = new MP_String('"></div>');
 
         return $body;
+    }
+
+    /**
+     * Replace the <repeatindex> tag in the static content of the block with a placeholder,
+     * which survives the processing of the question text.
+     * @param MP_Node $node compiled castext.
+     */
+    private function replace_repeatindex(MP_Node $node) {
+        if ($node instanceof MP_String) {
+            $node->value = preg_replace('~<\s*repeatindex\s*/?\s*>|<\s*/\s*repeatindex\s*>~i',
+                self::REPEATINDEX, $node->value);
+        } else if ($node instanceof MP_List) {
+            foreach ($node->items as $item) {
+                $this->replace_repeatindex($item);
+            }
+        }
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

@@ -46,3 +46,5 @@ To create the teacher's answer use the following helper function.
    * The second element of the list is the list of expressions.
 
 The same function can be used for the values of the repeat input in question tests.
+
+The values are what the student would enter into each copy of the input.  For a dropdown input this is the number of the option (starting at 1), e.g. `repeat_encode([["ans1",[-1,1]],["ans2",[1,2]]])` if `ans2` is a dropdown and the student should choose its first option in the first row and its second option in the second row.

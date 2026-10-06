@@ -135,7 +135,7 @@ Notes and restrictions.
 
 * There must be exactly one repeat button for each repeat block id, and the button must be _outside_ the repeat block.
 * Repeat blocks may contain inputs.  If so, the repeat block must also contain the corresponding validation tags.
-* Currently only inputs which are a single text box can be repeated, e.g. algebraic, numerical, units and string inputs.  Dropdown, radio, checkbox, matrix and textarea inputs are not yet supported.
+* Inputs consisting of a single element can be repeated: e.g. algebraic, numerical, units, string, dropdown and textarea inputs.  Radio, checkbox and matrix inputs are not yet supported.
 * Repeat blocks may _not_ contain any other interactive blocks, including nested repeat blocks, JSXGraph, adapt etc.  (This may change in future versions.)
 * Repeat blocks may _not_ be used to add rows (`<tr>`) to a table (`<table>`) which starts outside of the repeat block.  This is due to limitations in the current javascript implementation.  You can put whole tables inside a repeat block, however.
 * Repeat blocks may contain a special tag `<repeatindex>`.  This tag acts as a counter for the block.  Client-side JS replaces this tag with the numerical value of the counter (integer, starting at 1).  It can be used in text and in maths, e.g. `\(x_{<repeatindex>} = \)`; use braces in subscripts, so that e.g. `10` is typeset correctly.  This tag cannot be used inside CAS calculations (e.g. `{@...@}`), which are evaluated _before_ the page is served to the student.  The purpose of this tag is simple enumeration of input boxes, not seeding of complex CAS calculations.

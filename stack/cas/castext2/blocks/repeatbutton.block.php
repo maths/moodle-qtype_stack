@@ -115,8 +115,29 @@ function input_name(vleid) {
     return vleid.substring(vleid.indexOf('_') + 1);
 }
 
+// Inputs consisting of a single element can be repeated: text boxes, dropdowns and text areas.
 function is_repeated_input(el) {
-    return el.tagName === 'INPUT' && el.type !== 'hidden';
+    if (el.tagName === 'INPUT') {
+        return !['hidden', 'radio', 'checkbox', 'button', 'submit'].includes(el.type);
+    }
+    return el.tagName === 'SELECT' || el.tagName === 'TEXTAREA';
+}
+
+// Set the initial value of a copy of an input, in the markup (not just the live value).
+function set_initial_value(el, value) {
+    if (el.tagName === 'SELECT') {
+        el.querySelectorAll('option').forEach((option) => {
+            if (option.value === value) {
+                option.setAttribute('selected', 'selected');
+            } else {
+                option.removeAttribute('selected');
+            }
+        });
+    } else if (el.tagName === 'TEXTAREA') {
+        el.textContent = value;
+    } else {
+        el.setAttribute('value', value);
+    }
 }
 
 // Rows are never re-rendered once shown: the VLE binds its change listeners to
@@ -144,7 +165,7 @@ function make_row(r, n, state) {
         if (is_repeated_input(el)) {
             const name = input_name(el.id);
             const values = state.data[name] || [];
-            el.setAttribute('value', values[n - 1] !== undefined ? values[n - 1] : '');
+            set_initial_value(el, values[n - 1] !== undefined ? String(values[n - 1]) : '');
             el.name = el.name + r.suffix + n;
             added.push({vlename: name + r.suffix + n, name: name, idx: n - 1});
         }
@@ -298,7 +319,11 @@ const ready = Promise.all([
         r.rows = 0;
         elements.filter(is_repeated_input).forEach((el) => {
             const name = input_name(el.id);
-            const prefix = el.id.substring(0, el.id.length - name.length);
+            let prefix = el.id.substring(0, el.id.length - name.length);
+            if (el.tagName === 'SELECT' && prefix.startsWith('menu')) {
+                // Moodle prefixes the field name by "menu" to make the id of a select.
+                prefix = prefix.substring(4);
+            }
             r.inputs.push(name);
             state_val_id = prefix + SAVE_STATE + '_val';
             // The [[validation:name]] element of this input, if the template has one.

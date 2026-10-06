@@ -313,6 +313,32 @@ final class input_repeat_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
     }
 
+    public function test_validate_dropdown_and_textarea(): void {
+
+        $options = new stack_options();
+        $simpleinputs = [];
+        $simpleinputs['ans1'] = stack_input_factory::make('dropdown', 'ans1', '[[max,true],[min,false]]');
+        $simpleinputs['ans1']->adapt_to_model_answer('[[max,true],[min,false]]');
+        $simpleinputs['ans2'] = stack_input_factory::make('textarea', 'ans2', '[x=1]');
+
+        $el = stack_input_factory::make('repeat', 'sans1', '"{}"');
+        $el->add_simple_inputs($simpleinputs);
+
+        // Dropdowns send the number of the option, text areas several lines.
+        $rawinput = '{"data":{"ans1":["2","1"],"ans2":["x=1\\ny=2","z=3"]}}';
+        $state = $el->validate_student_response(['sans1' => $rawinput], $options, '"{}"',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('(repeatedans1:[min,max],repeatedans2:[[x = 1,y = 2],[z = 3]])', $state->contentsmodified);
+
+        // A dropdown value which is not one of the options can only come from tampering with the JSON.
+        $rawinput = '{"data":{"ans1":["7"],"ans2":["z=3"]}}';
+        $state = $el->validate_student_response(['sans1' => $rawinput], $options, '"{}"',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertStringContainsString('invalid_json', $state->note);
+    }
+
     public function test_teacher_answer_display(): void {
 
         $simpleinputs = [];

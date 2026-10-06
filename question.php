@@ -646,6 +646,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                 $input->set_parameter('syntaxHint', $sh->get_rendered());
             }
             $input->adapt_to_model_answer($teacheranswer);
+            $input->set_evaluated_teacher_answer($teacheranswer);
         }
     }
 

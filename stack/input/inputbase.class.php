@@ -1936,6 +1936,28 @@ abstract class stack_input {
     }
 
     /**
+     * @var string|null the teacher's answer, as evaluated in the question.
+     */
+    protected $evaluatedteacheranswer = null;
+
+    /**
+     * Record the teacher's answer, as evaluated in the question, e.g. for compound inputs
+     * which validate values on behalf of this input.
+     * @param string $teacheranswer
+     */
+    public function set_evaluated_teacher_answer($teacheranswer) {
+        $this->evaluatedteacheranswer = $teacheranswer;
+    }
+
+    /**
+     * The teacher's answer, as evaluated in the question if known, otherwise as given.
+     * @return string
+     */
+    public function get_evaluated_teacher_answer() {
+        return $this->evaluatedteacheranswer ?? $this->teacheranswer;
+    }
+
+    /**
      * Do not show the teacher's answer of this input, e.g. when it is only used through a compound input.
      */
     public function hide_teacher_answer() {

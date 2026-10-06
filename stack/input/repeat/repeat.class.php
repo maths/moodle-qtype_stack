@@ -268,6 +268,7 @@ class stack_repeat_input extends stack_json_input {
 
         $states = [];
         $invalidrows = [];
+        $badvalues = false;
         $this->rowstates = [];
         $this->incompleterows = [];
         // Validate each entry separately using the simple input validation, with the
@@ -278,8 +279,16 @@ class stack_repeat_input extends stack_json_input {
             // Val should now be an array of values.
             $exprs = [];
             foreach ($val as $row => $sans) {
-                $state = $input->validate_student_response([$inputname => (string) $sans],
-                    $localoptions, 'null', $basesecurity);
+                try {
+                    $state = $input->validate_student_response([$inputname => (string) $sans],
+                        $localoptions, $input->get_evaluated_teacher_answer(), $basesecurity);
+                } catch (stack_exception $e) {
+                    // E.g. a value which is not one of the options of a dropdown: the JSON has been tampered with.
+                    $valid = false;
+                    $invalidrows[$row + 1] = true;
+                    $badvalues = true;
+                    continue;
+                }
                 $this->rowstates[$inputname][$row] = $state;
                 if ($state->__get('status') === stack_input::VALID || $state->__get('status') === stack_input::SCORE) {
                     $exprs[] = $state->__get('contentsmodified');
@@ -298,6 +307,10 @@ class stack_repeat_input extends stack_json_input {
             // If valid, collect together the valid modified expresssions.
             // This is one Maxima list per input.
             $states[$inputname] = 'repeated' . $inputname . ':[' . implode(',', $exprs) . ']';
+        }
+        if ($badvalues) {
+            $errors[] = stack_string('invalid_json');
+            $notes['invalid_json'] = true;
         }
         if ($invalidrows) {
             ksort($invalidrows);
@@ -324,23 +337,12 @@ class stack_repeat_input extends stack_json_input {
             }
         }
 
-        list ($secrules, $filterstoapply) = $this->validate_contents_filters($basesecurity);
-        // Separate rules for inert display logic, which wraps floats with certain functions.
-        $secrulesd = clone $secrules;
-        $secrulesd->add_allowedwords('dispdp,displaysci');
-        // Construct inert version of the whole answer.
-        $protectfilters = $this->protectfilters;
-        if ($this->get_extra_option('simp')) {
-            // A choice: we either don't include '910_inert_float_for_display' or we have a maxima
-            // function to perform calculations on dispdp numbers.
-            $val = 'stack_validate_simpnum(' . $val .')';
-            // Add in an extra Maxima function here so we can eventaually decide how many dps to display.
-        }
-        $inertdisplayform = stack_ast_container::make_from_student_source($val, '', $secrulesd,
-            array_merge($filterstoapply, $protectfilters),
-            [], 'Root', $this->options->get_option('decimals'));
-        $inertdisplayform->get_valid();
-        $ilines[] = $inertdisplayform;
+        // The whole answer is not displayed (see validation_display()), so there is no separate
+        // inert display form.  Building one from student source would re-validate the values
+        // with the wrong rules, e.g. rejecting dropdown values such as "max" or variables such as
+        // "lambda", which their own inputs have accepted.
+        $inertdisplayform = $answer;
+        $ilines = $caslines;
 
         return [$valid, $errors, $notes, $answer, $caslines, $inertdisplayform, $ilines];
     }

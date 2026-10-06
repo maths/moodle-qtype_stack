@@ -325,19 +325,14 @@ class stack_repeat_input extends stack_json_input {
         $ilines,
         $notes
     ) {
-        // Collect any errors from evaluating the whole answer, but don't display the whole answer.
-        [$valid, $errors, $display, $notes] = $this->validation_display_baseclass(
-            $answer,
-            $lvars,
-            $caslines,
-            $additionalvars,
-            $valid,
-            $errors,
-            $castextprocessor,
-            $inertdisplayform,
-            $ilines,
-            $notes
-        );
+        // The whole answer is not displayed, so only check that the CAS could evaluate it.
+        // (The individual values have already been validated, with their own display.)
+        if (!$answer->is_correctly_evaluated()) {
+            $valid = false;
+            if ($answer->get_errors()) {
+                $errors[] = $answer->get_errors();
+            }
+        }
 
         return [$valid, $errors, $this->render_row_feedback(), $notes];
     }

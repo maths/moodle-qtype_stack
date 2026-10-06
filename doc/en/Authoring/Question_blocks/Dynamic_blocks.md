@@ -113,35 +113,42 @@ An example question is available by importing `Doc-Examples\Authoring-Docs\Quest
 
 ## Interactive repeat ##
 
-The "interactive repeat" block allows a question author to create a block of static content which the student can opt to repeat by pressing a corresponding button.  The contents is copied, client side, by javascript.
+The "interactive repeat" block allows a question author to create a block of static content which the student can opt to repeat by pressing a corresponding button.  The contents is copied, client side, by javascript.  The basic purpose of the interactive repeat is to allow question authors to create questions without specifying the precise number of inputs.  Students can add another input/inputs as needed.
 
 ```
 [[repeat id="1"]]
-
+\(x = \) [[input:ans1]] [[validation:ans1]]
 [[/repeat]]
+[[repeatbutton title="Add another root" repeat_ids="1" save_state="state1" /]]
+[[input:state1]] [[validation:state1]]
 ```
 
-The student can repeat the contents of the block by using a corresponding "repeat button".
+The student can repeat the contents of the block by using the corresponding "repeat button".  When the question is first shown the contents of each repeat block is shown once.
 
-```
-[[repeatbutton title='Add another line' repeat_ids='1;3'/]]
-```
+The `[[repeatbutton]]` block has the following parameters, all of which are required.
 
-* There must be one repeat button for each repeat block id.
-* The button must be _outside_ the repeat block.
+* `title` is the text on the button.
+* `repeat_ids` lists the ids of the repeat blocks controlled by this button, separated by `;` (or spaces), e.g. `repeat_ids="1;3"`.  Each press of the button adds one copy of each of these blocks.
+* `save_state` is the name of an input of type [repeat](../Inputs/Compound_input.md#repeat-inputs).  This input holds what the student enters into all the copies, and is the input you use in the PRTs.  Include it in the question text as `[[input:state1]] [[validation:state1]]`.  The input itself is hidden from students, and its validation is only shown if there is a general problem.
 
-The basic purpose of the interactive repeat is to allow question authors to create questions without specifying the precise number of inputs.  Students can add another input/inputs as needed.
+Notes and restrictions.
 
-* repeat blocks may contain some inputs.  If so, the repeat block must also contain the corresponding validation tag.
-* repeat blocks may _not_ currently contain any other interactive blocks, including nested repeat blocks, JSXGraph, adapt etc. (This may change in future versions).  This is established by the block method `is_interactive()`. TODO: implement this check.
-* repeat blocks currently may _not_ be used to add rows (`<tr><tr>`) to a table (`<table>`) which starts outside of the repeat block. This is due to limitations in the current javascript implementation. You can put whole tables inside a repeat block, however.
-* repeat blocks may contain a special tag `<repeatindex>`.  This tag acts as a counter for the block.  Client-side JS replaces this tag with the numerical value of the counter (integer, starting at 1).  This tag cannot be used inside castext (e.g. within CAS calculations), which is evaluated _before_ the page is served to the student.  The purpose of this tag is simple enumeration of input boxes, not seeding of complex CAS calculations. TODO: implement this feature.
+* There must be exactly one repeat button for each repeat block id, and the button must be _outside_ the repeat block.
+* Repeat blocks may contain inputs.  If so, the repeat block must also contain the corresponding validation tags.
+* Currently only inputs which are a single text box can be repeated, e.g. algebraic, numerical, units and string inputs.  Dropdown, radio, checkbox, matrix and textarea inputs are not yet supported.
+* Repeat blocks may _not_ contain any other interactive blocks, including nested repeat blocks, JSXGraph, adapt etc.  (This may change in future versions.)
+* Repeat blocks may _not_ be used to add rows (`<tr>`) to a table (`<table>`) which starts outside of the repeat block.  This is due to limitations in the current javascript implementation.  You can put whole tables inside a repeat block, however.
+* Repeat blocks may contain a special tag `<repeatindex>`.  This tag acts as a counter for the block.  Client-side JS replaces this tag with the numerical value of the counter (integer, starting at 1).  This tag cannot be used inside castext (e.g. within CAS calculations), which is evaluated _before_ the page is served to the student.  The purpose of this tag is simple enumeration of input boxes, not seeding of complex CAS calculations. TODO: implement this feature.
+* Students cannot remove copies once added.
 
-When a student interacts with an input inside a repeat block, this is validated exactly as would be the case for the input as normal.  The validation tag is then updated.
+### Validation and the student's answer
 
-When a student submits the page, their response becomes a _list_ of expressions.
+When a student interacts with an input inside a repeat block, this is validated exactly as would be the case for the input as normal, using all the options of that input.  The validation is shown next to that copy of the input.
 
-TODO: support the `ALLOWEMPTY` option.  Inputs may go from `EMPTYANSWER` to `[EMPTYANSWER]`.
+* Rows (i.e. copies of the repeat blocks added by one press of the button) which the student leaves completely empty are ignored.  If all rows are empty, the question has not been answered.
+* If only some of the inputs in a row are filled in, the row is invalid, unless the empty input has the `allowempty` option, in which case its value is `EMPTYANSWER` as usual.
+
+When the student's answer is valid, it becomes a _list_ of expressions for each input in the repeat blocks.  For an input `ans1` this list is called `repeatedans1`, and this is what you refer to in the PRTs.  Do not use `ans1` itself in the PRTs.  See the [repeat input](../Inputs/Compound_input.md#repeat-inputs) for details, and for how to write the teacher's answer.
 
 ### Basic use case
 
@@ -150,14 +157,26 @@ STACK's sample question library contains questions similar to this typical examp
 Find all roots of the polynomial \(P(x) = x^3 - x\). Add as many input fields as required.
 
 [[repeat id="1"]]
-\(x_{<repeatindex>} = \) [[input:ans1]] [[validation:ans1]]
+\(x = \) [[input:ans1]] [[validation:ans1]]
 [[/repeat]]
-[[repeatbutton title="Add another root" repeat_ids="1" /]]
+[[repeatbutton title="Add another root" repeat_ids="1" save_state="state1" /]]
+[[input:state1]] [[validation:state1]]
 ```
 
-The input options for `ans1` should then be configured as if there was only one such input field. STACK will take care of copying the field multiple times, a validation of each created input field and collecting the answers. The student answer `ans1` will be a list of the input type you specified, and you will have to deal with that accordingly in the PRTs.
+With question variables
 
-More advanced examples could ask for several different inputs, e.g. a combination of an eigenvalue and an eigenvector or the coordinates of a critical point of a function with a classification using a dropdown input.
+```
+ta:[-1,0,1];
+```
+
+set up the inputs as follows.
+
+* `ans1` is an algebraic input, configured as if there was only one such input field.  It needs a teacher's answer, which should be a single valid value, e.g. `ta[1]`.  Use the extra option `hideanswer`, since this input is not used directly.
+* `state1` is a repeat input, with teacher's answer `repeat_encode([["ans1",ta]])`.
+
+STACK will take care of copying the field multiple times, validating each copy and collecting the answers.  In the PRT, compare `setify(repeatedans1)` with `setify(ta)`.
+
+More advanced examples could ask for several different inputs, e.g. a combination of an eigenvalue and an eigenvector or the coordinates of a critical point of a function.  If a repeat block contains inputs `ans1` and `ans2`, the PRTs can use `repeatedans1` and `repeatedans2`, which always have the same length: the n-th elements belong to the same row.
 
 ## JSXGraph block ##
 

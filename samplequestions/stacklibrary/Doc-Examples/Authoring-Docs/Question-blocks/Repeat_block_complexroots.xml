@@ -11,7 +11,8 @@
 [[repeat id="1"]]
 \(z_{<repeatindex>} = \) [[input:ans1]] [[validation:ans1]]<br>
 [[/repeat]]
-[[repeatbutton title="Add another root" repeat_ids="1" /]]
+[[repeatbutton title="Add another root" repeat_ids="1" save_state="state1" /]]
+[[input:state1]] [[validation:state1]]
 </p>
 [[feedback:prt1]]]]></text>
     </questiontext>
@@ -81,7 +82,25 @@ poly:ev(expand((z-z0)*(z-z1)*(z-z2)*(z-z3)),simp);</text>
     <input>
       <name>ans1</name>
       <type>algebraic</type>
-      <tans>ta</tans>
+      <tans>ta[1]</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options>hideanswer</options>
+    </input>
+    <input>
+      <name>state1</name>
+      <type>repeat</type>
+      <tans>repeat_encode([["ans1",ta]])</tans>
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
@@ -108,7 +127,7 @@ poly:ev(expand((z-z0)*(z-z1)*(z-z2)*(z-z3)),simp);</text>
         <name>0</name>
         <description></description>
         <answertest>AlgEquiv</answertest>
-        <sans>setify(ans1)</sans>
+        <sans>setify(repeatedans1)</sans>
         <tans>setify(ta)</tans>
         <testoptions></testoptions>
         <quiet>0</quiet>
@@ -134,8 +153,8 @@ poly:ev(expand((z-z0)*(z-z1)*(z-z2)*(z-z3)),simp);</text>
       <testcase>1</testcase>
       <description></description>
       <testinput>
-        <name>ans1</name>
-        <value>ta</value>
+        <name>state1</name>
+        <value>repeat_encode([["ans1",ta]])</value>
       </testinput>
       <expected>
         <name>prt1</name>

@@ -12,7 +12,8 @@
 [[repeat id="root"]]
 \(x_<repeatindex> = \) [[input:ans1]] [[validation:ans1]]<br>
 [[/repeat]]
-[[repeatbutton title="Add another root" repeat_ids="root" /]]
+[[repeatbutton title="Add another root" repeat_ids="root" save_state="state1" /]]
+[[input:state1]] [[validation:state1]]
 </p>
 <p><strong>Remark</strong>: You can't delete input fields. If you add more fields than you require in the end, you can simply leave them blank/empty. They will not be evaluated.</p>]]></text>
     </questiontext>
@@ -80,7 +81,25 @@ poly:expand(p);]]></text>
     <input>
       <name>ans1</name>
       <type>algebraic</type>
-      <tans>ta</tans>
+      <tans>ta[1]</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>3</showvalidation>
+      <options>hideanswer</options>
+    </input>
+    <input>
+      <name>state1</name>
+      <type>repeat</type>
+      <tans>repeat_encode([["ans1",ta]])</tans>
       <boxsize>10</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
@@ -101,11 +120,11 @@ poly:expand(p);]]></text>
       <autosimplify>1</autosimplify>
       <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
-        <text><![CDATA[if length(ans1)>4 then toomany:true else toomany:false;
-if elementp(zero1,setify(ans1))=true then foundzero1:true else foundzero1:false;
-if elementp(zero2,setify(ans1))=true then foundzero2:true else foundzero2:false;
-if elementp(zero3,setify(ans1))=true then foundzero3:true else foundzero3:false;
-if length(ans1)=4 and elementp(zero1,setify(ans1))=true and elementp(zero2,setify(ans1))=true and elementp(zero3,setify(ans1))=true then doublerootwrong:true else doublerootwrong:false;]]></text>
+        <text><![CDATA[if length(repeatedans1)>4 then toomany:true else toomany:false;
+if elementp(zero1,setify(repeatedans1))=true then foundzero1:true else foundzero1:false;
+if elementp(zero2,setify(repeatedans1))=true then foundzero2:true else foundzero2:false;
+if elementp(zero3,setify(repeatedans1))=true then foundzero3:true else foundzero3:false;
+if length(repeatedans1)=4 and elementp(zero1,setify(repeatedans1))=true and elementp(zero2,setify(repeatedans1))=true and elementp(zero3,setify(repeatedans1))=true then doublerootwrong:true else doublerootwrong:false;]]></text>
       </feedbackvariables>
       <node>
         <name>0</name>
@@ -136,7 +155,7 @@ if length(ans1)=4 and elementp(zero1,setify(ans1))=true and elementp(zero2,setif
         <name>1</name>
         <description></description>
         <answertest>AlgEquiv</answertest>
-        <sans>setify(ans1)</sans>
+        <sans>setify(repeatedans1)</sans>
         <tans>setify(ta)</tans>
         <testoptions></testoptions>
         <quiet>0</quiet>
@@ -246,7 +265,7 @@ if length(ans1)=4 and elementp(zero1,setify(ans1))=true and elementp(zero2,setif
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt1-6-T</trueanswernote>
         <truefeedback format="html">
-          <text><![CDATA[<p>Ihre Nullstelle \({@listify(setdifference(setify(ans1),setify(ta)))[1]@}\) ist leider falsch.</p>]]></text>
+          <text><![CDATA[<p>Ihre Nullstelle \({@listify(setdifference(setify(repeatedans1),setify(ta)))[1]@}\) ist leider falsch.</p>]]></text>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
         <falsescore>0</falsescore>
@@ -274,14 +293,14 @@ if length(ans1)=4 and elementp(zero1,setify(ans1))=true and elementp(zero2,setif
       <testcase>1</testcase>
       <description></description>
       <testinput>
-        <name>ans1</name>
-        <value>ta</value>
+        <name>state1</name>
+        <value>repeat_encode([["ans1",ta]])</value>
       </testinput>
       <expected>
         <name>prt1</name>
         <expectedscore>1.0000000</expectedscore>
         <expectedpenalty>0.0000000</expectedpenalty>
-        <expectedanswernote>prt1-1-T</expectedanswernote>
+        <expectedanswernote>prt1-2-T</expectedanswernote>
       </expected>
     </qtest>
     <tags>

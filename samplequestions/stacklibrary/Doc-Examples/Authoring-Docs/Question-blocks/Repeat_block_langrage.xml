@@ -23,7 +23,8 @@
 [[repeat id="1"]]
 Equation <repeatindex>: [[input:ans3]] [[validation:ans3]]<br>
 [[/repeat]]
-[[repeatbutton title="Add another equation" repeat_ids="1" /]]
+[[repeatbutton title="Add another equation" repeat_ids="1" save_state="state1" /]]
+[[input:state1]] [[validation:state1]]
 </p>
 <p><em>Hint</em>: Use the Greek letters \(\lambda, \mu, \nu\) in this order if you need further variables</p>
 <p><em>Hinweis</em>: You can type \(\lambda\) as <code>lambda</code>, \(\mu\) as <code>mu</code>, and \(\nu\) as <code>nu</code>.</p>]]></text>
@@ -154,7 +155,25 @@ ta3alt1:[eq1alt1, eq2alt1, eq3alt1, eq4];</text>
     <input>
       <name>ans3</name>
       <type>algebraic</type>
-      <tans>ta3</tans>
+      <tans>ta3[1]</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>5</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options>hideanswer</options>
+    </input>
+    <input>
+      <name>state1</name>
+      <type>repeat</type>
+      <tans>repeat_encode([["ans3",ta3]])</tans>
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>5</insertstars>
@@ -256,7 +275,7 @@ solveforvars(eq) := block(
 );
 
 solvelist(L) := map(lambda([eq], solveforvars(eq)), L);
-SLans3: solvelist(ans3);
+SLans3: solvelist(repeatedans3);
 SLta3: solvelist(ta3);
 SLta3alt1: solvelist(ta3alt1);
 
@@ -276,7 +295,7 @@ if cardinality(com)=3 or cardinality(comalt1)=3 then equations3:true else equati
 if cardinality(com)=2 or cardinality(comalt1)=2 then equations2:true else equations2:false;
 if cardinality(com)=1 or cardinality(comalt1)=1 then equations1:true else equations1:false;
 
-if equations4=true and cardinality(setify(ans3))=4 then fullycorrect:true else fullycorrect:false;</text>
+if equations4=true and cardinality(setify(repeatedans3))=4 then fullycorrect:true else fullycorrect:false;</text>
       </feedbackvariables>
       <node>
         <name>0</name>
@@ -332,7 +351,7 @@ if equations4=true and cardinality(setify(ans3))=4 then fullycorrect:true else f
         <name>2</name>
         <description></description>
         <answertest>AlgEquiv</answertest>
-        <sans>cardinality(setify(ans3))</sans>
+        <sans>cardinality(setify(repeatedans3))</sans>
         <tans>4</tans>
         <testoptions></testoptions>
         <quiet>0</quiet>
@@ -461,8 +480,8 @@ if equations4=true and cardinality(setify(ans3))=4 then fullycorrect:true else f
         <value>ta2</value>
       </testinput>
       <testinput>
-        <name>ans3</name>
-        <value>ta3</value>
+        <name>state1</name>
+        <value>repeat_encode([["ans3",ta3]])</value>
       </testinput>
       <expected>
         <name>prt1</name>

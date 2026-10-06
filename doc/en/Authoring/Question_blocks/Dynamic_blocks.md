@@ -171,7 +171,7 @@ ta:[-1,0,1];
 
 set up the inputs as follows.
 
-* `ans1` is an algebraic input, configured as if there was only one such input field.  It needs a teacher's answer, which should be a single valid value, e.g. `ta[1]`.  Use the extra option `hideanswer`, since this input is not used directly.
+* `ans1` is an algebraic input, configured as if there was only one such input field.  It needs a teacher's answer, which should be a single valid value, e.g. `ta[1]`.  This answer is not shown to students, since the input is not used directly.
 * `state1` is a repeat input, with teacher's answer `repeat_encode([["ans1",ta]])`.
 
 STACK will take care of copying the field multiple times, validating each copy and collecting the answers.  In the PRT, compare `setify(repeatedans1)` with `setify(ta)`.

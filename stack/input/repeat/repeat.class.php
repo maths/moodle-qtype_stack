@@ -67,6 +67,47 @@ class stack_repeat_input extends stack_json_input {
         return $names;
     }
 
+    /**
+     * The repeated inputs are not used directly, so their own teacher's answers are not shown.
+     * @param array $inputs
+     */
+    public function add_simple_inputs($inputs) {
+        parent::add_simple_inputs($inputs);
+        foreach ($inputs as $input) {
+            $input->hide_teacher_answer();
+        }
+    }
+
+    /**
+     * Show the lists of values in the teacher's answer, rather than the JSON.
+     */
+    public function get_teacher_answer_display($value, $display) {
+        if ($this->get_extra_option('hideanswer')) {
+            return '';
+        }
+        $inputs = $this->extract_inputs([$value]);
+        if (!$inputs) {
+            return parent::get_teacher_answer_display($value, $display);
+        }
+        if (count($inputs) === 1) {
+            // One input: just the list of values.
+            $display = html_writer::tag('code', s(implode(', ', reset($inputs))));
+        } else {
+            // Several inputs: one tuple of values for each row.
+            $rows = [];
+            $numrows = max(array_map('count', $inputs));
+            for ($row = 0; $row < $numrows; $row++) {
+                $values = [];
+                foreach ($inputs as $list) {
+                    $values[] = $list[$row] ?? '';
+                }
+                $rows[] = html_writer::tag('code', s('(' . implode(', ', $values) . ')'));
+            }
+            $display = implode('; ', $rows);
+        }
+        return stack_string('teacheranswershow_disp', ['display' => $display]);
+    }
+
     /*
      * This input type is always "typeless" because the teacher's answer is a JSON string,
      * but the eventual type will be a Maxima expression.

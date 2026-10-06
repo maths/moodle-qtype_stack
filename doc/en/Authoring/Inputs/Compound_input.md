@@ -27,7 +27,8 @@ Notes,
 2. This is a single Maxima block which executes gives the answer lists as separate variables.
 3. Each value is validated by its own input (`ans1`, `ans2`), with all the options of that input and the security settings of the question.  For example, if `ans1` forbids floats, so does every entry of `repeatedans1`.
 4. Rows which are completely empty are ignored.  If no non-empty rows remain, the input is blank (not answered).  A row in which only some inputs are filled in is invalid, unless the empty input has the `allowempty` option.
-5. Since the inputs inside the repeat block are not used directly, give them a single valid value as teacher's answer and use their extra option `hideanswer`.
+5. Since the inputs inside the repeat block are not used directly, give them a single valid value as teacher's answer.  Their teacher's answers are not shown to students: the teacher's answer of the repeat input is shown instead.
+6. A repeat input only accepts values for the inputs inside the repeat blocks of its own repeat button.
 
 ### Creating the teacher's answer.
 

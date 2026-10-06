@@ -354,7 +354,7 @@ JS);
      * The ids of the repeat blocks this button controls.
      * @return string[]
      */
-    private function get_repeat_ids(): array {
+    public function get_repeat_ids(): array {
         if (!isset($this->params['repeat_ids'])) {
             return [];
         }

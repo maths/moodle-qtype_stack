@@ -1992,6 +1992,23 @@ final class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * Find which inputs each repeat button repeats.
+     * @covers \castext2_parser_utils::get_repeat_inputs
+     */
+    public function test_get_repeat_inputs(): void {
+        $st = '<p>[[input:ans0]]</p>' .
+            '[[repeat id="1"]][[input:ans1]] [[validation:ans1]][[input:ans_2]][[/repeat]]' .
+            '[[repeat id="2"]]<p>[[input:ans3]]</p>[[/repeat]]' .
+            '[[repeat id="b"]][[input:ans4]][[/repeat]]' .
+            '[[repeatbutton title="Add" repeat_ids="1;2" save_state="state1"/]]' .
+            '[[repeatbutton title="Add" repeat_ids="b" save_state="state2"/]]';
+        $this->assertEquals(['state1' => ['ans1', 'ans_2', 'ans3'], 'state2' => ['ans4']],
+            \castext2_parser_utils::get_repeat_inputs($st));
+        $this->assertEquals([], \castext2_parser_utils::get_repeat_inputs('<p>[[input:ans1]]</p>'));
+        $this->assertEquals([], \castext2_parser_utils::get_repeat_inputs(''));
+    }
+
+    /**
      * One repeat button controlling several repeat blocks.
      * @covers \qtype_stack\stack_cas_castext2_repeat
      * @covers \qtype_stack\stack_cas_castext2_repeatbutton

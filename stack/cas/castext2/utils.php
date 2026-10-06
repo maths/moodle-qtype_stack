@@ -125,6 +125,50 @@ class castext2_parser_utils {
         return $tags;
     }
 
+    /**
+     * Find the inputs repeated by each [[repeatbutton]] in some castext.
+     *
+     * @param string $castext e.g. the question text.
+     * @return array name of the repeat input (the save_state of the button) => names of the
+     *      inputs inside the [[repeat]] blocks controlled by that button.
+     */
+    public static function get_repeat_inputs(string $castext): array {
+        if ($castext === '' || strpos($castext, '[[repeat') === false) {
+            return [];
+        }
+
+        $root = stack_cas_castext2_special_root::make(self::parse($castext));
+        // Repeat block id => names of the inputs inside it.
+        $blockinputs = [];
+        // Repeat input name => repeat block ids.
+        $buttons = [];
+        $root->callbackRecurse(function ($node) use (&$blockinputs, &$buttons) {
+            if ($node instanceof stack_cas_castext2_repeat && isset($node->params['id'])) {
+                $names = [];
+                $node->callbackRecurse(function ($child) use (&$names) {
+                    if ($child instanceof stack_cas_castext2_special_ioblock && $child->channel === 'input') {
+                        $names[] = $child->variable;
+                    }
+                });
+                $id = $node->params['id'];
+                $blockinputs[$id] = array_merge($blockinputs[$id] ?? [], $names);
+            } else if ($node instanceof stack_cas_castext2_repeatbutton && isset($node->params['save_state'])) {
+                $name = trim($node->params['save_state']);
+                $buttons[$name] = array_merge($buttons[$name] ?? [], $node->get_repeat_ids());
+            }
+        });
+
+        $result = [];
+        foreach ($buttons as $name => $ids) {
+            $result[$name] = [];
+            foreach ($ids as $id) {
+                $result[$name] = array_merge($result[$name], $blockinputs[$id] ?? []);
+            }
+            $result[$name] = array_values(array_unique($result[$name]));
+        }
+        return $result;
+    }
+
     // Postprocesses the result from CAS. For those that have not yet fully
     // parsed the response. Does not use the full maximaparser infrastructure
     // as the result is just an list of strings... well should be for all simple

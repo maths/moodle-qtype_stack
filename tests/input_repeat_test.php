@@ -313,6 +313,30 @@ final class input_repeat_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
     }
 
+    public function test_teacher_answer_display(): void {
+
+        $simpleinputs = [];
+        $simpleinputs['ans1'] = stack_input_factory::make('algebraic', 'ans1', 'x');
+        $simpleinputs['ans2'] = stack_input_factory::make('algebraic', 'ans2', 'x');
+
+        $el = stack_input_factory::make('repeat', 'sans1', '"{}"');
+        $el->add_simple_inputs($simpleinputs);
+
+        // The repeated inputs are only used through the repeat input, so their answers are not shown.
+        $this->assertTrue($simpleinputs['ans1']->get_extra_option('hideanswer'));
+        $this->assertEquals('', $simpleinputs['ans1']->get_teacher_answer_display('x', 'x'));
+
+        // One tuple of values for each row.
+        $this->assertEquals(stack_string('teacheranswershow_disp',
+                ['display' => '<code>(1, x^2)</code>; <code>(2, x^3)</code>']),
+            $el->get_teacher_answer_display('"{\\"data\\":{\\"ans1\\":[1,2],\\"ans2\\":[\\"x^2\\",\\"x^3\\"]}}"', ''));
+
+        $el = stack_input_factory::make('repeat', 'sans1', '"{}"');
+        $el->add_simple_inputs(['ans1' => $simpleinputs['ans1']]);
+        $this->assertEquals(stack_string('teacheranswershow_disp', ['display' => '<code>1, 2</code>']),
+            $el->get_teacher_answer_display('"{\\"data\\":{\\"ans1\\":[1,2]}}"', ''));
+    }
+
     public function test_repeat_encode(): void {
 
         $options = new stack_options();

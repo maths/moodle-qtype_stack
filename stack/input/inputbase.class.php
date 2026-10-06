@@ -1936,6 +1936,13 @@ abstract class stack_input {
     }
 
     /**
+     * Do not show the teacher's answer of this input, e.g. when it is only used through a compound input.
+     */
+    public function hide_teacher_answer() {
+        $this->extraoptions['hideanswer'] = true;
+    }
+
+    /**
      * Compound inputs may bind extra Maxima variables (beyond the input's own
      * name) when their value is evaluated, e.g. the repeat input defines
      * `repeatedans1` for each simple input it wraps. A PRT which reads one of

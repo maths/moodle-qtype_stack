@@ -64,6 +64,111 @@ class stack_repeat_input extends stack_json_input {
         return 'typeless';
     }
 
+    /**
+     * Pull the list of raw values for each simple input out of the JSON state.
+     *
+     * The state is either the full JSON written by the repeat block, where "data" is a list of
+     * {repeat_id, inputs} objects, or the cut-down form from the teacher's answer where "data"
+     * maps input names to lists of values directly.
+     *
+     * @param array $contents the contents of this input.
+     * @return array|null input name => list of raw values, or null if the JSON is unusable.
+     */
+    protected function extract_inputs($contents) {
+        if (!array_key_exists(0, $contents)) {
+            return null;
+        }
+        $payload = json_decode(stack_utils::maxima_string_to_php_string($contents[0]));
+        // Only pay attention to the "data" in the payload.  Everything else is the
+        // responsibility of the input JS.
+        if (!is_object($payload) || !property_exists($payload, 'data')) {
+            return null;
+        }
+        if (is_array($payload->data)) {
+            $groups = array_map(function($group) {
+                return is_object($group) && property_exists($group, 'inputs') ? $group->inputs : null;
+            }, $payload->data);
+        } else {
+            $groups = [$payload->data];
+        }
+
+        $inputs = [];
+        foreach ($groups as $group) {
+            if (!is_object($group)) {
+                continue;
+            }
+            foreach ($this->simpleinputs as $inputname => $input) {
+                if (property_exists($group, $inputname)) {
+                    $inputs[$inputname] = $group->{$inputname};
+                }
+            }
+        }
+        return $inputs;
+    }
+
+    /**
+     * Remove the rows in which every input is blank, e.g. because the student added more rows than needed.
+     *
+     * Rows are removed from all inputs together, so that values in the same row stay aligned.
+     *
+     * @param array $inputs input name => list of raw values.
+     * @return array the same, without the empty rows.
+     */
+    protected function remove_empty_rows(array $inputs): array {
+        $lists = array_filter($inputs, 'is_array');
+        $numrows = $lists ? max(array_map('count', $lists)) : 0;
+        $keep = [];
+        for ($row = 0; $row < $numrows; $row++) {
+            foreach ($lists as $values) {
+                if (array_key_exists($row, $values) && !$this->is_blank_value($values[$row])) {
+                    $keep[] = $row;
+                    break;
+                }
+            }
+        }
+        // Lists may have different lengths (e.g. a teacher's answer), so only keep rows a list actually has.
+        foreach ($lists as $inputname => $values) {
+            $inputs[$inputname] = [];
+            foreach ($keep as $row) {
+                if (array_key_exists($row, $values)) {
+                    $inputs[$inputname][] = $values[$row];
+                }
+            }
+        }
+        return $inputs;
+    }
+
+    /**
+     * Is a single value from the JSON state blank?
+     * @param mixed $value
+     * @return bool
+     */
+    private function is_blank_value($value): bool {
+        return is_scalar($value) && (trim((string) $value) === '' || $value === 'EMPTYANSWER');
+    }
+
+    /**
+     * The response is blank if the JSON state contains no row with a non-empty value.
+     * @param array $contents
+     * @return bool
+     */
+    protected function is_blank_response($contents) {
+        if (parent::is_blank_response($contents)) {
+            return true;
+        }
+        $inputs = $this->extract_inputs($contents);
+        if ($inputs === null) {
+            // Broken JSON is not blank, the student needs to see the validation error.
+            return false;
+        }
+        foreach ($this->remove_empty_rows($inputs) as $values) {
+            if ($values !== []) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     protected function validate_contents($contents, $basesecurity, $localoptions) {
 
         $errors = [];
@@ -72,77 +177,43 @@ class stack_repeat_input extends stack_json_input {
         $notes = [];
         $ilines = [];
 
-        // WIP: probably not in the correct place.
-        $payload = $contents[0];
-
-        if (strlen($payload) > $this->maxinputlength) {
+        if (strlen($contents[0]) > $this->maxinputlength) {
             $valid = false;
             $errors[] = stack_string('studentinputtoolong');
             $notes['too_long'] = true;
-            $val = '[]';
-            $payload = '';
-        }
-
-        $payload = stack_utils::maxima_string_to_php_string($payload);
-        // Turn into a PHP stdClass object.
-        $payload = json_decode($payload);
-        if ($payload === null) {
-            $valid = false;
-            $errors[] = stack_string('invalid_json');
-            $notes['invalid_json'] = true;
-            $val = '[]';
-        }
-
-        // Only pay attention to the "data" in the payload.  Everything else is the
-        // responsibility of the input JS.
-        if ($payload !== null && property_exists($payload, 'data')) {
-            $payload = $payload->data;
+            $inputs = [];
         } else {
-            // TODO: dig one level deeper when we have sparated information coming back by repeat_id.
-            $payload = null;
-            $valid = false;
-            $errors[] = stack_string('invalid_json');
-            $notes['invalid_json'] = true;
-            $val = '[]';
-        }
-
-        // Pull out from the payload all data as an array.
-        $inputs = [];
-        if ($payload !== null) {
-            // At this depth, full JSON gives an array.
-            if (is_array($payload)) {
-                foreach ($payload as $repeatid) {
-                    foreach ($this->simpleinputs as $inputname => $input) {
-                        if (property_exists($repeatid->inputs, $inputname)) {
-                            $inputs[$inputname] = $repeatid->inputs->{$inputname};
-                        }
-                    }
-                }
-            } else {
-                // We have the cut-down "data" from teacher's answers.
-                foreach ($this->simpleinputs as $inputname => $input) {
-                    if (property_exists($payload, $inputname)) {
-                        $inputs[$inputname] = $payload->{$inputname};
-                    }
-                }
+            $inputs = $this->extract_inputs($contents);
+            if ($inputs === null) {
+                $valid = false;
+                $errors[] = stack_string('invalid_json');
+                $notes['invalid_json'] = true;
+                $inputs = [];
             }
         }
+        // Rows the student added but left completely empty are ignored.
+        $inputs = $this->remove_empty_rows($inputs);
 
         $states = [];
+        $incompleterows = [];
         $options = new stack_options();
         // Validate each entry separately using the simple input validation.
         foreach ($inputs as $inputname => $val) {
             $input = $this->simpleinputs[$inputname];
             // Val should now be an array of values.
             $exprs = [];
-            foreach ($val as $sans) {
+            foreach ($val as $row => $sans) {
                 $state = $input->validate_student_response([$inputname => $sans],
                     $options, 'null',
                     new stack_cas_security());
-                if ($state->__get('status') === 'valid' || $state->__get('status') === 'score') {
+                if ($state->__get('status') === stack_input::VALID || $state->__get('status') === stack_input::SCORE) {
                     $exprs[] = $state->__get('contentsmodified');
                 } else {
                     $valid = false;
+                    if ($state->__get('status') === stack_input::BLANK) {
+                        // Only some fields of this (non-empty) row have been filled in.
+                        $incompleterows[$row + 1] = true;
+                    }
                 }
                 $errors[] = $state->__get('errors');
                 $notes[$state->__get('note')] = true;
@@ -150,6 +221,13 @@ class stack_repeat_input extends stack_json_input {
             // If valid, collect together the valid modified expresssions.
             // This is one Maxima list per input.
             $states[$inputname] = 'repeated' . $inputname . ':[' . implode(',', $exprs) . ']';
+        }
+        ksort($incompleterows);
+        foreach (array_keys($incompleterows) as $row) {
+            $errors[] = stack_string('repeatincompleterow', $row);
+        }
+        if ($incompleterows) {
+            $notes['repeat_incomplete_row'] = true;
         }
 
         // Concatinate expressions into a Maxima block which defines the variables separatel.

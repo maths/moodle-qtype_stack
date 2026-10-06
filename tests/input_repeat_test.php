@@ -178,6 +178,65 @@ final class input_repeat_test extends qtype_stack_testcase {
             $state->contentsmodified);
     }
 
+    public function test_validate_empty_rows_ignored(): void {
+
+        $options = new stack_options();
+        $simpleinputs = [];
+        $simpleinputs['ans1'] = stack_input_factory::make('algebraic', 'ans1', 'x');
+        $simpleinputs['ans2'] = stack_input_factory::make('algebraic', 'ans2', 'x');
+
+        $el = stack_input_factory::make('repeat', 'sans1', '"{}"');
+        $el->add_simple_inputs($simpleinputs);
+
+        // Rows 2 and 4 were added but left empty: they are dropped, and rows stay aligned.
+        $rawinput = '{"data":{"ans1":["1","","3"," "],"ans2":["1","","9",""]}}';
+        $state = $el->validate_student_response(['sans1' => $rawinput], $options, '"{}"',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('(repeatedans1:[1,3],repeatedans2:[1,9])', $state->contentsmodified);
+    }
+
+    public function test_validate_all_rows_empty_is_blank(): void {
+
+        $options = new stack_options();
+        $simpleinputs = [];
+        $simpleinputs['ans1'] = stack_input_factory::make('algebraic', 'ans1', 'x');
+
+        $el = stack_input_factory::make('repeat', 'sans1', '"{}"');
+        $el->add_simple_inputs($simpleinputs);
+
+        // A freshly initialised question has one empty row: that is not answered, rather than invalid.
+        foreach (['{"data":{"ans1":[""]}}', '{"data":{"ans1":["", "  "]}}', '{"data":{"ans1":[]}}'] as $rawinput) {
+            $state = $el->validate_student_response(['sans1' => $rawinput], $options, '"{}"',
+                new stack_cas_security());
+            $this->assertEquals(stack_input::BLANK, $state->status, $rawinput);
+        }
+
+        // Broken JSON is not blank, the student must see the error.
+        $state = $el->validate_student_response(['sans1' => '{"data":'], $options, '"{}"',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+    }
+
+    public function test_validate_incomplete_row(): void {
+
+        $options = new stack_options();
+        $simpleinputs = [];
+        $simpleinputs['ans1'] = stack_input_factory::make('algebraic', 'ans1', 'x');
+        $simpleinputs['ans2'] = stack_input_factory::make('algebraic', 'ans2', 'x');
+
+        $el = stack_input_factory::make('repeat', 'sans1', '"{}"');
+        $el->add_simple_inputs($simpleinputs);
+
+        // Row 2 has a value for ans1, but not for ans2.
+        $rawinput = '{"data":{"ans1":["1","2"],"ans2":["1",""]}}';
+        $state = $el->validate_student_response(['sans1' => $rawinput], $options, '"{}"',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertStringContainsString('repeat_incomplete_row', $state->note);
+        $this->assertStringContainsString(stack_string('repeatincompleterow', 2), $state->errors);
+    }
+
     public function test_repeat_encode(): void {
 
         $options = new stack_options();

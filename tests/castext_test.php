@@ -1971,6 +1971,28 @@ final class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * One repeat button controlling several repeat blocks.
+     * @covers \qtype_stack\stack_cas_castext2_repeat
+     * @covers \qtype_stack\stack_cas_castext2_repeatbutton
+     */
+    public function test_stack_repeat_blocks_multiple_ids(): void {
+        $st = '[[repeat id="1"]][[input:ans1]] [[validation:ans1]][[/repeat]]' .
+            '[[repeat id="2"]][[input:ans2]] [[validation:ans2]][[/repeat]]' .
+            '[[repeatbutton title="Add" repeat_ids="1; 2" save_state="state1"/]]';
+        $s2 = [];
+        $cs2 = new stack_cas_session2($s2, null, 0);
+        $at2 = castext2_evaluatable::make_from_source($st, 'test-case');
+        $cs2->add_statement($at2);
+        $cs2->instantiate();
+        $this->assertEquals('', $at2->get_errors(true));
+        $this->assertTrue($at2->get_valid());
+        $rendered = $at2->get_rendered();
+        // Each block appears exactly once in the list of blocks handled by the button.
+        $this->assertEquals(1, substr_count($rendered, 'suffix: \\"_repeat_1_\\"'));
+        $this->assertEquals(1, substr_count($rendered, 'suffix: \\"_repeat_2_\\"'));
+    }
+
+    /**
      * Basic test the repeat blocks error checking.
      * @covers \qtype_stack\stack_cas_castext2_repeat
      */

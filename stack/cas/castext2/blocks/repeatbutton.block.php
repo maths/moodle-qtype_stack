@@ -48,228 +48,194 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
         $uid = '' . rand(100, 999) . time() . '_' . $count;
         $count = $count + 1;
 
-        $body->items[] = new MP_String('<button type="button" class="btn btn-secondary" id="stack-repeatbutton-' .
-            $uid . '">' . $this->params['title'] . '</button>');
+        $buttonid = 'stack-repeatbutton-' . $uid;
+        $body->items[] = new MP_String('<button type="button" class="btn btn-secondary" id="' .
+            $buttonid . '">' . $this->params['title'] . '</button>');
 
         $list = [];
         $list[] = new MP_String('script');
         $list[] = new MP_String(json_encode(['type' => 'module']));
 
-		$stackjs_url = stack_cors_link('stackjsiframe.min.js');
-		$save_state = $this->params['save_state'];
+        $stackjsurl = json_encode(stack_cors_link('stackjsiframe.min.js'), JSON_UNESCAPED_SLASHES);
+        $savestate = json_encode($this->params['save_state']);
+        $buttonid = json_encode($buttonid);
 
-		$code = <<<JS
-		import {stack_js} from '{$stackjs_url}';
-		stack_js.request_access_to_input('{$save_state}', true).then((id) => {
-			let input = document.getElementById(id);
-			window.state_input = input;
-			if(input.value=="") {
-				init_repeat(input);
-		    } else {
-				construct_repeat();
-			}
-		});
-		window.repeat_ids = window.repeat_ids || new Set();
-		stack_js.register_external_button_listener('stack-repeatbutton-{$uid}', function() {
-			add_repeat();
-		});
-		// Attach the state-writeback change listener to a single, freshly created
-		// repeated input. Only ever called for new ids so listeners are not
-		// registered more than once on inputs that already exist.
-		function register_repeat_change_listener(new_id) {
-			stack_js.request_access_to_input(new_id, true).then((id) => {
-				let input = document.getElementById(id);
-				if (!input) {
-					return;
-				}
-				// Re-read the state fresh on every change and write only this
-				// field's slot back, so concurrent edits to sibling fields are
-				// not lost.
-				let writeback = function () {
-					let state = JSON.parse(window.state_input.value);
-					let parts = input.id.split('_');
-					let base_id = parts[0];
-					let count = parts[parts.length - 1];
-					if (!state['data'] || !state['data'][base_id]) {
-						return;
-					}
-					state['data'][base_id][count - 1] = input.value;
-					window.state_input.value = JSON.stringify(state);
-					window.state_input.dispatchEvent(new Event('change'));
-				};
-				input.addEventListener('change', writeback);
-				// request_access_to_input resolves over several async messages,
-				// so the student may already have typed into this field before
-				// the listener above was attached - capture that value now.
-				if (input.value !== '') {
-					writeback();
-				}
-			});
-		}
-		JS;
+        $list[] = new MP_String("import {stack_js} from {$stackjsurl};\n" .
+            "const SAVE_STATE = {$savestate};\n" .
+            "const BUTTON_ID = {$buttonid};\n" .
+            "// One entry per [[repeat]] block controlled by this button.\n" .
+            "const REPEATS = [\n");
+        foreach ($this->get_repeat_ids() as $id) {
+            $list[] = new MP_String("{template: '");
+            $list[] = new MP_List([new MP_String('quid'), new MP_String('repeat_' . $id)]);
+            $list[] = new MP_String("', container: '");
+            $list[] = new MP_List([new MP_String('quid'), new MP_String('repeatcontainer_' . $id)]);
+            $list[] = new MP_String("', suffix: " . json_encode('_repeat_' . $id . '_') . "},\n");
+        }
+        $list[] = new MP_String("];\n");
 
-		$list[] = new MP_String($code);
+        $list[] = new MP_String(<<<'JS'
+// The (iframe side mirror of the) input holding the JSON state.
+let state_input = null;
 
-		// function init_repeat()
-		$list[] = new MP_String("function init_repeat(state){\n");
-		$list[] = new MP_String("let input_ids = [];let new_ids;let promises = [];");
+function read_state() {
+    return JSON.parse(state_input.value);
+}
 
-		if (isset($this->params['repeat_ids'])) {
-			$splitrepeatid = preg_split ("/[\ \n\;]+/", $this->params['repeat_ids']);
-			foreach ($splitrepeatid as &$id) {
-				$list[] = new MP_String("let repeat_id='");
-				$list[] = new MP_List([new MP_String('quid'), new MP_String("repeat_{$id}")]);
-				$list[] = new MP_String("';\n");
+function write_state(state) {
+    state_input.value = JSON.stringify(state);
+    state_input.dispatchEvent(new Event('change'));
+}
 
-				$code = <<<JS
-				promises.push(
-					stack_js.get_content(repeat_id).then((repeat_content) => {
-						const tempContainer = document.createElement('div');
-						tempContainer.innerHTML = repeat_content;
-						new_ids = [...tempContainer.querySelectorAll('input')].map(input => input.id.split('_')[1]);
-						input_ids.push(...new_ids);					
-					})
-				);
-				JS;
-				$list[] = new MP_String($code);
-			}
-		}
-		$code = <<<JS
-		Promise.all(promises).then(() => {
-			let data_obj = {};
-			input_ids.forEach(id => {
-				data_obj[id] = [];
-			});
-			state.value = JSON.stringify({data:data_obj});
-			state.dispatchEvent(new Event('change'));
-			add_repeat();
-		});
-		JS;
-		$list[] = new MP_String($code);
+// VLE ids look like "<prefix>_<inputname>" and the prefix contains no "_",
+// so everything after the first "_" is the input name (which may contain "_").
+function input_name(vleid) {
+    return vleid.substring(vleid.indexOf('_') + 1);
+}
 
-		$list[] = new MP_String("};");
-		// end function init_repeat()
+function is_repeated_input(el) {
+    return el.tagName === 'INPUT' && el.type !== 'hidden';
+}
 
-		// function construct_repeat()
-		$list[] = new MP_String("function construct_repeat() {");
+// Rows are never re-rendered once shown: the VLE binds its change listeners to
+// the actual elements, so replacing an existing row would silently disconnect
+// it.  Instead each row is written into an empty "slot" element, and brings
+// along the empty slot for the next row.  Row 1 goes into the container itself.
+function slot_id(r, n) {
+    return n === 1 ? r.container : r.container + '_slot_' + n;
+}
 
-		if (isset($this->params['repeat_ids'])) {
-			$splitrepeatid = preg_split ("/[\ \n\;]+/", $this->params['repeat_ids']);
-			foreach ($splitrepeatid as &$id) {
-				$list[] = new MP_String("let repeat_id='");
-				$list[] = new MP_List([new MP_String('quid'), new MP_String("repeat_{$id}")]);
-				$list[] = new MP_String("';");
+// Build the HTML for row n of repeat block r from its template.  Every id (and
+// input name) gets a row specific suffix to keep them unique on the page.
+function make_row(r, n, state) {
+    const tmp = document.createElement('div');
+    tmp.innerHTML = r.html;
+    const added = [];
+    tmp.querySelectorAll('[id]').forEach((el) => {
+        if (is_repeated_input(el)) {
+            const name = input_name(el.id);
+            const values = state.data[name] || [];
+            el.setAttribute('value', values[n - 1] !== undefined ? values[n - 1] : '');
+            el.name = el.name + r.suffix + n;
+            added.push({vlename: name + r.suffix + n, name: name, idx: n - 1});
+        }
+        el.id = el.id + r.suffix + n;
+    });
+    return {html: tmp.innerHTML, added: added};
+}
 
-				$list[] = new MP_String("let repeatcontainer_id='");
-				$list[] = new MP_List([new MP_String('quid'), new MP_String("repeatcontainer_{$id}")]);
-				$list[] = new MP_String("';");
+// Write a single repeated input back into its slot of the state, whenever it changes.
+function connect_input(entry) {
+    stack_js.request_access_to_input(entry.vlename, true).then((id) => {
+        const input = document.getElementById(id);
+        const writeback = () => {
+            // Re-read the state, other inputs may have changed it in the meantime.
+            const state = read_state();
+            if (!state.data || !Array.isArray(state.data[entry.name]) ||
+                    state.data[entry.name][entry.idx] === input.value) {
+                return;
+            }
+            state.data[entry.name][entry.idx] = input.value;
+            write_state(state);
+        };
+        input.addEventListener('change', writeback);
+        // Registration is asynchronous, so the student may already have typed something.
+        writeback();
+    });
+}
 
-				$code = <<<JS
-				const contentPromise_{$id} = stack_js.get_content(repeat_id);
-				const containerPromise_{$id} = stack_js.get_content(repeatcontainer_id);
+// Number of rows currently recorded in the state for block r.
+function row_count(r, state) {
+    let count = 0;
+    r.inputs.forEach((name) => {
+        if (state.data && Array.isArray(state.data[name])) {
+            count = Math.max(count, state.data[name].length);
+        }
+    });
+    return count;
+}
 
-				Promise.all([contentPromise_{$id}, containerPromise_{$id}]).then(([repeat_content, repeatcontainer_content]) => {
-					let state = JSON.parse(window.state_input.value);
-					const count = state.data[Object.keys(state.data)[0]].length;
-					let new_content = "";
-					let added_ids = [];
-					for (let num = 1; num <= count; num++) {
-						let tempContainer = document.createElement('div');
-						tempContainer.innerHTML = repeat_content;
-						tempContainer.querySelectorAll('input').forEach(el => {
-							let base_id = el.id.split('_')[1];
-							let val = state['data'][base_id][num-1];
-							el.id = el.id + '_repeat_{$id}_' + num;
-							let new_id = el.id.split('_')[1] + '_repeat_{$id}_' + num;
-							window.repeat_ids.add(new_id);
-							added_ids.push(new_id);
-							el.name = el.name + '_repeat_{$id}_' + num;
-							el.setAttribute("value", val);
-						});
-						new_content += tempContainer.innerHTML;
-					};
-					stack_js.switch_content(repeatcontainer_id, repeatcontainer_content + new_content);
-					added_ids.forEach(register_repeat_change_listener);
-				});
-				JS;
+// Add one row to every block controlled by this button.
+function add_repeat() {
+    if (state_input.hasAttribute('readonly')) {
+        return;
+    }
+    const state = read_state();
+    const rows = REPEATS.map((r) => {
+        const n = row_count(r, state) + 1;
+        r.inputs.forEach((name) => {
+            state.data[name] = state.data[name] || [];
+            while (state.data[name].length < n) {
+                state.data[name].push('');
+            }
+        });
+        return [r, n];
+    });
+    write_state(state);
+    rows.forEach(([r, n]) => {
+        const row = make_row(r, n, state);
+        stack_js.switch_content(slot_id(r, n), row.html + '<div id="' + slot_id(r, n + 1) + '"></div>');
+        row.added.forEach(connect_input);
+    });
+}
 
-				$list[] = new MP_String($code);
-			}
-		}
+// Rebuild the rows recorded in an existing state, e.g. after a page reload.
+function construct_repeat() {
+    const state = read_state();
+    REPEATS.forEach((r) => {
+        const count = row_count(r, state);
+        if (count === 0) {
+            return;
+        }
+        let html = '';
+        let added = [];
+        for (let n = 1; n <= count; n++) {
+            const row = make_row(r, n, state);
+            html += row.html;
+            added = added.concat(row.added);
+        }
+        stack_js.switch_content(r.container, html + '<div id="' + slot_id(r, count + 1) + '"></div>');
+        added.forEach(connect_input);
+    });
+}
 
-		$list[] = new MP_String("};");
-		// end function construct_repeat()
+// Set up an empty state with one list per repeated input, and show the first row.
+function init_repeat() {
+    const data = {};
+    REPEATS.forEach((r) => {
+        r.inputs.forEach((name) => {
+            data[name] = [];
+        });
+    });
+    write_state({data: data});
+    add_repeat();
+}
 
-		// function add_repeat()
-		$list[] = new MP_String("function add_repeat() {");
+const ready = Promise.all([
+    stack_js.request_access_to_input(SAVE_STATE, true).then((id) => {
+        state_input = document.getElementById(id);
+    }),
+    ...REPEATS.map((r) => stack_js.get_content(r.template).then((html) => {
+        r.html = html;
+        const tmp = document.createElement('div');
+        tmp.innerHTML = html;
+        r.inputs = [...tmp.querySelectorAll('[id]')].filter(is_repeated_input).map((el) => input_name(el.id));
+    })),
+]).then(() => {
+    if (state_input.value === '') {
+        init_repeat();
+    } else {
+        construct_repeat();
+    }
+});
 
-		if (isset($this->params['repeat_ids'])) {
-			$splitrepeatid = preg_split ("/[\ \n\;]+/", $this->params['repeat_ids']);
-			foreach ($splitrepeatid as &$id) {
-				$list[] = new MP_String("let repeat_id='");
-				$list[] = new MP_List([new MP_String('quid'), new MP_String("repeat_{$id}")]);
-				$list[] = new MP_String("';");
+// Serialise additions, so that fast repeated clicks cannot target the same slot.
+let queue = ready;
+stack_js.register_external_button_listener(BUTTON_ID, () => {
+    queue = queue.then(add_repeat).catch((e) => console.error('STACK repeatbutton:', e));
+});
 
-				$list[] = new MP_String("let repeatcontainer_id='");
-				$list[] = new MP_List([new MP_String('quid'), new MP_String("repeatcontainer_{$id}")]);
-				$list[] = new MP_String("';");
-
-				$code = <<<JS
-				const contentPromise_{$id} = stack_js.get_content(repeat_id);
-				const containerPromise_{$id} = stack_js.get_content(repeatcontainer_id);
-
-				Promise.all([contentPromise_{$id}, containerPromise_{$id}]).then(([repeat_content, repeatcontainer_content]) => {
-					// Re-read the state fresh: the student may have typed into
-					// other fields during the async round-trips above, and we
-					// must not write a stale snapshot back over those edits.
-					let state = JSON.parse(window.state_input.value);
-
-					// get_content only serialises markup, not the live .value of
-					// each field, so re-apply the stored values to the existing
-					// clones - otherwise earlier entries appear to vanish every
-					// time another field is added.
-					let existing = document.createElement('div');
-					existing.innerHTML = repeatcontainer_content;
-					existing.querySelectorAll('input').forEach(el => {
-						let parts = el.id.split('_');
-						let base_id = parts[1];
-						let idx = parseInt(parts[parts.length - 1], 10) - 1;
-						if (state['data'][base_id] && state['data'][base_id][idx] !== undefined) {
-							el.setAttribute('value', state['data'][base_id][idx]);
-						}
-					});
-
-					let tempContainer = document.createElement('div');
-					tempContainer.innerHTML = repeat_content;
-					let added_ids = [];
-
-					tempContainer.querySelectorAll('input').forEach(el => {
-						let base_id = el.id.split('_')[1];
-						let count = state['data'][base_id].length + 1;
-						state['data'][base_id].push("");
-
-						el.id = el.id + '_repeat_{$id}_' + count;
-						let new_id = el.id.split('_')[1] + '_repeat_{$id}_' + count;
-						window.repeat_ids.add(new_id);
-						added_ids.push(new_id);
-						el.name = el.name + '_repeat_{$id}_' + count;
-					});
-
-					window.state_input.value = JSON.stringify(state);
-					window.state_input.dispatchEvent(new Event('change'));
-
-					stack_js.switch_content(repeatcontainer_id, existing.innerHTML + tempContainer.innerHTML);
-
-					added_ids.forEach(register_repeat_change_listener);
-				});
-				JS;
-
-				$list[] = new MP_String($code);
-			}
-		}
-
-		$list[] = new MP_String("};");
-		// end function add_repeat()
+JS);
 
         // Now add a hidden [[iframe]] with suitable scripts.
         $body->items[] = new MP_List([
@@ -282,6 +248,17 @@ class stack_cas_castext2_repeatbutton extends stack_cas_castext2_block {
         ]);
 
         return $body;
+    }
+
+    /**
+     * The ids of the repeat blocks this button controls.
+     * @return string[]
+     */
+    private function get_repeat_ids(): array {
+        if (!isset($this->params['repeat_ids'])) {
+            return [];
+        }
+        return preg_split('/[\s;]+/', trim($this->params['repeat_ids']), -1, PREG_SPLIT_NO_EMPTY);
     }
 
     // phpcs:ignore moodle.Commenting.MissingDocblock.Function

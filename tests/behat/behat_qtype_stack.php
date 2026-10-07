@@ -229,8 +229,6 @@ class behat_qtype_stack extends behat_base {
         $formvalue = $this->evaluate_script($js);
         $this->getSession()->switchToWindow();
         $formvalue = str_replace(["\r\n", "\r", "\n"], '\n', $formvalue);
-        // MathJax versions differ in where they insert invisible multiplication characters.
-        [$formvalue, $value1, $value2, $value3] = str_replace("\u{2062}", '', [$formvalue, $value1, $value2, $value3]);
         if (
             strpos($formvalue, $value1) === false &&
             strpos($formvalue, $value2) === false &&

@@ -1360,11 +1360,9 @@ prefix("nounnot", 70)$
 
 declare("nounand", commutative)$
 declare("nounand", lassociative)$
-declare("nounand", rassociative)$
 
 declare("nounor", commutative)$
 declare("nounor", lassociative)$
-declare("nounor", rassociative)$
 
 logic_edgep(ex) := block(
    if is(ex=true) then return(true),

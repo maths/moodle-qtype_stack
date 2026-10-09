@@ -436,7 +436,7 @@ abstract class stack_connection_helper {
                 break;
 
             case 'SBCL':
-                $maximacommand = ':lisp (sb-ext:save-lisp-and-die "' . $imagename . '" :toplevel #\'run :executable t)' . "\n";
+                $maximacommand = ':lisp (sb-ext:save-lisp-and-die "' . $imagename . '" :toplevel #\'cl-user::run :executable t)' . "\n";
                 $rawcommand = stack_utils::convert_slash_paths($imagename);
                 break;
 

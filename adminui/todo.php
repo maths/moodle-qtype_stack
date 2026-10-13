@@ -39,6 +39,14 @@ $context = context::instance_by_id($contextid);
 require_login();
 $PAGE->set_url('/question/type/stack/adminui/todo.php', ['contextid' => $context->id]);
 $PAGE->set_context($context);
+
+if ($context->contextlevel == CONTEXT_MODULE) {
+    // Calling $PAGE->set_context should be enough, but it seems that it is not.
+    // Therefore, we get the right $cm and $course, and set things up ourselves.
+    $cm = get_coursemodule_from_id(false, $context->instanceid, 0, false, MUST_EXIST);
+    $PAGE->set_cm($cm, $DB->get_record('course', ['id' => $cm->course], '*', MUST_EXIST));
+}
+
 $title = stack_string('seetodolist');
 $PAGE->set_title($title);
 

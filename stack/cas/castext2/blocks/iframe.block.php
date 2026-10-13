@@ -212,11 +212,13 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
         $code = $holder->replace($code);
 
         // Escape some JavaScript strings.
+        // JSON_HEX_TAG ensures that no literal '<script' ends up in the inline JS. Otherwise, the
+        // JS gets interpteted as HTML when loaded via fragments (see core/templates runTemplateJS()).
         $args = [
-            json_encode($frameid),
-            json_encode($code),
-            json_encode($divid),
-            json_encode($title),
+            json_encode($frameid, JSON_HEX_TAG),
+            json_encode($code, JSON_HEX_TAG),
+            json_encode($divid, JSON_HEX_TAG),
+            json_encode($title, JSON_HEX_TAG),
             $scrolling ? 'true' : 'false',
             isset($parameters['no sandbox']) && $parameters['no sandbox'],
         ];

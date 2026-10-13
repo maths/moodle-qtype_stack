@@ -37,7 +37,7 @@ $context = context::instance_by_id($contextid);
 
 // Login and check permissions.
 require_login();
-$PAGE->set_url('/question/type/stack/todo.php');
+$PAGE->set_url('/question/type/stack/adminui/todo.php', ['contextid' => $context->id]);
 $PAGE->set_context($context);
 $title = stack_string('seetodolist');
 $PAGE->set_title($title);

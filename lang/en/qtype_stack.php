@@ -222,6 +222,7 @@ $string['numericalinputvarsforbidden'] = 'This input expects a number, and so ma
 $string['numericalinputmustfloat'] = 'This input expects a floating point number.';
 $string['numericalinputmustint'] = 'This input expects an explicit integer.';
 $string['numericalinputmustrational'] = 'This input expects a fraction or rational number.';
+$string['numericalinputmustreal'] = 'This input expects a real number.';
 $string['numericalinputdp'] = 'You must supply exactly \( {$a} \) decimal places.';
 $string['numericalinputsf'] = 'You must supply exactly \( {$a} \) significant figures.';
 $string['numericalinputmindp'] = 'You must supply at least \( {$a} \) decimal places.';

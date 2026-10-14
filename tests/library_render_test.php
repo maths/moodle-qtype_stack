@@ -29,6 +29,7 @@ defined('MOODLE_INTERNAL') || die();
 global $CFG;
 require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
 require_once($CFG->dirroot . '/webservice/tests/helpers.php');
+require_once($CFG->dirroot . '/question/type/stack/tests/fixtures/apifixtures.class.php');
 require_once($CFG->dirroot . '/question/type/stack/stack/questionlibrary.class.php');
 
 use cache;
@@ -254,6 +255,95 @@ final class library_render_test extends externallib_advanced_testcase {
         $this->assertEquals(
             'Fake XML: Site',
             $returnvalue['questiontext']
+        );
+    }
+
+    /**
+     * Test output of library_render function for a non-STACK question.
+     */
+    public function test_site_library_render_non_stack_question(): void {
+        global $DB, $CFG;
+        $cache = cache::make('qtype_stack', 'librarycache');
+        $cache->purge();
+        mkdir($CFG->dataroot . '/stack/sitelibrary/libtest', 0777, true);
+        file_put_contents(
+            $CFG->dataroot . '/stack/sitelibrary/libtest/nonstack.xml',
+            \stack_api_test_data::get_question_string('nonstack')
+        );
+        // Set the required capabilities - webservice access and export rights on course.
+        $context = context_course::instance($this->course->id);
+        $managerroleid = $DB->get_field('role', 'id', ['shortname' => 'manager']);
+        role_assign($managerroleid, $this->user->id, $context->id);
+
+        $returnvalue = fake_render::render_execute(
+            $this->qcategory->id,
+            'sitelibrary/libtest/nonstack.xml',
+            \stack_question_library::SITELIB,
+            ''
+        );
+
+        // We need to execute the return values cleaning process to simulate
+        // the web service server.
+        $returnvalue = external_api::clean_returnvalue(
+            fake_render::render_execute_returns(),
+            $returnvalue
+        );
+
+        $this->assertFalse($returnvalue['isstack']);
+        $this->assertEquals('Not STACK', $returnvalue['questionname']);
+        $this->assertEquals('<p>Non STACK question.</p>', $returnvalue['questiontext']);
+        $this->assertStringContainsString(
+            get_string('stack_library_not_stack', 'qtype_stack'),
+            $returnvalue['questionrender']
+        );
+    }
+
+    /**
+     * Test output of library_render function for a multi-question file.
+     */
+    public function test_site_library_render_question_set(): void {
+        global $DB, $CFG;
+        $cache = cache::make('qtype_stack', 'librarycache');
+        $cache->purge();
+        mkdir($CFG->dataroot . '/stack/sitelibrary/libtest', 0777, true);
+        file_put_contents(
+            $CFG->dataroot . '/stack/sitelibrary/libtest/questionset.xml',
+            \stack_api_test_data::get_question_string('libraryquestionset')
+        );
+        // Set the required capabilities - webservice access and export rights on course.
+        $context = context_course::instance($this->course->id);
+        $managerroleid = $DB->get_field('role', 'id', ['shortname' => 'manager']);
+        role_assign($managerroleid, $this->user->id, $context->id);
+
+        $returnvalue = fake_render::render_execute(
+            $this->qcategory->id,
+            'sitelibrary/libtest/questionset.xml',
+            \stack_question_library::SITELIB,
+            ''
+        );
+
+        // We need to execute the return values cleaning process to simulate
+        // the web service server.
+        $returnvalue = external_api::clean_returnvalue(
+            fake_render::render_execute_returns(),
+            $returnvalue
+        );
+
+        $this->assertFalse($returnvalue['isstack']);
+        $this->assertEquals(get_string('stack_library_set', 'qtype_stack'), $returnvalue['questionname']);
+        $this->assertStringContainsString(
+            get_string('stack_library_multiple', 'qtype_stack'),
+            $returnvalue['questionrender']
+        );
+        $this->assertStringContainsString(
+            get_string('stack_library_category', 'qtype_stack') . ' top/Question set library test',
+            $returnvalue['questiontext']
+        );
+        $this->assertStringContainsString('First question in library set', $returnvalue['questiontext']);
+        $this->assertStringContainsString('Second question in library set', $returnvalue['questiontext']);
+        $this->assertStringContainsString(
+            get_string('stack_library_multiple_category', 'qtype_stack'),
+            $returnvalue['questionrender']
         );
     }
 

@@ -16,6 +16,10 @@ adding `stack_linear_algebra_declare(true)` to the question variables. For examp
 then evaluates to `column_vector(1,2,3)`. Contributed libraries that previously enabled this
 notation continue to enable the aliases for existing questions.
 
+The aliases make longer expressions easier to enter, for example
+`c(1,2) + s*c(3,4) + t*c(5,6)` for column vectors, or
+`r(1,2) + s*r(3,4) + t*r(5,6)` for row vectors.
+
 Both matrix input types accept vector model answers and return the corresponding vector values.
 The fixed grid infers its dimensions from the answer. The variable-size input accepts
 whitespace-separated components without fixing their number. Vector blocks can also be used in

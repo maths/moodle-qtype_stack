@@ -18,7 +18,9 @@ One option is to have each component of this answer have its own answer box, wit
 
 Another option is to ask the student to type in their answer using matrix notation. Students tend to find this cumbersome, and the answer boxes need to be quite large to fit the whole answer.
 
-A student can enter the expression as `column_vector(1,2) + t*column_vector(3,4)`.
+The examples below use `c(...)`, the convenience alias for `column_vector(...)`, so a student can
+enter the expression as `c(1,2) + t*c(3,4)`. Loading `vectorgeometry.mac` enables the vector aliases;
+they can also be enabled with `stack_linear_algebra_declare(true)` in the question variables.
 See [Vectors](Vectors.md) for how to convert vector notation before grading.
 
 ## Converting from parametric form to vector form
@@ -75,11 +77,11 @@ But, solve can throw errors when we have dependent equations (as we might well d
 
 This function is specifically expecting something of the form \(\underline{\mathbf{r}}_0 + t_1\underline{\mathbf{d}}_1 + t_2\underline{\mathbf{d}}_2 + \dots + t_n\underline{\mathbf{d}}_n\), and can handle either `column_vector` or `matrix` notation. It is primarily useful as a sanity check before running the functions below. It will reject any expression with non-linear terms, and respects declarations like `declare(k,constant)`.
 
-* `linear_combinationp(column_vector(1,2) + t*column_vector(3,4))` returns `true`
-* `linear_combinationp(column_vector(1,2) + t^2*column_vector(3,4))` returns `false`
-* `linear_combinationp(column_vector(1,2) + t*column_vector(k,4))` returns `false`
-* `linear_combinationp(column_vector(1,k) + t*column_vector(3,4))` returns `true`, because the expression is interpreted as `column_vector(1,0) + k*column_vector(0,1) + t*column_vector(3,4)`
-* `(declare(k, constant), linear_combinationp(column_vector(1,2) + t*column_vector(k,4))` returns `true`.
+* `linear_combinationp(c(1,2) + t*c(3,4))` returns `true`
+* `linear_combinationp(c(1,2) + t^2*c(3,4))` returns `false`
+* `linear_combinationp(c(1,2) + t*c(k,4))` returns `false`
+* `linear_combinationp(c(1,k) + t*c(3,4))` returns `true`, because the expression is interpreted as `c(1,0) + k*c(0,1) + t*c(3,4)`
+* `(declare(k, constant), linear_combinationp(c(1,2) + t*c(k,4)))` returns `true`.
 
 ### Extracting the components of a vector parametric expression
 
@@ -87,19 +89,19 @@ This function is specifically expecting something of the form \(\underline{\math
 
 `constant_term(ex,[constant_vars])` will do the same, but assumes that any variable in `[constant_vars]` is constant.
  
-For example, `constant_term(column_vector(1,2) + t*column_vector(3,4))` returns `matrix([1],[2])`, and `constant_term(column_vector(1,2) + t*column_vector(3,4),[t])` returns `matrix([3*t+1],[4*t+2])`.
+For example, `constant_term(c(1,2) + t*c(3,4))` returns `matrix([1],[2])`, and `constant_term(c(1,2) + t*c(3,4),[t])` returns `matrix([3*t+1],[4*t+2])`.
 
 `vector_parametric_parts(ex)` will break down the expression into its constant part, direction vectors, and parameters (variables). This may behave unexpectedly if `linear_combinationp(ex)` returns false, as it assumes that the expression is linear in its parameters. 
 
 It returns a list with three components. The first is the constant term/linear offset (extracted with `constant_term`). The second is a list of column vectors; the direction vectors of this affine subspace. The third is a list of variable names; the parameters of this expression. Some examples:
 
-* `vector_parametric_parts(column_vector(1,2) + t*column_vector(3,4))` gives `[matrix([1],[2]), [matrix([3],[4])], [t]]`.
-* `vector_parametric_parts(column_vector(1,2,3) + t*column_vector(1,1,1) + s*column_vector(1,0,1))` gives `[matrix([1],[2],[3]),[matrix([1],[0],[1]),matrix([1],[1],[1])],[s,t]]`
+* `vector_parametric_parts(c(1,2) + t*c(3,4))` gives `[matrix([1],[2]), [matrix([3],[4])], [t]]`.
+* `vector_parametric_parts(c(1,2,3) + t*c(1,1,1) + s*c(1,0,1))` gives `[matrix([1],[2],[3]),[matrix([1],[0],[1]),matrix([1],[1],[1])],[s,t]]`
 * `vector_parametric_parts(matrix([p+3*q-4],[2+2*p-q],[p+q+1]))` gives `[matrix([-4],[2],[1]),[matrix([1],[2],[1]),matrix([3],[-1],[1])],[p,q]]`
 
 Just like in `constant_term`, adding a list of variable names to the input will instruct the function to treat them as constants. 
 
-* `vector_parametric_parts(column_vector(1,2,3) + t*column_vector(1,1,1) + s*column_vector(1,0,1), [s])` gives `[matrix([s+1],[2],[s+3]),[matrix([1],[1],[1])],[t]]`
+* `vector_parametric_parts(c(1,2,3) + t*c(1,1,1) + s*c(1,0,1), [s])` gives `[matrix([s+1],[2],[s+3]),[matrix([1],[1],[1])],[t]]`
 * `vector_parametric_parts(matrix([p+3*q-4],[2+2*p-q],[p+q+1]),[p,q])` gives `[matrix([3*q+p-4],[-q+2*p+2],[q+p+1]),[],[]]`
 
 The output of this function can be a bit cumbersome with its nested lists, but the intention is to use the output directly in the functions below. You might like to use code such as the following to more easily handle these variables in a PRT. 

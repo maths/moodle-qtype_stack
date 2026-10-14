@@ -3343,4 +3343,27 @@ final class castext_test extends qtype_stack_testcase {
                   '<span class="stacksyntaxexample">&</span>.';
         $this->assertEquals($errmsg, $at1->get_errors());
     }
+
+    /**
+     * A backslash directly before an injection, issue #1910.
+     * @covers \qtype_stack\castext2_evaluatable::make_from_source
+     */
+    public function test_backslash_before_injection(): void {
+
+        $a1 = ['a:-5', 'b:3'];
+
+        $cases = [
+            ['\({@a@}\\\\{@b@}\)', $a1, true, '\({-5}\\\\{3}\)'],
+            ['\begin{pmatrix}{@a@}\\\\{@b@}\end{pmatrix}', $a1, true, '\begin{pmatrix}\({-5}\)\\\\\({3}\)\end{pmatrix}'],
+            ['\(\begin{pmatrix}{@a@}\\\\{@b@}\end{pmatrix}\)', $a1, true, '\(\begin{pmatrix}{-5}\\\\{3}\end{pmatrix}\)'],
+            ['x\\\\{@b@}y', $a1, true, 'x\\\\\({3}\)y'],
+            ['\({@a@} \\\\ {@b@}\)', $a1, true, '\({-5} \\\\ {3}\)'],
+            ['\({@a@}\\\\[2pt]{@b@}\)', $a1, true, '\({-5}\\\\[2pt]{3}\)'],
+            ['{@a@}\\\\{#b#}', $a1, true, '\({-5}\)\\\\3'],
+        ];
+
+        foreach ($cases as $case) {
+            $this->basic_castext_instantiation($case[0], $case[1], $case[2], $case[3]);
+        }
+    }
 }

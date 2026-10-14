@@ -174,7 +174,7 @@ class library_import extends \external_api {
             // we have based on the question files will have a category file.
             foreach ($files as $file) {
                 $category = dirname($file) . '/' . 'gitsync_category.xml';
-                if (!array_search($category, $categories)) {
+                if (array_search($category, $categories, true) === false) {
                     array_push($categories, $category);
                 }
             }
@@ -266,7 +266,9 @@ class library_import extends \external_api {
             } else {
                 $qformat->setCategory($thiscategory);
             }
-            $qformat->setCatfromfile(false);
+            // Use category info if we have a multi-question file.
+            // Will fall back to the set category above otherwise.
+            $qformat->setCatfromfile(true);
             if ($external === stack_question_library::GITHUB) {
                 $url = $externalfiles[$file]->url;
                 file_put_contents($requestedfile, stack_question_library::get_external_file($url, $external, $apikey));
@@ -310,12 +312,16 @@ class library_import extends \external_api {
                 $quizdata->questions[$qindex]->id = (int) $qformat->questionids[0];
             }
 
-            $output->success = true;
-            $output->questionid = $qformat->questionids[0];
-            $question = $DB->get_record('question', ['id' => $qformat->questionids[0]], 'id, name, qtype');
-            $output->questionname = $question->name;
-            $output->isstack = ($question->qtype === 'stack') ? true : false;
-            $response[] = $output;
+            foreach ($qformat->questionids as $importedid) {
+                $output = new \stdClass();
+                $output->success = true;
+                $output->filename = basename($file);
+                $output->questionid = $importedid;
+                $question = $DB->get_record('question', ['id' => $importedid], 'id, name, qtype');
+                $output->questionname = $question->name;
+                $output->isstack = ($question->qtype === 'stack') ? true : false;
+                $response[] = $output;
+            }
             $eventdata = ['qcategoryid' => $qformat->category->id, 'qcontextid' => $qformat->category->contextid];
             $aleadylisted = false;
             foreach ($questionevents as $currentevent) {
@@ -354,7 +360,9 @@ class library_import extends \external_api {
             $response[] = $output;
         }
         // Import failure writes directly to output. This breaks the response JSON.
-        ob_clean();
+        if (ob_get_level() > 0) {
+            ob_clean();
+        }
         return $response;
     }
 

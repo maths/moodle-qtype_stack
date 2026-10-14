@@ -49,7 +49,8 @@
               }
           ],
           "stackversion": "This question was authored with STACK version 2026022303. The current version of STACK is 2026022303.",
-          "version": "7"
+          "version": "7",
+          "hasrandomvariants": true
       },
       "general": {
           "testcreated": false,
@@ -75,7 +76,15 @@
           "cmid": 7,
           "questionid": "6605",
           "seed": 182397542,
-          "hidetests": ""
+          "hidetests": "",
+          "seedurls":  [
+              {
+                  "seed": "182397542",
+                  "testurl": "http://question\/type\/stack\/questiontestrun.php?courseid=7&amp;questionid=6605#test-pane",
+                  "questionurl": "http://question\/type\/stack\/questiontestrun.php?courseid=7&amp;questionid=6605#question-pane",
+                  "selected": true
+              }
+          ]
       },
       "istest": true
     }
@@ -171,7 +180,16 @@
     <!-- Question details panes -->
     <div class="tab-pane mt-3" id="question-pane" role="tabpanel" aria-labelledby="question-tab">
       <h3>{{question.name}}</h3>
-      <p>{{#str}} seed, qtype_stack {{/str}}: {{question.seed}}</p>
+      {{#question.hasrandomvariants}}
+        <p>
+          <label for="question-seed-select">{{#str}} seed, qtype_stack {{/str}}:</label>
+          <select id="question-seed-select" class="custom-select form-select w-auto d-inline-block" onchange="if(this.value) window.location.href=this.value">
+            {{#general.seedurls}}
+              <option value="{{{questionurl}}}"{{#selected}} selected="selected"{{/selected}}{{#disabled}} disabled="disabled"{{/disabled}}>{{seed}}</option>
+            {{/general.seedurls}}
+          </select>
+        </p>
+      {{/question.hasrandomvariants}}
       <h3>{{#str}} questionnote, qtype_stack {{/str}}</h3>
       <div class="que"><div class="questionnote">{{{question.questionnote}}}</div></div>
       <h3>{{#str}} questionvariablevalues, qtype_stack {{/str}}</h3>

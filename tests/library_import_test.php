@@ -29,6 +29,7 @@ defined('MOODLE_INTERNAL') || die();
 global $CFG;
 require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
 require_once($CFG->dirroot . '/webservice/tests/helpers.php');
+require_once($CFG->dirroot . '/question/type/stack/tests/fixtures/apifixtures.class.php');
 require_once($CFG->dirroot . '/question/type/stack/tests/fixtures/test_maxima_configuration.php');
 require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
 require_once($CFG->dirroot . '/question/type/stack/stack/questionlibrary.class.php');
@@ -741,6 +742,76 @@ final class library_import_test extends externallib_advanced_testcase {
         $this->assertEquals(1, $feedback1->feedbacktextformat);
         $this->assertEquals(0, $feedback1->mingrade);
         $this->assertEquals(6, $feedback1->maxgrade);
+    }
+
+    /**
+     * Test output of library_import function for a multi-question file with category data.
+     */
+    public function test_site_library_import_question_set(): void {
+        global $DB, $CFG;
+
+        $dir = $CFG->dataroot . '/stack/sitelibrary/libtest';
+        mkdir($dir, 0777, true);
+        file_put_contents($dir . '/questionset.xml', \stack_api_test_data::get_question_string('libraryquestionset'));
+
+        // Set the required capabilities - webservice access and export rights on course.
+        $context = context_course::instance($this->course->id);
+        $managerroleid = $DB->get_field('role', 'id', ['shortname' => 'manager']);
+        role_assign($managerroleid, $this->user->id, $context->id);
+        $sink = $this->redirectEvents();
+
+        $returnvalue = library_import::import_execute(
+            $this->course->id,
+            $this->qcategory->id,
+            'sitelibrary/libtest/questionset.xml',
+            false,
+            \stack_question_library::SITELIB,
+            ''
+        );
+
+        // We need to execute the return values cleaning process to simulate
+        // the web service server.
+        $returnvalue = external_api::clean_returnvalue(
+            library_import::import_execute_returns(),
+            $returnvalue
+        );
+
+        $this->assertEquals(2, count($returnvalue));
+        $this->assertEquals(true, $returnvalue[0]['success']);
+        $this->assertEquals('First question in library set', $returnvalue[0]['questionname']);
+        $this->assertEquals('questionset.xml', $returnvalue[0]['filename']);
+        $this->assertEquals(true, $returnvalue[0]['isstack']);
+        $this->assertEquals(true, $returnvalue[1]['success']);
+        $this->assertEquals('Second question in library set', $returnvalue[1]['questionname']);
+        $this->assertEquals('questionset.xml', $returnvalue[1]['filename']);
+        $this->assertEquals(true, $returnvalue[1]['isstack']);
+
+        $question1 = $DB->get_record('question', ['name' => 'First question in library set'], '*', MUST_EXIST);
+        $question2 = $DB->get_record('question', ['name' => 'Second question in library set'], '*', MUST_EXIST);
+        $this->assertEquals($question1->id, $returnvalue[0]['questionid']);
+        $this->assertEquals($question2->id, $returnvalue[1]['questionid']);
+
+        $events = $sink->get_events();
+        $categoriescreated = 0;
+        $questionscreated = 0;
+        $questionsimported = 0;
+        foreach ($events as $currentevent) {
+            $eventclass = get_class($currentevent);
+            switch ($eventclass) {
+                case 'core\event\question_category_created':
+                    $categoriescreated++;
+                    break;
+                case 'core\event\question_created':
+                    $questionscreated++;
+                    break;
+                case 'core\event\questions_imported':
+                    $questionsimported++;
+                    break;
+            }
+        }
+        $this->assertEquals(1, $categoriescreated);
+        $this->assertEquals(2, $questionscreated);
+        $this->assertEquals(1, $questionsimported);
     }
 
     /**

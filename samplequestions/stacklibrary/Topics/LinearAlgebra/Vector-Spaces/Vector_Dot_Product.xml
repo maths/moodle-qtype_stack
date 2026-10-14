@@ -5,7 +5,7 @@
       <text>Vector_Dot_Product</text>
     </name>
     <questiontext format="html">
-      <text><![CDATA[<p>Calculate the dot produxct \(\underline{u}\cdot \underline{v}\) where \(\underline{u}\) has components {@vector1@} and \(\underline{v}\) has components {@vector2@}.</p>
+      <text><![CDATA[<p>Calculate the dot product \(\underline{u}\cdot \underline{v}\) where \(\underline{u}\) has components {@vector1@} and \(\underline{v}\) has components {@vector2@}.</p>
 <p><span style="line-height: 1.231;" data-mce-mark="1">\(\underline{u}\cdot\underline{v} =\) [[input:ans1]]</span></p>
 <p>[[validation:ans1]]</p>]]></text>
     </questiontext>

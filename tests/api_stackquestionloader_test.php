@@ -770,6 +770,48 @@ XML;
         StackQuestionLoader::loadXML($xml);
     }
 
+    public function test_question_loader_marks_non_stack_question_exception(): void {
+        $xml = stack_api_test_data::get_question_string('nonstack');
+
+        try {
+            StackQuestionLoader::loadXML($xml);
+        } catch (\stack_exception $e) {
+            $this->assertEquals(get_string('api_not_stack_question', 'qtype_stack'), $e->getMessage());
+            $this->assertEquals(StackQuestionLoader::NON_STACK_Q, $e->debuginfo);
+            return;
+        }
+
+        $this->fail('Expected a stack_exception for a non-STACK question.');
+    }
+
+    public function test_question_loader_marks_multiple_question_exceptions(): void {
+        $xml = stack_api_test_data::get_question_string('multiplequestions');
+
+        try {
+            StackQuestionLoader::loadXML($xml);
+        } catch (\stack_exception $e) {
+            $this->assertEquals(get_string('api_invalid_question_count', 'qtype_stack'), $e->getMessage());
+            $this->assertEquals(StackQuestionLoader::MULTIPLE_Q, $e->debuginfo);
+            return;
+        }
+
+        $this->fail('Expected a stack_exception for multiple questions.');
+    }
+
+    public function test_question_loader_marks_multiple_question_exception_with_category(): void {
+        $xml = stack_api_test_data::get_question_string('multiplequestionscategory');
+
+        try {
+            StackQuestionLoader::loadXML($xml);
+        } catch (\stack_exception $e) {
+            $this->assertEquals(get_string('api_invalid_question_count_category', 'qtype_stack'), $e->getMessage());
+            $this->assertEquals(StackQuestionLoader::MULTIPLE_Q_CATEGORY, $e->debuginfo);
+            return;
+        }
+
+        $this->fail('Expected a stack_exception for multiple questions with category data.');
+    }
+
     public function test_split_answertest_basic(): void {
         $input = 'ATAlgEquiv(x^2+2x+1, (x+1)^2, 1, ignoreorder)';
         $expected = [

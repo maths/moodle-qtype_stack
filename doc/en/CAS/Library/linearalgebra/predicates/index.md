@@ -51,6 +51,8 @@ Return `true` when the argument is a matrix whose off-diagonal entries
 are recognised as zero by `is`. The matrix need not be square; use [`squarep`](#squarep)
 as well if the task requires a square diagonal matrix. Diagonal entries
 may be zero or symbolic.
+Rectangular diagonal matrices occur as the Sigma factor in a singular value
+decomposition (SVD).
 
 For example, `diagp(matrix([a,0,0],[0,b,0]))` is `true`, but
 `diagp(matrix([1,x],[0,1]))` is `false` for an unconstrained symbol `x`.

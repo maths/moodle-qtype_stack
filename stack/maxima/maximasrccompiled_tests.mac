@@ -216,39 +216,39 @@ s_exec_test("linearalgebra/predicates/shape_predicates.mac:128",34)$
 s_test_case(simp):=is(squarep(matrix([])) = false)$
 s_exec_test("linearalgebra/predicates/shape_predicates.mac:129",35)$
 s_test_case(simp):=is(diagp(ident(5)) = true)$
-s_exec_test("linearalgebra/predicates/shape_predicates.mac:164",36)$
+s_exec_test("linearalgebra/predicates/shape_predicates.mac:166",36)$
 s_test_case(simp):=is(diagp(zeromatrix(5,4)) = true)$
-s_exec_test("linearalgebra/predicates/shape_predicates.mac:165",37)$
+s_exec_test("linearalgebra/predicates/shape_predicates.mac:167",37)$
 s_test_case(simp):=is(diagp(matrix([1,0],[1-1,1])) = simp)$
-s_exec_test("linearalgebra/predicates/shape_predicates.mac:166",38)$
+s_exec_test("linearalgebra/predicates/shape_predicates.mac:168",38)$
 s_test_case(simp):=is(diagp(matrix([1,1],[0,1])) = false)$
-s_exec_test("linearalgebra/predicates/shape_predicates.mac:167",39)$
+s_exec_test("linearalgebra/predicates/shape_predicates.mac:169",39)$
 s_test_case(simp):=is(diagp(matrix([1,0],[1,1])) = false)$
-s_exec_test("linearalgebra/predicates/shape_predicates.mac:168",40)$
+s_exec_test("linearalgebra/predicates/shape_predicates.mac:170",40)$
 s_test_case(simp):=is(diagp(matrix([1])) = true)$
-s_exec_test("linearalgebra/predicates/shape_predicates.mac:169",41)$
+s_exec_test("linearalgebra/predicates/shape_predicates.mac:171",41)$
 s_test_case(simp):=is(diagp(matrix([1,0,0,0],[0,2,0,0],[0,0,3,0])) = true)$
-s_exec_test("linearalgebra/predicates/shape_predicates.mac:170",42)$
+s_exec_test("linearalgebra/predicates/shape_predicates.mac:172",42)$
 s_test_case(simp):=is(diagp(matrix([1,0,0,0],[0,2,0,0],[0,0,3,4])) = false)$
-s_exec_test("linearalgebra/predicates/shape_predicates.mac:171",43)$
+s_exec_test("linearalgebra/predicates/shape_predicates.mac:173",43)$
 s_test_case(simp):=is(diagp(matrix([1,0,0],[0,2,0],[0,0,3],[0,0,0])) = true)$
-s_exec_test("linearalgebra/predicates/shape_predicates.mac:172",44)$
+s_exec_test("linearalgebra/predicates/shape_predicates.mac:174",44)$
 s_test_case(simp):=is(diagp(matrix([1,0,0],[0,2,0],[0,0,3],[0,0,4])) = false)$
-s_exec_test("linearalgebra/predicates/shape_predicates.mac:173",45)$
+s_exec_test("linearalgebra/predicates/shape_predicates.mac:175",45)$
 s_test_case(simp):=is(diagp(1) = false)$
-s_exec_test("linearalgebra/predicates/shape_predicates.mac:174",46)$
+s_exec_test("linearalgebra/predicates/shape_predicates.mac:176",46)$
 s_test_case(simp):=is(diagp([1,2]) = false)$
-s_exec_test("linearalgebra/predicates/shape_predicates.mac:175",47)$
+s_exec_test("linearalgebra/predicates/shape_predicates.mac:177",47)$
 s_test_case(simp):=is(diagp(matrix([a,0,0],[0,b,0])) = true)$
-s_exec_test("linearalgebra/predicates/shape_predicates.mac:176",48)$
+s_exec_test("linearalgebra/predicates/shape_predicates.mac:178",48)$
 s_test_case(simp):=is(diagp(matrix([1,x],[0,1])) = false)$
-s_exec_test("linearalgebra/predicates/shape_predicates.mac:177",49)$
+s_exec_test("linearalgebra/predicates/shape_predicates.mac:179",49)$
 s_test_case(simp):=is(diagp(matrix()) = true)$
-s_exec_test("linearalgebra/predicates/shape_predicates.mac:178",50)$
+s_exec_test("linearalgebra/predicates/shape_predicates.mac:180",50)$
 s_test_case(simp):=is(diagp(matrix([])) = true)$
-s_exec_test("linearalgebra/predicates/shape_predicates.mac:179",51)$
+s_exec_test("linearalgebra/predicates/shape_predicates.mac:181",51)$
 s_test_case(simp):=is(diagp(matrix([],[])) = true)$
-s_exec_test("linearalgebra/predicates/shape_predicates.mac:180",52)$
+s_exec_test("linearalgebra/predicates/shape_predicates.mac:182",52)$
 s_test_case(simp):=is(stack_unit_si_to_si_base(2000*g) = 2*kg)$
 s_exec_test("stackunits/stack_unit_si_to_si_base.mac:66",1)$
 s_test_case(simp):=is(stack_unit_si_to_si_base(stackunits(1000,g)) = stackunits(1,kg))$

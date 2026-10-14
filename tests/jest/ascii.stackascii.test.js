@@ -14,6 +14,12 @@ const mockRegexallremainder = jest.fn();
 
 jest.mock('../../corsscripts/ascii/filters/markdown.js', () => ({
     __esModule: true,
+    inputToolbarButtons: [
+        { label: '`', insert: '`', titlekey: 'asciistringtoolbarmarkdowninline' },
+        { label: '\\(', insert: '\\(', titlekey: 'asciistringtoolbarmarkdowninlinelatexstart' },
+        { label: '\\)', insert: '\\)', titlekey: 'asciistringtoolbarmarkdowninlinelatexend' },
+        { label: '`', insert: '`', titlekey: 'asciistringtoolbarmarkdowninline' }
+    ],
     default: (...args) => mockMarkdown(...args)
 }));
 
@@ -68,6 +74,12 @@ jest.mock('../../corsscripts/ascii/extractors/allregexremainder.js', () => ({
 }));
 
 import init from '../../corsscripts/ascii/stackascii.js';
+import { stackStrings } from './ascii.teststrings.js';
+
+const toolbarStrings = stackStrings([
+    'asciistringtoolbarmarkdowninline',
+    'asciistringtoolbarmarkdowninlinelatexstart'
+]);
 
 describe('stackascii init', () => {
     let getElementByIdSpy = null;
@@ -303,6 +315,34 @@ describe('stackascii init', () => {
         expect(global.setTimeout).toHaveBeenCalledWith(expect.any(Function), 100);
         expect(mockMarkdown).toHaveBeenCalledTimes(2);
         expect(env.renderedOutput.innerHTML).toBe('MD:gamma');
+    });
+
+    test('registers input toolbar buttons from active filters', () => {
+        setupEnvironment('buttons', 0);
+
+        const operations = [
+            { operation: 'filter', type: 'calculation' },
+            { operation: 'filter', type: 'markdown' },
+            { operation: 'filter', type: 'cas' },
+            { operation: 'extractor', type: 'lastexpr' }
+        ];
+
+        init(['markdownInput'], operations, {
+            asciistrings: toolbarStrings
+        });
+
+        expect(window.parent.postMessage).toHaveBeenCalledWith(JSON.stringify({
+            version: 'STACK-JS:1.7.0',
+            type: 'input-toolbar',
+            name: 'markdownInput',
+            buttons: [
+                { label: '`', insert: '`', title: toolbarStrings.asciistringtoolbarmarkdowninline },
+                { label: '\\(', insert: '\\(', title: toolbarStrings.asciistringtoolbarmarkdowninlinelatexstart },
+                { label: '\\)', insert: '\\)', title: '\\)' }
+            ],
+            'limit-to-question': true,
+            src: 'frame-1'
+        }), '*');
     });
 
     test('registers one-way scroll sync and applies inbound scroll positions', () => {

@@ -32,7 +32,7 @@ $addons = [
                 'method' => 'stack_view',
                 'styles' => [
                     'url' => $CFG->wwwroot . '/question/type/stack/mobile.css',
-                    'version' => 2026062403,
+                    'version' => 2026092400,
                 ],
             ],
         ],

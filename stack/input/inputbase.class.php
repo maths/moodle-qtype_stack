@@ -144,6 +144,9 @@ abstract class stack_input {
      */
     protected $runtime = true;
 
+    /** @var bool whether the constructor is still setting the initial parameters. */
+    private $initialising = false;
+
     /**
      * Filters to apply for display in validate_contents
      * @var array
@@ -172,6 +175,7 @@ abstract class stack_input {
         $this->name = $name;
         $this->teacheranswer = $teacheranswer;
         $this->runtime = $runtime;
+        $this->initialising = true;
         $class = get_class($this);
         foreach ($class::get_parameters_defaults() as $name => $value) {
             $this->set_parameter($name, $value);
@@ -196,6 +200,7 @@ abstract class stack_input {
             }
         }
 
+        $this->initialising = false;
         $this->internal_construct();
     }
 
@@ -539,7 +544,9 @@ abstract class stack_input {
         if ($parameter == 'insertStars') {
             $this->parameters['grammarAutofixes'] = stack_input_factory::convert_legacy_insert_stars($value);
         }
-        $this->internal_construct();
+        if (!$this->initialising) {
+            $this->internal_construct();
+        }
     }
 
     /**

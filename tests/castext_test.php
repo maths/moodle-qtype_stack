@@ -1819,6 +1819,42 @@ final class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * A lambda holding an unevaluated matrix(...), issue #1912.
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_ast_container
+     */
+    public function test_lambda_matrix(): void {
+
+        $a2 = [
+            'f: lambda([w], matrix(w))',
+            'g: lambda([w,v], transpose(matrix(w,v)))',
+            'a: f([1,2])',
+        ];
+        $s2 = [];
+        foreach ($a2 as $s) {
+            $cs = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
+            $this->assertTrue($cs->get_valid());
+            $s2[] = $cs;
+        }
+        $st = '{@f@}, {@g@}, {@a@}';
+        $cs2 = new stack_cas_session2($s2, null, 0);
+
+        $at1 = castext2_evaluatable::make_from_source($st, 'test-case');
+        $this->assertTrue($at1->get_valid());
+        $cs2->add_statement($at1);
+        $cs2->instantiate();
+
+        $this->assertEquals('', $cs2->get_errors(false) ? implode(' ', $cs2->get_errors(false)) : '');
+        $this->assert_equals_ignore_spaces_and_e(
+            '\({\lambda\left(\left[ w \right]  , {\rm matrix}\left(w\right)\right)}\), ' .
+                '\({\lambda\left(\left[ w , v \right]  , ' .
+                '{\it transpose}\left({\rm matrix}\left(w , v\right)\right)\right)}\), ' .
+                '\({\left[\begin{array}{cc} 1 & 2 \end{array}\right]}\)',
+            $at1->get_rendered()
+        );
+    }
+
+    /**
      * Add description here.
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_ast_container

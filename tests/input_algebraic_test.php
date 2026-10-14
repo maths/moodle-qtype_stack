@@ -2830,6 +2830,28 @@ final class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals('', $el->get_teacher_answer_display("[SOME JSON]", "\[ \text{[SOME MORE JSON]} \]"));
     }
 
+    public function test_validate_student_response_vector_constructors(): void {
+        $options = new stack_options();
+        foreach (['column_vector', 'row_vector'] as $constructor) {
+            $model = $constructor . '(1,2)';
+            $answer = $constructor . '(1,a)';
+            $el = stack_input_factory::make('algebraic', 'ans1', $model);
+            $state = $el->validate_student_response(
+                ['ans1' => $answer], $options, $model, new stack_cas_security()
+            );
+            $this->assertSame(stack_input::VALID, $state->status);
+            $this->assertSame($answer, $state->contentsmodified);
+            $this->assertStringContainsString('\\begin{array}', $state->contentsdisplayed);
+
+            $el->set_parameter('forbidWords', $constructor);
+            $state = $el->validate_student_response(
+                ['ans1' => $answer], $options, $model, new stack_cas_security()
+            );
+            $this->assertSame(stack_input::INVALID, $state->status);
+            $this->assertSame('forbiddenFunction', $state->note);
+        }
+    }
+
     public function test_validate_student_response_ntuple(): void {
 
         $options = new stack_options();

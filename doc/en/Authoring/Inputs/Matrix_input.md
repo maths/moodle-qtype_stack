@@ -10,7 +10,7 @@ STACK provides three ways to let students input a matrix:
 
 The size of the matrix is inferred from the model answer. STACK then adds an appropriate grid of boxes (of size Box Size) for the student to fill in. This is easier than having students type in [Maxima](../../CAS/Maxima_background.md)'s `matrix` command, but does give the game away about the size of the required matrix.
 
-The grid normally returns a Maxima `matrix(...)`. If its model answer is instead a column vector `c(...)` or row vector `r(...)`, the grid infers the corresponding shape and returns that same vector form. This keeps row vectors, column vectors, and one-row or one-column matrices distinct. Use `stack_linear_algebra_declare(true)` in the question variables to display `c(...)` and `r(...)` as vectors, and use `vec_convert(...)` in a PRT when a matrix representation is needed for an answer test.
+The grid normally returns a Maxima `matrix(...)`. If its model answer is instead a column vector `column_vector(...)` or row vector `row_vector(...)` (also the legacy `c(...)` and `r(...)`), the grid infers the corresponding shape and returns that same vector form. This keeps row vectors, column vectors, and one-row or one-column matrices distinct. The long forms display as vectors automatically; the short forms require `stack_linear_algebra_declare(true)` in the question variables. Use `vec_convert(...)` in a PRT when a matrix representation is needed for an answer test.
 
 _The student may not fill in part of a matrix._  If they do so, the remaining entries will be completed with `?` characters which render the attempt invalid. STACK cannot cope with empty boxes here.
 
@@ -34,7 +34,7 @@ Use an augmented model answer directly:
 Choose the fixed matrix input with model answer `ta`. Its instantiated value is
 `aug_matrix(matrix([1,2],[3,4]),c(5,6))`: the grid automatically has two rows, three columns
 and an internal separator after column two. Multiple blocks such as `aug(A,B,C)` work in the
-same way. Blocks may be matrices or `c(...)`/`r(...)` vectors and must be nonempty with equal
+same way. Blocks may be matrices or vectors in any of these four forms and must be nonempty with equal
 row counts. No separate boundary option is required.
 
 The student fills one grid. Submission and validation reconstruct the same augmented constructor
@@ -48,14 +48,15 @@ and `de_aug` are available in the linear-algebra core; no contributed-library lo
 
 API consumers receive `casValueType: "aug_matrix"` and a `blocks` array, for example
 `[{"type":"matrix","columns":2},{"type":"c","columns":1}]`. Use these widths for grid boundaries
-and reconstruct each block with its indicated constructor. Field names and the native Moodle AJAX
-grid format do not change.
+and reconstruct each block with its indicated constructor. Vector types use the model's exact
+constructor name, including `column_vector` and `row_vector`.
+Field names and the native Moodle AJAX grid format do not change.
 
 ## Matrix of variable size input ###
 
 The matrix of variable size input is a textarea into which students type in their answer. For a matrix, students separate entries in each row with spaces and separate rows with line breaks.
 
-As with the fixed grid, a `c(...)` or `r(...)` model answer makes the input return the same vector form. For these vector types, the textarea is treated as a one-dimensional list of components, with spaces and line breaks as equivalent separators. Thus both `1 2 3` and the same three components on separate lines are interpreted as `c(1,2,3)` for a `c(...)` model answer, or `r(1,2,3)` for an `r(...)` model answer. The model-answer type, not the student's choice of whitespace, determines the vector orientation. STACK displays the interpreted column vector with one component per line and the interpreted row vector on one line.
+As with the fixed grid, a `column_vector(...)`, `row_vector(...)`, `c(...)` or `r(...)` model answer makes the input return the same vector form. For these vector types, the textarea is treated as a one-dimensional list of components, with spaces and line breaks as equivalent separators. Thus both `1 2 3` and the same three components on separate lines are interpreted as `c(1,2,3)` for a `c(...)` model answer, or `r(1,2,3)` for an `r(...)` model answer. The long forms behave the same way and retain their full constructor names. The model-answer type, not the student's choice of whitespace, determines the vector orientation. STACK displays the interpreted column vector with one component per line and the interpreted row vector on one line.
 
 Input box size is used to determine the starting width of the input.
 
@@ -72,8 +73,8 @@ Students separate entries with spaces, rows with newlines, and blocks with `|` o
 ```
 
 Rows and matrix-block widths are student-selected; the model does not fix their dimensions. The model
-does fix the number and constructor types of blocks. A `c(...)` block must remain one column and an
-`r(...)` block must remain one row. Matrix blocks can have any positive number of columns. Every row
+does fix the number and constructor types of blocks. A `column_vector(...)` or `c(...)` block must remain one column and a
+`row_vector(...)` or `r(...)` block must remain one row. Matrix blocks can have any positive number of columns. Every row
 must have the same nonempty block widths. Missing or inconsistent separators are validation errors.
 For a malformed block structure, validation shows a short multi-line example:
 

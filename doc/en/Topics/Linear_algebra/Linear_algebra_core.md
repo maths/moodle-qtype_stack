@@ -3,10 +3,12 @@
 STACK extends Maxima's functionality with a number of very useful functions for manipulating matrices.
 The functions documented here are loaded by default and are available in every question. 
 
-A key feature are convenience functions `c` and `r` which convert their arguments into column and row matrices respectively.
+Use [`column_vector` and `row_vector`](../../CAS/Library/linearalgebra/vectors/index.md) for vector notation.
+They display as vectors without a declaration and retain their operators until converted to matrices.
+The legacy short forms `c` and `r` remain available.
 
 * `stack_linear_algebra_declare(true)` Provides a linear algebra context, including TeX support for `c` and `r`.
-* `vec_convert(ex)` Converts `c` and `r` convenience functions into matrices.
+* `vec_convert(ex)` Converts `column_vector`, `row_vector`, `c` and `r` notation into matrices.
 * `un_vec_convert(ex)` Given a row or column vector, convert it to `c()` or `r()` form.
 
 For more detail, see the page on [Vectors](Vectors.md).
@@ -22,7 +24,7 @@ The generated [shape-predicate reference](../../CAS/Library/linearalgebra/predic
 documents [`col_vecp`](../../CAS/Library/linearalgebra/predicates/index.md#col_vecp),
 [`row_vecp`](../../CAS/Library/linearalgebra/predicates/index.md#row_vecp) and
 [`vectorp`](../../CAS/Library/linearalgebra/predicates/index.md#vectorp), including examples,
-the distinction from inert `c`/`r` notation, and empty and 1-by-1 matrix cases.
+the distinction from inert vector notation, and empty and 1-by-1 matrix cases.
 
 ## Predicate functions for matrices
 

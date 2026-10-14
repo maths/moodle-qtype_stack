@@ -520,6 +520,27 @@ foreach ($scripts as $filename) {
         echo ("'$sname' " . count($payload)
             . ' items of content and ' . count($tests) . " tests.\n");
 
+        // Both definitions and inert declarations belong to this source directory.
+        $cats = array_slice(explode('/', $sname), 0, -1);
+        $ccat = '/' . implode('/', $cats);
+        $lastcat = $categories[''];
+        $path = '';
+        foreach ($cats as $cat) {
+            $path .= '/' . $cat;
+            if (!isset($categories[$path])) {
+                // Maybe collect more meta here. Maybe the directory contains
+                // some metafile giving better names titles descriptions etc.
+                $categories[$path] = new doc_tree_node($lastcat);
+                $categories[$path]->name = $cat;
+                if (file_exists(__DIR__ . '/../stack/maximasrc' . $path . '/description.md')) {
+                    $categories[$path]->description = file_get_contents(
+                        __DIR__ . '/../stack/maximasrc' . $path . '/description.md'
+                    );
+                }
+            }
+            $lastcat = $categories[$path];
+        }
+
         foreach ($payload as $corg) {
             // Note that the annotations we already red in.
             $c = $pipeline->filter($corg, $err, $err, $sec);
@@ -569,26 +590,6 @@ foreach ($scripts as $filename) {
                 // Then add the formatted ones back in.
                 $docs[$name] = trim($r['remainder'] . "\n\n" . $r['param-block'] . "\n\n" . $r['return-block']);
 
-                // Cats.
-                $cats = array_slice(explode('/', $sname), 0, -1);
-                $ccat = '/' . implode('/', $cats);
-                $lastcat = $categories[''];
-                $path = '';
-                foreach ($cats as $cat) {
-                    $path .= '/' . $cat;
-                    if (!isset($categories[$path])) {
-                        // Maybe collect more meta here. Maybe the directory contains
-                        // some metafile giving better names titles descriptions etc.
-                        $categories[$path] = new doc_tree_node($lastcat);
-                        $categories[$path]->name = $cat;
-                        if (file_exists(__DIR__ . '/../stack/maximasrc' . $path . '/description.md')) {
-                            $categories[$path]->description = file_get_contents(
-                                __DIR__ . '/../stack/maximasrc' . $path . '/description.md'
-                            );
-                        }
-                    }
-                    $lastcat = $categories[$path];
-                }
                 // Just plug the item to the content list of that directory.
                 $categories[$ccat]->content[] = $name;
 

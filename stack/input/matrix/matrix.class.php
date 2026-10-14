@@ -62,11 +62,16 @@ class stack_matrix_input extends stack_input {
             'vop:safe_op(v), ' .
             'if is(vop="c") then [length(args(v)),1,1,0] ' .
             'else if is(vop="r") then [1,length(args(v)),2,0] ' .
+            'else if is(vop="column_vector") then [length(args(v)),1,4,0] ' .
+            'else if is(vop="row_vector") then [1,length(args(v)),5,0] ' .
             'else if vop#"aug_matrix" then append(matrix_size(v),[0,0]) else (' .
             'blocks:args(v), ' .
             'if length(blocks)<2 then [0,0,3,0] else (' .
             'shapes:map(lambda([b],if safe_op(b)="c" then [length(args(b)),1,1] ' .
-            'else if safe_op(b)="r" then [1,length(args(b)),2] else append(matrix_size(b),[0])),blocks), ' .
+            'else if safe_op(b)="r" then [1,length(args(b)),2] ' .
+            'else if safe_op(b)="column_vector" then [length(args(b)),1,4] ' .
+            'else if safe_op(b)="row_vector" then [1,length(args(b)),5] ' .
+            'else append(matrix_size(b),[0])),blocks), ' .
             'hh:first(first(shapes)), ' .
             'if hh<1 or member(true,map(lambda([z],is(first(z)#hh or second(z)<1)),shapes)) then [0,0,3,0] ' .
             'else append([hh,apply("+",map(second,shapes)),3,length(blocks)], ' .
@@ -82,7 +87,7 @@ class stack_matrix_input extends stack_input {
         $this->height = $cs->get_list_element(0, true)->value;
         $this->width = $cs->get_list_element(1, true)->value;
         $valuetype = $cs->get_list_element(2, true)->value;
-        $this->valuetype = ['matrix', 'c', 'r', 'aug_matrix'][$valuetype];
+        $this->valuetype = ['matrix', 'c', 'r', 'aug_matrix', 'column_vector', 'row_vector'][$valuetype];
         $count = $cs->get_list_element(3, true)->value;
         if ($this->valuetype === 'aug_matrix' && $this->height === 0) {
             $this->errors[] = stack_string('matrixaugmentedshape');
@@ -94,7 +99,7 @@ class stack_matrix_input extends stack_input {
                 $width = $cs->get_list_element(4 + 2 * $i, true)->value;
                 $type = $cs->get_list_element(5 + 2 * $i, true)->value;
                 $this->blockwidths[] = $width;
-                $this->blocktypes[] = ['matrix', 'c', 'r'][$type];
+                $this->blocktypes[] = ['matrix', 'c', 'r', 'aug_matrix', 'column_vector', 'row_vector'][$type];
                 $offset += $width;
                 if ($i + 1 < $count) {
                     $this->columnseparators[] = $offset;
@@ -205,11 +210,11 @@ class stack_matrix_input extends stack_input {
      * Serialize a block without evaluating student expressions.
      */
     private function array_to_constructor($contents, $type) {
-        if ($type === 'c') {
-            return 'c(' . implode(',', array_column($contents, 0)) . ')';
+        if (in_array($type, ['c', 'column_vector'])) {
+            return $type . '(' . implode(',', array_column($contents, 0)) . ')';
         }
-        if ($type === 'r') {
-            return 'r(' . implode(',', $contents[0] ?? []) . ')';
+        if (in_array($type, ['r', 'row_vector'])) {
+            return $type . '(' . implode(',', $contents[0] ?? []) . ')';
         }
         $rows = array_map(function($row) {
             return '[' . implode(',', $row) . ']';
@@ -243,12 +248,12 @@ class stack_matrix_input extends stack_input {
             }
             return $tc;
         }
-        if ($this->valuetype === 'c' && 'c(' === substr($t, 0, 2)) {
-            foreach ($this->modinput_tokenizer(substr($t, 2, -1)) as $i => $entry) {
+        if (in_array($this->valuetype, ['c', 'column_vector']) && strpos($t, $this->valuetype . '(') === 0) {
+            foreach ($this->modinput_tokenizer(substr($t, strlen($this->valuetype) + 1, -1)) as $i => $entry) {
                 $tc[$i] = [$entry];
             }
-        } else if ($this->valuetype === 'r' && 'r(' === substr($t, 0, 2)) {
-            $tc[0] = $this->modinput_tokenizer(substr($t, 2, -1));
+        } else if (in_array($this->valuetype, ['r', 'row_vector']) && strpos($t, $this->valuetype . '(') === 0) {
+            $tc[0] = $this->modinput_tokenizer(substr($t, strlen($this->valuetype) + 1, -1));
         } else if ('matrix(' == substr($t, 0, 7)) {
             // @codingStandardsIgnoreStart
             // E.g. array("[a,b]","[c,d]").
@@ -268,13 +273,14 @@ class stack_matrix_input extends stack_input {
      */
     private function constructor_to_array($value) {
         $value = trim($value);
-        if (substr($value, 0, 2) === 'c(') {
+        $operator = strstr($value, '(', true);
+        if (in_array($operator, ['c', 'column_vector'])) {
             return array_map(function($entry) {
                 return [$entry];
-            }, $this->modinput_tokenizer(substr($value, 2, -1)));
+            }, $this->modinput_tokenizer(substr($value, strlen($operator) + 1, -1)));
         }
-        if (substr($value, 0, 2) === 'r(') {
-            return [$this->modinput_tokenizer(substr($value, 2, -1))];
+        if (in_array($operator, ['r', 'row_vector'])) {
+            return [$this->modinput_tokenizer(substr($value, strlen($operator) + 1, -1))];
         }
         if (substr($value, 0, 7) === 'matrix(') {
             return array_map(function($row) {

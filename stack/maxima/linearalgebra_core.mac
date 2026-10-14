@@ -40,16 +40,18 @@ stack_linear_algebra_declare(mode) := block(
 /* for significant contributions to this work in 2024 */
 
 /**
- * Converts inert functions c and r into matrices.
+ * Converts column_vector, row_vector and the legacy c/r notation into matrices.
  * c and r can be found in certain contrib libraries (such as vectorspaces.mac) to enable students to input vectors simply.
  * Works on entire expressions.
  * Returns expression unchanged if simp:true and matrices do not conform.
  * 
- * @param[expression] ex An expression that may contain c or r.
- * @return[scalar expression] The expression with c and r replaced with matrices, or the original expression if matrices do not conform
+ * @param[expression] ex An expression that may contain vector notation.
+ * @return[expression] Vector notation replaced with matrices, or the original expression if matrices do not conform
  */
 vec_convert(ex):= block([ex2],
-  ex2: errcatch(ev(ex,c = lambda([[ex]],transpose(matrix(ex))),r = lambda([[ex]],matrix(ex)))),
+  ex2: errcatch(ev(ex,
+      c = lambda([[ex]],transpose(matrix(ex))), r = lambda([[ex]],matrix(ex)),
+      column_vector = lambda([[ex]],transpose(matrix(ex))), row_vector = lambda([[ex]],matrix(ex)))),
   if emptyp(ex2) then return(ex) else return(first(ex2))
 );
 
@@ -76,12 +78,12 @@ un_vec_convert(ex):= block([],
 /**
  * A predicate to determine whether an expression has been converted to matrix form.
  * 
- * @param[expression] ex An expression that may contain c or r
- * @return[boolean] Does the expression contain c or r?
+ * @param[expression] ex An expression that may contain vector notation
+ * @return[boolean] True when no vector notation remains.
  */
 vec_convertedp(ex):= block([ex_ops],
   ex_ops: get_ops(ex),
-  if member(c,ex_ops) or member(r,ex_ops) then return(false) else return(true)
+  not (member(c,ex_ops) or member(r,ex_ops) or member(column_vector,ex_ops) or member(row_vector,ex_ops))
 );
 
 /* Shape predicates are defined in maximasrc/linearalgebra/predicates. */

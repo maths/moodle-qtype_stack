@@ -53,7 +53,10 @@ final class input_varmatrix_test extends qtype_stack_testcase {
         ];
         $cases = [];
         foreach ($brackets as $label => $bracket) {
-            foreach (['matrix([1])', 'c(1,2)', 'r(1,2)', 'aug_matrix(matrix([1,2]),c(3))'] as $model) {
+            foreach ([
+                'matrix([1])', 'c(1,2)', 'r(1,2)', 'column_vector(1,2)', 'row_vector(1,2)',
+                'aug_matrix(matrix([1,2]),c(3))',
+            ] as $model) {
                 $cases[$label . ' ' . $model] = array_merge($bracket, [$model]);
             }
         }
@@ -310,14 +313,67 @@ final class input_varmatrix_test extends qtype_stack_testcase {
         );
     }
 
-    public function test_column_vector_model_answer(): void {
+    /**
+     * Column vector constructor spellings.
+     * @return array
+     */
+    public static function column_constructor_provider(): array {
+        return [['c'], ['column_vector']];
+    }
+
+    /**
+     * Row vector constructor spellings.
+     * @return array
+     */
+    public static function row_constructor_provider(): array {
+        return [['r'], ['row_vector']];
+    }
+
+    public function test_single_component_vector_identity(): void {
+        $options = new stack_options();
+        $el = stack_input_factory::make('varmatrix', 'ans1', 'v', $options);
+        foreach (['column_vector', 'row_vector', 'c', 'r', 'matrix'] as $constructor) {
+            $model = $constructor === 'matrix' ? 'matrix([1])' : $constructor . '(1)';
+            $el->adapt_to_model_answer($model);
+            $this->assertSame($constructor, $el->render_api_data(null)['casValueType']);
+            $response = $el->maxima_to_response_array($model);
+            $state = $el->validate_student_response($response, $options, $model, new stack_cas_security());
+            $this->assertContains($state->status, [stack_input::VALID, stack_input::SCORE]);
+            $this->assertSame($model, $state->contentsmodified);
+        }
+    }
+
+    public function test_augmented_long_vector_constructors(): void {
+        $options = new stack_options();
+        $el = stack_input_factory::make('varmatrix', 'ans1', 'M', $options);
+        foreach ([
+            'aug_matrix(matrix([1,2],[3,4]),column_vector(5,6))',
+            'aug_matrix(row_vector(1,2),column_vector(3),r(4,5),c(6))',
+        ] as $model) {
+            $el->adapt_to_model_answer($model);
+            $this->assertEmpty($el->get_errors());
+            $response = $el->maxima_to_response_array($model);
+            $state = $el->validate_student_response($response, $options, $model, new stack_cas_security());
+            $this->assertContains($state->status, [stack_input::VALID, stack_input::SCORE]);
+            $this->assertSame($model, $state->contentsmodified);
+            $this->assertStringContainsString('\\left|', $state->contentsdisplayed);
+        }
+    }
+
+    /**
+     * Both constructor spellings preserve vector input behavior.
+     *
+     * @dataProvider column_constructor_provider
+     * @param string $constructor Vector constructor name.
+     */
+    public function test_column_vector_model_answer(string $constructor): void {
 
         $options = new stack_options();
         $el = stack_input_factory::make('varmatrix', 'ans1', 'v', $options);
-        $el->adapt_to_model_answer('c(1,2,3)');
+        $el->adapt_to_model_answer($constructor . '(1,2,3)');
 
-        $api = $el->render_api_data('c(1,2,3)');
-        $this->assertEquals('c', $api['casValueType']);
+        $api = $el->render_api_data($constructor . '(1,2,3)');
+        $this->assertEquals($constructor, $api['casValueType']);
 
         $html = $el->render(
             new stack_input_state(stack_input::BLANK, [], '', '', '', '', ''),
@@ -326,7 +382,7 @@ final class input_varmatrix_test extends qtype_stack_testcase {
             null
         );
         $this->assertStringContainsString(
-            '<div class="matrixsquarebrackets" data-stack-input-value-type="c">',
+            '<div class="matrixsquarebrackets" data-stack-input-value-type="' . $constructor . '">',
             $html
         );
         $this->assertStringContainsString('data-stack-input-type="varmatrix"', $html);
@@ -334,69 +390,81 @@ final class input_varmatrix_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(
             ['ans1' => "1 a\na+b"],
             $options,
-            'c(1,2,3)',
+            $constructor . '(1,2,3)',
             new stack_cas_security()
         );
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('c(1,a,a+b)', $state->contentsmodified);
+        $this->assertEquals($constructor . '(1,a,a+b)', $state->contentsmodified);
         $this->assertEquals([
             'ans1' => "1\n2\n3",
-            'ans1_val' => 'c(1,2,3)',
-        ], $el->maxima_to_response_array('c(1,2,3)'));
+            'ans1_val' => $constructor . '(1,2,3)',
+        ], $el->maxima_to_response_array($constructor . '(1,2,3)'));
         $this->assertEquals([
             'ans1' => "f(1,2)\na+b",
-            'ans1_val' => 'c(f(1,2),a+b)',
-        ], $el->maxima_to_response_array('c(f(1,2),a+b)'));
+            'ans1_val' => $constructor . '(f(1,2),a+b)',
+        ], $el->maxima_to_response_array($constructor . '(f(1,2),a+b)'));
     }
 
-    public function test_row_vector_model_answer(): void {
+    /**
+     * Both constructor spellings preserve vector input behavior.
+     *
+     * @dataProvider row_constructor_provider
+     * @param string $constructor Vector constructor name.
+     */
+    public function test_row_vector_model_answer(string $constructor): void {
 
         $options = new stack_options();
         $el = stack_input_factory::make('varmatrix', 'ans1', 'v', $options);
-        $el->adapt_to_model_answer('r(1,2,3)');
+        $el->adapt_to_model_answer($constructor . '(1,2,3)');
 
-        $api = $el->render_api_data('r(1,2,3)');
-        $this->assertEquals('r', $api['casValueType']);
+        $api = $el->render_api_data($constructor . '(1,2,3)');
+        $this->assertEquals($constructor, $api['casValueType']);
 
         $state = $el->validate_student_response(
             ['ans1' => "1\na a+b"],
             $options,
-            'r(1,2,3)',
+            $constructor . '(1,2,3)',
             new stack_cas_security()
         );
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('r(1,a,a+b)', $state->contentsmodified);
+        $this->assertEquals($constructor . '(1,a,a+b)', $state->contentsmodified);
         $this->assertEquals([
             'ans1' => '1 2 3',
-            'ans1_val' => 'r(1,2,3)',
-        ], $el->maxima_to_response_array('r(1,2,3)'));
+            'ans1_val' => $constructor . '(1,2,3)',
+        ], $el->maxima_to_response_array($constructor . '(1,2,3)'));
         $this->assertEquals([
             'ans1' => 'f(1,2) a+b',
-            'ans1_val' => 'r(f(1,2),a+b)',
-        ], $el->maxima_to_response_array('r(f(1,2),a+b)'));
+            'ans1_val' => $constructor . '(f(1,2),a+b)',
+        ], $el->maxima_to_response_array($constructor . '(f(1,2),a+b)'));
     }
 
-    public function test_generated_vector_constructor_can_be_forbidden(): void {
+    /**
+     * Both constructor spellings preserve vector input behavior.
+     *
+     * @dataProvider column_constructor_provider
+     * @param string $constructor Vector constructor name.
+     */
+    public function test_generated_vector_constructor_can_be_forbidden(string $constructor): void {
 
         $options = new stack_options();
         $el = stack_input_factory::make('varmatrix', 'ans1', 'v', $options);
-        $el->set_parameter('forbidWords', 'c, sin');
+        $el->set_parameter('forbidWords', $constructor . ', sin');
         $el->set_parameter('sameType', false);
-        $el->adapt_to_model_answer('c(1,2)');
+        $el->adapt_to_model_answer($constructor . '(1,2)');
 
         $state = $el->validate_student_response(
             ['ans1' => "1\n2"],
             $options,
-            'c(1,2)',
+            $constructor . '(1,2)',
             new stack_cas_security()
         );
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('c(1,2)', $state->contentsmodified);
+        $this->assertEquals($constructor . '(1,2)', $state->contentsmodified);
 
         $state = $el->validate_student_response(
-            ['ans1' => "1\nc(2,3)"],
+            ['ans1' => "1\n" . $constructor . '(2,3)'],
             $options,
-            'c(1,2)',
+            $constructor . '(1,2)',
             new stack_cas_security()
         );
         $this->assertEquals(stack_input::INVALID, $state->status);
@@ -832,6 +900,12 @@ final class input_varmatrix_test extends qtype_stack_testcase {
             ],
             'row vector with multiple rows' => [
                 'aug_matrix(r(9876,2),r(3))', "1 | 2\n3 | 4", '1 ... | 2 ...', true,
+            ],
+            'long column with excess width' => [
+                'aug_matrix(matrix([9876]),column_vector(2))', '1 | 2 3', "1 ... | 2\n3 ... | 4", false,
+            ],
+            'long row with multiple rows' => [
+                'aug_matrix(row_vector(9876,2),column_vector(3))', "1 | 2\n3 | 4", '1 ... | 2', true,
             ],
             'mixed block types' => [
                 'aug_matrix(c(9876),matrix([2,3]),r(4,5))', '1 2 3', '1 | 2 ... | 3 ...', true,

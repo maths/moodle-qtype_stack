@@ -57,13 +57,30 @@ if (
     die();
 }
 header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $filedate) . ' GMT');
+header('X-Content-Type-Options: nosniff');
 
 // Type.
 header('Content-Type: ' . get_plot_mimetype($plot));
 header('Content-Length: ' . filesize($plot));
 
+// Active content files are downloaded instead of displayed inline.
+if (is_active_content_type($plot)) {
+    header('Content-Disposition: attachment; filename="' . basename($plot) . '"');
+}
+
 // Output file.
 readfile($plot);
+
+/**
+ * Whether the given files extension is a type that browsers may execute script in or render as a navigable HTML document.
+ *
+ * @param string $path The path to the file.
+ * @return bool
+ */
+function is_active_content_type($path) {
+    $activetypes = ['svg', 'html', 'htm', 'xml', 'xhtml', 'js', 'mjs'];
+    return in_array(strtolower(pathinfo($path, PATHINFO_EXTENSION)), $activetypes, true);
+}
 
 /**
  * Returns a MIME type for a served plot or static asset.

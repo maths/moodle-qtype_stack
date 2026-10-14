@@ -67,26 +67,7 @@ s_test_case(diag_entries(1),[1]);
 s_test_case(rowscale(matrix([1,2,3],[4,5,6],[7,8,9]),2,100),matrix([1,2,3],[100*4,100*5,100*6],[7,8,9]));
 s_test_case(columnscale(matrix([1,2,3],[4,5,6],[7,8,9]),2,100),matrix([1,100*2,3],[4,100*5,6],[7,100*8,9]));
 
-s_test_case(triup(ident(5)),true);
-s_test_case(trilp(ident(5)),true);
-s_test_case(triup(zeromatrix(5,4)),true);
-s_test_case(trilp(zeromatrix(5,4)),true);
-
-s_test_case(triup(matrix([1,2,3],[4,5,6],[7,8,9])),false);
-s_test_case(triup(matrix([1,2,3],[0,5,6],[0,0,9])),true);
-s_test_case(triup(matrix([1,2,3],[4,5,6],[7,8,9],[10,11,12])),false);
-s_test_case(triup(matrix([1,2,3],[0,5,6],[0,0,9],[0,0,0])),true);
-s_test_case(triup(matrix([1,2,3,4],[4,5,6,7],[7,8,9,10])),false);
-s_test_case(triup(matrix([1,2,3,4],[0,5,6,7],[0,0,9,10])),true);
-s_test_case(triup(matrix([1,2,3,4,5,6,7,8,9])),true);
-
-s_test_case(trilp(matrix([1,2,3],[4,5,6],[7,8,9])),false);
-s_test_case(trilp(matrix([1,0,0],[4,5,0],[7,8,9])),true);
-s_test_case(trilp(matrix([1,2,3],[4,5,6],[7,8,9],[10,11,12])),false);
-s_test_case(trilp(matrix([1,0,0],[4,5,0],[7,8,9],[10,11,12])),true);
-s_test_case(trilp(matrix([1,2,3,4],[4,5,6,7],[7,8,9,10])),false);
-s_test_case(trilp(matrix([1,0,0,0],[4,5,0,0],[7,8,9,0])),true);
-s_test_case(trilp(transpose([1,2,3,4,5,6,7,8,9])),true);
+/* triup and trilp tests are in maximasrc/linearalgebra/predicates. */
 
 s_test_case(REFp(ident(4)),true);
 s_test_case(REFp(ev(2*ident(4),simp)),true);

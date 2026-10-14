@@ -41,4 +41,6 @@
 - [str_to_html_char(c)](strings/escapes/index.md#str_to_html_char)
 - [str_to_js(string_to_escape)](strings/escapes/index.md#str_to_js)
 - [str_to_js_char(c)](strings/escapes/index.md#str_to_js_char)
+- [trilp(M)](linearalgebra/predicates/index.md#trilp)
+- [triup(M)](linearalgebra/predicates/index.md#triup)
 - [vectorp(ex)](linearalgebra/predicates/index.md#vectorp)

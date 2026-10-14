@@ -46,9 +46,11 @@ These functions could be useful for setting \(PLU\) decomposition questions.
 
 ## Predicate functions for matrices
 
-* `triup(M)` tests whether `M` is an upper triangular matrix. That is: is every below-diagonal entry of `M` exactly equal to 0?
-* `trilp(M)` tests whether `M` is a lower triangular matrix. That is: is every above-diagonal entry of `M` exactly equal to 0?
-* Core STACK provides `diagp` to check whether `M` is diagonal.
+* [`triup(M)`](../../CAS/Library/linearalgebra/predicates/index.md#triup) tests whether every below-diagonal entry is recognised as zero. Rectangular matrices are accepted.
+* [`trilp(M)`](../../CAS/Library/linearalgebra/predicates/index.md#trilp) tests whether every above-diagonal entry is recognised as zero. Rectangular matrices are accepted.
+* [`diagp(M)`](../../CAS/Library/linearalgebra/predicates/index.md#diagp) checks whether `M` is diagonal.
+
+These three predicates are available in core STACK without loading `matrix.mac`.
 
 Note that all of these predicates are checking whether the relevant entries are exactly equal to zero. That produces the following behaviour:
 

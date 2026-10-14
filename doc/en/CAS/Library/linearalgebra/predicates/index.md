@@ -6,6 +6,7 @@ STACK and are available in question variables, answer tests and feedback.
 
 Use [`col_vecp`](#col_vecp), [`row_vecp`](#row_vecp) and [`vectorp`](#vectorp) to distinguish column and row matrices;
 use [`squarep`](#squarep) to check equal dimensions and [`diagp`](#diagp) to check off-diagonal entries.
+Use [`triup`](#triup) and [`trilp`](#trilp) to check entries below or above the main diagonal.
 These checks are separate: a diagonal matrix can be rectangular, and a square
 matrix need not be diagonal or invertible.
 
@@ -133,6 +134,76 @@ The empty 0-by-0 matrix `matrix()` returns `true`; `matrix([])` returns
 | Return type | description |
 | ----------- | ------------|
 | boolean | whether the object is a square matrix. |
+
+
+---
+
+
+## trilp(M)<a id='trilp'></a>
+
+Return `true` when every entry above the main diagonal of a Maxima matrix
+is recognised as zero by `is`. The matrix may be rectangular; use [`squarep`](#squarep)
+as well if a square lower triangular matrix is required.
+
+For example, `trilp(matrix([a,0],[b,c],[d,e]))` is `true`.
+Diagonal entries may be zero or symbolic, so this does not test invertibility
+or row echelon form. Use [`triup`](#triup) to check the other triangular part.
+
+Non-matrix arguments, including lists and inert `c`/`r` expressions, return
+`false`. With no entries to reject, `matrix()`, `matrix([])` and
+`matrix([],[])` return `true`.
+
+The simplification mode matters: `trilp(matrix([1,1-1],[0,1]))` returns `false`
+with `simp:false` and `true` with `simp:true`. Simplify the matrix first if
+algebraically zero expressions should be accepted.
+
+
+
+| Argument name | type | description |
+| ------------- | ---- | ----------- |
+| M | expression | the object whose triangular structure is checked. |
+
+
+
+
+| Return type | description |
+| ----------- | ------------|
+| boolean | whether every entry above the diagonal is recognised as zero. |
+
+
+---
+
+
+## triup(M)<a id='triup'></a>
+
+Return `true` when every entry below the main diagonal of a Maxima matrix
+is recognised as zero by `is`. The matrix may be rectangular; use [`squarep`](#squarep)
+as well if a square upper triangular matrix is required.
+
+For example, `triup(matrix([a,b,c],[0,d,e]))` is `true`.
+Diagonal entries may be zero or symbolic, so this does not test invertibility
+or row echelon form. Use [`trilp`](#trilp) to check the other triangular part.
+
+Non-matrix arguments, including lists and inert `c`/`r` expressions, return
+`false`. With no entries to reject, `matrix()`, `matrix([])` and
+`matrix([],[])` return `true`.
+
+The simplification mode matters: `triup(matrix([1,0],[1-1,1]))` returns `false`
+with `simp:false` and `true` with `simp:true`. Simplify the matrix first if
+algebraically zero expressions should be accepted.
+
+
+
+| Argument name | type | description |
+| ------------- | ---- | ----------- |
+| M | expression | the object whose triangular structure is checked. |
+
+
+
+
+| Return type | description |
+| ----------- | ------------|
+| boolean | whether every entry below the diagonal is recognised as zero. |
 
 
 ---

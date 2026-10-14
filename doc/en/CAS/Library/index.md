@@ -37,6 +37,8 @@
         - [diagp(M)](linearalgebra/predicates/index.md#diagp)
         - [row_vecp(ex)](linearalgebra/predicates/index.md#row_vecp)
         - [squarep(M)](linearalgebra/predicates/index.md#squarep)
+        - [trilp(M)](linearalgebra/predicates/index.md#trilp)
+        - [triup(M)](linearalgebra/predicates/index.md#triup)
         - [vectorp(ex)](linearalgebra/predicates/index.md#vectorp)
 - [stackunits](stackunits/index.md) 
     - [NULLNUM](stackunits/index.md#NULLNUM)

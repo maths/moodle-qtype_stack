@@ -156,50 +156,7 @@ setdiagmx(L,M,[_k]):= block([m,n,ii,jj],
 /* Predicate functions for matrices                                              */
 /*********************************************************************************/
 
-/** 
- * Predicate to determine whether a matrix is upper triangular
- * i.e. Is every entry below the diagonal equal to 0?
- * Does not check whether a matrix is in row echelon form
- *
- * @param[matrix] M An mxn matrix
- * @return[boolean] Is this matrix upper triangular?
- */
-triup(M):= block([tri,imax,jmax,ii,jj],
-  if not(matrixp(M)) then return(false),
-  tri: true,
-  [imax, jmax]: ev(matrix_size(M),simp),
-  if is(imax=1) then return(true),
-  for ii: 2 thru imax while tri do block(
-    ii: ev(ii,simp),
-    for jj: 1 thru ev(min(ii-1,jmax),simp) while tri do block(
-      jj: ev(jj,simp),
-      if not(is(M[ii,jj]=0)) then tri: false
-    )
-  ),
-  return(tri)
-);
-
-/** 
- * Predicate to determine whether a matrix is lower triangular
- * i.e. Is every entry above the diagonal equal to 0?
- *
- * @param[matrix] M An mxn matrix
- * @return[boolean] Is this matrix lower triangular?
- */
-trilp(M):= block([tri,imax,jmax,ii,jj],
-  if not(matrixp(M)) then return(false),
-  tri: true,
-  [imax, jmax]: ev(matrix_size(M),simp),
-  if is(jmax=1) then return(true),
-  for jj: 2 thru jmax while tri do block(
-    jj: ev(jj,simp),
-    for ii: 1 thru ev(min(jj-1,imax),simp) while tri do block(
-      ii: ev(ii,simp),
-      if not(is(M[ii,jj]=0)) then tri: false
-    )
-  ),
-  return(tri)
-);
+/* triup and trilp are provided by the generated core library. */
 
 /** 
  * Predicate to determine whether a matrix is in row echelon form

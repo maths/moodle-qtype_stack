@@ -3,6 +3,7 @@ STACK and are available in question variables, answer tests and feedback.
 
 Use `col_vecp`, `row_vecp` and `vectorp` to distinguish column and row matrices;
 use `squarep` to check equal dimensions and `diagp` to check off-diagonal entries.
+Use `triup` and `trilp` to check entries below or above the main diagonal.
 These checks are separate: a diagonal matrix can be rectangular, and a square
 matrix need not be diagonal or invertible.
 

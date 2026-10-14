@@ -1,0 +1,107 @@
+/*  Author Luke Longworth
+    University of Canterbury
+    Copyright (C) 2025 Luke Longworth
+
+    This program is free software: you can redistribute it or modify
+    it under the terms of the GNU General Public License version two.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
+/* Thank you to Georg Osang of IDEMS International
+   for significant contributions to this work in 2024. */
+
+
+/**
+ * Take the upper triangular part of a matrix, leaving the remaining entries = 0.
+ * The matrix may be rectangular. Non-matrix input is returned unchanged.
+ * This uses `genmatrix`, which requires positive row and column counts.
+ *
+ * @param[matrix] M, An mxn matrix
+ * @return[matrix] The same matrix with all entries below the diagonal set to 0
+ */
+
+triu(M):= block([imax,jmax],
+  if not(matrixp(M)) then return(M),
+  [imax, jmax]: ev(matrix_size(M),simp),
+  genmatrix(lambda ([ii, jj], if ii>jj then 0 else M[ii,jj]), imax, jmax)
+);
+
+s_test_case(simp) := is(triu(matrix([1,2,3],[4,5,6],[7,8,9])) = matrix([1,2,3],[0,5,6],[0,0,9]))$
+s_test_case(simp) := is(triu(matrix([1,2,3],[4,5,6],[7,8,9],[10,11,12])) = matrix([1,2,3],[0,5,6],[0,0,9],[0,0,0]))$
+s_test_case(simp) := is(triu(matrix([1,2,3,4],[4,5,6,7],[7,8,9,10])) = matrix([1,2,3,4],[0,5,6,7],[0,0,9,10]))$
+s_test_case(simp) := is(triu(matrix([1,2],[3,2+2])) = matrix([1,2],[0,2+2]))$
+s_test_case(simp) := is(triu(1) = 1)$
+
+/**
+ * Take the lower triangular part of a matrix, leaving the remaining entries = 0.
+ * The matrix may be rectangular. Non-matrix input is returned unchanged.
+ * This uses `genmatrix`, which requires positive row and column counts.
+ *
+ * @param[matrix] M, An mxn matrix
+ * @return[matrix] The same matrix with all entries above the diagonal set to 0
+ */
+
+tril(M):= block([imax,jmax],
+  if not(matrixp(M)) then return(M),
+  [imax, jmax]: ev(matrix_size(M),simp),
+  genmatrix(lambda ([ii, jj], if ii<jj then 0 else M[ii,jj]), imax, jmax)
+);
+
+s_test_case(simp) := is(tril(matrix([1,2,3],[4,5,6],[7,8,9])) = matrix([1,0,0],[4,5,0],[7,8,9]))$
+s_test_case(simp) := is(tril(matrix([1,2,3],[4,5,6],[7,8,9],[10,11,12])) = matrix([1,0,0],[4,5,0],[7,8,9],[10,11,12]))$
+s_test_case(simp) := is(tril(matrix([1,2,3,4],[4,5,6,7],[7,8,9,10])) = matrix([1,0,0,0],[4,5,0,0],[7,8,9,0]))$
+s_test_case(simp) := is(tril(matrix([1,2],[3,2+2])) = matrix([1,0],[3,2+2]))$
+s_test_case(simp) := is(tril(1) = 1)$
+
+/**
+ * Take the diagonal of a matrix, leaving the remaining entries = 0.
+ * The matrix may be rectangular. Non-matrix input is returned unchanged.
+ * This uses `genmatrix`, which requires positive row and column counts.
+ *
+ * @param[matrix] M, An mxn matrix
+ * @return[matrix] The same matrix with all off-diagonal entries set to 0
+ */
+
+diagonal(M):= block([imax,jmax],
+  if not(matrixp(M)) then return(M),
+  [imax, jmax]: ev(matrix_size(M),simp),
+  return(genmatrix(lambda([ii, jj], if is(ii=jj) then M[ii,jj] else 0), imax, jmax))
+);
+
+s_test_case(simp) := is(diagonal(matrix([1,2,3],[4,5,6],[7,8,9])) = matrix([1,0,0],[0,5,0],[0,0,9]))$
+s_test_case(simp) := is(diagonal(matrix([1,2,3],[4,5,6],[7,8,9],[10,11,12])) = matrix([1,0,0],[0,5,0],[0,0,9],[0,0,0]))$
+s_test_case(simp) := is(diagonal(matrix([1,2,3,4],[4,5,6,7],[7,8,9,10])) = matrix([1,0,0,0],[0,5,0,0],[0,0,9,0]))$
+s_test_case(simp) := is(diagonal(matrix([1,2],[3,2+2])) = matrix([1,0],[0,2+2]))$
+s_test_case(simp) := is(diagonal(1) = 1)$
+
+/**
+ * Extracts the diagonal of a matrix as a list. For a rectangular matrix,
+ * the list has length `min(m,n)`. Non-matrix input is returned in a singleton list.
+ *
+ * @param[matrix] M, An mxn matrix
+ * @return[list] The diagonal entries of M as a list
+ */
+
+diag_entries(M):= block([ii],
+  if not(matrixp(M)) then return([M]),
+  return(map(lambda([ex], M[ex,ex]), ev(makelist(ii, ii, 1, lmin(matrix_size(M))), simp)))
+);
+
+s_test_case(simp) := is(diag_entries(ident(3)) = [1,1,1])$
+s_test_case(simp) := is(diag_entries(matrix([1,0,0],[0,2,0],[0,0,3],[0,0,0])) = [1,2,3])$
+s_test_case(simp) := is(diag_entries(matrix([3,0,0,0],[0,2,0,0],[0,0,1,0])) = [3,2,1])$
+s_test_case(simp) := is(diag_entries(matrix([1+2,0,0,0],[0,2,0,0],[0,0,1,0])) = [1+2,2,1])$
+s_test_case(simp) := is(diag_entries(1) = [1])$
+
+s_test_case(simp) := is(triu(matrix([a,b,c],[d,e,f]))=matrix([a,b,c],[0,e,f]))$
+s_test_case(simp) := is(tril(matrix([a,b],[c,d],[e,f]))=matrix([a,0],[c,d],[e,f]))$
+s_test_case(simp) := is(diagonal(matrix([a,b,c],[d,e,f]))=matrix([a,0,0],[0,e,0]))$
+s_test_case(simp) := is(diag_entries(matrix([a,b,c],[d,e,f]))=[a,e])$
+s_test_case(simp) := is(diag_entries(matrix())=[])$
+s_test_case(simp) := is(diag_entries(matrix([],[]))=[])$
